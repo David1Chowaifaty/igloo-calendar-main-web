@@ -60,7 +60,7 @@ export class IrInteractiveTitle {
     titleId = `ir-title-${++titleIdCounter}`;
     render() {
         const title = this.popoverTitle || '';
-        return (h(Host, { key: '260ec00aabf75518cd9fc0ed9f9a0b9dff92f208', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'c34274f5aa8a177d1a2b577922a5d0de98896db5', class: "popover-title" }, title.length > this.cropSize && (h("wa-tooltip", { key: 'bac95a46afcb808f4812756cdd9d292cdb851e7f', for: this.titleId, placement: "top" }, title)), h("span", { key: 'adfcb8b83db5148e3db32554ed96ecef15630fc1', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (h("div", { key: 'c8f665f768f67eba36a3758d333a22720b6f4fdb', class: "hk-dot" }, h("slot", { key: '234ba5597e566196d72dc4e5e6e84091d4ac9c70', name: "end" }))))));
+        return (h(Host, { key: '7cf65f96e2da5ad39ce196c6d826f2740679d94c', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '8374c97468c0bd0d3e5e735c88a691e89f99942d', class: "popover-title" }, title.length > this.cropSize && (h("wa-tooltip", { key: '670154ecbb59bb316a7c2014bfd02113b03d35f7', for: this.titleId, placement: "top" }, title)), h("span", { key: 'd00d332f73dbfec1a2534914d531b6d5f2fc4834', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (h("div", { key: 'f14f5e9746477f56056c08283930a40904b0e699', class: "hk-dot" }, h("slot", { key: '1c65c03c66bd9a6809779d87f2c7b06b7f679456', name: "end" }))))));
     }
     static get is() { return "ir-interactive-title"; }
     static get encapsulation() { return "scoped"; }
@@ -88,7 +88,7 @@ export class IrInteractiveTitle {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The full title string. When its length exceeds `cropSize` the tooltip\nis activated so the user can read the complete text on hover."
+                    "text": "The full title string. When its length exceeds `cropSize` the tooltip\r\nis activated so the user can read the complete text on hover."
                 },
                 "getter": false,
                 "setter": false,
@@ -111,7 +111,7 @@ export class IrInteractiveTitle {
                             "name": "default",
                             "text": "'10px'"
                         }],
-                    "text": "Horizontal padding of the `.hk-dot` slot container, forwarded as the\n`--ir-popover-left` CSS custom property on the host element."
+                    "text": "Horizontal padding of the `.hk-dot` slot container, forwarded as the\r\n`--ir-popover-left` CSS custom property on the host element."
                 },
                 "getter": false,
                 "setter": false,
@@ -131,7 +131,7 @@ export class IrInteractiveTitle {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "When `true`, renders the `.hk-dot` container and the `slot[name=\"end\"]`\ninside it. Must be `true` whenever slot content is provided, otherwise\nthe slotted nodes are silently discarded by the browser."
+                    "text": "When `true`, renders the `.hk-dot` container and the `slot[name=\"end\"]`\r\ninside it. Must be `true` whenever slot content is provided, otherwise\r\nthe slotted nodes are silently discarded by the browser."
                 },
                 "getter": false,
                 "setter": false,
@@ -154,7 +154,7 @@ export class IrInteractiveTitle {
                             "name": "default",
                             "text": "20"
                         }],
-                    "text": "Character-count threshold above which the full-title tooltip is shown.\nActs as a fast approximation of visual overflow; the browser independently\napplies `text-overflow: ellipsis` via CSS regardless of this value."
+                    "text": "Character-count threshold above which the full-title tooltip is shown.\r\nActs as a fast approximation of visual overflow; the browser independently\r\napplies `text-overflow: ellipsis` via CSS regardless of this value."
                 },
                 "getter": false,
                 "setter": false,

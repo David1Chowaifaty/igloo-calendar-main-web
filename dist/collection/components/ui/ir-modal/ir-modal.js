@@ -128,13 +128,13 @@ export class IrModal {
     }
     render() {
         return [
-            h("div", { key: 'b5e9e40c27c7e032124c8078022778c79d3a6404', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: '3f43594baeae200532b5ce5bf83f0a9a33506df5', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: 'e35560ab940aeb6fd33a72a21e10bd31006516cf', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '772ebfc4b358473f298c6d0b4a26c58556c53d27', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: 'd6f8bec8399cc01b409196fec8c2069a59f5ac29', class: `ir-alert-header` }, h("p", { key: '3d22778cf254cbcf302123ac788163cd17f4bf44' }, this.modalTitle))), h("div", { key: '2e970b532a98bebd3f6e76c478850994eb48852e', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'f4cc615546c6c568795bc1606f6870a5274f01f2' }, this.modalBody)), h("div", { key: '93ada143f09f3be88774720e6aedc6a2ea1488ef', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '4d118d5a1ecce2fc98085bcf8b08d8f4f51b382f', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (h("ir-button", { key: '009634aded127239fcf6897da24cc2deca89946e', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (h("ir-button", { key: '3d76147304b673013070bf51cfe6f97813c45a4a', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: '34a08b4023739e02ddd52d09f7098015d3d37b03', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'b1340b34cfc30cffc42b67d1783890064bb341af', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '99ca6b68ad9cea8ba39ad6a228f7d082d262bd6a', class: `ir-alert-header` }, h("p", { key: 'c5259d7bc7699c1bb7abf1637f4b481fe4ac82b5' }, this.modalTitle))), h("div", { key: '33bd82a075611e0874b791c26c020179f29b8fd5', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '228efb663001884866f96bb6d4b74f48cd9450cf' }, this.modalBody)), h("div", { key: '438757332646477b26054891e152c184d30cdfa7', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '9da48fd18a9b723e8c97a50caf6576d0fa5d1b73', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (h("ir-button", { key: '476d0d9918b0103a788047c9f480dcf3301a30ac', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (h("ir-button", { key: '60f64514a5fa7a060507bb000bf53453b2c1282d', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
     static get is() { return "ir-modal"; }
@@ -549,7 +549,7 @@ export class IrModal {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Fired when the confirm (right) button is clicked.\nEmits the current `item` value."
+                    "text": "Fired when the confirm (right) button is clicked.\r\nEmits the current `item` value."
                 },
                 "complexType": {
                     "original": "any",
@@ -603,7 +603,7 @@ export class IrModal {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "Opens the modal.\n\nExample:\n```ts\nconst modal = document.querySelector('ir-modal');\nmodal.openModal();\n```",
+                    "text": "Opens the modal.\r\n\r\nExample:\r\n```ts\r\nconst modal = document.querySelector('ir-modal');\r\nmodal.openModal();\r\n```",
                     "tags": []
                 }
             },

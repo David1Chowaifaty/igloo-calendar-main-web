@@ -13,7 +13,7 @@ export class IrProgressIndicator {
      */
     color = 'primary';
     render() {
-        return (h(Host, { key: 'd95831142fddf65bc47deef7fd1d9ee365d94668', class: "progress-main" }, h("span", { key: 'dcd1ed4de2e707027cf020af2ea61a2654aee2ef', class: "progress-totle" }, this.percentage), h("div", { key: '19222f9c54e1bf5c922375f5e3e22f39f4b87ecc', class: "progress-line" }, h("div", { key: '8db1a7295d7098933483084878be09f97821f3ad', class: `progress ${this.color === 'primary' ? 'bg-primary' : 'secondary-progress'} mb-0`, style: { width: this.percentage } }))));
+        return (h(Host, { key: 'd7fdb32f64e83bd9dfdd5cc3fc5d4f1dd3d69eff', class: "progress-main" }, h("span", { key: '58b52519f7f40a7e076c39c986e6b39c5ab702ae', class: "progress-totle" }, this.percentage), h("div", { key: 'f333453ef1040fa03840c1368b8b56a0f638601f', class: "progress-line" }, h("div", { key: '0d56de8ab23078ae77c93f7fc18c2a45d6385c6f', class: `progress ${this.color === 'primary' ? 'bg-primary' : 'secondary-progress'} mb-0`, style: { width: this.percentage } }))));
     }
     static get is() { return "ir-progress-indicator"; }
     static get encapsulation() { return "scoped"; }
@@ -41,7 +41,7 @@ export class IrProgressIndicator {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The percentage value to display and fill the progress bar.\nExample: \"75%\""
+                    "text": "The percentage value to display and fill the progress bar.\r\nExample: \"75%\""
                 },
                 "getter": false,
                 "setter": false,
@@ -60,7 +60,7 @@ export class IrProgressIndicator {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The color variant of the progress bar.\nOptions:\n- 'primary' (default)\n- 'secondary'"
+                    "text": "The color variant of the progress bar.\r\nOptions:\r\n- 'primary' (default)\r\n- 'secondary'"
                 },
                 "getter": false,
                 "setter": false,

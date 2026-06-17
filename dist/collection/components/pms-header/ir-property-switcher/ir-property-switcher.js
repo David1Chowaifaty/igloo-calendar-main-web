@@ -258,7 +258,7 @@ export class IrPropertySwitcher {
             } }, h("p", { class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME ?? 'Select property')));
     }
     render() {
-        return (h(Host, { key: 'd2b55c08b2e8424f55d1bf855b346dd55793fb93' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (h("wa-dropdown", { key: 'a27783c302e4ccee46cbb5a93e0d010ceccfb88e', "onwa-show": () => {
+        return (h(Host, { key: '619ade2eb8fc8c72667cceac1049a06944e2f0fe' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (h("wa-dropdown", { key: 'bfe509da9077495acd777141b32fd1ebdba15daa', "onwa-show": () => {
                 this.ensureLinkedPropertiesLoaded();
             }, "onwa-hide": e => {
                 e.stopPropagation();
@@ -267,7 +267,7 @@ export class IrPropertySwitcher {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.handleDropdownSelect(Number(e.detail.item.value));
-            } }, h("wa-button", { key: 'cc1522ed12ec85ba13c2aec84d24356e225b9a1e', size: "small", class: "property-switcher__trigger-btn", slot: "trigger", withCaret: true, variant: "neutral", appearance: "outlined" }, h("p", { key: '5a80b559b8ea8c2b4216d181f2c365d38d5df016', class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME)), this.isLinkedLoading && (h("wa-dropdown-item", { key: 'cf469c15a7f5514cd39601e9b450e6919d4187f7', disabled: true, class: "property-switcher__dropdown-loader" }, h("wa-spinner", { key: 'c0d22a77171014e28afd1cf5d5c87daeec49d31a' }))), this.propertyState.linked?.map(property => (h("wa-dropdown-item", { value: property.property_id?.toString(), key: `dropdown-item-${property.property_id}` }, property.name))))), this.displayMode === 'dialog' && (h("div", { key: '803a3394f986e58b02f2f90a9fedc933dab8ba30' }, this.trigger(), h("ir-dialog", { key: '87b1466f941735e942c4dddff3c229c707b3b300',
+            } }, h("wa-button", { key: '831b59f038458a48540edc78ab5eda54ad2d5c6d', size: "small", class: "property-switcher__trigger-btn", slot: "trigger", withCaret: true, variant: "neutral", appearance: "outlined" }, h("p", { key: '545be5386847499233109a9288dc150fbcb434aa', class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME)), this.isLinkedLoading && (h("wa-dropdown-item", { key: 'f8d4d690d18f64a15fa2b2fadf86b385dfbc287c', disabled: true, class: "property-switcher__dropdown-loader" }, h("wa-spinner", { key: '9dab77dd8f29c2a3591c7c1fe43eee5ff7e9c5f4' }))), this.propertyState.linked?.map(property => (h("wa-dropdown-item", { value: property.property_id?.toString(), key: `dropdown-item-${property.property_id}` }, property.name))))), this.displayMode === 'dialog' && (h("div", { key: '345a658814faa7f1a67d4b2afd817db79bdc706d' }, this.trigger(), h("ir-dialog", { key: '85e68fed4a4963d20dbcc5d8e75b003165824855',
             // withoutHeader
             open: this.open, label: "Search", class: "property-switcher__dialog", style: { '--ir-dialog-width': '40rem' }, onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
@@ -414,7 +414,7 @@ export class IrPropertySwitcher {
                     "text": "Single unified event - emitted when dialog confirms selection OR dropdown selects linked property"
                 },
                 "complexType": {
-                    "original": "{\n    property: GetACByACID;\n    linkedProperty: LinkedProperty | null;\n    allLinkedProperties: LinkedProperty[];\n  }",
+                    "original": "{\r\n    property: GetACByACID;\r\n    linkedProperty: LinkedProperty | null;\r\n    allLinkedProperties: LinkedProperty[];\r\n  }",
                     "resolved": "{ property: GetACByACID; linkedProperty: LinkedProperty; allLinkedProperties: LinkedProperty[]; }",
                     "references": {
                         "GetACByACID": {

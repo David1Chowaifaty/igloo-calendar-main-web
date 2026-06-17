@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-DrVkW3Kc.js';
+import { r as registerInstance, h, H as Host } from './index-0Di74WDd.js';
 
 const irAgentAssignmentDialogCss = () => `.sc-ir-agent-assignment-dialog-h{display:block}`;
 
@@ -7,7 +7,7 @@ const IrAgentAssignmentDialog = class {
         registerInstance(this, hostRef);
     }
     render() {
-        return (h(Host, { key: '6f10d17a6ad53cf2a131378fe2bc605b31dfd40a' }, h("slot", { key: '81e27b7db7da0c59b7b588aeb827fa0bc4480715' })));
+        return (h(Host, { key: 'ec2afa4b965966dc2fb09082e42016a9c6e29e64' }, h("slot", { key: '379fd39f4b615cfb7a9fc14de2fa0e989ef9a14e' })));
     }
 };
 IrAgentAssignmentDialog.style = irAgentAssignmentDialogCss();

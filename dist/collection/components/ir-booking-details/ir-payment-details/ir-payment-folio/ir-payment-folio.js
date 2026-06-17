@@ -68,7 +68,7 @@ export class IrPaymentFolio {
     _id = `ir__folio-form-${v4()}`;
     render() {
         // const isNewPayment = this.folioData?.payment_type?.code === '001' && this.folioData.id === -1;
-        return (h("ir-drawer", { key: 'b07c929049e61cb45b5268a01008c3e883c957bb', placement: "start", style: {
+        return (h("ir-drawer", { key: '6f10027c992ce2eacabfc713ab433e851cdda018', placement: "start", style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -79,11 +79,11 @@ export class IrPaymentFolio {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 this.closeFolio();
-            } }, this.isOpen && (h("ir-payment-folio-form", { key: '60ca3e6c8710bb1baa73f6b99901ebbcca707a18', booking: this.booking, formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
+            } }, this.isOpen && (h("ir-payment-folio-form", { key: '7d5d44354e4a5b399a7844b0da9b3b09ac41a978', booking: this.booking, formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeFolio();
-            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: '5461bfee1d34ebf9aa97a1bb66097b76afe867e4', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: '8cbefbded5c46ec5388f563d63da6de468d2c35f', class: "flex-fill", size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: '65a8261b3cd350cdec6b2757dbba36b065772f40', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "medium", type: "submit", value: "save",
+            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: '1a09e402ce6e31eaa4fca1d25c9ec5b9ea4075dc', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: '0439bc88f542d7aa924aa6126f3c2f909e1060ce', class: "flex-fill", size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: 'e18f2194790544152d65ab4c7344e6cad5f8e369', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "medium", type: "submit", value: "save",
             // appearance={isNewPayment ? 'outlined' : 'accent'}
             appearance: 'accent', variant: "brand" }, "Save"))));
     }
@@ -120,7 +120,7 @@ export class IrPaymentFolio {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The list of existing payment or folio entries associated with the booking.\nUsed by the folio form to determine validation rules, available actions,\nand how the new or edited entry should be inserted or updated."
+                    "text": "The list of existing payment or folio entries associated with the booking.\r\nUsed by the folio form to determine validation rules, available actions,\r\nand how the new or edited entry should be inserted or updated."
                 },
                 "getter": false,
                 "setter": false
@@ -137,7 +137,7 @@ export class IrPaymentFolio {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The booking reference number associated with this folio operation.\nPassed down to the folio form so the payment entry is linked to the\ncorrect reservation when saving."
+                    "text": "The booking reference number associated with this folio operation.\r\nPassed down to the folio form so the payment entry is linked to the\r\ncorrect reservation when saving."
                 },
                 "getter": false,
                 "setter": false,
@@ -163,7 +163,7 @@ export class IrPaymentFolio {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The full booking object associated with this folio.\nProvides contextual reservation data required by the folio form."
+                    "text": "The full booking object associated with this folio.\r\nProvides contextual reservation data required by the folio form."
                 },
                 "getter": false,
                 "setter": false
@@ -187,11 +187,11 @@ export class IrPaymentFolio {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The payment or folio entry being created or edited.\nDefaults to a new empty payment object when the component\nis used for creating a new entry."
+                    "text": "The payment or folio entry being created or edited.\r\nDefaults to a new empty payment object when the component\r\nis used for creating a new entry."
                 },
                 "getter": false,
                 "setter": false,
-                "defaultValue": "{\n    date: moment().format(DATE_FORMAT),\n    amount: 0,\n    designation: undefined,\n    currency: null,\n    reference: null,\n    id: -1,\n  }"
+                "defaultValue": "{\r\n    date: moment().format(DATE_FORMAT),\r\n    amount: 0,\r\n    designation: undefined,\r\n    currency: null,\r\n    reference: null,\r\n    id: -1,\r\n  }"
             },
             "mode": {
                 "type": "string",
@@ -212,7 +212,7 @@ export class IrPaymentFolio {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Determines how the folio entry should behave or be displayed.\nTypical modes include creating a new entry, editing an existing one,\nor other folio-specific workflows."
+                    "text": "Determines how the folio entry should behave or be displayed.\r\nTypical modes include creating a new entry, editing an existing one,\r\nor other folio-specific workflows."
                 },
                 "getter": false,
                 "setter": false,
@@ -236,7 +236,7 @@ export class IrPaymentFolio {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the folio drawer should be closed.\nFired whenever the user cancels, the form requests closing,\nor the drawer itself is hidden. Consumers listen for this event\nto know when the folio UI has been dismissed."
+                    "text": "Emitted when the folio drawer should be closed.\r\nFired whenever the user cancels, the form requests closing,\r\nor the drawer itself is hidden. Consumers listen for this event\r\nto know when the folio UI has been dismissed."
                 },
                 "complexType": {
                     "original": "null",
@@ -260,7 +260,7 @@ export class IrPaymentFolio {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "Opens the folio drawer.\nThis method can be called externally on the component instance\nto programmatically display the folio form.",
+                    "text": "Opens the folio drawer.\r\nThis method can be called externally on the component instance\r\nto programmatically display the folio form.",
                     "tags": []
                 }
             },
@@ -277,7 +277,7 @@ export class IrPaymentFolio {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "Closes the folio drawer and emits the `closeModal` event.\nUsed internally when the user cancels or the form indicates\nthat it has completed its action.",
+                    "text": "Closes the folio drawer and emits the `closeModal` event.\r\nUsed internally when the user cancels or the form indicates\r\nthat it has completed its action.",
                     "tags": []
                 }
             }

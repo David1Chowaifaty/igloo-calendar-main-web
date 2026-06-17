@@ -71,7 +71,7 @@ export class IrDrawer {
         this.drawerHide.emit(e.detail);
     }
     render() {
-        return (h("wa-drawer", { key: 'df38903fedb8d7f7cf699e425d69879f61163a90', id: this.el.id, "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotManager.hasSlot('header-actions') && h("slot", { key: '7a8d480ac95fda0220317bcec9ab591ce64de7ce', name: "header-actions", slot: "header-actions" }), this.slotManager.hasSlot('label') && h("slot", { key: 'c4a43f22c393b46a4db6c432a58cc7e3e8bcb797', name: "label", slot: "label" }), h("slot", { key: '55810761eaf73898694de3dc567816ff35331d76' }), this.slotManager.hasSlot('footer') && h("slot", { key: 'f2ee4e28aede67e35047d6e14f51d22edfa3c912', name: "footer", slot: "footer" })));
+        return (h("wa-drawer", { key: 'c41a454041cdef5730cefe23fc9c1ab08cb1bffa', id: this.el.id, "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotManager.hasSlot('header-actions') && h("slot", { key: '7d983f499f5f416c357ab9e340ddf01ca34f7c61', name: "header-actions", slot: "header-actions" }), this.slotManager.hasSlot('label') && h("slot", { key: '2ea01d1aed93fc3e0ed5a72e3901405ec75c4bca', name: "label", slot: "label" }), h("slot", { key: '3d8a55d3f040c4da1fae502de9812d5efc3da770' }), this.slotManager.hasSlot('footer') && h("slot", { key: '6bf9c41a15292c5fbf96dca9f33882da95caaf59', name: "footer", slot: "footer" })));
     }
     static get is() { return "ir-drawer"; }
     static get encapsulation() { return "shadow"; }
@@ -96,7 +96,7 @@ export class IrDrawer {
                     "references": {
                         "NativeDrawer": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
                             "id": "src/components/ir-drawer/ir-drawer.tsx::NativeDrawer"
                         }
                     }
@@ -121,7 +121,7 @@ export class IrDrawer {
                     "references": {
                         "NativeDrawer": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
                             "id": "src/components/ir-drawer/ir-drawer.tsx::NativeDrawer"
                         }
                     }
@@ -130,7 +130,7 @@ export class IrDrawer {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The drawer's label as displayed in the header. You should always include a relevant label, as it is required for\nproper accessibility. If you need to display HTML, use the `label` slot instead."
+                    "text": "The drawer's label as displayed in the header. You should always include a relevant label, as it is required for\r\nproper accessibility. If you need to display HTML, use the `label` slot instead."
                 },
                 "getter": false,
                 "setter": false,
@@ -146,7 +146,7 @@ export class IrDrawer {
                     "references": {
                         "NativeDrawer": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
                             "id": "src/components/ir-drawer/ir-drawer.tsx::NativeDrawer"
                         }
                     }
@@ -171,7 +171,7 @@ export class IrDrawer {
                     "references": {
                         "NativeDrawer": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
                             "id": "src/components/ir-drawer/ir-drawer.tsx::NativeDrawer"
                         }
                     }
@@ -196,7 +196,7 @@ export class IrDrawer {
                     "references": {
                         "NativeDrawer": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
                             "id": "src/components/ir-drawer/ir-drawer.tsx::NativeDrawer"
                         }
                     }

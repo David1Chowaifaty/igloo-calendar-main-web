@@ -1,7 +1,7 @@
 import { Host, h } from "@stencil/core";
 export class IrNewBadge {
     render() {
-        return (h(Host, { key: 'ec69321992b2926b03d7bc811d0b1b599d4a4f77' }, h("span", { key: 'de5835371753d890f15725e7c8749aa8961a88af', class: "new-badge" }, "new")));
+        return (h(Host, { key: '9d5dbcc4829b2d203ecfc959f24384e578f801ea' }, h("span", { key: 'ce24144983f229df03faf680f9804e6b2f24a934', class: "new-badge" }, "new")));
     }
     static get is() { return "ir-new-badge"; }
     static get encapsulation() { return "shadow"; }

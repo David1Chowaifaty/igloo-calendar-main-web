@@ -843,7 +843,7 @@ export class IrInvoiceForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Whether the invoice drawer is open.\n\nThis prop is mutable and reflected to the host element,\nallowing parent components to control visibility via markup\nor via the public `openDrawer()` / `closeDrawer()` methods."
+                    "text": "Whether the invoice drawer is open.\r\n\r\nThis prop is mutable and reflected to the host element,\r\nallowing parent components to control visibility via markup\r\nor via the public `openDrawer()` / `closeDrawer()` methods."
                 },
                 "getter": false,
                 "setter": false,
@@ -869,7 +869,7 @@ export class IrInvoiceForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The booking object for which the invoice is being generated.\nShould contain room, guest, and pricing information."
+                    "text": "The booking object for which the invoice is being generated.\r\nShould contain room, guest, and pricing information."
                 },
                 "getter": false,
                 "setter": false
@@ -886,7 +886,7 @@ export class IrInvoiceForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Specifies what the invoice is for.\n- `\"room\"`: invoice for a specific room\n- `\"booking\"`: invoice for the entire booking"
+                    "text": "Specifies what the invoice is for.\r\n- `\"room\"`: invoice for a specific room\r\n- `\"booking\"`: invoice for the entire booking"
                 },
                 "getter": false,
                 "setter": false,
@@ -906,7 +906,7 @@ export class IrInvoiceForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The identifier of the room for which the invoice is being generated.\nUsed when invoicing at room level instead of booking level."
+                    "text": "The identifier of the room for which the invoice is being generated.\r\nUsed when invoicing at room level instead of booking level."
                 },
                 "getter": false,
                 "setter": false,
@@ -925,7 +925,7 @@ export class IrInvoiceForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "When `true`, automatically triggers `window.print()` after an invoice is created.\nUseful for setups where the invoice should immediately be sent to a printer."
+                    "text": "When `true`, automatically triggers `window.print()` after an invoice is created.\r\nUseful for setups where the invoice should immediately be sent to a printer."
                 },
                 "getter": false,
                 "setter": false,
@@ -979,7 +979,7 @@ export class IrInvoiceForm {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the invoice drawer is opened.\n\nFired when `openDrawer()` is called and the component\ntransitions into the open state."
+                    "text": "Emitted when the invoice drawer is opened.\r\n\r\nFired when `openDrawer()` is called and the component\r\ntransitions into the open state."
                 },
                 "complexType": {
                     "original": "void",
@@ -994,7 +994,7 @@ export class IrInvoiceForm {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the invoice drawer is closed.\n\nFired when `closeDrawer()` is called, including when the\nunderlying drawer emits `onDrawerHide`."
+                    "text": "Emitted when the invoice drawer is closed.\r\n\r\nFired when `closeDrawer()` is called, including when the\r\nunderlying drawer emits `onDrawerHide`."
                 },
                 "complexType": {
                     "original": "void",
@@ -1009,7 +1009,7 @@ export class IrInvoiceForm {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when an invoice is created/confirmed.\n\nThe event `detail` contains:\n- `booking`: the booking associated with the invoice\n- `recipientId`: the selected billing recipient\n- `for`: whether the invoice is for `\"room\"` or `\"booking\"`\n- `roomIdentifier`: the room identifier when invoicing a specific room\n- `mode`: the current invoice mode"
+                    "text": "Emitted when an invoice is created/confirmed.\r\n\r\nThe event `detail` contains:\r\n- `booking`: the booking associated with the invoice\r\n- `recipientId`: the selected billing recipient\r\n- `for`: whether the invoice is for `\"room\"` or `\"booking\"`\r\n- `roomIdentifier`: the room identifier when invoicing a specific room\r\n- `mode`: the current invoice mode"
                 },
                 "complexType": {
                     "original": "BookingInvoiceInfo",

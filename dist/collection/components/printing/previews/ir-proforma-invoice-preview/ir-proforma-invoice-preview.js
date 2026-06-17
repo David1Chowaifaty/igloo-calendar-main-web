@@ -195,7 +195,7 @@ export class IrProformaInvoicePreview {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "Invoice payload emitted by `ir-invoice-form`.\nTotals will fall back to booking data when omitted."
+                    "text": "Invoice payload emitted by `ir-invoice-form`.\r\nTotals will fall back to booking data when omitted."
                 },
                 "getter": false,
                 "setter": false
@@ -243,7 +243,7 @@ export class IrProformaInvoicePreview {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "Optional metadata fetched via `getBookingInvoiceInfo`.\nUsed to display reference numbers (invoice/credit note/etc.)."
+                    "text": "Optional metadata fetched via `getBookingInvoiceInfo`.\r\nUsed to display reference numbers (invoice/credit note/etc.)."
                 },
                 "getter": false,
                 "setter": false

@@ -61,7 +61,7 @@ export class IrIcons {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The name of the icon to render.\nMust match a key from the imported `icons` map.\n\nExample:\n```tsx\n<ir-icons name=\"check\" />\n```"
+                    "text": "The name of the icon to render.\r\nMust match a key from the imported `icons` map.\r\n\r\nExample:\r\n```tsx\r\n<ir-icons name=\"check\" />\r\n```"
                 },
                 "getter": false,
                 "setter": false,
@@ -80,7 +80,7 @@ export class IrIcons {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Additional CSS class applied to the `<svg>` element.\nCan be used for sizing, positioning, etc."
+                    "text": "Additional CSS class applied to the `<svg>` element.\r\nCan be used for sizing, positioning, etc."
                 },
                 "getter": false,
                 "setter": false,
@@ -99,7 +99,7 @@ export class IrIcons {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Sets the `color` attribute on the `<svg>` element.\nAccepts any valid CSS color string."
+                    "text": "Sets the `color` attribute on the `<svg>` element.\r\nAccepts any valid CSS color string."
                 },
                 "getter": false,
                 "setter": false,

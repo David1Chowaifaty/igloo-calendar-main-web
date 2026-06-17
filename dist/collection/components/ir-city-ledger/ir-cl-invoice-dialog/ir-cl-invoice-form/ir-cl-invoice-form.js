@@ -22,10 +22,10 @@ export class IrClInvoiceForm {
         return { fromDate: this.fromDate, toDate: this.toDate, scope: this.scope, is_checked_out_only: this.scope === 'UNBILLED_CHECKED_OUT' };
     }
     render() {
-        return (h(Host, { key: '4c586e5ba77c3a7486334f4b5b76a5083345953e' }, h("wa-callout", { key: '0c3fd61a89023511bb063f52742f7aae922dd9ef' }, h("wa-icon", { key: '9bc582c00782f70d8bed620ab340800ecb909ab5', slot: "icon", name: "circle-info" }), h("div", { key: '59e25453857197db1d30c498a04495fc603c9a1b', class: "invoice-form__scope-text" }, h("span", { key: 'a8852711dfcac31f8e4c5471ac25d4259b0b61fe', class: "invoice-form__scope-label" }, "Unbilled Folio Entries"), h("span", { key: 'eb9ba8a9ccfaaf0603bb611e7ab903815c6f6956', class: "invoice-form__scope-desc" }, "Including all services from bookings, manual charges, adjustments and discounts."))), h("div", { key: '04e7c2992273ecbe7597401a2918ad8f8c5cdf9d', class: `invoice-form__field${this.dateError ? ' invoice-form__date-error' : ''}` }, h("ir-date-range-filter", { key: '4d1408392cec5cbd637b46813e41fde718e50c05', showQuickActions: false, style: { width: '100%' }, fromDate: this.fromDate, toDate: this.toDate, maxDate: moment().format('YYYY-MM-DD'), onDatesChanged: e => {
+        return (h(Host, { key: '1fa176dd7242a4e2c7eb92ea58b476a8ce5fadfc' }, h("wa-callout", { key: '3bda60a3171bc813f2cc71ae3e402d2f20a73579' }, h("wa-icon", { key: '2a3eb4e7d73a27afee142768a078592df5decbf3', slot: "icon", name: "circle-info" }), h("div", { key: '3925b24a58a933ba277b3d91875fab006988bc98', class: "invoice-form__scope-text" }, h("span", { key: 'c50fbfd5bd76067067edbccceb12ec7e311828f7', class: "invoice-form__scope-label" }, "Unbilled Folio Entries"), h("span", { key: '2018fe5a997902ed61d1b4beb7cebcc6079daa18', class: "invoice-form__scope-desc" }, "Including all services from bookings, manual charges, adjustments and discounts."))), h("div", { key: '192450ea120b03b9848fb368d29614948b320af9', class: `invoice-form__field${this.dateError ? ' invoice-form__date-error' : ''}` }, h("ir-date-range-filter", { key: 'f06f4e961cbfe32ff30aaf5b3aaa5fec5a83bffd', showQuickActions: false, style: { width: '100%' }, fromDate: this.fromDate, toDate: this.toDate, maxDate: moment().format('YYYY-MM-DD'), onDatesChanged: e => {
                 this.fromDate = e.detail.from ?? '';
                 this.toDate = e.detail.to ?? '';
-            } })), h("div", { key: '41ec6e37e80425c3eb9854c0748006911d902e77', class: "invoice-form__field" }, h("wa-checkbox", { key: 'ede653859917224c21b0b2523a8b3cc605557d13', checked: this.scope === 'UNBILLED_CHECKED_OUT', defaultChecked: this.scope === 'UNBILLED_CHECKED_OUT', onchange: e => {
+            } })), h("div", { key: 'd71ba88ddb7712090aef17d1cf93123c5987ee52', class: "invoice-form__field" }, h("wa-checkbox", { key: '6beed7f08f96b0e9ba1b907eb3405cb6086eb53f', checked: this.scope === 'UNBILLED_CHECKED_OUT', defaultChecked: this.scope === 'UNBILLED_CHECKED_OUT', onchange: e => {
                 this.scope = e.target.checked ? 'UNBILLED_CHECKED_OUT' : 'UNBILLED';
             } }, "Include checked-out bookings only"))));
     }
@@ -79,7 +79,7 @@ export class IrClInvoiceForm {
                         },
                         "CreateInvoiceFormValues": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-form/ir-cl-invoice-form.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-form/ir-cl-invoice-form.tsx",
                             "id": "src/components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-form/ir-cl-invoice-form.tsx::CreateInvoiceFormValues"
                         }
                     },

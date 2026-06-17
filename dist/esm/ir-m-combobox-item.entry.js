@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-DrVkW3Kc.js';
+import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-0Di74WDd.js';
 
 const irMComboboxItemCss = () => `.sc-ir-m-combobox-item-h{display:block;cursor:pointer}[hidden].sc-ir-m-combobox-item-h{display:none !important}.active.sc-ir-m-combobox-item-h,.focused.sc-ir-m-combobox-item-h,.sc-ir-m-combobox-item-h:active{outline:none;background-color:var(--blue, #1e9ff2) !important;color:white !important}.dropdown-item.sc-ir-m-combobox-item-h{padding:0.5rem 1rem !important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}`;
 
@@ -66,7 +66,7 @@ const IrMComboboxItem = class {
     };
     render() {
         // Render either provided html_content or the slotted content
-        return (h(Host, { key: '2f952df55507481466e1cb70799fc2f5f7014731', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '6c22e99f353ac07f3c8ddccdf23235be63bb00eb', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
 };
 IrMComboboxItem.style = irMComboboxItemCss();

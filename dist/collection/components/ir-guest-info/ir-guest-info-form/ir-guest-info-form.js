@@ -312,7 +312,7 @@ export class IrGuestInfoForm {
                     "references": {
                         "GuestChangedEvent": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-guest-info/ir-guest-info-form/ir-guest-info-form.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-guest-info/ir-guest-info-form/ir-guest-info-form.tsx",
                             "id": "src/components/ir-guest-info/ir-guest-info-form/ir-guest-info-form.tsx::GuestChangedEvent"
                         }
                     }

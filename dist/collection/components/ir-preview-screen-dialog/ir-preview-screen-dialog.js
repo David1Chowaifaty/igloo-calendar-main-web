@@ -192,11 +192,11 @@ export class IrPreviewScreenDialog {
         this.restorePrintLayout();
     }
     render() {
-        return (h("ir-dialog", { key: '18c975feea7b2ef85bd90ea07eaa301635cdc53b', onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '0c264be2e300549fa7d5f99d0635999b9929c4c7', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openChanged.emit(false);
-            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, h("div", { key: '19fac0c5a42b8885adb57c47cbb0279dd8d57727', slot: "header-actions", class: "ir-fullscreen-dialog__header-actions" }, h("slot", { key: '8cce3d66d67120b5b88739787a9110e6e13c4dd7', name: "header-actions" }), !this.hideDefaultAction && (h(Fragment, { key: 'd0bff5f910f85f5f59cfca4776a7e8a2c8be99f6' }, h("wa-tooltip", { key: 'b02405ab288d8be9e8f1b93b2b926ae399ce9972', for: this._id }, "Print PDF"), h("ir-custom-button", { key: 'cb648066da9d52d2392502e96ddb083c6c3b64ff', id: this._id, size: "medium", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: 'dca8d6b1bf3618f80783a241909683ae59d5d684', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))))), h("slot", { key: '1c1b18c15ef0c24cb3c4c92f1836c5ac73396fa8' })));
+            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, h("div", { key: '1c7217747812db6ba055a87449a30d880b95cb08', slot: "header-actions", class: "ir-fullscreen-dialog__header-actions" }, h("slot", { key: 'f6c40627c78dce3fd39307087e271a072c340230', name: "header-actions" }), !this.hideDefaultAction && (h(Fragment, { key: '96ceaa998964e061ac1c4484676f1cee6c0feae9' }, h("wa-tooltip", { key: 'b13d943efa63f4e425368fafa8cfb453cf00d2c9', for: this._id }, "Print PDF"), h("ir-custom-button", { key: 'ab5dc5577d33f8cf4637ece36bf7b0b823bc795d', id: this._id, size: "medium", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: '9f8905aef12a209a4148dfb8d77ff1b6e1a25625', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))))), h("slot", { key: '8c3880060178369a255e1e11a7e341664b2ec56b' })));
     }
     static get is() { return "ir-preview-screen-dialog"; }
     static get encapsulation() { return "shadow"; }
@@ -224,7 +224,7 @@ export class IrPreviewScreenDialog {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The dialog's label as displayed in the header.\nRequired for accessibility and announced by assistive technologies."
+                    "text": "The dialog's label as displayed in the header.\r\nRequired for accessibility and announced by assistive technologies."
                 },
                 "getter": false,
                 "setter": false,
@@ -244,7 +244,7 @@ export class IrPreviewScreenDialog {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Indicates whether or not the preview dialog is open.\nToggle this attribute or use {@link openDialog} / {@link closeDialog} to control visibility."
+                    "text": "Indicates whether or not the preview dialog is open.\r\nToggle this attribute or use {@link openDialog} / {@link closeDialog} to control visibility."
                 },
                 "getter": false,
                 "setter": false,
@@ -269,7 +269,7 @@ export class IrPreviewScreenDialog {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Determines which built-in action is rendered in the header.\n`print` triggers `window.print()` while `download` downloads the configured URL."
+                    "text": "Determines which built-in action is rendered in the header.\r\n`print` triggers `window.print()` while `download` downloads the configured URL."
                 },
                 "getter": false,
                 "setter": false,
@@ -289,7 +289,7 @@ export class IrPreviewScreenDialog {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "URL used when the action is set to `download`.\nCan be overridden per invocation via {@link triggerAction}."
+                    "text": "URL used when the action is set to `download`.\r\nCan be overridden per invocation via {@link triggerAction}."
                 },
                 "getter": false,
                 "setter": false,
@@ -347,7 +347,7 @@ export class IrPreviewScreenDialog {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "Accessible label used for the default header action button.\nFalls back to context-sensitive defaults when omitted."
+                    "text": "Accessible label used for the default header action button.\r\nFalls back to context-sensitive defaults when omitted."
                 },
                 "getter": false,
                 "setter": false,

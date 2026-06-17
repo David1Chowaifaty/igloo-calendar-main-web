@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-DrVkW3Kc.js';
+import { r as registerInstance, h, H as Host } from './index-0Di74WDd.js';
 
 const irAgentAssignmentFormCss = () => `.sc-ir-agent-assignment-form-h{display:block}`;
 
@@ -7,7 +7,7 @@ const IrAgentAssignmentForm = class {
         registerInstance(this, hostRef);
     }
     render() {
-        return (h(Host, { key: 'ebce00cb5b2c363cbfb8f55b5b192cc2370e5e47' }, h("slot", { key: '8b79d31a45811eb179828c83db1cc681bbe9bf60' })));
+        return (h(Host, { key: '3bd302fbf343e436175ead93bfcf95366949a931' }, h("slot", { key: '724a76a900395a4f8920d363f7089568e5cd6891' })));
     }
 };
 IrAgentAssignmentForm.style = irAgentAssignmentFormCss();

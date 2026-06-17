@@ -133,7 +133,7 @@ export class IrTabs {
         }
     }
     render() {
-        return (h(Host, { key: '6599c3ce8ebef3c1b3560affe5f65af866b93923', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: '124211d7fb497c784a5ff1e5059b7b1e7137a014', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+        return (h(Host, { key: 'a9784a8568029628823e9396af72c5196966877d', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: 'fb2a8b350aa02d54f3e9e516e6c3798cb6ab3f83', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
     static get is() { return "ir-tabs"; }
     static get encapsulation() { return "scoped"; }
@@ -158,7 +158,7 @@ export class IrTabs {
                     "references": {
                         "Tab": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-tabs/ir-tabs.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-tabs/ir-tabs.tsx",
                             "id": "src/components/ui/ir-tabs/ir-tabs.tsx::Tab"
                         }
                     }
@@ -286,7 +286,7 @@ export class IrTabs {
                     "references": {
                         "Tab": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-tabs/ir-tabs.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-tabs/ir-tabs.tsx",
                             "id": "src/components/ui/ir-tabs/ir-tabs.tsx::Tab"
                         }
                     }

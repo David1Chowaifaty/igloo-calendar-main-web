@@ -233,7 +233,7 @@ export class IrPagination {
                             "name": "default",
                             "text": "false"
                         }],
-                    "text": "Enables a dropdown for changing the number of items displayed per page.\n\nWhen set to `true`, users can select a page size from the `pageSizes` array.\n\n**Note:** This prop requires the `pageSizes` prop to be defined with one or more numeric values.\nIf `pageSizes` is empty or undefined, the page size selector will not be displayed."
+                    "text": "Enables a dropdown for changing the number of items displayed per page.\r\n\r\nWhen set to `true`, users can select a page size from the `pageSizes` array.\r\n\r\n**Note:** This prop requires the `pageSizes` prop to be defined with one or more numeric values.\r\nIf `pageSizes` is empty or undefined, the page size selector will not be displayed."
                 },
                 "getter": false,
                 "setter": false,
@@ -289,7 +289,7 @@ export class IrPagination {
                     "references": {
                         "PaginationRange": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationRange"
                         }
                     }
@@ -403,7 +403,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -424,7 +424,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -445,7 +445,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -466,7 +466,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -487,7 +487,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -508,7 +508,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }

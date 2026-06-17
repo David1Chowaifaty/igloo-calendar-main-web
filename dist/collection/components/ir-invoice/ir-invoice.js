@@ -105,7 +105,7 @@ export class IrInvoice {
         }
     }
     render() {
-        return (h(Host, { key: '5b257318031e2afa18da8da241c6719ecdd85095' }, h("ir-drawer", { key: '26f2ed7e91d15f6e333c90fdbe1fe11652c65dcf', style: {
+        return (h(Host, { key: 'e91e331afba66a57098ca418ebd6f3231a0979c7' }, h("ir-drawer", { key: '6387d997783247a1ad04ec0e6878ccfd932e2bf2', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -116,22 +116,22 @@ export class IrInvoice {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDrawer();
-            } }, h("div", { key: '0189ef7ce413069a90b07da230fed0896301077b', class: "d-flex align-items-center", slot: "header-actions" }, h("wa-switch", { key: '4455e0e81bf0cccdeae88897458d1d77c561995c', defaultChecked: this.viewMode === 'proforma', checked: this.viewMode === 'proforma', onchange: e => {
+            } }, h("div", { key: 'a7fe57acb98dafa5c75ced8bc3f44caf52873b8e', class: "d-flex align-items-center", slot: "header-actions" }, h("wa-switch", { key: 'a6c92acab8a6c550a9c7009d01d3c9de63492203', defaultChecked: this.viewMode === 'proforma', checked: this.viewMode === 'proforma', onchange: e => {
                 if (e.target.checked) {
                     this.viewMode = 'proforma';
                 }
                 else {
                     this.viewMode = 'invoice';
                 }
-            } }, "Proforma")), this.open && (h("ir-invoice-form", { key: '1ce6b9de4da1f322304a3c0a835b78d5849cc155', viewMode: this.viewMode, for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, formId: this._id, onPreviewProformaInvoice: e => (this.invoice = e.detail.invoice), invoiceInfo: this.invoiceInfo, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: 'cd8db804de2fec80cf5d3ae65ae108d2c5097fce', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '31b8c9c5fb3c9b82474668fcaec78dd21ea9ccef', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
+            } }, "Proforma")), this.open && (h("ir-invoice-form", { key: '0ffa5a72a4c4dae11cf4202f26ff48ac003f287c', viewMode: this.viewMode, for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, formId: this._id, onPreviewProformaInvoice: e => (this.invoice = e.detail.invoice), invoiceInfo: this.invoiceInfo, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: 'd20e9c5061c4fa13269642ae7f191f12dd819674', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '019ccb7f3375e27ecce1aa27bde56ba9eaff0297', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
                 this.closeDrawer();
-            } }, "Cancel"), h("ir-custom-button", { key: '88ab87c8f86728479fb3b6a5e5473ff6c8e112c3', disabled: this.invoiceInfo?.invoiceable_items?.filter(i => i.is_invoiceable)?.length === 0, loading: this.isLoading, value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "medium", variant: "brand", id: `confirm-btn_${this._id}` }, "Confirm")), h("ir-preview-screen-dialog", { key: '9476f1a04c1422c547b64e2cc53236db3325aa79', onOpenChanged: e => {
+            } }, "Cancel"), h("ir-custom-button", { key: 'cda9480b9b70d80aab944463a95f211b35e37b74', disabled: this.invoiceInfo?.invoiceable_items?.filter(i => i.is_invoiceable)?.length === 0, loading: this.isLoading, value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "medium", variant: "brand", id: `confirm-btn_${this._id}` }, "Confirm")), h("ir-preview-screen-dialog", { key: 'c3ad8202f3ade59da50afde39184b9b9427de7ec', onOpenChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!e.detail) {
                     this.invoice = null;
                 }
-            }, open: this.invoice !== null }, h("ir-proforma-invoice-preview", { key: 'f4d83d8535e245b9da8e17cf487a0b64d9aa8f68', invoice: this.invoice, property: calendar_data.property, booking: this.booking })))));
+            }, open: this.invoice !== null }, h("ir-proforma-invoice-preview", { key: '94e368880d16e416d2705a35883cb9658586af60', invoice: this.invoice, property: calendar_data.property, booking: this.booking })))));
     }
     static get is() { return "ir-invoice"; }
     static get encapsulation() { return "scoped"; }
@@ -159,7 +159,7 @@ export class IrInvoice {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Whether the invoice drawer is open.\n\nThis prop is mutable and reflected to the host element,\nallowing parent components to control visibility via markup\nor via the public `openDrawer()` / `closeDrawer()` methods."
+                    "text": "Whether the invoice drawer is open.\r\n\r\nThis prop is mutable and reflected to the host element,\r\nallowing parent components to control visibility via markup\r\nor via the public `openDrawer()` / `closeDrawer()` methods."
                 },
                 "getter": false,
                 "setter": false,
@@ -185,7 +185,7 @@ export class IrInvoice {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The booking object for which the invoice is being generated.\nShould contain room, guest, and pricing information."
+                    "text": "The booking object for which the invoice is being generated.\r\nShould contain room, guest, and pricing information."
                 },
                 "getter": false,
                 "setter": false
@@ -202,7 +202,7 @@ export class IrInvoice {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Specifies what the invoice is for.\n- `\"room\"`: invoice for a specific room\n- `\"booking\"`: invoice for the entire booking"
+                    "text": "Specifies what the invoice is for.\r\n- `\"room\"`: invoice for a specific room\r\n- `\"booking\"`: invoice for the entire booking"
                 },
                 "getter": false,
                 "setter": false,
@@ -222,7 +222,7 @@ export class IrInvoice {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The identifier of the room for which the invoice is being generated.\nUsed when invoicing at room level instead of booking level."
+                    "text": "The identifier of the room for which the invoice is being generated.\r\nUsed when invoicing at room level instead of booking level."
                 },
                 "getter": false,
                 "setter": false,
@@ -241,7 +241,7 @@ export class IrInvoice {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "When `true`, automatically triggers `window.print()` after an invoice is created.\nUseful for setups where the invoice should immediately be sent to a printer."
+                    "text": "When `true`, automatically triggers `window.print()` after an invoice is created.\r\nUseful for setups where the invoice should immediately be sent to a printer."
                 },
                 "getter": false,
                 "setter": false,
@@ -271,7 +271,7 @@ export class IrInvoice {
                             "name": "type",
                             "text": "{BookingInvoiceInfo}"
                         }],
-                    "text": "Additional invoice-related metadata used when creating\nor rendering the invoice.\n\nThis object can include payment details, discounts,\ntax information, or any context needed by the invoice form."
+                    "text": "Additional invoice-related metadata used when creating\r\nor rendering the invoice.\r\n\r\nThis object can include payment details, discounts,\r\ntax information, or any context needed by the invoice form."
                 },
                 "getter": false,
                 "setter": false
@@ -294,7 +294,7 @@ export class IrInvoice {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the invoice drawer is opened.\n\nFired when `openDrawer()` is called and the component\ntransitions into the open state."
+                    "text": "Emitted when the invoice drawer is opened.\r\n\r\nFired when `openDrawer()` is called and the component\r\ntransitions into the open state."
                 },
                 "complexType": {
                     "original": "void",
@@ -309,7 +309,7 @@ export class IrInvoice {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the invoice drawer is closed.\n\nFired when `closeDrawer()` is called, including when the\nunderlying drawer emits `onDrawerHide`."
+                    "text": "Emitted when the invoice drawer is closed.\r\n\r\nFired when `closeDrawer()` is called, including when the\r\nunderlying drawer emits `onDrawerHide`."
                 },
                 "complexType": {
                     "original": "void",
@@ -333,7 +333,7 @@ export class IrInvoice {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "Opens the invoice drawer.\n\nThis method sets the `open` property to `true`, making the drawer visible.\nIt can be called programmatically by parent components.\n\nAlso emits the `invoiceOpen` event.",
+                    "text": "Opens the invoice drawer.\r\n\r\nThis method sets the `open` property to `true`, making the drawer visible.\r\nIt can be called programmatically by parent components.\r\n\r\nAlso emits the `invoiceOpen` event.",
                     "tags": [{
                             "name": "returns",
                             "text": "Resolves once the drawer state is updated."
@@ -353,7 +353,7 @@ export class IrInvoice {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "Closes the invoice drawer.\n\nThis method sets the `open` property to `false`, hiding the drawer.\nParent components can call this to close the drawer programmatically,\nand it is also used internally when the drawer emits `onDrawerHide`.\n\nAlso emits the `invoiceClose` event.",
+                    "text": "Closes the invoice drawer.\r\n\r\nThis method sets the `open` property to `false`, hiding the drawer.\r\nParent components can call this to close the drawer programmatically,\r\nand it is also used internally when the drawer emits `onDrawerHide`.\r\n\r\nAlso emits the `invoiceClose` event.",
                     "tags": [{
                             "name": "returns",
                             "text": "Resolves once the drawer state is updated."

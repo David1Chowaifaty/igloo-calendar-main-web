@@ -73,7 +73,7 @@ export class AcPagesMenu {
                     "references": {
                         "ACPages": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ac-pages-menu/ac-pages-menu.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ac-pages-menu/ac-pages-menu.tsx",
                             "id": "src/components/ac-pages-menu/ac-pages-menu.tsx::ACPages"
                         }
                     }

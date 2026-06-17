@@ -1,7 +1,7 @@
-import { r as registerInstance, c as createEvent, d as getElement, h, F as Fragment } from './index-DrVkW3Kc.js';
-import { l as locales } from './locales.store-CcwAwmT9.js';
+import { r as registerInstance, c as createEvent, d as getElement, h, F as Fragment } from './index-0Di74WDd.js';
+import { l as locales } from './locales.store-CPGnSUGJ.js';
 import { v as v4 } from './v4-DD3477fe.js';
-import './index-DXObjBRn.js';
+import './index-D9zfa7Bx.js';
 
 const irComboboxCss = () => `.sc-ir-combobox-h{display:block;position:relative;padding:0;margin:0;box-sizing:border-box}ul.sc-ir-combobox{position:absolute;box-sizing:border-box;margin:0;margin-top:2px;width:max-content;max-height:80px;border-radius:0.21rem;z-index:10000;padding:1px;background:white;box-shadow:0px 8px 16px 0px rgba(0, 0, 0, 0.2);padding:5px 0;max-height:250px;overflow-y:auto;min-width:100%}ul[data-position='bottom-right'].sc-ir-combobox{right:0}.list-item-image.sc-ir-combobox{height:1rem;aspect-ratio:4/3;border-radius:4px;margin-right:10px}.dropdown-item.sc-ir-combobox{cursor:pointer}ul.sc-ir-combobox li.sc-ir-combobox,span.sc-ir-combobox,loader-container.sc-ir-combobox{padding:0px 16px;margin:0px;margin-top:2px;width:100%;border-radius:2px}ul.sc-ir-combobox li.sc-ir-combobox{cursor:pointer}ul.sc-ir-combobox li.sc-ir-combobox{display:flex;align-items:center;flex-wrap:wrap;gap:3px}ul.sc-ir-combobox li.sc-ir-combobox p.sc-ir-combobox{margin:0;padding:0}ul.sc-ir-combobox li.sc-ir-combobox:hover{background:#f4f5fa}ul.sc-ir-combobox li[data-selected].sc-ir-combobox,ul.sc-ir-combobox li[data-selected].sc-ir-combobox:hover{color:#fff;text-decoration:none;background-color:#666ee8}`;
 
@@ -283,7 +283,7 @@ const IrCombobox = class {
         this.selectItem(this.selectedIndex === -1 ? 0 : this.selectedIndex);
     }
     render() {
-        return (h("form", { key: '9ee873f2e2d710ab4d97a49a1a3e4ee7139ae969', onSubmit: this.handleSubmit.bind(this), class: "m-0 p-0" }, h("input", { key: '50228bb29d0b6eced87d4cc98d82dc7cc992b01c', type: "text", class: "form-control bg-white", id: this.input_id, ref: el => (this.inputRef = el), disabled: this.disabled, value: this.value, placeholder: this.placeholder, onKeyDown: this.handleKeyDown.bind(this), onBlur: this.handleBlur.bind(this), onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), autoFocus: this.autoFocus }), this.renderDropdown()));
+        return (h("form", { key: 'e57f0ea06362721b7d4e4f13f5f3c6206b57fb13', onSubmit: this.handleSubmit.bind(this), class: "m-0 p-0" }, h("input", { key: 'ade7a029cb27203c28bd24a0f78c560f23e3c311', type: "text", class: "form-control bg-white", id: this.input_id, ref: el => (this.inputRef = el), disabled: this.disabled, value: this.value, placeholder: this.placeholder, onKeyDown: this.handleKeyDown.bind(this), onBlur: this.handleBlur.bind(this), onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), autoFocus: this.autoFocus }), this.renderDropdown()));
     }
     static get watchers() { return {
         "isComboBoxVisible": [{

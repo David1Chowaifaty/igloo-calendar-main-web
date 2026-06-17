@@ -203,7 +203,7 @@ export class IrArrivals {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Authentication token issued by the PMS backend.\nRequired for initializing the component and making API calls."
+                    "text": "Authentication token issued by the PMS backend.\r\nRequired for initializing the component and making API calls."
                 },
                 "getter": false,
                 "setter": false,
@@ -222,7 +222,7 @@ export class IrArrivals {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "ID of the property (hotel) for which arrivals should be displayed.\nUsed in API calls related to rooms, bookings, and check-ins."
+                    "text": "ID of the property (hotel) for which arrivals should be displayed.\r\nUsed in API calls related to rooms, bookings, and check-ins."
                 },
                 "getter": false,
                 "setter": false,
@@ -241,7 +241,7 @@ export class IrArrivals {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Two-letter language code (ISO) used for translations and API locale.\nDefaults to `'en'`."
+                    "text": "Two-letter language code (ISO) used for translations and API locale.\r\nDefaults to `'en'`."
                 },
                 "getter": false,
                 "setter": false,
@@ -261,7 +261,7 @@ export class IrArrivals {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Property alias or short identifier used by backend endpoints (aname).\nPassed to `getExposedProperty` when initializing the component."
+                    "text": "Property alias or short identifier used by backend endpoints (aname).\r\nPassed to `getExposedProperty` when initializing the component."
                 },
                 "getter": false,
                 "setter": false,
@@ -280,7 +280,7 @@ export class IrArrivals {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Number of arrivals to load per page in the arrivals table.\nUsed to configure pagination via Arrivals Store.\nDefaults to `20`."
+                    "text": "Number of arrivals to load per page in the arrivals table.\r\nUsed to configure pagination via Arrivals Store.\r\nDefaults to `20`."
                 },
                 "getter": false,
                 "setter": false,

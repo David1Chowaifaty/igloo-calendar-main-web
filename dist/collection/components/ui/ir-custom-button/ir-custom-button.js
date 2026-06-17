@@ -135,7 +135,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -160,7 +160,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -185,7 +185,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -211,7 +211,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -236,7 +236,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -261,7 +261,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -286,7 +286,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -311,7 +311,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -320,7 +320,7 @@ export class IrCustomButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native\n`<button>` elements behave. When the type is `submit`, the button will submit the surrounding form."
+                    "text": "The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native\r\n`<button>` elements behave. When the type is `submit`, the button will submit the surrounding form."
                 },
                 "getter": false,
                 "setter": false,
@@ -337,7 +337,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -346,7 +346,7 @@ export class IrCustomButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The name of the button, submitted as a name/value pair with form data, but only when this button is the submitter.\nThis attribute is ignored when `href` is present."
+                    "text": "The name of the button, submitted as a name/value pair with form data, but only when this button is the submitter.\r\nThis attribute is ignored when `href` is present."
                 },
                 "getter": false,
                 "setter": false,
@@ -362,7 +362,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -371,7 +371,7 @@ export class IrCustomButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The value of the button, submitted as a pair with the button's name as part of the form data, but only when this\nbutton is the submitter. This attribute is ignored when `href` is present."
+                    "text": "The value of the button, submitted as a pair with the button's name as part of the form data, but only when this\r\nbutton is the submitter. This attribute is ignored when `href` is present."
                 },
                 "getter": false,
                 "setter": false,
@@ -387,7 +387,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -412,7 +412,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -437,7 +437,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -462,7 +462,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -487,7 +487,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -496,7 +496,7 @@ export class IrCustomButton {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The \"form owner\" to associate the button with. If omitted, the closest containing form will be used instead. The\nvalue of this attribute must be an id of a form in the same document or shadow root as the button."
+                    "text": "The \"form owner\" to associate the button with. If omitted, the closest containing form will be used instead. The\r\nvalue of this attribute must be an id of a form in the same document or shadow root as the button."
                 },
                 "getter": false,
                 "setter": false,
@@ -512,7 +512,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -537,7 +537,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -562,7 +562,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -587,7 +587,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }
@@ -612,7 +612,7 @@ export class IrCustomButton {
                     "references": {
                         "NativeButton": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-custom-button/ir-custom-button.tsx",
                             "id": "src/components/ui/ir-custom-button/ir-custom-button.tsx::NativeButton"
                         }
                     }

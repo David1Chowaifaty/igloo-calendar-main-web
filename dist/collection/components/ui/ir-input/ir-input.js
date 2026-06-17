@@ -295,7 +295,7 @@ export class IrInput {
             // We must pass "1,000.00" to wa-input to avoid the overwrite warning
             displayValue = this._mask.value;
         }
-        return (h(Host, { key: 'a8ebfa3df7b0da737ee362dc90bc3cb3fa199e0c' }, h("wa-input", { key: '08ddde56c009fa9d00397d6ccc904f29a71ac207', part: "wa-input", type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && h("slot", { key: 'fa0c718fc72c0f335e2bd6cfe95c9ea33798932d', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: '026586c02c91521dd82b18bead3b0afc50499b0b', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: '11efb18aff2e335ba76ef4e5c5a01579c5a2bf05', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: '5b9bfd53bcd2fc0bd9efe68311d286a5f21a4adb', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: '873227eb4a5f2c0b18a5f0b6d22f266157916e5d', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: '37e158f4143a5ea2ab185abb1d5cc28e8286f6bb', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: 'ec197a0be49acce6265a57cd4517b5ce0af08da6', name: "hint", slot: "hint" }))));
+        return (h(Host, { key: 'f34b95da53c265dda059aab61ad02760c400ccf9' }, h("wa-input", { key: 'f643caaa79ece9e91fc299ba1cb79907ca0e5a0d', part: "wa-input", type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && h("slot", { key: 'cc007ca69de47a9b7367c50291e53d6d9f753e99', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: '66c3dcf7cb0b50d8294ec0cf1e7b3628b844c2dc', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: 'bdefaa53d5ff9ebe8e5dbd14cef0edee0ff6dbaf', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: '9c78d5fd27ce7f6558b016e90eb465a003d2c8b2', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: '1b8d3d22beb9a3a215d2ee5707a8552902f52a44', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: '71e4b23f16cecbd78c54932f8ecab83f7664f082', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '2455987a25ff268419da30f0fada84d455c4d21a', name: "hint", slot: "hint" }))));
     }
     static get is() { return "ir-input"; }
     static get encapsulation() { return "shadow"; }
@@ -360,7 +360,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -369,7 +369,7 @@ export class IrInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults\nto `text`."
+                    "text": "The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults\r\nto `text`."
                 },
                 "getter": false,
                 "setter": false,
@@ -386,7 +386,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -411,7 +411,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -437,7 +437,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -462,7 +462,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -507,7 +507,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -532,7 +532,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -557,7 +557,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -582,7 +582,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -607,7 +607,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -632,7 +632,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -657,7 +657,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -682,7 +682,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -707,7 +707,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -716,7 +716,7 @@ export class IrInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you\nto place the form control outside of a form and associate it with the form that has this `id`. The form must be in\nthe same document or shadow root for this to work."
+                    "text": "By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you\r\nto place the form control outside of a form and associate it with the form that has this `id`. The form must be in\r\nthe same document or shadow root for this to work."
                 },
                 "getter": false,
                 "setter": false
@@ -730,7 +730,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -755,7 +755,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -780,7 +780,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -805,7 +805,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -830,7 +830,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -855,7 +855,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -880,7 +880,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -889,7 +889,7 @@ export class IrInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is\nimplied, allowing any numeric value. Only applies to date and number input types."
+                    "text": "Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is\r\nimplied, allowing any numeric value. Only applies to date and number input types."
                 },
                 "getter": false,
                 "setter": false,
@@ -905,7 +905,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -930,7 +930,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -955,7 +955,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -964,7 +964,7 @@ export class IrInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Specifies what permission the browser has to provide assistance in filling out form field values. Refer to\n[this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values."
+                    "text": "Specifies what permission the browser has to provide assistance in filling out form field values. Refer to\r\n[this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values."
                 },
                 "getter": false,
                 "setter": false,
@@ -981,7 +981,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -1006,7 +1006,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -1031,7 +1031,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -1056,7 +1056,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -1065,7 +1065,7 @@ export class IrInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual\nkeyboard on supportive devices."
+                    "text": "Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual\r\nkeyboard on supportive devices."
                 },
                 "getter": false,
                 "setter": false,
@@ -1081,7 +1081,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -1106,7 +1106,7 @@ export class IrInput {
                     "references": {
                         "NativeWaInput": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
@@ -1131,7 +1131,7 @@ export class IrInput {
                     "references": {
                         "MaskProp": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
                             "id": "src/components/ui/ir-input/ir-input.tsx::MaskProp"
                         }
                     }
@@ -1178,7 +1178,7 @@ export class IrInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Custom CSS classes applied to the inner `<wa-input>` element.\n\nYou can also target the exposed parts `::part(input)` and `::part(base)`\nfor deeper styling of the native input and container."
+                    "text": "Custom CSS classes applied to the inner `<wa-input>` element.\r\n\r\nYou can also target the exposed parts `::part(input)` and `::part(base)`\r\nfor deeper styling of the native input and container."
                 },
                 "getter": false,
                 "setter": false,

@@ -60,7 +60,7 @@ export class IrSpinner {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return (h(Host, { key: '9b8a71db1e12c3c3bad8baf11ce12e78de1a42d8' }, h("wa-spinner", { key: 'df0162a9e52500db43eed4a1c48d78be9dd1a61b', style: { fontSize: '2rem' } })));
+        return (h(Host, { key: 'a8e3c39b354abd9c9af13ef40044700d292c39f2' }, h("wa-spinner", { key: 'c95dc6b4f9464900d53df3ce3bf701216525de8e', style: { fontSize: '2rem' } })));
     }
     static get is() { return "ir-spinner"; }
     static get encapsulation() { return "shadow"; }
@@ -88,7 +88,7 @@ export class IrSpinner {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Size of the spinner (diameter).\nExample: `size={2}` with `unit=\"rem\"` sets spinner to `2rem`."
+                    "text": "Size of the spinner (diameter).\r\nExample: `size={2}` with `unit=\"rem\"` sets spinner to `2rem`."
                 },
                 "getter": false,
                 "setter": false,
@@ -107,7 +107,7 @@ export class IrSpinner {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Thickness of the spinner's border.\nExample: `borderWidth={4}` renders a `4px` or `4rem` thick border."
+                    "text": "Thickness of the spinner's border.\r\nExample: `borderWidth={4}` renders a `4px` or `4rem` thick border."
                 },
                 "getter": false,
                 "setter": false,
@@ -126,7 +126,7 @@ export class IrSpinner {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "CSS unit used for `size` and `borderWidth`.\nCan be `'px'` or `'rem'`."
+                    "text": "CSS unit used for `size` and `borderWidth`.\r\nCan be `'px'` or `'rem'`."
                 },
                 "getter": false,
                 "setter": false,
@@ -146,7 +146,7 @@ export class IrSpinner {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Color of the spinner.\nAccepts any valid CSS color string."
+                    "text": "Color of the spinner.\r\nAccepts any valid CSS color string."
                 },
                 "getter": false,
                 "setter": false,

@@ -1,0 +1,1 @@
+import{h as m}from"./moment.js";const o=(o,s)=>m(`${o}:${s}`,"HH:mm").format("hh:mm A"),s=m=>m&&"002"!==m.payment_mode.code;export{o as _,s as i}

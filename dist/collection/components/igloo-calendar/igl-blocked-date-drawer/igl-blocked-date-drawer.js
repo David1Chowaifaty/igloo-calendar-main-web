@@ -80,11 +80,11 @@ export class IglBlockedDateDrawer {
         };
     }
     render() {
-        return (h("ir-drawer", { key: '7ac66c5594cdf06f038526eec71a22ca849dc961', label: this.label, onDrawerHide: e => {
+        return (h("ir-drawer", { key: 'f920fb6ea19bda07960c99c7beb955d318389cc5', label: this.label, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDrawer();
-            }, open: this.open }, this.open && (h("igl-block-dates-view", { key: 'f73cfc1d39f2045528fa66bfe82fc2d24dce84e5', onDataUpdateEvent: e => (this.blockDatesData = { ...e.detail.data }), fromDate: this.fromDate, toDate: this.toDate })), h("div", { key: '0f50d0f0861e8b1a0d0442daf16224d3765f54df', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '19b67c6d01fa487f89cf9a786dc37cbf53b0cb13', "data-drawer": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { key: '38ffb16eccb687c8bf5c17cf76431eedcf69467a', loading: this.isLoading, onClickHandler: () => {
+            }, open: this.open }, this.open && (h("igl-block-dates-view", { key: '2727febe1084eb778cdf53b84a1c6678a55e95e8', onDataUpdateEvent: e => (this.blockDatesData = { ...e.detail.data }), fromDate: this.fromDate, toDate: this.toDate })), h("div", { key: 'b5264a355dc19568d86301bfb08902119b71901e', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'a4e04c864b6b69ce66fb33e83cda866a3cb49aad', "data-drawer": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { key: 'b0e478601f954fa546c0f88bba689f996dbc6009', loading: this.isLoading, onClickHandler: () => {
                 this.handleBlockDate();
             }, size: "medium", appearance: "accent", variant: "brand" }, "Save"))));
     }
@@ -114,7 +114,7 @@ export class IglBlockedDateDrawer {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Controls whether the blocked date drawer is open or closed.\nReflected to the DOM so it can be styled or toggled externally."
+                    "text": "Controls whether the blocked date drawer is open or closed.\r\nReflected to the DOM so it can be styled or toggled externally."
                 },
                 "getter": false,
                 "setter": false,
@@ -133,7 +133,7 @@ export class IglBlockedDateDrawer {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Label text displayed at the top of the drawer.\nTypically used as the drawer title."
+                    "text": "Label text displayed at the top of the drawer.\r\nTypically used as the drawer title."
                 },
                 "getter": false,
                 "setter": false,
@@ -152,7 +152,7 @@ export class IglBlockedDateDrawer {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Start date of the blocked date range.\nExpected to be an ISO date string (YYYY-MM-DD)."
+                    "text": "Start date of the blocked date range.\r\nExpected to be an ISO date string (YYYY-MM-DD)."
                 },
                 "getter": false,
                 "setter": false,
@@ -171,7 +171,7 @@ export class IglBlockedDateDrawer {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "End date of the blocked date range.\nExpected to be an ISO date string (YYYY-MM-DD)."
+                    "text": "End date of the blocked date range.\r\nExpected to be an ISO date string (YYYY-MM-DD)."
                 },
                 "getter": false,
                 "setter": false,
@@ -190,7 +190,7 @@ export class IglBlockedDateDrawer {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Identifier of the unit being blocked.\nUsed when sending block requests to the booking service."
+                    "text": "Identifier of the unit being blocked.\r\nUsed when sending block requests to the booking service."
                 },
                 "getter": false,
                 "setter": false,

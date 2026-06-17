@@ -775,7 +775,7 @@ export class IrBookingDetails {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Indicates whether the component is rendered from the front desk context.\nDisables interceptor and toast rendering when true."
+                    "text": "Indicates whether the component is rendered from the front desk context.\r\nDisables interceptor and toast rendering when true."
                 },
                 "getter": false,
                 "setter": false,
@@ -795,7 +795,7 @@ export class IrBookingDetails {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Active language code used for translations and API requests.\nDefaults to 'en'."
+                    "text": "Active language code used for translations and API requests.\r\nDefaults to 'en'."
                 },
                 "getter": false,
                 "setter": false,
@@ -853,7 +853,7 @@ export class IrBookingDetails {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Authentication token used to initialize the component.\nTriggers re-initialization when changed."
+                    "text": "Authentication token used to initialize the component.\r\nTriggers re-initialization when changed."
                 },
                 "getter": false,
                 "setter": false,
@@ -905,7 +905,7 @@ export class IrBookingDetails {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted whenever the booking object is updated.\nUsed to notify parent components about booking state changes."
+                    "text": "Emitted whenever the booking object is updated.\r\nUsed to notify parent components about booking state changes."
                 },
                 "complexType": {
                     "original": "Booking",
@@ -927,7 +927,7 @@ export class IrBookingDetails {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the sidebar should be closed.\nTypically triggered by header actions (e.g., close button)."
+                    "text": "Emitted when the sidebar should be closed.\r\nTypically triggered by header actions (e.g., close button)."
                 },
                 "complexType": {
                     "original": "null",

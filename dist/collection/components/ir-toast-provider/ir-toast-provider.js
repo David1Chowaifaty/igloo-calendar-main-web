@@ -400,7 +400,7 @@ export class IrToastProvider {
         }
     }
     render() {
-        return h(Host, { key: '9f0bb17086817265cd08598bd261e63a055e47c8' });
+        return h(Host, { key: '337c02c4d8705b5c027976e13de1ca7e46736a3c' });
     }
     static get is() { return "ir-toast-provider"; }
     static get encapsulation() { return "shadow"; }
@@ -513,7 +513,7 @@ export class IrToastProvider {
                         },
                         "Toast": {
                             "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-toast-provider/ir-toast-provider.tsx",
+                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-toast-provider/ir-toast-provider.tsx",
                             "id": "src/components/ir-toast-provider/ir-toast-provider.tsx::Toast"
                         },
                         "HTMLIrToastItemElement": {

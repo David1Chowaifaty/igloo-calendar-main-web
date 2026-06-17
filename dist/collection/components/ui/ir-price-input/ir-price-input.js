@@ -153,13 +153,13 @@ export class IrPriceInput {
         this.inputFocus.emit();
     };
     render() {
-        return (h("fieldset", { key: 'd04dde84870d6bf1044fe18aaaafaa05a2d91079', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: 'dc9bb0ea065a86468cee22a865233ff1af49da17', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: 'e68e11001cba2866a4cadd2dc0d7d745b1356e6c', class: `input-group-text 
+        return (h("fieldset", { key: 'a57b41ac25cea11e0fa4d7e4eb5b3e74a77e34a0', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: '907fe89d74dc104b0c6d6d14a57405a9baab8e31', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: '260832fd333feeedb8267d6b8e0a3e3814fc0ba5', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, h("label", { key: '116384a298047048f55c0219a8561b5136575014', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: 'a253ae82912a052dcd18da529b518fec723a550e', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '5450794c8dd82deead22caa27b8dda7c7c9dbeaf' }, h("span", { key: '49ebf990be274e05ef8999857c400b5d5a2ec7de', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '2a131173bfd03828f59bb023e993d25c1af56ec5', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, h("label", { key: 'ab9071808e9a231ebc867864d20233c6ceac2938', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: '10d7bd0160c1b6407f27c783211b8baedd46d7f1', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: 'bd5cfba3ac3a80b747287fdefc0c17ace26bbb8d' }, h("span", { key: '0592a2323f295c5e7a9a3e1841ff95683ebf4b97', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: 'e95f5ef3afadf171ed964753f09d909c0545aa35', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 
@@ -351,7 +351,7 @@ export class IrPriceInput {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "A Zod schema for validating the input\nExample: z.coerce.number()"
+                    "text": "A Zod schema for validating the input\r\nExample: z.coerce.number()"
                 },
                 "getter": false,
                 "setter": false
@@ -504,7 +504,7 @@ export class IrPriceInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Extra class names applied to the outer <fieldset> wrapper.\nUseful for spacing (e.g., margins/padding), width/layout utilities,\nor theming the whole input group from the outside.\nExample: \"w-100 mb-2 d-flex align-items-center\""
+                    "text": "Extra class names applied to the outer <fieldset> wrapper.\r\nUseful for spacing (e.g., margins/padding), width/layout utilities,\r\nor theming the whole input group from the outside.\r\nExample: \"w-100 mb-2 d-flex align-items-center\""
                 },
                 "getter": false,
                 "setter": false,
@@ -523,7 +523,7 @@ export class IrPriceInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Extra class names applied to the label container (<div class=\"input-group-prepend\">)\nthat wraps the <label>. Use this to control label width, alignment,\nspacing, or visibility at different breakpoints.\nExample: \"min-w-120 text-nowrap pe-2\""
+                    "text": "Extra class names applied to the label container (<div class=\"input-group-prepend\">)\r\nthat wraps the <label>. Use this to control label width, alignment,\r\nspacing, or visibility at different breakpoints.\r\nExample: \"min-w-120 text-nowrap pe-2\""
                 },
                 "getter": false,
                 "setter": false,

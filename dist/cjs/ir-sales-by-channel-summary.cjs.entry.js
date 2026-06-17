@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-Cn9TxUnA.js');
+var index = require('./index-OzksjAXP.js');
 
 const irSalesByChannelSummaryCss = () => `.sc-ir-sales-by-channel-summary-h{display:block}`;
 
@@ -9,7 +9,7 @@ const IrSalesByChannelSummary = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: '619b979c9fb11edf764c3cf50651a360c56e7b07' }, index.h("slot", { key: 'dbf4b861dba4c58e539675619b57c59097fd8d2a' })));
+        return (index.h(index.Host, { key: '9848c2a0590a692423ff7c0be72548c1bca3eab5' }, index.h("slot", { key: '711239ff38d7e84686443f5442dd13f1948db995' })));
     }
 };
 IrSalesByChannelSummary.style = irSalesByChannelSummaryCss();

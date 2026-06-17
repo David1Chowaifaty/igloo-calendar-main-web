@@ -40,7 +40,7 @@ export class IrPickup {
     closeModal;
     _id = `pickup-form-${v4()}`;
     render() {
-        return (h("ir-drawer", { key: '9263cc094a31b2afc715b6c607dec8341d56c58c', style: {
+        return (h("ir-drawer", { key: '30305dc54f55c89d9fa14056700445b098f5d231', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -51,7 +51,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-pickup-form", { key: 'ec172a2761435ed737c0d664ad033862095eb72b', booking: this.booking, agent: this.agent, onCanSubmitPickupChange: e => {
+            } }, this.open && (h("ir-pickup-form", { key: '8e194bf7eaef216038b253821d6c7940ff5f6aaa', booking: this.booking, agent: this.agent, onCanSubmitPickupChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.canSubmitPickup = e.detail;
@@ -59,7 +59,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            }, formId: this._id })), h("div", { key: '763a2f2cc429a9b8ae69a9fdd38dd6e5ac8549c3', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '719efe8f31dbae95c02ca92762b9bb8d8f795216', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: '76463a18177fe2198ec37c2cc4c5658afb0ba030', type: "submit", loading: this.isLoading, form: this._id, size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
+            }, formId: this._id })), h("div", { key: '3c9b462c911d24699aca6264efa95942b2108f28', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '97de322e224ce384333b3a12bb34f5e86d70ff29', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: '2b528b7403fdcb21749aac8d37dd257b42d7dcfd', type: "submit", loading: this.isLoading, form: this._id, size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
     }
     static get is() { return "ir-pickup"; }
     static get encapsulation() { return "scoped"; }
@@ -118,7 +118,7 @@ export class IrPickup {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Pre-filled pickup information coming from the booking.\nWhen provided, the pickup form initializes with this data and\nthe user may update or remove it."
+                    "text": "Pre-filled pickup information coming from the booking.\r\nWhen provided, the pickup form initializes with this data and\r\nthe user may update or remove it."
                 },
                 "getter": false,
                 "setter": false
@@ -135,7 +135,7 @@ export class IrPickup {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Total number of persons included in the booking.\nUsed to compute vehicle capacity and validate pickup options."
+                    "text": "Total number of persons included in the booking.\r\nUsed to compute vehicle capacity and validate pickup options."
                 },
                 "getter": false,
                 "setter": false,
@@ -155,7 +155,7 @@ export class IrPickup {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Unique booking reference number used to associate pickup updates\nwith a specific reservation."
+                    "text": "Unique booking reference number used to associate pickup updates\r\nwith a specific reservation."
                 },
                 "getter": false,
                 "setter": false,
@@ -174,7 +174,7 @@ export class IrPickup {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The date range of the booking (check-in and check-out).\nDetermines allowed pickup dates and validation rules."
+                    "text": "The date range of the booking (check-in and check-out).\r\nDetermines allowed pickup dates and validation rules."
                 },
                 "getter": false,
                 "setter": false
@@ -215,7 +215,7 @@ export class IrPickup {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Controls whether the pickup drawer/modal is open.\nWhen true, the drawer becomes visible and initializes the form."
+                    "text": "Controls whether the pickup drawer/modal is open.\r\nWhen true, the drawer becomes visible and initializes the form."
                 },
                 "getter": false,
                 "setter": false,
@@ -239,7 +239,7 @@ export class IrPickup {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the pickup drawer should be closed.\nTriggered when the user dismisses the drawer or when the\ninner pickup form requests the modal to close."
+                    "text": "Emitted when the pickup drawer should be closed.\r\nTriggered when the user dismisses the drawer or when the\r\ninner pickup form requests the modal to close."
                 },
                 "complexType": {
                     "original": "null",
