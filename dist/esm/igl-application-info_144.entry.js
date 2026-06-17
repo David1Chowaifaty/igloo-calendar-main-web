@@ -26852,7 +26852,7 @@ const IrLoadingScreen = class {
     }
     message = '';
     render() {
-        return (h("div", { key: 'e3e8dfcdc98a3ac625ee36e099d1652af784e4e4', class: "loader__container", "data-testid": "loading-screen" }, h("wa-spinner", { key: '356383adf861c6a288e1186490bf2ee087e79e77', style: { fontSize: '2.5rem' } })));
+        return (h("div", { key: 'e3e8dfcdc98a3ac625ee36e099d1652af784e4e4', class: "loader__container", "data-testid": "loading-screen" }, h("wa-spinner", { key: '92eb1d03e61c47c3ede469961d9d57d533790fcb', style: { 'fontSize': '2.5rem', '--track-width': '4px' } })));
     }
 };
 IrLoadingScreen.style = irLoadingScreenCss();
@@ -59058,7 +59058,7 @@ const IrSpinner = class {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return (h(Host, { key: '9b8a71db1e12c3c3bad8baf11ce12e78de1a42d8' }, h("wa-spinner", { key: 'df0162a9e52500db43eed4a1c48d78be9dd1a61b', style: { fontSize: '2rem' } })));
+        return (h(Host, { key: '9b8a71db1e12c3c3bad8baf11ce12e78de1a42d8' }, h("wa-spinner", { key: 'a091d5e195e0691b0c71fa117a5692d8e31eeb5f', style: { 'fontSize': '2rem', '--track-width': '3px' } })));
     }
     static get watchers() { return {
         "size": [{
