@@ -26,7 +26,7 @@ export declare class IrDateRange {
      * Controls the visual size of the input trigger.
      * @reflect
      */
-    size: 'small' | 'medium' | 'large';
+    size: 's' | 'm' | 'l';
     /**
      * Initial date values. Expects `{ fromDate: string | Date, toDate: string | Date }`.
      * Re-initializes dates whenever this prop reference changes.

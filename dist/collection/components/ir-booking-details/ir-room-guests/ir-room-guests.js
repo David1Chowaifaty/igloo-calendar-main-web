@@ -45,7 +45,7 @@ export class IrRoomGuests {
     closeModal;
     isLoading;
     render() {
-        return (h("ir-drawer", { key: '56693e1806f7ec9f37e618d03b078906836d6022', style: {
+        return (h("ir-drawer", { key: '51427a4987d5ea2b641fbfa5f806d6b54db8e272', style: {
                 '--ir-drawer-width': '60rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -56,11 +56,11 @@ export class IrRoomGuests {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-room-guests-form", { key: 'fb7b86d44b0cb1535986c990e88d8a7abba6cac2', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language, onLoadingChange: e => {
+            } }, this.open && (h("ir-room-guests-form", { key: 'a58c0557160712c554e5e5aa75928896b34d1f8e', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language, onLoadingChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail;
-            } })), h("div", { key: 'e2bf8aaa293b3608f8e746082325daf3fdf868d9', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '38ff2be42250c07345c0927ecd52933960c35124', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Save'), h("ir-custom-button", { key: 'b179ad4a010742e3eb0036d265b2689134f200ab', value: "save", loading: this.isLoading === 'save', size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, locales?.entries?.Lcz_Save ?? 'Save'), this.checkIn && (h("ir-custom-button", { key: '80bb16b5ea7451912c1ba4156fdd714e69c38d33', value: "save_checkin", loading: this.isLoading === 'save_checkin', size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, locales.entries?.Lcz_CheckIn ?? 'Check in')))));
+            } })), h("div", { key: '718a656ad8d798e87cd1e2799a11c9218942f524', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '7a0fb131ea3aa23e862ac272434cd4a78b5b0175', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Save'), h("ir-custom-button", { key: '6a7669ac67ecc5b5d3d44987d2ee4c70a50b8dc5', value: "save", loading: this.isLoading === 'save', size: "m", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, locales?.entries?.Lcz_Save ?? 'Save'), this.checkIn && (h("ir-custom-button", { key: '176acbe57215d88146a8ce3758baf2acafa6bda0', value: "save_checkin", loading: this.isLoading === 'save_checkin', size: "m", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, locales.entries?.Lcz_CheckIn ?? 'Check in')))));
     }
     static get is() { return "ir-room-guests"; }
     static get encapsulation() { return "scoped"; }
@@ -107,7 +107,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The name of the room currently being displayed.\r\nUsed to label the room in the user interface for clarity."
+                    "text": "The name of the room currently being displayed.\nUsed to label the room in the user interface for clarity."
                 },
                 "getter": false,
                 "setter": false,
@@ -126,7 +126,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A unique identifier for the room.\r\nThis is used to distinguish between rooms, especially when performing operations like saving or checking in guests."
+                    "text": "A unique identifier for the room.\nThis is used to distinguish between rooms, especially when performing operations like saving or checking in guests."
                 },
                 "getter": false,
                 "setter": false,
@@ -152,7 +152,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "An array of people sharing the room.\r\nContains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details."
+                    "text": "An array of people sharing the room.\nContains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details."
                 },
                 "getter": false,
                 "setter": false,
@@ -170,7 +170,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The total number of guests for the room.\r\nDetermines how many guest input forms to display in the UI."
+                    "text": "The total number of guests for the room.\nDetermines how many guest input forms to display in the UI."
                 },
                 "getter": false,
                 "setter": false,
@@ -197,7 +197,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A list of available countries.\r\nUsed to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests."
+                    "text": "A list of available countries.\nUsed to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests."
                 },
                 "getter": false,
                 "setter": false
@@ -214,7 +214,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A boolean indicating whether the room is in the process of being checked in.\r\nIf true, additional actions like saving the room state as \"checked in\" are performed."
+                    "text": "A boolean indicating whether the room is in the process of being checked in.\nIf true, additional actions like saving the room state as \"checked in\" are performed."
                 },
                 "getter": false,
                 "setter": false,
@@ -233,7 +233,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The language used for displaying text content in the component.\r\nDefaults to English ('en'), but can be set to other supported languages."
+                    "text": "The language used for displaying text content in the component.\nDefaults to English ('en'), but can be set to other supported languages."
                 },
                 "getter": false,
                 "setter": false,
@@ -253,7 +253,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A unique booking number associated with the room.\r\nThis is used for backend operations like saving guest information or checking in the room."
+                    "text": "A unique booking number associated with the room.\nThis is used for backend operations like saving guest information or checking in the room."
                 },
                 "getter": false,
                 "setter": false,

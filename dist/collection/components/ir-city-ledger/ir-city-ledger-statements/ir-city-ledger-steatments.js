@@ -109,19 +109,19 @@ export class IrCityLedgerStatements {
         return `Statement - ${moment(this.printFilters.fromDate).format('MMM DD, YYYY')} to ${moment(this.printFilters.toDate).format('MMM DD, YYYY')}`;
     }
     render() {
-        return (h(Host, { key: '3dad698ee2f03124d4237927fe674ec44e41499b' }, h("section", { key: 'b0d9d4f3909a7ccf04fa2728c2eab0f0cfb0a496', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '7f05946cd4f9d7521b74b517346a17d2b862e06b', initialFromDate: this.filters.fromDate, initialToDate: this.filters.toDate, onFiltersChange: e => {
+        return (h(Host, { key: '2d17560fe41854e1c060728bb06c10c8d1274b0d' }, h("section", { key: '9fad1b3d27b8b9c197d9ae08a5498d1560bb55d8', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '5a3463bacba835d39592e9c0be62f7414bef4f21', initialFromDate: this.filters.fromDate, initialToDate: this.filters.toDate, onFiltersChange: e => {
                 this.filters = e.detail;
                 this.clStmtFiltersChange.emit(e.detail);
             }, onCreateStatement: e => {
                 this.filters = e.detail;
                 this.clStmtFiltersChange.emit(e.detail);
                 this.fetchStatement(e.detail);
-            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: 'f9aac446604afae3fb8c6521b8630b21cc7c5f6d', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: '2613465a8de3fa951013398f7a8df12a8a91ef6a', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: 'ab832a09b854c7509855c3fe8afd3151183754d0', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: '66a87347c811cf96332cb08f1ef64f1c63cc2812', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
                 if (!e.detail) {
                     this.printFilters = null;
                     this.pdfUrl = null;
                 }
-            } }, h("div", { key: 'd076534e9c6f2b1db2384c4444055fa617a607a7', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: 'f7a293520ee4fe2a2b89366987fe89bf4d62a9cd', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '274ac30773413c49da916c3d7b48f5c0975794a4', name: "download", label: "Download PDF" })))), this.printFilters &&
+            } }, h("div", { key: 'a99580c3fc7af034c89c205d20cf3eef61cb77bf', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '062ff0919c13f5ea8050f9345f3592e412b2f6e7', size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: 'ddaaa7d3e512fe261b57e77438e4873278a6c1f2', name: "download", label: "Download PDF" })))), this.printFilters &&
             (this.isFetchingPdf ? (h("div", { class: "preview-loading" }, h("ir-spinner", null))) : (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.pdfUrl })))))));
     }
     static get is() { return "ir-city-ledger-statements"; }

@@ -1045,7 +1045,7 @@ export namespace Components {
         "show": () => Promise<void>;
         /**
           * The input's size.
-          * @default 'small'
+          * @default 's'
          */
         "size": NativeWaInput['size'];
         /**
@@ -2555,7 +2555,7 @@ export namespace Components {
         /**
           * The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button.
          */
-        "form": NativeButton['form'];
+        "form": string | HTMLFormElement | null;
         /**
           * Used to override the form owner's `action` attribute.
          */
@@ -2600,7 +2600,7 @@ export namespace Components {
         "rel": NativeButton['rel'];
         /**
           * The button's size.
-          * @default 'small'
+          * @default 's'
          */
         "size": NativeButton['size'];
         /**
@@ -2839,9 +2839,9 @@ export namespace Components {
         /**
           * Controls the visual size of the input trigger.
           * @reflect 
-          * @default 'small'
+          * @default 's'
          */
-        "size": 'small' | 'medium' | 'large';
+        "size": 's' | 'm' | 'l';
         /**
           * `"booking"` shows the nights badge; `"default"` hides it.
           * @default 'default'
@@ -2903,7 +2903,7 @@ export namespace Components {
         "showQuickActions": boolean;
         /**
           * Size variant passed through to inner form controls. Reflected for CSS hooks (`ir-date-range-filter[size='...']`).
-          * @default 'small'
+          * @default 's'
          */
         "size": string;
         /**
@@ -3768,7 +3768,7 @@ export namespace Components {
         "returnMaskedValue": boolean;
         /**
           * The input's size.
-          * @default 'small'
+          * @default 's'
          */
         "size": NativeWaInput1['size'];
         /**
@@ -4408,7 +4408,7 @@ export namespace Components {
         "required": boolean;
         /**
           * The input's size.
-          * @default 'small'
+          * @default 's'
          */
         "size": NativeWaInput['size'];
         /**
@@ -4947,7 +4947,7 @@ export namespace Components {
         "placeholder": string;
         /**
           * The input's size.
-          * @default 'small'
+          * @default 's'
          */
         "size": NativeWaInput['size'];
         /**
@@ -13469,7 +13469,7 @@ declare namespace LocalJSX {
         "returnMaskedValue"?: boolean;
         /**
           * The input's size.
-          * @default 'small'
+          * @default 's'
          */
         "size"?: NativeWaInput['size'];
         /**
@@ -15099,7 +15099,7 @@ declare namespace LocalJSX {
         /**
           * The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button.
          */
-        "form"?: NativeButton['form'];
+        "form"?: string | HTMLFormElement | null;
         /**
           * Used to override the form owner's `action` attribute.
          */
@@ -15145,7 +15145,7 @@ declare namespace LocalJSX {
         "rel"?: NativeButton['rel'];
         /**
           * The button's size.
-          * @default 'small'
+          * @default 's'
          */
         "size"?: NativeButton['size'];
         /**
@@ -15403,9 +15403,9 @@ declare namespace LocalJSX {
         /**
           * Controls the visual size of the input trigger.
           * @reflect 
-          * @default 'small'
+          * @default 's'
          */
-        "size"?: 'small' | 'medium' | 'large';
+        "size"?: 's' | 'm' | 'l';
         /**
           * `"booking"` shows the nights badge; `"default"` hides it.
           * @default 'default'
@@ -15475,7 +15475,7 @@ declare namespace LocalJSX {
         "showQuickActions"?: boolean;
         /**
           * Size variant passed through to inner form controls. Reflected for CSS hooks (`ir-date-range-filter[size='...']`).
-          * @default 'small'
+          * @default 's'
          */
         "size"?: string;
         /**
@@ -16434,7 +16434,7 @@ declare namespace LocalJSX {
         "returnMaskedValue"?: boolean;
         /**
           * The input's size.
-          * @default 'small'
+          * @default 's'
          */
         "size"?: NativeWaInput1['size'];
         /**
@@ -17125,7 +17125,7 @@ declare namespace LocalJSX {
         "required"?: boolean;
         /**
           * The input's size.
-          * @default 'small'
+          * @default 's'
          */
         "size"?: NativeWaInput['size'];
         /**
@@ -17732,7 +17732,7 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * The input's size.
-          * @default 'small'
+          * @default 's'
          */
         "size"?: NativeWaInput['size'];
         /**
@@ -20097,7 +20097,7 @@ declare namespace LocalJSX {
         "target": NativeButton['target'];
         "rel": NativeButton['rel'];
         "download": NativeButton['download'];
-        "form": NativeButton['form'];
+        "form": string | HTMLFormElement | null;
         "formAction": NativeButton['formAction'];
         "formEnctype": NativeButton['formEnctype'];
         "formMethod": NativeButton['formMethod'];
@@ -20137,7 +20137,7 @@ declare namespace LocalJSX {
         "triggerContainerStyle": string;
     }
     interface IrDateRangeAttributes {
-        "size": 'small' | 'medium' | 'large';
+        "size": 's' | 'm' | 'l';
         "disabled": boolean;
         "minDate": string;
         "dateLabel": string;

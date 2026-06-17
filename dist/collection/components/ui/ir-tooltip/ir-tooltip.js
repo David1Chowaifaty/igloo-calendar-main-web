@@ -132,7 +132,7 @@ export class IrTooltip {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Whether the tooltip content should be rendered using `innerHTML`.\r\nIf false, treats message as plain text."
+                    "text": "Whether the tooltip content should be rendered using `innerHTML`.\nIf false, treats message as plain text."
                 },
                 "getter": false,
                 "setter": false,
@@ -152,7 +152,7 @@ export class IrTooltip {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "When true, allows a custom element to trigger the tooltip using a named slot.\r\nIf false, a default info icon is used."
+                    "text": "When true, allows a custom element to trigger the tooltip using a named slot.\nIf false, a default info icon is used."
                 },
                 "getter": false,
                 "setter": false,
@@ -208,7 +208,7 @@ export class IrTooltip {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Defines the horizontal alignment of the tooltip trigger content.\r\n\r\n- `'start'`: Aligns the trigger to the left within its container.\r\n- `'center'`: Centers the trigger horizontally (default).\r\n- `'end'`: Aligns the trigger to the right within its container.\r\n\r\nThis alignment affects how the trigger (e.g., icon or slotted element)\r\nis positioned inside the outer tooltip container."
+                    "text": "Defines the horizontal alignment of the tooltip trigger content.\n\n- `'start'`: Aligns the trigger to the left within its container.\n- `'center'`: Centers the trigger horizontally (default).\n- `'end'`: Aligns the trigger to the right within its container.\n\nThis alignment affects how the trigger (e.g., icon or slotted element)\nis positioned inside the outer tooltip container."
                 },
                 "getter": false,
                 "setter": false,

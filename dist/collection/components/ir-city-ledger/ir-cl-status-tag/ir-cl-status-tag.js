@@ -31,7 +31,7 @@ export class IrClStatusTag {
         if (!this.transaction)
             return null;
         const { label, variant, showLock } = resolveStatus(this.transaction);
-        return (h(Host, null, h("wa-tag", { size: 'small', className: `${this.size === 'default' ? '' : 'cl-status-tag__xs'}`, variant: variant }, label, showLock && h("wa-icon", { name: "lock" }))));
+        return (h(Host, null, h("wa-tag", { size: 's', className: `${this.size === 'default' ? '' : 'cl-status-tag__xs'}`, variant: variant }, label, showLock && h("wa-icon", { name: "lock" }))));
     }
     static get is() { return "ir-cl-status-tag"; }
     static get encapsulation() { return "scoped"; }

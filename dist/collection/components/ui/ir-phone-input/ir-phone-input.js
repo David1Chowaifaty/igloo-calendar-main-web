@@ -423,7 +423,7 @@ export class IrPhoneInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Country list, used to populate prefix and dropdown.\r\nIf not provided, fetched from the booking service."
+                    "text": "Country list, used to populate prefix and dropdown.\nIf not provided, fetched from the booking service."
                 },
                 "getter": false,
                 "setter": false,
@@ -460,7 +460,7 @@ export class IrPhoneInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Floating label text that appears inside the input and \u201Cfloats\u201D above\r\nwhen the field is focused or has a value.\r\n\r\n- If provided, a floating label will be rendered inside the input container.\r\n- If you omit this prop but set `label`, the old left-side static label is used.\r\n- If you provide both `label` and `floatingLabel`, only the floating label is shown.\r\n\r\nAccessibility:\r\n- The floating label is tied to the input via `aria-labelledby`.\r\n- You can still set `placeholder`; the label will not be replaced by it.\r\n\r\nExamples:\r\n```tsx\r\n<ir-phone-input floating-label label=\"Phone\" />\r\n```"
+                    "text": "Floating label text that appears inside the input and \u201Cfloats\u201D above\nwhen the field is focused or has a value.\n\n- If provided, a floating label will be rendered inside the input container.\n- If you omit this prop but set `label`, the old left-side static label is used.\n- If you provide both `label` and `floatingLabel`, only the floating label is shown.\n\nAccessibility:\n- The floating label is tied to the input via `aria-labelledby`.\n- You can still set `placeholder`; the label will not be replaced by it.\n\nExamples:\n```tsx\n<ir-phone-input floating-label label=\"Phone\" />\n```"
                 },
                 "getter": false,
                 "setter": false,
@@ -486,7 +486,7 @@ export class IrPhoneInput {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emits when the user changes the phone number.\r\nEmits `{ phone_prefix, mobile }` object.\r\n\r\nExample:\r\n```tsx\r\n<ir-phone-input onTextChange={(e) => console.log(e.detail)} />\r\n```"
+                    "text": "Emits when the user changes the phone number.\nEmits `{ phone_prefix, mobile }` object.\n\nExample:\n```tsx\n<ir-phone-input onTextChange={(e) => console.log(e.detail)} />\n```"
                 },
                 "complexType": {
                     "original": "{ phone_prefix: string; mobile: string }",

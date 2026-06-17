@@ -125,7 +125,7 @@ export class IrDialog {
         return !!this.el.querySelector(`[slot="${name}"]`);
     }
     render() {
-        return (h("wa-dialog", { key: '239e9e1d61a0a9738d197a85df83b8c8287fb9c6', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, style: { '--width': 'var(--ir-dialog-width,31rem)' }, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotState.get('header-actions') && h("slot", { key: 'eb4d8f284a95ba59c61c8e25dbdf43d1f8f70c01', name: "header-actions", slot: "header-actions" }), this.slotState.get('label') && h("slot", { key: 'efab2bacd9ea3a589bfaa12771ca8ed951b66451', name: "label", slot: "label" }), h("slot", { key: '3a8976195917fee2d4d6a239141f030734b0c3b7' }), this.slotState.get('footer') && h("slot", { key: '39630175596c3e67b0d48efc3db89567f9db51bf', name: "footer", slot: "footer" })));
+        return (h("wa-dialog", { key: '882e2cb597eecb202a55eb505761cfcb000f0afd', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, style: { '--width': 'var(--ir-dialog-width,31rem)' }, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotState.get('header-actions') && h("slot", { key: 'fe89fc90288e31fad1c57e2cda02d8332558bb3d', name: "header-actions", slot: "header-actions" }), this.slotState.get('label') && h("slot", { key: 'cda0fbc265a1e447fa7181251fd36b2656812604', name: "label", slot: "label" }), h("slot", { key: '87cb8b48d8f8e82aafccb0bc6fc312db8502923e' }), this.slotState.get('footer') && h("slot", { key: '7a37cf6c0acc1545a80bb27c23f329d66d2035e9', name: "footer", slot: "footer" })));
     }
     static get is() { return "ir-dialog"; }
     static get encapsulation() { return "shadow"; }
@@ -153,7 +153,7 @@ export class IrDialog {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The dialog's label as displayed in the header.\r\nYou should always include a relevant label, as it is required for proper accessibility.\r\nIf you need to display HTML, use the label slot instead."
+                    "text": "The dialog's label as displayed in the header.\nYou should always include a relevant label, as it is required for proper accessibility.\nIf you need to display HTML, use the label slot instead."
                 },
                 "getter": false,
                 "setter": false,
@@ -172,7 +172,7 @@ export class IrDialog {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Indicates whether or not the dialog is open.\r\nToggle this attribute to show and hide the dialog."
+                    "text": "Indicates whether or not the dialog is open.\nToggle this attribute to show and hide the dialog."
                 },
                 "getter": false,
                 "setter": false,
@@ -191,7 +191,7 @@ export class IrDialog {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Disables the header.\r\nThis will also remove the default close button."
+                    "text": "Disables the header.\nThis will also remove the default close button."
                 },
                 "getter": false,
                 "setter": false,
@@ -249,7 +249,7 @@ export class IrDialog {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the dialog is requested to close.\r\nCalling event.preventDefault() will prevent the dialog from closing.\r\nYou can inspect event.detail.source to see which element caused the dialog to close.\r\nIf the source is the dialog element itself, the user has pressed Escape or the dialog has been closed programmatically.\r\nAvoid using this unless closing the dialog will result in destructive behavior such as data loss."
+                    "text": "Emitted when the dialog is requested to close.\nCalling event.preventDefault() will prevent the dialog from closing.\nYou can inspect event.detail.source to see which element caused the dialog to close.\nIf the source is the dialog element itself, the user has pressed Escape or the dialog has been closed programmatically.\nAvoid using this unless closing the dialog will result in destructive behavior such as data loss."
                 },
                 "complexType": {
                     "original": "{ source: Element }",

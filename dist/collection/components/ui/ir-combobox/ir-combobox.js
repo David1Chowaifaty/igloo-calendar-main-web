@@ -273,7 +273,7 @@ export class IrCombobox {
         this.selectItem(this.selectedIndex === -1 ? 0 : this.selectedIndex);
     }
     render() {
-        return (h("form", { key: 'e57f0ea06362721b7d4e4f13f5f3c6206b57fb13', onSubmit: this.handleSubmit.bind(this), class: "m-0 p-0" }, h("input", { key: 'ade7a029cb27203c28bd24a0f78c560f23e3c311', type: "text", class: "form-control bg-white", id: this.input_id, ref: el => (this.inputRef = el), disabled: this.disabled, value: this.value, placeholder: this.placeholder, onKeyDown: this.handleKeyDown.bind(this), onBlur: this.handleBlur.bind(this), onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), autoFocus: this.autoFocus }), this.renderDropdown()));
+        return (h("form", { key: '9ee873f2e2d710ab4d97a49a1a3e4ee7139ae969', onSubmit: this.handleSubmit.bind(this), class: "m-0 p-0" }, h("input", { key: '50228bb29d0b6eced87d4cc98d82dc7cc992b01c', type: "text", class: "form-control bg-white", id: this.input_id, ref: el => (this.inputRef = el), disabled: this.disabled, value: this.value, placeholder: this.placeholder, onKeyDown: this.handleKeyDown.bind(this), onBlur: this.handleBlur.bind(this), onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), autoFocus: this.autoFocus }), this.renderDropdown()));
     }
     static get is() { return "ir-combobox"; }
     static get encapsulation() { return "scoped"; }
@@ -298,7 +298,7 @@ export class IrCombobox {
                     "references": {
                         "ComboboxItem": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-combobox/ir-combobox.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-combobox/ir-combobox.tsx",
                             "id": "src/components/ui/ir-combobox/ir-combobox.tsx::ComboboxItem"
                         }
                     }

@@ -58,7 +58,7 @@ export class IrMComboboxItem {
     };
     render() {
         // Render either provided html_content or the slotted content
-        return (h(Host, { key: '6c22e99f353ac07f3c8ddccdf23235be63bb00eb', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '2f952df55507481466e1cb70799fc2f5f7014731', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
     static get is() { return "ir-m-combobox-item"; }
     static get encapsulation() { return "scoped"; }
@@ -124,7 +124,7 @@ export class IrMComboboxItem {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "Optional html_content (when you want rich content);\r\nIf omitted, the component will render its own slot content."
+                    "text": "Optional html_content (when you want rich content);\nIf omitted, the component will render its own slot content."
                 },
                 "getter": false,
                 "setter": false,

@@ -73,17 +73,17 @@ export class IrTaxInput {
         this.tax = { ...(this.tax || {}), ...params };
     }
     render() {
-        return (h(Host, { key: 'd90a51e6bb0a886c77aca593d79e0419006865bc', class: "ir-tax-input" }, h("ir-validator", { key: 'a5ace51e454375bf350a1b265ad0d816b42d1722', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? z.number().nullable() : z.coerce.number().min(0).max(30) }, h("ir-input", { key: 'ec1c112d998b412feaf1453fffc7e51b8651ed49', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
+        return (h(Host, { key: '13136b242312cdb6d16f6c1716c6da6de4931039', class: "ir-tax-input" }, h("ir-validator", { key: '955d923b120e697a68c5de823793a3606d215234', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? z.number().nullable() : z.coerce.number().min(0).max(30) }, h("ir-input", { key: '4b49826c8f6641d3a1d78e10411da81f1faaa0a3', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
                 min: 0,
                 max: 30,
                 mask: Number,
             }, onChange: () => {
                 this.taxChange.emit({ value: this.tax?.value ?? this.chargeRule?.value ?? null, mode: this.tax?.mode ?? this.chargeRule?.mode ?? '' });
-            }, part: "input", label: this.label, class: "ir-tax-input__percentage", size: "small", placeholder: this.placeholder, "onText-change": e => {
+            }, part: "input", label: this.label, class: "ir-tax-input__percentage", size: "s", placeholder: this.placeholder, "onText-change": e => {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updateTaxField({ value });
-            } }, h("span", { key: 'bb004627874930ca756a498a972e3a1b62c63c86', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), h("ir-validator", { key: '2e0d812460f61bbba9d1700d476d8f701d049117', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, h("wa-select", { key: '2b2abfc0c2b9d3e1a3f19d5fa51da4900dc83322', part: "select", class: "ir-tax-input__select", size: "small", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
+            } }, h("span", { key: '97e937d6f88a8b5e0558845637cd11e4d966aa08', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), h("ir-validator", { key: '96b599b9d18f0f071c9e398951af9f097e25738d', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, h("wa-select", { key: '4599449811ac0dd988243f77bfc9786521a2af23', part: "select", class: "ir-tax-input__select", size: "s", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
                 const mode = e.target.value.toString();
                 this.updateTaxField({ mode });
                 this.taxChange.emit({ value: this.tax?.value ?? this.chargeRule?.value ?? null, mode });
@@ -122,7 +122,7 @@ export class IrTaxInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "List of setup entries used to populate the tax mode select.\r\n\r\nEach entry represents a tax application option\r\n(e.g. Not Applicable, Inclusive, Exclusive)."
+                    "text": "List of setup entries used to populate the tax mode select.\n\nEach entry represents a tax application option\n(e.g. Not Applicable, Inclusive, Exclusive)."
                 },
                 "getter": false,
                 "setter": false,
@@ -178,7 +178,7 @@ export class IrTaxInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Disables the percentage input when true.\r\n\r\nNote: the input is also automatically disabled\r\nwhen the selected tax mode is \"Not Applicable\"."
+                    "text": "Disables the percentage input when true.\n\nNote: the input is also automatically disabled\nwhen the selected tax mode is \"Not Applicable\"."
                 },
                 "getter": false,
                 "setter": false,
@@ -197,7 +197,7 @@ export class IrTaxInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Current language used to resolve translated setup entry labels.\r\nDefaults to English (\"en\")."
+                    "text": "Current language used to resolve translated setup entry labels.\nDefaults to English (\"en\")."
                 },
                 "getter": false,
                 "setter": false,
@@ -224,7 +224,7 @@ export class IrTaxInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Controlled charge rule value passed from the parent.\r\n\r\nThis represents the committed tax state and is used\r\nto sync the internal component state."
+                    "text": "Controlled charge rule value passed from the parent.\n\nThis represents the committed tax state and is used\nto sync the internal component state."
                 },
                 "getter": false,
                 "setter": false
@@ -264,7 +264,7 @@ export class IrTaxInput {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the tax rule meaningfully changes.\r\n\r\nEmission happens on:\r\n- input commit (IMask change / blur)\r\n- tax mode selection change"
+                    "text": "Emitted when the tax rule meaningfully changes.\n\nEmission happens on:\n- input commit (IMask change / blur)\n- tax mode selection change"
                 },
                 "complexType": {
                     "original": "ChargeRule",

@@ -363,7 +363,7 @@ export class IglToastProvider {
                         },
                         "Toast": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/igl-toast-provider/igl-toast-provider.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/igl-toast-provider/igl-toast-provider.tsx",
                             "id": "src/components/igl-toast-provider/igl-toast-provider.tsx::Toast"
                         }
                     },

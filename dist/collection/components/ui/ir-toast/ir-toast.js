@@ -18,7 +18,7 @@ export class IrToast {
         // ir-toast-provider renders the ir-toast-item stack and listens for
         // `toast` events on the body, so this component is a thin shell kept
         // for backwards compatibility with the many pages that embed it.
-        return h("ir-toast-provider", { key: '1c0ae0622ce7ae4a1f0299068f2f85d76d914d7f', position: this.providerPosition });
+        return h("ir-toast-provider", { key: 'dcc3e1446f7b852c0b0e04de468a7574f17dcba5', position: this.providerPosition });
     }
     static get is() { return "ir-toast"; }
     static get encapsulation() { return "scoped"; }
@@ -53,7 +53,7 @@ export class IrToast {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Position where toasts will appear.\r\nOptions include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`."
+                    "text": "Position where toasts will appear.\nOptions include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`."
                 },
                 "getter": false,
                 "setter": false,

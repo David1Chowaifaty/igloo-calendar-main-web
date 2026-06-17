@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-OzksjAXP.js');
+var index = require('./index-DtXemfU-.js');
 
 const IrSpan = class {
     constructor(hostRef) {
@@ -10,7 +10,7 @@ const IrSpan = class {
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (index.h("span", { key: '02b24caee9caab8d50e9190f47477333ead525e3' }, this.text));
+        return (index.h("span", { key: 'cb401cc005bd8a3ace4ed122b879f6bf80d55cd9' }, this.text));
     }
 };
 

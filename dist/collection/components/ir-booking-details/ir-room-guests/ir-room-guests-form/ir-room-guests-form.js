@@ -176,9 +176,9 @@ export class IrRoomGuestsForm {
                 isRowValid = false;
             }
             // console.log(`row ${idx}=>${isRowValid}`);
-            return (h(Fragment, null, idx === 1 && (h("div", { class: "d-flex mx-0 px-0" }, h("h5", { class: "mx-0 px-0 sharing_persons_heading" }, locales.entries.Lcz_PersonsSharingRoom), h("p", { class: "mx-0 px-0 sharing_persons_label" }, locales.entries.Lcz_PersonsSharingRoom))), h("div", { key: idx, class: "guest-grid" }, h("div", { class: "room-guest__section" }, h("label", { htmlFor: `first_name_${idx}`, class: "guest_label" }, "First name"), h("ir-validator", { class: "flex-grow-1", schema: ZSharedPerson.shape.first_name }, h("ir-input", { "aria-invalid": String(!!this.error['first_name'] && !isRowValid), size: "small", id: `first_name_${idx}`, placeholder: "First name", "onText-change": e => this.updateGuestInfo(idx, { first_name: e.detail }), value: guest.first_name, maxlength: 40 }))), h("div", { class: "room-guest__section" }, h("label", { class: "guest_label" }, "Last name"), h("ir-input", { "aria-invalid": String(!!this.error['last_name'] && !isRowValid), size: "small", id: `last_name_${idx}`, placeholder: "Last name", "onText-change": e => this.updateGuestInfo(idx, { last_name: e.detail }), value: guest.last_name, maxlength: 40 })), h("div", { class: "room-guest__section" }, h("p", { class: "guest_label" }, locales.entries.Lcz_DOB), h("ir-validator", { class: "flex-grow-1", schema: ZSharedPerson.shape.dob }, h("ir-input", { "aria-invalid": String(!!this.error['dob'] && !isRowValid), id: `dob_${idx}`, mask: dateMask, size: "small", placeholder: "", "onText-change": e => {
+            return (h(Fragment, null, idx === 1 && (h("div", { class: "d-flex mx-0 px-0" }, h("h5", { class: "mx-0 px-0 sharing_persons_heading" }, locales.entries.Lcz_PersonsSharingRoom), h("p", { class: "mx-0 px-0 sharing_persons_label" }, locales.entries.Lcz_PersonsSharingRoom))), h("div", { key: idx, class: "guest-grid" }, h("div", { class: "room-guest__section" }, h("label", { htmlFor: `first_name_${idx}`, class: "guest_label" }, "First name"), h("ir-validator", { class: "flex-grow-1", schema: ZSharedPerson.shape.first_name }, h("ir-input", { "aria-invalid": String(!!this.error['first_name'] && !isRowValid), size: "s", id: `first_name_${idx}`, placeholder: "First name", "onText-change": e => this.updateGuestInfo(idx, { first_name: e.detail }), value: guest.first_name, maxlength: 40 }))), h("div", { class: "room-guest__section" }, h("label", { class: "guest_label" }, "Last name"), h("ir-input", { "aria-invalid": String(!!this.error['last_name'] && !isRowValid), size: "s", id: `last_name_${idx}`, placeholder: "Last name", "onText-change": e => this.updateGuestInfo(idx, { last_name: e.detail }), value: guest.last_name, maxlength: 40 })), h("div", { class: "room-guest__section" }, h("p", { class: "guest_label" }, locales.entries.Lcz_DOB), h("ir-validator", { class: "flex-grow-1", schema: ZSharedPerson.shape.dob }, h("ir-input", { "aria-invalid": String(!!this.error['dob'] && !isRowValid), id: `dob_${idx}`, mask: dateMask, size: "s", placeholder: "", "onText-change": e => {
                     this.updateGuestInfo(idx, { dob: e.detail });
-                }, value: guest.dob }))), h("div", { class: "room-guest__section" }, h("p", { class: "guest_label" }, locales.entries.Lcz_Nationality), h("div", { class: "flex-grow-1" }, h("ir-country-picker", { size: "small", variant: "modern", "aria-invalid": String(!!this.error['country_id'] && !guest.country_id), propertyCountry: this.propertyCountry, id: `{locales.entries.Lcz_Nationality}_${idx}`, error: !!this.error['country_id'] && !guest.country_id, country: this.countries?.find(c => c.id?.toString() === guest.country?.id?.toString()), onCountryChange: e => this.updateGuestInfo(idx, { country_id: e.detail?.id?.toString() ?? null, country: e.detail }), countries: this.countries }))), h("div", { class: "room-guest__section" }, h("p", { class: "guest_label" }, locales.entries.Lcz_Documents), h("div", { class: 'room-guest__info-container flex-grow-1' }, h("wa-select", { class: "room-guest__id-info", defaultValue: guest.id_info?.type?.code ?? this.idTypes[0]?.CODE_NAME, value: guest.id_info?.type?.code, onchange: e => {
+                }, value: guest.dob }))), h("div", { class: "room-guest__section" }, h("p", { class: "guest_label" }, locales.entries.Lcz_Nationality), h("div", { class: "flex-grow-1" }, h("ir-country-picker", { size: "s", variant: "modern", "aria-invalid": String(!!this.error['country_id'] && !guest.country_id), propertyCountry: this.propertyCountry, id: `{locales.entries.Lcz_Nationality}_${idx}`, error: !!this.error['country_id'] && !guest.country_id, country: this.countries?.find(c => c.id?.toString() === guest.country?.id?.toString()), onCountryChange: e => this.updateGuestInfo(idx, { country_id: e.detail?.id?.toString() ?? null, country: e.detail }), countries: this.countries }))), h("div", { class: "room-guest__section" }, h("p", { class: "guest_label" }, locales.entries.Lcz_Documents), h("div", { class: 'room-guest__info-container flex-grow-1' }, h("wa-select", { class: "room-guest__id-info", defaultValue: guest.id_info?.type?.code ?? this.idTypes[0]?.CODE_NAME, value: guest.id_info?.type?.code, onchange: e => {
                     this.updateGuestInfo(idx, {
                         id_info: {
                             ...this.guests[idx].id_info,
@@ -188,10 +188,10 @@ export class IrRoomGuestsForm {
                             },
                         },
                     });
-                }, size: "small" }, this.idTypes?.map(t => {
+                }, size: "s" }, this.idTypes?.map(t => {
                 const label = t[`CODE_VALUE_${this.language.toUpperCase()}`] ?? t[`CODE_VALUE_EN`];
                 return (h("wa-option", { value: t['CODE_NAME'], label: label }, label));
-            })), h("wa-input", { size: "small", "aria-invalid": String(!!this.error['number'] && !isRowValid), class: "room-guest__document", defaultValue: guest?.id_info?.number, value: guest?.id_info?.number, maxlength: 18, placeholder: "12345", onchange: e => this.updateGuestInfo(idx, {
+            })), h("wa-input", { size: "s", "aria-invalid": String(!!this.error['number'] && !isRowValid), class: "room-guest__document", defaultValue: guest?.id_info?.number, value: guest?.id_info?.number, maxlength: 18, placeholder: "12345", onchange: e => this.updateGuestInfo(idx, {
                     id_info: {
                         ...this.guests[idx].id_info,
                         number: e.target.value,
@@ -225,7 +225,7 @@ export class IrRoomGuestsForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The name of the room currently being displayed.\r\nUsed to label the room in the user interface for clarity."
+                    "text": "The name of the room currently being displayed.\nUsed to label the room in the user interface for clarity."
                 },
                 "getter": false,
                 "setter": false,
@@ -244,7 +244,7 @@ export class IrRoomGuestsForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A unique identifier for the room.\r\nThis is used to distinguish between rooms, especially when performing operations like saving or checking in guests."
+                    "text": "A unique identifier for the room.\nThis is used to distinguish between rooms, especially when performing operations like saving or checking in guests."
                 },
                 "getter": false,
                 "setter": false,
@@ -270,7 +270,7 @@ export class IrRoomGuestsForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "An array of people sharing the room.\r\nContains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details."
+                    "text": "An array of people sharing the room.\nContains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details."
                 },
                 "getter": false,
                 "setter": false,
@@ -288,7 +288,7 @@ export class IrRoomGuestsForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The total number of guests for the room.\r\nDetermines how many guest input forms to display in the UI."
+                    "text": "The total number of guests for the room.\nDetermines how many guest input forms to display in the UI."
                 },
                 "getter": false,
                 "setter": false,
@@ -315,7 +315,7 @@ export class IrRoomGuestsForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A list of available countries.\r\nUsed to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests."
+                    "text": "A list of available countries.\nUsed to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests."
                 },
                 "getter": false,
                 "setter": false
@@ -332,7 +332,7 @@ export class IrRoomGuestsForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A boolean indicating whether the room is in the process of being checked in.\r\nIf true, additional actions like saving the room state as \"checked in\" are performed."
+                    "text": "A boolean indicating whether the room is in the process of being checked in.\nIf true, additional actions like saving the room state as \"checked in\" are performed."
                 },
                 "getter": false,
                 "setter": false,
@@ -351,7 +351,7 @@ export class IrRoomGuestsForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The language used for displaying text content in the component.\r\nDefaults to English ('en'), but can be set to other supported languages."
+                    "text": "The language used for displaying text content in the component.\nDefaults to English ('en'), but can be set to other supported languages."
                 },
                 "getter": false,
                 "setter": false,
@@ -371,7 +371,7 @@ export class IrRoomGuestsForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A unique booking number associated with the room.\r\nThis is used for backend operations like saving guest information or checking in the room."
+                    "text": "A unique booking number associated with the room.\nThis is used for backend operations like saving guest information or checking in the room."
                 },
                 "getter": false,
                 "setter": false,

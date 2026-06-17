@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-0Di74WDd.js';
+import { r as registerInstance, h, H as Host } from './index-DF2__fQU.js';
 
 const irSalesByChannelSummaryCss = () => `.sc-ir-sales-by-channel-summary-h{display:block}`;
 
@@ -7,7 +7,7 @@ const IrSalesByChannelSummary = class {
         registerInstance(this, hostRef);
     }
     render() {
-        return (h(Host, { key: '9848c2a0590a692423ff7c0be72548c1bca3eab5' }, h("slot", { key: '711239ff38d7e84686443f5442dd13f1948db995' })));
+        return (h(Host, { key: '619b979c9fb11edf764c3cf50651a360c56e7b07' }, h("slot", { key: 'dbf4b861dba4c58e539675619b57c59097fd8d2a' })));
     }
 };
 IrSalesByChannelSummary.style = irSalesByChannelSummaryCss();

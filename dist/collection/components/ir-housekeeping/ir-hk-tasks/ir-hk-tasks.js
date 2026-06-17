@@ -304,13 +304,13 @@ export class IrHkTasks {
                     ? `Update ${this.modalCauses?.task?.unit?.name} to Clean`
                     : 'Update selected unit(s) to Clean'
                 : 'Skip cleaning and reschedule for tomorrow.'
-            : 'Update selected unit(s) to Clean'), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => {
+            : 'Update selected unit(s) to Clean'), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => {
                 if (this.modalCauses) {
                     clearSelectedTasks();
                     this.modalCauses = null;
                 }
                 this.modal.closeModal();
-            } }, locales.entries.Lcz_Cancel), h("ir-custom-button", { size: "medium", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales.entries.Lcz_Confirm))), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
+            } }, locales.entries.Lcz_Cancel), h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales.entries.Lcz_Confirm))), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isSidebarOpen = false;

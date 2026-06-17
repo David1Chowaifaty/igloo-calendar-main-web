@@ -35,7 +35,7 @@ export class IrAutocomplete {
     /** The default value of the form control. Primarily used for resetting the form control. */
     defaultValue;
     /** The input's size. */
-    size = 'small';
+    size = 's';
     /** The input's visual appearance. */
     appearance;
     /** Draws a pill-style input with rounded edges. */
@@ -389,7 +389,9 @@ export class IrAutocomplete {
         }
     };
     render() {
-        return (h(Host, { key: '5ac1189f65d8c0f7fdd2b0a930797ead7bb63d73' }, h("wa-popup", { key: '19961dc9830ba60487c3e0ceebde8f0219dc7321', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, h("ir-input", { key: '23d0c4e858baff7ca1097603d284278a1b5c9164', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotManager.hasSlot('label') && h("slot", { key: '8dfb5d53c3c2ca4c5b72d709ad7ec79ab840ed32', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '39c3576dc1a18fbb16e03e00843d844015c662cc', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '93c05f5aa98fae698f9cb402195da2fdc222cfd8', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: 'f0020fe0b17bf2301b28596d30173fba59eef67e', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: 'b167ee1c4484d423c7ef6631b777302bbee5e415', name: "hint", slot: "hint" })), h("div", { key: '551f24a23dec16150c5993a534d34f53f97b2791', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, h("slot", { key: '5d2c11e0a2a4bc1ad29273c1a80158d268b1a0f3', onSlotchange: this.handleOptionsSlotChange })))));
+        return (h(Host, { key: '3801b018c4d31cc307cb4fa08b00b02ab2822fc1' }, h("wa-popup", { key: '635ebd70c1f05adc96463eb983bddee077c8b0b2', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, h("ir-input", { key: '6648325d8211a324ba3cd6d44e1da8ae8974ef3d', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize,
+            // autocorrect={this.autocorrect}
+            autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotManager.hasSlot('label') && h("slot", { key: '54fc4d3d345d858f57a9cdc0f6b0e16e64b2422f', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '04111db7cecb1499ab50dbfb05f0e94c9cc92b86', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '4c4b6884e4b167b1d424b107200573f9a65fbd81', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: 'c97cdc6b3ced0500a8b8255ca2dda742e837bbbf', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '2d9915db46272fd506c751bc26fc978ea37b08e2', name: "hint", slot: "hint" })), h("div", { key: 'e5995a48562902e5d28079b648b541f54c172ee1', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, h("slot", { key: '244e438a1d1e24b7372015a57d0d1d5666cdf84e', onSlotchange: this.handleOptionsSlotChange })))));
     }
     static get is() { return "ir-autocomplete"; }
     static get encapsulation() { return "shadow"; }
@@ -531,7 +533,7 @@ export class IrAutocomplete {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults\r\nto `text`."
+                    "text": "The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults\nto `text`."
                 },
                 "getter": false,
                 "setter": false,
@@ -570,7 +572,7 @@ export class IrAutocomplete {
                 "mutable": false,
                 "complexType": {
                     "original": "NativeWaInput['size']",
-                    "resolved": "\"large\" | \"medium\" | \"small\"",
+                    "resolved": "\"l\" | \"large\" | \"m\" | \"medium\" | \"s\" | \"small\" | \"xl\" | \"xs\"",
                     "references": {
                         "NativeWaInput": {
                             "location": "import",
@@ -590,7 +592,7 @@ export class IrAutocomplete {
                 "setter": false,
                 "reflect": true,
                 "attribute": "size",
-                "defaultValue": "'small'"
+                "defaultValue": "'s'"
             },
             "appearance": {
                 "type": "string",
@@ -877,7 +879,7 @@ export class IrAutocomplete {
                 "mutable": false,
                 "complexType": {
                     "original": "NativeWaInput['form']",
-                    "resolved": "null",
+                    "resolved": "HTMLFormElement",
                     "references": {
                         "NativeWaInput": {
                             "location": "import",
@@ -891,7 +893,7 @@ export class IrAutocomplete {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you\r\nto place the form control outside of a form and associate it with the form that has this `id`. The form must be in\r\nthe same document or shadow root for this to work."
+                    "text": "By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you\nto place the form control outside of a form and associate it with the form that has this `id`. The form must be in\nthe same document or shadow root for this to work."
                 },
                 "getter": false,
                 "setter": false
@@ -1071,7 +1073,7 @@ export class IrAutocomplete {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is\r\nimplied, allowing any numeric value. Only applies to date and number input types."
+                    "text": "Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is\nimplied, allowing any numeric value. Only applies to date and number input types."
                 },
                 "getter": false,
                 "setter": false,
@@ -1105,11 +1107,11 @@ export class IrAutocomplete {
                 "attribute": "autocapitalize"
             },
             "autocorrect": {
-                "type": "string",
+                "type": "boolean",
                 "mutable": false,
                 "complexType": {
                     "original": "NativeWaInput['autocorrect']",
-                    "resolved": "\"off\" | \"on\"",
+                    "resolved": "boolean",
                     "references": {
                         "NativeWaInput": {
                             "location": "import",
@@ -1149,7 +1151,7 @@ export class IrAutocomplete {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Specifies what permission the browser has to provide assistance in filling out form field values. Refer to\r\n[this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values."
+                    "text": "Specifies what permission the browser has to provide assistance in filling out form field values. Refer to\n[this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values."
                 },
                 "getter": false,
                 "setter": false,
@@ -1254,7 +1256,7 @@ export class IrAutocomplete {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual\r\nkeyboard on supportive devices."
+                    "text": "Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual\nkeyboard on supportive devices."
                 },
                 "getter": false,
                 "setter": false,
@@ -1370,7 +1372,7 @@ export class IrAutocomplete {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Custom CSS classes applied to the inner `<ir-input>` element.\r\n\r\nYou can also target the exposed parts `::part(input)` and `::part(base)`\r\nfor deeper styling of the native input and container."
+                    "text": "Custom CSS classes applied to the inner `<ir-input>` element.\n\nYou can also target the exposed parts `::part(input)` and `::part(base)`\nfor deeper styling of the native input and container."
                 },
                 "getter": false,
                 "setter": false,

@@ -47,7 +47,7 @@ export class IrDateRangeFilter {
     /** Controlled end date in YYYY-MM-DD format. */
     toDate;
     /** Size variant passed through to inner form controls. Reflected for CSS hooks (`ir-date-range-filter[size='...']`). */
-    size = 'small';
+    size = 's';
     /** Whether to show the quick-action preset buttons in each calendar popup. */
     showQuickActions = true;
     /** Earliest selectable date in YYYY-MM-DD format. Applied to both calendars. */
@@ -176,13 +176,13 @@ export class IrDateRangeFilter {
         const toLabel = this.dates.to?.format('YYYY-MM-DD') ?? null;
         // const fromMaxDate = this.getFromMaxDate(toLabel);
         const toMinDate = this.getToMinDate(fromLabel);
-        return (h(Host, { key: '09072132c9e8c08b7ba1e5c4b64e233f48a46e1d' }, this.label && (h("label", { key: 'd03cd2b61ee75574e4a4c2c73bbeaf6a141e0ac5', id: `${this.groupId}-label`, class: "drf-label", part: "label", htmlFor: `${this.groupId}-from-btn` }, this.label)), h("div", { key: '09341c411c617d7504e32b200928ae44a2869de6', part: "container", class: "drf-container", role: "group", "aria-labelledby": `${this.groupId}-label` }, !this.label && (h("span", { key: '66168c567ff16e1ae5f44ac85f2a4c49c9405442', id: `${this.groupId}-label`, class: "sr-only" }, "Date range selector")), h("div", { key: '011750c1f2cd60b142541a11937f927ce0acdab5', part: "field field-from", class: "drf-field" }, h("button", { key: '03088498a94993f6f55a846c85f1860bbebe6be1', id: `${this.groupId}-from-btn`, type: "button", part: "text-btn", class: `drf-text-btn${!fromLabel ? ' drf-text-btn--placeholder' : ''}`, onClick: () => this.fromDateSelectRef?.show(), "aria-haspopup": "dialog", "aria-label": fromLabel ? `Start date: ${fromLabel}` : 'Select start date' }, fromLabel ?? 'From'), fromLabel && this.withClear && (h("button", { key: 'cad635dc59364276fa40c76d2b3d9a56fd70fd7c', type: "button", part: "clear-btn", class: "drf-clear-btn", onClick: () => this.clearDate('from'), "aria-label": "Clear start date" }, h("wa-icon", { key: 'd78f493cd09fd580307abdda03a93abdd68afd2f', name: "xmark" }))), h("ir-date-select", { key: '30c8186926b8dbab62e6a995face5948a09ef05e', ref: el => (this.fromDateSelectRef = el), exportparts: EXPORT_PARTS.from, date: this.dates.from?.format('YYYY-MM-DD') || null, placeholder: "From", minDate: this.minDate, maxDate: this.maxDate, emitEmptyDate: true, class: "drf-date-select", onDateChanged: evt => this.selectDate(evt.detail.start, 'from') }, h("button", { key: '37a254fa7374d1500a363ad440d6cb607f5cd67c', slot: "trigger", type: "button", part: "cal-trigger", class: "drf-cal-trigger", "aria-label": "Open start date calendar" }, h("wa-icon", { key: '9037e6e07bea716cb7f54b3f5eaf4ddcb614e903', name: "calendar", variant: "regular" })), this.showQuickActions && (h("div", { key: 'dd1c25674750f46a77c8aaa2c617b80de31f3c04', part: "quick-actions", class: "drf-quick-actions", role: "group", "aria-label": "Quick start date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", disabled: this.dates?.to?.isSameOrBefore(action.getDate(), 'date'), "aria-label": `Set start date to ${action.label}`, onClickHandler: () => {
+        return (h(Host, { key: '70e48351e1845c66cc24f9588b4852af898b6bac' }, this.label && (h("label", { key: '1399293b59afcd32d9aabaf6b5ed8171601b3fc8', id: `${this.groupId}-label`, class: "drf-label", part: "label", htmlFor: `${this.groupId}-from-btn` }, this.label)), h("div", { key: 'fb38ac48e782364fd577a3bd95359e8a48f5d88b', part: "container", class: "drf-container", role: "group", "aria-labelledby": `${this.groupId}-label` }, !this.label && (h("span", { key: 'f8cf55f0f3d6ac88cb3a3276332939984bdf4976', id: `${this.groupId}-label`, class: "sr-only" }, "Date range selector")), h("div", { key: 'd7178c25ee22f9a2088e7e0d5072312555e63e99', part: "field field-from", class: "drf-field" }, h("button", { key: 'd15a5c26b2c4af6913a2f2df6bd181c83c11e89a', id: `${this.groupId}-from-btn`, type: "button", part: "text-btn", class: `drf-text-btn${!fromLabel ? ' drf-text-btn--placeholder' : ''}`, onClick: () => this.fromDateSelectRef?.show(), "aria-haspopup": "dialog", "aria-label": fromLabel ? `Start date: ${fromLabel}` : 'Select start date' }, fromLabel ?? 'From'), fromLabel && this.withClear && (h("button", { key: 'dd8268fd15e712b4a0ffa4fe69a80949358546fb', type: "button", part: "clear-btn", class: "drf-clear-btn", onClick: () => this.clearDate('from'), "aria-label": "Clear start date" }, h("wa-icon", { key: 'adf2929a7518140b9ac69e3c2cce2d0506345822', name: "xmark" }))), h("ir-date-select", { key: 'b90974f7badc6d54ff495cfe1ad2574f7017e9ac', ref: el => (this.fromDateSelectRef = el), exportparts: EXPORT_PARTS.from, date: this.dates.from?.format('YYYY-MM-DD') || null, placeholder: "From", minDate: this.minDate, maxDate: this.maxDate, emitEmptyDate: true, class: "drf-date-select", onDateChanged: evt => this.selectDate(evt.detail.start, 'from') }, h("button", { key: '061026c531ce804256cf66fad5ac6ec058f14520', slot: "trigger", type: "button", part: "cal-trigger", class: "drf-cal-trigger", "aria-label": "Open start date calendar" }, h("wa-icon", { key: 'a19a1f5dfd35ba77896184e32d374304a0f17183', name: "calendar", variant: "regular" })), this.showQuickActions && (h("div", { key: '533b52a97e427541d93f70c18e5d4056d63eb8ad', part: "quick-actions", class: "drf-quick-actions", role: "group", "aria-label": "Quick start date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", disabled: this.dates?.to?.isSameOrBefore(action.getDate(), 'date'), "aria-label": `Set start date to ${action.label}`, onClickHandler: () => {
                 this.selectDate(action.getDate(), 'from');
                 this.fromDateSelectRef?.hide();
-            } }, action.label))))))), h("span", { key: '31a7a6e7a820d039baa6ecd55923245162ddd35f', part: "divider", class: "drf-divider", "aria-hidden": "true" }), h("div", { key: '2d670b0cb8467b81a456157b391e0c2bdf001ff4', part: "field field-to", class: "drf-field" }, h("button", { key: '152a2297ee916eb37f3cb218c0a524fcb9f6f10a', type: "button", part: "text-btn", class: `drf-text-btn${!toLabel ? ' drf-text-btn--placeholder' : ''}`, onClick: () => this.toDateSelectRef?.show(), "aria-haspopup": "dialog", "aria-label": toLabel ? `End date: ${toLabel}` : 'Select end date' }, toLabel ?? 'To'), toLabel && this.withClear && (h("button", { key: '2ccadc8c4085dd42809780b528f69829f8bc00da', type: "button", part: "clear-btn", class: "drf-clear-btn", onClick: () => this.clearDate('to'), "aria-label": "Clear end date" }, h("wa-icon", { key: '234a7a9c607fbfdf181ed329dac07d55491113c4', name: "xmark" }))), h("ir-date-select", { key: '794b8f8737b479e90cf9b41f3054a4f4029605d0', ref: el => (this.toDateSelectRef = el), exportparts: EXPORT_PARTS.to, date: this.dates.to?.format('YYYY-MM-DD') || null, placeholder: "To", minDate: toMinDate, maxDate: this.maxDate, emitEmptyDate: true, class: "drf-date-select", onDateChanged: evt => this.selectDate(evt.detail.start, 'to') }, h("button", { key: '5b687d9b70e13f15c05a7b4b82530cb80ab2374d', slot: "trigger", type: "button", part: "cal-trigger", class: "drf-cal-trigger", "aria-label": "Open end date calendar" }, h("wa-icon", { key: 'c0e7b87f0981eecf5bccc4e75675f6dd79bc2eb3', name: "calendar", variant: "regular" })), this.showQuickActions && (h("div", { key: '03ba43345ca793c27ba0bf05e748663ee4f478d6', part: "quick-actions", class: "drf-quick-actions", role: "group", "aria-label": "Quick end date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", "aria-label": `Set end date to ${action.label}`, disabled: this.dates?.from?.isSameOrAfter(action.getDate(), 'date'), onClickHandler: () => {
+            } }, action.label))))))), h("span", { key: '93e531c2e6789939c497c83d4c9f2c31d32639cf', part: "divider", class: "drf-divider", "aria-hidden": "true" }), h("div", { key: 'e498ac6b090ad0b4fda6e2c7e86538d631318b85', part: "field field-to", class: "drf-field" }, h("button", { key: '534e5aa19813e414f0e3e167c77eac400240691c', type: "button", part: "text-btn", class: `drf-text-btn${!toLabel ? ' drf-text-btn--placeholder' : ''}`, onClick: () => this.toDateSelectRef?.show(), "aria-haspopup": "dialog", "aria-label": toLabel ? `End date: ${toLabel}` : 'Select end date' }, toLabel ?? 'To'), toLabel && this.withClear && (h("button", { key: '0d9316c93a5024711f4067c1ecdb3f3c5bfeb4b3', type: "button", part: "clear-btn", class: "drf-clear-btn", onClick: () => this.clearDate('to'), "aria-label": "Clear end date" }, h("wa-icon", { key: 'b30323ba81a237c7a198c5bc26a987952b4dba60', name: "xmark" }))), h("ir-date-select", { key: 'c0468d5db9941d0701e2612cde090fa18143e1b5', ref: el => (this.toDateSelectRef = el), exportparts: EXPORT_PARTS.to, date: this.dates.to?.format('YYYY-MM-DD') || null, placeholder: "To", minDate: toMinDate, maxDate: this.maxDate, emitEmptyDate: true, class: "drf-date-select", onDateChanged: evt => this.selectDate(evt.detail.start, 'to') }, h("button", { key: '5933f463f7d50dea089d6eaef6a7182780959945', slot: "trigger", type: "button", part: "cal-trigger", class: "drf-cal-trigger", "aria-label": "Open end date calendar" }, h("wa-icon", { key: 'b56ed1c0fdf7d3bbe40fdec2d5a12fc307127e34', name: "calendar", variant: "regular" })), this.showQuickActions && (h("div", { key: 'a7a49c0264dfed15ed0254e5088ed7531f345205', part: "quick-actions", class: "drf-quick-actions", role: "group", "aria-label": "Quick end date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", "aria-label": `Set end date to ${action.label}`, disabled: this.dates?.from?.isSameOrAfter(action.getDate(), 'date'), onClickHandler: () => {
                 this.selectDate(action.getDate(), 'to');
                 this.toDateSelectRef?.hide();
-            } }, action.label))))))), h("span", { key: 'd60bbf78d0fc621cae69e601019c5114c1d75af6', "aria-live": "polite", "aria-atomic": "true", class: "sr-only" }, this.liveMessage))));
+            } }, action.label))))))), h("span", { key: '1fde85b4fb21e9a7e9cb95a8cd95066cd01e3cae', "aria-live": "polite", "aria-atomic": "true", class: "sr-only" }, this.liveMessage))));
     }
     static get is() { return "ir-date-range-filter"; }
     static get encapsulation() { return "shadow"; }
@@ -207,7 +207,7 @@ export class IrDateRangeFilter {
                     "references": {
                         "QuickDatePreset": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-date-range-filter/ir-date-range-filter.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-date-range-filter/ir-date-range-filter.tsx",
                             "id": "src/components/ui/ir-date-range-filter/ir-date-range-filter.tsx::QuickDatePreset"
                         }
                     }
@@ -220,7 +220,7 @@ export class IrDateRangeFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "defaultValue": "[\r\n    { label: 'Today', getDate: () => moment() },\r\n    { label: '30 Days Ago', getDate: () => moment().subtract(30, 'days') },\r\n    { label: '60 Days Ago', getDate: () => moment().subtract(60, 'days') },\r\n    { label: '90 Days Ago', getDate: () => moment().subtract(90, 'days') },\r\n    { label: '1 Year Ago', getDate: () => moment().subtract(1, 'year') },\r\n  ]"
+                "defaultValue": "[\n    { label: 'Today', getDate: () => moment() },\n    { label: '30 Days Ago', getDate: () => moment().subtract(30, 'days') },\n    { label: '60 Days Ago', getDate: () => moment().subtract(60, 'days') },\n    { label: '90 Days Ago', getDate: () => moment().subtract(90, 'days') },\n    { label: '1 Year Ago', getDate: () => moment().subtract(1, 'year') },\n  ]"
             },
             "fromDate": {
                 "type": "string",
@@ -278,7 +278,7 @@ export class IrDateRangeFilter {
                 "setter": false,
                 "reflect": true,
                 "attribute": "size",
-                "defaultValue": "'small'"
+                "defaultValue": "'s'"
             },
             "showQuickActions": {
                 "type": "boolean",
@@ -350,7 +350,7 @@ export class IrDateRangeFilter {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Flow after picking a from-date:\r\n- `'auto'`: the to-picker opens automatically so the user completes the range in one pass.\r\n- `'manual'` (default): nothing opens; the user clicks the to-field themselves."
+                    "text": "Flow after picking a from-date:\n- `'auto'`: the to-picker opens automatically so the user completes the range in one pass.\n- `'manual'` (default): nothing opens; the user clicks the to-field themselves."
                 },
                 "getter": false,
                 "setter": false,
@@ -390,7 +390,7 @@ export class IrDateRangeFilter {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Visible label rendered above the control. It names the group for assistive\r\ntechnology (replacing the default visually-hidden \"Date range selector\") and,\r\nlike a native form label, clicking it opens the from-date picker."
+                    "text": "Visible label rendered above the control. It names the group for assistive\ntechnology (replacing the default visually-hidden \"Date range selector\") and,\nlike a native form label, clicking it opens the from-date picker."
                 },
                 "getter": false,
                 "setter": false,

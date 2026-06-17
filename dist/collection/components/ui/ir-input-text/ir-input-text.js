@@ -357,7 +357,7 @@ export class IrInputText {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "| 'text'\r\n    | 'password'\r\n    | 'email'\r\n    | 'number'\r\n    | 'tel'\r\n    | 'url'\r\n    | 'search'\r\n    | 'date'\r\n    | 'datetime-local'\r\n    | 'month'\r\n    | 'week'\r\n    | 'time'\r\n    | 'color'\r\n    | 'file'\r\n    | 'hidden'\r\n    | 'checkbox'\r\n    | 'radio'\r\n    | 'range'\r\n    | 'button'\r\n    | 'reset'\r\n    | 'submit'\r\n    | 'image'",
+                    "original": "| 'text'\n    | 'password'\n    | 'email'\n    | 'number'\n    | 'tel'\n    | 'url'\n    | 'search'\n    | 'date'\n    | 'datetime-local'\n    | 'month'\n    | 'week'\n    | 'time'\n    | 'color'\n    | 'file'\n    | 'hidden'\n    | 'checkbox'\n    | 'radio'\n    | 'range'\n    | 'button'\n    | 'reset'\n    | 'submit'\n    | 'image'",
                     "resolved": "\"button\" | \"checkbox\" | \"color\" | \"date\" | \"datetime-local\" | \"email\" | \"file\" | \"hidden\" | \"image\" | \"month\" | \"number\" | \"password\" | \"radio\" | \"range\" | \"reset\" | \"search\" | \"submit\" | \"tel\" | \"text\" | \"time\" | \"url\" | \"week\"",
                     "references": {}
                 },
@@ -842,7 +842,7 @@ export class IrInputText {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Extra class names applied to the label container (<div class=\"input-group-prepend\">)\r\nthat wraps the <label>. Use this to control label width, alignment,\r\nspacing, or visibility at different breakpoints.\r\nExample: \"min-w-120 text-nowrap pe-2\""
+                    "text": "Extra class names applied to the label container (<div class=\"input-group-prepend\">)\nthat wraps the <label>. Use this to control label width, alignment,\nspacing, or visibility at different breakpoints.\nExample: \"min-w-120 text-nowrap pe-2\""
                 },
                 "getter": false,
                 "setter": false,

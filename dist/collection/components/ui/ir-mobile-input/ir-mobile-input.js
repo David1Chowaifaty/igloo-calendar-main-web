@@ -9,7 +9,7 @@ export class IrMobileInput {
     errorId = `${this.inputId}-error`;
     countryStatusId = `${this.inputId}-country-status`;
     /** The input's size. */
-    size = 'small';
+    size = 's';
     /** Visible label for the phone input */
     label = 'Phone number';
     /** Name attribute passed to the native input */
@@ -116,17 +116,17 @@ export class IrMobileInput {
     // };
     render() {
         const describedByIds = [this.description ? this.descriptionId : null, this.error ? this.errorId : null].filter(Boolean).join(' ') || undefined;
-        return (h(Host, { key: '805afdb895067c6c472af9d30174e6eff1f5fc8e', size: 'small', role: "group", "aria-labelledby": this.labelId, "aria-describedby": describedByIds }, h("label", { key: 'e2cac45d13c4a7ce1aff5c81c2b5d2f566255492', class: "mobile-input__label", id: this.labelId, htmlFor: this.inputId }, this.label, this.required ? (h("span", { class: "mobile-input__required", "aria-hidden": "true" }, "*")) : null), this.description ? (h("p", { id: this.descriptionId, class: "mobile-input__description" }, this.description)) : null, h("div", { key: '0db9236d9ae8adafb8b9f2435f2b1e9faa91218c', class: { 'mobile-input__container': true, 'mobile-input__container--disabled': this.disabled } }, h("wa-dropdown", { key: '4d997613d96f05078316e83e222ae84ad0590857', "onwa-show": e => {
+        return (h(Host, { key: 'e3be737eabd0befee05d43c0b38189300520f2a3', size: 's', role: "group", "aria-labelledby": this.labelId, "aria-describedby": describedByIds }, h("label", { key: '7485b53bf0e57e0ecb9b72a43a8187f0a7c500d6', class: "mobile-input__label", id: this.labelId, htmlFor: this.inputId }, this.label, this.required ? (h("span", { class: "mobile-input__required", "aria-hidden": "true" }, "*")) : null), this.description ? (h("p", { id: this.descriptionId, class: "mobile-input__description" }, this.description)) : null, h("div", { key: 'd9fb04a8a6b74caee7de8a40ba43d71413937809', class: { 'mobile-input__container': true, 'mobile-input__container--disabled': this.disabled } }, h("wa-dropdown", { key: '8191434ffc62396a17a4890444fb38b49522b9a0', "onwa-show": e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
             }, "onwa-hide": e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
-            }, "onwa-select": this.handleCountrySelect, class: "mobile-input__prefix-dropdown" }, h("button", { key: '461fb1de90ed14decdfe354599a591e41be06b19', "aria-invalid": String(this.isInvalid && !this.selectedCountry), slot: "trigger", type: "button", class: "mobile-input__trigger", disabled: this.disabled, "aria-haspopup": "listbox", "aria-label": "Change country calling code" }, h("div", { key: 'e0faec6b9890a6899bbe509f9fb7de11d704c4f1', class: "mobile-input__phone-country", style: { marginRight: '1rem' } }, this.selectedCountry ? h("img", { src: this.selectedCountry?.flag, alt: this.selectedCountry?.name, class: "mobile-input__logo" }) : h("span", null, "Select")), h("wa-icon", { key: '493c82dc9c19a9bfdbfb808c09924cd114493488', class: "mobile-input__phone-country-caret", name: "chevron-down", "aria-hidden": "true" })), h("span", { key: 'b2537171582a466d8e5ca663ac1e918a1c9dc695', class: "sr-only", id: this.countryStatusId, "aria-live": "polite" }, this.selectedCountry ? `Selected country ${this.selectedCountry.name} ${this.selectedCountry.phone_prefix}` : 'Select a country'), this.countries.map(country => (h("wa-dropdown-item", { value: country.id.toString() }, h("div", { class: "mobile-input__phone-country", role: "option", "aria-selected": this.selectedCountry?.id === country.id ? 'true' : 'false' }, h("img", { src: country.flag, alt: country.name, class: "mobile-input__logo" }), h("span", { class: "mobile-input__country-name" }, country.name), h("span", { class: "mobile-input__country-prefix" }, country.phone_prefix)))))), h("ir-input", { key: 'd027c7e4c84653f46c93bfa4c5822ddeb854b2e0', "aria-invalid": String(this.isInvalid && (this.value ?? '').length < 4), type: "tel", inputMode: "tel", autocomplete: "off", disabled: this.disabled, placeholder: this.placeholder, defaultValue: this.value, value: this.value, class: "phone__input", "onText-change": e => {
+            }, "onwa-select": this.handleCountrySelect, class: "mobile-input__prefix-dropdown" }, h("button", { key: '7d234f561624baf51cb940097292f167d878b400', "aria-invalid": String(this.isInvalid && !this.selectedCountry), slot: "trigger", type: "button", class: "mobile-input__trigger", disabled: this.disabled, "aria-haspopup": "listbox", "aria-label": "Change country calling code" }, h("div", { key: 'b15e5f06e43cb50b1e21c1e006b741f413095751', class: "mobile-input__phone-country", style: { marginRight: '1rem' } }, this.selectedCountry ? h("img", { src: this.selectedCountry?.flag, alt: this.selectedCountry?.name, class: "mobile-input__logo" }) : h("span", null, "Select")), h("wa-icon", { key: '614a5771eb1b5116dd4840e5aeff635abef2f7cf', class: "mobile-input__phone-country-caret", name: "chevron-down", "aria-hidden": "true" })), h("span", { key: 'e55d0f10e4822de7f67201295c57b97a316a60c0', class: "sr-only", id: this.countryStatusId, "aria-live": "polite" }, this.selectedCountry ? `Selected country ${this.selectedCountry.name} ${this.selectedCountry.phone_prefix}` : 'Select a country'), this.countries.map(country => (h("wa-dropdown-item", { value: country.id.toString() }, h("div", { class: "mobile-input__phone-country", role: "option", "aria-selected": this.selectedCountry?.id === country.id ? 'true' : 'false' }, h("img", { src: country.flag, alt: country.name, class: "mobile-input__logo" }), h("span", { class: "mobile-input__country-name" }, country.name), h("span", { class: "mobile-input__country-prefix" }, country.phone_prefix)))))), h("ir-input", { key: '8b9f49dd3e01e94a144383fb323632c2a6cb17a7', "aria-invalid": String(this.isInvalid && (this.value ?? '').length < 4), type: "tel", inputMode: "tel", autocomplete: "off", disabled: this.disabled, placeholder: this.placeholder, defaultValue: this.value, value: this.value, class: "phone__input", "onText-change": e => {
                 const value = e.detail;
                 this.value = value;
                 this.mobileInputChange.emit({ formattedValue: value, value, country: this.selectedCountry });
-            } }, this.selectedCountry && h("span", { key: 'a95012837e0e3149c44152f0cb074c13d924d5ad', slot: "start" }, this.selectedCountry?.phone_prefix))), this.error ? (h("p", { id: this.errorId, class: "mobile-input__error", role: "alert" }, this.error)) : null));
+            } }, this.selectedCountry && h("span", { key: '4ae65a6a1386533292c4ac1c23cc31ec95a533c9', slot: "start" }, this.selectedCountry?.phone_prefix))), this.error ? (h("p", { id: this.errorId, class: "mobile-input__error", role: "alert" }, this.error)) : null));
     }
     static get is() { return "ir-mobile-input"; }
     static get encapsulation() { return "shadow"; }
@@ -147,7 +147,7 @@ export class IrMobileInput {
                 "mutable": false,
                 "complexType": {
                     "original": "NativeWaInput['size']",
-                    "resolved": "\"large\" | \"medium\" | \"small\"",
+                    "resolved": "\"l\" | \"large\" | \"m\" | \"medium\" | \"s\" | \"small\" | \"xl\" | \"xs\"",
                     "references": {
                         "NativeWaInput": {
                             "location": "import",
@@ -167,7 +167,7 @@ export class IrMobileInput {
                 "setter": false,
                 "reflect": true,
                 "attribute": "size",
-                "defaultValue": "'small'"
+                "defaultValue": "'s'"
             },
             "label": {
                 "type": "string",
@@ -365,7 +365,7 @@ export class IrMobileInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Country list, used to populate prefix and dropdown.\r\nIf not provided, fetched from the booking service."
+                    "text": "Country list, used to populate prefix and dropdown.\nIf not provided, fetched from the booking service."
                 },
                 "getter": false,
                 "setter": false,
@@ -396,7 +396,7 @@ export class IrMobileInput {
                     "references": {
                         "IrMobileInputChangeDetail": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-mobile-input/ir-mobile-input.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-mobile-input/ir-mobile-input.tsx",
                             "id": "src/components/ui/ir-mobile-input/ir-mobile-input.tsx::IrMobileInputChangeDetail"
                         }
                     }

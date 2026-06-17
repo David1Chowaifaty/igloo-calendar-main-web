@@ -438,7 +438,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Pre-selected dates for multi-select/range mode. Takes precedence over `date`\r\nat initialization, and is re-applied through the `dates` watcher on change."
+                    "text": "Pre-selected dates for multi-select/range mode. Takes precedence over `date`\nat initialization, and is re-applied through the `dates` watcher on change."
                 },
                 "getter": false,
                 "setter": false
@@ -455,7 +455,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Not wired to the picker: the calendar is always created with `inline: true`\r\n(visibility is controlled by the parent `ir-date-select` popup)."
+                    "text": "Not wired to the picker: the calendar is always created with `inline: true`\n(visibility is controlled by the parent `ir-date-select` popup)."
                 },
                 "getter": false,
                 "setter": false,
@@ -482,7 +482,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The selected date (single-select mode). Mutable: the component writes the latest\r\nselection back into it from `onSelect`, and the parent can set it to move the\r\ncalendar selection programmatically (applied silently, no `dateChanged` emitted)."
+                    "text": "The selected date (single-select mode). Mutable: the component writes the latest\nselection back into it from `onSelect`, and the parent can set it to move the\ncalendar selection programmatically (applied silently, no `dateChanged` emitted)."
                 },
                 "getter": false,
                 "setter": false,
@@ -756,7 +756,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "If `true`, a `date` prop change destroys and rebuilds the AirDatepicker instance\r\ninstead of calling `selectDate`. Use only when the picker must fully re-initialize;\r\nrebuilding on every change is expensive."
+                    "text": "If `true`, a `date` prop change destroys and rebuilds the AirDatepicker instance\ninstead of calling `selectDate`. Use only when the picker must fully re-initialize;\nrebuilding on every change is expensive."
                 },
                 "getter": false,
                 "setter": false,
@@ -776,7 +776,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "If `true`, emits `dateChanged` with null values when the selection is cleared.\r\nOtherwise clear-events are swallowed."
+                    "text": "If `true`, emits `dateChanged` with null values when the selection is cleared.\nOtherwise clear-events are swallowed."
                 },
                 "getter": false,
                 "setter": false,
@@ -815,10 +815,10 @@ export class IrAirDatePicker {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the user picks a date in the calendar (never for silent, prop-driven updates).\r\n`start`/`end` are equal in single-select mode; `dates` holds every selected date as `YYYY-MM-DD`."
+                    "text": "Emitted when the user picks a date in the calendar (never for silent, prop-driven updates).\n`start`/`end` are equal in single-select mode; `dates` holds every selected date as `YYYY-MM-DD`."
                 },
                 "complexType": {
-                    "original": "{\r\n    start: Moment | null;\r\n    end: Moment | null;\r\n    dates: string | string[];\r\n  }",
+                    "original": "{\n    start: Moment | null;\n    end: Moment | null;\n    dates: string | string[];\n  }",
                     "resolved": "{ start: Moment; end: Moment; dates: string | string[]; }",
                     "references": {
                         "Moment": {
@@ -903,7 +903,7 @@ export class IrAirDatePicker {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "Force-resyncs the calendar to the given (or current) value, bypassing the equality\r\nchecks the watchers perform. Escape hatch for parents whose prop value didn't change\r\nbut whose picker drifted (e.g. after a silent internal clear). Always silent.",
+                    "text": "Force-resyncs the calendar to the given (or current) value, bypassing the equality\nchecks the watchers perform. Escape hatch for parents whose prop value didn't change\nbut whose picker drifted (e.g. after a silent internal clear). Always silent.",
                     "tags": []
                 }
             }

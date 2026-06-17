@@ -165,7 +165,7 @@ export class IrPagination {
         return (h("div", { class: {
                 'pagination-container': true,
                 'pagination-container--disabled': this.disabled,
-            }, role: "navigation", "aria-label": "Pagination Navigation" }, this.showTotalRecords && (h("p", { class: "pagination-info", "aria-live": "polite" }, this.renderItemRange())), h("div", { class: "buttons-container" }, this.allowPageSizeChange && this.pageSizes && (h("wa-select", { value: String(this.pageSize), class: "pagination__current-page-select", onchange: e => this.handlePageSizeChange(+e.target.value), "aria-label": `Current page ${this.currentPage} of ${this.pages}`, disabled: this.disabled, size: "small", defaultValue: String(this.pageSize) }, this.pageSizes.map(size => (h("wa-option", { value: size.toString(), key: `page-size-${this.recordLabel}-${size}` }, size))))), this.pages > 1 && (h(Fragment, null, h("ir-custom-button", { onClickHandler: () => this.handlePageChange(this.currentPage - 1, 'previous'), variant: "neutral", appearance: "plain", disabled: isFirstPage || this.disabled, "aria-label": "Go to previous page" }, h("wa-icon", { name: "angle-left", label: "Go to previous page" })), h("wa-select", { value: this.currentPage?.toString(), class: "pagination__current-page-select", onchange: e => this.handlePageChange(+e.target.value, 'direct'), "aria-label": `Current page ${this.currentPage} of ${this.pages}`, disabled: this.disabled, size: "small", defaultValue: this.currentPage ? this.currentPage?.toString() : '1' }, Array.from(Array(this.pages), (_, i) => i + 1).map(i => (h("wa-option", { value: i.toString(), key: `${this.recordLabel}-${i}` }, i)))), h("ir-custom-button", { "aria-label": "Go to next page", onClickHandler: () => this.handlePageChange(this.currentPage + 1, 'next'), disabled: isLastPage || this.disabled, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "angle-right", label: "Go to next page" })))))));
+            }, role: "navigation", "aria-label": "Pagination Navigation" }, this.showTotalRecords && (h("p", { class: "pagination-info", "aria-live": "polite" }, this.renderItemRange())), h("div", { class: "buttons-container" }, this.allowPageSizeChange && this.pageSizes && (h("wa-select", { value: String(this.pageSize), class: "pagination__current-page-select", onchange: e => this.handlePageSizeChange(+e.target.value), "aria-label": `Current page ${this.currentPage} of ${this.pages}`, disabled: this.disabled, size: "s", defaultValue: String(this.pageSize) }, this.pageSizes.map(size => (h("wa-option", { value: size.toString(), key: `page-size-${this.recordLabel}-${size}` }, size))))), this.pages > 1 && (h(Fragment, null, h("ir-custom-button", { onClickHandler: () => this.handlePageChange(this.currentPage - 1, 'previous'), variant: "neutral", appearance: "plain", disabled: isFirstPage || this.disabled, "aria-label": "Go to previous page" }, h("wa-icon", { name: "angle-left", label: "Go to previous page" })), h("wa-select", { value: this.currentPage?.toString(), class: "pagination__current-page-select", onchange: e => this.handlePageChange(+e.target.value, 'direct'), "aria-label": `Current page ${this.currentPage} of ${this.pages}`, disabled: this.disabled, size: "s", defaultValue: this.currentPage ? this.currentPage?.toString() : '1' }, Array.from(Array(this.pages), (_, i) => i + 1).map(i => (h("wa-option", { value: i.toString(), key: `${this.recordLabel}-${i}` }, i)))), h("ir-custom-button", { "aria-label": "Go to next page", onClickHandler: () => this.handlePageChange(this.currentPage + 1, 'next'), disabled: isLastPage || this.disabled, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "angle-right", label: "Go to next page" })))))));
     }
     static get is() { return "ir-pagination"; }
     static get encapsulation() { return "scoped"; }
@@ -233,7 +233,7 @@ export class IrPagination {
                             "name": "default",
                             "text": "false"
                         }],
-                    "text": "Enables a dropdown for changing the number of items displayed per page.\r\n\r\nWhen set to `true`, users can select a page size from the `pageSizes` array.\r\n\r\n**Note:** This prop requires the `pageSizes` prop to be defined with one or more numeric values.\r\nIf `pageSizes` is empty or undefined, the page size selector will not be displayed."
+                    "text": "Enables a dropdown for changing the number of items displayed per page.\n\nWhen set to `true`, users can select a page size from the `pageSizes` array.\n\n**Note:** This prop requires the `pageSizes` prop to be defined with one or more numeric values.\nIf `pageSizes` is empty or undefined, the page size selector will not be displayed."
                 },
                 "getter": false,
                 "setter": false,
@@ -289,7 +289,7 @@ export class IrPagination {
                     "references": {
                         "PaginationRange": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationRange"
                         }
                     }
@@ -403,7 +403,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -424,7 +424,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -445,7 +445,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -466,7 +466,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -487,7 +487,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -508,7 +508,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }

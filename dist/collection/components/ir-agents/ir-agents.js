@@ -143,7 +143,7 @@ export class IrAgents {
         }
         return (h(Host, { "data-testid": "ir-agents" }, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("div", { class: "page-header__container" }, h("h3", { class: "page-title" }, "Agents/Companies")), h("ir-agents-table", { countries: this.countries, setupEntries: this.setupEntries, onToggleAgentActive: event => this.handleToggleAgentStatus(event.detail), agents: this.agents, onUpsertAgent: event => this.handleUpsertAgent(event.detail), onDeleteAgent: event => this.handleDeleteAgent(event.detail) })), h("ir-agent-editor-drawer", { setupEntries: this.setupEntries, countries: this.countries, open: this.isDrawerOpen, agent: this.selectedAgent ?? undefined, onAgentEditorClose: () => this.handleDrawerClose() }), h("ir-dialog", { label: "Delete Agent", open: this.isDeleteDialogOpen, lightDismiss: false, onIrDialogHide: () => this.handleDeleteDialogClose() }, h("span", null, this.selectedAgent
             ? `Are you sure you want to delete ${this.selectedAgent.name}? This action permanently removes the agent and cannot be undone.`
-            : 'Are you sure you want to delete this agent? This action permanently removes the agent and cannot be undone.'), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { size: "medium", appearance: "accent", variant: "danger", onClickHandler: () => this.confirmDeleteAgent() }, "Delete")))));
+            : 'Are you sure you want to delete this agent? This action permanently removes the agent and cannot be undone.'), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { size: "m", appearance: "accent", variant: "danger", onClickHandler: () => this.confirmDeleteAgent() }, "Delete")))));
     }
     static get is() { return "ir-agents"; }
     static get encapsulation() { return "scoped"; }
@@ -171,7 +171,7 @@ export class IrAgents {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Authentication token issued by the PMS backend.\r\nRequired for initializing the component and making API calls."
+                    "text": "Authentication token issued by the PMS backend.\nRequired for initializing the component and making API calls."
                 },
                 "getter": false,
                 "setter": false,
@@ -190,7 +190,7 @@ export class IrAgents {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "ID of the property (hotel) for which arrivals should be displayed.\r\nUsed in API calls related to rooms, bookings, and check-ins."
+                    "text": "ID of the property (hotel) for which arrivals should be displayed.\nUsed in API calls related to rooms, bookings, and check-ins."
                 },
                 "getter": false,
                 "setter": false,
@@ -209,7 +209,7 @@ export class IrAgents {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Two-letter language code (ISO) used for translations and API locale.\r\nDefaults to `'en'`."
+                    "text": "Two-letter language code (ISO) used for translations and API locale.\nDefaults to `'en'`."
                 },
                 "getter": false,
                 "setter": false,
@@ -229,7 +229,7 @@ export class IrAgents {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Property alias or short identifier used by backend endpoints (aname).\r\nPassed to `getExposedProperty` when initializing the component."
+                    "text": "Property alias or short identifier used by backend endpoints (aname).\nPassed to `getExposedProperty` when initializing the component."
                 },
                 "getter": false,
                 "setter": false,

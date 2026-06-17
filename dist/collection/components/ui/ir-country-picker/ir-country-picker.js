@@ -170,7 +170,7 @@ export class IrCountryPicker {
                 "mutable": false,
                 "complexType": {
                     "original": "NativeWaInput['size']",
-                    "resolved": "\"large\" | \"medium\" | \"small\"",
+                    "resolved": "\"l\" | \"large\" | \"m\" | \"medium\" | \"s\" | \"small\" | \"xl\" | \"xs\"",
                     "references": {
                         "NativeWaInput": {
                             "location": "import",

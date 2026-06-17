@@ -58,7 +58,7 @@ export class IrWeekdaySelector {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (h(Host, { key: '97781a751af09bb312b1cedebaa2dd11bee8d3fa', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (h(Host, { key: '79bdb6961ce758cddc36089dfbbf23207f9688ef', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get is() { return "ir-weekday-selector"; }
     static get encapsulation() { return "scoped"; }
@@ -108,7 +108,7 @@ export class IrWeekdaySelector {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emits an updated list of selected weekday values when the selection changes.\r\n\r\nExample:\r\n```tsx\r\n<ir-weekday-selector onWeekdayChange={(e) => console.log(e.detail)} />\r\n```"
+                    "text": "Emits an updated list of selected weekday values when the selection changes.\n\nExample:\n```tsx\n<ir-weekday-selector onWeekdayChange={(e) => console.log(e.detail)} />\n```"
                 },
                 "complexType": {
                     "original": "number[]",

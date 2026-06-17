@@ -56,7 +56,7 @@ export class IrPopover {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (h(Host, { key: '9e3d19927e96ca181f163abf08ce435a440de405', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (h(Host, { key: '26864e054197086140c0185fc2f4b0eb7565b716', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -88,7 +88,7 @@ export class IrPopover {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Content to display inside the popover.\r\nCan be plain text or HTML depending on `renderContentAsHtml`."
+                    "text": "Content to display inside the popover.\nCan be plain text or HTML depending on `renderContentAsHtml`."
                 },
                 "getter": false,
                 "setter": false,
@@ -107,7 +107,7 @@ export class IrPopover {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Horizontal offset (left) of the popover from its trigger.\r\nUsed in inline style as `--ir-popover-left`."
+                    "text": "Horizontal offset (left) of the popover from its trigger.\nUsed in inline style as `--ir-popover-left`."
                 },
                 "getter": false,
                 "setter": false,
@@ -127,7 +127,7 @@ export class IrPopover {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Position of the popover relative to the trigger.\r\nOptions: `'top'`, `'bottom'`, `'left'`, `'right'`, `'auto'`."
+                    "text": "Position of the popover relative to the trigger.\nOptions: `'top'`, `'bottom'`, `'left'`, `'right'`, `'auto'`."
                 },
                 "getter": false,
                 "setter": false,
@@ -147,7 +147,7 @@ export class IrPopover {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Event that triggers the popover.\r\nOptions: `'focus'`, `'click'`, `'hover'`."
+                    "text": "Event that triggers the popover.\nOptions: `'focus'`, `'click'`, `'hover'`."
                 },
                 "getter": false,
                 "setter": false,
@@ -167,7 +167,7 @@ export class IrPopover {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Whether to treat `content` as raw HTML.\r\nWhen true, `content` will be injected with `html: true` in jQuery popover."
+                    "text": "Whether to treat `content` as raw HTML.\nWhen true, `content` will be injected with `html: true` in jQuery popover."
                 },
                 "getter": false,
                 "setter": false,

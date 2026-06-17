@@ -189,7 +189,7 @@ export class IrBookingRooms {
         if (!this.booking) {
             return null;
         }
-        return (h("wa-card", null, h("ir-date-view", { class: "booking-details__date-view-header", slot: "header", from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_editable && (h(Fragment, null, h("wa-tooltip", { for: "room-add" }, "Add unit"), h("ir-custom-button", { slot: "header-actions", id: "room-add", appearance: 'plain', size: 'small', variant: 'neutral' }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' }, label: "Add unit" })))), this.renderRooms()));
+        return (h("wa-card", null, h("ir-date-view", { class: "booking-details__date-view-header", slot: "header", from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_editable && (h(Fragment, null, h("wa-tooltip", { for: "room-add" }, "Add unit"), h("ir-custom-button", { slot: "header-actions", id: "room-add", appearance: 'plain', size: 's', variant: 'neutral' }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' }, label: "Add unit" })))), this.renderRooms()));
     }
     static get is() { return "ir-booking-rooms"; }
     static get encapsulation() { return "scoped"; }
@@ -224,7 +224,7 @@ export class IrBookingRooms {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The booking object containing reservation details,\r\nincluding rooms, status, currency, and edit permissions."
+                    "text": "The booking object containing reservation details,\nincluding rooms, status, currency, and edit permissions."
                 },
                 "getter": false,
                 "setter": false
@@ -272,7 +272,7 @@ export class IrBookingRooms {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Available bed preference options for the booking rooms.\r\nUsed to populate bed selection inside each room component."
+                    "text": "Available bed preference options for the booking rooms.\nUsed to populate bed selection inside each room component."
                 },
                 "getter": false,
                 "setter": false,
@@ -297,7 +297,7 @@ export class IrBookingRooms {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Available departure time options for the booking.\r\nPassed down to each room when applicable."
+                    "text": "Available departure time options for the booking.\nPassed down to each room when applicable."
                 },
                 "getter": false,
                 "setter": false,
@@ -411,7 +411,7 @@ export class IrBookingRooms {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The property identifier associated with the booking.\r\nUsed when interacting with room-level operations."
+                    "text": "The property identifier associated with the booking.\nUsed when interacting with room-level operations."
                 },
                 "getter": false,
                 "setter": false,
@@ -454,7 +454,7 @@ export class IrBookingRooms {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Precomputed split index used to group split rooms together.\r\nIf not provided, it will be generated internally."
+                    "text": "Precomputed split index used to group split rooms together.\nIf not provided, it will be generated internally."
                 },
                 "getter": false,
                 "setter": false

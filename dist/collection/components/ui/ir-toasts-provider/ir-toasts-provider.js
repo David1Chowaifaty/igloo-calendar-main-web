@@ -130,7 +130,7 @@ export class IrToastsProvider {
         this.positionCache.clear();
     }
     render() {
-        return h(Host, { key: '90d717fe006f8c1a62f4beec87e02369e8c6b64c' });
+        return h(Host, { key: 'd3bd15462f623c0a121931cf7d886e01a5caf794' });
     }
     static get is() { return "ir-toasts-provider"; }
     static get encapsulation() { return "shadow"; }
@@ -169,7 +169,7 @@ export class IrToastsProvider {
                         },
                         "ToastOptions": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-toasts-provider/ir-toasts-provider.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-toasts-provider/ir-toasts-provider.tsx",
                             "id": "src/components/ui/ir-toasts-provider/ir-toasts-provider.tsx::ToastOptions"
                         },
                         "HTMLElement": {

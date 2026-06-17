@@ -7,9 +7,9 @@ export class IrHkTeam {
     deletionTimout;
     renderAssignedUnits(hk) {
         if (hk.assigned_units.length === 0) {
-            return (h("span", null, "0 -", ' ', h("wa-button", { size: "small", variant: "brand", appearance: "outlined", class: "hk-team-header__unassigned-btn", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: hk }) }, locales.entries.Lcz_Assign)));
+            return (h("span", null, "0 -", ' ', h("wa-button", { size: "s", variant: "brand", appearance: "outlined", class: "hk-team-header__unassigned-btn", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: hk }) }, locales.entries.Lcz_Assign)));
         }
-        return (h("span", null, hk.assigned_units.length, " -", ' ', h("wa-button", { class: "hk-team-header__unassigned-btn", size: "small", variant: "brand", appearance: "outlined", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: hk }) }, 'Edit')));
+        return (h("span", null, hk.assigned_units.length, " -", ' ', h("wa-button", { class: "hk-team-header__unassigned-btn", size: "s", variant: "brand", appearance: "outlined", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: hk }) }, 'Edit')));
     }
     renderCurrentTrigger() {
         switch (this.currentTrigger?.type) {
@@ -43,7 +43,7 @@ export class IrHkTeam {
             return null;
         }
         const { assigned, total, un_assigned } = housekeeping_store.hk_criteria.units_assignments;
-        return (h("wa-card", null, h("section", { slot: "header", class: "hk-team-header" }, h("div", { class: "hk-team-header__top" }, h("p", { class: "hk-team-header__title" }, locales.entries.Lcz_HousekeepingTeam), h("div", { class: "hk-team-header__stats" }, h("p", { class: "hk-team-header__stat hk-team-header__stat--bold" }, total, " ", locales.entries.Lcz_TotalUnits), h("p", { class: "hk-team-header__stat" }, assigned, " ", h("span", null, locales.entries.Lcz_Assigned)), un_assigned > 0 && (h("wa-button", { onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: null }), size: "small", class: "hk-team-header__unassigned-btn", variant: "brand", appearance: "outlined" }, un_assigned, " ", locales.entries.Lcz_Unassigned)))), h("p", { class: "hk-team-header__hint" }, locales.entries.Lcz_AsAnOption)), h("section", { class: "table-responsive" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", { class: "text-left" }, locales.entries.Lcz_Name), h("th", null, locales.entries.Lcz_Mobile), h("th", null, locales.entries.Lcz_Username), h("th", null, locales.entries.Lcz_UnitsAssigned), h("th", { class: 'text-left' }, h("div", { class: "d-flex justify-content-center" }, h("ir-custom-button", { onClickHandler: () => {
+        return (h("wa-card", null, h("section", { slot: "header", class: "hk-team-header" }, h("div", { class: "hk-team-header__top" }, h("p", { class: "hk-team-header__title" }, locales.entries.Lcz_HousekeepingTeam), h("div", { class: "hk-team-header__stats" }, h("p", { class: "hk-team-header__stat hk-team-header__stat--bold" }, total, " ", locales.entries.Lcz_TotalUnits), h("p", { class: "hk-team-header__stat" }, assigned, " ", h("span", null, locales.entries.Lcz_Assigned)), un_assigned > 0 && (h("wa-button", { onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: null }), size: "s", class: "hk-team-header__unassigned-btn", variant: "brand", appearance: "outlined" }, un_assigned, " ", locales.entries.Lcz_Unassigned)))), h("p", { class: "hk-team-header__hint" }, locales.entries.Lcz_AsAnOption)), h("section", { class: "table-responsive" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", { class: "text-left" }, locales.entries.Lcz_Name), h("th", null, locales.entries.Lcz_Mobile), h("th", null, locales.entries.Lcz_Username), h("th", null, locales.entries.Lcz_UnitsAssigned), h("th", { class: 'text-left' }, h("div", { class: "d-flex justify-content-center" }, h("ir-custom-button", { onClickHandler: () => {
                 this.currentTrigger = {
                     type: 'user',
                     isEdit: false,

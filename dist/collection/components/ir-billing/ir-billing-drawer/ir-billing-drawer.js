@@ -29,7 +29,7 @@ export class IrBillingDrawer {
      */
     billingClose;
     render() {
-        return (h("ir-drawer", { key: '12c836c9c40b81cd7f74fe2cbff84ca2ddc95c71', style: {
+        return (h("ir-drawer", { key: '8af837524ab77a223ca6baa617ff5b8f63d9b402', style: {
                 '--ir-drawer-width': '70rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': '0',
@@ -40,7 +40,7 @@ export class IrBillingDrawer {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.billingClose.emit();
-            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: '495c71999390308895fc97710adceeac845cbf85', isAllServicesAgentOwned: this.isAllServicesAgentOwned, booking: this.booking, agent: this.agent })));
+            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: '63f1ee20124263ed6674a9e8855f5c6dfc0d9ad2', isAllServicesAgentOwned: this.isAllServicesAgentOwned, booking: this.booking, agent: this.agent })));
     }
     static get is() { return "ir-billing-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -71,7 +71,7 @@ export class IrBillingDrawer {
                             "name": "type",
                             "text": "{boolean}"
                         }],
-                    "text": "Controls whether the billing drawer is open or closed.\r\n\r\nWhen `true`, the drawer becomes visible.\r\nWhen `false`, it is hidden.\r\n\r\nThis prop is reflected to the host element."
+                    "text": "Controls whether the billing drawer is open or closed.\n\nWhen `true`, the drawer becomes visible.\nWhen `false`, it is hidden.\n\nThis prop is reflected to the host element."
                 },
                 "getter": false,
                 "setter": false,
@@ -100,7 +100,7 @@ export class IrBillingDrawer {
                             "name": "type",
                             "text": "{Booking}"
                         }],
-                    "text": "The booking object containing reservation and guest details\r\nthat will be used to populate the billing view."
+                    "text": "The booking object containing reservation and guest details\nthat will be used to populate the billing view."
                 },
                 "getter": false,
                 "setter": false
@@ -162,7 +162,7 @@ export class IrBillingDrawer {
                             "name": "event",
                             "text": "billingClose"
                         }],
-                    "text": "Emitted when the billing drawer has been closed.\r\n\r\nListen to this event to respond to drawer close actions."
+                    "text": "Emitted when the billing drawer has been closed.\n\nListen to this event to respond to drawer close actions."
                 },
                 "complexType": {
                     "original": "void",

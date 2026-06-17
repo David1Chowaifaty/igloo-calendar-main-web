@@ -44,17 +44,17 @@ export class IrCityLedgerFiscalDocumentsFilters {
         this.updateFilters({ docNumber: value });
     }
     render() {
-        return (h("form", { key: '411a6ae3665d839d6de3f68337265b569501c12f', onSubmit: e => {
+        return (h("form", { key: 'c79ad5e5b6aa1b13219552e874b395f4e364d97f', onSubmit: e => {
                 e.preventDefault();
                 this.applyFilters.emit(this.filters);
-            } }, h("div", { key: '3330a5d077ad3dc1e19feed0e5d8a3b50cf46c3a', class: "filters-bar" }, h("ir-validator", { key: 'e7c98cf209792eb3aceb41e4acc0f0f1e8e4e7cd', value: this.filters?.fromDate || this.filters?.toDate, schema: z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: '6e1bcf5149081e6ba4861bd802fa62a3f8a3fd09', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) })), h("div", { key: 'f52b2ea925ea21c212fc9cc5941a4fa3b4ddb33c', class: "filters-bar__search-group" }, h("div", { key: '409eb5a3a1e4608d787de3d0b71b007381853829', class: "filters-bar__type-group" }, h("wa-select", { key: '9390c8712209d8bdbc3e07ba84f5f16a1a3a71ac', class: "filters-bar__status-select", value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "small", placeholder: "Document Type" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-switch", { key: 'e3a38dd6a0bce56016665b2a6fb393b72efb6ecb', class: "filters-bar__tax-switch", checked: this.filters.taxableOnly, onchange: e => this.updateFilters({ taxableOnly: e.target.checked }) }, "Taxes"), h("wa-switch", { key: 'd9d668ee3c852b0782e9e0251bf17c9c83cfbfbc', class: "filters-bar__proforma-switch", checked: this.filters.proformaOnly, onchange: e => {
+            } }, h("div", { key: '85888fc788e45f90c6680c4632cb2a558dec33d2', class: "filters-bar" }, h("ir-validator", { key: 'bc9dc827048613d93023bf4392ac95167743411f', value: this.filters?.fromDate || this.filters?.toDate, schema: z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: 'eb62b60b90297d5675f1f96cedae9d7418edbe68', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) })), h("div", { key: '26456bddf6261d98f3530d63ba27acdf8d12a65f', class: "filters-bar__search-group" }, h("div", { key: 'b9062ca7c886fe4f9dd7e72ec82934e65ad9fbf2', class: "filters-bar__type-group" }, h("wa-select", { key: '8cfba20ac5a8a06df6bd834f605034f4afed66fc', class: "filters-bar__status-select", value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "s", placeholder: "Document Type" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-switch", { key: '4741ed3bd57aedea9cd0a42dc86ac1953c4569d7', class: "filters-bar__tax-switch", checked: this.filters.taxableOnly, onchange: e => this.updateFilters({ taxableOnly: e.target.checked }) }, "Taxes"), h("wa-switch", { key: 'e2d1d07c7926b89687188017e211237266ea47d5', class: "filters-bar__proforma-switch", checked: this.filters.proformaOnly, onchange: e => {
                 const updated = { ...this.filters, proformaOnly: e.target.checked };
                 this.filtersChange.emit(updated);
                 this.applyFilters.emit(updated);
-            } }, "Proforma")), h("ir-input", { key: '337388c509965ad598628e8a0672f9b921ea6c79', class: "filters-bar__search-input", placeholder: "Search by doc number", value: this.docNumber, "onText-change": e => {
+            } }, "Proforma")), h("ir-input", { key: '761a9c2c4724d9200b0790fa804434739cc257a0', class: "filters-bar__search-input", placeholder: "Search by doc number", value: this.docNumber, "onText-change": e => {
                 this.docNumber = e.detail;
                 this.emitSearchDebounced(e.detail);
-            }, withClear: true }, h("wa-icon", { key: 'f9df8c03678831aad043a82a795430e37203949a', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '9c478afc43fa5c0f1ba54d0491e252e7dd21723d', variant: "neutral", appearance: "outlined", type: "submit" }, h("wa-icon", { key: '0bf2f597e632ade85f90eecaec93276df2e1d005', name: "magnifying-glass" }))))));
+            }, withClear: true }, h("wa-icon", { key: '860d465736a5a8c549d00b16ff9b56551468c221', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '08c98671c7610bad73b08dbcf4f2846163967ce2', variant: "neutral", appearance: "outlined", type: "submit" }, h("wa-icon", { key: '0ccdf34d3b8714785e6ac83bdcfb011b3d06fb22', name: "magnifying-glass" }))))));
     }
     static get is() { return "ir-city-ledger-fiscal-documents-filters"; }
     static get encapsulation() { return "scoped"; }
@@ -93,7 +93,7 @@ export class IrCityLedgerFiscalDocumentsFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "defaultValue": "{\r\n    fromDate: undefined,\r\n    toDate: undefined,\r\n    docNumber: '',\r\n    taxableOnly: false,\r\n    type: 'all',\r\n    proformaOnly: false,\r\n  }"
+                "defaultValue": "{\n    fromDate: undefined,\n    toDate: undefined,\n    docNumber: '',\n    taxableOnly: false,\n    type: 'all',\n    proformaOnly: false,\n  }"
             }
         };
     }

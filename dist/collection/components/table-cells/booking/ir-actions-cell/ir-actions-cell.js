@@ -54,7 +54,7 @@ export class IrActionsCell {
         return (h("ir-custom-button", { variant: variant, appearance: appearance, "data-action": type, onClick: () => this.onClick(type) }, label !== 'icon' && label, type === 'edit' && h("wa-icon", { name: "edit", style: { fontSize: '1.2rem' } }), type === 'delete' && h("wa-icon", { name: "trash-can", style: { fontSize: '1.2rem' } })));
     }
     render() {
-        return h(Host, { key: 'f5a1e2bfa96c8081d71c3d1b2a261ff0b6b35240' }, this.buttons.map(button => this.renderButton(button)));
+        return h(Host, { key: '3d5adb085757c484aabe38fd8cb68384625cfaaf' }, this.buttons.map(button => this.renderButton(button)));
     }
     static get is() { return "ir-actions-cell"; }
     static get encapsulation() { return "scoped"; }
@@ -79,7 +79,7 @@ export class IrActionsCell {
                     "references": {
                         "IrActionButton": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/table-cells/booking/ir-actions-cell/ir-actions-cell.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/table-cells/booking/ir-actions-cell/ir-actions-cell.tsx",
                             "id": "src/components/table-cells/booking/ir-actions-cell/ir-actions-cell.tsx::IrActionButton"
                         }
                     }
@@ -113,7 +113,7 @@ export class IrActionsCell {
                     "references": {
                         "IrActionButton": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/table-cells/booking/ir-actions-cell/ir-actions-cell.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/table-cells/booking/ir-actions-cell/ir-actions-cell.tsx",
                             "id": "src/components/table-cells/booking/ir-actions-cell/ir-actions-cell.tsx::IrActionButton"
                         }
                     }

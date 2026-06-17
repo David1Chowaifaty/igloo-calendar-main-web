@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-OzksjAXP.js');
+var index = require('./index-DtXemfU-.js');
 
 const irToastsProviderCss = () => `:host{display:none}`;
 
@@ -138,7 +138,7 @@ const IrToastsProvider = class {
         this.positionCache.clear();
     }
     render() {
-        return index.h(index.Host, { key: '90d717fe006f8c1a62f4beec87e02369e8c6b64c' });
+        return index.h(index.Host, { key: 'd3bd15462f623c0a121931cf7d886e01a5caf794' });
     }
 };
 IrToastsProvider.style = irToastsProviderCss();

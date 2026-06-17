@@ -85,7 +85,7 @@ export class IglHousekeepingDialog {
         }
     }
     render() {
-        return (h("ir-dialog", { key: '326cedbbfd524d2b14a9bbc23bc0120ac97d8414', ref: el => (this.dialogRef = el), open: this.open, label: "Housekeeping Update", onIrDialogAfterHide: () => this.irAfterClose.emit() }, h("p", { key: '0ab2c26fdcad4a2ffc8c4b3ed4deb7ea200768bc', style: { margin: '0' } }, `${this.selectedRoom?.name} is currently marked as ${this.getStatusLabel()}.`), h("div", { key: '5d05918c1ee37449694db0e8e507c6a1f35605ce', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '2b3cbe19cd789adb6468755af1d70c6184f84180', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'a1f4862cc60febb8798b14fbb8a26bcce8f7b78a', value: "hk-toggle-clean-dirty", size: "medium", variant: "brand", appearance: "outlined", loading: this.isLoading === 'hk-toggle-clean-dirty', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '002' ? '001' : '002') }, this.middleButtonLabel()), h("ir-custom-button", { key: '6e968f34f7dbb6400cabcee402df7431bac6072f', value: "hk-clean-inspect", size: "medium", variant: "brand", appearance: "accent", loading: this.isLoading === 'hk-clean-inspect', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '004' ? '001' : '004') }, this.rightButtonLabel()))));
+        return (h("ir-dialog", { key: '37889f12a59c3d22c6ff91c65868b705021e75b1', ref: el => (this.dialogRef = el), open: this.open, label: "Housekeeping Update", onIrDialogAfterHide: () => this.irAfterClose.emit() }, h("p", { key: '5bd0fd99b27e07eadc1720720f307e07ff29677b', style: { margin: '0' } }, `${this.selectedRoom?.name} is currently marked as ${this.getStatusLabel()}.`), h("div", { key: 'f3169466c711930bbcd400536bf7c3610a115a03', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '65d979e82feba7eba14fd3b65621dca769f8a4f4', "data-dialog": "close", size: "m", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'd251f6c9de9175ca364099443fa5aecd8d6b8fe9', value: "hk-toggle-clean-dirty", size: "m", variant: "brand", appearance: "outlined", loading: this.isLoading === 'hk-toggle-clean-dirty', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '002' ? '001' : '002') }, this.middleButtonLabel()), h("ir-custom-button", { key: '817d99fbc17dffd1edb6319747e776273b6fd2e8', value: "hk-clean-inspect", size: "m", variant: "brand", appearance: "accent", loading: this.isLoading === 'hk-clean-inspect', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '004' ? '001' : '004') }, this.rightButtonLabel()))));
     }
     static get is() { return "igl-housekeeping-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -113,7 +113,7 @@ export class IglHousekeepingDialog {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Controls whether the dialog is open.\r\nThe parent component is responsible for toggling this value."
+                    "text": "Controls whether the dialog is open.\nThe parent component is responsible for toggling this value."
                 },
                 "getter": false,
                 "setter": false,
@@ -139,7 +139,7 @@ export class IglHousekeepingDialog {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Currently selected room for housekeeping actions.\r\nWhen null or undefined, the dialog will not render."
+                    "text": "Currently selected room for housekeeping actions.\nWhen null or undefined, the dialog will not render."
                 },
                 "getter": false,
                 "setter": false
@@ -156,7 +156,7 @@ export class IglHousekeepingDialog {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Booking number associated with the selected room (if any).\r\nUsed for housekeeping action tracking."
+                    "text": "Booking number associated with the selected room (if any).\nUsed for housekeeping action tracking."
                 },
                 "getter": false,
                 "setter": false,
@@ -175,7 +175,7 @@ export class IglHousekeepingDialog {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Current property identifier.\r\nRequired for housekeeping service requests."
+                    "text": "Current property identifier.\nRequired for housekeeping service requests."
                 },
                 "getter": false,
                 "setter": false,

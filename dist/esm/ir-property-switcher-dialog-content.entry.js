@@ -1,51 +1,6 @@
-import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-0Di74WDd.js';
+import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-DF2__fQU.js';
 import { a as axios } from './axios-CleaxLzD.js';
-
-/**
- * Debounce decorator that delays method execution until after wait milliseconds
- * have elapsed since the last time it was invoked.
- *
- * @param wait - The number of milliseconds to delay
- * @param options - Configuration options
- * @param options.leading - Execute on the leading edge (default: false)
- * @param options.trailing - Execute on the trailing edge (default: true)
- */
-function Debounce(wait, options = {}) {
-    return function (_, __, descriptor) {
-        const originalMethod = descriptor.value;
-        const { leading = false, trailing = true } = options;
-        // Store timeout IDs per instance
-        const timeoutMap = new WeakMap();
-        const lastCallMap = new WeakMap();
-        descriptor.value = function (...args) {
-            const context = this;
-            const now = Date.now();
-            const existingTimeout = timeoutMap.get(context);
-            const lastCall = lastCallMap.get(context);
-            // Clear existing timeout
-            if (existingTimeout) {
-                clearTimeout(existingTimeout);
-            }
-            // Execute on leading edge if enabled and it's the first call
-            if (leading && !existingTimeout) {
-                originalMethod.apply(context, args);
-                lastCallMap.set(context, now);
-            }
-            // Set up trailing execution
-            if (trailing) {
-                const timeout = setTimeout(() => {
-                    if (!leading || (leading && lastCall && now - lastCall >= wait)) {
-                        originalMethod.apply(context, args);
-                    }
-                    timeoutMap.delete(context);
-                    lastCallMap.delete(context);
-                }, wait);
-                timeoutMap.set(context, timeout);
-            }
-        };
-        return descriptor;
-    };
-}
+import { D as Debounce } from './debounce-DF70NVXP.js';
 
 const irPropertySwitcherDialogContentCss = () => `.sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__search-input.sc-ir-property-switcher-dialog-content::part(base),.property-switcher__search-input.sc-ir-property-switcher-dialog-content [part~="base"]{font-size:16px;height:32px}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}@media (min-width: 640px){.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}}`;
 
@@ -201,7 +156,7 @@ const IrPropertySwitcherDialogContent = class {
         return h("div", { class: "property-switcher__status" }, text);
     }
     render() {
-        return (h(Host, { key: 'd3d3ca4a928738dcbe98f94b12b432f7aff60acf' }, h("ir-input", { key: 'c0939c6eed6819eb090109005d70ccd916699a2c', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Property name or A number", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: '9c2d2ace9556de7bd06e1941635f8d2879159850', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: 'eeff20206dbc430adb9883269d44478eb723332a' }, h("p", { key: '3c85253361c732dae3020cc8e4d47df7418825b4', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, "Linked Properties"), this.properties.map(property => {
+        return (h(Host, { key: '47b144fa62462b774c4f3d0b9fcbce4eec143fe8' }, h("ir-input", { key: '6f5be08926745ee1892ea09fd0e187376fcbef2c', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Property name or A number", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: 'b052eb92e5cc9cd18d0f2dd6b6b4f2e769c2320f', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: 'cb7de8e9b03884fd120897f2d26b9779cd5c8e2a' }, h("p", { key: 'c49783886e9ac42acef1c13355d0c028360b4a4f', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, "Linked Properties"), this.properties.map(property => {
             const label = `${property.name}`;
             return (h("wa-option", { onClick: () => {
                     // this.selectProperty(property as any);

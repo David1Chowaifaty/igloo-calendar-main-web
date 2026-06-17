@@ -250,7 +250,7 @@ export class IrPropertySwitcher {
         return h("p", { class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME ?? 'Property');
     }
     trigger() {
-        return (h("wa-button", { size: "small", withCaret: true, class: "property-switcher__trigger-btn", variant: "neutral", appearance: "outlined", onClick: () => {
+        return (h("wa-button", { size: "s", withCaret: true, class: "property-switcher__trigger-btn", variant: "neutral", appearance: "outlined", onClick: () => {
                 this.open = !this.open;
                 if (this.open) {
                     this.ensureLinkedPropertiesLoaded();
@@ -258,7 +258,7 @@ export class IrPropertySwitcher {
             } }, h("p", { class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME ?? 'Select property')));
     }
     render() {
-        return (h(Host, { key: '619ade2eb8fc8c72667cceac1049a06944e2f0fe' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (h("wa-dropdown", { key: 'bfe509da9077495acd777141b32fd1ebdba15daa', "onwa-show": () => {
+        return (h(Host, { key: '259d2df6e6ded924719e9bba0da6bf2243346fb9' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (h("wa-dropdown", { key: '63fab1d12695efc774c08dd8ee7f7a1d8717d085', "onwa-show": () => {
                 this.ensureLinkedPropertiesLoaded();
             }, "onwa-hide": e => {
                 e.stopPropagation();
@@ -267,7 +267,7 @@ export class IrPropertySwitcher {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.handleDropdownSelect(Number(e.detail.item.value));
-            } }, h("wa-button", { key: '831b59f038458a48540edc78ab5eda54ad2d5c6d', size: "small", class: "property-switcher__trigger-btn", slot: "trigger", withCaret: true, variant: "neutral", appearance: "outlined" }, h("p", { key: '545be5386847499233109a9288dc150fbcb434aa', class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME)), this.isLinkedLoading && (h("wa-dropdown-item", { key: 'f8d4d690d18f64a15fa2b2fadf86b385dfbc287c', disabled: true, class: "property-switcher__dropdown-loader" }, h("wa-spinner", { key: '9dab77dd8f29c2a3591c7c1fe43eee5ff7e9c5f4' }))), this.propertyState.linked?.map(property => (h("wa-dropdown-item", { value: property.property_id?.toString(), key: `dropdown-item-${property.property_id}` }, property.name))))), this.displayMode === 'dialog' && (h("div", { key: '345a658814faa7f1a67d4b2afd817db79bdc706d' }, this.trigger(), h("ir-dialog", { key: '85e68fed4a4963d20dbcc5d8e75b003165824855',
+            } }, h("wa-button", { key: '4ee7ed621b5d22e0a552a84e843e9a9e7a7edeae', size: "s", class: "property-switcher__trigger-btn", slot: "trigger", withCaret: true, variant: "neutral", appearance: "outlined" }, h("p", { key: 'a77b9543ef319c95e60bae3d07bbd7b5b155953c', class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME)), this.isLinkedLoading && (h("wa-dropdown-item", { key: '312ffbe8b71da1cb253bae469ae1d5d613617d7e', disabled: true, class: "property-switcher__dropdown-loader" }, h("wa-spinner", { key: '4b138c47f19c161e82762fb3ecaa61a3184a78b6' }))), this.propertyState.linked?.map(property => (h("wa-dropdown-item", { value: property.property_id?.toString(), key: `dropdown-item-${property.property_id}` }, property.name))))), this.displayMode === 'dialog' && (h("div", { key: 'f142d37c6132e4b44c6ac8b072f2b0aeef4a28d3' }, this.trigger(), h("ir-dialog", { key: '1f2955b3215e5621a1dfa9b07d29d86370c68b8e',
             // withoutHeader
             open: this.open, label: "Search", class: "property-switcher__dialog", style: { '--ir-dialog-width': '40rem' }, onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
@@ -414,7 +414,7 @@ export class IrPropertySwitcher {
                     "text": "Single unified event - emitted when dialog confirms selection OR dropdown selects linked property"
                 },
                 "complexType": {
-                    "original": "{\r\n    property: GetACByACID;\r\n    linkedProperty: LinkedProperty | null;\r\n    allLinkedProperties: LinkedProperty[];\r\n  }",
+                    "original": "{\n    property: GetACByACID;\n    linkedProperty: LinkedProperty | null;\n    allLinkedProperties: LinkedProperty[];\n  }",
                     "resolved": "{ property: GetACByACID; linkedProperty: LinkedProperty; allLinkedProperties: LinkedProperty[]; }",
                     "references": {
                         "GetACByACID": {

@@ -1,34 +1,31 @@
 'use strict';
 
-var index = require('./index-OzksjAXP.js');
-var Token$1 = require('./Token-AvtHCcli.js');
-var agents_service = require('./agents.service-DOA8Cfd2.js');
-var booking_store = require('./booking.store-D89fMi27.js');
-var calendarData = require('./calendar-data-BbZbFHz-.js');
-var property_service = require('./property.service-3hpZozSM.js');
-var utils = require('./utils-BZv1W7LE.js');
-var room_service = require('./room.service-CLy8_ERw.js');
-var arrivals_store = require('./arrivals.store-C_y5DRYo.js');
+var index = require('./index-DtXemfU-.js');
+var Token = require('./Token-BVmOLolB.js');
+var agents_service = require('./agents.service-DZN5FBnL.js');
+var booking_store = require('./booking.store-C-3SXMkn.js');
+var calendarData = require('./calendar-data--UuFzfsJ.js');
+var property_service = require('./property.service-D3LVp6xe.js');
+var utils = require('./utils-CsChIHgF.js');
+var room_service = require('./room.service-Bu25r5Y2.js');
+var arrivals_store = require('./arrivals.store-ZN4DidBf.js');
 var axios = require('./axios-C-Phc0sj.js');
-var booking_listing_service = require('./booking_listing.service-C3anwzJu.js');
-var channel_service = require('./channel.service-CLLVLydv.js');
-var locales_store = require('./locales.store-BaDo11sT.js');
+var booking_listing_service = require('./booking_listing.service-DYXLTAXg.js');
+var channel_service = require('./channel.service-CMz2LgmA.js');
+var locales_store = require('./locales.store-CtV5-KJh.js');
 var system_service = require('./system.service-BbHmBp-x.js');
 var moment = require('./moment-CdViwxPQ.js');
 var v4 = require('./v4-Bq3ldsQe.js');
-var departures_store = require('./departures.store-owFWAfvE.js');
+var departures_store = require('./departures.store-6BlWMq8e.js');
 var index$1 = require('./index-CLqkDPTC.js');
-var booking_service = require('./booking.service-BMiLBW0h.js');
-var housekeeping_service = require('./housekeeping.service-BAyvIi08.js');
-var hkTasks_store = require('./hk-tasks.store-DJ3anV04.js');
-var booking = require('./booking-C_Xfx4RV.js');
-var paymentOption_store = require('./payment-option.store-CytmwKQW.js');
-var user_service = require('./user.service-DFf4Yqsa.js');
+var housekeeping_service = require('./housekeeping.service-C2KGh35D.js');
+var hkTasks_store = require('./hk-tasks.store-BhQp5gA1.js');
+var paymentOption_store = require('./payment-option.store-DhgtYPNv.js');
+var user_service = require('./user.service-DVCDVTu3.js');
 var realtime_service = require('./realtime.service-COdIt6Z-.js');
-require('./type-DzNPp0zr.js');
-require('./index-BJltewV-.js');
-require('./calendar-data-7gSqKDrz.js');
-require('./booking.dto-_IwrBIs_.js');
+require('./type-Dy9pVS4V.js');
+require('./booking-ZNHS2fN9.js');
+require('./index-koQJ3Kgt.js');
 
 const irAgentsCss = () => `.sc-ir-agents-h{display:block}.page-header__container.sc-ir-agents{display:flex;align-items:center;justify-content:space-between}`;
 
@@ -66,7 +63,7 @@ const IrAgents = class {
     agentsService = new agents_service.AgentsService();
     propertyService = new property_service.PropertyService();
     bookingService = new booking_store.BookingService();
-    tokenService = new Token$1.Token();
+    tokenService = new Token.Token();
     componentWillLoad() {
         if (this.ticket) {
             this.tokenService.setToken(this.ticket);
@@ -173,7 +170,7 @@ const IrAgents = class {
         }
         return (index.h(index.Host, { "data-testid": "ir-agents" }, index.h("ir-toast", null), index.h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), index.h("div", { class: "ir-page__container" }, index.h("div", { class: "page-header__container" }, index.h("h3", { class: "page-title" }, "Agents/Companies")), index.h("ir-agents-table", { countries: this.countries, setupEntries: this.setupEntries, onToggleAgentActive: event => this.handleToggleAgentStatus(event.detail), agents: this.agents, onUpsertAgent: event => this.handleUpsertAgent(event.detail), onDeleteAgent: event => this.handleDeleteAgent(event.detail) })), index.h("ir-agent-editor-drawer", { setupEntries: this.setupEntries, countries: this.countries, open: this.isDrawerOpen, agent: this.selectedAgent ?? undefined, onAgentEditorClose: () => this.handleDrawerClose() }), index.h("ir-dialog", { label: "Delete Agent", open: this.isDeleteDialogOpen, lightDismiss: false, onIrDialogHide: () => this.handleDeleteDialogClose() }, index.h("span", null, this.selectedAgent
             ? `Are you sure you want to delete ${this.selectedAgent.name}? This action permanently removes the agent and cannot be undone.`
-            : 'Are you sure you want to delete this agent? This action permanently removes the agent and cannot be undone.'), index.h("div", { slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), index.h("ir-custom-button", { size: "medium", appearance: "accent", variant: "danger", onClickHandler: () => this.confirmDeleteAgent() }, "Delete")))));
+            : 'Are you sure you want to delete this agent? This action permanently removes the agent and cannot be undone.'), index.h("div", { slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral" }, "Cancel"), index.h("ir-custom-button", { size: "m", appearance: "accent", variant: "danger", onClickHandler: () => this.confirmDeleteAgent() }, "Delete")))));
     }
     static get watchers() { return {
         "ticket": [{
@@ -222,7 +219,7 @@ const IrArrivals = class {
     payment;
     roomGuestState = null;
     countries;
-    tokenService = new Token$1.Token();
+    tokenService = new Token.Token();
     roomService = new room_service.RoomService();
     bookingService = new booking_store.BookingService();
     paymentFolioRef;
@@ -381,7 +378,7 @@ const IrBookingEmailLogs = class {
     ticket;
     data;
     bookingNumber;
-    token = new Token$1.Token();
+    token = new Token.Token();
     componentWillLoad() {
         if (this.ticket) {
             this.token.setToken(this.ticket);
@@ -393,7 +390,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '593a286f0beb3d9bd7be5091ba1748866c904c14', class: "p-1" }, index.h("ir-interceptor", { key: 'c057f61bb82412567326e900ca120214a9bf1c5c', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: '45875ec3d271d6e03c26fb9e8616bd7d0dd1f729' }), index.h("div", { key: 'db7dd5d57dcf45682e698756f16abd70014ab746', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: '1df73d7b216c32027832b3fdd7de2ceef200627c', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: '9adeb0b31ab3ba2fae2c17180c8d7712fe52aec3', size: "sm", text: "search", onClickHandler: async () => {
+        return (index.h(index.Host, { key: '3feff5a42a8aacbfddde3b1c9ebb35a4d88260d7', class: "p-1" }, index.h("ir-interceptor", { key: '5046817ba7f0212f815bf96f45d2ef874b31a9fe', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: '89a241e93d1b9dbe1cd3546ea81d4b561985c522' }), index.h("div", { key: '91ae219e885d966b2d99a7b3afd8c3468d0baecb', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: '788ca681f48000e9d8f6de71c18e2e99eb0345f8', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: '611732be30c46a8ed69107a3a9d86be988bd8372', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -401,7 +398,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), index.h("p", { key: 'c982d966667a5a4e64f1a8d7f01a4d6f1dd46dde' }, JSON.stringify(this.data, null, 2))));
+            } })), index.h("p", { key: '7786050819a518df76089a5002057e0f85eb0e73' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": [{
@@ -449,7 +446,7 @@ const IrBookingListing = class {
     bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
-    token = new Token$1.Token();
+    token = new Token.Token();
     listingModal;
     listingModalTimeout;
     allowedProperties;
@@ -794,7 +791,7 @@ const actions = (entries) => [
     },
 ];
 
-const irChannelCss = () => `.sc-ir-channel-h{display:block;--ir-sidebar-padding-block:0;--ir-sidebar-padding-inline:0}.dropdown-toggle.sc-ir-channel{color:var(--blue)}.dropdown-toggle.sc-ir-channel::after{content:none;display:none}.dropdown-toggle.sc-ir-channel .caret-icon.sc-ir-channel{transition:transform 0.15s ease-in-out, color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,      -webkit-box-shadow 0.15s ease-in-out}.btn.sc-ir-channel:hover .caret-icon.sc-ir-channel path.sc-ir-channel{fill:#6b6f82}.show.sc-ir-channel .caret-icon.sc-ir-channel{transform:rotate(-180deg)}.dropdown-divider.sc-ir-channel{border-color:#e4e5ec}.dropdown-item.sc-ir-channel{padding:10px;display:flex;align-items:center;gap:10px;color:#6b6f82}.dropdown-item.sc-ir-channel svg.sc-ir-channel path.sc-ir-channel{fill:#6b6f82}.danger.sc-ir-channel{color:var(--red)}.danger.sc-ir-channel svg.sc-ir-channel path.sc-ir-channel{fill:var(--red)}.table.sc-ir-channel thead.sc-ir-channel tr.sc-ir-channel{height:50px !important}.table-container.sc-ir-channel{border-radius:30px}.table.sc-ir-channel thead.sc-ir-channel{background:#fafafa;border-top-width:0}.actions-theader.sc-ir-channel{width:35% !important;text-align:end}.dots.sc-ir-channel{display:flex;align-items:center;justify-content:center;margin:0 3px;padding:0}.dot.sc-ir-channel{width:8px;height:8px;margin:0px 4px;background-color:#6b6f82;border-radius:50%;animation:dotFlashing 1s infinite linear alternate}.dot.sc-ir-channel:nth-child(2){animation-delay:0.2s}.h-screen.sc-ir-channel{height:100vh !important}.dot.sc-ir-channel:nth-child(3){animation-delay:0.4s}@keyframes dotFlashing{0%{opacity:0}50%,100%{opacity:1}}@media (min-width: 1024px){.sc-ir-channel-h{--sidebar-width:820px}}`;
+const irChannelCss = () => `.sc-ir-channel-h{display:block;--ir-sidebar-padding-block:0;--ir-sidebar-padding-inline:0}.dropdown-toggle.sc-ir-channel{color:var(--blue)}.dropdown-toggle.sc-ir-channel::after{content:none;display:none}.dropdown-toggle.sc-ir-channel .caret-icon.sc-ir-channel{transition:transform 0.15s ease-in-out, color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,     -webkit-box-shadow 0.15s ease-in-out}.btn.sc-ir-channel:hover .caret-icon.sc-ir-channel path.sc-ir-channel{fill:#6b6f82}.show.sc-ir-channel .caret-icon.sc-ir-channel{transform:rotate(-180deg)}.dropdown-divider.sc-ir-channel{border-color:#e4e5ec}.dropdown-item.sc-ir-channel{padding:10px;display:flex;align-items:center;gap:10px;color:#6b6f82}.dropdown-item.sc-ir-channel svg.sc-ir-channel path.sc-ir-channel{fill:#6b6f82}.danger.sc-ir-channel{color:var(--red)}.danger.sc-ir-channel svg.sc-ir-channel path.sc-ir-channel{fill:var(--red)}.table.sc-ir-channel thead.sc-ir-channel tr.sc-ir-channel{height:50px !important}.table-container.sc-ir-channel{border-radius:30px}.table.sc-ir-channel thead.sc-ir-channel{background:#fafafa;border-top-width:0}.actions-theader.sc-ir-channel{width:35% !important;text-align:end}.dots.sc-ir-channel{display:flex;align-items:center;justify-content:center;margin:0 3px;padding:0}.dot.sc-ir-channel{width:8px;height:8px;margin:0px 4px;background-color:#6b6f82;border-radius:50%;animation:dotFlashing 1s infinite linear alternate}.dot.sc-ir-channel:nth-child(2){animation-delay:0.2s}.h-screen.sc-ir-channel{height:100vh !important}.dot.sc-ir-channel:nth-child(3){animation-delay:0.4s}@keyframes dotFlashing{0%{opacity:0}50%,100%{opacity:1}}@media (min-width: 1024px){.sc-ir-channel-h{--sidebar-width:820px}}`;
 
 const IrChannel = class {
     constructor(hostRef) {
@@ -811,7 +808,7 @@ const IrChannel = class {
     isLoading = false;
     roomService = new room_service.RoomService();
     channelService = new channel_service.ChannelService();
-    token = new Token$1.Token();
+    token = new Token.Token();
     irModalRef;
     propertyId;
     componentWillLoad() {
@@ -1003,7 +1000,7 @@ const IrCityLedger = class {
         { id: 'fiscal-documents', label: 'Fiscal Documents' },
         { id: 'create-statement', label: 'Create Statement' },
     ];
-    tokenService = new Token$1.Token();
+    tokenService = new Token.Token();
     agentsService = new agents_service.AgentsService();
     propertyService = new property_service.PropertyService();
     bookingService = new booking_store.BookingService();
@@ -1107,7 +1104,7 @@ const IrCityLedger = class {
             return index.h("ir-loading-screen", null);
         }
         return (index.h(index.Host, null, index.h("ir-page", { label: 'City Ledger', description: this.selectedAgent?.name }, index.h("i", { slot: "page-description", style: { marginLeft: '0.5rem' } }, this.selectedAgent?.code), index.h("ir-autocomplete", { slot: "page-header",
-            // size="medium"
+            // size="m"
             placeholder: "Select agent", class: "city-ledger__agents-autocomplete", "onText-change": (e) => {
                 this.agentSearch = e.detail ?? '';
             }, "onCombobox-change": (e) => {
@@ -1168,7 +1165,7 @@ const IrDailyRevenue = class {
         users: null,
     };
     sideBarEvent;
-    tokenService = new Token$1.Token();
+    tokenService = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
     bookingService = new booking_store.BookingService();
@@ -1372,7 +1369,7 @@ const IrDepartures = class {
     payment;
     checkoutState = null;
     invoiceState = null;
-    tokenService = new Token$1.Token();
+    tokenService = new Token.Token();
     roomService = new room_service.RoomService();
     bookingService = new booking_store.BookingService();
     paymentFolioRef;
@@ -1565,54 +1562,6 @@ class GHSService {
     }
 }
 
-class Token extends Token$1.Auth {
-    baseUrl = 'https://gateway.igloorooms.com/IR';
-    static token = '';
-    static modifiedBaseUrl = false;
-    static isInterceptorAdded = false;
-    constructor() {
-        super();
-        if (Token.modifiedBaseUrl) {
-            return;
-        }
-        Token.modifiedBaseUrl = true;
-        axios.axios.defaults.baseURL = this.baseUrl;
-    }
-    getToken() {
-        return Token.token;
-    }
-    setBaseUrl(url) {
-        this.baseUrl = url;
-        axios.axios.defaults.baseURL = this.baseUrl;
-    }
-    initialize() {
-        if (Token.isInterceptorAdded) {
-            return;
-        }
-        axios.axios.interceptors.request.use(config => {
-            if (!Token.token) {
-                throw new MissingTokenError();
-            }
-            config.headers.Authorization = Token.token;
-            config.headers['X-ClientId'] = 'EXTRANET';
-            // config.params = config.params || {};
-            // config.params.Ticket = Token.token;
-            return config;
-        });
-        Token.isInterceptorAdded = true;
-    }
-    setToken(token) {
-        Token.token = token;
-        this.initialize();
-    }
-}
-class MissingTokenError extends Error {
-    constructor(message = 'Missing token!!') {
-        super(message);
-        this.name = 'MissingTokenError';
-    }
-}
-
 const irGhsOnboardingCss = () => `.sc-ir-ghs-onboarding-h{display:block;box-sizing:border-box}*.sc-ir-ghs-onboarding,*.sc-ir-ghs-onboarding::before,*.sc-ir-ghs-onboarding::after{box-sizing:inherit}.ir-ghs-onboarding__container.sc-ir-ghs-onboarding{padding:var(--wa-space-m);display:flex;flex-direction:column;gap:var(--wa-space-m)}.ir-ghs-onboarding__header.sc-ir-ghs-onboarding{display:flex;align-items:center;justify-content:space-between}.ir-ghs-onboarding__title.sc-ir-ghs-onboarding{margin:0;font-size:var(--wa-font-size-large);margin-bottom:var(--wa-space-xs);color:var(--wa-color-neutral-900)}.ir-ghs-onboarding__content.sc-ir-ghs-onboarding{display:flex;flex-direction:column;gap:var(--wa-space-m);margin-top:var(--wa-space-m)}.ir-ghs-onboarding__main-row.sc-ir-ghs-onboarding{display:flex;flex-direction:column;gap:var(--wa-space-m);align-items:stretch}@media (min-width: 992px){.ir-ghs-onboarding__main-row.sc-ir-ghs-onboarding{flex-direction:row;align-items:flex-start}.ir-ghs-onboarding__candidate-table.sc-ir-ghs-onboarding{flex:0 0 calc(60% - var(--wa-space-m) / 2);min-width:0}.ir-ghs-onboarding__selection-bucket.sc-ir-ghs-onboarding{flex:0 0 calc(40% - var(--wa-space-m) / 2);min-width:0}}.ir-ghs-onboarding__dialog-body.sc-ir-ghs-onboarding{padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.ir-ghs-onboarding__dialog-footer.sc-ir-ghs-onboarding{display:flex;gap:var(--wa-space-s);justify-content:flex-end}`;
 
 const IrGhsOnboarding = class {
@@ -1632,8 +1581,8 @@ const IrGhsOnboarding = class {
     isActivating = false;
     propertyToActivate = null;
     ghsService = new GHSService();
-    bookingService = new booking_service.BookingService();
-    tokenService = new Token();
+    bookingService = new booking_store.BookingService();
+    tokenService = new Token.Token();
     removeAllModal;
     activateModal;
     ticketChanged(newValue) {
@@ -1795,7 +1744,7 @@ const IrGhsOnboarding = class {
         return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("ir-dialog", { ref: el => (this.activateModal = el), label: "Activation Confirmation", onIrDialogHide: () => {
                 this.propertyToActivate = null;
                 this.activateModal.closeModal();
-            } }, index.h("div", { class: "ir-ghs-onboarding__dialog-body" }, index.h("p", { class: "m-0 text-center" }, "Are you sure you want to ", index.h("strong", null, "activate"), " GHS for ", index.h("span", { class: "text-primary" }, this.propertyToActivate?.NAME), "?"), index.h("p", { class: "small text-muted mt-2 mb-0" }, "This will enable real-time synchronization with Google.")), index.h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, index.h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "medium", onClickHandler: (e) => {
+            } }, index.h("div", { class: "ir-ghs-onboarding__dialog-body" }, index.h("p", { class: "m-0 text-center" }, "Are you sure you want to ", index.h("strong", null, "activate"), " GHS for ", index.h("span", { class: "text-primary" }, this.propertyToActivate?.NAME), "?"), index.h("p", { class: "small text-muted mt-2 mb-0" }, "This will enable real-time synchronization with Google.")), index.h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, index.h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "m", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
@@ -1803,21 +1752,21 @@ const IrGhsOnboarding = class {
                 }
                 this.propertyToActivate = null;
                 this.activateModal.closeModal();
-            } }, "Cancel"), index.h("ir-custom-button", { type: "button", variant: "success", appearance: "accent", size: "medium", loading: this.isActivating, onClickHandler: (e) => {
+            } }, "Cancel"), index.h("ir-custom-button", { type: "button", variant: "success", appearance: "accent", size: "m", loading: this.isActivating, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.handleConfirmActivate();
-            } }, "Activate"))), index.h("ir-dialog", { ref: el => (this.removeAllModal = el), label: "Confirmation", onIrDialogHide: () => this.removeAllModal.closeModal() }, index.h("div", { class: "ir-ghs-onboarding__dialog-body" }, index.h("p", { class: "m-0 text-center" }, "Are you sure you want to remove all selected properties from the list?")), index.h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, index.h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "medium", onClickHandler: (e) => {
+            } }, "Activate"))), index.h("ir-dialog", { ref: el => (this.removeAllModal = el), label: "Confirmation", onIrDialogHide: () => this.removeAllModal.closeModal() }, index.h("div", { class: "ir-ghs-onboarding__dialog-body" }, index.h("p", { class: "m-0 text-center" }, "Are you sure you want to remove all selected properties from the list?")), index.h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, index.h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "m", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.removeAllModal.closeModal();
-            } }, "Cancel"), index.h("ir-custom-button", { type: "button", variant: "danger", appearance: "accent", size: "medium", onClickHandler: (e) => {
+            } }, "Cancel"), index.h("ir-custom-button", { type: "button", variant: "danger", appearance: "accent", size: "m", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
@@ -1865,7 +1814,7 @@ const IrHkTasks = class {
     hkNameCache = {};
     roomService = new room_service.RoomService();
     houseKeepingService = new housekeeping_service.HouseKeepingService();
-    token = new Token$1.Token();
+    token = new Token.Token();
     table_sorting = new Map();
     modal;
     componentWillLoad() {
@@ -2138,13 +2087,13 @@ const IrHkTasks = class {
                     ? `Update ${this.modalCauses?.task?.unit?.name} to Clean`
                     : 'Update selected unit(s) to Clean'
                 : 'Skip cleaning and reschedule for tomorrow.'
-            : 'Update selected unit(s) to Clean'), index.h("div", { slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => {
+            : 'Update selected unit(s) to Clean'), index.h("div", { slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => {
                 if (this.modalCauses) {
                     hkTasks_store.clearSelectedTasks();
                     this.modalCauses = null;
                 }
                 this.modal.closeModal();
-            } }, locales_store.locales.entries.Lcz_Cancel), index.h("ir-custom-button", { size: "medium", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales_store.locales.entries.Lcz_Confirm))), index.h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
+            } }, locales_store.locales.entries.Lcz_Cancel), index.h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales_store.locales.entries.Lcz_Confirm))), index.h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isSidebarOpen = false;
@@ -2178,7 +2127,7 @@ const IrHousekeeping = class {
     roomService = new room_service.RoomService();
     houseKeepingService = new housekeeping_service.HouseKeepingService();
     bookingService = new booking_store.BookingService();
-    token = new Token$1.Token();
+    token = new Token.Token();
     componentWillLoad() {
         if (this.baseUrl) {
             this.token.setBaseUrl(this.baseUrl);
@@ -2313,7 +2262,7 @@ const IrMealReport = class {
         hb_preference: [],
     };
     mealReportService = new MealReportService();
-    tokenService = new Token();
+    tokenService = new Token.Token();
     ticketChanged(newValue) {
         if (newValue) {
             this.tokenService.setToken(newValue);
@@ -2337,7 +2286,7 @@ const IrMealReport = class {
             this.isPageLoading = true;
             this.isDataLoading = true;
             const setupEntries = await this.mealReportService.getSetupEntriesByTableNameMulti(['_MEAL_TYPE', '_HB_PREFERENCE']);
-            const grouped = booking.groupEntryTablesResult(setupEntries);
+            const grouped = utils.groupEntryTablesResult(setupEntries);
             const meal_type = grouped.meal_type || [];
             const hb_preference = grouped.hb_preference || [];
             this.setupEntries = {
@@ -2448,7 +2397,7 @@ const IrMealReport = class {
             { label: 'Lunch', icon: 'utensils', intent: 'success', adults: sum('Lunch_Ad'), children: sum('Lunch_Ch') },
             { label: 'Dinner', icon: 'moon', intent: 'warning', adults: sum('Dinner_Ad'), children: sum('Dinner_Ch') },
         ];
-        return (index.h("ir-page", { label: "Meal Report", class: 'page' }, index.h("ir-custom-button", { slot: "page-header", type: "button", size: "small", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
+        return (index.h("ir-page", { label: "Meal Report", class: 'page' }, index.h("ir-custom-button", { slot: "page-header", type: "button", size: "s", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
@@ -2496,7 +2445,7 @@ const IrMonthlyBookingsReport = class {
     property_id;
     stats;
     baseFilters;
-    tokenService = new Token$1.Token();
+    tokenService = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
     componentWillLoad() {
@@ -2656,7 +2605,7 @@ const IrPaymentOption = class {
     selectedOption = null;
     paymentOptionService = new paymentOption_store.PaymentOptionService();
     roomService = new room_service.RoomService();
-    token = new Token$1.Token();
+    token = new Token.Token();
     propertyOptionsById;
     propertyOptionsByCode;
     componentWillLoad() {
@@ -2845,7 +2794,7 @@ const IrSalesByChannel = class {
     channelSalesFilters;
     allowedProperties = [];
     propertyID;
-    token = new Token$1.Token();
+    token = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
     baseFilters = {
@@ -3067,7 +3016,7 @@ const IrSalesByCountry = class {
     salesData;
     salesFilters;
     countries = new Map();
-    token = new Token$1.Token();
+    token = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
     bookingService = new booking_store.BookingService();
@@ -3257,7 +3206,7 @@ const IrTaxServiceCategories = class {
     chargeCategoryRules = new Map();
     setupEntries;
     autoValidate;
-    tokenService = new Token$1.Token();
+    tokenService = new Token.Token();
     bookingService = new booking_store.BookingService();
     propertyService = new property_service.PropertyService();
     componentWillLoad() {
@@ -3444,7 +3393,7 @@ const IrTaxServiceCategories = class {
         const accSetup = this.chargeCategoryRules.get('ACC');
         const filteredVat = (this.setupEntries?.vat_included ?? []).filter(v => v.CODE_NAME !== '000');
         const categories = this.setupEntries?.svc_category ?? [];
-        return (index.h("ir-page", { label: "Tax & Service Categories", description: "Define taxes and service charges for room rates, cancellations, and on-property services.", "data-testid": "ir-tax-service-categories" }, index.h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "tax-service-categories__form", style: { width: '100px' }, variant: "brand" }, "Save"), index.h("form", { id: "tax-service-categories__form", onSubmit: e => this.handleSubmit(e) }, index.h("wa-card", null, index.h("div", { class: "tax-grid" }, index.h("div", { class: "tax-grid__header", "aria-hidden": "true" }, index.h("div", null), index.h("div", { class: "tax-grid__col-label" }, "VAT"), index.h("div", { class: "tax-grid__col-label" }, "City Tax"), index.h("div", { class: "tax-grid__col-label" }, "Service Charge"), index.h("div", { class: "tax-grid__col-label" }, "Taxation Strategy")), index.h("div", { class: "tax-grid__row" }, index.h("div", { class: "tax-grid__name" }, index.h("p", { class: "tax-grid__title" }, "Accommodation"), index.h("p", { class: "tax-grid__hint" }, "Room-related charges applied to reservations and cancellations")), index.h("div", { class: "tax-grid__cell", "data-label": "VAT" }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'vat', e.detail), chargeRule: accSetup?.vat, setupEntries: this.setupEntries?.vat_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": "City Tax" }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'cityTax', e.detail), chargeRule: accSetup?.cityTax, setupEntries: this.setupEntries?.city_tax_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": "Service Charge" }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'serviceCharge', e.detail), chargeRule: accSetup?.serviceCharge, setupEntries: this.setupEntries?.service_charge_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": "Taxation Strategy" }, index.h("wa-radio-group", { size: "small", orientation: "horizontal", value: accSetup?.taxationStrategy ?? TaxationStrategy.Normal, "onwa-change": (e) => this.handleTaxationStrategyChange(e.detail.value) }, index.h("wa-radio", { appearance: "button", value: TaxationStrategy.Normal }, "Normal"), index.h("wa-radio", { appearance: "button", value: TaxationStrategy.Cumulative }, "Cumulative")))), categories.map(category => {
+        return (index.h("ir-page", { label: "Tax & Service Categories", description: "Define taxes and service charges for room rates, cancellations, and on-property services.", "data-testid": "ir-tax-service-categories" }, index.h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "tax-service-categories__form", style: { width: '100px' }, variant: "brand" }, "Save"), index.h("form", { id: "tax-service-categories__form", onSubmit: e => this.handleSubmit(e) }, index.h("wa-card", null, index.h("div", { class: "tax-grid" }, index.h("div", { class: "tax-grid__header", "aria-hidden": "true" }, index.h("div", null), index.h("div", { class: "tax-grid__col-label" }, "VAT"), index.h("div", { class: "tax-grid__col-label" }, "City Tax"), index.h("div", { class: "tax-grid__col-label" }, "Service Charge"), index.h("div", { class: "tax-grid__col-label" }, "Taxation Strategy")), index.h("div", { class: "tax-grid__row" }, index.h("div", { class: "tax-grid__name" }, index.h("p", { class: "tax-grid__title" }, "Accommodation"), index.h("p", { class: "tax-grid__hint" }, "Room-related charges applied to reservations and cancellations")), index.h("div", { class: "tax-grid__cell", "data-label": "VAT" }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'vat', e.detail), chargeRule: accSetup?.vat, setupEntries: this.setupEntries?.vat_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": "City Tax" }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'cityTax', e.detail), chargeRule: accSetup?.cityTax, setupEntries: this.setupEntries?.city_tax_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": "Service Charge" }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'serviceCharge', e.detail), chargeRule: accSetup?.serviceCharge, setupEntries: this.setupEntries?.service_charge_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": "Taxation Strategy" }, index.h("wa-radio-group", { size: "s", orientation: "horizontal", value: accSetup?.taxationStrategy ?? TaxationStrategy.Normal, "onwa-change": (e) => this.handleTaxationStrategyChange(e.detail.value) }, index.h("wa-radio", { appearance: "button", value: TaxationStrategy.Normal }, "Normal"), index.h("wa-radio", { appearance: "button", value: TaxationStrategy.Cumulative }, "Cumulative")))), categories.map(category => {
             const categorySetup = this.chargeCategoryRules.get(category.CODE_NAME);
             return [
                 index.h("div", { class: "tax-grid__divider" }, index.h("wa-divider", null)),
@@ -3487,7 +3436,7 @@ const IrUserManagement = class {
     users = [];
     property_id;
     allowedUsersTypes = [];
-    token = new Token$1.Token();
+    token = new Token.Token();
     roomService = new room_service.RoomService();
     userService = new user_service.UserService();
     bookingService = new booking_store.BookingService();

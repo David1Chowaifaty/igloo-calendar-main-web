@@ -86,7 +86,7 @@ export class IrSuccessLoader {
         }
     }
     render() {
-        return (h(Host, { key: '152ae4bc9d7de166d26c68ae8538d718c04d823d' }, this.phase === 'spinner' ? h("wa-spinner", null) : h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
+        return (h(Host, { key: '3410aacdd59bd3a19affdef8f083421e2626bf80' }, this.phase === 'spinner' ? h("wa-spinner", null) : h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
     }
     static get is() { return "ir-success-loader"; }
     static get encapsulation() { return "shadow"; }
@@ -114,7 +114,7 @@ export class IrSuccessLoader {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "How long the spinner should be shown before transitioning to the success icon.\r\nValue is expressed in milliseconds."
+                    "text": "How long the spinner should be shown before transitioning to the success icon.\nValue is expressed in milliseconds."
                 },
                 "getter": false,
                 "setter": false,
@@ -134,7 +134,7 @@ export class IrSuccessLoader {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "How long the success icon should be shown before the loader dispatches the completion event.\r\nValue is expressed in milliseconds."
+                    "text": "How long the success icon should be shown before the loader dispatches the completion event.\nValue is expressed in milliseconds."
                 },
                 "getter": false,
                 "setter": false,

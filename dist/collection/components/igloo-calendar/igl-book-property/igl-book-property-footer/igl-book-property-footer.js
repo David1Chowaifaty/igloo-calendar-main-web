@@ -26,7 +26,7 @@ export class IglBookPropertyFooter {
     renderButton({ label, type = 'button', disabled = false, 
     // icon_name,
     isLoading, appearance, variant, value, form, }) {
-        return (h("div", { class: this.shouldRenderTwoButtons() ? ` ${this.editNext(label)}` : 'flex-fill' }, h("ir-custom-button", { type: type, form: form, size: 'medium', loading: isLoading, appearance: appearance, variant: variant, disabled: disabled, onClickHandler: () => {
+        return (h("div", { class: this.shouldRenderTwoButtons() ? ` ${this.editNext(label)}` : 'flex-fill' }, h("ir-custom-button", { type: type, form: form, size: 'm', loading: isLoading, appearance: appearance, variant: variant, disabled: disabled, onClickHandler: () => {
                 this.buttonClicked.emit({ key: value });
             }, class: "full-width" }, label)));
     }

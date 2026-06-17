@@ -5,7 +5,7 @@ export class IrCollapsableRow {
     isActive;
     renderCell = (cell) => {
         if (cell.getIsGrouped()) {
-            return (h("wa-button", { appearance: "plain", size: "small", class: "group-expander", onClick: () => cell.row.toggleExpanded() }, h("wa-icon", { style: { fontSize: '0.875rem' }, slot: "start", name: cell.row.getIsExpanded() ? 'chevron-down' : 'chevron-up' }), flexRender(cell.column.columnDef.cell, cell.getContext()), " ", h("span", { slot: "end" }, "(", cell.row.subRows.length, ")")));
+            return (h("wa-button", { appearance: "plain", size: "s", class: "group-expander", onClick: () => cell.row.toggleExpanded() }, h("wa-icon", { style: { fontSize: '0.875rem' }, slot: "start", name: cell.row.getIsExpanded() ? 'chevron-down' : 'chevron-up' }), flexRender(cell.column.columnDef.cell, cell.getContext()), " ", h("span", { slot: "end" }, "(", cell.row.subRows.length, ")")));
         }
         if (cell.getIsAggregated()) {
             return flexRender(cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell, cell.getContext());
@@ -17,13 +17,13 @@ export class IrCollapsableRow {
     };
     render() {
         return [
-            h("tr", { key: 'e05ae1d143f1b240b796cf1e2c146b9511e66456' }, this.row.getVisibleCells().map((cell, index) => (h("td", { key: cell.id, class: {
+            h("tr", { key: 'a78beb8b7190de38742735869842f188b135e077' }, this.row.getVisibleCells().map((cell, index) => (h("td", { key: cell.id, class: {
                     'text-right': ['debit', 'credit', 'balance'].includes(cell.column.id),
                     'text-center': cell.column.id === 'actions',
                     'sticky-column': cell.column.id === 'status',
                     'input-column': ['debit', 'credit'].includes(cell.column.id),
                     'grouped-cell': cell.getIsGrouped(),
-                } }, h("div", { class: { 'd-flex align-items-center': true } }, index === 0 && (h("wa-button", { onClick: () => (this.isActive = !this.isActive), size: "small", appearance: "plain" }, h("wa-icon", { name: this.isActive ? 'chevron-up' : 'chevron-down' }))), this.renderCell(cell)))))),
+                } }, h("div", { class: { 'd-flex align-items-center': true } }, index === 0 && (h("wa-button", { onClick: () => (this.isActive = !this.isActive), size: "s", appearance: "plain" }, h("wa-icon", { name: this.isActive ? 'chevron-up' : 'chevron-down' }))), this.renderCell(cell)))))),
             ...(this.isActive
                 ? [
                     h("tr", null, this.row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {

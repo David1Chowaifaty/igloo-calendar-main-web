@@ -138,7 +138,7 @@ export class IrCityLedger {
             return h("ir-loading-screen", null);
         }
         return (h(Host, null, h("ir-page", { label: 'City Ledger', description: this.selectedAgent?.name }, h("i", { slot: "page-description", style: { marginLeft: '0.5rem' } }, this.selectedAgent?.code), h("ir-autocomplete", { slot: "page-header",
-            // size="medium"
+            // size="m"
             placeholder: "Select agent", class: "city-ledger__agents-autocomplete", "onText-change": (e) => {
                 this.agentSearch = e.detail ?? '';
             }, "onCombobox-change": (e) => {

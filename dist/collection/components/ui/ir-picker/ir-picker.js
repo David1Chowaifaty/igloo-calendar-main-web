@@ -20,7 +20,7 @@ export class IrPicker {
      */
     withClear = false;
     /** The input's size. */
-    size = 'small';
+    size = 's';
     /** The input's visual appearance. */
     appearance;
     /** Delay (in milliseconds) before emitting the `text-change` event. Defaults to 300ms for async mode. */
@@ -474,11 +474,11 @@ export class IrPicker {
         // In async mode avoid showing the empty state until loading finished and no results rendered.
         const showEmptyState = !this.loading && !hasResults && (!isAsyncMode || !hasChildren);
         const emptyDescriptionId = showEmptyState ? this.emptyStateId : undefined;
-        return (h(Host, { key: '23531215aa5e954f557abbc3a0cf6121b098908e' }, h("wa-popup", { key: 'a1f545c2c45db4d2b176bc8957273b7da500dd5b', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: 'e89e2d00a20a9ec4141f9ee7e77cc1b64e15a34f', slot: "anchor", class: "search-bar", "aria-invalid": this.isValid, withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, onblur: () => this.inputPickerBlurred.emit(), autocomplete: "nope", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
+        return (h(Host, { key: '67c1e5ce0d9680432570e113aa31b52928840132' }, h("wa-popup", { key: '138dc1e8659fdccc343312f744446f2f5d5c9674', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: 'afbe88673dabc2c959c1d19e7236e6a602631fb4', slot: "anchor", class: "search-bar", "aria-invalid": this.isValid, withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, onblur: () => this.inputPickerBlurred.emit(), autocomplete: "nope", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
                 this.applyFilter('');
                 this.open();
                 this.comboboxClear.emit();
-            } }, this.loading && h("wa-spinner", { key: 'af2dde6417a6ec138e05b981241fafdb617f0d5c', slot: "end" }), h("wa-icon", { key: '12a4d4f5a502582821299cd5222f5a577712b6e5', slot: "start", name: "magnifying-glass", "aria-hidden": "true" }), h("slot", { key: '8f1a36053f6862c5ed9785d80187364150bc15cf', name: "end", slot: "end" })), h("div", { key: '0330a4f4085f6c9f84d08d5ddcf0e883122b3c9a', class: "menu", role: "presentation" }, h("p", { key: '5f3e4f830b0f84bacc90cc31e82f23d03d7bda75', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: 'a3a34243f426fd424273a30b1d41b91b956726e4', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: '716cd00cbee77c6e20d5381995fec37cd8b826e0', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: 'e1b9be874bd25b85c7cd30d3e0ab723baffd3583' }), h("p", { key: 'cb4c7ae1601e2ac0fe7965839c04ce73a47318b6' }, "Loading suggestions\u2026"))), h("slot", { key: '10fe00093fd131e31933f1b01b9a40154d060afd', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: '3c6e76125f277d6d9638ffd48ca06da30bc8abd0', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: '13cf5e4e0293ed4629b0caa41343614f5ff4014d', name: "circle-info", "aria-hidden": "true" }), h("p", { key: '1482f0540d3ba9c46dcd93b34f01c0032635afa1' }, "No results found")))))), h("span", { key: 'e2a966c9ab7bc87cabbce7fc476943f2011af16d', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
+            } }, this.loading && h("wa-spinner", { key: '9a0aaa1479a1d8cf09d40b680a3467ba0f63924b', slot: "end" }), h("wa-icon", { key: '97ad3fe0ddaba871220f64a9eca1cbcd932fa278', slot: "start", name: "magnifying-glass", "aria-hidden": "true" }), h("slot", { key: 'df91c3e39234ac153995fc180c001b1e3d9deaed', name: "end", slot: "end" })), h("div", { key: '8e4b1f1f9208eea6629586e06fa5feeb4f1b9b02', class: "menu", role: "presentation" }, h("p", { key: '6cddae720faa53a3f3b02d4c7ac9a885ab1eeefe', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: 'c6e459912fb3611c183149b893e8d539805b2463', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: '54d3462605f01511c7536d4208fca17e6b4654e3', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: '146e49734f3bd3014e5fb0ab448c0b6ad92aa890' }), h("p", { key: '69db25c9af8803d0212fed3a6c8b14dfc57afc6e' }, "Loading suggestions\u2026"))), h("slot", { key: 'c698883192af90b984737aa842f1e46278ec1ed2', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: 'b17d308cacee6638e6619dd68bfc3cb7109b3070', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: 'de56faaf06e4f661b6e1583f92579d7b4e0997f1', name: "circle-info", "aria-hidden": "true" }), h("p", { key: '2d496c4ba61fa36bd09e35cb5cde2a863865dd76' }, "No results found")))))), h("span", { key: 'd02421f116329e406d95018e35f093a38c24406e', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
     }
     updateLiveRegion(resultCount, context) {
         if (!resultCount) {
@@ -669,7 +669,7 @@ export class IrPicker {
                             "name": "default",
                             "text": "false"
                         }],
-                    "text": "Whether to show a clear button inside the input.\r\nWhen clicked, the input value is cleared and the `combobox-clear` event is emitted."
+                    "text": "Whether to show a clear button inside the input.\nWhen clicked, the input value is cleared and the `combobox-clear` event is emitted."
                 },
                 "getter": false,
                 "setter": false,
@@ -682,7 +682,7 @@ export class IrPicker {
                 "mutable": false,
                 "complexType": {
                     "original": "NativeWaInput['size']",
-                    "resolved": "\"large\" | \"medium\" | \"small\"",
+                    "resolved": "\"l\" | \"large\" | \"m\" | \"medium\" | \"s\" | \"small\" | \"xl\" | \"xs\"",
                     "references": {
                         "NativeWaInput": {
                             "location": "import",
@@ -702,7 +702,7 @@ export class IrPicker {
                 "setter": false,
                 "reflect": true,
                 "attribute": "size",
-                "defaultValue": "'small'"
+                "defaultValue": "'s'"
             },
             "appearance": {
                 "type": "string",
@@ -780,7 +780,7 @@ export class IrPicker {
                     "references": {
                         "IrComboboxSelectEventDetail": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/ir-picker/ir-picker.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-picker/ir-picker.tsx",
                             "id": "src/components/ui/ir-picker/ir-picker.tsx::IrComboboxSelectEventDetail"
                         }
                     }

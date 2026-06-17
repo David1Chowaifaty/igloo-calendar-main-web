@@ -52,7 +52,7 @@ export class IrToastAlert {
         }
     }
     render() {
-        return (h("div", { key: 'ec15ca80e2b4a638c54bdb964a2cd37010299f23', class: "toast", "data-position": this.position, "data-leaving": this.leaving, onMouseEnter: () => this.setInteracting(true), onMouseLeave: () => this.setInteracting(false), onFocusin: () => this.setInteracting(true), onFocusout: () => this.setInteracting(false) }, h("wa-callout", { key: '98a57980b7d061a5db05c6b2737dd635f26eb00a', variant: this.calloutVariant }, this.getIcon(), h("div", { key: '9689fd79e1a881e36cfc750867598f3fdd157bae', class: "toast__body" }, this.label && h("h3", { key: 'be215827e00c437eac8fd36f705331fadb3fd4a3', class: "toast__title" }, this.label), this.description && h("p", { key: 'c988e8d92be45e13f6f52e25b8bf2bc246ea512e', class: "toast__description" }, this.description)))));
+        return (h("div", { key: 'e7b85f11409599c616358b6b1fea392602c97a61', class: "toast", "data-position": this.position, "data-leaving": this.leaving, onMouseEnter: () => this.setInteracting(true), onMouseLeave: () => this.setInteracting(false), onFocusin: () => this.setInteracting(true), onFocusout: () => this.setInteracting(false) }, h("wa-callout", { key: '4bfb1bcfe5b4e1be7cbf49df602288f07aaf4e90', variant: this.calloutVariant }, this.getIcon(), h("div", { key: 'eb04e710390244e38efee2043cc40c55b8eb9bee', class: "toast__body" }, this.label && h("h3", { key: '535041e06c314d8cd8f7cc72fd8e0238c847dad4', class: "toast__title" }, this.label), this.description && h("p", { key: '8563da22878b2ee621430fb2c9e467beb2194740', class: "toast__description" }, this.description)))));
     }
     static get is() { return "ir-toast-alert"; }
     static get encapsulation() { return "shadow"; }
@@ -134,7 +134,7 @@ export class IrToastAlert {
                     "references": {
                         "ToastVariant": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ir-toast-alert/ir-toast-alert.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-toast-alert/ir-toast-alert.tsx",
                             "id": "src/components/ir-toast-alert/ir-toast-alert.tsx::ToastVariant"
                         }
                     }

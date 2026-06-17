@@ -74,7 +74,7 @@ export class IrDropdownItem {
         this.dropdownItemSelect.emit(this.value);
     };
     render() {
-        return (h(Host, { key: 'c40d6ae4c0a2caad8bc011a8e7772ced73dadd06', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '941922d0555484a3397a236caa29c24eafe32489', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
     static get is() { return "ir-dropdown-item"; }
     static get encapsulation() { return "scoped"; }
@@ -140,7 +140,7 @@ export class IrDropdownItem {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "Optional html_content (when you want rich content);\r\nIf omitted, the component will render its own slot content."
+                    "text": "Optional html_content (when you want rich content);\nIf omitted, the component will render its own slot content."
                 },
                 "getter": false,
                 "setter": false,

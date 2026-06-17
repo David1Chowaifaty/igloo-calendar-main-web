@@ -46,7 +46,7 @@ export declare class IrCustomButton {
      * The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The
      * value of this attribute must be an id of a form in the same document or shadow root as the button.
      */
-    form: NativeButton['form'];
+    form: string | HTMLFormElement | null;
     /** Used to override the form owner's `action` attribute. */
     formAction: NativeButton['formAction'];
     /** Used to override the form owner's `enctype` attribute.  */
@@ -58,6 +58,7 @@ export declare class IrCustomButton {
     /** Used to override the form owner's `target` attribute. */
     formTarget: NativeButton['formTarget'];
     clickHandler: EventEmitter<MouseEvent>;
+    private get resolvedForm();
     private handleButtonClick;
     render(): any;
 }

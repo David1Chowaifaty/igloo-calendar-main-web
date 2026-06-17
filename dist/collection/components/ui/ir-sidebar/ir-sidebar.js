@@ -103,12 +103,12 @@ export class IrSidebar {
             className = '';
         }
         return [
-            h("div", { key: '05c935700848349ad49d355f6f0312a112f19089', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: '42f6dca6f7c4a4aeebe8884098e8db627b80387d', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: '2e0b941139a0b6c8ded5a00c75f6daf8dd24222d', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: 'ec07f3dcae714fadd772d048eeaf55b0782bbbed', class: 'sidebar-title' }, h("p", { key: 'a3a91f5247dd361dc0b07384a53111312dda8901', class: 'p-0 m-0' }, this.label), h("div", { key: 'a48b4e57533dbb05ad8dbd6124e85e1dd5c04f77', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '3fe1c481c5706d1fc6aebecd53c2946042dc9018', class: "", onIconClickHandler: () => {
+            h("div", { key: 'f022e6a889a21e084de74aa1ec344489de15d31a', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '96f324f9ed66ebfe62a2e6bd53a5704479c0023b', class: 'sidebar-title' }, h("p", { key: '986a5215018adf698057ad013fbad7a14d95675f', class: 'p-0 m-0' }, this.label), h("div", { key: '59236cb9bcb3e7d43a02f9d54f73787231f3326d', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '41d560739f36796c1187cf14f5d0f7573fd32222', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: '723b0c85dc1a4b9f76c6cfb6f74ba4accfcd35d8', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '5bfc4a1c33c632b3b1455e157cf9699ce14b205f', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '41403530a47077000ce9c6654850c8b7ba0b7f1f', name: "sidebar-body" })),
+                } }, h("svg", { key: '8e24879f5b591b50031c537577291728c4b8b48e', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '89e1a4371c902112628d4a25a27cda4e49b39418', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '22c5275243c5d9cfba416aac01fc54de47fe99da', name: "sidebar-body" })),
         ];
     }
     static get is() { return "ir-sidebar"; }
@@ -156,7 +156,7 @@ export class IrSidebar {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Which side of the screen the sidebar appears on.\r\nOptions: `'left'` or `'right'`."
+                    "text": "Which side of the screen the sidebar appears on.\nOptions: `'left'` or `'right'`."
                 },
                 "getter": false,
                 "setter": false,
@@ -196,7 +196,7 @@ export class IrSidebar {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Whether the sidebar is open.\r\nCan be used with two-way binding."
+                    "text": "Whether the sidebar is open.\nCan be used with two-way binding."
                 },
                 "getter": false,
                 "setter": false,
@@ -261,7 +261,7 @@ export class IrSidebar {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Prevents the sidebar from closing when `toggleSidebar()` is called.\r\nWhen true, emits `beforeSidebarClose` instead of toggling."
+                    "text": "Prevents the sidebar from closing when `toggleSidebar()` is called.\nWhen true, emits `beforeSidebarClose` instead of toggling."
                 },
                 "getter": false,
                 "setter": false,
@@ -279,7 +279,7 @@ export class IrSidebar {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Event emitted when the sidebar is toggled open/closed.\r\nEmits the current `open` state."
+                    "text": "Event emitted when the sidebar is toggled open/closed.\nEmits the current `open` state."
                 },
                 "complexType": {
                     "original": "any",
@@ -294,7 +294,7 @@ export class IrSidebar {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Event emitted *before* the sidebar attempts to close,\r\nbut only if `preventClose` is set to true."
+                    "text": "Event emitted *before* the sidebar attempts to close,\nbut only if `preventClose` is set to true."
                 },
                 "complexType": {
                     "original": "any",
@@ -318,7 +318,7 @@ export class IrSidebar {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "Toggles the sidebar's visibility.\r\n\r\n- If `preventClose` is true, emits `beforeSidebarClose` and does nothing else.\r\n- Otherwise, emits `irSidebarToggle` with the current `open` state.\r\n\r\nExample:\r\n```ts\r\nconst el = document.querySelector('ir-sidebar');\r\nawait el.toggleSidebar();\r\n```",
+                    "text": "Toggles the sidebar's visibility.\n\n- If `preventClose` is true, emits `beforeSidebarClose` and does nothing else.\n- Otherwise, emits `irSidebarToggle` with the current `open` state.\n\nExample:\n```ts\nconst el = document.querySelector('ir-sidebar');\nawait el.toggleSidebar();\n```",
                     "tags": []
                 }
             }

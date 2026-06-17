@@ -508,11 +508,11 @@ export class IrBookingDetails {
                 e.stopPropagation();
                 this.modalRef.closeModal();
                 this.modalState = null;
-            }, ref: el => (this.modalRef = el) }, h("p", null, this.modalState?.message), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { loading: isRequestPending('/Send_Booking_Confirmation_Email'), onClickHandler: e => {
+            }, ref: el => (this.modalRef = el) }, h("p", null, this.modalState?.message), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { loading: isRequestPending('/Send_Booking_Confirmation_Email'), onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleModalConfirm();
-            }, size: "medium", variant: "brand" }, locales.entries.Lcz_Confirm))), h("ir-room-guests", { open: this.sidebarState === 'room-guest', countries: this.countries, language: this.language, identifier: this.sidebarPayload?.identifier, bookingNumber: this.booking.booking_nbr, roomName: this.sidebarPayload?.roomName, totalGuests: this.sidebarPayload?.totalGuests, sharedPersons: this.sidebarPayload?.sharing_persons, slot: "sidebar-body", checkIn: this.sidebarPayload?.checkin, onCloseModal: () => (this.sidebarState = null) }), h("ir-extra-service-config", { open: this.sidebarState === 'extra_service', service: this.selectedService, svcCategories: this.svcCategories, language: this.language, booking: this.booking, agent: this.agent, slot: "sidebar-body", onCloseModal: e => {
+            }, size: "m", variant: "brand" }, locales.entries.Lcz_Confirm))), h("ir-room-guests", { open: this.sidebarState === 'room-guest', countries: this.countries, language: this.language, identifier: this.sidebarPayload?.identifier, bookingNumber: this.booking.booking_nbr, roomName: this.sidebarPayload?.roomName, totalGuests: this.sidebarPayload?.totalGuests, sharedPersons: this.sidebarPayload?.sharing_persons, slot: "sidebar-body", checkIn: this.sidebarPayload?.checkin, onCloseModal: () => (this.sidebarState = null) }), h("ir-extra-service-config", { open: this.sidebarState === 'extra_service', service: this.selectedService, svcCategories: this.svcCategories, language: this.language, booking: this.booking, agent: this.agent, slot: "sidebar-body", onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.sidebarState = null;
@@ -775,7 +775,7 @@ export class IrBookingDetails {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Indicates whether the component is rendered from the front desk context.\r\nDisables interceptor and toast rendering when true."
+                    "text": "Indicates whether the component is rendered from the front desk context.\nDisables interceptor and toast rendering when true."
                 },
                 "getter": false,
                 "setter": false,
@@ -795,7 +795,7 @@ export class IrBookingDetails {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Active language code used for translations and API requests.\r\nDefaults to 'en'."
+                    "text": "Active language code used for translations and API requests.\nDefaults to 'en'."
                 },
                 "getter": false,
                 "setter": false,
@@ -853,7 +853,7 @@ export class IrBookingDetails {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Authentication token used to initialize the component.\r\nTriggers re-initialization when changed."
+                    "text": "Authentication token used to initialize the component.\nTriggers re-initialization when changed."
                 },
                 "getter": false,
                 "setter": false,
@@ -905,7 +905,7 @@ export class IrBookingDetails {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted whenever the booking object is updated.\r\nUsed to notify parent components about booking state changes."
+                    "text": "Emitted whenever the booking object is updated.\nUsed to notify parent components about booking state changes."
                 },
                 "complexType": {
                     "original": "Booking",
@@ -927,7 +927,7 @@ export class IrBookingDetails {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the sidebar should be closed.\r\nTypically triggered by header actions (e.g., close button)."
+                    "text": "Emitted when the sidebar should be closed.\nTypically triggered by header actions (e.g., close button)."
                 },
                 "complexType": {
                     "original": "null",

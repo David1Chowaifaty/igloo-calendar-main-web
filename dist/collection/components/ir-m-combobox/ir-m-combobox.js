@@ -369,7 +369,7 @@ export class IrMCombobox {
         this.updateSlotElementsForItems();
     }
     render() {
-        return (h(Host, { key: 'd8f7cf3f905b16e676ed785352b009a7a9b0edd3', class: { 'has-prefix': this.hasPrefix, 'has-suffix': this.hasSuffix } }, h("div", { key: '60e860121b98aaa6478617d1cd168ca87f448416', class: "input-wrapper" }, h("span", { key: '0a20aee469395acf7711639cab48552ba7ef0ab7', class: "prefix-container", "aria-hidden": !this.hasPrefix }, h("slot", { key: '1450ffe6b00b5be1882e0d86d6c2636657c3db6a', name: "prefix", ref: el => (this.prefixSlotRef = el) })), h("input", { key: '44a86c87c6f37a1c302bbc5765aa2ac0e0f635a2', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: this.selectedOption?.label || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("span", { key: 'e20881d17e8b497b6523491487cdcc8919840214', class: "suffix-container", "aria-hidden": !this.hasSuffix }, h("slot", { key: '0e3688e86534a2d5907ee54b803be0316065daf9', name: "suffix", ref: el => (this.suffixSlotRef = el) }))), h("div", { key: '988cda54b38f2af9fe10d20e46e0302616bfa3d3', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '8faec2c8ccadc68056f0821ef62990bd0ea08323', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.isCompositionMode ? (h("slot", null)) : this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
+        return (h(Host, { key: '1dfdff02066a9498b5069cac3fd3fdeaf14b92b2', class: { 'has-prefix': this.hasPrefix, 'has-suffix': this.hasSuffix } }, h("div", { key: '2fe2e42aedd785bc1a4517861e5ec60f95a9aff2', class: "input-wrapper" }, h("span", { key: 'e785d6a4783a4688725d2bc68fc235ca42ceb2d3', class: "prefix-container", "aria-hidden": !this.hasPrefix }, h("slot", { key: 'f8a14e9f397302d923d597b2fa4c0c0826ff0ea1', name: "prefix", ref: el => (this.prefixSlotRef = el) })), h("input", { key: '95116b50de0269ad39057134207c43db532545c4', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: this.selectedOption?.label || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("span", { key: 'dcfe4d463c58e2e1d106e9076515e86f47ae5d8c', class: "suffix-container", "aria-hidden": !this.hasSuffix }, h("slot", { key: '3b75dff5f53cb8004ad58d38fffbb70112bd48f6', name: "suffix", ref: el => (this.suffixSlotRef = el) }))), h("div", { key: '7d862dd1a0f3e451c88d8353bd4c6d957199d712', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '405dd4bfe0104e69dbe4617351d45c6d9e4d92c6', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.isCompositionMode ? (h("slot", null)) : this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
             this.loading && h("div", { class: "dropdown-item loading" }, "Loading..."),
             !this.loading && this.filteredOptions.length === 0 && h("div", { class: "dropdown-item no-results" }, "No results found"),
             !this.loading &&
@@ -457,7 +457,7 @@ export class IrMCombobox {
                             "name": "default",
                             "text": "'static'"
                         }],
-                    "text": "Determines how the options are loaded into the component.\r\n- 'static': Uses the options passed through the `options` prop or the default internal list.\r\n- 'external': Emits search events for external handling, options updated via `options` prop."
+                    "text": "Determines how the options are loaded into the component.\n- 'static': Uses the options passed through the `options` prop or the default internal list.\n- 'external': Emits search events for external handling, options updated via `options` prop."
                 },
                 "getter": false,
                 "setter": false,
@@ -484,7 +484,7 @@ export class IrMCombobox {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "List of available options for the combobox when using static data mode.\r\nIf empty, falls back to a default internal option list."
+                    "text": "List of available options for the combobox when using static data mode.\nIf empty, falls back to a default internal option list."
                 },
                 "getter": false,
                 "setter": false,
@@ -576,7 +576,7 @@ export class IrMCombobox {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when a user selects an option from the combobox.\r\nThe event payload contains the selected `ComboboxOption` object."
+                    "text": "Emitted when a user selects an option from the combobox.\nThe event payload contains the selected `ComboboxOption` object."
                 },
                 "complexType": {
                     "original": "ComboboxOption",
@@ -598,7 +598,7 @@ export class IrMCombobox {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the user types in the input field (debounced).\r\nUsed for external data fetching in 'external' data mode."
+                    "text": "Emitted when the user types in the input field (debounced).\nUsed for external data fetching in 'external' data mode."
                 },
                 "complexType": {
                     "original": "string",

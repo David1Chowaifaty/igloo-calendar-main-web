@@ -1,1 +1,0 @@
-import{h as m}from"./p-Mki5YqAR.js";const s=(s,o)=>m(`${s}:${o}`,"HH:mm").format("hh:mm A"),o=m=>m&&"002"!==m.payment_mode.code;export{s as _,o as i}

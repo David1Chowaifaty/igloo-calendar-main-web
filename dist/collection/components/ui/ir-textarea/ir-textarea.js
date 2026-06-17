@@ -256,7 +256,7 @@ export class IrTextArea {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Layout style of the textarea:\r\n`'default'` shows label above, `'prepend'` shows label on the left."
+                    "text": "Layout style of the textarea:\n`'default'` shows label above, `'prepend'` shows label on the left."
                 },
                 "getter": false,
                 "setter": false,
@@ -336,7 +336,7 @@ export class IrTextArea {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emits when the textarea content changes.\r\n\r\nExample:\r\n```tsx\r\n<ir-textarea onTextChange={(e) => console.log(e.detail)} />\r\n```"
+                    "text": "Emits when the textarea content changes.\n\nExample:\n```tsx\n<ir-textarea onTextChange={(e) => console.log(e.detail)} />\n```"
                 },
                 "complexType": {
                     "original": "string",

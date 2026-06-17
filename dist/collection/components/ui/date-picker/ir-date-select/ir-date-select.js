@@ -183,12 +183,12 @@ export class IrDateSelect {
         return this.timepicker ? moment(this.currentDate).format('MMM DD, YYYY, HH:mm') : moment(this.currentDate).format('MMM DD, YYYY');
     }
     render() {
-        return (h(Host, { key: '4bc18206f705e2a682a7b091c3fd9fb800f9451e', class: {
+        return (h(Host, { key: 'de1355b623f9366e22f22a9bc1d8ec57ddeb1263', class: {
                 'ir-date-select': true,
                 'ir-date-select--active': this.isActive,
                 'ir-date-select--inline': this.inline,
                 'ir-date-select--disabled': this.disabled,
-            } }, h("wa-popup", { key: '53da9312de58993b04e83272b335427c19dcaa9a', arrow: true, part: "base", placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "ir-date-select__popup" }, h("div", { key: 'e8e840594aafd426d195b059d5f1d9da8edcb0f0', slot: "anchor", part: "anchor", class: "ir-date-select__trigger" }, h("div", { key: 'b30a645dbebd881b9a3fe0ed0a3bbb311ab6fe8e', part: "combobox", class: "ir-date-select__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": "Select date", onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("slot", { key: '4d6426ef2bc583eea79a7f9b1663bff06097c79d', name: "trigger" }, h("ir-input", { key: '4cfd39e114ba94502cdd42c32cd9bfdd20eb231f', disabled: this.disabled, class: "ir-date-select__input", placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, "aria-invalid": this.isValid, readonly: true, defaultValue: this._label, label: this.label, value: this._label }, this.slotManager.hasSlot('label') && h("slot", { key: '1e79153914bfbd3f64e24f2d1397d30e28161fd9', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '5a3f8aef256af2c96a3b0281cbbdc53df3e37a02', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '37b646e328ac98025b1d8e486fa77a09f798a0e8', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: '2057e05d04e4c12de6c92870bd55d68a14546fc8', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '72ba088fb3f9809457613e4d630a061668156769', name: "hint", slot: "hint" }))))), h("div", { key: 'fb977e0492b05ac8f138f9ab64869a6b5c885c56', part: "body", id: this.popupId, class: "ir-date-select__calendar", role: "dialog", "aria-modal": "false", "aria-label": "Date selection dialog" }, h("ir-air-date-picker", { key: 'c3d866771adcba503e9419efa2669444c30d1a64', ref: el => (this.airDatePickerRef = el), withClear: this.withClear, placeholder: this.placeholder, label: this.label, dates: this.dates, inline: this.inline, date: this.date, multipleDates: this.multipleDates, range: this.range, dateFormat: this.dateFormat, timepicker: this.timepicker, minDate: this.minDate, maxDate: this.maxDate, disabled: this.disabled, autoClose: this.autoClose, showOtherMonths: this.showOtherMonths, selectOtherMonths: this.selectOtherMonths, customPicker: this.customPicker, container: this.container, forceDestroyOnUpdate: this.forceDestroyOnUpdate, emitEmptyDate: this.emitEmptyDate, onDateChanged: e => {
+            } }, h("wa-popup", { key: 'c6e73d5031e07b818245e144d7a2cfeeed8eddac', arrow: true, part: "base", placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "ir-date-select__popup" }, h("div", { key: 'da2a541e39979a291077fe6007dc5e40b1e7f3e4', slot: "anchor", part: "anchor", class: "ir-date-select__trigger" }, h("div", { key: 'e00970ebe9661bd5c8b6bf45fb98105489d8665c', part: "combobox", class: "ir-date-select__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": "Select date", onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("slot", { key: 'a7086598a2c7970684e135bbfa8647f5def9e69b', name: "trigger" }, h("ir-input", { key: 'd015f098abcdf09ad30d4cc2f08688d32d8a63f8', disabled: this.disabled, class: "ir-date-select__input", placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, "aria-invalid": this.isValid, readonly: true, defaultValue: this._label, label: this.label, value: this._label }, this.slotManager.hasSlot('label') && h("slot", { key: 'b4066e2f3efeedf18599a1a761feb7a5fabb265b', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '9a869ca11f98947586fce22657742d5154b13bfe', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '9a3995bf378e855f0ef9a9828ce953d5e212d501', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: 'e3436733c461c76bbaa24af6930d45ad78f54dea', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '5d90dfbd00af8d38dcb70eec33f0a964d42454a4', name: "hint", slot: "hint" }))))), h("div", { key: '1b97c3e10e5be889daf99a61a5a0399a2abdbc21', part: "body", id: this.popupId, class: "ir-date-select__calendar", role: "dialog", "aria-modal": "false", "aria-label": "Date selection dialog" }, h("ir-air-date-picker", { key: '3b978698d1658ee3e89ae85ea89e804694d32e06', ref: el => (this.airDatePickerRef = el), withClear: this.withClear, placeholder: this.placeholder, label: this.label, dates: this.dates, inline: this.inline, date: this.date, multipleDates: this.multipleDates, range: this.range, dateFormat: this.dateFormat, timepicker: this.timepicker, minDate: this.minDate, maxDate: this.maxDate, disabled: this.disabled, autoClose: this.autoClose, showOtherMonths: this.showOtherMonths, selectOtherMonths: this.selectOtherMonths, customPicker: this.customPicker, container: this.container, forceDestroyOnUpdate: this.forceDestroyOnUpdate, emitEmptyDate: this.emitEmptyDate, onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.currentDate = e.detail?.start;
@@ -197,7 +197,7 @@ export class IrDateSelect {
                 if (shouldClose) {
                     this.hide();
                 }
-            } }), h("slot", { key: '3b9b6d481bcbbeac38977249908002bc66d0f5f1' })))));
+            } }), h("slot", { key: '75bd602854288215450a972031a3927ed50743a2' })))));
     }
     static get is() { return "ir-date-select"; }
     static get encapsulation() { return "shadow"; }
@@ -299,7 +299,7 @@ export class IrDateSelect {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Determines whether the date picker is rendered inline or in a pop-up.\r\nIf `true`, the picker is always visible inline."
+                    "text": "Determines whether the date picker is rendered inline or in a pop-up.\nIf `true`, the picker is always visible inline."
                 },
                 "getter": false,
                 "setter": false,
@@ -346,7 +346,7 @@ export class IrDateSelect {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Enables multiple dates.\r\nIf `true`, multiple selection is allowed.\r\nIf you pass a number (e.g. 3), that is the maximum number of selectable dates."
+                    "text": "Enables multiple dates.\nIf `true`, multiple selection is allowed.\nIf you pass a number (e.g. 3), that is the maximum number of selectable dates."
                 },
                 "getter": false,
                 "setter": false,
@@ -386,7 +386,7 @@ export class IrDateSelect {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Format for the date as it appears in the input field.\r\nFollows the `AirDatepicker` format rules."
+                    "text": "Format for the date as it appears in the input field.\nFollows the `AirDatepicker` format rules."
                 },
                 "getter": false,
                 "setter": false,
@@ -558,7 +558,7 @@ export class IrDateSelect {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Controls how the date picker is triggered.\r\n- **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name=\"trigger\">`).\r\n- **`false`**: A default button input is used to open the picker.\r\n\r\nDefaults to `false`."
+                    "text": "Controls how the date picker is triggered.\n- **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name=\"trigger\">`).\n- **`false`**: A default button input is used to open the picker.\n\nDefaults to `false`."
                 },
                 "getter": false,
                 "setter": false,
@@ -583,7 +583,7 @@ export class IrDateSelect {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "Pass a container element if you need the date picker to be appended to a specific element\r\nfor styling or positioning (particularly for arrow rendering).\r\nIf not provided, it defaults to `this.el`."
+                    "text": "Pass a container element if you need the date picker to be appended to a specific element\nfor styling or positioning (particularly for arrow rendering).\nIf not provided, it defaults to `this.el`."
                 },
                 "getter": false,
                 "setter": false
@@ -600,7 +600,7 @@ export class IrDateSelect {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.\r\nThis can be useful if you need the picker to fully re-initialize in response to dynamic changes,\r\nbut note that it may affect performance if triggered frequently.\r\nDefaults to `false`."
+                    "text": "If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.\nThis can be useful if you need the picker to fully re-initialize in response to dynamic changes,\nbut note that it may affect performance if triggered frequently.\nDefaults to `false`."
                 },
                 "getter": false,
                 "setter": false,
@@ -620,7 +620,7 @@ export class IrDateSelect {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).\r\nOtherwise, empty-date changes will be ignored (no event emitted).\r\n\r\nDefaults to `false`."
+                    "text": "If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).\nOtherwise, empty-date changes will be ignored (no event emitted).\n\nDefaults to `false`."
                 },
                 "getter": false,
                 "setter": false,
@@ -705,7 +705,7 @@ export class IrDateSelect {
                     "references": {
                         "DateChangeEvent": {
                             "location": "local",
-                            "path": "C:/Users/user/Code/work/modified-ir-webcmp/src/components/ui/date-picker/ir-date-select/ir-date-select.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/date-picker/ir-date-select/ir-date-select.tsx",
                             "id": "src/components/ui/date-picker/ir-date-select/ir-date-select.tsx::DateChangeEvent"
                         }
                     }
