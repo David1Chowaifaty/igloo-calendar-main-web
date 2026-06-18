@@ -51,14 +51,14 @@ export class IrMonthlyBookingsReportFilter {
         return dates.reverse();
     }
     render() {
-        return (h("ir-filter-card", { key: '9af935b51a3d627b1169750776a2ea7501f13346' }, h("wa-select", { key: 'b5657ac89d778690b32637efd00f442c8f26cc67', label: "For", size: "s", value: this.filters?.date?.description, defaultValue: this.filters?.date?.description, onchange: (e) => {
+        return (h("ir-filter-card", { key: '6b455cae73cddf33a85e26ae79410a99c018edda' }, h("wa-select", { key: 'cbf684cb767b3c7d181fdca7d173fae827ea1099', label: "For", size: "s", value: this.filters?.date?.description, defaultValue: this.filters?.date?.description, onchange: (e) => {
                 const value = e.target.value;
                 this.updateFilter({ date: this.dates.find(d => d.description === value) });
-            } }, this.dates.map(d => (h("wa-option", { value: d.description }, d.description)))), h("wa-checkbox", { key: 'cf098d653fe7fc2ed321b223b6eedf2aa1587255', checked: this.filters?.include_previous_year, onchange: (e) => {
+            } }, this.dates.map(d => (h("wa-option", { value: d.description }, d.description)))), h("wa-checkbox", { key: 'ae0d2f546ca1dfe74fa0ad0e7d97991cb2bcde10', checked: this.filters?.include_previous_year, onchange: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ include_previous_year: e.target.checked });
-            } }, "Compare with previous year"), h("div", { key: '28ef55fdceaf7eb9e318bb6dded21c101c7aec1f', slot: "footer" }, h("ir-custom-button", { key: '101007b0c73381b5c22dff2b43d644b0a00af896', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: '152b27d91a817f55188f6b8744fae6d52c07bbe0', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
+            } }, "Compare with previous year"), h("div", { key: 'c4d9979510f59aaf7df2308cc2d9a4fd0f76aa6a', slot: "footer" }, h("ir-custom-button", { key: 'c56d60d77191108631acfb971e42c2cc9925dfd4', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: '3c9a794f7fcb90da720374edb0066dcbcbf299c5', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
     }
     static get is() { return "ir-monthly-bookings-report-filter"; }
     static get encapsulation() { return "scoped"; }
