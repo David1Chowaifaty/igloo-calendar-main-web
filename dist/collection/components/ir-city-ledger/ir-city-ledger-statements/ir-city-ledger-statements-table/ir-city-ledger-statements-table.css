@@ -55,7 +55,7 @@
 .table thead th {
   border: none !important;
   background: color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);
-  color: #374151;
+  color: var(--wa-color-neutral-on-quiet);
   padding: 0.5rem 1rem !important;
   text-align: left;
 }

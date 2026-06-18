@@ -5,8 +5,6 @@ export class IrMonthlyBookingsReportFilter {
     isLoading;
     baseFilters;
     filters;
-    collapsed = false;
-    window;
     applyFilters;
     dates = [];
     componentWillLoad() {
@@ -27,34 +25,12 @@ export class IrMonthlyBookingsReportFilter {
         this.filters = this.baseFilters;
         this.applyFilters.emit(this.filters);
     }
-    // private generateMonths(): ReportDate[] {
-    //   const firstOfThisMonth = moment().startOf('month');
-    //   const startDate = moment().subtract(1, 'year').startOf('month');
-    //   const dates = [];
-    //   const format = 'YYYY-MM-DD';
-    //   let cursor = startDate.clone();
-    //   while (cursor.format(format) !== firstOfThisMonth.format(format)) {
-    //     dates.push({
-    //       description: cursor.format('MMMM YYYY'),
-    //       firstOfMonth: cursor.format('YYYY-MM-DD'),
-    //       lastOfMonth: cursor.clone().endOf('month').format('YYYY-MM-DD'),
-    //     });
-    //     cursor.add(1, 'month');
-    //   }
-    //   dates.push({
-    //     description: firstOfThisMonth.format('MMMM YYYY'),
-    //     firstOfMonth: firstOfThisMonth.format('YYYY-MM-DD'),
-    //     lastOfMonth: firstOfThisMonth.clone().endOf('month').format('YYYY-MM-DD'),
-    //   });
-    //   return dates.reverse();
-    // }
     generateMonths() {
         const format = 'YYYY-MM-DD';
         const firstOfThisMonth = moment().startOf('month');
         const startDate = moment().subtract(1, 'year').startOf('month');
         const dates = [];
         let cursor = startDate.clone();
-        // Past → current month
         while (cursor.isSameOrBefore(firstOfThisMonth, 'month')) {
             dates.push({
                 description: cursor.format('MMMM YYYY'),
@@ -63,7 +39,6 @@ export class IrMonthlyBookingsReportFilter {
             });
             cursor.add(1, 'month');
         }
-        // Add 6 future months
         const futureCursor = firstOfThisMonth.clone().add(1, 'month');
         for (let i = 0; i < 6; i++) {
             dates.push({
@@ -76,16 +51,14 @@ export class IrMonthlyBookingsReportFilter {
         return dates.reverse();
     }
     render() {
-        return (h("div", { key: 'b75a0423172e2af8f67467b9cdf96ab2ec0f1746', class: "card mb-0 p-1 d-flex flex-column sales-filters-card" }, h("div", { key: '1f5ebb28b269a2a31c27b6802fa1b02eec007a24', class: "d-flex align-items-center justify-content-between sales-filters-header" }, h("div", { key: '8e90c47d62da995cf9ea97fb4575be85b0074c57', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: '77390b2e10b82d68ee9c174b38b36c92acc00b3a', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '2eb63eb49eafd97940db73515a9bbf91f7f2e373', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: 'cb33f3d31412595abf98190131993b3f7975560b', class: "m-0 p-0 flex-grow-1" }, locales.entries?.Lcz_Filters || 'Filters'))), h("div", { key: 'a2db9d52180ba79b6359a25da6f6d9e6f96ebe57', class: "m-0 p-0 collapse filters-section", id: "salesFiltersCollapse" }, h("fieldset", { key: 'a75dee0c12b6b961d66c0997f4147ca9778f222b', class: "pt-1 filter-group" }, h("label", { key: 'd720ab0357b1b3d3e7f6c366bf920bdbe9283af2', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "For"), h("ir-select", { key: 'd210b15d0ebbc5a410d78d1656ec46801ca06711', showFirstOption: false, selectedValue: this.filters?.date?.description, onSelectChange: e => {
-                this.updateFilter({ date: this.dates.find(d => d.description === e.detail) });
-            }, data: this.dates.map(d => ({
-                text: d.description,
-                value: d.description,
-            })) })), h("div", { key: '0b4cd034e161173c199b83d960703850c89858c7', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, h("label", { key: '61d5d54b8cc6934906e9b1e366ecbb64a302bc38', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), h("ir-checkbox", { key: '42223cc4ba9f1bcdd20a3179b437314016050c52', checked: this.filters?.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
+        return (h("ir-filter-card", { key: '5df4bb52720a804999ae66bf2b7f17fb746f3254' }, h("wa-select", { key: 'a365eba14c9c051a5e2b157b9721460489f12479', label: "For", size: "s", value: this.filters?.date?.description, defaultValue: this.filters?.date?.description, onchange: (e) => {
+                const value = e.target.value;
+                this.updateFilter({ date: this.dates.find(d => d.description === value) });
+            } }, this.dates.map(d => (h("wa-option", { value: d.description }, d.description)))), h("wa-checkbox", { key: '9e6a0cf82cc7bd4a022462df81a3c1a1bc84b698', checked: this.filters?.include_previous_year, onchange: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-                this.updateFilter({ include_previous_year: e.detail });
-            } })), h("div", { key: 'fadf6935d101bc0cd59c26a03c913456a482c7a8', class: "d-flex align-items-center justify-content-end filter-actions", style: { gap: '1rem' } }, h("ir-button", { key: '1d51cdf2842aea1ec49ab21b76cf77e1157d6432', btn_type: "button", "data-testid": "reset", text: locales.entries?.Lcz_Reset ?? 'Reset', size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: '2e08c4f4990119c833630c0cd8c74a5eea69fad5', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: locales.entries?.Lcz_Apply ?? 'Apply', size: "sm", onClickHandler: e => this.applyFiltersEvt(e) })))));
+                this.updateFilter({ include_previous_year: e.target.checked });
+            } }, "Compare with previous year"), h("div", { key: '83c008bc8ea5bafe3edfdf3e3503c86aa4df060c', slot: "footer" }, h("ir-custom-button", { key: '988e942be05c62ed7f5f9407b47f1a56e2b8980a', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: '1e6c0f83080a49e1bad4167728411002c981ffeb', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
     }
     static get is() { return "ir-monthly-bookings-report-filter"; }
     static get encapsulation() { return "scoped"; }
@@ -148,9 +121,7 @@ export class IrMonthlyBookingsReportFilter {
     }
     static get states() {
         return {
-            "filters": {},
-            "collapsed": {},
-            "window": {}
+            "filters": {}
         };
     }
     static get events() {

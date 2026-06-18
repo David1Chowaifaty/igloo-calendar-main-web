@@ -4,7 +4,6 @@ export declare class IrSalesFilters {
     isLoading: boolean;
     baseFilters: CountrySalesFilter;
     filters: CountrySalesFilter;
-    collapsed: boolean;
     window: string;
     applyFilters: EventEmitter<CountrySalesFilter>;
     componentWillLoad(): void;

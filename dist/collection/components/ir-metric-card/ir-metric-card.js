@@ -30,8 +30,6 @@ export class IrMetricCard {
     unit;
     /** Name of a `wa-icon` rendered in the leading icon chip. */
     icon;
-    /** Accent color used for the icon chip, trend, and accent edge. */
-    intent = 'neutral';
     /** Trend delta as a percentage. The sign selects the up/down arrow and color. */
     trend;
     /** Context text shown beside the trend (e.g. `vs last week`). */
@@ -43,7 +41,7 @@ export class IrMetricCard {
     /** Render skeleton placeholders instead of content. */
     loading = false;
     /** Visual density. `small` is compact (default); `medium` enlarges the value and padding. */
-    size = 'small';
+    size = 's';
     /** Make the whole card interactive: adds hover/focus affordance and emits `metricClick`. */
     clickable = false;
     /** Emitted when a clickable card is activated by click or keyboard (Enter / Space). */
@@ -90,7 +88,7 @@ export class IrMetricCard {
         const hasIcon = !!this.icon;
         const interactive = this.clickable && !this.loading;
         const ariaLabel = [this.label, this.value, this.unit].filter(Boolean).join(' ') || undefined;
-        return (h(Host, { key: '9414666358e1e10a11ecc812f1a29cb3ac668b40', role: this.clickable ? 'button' : null, tabindex: interactive ? '0' : null, "aria-label": this.clickable ? ariaLabel : null, "aria-busy": this.loading ? 'true' : null, onClick: interactive ? this.handleActivate : undefined, onKeyDown: interactive ? this.handleKeyDown : undefined }, h("div", { key: '931d1460d0f01ec67a32858db39d3a547be08938', part: "base", class: "metric" }, (hasIcon || this.label) && (h("div", { key: '626fe85d1b6c8b05e5b79f96e636f3bf51aa0b5d', part: "header", class: "metric__header" }, hasIcon && this.renderIcon(), h("span", { key: '723de1ceb9d6fb681721bd2b03a92c3d02616706', part: "label", class: "metric__label" }, h("slot", { key: '3bbc2815ac67b5253956041a427af97dff1132a8', name: "label" }, this.label)))), this.loading ? (h("div", { class: "metric__skeleton" }, h("span", { class: "metric__skeleton-bar metric__skeleton-bar--value" }), h("span", { class: "metric__skeleton-bar metric__skeleton-bar--caption" }))) : (h("div", { class: "metric__main" }, h("div", { part: "value", class: "metric__value" }, h("slot", { name: "value" }, this.value !== undefined && this.value !== null && h("span", { class: "metric__value-number" }, this.value), this.unit && (h("span", { part: "unit", class: "metric__unit" }, this.unit))), this.renderTrend()), this.caption && (h("p", { part: "caption", class: "metric__caption" }, this.caption)))), h("div", { key: 'e3f7af642c3f3b5e5d30ba1ae310ad833e26e8af', part: "body", class: "metric__body" }, h("slot", { key: 'deda9d8301f6e4fe00af320bb309c7ef428387b3' })), h("div", { key: 'd306d07f449a392ed8448810b0418eb223793781', part: "footer", class: "metric__footer" }, h("slot", { key: 'cbca79a57b501e51be43243f63c377d87c4888a0', name: "footer" })))));
+        return (h(Host, { key: '31842a6fd266c59bdb6996818702eae1e93479ef', role: this.clickable ? 'button' : null, tabindex: interactive ? '0' : null, "aria-label": this.clickable ? ariaLabel : null, "aria-busy": this.loading ? 'true' : null, onClick: interactive ? this.handleActivate : undefined, onKeyDown: interactive ? this.handleKeyDown : undefined }, h("div", { key: '1954d072dcb328f21b7200e7ff9a445b9e0ca519', part: "base", class: "metric" }, (hasIcon || this.label) && (h("div", { key: 'f2e8567804c888a4257a9be97e406ea99bd4b49d', part: "header", class: "metric__header" }, hasIcon && this.renderIcon(), h("span", { key: '50c6c09f3204e7fa0cb28122962381a3c156d037', part: "label", class: "metric__label" }, h("slot", { key: '28da8b5b0e2a6fce179cc5f9936ad21174520879', name: "label" }, this.label)))), this.loading ? (h("div", { class: "metric__skeleton" }, h("span", { class: "metric__skeleton-bar metric__skeleton-bar--value" }), h("span", { class: "metric__skeleton-bar metric__skeleton-bar--caption" }))) : (h("div", { class: "metric__main" }, h("div", { part: "value", class: "metric__value" }, h("slot", { name: "value" }, this.value !== undefined && this.value !== null && h("span", { class: "metric__value-number" }, this.value), this.unit && (h("span", { part: "unit", class: "metric__unit" }, this.unit))), this.renderTrend()), this.caption && (h("p", { part: "caption", class: "metric__caption" }, this.caption)))), h("div", { key: 'a3030e8d303396126e977237c1c6e70c8138840b', part: "body", class: "metric__body" }, h("slot", { key: '6eef99015a2fd7b5a44b541afff356ec3c33941a' })), h("div", { key: '0b796ffc176a2939dae52362013e6d552cd9edd7', part: "footer", class: "metric__footer" }, h("slot", { key: 'e327080c0a80ad09fbf740cb7f98cc94979fe6b9', name: "footer" })))));
     }
     static get is() { return "ir-metric-card"; }
     static get encapsulation() { return "shadow"; }
@@ -181,32 +179,6 @@ export class IrMetricCard {
                 "setter": false,
                 "reflect": false,
                 "attribute": "icon"
-            },
-            "intent": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "MetricIntent",
-                    "resolved": "\"brand\" | \"danger\" | \"neutral\" | \"success\" | \"warning\"",
-                    "references": {
-                        "MetricIntent": {
-                            "location": "local",
-                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-metric-card/ir-metric-card.tsx",
-                            "id": "src/components/ir-metric-card/ir-metric-card.tsx::MetricIntent"
-                        }
-                    }
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": "Accent color used for the icon chip, trend, and accent edge."
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": true,
-                "attribute": "intent",
-                "defaultValue": "'neutral'"
             },
             "trend": {
                 "type": "number",
@@ -310,7 +282,7 @@ export class IrMetricCard {
                 "mutable": false,
                 "complexType": {
                     "original": "MetricSize",
-                    "resolved": "\"medium\" | \"small\"",
+                    "resolved": "\"m\" | \"s\"",
                     "references": {
                         "MetricSize": {
                             "location": "local",
@@ -329,7 +301,7 @@ export class IrMetricCard {
                 "setter": false,
                 "reflect": true,
                 "attribute": "size",
-                "defaultValue": "'small'"
+                "defaultValue": "'s'"
             },
             "clickable": {
                 "type": "boolean",

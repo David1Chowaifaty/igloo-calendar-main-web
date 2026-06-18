@@ -1,18 +1,297 @@
+/* #region CSS Variables ~~~~~~~~~~~~~~~~~~~~~ */
+
+:host {
+  --ir-cell-padding: 0.5rem 1rem;
+}
+
+/* #endregion */
+
+/* #region Table Layout ~~~~~~~~~~~~~~~~~~~~~ */
+
+.table--container {
+  overflow-x: auto;
+}
+
+.table--container,
+.data-table {
+  height: 100%;
+}
+
+/* #endregion */
+
+/* #region Table Cells ~~~~~~~~~~~~~~~~~~~~~ */
+
+.ir-table-row td {
+  padding: var(--ir-cell-padding) !important;
+  text-align: left;
+  z-index: 2;
+  background-color: var(--wa-color-surface-default);
+  white-space: nowrap;
+  color: var(--wa-color-text-normal);
+  box-sizing: border-box;
+
+  transition-duration: var(--wa-transition-fast);
+}
+
+.table td {
+  border-top: 0;
+  border-bottom: 1px solid var(--wa-color-neutral-border-quiet, #abaeb9);
+
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.table tbody tr:last-child > td {
+  border-bottom: 0 !important;
+}
+
+/* #endregion */
+
+/* #region Table Headers ~~~~~~~~~~~~~~~~~~~~~ */
+
+.table thead th {
+  border: none !important;
+  background: color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);
+  color: var(--wa-color-neutral-on-quiet);
+  padding: 0.5rem 1rem !important;
+  text-align: left;
+}
+
+.data-table thead th {
+  box-sizing: border-box;
+  background: var(--wa-color-surface-default) !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+
+  border-bottom: var(--wa-border-style) var(--wa-border-width-s) var(--wa-color-neutral-border-normal) !important;
+
+  color: var(--wa-color-text-normal);
+}
+
+/* #endregion */
+.empty-row {
+  height: 50vh !important;
+  text-align: center;
+  color: var(--wa-color-gray-60);
+}
+
+/* #region Sorting ~~~~~~~~~~~~~~~~~~~~~ */
+
+.sortable,
+.ir-table-row {
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.sortable {
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.table thead th.sortable {
+  transition-property: background, border, box-shadow, color;
+
+  transition-duration: var(--wa-transition-fast);
+  transition-timing-function: var(--wa-transition-easing);
+}
+
+.table thead th.sortable:hover {
+  color: var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));
+
+  background-color: var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important;
+}
+
+.table thead th.sortable:active {
+  color: var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));
+
+  background-color: color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important;
+}
+
+.sortable:active {
+  color: #212529;
+  background-color: #e2e8f0;
+  border-color: #d3d9df;
+}
+
+.sortable svg {
+  color: var(--wa-color-brand-fill-loud);
+}
+
+/* #endregion */
+
+/* #region Row States ~~~~~~~~~~~~~~~~~~~~~ */
+
+.ir-table-row:hover td {
+  background: var(--wa-color-neutral-fill-quiet, #f1f2f3) !important;
+}
+
+.--clickable.ir-table-row:hover td {
+  background-color: var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important;
+}
+
+.--clickable.ir-table-row:active td {
+  background-color: color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important;
+}
+
+/* #endregion */
+
+/* #region Selected Rows ~~~~~~~~~~~~~~~~~~~~~ */
+
+.selected td {
+  background: var(--wa-color-brand-fill-quiet) !important;
+  border-color: var(--wa-color-neutral-border-quiet) !important;
+  color: var(--gray-dark) !important;
+
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.selected.ir-table-row:hover td {
+  background-color: color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-hover)) !important;
+}
+
+.selected.ir-table-row:active td {
+  background-color: color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-active)) !important;
+}
+
+/* #endregion */
+
+/* #region Empty States ~~~~~~~~~~~~~~~~~~~~~ */
+
+.data-table .empty-row {
+  height: 50vh !important;
+  text-align: center;
+  color: var(--wa-color-gray-60);
+}
+
+/* #endregion */
+
+/* #region Pagination ~~~~~~~~~~~~~~~~~~~~~ */
+
+.data-table--pagination {
+  padding: 0.5rem 1rem;
+  background: var(--wa-color-surface-default);
+  border-top: 1px solid var(--wa-color-neutral-90);
+}
+
+/* #endregion */
+
+/* #region Sticky Columns ~~~~~~~~~~~~~~~~~~~~~ */
+
+.sticky-column {
+  position: sticky !important;
+  right: 0;
+  background-color: white;
+}
+
+/* #endregion */
+
+
 :host {
   display: block;
+  width: 100%;
 }
+
+.table {
+  width: 100%;
+}
+
+/* Alignment helpers (local — no Bootstrap dependency) */
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+
+/* Future-date rows */
 .future-report td {
-  background-color: hsla(210, 16%, 85.2%, 0.25) !important;
+  background-color: var(--wa-color-neutral-fill-quiet) !important;
 }
-.legend {
+
+/* Cell stacks (current + previous-year values stacked) */
+.cell-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cell-stack p {
+  margin: 0;
+  padding: 0;
+}
+
+.value--primary {
+  font-weight: 600;
+}
+
+.value--previous {
+  color: var(--wa-color-brand-text-normal);
+}
+
+/* Occupancy bar rows */
+.occ-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.occ-label {
+  width: 8ch;
+  flex-shrink: 0;
+}
+
+.occ-bar {
+  flex: 1 1 0%;
+}
+
+.occ-bar--previous {
+  --indicator-color: var(--wa-color-brand-fill-normal);
+}
+
+/* Tfoot legend */
+.legend-cell {
+  white-space: nowrap;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 0.5rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-item p {
+  margin: 0;
+  padding: 0;
+}
+
+.legend-dot {
   height: 12px;
   aspect-ratio: 1;
-  background: #000;
   border-radius: 4px;
 }
-.secondary {
-  background: #6692b3;
+
+.legend-dot--current {
+  background: var(--wa-color-brand-fill-loud);
 }
-.progress-main {
-  width: 450px !important;
+
+.legend-dot--previous {
+  background: var(--wa-color-brand-fill-normal);
 }

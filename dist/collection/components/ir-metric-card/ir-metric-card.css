@@ -22,7 +22,7 @@
   --ir-metric-card-radius: var(--wa-border-radius-l, 0.75rem);
   --ir-metric-card-bg: var(--wa-color-surface-default, #ffffff);
   --ir-metric-card-border: var(--wa-color-surface-border, #e2e8f0);
-  --ir-metric-card-value-size: var(--wa-font-size-2xl, 1.5rem);
+  --ir-metric-card-value-size: var(--wa-font-size-l, 1.25rem);
 
   /* Intent-driven accent (default: neutral) */
   --ir-metric-card-accent: var(--wa-color-neutral-fill-loud, #64748b);
@@ -32,7 +32,7 @@
   display: block;
 }
 
-:host([intent='brand']) {
+/* :host([intent='brand']) {
   --ir-metric-card-accent: var(--wa-color-brand-fill-loud);
   --ir-metric-card-accent-quiet: var(--wa-color-brand-fill-quiet);
   --ir-metric-card-accent-on-quiet: var(--wa-color-brand-on-quiet);
@@ -51,11 +51,11 @@
   --ir-metric-card-accent: var(--wa-color-danger-fill-loud);
   --ir-metric-card-accent-quiet: var(--wa-color-danger-fill-quiet);
   --ir-metric-card-accent-on-quiet: var(--wa-color-danger-on-quiet);
-}
+} */
 
-:host([size='medium']) {
+:host([size='m']) {
   --ir-metric-card-padding: var(--wa-space-l);
-  --ir-metric-card-value-size: var(--wa-font-size-3xl, 1.875rem);
+  --ir-metric-card-value-size: var(--wa-font-size-xl, 1.5rem);
 }
 
 /* Card container */
@@ -72,7 +72,7 @@
   overflow: hidden;
 }
 
-/* Accent edge */
+/* Accent edge
 .metric::before {
   content: '';
   position: absolute;
@@ -81,7 +81,7 @@
   width: 3px;
   background-color: var(--ir-metric-card-accent);
   opacity: 0.9;
-}
+} */
 
 /* Header */
 .metric__header {

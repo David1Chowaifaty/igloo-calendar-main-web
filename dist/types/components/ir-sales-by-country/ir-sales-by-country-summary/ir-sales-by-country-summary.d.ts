@@ -5,6 +5,5 @@ export type NumericKeys<T> = {
 export declare class IrSalesByCountrySummary {
     salesReports: SalesRecord[];
     private calculateTotalValues;
-    private getIcon;
     render(): any;
 }

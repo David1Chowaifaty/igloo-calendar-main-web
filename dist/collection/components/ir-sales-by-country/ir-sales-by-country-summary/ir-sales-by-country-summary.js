@@ -9,12 +9,6 @@ export class IrSalesByCountrySummary {
             return prev + value;
         }, 0);
     }
-    getIcon(val1, val2) {
-        if (this.salesReports?.length && this.salesReports[0].last_year) {
-            return val1 > val2 ? 'arrow-trend-up' : 'arrow-trend-down';
-        }
-        return;
-    }
     render() {
         const totalRoomNights = this.calculateTotalValues('nights');
         const totalGuests = this.calculateTotalValues('number_of_guests');
@@ -22,7 +16,8 @@ export class IrSalesByCountrySummary {
         const lastYearTotalRoomNights = this.calculateTotalValues('nights', true);
         const lastYearTotalGuests = this.calculateTotalValues('number_of_guests', true);
         const lastYearTotalRevenue = this.calculateTotalValues('revenue', true);
-        return (h("div", { key: '3ad47ba08ce5809eda56b4784967a0ad624901fe', class: "sales-by-country-summary__container" }, h("ir-stats-card", { key: '2e6b9f6b1e6ec122c73100cce224c8cbfaad27dc', cardTitle: "Total Room Nights", icon: this.getIcon(totalRoomNights, lastYearTotalRoomNights), value: totalRoomNights.toString(), subtitle: lastYearTotalRoomNights ? `Last year ${lastYearTotalRoomNights}` : undefined }), h("ir-stats-card", { key: 'da94640f2acb7ffe8f00fcd8a24d72e407445698', icon: this.getIcon(totalGuests, lastYearTotalGuests), cardTitle: "Total Guests", value: totalGuests.toString(), subtitle: lastYearTotalGuests ? `Last year ${lastYearTotalGuests}` : undefined }), h("ir-stats-card", { key: '9dc31051099eb4bf812be28315c3c921edf6786c', icon: this.getIcon(totalRevenue, lastYearTotalRevenue), cardTitle: "Total Revenue", value: formatAmount(calendar_data.currency.symbol, totalRevenue), subtitle: lastYearTotalRevenue ? `Last year ${formatAmount(calendar_data.currency.symbol, lastYearTotalRevenue)}` : undefined })));
+        const hasLastYear = Boolean(this.salesReports?.length && this.salesReports[0].last_year);
+        return (h("div", { key: '74e849af8116031a97f6427a69ad4c69a0ce86c9', class: "summary-row" }, h("ir-metric-card", { key: 'bded2f00a91c551fb801dd8eff56a5732125dd9d', class: "summary-metric", icon: "moon", label: "Total Room Nights", value: totalRoomNights?.toString(), trend: hasLastYear ? totalRoomNights - lastYearTotalRoomNights : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearTotalRoomNights}` : undefined }), h("ir-metric-card", { key: '601bde6b2e4a7145c3e2a27738299d12f92f42ff', class: "summary-metric", icon: "user-group", label: "Total Guests", value: totalGuests?.toString(), trend: hasLastYear ? totalGuests - lastYearTotalGuests : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearTotalGuests}` : undefined }), h("ir-metric-card", { key: '88d97a77c87e394e93d710613e8c6e3126dd8c01', class: "summary-metric", icon: "money-bill", label: "Total Revenue", value: formatAmount(calendar_data.currency.symbol, totalRevenue), trend: hasLastYear ? totalRevenue - lastYearTotalRevenue : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${formatAmount(calendar_data.currency.symbol, lastYearTotalRevenue)}` : undefined })));
     }
     static get is() { return "ir-sales-by-country-summary"; }
     static get encapsulation() { return "scoped"; }

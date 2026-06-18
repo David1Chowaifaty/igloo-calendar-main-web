@@ -79,7 +79,7 @@ import { BookingInvoiceInfo, ViewMode } from "./components/ir-invoice/types";
 import { IssueInvoiceProps } from "./services/booking-service/types";
 import { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
 import { MealCountDaySummary, MealGuestEntry } from "./services/meal-report/types";
-import { MetricIntent, MetricSize } from "./components/ir-metric-card/ir-metric-card";
+import { MetricSize } from "./components/ir-metric-card/ir-metric-card";
 import { IrMobileInputChangeDetail } from "./components/ui/ir-mobile-input/ir-mobile-input";
 import { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings-report/types";
 import { Notification } from "./components/ir-notifications/types";
@@ -176,7 +176,7 @@ export { BookingInvoiceInfo, ViewMode } from "./components/ir-invoice/types";
 export { IssueInvoiceProps } from "./services/booking-service/types";
 export { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
 export { MealCountDaySummary, MealGuestEntry } from "./services/meal-report/types";
-export { MetricIntent, MetricSize } from "./components/ir-metric-card/ir-metric-card";
+export { MetricSize } from "./components/ir-metric-card/ir-metric-card";
 export { IrMobileInputChangeDetail } from "./components/ui/ir-mobile-input/ir-mobile-input";
 export { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings-report/types";
 export { Notification } from "./components/ir-notifications/types";
@@ -4323,11 +4323,6 @@ export namespace Components {
          */
         "icon": string;
         /**
-          * Accent color used for the icon chip, trend, and accent edge.
-          * @default 'neutral'
-         */
-        "intent": MetricIntent;
-        /**
           * Flip trend color semantics so a decrease reads as positive (good).
           * @default false
          */
@@ -4343,7 +4338,7 @@ export namespace Components {
         "loading": boolean;
         /**
           * Visual density. `small` is compact (default); `medium` enlarges the value and padding.
-          * @default 'small'
+          * @default 's'
          */
         "size": MetricSize;
         /**
@@ -5613,6 +5608,10 @@ export namespace Components {
         "isLoading": boolean;
     }
     interface IrSalesByChannelSummary {
+        /**
+          * @default []
+         */
+        "records": ChannelReportResult;
     }
     interface IrSalesByChannelTable {
         "allowedProperties": AllowedProperties;
@@ -17034,11 +17033,6 @@ declare namespace LocalJSX {
          */
         "icon"?: string;
         /**
-          * Accent color used for the icon chip, trend, and accent edge.
-          * @default 'neutral'
-         */
-        "intent"?: MetricIntent;
-        /**
           * Flip trend color semantics so a decrease reads as positive (good).
           * @default false
          */
@@ -17058,7 +17052,7 @@ declare namespace LocalJSX {
         "onMetricClick"?: (event: IrMetricCardCustomEvent<void>) => void;
         /**
           * Visual density. `small` is compact (default); `medium` enlarges the value and padding.
-          * @default 'small'
+          * @default 's'
          */
         "size"?: MetricSize;
         /**
@@ -18447,6 +18441,10 @@ declare namespace LocalJSX {
         "onApplyFilters"?: (event: IrSalesByChannelFiltersCustomEvent<ChannelSaleFilter>) => void;
     }
     interface IrSalesByChannelSummary {
+        /**
+          * @default []
+         */
+        "records"?: ChannelReportResult;
     }
     interface IrSalesByChannelTable {
         "allowedProperties"?: AllowedProperties;
@@ -20589,7 +20587,6 @@ declare namespace LocalJSX {
         "value": string;
         "unit": string;
         "icon": string;
-        "intent": MetricIntent;
         "trend": number;
         "trendLabel": string;
         "invertTrend": boolean;

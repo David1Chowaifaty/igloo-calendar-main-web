@@ -20,9 +20,12 @@ export class IrMealGuestList {
         }),
         this.columnHelper.accessor(row => `${row.occupancy.adult_nbr} - ${row.occupancy.children_nbr}`, {
             id: 'occupancy',
-            header: 'Ad Ch',
+            header: () => (h("span", null, h("span", { class: "meal-guest-list__cell--ad" }, "Ad"), h("span", { class: "meal-guest-list__cell--ch" }, "Ch"))),
             enableSorting: false,
-            cell: info => h("span", { class: "meal-guest-list__muted" }, info.getValue()),
+            cell: info => {
+                const [ad, ch] = info.getValue().split(' - ');
+                return (h("span", null, h("span", { class: "meal-guest-list__cell--ad" }, ad), h("span", { class: "meal-guest-list__cell--ch" }, ch)));
+            },
         }),
         this.columnHelper.accessor(row => row.source?.Label ?? '', {
             id: 'source',
@@ -62,7 +65,7 @@ export class IrMealGuestList {
         return (h(Host, null, h("div", { class: "table--container" }, h("table", { class: "table  mb-0" }, h("thead", null, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => {
             const canSort = header.column.getCanSort();
             return (h("th", { key: header.id, class: { 'sortable': canSort, 'cell__rate-plan': header.id === 'ratePlan', 'cell--align-center': isCentered(header.column.id) }, onClick: canSort ? header.column.getToggleSortingHandler() : undefined }, h("div", { class: { 'meal-guest-list__th': false, 'meal-guest-list__th--center': isCentered(header.column.id) } }, h("span", null, flexRender(header.column.columnDef.header, header.getContext())))));
-        }))))), h("tbody", null, table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: { 'cell--align-center': isCentered(cell.column.id) } }, flexRender(cell.column.columnDef.cell, cell.getContext())))))))), h("tfoot", null, h("tr", { class: "meal-guest-list__total-row" }, h("td", null), h("td", { class: "meal-guest-list__total-label" }, "Total"), h("td", { class: "meal-guest-list__total-value cell--align-center" }, totalAdults, " - ", totalChildren), h("td", { colSpan: 2, class: "meal-guest-list__total-meta" }, list.length, " Units \u00B7 ", totalAdults + totalChildren, " Guests")))))));
+        }))))), h("tbody", null, table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: { 'cell--align-center': isCentered(cell.column.id) } }, flexRender(cell.column.columnDef.cell, cell.getContext())))))))), h("tfoot", null, h("tr", { class: "meal-guest-list__total-row" }, h("td", null), h("td", { class: "meal-guest-list__total-label" }, "Total"), h("td", { class: "meal-guest-list__total-value " }, h("span", null, h("span", { class: "meal-guest-list__cell--ad --total" }, totalAdults), h("span", { class: "meal-guest-list__cell--ch --total" }, totalChildren))), h("td", { colSpan: 2, class: "meal-guest-list__total-meta" })))))));
     }
     static get is() { return "ir-meal-guest-list"; }
     static get encapsulation() { return "scoped"; }

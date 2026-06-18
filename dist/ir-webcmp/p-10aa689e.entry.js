@@ -1,1 +1,0 @@
-import{r as a,h as r,H as s}from"./p-D8DCR0yx.js";const c=class{constructor(r){a(this,r)}render(){return r(s,{key:"8df288cf4adc2529a4d47e1345e880670610cea8"},r("slot",{key:"9ca86bbd3ab61a7a112200305e10177636378df2"}))}};c.style=".sc-ir-financial-summary-h{display:block}";export{c as ir_financial_summary}

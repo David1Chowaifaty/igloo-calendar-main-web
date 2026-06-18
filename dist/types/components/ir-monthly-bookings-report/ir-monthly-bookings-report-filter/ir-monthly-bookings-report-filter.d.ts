@@ -4,8 +4,6 @@ export declare class IrMonthlyBookingsReportFilter {
     isLoading: boolean;
     baseFilters: DailyReportFilter;
     filters: DailyReportFilter;
-    collapsed: boolean;
-    window: string;
     applyFilters: EventEmitter<DailyReportFilter>;
     private dates;
     componentWillLoad(): void;

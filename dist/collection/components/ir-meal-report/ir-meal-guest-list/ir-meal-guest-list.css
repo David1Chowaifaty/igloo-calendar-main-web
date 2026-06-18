@@ -55,7 +55,7 @@
 .table thead th {
   border: none !important;
   background: color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);
-  color: #374151;
+  color: var(--wa-color-neutral-on-quiet);
   padding: 0.5rem 1rem !important;
   text-align: left;
 }
@@ -215,6 +215,20 @@
 /* Align header horizontal padding with the tightened body cells. */
 .data-table thead th {
   padding-inline: 0.5rem !important;
+}
+.meal-guest-list__cell--ad {
+  text-align: right !important;
+  padding-inline: 0.4rem 0.2rem !important;
+  font-weight: 600;
+}
+.meal-guest-list__cell--ch {
+  text-align: left !important;
+  padding-inline: 0.4rem 0.2rem !important;
+  color: var(--wa-color-text-quiet);
+}
+.meal-guest-list__cell--ch.--total {
+  color: var(--wa-color-brand-fill-loud);
+  opacity: 0.8;
 }
 .meal-guest-list__th {
   display: inline-flex;

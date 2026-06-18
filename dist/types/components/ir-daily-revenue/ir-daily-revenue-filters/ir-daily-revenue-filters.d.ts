@@ -3,7 +3,6 @@ import { DailyPaymentFilter, GroupedFolioPayment } from '../types';
 export declare class IrDailyRevenueFilters {
     payments: GroupedFolioPayment;
     isLoading: boolean;
-    collapsed: boolean;
     users: Set<string>;
     filters: DailyPaymentFilter;
     private baseFilters;

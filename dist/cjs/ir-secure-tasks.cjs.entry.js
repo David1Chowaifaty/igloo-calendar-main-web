@@ -1,11 +1,12 @@
 'use strict';
 
 var index = require('./index-CJ0kc5p1.js');
-var Token = require('./Token-BVmOLolB.js');
-var property_service = require('./property.service-CH05g0x-.js');
+var Token = require('./Token-mN7PQKGF.js');
+var property_service = require('./property.service-Dvl8BqGa.js');
 var calendarData = require('./calendar-data-CTxCbso4.js');
 var utils = require('./utils-CHYeTDt_.js');
-require('./axios-C-Phc0sj.js');
+require('./axios-EresIryl.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
 require('./moment-CdViwxPQ.js');
 require('./index-dbmC5P-h.js');
@@ -220,7 +221,7 @@ const IrSecureTasks = class {
             case 'country-sales':
                 return index.h("ir-sales-by-country", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'channel-sales':
-                return index.h("ir-sales-by-channel", { language: "en", propertyid: this.propertyid.toString(), ticket: this.token.getToken() });
+                return index.h("ir-sales-by-channel", { mode: "property", language: "en", propertyid: this.propertyid.toString(), ticket: this.token.getToken() });
             case 'booking-listing':
                 return index.h("ir-booking-listing", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             case 'email-logs':

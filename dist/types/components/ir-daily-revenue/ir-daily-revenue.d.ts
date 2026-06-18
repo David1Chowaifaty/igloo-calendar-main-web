@@ -24,7 +24,6 @@ export declare class IrDailyRevenue {
     handleFetchNewReports(e: CustomEvent<DailyPaymentFilter>): void;
     handleResetBooking(e: CustomEvent): Promise<void>;
     private handleSidebarClose;
-    private renderSidebarBody;
     private initializeApp;
     private groupPaymentsByName;
     private getPaymentReports;

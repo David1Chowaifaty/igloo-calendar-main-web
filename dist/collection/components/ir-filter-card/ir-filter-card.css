@@ -53,7 +53,7 @@
 .filters__body {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--wa-space-m, 1rem);
 }
 
 /* Collapse is driven by the `filters__card__collapsed` class, which the
@@ -70,8 +70,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.75rem;
-  padding-top: 0.25rem;
+  gap: 1rem;
+  padding-top: 1rem;
 }
 
 ::slotted([slot='footer']) {

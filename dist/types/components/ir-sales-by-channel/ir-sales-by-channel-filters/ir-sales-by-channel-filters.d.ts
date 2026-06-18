@@ -6,9 +6,12 @@ export declare class IrSalesByChannelFilters {
     baseFilters: ChannelSaleFilter;
     allowedProperties: AllowedProperties;
     filters: ChannelSaleFilter;
-    window: number;
+    window: string;
     applyFilters: EventEmitter<ChannelSaleFilter>;
     componentWillLoad(): void;
     private updateFilter;
+    private applyFiltersEvt;
+    private resetFilters;
+    private quickDates;
     render(): any;
 }

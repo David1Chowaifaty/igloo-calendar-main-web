@@ -1,14 +1,14 @@
-import { r as registerInstance, c as createEvent, h, d as getElement, H as Host, F as Fragment } from './index-D8DCR0yx.js';
+import { r as registerInstance, c as createEvent, h, a as getElement, H as Host, F as Fragment } from './index-BvoylR5O.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { l as locales } from './locales.store-ChFOK43k.js';
-import { f as formatAmount } from './utils-Bso6iV7-.js';
-import { c as calendar_data } from './calendar-data-BIZ201rH.js';
+import { l as locales } from './locales.store-BZFQn8-s.js';
+import { i as formatAmount } from './utils-DE70XlzV.js';
+import { c as calendar_data } from './calendar-data-Cnv5ncgJ.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-34GsmACS.js';
-import './index-D5oXdmCj.js';
+import './index-U7zaiBri.js';
 import './index-DeW5X45W.js';
 import './type-D7rOPtKA.js';
 
-const irDailyRevenueFiltersCss = () => `.sc-ir-daily-revenue-filters-h{display:block}.revenue-filter__date-picker-icon.sc-ir-daily-revenue-filters{position:absolute;inset:0;left:0.75rem;display:flex;align-items:center;width:fit-content;transform:translateY(-0.15rem)}.sc-ir-daily-revenue-filters-h{display:block;height:100%}.or-divider.sc-ir-daily-revenue-filters{display:flex;align-items:center;gap:0.5rem;margin:1rem 0}.or-divider__line.sc-ir-daily-revenue-filters{flex:1;height:1px;background-color:#dee2e6}.or-divider__text.sc-ir-daily-revenue-filters{font-size:0.75rem;color:#6c757d;white-space:nowrap;text-transform:uppercase;letter-spacing:0.05em}@media (min-width: 768px){.sc-ir-daily-revenue-filters-h{width:300px}.collapse-btn.sc-ir-daily-revenue-filters{display:none}#dailyRevenueFiltersCollapse.collapse.sc-ir-daily-revenue-filters:not(.show){display:block}}`;
+const irDailyRevenueFiltersCss = () => `.sc-ir-daily-revenue-filters-h{display:block}.or-divider.sc-ir-daily-revenue-filters{display:flex;align-items:center;gap:0.5rem}.or-divider__line.sc-ir-daily-revenue-filters{flex:1;height:1px;background-color:var(--wa-color-surface-border, #dee2e6)}.or-divider__text.sc-ir-daily-revenue-filters{font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-text-quiet, #6c757d);white-space:nowrap;text-transform:uppercase;letter-spacing:0.05em}`;
 
 const IrDailyRevenueFilters = class {
     constructor(hostRef) {
@@ -17,7 +17,6 @@ const IrDailyRevenueFilters = class {
     }
     payments;
     isLoading;
-    collapsed = false;
     users = new Set();
     filters;
     baseFilters = {
@@ -65,31 +64,15 @@ const IrDailyRevenueFilters = class {
         });
     }
     render() {
-        return (h("div", { key: 'e7c12e57fd1adbd8f8f984b4afb51448660f0d10', class: "card mb-0 p-1 d-flex flex-column sales-filters-card" }, h("div", { key: 'dbd7632ed75fb6e4aad82bc86d29888bf5c5e52a', class: "d-flex align-items-center justify-content-between sales-filters-header" }, h("div", { key: '23980d03885a50f00f51b642f2ebbad8f1018803', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: '12b44b8a624105c77534325d8f44c8dd604b7aa2', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: 'e137a41a29c6ec2735f395f167ded10ce6bad731', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: '8b437b9d0967409f1525167b979f42aaa100b7d9', class: "m-0 p-0 flex-grow-1" }, locales.entries.Lcz_Filters)), h("ir-button", { key: '62f75fc8d6d0e211a0f5d9cabe0172a3f51b9259', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#dailyRevenueFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "dailyRevenueFiltersCollapse", class: "mr-1 collapse-btn toggle-collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
-                this.collapsed = !this.collapsed;
-            }, style: { '--icon-size': '1.6rem' } })), h("div", { key: 'a2351bae07e272ade48055788a100e3a68993673', class: "m-0 p-0 collapse filters-section", id: "dailyRevenueFiltersCollapse" }, h("div", { key: '6d534081f861f34246357b2c01fb450e01a00206', class: "d-flex flex-column", style: { gap: '0.5rem' } }, h("fieldset", { key: '7d7e060946bb61cd73cd9add583f413ba0ce1715', class: "pt-1 filter-group" }, h("label", { key: '600f5f39525a95cf57dafbcbd3e88b6c5775297d', htmlFor: "period", class: "px-0 m-0", style: { paddingBottom: '0.25rem' } }, "Selected period"), h("div", { key: '755a9ac2377ab92435c276445ec6da33422f7fb0', class: "d-flex flex-column date-filter-group", style: { gap: '0.5rem' } }, h("ir-select", { key: '0038a8de85e517c605ba431006c28b60280d743d', selectedValue: this.filters?.date?.toString(), onSelectChange: e => {
-                const value = e.detail;
-                this.updateFilter({
-                    date: value,
-                    to_date: value,
-                    from_date: value,
-                });
-            }, selectId: "period",
-            // showFirstOption={false}
-            firstOption: "...", data: this.getLast30Days() }), h("p", { key: '3ffca915a8e33fa0530374cceee83347a2771ce1', class: "m-0 p-0 text-center" }, "Or"), h("ir-range-picker", { key: 'e5b28c8d5359192d814d7e329e9157c9353de82f', onDateRangeChanged: e => {
+        return (h("ir-filter-card", { key: 'f7f7ee0d02cdaa3bafa34149cffde1d66a6dc83f' }, h("wa-select", { key: 'f99bd132839bf90af0f81eb3ca257a692fb4c1cd', label: "Selected period", size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
+                const value = e.target.value;
+                this.updateFilter({ date: value, to_date: value, from_date: value });
+            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: '9899fa9e7af60fd55bc65096f7a07643a4f0d287', class: "or-divider" }, h("span", { key: '8e1556b04b580ac7b45e2b8390510666ca77f5db', class: "or-divider__line" }), h("span", { key: '1da0eaaec29cc37b94f37ed1da1c4c8e89366dd5', class: "or-divider__text" }, "Or"), h("span", { key: '0f5dcc2340f83636c3e9439b73563ac9fbf6534a', class: "or-divider__line" })), h("ir-date-range-filter", { key: '683ef308d8151e0eea6d0716b492ff5f2fcdf34a', showQuickActions: false, label: "Date range", fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: hooks().format('YYYY-MM-DD'), onDatesChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-                const { fromDate, toDate, wasFocused } = e.detail;
-                let params = {
-                    from_date: fromDate.format('YYYY-MM-DD'),
-                    to_date: toDate.format('YYYY-MM-DD'),
-                };
-                if (wasFocused) {
-                    params = { ...params, date: null };
-                }
-                this.updateFilter(params);
-                // this.dates = { from: fromDate, to: toDate };
-            }, fromDate: hooks(this.filters?.from_date, 'YYYY-MM-DD'), toDate: hooks(this.filters?.to_date, 'YYYY-MM-DD'), maxDate: hooks().format('YYYY-MM-DD'), withOverlay: false }))), h("div", { key: '47bebcde8906c7d98293866edc49c30118d7a5ab', class: "d-flex mt-1 align-items-center justify-content-end filter-actions", style: { gap: '1rem' } }, h("ir-button", { key: '1fd3e94d3fb4ed849e1803ac9a3d100e049007e7', btn_type: "button", "data-testid": "reset", text: locales.entries.Lcz_Reset, size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: '4a118a65c6367e23938172d4be2f1b92d2d29cc6', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: locales.entries.Lcz_Apply, size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
+                const { from, to } = e.detail;
+                this.updateFilter({ from_date: from, to_date: to, date: null });
+            } }), h("div", { key: 'd1aa1554242d938dfe492bb7b7ae2236d5461537', slot: "footer" }, h("ir-custom-button", { key: 'b72124c5dbd06d37a0015d341bda659ac8c5e2f7', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: '3185161d5991eace702f778d69307b7ea265438a', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
     }
     static get watchers() { return {
         "payments": [{
@@ -99,7 +82,7 @@ const IrDailyRevenueFilters = class {
 };
 IrDailyRevenueFilters.style = irDailyRevenueFiltersCss();
 
-const irRevenueRowCss = () => `.sc-ir-revenue-row-h{--ir-border:#e5e7eb}.ir-revenue-row__accordion.sc-ir-revenue-row::part(base),.ir-revenue-row__accordion.sc-ir-revenue-row [part~="base"],.ir-revenue-row.sc-ir-revenue-row{border:0;border-radius:0;border-bottom:1px solid var(--ir-border, #e5e7eb);background:#fff;padding:0}.ir-revenue-row__header.sc-ir-revenue-row{display:flex;align-items:center;justify-content:space-between;padding:var(--ir-space-4, 1rem);border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__accordion.sc-ir-revenue-row [part~="trigger"],.ir-revenue-row__title.sc-ir-revenue-row{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:0;padding:0;cursor:pointer;text-align:left;width:100%;justify-content:space-between;padding:0.5rem;color:rgb(83, 83, 83)}.ir-revenue-row__title.sc-ir-revenue-row{padding:0}.ir-revenue-row__header-left.sc-ir-revenue-row{display:flex;align-items:center;gap:0.5rem}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger):hover,.ir-revenue-row__accordion.sc-ir-revenue-row [part~="trigger"]:hover{background:#f4f5fa}.ir-revenue-row__group.sc-ir-revenue-row{margin:0}.ir-revenue-row__badge.sc-ir-revenue-row{background:lightgray;border-radius:0.25rem;font-size:0.75rem;padding:0 0.5rem;margin-left:0.375rem}.ir-revenue-row__total.sc-ir-revenue-row{font-weight:700;margin:0}.ir-revenue-row__accordion.sc-ir-revenue-row::part(content),.ir-revenue-row__accordion.sc-ir-revenue-row [part~="content"]{padding:0.25rem 1rem}.ir-revenue-row__detail.sc-ir-revenue-row{display:block;border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__detail.sc-ir-revenue-row:last-child{border-bottom:none}@media (min-width: 1024px){.ir-revenue-row__header-left.sc-ir-revenue-row{width:40vw}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__title.sc-ir-revenue-row{justify-content:flex-start}}`;
+const irRevenueRowCss = () => `.sc-ir-revenue-row-h{--ir-border:var(--wa-color-surface-border)}.ir-revenue-row__accordion.sc-ir-revenue-row::part(base),.ir-revenue-row__accordion.sc-ir-revenue-row [part~="base"],.ir-revenue-row.sc-ir-revenue-row{border:0;border-radius:0;border-bottom:1px solid var(--ir-border, #e5e7eb);padding:0}.ir-revenue-row__header.sc-ir-revenue-row{display:flex;align-items:center;justify-content:space-between;padding:var(--ir-space-4, 1rem);border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__accordion.sc-ir-revenue-row [part~="trigger"],.ir-revenue-row__title.sc-ir-revenue-row{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:0;padding:0;cursor:pointer;text-align:left;width:100%;justify-content:space-between;padding:0.5rem;color:var(--wa-color-text-normal);transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.ir-revenue-row__title.sc-ir-revenue-row{padding:0}.ir-revenue-row__header-left.sc-ir-revenue-row{display:flex;align-items:center;gap:0.5rem}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger):hover,.ir-revenue-row__accordion.sc-ir-revenue-row [part~="trigger"]:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet))}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger):active,.ir-revenue-row__accordion.sc-ir-revenue-row [part~="trigger"]:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active))}.ir-revenue-row__group.sc-ir-revenue-row{margin:0}.ir-revenue-row__total.sc-ir-revenue-row{font-weight:700;margin:0}.ir-revenue-row__accordion.sc-ir-revenue-row::part(content),.ir-revenue-row__accordion.sc-ir-revenue-row [part~="content"]{padding:0.25rem 1rem}.ir-revenue-row__detail.sc-ir-revenue-row{display:block;border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__detail.sc-ir-revenue-row:last-child{border-bottom:none}@media (min-width: 1024px){.ir-revenue-row__header-left.sc-ir-revenue-row{width:40.77vw}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__title.sc-ir-revenue-row{justify-content:flex-start}}`;
 
 let accId = 0;
 const IrRevenueRow = class {
@@ -114,12 +97,12 @@ const IrRevenueRow = class {
     contentId = `ir-rr-content-${++accId}`;
     render() {
         const total = this.payments.reduce((prev, curr) => prev + curr.amount, 0);
-        return (h(Host, { key: '5d76a90c80a31b8541d6ab432b8852240bc2088d' }, h("ir-accordion", { key: '95e5310277ef7a5d62b3994d86d0175e531335be', class: "ir-revenue-row__accordion" }, h("div", { key: 'e0a3d9ec9fb87f7b17960919f664c1353b40fb5b', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: '0da5157c3f5a2387d2ded1992c577f71303d511a', class: "ir-revenue-row__header-left" }, h("p", { key: 'aa6189f63a8f8bc6b12d54e1df2e2a320a832ad3', class: "ir-revenue-row__group" }, this.groupName, ' ', h("span", { key: '6a81cf8f3d5e804a151469f5302c49d2ed81017f', class: "ir-revenue-row__badge", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), h("p", { key: '2068de215f5135ba1b986fec9f1b7d3d8c19669f', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: '6559ca24736889552c741556f27ff3204aa7f4e8', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: 'd011f6af2d521a7e099c4630cb05bcb87eeaea38', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
+        return (h(Host, { key: 'd1cb104eab79f754617b4f85758d29827a0ad42d' }, h("ir-accordion", { key: '880b55ad98fde1687acbee3720c0c395e4e09270', class: "ir-revenue-row__accordion" }, h("div", { key: 'daab2013b0f8cb7019f710bd5fc412c0c8797e5c', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: 'a35dd9a81ede77ed664c4f9c00197a91bc90a780', class: "ir-revenue-row__header-left" }, h("p", { key: 'cfc31a9dc5ea38c03ed541905f70fb33326ffa3f', class: "ir-revenue-row__group" }, this.groupName, ' ', h("wa-badge", { key: 'e7106767edb7f2d3153797f8770aa45c5c16dbb9', variant: "brand", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), h("p", { key: 'a9b2713fcc1dbdadf451f7da0178304ee82ac577', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: '83bb91ea4c114fd7f369af476748b4ad4b646a34', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: 'b1e664982df3336d188b8a27ffdb74f8b34c5eb2', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
     }
 };
 IrRevenueRow.style = irRevenueRowCss();
 
-const irRevenueSummaryCss = () => `.ir-revenue-summary__mobile.sc-ir-revenue-summary{display:flex;align-items:center;gap:1rem}.ir-revenue-summary__tablet.sc-ir-revenue-summary{display:none;grid-template-columns:repeat(3, 1fr);gap:1rem}.stats-card__payments-value.sc-ir-revenue-summary{padding:0;margin:0;color:#629a4c}.stats-card__refund-value.sc-ir-revenue-summary{padding:0;margin:0;color:#ff4961}@media (min-width: 768px){.ir-revenue-summary__tablet.sc-ir-revenue-summary{display:grid}.ir-revenue-summary__mobile.sc-ir-revenue-summary{display:none}}`;
+const irRevenueSummaryCss = () => `.sc-ir-revenue-summary-h{display:block}.revenue-summary__row.sc-ir-revenue-summary{display:flex;flex-direction:column;align-items:stretch;gap:1rem}.revenue-summary__metric.sc-ir-revenue-summary{flex:1}@media (min-width: 768px){.revenue-summary__row.sc-ir-revenue-summary{flex-direction:row}}`;
 
 const IrRevenueSummary = class {
     constructor(hostRef) {
@@ -138,9 +121,6 @@ const IrRevenueSummary = class {
         });
         return total;
     }
-    // private calculateTotalAmount(groupedPayments: GroupedFolioPayment) {
-    //   return Array.from(groupedPayments.entries()).reduce((prev, curr) => prev + this.calculateTotalValue(curr[1]), 0);
-    // }
     calculateTotalRefunds(groupedPayments) {
         const refundKeyCode = '010';
         const payments = [];
@@ -167,12 +147,13 @@ const IrRevenueSummary = class {
         const previousDatePaymentsTotal = this.calculateTotalPayments(this.previousDateGroupedPayments);
         const previousDateRefundAmount = this.calculateTotalRefunds(this.previousDateGroupedPayments);
         const previousDateTotalAmount = previousDatePaymentsTotal + previousDateRefundAmount;
-        return (h(Host, { key: '65def27c76a7c797fac931818105f8f21c464b6f' }, h("div", { key: '8483f0a7a72d12bf4f0a0a4057164333bd029e4d', class: "ir-revenue-summary__mobile" }, h("ir-stats-card", { key: 'b6bc4c87626490cae2599f197933053abb2922a1', icon: 'arrow-trend-up', value: formatAmount(calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments" }, h("p", { key: '85fad03905acf77e2f01af7deb9b74219c6fda9f', class: "stats-card__payments-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, paymentsTotal))), h("ir-stats-card", { key: '03f629dca1fdc328056d7bbb4bf12da4b26a446f', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds" }, h("p", { key: 'e56dcd1b75dec4a408b798eef8712dc3d89b8e76', class: "stats-card__refund-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, refundAmount)))), h("div", { key: '80227e8a2866f52c88fb0b9f14245bada20f408b', class: "ir-revenue-summary__tablet" }, h("ir-stats-card", { key: 'f791f783322277f7a504e7cbbde40bfc3042af3a', icon: 'arrow-trend-up', value: formatAmount(calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments", subtitle: this.filters?.date ? `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDatePaymentsTotal)}` : '' }, h("p", { key: 'b434f3349b922c9176c64ed9b4a8bc07539bfba0', class: "stats-card__payments-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, paymentsTotal))), h("ir-stats-card", { key: '853cd8a408cb14ea912b8af3e7ec3e4b8c4872a8', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds", subtitle: this.filters?.date ? `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDateRefundAmount)}` : '' }, h("p", { key: 'b7483b9158b0ef25dc945babd5a919e2c050cdd5', class: "stats-card__refund-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, refundAmount))), h("ir-stats-card", { key: '3e6497870b6de0cad129fdb2da8d4da3f771b7c2', icon: this.getTrendIcon(totalAmount, previousDateTotalAmount), value: formatAmount(calendar_data.currency.symbol, totalAmount), cardTitle: "Difference", subtitle: this.filters?.date ? `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDateTotalAmount)}` : '' }))));
+        const hasPrevious = Boolean(this.filters?.date && this.previousDateGroupedPayments?.size > 0);
+        return (h(Host, { key: '337856fc08ecc1e773d24fafb74c223333fe869c' }, h("div", { key: 'db954e929ea04e2bf481efe5467438be0761528c', class: "revenue-summary__row" }, h("ir-metric-card", { key: 'f8ddca41e79dede0ee1e04645867a7a470df6666', class: "revenue-summary__metric", icon: "arrow-trend-up", label: "Payments", value: formatAmount(calendar_data.currency.symbol, paymentsTotal), trend: hasPrevious ? paymentsTotal - previousDatePaymentsTotal : undefined, trendLabel: "from previous day", caption: hasPrevious ? `Previous day: ${formatAmount(calendar_data.currency.symbol, previousDatePaymentsTotal)}` : undefined }), h("ir-metric-card", { key: '15b34520f1a98936b3bec6350e9118d810f66e66', class: "revenue-summary__metric", icon: "arrow-trend-down", label: "Refunds", value: formatAmount(calendar_data.currency.symbol, refundAmount), trend: hasPrevious ? refundAmount - previousDateRefundAmount : undefined, trendLabel: "from previous day", invertTrend: true, caption: hasPrevious ? `Previous day: ${formatAmount(calendar_data.currency.symbol, previousDateRefundAmount)}` : undefined }), h("ir-metric-card", { key: '36d9e6876fc594e2e7e623db084c2b00ba12de06', class: "revenue-summary__metric", icon: this.getTrendIcon(totalAmount, previousDateTotalAmount) ?? 'money-bill', label: "Net Total", value: formatAmount(calendar_data.currency.symbol, totalAmount), trend: hasPrevious ? totalAmount - previousDateTotalAmount : undefined, trendLabel: "from previous day", caption: hasPrevious ? `Previous day: ${formatAmount(calendar_data.currency.symbol, previousDateTotalAmount)}` : undefined }))));
     }
 };
 IrRevenueSummary.style = irRevenueSummaryCss();
 
-const irRevenueTableCss = () => `.sc-ir-revenue-table-h{overflow-x:hidden;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important}.sc-ir-revenue-table-h *.sc-ir-revenue-table{font-family:inherit !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important}.revenue-table__header.sc-ir-revenue-table,.revenue-table__method_header.sc-ir-revenue-table{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0.5rem 1rem}.revenue-table__header.sc-ir-revenue-table{background:#ececec;color:#374151}.revenue-table__header.sc-ir-revenue-table p.sc-ir-revenue-table,.revenue-table__method_header.sc-ir-revenue-table p.sc-ir-revenue-table{padding:0;margin:0;font-size:1rem;font-weight:700}.revenue-table__method_header.sc-ir-revenue-table{color:black}.revenue-table__title-section.sc-ir-revenue-table{display:flex;align-items:center;justify-content:center;padding-bottom:0.875rem}.revenue-table__table.sc-ir-revenue-table{min-height:50vh}@media (min-width: 1024px){.revenue-table__header.sc-ir-revenue-table,.revenue-table__method_header.sc-ir-revenue-table{width:100%;justify-content:flex-start}.revenue-table__header.sc-ir-revenue-table p.sc-ir-revenue-table:first-child,.revenue-table__method_header.sc-ir-revenue-table p.sc-ir-revenue-table:first-child{width:calc(40vw + 1.375rem + 0.5rem + 1rem)}}`;
+const irRevenueTableCss = () => `.sc-ir-revenue-table-h{overflow-x:hidden}.revenue-table__header.sc-ir-revenue-table,.revenue-table__method_header.sc-ir-revenue-table{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0.5rem 1rem}.revenue-table__header.sc-ir-revenue-table{background:color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);color:var(--wa-color-neutral-on-quiet)}.revenue-table__header.sc-ir-revenue-table p.sc-ir-revenue-table,.revenue-table__method_header.sc-ir-revenue-table p.sc-ir-revenue-table{padding:0;margin:0;font-size:1rem;font-weight:700}.revenue-table__method_header.sc-ir-revenue-table{color:var(--wa-color-text-normal)}.revenue-table__title-section.sc-ir-revenue-table{display:flex;align-items:center;justify-content:center;padding-bottom:0.875rem}.revenue-table__table.sc-ir-revenue-table{min-height:50vh}.revenue-table__empty-wrapper.sc-ir-revenue-table{display:flex;align-items:center;justify-content:center;min-height:50vh}.revenue-table__type-group.sc-ir-revenue-table{padding:0 0.25rem}@media (min-width: 1024px){.revenue-table__header.sc-ir-revenue-table,.revenue-table__method_header.sc-ir-revenue-table{width:100%;justify-content:flex-start}.revenue-table__header.sc-ir-revenue-table p.sc-ir-revenue-table:first-child,.revenue-table__method_header.sc-ir-revenue-table p.sc-ir-revenue-table:first-child{width:calc(40vw + 1.375rem + 0.5rem + 1rem)}}`;
 
 const IrRevenueTable = class {
     constructor(hostRef) {
@@ -250,7 +231,7 @@ const IrRevenueTable = class {
     }
     render() {
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("div", { key: 'e7fc753adf31f67874c8b23e9cf20327afc153d0', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
+        return (h("wa-card", { key: '7e456d3fe4342e4d084510a7089c5cc7c86273d4', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 list = this.sortByDateTime(list);
                 const [paymentType, paymentMethod] = key.split('_');
@@ -264,9 +245,9 @@ const IrRevenueTable = class {
                 return (h("div", { key: `method_${methodKey}` }, h("div", { class: "revenue-table__method_header" }, h("p", null, this.payMethodObj[methodKey] ?? methodKey), h("p", null, formatAmount(calendar_data.currency.symbol, total))), Array.from(byType.entries()).map(([typeKey, list]) => {
                     list = this.sortByDateTime(list);
                     const groupName = PAYMENT_TYPES_WITH_METHOD.includes(typeKey) ? `${this.payTypesObj[typeKey] ?? typeKey}` : this.payTypesObj[typeKey] ?? typeKey;
-                    return (h("div", { key: `type_${typeKey}`, class: "px-1" }, h("ir-revenue-row", { payments: list, groupName: groupName })));
+                    return (h("div", { key: `type_${typeKey}`, class: "revenue-table__type-group" }, h("ir-revenue-row", { payments: list, groupName: groupName })));
                 })));
-            }))) : (h("p", { class: "text-center my-auto mx-auto" }, "There are no payment transactions recorded for the selected date."))));
+            }))) : (h("div", { class: "revenue-table__empty-wrapper" }, h("ir-empty-state", { message: "There are no payment transactions recorded for the selected date." })))));
     }
 };
 IrRevenueTable.style = irRevenueTableCss();

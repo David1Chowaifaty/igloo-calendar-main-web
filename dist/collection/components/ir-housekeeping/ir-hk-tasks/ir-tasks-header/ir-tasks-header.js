@@ -24,19 +24,19 @@ export class IrTasksHeader {
         this.prevSelectedCount = count;
     }
     render() {
-        return (h(Host, { key: '96616de11d5acf48aa2494e9d1cf9aeeeab2f569' }, h("div", { key: '34818faf8602604b4a9fd77c70ea5441b9423136', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input", { key: '5518609614a915f8b569aaa77221bbaeeffbab19', placeholder: "Search unit", class: "search-filter-input", value: hkTasksStore.searchField, "onText-change": e => updateSearchField(e.detail) }, h("wa-icon", { key: '0e17f067c5bb82deb8715e62410991f0cece686c', name: "magnifying-glass", slot: "start" }))), h("div", { key: 'b4d0f5be45c2ffc2aefae1c0c2ccd64cf8cc65c6', class: "action-buttons", style: { gap: '1rem' } }, h("ir-custom-button", { key: 'b7b188212735728c1f88196bab6bbdf552201882', appearance: "outlined", variant: "neutral", onClickHandler: e => {
+        return (h(Host, { key: '9007db7e3d1fe94247811cc966a837bdd9de770b' }, h("div", { key: '804d6164d31d9b0502095d0b9a93f6bb9d06473d', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input", { key: '146cba8005495ec4901579bfe2daa154be26dc32', placeholder: "Search unit", class: "search-filter-input", value: hkTasksStore.searchField, "onText-change": e => updateSearchField(e.detail) }, h("wa-icon", { key: 'c2247c6bec95bc1d96d62b733c3e8b55b48fd942', name: "magnifying-glass", slot: "start" }))), h("div", { key: 'c7490f232dbd22b9eb679ae3e68a1b73ff3d4af0', class: "action-buttons", style: { gap: '1rem' } }, h("ir-custom-button", { key: '4cc73b217a73a0315e8a5451594685210f168a25', appearance: "outlined", variant: "neutral", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
-            } }, h("wa-icon", { key: 'a9bf600f9d284f10d9785a6c6401b7b0c038ee65', slot: "end", name: "file-excel" }), locales.entries.Lcz_Export), h("ir-custom-button", { key: 'c976fa1993ec29c9efab4f832c332a5488388868', appearance: "outlined", variant: "neutral", onClickHandler: e => {
+            } }, h("wa-icon", { key: 'b5754a471873ab52fbe37238dcd7779f08900ef8', slot: "end", name: "file-excel" }), locales.entries.Lcz_Export), h("ir-custom-button", { key: '05473dea9244992759b8a3766b4811414de67478', appearance: "outlined", variant: "neutral", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'archive' });
-            } }, locales.entries.Lcz_Archives), h("wa-animation", { key: '468d12e9c09ff75927c1c63c67e119696c856783', iterations: 1, id: "cleanInspectAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { key: '79ae96f0d827bc56c6c58f30b83eb6e6cf3e90ec', appearance: "filled", variant: "brand", onClickHandler: e => {
+            } }, locales.entries.Lcz_Archives), h("wa-animation", { key: '0e573bd14ef43bf54c000e3b2f7579f95b5f00c3', iterations: 1, id: "cleanInspectAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { key: 'e22487e0c98c9684245630a04a1c27260d84292a', appearance: "filled", variant: "brand", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'clean-inspect' });
-            }, disabled: !(hkTasksStore.selectedTasks.length > 0) }, "Clean & Inspect")), h("wa-animation", { key: '55992710a8f84873eeae14b13fc8defadfa84f06', iterations: 1, id: "cleanAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { key: '7c36469eccb88bce3dad9d447c8c8d9151de58fc', disabled: !(hkTasksStore.selectedTasks.length > 0), onClickHandler: e => {
+            }, disabled: !(hkTasksStore.selectedTasks.length > 0) }, "Clean & Inspect")), h("wa-animation", { key: 'f9fe756c01cabd349d41c4ca5e458f41b2d482f7', iterations: 1, id: "cleanAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { key: '7aa7b344657b67b687cd9516f15c296c9f966369', disabled: !(hkTasksStore.selectedTasks.length > 0), onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });

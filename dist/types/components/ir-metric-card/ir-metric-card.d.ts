@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 export type MetricIntent = 'neutral' | 'brand' | 'success' | 'warning' | 'danger';
-export type MetricSize = 'small' | 'medium';
+export type MetricSize = 's' | 'm';
 /**
  * A compact, themeable KPI / metric card. Displays a label, a primary value with an
  * optional unit, an optional leading icon, a trend delta, a caption, and arbitrary
@@ -32,8 +32,6 @@ export declare class IrMetricCard {
     unit: string;
     /** Name of a `wa-icon` rendered in the leading icon chip. */
     icon: string;
-    /** Accent color used for the icon chip, trend, and accent edge. */
-    intent: MetricIntent;
     /** Trend delta as a percentage. The sign selects the up/down arrow and color. */
     trend: number;
     /** Context text shown beside the trend (e.g. `vs last week`). */

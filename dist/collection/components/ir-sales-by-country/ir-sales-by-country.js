@@ -48,9 +48,7 @@ export class IrSalesByCountry {
             if (!this.propertyid && !this.p) {
                 throw new Error('Property ID or username is required');
             }
-            // let roomResp = null;
             if (!propertyId) {
-                console.log(propertyId);
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
@@ -58,7 +56,6 @@ export class IrSalesByCountry {
                     is_backend: true,
                     include_units_hk_status: true,
                 });
-                // roomResp = propertyData;
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
@@ -133,11 +130,6 @@ export class IrSalesByCountry {
                     last_year: null,
                 }));
             }
-            // this.salesData = enrichedSales.sort((a, b) => {
-            //   if (a.country_id === 0) return -1;
-            //   if (b.country_id === 0) return 1;
-            //   return 0;
-            // });
             this.salesData = [...enrichedSales];
         }
         catch (error) {
@@ -151,16 +143,16 @@ export class IrSalesByCountry {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Sales by Country"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: locales.entries.Lcz_Export, onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-page", { label: "Sales by Country" }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getCountrySales(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-sales-by-country-summary", { salesReports: this.salesData }), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+            } }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("ir-sales-by-country-summary", { salesReports: this.salesData }), h("div", { class: "sales-content-row" }, h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.salesFilters = e.detail;
                 this.getCountrySales();
-            }, class: "filters-card", baseFilters: this.baseFilters }), h("ir-sales-table", { mappedCountries: this.countries, class: "card mb-0", records: this.salesData })))));
+            }, baseFilters: this.baseFilters }), h("ir-sales-table", { mappedCountries: this.countries, class: "sales-table-card", records: this.salesData })))));
     }
     static get is() { return "ir-sales-by-country"; }
     static get encapsulation() { return "scoped"; }
