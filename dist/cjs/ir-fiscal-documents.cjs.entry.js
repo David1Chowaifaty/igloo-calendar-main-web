@@ -1,11 +1,10 @@
 'use strict';
 
 var index = require('./index-CJ0kc5p1.js');
-var Token = require('./Token-mN7PQKGF.js');
+var Token = require('./Token-BVmOLolB.js');
 var moment = require('./moment-CdViwxPQ.js');
-var index$1 = require('./index-D_AelOLy.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
+var index$1 = require('./index-imGbPAyS.js');
+require('./axios-C-Phc0sj.js');
 require('./index-CLqkDPTC.js');
 require('./utils-CHYeTDt_.js');
 require('./calendar-data-CTxCbso4.js');
@@ -95,10 +94,10 @@ const IrFiscalDocuments = class {
         }
     }
     render() {
-        return (index.h("ir-page", { key: 'ee354d0b7498ebfd11d4fce2396ae98b764629fc', label: "Fiscal Documents" }, index.h("ir-fiscal-documents-filters", { key: '1b0f0b019787f8257ab7dad23f7b09625f1fd56c', propertyId: this.propertyid, filters: this.filters, onFiltersChange: e => (this.filters = e.detail), onApplyFilters: e => {
+        return (index.h("ir-page", { key: '1efa152cfac719a0985884006edf7d87cbd2a496', label: "Fiscal Documents" }, index.h("ir-fiscal-documents-filters", { key: '02533bcea3658a649bcd1bcd6dfeb0d923033e63', propertyId: this.propertyid, filters: this.filters, onFiltersChange: e => (this.filters = e.detail), onApplyFilters: e => {
                 this.filters = e.detail;
                 this.fetchFiscalDocuments(e.detail);
-            } }), index.h("ir-fiscal-documents-table", { key: 'e6f6c2cf0bb55886e6592fef7226d80860225de8', rows: this.rows, isLoading: this.isLoading, hasFetched: this.hasFetched, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.propertyid, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) })));
+            } }), index.h("ir-fiscal-documents-table", { key: '1dc461cc3fcb0a5b92312f2b4d6a644c2b1fd45f', rows: this.rows, isLoading: this.isLoading, hasFetched: this.hasFetched, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.propertyid, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) })));
     }
     static get watchers() { return {
         "ticket": [{

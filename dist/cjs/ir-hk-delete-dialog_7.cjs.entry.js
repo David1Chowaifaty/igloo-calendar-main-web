@@ -1,17 +1,16 @@
 'use strict';
 
 var index = require('./index-CJ0kc5p1.js');
-var housekeeping_service = require('./housekeeping.service-DP9n8kHY.js');
+var housekeeping_service = require('./housekeeping.service-nD5aZ8sN.js');
 var locales_store = require('./locales.store-BfrChT1G.js');
-var room_service = require('./room.service-BUoJAIN7.js');
-var property_service = require('./property.service-Dvl8BqGa.js');
+var room_service = require('./room.service-Dxe1gEw0.js');
+var property_service = require('./property.service-CH05g0x-.js');
 var calendarData = require('./calendar-data-CTxCbso4.js');
 var irInterceptor_store = require('./ir-interceptor.store-Bul41qhv.js');
 var utils = require('./utils-CHYeTDt_.js');
 require('./index-CLqkDPTC.js');
 require('./index-dbmC5P-h.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
+require('./axios-C-Phc0sj.js');
 require('./moment-CdViwxPQ.js');
 require('./type-Dy9pVS4V.js');
 
@@ -144,12 +143,12 @@ const IrHkOperationsCard = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '449657b64b3caf8ebba6ff0be9947772b177c7d8' }, index.h("wa-card", { key: '52ed5ebb4b838b0fe67efd2576a48e7c724520ad', class: "" }, index.h("div", { key: '70cdc8348b7f815c20ce2b90db7e7561c50d3895', slot: "header" }, index.h("span", { key: '0a8698a304a5db62e676c7f21f820a1a0bd6efbb', class: "ops-header__title" }, "Operations Settings")), index.h("div", { key: 'c85141b9e8a364e372d6e80da1846032aacae673', class: "ops-settings" }, index.h("div", { key: 'b810c6aecbc02e8180e1b630d93fc0256eac8908', class: "ops-setting-item" }, index.h("div", { key: '5cdfb72a5a6bd78a37381c380d2366f217f7d5f6', class: "ops-setting-item__info" }, index.h("span", { key: '4b7bb5ee00cdcefd34f61f7a37281e1e863c7c34', class: "ops-setting-item__title" }, "Automatic Check-in & Check-out"), index.h("span", { key: '6570b73c013a56258e1cee9b7ba64b18b8064f0b', class: "ops-setting-item__subtitle" }, "Process guests automatically based on property rules")), index.h("div", { key: '0b4f6ab1793e7a26f10274fde2bd38709e97c24e', class: "ops-setting-item__controls" }, index.h("wa-select", { key: '9bbea912e9cd934e8165ac17db0cd740e7ec8aff', size: "s", style: { minWidth: '260px' }, value: calendarData.calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', defaultValue: calendarData.calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onchange: (e) => this.saveAutomaticCheckInCheckout(e) }, index.h("wa-option", { key: '8c837787a7b5977e03499ee79f729f1be94e0e53', value: "auto" }, locales_store.locales.entries.Lcz_YesAsPerPropertyPolicy), index.h("wa-option", { key: '297b1999d609ec138b40e23f8e728007a3e8d321', value: "manual" }, locales_store.locales.entries.Lcz_NoIWillDoItManually))))), index.h("div", { key: 'cbf7280b58984de6b6b15341f1d37119b58fb022', class: "ops-tasks__header" }, index.h("p", { key: '9d0fcf3ce218520974a83c256467a8afc2085811', class: "ops-tasks__title" }, "Recurring Tasks"), index.h("p", { key: 'b3a913b31e351147dd4527ac9c787b60994542e2', class: "ops-tasks__subtitle" }, "Define your housekeeping tasks and frequency")), index.h("div", { key: '21c051b3e5026bb7b78f14bff8ddd5c9133c2355', class: "ops-tasks__list" }, index.h("div", { key: 'f28abec5ebeef59eafe11f79f125ed96094b956b', class: "ops-task-row ops-task-row--locked" }, index.h("wa-badge", { key: '42844de490fb5ab5b8558735df81220747d55562', variant: "danger", appearance: "filled" }, "CL"), index.h("span", { key: 'e766b1933923a654562e8e4192ea01a4629f6d88', class: "ops-task-locked-label" }, "Cleaning"), index.h("wa-select", { key: 'c16c1ac06b2b50882dd42065157bd50d74bd210f', class: "ops-task-select", size: "s", value: this.selectedCleaningFrequency, defaultValue: this.selectedCleaningFrequency, onchange: (e) => {
+        return (index.h(index.Host, { key: 'b0b6916c41b5fea7948c6f4b9b7f0205bfb295a0' }, index.h("wa-card", { key: 'c9bb67e290273450d9882814e0de548421e9bbd8', class: "" }, index.h("div", { key: '85521d4ddbf789b4297db811fd1a8db2ac52f89d', slot: "header" }, index.h("span", { key: '234e3a4a1fdb44df2a26ee21e345614c59675df0', class: "ops-header__title" }, "Operations Settings")), index.h("div", { key: '099e4a7f123d2167845cab73d2cf1b71aee1a83c', class: "ops-settings" }, index.h("div", { key: 'd6c84ece85a3e2090d90a5ccff6eb6b8b9a4ddb5', class: "ops-setting-item" }, index.h("div", { key: '9e7de6b97c1468393c919a8b76647c2aa7ebc950', class: "ops-setting-item__info" }, index.h("span", { key: '539dc27cca52fcb5cb563124e08ab1d37c2c0908', class: "ops-setting-item__title" }, "Automatic Check-in & Check-out"), index.h("span", { key: 'fa9872bb7e2fa257594b5405acfdedeea3f8bf8d', class: "ops-setting-item__subtitle" }, "Process guests automatically based on property rules")), index.h("div", { key: '410d4d6ac2c6e4bd16d662ecb7bfa45c731df708', class: "ops-setting-item__controls" }, index.h("wa-select", { key: '6107550944b5f8ca131212f32b0a57c8d8d4e511', size: "s", style: { minWidth: '260px' }, value: calendarData.calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', defaultValue: calendarData.calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onchange: (e) => this.saveAutomaticCheckInCheckout(e) }, index.h("wa-option", { key: '487b728fff9b8904cee03f3b0d234f0a31489290', value: "auto" }, locales_store.locales.entries.Lcz_YesAsPerPropertyPolicy), index.h("wa-option", { key: '42848b3358c82a202340f5964b2d93d4319d1b9d', value: "manual" }, locales_store.locales.entries.Lcz_NoIWillDoItManually))))), index.h("div", { key: '6ad04c49612f1282b6c7f25cafa50beb92222a63', class: "ops-tasks__header" }, index.h("p", { key: '0c74966bc6725d26a4983318e3bb3a489c99cb5d', class: "ops-tasks__title" }, "Recurring Tasks"), index.h("p", { key: '86e259fbee8fe4ea39ce78066b4b2a72f6ccfe36', class: "ops-tasks__subtitle" }, "Define your housekeeping tasks and frequency")), index.h("div", { key: '9f4b9967862c33d77f9be7e2fe582c2e72d2c688', class: "ops-tasks__list" }, index.h("div", { key: 'bb400478a6e87559b0f16c9e6946cb94eed210c9', class: "ops-task-row ops-task-row--locked" }, index.h("wa-badge", { key: 'f7c2a2469e896f59b4b0803b85f77074f2e90c13', variant: "danger", appearance: "filled" }, "CL"), index.h("span", { key: 'd6025372ab28d4d27045aed58153ed80fb93cff2', class: "ops-task-locked-label" }, "Cleaning"), index.h("wa-select", { key: 'a1423944dd3a5ef7791a7c21f18ac42b73b08afc', class: "ops-task-select", size: "s", value: this.selectedCleaningFrequency, defaultValue: this.selectedCleaningFrequency, onchange: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedCleaningFrequency = e.target.value;
                 this.dialog.openModal();
-            } }, housekeeping_service.housekeeping_store?.hk_criteria?.cleaning_frequencies.map(v => (index.h("wa-option", { key: v.code, value: v.code }, v.description)))), index.h("span", { key: '51aa62335bb7fbc094ed4eed0cc22d0c81ecb1c3' })), this.hkTasks.map((task, i) => (index.h("div", { key: i, class: "ops-task-row" }, index.h("wa-badge", { variant: i === 0 ? 'success' : 'brand', appearance: "filled" }, "T", i + 1), index.h("ir-input", { class: "ops-task-input", size: "s", placeholder: i === 0 ? 'Change sheets, ...' : 'Amenities refill, ...', maxlength: 30, value: task.name, onChange: (e) => {
+            } }, housekeeping_service.housekeeping_store?.hk_criteria?.cleaning_frequencies.map(v => (index.h("wa-option", { key: v.code, value: v.code }, v.description)))), index.h("span", { key: 'a5f4ef99fe680d547c863efa8bb7df88d38868b9' })), this.hkTasks.map((task, i) => (index.h("div", { key: i, class: "ops-task-row" }, index.h("wa-badge", { variant: i === 0 ? 'success' : 'brand', appearance: "filled" }, "T", i + 1), index.h("ir-input", { class: "ops-task-input", size: "s", placeholder: i === 0 ? 'Change sheets, ...' : 'Amenities refill, ...', maxlength: 30, value: task.name, onChange: (e) => {
                 const updated = [...this.hkTasks];
                 updated[i] = { ...updated[i], name: e.target.value };
                 this.hkTasks = updated;
@@ -164,10 +163,10 @@ const IrHkOperationsCard = class {
                 updated[i] = { name: '', frequency: '' };
                 this.hkTasks = updated;
                 this.saveHkTasks();
-            } })))))), index.h("ir-dialog", { key: 'a8752a77b1f1d157f14494d4e077fb21d71d827e', ref: el => (this.dialog = el), label: locales_store.locales.entries.Lcz_Confirmation, lightDismiss: false }, index.h("span", { key: '4264c4437ebaf517473e3f1edc58a781af2a3d24' }, "This action will reschedule all cleaning tasks. Do you want to continue?"), index.h("div", { key: '4b1906012910e15982b0f4f178324827b380391d', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: 'b35d95c668da34202f26210cf20f0a8c98fe7f72', size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => {
+            } })))))), index.h("ir-dialog", { key: '6e5136c33cca41ff35d80a5e3b5d11ffeaa58c17', ref: el => (this.dialog = el), label: locales_store.locales.entries.Lcz_Confirmation, lightDismiss: false }, index.h("span", { key: '90818f95e62b83ed1e3687220143b423eae5572d' }, "This action will reschedule all cleaning tasks. Do you want to continue?"), index.h("div", { key: '5799b321c2fbee5cb68df7866eb0106ab1f47a01', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: 'b8398e399ae25480234172bdda6c451401ee9e52', size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => {
                 this.selectedCleaningFrequency = (calendarData.calendar_data.cleaning_frequency ?? housekeeping_service.housekeeping_store?.hk_criteria?.cleaning_frequencies?.[0])?.code ?? null;
                 this.dialog.closeModal();
-            } }, locales_store.locales.entries.Lcz_Cancel), index.h("ir-custom-button", { key: 'ad70e49bc9ef7edd339b44e38583154aa02b8029', size: "m", appearance: "filled", variant: "brand", loading: irInterceptor_store.isRequestPending('/Set_Exposed_Cleaning_Frequency'), onClickHandler: () => this.saveCleaningFrequency() }, locales_store.locales.entries.Lcz_Confirm)))));
+            } }, locales_store.locales.entries.Lcz_Cancel), index.h("ir-custom-button", { key: '0ee7415cc917d9f1d21811f37c1cb421bdd39542', size: "m", appearance: "filled", variant: "brand", loading: irInterceptor_store.isRequestPending('/Set_Exposed_Cleaning_Frequency'), onClickHandler: () => this.saveCleaningFrequency() }, locales_store.locales.entries.Lcz_Confirm)))));
     }
 };
 IrHkOperationsCard.style = irHkOperationsCardCss();
@@ -342,7 +341,7 @@ const IrHkUnassignedUnits = class {
         });
     }
     render() {
-        return (index.h("div", { key: '93201cfa5ef0e184bab4146a3902da208b2ba1c1', class: "sheet-container" }, index.h("ir-title", { key: '44dad6235852d4ca43ca5dbc0f151c056d030e60', class: "title sheet-header px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), index.h("section", { key: '7527f3a0d62d0838a9beea9e22de484d8559f388', class: "px-1 sheet-body" }, index.h("table", { key: '1245ca95db165745b649027429808255fb5b14de' }, index.h("thead", { key: '7cb8c185f064866c70ba3aa85c566a38f94708a0' }, index.h("th", { key: '3511c67ebc4ac199916e52cd7aef96d851204483', class: "sr-only" }, locales_store.locales.entries.Lcz_RoomName), index.h("th", { key: 'f8250609715df84823e88964e59596a6717cdd8b', class: "sr-only" }, locales_store.locales.entries.Lcz_HousekeeperName), index.h("th", { key: '127d08f80166d7159bb5a183cd8a8e8b388ba3e8', class: "sr-only" }, locales_store.locales.entries.Lcz_Actions)), index.h("tbody", { key: 'd08b75a942b3c9dfa21b9e0d41afca2e52f80cff' }, this.renderRooms()))), index.h("div", { key: 'd714916b90326294a523c2ac1aeb9721e534b654', class: "sheet-footer" }, index.h("ir-button", { key: '625283dac4dfdad0dc8c5ffb9562b3852e62a882', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales_store.locales.entries.Lcz_Cancel }), index.h("ir-button", { key: '3f28619a2603c682ba1cb641054d3176e308e55e', isLoading: irInterceptor_store.isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", text: locales_store.locales.entries.Lcz_Confirm }))));
+        return (index.h("div", { key: 'f3b96256609876045df0c45379663250818aa109', class: "sheet-container" }, index.h("ir-title", { key: 'b3551cffb17118cb90246939d2ded872703635ad', class: "title sheet-header px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), index.h("section", { key: 'd9fe382c5140f96e40953010646337d8b808f033', class: "px-1 sheet-body" }, index.h("table", { key: 'f1d96f0c1f1c276a714bb99b518e88be7c655044' }, index.h("thead", { key: 'c05395e99e3eee4c173093fdd6391a3e4fd90290' }, index.h("th", { key: '95ed4fc99597ce9ff89308ef712032e31b32168f', class: "sr-only" }, locales_store.locales.entries.Lcz_RoomName), index.h("th", { key: 'd118816f65e9c5c7a69dde4027d6667c422b7846', class: "sr-only" }, locales_store.locales.entries.Lcz_HousekeeperName), index.h("th", { key: 'b7d2622a12820e35717e5692e2aa6a7a12f8220a', class: "sr-only" }, locales_store.locales.entries.Lcz_Actions)), index.h("tbody", { key: 'ff4c25cf9089ed4aac7f6abbc209017548df9368' }, this.renderRooms()))), index.h("div", { key: '72f23625e107a32de598e6fda52339ddc0619b16', class: "sheet-footer" }, index.h("ir-button", { key: '9d7a4ee3cb5b35c0e057de134a0e48069cc72d56', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales_store.locales.entries.Lcz_Cancel }), index.h("ir-button", { key: 'de9707363ef58cb3676203b3599f4503b565d763', isLoading: irInterceptor_store.isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", text: locales_store.locales.entries.Lcz_Confirm }))));
     }
 };
 IrHkUnassignedUnits.style = irHkUnassignedUnitsCss() + sheetCss();
@@ -359,11 +358,11 @@ const IrHkUnassignedUnitsDrawer = class {
     closeSideBar;
     formId = 'hk-unassigned-units-drawer-form';
     render() {
-        return (index.h("ir-drawer", { key: '2c27874b135eb9d79a2abacfc8043aa44d2f2dfc', label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}`, onDrawerHide: e => {
+        return (index.h("ir-drawer", { key: '1f415344f8c24e6ff46aa06b006f20e10c7a2e20', label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}`, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeSideBar.emit(null);
-            }, style: { '--ir-drawer-width': 'max-content' }, open: this.open }, this.open && index.h("ir-hk-unassigned-units-drawer-form", { key: '3ce7098bf472b8204c45c2fb9c8e4f7f1624aae5', formId: this.formId, user: this.user }), index.h("div", { key: 'bf2bb77d75dec1450bf386b0b3ef4d5e2afee796', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: '0b2085841f507b85c3a7ffbb0842d58a169a9105', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, "Cancel"), index.h("ir-custom-button", { key: '767e52619e93c9e82a18ffbde34b747f9886502f', loading: irInterceptor_store.isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, "Save"))));
+            }, style: { '--ir-drawer-width': 'max-content' }, open: this.open }, this.open && index.h("ir-hk-unassigned-units-drawer-form", { key: '78da0472139fedaec007613b50a9c71325f5e9c0', formId: this.formId, user: this.user }), index.h("div", { key: 'ddad0095c62470e0a11034e7d611f6e987a6c437', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: '18b0cb7a89852edb91e24c6f3fd0e40b2450b824', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, "Cancel"), index.h("ir-custom-button", { key: 'cc2a54d1cf962a5c255a05d0a57b3f6903d6694c', loading: irInterceptor_store.isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, "Save"))));
     }
 };
 IrHkUnassignedUnitsDrawer.style = irHkUnassignedUnitsDrawerCss();
@@ -382,13 +381,13 @@ const IrHkUserDrawer = class {
     closeSideBar;
     formId = 'hk-user-drawer-form';
     render() {
-        return (index.h("ir-drawer", { key: '932e9733839b6e4369f3cab907242402249596f5', open: this.open, onDrawerHide: () => {
+        return (index.h("ir-drawer", { key: '42eba3cb26c26f4cf4fd0d774e3577c79e38dcf6', open: this.open, onDrawerHide: () => {
                 this.closeSideBar.emit(null);
-            }, label: this.isEdit ? locales_store.locales.entries.Lcz_EditHousekeeperProfile : locales_store.locales.entries.Lcz_CreateHousekeeperProfile }, this.open && (index.h("ir-hk-user-drawer-form", { key: 'aee8c286d1558e034a0b8f613edd180033c24cf7', onLoadingChanged: e => {
+            }, label: this.isEdit ? locales_store.locales.entries.Lcz_EditHousekeeperProfile : locales_store.locales.entries.Lcz_CreateHousekeeperProfile }, this.open && (index.h("ir-hk-user-drawer-form", { key: '71d098c8a8b4d987d8f54b63d038dc35e10d8dfb', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail;
-            }, isEdit: this.isEdit, user: this.user, formId: this.formId })), index.h("div", { key: '0719e63a4042d454a0e8b1ac44635d3e3c40653c', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: '81142d063c7ecc4075ddd8590ff14eb41f222691', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, "Cancel"), index.h("ir-custom-button", { key: '8b63fdc33758a906af494e4d52dfa42118f244f7', loading: this.isLoading, variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, "Save"))));
+            }, isEdit: this.isEdit, user: this.user, formId: this.formId })), index.h("div", { key: 'c6a0d3e0d601a58e9eb355f1b159f669c2f13725', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: '1920d44194ae917c7d55b690bbd71a785fcb9985', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, "Cancel"), index.h("ir-custom-button", { key: 'b14a5b60ddfd2fab1ea777487fdc6382b88d13f7', loading: this.isLoading, variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, "Save"))));
     }
 };
 IrHkUserDrawer.style = irHkUserDrawerCss();
@@ -455,7 +454,7 @@ const IrPopover = class {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (index.h(index.Host, { key: '8f900ccbf8fa5b036b558ba9748d4e042bf20178', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (index.h(index.Host, { key: 'ea263fd427039c47e878e4174316dba7f63bbe56', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',

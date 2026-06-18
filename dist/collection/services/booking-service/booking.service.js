@@ -1,4 +1,4 @@
-import { SetDepartureTimePropsSchema } from "./types";
+import { SetDepartureTimePropsSchema, SetHbPreferencePropsSchema } from "./types";
 import axios from "axios";
 import { ZIEntrySchema } from "../../models/IBooking";
 import { convertDateToCustomFormat, convertDateToTime, dateToFormattedString, extras } from "../../utils/utils";
@@ -228,6 +228,11 @@ export class BookingService {
             console.log(error);
             throw new Error(error);
         }
+    }
+    async setHbPreference(props) {
+        const payload = SetHbPreferencePropsSchema.parse(props);
+        const { data } = await axios.post('/Set_HB_Preference', payload);
+        return data;
     }
     async ackExposedRevision(props) {
         const payload = AckExposedRevisionPropsSchema.parse(props);

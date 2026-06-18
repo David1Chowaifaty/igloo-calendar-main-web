@@ -98,10 +98,10 @@ export class IrHkUnassignedUnitsDrawerForm {
         });
     }
     render() {
-        return (h("form", { key: '1e235d581aa578d0aa051f26cdfec7c69f84ff12', id: this.formId, onSubmit: e => {
+        return (h("form", { key: 'c09049a12004eb531876635b64708e7bb06c87cb', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.assignUnits();
-            } }, h("table", { key: 'ac0eb551d5973061fb331f9e25b8322ea75ddf95' }, h("thead", { key: '5993546c64d38f5a9c6448aa6b39841b8fbc6959' }, h("th", { key: '6fdcc5ab9bd80808c436e7546c171c3689ed0566', class: "sr-only" }, locales.entries.Lcz_RoomName), h("th", { key: '0940839251c1fcbba45b94b18b5a278720e14c42', class: "sr-only" }, locales.entries.Lcz_HousekeeperName), h("th", { key: '10741b609b29eafac0e95f3d6b41a87a5230cd8f', class: "sr-only" }, locales.entries.Lcz_Actions)), h("tbody", { key: '501773c03ef824385ba4eebd0a3fab75a7d36e33' }, this.renderRooms()))));
+            } }, h("table", { key: 'c2cb6afaa87c90e4ce7ca8a6072a21fcaec2a090' }, h("thead", { key: 'ac33d33a083d54db80682f8b83d43e55ee494e81' }, h("th", { key: 'fdcbf08652d90f3daf40316b6ca930bad52e1409', class: "sr-only" }, locales.entries.Lcz_RoomName), h("th", { key: '5e18b7e8a57d10dedfc140fbc1257e238b235690', class: "sr-only" }, locales.entries.Lcz_HousekeeperName), h("th", { key: 'f7c7dc0e1996e0351e5a05f74b21a323ab5141ee', class: "sr-only" }, locales.entries.Lcz_Actions)), h("tbody", { key: 'fbe4049756503b5d63860cc2bd8a98949033c500' }, this.renderRooms()))));
     }
     static get is() { return "ir-hk-unassigned-units-drawer-form"; }
     static get encapsulation() { return "scoped"; }

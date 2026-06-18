@@ -23,14 +23,14 @@ export class IrGuestInfoDrawer {
     _formId = `guest-details-form_${v4()}`;
     render() {
         const drawerLabel = locales?.entries?.Lcz_GuestDetails || 'Guest info';
-        return (h("ir-drawer", { key: '1a8fe5ea6e102d2f09f2a2597a402cf1bc351fa6', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
+        return (h("ir-drawer", { key: '64267508fa4f84a7d1a76e3a485c5cbf131eecda', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            } }, this.open && (h("ir-guest-info-form", { key: '0a469de07652c547b2bbf0c2f381f1e343e5a808', ticket: this.ticket, language: this.language, email: this.email, booking_nbr: this.booking_nbr, fromId: this._formId })), h("div", { key: 'ac100234d0220cc8794b0edc7ea068e53ace75f7', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '44d88bd1228c8bc8867158b0fdf1f0ea13cbc0ed', size: "m", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: '0dfcd0b2328098f07a1f0cff19a765548f650650', type: "submit", form: this._formId, size: "m", variant: "brand", loading: isRequestPending('/Edit_Exposed_Guest') }, locales.entries?.Lcz_Save || 'Save'))));
+            } }, this.open && (h("ir-guest-info-form", { key: 'fa5d03768111a9d617422670cdae448d4efc7c77', ticket: this.ticket, language: this.language, email: this.email, booking_nbr: this.booking_nbr, fromId: this._formId })), h("div", { key: '00e58dd00ebdac2ae32e614fb66094543e5ecb3c', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '4b4fbb2ecea0dbf0d73d104b7441dddfc38a11ce', size: "m", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: 'e719cae152273578f8b5b2c521b2f16f61123e7e', type: "submit", form: this._formId, size: "m", variant: "brand", loading: isRequestPending('/Edit_Exposed_Guest') }, locales.entries?.Lcz_Save || 'Save'))));
     }
     static get is() { return "ir-guest-info-drawer"; }
     static get encapsulation() { return "scoped"; }

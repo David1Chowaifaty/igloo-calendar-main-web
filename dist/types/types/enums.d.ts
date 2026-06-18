@@ -21,6 +21,10 @@ export declare const FdTypes: {
     readonly Proforma: "PRF";
     readonly CreditReceipt: "CREC";
 };
+export declare const HbPreference: {
+    readonly Dinner: "001";
+    readonly Lunch: "002";
+};
 export declare const InvoiceableItemReason: {
     readonly AlreadyInvoiced: "001";
     readonly NotCheckedOutYet: "002";

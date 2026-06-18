@@ -2,18 +2,17 @@
 
 var index = require('./index-CJ0kc5p1.js');
 var debounce = require('./debounce-Be8tSGtB.js');
-var index$1 = require('./index-D_AelOLy.js');
+var index$1 = require('./index-imGbPAyS.js');
 var moment = require('./moment-CdViwxPQ.js');
 var index$2 = require('./index-CLqkDPTC.js');
-var agents_service = require('./agents.service-DWaVZIds.js');
-var booking_service = require('./booking.service-Dk6ugTCp.js');
+var agents_service = require('./agents.service-DZN5FBnL.js');
+var booking_store = require('./booking.store-CZ0gfhRY.js');
 var irInterceptor_store = require('./ir-interceptor.store-Bul41qhv.js');
 var utils = require('./utils-CHYeTDt_.js');
 var useTable = require('./useTable-BN32DOaV.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
+require('./axios-C-Phc0sj.js');
 require('./type-Dy9pVS4V.js');
-require('./booking-BiLyxhv-.js');
+require('./booking-D4Xfq-bw.js');
 require('./locales.store-BfrChT1G.js');
 require('./index-dbmC5P-h.js');
 require('./calendar-data-CTxCbso4.js');
@@ -59,7 +58,7 @@ const IrFiscalDocumentsFilters = class {
     filtersChange;
     applyFilters;
     agentsService = new agents_service.AgentsService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     componentWillLoad() {
         this.docNumber = this.filters.docNumber ?? '';
         if (this.propertyId) {
@@ -134,21 +133,21 @@ const IrFiscalDocumentsFilters = class {
         this.updateFilters({ docNumber: value });
     }
     render() {
-        return (index.h("form", { key: '05ad547c26e785aa544a32f1dd8a1a1dbb1d9068', onSubmit: e => {
+        return (index.h("form", { key: '0be98f3c4dab6d71208a84f1b757d6aed7dd1617', onSubmit: e => {
                 e.preventDefault();
                 this.applyFilters.emit(this.filters);
-            } }, index.h("div", { key: '9ae1d5a83df3e8cfbc474e2a36dd59a03815fb4b', class: "filters-bar" }, index.h("ir-validator", { key: '09e42132c48c77e5ceced9c0d37444dd0ba288af', value: this.filters?.fromDate || this.filters?.toDate, schema: index$2.libExports.z.string().nonempty(), class: "filters-bar__dates" }, index.h("ir-date-range-filter", { key: 'cc52d11517c04c145e1414738679994afa2b395b', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) })), index.h("div", { key: '0543d53fc8448780c6c1a5a33362203d9ab6e36f', class: "filters-bar__search-group" }, index.h("div", { key: '7d03472c543a46d66b9bc1d970d4580f8c1f5630', class: "filters-bar__type-group" }, index.h("wa-select", { key: '1ab959af3b53479b46039ae9639c0c857a7fa75c', class: "filters-bar__status-select", value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "s", placeholder: "Document Type" }, this.typeOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label)))), index.h("wa-select", { key: '1df8093f3091a0d73b0ad87b581a187db4b5753b', class: "filters-bar__status-select", value: this.filters.folioType, defaultValue: this.filters.folioType, onchange: e => this.handleFolioTypeChange(e.target.value), size: "s", placeholder: "Folios" }, this.folioOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label)))), index.h("wa-switch", { key: 'cd222b7dc9aa58230b1ae2794b3346036607217a', class: "filters-bar__tax-switch", checked: this.filters.taxableOnly, onchange: e => this.updateFilters({ taxableOnly: e.target.checked }) }, "Taxes")), this.filters.folioType === 'agent' && (index.h("ir-autocomplete", { key: '8f045859cc9b9c2bfc499293b38fbb729931376f', class: "filters-bar__folio-select", size: "s", placeholder: "Select agent", value: this.filters.agentId ? (this.agents.find(a => a.id === this.filters.agentId)?.name ?? '') : ALL_AGENTS_LABEL, "onText-change": (e) => {
+            } }, index.h("div", { key: '13e9387bf46a75b3ed66c7889d16ab4ea467053d', class: "filters-bar" }, index.h("ir-validator", { key: 'e845bfa26ae1247b3295e8acaf645a567f0a8ff3', value: this.filters?.fromDate || this.filters?.toDate, schema: index$2.libExports.z.string().nonempty(), class: "filters-bar__dates" }, index.h("ir-date-range-filter", { key: 'a206f94729c91b624769eb29295c0b4cb7825c52', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) })), index.h("div", { key: 'a2a0cc4482c9e08d6dde77ccfd9e7d231e947ba8', class: "filters-bar__search-group" }, index.h("div", { key: '9aa389cdf0722eefe2a69032e363596649d8d0ce', class: "filters-bar__type-group" }, index.h("wa-select", { key: '9295e5fdb1ad922f055d083e5de1439372a651c6', class: "filters-bar__status-select", value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "s", placeholder: "Document Type" }, this.typeOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label)))), index.h("wa-select", { key: '833c426a59c302411fb02089ebd1d63271d5a58c', class: "filters-bar__status-select", value: this.filters.folioType, defaultValue: this.filters.folioType, onchange: e => this.handleFolioTypeChange(e.target.value), size: "s", placeholder: "Folios" }, this.folioOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label)))), index.h("wa-switch", { key: '9abd02da1ce1c0eb3b74ded1fad4c03943432497', class: "filters-bar__tax-switch", checked: this.filters.taxableOnly, onchange: e => this.updateFilters({ taxableOnly: e.target.checked }) }, "Taxes")), this.filters.folioType === 'agent' && (index.h("ir-autocomplete", { key: '1438e4742d7caa72787e917e4128d98c25a32530', class: "filters-bar__folio-select", size: "s", placeholder: "Select agent", value: this.filters.agentId ? (this.agents.find(a => a.id === this.filters.agentId)?.name ?? '') : ALL_AGENTS_LABEL, "onText-change": (e) => {
                 this.agentSearch = e.detail ?? '';
             }, "onCombobox-change": (e) => {
                 this.agentSearch = '';
                 this.updateFilters({ agentId: e.detail && e.detail !== ALL_AGENTS_VALUE ? Number(e.detail) : null });
-            } }, index.h("ir-autocomplete-option", { key: '94dc203a8f1c84ae60e8d5c711e4fc109432590e', label: ALL_AGENTS_LABEL, value: ALL_AGENTS_VALUE }, ALL_AGENTS_LABEL), this.filteredAgents.map(agent => (index.h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name))))), this.filters.folioType === 'guest' && (index.h("ir-picker", { key: '26b3b77ad1395d95436db1483e20d83b167609f9', class: "filters-bar__folio-select", size: "s", placeholder: "Search customer by email or name", withClear: true, mode: "select-async", debounce: 500, loading: irInterceptor_store.isRequestPending('/Fetch_Exposed_Guests'), "onText-change": event => this.fetchGuests(event.detail), "onCombobox-select": this.handleGuestSelect.bind(this), "onCombobox-clear": () => this.updateFilters({ guestId: null }) }, this.guests?.map(guest => {
+            } }, index.h("ir-autocomplete-option", { key: '4ece6d5ab9dadeac25ee66d8f407f697b97c9717', label: ALL_AGENTS_LABEL, value: ALL_AGENTS_VALUE }, ALL_AGENTS_LABEL), this.filteredAgents.map(agent => (index.h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name))))), this.filters.folioType === 'guest' && (index.h("ir-picker", { key: '718a634cb42cd0e5a4daa67f893731c81a0e72ce', class: "filters-bar__folio-select", size: "s", placeholder: "Search customer by email or name", withClear: true, mode: "select-async", debounce: 500, loading: irInterceptor_store.isRequestPending('/Fetch_Exposed_Guests'), "onText-change": event => this.fetchGuests(event.detail), "onCombobox-select": this.handleGuestSelect.bind(this), "onCombobox-clear": () => this.updateFilters({ guestId: null }) }, this.guests?.map(guest => {
             const label = `${guest.email} - ${guest.first_name} ${guest.last_name}`;
             return (index.h("ir-picker-item", { label: label, value: guest.id?.toString(), key: guest.id }, label));
-        }))), index.h("div", { key: 'cee6bb486db54b27c425db7425fceac3cd4a004c', class: "filters-bar__search-actions" }, index.h("ir-input", { key: '9b144c5eab6fb668d6ce0d9ee611ecae430eca65', class: "filters-bar__search-input", placeholder: this.searchPlaceholder, value: this.docNumber, "onText-change": e => {
+        }))), index.h("div", { key: '5629aca56f5e6954a3ee0c04219ac044c8d850e6', class: "filters-bar__search-actions" }, index.h("ir-input", { key: '40420c0fc94c6c14eac5f3bdf67bdb629c686f25', class: "filters-bar__search-input", placeholder: this.searchPlaceholder, value: this.docNumber, "onText-change": e => {
                 this.docNumber = e.detail;
                 this.emitSearchDebounced(e.detail);
-            }, withClear: true }, index.h("wa-icon", { key: 'd3c7b496eafb4219c1df4bc84c6216fa5b1786ef', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), index.h("ir-custom-button", { key: '6acdeafa07b7c9614180e66b11a23cd7bffd87f5', class: "filters-bar__search-submit", variant: "neutral", appearance: "outlined", type: "submit" }, index.h("wa-icon", { key: 'e14c66bd5df6c517e33e8b9795df219ed1ba3910', name: "magnifying-glass" })))))));
+            }, withClear: true }, index.h("wa-icon", { key: 'af2ae856f8062ac603d335acdc96f47915724f00', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), index.h("ir-custom-button", { key: '265f2e1e9c56f6e7d7352ad2aaca15c0b0c355b1', class: "filters-bar__search-submit", variant: "neutral", appearance: "outlined", type: "submit" }, index.h("wa-icon", { key: '542ce475bd7b974b30410448b7b34bfef76f3bd4', name: "magnifying-glass" })))))));
     }
     static get watchers() { return {
         "propertyId": [{

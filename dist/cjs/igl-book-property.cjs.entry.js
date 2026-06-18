@@ -1,16 +1,15 @@
 'use strict';
 
 var index = require('./index-CJ0kc5p1.js');
-var booking_service = require('./booking.service-Dk6ugTCp.js');
+var booking_store = require('./booking.store-CZ0gfhRY.js');
 var utils = require('./utils-CHYeTDt_.js');
 var moment = require('./moment-CdViwxPQ.js');
 var locales_store = require('./locales.store-BfrChT1G.js');
 var irInterceptor_store = require('./ir-interceptor.store-Bul41qhv.js');
 var types = require('./types-Cu7HWegB.js');
 require('./index-CLqkDPTC.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
-require('./booking-BiLyxhv-.js');
+require('./axios-C-Phc0sj.js');
+require('./booking-D4Xfq-bw.js');
 require('./index-dbmC5P-h.js');
 require('./calendar-data-CTxCbso4.js');
 require('./type-Dy9pVS4V.js');
@@ -127,7 +126,7 @@ class IglBookPropertyService {
         const amount = rate_plan.is_amount_modified ? this.calculateAmount(rate_plan) : null;
         if (rate_plan.guest[i].infant_nbr > 0 && !rate_plan.is_amount_modified) {
             if (!this.variationService) {
-                this.variationService = new booking_service.VariationService();
+                this.variationService = new booking_store.VariationService();
             }
             variation = this.variationService.getVariationBasedOnInfants({
                 variations: rate_plan.ratePlan.variations,
@@ -147,8 +146,8 @@ class IglBookPropertyService {
     // }
     getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
         const rooms = [];
-        for (const roomTypeId in booking_service.booking_store.ratePlanSelections) {
-            const roomtype = booking_service.booking_store.ratePlanSelections[roomTypeId];
+        for (const roomTypeId in booking_store.booking_store.ratePlanSelections) {
+            const roomtype = booking_store.booking_store.ratePlanSelections[roomTypeId];
             for (const rateplanId in roomtype) {
                 const rateplan = roomtype[rateplanId];
                 if (rateplan.reserved > 0) {
@@ -227,7 +226,7 @@ class IglBookPropertyService {
                 };
             };
             let newBooking = null;
-            const sourceOption = booking_service.booking_store.bookingDraft.source;
+            const sourceOption = booking_store.booking_store.bookingDraft.source;
             console.log({ sourceOption });
             console.log({ event_type: context.defaultData.event_type, defaultData: context.defaultData });
             switch (context.defaultData.event_type) {
@@ -263,7 +262,7 @@ class IglBookPropertyService {
                         is_backend: true,
                         is_in_loyalty_mode: false,
                         promo_key: null,
-                        extras: [...utils.extras.filter(e => e.key !== 'payment_code'), { key: 'payment_code', value: booking_service.booking_store.selectedPaymentMethod?.code }],
+                        extras: [...utils.extras.filter(e => e.key !== 'payment_code'), { key: 'payment_code', value: booking_store.booking_store.selectedPaymentMethod?.code }],
                         agent: isAgent ? { id: sourceOption.tag } : null,
                         booking: {
                             from_date: moment.hooks(fromDate).format('YYYY-MM-DD'),
@@ -384,7 +383,7 @@ const IglBookProperty = class {
     ratePricingMode = [];
     selectedUnits = new Map();
     bedPreferenceType = [];
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     bookPropertyService = new IglBookPropertyService();
     defaultDateRange;
     updatedBooking = false;
@@ -392,9 +391,9 @@ const IglBookProperty = class {
     didReservation;
     wasBlockedUnit;
     async componentWillLoad() {
-        if (booking_service.booking_store.roomTypes) {
-            booking_service.modifyBookingStore('roomTypes', []);
-            booking_service.modifyBookingStore('ratePlanSelections', {});
+        if (booking_store.booking_store.roomTypes) {
+            booking_store.modifyBookingStore('roomTypes', []);
+            booking_store.modifyBookingStore('ratePlanSelections', {});
         }
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.initializeDefaultDateRange();
@@ -403,7 +402,7 @@ const IglBookProperty = class {
         }
         this.initializeDefaultData();
         this.wasBlockedUnit = this.defaultData.hasOwnProperty('block_exposed_unit_props');
-        booking_service.modifyBookingStore('event_type', { type: this.defaultData.event_type });
+        booking_store.modifyBookingStore('event_type', { type: this.defaultData.event_type });
         this.fetchSetupEntriesAndInitialize();
     }
     componentDidLoad() {
@@ -430,8 +429,8 @@ const IglBookProperty = class {
             const res = await this.bookingService.getExposedBooking(data.booking_nbr || data, this.language);
             this.defaultData = { ...this.defaultData, booking: res };
             this.bookPropertyService.setBookingInfoFromAutoComplete(this, res);
-            const sourceOption = booking_service.booking_store.selects.sources.find(opt => opt.code === res.source.code);
-            booking_service.setBookingDraft({
+            const sourceOption = booking_store.booking_store.selects.sources.find(opt => opt.code === res.source.code);
+            booking_store.setBookingDraft({
                 source: sourceOption,
             });
             this.renderPage();
@@ -440,7 +439,7 @@ const IglBookProperty = class {
     onDateRangeSelect(event) {
         event.stopImmediatePropagation();
         event.stopPropagation();
-        booking_service.resetBookingStore(false);
+        booking_store.resetBookingStore(false);
         const opt = event.detail;
         this.updateBookingHistory({
             dates: {
@@ -472,7 +471,7 @@ const IglBookProperty = class {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 if (this.isEventType('BAR_BOOKING')) {
-                    booking_service.resetReserved();
+                    booking_store.resetReserved();
                 }
                 this.gotoPage('page_one');
                 break;
@@ -485,11 +484,11 @@ const IglBookProperty = class {
             case 'next':
                 event.stopImmediatePropagation();
                 event.stopPropagation();
-                if (!booking_service.booking_store.bookingDraft.occupancy?.adults) {
+                if (!booking_store.booking_store.bookingDraft.occupancy?.adults) {
                     this.animateIrSelect.emit('adult_child_select');
                     break;
                 }
-                if (booking_service.calculateTotalRooms() > 0) {
+                if (booking_store.calculateTotalRooms() > 0) {
                     this.gotoPage('page_two');
                     break;
                 }
@@ -515,8 +514,8 @@ const IglBookProperty = class {
                 checkIn: partialData.dates?.checkIn || lastEntry?.dates?.checkIn || new Date(this.dateRangeData.fromDate),
                 checkOut: partialData.dates?.checkOut || lastEntry?.dates?.checkOut || new Date(this.dateRangeData.toDate),
             },
-            adults: partialData.adults ?? lastEntry?.adults ?? booking_service.booking_store.bookingDraft.occupancy?.adults,
-            children: partialData.children ?? lastEntry?.children ?? booking_service.booking_store.bookingDraft.occupancy.children,
+            adults: partialData.adults ?? lastEntry?.adults ?? booking_store.booking_store.bookingDraft.occupancy?.adults,
+            children: partialData.children ?? lastEntry?.children ?? booking_store.booking_store.bookingDraft.occupancy.children,
         };
         // Update the booking history
         this.bookingHistory.push(newEntry);
@@ -538,7 +537,7 @@ const IglBookProperty = class {
     initializeDefaultData() {
         this.defaultData = this.bookingData;
         this.dateRangeData = { ...this.defaultData.defaultDateRange };
-        booking_service.setBookingDraft({
+        booking_store.setBookingDraft({
             dates: {
                 checkIn: moment.hooks(this.defaultData.defaultDateRange.fromDate),
                 checkOut: moment.hooks(this.defaultData.defaultDateRange.toDate),
@@ -566,7 +565,7 @@ const IglBookProperty = class {
         this.initializePage();
     }
     initializeEditBookingData() {
-        booking_service.setBookingDraft({
+        booking_store.setBookingDraft({
             occupancy: {
                 adults: Number(this.defaultData.ADULTS_COUNT),
                 children: Number(this.defaultData.CHILDREN_COUNT),
@@ -579,7 +578,7 @@ const IglBookProperty = class {
             roomTypeId: this.defaultData.RATE_TYPE,
         };
         const { currentRoomType, GUEST } = this.defaultData;
-        booking_service.modifyBookingStore('guest', {
+        booking_store.modifyBookingStore('guest', {
             bed_preference: currentRoomType.bed_preference?.toString(),
             infant_nbr: currentRoomType.occupancy.infant_nbr,
             first_name: GUEST.first_name ?? '',
@@ -608,8 +607,8 @@ const IglBookProperty = class {
         return await this.bookingService.fetchSetupEntries();
     }
     isGuestDataIncomplete() {
-        for (const roomtypeId in booking_service.booking_store.ratePlanSelections) {
-            const roomtype = booking_service.booking_store.ratePlanSelections[roomtypeId];
+        for (const roomtypeId in booking_store.booking_store.ratePlanSelections) {
+            const roomtype = booking_store.booking_store.ratePlanSelections[roomtypeId];
             for (const rateplanId in roomtype) {
                 const rateplan = roomtype[rateplanId];
                 if (rateplan.reserved > 0) {
@@ -647,7 +646,7 @@ const IglBookProperty = class {
     // }
     setSourceOptions(bookingSource) {
         const _sourceOptions = this.isEventType('BAR_BOOKING') ? this.getFilteredSourceOptions(bookingSource) : bookingSource;
-        booking_service.setBookingSelectOptions({
+        booking_store.setBookingSelectOptions({
             sources: _sourceOptions,
         });
         let sourceOption;
@@ -658,7 +657,7 @@ const IglBookProperty = class {
         else {
             sourceOption = _sourceOptions.find(o => o.type !== 'LABEL');
         }
-        booking_service.setBookingDraft({
+        booking_store.setBookingDraft({
             source: sourceOption,
         });
     }
@@ -693,8 +692,8 @@ const IglBookProperty = class {
         this.bedPreferenceType = res.bedPreferenceType;
     }
     async checkBookingAvailability() {
-        booking_service.resetBookingStore(false);
-        const { source, occupancy } = booking_service.booking_store.bookingDraft;
+        booking_store.resetBookingStore(false);
+        const { source, occupancy } = booking_store.booking_store.bookingDraft;
         const from_date = moment.hooks(this.dateRangeData.fromDate).format('YYYY-MM-DD');
         const to_date = moment.hooks(this.dateRangeData.toDate).format('YYYY-MM-DD');
         const is_in_agent_mode = source?.type === 'TRAVEL_AGENCY';
@@ -742,8 +741,8 @@ const IglBookProperty = class {
                 unit: currentRoomType.unit?.id?.toString(),
                 roomtype_id: currentRoomType.roomtype.id,
             };
-            booking_service.modifyBookingStore('guest', guest);
-            booking_service.reserveRooms({
+            booking_store.modifyBookingStore('guest', guest);
+            booking_store.reserveRooms({
                 roomTypeId: roomtypeId,
                 ratePlanId: rateplanId,
                 rooms: 1,
@@ -769,7 +768,7 @@ const IglBookProperty = class {
                 room_type_ids: this.defaultData.roomsInfo.map(room => room.id),
                 currency: this.currency,
             });
-            const isAvailable = booking_service.booking_store.roomTypes.every(rt => {
+            const isAvailable = booking_store.booking_store.roomTypes.every(rt => {
                 if (rt.is_available_to_book) {
                     return true;
                 }
@@ -787,7 +786,7 @@ const IglBookProperty = class {
         }
     }
     async closeWindow() {
-        booking_service.resetBookingStore(true);
+        booking_store.resetBookingStore(true);
         utils.handleBodyOverflow(false);
         if (this.wasBlockedUnit && !this.didReservation) {
             await this.checkAndBlockDate();

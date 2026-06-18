@@ -5,7 +5,7 @@ export class IrClInvoiceCityTaxAmountCell {
     amount;
     cityTaxPercent;
     render() {
-        return h(Host, { key: 'd57fb5520af08e9dd180e6bcb729e9780792fa4c' }, this.cityTaxPercent > 0 ? formatAmount(this.currencySymbol, this.amount) : '');
+        return h(Host, { key: 'd70a48ef036ebac0dd61aa35572c3bf43334a461' }, this.cityTaxPercent > 0 ? formatAmount(this.currencySymbol, this.amount) : '');
     }
     static get is() { return "ir-cl-invoice-city-tax-amount-cell"; }
     static get encapsulation() { return "scoped"; }

@@ -1,4 +1,4 @@
-import { r as registerInstance, a as getElement, h, H as Host } from './index-BvoylR5O.js';
+import { r as registerInstance, d as getElement, h, H as Host } from './index-D8DCR0yx.js';
 
 const irToastsProviderCss = () => `:host{display:none}`;
 

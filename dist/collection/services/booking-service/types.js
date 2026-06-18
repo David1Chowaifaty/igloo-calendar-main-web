@@ -163,6 +163,11 @@ export const ExposedGuestSchema = z.object({
     subscribe_to_news_letter: z.null(),
 });
 export const ExposedGuestsSchema = z.array(ExposedGuestSchema);
+export const SetHbPreferencePropsSchema = z.object({
+    property_id: z.number(),
+    room_identifier: z.string(),
+    code: z.union([z.literal('001'), z.literal('002')]),
+});
 export const CalculateExclusiveTaxPropsSchema = z.object({
     property_id: z.number().min(1),
     amount: z.number(),

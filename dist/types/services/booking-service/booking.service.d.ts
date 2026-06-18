@@ -1,4 +1,4 @@
-import { SetDepartureTimeProps } from './types';
+import { SetDepartureTimeProps, SetHbPreferenceProps } from './types';
 import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRequest } from '../../models/booking.dto';
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../../models/booking.dto';
@@ -107,6 +107,7 @@ export declare class BookingService {
         status: string;
     }): Promise<any>;
     fetchPMSLogs(booking_nbr: string | number): Promise<IPmsLog>;
+    setHbPreference(props: SetHbPreferenceProps): Promise<any>;
     ackExposedRevision(props: AckExposedRevisionProps): Promise<any>;
     getExposedBookingEvents(booking_nbr: string | number): Promise<ExposedBookingEvent[] | null>;
     editExposedGuest(guest: Guest, book_nbr: string): Promise<any>;

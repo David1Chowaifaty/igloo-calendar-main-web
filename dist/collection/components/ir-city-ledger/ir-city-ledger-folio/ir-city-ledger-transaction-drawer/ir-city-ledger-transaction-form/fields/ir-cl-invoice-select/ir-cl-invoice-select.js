@@ -10,7 +10,7 @@ export class IrClInvoiceSelect {
     hint = '';
     invoiceChange;
     render() {
-        return (h("ir-validator", { key: '06911244a3a5ee2807d2a3e9b3622214c181d7ae', schema: invoiceIdRequiredFieldSchema, value: this.value, valueEvent: "change" }, h("wa-select", { key: '7a19ecb877093da9c9e8eb6246dbae6393344cf7', label: this.label, size: "s", required: true, hint: this.hint || undefined, placeholder: "Select invoice", value: this.value, onchange: event => {
+        return (h("ir-validator", { key: '1fcca707019e164209eb523806abe8ee392706e9', schema: invoiceIdRequiredFieldSchema, value: this.value, valueEvent: "change" }, h("wa-select", { key: '075d0bfe94e5c468b12065961a535c2e14cff216', label: this.label, size: "s", required: true, hint: this.hint || undefined, placeholder: "Select invoice", value: this.value, onchange: event => {
                 this.invoiceChange.emit(event.target.value || '');
             } }, this.fiscalDocuments.map(doc => {
             const date = doc.ISSUE_DATE_DISPLAY ?? (doc.ISSUE_DATE ? moment(doc.ISSUE_DATE, 'YYYY-MM-DD').format('MMM D, YYYY') : '');

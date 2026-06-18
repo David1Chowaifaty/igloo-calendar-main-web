@@ -21,6 +21,10 @@ export const FdTypes = {
     Proforma: 'PRF',
     CreditReceipt: 'CREC',
 };
+export const HbPreference = {
+    Dinner: '001',
+    Lunch: '002',
+};
 export const InvoiceableItemReason = {
     AlreadyInvoiced: '001',
     NotCheckedOutYet: '002',

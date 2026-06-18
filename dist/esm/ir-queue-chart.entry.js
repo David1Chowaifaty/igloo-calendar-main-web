@@ -1,4 +1,4 @@
-import { r as registerInstance, a as getElement, h, H as Host } from './index-BvoylR5O.js';
+import { r as registerInstance, d as getElement, h, H as Host } from './index-D8DCR0yx.js';
 
 /*!
  * @kurkle/color v0.3.4
@@ -15035,7 +15035,7 @@ const IrQueueChart = class {
         this.chart.update();
     }
     render() {
-        return (h(Host, { key: '2d02b75fb425c62ac009e759a64ac4ce87e6aa71' }, h("div", { key: '629144711cf737734c81e53f0555dfd01da3cc4f', class: "chart-container" }, h("canvas", { key: 'd2ba5aecc7cc9bcbc7ff2112b781fb23c428e7f4', ref: el => (this.canvas = el) }))));
+        return (h(Host, { key: '94d4b096f80b6883b788e7b3ace9b6e0495a8766' }, h("div", { key: '981b11dc4bfd96783d8b7f9848802af72b288303', class: "chart-container" }, h("canvas", { key: '81898a3f2c2ff5d67e874456e0401aba7e58d370', ref: el => (this.canvas = el) }))));
     }
     static get watchers() { return {
         "values": [{

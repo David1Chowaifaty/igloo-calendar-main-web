@@ -66,6 +66,7 @@ export declare class IrRoom {
     private handleCheckIn;
     private getMainGuest;
     private showGuestModal;
+    private get isHalfBoard();
     private get acmTxByDate();
     render(): any;
 }

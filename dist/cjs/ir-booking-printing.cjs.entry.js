@@ -3,13 +3,12 @@
 var index = require('./index-CJ0kc5p1.js');
 var moment = require('./moment-CdViwxPQ.js');
 var functions = require('./functions-mvRDRfzA.js');
-var booking = require('./booking-BiLyxhv-.js');
-var booking_service = require('./booking.service-Dk6ugTCp.js');
-var room_service = require('./room.service-BUoJAIN7.js');
+var booking = require('./booking-D4Xfq-bw.js');
+var booking_store = require('./booking.store-CZ0gfhRY.js');
+var room_service = require('./room.service-Dxe1gEw0.js');
 var locales_store = require('./locales.store-BfrChT1G.js');
 var utils = require('./utils-CHYeTDt_.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
+require('./axios-C-Phc0sj.js');
 require('./index-dbmC5P-h.js');
 require('./calendar-data-CTxCbso4.js');
 require('./index-CLqkDPTC.js');
@@ -36,7 +35,7 @@ const IrBookingPrinting = class {
     guestCountryName;
     isLoading;
     // @State() token: string;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     currency;
     totalNights;

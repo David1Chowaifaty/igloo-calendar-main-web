@@ -4,7 +4,7 @@ export class IrClInvoiceNetPriceCell {
     currencySymbol;
     amount;
     render() {
-        return h(Host, { key: 'ba41b6f435dfdaa4ccf2739a12526f2b904d22aa' }, formatAmount(this.currencySymbol, this.amount));
+        return h(Host, { key: '82685f526036e74fec7051388ea85830284cbab7' }, formatAmount(this.currencySymbol, this.amount));
     }
     static get is() { return "ir-cl-invoice-net-price-cell"; }
     static get encapsulation() { return "scoped"; }

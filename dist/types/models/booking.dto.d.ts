@@ -1205,6 +1205,7 @@ export declare const ROOM_IN_OUT: {
 };
 export interface Room {
     charges: Charges;
+    hb_preference: string;
     agent: {
         id: number;
         name: string;

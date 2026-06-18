@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-CJ0kc5p1.js');
-var booking_service = require('./booking.service-Dk6ugTCp.js');
+var booking_store = require('./booking.store-CZ0gfhRY.js');
 var calendarData = require('./calendar-data-CTxCbso4.js');
 var irInterceptor_store = require('./ir-interceptor.store-Bul41qhv.js');
 var locales_store = require('./locales.store-BfrChT1G.js');
@@ -9,9 +9,8 @@ var utils = require('./utils-CHYeTDt_.js');
 var moment = require('./moment-CdViwxPQ.js');
 var index$1 = require('./index-CLqkDPTC.js');
 var types = require('./types-DO5wSQfH.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
-require('./booking-BiLyxhv-.js');
+require('./axios-C-Phc0sj.js');
+require('./booking-D4Xfq-bw.js');
 require('./index-dbmC5P-h.js');
 require('./type-Dy9pVS4V.js');
 
@@ -33,7 +32,7 @@ const IglSpiltBookingForm = class {
     mealPlanOptions = null;
     closeModal;
     defaultDates;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     componentWillLoad() {
         this.room = this.getRoom();
         this.defaultDates = { ...this.generateDates(this.room) };
@@ -69,7 +68,7 @@ const IglSpiltBookingForm = class {
         return { from_date: today.clone().add(1, 'days'), to_date: MToDate };
     }
     async checkBookingAvailability() {
-        booking_service.resetBookingStore(false);
+        booking_store.resetBookingStore(false);
         const from_date = this.selectedDates.from_date.format('YYYY-MM-DD');
         const to_date = this.selectedDates.to_date.format('YYYY-MM-DD');
         const is_in_agent_mode = this.booking.agent !== null;

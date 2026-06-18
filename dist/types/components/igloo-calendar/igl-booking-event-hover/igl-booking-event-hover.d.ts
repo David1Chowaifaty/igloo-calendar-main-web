@@ -43,6 +43,7 @@ export declare class IglBookingEventHover {
     private getInternalNote;
     private getTotalPrice;
     private getArrivalTime;
+    private get room();
     private getRatePlan;
     private getEntryDate;
     private isNewBooking;
@@ -81,6 +82,7 @@ export declare class IglBookingEventHover {
      * const canSplit = this.canSplitBooking(); // -> true
      */
     private canSplitBooking;
+    private get isHalfBoard();
     private getInfoElement;
     private handleReallocationBooking;
     private handleSplitBooking;

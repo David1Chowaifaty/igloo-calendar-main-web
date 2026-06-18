@@ -1137,6 +1137,20 @@ export declare const ExposedGuestsSchema: z.ZodArray<z.ZodObject<{
     subscribe_to_news_letter?: null;
 }>, "many">;
 export type ExposedGuests = z.infer<typeof ExposedGuestsSchema>;
+export declare const SetHbPreferencePropsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    room_identifier: z.ZodString;
+    code: z.ZodUnion<[z.ZodLiteral<"001">, z.ZodLiteral<"002">]>;
+}, "strip", z.ZodTypeAny, {
+    property_id?: number;
+    code?: "001" | "002";
+    room_identifier?: string;
+}, {
+    property_id?: number;
+    code?: "001" | "002";
+    room_identifier?: string;
+}>;
+export type SetHbPreferenceProps = z.infer<typeof SetHbPreferencePropsSchema>;
 export declare const CalculateExclusiveTaxPropsSchema: z.ZodObject<{
     property_id: z.ZodNumber;
     amount: z.ZodNumber;

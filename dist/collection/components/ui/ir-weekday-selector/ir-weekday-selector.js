@@ -58,7 +58,7 @@ export class IrWeekdaySelector {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (h(Host, { key: 'edb2ab2c3340bd6415f63c1c7127938ade7b8947', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (h(Host, { key: 'fb35961cd9aa8d63e9ac5e8c4d839609a898374b', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get is() { return "ir-weekday-selector"; }
     static get encapsulation() { return "scoped"; }
