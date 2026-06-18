@@ -13,7 +13,7 @@ export class IrSalesTable {
         if (this.records.length === 0) {
             return (h("wa-card", { class: "sales-table__card" }, h("div", { class: "sales-table__empty-wrapper" }, h("ir-empty-state", { message: "No sales data found." }))));
         }
-        return (h("wa-card", { class: "sales-table__card" }, h("div", { class: "sales-table__scroll" }, h("table", { class: "table", "data-testid": "hk_tasks_table" }, h("thead", { class: "table-header" }, h("tr", null, h("th", { class: "cell--left" }, "Country"), h("th", { class: "cell--center" }, "Room nights"), h("th", { class: "cell--center" }, "No of guests"), h("th", { class: "cell--right" }, "Revenue"), h("th", null))), h("tbody", null, visibleRecords.map(record => {
+        return (h("wa-card", { class: "sales-table__card" }, h("div", { class: "sales-table__scroll" }, h("table", { class: "table data-table", "data-testid": "hk_tasks_table" }, h("thead", { class: "table-header" }, h("tr", null, h("th", { class: "cell--left" }, "Country"), h("th", { class: "cell--center" }, "Room nights"), h("th", { class: "cell--center" }, "No of guests"), h("th", { class: "cell--right" }, "Revenue"), h("th", { style: { width: '35%' } }))), h("tbody", null, visibleRecords.map(record => {
             const mainPercentage = `${parseFloat(record.percentage.toString()).toFixed(2)}%`;
             const secondaryPercentage = record.last_year ? `${parseFloat(record.last_year.percentage.toString()).toFixed(2)}%` : null;
             const mappedCountry = this.mappedCountries.get(record.country_id);

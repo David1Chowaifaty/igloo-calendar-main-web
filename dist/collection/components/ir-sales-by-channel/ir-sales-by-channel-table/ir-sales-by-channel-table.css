@@ -6,7 +6,12 @@
 .channel-table__scroll {
   overflow-x: auto;
 }
-
+.channel-table__card {
+  min-height: 50vh;
+}
+.channel-table__card::part(body) {
+  padding: 0.5rem;
+}
 .channel-table__empty-wrapper {
   display: flex;
   align-items: center;
@@ -67,7 +72,7 @@
 
 /* Progress column visibility */
 .sales-by-channel-table__progress-col {
-  width: 50%;
+  width: 35%;
 }
 
 .sales-by-channel-table__progress-col.single {

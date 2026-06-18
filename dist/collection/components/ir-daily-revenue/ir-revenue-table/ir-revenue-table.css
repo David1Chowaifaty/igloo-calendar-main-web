@@ -12,18 +12,21 @@
 }
 
 .revenue-table__header {
-  background: color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);
-  color: var(--wa-color-neutral-on-quiet);
+  background: var(--wa-color-surface-default);
+  border-bottom: var(--wa-border-style) var(--wa-border-width-s) var(--wa-color-neutral-border-normal);
+  color: var(--wa-color-text-normal);
 }
 
 .revenue-table__header p,
 .revenue-table__method_header p {
   padding: 0;
   margin: 0;
-  font-size: 1rem;
   font-weight: 700;
 }
-
+.revenue-table__method_header p {
+  font-size: var(--wa-font-size-m);
+  font-weight: 600;
+}
 .revenue-table__method_header {
   color: var(--wa-color-text-normal);
 }
@@ -37,6 +40,9 @@
 
 .revenue-table__table {
   min-height: 50vh;
+}
+.revenue-table__table::part(body) {
+  padding: 0.5rem;
 }
 
 .revenue-table__empty-wrapper {

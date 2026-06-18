@@ -3,7 +3,7 @@ import { HouseKeepingService } from "../../services/housekeeping.service";
 import { RoomService } from "../../services/room.service";
 import calendar_data from "../../stores/calendar-data";
 import { updateHKStore } from "../../stores/housekeeping.store";
-import { Host, h } from "@stencil/core";
+import { h } from "@stencil/core";
 import locales from "../../stores/locales.store";
 import { BookingService } from "../../services/booking-service/booking.service";
 export class IrHousekeeping {
@@ -79,7 +79,7 @@ export class IrHousekeeping {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "ir-page__container" }, h("h3", { class: "page-title" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("ir-hk-operations-card", { frequencies: this.frequencies }), calendar_data.housekeeping_enabled && h("ir-hk-team", null))));
+        return (h("ir-page", { label: locales.entries.Lcz_HouseKeepingAndCheckInSetup }, h("ir-hk-operations-card", { frequencies: this.frequencies }), calendar_data.housekeeping_enabled && h("ir-hk-team", null)));
     }
     static get is() { return "ir-housekeeping"; }
     static get encapsulation() { return "scoped"; }

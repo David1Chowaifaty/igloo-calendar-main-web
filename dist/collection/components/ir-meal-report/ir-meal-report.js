@@ -159,7 +159,7 @@ export class IrMealReport {
         //   { label: 'Lunch', icon: 'utensils', intent: 'success' as const, adults: sum('Lunch_Ad'), children: sum('Lunch_Ch') },
         //   { label: 'Dinner', icon: 'moon', intent: 'warning' as const, adults: sum('Dinner_Ad'), children: sum('Dinner_Ch') },
         // ];
-        return (h("ir-page", { label: "Meal Report", class: 'page' }, h("ir-custom-button", { slot: "page-header", type: "button", size: "s", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
+        return (h("ir-page", { label: "Meal Report", description: this.localReportType === 'GUEST_LIST' ? 'Guest List' : 'Meal Count', class: 'page' }, h("ir-custom-button", { slot: "page-header", type: "button", size: "s", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();

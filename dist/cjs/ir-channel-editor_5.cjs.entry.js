@@ -1,11 +1,12 @@
 'use strict';
 
 var index = require('./index-CJ0kc5p1.js');
-var channel_service = require('./channel.service-Diki7p8H.js');
+var channel_service = require('./channel.service-h5obHm_u.js');
 var locales_store = require('./locales.store-BfrChT1G.js');
 var calendarData = require('./calendar-data-CTxCbso4.js');
 require('./index-dbmC5P-h.js');
-require('./axios-C-Phc0sj.js');
+require('./axios-EresIryl.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
 
 const irChannelEditorCss = () => `.sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}`;
 
@@ -443,7 +444,7 @@ const IrSwitch = class {
         this.checkChange.emit(this.checked);
     }
     render() {
-        return (index.h(index.Host, { key: '02498c7d98590df09a5ad1053d7eb7d7dd02b5b0' }, index.h("button", { key: 'cba31a73e0eaafe028c65f357f7a21d4f9a9e9bd', disabled: this.disabled, ref: el => (this.switchRoot = el), type: "button", id: this.switchId || this._id, onClick: this.handleCheckChange.bind(this), role: "switch", "data-state": this.checked ? 'checked' : 'unchecked', value: 'on', class: "SwitchRoot" }, index.h("span", { key: 'cba58044751c0617be039f969839a067271b1c72', class: "SwitchThumb", "data-state": this.checked ? 'checked' : 'unchecked' })), index.h("input", { key: '3d739ea956217cb4b92eb78b3f74546ee4bcc9f2', type: "checkbox", checked: this.checked, "aria-hidden": "true", tabIndex: -1, value: 'on', class: "hidden-input" })));
+        return (index.h(index.Host, { key: '32db5c6b3dcbf423fb4af65485bbb2d215e83564' }, index.h("button", { key: '97d6b164d9d1e60415b76fe409ec048d5c2cfaed', disabled: this.disabled, ref: el => (this.switchRoot = el), type: "button", id: this.switchId || this._id, onClick: this.handleCheckChange.bind(this), role: "switch", "data-state": this.checked ? 'checked' : 'unchecked', value: 'on', class: "SwitchRoot" }, index.h("span", { key: 'b46eb192851a52865cf2654c92041ea9991d0d06', class: "SwitchThumb", "data-state": this.checked ? 'checked' : 'unchecked' })), index.h("input", { key: '8a95db819b9da20c901c756a0b0e91fa69520cf0', type: "checkbox", checked: this.checked, "aria-hidden": "true", tabIndex: -1, value: 'on', class: "hidden-input" })));
     }
 };
 IrSwitch.style = irSwitchCss();

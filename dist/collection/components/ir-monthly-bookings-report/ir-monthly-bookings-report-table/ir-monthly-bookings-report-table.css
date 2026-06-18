@@ -287,7 +287,10 @@
   aspect-ratio: 1;
   border-radius: 4px;
 }
-
+.daily-occupancy-table__card::part(body) {
+  min-height: 50vh;
+  padding: 0.5rem;
+}
 .legend-dot--current {
   background: var(--wa-color-brand-fill-loud);
 }

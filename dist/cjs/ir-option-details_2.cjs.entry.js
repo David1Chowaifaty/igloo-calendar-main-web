@@ -1,11 +1,12 @@
 'use strict';
 
 var index = require('./index-CJ0kc5p1.js');
-var paymentOption_store = require('./payment-option.store-D8OB3t15.js');
+var paymentOption_store = require('./payment-option.store-DrEhodlS.js');
 var irInterceptor_store = require('./ir-interceptor.store-Bul41qhv.js');
 var locales_store = require('./locales.store-BfrChT1G.js');
 var utils = require('./utils-CHYeTDt_.js');
-var axios = require('./axios-C-Phc0sj.js');
+var _commonjsHelpers = require('./_commonjsHelpers-BJu3ubxk.js');
+require('./axios-EresIryl.js');
 require('./index-dbmC5P-h.js');
 require('./moment-CdViwxPQ.js');
 require('./index-CLqkDPTC.js');
@@ -5487,7 +5488,7 @@ function requireLodash_clonedeep () {
 		cloneableTags[weakMapTag] = false;
 
 		/** Detect free variable `global` from Node.js. */
-		var freeGlobal = typeof axios.commonjsGlobal == 'object' && axios.commonjsGlobal && axios.commonjsGlobal.Object === Object && axios.commonjsGlobal;
+		var freeGlobal = typeof _commonjsHelpers.commonjsGlobal == 'object' && _commonjsHelpers.commonjsGlobal && _commonjsHelpers.commonjsGlobal.Object === Object && _commonjsHelpers.commonjsGlobal;
 
 		/** Detect free variable `self`. */
 		var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -7246,7 +7247,7 @@ function requireLodash_isequal () {
 		typedArrayTags[weakMapTag] = false;
 
 		/** Detect free variable `global` from Node.js. */
-		var freeGlobal = typeof axios.commonjsGlobal == 'object' && axios.commonjsGlobal && axios.commonjsGlobal.Object === Object && axios.commonjsGlobal;
+		var freeGlobal = typeof _commonjsHelpers.commonjsGlobal == 'object' && _commonjsHelpers.commonjsGlobal && _commonjsHelpers.commonjsGlobal.Object === Object && _commonjsHelpers.commonjsGlobal;
 
 		/** Detect free variable `self`. */
 		var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -9742,7 +9743,7 @@ function requireDelta () {
 }
 
 var DeltaExports = requireDelta();
-var Delta = /*@__PURE__*/axios.getDefaultExportFromCjs(DeltaExports);
+var Delta = /*@__PURE__*/_commonjsHelpers.getDefaultExportFromCjs(DeltaExports);
 
 class Break extends EmbedBlot$1 {
   static value() {
@@ -10512,7 +10513,7 @@ function requireEventemitter3 () {
 }
 
 var eventemitter3Exports = requireEventemitter3();
-var EventEmitter = /*@__PURE__*/axios.getDefaultExportFromCjs(eventemitter3Exports);
+var EventEmitter = /*@__PURE__*/_commonjsHelpers.getDefaultExportFromCjs(eventemitter3Exports);
 
 var instances = new WeakMap();
 

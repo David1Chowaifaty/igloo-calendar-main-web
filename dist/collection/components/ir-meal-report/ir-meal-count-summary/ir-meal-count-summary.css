@@ -201,7 +201,7 @@
    Compact by design: tight cell padding and small type so the date column plus
    three meal groups fit narrow viewports with minimal horizontal scrolling. */
 :host {
-  --ir-cell-padding: 0.3rem 0.45rem;
+  /* --ir-cell-padding: 0.3rem 0.45rem; */
 
   display: flex;
   flex-direction: column;
@@ -344,7 +344,6 @@
 }
 .meal-count__total-label {
   font-weight: var(--wa-font-weight-bold, 700);
-  text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--wa-color-text-quiet, #64748b);
 }

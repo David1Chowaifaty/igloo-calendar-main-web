@@ -19,7 +19,8 @@
   width: 100%;
 }
 .sales-table__card::part(body) {
-  min-height: 60vh;
+  min-height: 50vh;
+  padding: 0.5rem;
 }
 .sales-table__scroll {
   overflow-x: auto;

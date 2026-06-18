@@ -24,6 +24,10 @@
 
 .ir-meal-report__results {
   min-width: 0;
+  min-height: 50vh;
+}
+.ir-meal-report__results::part(body) {
+  padding: 0.5rem;
 }
 
 @media (min-width: 1024px) {

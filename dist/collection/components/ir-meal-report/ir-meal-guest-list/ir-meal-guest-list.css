@@ -213,22 +213,23 @@
 
 /* #region header */
 /* Align header horizontal padding with the tightened body cells. */
-.data-table thead th {
-  padding-inline: 0.5rem !important;
-}
+
 .meal-guest-list__cell--ad {
   text-align: right !important;
   padding-inline: 0.4rem 0.2rem !important;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 .meal-guest-list__cell--ch {
   text-align: left !important;
   padding-inline: 0.4rem 0.2rem !important;
   color: var(--wa-color-text-quiet);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 .meal-guest-list__cell--ch.--total {
-  color: var(--wa-color-brand-fill-loud);
-  opacity: 0.8;
+  color: var(--wa-color-text-quiet);
 }
 .meal-guest-list__th {
   display: inline-flex;
@@ -286,13 +287,11 @@
   background: var(--wa-color-neutral-fill-quiet, #f1f5f9) !important;
   border-top: 1px solid var(--wa-color-surface-border, #e2e8f0);
   border-bottom: 0 !important;
-  padding: var(--ir-cell-padding) !important;
+  /* padding: var(--ir-cell-padding) !important; */
 }
 .meal-guest-list__total-label {
   text-align: end;
-
   font-weight: var(--wa-font-weight-bold, 700);
-  text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--wa-color-text-quiet, #64748b);
 }
