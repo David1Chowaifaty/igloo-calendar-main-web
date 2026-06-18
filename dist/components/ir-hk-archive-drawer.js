@@ -1,0 +1,1 @@
+import{I as r,d as a}from"./ir-hk-archive-drawer2.js";const o=r,s=a;export{o as IrHkArchiveDrawer,s as defineCustomElement}

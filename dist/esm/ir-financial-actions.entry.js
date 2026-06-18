@@ -2,7 +2,7 @@ import { r as registerInstance, h, H as Host } from './index-D8DCR0yx.js';
 import { T as Token } from './Token-CkxFIO_J.js';
 import { l as locales } from './locales.store-ChFOK43k.js';
 import { R as RoomService } from './room.service-Bg63GIjB.js';
-import { B as BookingService } from './booking.service-GE1gwyd_.js';
+import { B as BookingService } from './booking.store-BnED7mRP.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './index-D5oXdmCj.js';
@@ -11,7 +11,7 @@ import './index-DeW5X45W.js';
 import './utils-1CCVam5W.js';
 import './moment-Mki5YqAR.js';
 import './type-D7rOPtKA.js';
-import './booking-CvTMLWU-.js';
+import './booking-CR7rWSI8.js';
 
 const irFinancialActionsCss = () => `.sc-ir-financial-actions-h{display:block}.financial-actions__meta.sc-ir-financial-actions{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-financial-actions{flex:1 1 0%}@media (min-width: 768px){.financial-actions__meta.sc-ir-financial-actions{flex-direction:row}}`;
 

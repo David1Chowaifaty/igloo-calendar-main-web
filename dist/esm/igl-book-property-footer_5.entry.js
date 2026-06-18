@@ -3,7 +3,7 @@ import { l as locales } from './locales.store-ChFOK43k.js';
 import { c as calendar_data } from './calendar-data-BIZ201rH.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { i as isRequestPending } from './ir-interceptor.store-80RD_iPu.js';
-import { B as BookingService, b as booking_store, s as setBookingDraft, m as modifyBookingStore, f as setBookedByGuestManualEditState } from './booking.service-GE1gwyd_.js';
+import { B as BookingService, b as booking_store, s as setBookingDraft, m as modifyBookingStore, f as setBookedByGuestManualEditState } from './booking.store-BnED7mRP.js';
 import { l as libExports } from './index-DeW5X45W.js';
 import { n as showToast, i as formatAmount, y as validateEmail } from './utils-1CCVam5W.js';
 import { I as IMask } from './index-BQB1ooJC.js';
@@ -12,7 +12,7 @@ import { v as v4 } from './v4-CK3_k8jD.js';
 import './index-D5oXdmCj.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './booking-CvTMLWU-.js';
+import './booking-CR7rWSI8.js';
 import './type-D7rOPtKA.js';
 
 const iglBookPropertyFooterCss = () => `.sc-igl-book-property-footer-h{width:100% !important;background:#000}`;

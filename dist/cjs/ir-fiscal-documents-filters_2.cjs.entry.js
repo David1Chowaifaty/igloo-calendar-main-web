@@ -6,7 +6,7 @@ var enums = require('./enums-CYGRnqOf.js');
 var moment = require('./moment-CdViwxPQ.js');
 var index$1 = require('./index-CLqkDPTC.js');
 var agents_service = require('./agents.service-DWaVZIds.js');
-var booking_service = require('./booking.service-DIp1LHir.js');
+var booking_store = require('./booking.store-BJ-UMZhK.js');
 var irInterceptor_store = require('./ir-interceptor.store-Bul41qhv.js');
 var utils = require('./utils-CHYeTDt_.js');
 var useTable = require('./useTable-BN32DOaV.js');
@@ -60,7 +60,7 @@ const IrFiscalDocumentsFilters = class {
     filtersChange;
     applyFilters;
     agentsService = new agents_service.AgentsService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     componentWillLoad() {
         this.docNumber = this.filters.docNumber ?? '';
         if (this.propertyId) {

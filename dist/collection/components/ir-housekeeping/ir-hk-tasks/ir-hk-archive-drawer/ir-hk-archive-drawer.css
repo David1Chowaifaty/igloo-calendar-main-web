@@ -1,0 +1,290 @@
+/* #region CSS Variables ~~~~~~~~~~~~~~~~~~~~~ */
+
+:host {
+  --ir-cell-padding: 0.5rem 1rem;
+}
+
+/* #endregion */
+
+/* #region Table Layout ~~~~~~~~~~~~~~~~~~~~~ */
+
+.table--container {
+  overflow-x: auto;
+}
+
+.table--container,
+.data-table {
+  height: 100%;
+}
+
+/* #endregion */
+
+/* #region Table Cells ~~~~~~~~~~~~~~~~~~~~~ */
+
+.ir-table-row td {
+  padding: var(--ir-cell-padding) !important;
+  text-align: left;
+  z-index: 2;
+  background-color: var(--wa-color-surface-default);
+  white-space: nowrap;
+  color: var(--wa-color-text-normal);
+  box-sizing: border-box;
+
+  transition-duration: var(--wa-transition-fast);
+}
+
+.table td {
+  border-top: 0;
+  border-bottom: 1px solid var(--wa-color-neutral-border-quiet, #abaeb9);
+
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.table tbody tr:last-child > td {
+  border-bottom: 0 !important;
+}
+
+/* #endregion */
+
+/* #region Table Headers ~~~~~~~~~~~~~~~~~~~~~ */
+
+.table thead th {
+  border: none !important;
+  background: color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);
+  color: var(--wa-color-neutral-on-quiet);
+  padding: 0.5rem 1rem !important;
+  text-align: left;
+}
+
+.data-table thead th {
+  box-sizing: border-box;
+  background: var(--wa-color-surface-default) !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+
+  border-bottom: var(--wa-border-style) var(--wa-border-width-s) var(--wa-color-neutral-border-normal) !important;
+
+  color: var(--wa-color-text-normal);
+}
+
+/* #endregion */
+.empty-row {
+  height: 50vh !important;
+  text-align: center;
+  color: var(--wa-color-gray-60);
+}
+
+/* #region Sorting ~~~~~~~~~~~~~~~~~~~~~ */
+
+.sortable,
+.ir-table-row {
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.sortable {
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.table thead th.sortable {
+  transition-property: background, border, box-shadow, color;
+
+  transition-duration: var(--wa-transition-fast);
+  transition-timing-function: var(--wa-transition-easing);
+}
+
+.table thead th.sortable:hover {
+  color: var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));
+
+  background-color: var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important;
+}
+
+.table thead th.sortable:active {
+  color: var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));
+
+  background-color: color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important;
+}
+
+.sortable:active {
+  color: #212529;
+  background-color: #e2e8f0;
+  border-color: #d3d9df;
+}
+
+.sortable svg {
+  color: var(--wa-color-brand-fill-loud);
+}
+
+/* #endregion */
+
+/* #region Row States ~~~~~~~~~~~~~~~~~~~~~ */
+
+.ir-table-row:hover td {
+  background: var(--wa-color-neutral-fill-quiet, #f1f2f3) !important;
+}
+
+.--clickable.ir-table-row:hover td {
+  background-color: var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important;
+}
+
+.--clickable.ir-table-row:active td {
+  background-color: color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important;
+}
+
+/* #endregion */
+
+/* #region Selected Rows ~~~~~~~~~~~~~~~~~~~~~ */
+
+.selected td {
+  background: var(--wa-color-brand-fill-quiet) !important;
+  border-color: var(--wa-color-neutral-border-quiet) !important;
+  color: var(--gray-dark) !important;
+
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.selected.ir-table-row:hover td {
+  background-color: color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-hover)) !important;
+}
+
+.selected.ir-table-row:active td {
+  background-color: color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-active)) !important;
+}
+
+/* #endregion */
+
+/* #region Empty States ~~~~~~~~~~~~~~~~~~~~~ */
+
+.data-table .empty-row {
+  height: 50vh !important;
+  text-align: center;
+  color: var(--wa-color-gray-60);
+}
+
+/* #endregion */
+
+/* #region Pagination ~~~~~~~~~~~~~~~~~~~~~ */
+
+.data-table--pagination {
+  padding: 0.5rem 1rem;
+  background: var(--wa-color-surface-default);
+  border-top: 1px solid var(--wa-color-neutral-90);
+}
+
+/* #endregion */
+
+/* #region Sticky Columns ~~~~~~~~~~~~~~~~~~~~~ */
+
+.sticky-column {
+  position: sticky !important;
+  right: 0;
+  background-color: white;
+}
+
+/* #endregion */
+
+:host {
+  display: contents;
+}
+.hk_archive__drawer::part(body) {
+  padding: 0;
+}
+.archive-content {
+  display: flex;
+  flex-direction: column;
+  /* gap: 1rem; */
+}
+
+/* Filter section */
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--wa-color-neutral-200, #e5e7eb);
+}
+
+.filters-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filters-row wa-select {
+  flex: 1;
+  min-width: 10rem;
+}
+
+.filters-row ir-date-range-filter {
+  flex: 1;
+  min-width: 14rem;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Results */
+.table-wrapper {
+  padding: 1.5rem;
+  padding-inline: 0.75rem;
+  padding-top: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.archive-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.archive-table th,
+.archive-table td {
+  white-space: nowrap;
+  text-align: start;
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid var(--wa-color-neutral-200, #e5e7eb);
+  font-size: var(--wa-font-size-s, 0.875rem);
+}
+
+.archive-table th {
+  font-weight: 600;
+  color: var(--wa-color-neutral-600, #4b5563);
+  border-bottom: 2px solid var(--wa-color-neutral-200, #e5e7eb);
+  padding-top: 0;
+}
+
+.archive-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.archive-table tbody tr:hover td {
+  background-color: var(--wa-color-neutral-50, #f9fafb);
+}
+
+.unit-name {
+  max-width: 100px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0;
+  margin: 0;
+  text-align: start;
+}

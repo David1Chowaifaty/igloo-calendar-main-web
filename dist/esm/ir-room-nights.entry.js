@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-D8DCR0yx.js';
-import { B as BookingService, b as booking_store } from './booking.service-GE1gwyd_.js';
+import { B as BookingService, b as booking_store } from './booking.store-BnED7mRP.js';
 import { q as getDaysArray, r as convertDatePrice, t as formatDate } from './utils-1CCVam5W.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { l as locales } from './locales.store-ChFOK43k.js';
@@ -7,7 +7,7 @@ import { c as calendar_data } from './calendar-data-BIZ201rH.js';
 import './index-DeW5X45W.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './booking-CvTMLWU-.js';
+import './booking-CR7rWSI8.js';
 import './index-D5oXdmCj.js';
 import './type-D7rOPtKA.js';
 

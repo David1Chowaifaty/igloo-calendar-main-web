@@ -310,15 +310,7 @@ export class IrHkTasks {
                     this.modalCauses = null;
                 }
                 this.modal.closeModal();
-            } }, locales.entries.Lcz_Cancel), h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales.entries.Lcz_Confirm))), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.isSidebarOpen = false;
-            },
-            // sidebarStyles={{
-            //   width: '80vw',
-            // }}
-            showCloseButton: false }, this.isSidebarOpen && h("ir-hk-archive", { ticket: this.token.getToken(), propertyId: this.property_id, slot: "sidebar-body" }))));
+            } }, locales.entries.Lcz_Cancel), h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales.entries.Lcz_Confirm))), h("ir-hk-archive-drawer", { open: this.isSidebarOpen, ticket: this.token.getToken(), propertyId: this.property_id, onDrawerClosed: () => (this.isSidebarOpen = false) })));
     }
     static get is() { return "ir-hk-tasks"; }
     static get encapsulation() { return "scoped"; }

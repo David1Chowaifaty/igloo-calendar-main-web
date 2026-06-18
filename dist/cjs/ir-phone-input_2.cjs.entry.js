@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-CJ0kc5p1.js');
-var booking_service = require('./booking.service-DIp1LHir.js');
+var booking_store = require('./booking.store-BJ-UMZhK.js');
 var locales_store = require('./locales.store-BfrChT1G.js');
 require('./index-CLqkDPTC.js');
 require('./axios-EresIryl.js');
@@ -110,7 +110,7 @@ const IrPhoneInput = class {
     /** Internal: input focus state for floating label. */
     hasFocus = false;
     // private cmp_countries: ICountry[] = [];
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     /** Internal: ids for label/input pairing (a11y). */
     inputId = `ir-phone-input-${Math.random().toString(36).slice(2)}`;
     labelId = `ir-phone-input-label-${Math.random().toString(36).slice(2)}`;

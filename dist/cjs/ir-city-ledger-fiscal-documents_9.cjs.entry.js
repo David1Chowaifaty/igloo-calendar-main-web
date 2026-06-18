@@ -7,17 +7,16 @@ var moment = require('./moment-CdViwxPQ.js');
 var debounce = require('./debounce-Be8tSGtB.js');
 var index$2 = require('./index-CLqkDPTC.js');
 var realtime_service = require('./realtime.service-COdIt6Z-.js');
-var types = require('./types-CjEz6ZdU.js');
+var cityLedger_service = require('./city-ledger.service-C_qkpzb7.js');
 var calendarData = require('./calendar-data-CTxCbso4.js');
 var v4 = require('./v4-_2BfiRUa.js');
 var utils = require('./utils-CHYeTDt_.js');
 var useTable = require('./useTable-BN32DOaV.js');
-var cityLedger_service = require('./city-ledger.service-BLwiJkVx.js');
 var functions = require('./functions-mvRDRfzA.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./index-dbmC5P-h.js');
 require('./locales.store-BfrChT1G.js');
+require('./index-dbmC5P-h.js');
 require('./type-Dy9pVS4V.js');
 
 const irCityLedgerFiscalDocumentsCss = () => `.sc-ir-city-ledger-fiscal-documents-h{display:block;max-width:1000px;margin-inline:auto}.fiscal-documents.sc-ir-city-ledger-fiscal-documents{display:flex;flex-direction:column;gap:0.875rem}`;
@@ -281,14 +280,14 @@ const IrCityLedgerFolio = class {
                     if (r._raw.CL_TX_ID !== cl_tx_id)
                         return r;
                     const updatedTx = { ...r._raw, IS_HOLD: is_hold };
-                    return { ...types.mapClTxToFolioRow(updatedTx), _rowId: r._rowId };
+                    return { ...cityLedger_service.mapClTxToFolioRow(updatedTx), _rowId: r._rowId };
                 });
             },
             CL_TX_CREATED: async (payload) => {
                 const tx = payload;
                 if (tx.TRAVEL_AGENCY_ID !== this.agent?.id)
                     return;
-                const row = { ...types.mapClTxToFolioRow(tx), _rowId: v4.v4() };
+                const row = { ...cityLedger_service.mapClTxToFolioRow(tx), _rowId: v4.v4() };
                 let running = this.startingBalance;
                 this.data = [...this.data, row].map(r => {
                     running += (r.debit ?? 0) - (r.credit ?? 0);
@@ -311,7 +310,7 @@ const IrCityLedgerFolio = class {
             const isLocked = pending.get(r._raw.CL_TX_ID);
             if (isLocked === undefined)
                 return r;
-            return { ...types.mapClTxToFolioRow({ ...r._raw, IS_LOCKED: isLocked }), _rowId: r._rowId };
+            return { ...cityLedger_service.mapClTxToFolioRow({ ...r._raw, IS_LOCKED: isLocked }), _rowId: r._rowId };
         });
     }
     async handleDelete() {
@@ -443,7 +442,7 @@ const IrCityLedgerFolio = class {
             let totalCredits = 0;
             let unbilledCount = 0;
             const mappedRows = txList.map((tx) => {
-                const mapped = types.mapClTxToFolioRow(tx);
+                const mapped = cityLedger_service.mapClTxToFolioRow(tx);
                 totalDebits += tx.DEBIT || 0;
                 totalCredits += tx.CREDIT || 0;
                 if (mapped.status.label === 'Unbilled')

@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-D8DCR0yx.js';
 import { b as booking_listing, B as BookingListingService, u as updateUserSelection, i as initializeUserSelection } from './booking_listing.service-BOZGfEME.js';
-import { d as getPrivateNote } from './booking-CvTMLWU-.js';
+import { d as getPrivateNote } from './booking-CR7rWSI8.js';
 import { l as locales } from './locales.store-ChFOK43k.js';
 import { l as isPrivilegedUser, j as downloadFile } from './utils-1CCVam5W.js';
 import { h as hooks } from './moment-Mki5YqAR.js';

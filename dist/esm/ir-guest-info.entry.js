@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-D8DCR0yx.js';
-import { B as BookingService } from './booking.service-GE1gwyd_.js';
+import { B as BookingService } from './booking.store-BnED7mRP.js';
 import { R as RoomService } from './room.service-Bg63GIjB.js';
 import { l as locales } from './locales.store-ChFOK43k.js';
 import { T as Token } from './Token-CkxFIO_J.js';
@@ -8,7 +8,7 @@ import { n as showToast } from './utils-1CCVam5W.js';
 import './index-DeW5X45W.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './booking-CvTMLWU-.js';
+import './booking-CR7rWSI8.js';
 import './moment-Mki5YqAR.js';
 import './index-D5oXdmCj.js';
 import './calendar-data-BIZ201rH.js';

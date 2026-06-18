@@ -3502,6 +3502,18 @@ export namespace Components {
         "propertyId": string | number;
         "ticket": string;
     }
+    interface IrHkArchiveDrawer {
+        /**
+          * @default 'en'
+         */
+        "language": string;
+        /**
+          * @default false
+         */
+        "open": boolean;
+        "propertyId": string | number;
+        "ticket": string;
+    }
     interface IrHkDeleteDialog {
         "closeModal": () => Promise<void>;
         "openModal": () => Promise<void>;
@@ -6947,6 +6959,10 @@ export interface IrGuestInfoFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrGuestInfoFormElement;
 }
+export interface IrHkArchiveDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrHkArchiveDrawerElement;
+}
 export interface IrHkDeleteDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrHkDeleteDialogElement;
@@ -10135,6 +10151,23 @@ declare global {
         prototype: HTMLIrHkArchiveElement;
         new (): HTMLIrHkArchiveElement;
     };
+    interface HTMLIrHkArchiveDrawerElementEventMap {
+        "drawerClosed": void;
+    }
+    interface HTMLIrHkArchiveDrawerElement extends Components.IrHkArchiveDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrHkArchiveDrawerElementEventMap>(type: K, listener: (this: HTMLIrHkArchiveDrawerElement, ev: IrHkArchiveDrawerCustomEvent<HTMLIrHkArchiveDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrHkArchiveDrawerElementEventMap>(type: K, listener: (this: HTMLIrHkArchiveDrawerElement, ev: IrHkArchiveDrawerCustomEvent<HTMLIrHkArchiveDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrHkArchiveDrawerElement: {
+        prototype: HTMLIrHkArchiveDrawerElement;
+        new (): HTMLIrHkArchiveDrawerElement;
+    };
     interface HTMLIrHkDeleteDialogElementEventMap {
         "modalClosed": null;
         "resetData": string;
@@ -12346,6 +12379,7 @@ declare global {
         "ir-guest-info-form": HTMLIrGuestInfoFormElement;
         "ir-guest-name-cell": HTMLIrGuestNameCellElement;
         "ir-hk-archive": HTMLIrHkArchiveElement;
+        "ir-hk-archive-drawer": HTMLIrHkArchiveDrawerElement;
         "ir-hk-delete-dialog": HTMLIrHkDeleteDialogElement;
         "ir-hk-operations-card": HTMLIrHkOperationsCardElement;
         "ir-hk-staff-task": HTMLIrHkStaffTaskElement;
@@ -16148,6 +16182,19 @@ declare namespace LocalJSX {
           * @default 'en'
          */
         "language"?: string;
+        "propertyId"?: string | number;
+        "ticket"?: string;
+    }
+    interface IrHkArchiveDrawer {
+        /**
+          * @default 'en'
+         */
+        "language"?: string;
+        "onDrawerClosed"?: (event: IrHkArchiveDrawerCustomEvent<void>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
         "propertyId"?: string | number;
         "ticket"?: string;
     }
@@ -20350,6 +20397,12 @@ declare namespace LocalJSX {
         "language": string;
         "ticket": string;
     }
+    interface IrHkArchiveDrawerAttributes {
+        "propertyId": string;
+        "language": string;
+        "ticket": string;
+        "open": boolean;
+    }
     interface IrHkStaffTaskAttributes {
         "future": boolean;
     }
@@ -21388,6 +21441,7 @@ declare namespace LocalJSX {
         "ir-guest-info-form": Omit<IrGuestInfoForm, keyof IrGuestInfoFormAttributes> & { [K in keyof IrGuestInfoForm & keyof IrGuestInfoFormAttributes]?: IrGuestInfoForm[K] } & { [K in keyof IrGuestInfoForm & keyof IrGuestInfoFormAttributes as `attr:${K}`]?: IrGuestInfoFormAttributes[K] } & { [K in keyof IrGuestInfoForm & keyof IrGuestInfoFormAttributes as `prop:${K}`]?: IrGuestInfoForm[K] };
         "ir-guest-name-cell": IrGuestNameCell;
         "ir-hk-archive": Omit<IrHkArchive, keyof IrHkArchiveAttributes> & { [K in keyof IrHkArchive & keyof IrHkArchiveAttributes]?: IrHkArchive[K] } & { [K in keyof IrHkArchive & keyof IrHkArchiveAttributes as `attr:${K}`]?: IrHkArchiveAttributes[K] } & { [K in keyof IrHkArchive & keyof IrHkArchiveAttributes as `prop:${K}`]?: IrHkArchive[K] };
+        "ir-hk-archive-drawer": Omit<IrHkArchiveDrawer, keyof IrHkArchiveDrawerAttributes> & { [K in keyof IrHkArchiveDrawer & keyof IrHkArchiveDrawerAttributes]?: IrHkArchiveDrawer[K] } & { [K in keyof IrHkArchiveDrawer & keyof IrHkArchiveDrawerAttributes as `attr:${K}`]?: IrHkArchiveDrawerAttributes[K] } & { [K in keyof IrHkArchiveDrawer & keyof IrHkArchiveDrawerAttributes as `prop:${K}`]?: IrHkArchiveDrawer[K] };
         "ir-hk-delete-dialog": IrHkDeleteDialog;
         "ir-hk-operations-card": IrHkOperationsCard;
         "ir-hk-staff-task": Omit<IrHkStaffTask, keyof IrHkStaffTaskAttributes> & { [K in keyof IrHkStaffTask & keyof IrHkStaffTaskAttributes]?: IrHkStaffTask[K] } & { [K in keyof IrHkStaffTask & keyof IrHkStaffTaskAttributes as `attr:${K}`]?: IrHkStaffTaskAttributes[K] } & { [K in keyof IrHkStaffTask & keyof IrHkStaffTaskAttributes as `prop:${K}`]?: IrHkStaffTask[K] };
@@ -21804,6 +21858,7 @@ declare module "@stencil/core" {
             "ir-guest-info-form": LocalJSX.IntrinsicElements["ir-guest-info-form"] & JSXBase.HTMLAttributes<HTMLIrGuestInfoFormElement>;
             "ir-guest-name-cell": LocalJSX.IntrinsicElements["ir-guest-name-cell"] & JSXBase.HTMLAttributes<HTMLIrGuestNameCellElement>;
             "ir-hk-archive": LocalJSX.IntrinsicElements["ir-hk-archive"] & JSXBase.HTMLAttributes<HTMLIrHkArchiveElement>;
+            "ir-hk-archive-drawer": LocalJSX.IntrinsicElements["ir-hk-archive-drawer"] & JSXBase.HTMLAttributes<HTMLIrHkArchiveDrawerElement>;
             "ir-hk-delete-dialog": LocalJSX.IntrinsicElements["ir-hk-delete-dialog"] & JSXBase.HTMLAttributes<HTMLIrHkDeleteDialogElement>;
             "ir-hk-operations-card": LocalJSX.IntrinsicElements["ir-hk-operations-card"] & JSXBase.HTMLAttributes<HTMLIrHkOperationsCardElement>;
             "ir-hk-staff-task": LocalJSX.IntrinsicElements["ir-hk-staff-task"] & JSXBase.HTMLAttributes<HTMLIrHkStaffTaskElement>;

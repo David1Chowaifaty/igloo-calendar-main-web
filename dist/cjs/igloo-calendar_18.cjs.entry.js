@@ -2,10 +2,10 @@
 
 var index = require('./index-CJ0kc5p1.js');
 var room_service = require('./room.service-BUoJAIN7.js');
-var booking_service = require('./booking.service-DIp1LHir.js');
+var booking_store = require('./booking.store-BJ-UMZhK.js');
 var utils = require('./utils-CHYeTDt_.js');
 var realtime_service = require('./realtime.service-COdIt6Z-.js');
-var events_service = require('./events.service-BZD7PgaH.js');
+var events_service = require('./events.service-BaLAT-l-.js');
 var moment = require('./moment-CdViwxPQ.js');
 var toBeAssigned_service = require('./toBeAssigned.service-CIrIh89u.js');
 var booking = require('./booking-BiLyxhv-.js');
@@ -24,7 +24,6 @@ var channel_service = require('./channel.service-h5obHm_u.js');
 var system_service = require('./system.service-q3G6_5Tb.js');
 var departures_store = require('./departures.store-BGop2tpx.js');
 var index$1 = require('./index-CLqkDPTC.js');
-var hkTasks_store = require('./hk-tasks.store-Dvbi-YpI.js');
 var paymentOption_store = require('./payment-option.store-DrEhodlS.js');
 var user_service = require('./user.service-BtQyZXdQ.js');
 require('./index-dbmC5P-h.js');
@@ -214,7 +213,7 @@ const IglooCalendar = class {
     revertBooking;
     openCalendarSidebar;
     showRoomNightsDialog;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     eventsService = new events_service.EventsService();
     toBeAssignedService = new toBeAssigned_service.ToBeAssignedService();
@@ -1513,7 +1512,7 @@ const IrAgents = class {
     setupEntries;
     agentsService = new agents_service.AgentsService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     tokenService = new Token.Token();
     componentWillLoad() {
         if (this.ticket) {
@@ -1672,7 +1671,7 @@ const IrArrivals = class {
     countries;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
@@ -1894,7 +1893,7 @@ const IrBookingListing = class {
     payment;
     booking;
     bookingListingService = new booking_listing_service.BookingListingService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
     token = new Token.Token();
@@ -2454,7 +2453,7 @@ const IrCityLedger = class {
     tokenService = new Token.Token();
     agentsService = new agents_service.AgentsService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     systemService = new system_service.SystemService();
     toolbarRef;
     createInvoiceDialogRef;
@@ -2617,7 +2616,7 @@ const IrDailyRevenue = class {
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentEntries;
     preventPageLoad;
     componentWillLoad() {
@@ -2806,7 +2805,7 @@ const IrDepartures = class {
     invoiceState = null;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
@@ -3016,7 +3015,7 @@ const IrGhsOnboarding = class {
     isActivating = false;
     propertyToActivate = null;
     ghsService = new GHSService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     tokenService = new Token.Token();
     removeAllModal;
     activateModal;
@@ -3221,322 +3220,85 @@ const IrGhsOnboarding = class {
 };
 IrGhsOnboarding.style = irGhsOnboardingCss();
 
-const irHkTasksCss = () => `.sc-ir-hk-tasks-h{display:block;box-sizing:border-box}.sc-ir-hk-tasks-h *.sc-ir-hk-tasks{box-sizing:border-box}.tasks-view.sc-ir-hk-tasks{display:flex;flex-direction:column;gap:1rem;min-width:0}.tasks-table-wrapper.sc-ir-hk-tasks{display:flex;flex-direction:column;flex:1;min-width:0;width:100%}@media (min-width: 1024px){.tasks-view.sc-ir-hk-tasks{flex-direction:row;align-items:flex-start}.tasks-table-wrapper.sc-ir-hk-tasks{flex:3;min-width:0}}`;
+const irHousekeepingCss = () => `.sc-ir-housekeeping-h{display:block}`;
 
-const IrHkTasks = class {
+const IrHousekeeping = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.clearSelectedHkTasks = index.createEvent(this, "clearSelectedHkTasks");
     }
-    get el() { return index.getElement(this); }
     language = '';
     ticket = '';
     propertyid;
     p;
     baseUrl;
     isLoading = false;
-    isCleaningLoading = false;
-    selectedDuration = '';
-    selectedHouseKeeper = '0';
-    selectedRoom = null;
-    archiveOpened = false;
-    property_id;
-    isSidebarOpen;
-    isApplyFiltersLoading;
-    filters;
-    modalCauses;
-    clearSelectedHkTasks;
-    hkNameCache = {};
+    frequencies = [];
     roomService = new room_service.RoomService();
     houseKeepingService = new housekeeping_service.HouseKeepingService();
+    bookingService = new booking_store.BookingService();
     token = new Token.Token();
-    table_sorting = new Map();
-    modal;
     componentWillLoad() {
         if (this.baseUrl) {
             this.token.setBaseUrl(this.baseUrl);
         }
         if (this.ticket !== '') {
             this.token.setToken(this.ticket);
-            this.init();
+            this.initializeApp();
         }
+    }
+    async handleResetData(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        await this.houseKeepingService.getExposedHKSetup(this.propertyid);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
         this.token.setToken(this.ticket);
-        this.init();
+        this.initializeApp();
     }
-    handleCloseSidebar(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        this.isSidebarOpen = false;
-    }
-    handleSortingChanged(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        const { field, direction } = e.detail;
-        console.log(e.detail);
-        if (field === 'date') {
-            return;
-        }
-        this.table_sorting.set(field, direction);
-    }
-    handleSkipSelectedTask(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        this.modalCauses = { task: e.detail, cause: 'skip' };
-        this.modal?.openModal();
-    }
-    async init() {
+    async initializeApp() {
         try {
             this.isLoading = true;
-            hkTasks_store.setLoading(true);
             let propertyId = this.propertyid;
-            if (!this.propertyid && !this.p) {
-                throw new Error('Property ID or username is required');
-            }
-            // let roomResp = null;
             if (!propertyId) {
-                console.log(propertyId);
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
                     language: this.language,
                     is_backend: true,
-                    include_units_hk_status: true,
+                    include_sales_rate_plans: true,
                 });
-                // roomResp = propertyData;
                 propertyId = propertyData.My_Result.id;
             }
-            this.property_id = propertyId;
-            const requests = [this.houseKeepingService.getExposedHKSetup(this.property_id), this.roomService.fetchLanguage(this.language)];
-            if (this.propertyid) {
-                requests.push(this.roomService.getExposedProperty({
-                    id: this.propertyid,
-                    language: this.language,
-                    is_backend: true,
-                    include_units_hk_status: true,
-                }));
-            }
-            await Promise.all(requests);
-            const tasksResult = await this.houseKeepingService.getHkTasks({
-                property_id: this.property_id,
-                from_date: moment.hooks().format('YYYY-MM-DD'),
-                to_date: moment.hooks().format('YYYY-MM-DD'),
-                housekeepers: [],
-                cleaning_frequency: (calendarData.calendar_data.cleaning_frequency ?? housekeeping_service.housekeeping_store?.hk_criteria?.cleaning_frequencies[0])?.code,
-                dusty_window: housekeeping_service.housekeeping_store?.hk_criteria?.dusty_periods[0]?.code,
-                highlight_window: housekeeping_service.housekeeping_store?.hk_criteria?.highlight_checkin_options[0]?.code,
-            });
-            // updateTaskList();
-            if (tasksResult?.tasks) {
-                this.updateTasks(tasksResult.tasks);
-            }
+            housekeeping_service.updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
+            const [frequencies] = await Promise.all([
+                this.bookingService.getSetupEntriesByTableName('_HK_FREQUENCY'),
+                this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT']),
+                this.propertyid &&
+                    this.roomService.getExposedProperty({
+                        id: propertyId,
+                        language: this.language,
+                        is_backend: true,
+                        include_sales_rate_plans: true,
+                    }),
+                calendarData.calendar_data.housekeeping_enabled && this.houseKeepingService.getExposedHKSetup(propertyId),
+            ]);
+            this.frequencies = frequencies;
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
         }
         finally {
             this.isLoading = false;
-            hkTasks_store.setLoading(false);
         }
-    }
-    buildHousekeeperNameCache() {
-        this.hkNameCache = {};
-        housekeeping_service.housekeeping_store.hk_criteria?.housekeepers?.forEach(hk => {
-            if (hk.id != null && hk.name != null) {
-                this.hkNameCache[hk.id] = hk.name;
-            }
-        });
-    }
-    groupTasks(tasks) {
-        const groups = new Map();
-        for (const task of tasks) {
-            const key = `${task.date}__${task.unit.id}`;
-            if (!groups.has(key)) {
-                groups.set(key, []);
-            }
-            groups.get(key).push(task);
-        }
-        const result = [];
-        for (const group of groups.values()) {
-            const cln = group.find(t => t.task_type?.code === 'CLN');
-            const t1 = group.find(t => t.task_type?.code === 'T1');
-            const t2 = group.find(t => t.task_type?.code === 'T2');
-            if (cln) {
-                const extra = [];
-                if (t1)
-                    extra.push(t1);
-                if (t2)
-                    extra.push(t2);
-                result.push({ ...cln, extra_task: extra.length > 0 ? extra : null });
-            }
-            else if (t1) {
-                result.push({ ...t1, extra_task: t2 ? [t2] : null });
-            }
-            else if (t2) {
-                result.push({ ...t2, extra_task: null });
-            }
-        }
-        return result;
-    }
-    updateTasks(tasks) {
-        this.buildHousekeeperNameCache();
-        const mapped = tasks.map(t => ({
-            ...t,
-            id: v4.v4(),
-            housekeeper: (() => {
-                const name = this.hkNameCache[t.hkm_id];
-                if (name) {
-                    return name;
-                }
-                const hkName = housekeeping_service.housekeeping_store.hk_criteria?.housekeepers?.find(hk => hk.id === t.hkm_id)?.name;
-                this.hkNameCache[t.hkm_id] = hkName;
-                return hkName;
-            })(),
-        }));
-        console.log(this.groupTasks(mapped));
-        hkTasks_store.updateTasks([...this.groupTasks(mapped)]);
-    }
-    async handleHeaderButtonPress(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        const { name } = e.detail;
-        switch (name) {
-            case 'cleaned':
-            case 'clean-inspect':
-                this.modal?.openModal();
-                this.modalCauses = {
-                    task: null,
-                    cause: 'clean',
-                    status: name === 'clean-inspect' ? '004' : '001',
-                };
-                break;
-            case 'export':
-                const sortingArray = Array.from(this.table_sorting.entries()).map(([key, value]) => ({
-                    key,
-                    value,
-                }));
-                console.log(sortingArray);
-                const { url } = await this.fetchTasksWithFilters(true);
-                utils.downloadFile(url);
-                break;
-            case 'archive':
-                this.isSidebarOpen = true;
-                break;
-        }
-    }
-    handleSelectedTaskCleaningEvent(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        this.modalCauses = { ...e.detail, cause: 'clean' };
-        this.modal?.openModal();
-    }
-    async handleModalConfirmation() {
-        try {
-            if (hkTasks_store.hkTasksStore.selectedTasks.length === 0) {
-                return;
-            }
-            this.isCleaningLoading = true;
-            if (this.modalCauses?.cause === 'skip') {
-                const { booking_nbr, date, unit, extra_task } = this.modalCauses.task;
-                await this.houseKeepingService.skipHKTasks({
-                    property_id: calendarData.calendar_data.property.id,
-                    tasks_to_skip: [{ unit_id: unit.id, booking_nbr, date }, ...(extra_task ?? []).map(t => ({ unit_id: t.unit.id, booking_nbr: t.booking_nbr, date: t.date }))],
-                });
-            }
-            else {
-                await this.houseKeepingService.executeHKAction({
-                    actions: hkTasks_store.hkTasksStore.selectedTasks
-                        .flatMap(t => [t, ...(t.extra_task ?? [])])
-                        .map(t => ({
-                        description: 'Cleaned',
-                        hkm_id: t.hkm_id === 0 ? null : t.hkm_id,
-                        unit_id: t.unit.id,
-                        booking_nbr: t.booking_nbr,
-                        status: this.modalCauses?.status ?? '001',
-                        hk_task_type_code: t.task_type.code,
-                    })),
-                });
-            }
-            await this.fetchTasksWithFilters();
-        }
-        finally {
-            hkTasks_store.clearSelectedTasks();
-            if (this.modalCauses) {
-                this.modalCauses = null;
-            }
-            this.isCleaningLoading = false;
-            // this.clearSelectedTasks.emit();
-            this.modal.closeModal();
-        }
-    }
-    async applyFilters(e) {
-        try {
-            this.isApplyFiltersLoading = true;
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            this.filters = { ...e.detail };
-            await this.fetchTasksWithFilters();
-        }
-        catch (error) {
-            console.log(error);
-        }
-        finally {
-            this.isApplyFiltersLoading = false;
-        }
-    }
-    async fetchTasksWithFilters(export_to_excel = false) {
-        const { cleaning_periods, housekeepers, cleaning_frequencies, dusty_units, highlight_check_ins } = this.filters ?? {};
-        const { tasks, url } = await this.houseKeepingService.getHkTasks({
-            housekeepers,
-            cleaning_frequency: cleaning_frequencies?.code,
-            dusty_window: dusty_units?.code,
-            highlight_window: highlight_check_ins?.code,
-            property_id: this.property_id,
-            from_date: moment.hooks().format('YYYY-MM-DD'),
-            to_date: cleaning_periods?.code || moment.hooks().format('YYYY-MM-DD'),
-            is_export_to_excel: export_to_excel,
-        });
-        console.log(tasks);
-        if (tasks) {
-            this.updateTasks(tasks);
-        }
-        return { tasks, url };
     }
     render() {
         if (this.isLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, { "data-testid": "hk_tasks_base" }, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("section", { class: "ir-page__container " }, index.h("h3", { class: "page-title" }, "Housekeeping Tasks"), index.h("div", { class: "tasks-view" }, index.h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
-                this.applyFilters(e);
-            } }), index.h("div", { class: "tasks-table-wrapper" }, index.h("ir-tasks-table", { onRowSelectChange: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                hkTasks_store.updateSelectedTasks(e.detail);
-            } })))), index.h("ir-dialog", { ref: el => (this.modal = el), label: locales_store.locales.entries.Lcz_Confirmation, lightDismiss: false }, index.h("span", null, this.modalCauses
-            ? this.modalCauses?.cause === 'clean'
-                ? this.modalCauses.task
-                    ? `Update ${this.modalCauses?.task?.unit?.name} to Clean`
-                    : 'Update selected unit(s) to Clean'
-                : 'Skip cleaning and reschedule for tomorrow.'
-            : 'Update selected unit(s) to Clean'), index.h("div", { slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => {
-                if (this.modalCauses) {
-                    hkTasks_store.clearSelectedTasks();
-                    this.modalCauses = null;
-                }
-                this.modal.closeModal();
-            } }, locales_store.locales.entries.Lcz_Cancel), index.h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales_store.locales.entries.Lcz_Confirm))), index.h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.isSidebarOpen = false;
-            },
-            // sidebarStyles={{
-            //   width: '80vw',
-            // }}
-            showCloseButton: false }, this.isSidebarOpen && index.h("ir-hk-archive", { ticket: this.token.getToken(), propertyId: this.property_id, slot: "sidebar-body" }))));
+        return (index.h("ir-page", { label: locales_store.locales.entries.Lcz_HouseKeepingAndCheckInSetup }, index.h("ir-hk-operations-card", { frequencies: this.frequencies }), calendarData.calendar_data.housekeeping_enabled && index.h("ir-hk-team", null)));
     }
     static get watchers() { return {
         "ticket": [{
@@ -3544,7 +3306,7 @@ const IrHkTasks = class {
             }]
     }; }
 };
-IrHkTasks.style = irHkTasksCss();
+IrHousekeeping.style = irHousekeepingCss();
 
 const ParamsGetMealReportSchema = index$1.libExports.object({
     property_id: index$1.libExports.number(),
@@ -4364,7 +4126,7 @@ const IrSalesByCountry = class {
     token = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     baseFilters = {
         FROM_DATE: moment.hooks().add(-7, 'days').format('YYYY-MM-DD'),
         TO_DATE: moment.hooks().format('YYYY-MM-DD'),
@@ -4544,7 +4306,7 @@ const IrTaxServiceCategories = class {
     setupEntries;
     autoValidate;
     tokenService = new Token.Token();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     propertyService = new property_service.PropertyService();
     componentWillLoad() {
         if (this.ticket) {
@@ -4776,7 +4538,7 @@ const IrUserManagement = class {
     token = new Token.Token();
     roomService = new room_service.RoomService();
     userService = new user_service.UserService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     userTypes = new Map();
     unsubscribeRealtime = null;
     superAdminId = '5';
@@ -4935,7 +4697,7 @@ exports.ir_city_ledger = IrCityLedger;
 exports.ir_daily_revenue = IrDailyRevenue;
 exports.ir_departures = IrDepartures;
 exports.ir_ghs_onboarding = IrGhsOnboarding;
-exports.ir_hk_tasks = IrHkTasks;
+exports.ir_housekeeping = IrHousekeeping;
 exports.ir_meal_report = IrMealReport;
 exports.ir_monthly_bookings_report = IrMonthlyBookingsReport;
 exports.ir_payment_option = IrPaymentOption;

@@ -1,6 +1,6 @@
 import housekeeping_store from "../../../stores/housekeeping.store";
 import locales from "../../../stores/locales.store";
-import { h } from "@stencil/core";
+import { h, Fragment } from "@stencil/core";
 export class IrHkTeam {
     el;
     currentTrigger = null;
@@ -49,7 +49,11 @@ export class IrHkTeam {
                     isEdit: false,
                     user: null,
                 };
-            }, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "plus", style: { fontSize: '1.2rem' } })))))), h("tbody", null, housekeeping_store.hk_criteria.housekeepers.map(hk => (h("tr", { key: hk.id, class: "ir-table-row" }, h("td", { class: "text-left" }, h("div", { class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, hk.name?.length > 25 ? (h("ir-popover", { trigger: "hover", content: hk.name }, h("span", null, hk.name.slice(0, 25), "..."))) : (hk.name), hk.note && (h("ir-popover", { content: hk.note }, h("ir-button", { variant: "icon", icon_name: "note", "data-toggle": "tooltip", "data-placement": "bottom", title: "Click to view note" }))))), h("td", { class: "" }, hk.phone_prefix, " ", hk.mobile), h("td", null, hk.username), h("td", null, this.renderAssignedUnits(hk)), h("td", { class: "" }, h("div", { class: "icons-container" }, h("ir-custom-button", { onClickHandler: () => {
+            }, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "plus", style: { fontSize: '1.2rem' } })))))), h("tbody", null, housekeeping_store.hk_criteria.housekeepers.map(hk => (h("tr", { key: hk.id, class: "ir-table-row" }, h("td", { class: "text-left" }, h("div", { class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, hk.name?.length > 25 ? (h(Fragment, null, h("wa-tooltip", { for: hk.id + '_name' }, hk.name), h("span", { id: hk.id + '_name' }, hk.name.slice(0, 25), "..."))) : (hk.name), hk.note && (
+        // <ir-popover content={hk.note}>
+        //   <ir-button variant="icon" icon_name="note" data-toggle="tooltip" data-placement="bottom" title="Click to view note"></ir-button>
+        // </ir-popover>
+        h(Fragment, null, h("wa-tooltip", { for: hk.id + '_note' }, hk.note), h("wa-icon", { id: hk.id + '_note', name: "note-sticky", variant: "regular" }))))), h("td", { class: "" }, hk.phone_prefix, " ", hk.mobile), h("td", null, hk.username), h("td", null, this.renderAssignedUnits(hk)), h("td", { class: "" }, h("div", { class: "icons-container" }, h("ir-custom-button", { onClickHandler: () => {
                 const { assigned_units, is_soft_deleted, is_active, ...user } = hk;
                 this.currentTrigger = {
                     type: 'user',
