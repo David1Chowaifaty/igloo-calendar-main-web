@@ -50,7 +50,7 @@ export class IrPmsSearch {
             }, { skipStore: true })).pipe(catchError(() => of([])));
         }))
             .subscribe(bookings => {
-            this.bookings = bookings;
+            this.bookings = bookings.filter(Boolean);
             this.isLoading = false;
             this.autoCompleteRef?.show();
         });
@@ -108,7 +108,10 @@ export class IrPmsSearch {
         });
     }
     render() {
-        return (h(Host, { key: '14bf2b0b6ebe1049f84f4f0036dbabfa1096e2f9' }, h("ir-autocomplete", { key: 'd8abb8ac44d203c163752fe96c0535f199e18b7c', class: "pms-search__autocomplete", placeholder: "Booking# or guest name", ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: '485010a60a686d6df227f4e658c532b1e6f07591', name: "magnifying-glass", slot: "start" }), h("div", { key: '2017dadb255705777e686233a67f4a4566ea31fd', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: 'ad442c81c0610802c58f968d545c234dd9ad88ae' }), this.shortcutHint && h("span", { key: '6904133a46cd7425fa26e8dfade212ee3fef01ac' }, this.shortcutHint)), this.bookings?.length === 0 && !this.isLoading && (h("div", { key: '9b056ad39d83dcb24d97aae9a187d776c94861ea', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: '65351240ee615cb3140c43b3b70c9d46676d37ef', name: "circle-info", "aria-hidden": "true" }), h("div", { key: '90729144c7f6d04555065a52f97e080f928dd2a0', class: "pms-search__empty-content" }, h("div", { key: '61077f8339fb60976e60bba8984ec6f21de2fd91', class: "pms-search__empty-title" }, "No results found")))), this.bookings?.map(b => {
+        return (h(Host, { key: '4dcacf6d9d496724f33011f7da18db5025ffb262' }, h("ir-autocomplete", { key: '7b2a4fa8e90058a612cebce07cd3c595f570a587', class: "pms-search__autocomplete", placeholder: "Booking# or guest name", ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: '2bc87534d20213b4ab232a281af43b2115740ce6', name: "magnifying-glass", slot: "start" }), h("div", { key: 'e1bf5acbc66fa3704562a5585d03fb521c366d9e', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: '0e41baa5321d37e778876ed466a11cd6c6256beb' }), this.shortcutHint && h("span", { key: 'b8db0f678d0c7be0f73021bb36f29de3ae532505' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (h("div", { key: '08bac14c0cdef8cd7625224a529e31f863ab91e3', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: '5bd1d36854a295643670491d7b5f936122d4ca69', name: "circle-info", "aria-hidden": "true" }), h("div", { key: 'eea679efa94aa0ee8ee7c775555fbc9c32058421', class: "pms-search__empty-content" }, h("div", { key: '961ebead306631af5491d32e2b2c99041c548c7f', class: "pms-search__empty-title" }, "No results found")))), (this.bookings ?? [])?.map(b => {
+            if (!b) {
+                return null;
+            }
             const label = `${b?.booking_nbr}  ${b?.guest?.first_name} ${b?.guest?.last_name}`;
             return (h("ir-autocomplete-option", { class: "pms-search__autocomplete-option", value: b.booking_nbr, label: label }, h("img", { slot: "start", class: "pms-search__option-icon", src: b.origin.Icon, alt: b.origin.Label }), h("div", { class: "pms-search__option" }, h("p", { class: "pms-search__option-bookings" }, h("span", { class: "pms-search__option-booking" }, b.booking_nbr), b.channel_booking_nbr && h("span", { class: "pms-search__option-channel-booking" }, b.channel_booking_nbr)), h("span", { class: "pms-search__option-label" }, b.guest.first_name, " ", b.guest.last_name)), h("ir-booking-status-tag", { slot: "end", class: "pms-search__option-status", status: b.status })));
         }))));

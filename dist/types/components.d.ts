@@ -3494,6 +3494,27 @@ export namespace Components {
     interface IrGuestNameCell {
         "name": Guest;
     }
+    /**
+     * Dialog that lets staff set or change the half-board meal preference (lunch / dinner)
+     * for a single room. Persists the choice via BookingService.setHbPreference and emits
+     * `hbPreferenceClose` when it closes so the parent can refresh the booking.
+     * Usage:
+     *   <ir-hb-preference-dialog
+     *     room={room}
+     *     open={isOpen}
+     *     onHbPreferenceClose={e => { isOpen = false; if (e.detail.saved) refresh(); }}
+     *   />
+     */
+    interface IrHbPreferenceDialog {
+        /**
+          * Controls dialog visibility.
+         */
+        "open": boolean;
+        /**
+          * Room whose half-board preference is being changed.
+         */
+        "room": Room;
+    }
     interface IrHkArchive {
         /**
           * @default 'en'
@@ -6959,6 +6980,10 @@ export interface IrGuestInfoFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrGuestInfoFormElement;
 }
+export interface IrHbPreferenceDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrHbPreferenceDialogElement;
+}
 export interface IrHkArchiveDrawerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrHkArchiveDrawerElement;
@@ -10145,6 +10170,34 @@ declare global {
         prototype: HTMLIrGuestNameCellElement;
         new (): HTMLIrGuestNameCellElement;
     };
+    interface HTMLIrHbPreferenceDialogElementEventMap {
+        "hbPreferenceClose": { saved: boolean };
+    }
+    /**
+     * Dialog that lets staff set or change the half-board meal preference (lunch / dinner)
+     * for a single room. Persists the choice via BookingService.setHbPreference and emits
+     * `hbPreferenceClose` when it closes so the parent can refresh the booking.
+     * Usage:
+     *   <ir-hb-preference-dialog
+     *     room={room}
+     *     open={isOpen}
+     *     onHbPreferenceClose={e => { isOpen = false; if (e.detail.saved) refresh(); }}
+     *   />
+     */
+    interface HTMLIrHbPreferenceDialogElement extends Components.IrHbPreferenceDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrHbPreferenceDialogElementEventMap>(type: K, listener: (this: HTMLIrHbPreferenceDialogElement, ev: IrHbPreferenceDialogCustomEvent<HTMLIrHbPreferenceDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrHbPreferenceDialogElementEventMap>(type: K, listener: (this: HTMLIrHbPreferenceDialogElement, ev: IrHbPreferenceDialogCustomEvent<HTMLIrHbPreferenceDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrHbPreferenceDialogElement: {
+        prototype: HTMLIrHbPreferenceDialogElement;
+        new (): HTMLIrHbPreferenceDialogElement;
+    };
     interface HTMLIrHkArchiveElement extends Components.IrHkArchive, HTMLStencilElement {
     }
     var HTMLIrHkArchiveElement: {
@@ -12378,6 +12431,7 @@ declare global {
         "ir-guest-info-drawer": HTMLIrGuestInfoDrawerElement;
         "ir-guest-info-form": HTMLIrGuestInfoFormElement;
         "ir-guest-name-cell": HTMLIrGuestNameCellElement;
+        "ir-hb-preference-dialog": HTMLIrHbPreferenceDialogElement;
         "ir-hk-archive": HTMLIrHkArchiveElement;
         "ir-hk-archive-drawer": HTMLIrHkArchiveDrawerElement;
         "ir-hk-delete-dialog": HTMLIrHkDeleteDialogElement;
@@ -16176,6 +16230,31 @@ declare namespace LocalJSX {
     }
     interface IrGuestNameCell {
         "name"?: Guest;
+    }
+    /**
+     * Dialog that lets staff set or change the half-board meal preference (lunch / dinner)
+     * for a single room. Persists the choice via BookingService.setHbPreference and emits
+     * `hbPreferenceClose` when it closes so the parent can refresh the booking.
+     * Usage:
+     *   <ir-hb-preference-dialog
+     *     room={room}
+     *     open={isOpen}
+     *     onHbPreferenceClose={e => { isOpen = false; if (e.detail.saved) refresh(); }}
+     *   />
+     */
+    interface IrHbPreferenceDialog {
+        /**
+          * Fired when the dialog closes. `saved: true` → preference was persisted; `saved: false` → user cancelled.
+         */
+        "onHbPreferenceClose"?: (event: IrHbPreferenceDialogCustomEvent<{ saved: boolean }>) => void;
+        /**
+          * Controls dialog visibility.
+         */
+        "open"?: boolean;
+        /**
+          * Room whose half-board preference is being changed.
+         */
+        "room"?: Room;
     }
     interface IrHkArchive {
         /**
@@ -20392,6 +20471,9 @@ declare namespace LocalJSX {
         "booking_nbr": string;
         "ticket": string;
     }
+    interface IrHbPreferenceDialogAttributes {
+        "open": boolean;
+    }
     interface IrHkArchiveAttributes {
         "propertyId": string;
         "language": string;
@@ -21440,6 +21522,7 @@ declare namespace LocalJSX {
         "ir-guest-info-drawer": Omit<IrGuestInfoDrawer, keyof IrGuestInfoDrawerAttributes> & { [K in keyof IrGuestInfoDrawer & keyof IrGuestInfoDrawerAttributes]?: IrGuestInfoDrawer[K] } & { [K in keyof IrGuestInfoDrawer & keyof IrGuestInfoDrawerAttributes as `attr:${K}`]?: IrGuestInfoDrawerAttributes[K] } & { [K in keyof IrGuestInfoDrawer & keyof IrGuestInfoDrawerAttributes as `prop:${K}`]?: IrGuestInfoDrawer[K] };
         "ir-guest-info-form": Omit<IrGuestInfoForm, keyof IrGuestInfoFormAttributes> & { [K in keyof IrGuestInfoForm & keyof IrGuestInfoFormAttributes]?: IrGuestInfoForm[K] } & { [K in keyof IrGuestInfoForm & keyof IrGuestInfoFormAttributes as `attr:${K}`]?: IrGuestInfoFormAttributes[K] } & { [K in keyof IrGuestInfoForm & keyof IrGuestInfoFormAttributes as `prop:${K}`]?: IrGuestInfoForm[K] };
         "ir-guest-name-cell": IrGuestNameCell;
+        "ir-hb-preference-dialog": Omit<IrHbPreferenceDialog, keyof IrHbPreferenceDialogAttributes> & { [K in keyof IrHbPreferenceDialog & keyof IrHbPreferenceDialogAttributes]?: IrHbPreferenceDialog[K] } & { [K in keyof IrHbPreferenceDialog & keyof IrHbPreferenceDialogAttributes as `attr:${K}`]?: IrHbPreferenceDialogAttributes[K] } & { [K in keyof IrHbPreferenceDialog & keyof IrHbPreferenceDialogAttributes as `prop:${K}`]?: IrHbPreferenceDialog[K] };
         "ir-hk-archive": Omit<IrHkArchive, keyof IrHkArchiveAttributes> & { [K in keyof IrHkArchive & keyof IrHkArchiveAttributes]?: IrHkArchive[K] } & { [K in keyof IrHkArchive & keyof IrHkArchiveAttributes as `attr:${K}`]?: IrHkArchiveAttributes[K] } & { [K in keyof IrHkArchive & keyof IrHkArchiveAttributes as `prop:${K}`]?: IrHkArchive[K] };
         "ir-hk-archive-drawer": Omit<IrHkArchiveDrawer, keyof IrHkArchiveDrawerAttributes> & { [K in keyof IrHkArchiveDrawer & keyof IrHkArchiveDrawerAttributes]?: IrHkArchiveDrawer[K] } & { [K in keyof IrHkArchiveDrawer & keyof IrHkArchiveDrawerAttributes as `attr:${K}`]?: IrHkArchiveDrawerAttributes[K] } & { [K in keyof IrHkArchiveDrawer & keyof IrHkArchiveDrawerAttributes as `prop:${K}`]?: IrHkArchiveDrawer[K] };
         "ir-hk-delete-dialog": IrHkDeleteDialog;
@@ -21857,6 +21940,18 @@ declare module "@stencil/core" {
             "ir-guest-info-drawer": LocalJSX.IntrinsicElements["ir-guest-info-drawer"] & JSXBase.HTMLAttributes<HTMLIrGuestInfoDrawerElement>;
             "ir-guest-info-form": LocalJSX.IntrinsicElements["ir-guest-info-form"] & JSXBase.HTMLAttributes<HTMLIrGuestInfoFormElement>;
             "ir-guest-name-cell": LocalJSX.IntrinsicElements["ir-guest-name-cell"] & JSXBase.HTMLAttributes<HTMLIrGuestNameCellElement>;
+            /**
+             * Dialog that lets staff set or change the half-board meal preference (lunch / dinner)
+             * for a single room. Persists the choice via BookingService.setHbPreference and emits
+             * `hbPreferenceClose` when it closes so the parent can refresh the booking.
+             * Usage:
+             *   <ir-hb-preference-dialog
+             *     room={room}
+             *     open={isOpen}
+             *     onHbPreferenceClose={e => { isOpen = false; if (e.detail.saved) refresh(); }}
+             *   />
+             */
+            "ir-hb-preference-dialog": LocalJSX.IntrinsicElements["ir-hb-preference-dialog"] & JSXBase.HTMLAttributes<HTMLIrHbPreferenceDialogElement>;
             "ir-hk-archive": LocalJSX.IntrinsicElements["ir-hk-archive"] & JSXBase.HTMLAttributes<HTMLIrHkArchiveElement>;
             "ir-hk-archive-drawer": LocalJSX.IntrinsicElements["ir-hk-archive-drawer"] & JSXBase.HTMLAttributes<HTMLIrHkArchiveDrawerElement>;
             "ir-hk-delete-dialog": LocalJSX.IntrinsicElements["ir-hk-delete-dialog"] & JSXBase.HTMLAttributes<HTMLIrHkDeleteDialogElement>;

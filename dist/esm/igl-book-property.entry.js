@@ -1,16 +1,16 @@
-import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-D8DCR0yx.js';
-import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, a as resetReserved, d as setBookingSelectOptions, e as reserveRooms } from './booking.store-BnED7mRP.js';
-import { e as extras, p as handleBodyOverflow, g as getReleaseHoursString, d as dateToFormattedString } from './utils-1CCVam5W.js';
+import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-BvoylR5O.js';
+import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, d as resetReserved, e as setBookingSelectOptions, a as reserveRooms } from './booking.service-BY9sBcms.js';
+import { e as extras, p as handleBodyOverflow, g as getReleaseHoursString, d as dateToFormattedString } from './utils-BDVP7IDp.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { l as locales } from './locales.store-ChFOK43k.js';
-import { i as isRequestPending } from './ir-interceptor.store-80RD_iPu.js';
+import { l as locales } from './locales.store-BZFQn8-s.js';
+import { i as isRequestPending } from './ir-interceptor.store-DYGt5Cjl.js';
 import { R as RoomGuestSchema, B as BookingGuestSchema } from './types-C7GI5X38.js';
 import './index-DeW5X45W.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './booking-CR7rWSI8.js';
-import './index-D5oXdmCj.js';
-import './calendar-data-BIZ201rH.js';
+import './booking-ClyZOZZR.js';
+import './index-U7zaiBri.js';
+import './calendar-data-Cnv5ncgJ.js';
 import './type-D7rOPtKA.js';
 
 class IglBookPropertyService {

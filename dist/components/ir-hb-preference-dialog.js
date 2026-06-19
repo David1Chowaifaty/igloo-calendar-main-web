@@ -1,0 +1,1 @@
+import{I as r,d as e}from"./ir-hb-preference-dialog2.js";const o=r,s=e;export{o as IrHbPreferenceDialog,s as defineCustomElement}

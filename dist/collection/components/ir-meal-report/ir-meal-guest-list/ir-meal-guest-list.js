@@ -16,7 +16,7 @@ export class IrMealGuestList {
             id: 'guest',
             header: 'Guest name',
             enableSorting: false,
-            cell: info => (h("div", { class: "meal-guest-list__guest" }, h("span", null, info.getValue()), info.row.original.is_arriving_today && (h("wa-badge", { variant: "brand", appearance: "filled", pill: true }, "Same day arrival")))),
+            cell: info => (h("div", { class: "meal-guest-list__guest" }, h("span", null, info.getValue()), info.row.original.is_arriving_today && (h("wa-badge", { variant: "brand", appearance: "filled", pill: true }, "Arriving today")))),
         }),
         this.columnHelper.accessor(row => `${row.occupancy.adult_nbr} - ${row.occupancy.children_nbr}`, {
             id: 'occupancy',

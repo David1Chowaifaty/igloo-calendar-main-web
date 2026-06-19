@@ -4,7 +4,7 @@ export class IrArrivalTimeCell {
     arrival;
     arrivalTimeLabel;
     render() {
-        return (h(Host, { key: 'a5e7a57efb32955cc3b17589e5fab4ed24a9d9d2' }, h("div", { key: 'd0069ef3947bb726d3c0709707591a6d076947f0', class: "arrival-time-cell__container" }, this.arrivalTimeLabel && h("span", { key: '91fe11a55da66a01e9d7fae1cbdf10bbc93a02b0', class: "arrival-time-cell__label" }, this.arrivalTimeLabel, ": "), h("p", { key: '23fca8b5b09277e6449ac80cdfdbb8faf211d765' }, this.arrival?.description))));
+        return (h(Host, { key: '740c1699113e4d0377b3d53865087614d85cbb1e' }, h("div", { key: '01e05201e7a7e7d5d56c785fa9dd3da832cf04e5', class: "arrival-time-cell__container" }, this.arrivalTimeLabel && h("span", { key: 'f0ef289e76c1c13164e881e4cdb6e5d88ebdf5a8', class: "arrival-time-cell__label" }, this.arrivalTimeLabel, ": "), h("p", { key: 'cea35f992e926bde1d28b49de928e95fb6bc3579' }, this.arrival?.description))));
     }
     static get is() { return "ir-arrival-time-cell"; }
     static get encapsulation() { return "shadow"; }

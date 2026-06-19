@@ -225,9 +225,9 @@ export class IrOtp {
         this.emitChanges();
     }
     render() {
-        return (h(Host, { key: '7d9182f022ab48b1b971353781db365e76521441', class: "otp-input-container" }, h("div", { key: 'b7b1ad0034a9cd9b499ccc3ac9771e6ec3804e9c', class: "otp-input-wrapper" }, Array(this.length)
+        return (h(Host, { key: '90e17e696737c553fe695271ca7fb3ecddfcfae4', class: "otp-input-container" }, h("div", { key: 'd1c31e1531199e4e1569a7c8bc4a9761249b8fdf', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
-            .map((_, index) => (h("input", { ref: el => (this.inputRefs[index] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit form-control input-sm", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index], onInput: e => this.handleInput(e, index), onKeyDown: e => this.handleKeyDown(e, index), onPaste: e => this.handlePaste(e, index), onFocus: this.handleFocus, "aria-label": `Digit ${index + 1} of ${this.length}` }))))));
+            .map((_, index) => (h("input", { ref: el => (this.inputRefs[index] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index], onInput: e => this.handleInput(e, index), onKeyDown: e => this.handleKeyDown(e, index), onPaste: e => this.handlePaste(e, index), onFocus: this.handleFocus, "aria-label": `Digit ${index + 1} of ${this.length}` }))))));
     }
     static get is() { return "ir-otp"; }
     static get encapsulation() { return "scoped"; }

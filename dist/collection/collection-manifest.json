@@ -125,6 +125,7 @@
     "components/ir-booking-details/ir-room/ir-room.js",
     "components/ir-booking-details/ir-room/ir-booking-pricing-drawer/ir-booking-pricing-drawer.js",
     "components/ir-booking-details/ir-room/ir-booking-pricing-drawer/ir-booking-pricing-form/ir-booking-pricing-form.js",
+    "components/ir-booking-details/ir-room/ir-hb-preference-dialog/ir-hb-preference-dialog.js",
     "components/ir-booking-details/ir-room-guests/ir-room-guests.js",
     "components/ir-booking-details/ir-room-guests/ir-room-guests-form/ir-room-guests-form.js",
     "components/ir-booking-details/ir-service-assignee-select/ir-service-assignee-select.js",

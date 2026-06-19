@@ -2,7 +2,7 @@
 
 var index = require('./index-CJ0kc5p1.js');
 var Token = require('./Token-mN7PQKGF.js');
-var booking_store = require('./booking.store-BJ-UMZhK.js');
+var booking_service = require('./booking.service-DIp1LHir.js');
 var room_service = require('./room.service-BUoJAIN7.js');
 var locales_store = require('./locales.store-BfrChT1G.js');
 require('./axios-EresIryl.js');
@@ -34,7 +34,7 @@ const IglBookPropertyContainer = class {
     countries;
     calendarData = {};
     resetBookingData;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     roomService = new room_service.RoomService();
     token = new Token.Token();
     setRoomsData(roomServiceResp) {

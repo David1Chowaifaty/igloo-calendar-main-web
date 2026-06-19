@@ -38,6 +38,7 @@ export declare class IrRoom {
     isModelOpen: boolean;
     isOpen: boolean;
     isPricingDrawerOpen: boolean;
+    isHbDialogOpen: boolean;
     deleteFinished: EventEmitter<string>;
     toast: EventEmitter<IToast>;
     pressCheckIn: EventEmitter;
