@@ -191,7 +191,8 @@ export class IrBookingDetails {
             case 'book-delete':
                 return;
             case 'menu':
-                window.location.href = 'https://x.igloorooms.com/manage/acbookinglist.aspx';
+                window.history.back();
+                // window.location.href = 'https://x.igloorooms.com/manage/acbookinglist.aspx';
                 return;
             case 'room-add':
                 this.bookingItem = {

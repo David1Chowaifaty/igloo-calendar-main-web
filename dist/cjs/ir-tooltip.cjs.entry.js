@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-CJ0kc5p1.js');
+var index = require('./index-DYQrLNin.js');
 
 const irTooltipCss = () => `.sc-ir-tooltip-h{position:relative}.tooltip-icon.sc-ir-tooltip{margin:0 5px;padding:0}.tooltip-inner-custom.sc-ir-tooltip{min-width:max-content !important}`;
 

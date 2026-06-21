@@ -1,5 +1,7 @@
+import { FdTypes } from "../../../../../types/enums";
 import { EventEmitter } from '../../../../../stencil-public-runtime';
 export type FdConfirmAction = 'void' | 'delete-draft' | 'convert-to-invoice';
+export type FdConfirmationVoidType = typeof FdTypes.CreditNote | typeof FdTypes.AdjustmentCredit;
 export declare class IrFdConfirmDialog {
     open: boolean;
     action: FdConfirmAction | null;
@@ -7,11 +9,11 @@ export declare class IrFdConfirmDialog {
     isConfirming: boolean;
     amount: number;
     fdType: string;
-    voidType: 'credit-note' | 'goodwill';
+    voidType: FdConfirmationVoidType;
     goodwillAmount: string;
     confirmed: EventEmitter<{
         amount: number | null;
-        voidType: 'credit-note' | 'goodwill';
+        voidType: FdConfirmationVoidType;
     }>;
     cancelled: EventEmitter<void>;
     render(): any;

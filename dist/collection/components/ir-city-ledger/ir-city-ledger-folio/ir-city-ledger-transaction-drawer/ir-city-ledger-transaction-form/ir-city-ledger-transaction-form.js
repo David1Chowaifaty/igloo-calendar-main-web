@@ -216,7 +216,9 @@ export class IrCityLedgerTransactionForm {
             } }, this.clTxTypes.map(type => {
             const rate = TRANSACTION_TYPE_RATES[type.CODE_NAME];
             const label = type.CODE_VALUE_EN;
-            if (ClTxTypeCode.DebitNote === type.CODE_NAME || (type.CODE_NAME === ClTxTypeCode.OpeningBalance && (this.agent.has_opening_balance || this.booking !== null))) {
+            if (ClTxTypeCode.DebitNote === type.CODE_NAME ||
+                ClTxTypeCode.AdjustmentCredit === type.CODE_NAME ||
+                (type.CODE_NAME === ClTxTypeCode.OpeningBalance && (this.agent.has_opening_balance || this.booking !== null))) {
                 return null;
             }
             if ([ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(type.CODE_NAME) &&
@@ -336,7 +338,7 @@ export class IrCityLedgerTransactionForm {
                 "mutable": false,
                 "complexType": {
                     "original": "TransactionType",
-                    "resolved": "\"ADJ\" | \"CN\" | \"CPN\" | \"DB\" | \"DN\" | \"DSC\" | \"OB\" | \"PAY\"",
+                    "resolved": "\"ADJ\" | \"ADJC\" | \"CN\" | \"CPN\" | \"DB\" | \"DN\" | \"DSC\" | \"OB\" | \"PAY\"",
                     "references": {
                         "TransactionType": {
                             "location": "import",

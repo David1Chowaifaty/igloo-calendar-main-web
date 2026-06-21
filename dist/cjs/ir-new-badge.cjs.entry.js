@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-CJ0kc5p1.js');
+var index = require('./index-DYQrLNin.js');
 
 const irNewBadgeCss = () => `:host{display:inline-flex}.new-badge{font-weight:400;text-align:center;vertical-align:middle !important;text-transform:uppercase;letter-spacing:0.02em;line-height:1;display:inline-flex;align-items:center;justify-content:center;width:fit-content;white-space:nowrap;background:#ff4961;color:white;padding:0.2rem 0.3rem;font-size:0.75rem !important;border-radius:4px}`;
 
@@ -9,7 +9,7 @@ const IrNewBadge = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: '81ea3ddc369be1960c9febdc97bfb3bbafe0ae7e' }, index.h("span", { key: 'e44319a0163584651384c79143a093555a4a2fb2', class: "new-badge" }, "new")));
+        return (index.h(index.Host, { key: '045b5c5161dea68bdcb25ec041c4af604eb51044' }, index.h("span", { key: '38b4754748f70a71d531875b1c4c573720663c03', class: "new-badge" }, "new")));
     }
 };
 IrNewBadge.style = irNewBadgeCss();

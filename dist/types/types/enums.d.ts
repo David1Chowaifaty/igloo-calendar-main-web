@@ -7,12 +7,14 @@ export declare const ClTxTypeCode: {
     readonly StandardChargeDebit: "DB";
     readonly Discount: "DSC";
     readonly CancellationPenalty: "CPN";
+    readonly AdjustmentCredit: "ADJC";
 };
 export declare const TaxationStrategies: {
     readonly Normal: "000";
     readonly Cumulative: "001";
 };
 export declare const FdTypes: {
+    readonly AdjustmentCredit: "ADJC";
     readonly Draft: "DFT";
     readonly Invoice: "INV";
     readonly CreditNote: "CN";

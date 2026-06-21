@@ -1,6 +1,6 @@
 'use strict';
 
-var index$1 = require('./index-CJ0kc5p1.js');
+var index$1 = require('./index-DYQrLNin.js');
 
 /*!
  * @kurkle/color v0.3.4
@@ -15037,7 +15037,7 @@ const IrQueueChart = class {
         this.chart.update();
     }
     render() {
-        return (index$1.h(index$1.Host, { key: '855ec3da3689f0a59c9b62e9f8d18a57fa5ce7ef' }, index$1.h("div", { key: 'dab73510af1ebaad11a553717ba1f6e52b945670', class: "chart-container" }, index$1.h("canvas", { key: '12fbc94baa170faedaa03fa491ec3a8e6091d7fa', ref: el => (this.canvas = el) }))));
+        return (index$1.h(index$1.Host, { key: '2fb447cd885aeaee23c768b51095afbeea312d08' }, index$1.h("div", { key: '3a3d3cb07d48bfe8cc7d499c65c74f2aa260022e', class: "chart-container" }, index$1.h("canvas", { key: 'd5ed33bf85cfc8f42489a3c9d041770f6841ae84', ref: el => (this.canvas = el) }))));
     }
     static get watchers() { return {
         "values": [{

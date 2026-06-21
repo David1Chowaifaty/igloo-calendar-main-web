@@ -1,9 +1,8 @@
-import { r as registerInstance, a as getElement, h, H as Host } from './index-BvoylR5O.js';
-import { T as Token } from './Token-CkxFIO_J.js';
-import { i as isRequestPending } from './ir-interceptor.store-DYGt5Cjl.js';
-import { a as axios } from './axios-B50ozOIF.js';
-import './index-U7zaiBri.js';
-import './_commonjsHelpers-BFTU3MAI.js';
+import { r as registerInstance, d as getElement, h, H as Host } from './index-D7D7fhZS.js';
+import { T as Token } from './Token-DEDKqWud.js';
+import { i as isRequestPending } from './ir-interceptor.store-B5mzcEc4.js';
+import { a as axios } from './axios-CleaxLzD.js';
+import './index-TzZ5wfUy.js';
 
 const irQueueManagerCss = () => `.sc-ir-queue-manager-h{display:flex;flex-direction:column;height:100%}.queue-page.sc-ir-queue-manager{display:flex;flex-direction:column;gap:1rem}.queue-grid.sc-ir-queue-manager{display:flex;flex-direction:column;gap:1rem}.queue-grid.sc-ir-queue-manager wa-card.sc-ir-queue-manager{width:100%}.queue-item.sc-ir-queue-manager{display:grid;align-items:center;gap:0.75rem;margin-bottom:0.5rem}.queue-page__header.sc-ir-queue-manager{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}.page-title.sc-ir-queue-manager{margin-bottom:0}.queue-item__property.sc-ir-queue-manager{font-size:0.9rem;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.queue-item__status.sc-ir-queue-manager{display:grid;grid-template-columns:repeat(4, 1fr);align-items:center}.queue-item__progress.sc-ir-queue-manager{grid-column:span 3}.queue-item__count.sc-ir-queue-manager{text-align:right;font-size:0.85rem}@media (min-width: 768px){.queue-grid.sc-ir-queue-manager{display:grid;grid-template-columns:repeat(2, 1fr)}}@media (min-width: 1024px){.queue-item.sc-ir-queue-manager{grid-template-columns:300px 1fr}}`;
 

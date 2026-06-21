@@ -1,19 +1,18 @@
 'use strict';
 
-var index = require('./index-CJ0kc5p1.js');
-var booking_service = require('./booking.service-DIp1LHir.js');
-var room_service = require('./room.service-BUoJAIN7.js');
-var locales_store = require('./locales.store-BfrChT1G.js');
-var Token = require('./Token-mN7PQKGF.js');
-var irInterceptor_store = require('./ir-interceptor.store-Bul41qhv.js');
-var utils = require('./utils-CHYeTDt_.js');
+var index = require('./index-DYQrLNin.js');
+var booking_store = require('./booking.store-By9ColEG.js');
+var room_service = require('./room.service-CBAFNxM6.js');
+var locales_store = require('./locales.store-6IlEbCjL.js');
+var Token = require('./Token-BVmOLolB.js');
+var irInterceptor_store = require('./ir-interceptor.store-DCFOyFp0.js');
+var utils = require('./utils-DMCyTZmG.js');
 require('./index-CLqkDPTC.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
-require('./booking-BiLyxhv-.js');
+require('./axios-C-Phc0sj.js');
+require('./booking-BeM4Rci0.js');
 require('./moment-CdViwxPQ.js');
-require('./index-dbmC5P-h.js');
-require('./calendar-data-CTxCbso4.js');
+require('./index-C59pxKl1.js');
+require('./calendar-data-R3j-WBLW.js');
 require('./type-Dy9pVS4V.js');
 
 const irGuestInfoCss = () => `.input-group-text.sc-ir-guest-info{min-width:10rem;text-align:left}.mobilePrefixSelect.sc-ir-guest-info{border-right-width:0;border-top-right-radius:0;border-bottom-right-radius:0}.mobilePrefixInput.sc-ir-guest-info{border-top-left-radius:0;border-bottom-left-radius:0}.check-container.sc-ir-guest-info{position:relative;cursor:pointer;font-size:14px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:flex;align-items:center}.check-container.sc-ir-guest-info input.sc-ir-guest-info{position:relative;opacity:0;cursor:pointer;height:0;width:0}.check-container.sc-ir-guest-info .checkmark.sc-ir-guest-info{position:relative;top:0;left:0;height:20px;width:20px;border:1px solid #cacfe7;border-radius:4px;transition:all 0.3s ease}.check-container.sc-ir-guest-info input.sc-ir-guest-info:checked~.checkmark.sc-ir-guest-info{background-color:#1e9ff2;border-color:#1e9ff2}.checkmark.sc-ir-guest-info:after{content:'';position:absolute;display:none}.check-container.sc-ir-guest-info input.sc-ir-guest-info:checked~.checkmark.sc-ir-guest-info:after{display:block}.check-label.sc-ir-guest-info{margin-left:10px !important}.check-container.sc-ir-guest-info .checkmark.sc-ir-guest-info:after{left:6px;top:3px;width:6px;height:10px;border:solid white;border-width:0 2px 2px 0;-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg)}.ir-card-header.sc-ir-guest-info{width:100%;border-bottom:1px solid #e4e5ec}.close-icon.sc-ir-guest-info{margin:0}.border-theme.sc-ir-guest-info{border:1px solid #cacfe7}.loading-container.sc-ir-guest-info{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}`;
@@ -39,7 +38,7 @@ const GuestInfo = class {
     autoValidate = false;
     closeSideBar;
     resetBookingEvt;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     token = new Token.Token();
     async componentWillLoad() {

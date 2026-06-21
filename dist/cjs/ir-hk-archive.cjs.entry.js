@@ -1,17 +1,16 @@
 'use strict';
 
-var index = require('./index-CJ0kc5p1.js');
-var housekeeping_service = require('./housekeeping.service-DP9n8kHY.js');
-var calendarData = require('./calendar-data-CTxCbso4.js');
-var irInterceptor_store = require('./ir-interceptor.store-Bul41qhv.js');
-var locales_store = require('./locales.store-BfrChT1G.js');
-var utils = require('./utils-CHYeTDt_.js');
+var index = require('./index-DYQrLNin.js');
+var housekeeping_service = require('./housekeeping.service--GXxoT47.js');
+var calendarData = require('./calendar-data-R3j-WBLW.js');
+var irInterceptor_store = require('./ir-interceptor.store-DCFOyFp0.js');
+var locales_store = require('./locales.store-6IlEbCjL.js');
+var utils = require('./utils-DMCyTZmG.js');
 var moment = require('./moment-CdViwxPQ.js');
 var v4 = require('./v4-_2BfiRUa.js');
 require('./index-CLqkDPTC.js');
-require('./index-dbmC5P-h.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
+require('./index-C59pxKl1.js');
+require('./axios-C-Phc0sj.js');
 require('./type-Dy9pVS4V.js');
 
 const irHkArchiveCss = () => `.sc-ir-hk-archive-h{display:block}.unit-name.sc-ir-hk-archive{max-width:100px;display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 !important;margin:0 !important;text-align:start}.table.sc-ir-hk-archive th.sc-ir-hk-archive,.table.sc-ir-hk-archive td.sc-ir-hk-archive{white-space:nowrap;width:fit-content;max-width:max-content !important;border:0;text-align:start;background-color:white;padding:0.25rem !important}.table.sc-ir-hk-archive th.sc-ir-hk-archive:first-child,.table.sc-ir-hk-archive td.sc-ir-hk-archive:first-child{padding-left:0 !important}`;
@@ -101,7 +100,7 @@ const IrHkArchive = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: 'c98b8f2a852fc5e95eccfb4711318d2a7ad15ece' }, index.h("ir-title", { key: '7028a45d499267305b752318e290fb5db2a6dee9', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), index.h("section", { key: 'e8cc6a6edb87736eb50eaa493d212fdb88a09476', class: "px-1" }, index.h("div", { key: '65d87fc35a1558b8bd40163e1b53bd4565c621f3', class: "d-flex" }, index.h("ir-select", { key: 'e938c7bf8948c0c6d835ccd3d8f4e869c5687b77', class: "w-100", showFirstOption: false, data: [
+        return (index.h(index.Host, { key: '018ac2fd0ef78b36d398687b6fe5e77299c630d5' }, index.h("ir-title", { key: '0704b18886bcb413114d809904afdf14f87636a9', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), index.h("section", { key: '1ad7b75b7a829349f58018d5170abcd813728aa5', class: "px-1" }, index.h("div", { key: 'cc23a81db865585e4c9bae4c2845122d446775d5', class: "d-flex" }, index.h("ir-select", { key: 'd2a93fa225428031010a7e9ea86f50eead9adccc', class: "w-100", showFirstOption: false, data: [
                 { text: 'All units', value: '000' },
                 ,
                 ...this.units
@@ -119,7 +118,7 @@ const IrHkArchive = class {
                 else {
                     this.updateFilters({ filtered_by_unit: [e.detail] });
                 }
-            } }), housekeeping_service.housekeeping_store?.hk_criteria?.housekeepers.length > 1 && (index.h("ir-select", { key: 'f7a85d53c7ecfe8f9d93dd67eee59d3e86be12f4', class: "ml-1 w-100", selectedValue: this.filters?.filtered_by_hkm?.length === housekeeping_service.housekeeping_store.hk_criteria.housekeepers.length ? '000' : this.filters?.filtered_by_hkm[0]?.toString(), showFirstOption: false, data: [
+            } }), housekeeping_service.housekeeping_store?.hk_criteria?.housekeepers.length > 1 && (index.h("ir-select", { key: '7437756339e2eedc2e21ba666180600dfb95e8f0', class: "ml-1 w-100", selectedValue: this.filters?.filtered_by_hkm?.length === housekeeping_service.housekeeping_store.hk_criteria.housekeepers.length ? '000' : this.filters?.filtered_by_hkm[0]?.toString(), showFirstOption: false, data: [
                 { text: 'All housekeepers', value: '000' },
                 ...housekeeping_service.housekeeping_store?.hk_criteria?.housekeepers
                     .map(v => ({
@@ -134,7 +133,7 @@ const IrHkArchive = class {
                 else {
                     this.updateFilters({ filtered_by_hkm: [e.detail] });
                 }
-            } }))), index.h("div", { key: '4160debba7de4c527e9d60efd94cf02dcb06415a', class: "d-flex mt-1 align-items-center" }, index.h("ir-range-picker", { key: '1df46d73e7671ef5b45d983c9a0d74e8ab165ab6', maxDate: moment.hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "mr-1", fromDate: this.filters.from_date ? moment.hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? moment.hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), index.h("ir-button", { key: '68f5ebd628a1bf73055094d0fc9437c90273021c', title: locales_store.locales.entries?.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), index.h("ir-button", { key: '835441bef23ad9e1dcddf5c6c3e56b91a10ed927', title: locales_store.locales.entries?.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (index.h(index.Fragment, { key: '99ba1125646490c85a18b4d14c662511bc3fb542' }, this.data?.length === 0 && !irInterceptor_store.isRequestPending('/Get_Archived_HK_Tasks') ? (index.h("p", { class: 'text-center mt-2' }, locales_store.locales.entries.Lcz_NoResultsFound)) : (index.h("table", { class: "mt-2 table" }, index.h("thead", null, index.h("th", { class: "pl-0" }, locales_store.locales.entries.Lcz_Period), index.h("th", null, locales_store.locales.entries.Lcz_Housekeeper), index.h("th", null, locales_store.locales.entries.Lcz_Unit), index.h("th", null, locales_store.locales.entries.Lcz_BookingNumber)), index.h("tbody", null, this.data?.map(d => (index.h("tr", { key: d.id }, index.h("td", { class: "pl-0" }, d.date), index.h("td", null, d.house_keeper), index.h("td", null, index.h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, index.h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), index.h("td", null, d.booking_nbr ? (index.h("ir-button", { btn_color: "link", btnStyle: {
+            } }))), index.h("div", { key: 'a8e452db33e39cbdb5644ef242291bdea5f99655', class: "d-flex mt-1 align-items-center" }, index.h("ir-range-picker", { key: '0643e5cfad662883272cb3ba4183c7edd2cf9266', maxDate: moment.hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "mr-1", fromDate: this.filters.from_date ? moment.hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? moment.hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), index.h("ir-button", { key: 'e2c1f4a9a5aadf6256d18f361923d21ddc917375', title: locales_store.locales.entries?.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), index.h("ir-button", { key: '4dc660748aa301da9756187c1e5ef9e92019bc00', title: locales_store.locales.entries?.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (index.h(index.Fragment, { key: '4003d4c33fcfc5f5d4d6f33105be42676b7a25aa' }, this.data?.length === 0 && !irInterceptor_store.isRequestPending('/Get_Archived_HK_Tasks') ? (index.h("p", { class: 'text-center mt-2' }, locales_store.locales.entries.Lcz_NoResultsFound)) : (index.h("table", { class: "mt-2 table" }, index.h("thead", null, index.h("th", { class: "pl-0" }, locales_store.locales.entries.Lcz_Period), index.h("th", null, locales_store.locales.entries.Lcz_Housekeeper), index.h("th", null, locales_store.locales.entries.Lcz_Unit), index.h("th", null, locales_store.locales.entries.Lcz_BookingNumber)), index.h("tbody", null, this.data?.map(d => (index.h("tr", { key: d.id }, index.h("td", { class: "pl-0" }, d.date), index.h("td", null, d.house_keeper), index.h("td", null, index.h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, index.h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), index.h("td", null, d.booking_nbr ? (index.h("ir-button", { btn_color: "link", btnStyle: {
                 width: 'fit-content',
                 padding: '0',
                 margin: '0',
@@ -143,10 +142,10 @@ const IrHkArchive = class {
             }, text: d.booking_nbr.toString(), onClick: () => {
                 this.selectedBooking = d.booking_nbr;
                 // window.open(`https://x.igloorooms.com/manage/acbookingeditV2.aspx?BN=${d.booking_nbr}`, '_blank');
-            } })) : (locales_store.locales.entries.Lcz_WasVacant))))))))))), index.h("ir-sidebar", { key: 'd746ea70c1bc2c4b4b2ea240cce5484e6c034896', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.selectedBooking, showCloseButton: false, sidebarStyles: {
+            } })) : (locales_store.locales.entries.Lcz_WasVacant))))))))))), index.h("ir-sidebar", { key: '3ce98b506aa9b35a1c23063ed451e2358f9659df', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.selectedBooking, showCloseButton: false, sidebarStyles: {
                 width: '80rem',
                 background: 'var(--ir-color-muted-background,#f2f3f8)',
-            } }, this.selectedBooking && (index.h("ir-booking-details", { key: 'e5662bc91be7888d2e682e7eacb373e6766cf221', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.selectedBooking = null), is_from_front_desk: true, propertyid: Number(this.propertyId), hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.selectedBooking?.toString(), language: this.language, hasRoomAdd: true, ticket: this.ticket })))));
+            } }, this.selectedBooking && (index.h("ir-booking-details", { key: 'c93aa25e70acfefc6545124384db020967887f32', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.selectedBooking = null), is_from_front_desk: true, propertyid: Number(this.propertyId), hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.selectedBooking?.toString(), language: this.language, hasRoomAdd: true, ticket: this.ticket })))));
     }
 };
 IrHkArchive.style = irHkArchiveCss();
