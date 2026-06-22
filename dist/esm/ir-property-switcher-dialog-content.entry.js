@@ -1,6 +1,7 @@
-import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-D7D7fhZS.js';
-import { a as axios } from './axios-CleaxLzD.js';
+import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-DCCEVrU4.js';
+import { a as axios } from './axios-B50ozOIF.js';
 import { D as Debounce } from './debounce-DF70NVXP.js';
+import './_commonjsHelpers-BFTU3MAI.js';
 
 const irPropertySwitcherDialogContentCss = () => `.sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__search-input.sc-ir-property-switcher-dialog-content::part(base),.property-switcher__search-input.sc-ir-property-switcher-dialog-content [part~="base"]{font-size:16px;height:32px}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}@media (min-width: 640px){.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}}`;
 

@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-D7D7fhZS.js';
+import { r as registerInstance, h, H as Host } from './index-DCCEVrU4.js';
 
 const irBookingNewFormCss = () => `.sc-ir-booking-new-form-h{display:block}`;
 

@@ -1,15 +1,16 @@
 'use strict';
 
 var index = require('./index-DYQrLNin.js');
-var booking_store = require('./booking.store-C29kNHPn.js');
-var room_service = require('./room.service-CBAFNxM6.js');
+var booking_service = require('./booking.service-Bi0zXviu.js');
+var room_service = require('./room.service-BDxvptKu.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
-var Token = require('./Token-BVmOLolB.js');
+var Token = require('./Token-mN7PQKGF.js');
 var irInterceptor_store = require('./ir-interceptor.store-DCFOyFp0.js');
 var utils = require('./utils-DgT4kKsD.js');
 require('./index-CLqkDPTC.js');
-require('./axios-C-Phc0sj.js');
-require('./booking-DPQYPZcd.js');
+require('./axios-EresIryl.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
+require('./booking-D81t5lFq.js');
 require('./moment-CdViwxPQ.js');
 require('./index-C59pxKl1.js');
 require('./calendar-data-R3j-WBLW.js');
@@ -38,7 +39,7 @@ const GuestInfo = class {
     autoValidate = false;
     closeSideBar;
     resetBookingEvt;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     roomService = new room_service.RoomService();
     token = new Token.Token();
     async componentWillLoad() {

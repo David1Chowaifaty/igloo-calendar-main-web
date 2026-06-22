@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h } from './index-D7D7fhZS.js';
+import { r as registerInstance, c as createEvent, h } from './index-DCCEVrU4.js';
 
 const IrCheckBoxes = class {
     constructor(hostRef) {

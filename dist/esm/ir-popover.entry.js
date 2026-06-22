@@ -1,4 +1,4 @@
-import { r as registerInstance, d as getElement, h, H as Host } from './index-D7D7fhZS.js';
+import { r as registerInstance, a as getElement, h, H as Host } from './index-DCCEVrU4.js';
 
 const irPopoverCss = () => `:host{display:block;width:100%}*{box-sizing:border-box}.popover-trigger{all:unset;cursor:pointer}.popover-trigger:hover,.popover-trigger:focus{color:#000}`;
 

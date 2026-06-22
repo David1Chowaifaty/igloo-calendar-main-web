@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-D7D7fhZS.js';
+import { r as registerInstance, h, H as Host } from './index-DCCEVrU4.js';
 
 const irProgressIndicatorCss = () => `.sc-ir-progress-indicator-h{display:block}.secondary-progress.sc-ir-progress-indicator{background:#6692b3}`;
 

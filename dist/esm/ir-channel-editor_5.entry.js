@@ -1,9 +1,10 @@
-import { r as registerInstance, c as createEvent, h, H as Host, d as getElement, F as Fragment } from './index-D7D7fhZS.js';
-import { C as ChannelService, o as onChannelChange, c as channels_data, t as testConnection, u as updateChannelSettings, s as selectChannel, a as addMapping, b as setMappedChannel } from './channel.service-BT2eYpjy.js';
-import { l as locales } from './locales.store-C0aS6UDK.js';
-import { c as calendar_data } from './calendar-data-15-64PrB.js';
-import './index-TzZ5wfUy.js';
-import './axios-CleaxLzD.js';
+import { r as registerInstance, c as createEvent, h, H as Host, a as getElement, F as Fragment } from './index-DCCEVrU4.js';
+import { C as ChannelService, o as onChannelChange, c as channels_data, t as testConnection, u as updateChannelSettings, s as selectChannel, a as addMapping, b as setMappedChannel } from './channel.service-dfM2yKqv.js';
+import { l as locales } from './locales.store-DkjT6ou2.js';
+import { c as calendar_data } from './calendar-data-B7ocnCQe.js';
+import './index-CLFOnCBt.js';
+import './axios-B50ozOIF.js';
+import './_commonjsHelpers-BFTU3MAI.js';
 
 const irChannelEditorCss = () => `.sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}`;
 

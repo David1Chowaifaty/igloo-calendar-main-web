@@ -1,7 +1,8 @@
 'use strict';
 
 var index = require('./index-DYQrLNin.js');
-var slot = require('./slot-CWrQSCT2.js');
+var ClickOutside = require('./ClickOutside-Lx1uOPWl.js');
+var slot = require('./slot-BU-FjeKp.js');
 
 const irAutocompleteCss = () => `.listbox{display:block;position:relative;font:inherit;box-shadow:var(--wa-shadow-m);background:var(--wa-color-surface-raised);border-color:var(--wa-color-surface-border);border-radius:var(--wa-border-radius-m);border-style:var(--wa-border-style);border-width:var(--wa-border-width-s);padding-block:0.5em;padding-inline:0;overflow:auto;overscroll-behavior:none;max-width:var(--auto-size-available-width);max-height:var(--auto-size-available-height);&::slotted(wa-divider){--spacing:0.5em}}::slotted(ir-autocomplete-option){display:block}`;
 
@@ -412,7 +413,7 @@ const IrAutocomplete = class {
     }; }
 };
 __decorate([
-    slot.ClickOutside()
+    ClickOutside.ClickOutside()
 ], IrAutocomplete.prototype, "hide", null);
 IrAutocomplete.style = irAutocompleteCss();
 

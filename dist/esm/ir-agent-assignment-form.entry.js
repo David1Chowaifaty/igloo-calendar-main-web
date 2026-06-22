@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-D7D7fhZS.js';
+import { r as registerInstance, h, H as Host } from './index-DCCEVrU4.js';
 
 const irAgentAssignmentFormCss = () => `.sc-ir-agent-assignment-form-h{display:block}`;
 
