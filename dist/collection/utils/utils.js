@@ -349,6 +349,19 @@ export const extras = [
     },
     { key: 'payment_code', value: '' },
 ];
+/**
+ * Returns the percentage change from a previous value.
+ *
+ * @param current - Current value.
+ * @param previous - Previous value.
+ * @param decimals - Decimal places (default: 0).
+ */
+export function calculateTrend(current, previous, decimals = 0) {
+    if (previous === 0) {
+        return current === 0 ? 0 : 100;
+    }
+    return Number((((current - previous) / previous) * 100).toFixed(decimals));
+}
 export function manageAnchorSession(data, mode = 'add') {
     const anchor = JSON.parse(sessionStorage.getItem('backend_anchor'));
     if (anchor) {

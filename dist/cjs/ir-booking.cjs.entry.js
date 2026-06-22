@@ -2,7 +2,7 @@
 
 var index = require('./index-DYQrLNin.js');
 var Token = require('./Token-BVmOLolB.js');
-var utils = require('./utils-DMCyTZmG.js');
+var utils = require('./utils-DgT4kKsD.js');
 require('./axios-C-Phc0sj.js');
 require('./moment-CdViwxPQ.js');
 require('./index-CLqkDPTC.js');

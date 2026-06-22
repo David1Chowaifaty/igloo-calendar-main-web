@@ -147,6 +147,14 @@ export declare const extras: ({
     key: string;
     value: boolean;
 })[];
+/**
+ * Returns the percentage change from a previous value.
+ *
+ * @param current - Current value.
+ * @param previous - Previous value.
+ * @param decimals - Decimal places (default: 0).
+ */
+export declare function calculateTrend(current: number, previous: number, decimals?: number): number;
 export declare function manageAnchorSession(data: Record<string, unknown>, mode?: 'add' | 'remove'): void;
 export declare function checkUserAuthState(): any;
 export interface CheckInParams {

@@ -1,5 +1,5 @@
 import { h } from "@stencil/core";
-import { formatAmount } from "../../../utils/utils";
+import { calculateTrend, formatAmount } from "../../../utils/utils";
 export class IrSalesByChannelSummary {
     records = [];
     sum(field, lastYear = false) {
@@ -15,7 +15,7 @@ export class IrSalesByChannelSummary {
         const lastYearRevenue = this.sum('REVENUE', true);
         const currency = this.records?.[0]?.currency;
         const hasLastYear = Boolean(this.records?.length && this.records[0].last_year);
-        return (h("div", { key: '78613cc04cbbdb265d45f13fb08393a00c739d09', class: "summary-row" }, h("ir-metric-card", { key: '60f7e761cfa7a3f2f96d720485ec69c338825c8a', class: "summary-metric", icon: "moon", label: "Total Room Nights", value: totalNights.toString(), trend: hasLastYear ? totalNights - lastYearNights : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearNights}` : undefined }), h("ir-metric-card", { key: 'cdb9f03c6ce528ea0cb74146a145aec2500c02ff', class: "summary-metric", icon: "money-bill", label: "Total Revenue", value: formatAmount(currency, totalRevenue), trend: hasLastYear ? totalRevenue - lastYearRevenue : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${formatAmount(currency, lastYearRevenue)}` : undefined }), h("ir-metric-card", { key: 'a05ca5a48d6fa904e42e2dff2b5b6707fb1dca39', class: "summary-metric", icon: "chart-bar", label: "Channels", value: (this.records?.length ?? 0).toString() })));
+        return (h("div", { key: '8763a6da8d0501aae46031f9ede62274085773ac', class: "summary-row" }, h("ir-metric-card", { key: '4da836c71dd5e05c060af4d6037a283f9240f48b', class: "summary-metric", icon: "moon", label: "Total Room Nights", value: totalNights.toString(), trend: hasLastYear ? calculateTrend(totalNights, lastYearNights) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearNights}` : undefined }), h("ir-metric-card", { key: 'f9b9d033ceb5aad34bc5f113aacccc07b5561180', class: "summary-metric", icon: "money-bill", label: "Total Revenue", value: formatAmount(currency, totalRevenue), trend: hasLastYear ? calculateTrend(totalRevenue, lastYearRevenue) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${formatAmount(currency, lastYearRevenue)}` : undefined }), h("ir-metric-card", { key: 'd48d9d65f2e39058a33c4ab54c7943dbbd6e70cc', class: "summary-metric", icon: "chart-bar", label: "Sources", value: (this.records?.length ?? 0).toString() })));
     }
     static get is() { return "ir-sales-by-channel-summary"; }
     static get encapsulation() { return "scoped"; }

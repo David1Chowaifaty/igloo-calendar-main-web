@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment } from './index-D7D7fhZS.js';
 import { c as calendar_data } from './calendar-data-15-64PrB.js';
-import { f as formatAmount } from './utils-D9jFBfUm.js';
+import { f as formatAmount } from './utils-CRHW_k78.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { l as locales } from './locales.store-C0aS6UDK.js';
 import './index-TzZ5wfUy.js';

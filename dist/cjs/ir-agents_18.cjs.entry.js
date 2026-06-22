@@ -3,28 +3,28 @@
 var index = require('./index-DYQrLNin.js');
 var Token = require('./Token-BVmOLolB.js');
 var agents_service = require('./agents.service-DZN5FBnL.js');
-var booking_store = require('./booking.store-By9ColEG.js');
+var booking_store = require('./booking.store-C29kNHPn.js');
 var calendarData = require('./calendar-data-R3j-WBLW.js');
-var property_service = require('./property.service-CmZuH_vq.js');
-var utils = require('./utils-DMCyTZmG.js');
+var property_service = require('./property.service-3SQsJrdz.js');
+var utils = require('./utils-DgT4kKsD.js');
 var room_service = require('./room.service-CBAFNxM6.js');
-var arrivals_store = require('./arrivals.store-BgNyK9ib.js');
+var arrivals_store = require('./arrivals.store-BYfwYNng.js');
 var axios = require('./axios-C-Phc0sj.js');
-var booking_listing_service = require('./booking_listing.service-D9-hzu2J.js');
+var booking_listing_service = require('./booking_listing.service-DKdJZ1md.js');
 var channel_service = require('./channel.service-C6tyaa9K.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
 var system_service = require('./system.service-BbHmBp-x.js');
 var moment = require('./moment-CdViwxPQ.js');
 var v4 = require('./v4-_2BfiRUa.js');
-var departures_store = require('./departures.store-LHhs1Z8R.js');
+var departures_store = require('./departures.store-ClhzKTac.js');
 var index$1 = require('./index-CLqkDPTC.js');
 var housekeeping_service = require('./housekeeping.service--GXxoT47.js');
 var hkTasks_store = require('./hk-tasks.store-h0fp9i5F.js');
 var paymentOption_store = require('./payment-option.store-C_hCrSIQ.js');
-var user_service = require('./user.service-5-EWkurD.js');
+var user_service = require('./user.service-fksEUjYR.js');
 var realtime_service = require('./realtime.service-COdIt6Z-.js');
 require('./type-Dy9pVS4V.js');
-require('./booking-BeM4Rci0.js');
+require('./booking-DPQYPZcd.js');
 require('./index-C59pxKl1.js');
 
 const irAgentsCss = () => `.sc-ir-agents-h{display:block}.page-header__container.sc-ir-agents{display:flex;align-items:center;justify-content:space-between}`;
@@ -2550,7 +2550,11 @@ const IrMonthlyBookingsReport = class {
         if (this.isPageLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h("ir-page", { label: "Daily Occupancy" }, index.h("ir-custom-button", { variant: "neutral", appearance: "outlined", slot: "page-header", loading: this.isLoading === 'export' }, index.h("wa-icon", { name: "download", slot: "start" }), locales_store.locales.entries?.Lcz_Export), index.h("section", { class: "report-layout" }, index.h("section", null, index.h("div", { class: "report-stats-row" }, index.h("ir-metric-card", { class: "report-metric", icon: this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? 'arrow-trend-down' : 'arrow-trend-up', label: "Average Occupancy", value: this.stats.AverageOccupancy ? this.stats?.AverageOccupancy.toFixed(2) : null, unit: "%", trend: this.stats?.Occupancy_Difference_From_Previous_Month, trendLabel: "from last month", caption: this.stats?.Occupancy_Difference_From_Previous_Month != null && this.stats?.AverageOccupancy != null
+        return (index.h("ir-page", { label: "Daily Occupancy" }, index.h("ir-custom-button", { variant: "neutral", onClickHandler: async (e) => {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                await this.getReports(true);
+            }, appearance: "outlined", slot: "page-header", loading: this.isLoading === 'export' }, index.h("wa-icon", { name: "download", slot: "start" }), locales_store.locales.entries?.Lcz_Export), index.h("section", { class: "report-layout" }, index.h("section", null, index.h("div", { class: "report-stats-row" }, index.h("ir-metric-card", { class: "report-metric", icon: this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? 'arrow-trend-down' : 'arrow-trend-up', label: "Average Occupancy", value: this.stats.AverageOccupancy ? this.stats?.AverageOccupancy.toFixed(2) : null, unit: "%", trend: this.stats?.Occupancy_Difference_From_Previous_Month, trendLabel: "from last month", caption: this.stats?.Occupancy_Difference_From_Previous_Month != null && this.stats?.AverageOccupancy != null
                 ? `Last month: ${(this.stats.AverageOccupancy - this.stats.Occupancy_Difference_From_Previous_Month).toFixed(2)}%`
                 : undefined }), index.h("ir-metric-card", { class: "report-metric", icon: "hotel", label: "Total Units", value: this.stats?.TotalUnitsBooked ? this.stats?.TotalUnitsBooked.toString() : null, caption: "Booked" }), index.h("ir-metric-card", { class: "report-metric", icon: "user-group", label: "Total Guests", value: this.stats?.Total_Guests ? this.stats?.Total_Guests?.toString() : null, caption: "Stayed" }), index.h("ir-metric-card", { class: "report-metric", icon: "calendar", label: "Peak Days", value: this.stats?.PeakDays.length === 0 ? null : this.stats?.PeakDays?.map(pd => moment.hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '), caption: `${Math.max(...(this.stats.PeakDays?.map(pd => pd.OccupancyPercent) || []))}% occupancy` })), index.h("div", { class: "report-content-row" }, index.h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), index.h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
     }
@@ -2955,7 +2959,7 @@ const IrSalesByChannel = class {
         if (this.isPageLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-page", { label: "Sales by Channel" }, index.h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
+        return (index.h(index.Host, null, index.h("ir-page", { label: "Sales by Source" }, index.h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getChannelSales(true);

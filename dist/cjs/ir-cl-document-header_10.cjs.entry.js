@@ -2,7 +2,7 @@
 
 var index = require('./index-DYQrLNin.js');
 var moment = require('./moment-CdViwxPQ.js');
-var utils = require('./utils-DMCyTZmG.js');
+var utils = require('./utils-DgT4kKsD.js');
 var calendarData = require('./calendar-data-R3j-WBLW.js');
 require('./index-CLqkDPTC.js');
 require('./locales.store-6IlEbCjL.js');

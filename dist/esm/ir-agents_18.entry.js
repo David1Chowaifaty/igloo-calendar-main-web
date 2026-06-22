@@ -1,28 +1,28 @@
 import { r as registerInstance, h, H as Host, d as getElement, F as Fragment, c as createEvent } from './index-D7D7fhZS.js';
 import { T as Token } from './Token-DEDKqWud.js';
 import { A as AgentsService } from './agents.service-Dj19mpjr.js';
-import { B as BookingService } from './booking.store-Cwc3oGMR.js';
+import { B as BookingService } from './booking.store-BVGd583e.js';
 import { c as calendar_data } from './calendar-data-15-64PrB.js';
-import { P as PropertyService } from './property.service-DLmV0MRr.js';
-import { k as showToast, h as isPrivilegedUser, g as downloadFile, y as groupEntryTablesResult, l as getEntryValue } from './utils-D9jFBfUm.js';
+import { P as PropertyService } from './property.service-BXMOS4Uj.js';
+import { k as showToast, h as isPrivilegedUser, g as downloadFile, z as groupEntryTablesResult, l as getEntryValue } from './utils-CRHW_k78.js';
 import { R as RoomService } from './room.service-CBeiDAnL.js';
-import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-FYk6JH8J.js';
+import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-B2MEFR2x.js';
 import { a as axios } from './axios-CleaxLzD.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-DbJYuNNF.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service--dhJCZv6.js';
 import { d as setChannelIdAndActiveState, u as updateChannelSettings, s as selectChannel, t as testConnection, C as ChannelService, r as resetStore, c as channels_data } from './channel.service-BT2eYpjy.js';
 import { l as locales } from './locales.store-C0aS6UDK.js';
 import { S as SystemService } from './system.service-C5w04dmE.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
-import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-tBHJV7Wo.js';
+import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-C-LQGaaL.js';
 import { l as libExports } from './index-DeW5X45W.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-3RPyLjow.js';
 import { m as setLoading, b as updateTasks, h as hkTasksStore, c as clearSelectedTasks, n as updateSelectedTasks } from './hk-tasks.store-CoxZOI4b.js';
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-Xnvm7UOy.js';
-import { U as UserService } from './user.service-CYLVm1nN.js';
+import { U as UserService } from './user.service-D5-ngPAt.js';
 import { r as realtimeService } from './realtime.service-BLk631kq.js';
 import './type-D7rOPtKA.js';
-import './booking-QL3Mpgfz.js';
+import './booking-Deq1FRQV.js';
 import './index-TzZ5wfUy.js';
 
 const irAgentsCss = () => `.sc-ir-agents-h{display:block}.page-header__container.sc-ir-agents{display:flex;align-items:center;justify-content:space-between}`;
@@ -2548,7 +2548,11 @@ const IrMonthlyBookingsReport = class {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("ir-page", { label: "Daily Occupancy" }, h("ir-custom-button", { variant: "neutral", appearance: "outlined", slot: "page-header", loading: this.isLoading === 'export' }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("section", { class: "report-layout" }, h("section", null, h("div", { class: "report-stats-row" }, h("ir-metric-card", { class: "report-metric", icon: this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? 'arrow-trend-down' : 'arrow-trend-up', label: "Average Occupancy", value: this.stats.AverageOccupancy ? this.stats?.AverageOccupancy.toFixed(2) : null, unit: "%", trend: this.stats?.Occupancy_Difference_From_Previous_Month, trendLabel: "from last month", caption: this.stats?.Occupancy_Difference_From_Previous_Month != null && this.stats?.AverageOccupancy != null
+        return (h("ir-page", { label: "Daily Occupancy" }, h("ir-custom-button", { variant: "neutral", onClickHandler: async (e) => {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                await this.getReports(true);
+            }, appearance: "outlined", slot: "page-header", loading: this.isLoading === 'export' }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("section", { class: "report-layout" }, h("section", null, h("div", { class: "report-stats-row" }, h("ir-metric-card", { class: "report-metric", icon: this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? 'arrow-trend-down' : 'arrow-trend-up', label: "Average Occupancy", value: this.stats.AverageOccupancy ? this.stats?.AverageOccupancy.toFixed(2) : null, unit: "%", trend: this.stats?.Occupancy_Difference_From_Previous_Month, trendLabel: "from last month", caption: this.stats?.Occupancy_Difference_From_Previous_Month != null && this.stats?.AverageOccupancy != null
                 ? `Last month: ${(this.stats.AverageOccupancy - this.stats.Occupancy_Difference_From_Previous_Month).toFixed(2)}%`
                 : undefined }), h("ir-metric-card", { class: "report-metric", icon: "hotel", label: "Total Units", value: this.stats?.TotalUnitsBooked ? this.stats?.TotalUnitsBooked.toString() : null, caption: "Booked" }), h("ir-metric-card", { class: "report-metric", icon: "user-group", label: "Total Guests", value: this.stats?.Total_Guests ? this.stats?.Total_Guests?.toString() : null, caption: "Stayed" }), h("ir-metric-card", { class: "report-metric", icon: "calendar", label: "Peak Days", value: this.stats?.PeakDays.length === 0 ? null : this.stats?.PeakDays?.map(pd => hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '), caption: `${Math.max(...(this.stats.PeakDays?.map(pd => pd.OccupancyPercent) || []))}% occupancy` })), h("div", { class: "report-content-row" }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
     }
@@ -2953,7 +2957,7 @@ const IrSalesByChannel = class {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-page", { label: "Sales by Channel" }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-page", { label: "Sales by Source" }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getChannelSales(true);
