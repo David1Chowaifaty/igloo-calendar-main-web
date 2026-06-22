@@ -2,7 +2,7 @@
 
 var index = require('./index-DYQrLNin.js');
 var Token = require('./Token-mN7PQKGF.js');
-var property_service = require('./property.service-D_yFVzEC.js');
+var property_service = require('./property.service-CpTJKuQs.js');
 var calendarData = require('./calendar-data-R3j-WBLW.js');
 var utils = require('./utils-DgT4kKsD.js');
 require('./axios-EresIryl.js');

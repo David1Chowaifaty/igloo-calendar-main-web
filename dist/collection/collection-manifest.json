@@ -183,6 +183,7 @@
     "components/ir-fiscal-documents/ir-fiscal-documents.js",
     "components/ir-fiscal-documents/ir-fiscal-documents-filters/ir-fiscal-documents-filters.js",
     "components/ir-fiscal-documents/ir-fiscal-documents-table/ir-fiscal-documents-table.js",
+    "components/ir-gap-nights/ir-gap-nights.js",
     "components/ir-ghs-onboarding/ir-ghs-candidate-table.js",
     "components/ir-ghs-onboarding/ir-ghs-filters.js",
     "components/ir-ghs-onboarding/ir-ghs-onboarding.js",

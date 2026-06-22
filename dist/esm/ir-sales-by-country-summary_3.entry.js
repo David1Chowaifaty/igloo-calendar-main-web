@@ -1,11 +1,11 @@
-import { r as registerInstance, h, c as createEvent } from './index-DCCEVrU4.js';
-import { i as formatAmount, y as calculateTrend } from './utils-DK1ZYV0C.js';
-import { c as calendar_data } from './calendar-data-B7ocnCQe.js';
-import { l as locales } from './locales.store-DkjT6ou2.js';
+import { r as registerInstance, h, c as createEvent } from './index-D7D7fhZS.js';
+import { i as formatAmount, y as calculateTrend } from './utils-BhGSDnBq.js';
+import { c as calendar_data } from './calendar-data-15-64PrB.js';
+import { l as locales } from './locales.store-C0aS6UDK.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import './index-DeW5X45W.js';
 import './type-D7rOPtKA.js';
-import './index-CLFOnCBt.js';
+import './index-TzZ5wfUy.js';
 
 const irSalesByCountrySummaryCss = () => `.sc-ir-sales-by-country-summary-h{display:block}.summary-row.sc-ir-sales-by-country-summary{display:flex;flex-direction:column;align-items:stretch;gap:1rem}.summary-metric.sc-ir-sales-by-country-summary{flex:1}@media (min-width: 640px){.summary-row.sc-ir-sales-by-country-summary{flex-direction:row}}`;
 
@@ -14,6 +14,7 @@ const IrSalesByCountrySummary = class {
         registerInstance(this, hostRef);
     }
     salesReports;
+    filters;
     calculateTotalValues(field, lastYear = false) {
         return this.salesReports?.reduce((prev, curr) => {
             const value = lastYear ? (curr.last_year ? curr.last_year[field] : 0) : curr[field];
@@ -27,8 +28,8 @@ const IrSalesByCountrySummary = class {
         const lastYearTotalRoomNights = this.calculateTotalValues('nights', true);
         const lastYearTotalGuests = this.calculateTotalValues('number_of_guests', true);
         const lastYearTotalRevenue = this.calculateTotalValues('revenue', true);
-        const hasLastYear = Boolean(this.salesReports?.length && this.salesReports[0].last_year);
-        return (h("div", { key: '402551fb0faa1f664e68a212f0d693fc60920008', class: "summary-row" }, h("ir-metric-card", { key: 'c2ea853e26d42908efe17dec1fad53309c4e5be3', class: "summary-metric", icon: "moon", label: "Total Room Nights", value: totalRoomNights?.toString(), trend: hasLastYear ? calculateTrend(totalRoomNights, lastYearTotalRoomNights) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearTotalRoomNights}` : undefined }), h("ir-metric-card", { key: '2c8833be98ec6b381799acd10c16ffe503b2267a', class: "summary-metric", icon: "user-group", label: "Total Guests", value: totalGuests?.toString(), trend: hasLastYear ? calculateTrend(totalGuests, lastYearTotalGuests) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearTotalGuests}` : undefined }), h("ir-metric-card", { key: 'b3415256a4aaeb8cea99fb50b3a69693346b4032', class: "summary-metric", icon: "money-bill", label: "Total Revenue", value: formatAmount(calendar_data.currency.symbol, totalRevenue), trend: hasLastYear ? calculateTrend(totalRevenue, lastYearTotalRevenue) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${formatAmount(calendar_data.currency.symbol, lastYearTotalRevenue)}` : undefined })));
+        const hasLastYear = Boolean(this.salesReports?.length && this.filters?.include_previous_year);
+        return (h("div", { key: 'cd8ac63594652135fd94585379c764a531af67ea', class: "summary-row" }, h("ir-metric-card", { key: '25ab07c2004f907f6dd6edf8a34c8d5b0b5c17a3', class: "summary-metric", icon: "moon", label: "Total Room Nights", value: totalRoomNights?.toString(), trend: hasLastYear ? calculateTrend(totalRoomNights, lastYearTotalRoomNights) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearTotalRoomNights}` : undefined }), h("ir-metric-card", { key: '141aa632a3d77b2a94ac572066f9a0b5135dfe51', class: "summary-metric", icon: "user-group", label: "Total Guests", value: totalGuests?.toString(), trend: hasLastYear ? calculateTrend(totalGuests, lastYearTotalGuests) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearTotalGuests}` : undefined }), h("ir-metric-card", { key: '142abe04fd0f73bc8e092842f240bd4bad3a2a94', class: "summary-metric", icon: "money-bill", label: "Total Revenue", value: formatAmount(calendar_data.currency.symbol, totalRevenue), trend: hasLastYear ? calculateTrend(totalRevenue, lastYearTotalRevenue) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${formatAmount(calendar_data.currency.symbol, lastYearTotalRevenue)}` : undefined })));
     }
 };
 IrSalesByCountrySummary.style = irSalesByCountrySummaryCss();

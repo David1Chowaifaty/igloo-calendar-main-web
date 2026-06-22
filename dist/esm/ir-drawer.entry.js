@@ -1,5 +1,5 @@
-import { r as registerInstance, c as createEvent, a as getElement, h } from './index-DCCEVrU4.js';
-import { O as OverflowAdd, a as OverflowRelease } from './OverflowLock-DVKlTlVw.js';
+import { r as registerInstance, c as createEvent, d as getElement, h } from './index-D7D7fhZS.js';
+import { O as OverflowAdd, a as OverflowRelease } from './OverflowLock-_ORq8IX1.js';
 import { c as createSlotManager } from './slot-DbozGyj_.js';
 
 const irDrawerCss = () => `.ir__drawer{text-align:left !important}.ir__drawer::part(header){border-bottom:1px solid var(--wa-color-surface-border);padding-bottom:calc(var(--spacing) / 2);color:var(--wa-color-text-normal);background-color:var(--ir-drawer-background-color, var(--wa-color-surface-default))}.ir__drawer::part(body){background-color:var(--ir-drawer-background-color, var(--wa-color-surface-default));padding:0;padding-left:var(--ir-drawer-padding-left, var(--spacing));padding-right:var(--ir-drawer-padding-right, var(--spacing));padding-top:var(--ir-drawer-padding-top, var(--spacing));padding-bottom:var(--ir-drawer-padding-bottom, var(--spacing))}.ir__drawer::part(footer){background-color:var(--ir-drawer-background-color, var(--wa-color-surface-default));padding-top:calc(var(--spacing) / 2);border-top:1px solid var(--wa-color-surface-border)}.ir__drawer-footer{display:flex;align-items:center;gap:1rem;width:100%}.ir__drawer-footer>*{flex:1 1 0%}.drawer__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%}`;

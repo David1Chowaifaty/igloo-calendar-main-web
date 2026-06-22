@@ -206,7 +206,7 @@ export class IrSalesByChannel {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getChannelSales(true);
-            } }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("ir-sales-by-channel-summary", { records: this.salesData }), h("div", { class: "channel-content-row" }, h("ir-sales-by-channel-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+            } }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("ir-sales-by-channel-summary", { filters: this.channelSalesFilters, records: this.salesData }), h("div", { class: "channel-content-row" }, h("ir-sales-by-channel-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.channelSalesFilters = { ...e.detail };

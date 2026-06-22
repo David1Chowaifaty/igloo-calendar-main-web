@@ -3408,6 +3408,15 @@ export namespace Components {
          */
         "toDate": string | null;
     }
+    interface IrGapNights {
+        /**
+          * @default 'en'
+         */
+        "language": string;
+        "p": string;
+        "propertyid": number;
+        "ticket": string;
+    }
     interface IrGhsCandidateTable {
         "baseUrl": string;
         /**
@@ -5641,6 +5650,7 @@ export namespace Components {
         "isLoading": boolean;
     }
     interface IrSalesByChannelSummary {
+        "filters": ChannelSaleFilter;
         /**
           * @default []
          */
@@ -5664,6 +5674,7 @@ export namespace Components {
         "ticket": string;
     }
     interface IrSalesByCountrySummary {
+        "filters": CountrySalesFilter;
         "salesReports": SalesRecord[];
     }
     interface IrSalesFilters {
@@ -10026,6 +10037,12 @@ declare global {
         prototype: HTMLIrFiscalDocumentsTableElement;
         new (): HTMLIrFiscalDocumentsTableElement;
     };
+    interface HTMLIrGapNightsElement extends Components.IrGapNights, HTMLStencilElement {
+    }
+    var HTMLIrGapNightsElement: {
+        prototype: HTMLIrGapNightsElement;
+        new (): HTMLIrGapNightsElement;
+    };
     interface HTMLIrGhsCandidateTableElementEventMap {
         "toggleSelection": GHS_Candidate_Property;
         "toggleAll": boolean;
@@ -12422,6 +12439,7 @@ declare global {
         "ir-fiscal-documents": HTMLIrFiscalDocumentsElement;
         "ir-fiscal-documents-filters": HTMLIrFiscalDocumentsFiltersElement;
         "ir-fiscal-documents-table": HTMLIrFiscalDocumentsTableElement;
+        "ir-gap-nights": HTMLIrGapNightsElement;
         "ir-ghs-candidate-table": HTMLIrGhsCandidateTableElement;
         "ir-ghs-filters": HTMLIrGhsFiltersElement;
         "ir-ghs-onboarding": HTMLIrGhsOnboardingElement;
@@ -16125,6 +16143,15 @@ declare namespace LocalJSX {
          */
         "toDate"?: string | null;
     }
+    interface IrGapNights {
+        /**
+          * @default 'en'
+         */
+        "language"?: string;
+        "p"?: string;
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
     interface IrGhsCandidateTable {
         "baseUrl"?: string;
         /**
@@ -18567,6 +18594,7 @@ declare namespace LocalJSX {
         "onApplyFilters"?: (event: IrSalesByChannelFiltersCustomEvent<ChannelSaleFilter>) => void;
     }
     interface IrSalesByChannelSummary {
+        "filters"?: ChannelSaleFilter;
         /**
           * @default []
          */
@@ -18590,6 +18618,7 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrSalesByCountrySummary {
+        "filters"?: CountrySalesFilter;
         "salesReports"?: SalesRecord[];
     }
     interface IrSalesFilters {
@@ -20433,6 +20462,12 @@ declare namespace LocalJSX {
         "agentId": number | null;
         "guestId": number | null;
     }
+    interface IrGapNightsAttributes {
+        "ticket": string;
+        "p": string;
+        "language": string;
+        "propertyid": number;
+    }
     interface IrGhsCandidateTableAttributes {
         "selectedCountryId": number | null;
         "isLoading": boolean;
@@ -21513,6 +21548,7 @@ declare namespace LocalJSX {
         "ir-fiscal-documents": Omit<IrFiscalDocuments, keyof IrFiscalDocumentsAttributes> & { [K in keyof IrFiscalDocuments & keyof IrFiscalDocumentsAttributes]?: IrFiscalDocuments[K] } & { [K in keyof IrFiscalDocuments & keyof IrFiscalDocumentsAttributes as `attr:${K}`]?: IrFiscalDocumentsAttributes[K] } & { [K in keyof IrFiscalDocuments & keyof IrFiscalDocumentsAttributes as `prop:${K}`]?: IrFiscalDocuments[K] };
         "ir-fiscal-documents-filters": Omit<IrFiscalDocumentsFilters, keyof IrFiscalDocumentsFiltersAttributes> & { [K in keyof IrFiscalDocumentsFilters & keyof IrFiscalDocumentsFiltersAttributes]?: IrFiscalDocumentsFilters[K] } & { [K in keyof IrFiscalDocumentsFilters & keyof IrFiscalDocumentsFiltersAttributes as `attr:${K}`]?: IrFiscalDocumentsFiltersAttributes[K] } & { [K in keyof IrFiscalDocumentsFilters & keyof IrFiscalDocumentsFiltersAttributes as `prop:${K}`]?: IrFiscalDocumentsFilters[K] };
         "ir-fiscal-documents-table": Omit<IrFiscalDocumentsTable, keyof IrFiscalDocumentsTableAttributes> & { [K in keyof IrFiscalDocumentsTable & keyof IrFiscalDocumentsTableAttributes]?: IrFiscalDocumentsTable[K] } & { [K in keyof IrFiscalDocumentsTable & keyof IrFiscalDocumentsTableAttributes as `attr:${K}`]?: IrFiscalDocumentsTableAttributes[K] } & { [K in keyof IrFiscalDocumentsTable & keyof IrFiscalDocumentsTableAttributes as `prop:${K}`]?: IrFiscalDocumentsTable[K] };
+        "ir-gap-nights": Omit<IrGapNights, keyof IrGapNightsAttributes> & { [K in keyof IrGapNights & keyof IrGapNightsAttributes]?: IrGapNights[K] } & { [K in keyof IrGapNights & keyof IrGapNightsAttributes as `attr:${K}`]?: IrGapNightsAttributes[K] } & { [K in keyof IrGapNights & keyof IrGapNightsAttributes as `prop:${K}`]?: IrGapNights[K] };
         "ir-ghs-candidate-table": Omit<IrGhsCandidateTable, keyof IrGhsCandidateTableAttributes> & { [K in keyof IrGhsCandidateTable & keyof IrGhsCandidateTableAttributes]?: IrGhsCandidateTable[K] } & { [K in keyof IrGhsCandidateTable & keyof IrGhsCandidateTableAttributes as `attr:${K}`]?: IrGhsCandidateTableAttributes[K] } & { [K in keyof IrGhsCandidateTable & keyof IrGhsCandidateTableAttributes as `prop:${K}`]?: IrGhsCandidateTable[K] };
         "ir-ghs-filters": Omit<IrGhsFilters, keyof IrGhsFiltersAttributes> & { [K in keyof IrGhsFilters & keyof IrGhsFiltersAttributes]?: IrGhsFilters[K] } & { [K in keyof IrGhsFilters & keyof IrGhsFiltersAttributes as `attr:${K}`]?: IrGhsFiltersAttributes[K] } & { [K in keyof IrGhsFilters & keyof IrGhsFiltersAttributes as `prop:${K}`]?: IrGhsFilters[K] };
         "ir-ghs-onboarding": Omit<IrGhsOnboarding, keyof IrGhsOnboardingAttributes> & { [K in keyof IrGhsOnboarding & keyof IrGhsOnboardingAttributes]?: IrGhsOnboarding[K] } & { [K in keyof IrGhsOnboarding & keyof IrGhsOnboardingAttributes as `attr:${K}`]?: IrGhsOnboardingAttributes[K] } & { [K in keyof IrGhsOnboarding & keyof IrGhsOnboardingAttributes as `prop:${K}`]?: IrGhsOnboarding[K] };
@@ -21931,6 +21967,7 @@ declare module "@stencil/core" {
             "ir-fiscal-documents": LocalJSX.IntrinsicElements["ir-fiscal-documents"] & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsElement>;
             "ir-fiscal-documents-filters": LocalJSX.IntrinsicElements["ir-fiscal-documents-filters"] & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsFiltersElement>;
             "ir-fiscal-documents-table": LocalJSX.IntrinsicElements["ir-fiscal-documents-table"] & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsTableElement>;
+            "ir-gap-nights": LocalJSX.IntrinsicElements["ir-gap-nights"] & JSXBase.HTMLAttributes<HTMLIrGapNightsElement>;
             "ir-ghs-candidate-table": LocalJSX.IntrinsicElements["ir-ghs-candidate-table"] & JSXBase.HTMLAttributes<HTMLIrGhsCandidateTableElement>;
             "ir-ghs-filters": LocalJSX.IntrinsicElements["ir-ghs-filters"] & JSXBase.HTMLAttributes<HTMLIrGhsFiltersElement>;
             "ir-ghs-onboarding": LocalJSX.IntrinsicElements["ir-ghs-onboarding"] & JSXBase.HTMLAttributes<HTMLIrGhsOnboardingElement>;

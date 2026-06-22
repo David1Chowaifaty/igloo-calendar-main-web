@@ -1,5 +1,5 @@
-import { r as registerInstance, c as createEvent, a as getElement, h } from './index-DCCEVrU4.js';
-import { a as OverflowRelease, O as OverflowAdd } from './OverflowLock-DVKlTlVw.js';
+import { r as registerInstance, c as createEvent, d as getElement, h } from './index-D7D7fhZS.js';
+import { a as OverflowRelease, O as OverflowAdd } from './OverflowLock-_ORq8IX1.js';
 
 const irDialogCss = () => `.ir-dialog__footer{display:flex;align-items:center;gap:1rem;justify-content:flex-end;width:100%}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px;min-width:31rem}#dialog-overview::part(title){color:var(--wa-color-text-normal)}`;
 

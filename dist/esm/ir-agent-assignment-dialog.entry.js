@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-DCCEVrU4.js';
+import { r as registerInstance, h, H as Host } from './index-D7D7fhZS.js';
 
 const irAgentAssignmentDialogCss = () => `.sc-ir-agent-assignment-dialog-h{display:block}`;
 

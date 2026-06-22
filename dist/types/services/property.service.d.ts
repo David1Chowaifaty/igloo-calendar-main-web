@@ -319,8 +319,23 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
     TAXATION_STRATEGY?: string;
 }>;
 export type HandleExposedPropertyTaxCategoriesParams = z.infer<typeof HandleExposedPropertyTaxCategoriesParamsSchema>;
+export declare const SetPropertyGapConfigParamsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    gap_rule_code: z.ZodString;
+    gap_lookahead_days: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    property_id?: number;
+    gap_rule_code?: string;
+    gap_lookahead_days?: number;
+}, {
+    property_id?: number;
+    gap_rule_code?: string;
+    gap_lookahead_days?: number;
+}>;
+export type SetPropertyGapConfigParams = z.infer<typeof SetPropertyGapConfigParamsSchema>;
 export declare class PropertyService {
     handleExposedPropertyTaxCategories(params: HandleExposedPropertyTaxCategoriesParams): Promise<any>;
+    setPropertyGapConfig(params: SetPropertyGapConfigParams): Promise<any>;
     getExposedProperty(params: {
         id: number | null;
         language: string;
@@ -347,4 +362,9 @@ export declare class PropertyService {
     getMonthlyStats(params: MonthlyStatsParams): Promise<MonthlyStatsResults>;
     fetchNotifications(property_id: number): Promise<FetchNotificationsResult>;
     fetchUnBookableRooms(params: FetchUnBookableRooms): Promise<FetchUnBookableRoomsResult | null>;
+    setExposedGapNightsPolicy(params: {
+        property_id: number;
+        rule_code: string;
+        applicable_days: number;
+    }): Promise<any>;
 }

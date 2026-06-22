@@ -1,17 +1,17 @@
-import { r as registerInstance, c as createEvent, h, H as Host, a as getElement, F as Fragment } from './index-DCCEVrU4.js';
-import { i as isRequestPending } from './ir-interceptor.store-B_XQXISQ.js';
+import { r as registerInstance, c as createEvent, h, H as Host, d as getElement, F as Fragment } from './index-D7D7fhZS.js';
+import { i as isRequestPending } from './ir-interceptor.store-B5mzcEc4.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
-import { B as BookingService } from './booking.service-B4SIj2Et.js';
-import { i as formatAmount } from './utils-DK1ZYV0C.js';
+import { B as BookingService } from './booking.service-BdWmDu9a.js';
+import { i as formatAmount } from './utils-BhGSDnBq.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { _ as _formatTime } from './functions-81yL-Vms.js';
-import './index-CLFOnCBt.js';
+import './index-TzZ5wfUy.js';
 import './index-DeW5X45W.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './booking-C7XExJX4.js';
-import './locales.store-DkjT6ou2.js';
-import './calendar-data-B7ocnCQe.js';
+import './booking-Dz6T4kdw.js';
+import './locales.store-C0aS6UDK.js';
+import './calendar-data-15-64PrB.js';
 import './type-D7rOPtKA.js';
 
 const irBookingBillingRecipientCss = () => `.sc-ir-booking-billing-recipient-h{display:block;padding:0 !important;box-sizing:border-box}.billing-recipient__room.sc-ir-booking-billing-recipient::part(label),.billing-recipient__room.sc-ir-booking-billing-recipient [part~="label"]{display:flex;align-items:center;gap:var(--wa-space-xl);width:100%}.billing-recipient__guest-name.sc-ir-booking-billing-recipient{font-weight:500}.billing-recipient__room-details.sc-ir-booking-billing-recipient{display:flex;gap:6px;align-items:center;font-size:0.875rem;color:var(--wa-color-neutral-600)}.billing-recipient__roomtype.sc-ir-booking-billing-recipient{font-weight:600}`;

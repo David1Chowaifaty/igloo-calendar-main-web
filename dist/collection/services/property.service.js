@@ -67,10 +67,23 @@ export const HandleExposedPropertyTaxCategoriesParamsSchema = z.object({
     tax_categories: z.array(TaxCategorySchema),
     TAXATION_STRATEGY: z.string(),
 });
+export const SetPropertyGapConfigParamsSchema = z.object({
+    property_id: z.number(),
+    gap_rule_code: z.string(),
+    gap_lookahead_days: z.number(),
+});
 export class PropertyService {
     async handleExposedPropertyTaxCategories(params) {
         const payload = HandleExposedPropertyTaxCategoriesParamsSchema.parse(params);
         const { data } = await axios.post('/Handle_Exposed_Property_Tax_Categories', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
+    async setPropertyGapConfig(params) {
+        const payload = SetPropertyGapConfigParamsSchema.parse(params);
+        const { data } = await axios.post('/Set_Property_Gap_Config', payload);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -211,6 +224,13 @@ export class PropertyService {
     async fetchUnBookableRooms(params) {
         const payload = FetchUnBookableRoomsSchema.parse(params);
         const { data } = await axios.post('/Fetch_UnBookable_Rooms', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
+    async setExposedGapNightsPolicy(params) {
+        const { data } = await axios.post('/Set_Exposed_Gap_Nights_Policy', params);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }

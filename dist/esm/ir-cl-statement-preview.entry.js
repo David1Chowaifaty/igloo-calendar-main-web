@@ -1,16 +1,16 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-DCCEVrU4.js';
-import { C as CityLedgerService } from './index-Cm0fSMxQ.js';
-import { P as PropertyService } from './property.service-CTafgdb_.js';
-import { i as formatAmount } from './utils-DK1ZYV0C.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-D7D7fhZS.js';
+import { C as CityLedgerService } from './index-BuMczNXP.js';
+import { P as PropertyService } from './property.service-sF2UfIoW.js';
+import { i as formatAmount } from './utils-BhGSDnBq.js';
 import { T as Token } from './Token-CkxFIO_J.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { F as FdTypes } from './enums-qHq9uYOV.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './index-DeW5X45W.js';
-import './calendar-data-B7ocnCQe.js';
-import './index-CLFOnCBt.js';
-import './locales.store-DkjT6ou2.js';
+import './calendar-data-15-64PrB.js';
+import './index-TzZ5wfUy.js';
+import './locales.store-C0aS6UDK.js';
 import './type-D7rOPtKA.js';
 
 const irClStatementPreviewCss = () => `.cl-table{width:100%;border-collapse:collapse;font-size:0.8125rem;table-layout:auto}.cl-th{padding:0.5rem 0.75rem;text-align:left;font-size:0.75rem;font-weight:600;text-transform:capitalize;color:#374151;border-top:2px solid #111827;border-bottom:1px solid #111827;white-space:nowrap}.cl-th--num{text-align:right}.cl-td{padding:0.45rem 0.75rem;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:middle}.cl-td--num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.cl-td--muted{color:#6b7280}.cl-td--bold{font-weight:700;color:#111827}.cl-td--nowrap{white-space:nowrap}.cl-td--empty{text-align:center;color:#6b7280;padding:1.5rem 0.75rem;font-style:italic}.cl-balance-row td{background:#f3f4f6;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-weight:600;color:#111827;padding-top:0.5rem;padding-bottom:0.5rem}@media print{.cl-table{font-size:0.75rem}.cl-th,.cl-td{padding:0.35rem 0.5rem}.cl-td--muted,.cl-td--empty{color:#374151}.cl-balance-row td{-webkit-print-color-adjust:exact;print-color-adjust:exact}.cl-balance-row{page-break-inside:avoid}}:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:960px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.statement-period{display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;padding:0.5rem 0.75rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:4px;font-size:0.8125rem}.statement-period__label{font-weight:600;color:#374151}.statement-period__value{color:#374151}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}`;
