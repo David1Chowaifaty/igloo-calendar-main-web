@@ -2,22 +2,24 @@ import { Host, h } from "@stencil/core";
 import { CityLedgerService } from "../../../services/city-ledger/index";
 import calendar_data from "../../../stores/calendar-data";
 import { ClTxTypeCode, FdTypes, InOut } from "../../../types/enums";
+import moment from "moment";
 export class IrClInvoiceDialog {
     agentId = null;
     mode = 'default';
-    bookingNbr = null;
+    booking;
     startDate = null;
     endDate = null;
     currencyId = null;
-    rooms = [];
     isLoading = false;
     error = null;
     noResults = false;
     isProforma = false;
     get allRoomsCheckedOut() {
-        if (this.mode !== 'booking' || !this.rooms.length)
+        if (this.mode !== 'booking' || !this.booking.rooms.length)
             return true;
-        return this.rooms.every(r => r.in_out?.code === InOut.CheckedOut);
+        if (moment().isAfter(moment(this.booking.to_date, 'YYYY-MM-DD'), 'date'))
+            return true;
+        return this.booking.rooms.every(r => r.in_out?.code === InOut.CheckedOut);
     }
     invoiceIssued;
     clFiscalDocumentPreview;
@@ -49,7 +51,7 @@ export class IrClInvoiceDialog {
                     CURRENCY_ID: this.currencyId,
                     START_DATE: this.startDate,
                     END_DATE: this.endDate,
-                    BOOKING_NBR: this.bookingNbr,
+                    BOOKING_NBR: this.booking?.booking_nbr,
                     FD_TYPE_CODE: FdTypes.Draft,
                 });
                 const doc = result;
@@ -131,7 +133,7 @@ export class IrClInvoiceDialog {
             if (this.mode === 'booking') {
                 fromDate = this.startDate;
                 toDate = this.endDate;
-                bookingNbr = this.bookingNbr != null ? String(this.bookingNbr) : null;
+                bookingNbr = this.booking != null ? String(this.booking.booking_nbr) : null;
             }
             else {
                 const isValid = await this.formRef.validate();
@@ -169,7 +171,10 @@ export class IrClInvoiceDialog {
         }
     }
     render() {
-        return (h(Host, { key: '20702317aeba5dc77b89b6859c57b65504c45d70' }, h("ir-dialog", { key: '4b7222f399f4aa0a0105b2944d19df4d6dc30248', label: "Create Invoice", ref: el => (this.dialogRef = el) }, this.bookingNbr && (h("div", { key: '27b8d6e54d3d917019edc82d4f6757d9f5095a56', slot: "header-actions", class: 'cl-invoice-dialog__header-actions' }, h("wa-switch", { key: 'b1357da5dc90f6bbfb6becd0e4509346cd2c6663', checked: this.isProforma, disabled: this.mode === 'booking' && !this.allRoomsCheckedOut, onchange: e => (this.isProforma = e.target.checked) }, "Proforma"))), h("div", { key: '123cc668fd2faf16ba3ffd9d474614ff19ff2882', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, this.isProforma ? `Generate a proforma for Booking #${this.bookingNbr}?` : `Issue a draft invoice for Booking #${this.bookingNbr} to the agent?`)) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: 'f103d786097e3b52b78f2f3ab32635e58495d852', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '8a5909ca44e233f9b630aa9b240ba1b18e37dd06', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: '48d7605fb74eca167a53719bbb7771b5137663a7', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '4873359e3ac5e743cf262ecf7886b84a10a07e9c', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '80e9425df8b99153c0375491871d9e6945b6d73d', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: 'e53c3b318071796ec375e267df88ccf3596d7efc', size: "m", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, this.isProforma ? 'Confirm' : 'Show draft')))));
+        const units = this.booking ? this.booking?.rooms.filter(r => r.agent && r.in_out?.code !== InOut.CheckedOut).map(r => r.unit.name) : null;
+        return (h(Host, { key: '36803c7146f4334277366e30f67d93842f5687b2' }, h("ir-dialog", { key: 'cb8278b63e36839b9a1193c6506c37e110625904', label: "Create Invoice", ref: el => (this.dialogRef = el) }, this.booking && (h("div", { key: '45c9aab4fe2433d75e580e17cae608d7f33daaf2', slot: "header-actions", class: 'cl-invoice-dialog__header-actions' }, h("wa-switch", { key: '3d4e89374b30f3477468ce6f009ae618bba06ce1', checked: this.isProforma, disabled: this.mode === 'booking' && !this.allRoomsCheckedOut, onchange: e => (this.isProforma = e.target.checked) }, "Proforma"))), h("div", { key: '67cc3fe61ea40b5e1b746dd30c1ec2293784591b', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (!this.allRoomsCheckedOut ? (h("wa-callout", { size: "s", variant: "warning" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), "Only a proforma invoice can be generated at this time because ", units?.length > 1 ? 'units' : 'unit', " ", h("b", null, units?.join(', ')), ".", ' ', units?.length > 1 ? 'are' : 'is', " still in-house.")) : (h("p", { class: "create-invoice-dialog__message" }, this.isProforma
+            ? `Generate a proforma for Booking #${this.booking?.booking_nbr}?`
+            : `Issue a draft invoice for Booking #${this.booking?.booking_nbr} to the agent?`))) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: 'c0790a9e88ab7370acd59c132f5a27e5013c3118', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: 'c9c31715741536f3add8bd7f07d10147ab858ec7', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: '901da605bb4478d34580d46a1313ccd3692d0608', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '981ceef7e0bf3e3d5f4cbdf31d747d6c6bc717d5', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '03e98e0dda0e624bb060a334b46fa114e5f6e8a5', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: 'b93d488e049ae7a313b9aa11d792857287d9097b', size: "m", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, this.isProforma ? 'Confirm' : 'Show draft')))));
     }
     static get is() { return "ir-cl-invoice-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -225,13 +230,20 @@ export class IrClInvoiceDialog {
                 "attribute": "mode",
                 "defaultValue": "'default'"
             },
-            "bookingNbr": {
-                "type": "string",
+            "booking": {
+                "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "string | null",
-                    "resolved": "string",
-                    "references": {}
+                    "original": "Booking",
+                    "resolved": "Booking",
+                    "references": {
+                        "Booking": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
@@ -240,10 +252,7 @@ export class IrClInvoiceDialog {
                     "text": ""
                 },
                 "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "booking-nbr",
-                "defaultValue": "null"
+                "setter": false
             },
             "startDate": {
                 "type": "string",
@@ -304,31 +313,6 @@ export class IrClInvoiceDialog {
                 "reflect": false,
                 "attribute": "currency-id",
                 "defaultValue": "null"
-            },
-            "rooms": {
-                "type": "unknown",
-                "mutable": false,
-                "complexType": {
-                    "original": "Room[]",
-                    "resolved": "Room[]",
-                    "references": {
-                        "Room": {
-                            "location": "import",
-                            "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Room",
-                            "referenceLocation": "Room"
-                        }
-                    }
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "defaultValue": "[]"
             }
         };
     }

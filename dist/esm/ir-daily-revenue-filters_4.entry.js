@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, h, d as getElement, H as Host, F as Fragment } from './index-D7D7fhZS.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { l as locales } from './locales.store-C0aS6UDK.js';
-import { i as formatAmount, y as calculateTrend } from './utils-BhGSDnBq.js';
+import { i as formatAmount, z as calculateTrend } from './utils-DvzWTdKJ.js';
 import { c as calendar_data } from './calendar-data-15-64PrB.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-34GsmACS.js';
 import './index-TzZ5wfUy.js';

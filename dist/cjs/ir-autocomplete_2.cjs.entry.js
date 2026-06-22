@@ -1,10 +1,9 @@
 'use strict';
 
 var index = require('./index-DYQrLNin.js');
-var ClickOutside = require('./ClickOutside-Lx1uOPWl.js');
-var slot = require('./slot-BU-FjeKp.js');
+var slot = require('./slot-CWrQSCT2.js');
 
-const irAutocompleteCss = () => `.listbox{display:block;position:relative;font:inherit;box-shadow:var(--wa-shadow-m);background:var(--wa-color-surface-raised);border-color:var(--wa-color-surface-border);border-radius:var(--wa-border-radius-m);border-style:var(--wa-border-style);border-width:var(--wa-border-width-s);padding-block:0.5em;padding-inline:0;overflow:auto;overscroll-behavior:none;max-width:var(--auto-size-available-width);max-height:var(--auto-size-available-height);&::slotted(wa-divider){--spacing:0.5em}}::slotted(ir-autocomplete-option){display:block}`;
+const irAutocompleteCss = () => `.listbox{display:block;position:relative;font:inherit;box-shadow:var(--wa-shadow-m);background:var(--wa-color-surface-raised);border-color:var(--wa-color-surface-border);border-radius:var(--wa-border-radius-m);border-style:var(--wa-border-style);border-width:var(--wa-border-width-s);padding-block:0.5em;padding-inline:0;overflow:auto;overscroll-behavior:none;max-width:var(--auto-size-available-width);max-height:var(--auto-size-available-height);&::slotted(wa-divider){--spacing:0.5em}}::slotted(ir-autocomplete-option){display:block}.selected-tags{display:flex;flex-wrap:wrap;gap:0.25rem;align-items:center}`;
 
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -67,6 +66,12 @@ const IrAutocomplete = class {
     passwordVisible;
     /** Hides the browser's built-in increment/decrement spin buttons for number inputs. */
     withoutSpinButtons;
+    /**
+     * Enables selection of multiple options.
+     * When `true`, users can select more than one option at a time.
+     * Defaults to `false`.
+     */
+    multiple = false;
     /**
      * By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you
      * to place the form control outside of a form and associate it with the form that has this `id`. The form must be in
@@ -131,6 +136,7 @@ const IrAutocomplete = class {
     inputClass;
     options = [];
     slotStateVersion = 0;
+    selectedOptions = [];
     textChange;
     comboboxChange;
     currentOption;
@@ -148,7 +154,10 @@ const IrAutocomplete = class {
         });
         this.slotManager.initialize();
         this.updateOptionsFromSlot();
-        this.syncSelectedFromValue(this.value);
+        if (!this.multiple) {
+            this.syncSelectedFromValue(this.value);
+        }
+        this.refreshSelectedOptions();
     }
     componentDidLoad() {
         this.slotManager.setupListeners();
@@ -220,7 +229,17 @@ const IrAutocomplete = class {
         }
     }
     handleValueChange(newValue) {
+        if (this.multiple)
+            return;
         this.syncSelectedFromValue(newValue);
+    }
+    refreshSelectedOptions() {
+        this.selectedOptions = this.getAllOptions().filter(option => option.selected);
+    }
+    emitChange() {
+        if (this.multiple) {
+            this.comboboxChange.emit(this.selectedOptions.map(option => this.getOptionValue(option)));
+        }
     }
     getAllOptions() {
         return this.options;
@@ -299,6 +318,20 @@ const IrAutocomplete = class {
     selectOption(option) {
         if (!option || option.disabled)
             return;
+        if (this.multiple) {
+            // Toggle selection without affecting the other options and keep the popup open.
+            option.selected = !option.selected;
+            this.currentOption = option;
+            this.refreshSelectedOptions();
+            // Clear the typed search text so the user can immediately filter for the next option.
+            if (this.value !== '') {
+                this.value = '';
+                this.textChange.emit('');
+            }
+            this.emitChange();
+            requestAnimationFrame(() => this.inputRef?.focusInput());
+            return;
+        }
         const allOptions = this.getAllOptions();
         allOptions.forEach(el => {
             el.selected = false;
@@ -314,6 +347,14 @@ const IrAutocomplete = class {
         this.hide();
         requestAnimationFrame(() => this.inputRef?.focusInput());
     }
+    removeOption = (option) => {
+        if (!option)
+            return;
+        option.selected = false;
+        this.refreshSelectedOptions();
+        this.emitChange();
+        requestAnimationFrame(() => this.inputRef?.focusInput());
+    };
     handleOptionClick = (event) => {
         const target = event.target;
         const option = target?.closest('ir-autocomplete-option');
@@ -341,7 +382,10 @@ const IrAutocomplete = class {
     };
     handleOptionsSlotChange = (event) => {
         this.updateOptionsFromSlot(event.target);
-        this.syncSelectedFromValue(this.value);
+        if (!this.multiple) {
+            this.syncSelectedFromValue(this.value);
+        }
+        this.refreshSelectedOptions();
         if (this.open) {
             this.ensureCurrentOption();
         }
@@ -398,10 +442,23 @@ const IrAutocomplete = class {
             this.setCurrentOption(allOptions[newIndex], { scroll: true });
         }
     };
+    handleClick = () => {
+        if (this.value) {
+            return;
+        }
+        if (this.open) {
+            this.hide();
+            return;
+        }
+        this.show();
+    };
     render() {
-        return (index.h(index.Host, { key: '8ef4799940dbe960934b35497f23eceb6dd456d1' }, index.h("wa-popup", { key: '8ce878394447791c7f41326495004c18acbdb5e7', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, index.h("ir-input", { key: 'e861bd09d8535408dacae185aa99d199593bbe09', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize,
+        return (index.h(index.Host, { key: 'b74baf496a134f5f7e516aaa1b0bac40253c35d2' }, index.h("wa-popup", { key: 'f3c3fa12f075c5d9d0850904e2b6fdd755571738', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, index.h("ir-input", { key: '0255e379e4e3d47184ee7eb4b8a6ed2233348394', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, onClick: this.handleClick, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize,
             // autocorrect={this.autocorrect}
-            autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotManager.hasSlot('label') && index.h("slot", { key: '88cec1f41839b6fa4a6e16caf9f07f01633ce0f0', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && index.h("slot", { key: 'b78af58a67cd8f40b333dfebafda618f1dec8902', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && index.h("slot", { key: 'c70123c56d81464c959a00f912eb7e49577c963f', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && index.h("slot", { key: '67e990f9e684f4d90826fb398d42e6c97cb6663b', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && index.h("slot", { key: '1550659d916f848f89507a5b50512d54d28fdfb0', name: "hint", slot: "hint" })), index.h("div", { key: '101ebeb0a6ca8d1d7bee25d4ab5c4994ca98ea6a', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, index.h("slot", { key: 'ef796b0fdf632296a28c4d05207407eb775a74fc', onSlotchange: this.handleOptionsSlotChange })))));
+            autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.multiple && this.selectedOptions.length > 0 && (index.h("div", { key: 'ff3dfb5849a30331f2b562f87961ba0278ca4bf6', slot: "start", class: "selected-tags", part: "tags" }, this.selectedOptions.map(option => (index.h("wa-tag", { key: this.getOptionValue(option), size: "s", "with-remove": true, "onwa-remove": (e) => {
+                e.stopPropagation();
+                this.removeOption(option);
+            } }, this.getOptionLabel(option)))))), this.slotManager.hasSlot('label') && index.h("slot", { key: '891387fc28db4502f4738e22a511f95a71e8b5aa', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && index.h("slot", { key: '77f260e1f9dc94077d02f6655aff4f0b01ebb1a7', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && index.h("slot", { key: '342451a8e904e5c710e006da8f27105dfcacfa7d', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && index.h("slot", { key: 'f89123a8319ce0a3aabbe8b1d5a88897cf7d525a', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && index.h("slot", { key: 'c8a8132b7ca8b9b4e46e16c98089c27aa6f8b1b0', name: "hint", slot: "hint" })), index.h("div", { key: 'd894381938ef9cc820762bd9ab5935e460d7d6d8', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": this.multiple ? 'true' : 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, index.h("slot", { key: '0b7408683acaf2b883ae3f99f753262303739622', onSlotchange: this.handleOptionsSlotChange })))));
     }
     static get watchers() { return {
         "open": [{
@@ -413,7 +470,7 @@ const IrAutocomplete = class {
     }; }
 };
 __decorate([
-    ClickOutside.ClickOutside()
+    slot.ClickOutside()
 ], IrAutocomplete.prototype, "hide", null);
 IrAutocomplete.style = irAutocompleteCss();
 
@@ -429,7 +486,7 @@ const IrAutocompleteOption = class {
     current = false;
     selected = false;
     render() {
-        return (index.h(index.Host, { key: '900fb9a6021b59ee9c8920eac8f6f4b8d9f1d3c3', role: "option", "aria-selected": this.selected ? 'true' : 'false', "aria-disabled": this.disabled ? 'true' : 'false' }, index.h("wa-option", { key: 'b203e6eba2afb7f41bb5511a5cde3ff255caa7c7', value: this.value, label: this.label, disabled: this.disabled, current: this.current, selected: this.selected, exportparts: "checked-icon, label, start, end" }, index.h("slot", { key: '1d11ec342308ad00901ccb52f65fc8e29b779d9e' }), index.h("slot", { key: 'ddbde9a539d78712b61c7a3310ee59650136fdb1', name: "start", slot: "start" }), index.h("slot", { key: '175bfced868b5bb782753ca686078e5db9eaf466', name: "end", slot: "end" }))));
+        return (index.h(index.Host, { key: 'cecc6c103df1b90eda05f9974cae9d09d988bf72', role: "option", "aria-selected": this.selected ? 'true' : 'false', "aria-disabled": this.disabled ? 'true' : 'false' }, index.h("wa-option", { key: '482b84cb6c7f69a692e4eeb321694ebe804d42df', value: this.value, label: this.label, disabled: this.disabled, current: this.current, selected: this.selected, exportparts: "checked-icon, label, start, end" }, index.h("slot", { key: 'b12c2507c1d6e2da04e821f196315bc3a8e8f9a6' }), index.h("slot", { key: '33e9b03fc7f315445f3f338c53cc66bd80a2c4a2', name: "start", slot: "start" }), index.h("slot", { key: '418c9994a460601f988b55b11ddc96f00b873a7b', name: "end", slot: "end" }))));
     }
 };
 IrAutocompleteOption.style = irAutocompleteOptionCss();

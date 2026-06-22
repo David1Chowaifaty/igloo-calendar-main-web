@@ -49,6 +49,12 @@ export declare class IrAutocomplete {
     /** Hides the browser's built-in increment/decrement spin buttons for number inputs. */
     withoutSpinButtons: NativeWaInput['withoutSpinButtons'];
     /**
+     * Enables selection of multiple options.
+     * When `true`, users can select more than one option at a time.
+     * Defaults to `false`.
+     */
+    multiple: boolean;
+    /**
      * By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you
      * to place the form control outside of a form and associate it with the form that has this `id`. The form must be in
      * the same document or shadow root for this to work.
@@ -112,8 +118,9 @@ export declare class IrAutocomplete {
     inputClass: string;
     private options;
     private slotStateVersion;
+    private selectedOptions;
     textChange: EventEmitter<string>;
-    comboboxChange: EventEmitter<string>;
+    comboboxChange: EventEmitter<string | string[]>;
     private currentOption?;
     private listboxRef?;
     private inputRef?;
@@ -129,6 +136,8 @@ export declare class IrAutocomplete {
     private getOffset;
     private scrollIntoView;
     handleValueChange(newValue: string): void;
+    private refreshSelectedOptions;
+    private emitChange;
     private getAllOptions;
     private updateOptionsFromSlot;
     private clearCurrentOption;
@@ -138,10 +147,12 @@ export declare class IrAutocomplete {
     private getOptionValue;
     private syncSelectedFromValue;
     private selectOption;
+    private removeOption;
     private handleOptionClick;
     private handleTextChange;
     private handleOptionsSlotChange;
     private handleKeydownChange;
+    private handleClick;
     render(): any;
 }
 export {};

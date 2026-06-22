@@ -4,7 +4,7 @@ var index = require('./index-DYQrLNin.js');
 var moment = require('./moment-CdViwxPQ.js');
 var functions = require('./functions-mvRDRfzA.js');
 var booking = require('./booking-D81t5lFq.js');
-var booking_service = require('./booking.service-Bi0zXviu.js');
+var booking_store = require('./booking.store-BCEuSVh0.js');
 var room_service = require('./room.service-BDxvptKu.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
 var utils = require('./utils-DgT4kKsD.js');
@@ -36,7 +36,7 @@ const IrBookingPrinting = class {
     guestCountryName;
     isLoading;
     // @State() token: string;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     currency;
     totalNights;

@@ -1,11 +1,11 @@
 'use strict';
 
 var index = require('./index-DYQrLNin.js');
-var booking_service = require('./booking.service-Bi0zXviu.js');
+var booking_store = require('./booking.store-BCEuSVh0.js');
 var utils = require('./utils-DgT4kKsD.js');
 var booking = require('./booking-D81t5lFq.js');
 var moment = require('./moment-CdViwxPQ.js');
-var events_service = require('./events.service-CVLX-NXy.js');
+var events_service = require('./events.service-CNLUhmqh.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
 var calendarData = require('./calendar-data-R3j-WBLW.js');
 var toBeAssigned_service = require('./toBeAssigned.service-Dt1rnRBV.js');
@@ -66,7 +66,7 @@ const IglBlockedDateDrawer = class {
         BLOCKED_TILL_MINUTE: null,
     };
     blockedDateDrawerClosed;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     async handleBlockDate() {
         try {
             this.isLoading = true;
@@ -156,7 +156,7 @@ const IglBookingEvent = class {
     isStretch = false;
     /*Services */
     eventsService = new events_service.EventsService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     /* Resize props */
     resizeSide = '';
     isDragging = false;
@@ -2131,7 +2131,7 @@ const IglRateExtenderForm = class {
     loadingChanged;
     /** Emits whether inventory is available for the additional nights (false when there is none). */
     availabilityChanged;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     inputRefs = [];
     shouldScrollToFirstEnabled = false;
     componentWillLoad() {
@@ -2333,7 +2333,7 @@ const IglRateExtenderForm = class {
         return (index.h("form", { id: "rate-extender-form", class: "rate-extender-form", onSubmit: e => {
                 e.preventDefault();
                 this.handleRoomConfirmation();
-            } }, index.h("section", { class: "rate-form__body" }, index.h("p", { class: "rate-form__booking-number" }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), index.h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', index.h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), this.inventory !== 0 && this.inventory !== null && booking_service.booking_store.roomTypes?.length > 0 && (index.h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement))), index.h("p", { class: "rate-form__date-range" }, utils.formatDate(moment.hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD'), " ", index.h("wa-icon", { name: "arrow-right" }), ' ', utils.formatDate(moment.hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')), (this.inventory === 0 || this.inventory === null) && (index.h("wa-callout", { size: "s", variant: "danger", class: "rate-form__availability-callout" }, index.h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights)), this.rates?.map((day, index$2) => {
+            } }, index.h("section", { class: "rate-form__body" }, index.h("p", { class: "rate-form__booking-number" }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), index.h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', index.h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), this.inventory !== 0 && this.inventory !== null && booking_store.booking_store.roomTypes?.length > 0 && (index.h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement))), index.h("p", { class: "rate-form__date-range" }, utils.formatDate(moment.hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD'), " ", index.h("wa-icon", { name: "arrow-right" }), ' ', utils.formatDate(moment.hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')), (this.inventory === 0 || this.inventory === null) && (index.h("wa-callout", { size: "s", variant: "danger", class: "rate-form__availability-callout" }, index.h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights)), this.rates?.map((day, index$2) => {
             return [
                 index.h("ir-validator", { key: day.date, value: day.amount, schema: index$1.libExports.z.number().min(0) }, index.h("ir-input", { ref: el => (this.inputRefs[index$2] = el), disabled: this.disabled(index$2), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index$2), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: moment.hooks(day.date).format('ddd, MMM D') }, index.h("span", { slot: "start" }, currency_symbol))),
                 this.showArrow(index$2) && index.h("wa-icon", { class: "rate-extender-arrow", name: this.isEndDateBeforeFromDate ? 'arrow-up' : 'arrow-down' }),
@@ -2494,7 +2494,7 @@ const IglSplitBooking = class {
     mealPlanOptions = null;
     closeModal;
     defaultDates;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     componentWillLoad() {
         this.room = this.getRoom();
         this.defaultDates = { ...this.generateDates(this.room) };
@@ -2530,7 +2530,7 @@ const IglSplitBooking = class {
         return { from_date: today.clone().add(1, 'days'), to_date: MToDate };
     }
     async checkBookingAvailability() {
-        booking_service.resetBookingStore(false);
+        booking_store.resetBookingStore(false);
         const from_date = this.selectedDates.from_date.format('YYYY-MM-DD');
         const to_date = this.selectedDates.to_date.format('YYYY-MM-DD');
         const is_in_agent_mode = this.booking.agent !== null;
@@ -3116,7 +3116,7 @@ const IrInteractiveTitle = class {
     titleId = `ir-title-${++titleIdCounter}`;
     render() {
         const title = this.popoverTitle || '';
-        return (index.h(index.Host, { key: '810c65cac3bfce23f89e989f1fd352af5647fe30', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: 'aa47f9754fddaa544ef38c78de6a8095d8403206', class: "popover-title" }, title.length > this.cropSize && (index.h("wa-tooltip", { key: '38bbd8725b97678b4d68031d451b275354100964', for: this.titleId, placement: "top" }, title)), index.h("span", { key: '68b1c3e6a76bc5ff5aa84060cab16e6974947693', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (index.h("div", { key: 'da5886e49ec611ae5ffcee5f8fb27ce8719f3728', class: "hk-dot" }, index.h("slot", { key: 'd01f1097098a12b3e080341f6e8ccc479fe1e310', name: "end" }))))));
+        return (index.h(index.Host, { key: 'e0fade48bf674abdce24c006d032983265b855aa', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '6d5d52f9f1b929ca80f6818edc639bca35f23791', class: "popover-title" }, title.length > this.cropSize && (index.h("wa-tooltip", { key: 'ff3ccfadd7892e59cb3293793981f395c3ec9fb8', for: this.titleId, placement: "top" }, title)), index.h("span", { key: '9864901e3713870362fcb147cba87aba04d81035', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (index.h("div", { key: '6536d3054e6f6f523e031b244672fcda32b14f93', class: "hk-dot" }, index.h("slot", { key: 'c3d48cf1279e73281a63b13df843fc82044a21df', name: "end" }))))));
     }
 };
 IrInteractiveTitle.style = irInteractiveTitleCss();
@@ -3258,13 +3258,13 @@ const IrModal = class {
     }
     render() {
         return [
-            index.h("div", { key: '8c886c890d3d6f726cd858975bb7930938642c70', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            index.h("div", { key: 'df2ecaa6d2e7f70b41fa20de21924ab68cdfaafd', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            index.h("div", { key: 'f1b18c779dfa9f0087602b59aab531aef4ebac4f', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, index.h("div", { key: 'a1038688a89e2e4f4d622472c7bcd25a0d2e86c9', class: `ir-alert-content p-2` }, this.showTitle && (index.h("div", { key: '9657a075cdbdeeeca89d2327f15f49510ca10aaf', class: `ir-alert-header` }, index.h("p", { key: '7d9a808c65b4e80b1eb4ad5401a7b77b2941d7e7' }, this.modalTitle))), index.h("div", { key: '7080ffe2f7043d0168edd1887546ae4f38f5331a', class: "modal-body text-left p-0 mb-2" }, index.h("div", { key: '63eefc9b3500b69e9e9512575fd2dfee8c808e10' }, this.modalBody)), index.h("div", { key: '9af0d664929d02b4ccdbfbc469cbf942995afaa4', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && index.h("ir-button", { key: '43d80ee06bcc6f0db4a3f835b8594ec4b923e815', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (index.h("ir-button", { key: 'cc8bdbc8855175d4a68d34eb1c22bfcc4da1fb94', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (index.h("ir-button", { key: '89cd6c46440ed47978e0e79fbd66e7571f9c628c', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            index.h("div", { key: '24b2af14a1a27fadbc38e9af518e0cc1e7d07318', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, index.h("div", { key: '77993ff1b89d66cbfbbe644f112bd7bdab1853bd', class: `ir-alert-content p-2` }, this.showTitle && (index.h("div", { key: '3ff439c04c458ddbe37cb47cdc68463ab3bea783', class: `ir-alert-header` }, index.h("p", { key: '372163fe5d74b31fe37a104ccafef8a886027e4b' }, this.modalTitle))), index.h("div", { key: 'a78146b2cdf1e5db3ceb12e38e6b1a1e808425e6', class: "modal-body text-left p-0 mb-2" }, index.h("div", { key: 'a3ec9cd11f2a3d9898609c6f0874cab320f43a6b' }, this.modalBody)), index.h("div", { key: '1382049c2895c21b3ff0a1860c24fac874bfd18f', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && index.h("ir-button", { key: '6580702d5318c34dfd0beed6f8b08809cf11d853', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (index.h("ir-button", { key: '7babc627fcef747d9aeb4a0c72b4b7d12ebc1332', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (index.h("ir-button", { key: '897f276cfd52946f9d21648c50e9ca5ea8f05beb', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
 };
@@ -3343,9 +3343,9 @@ const IrRadio = class {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (index.h("div", { key: 'bae07ac63489b4ba5c5508877daf7003bdabeaa1', class: "input-group" }, index.h("label", { key: '293d848edded21d17087e97ac4a139ccc2f20a2c', class: "check-container radio-container align-items-center m-0 py-0" }, index.h("span", { key: '5b2f2115a755e10f1cf9baf82e1642260ec6f52c' }, this.label), index.h("input", { key: '442166c32f6878067a5441b135340984147ad1b8', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
+        return (index.h("div", { key: '3dcf9c069f646db7554a8ad9296b70fec741a686', class: "input-group" }, index.h("label", { key: '1ad0528265f17e96ab299b1f108ec341b295be48', class: "check-container radio-container align-items-center m-0 py-0" }, index.h("span", { key: 'e1c4fa9a88039ce61881113ce1bc4c3c106fe378' }, this.label), index.h("input", { key: '550418021797104c0e03ca5f238cdd905759ceb7', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
                 this.handleCheckChange();
-            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), index.h("span", { key: '2f786f3fbb262270e9e902fd38cd3758b84d3bc6', class: "checkmark" }))));
+            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), index.h("span", { key: '4e5d934fd9ade3a2ded631e63fa4f303d528ca74', class: "checkmark" }))));
     }
     static get watchers() { return {
         "checked": [{
@@ -3397,7 +3397,7 @@ const IrReallocationForm = class {
     errors;
     mealPlanOptions = null;
     closeModal;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     eventsService = new events_service.EventsService();
     componentWillLoad() {
         this.room = this.getRoom();
@@ -3419,7 +3419,7 @@ const IrReallocationForm = class {
     }
     async checkBookingAvailability() {
         this.isLoading = true;
-        booking_service.resetBookingStore(false);
+        booking_store.resetBookingStore(false);
         const is_in_agent_mode = this.booking.agent !== null;
         const { from_date, to_date } = this.getDates();
         try {
@@ -3764,7 +3764,7 @@ const IrSuccessLoader = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '15dc669ea65f32ad90f32dda06d5edb0f400be53' }, this.phase === 'spinner' ? index.h("wa-spinner", null) : index.h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
+        return (index.h(index.Host, { key: '758369f579d584ed72f81e8bedbc104333875727' }, this.phase === 'spinner' ? index.h("wa-spinner", null) : index.h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
     }
     static get watchers() { return {
         "active": [{

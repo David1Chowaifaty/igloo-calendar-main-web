@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-DYQrLNin.js');
-var booking_service = require('./booking.service-Bi0zXviu.js');
+var booking_store = require('./booking.store-BCEuSVh0.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
 require('./index-CLqkDPTC.js');
 require('./axios-EresIryl.js');
@@ -35,7 +35,7 @@ const IglBlockDatesView = class {
         OUT_OF_SERVICE: false,
     }; // Change of property name might require updates in booking-event-hover
     releaseList = [];
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     async componentWillLoad() {
         try {
             this.releaseList = await this.bookingService.getBlockedInfo();

@@ -58,6 +58,12 @@ export class IrAutocomplete {
     /** Hides the browser's built-in increment/decrement spin buttons for number inputs. */
     withoutSpinButtons;
     /**
+     * Enables selection of multiple options.
+     * When `true`, users can select more than one option at a time.
+     * Defaults to `false`.
+     */
+    multiple = false;
+    /**
      * By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you
      * to place the form control outside of a form and associate it with the form that has this `id`. The form must be in
      * the same document or shadow root for this to work.
@@ -121,6 +127,7 @@ export class IrAutocomplete {
     inputClass;
     options = [];
     slotStateVersion = 0;
+    selectedOptions = [];
     textChange;
     comboboxChange;
     currentOption;
@@ -138,7 +145,10 @@ export class IrAutocomplete {
         });
         this.slotManager.initialize();
         this.updateOptionsFromSlot();
-        this.syncSelectedFromValue(this.value);
+        if (!this.multiple) {
+            this.syncSelectedFromValue(this.value);
+        }
+        this.refreshSelectedOptions();
     }
     componentDidLoad() {
         this.slotManager.setupListeners();
@@ -210,7 +220,17 @@ export class IrAutocomplete {
         }
     }
     handleValueChange(newValue) {
+        if (this.multiple)
+            return;
         this.syncSelectedFromValue(newValue);
+    }
+    refreshSelectedOptions() {
+        this.selectedOptions = this.getAllOptions().filter(option => option.selected);
+    }
+    emitChange() {
+        if (this.multiple) {
+            this.comboboxChange.emit(this.selectedOptions.map(option => this.getOptionValue(option)));
+        }
     }
     getAllOptions() {
         return this.options;
@@ -289,6 +309,20 @@ export class IrAutocomplete {
     selectOption(option) {
         if (!option || option.disabled)
             return;
+        if (this.multiple) {
+            // Toggle selection without affecting the other options and keep the popup open.
+            option.selected = !option.selected;
+            this.currentOption = option;
+            this.refreshSelectedOptions();
+            // Clear the typed search text so the user can immediately filter for the next option.
+            if (this.value !== '') {
+                this.value = '';
+                this.textChange.emit('');
+            }
+            this.emitChange();
+            requestAnimationFrame(() => this.inputRef?.focusInput());
+            return;
+        }
         const allOptions = this.getAllOptions();
         allOptions.forEach(el => {
             el.selected = false;
@@ -304,6 +338,14 @@ export class IrAutocomplete {
         this.hide();
         requestAnimationFrame(() => this.inputRef?.focusInput());
     }
+    removeOption = (option) => {
+        if (!option)
+            return;
+        option.selected = false;
+        this.refreshSelectedOptions();
+        this.emitChange();
+        requestAnimationFrame(() => this.inputRef?.focusInput());
+    };
     handleOptionClick = (event) => {
         const target = event.target;
         const option = target?.closest('ir-autocomplete-option');
@@ -331,7 +373,10 @@ export class IrAutocomplete {
     };
     handleOptionsSlotChange = (event) => {
         this.updateOptionsFromSlot(event.target);
-        this.syncSelectedFromValue(this.value);
+        if (!this.multiple) {
+            this.syncSelectedFromValue(this.value);
+        }
+        this.refreshSelectedOptions();
         if (this.open) {
             this.ensureCurrentOption();
         }
@@ -388,10 +433,23 @@ export class IrAutocomplete {
             this.setCurrentOption(allOptions[newIndex], { scroll: true });
         }
     };
+    handleClick = () => {
+        if (this.value) {
+            return;
+        }
+        if (this.open) {
+            this.hide();
+            return;
+        }
+        this.show();
+    };
     render() {
-        return (h(Host, { key: '8ef4799940dbe960934b35497f23eceb6dd456d1' }, h("wa-popup", { key: '8ce878394447791c7f41326495004c18acbdb5e7', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, h("ir-input", { key: 'e861bd09d8535408dacae185aa99d199593bbe09', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize,
+        return (h(Host, { key: 'b74baf496a134f5f7e516aaa1b0bac40253c35d2' }, h("wa-popup", { key: 'f3c3fa12f075c5d9d0850904e2b6fdd755571738', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, h("ir-input", { key: '0255e379e4e3d47184ee7eb4b8a6ed2233348394', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, onClick: this.handleClick, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize,
             // autocorrect={this.autocorrect}
-            autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotManager.hasSlot('label') && h("slot", { key: '88cec1f41839b6fa4a6e16caf9f07f01633ce0f0', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: 'b78af58a67cd8f40b333dfebafda618f1dec8902', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: 'c70123c56d81464c959a00f912eb7e49577c963f', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: '67e990f9e684f4d90826fb398d42e6c97cb6663b', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '1550659d916f848f89507a5b50512d54d28fdfb0', name: "hint", slot: "hint" })), h("div", { key: '101ebeb0a6ca8d1d7bee25d4ab5c4994ca98ea6a', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, h("slot", { key: 'ef796b0fdf632296a28c4d05207407eb775a74fc', onSlotchange: this.handleOptionsSlotChange })))));
+            autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.multiple && this.selectedOptions.length > 0 && (h("div", { key: 'ff3dfb5849a30331f2b562f87961ba0278ca4bf6', slot: "start", class: "selected-tags", part: "tags" }, this.selectedOptions.map(option => (h("wa-tag", { key: this.getOptionValue(option), size: "s", "with-remove": true, "onwa-remove": (e) => {
+                e.stopPropagation();
+                this.removeOption(option);
+            } }, this.getOptionLabel(option)))))), this.slotManager.hasSlot('label') && h("slot", { key: '891387fc28db4502f4738e22a511f95a71e8b5aa', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '77f260e1f9dc94077d02f6655aff4f0b01ebb1a7', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '342451a8e904e5c710e006da8f27105dfcacfa7d', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: 'f89123a8319ce0a3aabbe8b1d5a88897cf7d525a', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: 'c8a8132b7ca8b9b4e46e16c98089c27aa6f8b1b0', name: "hint", slot: "hint" })), h("div", { key: 'd894381938ef9cc820762bd9ab5935e460d7d6d8', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": this.multiple ? 'true' : 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, h("slot", { key: '0b7408683acaf2b883ae3f99f753262303739622', onSlotchange: this.handleOptionsSlotChange })))));
     }
     static get is() { return "ir-autocomplete"; }
     static get encapsulation() { return "shadow"; }
@@ -873,6 +931,26 @@ export class IrAutocomplete {
                 "setter": false,
                 "reflect": true,
                 "attribute": "without-spin-buttons"
+            },
+            "multiple": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Enables selection of multiple options.\nWhen `true`, users can select more than one option at a time.\nDefaults to `false`."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "multiple",
+                "defaultValue": "false"
             },
             "form": {
                 "type": "unknown",
@@ -1384,7 +1462,8 @@ export class IrAutocomplete {
     static get states() {
         return {
             "options": {},
-            "slotStateVersion": {}
+            "slotStateVersion": {},
+            "selectedOptions": {}
         };
     }
     static get events() {
@@ -1414,8 +1493,8 @@ export class IrAutocomplete {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "string",
-                    "resolved": "string",
+                    "original": "string | string[]",
+                    "resolved": "string | string[]",
                     "references": {}
                 }
             }];

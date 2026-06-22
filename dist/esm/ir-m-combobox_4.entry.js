@@ -2,7 +2,7 @@ import { r as registerInstance, c as createEvent, d as getElement, h, H as Host 
 import { v as v4 } from './v4-CK3_k8jD.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { l as locales } from './locales.store-C0aS6UDK.js';
-import { i as formatAmount, y as calculateTrend } from './utils-BhGSDnBq.js';
+import { i as formatAmount, z as calculateTrend } from './utils-DvzWTdKJ.js';
 import './index-TzZ5wfUy.js';
 import './index-DeW5X45W.js';
 import './calendar-data-15-64PrB.js';

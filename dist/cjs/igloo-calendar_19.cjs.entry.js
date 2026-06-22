@@ -2,10 +2,10 @@
 
 var index = require('./index-DYQrLNin.js');
 var room_service = require('./room.service-BDxvptKu.js');
-var booking_service = require('./booking.service-Bi0zXviu.js');
+var booking_store = require('./booking.store-BCEuSVh0.js');
 var utils = require('./utils-DgT4kKsD.js');
 var realtime_service = require('./realtime.service-COdIt6Z-.js');
-var events_service = require('./events.service-CVLX-NXy.js');
+var events_service = require('./events.service-CNLUhmqh.js');
 var moment = require('./moment-CdViwxPQ.js');
 var toBeAssigned_service = require('./toBeAssigned.service-Dt1rnRBV.js');
 var booking = require('./booking-D81t5lFq.js');
@@ -214,7 +214,7 @@ const IglooCalendar = class {
     revertBooking;
     openCalendarSidebar;
     showRoomNightsDialog;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     eventsService = new events_service.EventsService();
     toBeAssignedService = new toBeAssigned_service.ToBeAssignedService();
@@ -1513,7 +1513,7 @@ const IrAgents = class {
     setupEntries;
     agentsService = new agents_service.AgentsService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     tokenService = new Token.Token();
     componentWillLoad() {
         if (this.ticket) {
@@ -1672,7 +1672,7 @@ const IrArrivals = class {
     countries;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
@@ -1894,7 +1894,7 @@ const IrBookingListing = class {
     payment;
     booking;
     bookingListingService = new booking_listing_service.BookingListingService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
     token = new Token.Token();
@@ -2454,7 +2454,7 @@ const IrCityLedger = class {
     tokenService = new Token.Token();
     agentsService = new agents_service.AgentsService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     systemService = new system_service.SystemService();
     toolbarRef;
     createInvoiceDialogRef;
@@ -2560,7 +2560,8 @@ const IrCityLedger = class {
                 this.agentSearch = e.detail ?? '';
             }, "onCombobox-change": (e) => {
                 this.agentSearch = '';
-                this.selectedAgent = e.detail ? this.agents?.find(agent => agent.id === Number(e.detail)) : null;
+                const value = e.detail;
+                this.selectedAgent = value ? this.agents?.find(agent => agent.id === Number(value)) : null;
                 this.showStatementPreview = false;
                 this.folioSummary = null;
                 this.fiscalFilters = { fromDate: undefined, toDate: undefined, docNumber: '', taxableOnly: false, type: 'all', proformaOnly: false };
@@ -2617,7 +2618,7 @@ const IrDailyRevenue = class {
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentEntries;
     preventPageLoad;
     componentWillLoad() {
@@ -2806,7 +2807,7 @@ const IrDepartures = class {
     invoiceState = null;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
@@ -3016,7 +3017,7 @@ const IrGhsOnboarding = class {
     isActivating = false;
     propertyToActivate = null;
     ghsService = new GHSService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     tokenService = new Token.Token();
     removeAllModal;
     activateModal;
@@ -3553,7 +3554,7 @@ const IrHousekeeping = class {
     frequencies = [];
     roomService = new room_service.RoomService();
     houseKeepingService = new housekeeping_service.HouseKeepingService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     token = new Token.Token();
     componentWillLoad() {
         if (this.baseUrl) {
@@ -4447,7 +4448,7 @@ const IrSalesByCountry = class {
     token = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     baseFilters = {
         FROM_DATE: moment.hooks().add(-7, 'days').format('YYYY-MM-DD'),
         TO_DATE: moment.hooks().format('YYYY-MM-DD'),
@@ -4627,7 +4628,7 @@ const IrTaxServiceCategories = class {
     setupEntries;
     autoValidate;
     tokenService = new Token.Token();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     propertyService = new property_service.PropertyService();
     componentWillLoad() {
         if (this.ticket) {
@@ -4859,7 +4860,7 @@ const IrUserManagement = class {
     token = new Token.Token();
     roomService = new room_service.RoomService();
     userService = new user_service.UserService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     userTypes = new Map();
     unsubscribeRealtime = null;
     superAdminId = '5';

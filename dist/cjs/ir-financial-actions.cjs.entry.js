@@ -4,7 +4,7 @@ var index = require('./index-DYQrLNin.js');
 var Token = require('./Token-mN7PQKGF.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
 var room_service = require('./room.service-BDxvptKu.js');
-var booking_service = require('./booking.service-Bi0zXviu.js');
+var booking_store = require('./booking.store-BCEuSVh0.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-C59pxKl1.js');
@@ -31,7 +31,7 @@ const IrFinancialActions = class {
     sideBarEvent;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentEntries;
     componentWillLoad() {
         if (this.ticket) {

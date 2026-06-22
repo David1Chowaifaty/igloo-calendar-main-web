@@ -997,6 +997,11 @@ export namespace Components {
          */
         "minlength": NativeWaInput['minlength'];
         /**
+          * Enables selection of multiple options. When `true`, users can select more than one option at a time. Defaults to `false`.
+          * @default false
+         */
+        "multiple": boolean;
+        /**
           * Name attribute forwarded to the underlying input element.
          */
         "name": string;
@@ -2293,10 +2298,7 @@ export namespace Components {
           * @default null
          */
         "agentId": number | null;
-        /**
-          * @default null
-         */
-        "bookingNbr": string | null;
+        "booking": Booking;
         "closeModal": () => Promise<void>;
         /**
           * @default null
@@ -2311,10 +2313,6 @@ export namespace Components {
          */
         "mode": 'booking' | 'default';
         "openModal": () => Promise<void>;
-        /**
-          * @default []
-         */
-        "rooms": Room[];
         /**
           * @default null
          */
@@ -8275,7 +8273,7 @@ declare global {
     };
     interface HTMLIrAutocompleteElementEventMap {
         "text-change": string;
-        "combobox-change": string;
+        "combobox-change": string | string[];
     }
     interface HTMLIrAutocompleteElement extends Components.IrAutocomplete, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrAutocompleteElementEventMap>(type: K, listener: (this: HTMLIrAutocompleteElement, ev: IrAutocompleteCustomEvent<HTMLIrAutocompleteElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -13525,10 +13523,15 @@ declare namespace LocalJSX {
          */
         "minlength"?: NativeWaInput['minlength'];
         /**
+          * Enables selection of multiple options. When `true`, users can select more than one option at a time. Defaults to `false`.
+          * @default false
+         */
+        "multiple"?: boolean;
+        /**
           * Name attribute forwarded to the underlying input element.
          */
         "name"?: string;
-        "onCombobox-change"?: (event: IrAutocompleteCustomEvent<string>) => void;
+        "onCombobox-change"?: (event: IrAutocompleteCustomEvent<string | string[]>) => void;
         "onText-change"?: (event: IrAutocompleteCustomEvent<string>) => void;
         /**
           * Whether the autocomplete dropdown is open.
@@ -14920,10 +14923,7 @@ declare namespace LocalJSX {
           * @default null
          */
         "agentId"?: number | null;
-        /**
-          * @default null
-         */
-        "bookingNbr"?: string | null;
+        "booking"?: Booking;
         /**
           * @default null
          */
@@ -14938,10 +14938,6 @@ declare namespace LocalJSX {
         "mode"?: 'booking' | 'default';
         "onClFiscalDocumentPreview"?: (event: IrClInvoiceDialogCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
         "onInvoiceIssued"?: (event: IrClInvoiceDialogCustomEvent<FiscalDocument>) => void;
-        /**
-          * @default []
-         */
-        "rooms"?: Room[];
         /**
           * @default null
          */
@@ -19750,6 +19746,7 @@ declare namespace LocalJSX {
         "passwordToggle": NativeWaInput['passwordToggle'];
         "passwordVisible": NativeWaInput['passwordVisible'];
         "withoutSpinButtons": NativeWaInput['withoutSpinButtons'];
+        "multiple": boolean;
         "required": NativeWaInput['required'];
         "pattern": NativeWaInput['pattern'];
         "minlength": NativeWaInput['minlength'];
@@ -20138,7 +20135,6 @@ declare namespace LocalJSX {
     interface IrClInvoiceDialogAttributes {
         "agentId": number | null;
         "mode": 'booking' | 'default';
-        "bookingNbr": string | null;
         "startDate": string | null;
         "endDate": string | null;
         "currencyId": number | null;

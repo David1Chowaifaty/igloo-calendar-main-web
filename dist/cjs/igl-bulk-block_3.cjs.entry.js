@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-DYQrLNin.js');
-var booking_service = require('./booking.service-Bi0zXviu.js');
+var booking_store = require('./booking.store-BCEuSVh0.js');
 var calendarData = require('./calendar-data-R3j-WBLW.js');
 var moment = require('./moment-CdViwxPQ.js');
 var index$1 = require('./index-CLqkDPTC.js');
@@ -72,7 +72,7 @@ const IglBulkBlock = class {
     dateRefs = [];
     reloadInterceptor;
     minDate = moment.hooks().format('YYYY-MM-DD');
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     datesSchema = index$1.libExports.z.array(index$1.libExports.z.object({
         from: index$1.libExports.z
             .any()
@@ -292,7 +292,7 @@ const IglBulkStopSale = class {
     // private allRoomTypes: SelectedRooms[] = [];
     reloadInterceptor;
     minDate = moment.hooks().format('YYYY-MM-DD');
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     getDayIndex(dateStr) {
         return moment.hooks(dateStr, 'YYYY-MM-DD').day();
     }
@@ -644,7 +644,7 @@ const IrWeekdaySelector = class {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (index.h(index.Host, { key: '7d294fabc1aa8c276232fea12bae6db9b4de32c5', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (index.h(index.Host, { key: '9043a1fb75ba115e6b1cbdfa01311a27a99f7a08', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get watchers() { return {
         "weekdays": [{

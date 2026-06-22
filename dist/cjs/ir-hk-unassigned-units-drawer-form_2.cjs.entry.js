@@ -4,7 +4,7 @@ var index = require('./index-DYQrLNin.js');
 var housekeeping_service = require('./housekeeping.service-DUTTsbC7.js');
 var calendarData = require('./calendar-data-R3j-WBLW.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
-var booking_service = require('./booking.service-Bi0zXviu.js');
+var booking_store = require('./booking.store-BCEuSVh0.js');
 var user_service = require('./user.service-tzGsXHqb.js');
 var constants = require('./constants-BLID23LD.js');
 var index$1 = require('./index-CLqkDPTC.js');
@@ -162,7 +162,7 @@ const IrHkUserDrawerForm = class {
     closeSideBar;
     loadingChanged;
     housekeepingService = new housekeeping_service.HouseKeepingService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     // Stable schema references — closures read current `this` state at validation time.
     usernameSchema;
     passwordSchema;

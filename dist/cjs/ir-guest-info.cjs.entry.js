@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-DYQrLNin.js');
-var booking_service = require('./booking.service-Bi0zXviu.js');
+var booking_store = require('./booking.store-BCEuSVh0.js');
 var room_service = require('./room.service-BDxvptKu.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
 var Token = require('./Token-mN7PQKGF.js');
@@ -39,7 +39,7 @@ const GuestInfo = class {
     autoValidate = false;
     closeSideBar;
     resetBookingEvt;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     token = new Token.Token();
     async componentWillLoad() {
