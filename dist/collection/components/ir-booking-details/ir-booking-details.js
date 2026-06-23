@@ -338,6 +338,9 @@ export class IrBookingDetails {
             this.rawTransactions = this.rawTransactions.map(tx => (tx.CL_TX_ID === cl_tx_id ? { ...tx, IS_HOLD: is_hold } : tx));
             this.folioRows = this.folioRows.map(r => r._raw.CL_TX_ID === cl_tx_id ? { ...mapClTxToFolioRow({ ...r._raw, IS_HOLD: is_hold }), _rowId: r._rowId, balance: r.balance } : r);
         }
+        else if (msg.reason === 'CL_TX_CREATED') {
+            this.fetchCityLedger();
+        }
     }
     applyClLockingUpdates() {
         const pending = this.clLockingPending;

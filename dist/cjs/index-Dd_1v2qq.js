@@ -138,7 +138,7 @@ const IssueManualCLTxParamsSchema = index.libExports.object({
     DEBIT: index.libExports.number(),
     CREDIT: index.libExports.number(),
     CURRENCY_ID: index.libExports.number(),
-    PAY_METHOD_CODE: index.libExports.string(),
+    PAY_METHOD_CODE: index.libExports.string().optional().default(''),
     EXTERNAL_REF: index.libExports.string(),
     // VAT handling for the transaction
     // 001 = VAT included in amount
@@ -149,6 +149,14 @@ const IssueManualCLTxParamsSchema = index.libExports.object({
     //Booking number system id.
     BH_ID: index.libExports.number().optional().nullable().default(null),
     IS_DELETE: index.libExports.boolean().optional().default(false),
+}).superRefine((data, ctx) => {
+    if (data.CL_TX_TYPE_CODE === enums.ClTxTypeCode.Payment && !data.PAY_METHOD_CODE) {
+        ctx.addIssue({
+            code: index.libExports.ZodIssueCode.custom,
+            path: ['PAY_METHOD_CODE'],
+            message: 'PAY_METHOD_CODE is required for payment transactions',
+        });
+    }
 });
 const AllocateCLCreditParamsSchema = index.libExports.object({
     CL_TX_ID: index.libExports.number(),

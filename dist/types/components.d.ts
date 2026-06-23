@@ -1897,6 +1897,7 @@ export namespace Components {
           * @default null
          */
         "agentId": number | null;
+        "booking": Booking;
         /**
           * @default []
          */
@@ -6657,10 +6658,6 @@ export interface IrBookingBillingRecipientCustomEvent<T> extends CustomEvent<T> 
     detail: T;
     target: HTMLIrBookingBillingRecipientElement;
 }
-export interface IrBookingCityLedgerCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrBookingCityLedgerElement;
-}
 export interface IrBookingCompanyDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrBookingCompanyDialogElement;
@@ -8409,18 +8406,7 @@ declare global {
         prototype: HTMLIrBookingBillingRecipientElement;
         new (): HTMLIrBookingBillingRecipientElement;
     };
-    interface HTMLIrBookingCityLedgerElementEventMap {
-        "clRefreshNeeded": void;
-    }
     interface HTMLIrBookingCityLedgerElement extends Components.IrBookingCityLedger, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrBookingCityLedgerElementEventMap>(type: K, listener: (this: HTMLIrBookingCityLedgerElement, ev: IrBookingCityLedgerCustomEvent<HTMLIrBookingCityLedgerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrBookingCityLedgerElementEventMap>(type: K, listener: (this: HTMLIrBookingCityLedgerElement, ev: IrBookingCityLedgerCustomEvent<HTMLIrBookingCityLedgerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrBookingCityLedgerElement: {
         prototype: HTMLIrBookingCityLedgerElement;
@@ -13785,10 +13771,6 @@ declare namespace LocalJSX {
          */
         "language"?: string;
         /**
-          * Emitted when a mutation (delete / save) completes so the parent can re-fetch.
-         */
-        "onClRefreshNeeded"?: (event: IrBookingCityLedgerCustomEvent<void>) => void;
-        /**
           * Service-category entries used to populate the transaction form.
           * @default []
          */
@@ -14494,6 +14476,7 @@ declare namespace LocalJSX {
           * @default null
          */
         "agentId"?: number | null;
+        "booking"?: Booking;
         /**
           * @default []
          */

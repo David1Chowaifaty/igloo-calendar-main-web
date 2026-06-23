@@ -1,5 +1,5 @@
 import { a as axios } from './axios-B50ozOIF.js';
-import { a as FdStatus } from './enums-DC2FbBuL.js';
+import { C as ClTxTypeCode, a as FdStatus } from './enums-DC2FbBuL.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { l as libExports } from './index-DeW5X45W.js';
 import { l as downloadFile } from './utils-DvzWTdKJ.js';
@@ -136,7 +136,7 @@ const IssueManualCLTxParamsSchema = libExports.object({
     DEBIT: libExports.number(),
     CREDIT: libExports.number(),
     CURRENCY_ID: libExports.number(),
-    PAY_METHOD_CODE: libExports.string(),
+    PAY_METHOD_CODE: libExports.string().optional().default(''),
     EXTERNAL_REF: libExports.string(),
     // VAT handling for the transaction
     // 001 = VAT included in amount
@@ -147,6 +147,14 @@ const IssueManualCLTxParamsSchema = libExports.object({
     //Booking number system id.
     BH_ID: libExports.number().optional().nullable().default(null),
     IS_DELETE: libExports.boolean().optional().default(false),
+}).superRefine((data, ctx) => {
+    if (data.CL_TX_TYPE_CODE === ClTxTypeCode.Payment && !data.PAY_METHOD_CODE) {
+        ctx.addIssue({
+            code: libExports.ZodIssueCode.custom,
+            path: ['PAY_METHOD_CODE'],
+            message: 'PAY_METHOD_CODE is required for payment transactions',
+        });
+    }
 });
 const AllocateCLCreditParamsSchema = libExports.object({
     CL_TX_ID: libExports.number(),

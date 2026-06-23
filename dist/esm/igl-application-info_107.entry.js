@@ -6,12 +6,12 @@ import { i as formatAmount, e as extras, g as getReleaseHoursString, H as toFloa
 import { G as GuestCredentials } from './types-C7GI5X38.js';
 import { l as libExports } from './index-DeW5X45W.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
-import { C as CityLedgerService } from './index-WjZyiUGJ.js';
+import { C as CityLedgerService } from './index-UiAzOH9k.js';
 import { T as Token } from './Token-CkxFIO_J.js';
 import { A as AirDatepicker, l as localeEn } from './en-XchZmzEI.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { i as isAgentMode, _ as _formatTime, a as _formatDate, b as _getDay } from './functions-81yL-Vms.js';
-import { a as actionableClTypes, m as mapClTxToFolioRow } from './city-ledger.service-1gl9_QSW.js';
+import { a as actionableClTypes, m as mapClTxToFolioRow } from './city-ledger.service-BQGsIQ2T.js';
 import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-B5mzcEc4.js';
 import { a as axios } from './axios-B50ozOIF.js';
 import { R as RoomService } from './room.service-RYuSnrxp.js';
@@ -491,7 +491,7 @@ const IrAgentBilling = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.invoiceDialogRef.openModal();
-            }, appearance: 'accent', class: "booking-header__stretched-btn", size: "s", variant: "brand" }, "Issue Invoice")), h("ir-city-ledger-fiscal-documents-table", { class: 'agent-billing__table', rows: this.fiscalDocuments, isLoading: this.isLoading, hasFetched: this.hasFetched, agentId: this.booking?.agent?.id ?? null, currencySymbol: calendar_data.property?.currency?.symbol ?? '$', fromDate: this.booking?.from_date ?? null, toDate: this.booking?.to_date ?? null, hasDates: true, ticket: this.tokenService.getToken(), propertyId: calendar_data.property?.id, onFetchRequested: () => this.fetchFiscalDocuments() })), h("ir-cl-invoice-dialog", { mode: "booking", agentId: this.booking.agent?.id, booking: this.booking, startDate: this.booking.from_date, endDate: this.booking.to_date, currencyId: calendar_data.property.currency.id, ref: el => (this.invoiceDialogRef = el) })));
+            }, appearance: 'accent', class: "booking-header__stretched-btn", size: "s", variant: "brand" }, "Issue Invoice")), h("ir-city-ledger-fiscal-documents-table", { class: 'agent-billing__table', rows: this.fiscalDocuments, booking: this.booking, isLoading: this.isLoading, hasFetched: this.hasFetched, agentId: this.booking?.agent?.id ?? null, currencySymbol: calendar_data.property?.currency?.symbol ?? '$', fromDate: this.booking?.from_date ?? null, toDate: this.booking?.to_date ?? null, hasDates: true, ticket: this.tokenService.getToken(), propertyId: calendar_data.property?.id, onFetchRequested: () => this.fetchFiscalDocuments() })), h("ir-cl-invoice-dialog", { mode: "booking", agentId: this.booking.agent?.id, booking: this.booking, startDate: this.booking.from_date, endDate: this.booking.to_date, currencyId: calendar_data.property.currency.id, ref: el => (this.invoiceDialogRef = el) })));
     }
     static get watchers() { return {
         "booking": [{
@@ -1704,7 +1704,6 @@ const irBookingCityLedgerCss = () => `.sc-ir-booking-city-ledger-h{display:block
 const IrBookingCityLedger = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.clRefreshNeeded = createEvent(this, "clRefreshNeeded");
     }
     cityLedgerService = new CityLedgerService();
     tokenService = new Token();
@@ -1721,7 +1720,7 @@ const IrBookingCityLedger = class {
     /** Error message driven by the parent fetch. */
     error = null;
     /** Emitted when a mutation (delete / save) completes so the parent can re-fetch. */
-    clRefreshNeeded;
+    // @Event({ bubbles: true }) clRefreshNeeded: EventEmitter<void>;
     drawerOpen = false;
     deleteTarget = null;
     isDeleting = false;
@@ -1746,7 +1745,7 @@ const IrBookingCityLedger = class {
                 IS_DELETE: true,
             });
             this.deleteTarget = null;
-            this.clRefreshNeeded.emit();
+            // this.clRefreshNeeded.emit();
         }
         catch (err) {
             console.error('[ir-booking-city-ledger] delete failed:', err);
@@ -1805,7 +1804,7 @@ const IrBookingCityLedger = class {
             }, onTransactionSaved: () => {
                 this.drawerOpen = false;
                 this.editingRow = null;
-                this.clRefreshNeeded.emit();
+                // this.clRefreshNeeded.emit();
             } }), h("ir-cl-fiscal-document-preview", { ticket: this.tokenService.getToken(), propertyId: calendar_data?.property?.id }), h("ir-dialog", { label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
@@ -2245,6 +2244,9 @@ const IrBookingDetails = class {
                 return;
             this.rawTransactions = this.rawTransactions.map(tx => (tx.CL_TX_ID === cl_tx_id ? { ...tx, IS_HOLD: is_hold } : tx));
             this.folioRows = this.folioRows.map(r => r._raw.CL_TX_ID === cl_tx_id ? { ...mapClTxToFolioRow({ ...r._raw, IS_HOLD: is_hold }), _rowId: r._rowId, balance: r.balance } : r);
+        }
+        else if (msg.reason === 'CL_TX_CREATED') {
+            this.fetchCityLedger();
         }
     }
     applyClLockingUpdates() {
@@ -5149,6 +5151,7 @@ const IrCityLedgerFiscalDocumentsTable = class {
         this.fetchRequested = createEvent(this, "fetchRequested");
     }
     rows = [];
+    booking;
     currencySymbol = '$';
     currencies = [];
     taxableOnly = false;
@@ -5236,11 +5239,11 @@ const IrCityLedgerFiscalDocumentsTable = class {
                                 CL_TX_TYPE_CODE: FdTypes.AdjustmentCredit,
                                 DESCRIPTION: 'Adjustment Credit',
                                 DEBIT: 0,
+                                BH_ID: this.booking?.system_id || null,
                                 CREDIT: amount,
                                 CURRENCY_ID: calendar_data?.property?.currency?.id,
                                 PAY_METHOD_CODE: '',
                                 EXTERNAL_REF: row.FD_ID.toString(),
-                                BH_ID: null,
                                 VAT_INCLUDED_CODE: '',
                                 VAT_PCT: null,
                             });

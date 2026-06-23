@@ -1,11 +1,13 @@
-import { T as Token } from './Token-CkxFIO_J.js';
-import { C as CityLedgerService } from './index-WjZyiUGJ.js';
-import { P as PropertyService } from './property.service-CAIwQBf3.js';
+'use strict';
+
+var Token = require('./Token-mN7PQKGF.js');
+var index = require('./index-Dd_1v2qq.js');
+var property_service = require('./property.service-CpTJKuQs.js');
 
 class ClFiscalDocumentService {
-    tokenService = new Token();
-    propertyService = new PropertyService();
-    cityLedgerService = new CityLedgerService();
+    tokenService = new Token.Token();
+    propertyService = new property_service.PropertyService();
+    cityLedgerService = new index.CityLedgerService();
     init(baseurl, ticket) {
         if (baseurl)
             this.tokenService.setBaseUrl(baseurl);
@@ -28,4 +30,4 @@ class ClFiscalDocumentService {
     }
 }
 
-export { ClFiscalDocumentService as C };
+exports.ClFiscalDocumentService = ClFiscalDocumentService;

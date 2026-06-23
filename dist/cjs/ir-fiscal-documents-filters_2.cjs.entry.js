@@ -10,7 +10,7 @@ var booking_store = require('./booking.store-BCEuSVh0.js');
 var irInterceptor_store = require('./ir-interceptor.store-DCFOyFp0.js');
 var utils = require('./utils-DgT4kKsD.js');
 var useTable = require('./useTable-BN32DOaV.js');
-var index$2 = require('./index-DzIU5LfL.js');
+var index$2 = require('./index-Dd_1v2qq.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./type-Dy9pVS4V.js');

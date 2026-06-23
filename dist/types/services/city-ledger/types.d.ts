@@ -926,7 +926,7 @@ export declare const ToggleCLTxHoldParamsSchema: z.ZodObject<{
 }>;
 /** Payload for toggling a transaction hold status. */
 export type ToggleCLTxHoldParams = z.infer<typeof ToggleCLTxHoldParamsSchema>;
-export declare const IssueManualCLTxParamsSchema: z.ZodObject<{
+export declare const IssueManualCLTxParamsSchema: z.ZodEffects<z.ZodObject<{
     CL_TX_ID: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
     AGENCY_ID: z.ZodNumber;
     SERVICE_DATE: z.ZodString;
@@ -935,13 +935,43 @@ export declare const IssueManualCLTxParamsSchema: z.ZodObject<{
     DEBIT: z.ZodNumber;
     CREDIT: z.ZodNumber;
     CURRENCY_ID: z.ZodNumber;
-    PAY_METHOD_CODE: z.ZodString;
+    PAY_METHOD_CODE: z.ZodDefault<z.ZodOptional<z.ZodString>>;
     EXTERNAL_REF: z.ZodString;
     VAT_INCLUDED_CODE: z.ZodDefault<z.ZodEnum<["001", "002", ""]>>;
     VAT_PCT: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodNumber>>>;
     BH_ID: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodNumber>>>;
     IS_DELETE: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
 }, "strip", z.ZodTypeAny, {
+    VAT_INCLUDED_CODE?: "" | "001" | "002";
+    AGENCY_ID?: number;
+    CURRENCY_ID?: number;
+    CREDIT?: number;
+    DEBIT?: number;
+    EXTERNAL_REF?: string;
+    BH_ID?: number;
+    SERVICE_DATE?: string;
+    CL_TX_ID?: number;
+    CL_TX_TYPE_CODE?: string;
+    DESCRIPTION?: string;
+    PAY_METHOD_CODE?: string;
+    VAT_PCT?: number;
+    IS_DELETE?: boolean;
+}, {
+    VAT_INCLUDED_CODE?: "" | "001" | "002";
+    AGENCY_ID?: number;
+    CURRENCY_ID?: number;
+    CREDIT?: number;
+    DEBIT?: number;
+    EXTERNAL_REF?: string;
+    BH_ID?: number;
+    SERVICE_DATE?: string;
+    CL_TX_ID?: number;
+    CL_TX_TYPE_CODE?: string;
+    DESCRIPTION?: string;
+    PAY_METHOD_CODE?: string;
+    VAT_PCT?: number;
+    IS_DELETE?: boolean;
+}>, {
     VAT_INCLUDED_CODE?: "" | "001" | "002";
     AGENCY_ID?: number;
     CURRENCY_ID?: number;

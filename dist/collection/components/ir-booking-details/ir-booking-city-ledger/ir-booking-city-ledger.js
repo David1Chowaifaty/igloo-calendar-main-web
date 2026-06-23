@@ -22,7 +22,7 @@ export class IrBookingCityLedger {
     /** Error message driven by the parent fetch. */
     error = null;
     /** Emitted when a mutation (delete / save) completes so the parent can re-fetch. */
-    clRefreshNeeded;
+    // @Event({ bubbles: true }) clRefreshNeeded: EventEmitter<void>;
     drawerOpen = false;
     deleteTarget = null;
     isDeleting = false;
@@ -47,7 +47,7 @@ export class IrBookingCityLedger {
                 IS_DELETE: true,
             });
             this.deleteTarget = null;
-            this.clRefreshNeeded.emit();
+            // this.clRefreshNeeded.emit();
         }
         catch (err) {
             console.error('[ir-booking-city-ledger] delete failed:', err);
@@ -106,7 +106,7 @@ export class IrBookingCityLedger {
             }, onTransactionSaved: () => {
                 this.drawerOpen = false;
                 this.editingRow = null;
-                this.clRefreshNeeded.emit();
+                // this.clRefreshNeeded.emit();
             } }), h("ir-cl-fiscal-document-preview", { ticket: this.tokenService.getToken(), propertyId: calendar_data?.property?.id }), h("ir-dialog", { label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
@@ -271,23 +271,5 @@ export class IrBookingCityLedger {
             "isDeleting": {},
             "editingRow": {}
         };
-    }
-    static get events() {
-        return [{
-                "method": "clRefreshNeeded",
-                "name": "clRefreshNeeded",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": "Emitted when a mutation (delete / save) completes so the parent can re-fetch."
-                },
-                "complexType": {
-                    "original": "void",
-                    "resolved": "void",
-                    "references": {}
-                }
-            }];
     }
 }

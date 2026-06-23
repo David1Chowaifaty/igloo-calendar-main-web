@@ -2,8 +2,10 @@ import { EventEmitter } from '../../../../stencil-public-runtime';
 import type { ClFiscalDocumentPreviewRequest } from '../ir-cl-fiscal-document-preview/types';
 import { type FiscalDocument } from '../../../../services/city-ledger';
 import type { ICurrency } from "../../../../models/property";
+import { Booking } from "../../../../models/booking.dto";
 export declare class IrCityLedgerFiscalDocumentsTable {
     rows: FiscalDocument[];
+    booking: Booking;
     currencySymbol: string;
     currencies: ICurrency[];
     taxableOnly: boolean;

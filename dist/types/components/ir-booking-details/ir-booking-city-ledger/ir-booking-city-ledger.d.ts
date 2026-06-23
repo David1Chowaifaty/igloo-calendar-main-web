@@ -1,4 +1,3 @@
-import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking } from "../../../models/booking.dto";
 import { IEntries } from "../../../models/IBooking";
 import { FolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
@@ -18,7 +17,6 @@ export declare class IrBookingCityLedger {
     /** Error message driven by the parent fetch. */
     error: string | null;
     /** Emitted when a mutation (delete / save) completes so the parent can re-fetch. */
-    clRefreshNeeded: EventEmitter<void>;
     private drawerOpen;
     private deleteTarget;
     private isDeleting;

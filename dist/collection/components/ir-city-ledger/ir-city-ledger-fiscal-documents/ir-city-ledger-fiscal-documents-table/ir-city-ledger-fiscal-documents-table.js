@@ -8,6 +8,7 @@ import moment from "moment";
 import calendar_data from "../../../../stores/calendar-data";
 export class IrCityLedgerFiscalDocumentsTable {
     rows = [];
+    booking;
     currencySymbol = '$';
     currencies = [];
     taxableOnly = false;
@@ -95,11 +96,11 @@ export class IrCityLedgerFiscalDocumentsTable {
                                 CL_TX_TYPE_CODE: FdTypes.AdjustmentCredit,
                                 DESCRIPTION: 'Adjustment Credit',
                                 DEBIT: 0,
+                                BH_ID: this.booking?.system_id || null,
                                 CREDIT: amount,
                                 CURRENCY_ID: calendar_data?.property?.currency?.id,
                                 PAY_METHOD_CODE: '',
                                 EXTERNAL_REF: row.FD_ID.toString(),
-                                BH_ID: null,
                                 VAT_INCLUDED_CODE: '',
                                 VAT_PCT: null,
                             });
@@ -315,6 +316,30 @@ export class IrCityLedgerFiscalDocumentsTable {
                 "getter": false,
                 "setter": false,
                 "defaultValue": "[]"
+            },
+            "booking": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Booking",
+                    "resolved": "Booking",
+                    "references": {
+                        "Booking": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
             },
             "currencySymbol": {
                 "type": "string",
