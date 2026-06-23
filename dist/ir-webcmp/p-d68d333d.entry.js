@@ -1,0 +1,1 @@
+import{r as s,h as t}from"./p-D7D7fhZS.js";const a=class{constructor(t){s(this,t)}text;connectedCallback(){}disconnectedCallback(){}render(){return t("span",{key:"681b60f24fab99a183ef02f01ff2b1d394710dfd"},this.text)}};export{a as ir_span}

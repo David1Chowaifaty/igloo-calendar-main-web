@@ -3,7 +3,7 @@ export class IrEmptyState {
     message = 'No records found';
     showIcon = true;
     render() {
-        return (h(Host, { key: '4bf635cf1faf0f7771ee3878e5e903977835a2e2' }, h("slot", { key: 'be770582063920dcc5022ea77fb64cde2bfdb09f', name: "icon" }, this.showIcon && (h("div", { key: 'eedb19436d43ceb62edbe62d259de46767d157a5', class: 'icon_container' }, h("wa-icon", { key: 'e863be42ed60840c831eb361c407674365c6f496', name: "ban", style: { transform: 'rotate(90deg)' } })))), h("p", { key: 'a93aabc8782a298d07d49a7e7ee2a8b3cdf3fbdf', part: "message", class: `message ${this.showIcon ? '' : '--secondary'}` }, this.message), h("slot", { key: '5eb8a65bc79ddc66857395e15ceb9bf2407dd697' })));
+        return (h(Host, { key: '86a6ec85b0ee9ceaa6e392a87b0f93f5e82624c6' }, h("slot", { key: 'cf29bcd3e74b4b312db5f5db970b935ab0c424c2', name: "icon" }, this.showIcon && (h("div", { key: '1e745e723776bf8a9753d8746b812affe7b8e599', class: 'icon_container' }, h("wa-icon", { key: '884786254de27d59a81ebb12af6be00cf5210308', name: "ban", style: { transform: 'rotate(90deg)' } })))), h("p", { key: 'fafdbc20f72f4b40aa4ad0d19693a0a56ea82543', part: "message", class: `message ${this.showIcon ? '' : '--secondary'}` }, this.message), h("slot", { key: '95ab7be45e6acf43eaf30dee82883255dbb7685b' })));
     }
     static get is() { return "ir-empty-state"; }
     static get encapsulation() { return "shadow"; }

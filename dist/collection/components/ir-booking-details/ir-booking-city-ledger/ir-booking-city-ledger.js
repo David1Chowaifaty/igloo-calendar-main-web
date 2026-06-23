@@ -77,7 +77,7 @@ export class IrBookingCityLedger {
         }
         return (h("div", { class: "folio-list" }, this.rows.map(row => {
             const showDropdown = row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.has(row._raw.CL_TX_TYPE_CODE);
-            return (h("div", { key: row._rowId, class: "folio-row" }, h("div", { class: "folio-row__header" }, h("div", { class: "folio-row__meta" }, h("span", { class: "folio-row__date" }, moment(row.serviceDate).format('MMM DD, YYYY'))), h("div", { class: "folio-row__right" }, h("span", { class: "folio-row__amount" }, row.debit !== null && h("span", { class: "is-debit" }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: "is-credit" }, row.credit ? this.formatAmount(row.credit) : '')), showDropdown && (h("wa-dropdown", { "onwa-hide": e => {
+            return (h("div", { key: row._rowId, class: { 'folio-row': true, '--without-dropdown': !showDropdown } }, h("div", { class: "folio-row__header" }, h("div", { class: "folio-row__meta" }, h("span", { class: "folio-row__date" }, moment(row.serviceDate).format('MMM DD, YYYY'))), h("div", { class: "folio-row__right" }, h("span", { class: "folio-row__amount" }, row.debit !== null && h("span", { class: "is-debit" }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: "is-credit" }, row.credit ? this.formatAmount(row.credit) : '')), showDropdown && (h("wa-dropdown", { "onwa-hide": e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                 }, "onwa-select": e => {

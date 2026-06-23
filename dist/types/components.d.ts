@@ -9292,6 +9292,7 @@ declare global {
     };
     interface HTMLIrClInvoiceDialogElementEventMap {
         "invoiceIssued": FiscalDocument;
+        "fiscalDocumentIssued": void;
         "clFiscalDocumentPreview": ClFiscalDocumentPreviewRequest;
     }
     interface HTMLIrClInvoiceDialogElement extends Components.IrClInvoiceDialog, HTMLStencilElement {
@@ -14937,6 +14938,7 @@ declare namespace LocalJSX {
          */
         "mode"?: 'booking' | 'default';
         "onClFiscalDocumentPreview"?: (event: IrClInvoiceDialogCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
+        "onFiscalDocumentIssued"?: (event: IrClInvoiceDialogCustomEvent<void>) => void;
         "onInvoiceIssued"?: (event: IrClInvoiceDialogCustomEvent<FiscalDocument>) => void;
         /**
           * @default null

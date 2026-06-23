@@ -42,16 +42,20 @@ export class IrAgentBilling {
             this.hasFetched = true;
         }
     }
+    handleFiscalDocumentIssued(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.fetchFiscalDocuments();
+    }
     render() {
-        return (h(Host, { key: 'f68cd08ece99bd78cd4dac65dd84d2d3cb2f9eca' }, h("div", { key: '60cb0bd65de3cce92bb49fe3dc5143664ec21e26', class: "billing__container" }, h("div", { key: '00727d9fe976c1821c61b9ffdd551428b16344dc', class: "billing__section-title-row" }, h("h4", { key: 'bbed3543b2e799ed54ff259be072cd6aad46c3a7', class: "billing__section-title" }, "Issued documents"), h("ir-custom-button", { key: 'f7e2ee89f37d801dc88cfdda415dbaaf8e4117a9', onClickHandler: e => {
+        if (this.isLoading) {
+            return (h("div", { class: 'agent-bill__loader-container' }, h("ir-spinner", null)));
+        }
+        return (h(Host, null, h("div", { class: "billing__container" }, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, "Issued documents"), h("ir-custom-button", { onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.invoiceDialogRef.openModal();
-            }, appearance: 'accent', class: "booking-header__stretched-btn", size: "s", variant: "brand" }, "Issue Invoice")), h("ir-city-ledger-fiscal-documents-table", { key: '07f6c47861b121ef22b38c3616f9d3f0e871a526', class: 'agent-billing__table', rows: this.fiscalDocuments, isLoading: this.isLoading, hasFetched: this.hasFetched, agentId: this.booking?.agent?.id ?? null, currencySymbol: calendar_data.property?.currency?.symbol ?? '$', fromDate: this.booking?.from_date ?? null, toDate: this.booking?.to_date ?? null, hasDates: true, ticket: this.tokenService.getToken(), propertyId: calendar_data.property?.id, onFetchRequested: () => this.fetchFiscalDocuments() })), h("ir-cl-invoice-dialog", { key: 'adab5f9299ea3f26776e1af1cd7bb161d5597ddf', mode: "booking", agentId: this.booking.agent?.id, booking: this.booking, startDate: this.booking.from_date, endDate: this.booking.to_date, currencyId: calendar_data.property.currency.id, ref: el => (this.invoiceDialogRef = el), onInvoiceIssued: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.fetchFiscalDocuments();
-            } })));
+            }, appearance: 'accent', class: "booking-header__stretched-btn", size: "s", variant: "brand" }, "Issue Invoice")), h("ir-city-ledger-fiscal-documents-table", { class: 'agent-billing__table', rows: this.fiscalDocuments, isLoading: this.isLoading, hasFetched: this.hasFetched, agentId: this.booking?.agent?.id ?? null, currencySymbol: calendar_data.property?.currency?.symbol ?? '$', fromDate: this.booking?.from_date ?? null, toDate: this.booking?.to_date ?? null, hasDates: true, ticket: this.tokenService.getToken(), propertyId: calendar_data.property?.id, onFetchRequested: () => this.fetchFiscalDocuments() })), h("ir-cl-invoice-dialog", { mode: "booking", agentId: this.booking.agent?.id, booking: this.booking, startDate: this.booking.from_date, endDate: this.booking.to_date, currencyId: calendar_data.property.currency.id, ref: el => (this.invoiceDialogRef = el) })));
     }
     static get is() { return "ir-agent-billing"; }
     static get encapsulation() { return "scoped"; }
@@ -104,6 +108,15 @@ export class IrAgentBilling {
         return [{
                 "propName": "booking",
                 "methodName": "handleBookingChange"
+            }];
+    }
+    static get listeners() {
+        return [{
+                "name": "fiscalDocumentIssued",
+                "method": "handleFiscalDocumentIssued",
+                "target": "body",
+                "capture": false,
+                "passive": false
             }];
     }
 }

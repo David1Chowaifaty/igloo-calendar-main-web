@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, H as Host, d as getElement } from './index-D7D7fhZS.js';
-import { C as CityLedgerService } from './index-C0GyAxCY.js';
+import { C as CityLedgerService } from './index-WjZyiUGJ.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './enums-qHq9uYOV.js';
+import './enums-DC2FbBuL.js';
 import './moment-Mki5YqAR.js';
 import './index-DeW5X45W.js';
 import './utils-DvzWTdKJ.js';
@@ -52,7 +52,7 @@ const IrHoldTransactionDialog = class {
     }
     render() {
         const isHeld = this.row?.status?.label === 'Held';
-        return (h(Host, { key: '419d338c84c88c72cf11bd23f1a81c3f1a13941e' }, h("ir-dialog", { key: 'f65fe924c0f829b64df644db05e73e671abd5aa7', label: isHeld ? 'Revert Transaction' : 'Hold Transaction', ref: el => (this.dialogRef = el) }, h("div", { key: '0da8a56e76f8995bb3b6ad9f69544ec6958ee2f9', class: "hold-dialog__body" }, isHeld ? (h("p", null, "Revert this transaction back to ", h("strong", null, "Unbilled"), " status? It will re-enter the billing queue.")) : (h("p", null, "Place this transaction on ", h("strong", null, "Hold"), "? It will be excluded from invoicing until released."))), h("div", { key: '14a497cfce4af935b4a7d3b94786ae634630fc11', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '50b4782d59a25e4bac11ad05e762e25d69dc4950', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '6ea0467f2b71af02591058b7d6e32531d11d55e7', size: "m", loading: this.isLoading, onClickHandler: () => this.handleConfirm(), appearance: "accent", variant: "brand" }, "Confirm")))));
+        return (h(Host, { key: '1e9afbb8c23b9f9b4497af1d2d9b120182e9ec17' }, h("ir-dialog", { key: 'f1fc734468331b8fc965cc56122c2a5e7be7bec4', label: isHeld ? 'Revert Transaction' : 'Hold Transaction', ref: el => (this.dialogRef = el) }, h("div", { key: 'c175d0a8d372f1e1632de0d17f4566e086c0b6a4', class: "hold-dialog__body" }, isHeld ? (h("p", null, "Revert this transaction back to ", h("strong", null, "Unbilled"), " status? It will re-enter the billing queue.")) : (h("p", null, "Place this transaction on ", h("strong", null, "Hold"), "? It will be excluded from invoicing until released."))), h("div", { key: '0ecb3834d0374b52a330f4a402a5a793b9b211cd', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '50ee75042ee07a5eeac86e70c9a107ebf156e66c', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '79bc5b09791d019ae1a89c8bc2bb84ea6f8a6799', size: "m", loading: this.isLoading, onClickHandler: () => this.handleConfirm(), appearance: "accent", variant: "brand" }, "Confirm")))));
     }
 };
 IrHoldTransactionDialog.style = irHoldTransactionDialogCss();
@@ -123,7 +123,7 @@ const IrInputCell = class {
         this.slotState = newState;
     }
     render() {
-        return (h("div", { key: 'f8c1d6a5f6142b98a295527ad1712556619e9f24', onDblClick: () => {
+        return (h("div", { key: '6e754d960b9d435c4df39b606315f4f84c108101', onDblClick: () => {
                 if (this.disabled) {
                     return;
                 }

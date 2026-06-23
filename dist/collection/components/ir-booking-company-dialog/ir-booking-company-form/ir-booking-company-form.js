@@ -48,10 +48,10 @@ export class IrBookingCompanyForm {
         }
     }
     render() {
-        return (h("form", { key: '9e095167bbdc29d503c8e165f35b2779232bd063', id: this.formId, onSubmit: e => {
+        return (h("form", { key: 'd6cd5d311f1cea0ad2fa5df4fd10aec2f8072432', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveCompany();
-            }, class: "booking-company__form" }, h("ir-input", { key: '53c260cae19509e2ab8b7d53d44d853f575b402b', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-input", { key: '04ff79fdafe04c250730805ac56c87c0cf9c9f6c', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
+            }, class: "booking-company__form" }, h("ir-input", { key: 'fb7da18a0ffd80d550677f66f6690d189d5a0382', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-input", { key: '2c281a9496c6efb532c1a98d73cce10a804391fc', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
     }
     static get is() { return "ir-booking-company-form"; }
     static get encapsulation() { return "scoped"; }

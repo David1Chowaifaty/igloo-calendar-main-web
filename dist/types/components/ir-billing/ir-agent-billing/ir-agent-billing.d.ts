@@ -10,5 +10,6 @@ export declare class IrAgentBilling {
     componentWillLoad(): Promise<void>;
     handleBookingChange(newVal: Booking, oldVal: Booking): Promise<void>;
     private fetchFiscalDocuments;
+    handleFiscalDocumentIssued(e: CustomEvent): void;
     render(): any;
 }

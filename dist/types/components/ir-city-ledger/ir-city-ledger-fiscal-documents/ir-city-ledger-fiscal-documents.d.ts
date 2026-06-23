@@ -18,5 +18,6 @@ export declare class IrCityLedgerFiscalDocuments {
     handleAgentIdChange(): void;
     private get filteredDocuments();
     private fetchFiscalDocuments;
+    handleFiscalDocumentIssued(e: CustomEvent): void;
     render(): any;
 }

@@ -14,14 +14,37 @@ export class IrClInvoiceDialog {
     error = null;
     noResults = false;
     isProforma = false;
+    /**
+     * Determines whether a final (non-proforma) invoice can be issued, based on
+     * whether every room in the booking has effectively been checked out.
+     *
+     * Resolution order:
+     * 1. When not in `booking` mode, or the booking has no rooms, there is nothing
+     *    blocking a final invoice — returns `true`.
+     * 2. When today is on or before the booking's to-date and at least one room is
+     *    still checked in, the stay is ongoing — returns `false`.
+     * 3. When today is exactly the booking's to-date and no room has been set
+     *    (all rooms are `NotSet`), the invoice is allowed — returns `true`.
+     * 4. Otherwise falls back to the default rule: `true` once today is past the
+     *    booking's to-date, else `true` only when every room is checked out.
+     *
+     * @returns `true` when all rooms are considered checked out and a final invoice may be issued.
+     */
     get allRoomsCheckedOut() {
         if (this.mode !== 'booking' || !this.booking.rooms.length)
             return true;
-        if (moment().isAfter(moment(this.booking.to_date, 'YYYY-MM-DD'), 'date'))
+        const today = moment();
+        const bookingToDate = moment(this.booking.to_date, 'YYYY-MM-DD');
+        if (today.isSameOrBefore(bookingToDate, 'date') && this.booking.rooms.some(r => r.in_out?.code === InOut.CheckedIn))
+            return false;
+        if (today.isSame(bookingToDate, 'date') && this.booking.rooms.every(r => r.in_out?.code === InOut.NotSet))
+            return true;
+        if (today.isAfter(bookingToDate, 'date'))
             return true;
         return this.booking.rooms.every(r => r.in_out?.code === InOut.CheckedOut);
     }
     invoiceIssued;
+    fiscalDocumentIssued;
     clFiscalDocumentPreview;
     dialogRef;
     formRef;
@@ -64,6 +87,7 @@ export class IrClInvoiceDialog {
                     externalRef: doc.EXTERNAL_REF,
                 });
                 this.invoiceIssued.emit(result);
+                this.fiscalDocumentIssued.emit();
                 this.dialogRef.closeModal();
             }
             else {
@@ -115,6 +139,7 @@ export class IrClInvoiceDialog {
                     externalRef: doc.EXTERNAL_REF,
                 });
                 this.invoiceIssued.emit(doc);
+                this.fiscalDocumentIssued.emit();
                 this.dialogRef.closeModal();
             }
         }
@@ -151,6 +176,7 @@ export class IrClInvoiceDialog {
                 to_date: toDate,
                 booking_nbr: bookingNbr,
             });
+            this.fiscalDocumentIssued.emit();
             if (url) {
                 this.clFiscalDocumentPreview.emit({
                     fdTypeCode: FdTypes.Proforma,
@@ -172,9 +198,9 @@ export class IrClInvoiceDialog {
     }
     render() {
         const units = this.booking ? this.booking?.rooms.filter(r => r.agent && r.in_out?.code !== InOut.CheckedOut).map(r => r.unit.name) : null;
-        return (h(Host, { key: '36803c7146f4334277366e30f67d93842f5687b2' }, h("ir-dialog", { key: 'cb8278b63e36839b9a1193c6506c37e110625904', label: "Create Invoice", ref: el => (this.dialogRef = el) }, this.booking && (h("div", { key: '45c9aab4fe2433d75e580e17cae608d7f33daaf2', slot: "header-actions", class: 'cl-invoice-dialog__header-actions' }, h("wa-switch", { key: '3d4e89374b30f3477468ce6f009ae618bba06ce1', checked: this.isProforma, disabled: this.mode === 'booking' && !this.allRoomsCheckedOut, onchange: e => (this.isProforma = e.target.checked) }, "Proforma"))), h("div", { key: '67cc3fe61ea40b5e1b746dd30c1ec2293784591b', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (!this.allRoomsCheckedOut ? (h("wa-callout", { size: "s", variant: "warning" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), "Only a proforma invoice can be generated at this time because ", units?.length > 1 ? 'units' : 'unit', " ", h("b", null, units?.join(', ')), ".", ' ', units?.length > 1 ? 'are' : 'is', " still in-house.")) : (h("p", { class: "create-invoice-dialog__message" }, this.isProforma
+        return (h(Host, { key: '4483e81baf32b0a9907fd03063441aeb4122dd3d' }, h("ir-dialog", { key: 'd9adeb5f1390266edf9be4f739e347a83514fc17', label: "Create Invoice", ref: el => (this.dialogRef = el) }, this.booking && (h("div", { key: '7c46c0f864ad448d7b1454ff87dd59d82b2a4f5c', slot: "header-actions", class: 'cl-invoice-dialog__header-actions' }, h("wa-switch", { key: '519dbe3df2e9755a8c04abb9b7bd67cb885370d7', checked: this.isProforma, disabled: this.mode === 'booking' && !this.allRoomsCheckedOut, onchange: e => (this.isProforma = e.target.checked) }, "Proforma"))), h("div", { key: '2f3ecc0e54edd6bed111328dd25e347c785c9c99', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (!this.allRoomsCheckedOut ? (h("wa-callout", { size: "s", variant: "warning" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), "Only a proforma invoice can be generated at this time because ", units?.length > 1 ? 'units' : 'unit', " ", h("b", null, units?.join(', ')), ".", ' ', units?.length > 1 ? 'are' : 'is', " still in-house.")) : (h("p", { class: "create-invoice-dialog__message" }, this.isProforma
             ? `Generate a proforma for Booking #${this.booking?.booking_nbr}?`
-            : `Issue a draft invoice for Booking #${this.booking?.booking_nbr} to the agent?`))) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: 'c0790a9e88ab7370acd59c132f5a27e5013c3118', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: 'c9c31715741536f3add8bd7f07d10147ab858ec7', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: '901da605bb4478d34580d46a1313ccd3692d0608', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '981ceef7e0bf3e3d5f4cbdf31d747d6c6bc717d5', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '03e98e0dda0e624bb060a334b46fa114e5f6e8a5', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: 'b93d488e049ae7a313b9aa11d792857287d9097b', size: "m", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, this.isProforma ? 'Confirm' : 'Show draft')))));
+            : `Issue a draft invoice for Booking #${this.booking?.booking_nbr} to the agent?`))) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: '5d9336abf5ea7b35ccfc872477b79c5b11559343', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: 'eaa03ed88fb047dfc2c4d986b021f891d59ac452', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: 'e5a81a970f5ea97629000146e74bffc5c9f33ba7', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: 'b342ef573398bdd6508ad3f55c14f51a747f8c11', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'fb56b6b805f2d7cf264fdc6387c1693b168079f9', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: 'cf407297b5a97033af83e8e604dff8937aed2e28', size: "m", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, this.isProforma ? 'Confirm' : 'Show draft')))));
     }
     static get is() { return "ir-cl-invoice-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -346,6 +372,21 @@ export class IrClInvoiceDialog {
                             "referenceLocation": "FiscalDocument"
                         }
                     }
+                }
+            }, {
+                "method": "fiscalDocumentIssued",
+                "name": "fiscalDocumentIssued",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
                 }
             }, {
                 "method": "clFiscalDocumentPreview",

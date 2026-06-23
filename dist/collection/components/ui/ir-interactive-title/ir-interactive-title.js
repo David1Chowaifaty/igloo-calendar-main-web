@@ -60,7 +60,7 @@ export class IrInteractiveTitle {
     titleId = `ir-title-${++titleIdCounter}`;
     render() {
         const title = this.popoverTitle || '';
-        return (h(Host, { key: 'e0fade48bf674abdce24c006d032983265b855aa', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '6d5d52f9f1b929ca80f6818edc639bca35f23791', class: "popover-title" }, title.length > this.cropSize && (h("wa-tooltip", { key: 'ff3ccfadd7892e59cb3293793981f395c3ec9fb8', for: this.titleId, placement: "top" }, title)), h("span", { key: '9864901e3713870362fcb147cba87aba04d81035', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (h("div", { key: '6536d3054e6f6f523e031b244672fcda32b14f93', class: "hk-dot" }, h("slot", { key: 'c3d48cf1279e73281a63b13df843fc82044a21df', name: "end" }))))));
+        return (h(Host, { key: 'a64eab992d1c3091fee1bcf425f4f4a991617c65', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '8347f31715a2997b4da077c40b8c0dff8b53e5e0', class: "popover-title" }, title.length > this.cropSize && (h("wa-tooltip", { key: '08ed4b0837626f3ba05be91508910a062c745b80', for: this.titleId, placement: "top" }, title)), h("span", { key: '3af8026c8ab5e43a7d4f5b2c01c8eb6c675f3f39', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (h("div", { key: 'fe9dd9678dfe49522a3cadd15250d3d273b21a50', class: "hk-dot" }, h("slot", { key: 'a6fa68bf88ce34793788ece24f72f6510c1202e9', name: "end" }))))));
     }
     static get is() { return "ir-interactive-title"; }
     static get encapsulation() { return "scoped"; }
