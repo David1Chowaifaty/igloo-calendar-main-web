@@ -152,7 +152,7 @@ export class IrPropertySwitcherDialogContent {
         return h("div", { class: "property-switcher__status" }, text);
     }
     render() {
-        return (h(Host, { key: 'de1f7c5f8d84380f9745f195992a756ba8e2f977' }, h("ir-input", { key: '14a2a7aa2669e8522a418c7280f2679e274c2f4b', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Property name or A number", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: 'a0810ecead8e2e4524ac957de8263accab5d0fa4', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: 'e30e3cbf988698585345375be6163b0f3f7eeece' }, h("p", { key: '9a599f72ab224cb0d5e2e822f2773c1d8a3a511d', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, "Linked Properties"), this.properties.map(property => {
+        return (h(Host, { key: 'a7b4ed7100d19081ca6766d5179a4fdc62d4c656' }, h("ir-input", { key: 'f7d46839f0b53aef404e016259c832e3fa0efff8', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Property name or A number", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: '0953f9dca56df2ad411961cc21a16d627cc0e1a6', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: '317c793d544b5468ffc8c2759eed1f547c68987e' }, h("p", { key: 'ef2b92b89e14f7f536b830f286332c4e50e33cb4', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, "Linked Properties"), this.properties.map(property => {
             const label = `${property.name}`;
             return (h("wa-option", { onClick: () => {
                     // this.selectProperty(property as any);
@@ -225,8 +225,8 @@ export class IrPropertySwitcherDialogContent {
                     "references": {
                         "LinkedProperty": {
                             "location": "import",
-                            "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::LinkedProperty",
+                            "path": "@/services/property/types",
+                            "id": "src/services/property/types.ts::LinkedProperty",
                             "referenceLocation": "LinkedProperty"
                         }
                     }
@@ -267,8 +267,8 @@ export class IrPropertySwitcherDialogContent {
                     "references": {
                         "FetchedProperty": {
                             "location": "import",
-                            "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::FetchedProperty",
+                            "path": "@/services/property/types",
+                            "id": "src/services/property/types.ts::FetchedProperty",
                             "referenceLocation": "FetchedProperty"
                         }
                     }
@@ -289,8 +289,8 @@ export class IrPropertySwitcherDialogContent {
                     "references": {
                         "LinkedProperty": {
                             "location": "import",
-                            "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::LinkedProperty",
+                            "path": "@/services/property/types",
+                            "id": "src/services/property/types.ts::LinkedProperty",
                             "referenceLocation": "LinkedProperty"
                         }
                     }

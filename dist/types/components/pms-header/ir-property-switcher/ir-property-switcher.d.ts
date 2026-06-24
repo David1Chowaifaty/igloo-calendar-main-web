@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { FetchedProperty, LinkedProperty } from "../../../services/property.service";
+import type { FetchedProperty, LinkedProperty } from "../../../services/property/types";
 import { GetACByACID } from './legacy.types';
 type SwitcherMode = 'dropdown' | 'dialog' | 'read-only';
 interface PropertyState {

@@ -1,4 +1,4 @@
-import { AllowedProperties, FetchUnBookableRoomsResult } from "../../services/property.service";
+import type { AllowedProperties, FetchUnBookableRoomsResult } from "../../services/property/types";
 type UnbookableRoomsMode = 'default' | 'mpo';
 type UnbookableRoomsFilters = {
     period_to_check: number;

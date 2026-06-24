@@ -1,5 +1,5 @@
 import { ChannelReportResult, SalesByChannelMode } from '../types';
-import { AllowedProperties } from "../../../services/property.service";
+import type { AllowedProperties } from "../../../services/property/types";
 export declare class IrSalesByChannelTable {
     records: ChannelReportResult;
     allowedProperties: AllowedProperties;

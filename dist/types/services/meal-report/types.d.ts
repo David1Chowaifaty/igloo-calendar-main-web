@@ -8,16 +8,16 @@ export declare const ParamsGetMealReportSchema: z.ZodObject<{
     is_export_to_excel: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
-    is_export_to_excel?: boolean;
     from?: string;
     to?: string;
+    is_export_to_excel?: boolean;
     report_type?: "GUEST_LIST" | "MEAL_COUNT";
     meal_type_code?: string;
 }, {
     property_id?: number;
-    is_export_to_excel?: boolean;
     from?: string;
     to?: string;
+    is_export_to_excel?: boolean;
     report_type?: "GUEST_LIST" | "MEAL_COUNT";
     meal_type_code?: string;
 }>;

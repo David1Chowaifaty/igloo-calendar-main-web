@@ -7,7 +7,7 @@ var moment = require('./moment-CdViwxPQ.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
 var calendarData = require('./calendar-data-R3j-WBLW.js');
 var booking = require('./booking-D81t5lFq.js');
-var property_service = require('./property.service-CpTJKuQs.js');
+var index$1 = require('./index-Bg6N-iof.js');
 var enums = require('./enums-BfYSWFRQ.js');
 require('./index-CLqkDPTC.js');
 require('./type-Dy9pVS4V.js');
@@ -46,7 +46,7 @@ const IglBookingEventHover = class {
     openCalendarSidebar;
     eventService = new events_service.EventsService();
     hideButtons = false;
-    propertyService = new property_service.PropertyService();
+    propertyService = new index$1.PropertyService();
     baseColor;
     componentWillLoad() {
         let selectedRt = this.bookingEvent.roomsInfo.find(r => r.id === this.bookingEvent.RATE_TYPE);
@@ -457,7 +457,7 @@ const IglBookingEventHover = class {
         return index.h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (index.h(index.Host, { key: '920653ef09ffdfbae174357d28d3d2f9adc3ec44' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (index.h(index.Host, { key: '464a3e949844ff71a14d0b72d3780a2997296cfc' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": [{
@@ -832,7 +832,7 @@ const IrDropdownItem = class {
         this.dropdownItemSelect.emit(this.value);
     };
     render() {
-        return (index.h(index.Host, { key: '2bfc7e0ea3ca7e35f2fedbf7ce2269f667989029', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
+        return (index.h(index.Host, { key: 'c2f597d97187ff5ea448002f96721393384492e3', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
     }
 };
 IrDropdownItem.style = irDropdownItemCss();

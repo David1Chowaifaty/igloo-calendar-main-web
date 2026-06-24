@@ -15,7 +15,7 @@ const IglSplitBookingDrawer = class {
         return this.booking?.rooms?.find(r => r.identifier === this.identifier);
     }
     render() {
-        return (h("ir-drawer", { key: '2de5d60839339946c97975e6f695aea9555f1f0b', open: this.open, label: `Split unit ${this.room?.unit['name']}` }, this.open && h("igl-split-booking-form", { key: '4e931860f377898f96893aa4116c9f8596344aae', booking: this.booking, identifier: this.identifier }), h("div", { key: '5202446cf168f73ca594083c5881b6b952b09df0', slot: "footer" }, h("ir-custom-button", { key: '18c82f255cfb10a4ac36293f5dcc70e86614ddbe', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, "Cancel"), h("ir-custom-button", { key: '3042d267499e871f4a0c124f5979ff556de83930', form: "split-booking-form", type: "submit", size: "m", appearance: "accent", variant: "brand" }, "Confirm"))));
+        return (h("ir-drawer", { key: '13b952e3d65bad1f549997319e5ad84100326831', open: this.open, label: `Split unit ${this.room?.unit['name']}` }, this.open && h("igl-split-booking-form", { key: 'e1f388ef53785509641d7d67c44292655a15921a', booking: this.booking, identifier: this.identifier }), h("div", { key: '45469f1ceb0da2472f070c664851b31061d96cd8', slot: "footer" }, h("ir-custom-button", { key: '180919707f1933512b2f8d80c75b00c2af0f6131', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, "Cancel"), h("ir-custom-button", { key: '69353cc38c5724f303ff21476bc12a3ba155bdd5', form: "split-booking-form", type: "submit", size: "m", appearance: "accent", variant: "brand" }, "Confirm"))));
     }
 };
 IglSplitBookingDrawer.style = iglSplitBookingDrawerCss();

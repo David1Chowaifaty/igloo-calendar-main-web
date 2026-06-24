@@ -3,7 +3,7 @@
 var index = require('./index-DYQrLNin.js');
 var Token = require('./Token-mN7PQKGF.js');
 var booking_store = require('./booking.store-BCEuSVh0.js');
-var property_service = require('./property.service-CpTJKuQs.js');
+var index$1 = require('./index-Bg6N-iof.js');
 var room_service = require('./room.service-BDxvptKu.js');
 var irInterceptor_store = require('./ir-interceptor.store-DCFOyFp0.js');
 var utils = require('./utils-DgT4kKsD.js');
@@ -38,7 +38,7 @@ const IrGapNights = class {
     propertyId;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
-    propertyService = new property_service.PropertyService();
+    propertyService = new index$1.PropertyService();
     bookingService = new booking_store.BookingService();
     componentWillLoad() {
         if (this.ticket) {

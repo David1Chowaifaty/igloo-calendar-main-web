@@ -1,18 +1,20 @@
-import { formatAmount } from "../../../utils/utils";
+import { formatAmount, getEntryValue } from "../../../utils/utils";
 import { flexRender, useTable } from "../../../utils/useTable";
 import { Host, h } from "@stencil/core";
 import { createColumnHelper, getCoreRowModel, getSortedRowModel } from "@tanstack/table-core";
-import { CityLedgerService } from "../../../services/city-ledger/index";
-import { FdStatus, FdTypes } from "../../../types/enums";
+import moment from "moment";
+import calendar_data from "../../../stores/calendar-data";
+const PAGE_SIZES = [20, 50, 100];
 export class IrFiscalDocumentsTable {
     rows = [];
-    currencySymbol = '$';
     currencies = [];
-    taxableOnly = false;
     isLoading = false;
     hasDates = false;
     ticket;
     propertyId;
+    language = 'en';
+    /** `_FD_TYPE` setup entries used to display the document type. */
+    fdTypes = [];
     fromDate = null;
     toDate = null;
     hasFetched = false;
@@ -22,229 +24,163 @@ export class IrFiscalDocumentsTable {
     agentId = null;
     /** Selected guest id (when a specific guest is chosen under the guest folio). */
     guestId = null;
+    // Pagination (server-side) — driven by the parent.
+    currentPage = 1;
+    pageSize = 20;
+    totalRecords = 0;
+    pageSizes = [20, 50, 100];
     clFiscalDocumentPreview;
     fetchRequested;
-    pendingAction = null;
-    isConfirming = false;
+    requestPageChange;
+    requestPageSizeChange;
+    /** Emitted with the booking number when a booking link is clicked. */
+    openBookingDetails;
+    /** Emitted when a guest document link/action is clicked (caught by ir-guest-document-preview). */
+    guestDocumentPreview;
     columnHelper = createColumnHelper();
-    cityLedgerService = new CityLedgerService();
-    /**
-     * A "specific party" is selected when the folio is scoped to a single agent or
-     * guest. In that case the table collapses to the base city-ledger layout (no
-     * identity / booking columns).
-     */
-    get isSpecificPartySelected() {
-        return (this.folioType === 'agent' && !!this.agentId) || (this.folioType === 'guest' && !!this.guestId);
+    emitGuestPreview(row) {
+        this.guestDocumentPreview.emit({
+            documentNumber: row.DOC_NUMBER ?? '',
+            fdTypeCode: row.FD_TYPE_CODE ?? '',
+        });
     }
+    handlePageChange(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        this.requestPageChange.emit(event.detail);
+    }
+    handlePageSizeChange(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        this.requestPageSizeChange.emit(event.detail);
+    }
+    /** Agent column is hidden for the guest folio (those rows have no agent). */
     get showAgentName() {
-        return !this.isSpecificPartySelected && this.folioType !== 'guest';
+        return this.folioType !== 'guest';
     }
+    /** Guest column is hidden for the agent folio (those rows have no guest). */
     get showGuestName() {
-        return !this.isSpecificPartySelected && this.folioType !== 'agent';
+        return this.folioType !== 'agent';
     }
-    get showBookingNumber() {
-        return !this.isSpecificPartySelected;
+    /** Maps each `_FD_TYPE` code to its localized display label. */
+    get fdTypeLabels() {
+        const map = {};
+        for (const entry of this.fdTypes ?? []) {
+            map[entry.CODE_NAME] = getEntryValue({ entry, language: this.language });
+        }
+        return map;
     }
-    handleAction(action, row) {
-        switch (action) {
-            case 'view':
-            case 'preview':
-                this.clFiscalDocumentPreview.emit({
-                    fdTypeCode: row.FD_TYPE_CODE,
-                    documentNumber: row.DOC_NUMBER,
-                    agentId: row.AGENCY_ID ?? this.agentId,
-                    agentName: row.AGENCY_NAME,
-                    fdId: row.FD_ID,
-                    externalRef: row.EXTERNAL_REF,
-                    fromDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.FROM_DATE : this.fromDate,
-                    toDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.TO_DATE : this.toDate,
-                    bookingNbr: row.FD_TYPE_CODE === FdTypes.Proforma ? row.BOOK_NBR : null,
-                });
-                break;
-            case 'print':
-                this.clFiscalDocumentPreview.emit({
-                    fdTypeCode: row.FD_TYPE_CODE,
-                    documentNumber: row.DOC_NUMBER,
-                    agentId: row.AGENCY_ID ?? this.agentId,
-                    agentName: row.AGENCY_NAME,
-                    fdId: row.FD_ID,
-                    autoPrint: true,
-                    externalRef: row.EXTERNAL_REF,
-                    fromDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.FROM_DATE : this.fromDate,
-                    toDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.TO_DATE : this.toDate,
-                    bookingNbr: row.FD_TYPE_CODE === FdTypes.Proforma ? row.BOOK_NBR : null,
-                });
-                break;
-            case 'download':
-                console.log('download', row);
-                break;
-            case 'send-reminder':
-                console.log('send-reminder', row);
-                break;
-            case 'apply-payment':
-                console.log('apply-payment', row);
-                break;
-            case 'mark-paid':
-                console.log('mark-paid', row);
-                break;
-            case 'void':
-            case 'delete-draft':
-            case 'convert-to-invoice':
-                this.pendingAction = { action: action, row };
-                break;
-        }
-    }
-    async confirmPendingAction() {
-        if (!this.pendingAction)
-            return;
-        const { action, row } = this.pendingAction;
-        this.isConfirming = true;
-        try {
-            if (action === 'void') {
-                switch (row.FD_TYPE_CODE) {
-                    case FdTypes.Invoice:
-                        await this.cityLedgerService.voidInvoiceByCreditNote({ FD_ID: row.FD_ID });
-                        break;
-                    case FdTypes.Receipt:
-                        await this.cityLedgerService.voidReceiptByCreditReceipt({ FD_ID: row.FD_ID });
-                        break;
-                    default:
-                        console.warn(row.FD_TYPE_CODE + ' not implemented');
-                        break;
-                }
-            }
-            else if (action === 'delete-draft') {
-                await this.cityLedgerService.deleteDraftFiscalDocument({ FD_ID: row.FD_ID });
-            }
-            else if (action === 'convert-to-invoice') {
-                await this.cityLedgerService.issueInvoiceFromDraft({ FD_ID: row.FD_ID });
-            }
-            this.fetchRequested.emit();
-        }
-        finally {
-            this.isConfirming = false;
-            this.pendingAction = null;
-        }
+    emitPreview(row, autoPrint = false) {
+        this.clFiscalDocumentPreview.emit({
+            fdTypeCode: row.FD_TYPE_CODE ?? '',
+            documentNumber: row.DOC_NUMBER ?? '',
+            agentId: row.AGENT_ID ?? this.agentId ?? 0,
+            agentName: row.AGENT_NAME ?? '',
+            fdId: row.DOC_ID ?? undefined,
+            autoPrint,
+            externalRef: '',
+            fromDate: this.fromDate,
+            toDate: this.toDate,
+            bookingNbr: row.BOOKING_NUMBER ?? null,
+        });
     }
     get columns() {
         const base = [
-            this.columnHelper.accessor('FD_STATUS_CODE', {
-                header: 'Status',
-                cell: info => h("ir-cl-status-tag", { transaction: info.row.original }),
-            }),
-            this.columnHelper.accessor('ISSUE_DATE_DISPLAY', {
+            this.columnHelper.accessor('DOC_DATE', {
                 header: 'Date',
-                cell: info => info.getValue(),
+                cell: info => moment(info.getValue(), 'YYYY-MM-DD').format('MMM DD, YYYY') ?? '',
             }),
             this.columnHelper.accessor('DOC_NUMBER', {
                 header: 'Doc Number',
-                cell: info => (h("wa-button", { onClick: () => {
-                        const row = info.row.original;
-                        this.clFiscalDocumentPreview.emit({
-                            fdTypeCode: row.FD_TYPE_CODE,
-                            documentNumber: row.DOC_NUMBER,
-                            agentId: row.AGENCY_ID ?? this.agentId,
-                            agentName: row.AGENCY_NAME,
-                            fdId: row.FD_ID,
-                            externalRef: row.EXTERNAL_REF,
-                            fromDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.FROM_DATE : this.fromDate,
-                            toDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.TO_DATE : this.toDate,
-                            bookingNbr: row.FD_TYPE_CODE === FdTypes.Proforma ? row.BOOK_NBR : null,
-                        });
-                    }, variant: "brand", appearance: "plain", class: "fiscal-table__doc-number" }, info.getValue() ?? '')),
+                cell: info => {
+                    const row = info.row.original;
+                    const value = info.getValue() ?? '';
+                    if (!value)
+                        return h("span", null);
+                    // Agent documents open the city-ledger fiscal-document preview; guest
+                    // documents open the invoice/credit-note PDF (ir-guest-billing flow).
+                    const onClick = row.TARGET_TYPE === 'GUEST' ? () => this.emitGuestPreview(row) : () => this.emitPreview(row);
+                    return (h("wa-button", { onClick: onClick, variant: "brand", appearance: "plain", class: "fiscal-table__doc-number" }, value));
+                },
             }),
-            this.columnHelper.accessor('FD_TYPE_NAME', {
+            this.columnHelper.accessor('DOC_TYPE', {
                 id: 'type',
                 header: 'Type',
-                cell: info => (h("div", null, h("p", { class: "m-0 p-0" }, info.getValue()), info.row.original.EXTERNAL_REF && (h("p", { class: "fd_ss" }, [FdTypes.CreditNote, FdTypes.CreditReceipt].includes(info.row.original.FD_TYPE_CODE) ? 'for' : 'voided by', " ", info.row.original.EXTERNAL_REF)))),
+                cell: info => {
+                    const code = info.row.original.FD_TYPE_CODE;
+                    // Display the localized `_FD_TYPE` label, falling back to the raw code.
+                    const label = (code && this.fdTypeLabels[code]) || code || '';
+                    return h("span", null, label);
+                },
             }),
         ];
-        // Identity / booking columns — shown only while the folio is not scoped to a
-        // single agent or guest (see the show* getters).
+        // Identity / booking columns depend on the folio scope.
         const identityCols = [];
-        if (this.showAgentName) {
-            identityCols.push(this.columnHelper.accessor('AGENCY_NAME', {
+        if (this.showAgentName && this.rows.some(r => r.TARGET_TYPE === 'AGENT')) {
+            identityCols.push(this.columnHelper.accessor('AGENT_NAME', {
                 id: 'agentName',
                 header: 'Agent',
                 cell: info => h("span", null, info.getValue() ?? ''),
             }));
         }
-        if (this.showGuestName) {
+        if (this.showGuestName && this.rows.some(r => r.TARGET_TYPE === 'GUEST')) {
             identityCols.push(this.columnHelper.accessor('GUEST_NAME', {
                 id: 'guestName',
                 header: 'Guest',
                 cell: info => h("span", null, info.getValue() ?? ''),
             }));
         }
-        if (this.showBookingNumber) {
-            identityCols.push(this.columnHelper.accessor('BOOK_NBR', {
-                id: 'bookingNumber',
-                header: 'Booking #',
-                cell: info => h("span", null, info.getValue() ?? ''),
-            }));
-        }
-        const amountCols = this.taxableOnly
-            ? [
-                this.columnHelper.accessor('NET_AMOUNT', {
-                    header: 'Net Amount',
-                    cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
-                }),
-                this.columnHelper.accessor('TAX_AMOUNT', {
-                    header: 'Taxes',
-                    cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
-                }),
-            ]
-            : [];
+        identityCols.push(this.columnHelper.accessor('BOOKING_NUMBER', {
+            id: 'bookingNumber',
+            header: 'Booking #',
+            cell: info => {
+                const bookingNbr = info.getValue();
+                if (!bookingNbr)
+                    return h("span", null);
+                return (h("wa-button", { onClick: () => this.openBookingDetails.emit(String(bookingNbr)), variant: "brand", appearance: "plain", class: "fiscal-table__doc-number" }, bookingNbr));
+            },
+        }));
         return [
             ...base,
             ...identityCols,
-            ...amountCols,
-            this.columnHelper.accessor('DEBIT', {
-                header: 'Debit',
-                cell: info => (info.row.original.FD_TYPE_CODE === FdTypes.CreditReceipt ? '' : this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID)),
-            }),
-            this.columnHelper.accessor('CREDIT', {
-                header: 'Credit',
-                cell: info => this.renderMoney(info.row.original.FD_TYPE_CODE === FdTypes.CreditReceipt ? info.row.original.DEBIT : info.getValue(), info.row.original.CURRENCY_ID),
+            this.columnHelper.accessor('TOTAL_AMOUNT', {
+                header: 'Total',
+                cell: info => this.renderMoney(info.getValue()),
             }),
             this.columnHelper.display({
                 id: 'actions',
                 header: 'Actions',
                 cell: info => {
                     const row = info.row.original;
-                    const isDraft = row.FD_TYPE_CODE === FdTypes.Draft;
-                    const isInvoice = row.FD_TYPE_CODE === FdTypes.Invoice;
-                    const isReceipt = row.FD_TYPE_CODE === FdTypes.Receipt;
+                    // Guest documents open the invoice/credit-note PDF (ir-guest-billing flow).
+                    if (row.TARGET_TYPE === 'GUEST') {
+                        return (h("wa-dropdown", { "onwa-hide": e => {
+                                e.stopImmediatePropagation();
+                                e.stopPropagation();
+                            }, "onwa-select": (e) => {
+                                if (e.detail.item.value === 'view')
+                                    this.emitGuestPreview(row);
+                            } }, h("wa-button", { slot: "trigger", size: "s", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), h("wa-dropdown-item", { value: "view" }, "Open PDF")));
+                    }
+                    // Agent documents have the city-ledger preview/print flow.
                     return (h("wa-dropdown", { "onwa-hide": e => {
                             e.stopImmediatePropagation();
                             e.stopPropagation();
                         }, "onwa-select": (e) => {
-                            this.handleAction(e.detail.item.value, row);
-                        } }, h("wa-button", { slot: "trigger", size: "s", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), isDraft
-                        ? [
-                            h("wa-dropdown-item", { value: "preview" }, "Preview"),
-                            h("wa-dropdown-item", { value: "convert-to-invoice" }, "Convert to invoice"),
-                            h("wa-dropdown-item", { value: "delete-draft", variant: "danger" }, "Delete"),
-                        ]
-                        : [
-                            h("wa-dropdown-item", { value: "view" }, "View document"),
-                            h("wa-dropdown-item", { value: "print" }, "Print"),
-                            isInvoice && info.row.original.FD_STATUS_CODE !== FdStatus.Voided && (h("wa-dropdown-item", { value: "void" }, h("span", { class: "fiscal-table__action-danger" }, "Void with credit note"))),
-                            isReceipt && info.row.original.FD_STATUS_CODE !== FdStatus.Voided && (h("wa-dropdown-item", { value: "void" }, h("span", { class: "fiscal-table__action-danger" }, "Void with credit receipt"))),
-                        ]));
+                            if (e.detail.item.value === 'print')
+                                this.emitPreview(row, true);
+                            else
+                                this.emitPreview(row);
+                        } }, h("wa-button", { slot: "trigger", size: "s", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), h("wa-dropdown-item", { value: "view" }, "View document"), h("wa-dropdown-item", { value: "print" }, "Print")));
                 },
                 enableSorting: false,
             }),
         ];
     }
-    getSymbol(currencyId) {
-        const match = this.currencies.find(c => c.id === currencyId);
-        return match?.symbol ?? this.currencySymbol;
-    }
-    renderMoney(value, currencyId) {
+    renderMoney(value) {
         if (!value)
             return h("span", { class: "fiscal-table__cell--zero" });
-        return h("span", null, formatAmount(this.getSymbol(currencyId), value));
+        return h("span", null, formatAmount(calendar_data?.property?.currency?.symbol, value));
     }
     render() {
         if (!this.hasFetched) {
@@ -258,16 +194,21 @@ export class IrFiscalDocumentsTable {
             getCoreRowModel: getCoreRowModel(),
             getSortedRowModel: getSortedRowModel(),
         });
-        const numericColumnIds = ['NET_AMOUNT', 'TAX_AMOUNT', 'amount', 'DEBIT', 'CREDIT'];
+        const numericColumnIds = ['TOTAL_AMOUNT'];
+        const totalPages = this.pageSize > 0 ? Math.ceil(this.totalRecords / this.pageSize) : 0;
+        const showing = {
+            from: this.totalRecords === 0 ? 0 : (this.currentPage - 1) * this.pageSize + 1,
+            to: Math.min(this.currentPage * this.pageSize, this.totalRecords),
+        };
         return (h(Host, null, h("div", { class: "table--container" }, h("table", { class: "table data-table" }, h("thead", null, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, class: {
                 'fiscal-table__heading--numeric': numericColumnIds.includes(header.column.id),
                 'fiscal-table__heading--actions': header.column.id === 'actions',
-            } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", null, table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: { 'ir-table-row': true, '--is-draft': row.original.FD_TYPE_CODE === FdTypes.Draft } }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
+            } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", null, table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
                 'fiscal-table__cell': true,
                 'fiscal-table__cell--numeric': numericColumnIds.includes(cell.column.id),
                 'fiscal-table__cell--actions': cell.column.id === 'actions',
-                'fiscal-table__cell--doc-number': cell.column.id === 'DOC_NUMBER',
-            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", null, h("td", { class: "empty-row", colSpan: columns.length }, this.isLoading ? h("ir-spinner", null) : 'No fiscal documents match the current filters.')))))), h("ir-fd-confirm-dialog", { open: this.pendingAction !== null, action: this.pendingAction?.action ?? null, docNumber: this.pendingAction?.row.DOC_NUMBER ?? 'this document', isConfirming: this.isConfirming, onConfirmed: () => this.confirmPendingAction(), onCancelled: () => (this.pendingAction = null) })));
+                'fiscal-table__cell--doc-number': cell.column.id === 'DOC_NUMBER' || cell.column.id === 'bookingNumber',
+            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", null, h("td", { class: "empty-row", colSpan: columns.length }, this.isLoading ? h("ir-spinner", null) : 'No fiscal documents match the current filters.')))))), this.totalRecords > 0 && (h("ir-pagination", { class: "data-table--pagination", showing: showing, total: this.totalRecords, pages: totalPages, pageSize: this.pageSize, currentPage: this.currentPage, allowPageSizeChange: true, pageSizes: PAGE_SIZES, recordLabel: "documents", onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) }))));
     }
     static get is() { return "ir-fiscal-documents-table"; }
     static get encapsulation() { return "scoped"; }
@@ -288,7 +229,7 @@ export class IrFiscalDocumentsTable {
                 "mutable": false,
                 "complexType": {
                     "original": "FiscalDocumentRow[]",
-                    "resolved": "FiscalDocumentRow[]",
+                    "resolved": "{ TARGET_TYPE?: \"AGENT\" | \"GUEST\"; AGENT_ID?: number; AGENT_NAME?: string; GUEST_ID?: number; GUEST_NAME?: string; GUEST_EMAIL?: string; BOOKING_ID?: number; BOOKING_NUMBER?: string; DOC_ID?: number; DOC_NUMBER?: string; DOC_DATE?: string; DOC_TYPE?: string; FD_TYPE_CODE?: string; CURRENCY_ID?: number; TOTAL_AMOUNT?: number; }[]",
                     "references": {
                         "FiscalDocumentRow": {
                             "location": "import",
@@ -307,26 +248,6 @@ export class IrFiscalDocumentsTable {
                 "getter": false,
                 "setter": false,
                 "defaultValue": "[]"
-            },
-            "currencySymbol": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "currency-symbol",
-                "defaultValue": "'$'"
             },
             "currencies": {
                 "type": "unknown",
@@ -352,26 +273,6 @@ export class IrFiscalDocumentsTable {
                 "getter": false,
                 "setter": false,
                 "defaultValue": "[]"
-            },
-            "taxableOnly": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "taxable-only",
-                "defaultValue": "false"
             },
             "isLoading": {
                 "type": "boolean",
@@ -450,6 +351,51 @@ export class IrFiscalDocumentsTable {
                 "setter": false,
                 "reflect": false,
                 "attribute": "property-id"
+            },
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "language",
+                "defaultValue": "'en'"
+            },
+            "fdTypes": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "IEntries[]",
+                    "resolved": "IEntries[]",
+                    "references": {
+                        "IEntries": {
+                            "location": "import",
+                            "path": "@/models/property",
+                            "id": "src/models/property.ts::IEntries",
+                            "referenceLocation": "IEntries"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "`_FD_TYPE` setup entries used to display the document type."
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[]"
             },
             "fromDate": {
                 "type": "string",
@@ -577,13 +523,85 @@ export class IrFiscalDocumentsTable {
                 "reflect": false,
                 "attribute": "guest-id",
                 "defaultValue": "null"
+            },
+            "currentPage": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "current-page",
+                "defaultValue": "1"
+            },
+            "pageSize": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "page-size",
+                "defaultValue": "20"
+            },
+            "totalRecords": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "total-records",
+                "defaultValue": "0"
+            },
+            "pageSizes": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "number[]",
+                    "resolved": "number[]",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[20, 50, 100]"
             }
-        };
-    }
-    static get states() {
-        return {
-            "pendingAction": {},
-            "isConfirming": {}
         };
     }
     static get events() {
@@ -623,6 +641,87 @@ export class IrFiscalDocumentsTable {
                     "original": "void",
                     "resolved": "void",
                     "references": {}
+                }
+            }, {
+                "method": "requestPageChange",
+                "name": "requestPageChange",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "PaginationChangeEvent",
+                    "resolved": "PaginationChangeEvent",
+                    "references": {
+                        "PaginationChangeEvent": {
+                            "location": "import",
+                            "path": "@/components/ir-pagination/ir-pagination",
+                            "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent",
+                            "referenceLocation": "PaginationChangeEvent"
+                        }
+                    }
+                }
+            }, {
+                "method": "requestPageSizeChange",
+                "name": "requestPageSizeChange",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "PaginationChangeEvent",
+                    "resolved": "PaginationChangeEvent",
+                    "references": {
+                        "PaginationChangeEvent": {
+                            "location": "import",
+                            "path": "@/components/ir-pagination/ir-pagination",
+                            "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent",
+                            "referenceLocation": "PaginationChangeEvent"
+                        }
+                    }
+                }
+            }, {
+                "method": "openBookingDetails",
+                "name": "openBookingDetails",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Emitted with the booking number when a booking link is clicked."
+                },
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                }
+            }, {
+                "method": "guestDocumentPreview",
+                "name": "guestDocumentPreview",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Emitted when a guest document link/action is clicked (caught by ir-guest-document-preview)."
+                },
+                "complexType": {
+                    "original": "GuestDocumentPreviewRequest",
+                    "resolved": "GuestDocumentPreviewRequest",
+                    "references": {
+                        "GuestDocumentPreviewRequest": {
+                            "location": "import",
+                            "path": "../ir-guest-document-preview/types",
+                            "id": "src/components/ir-fiscal-documents/ir-guest-document-preview/types.ts::GuestDocumentPreviewRequest",
+                            "referenceLocation": "GuestDocumentPreviewRequest"
+                        }
+                    }
                 }
             }];
     }

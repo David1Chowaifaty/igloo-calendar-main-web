@@ -16,7 +16,7 @@ export class IrSalesByChannelSummary {
         const lastYearRevenue = this.sum('REVENUE', true);
         const currency = this.records?.[0]?.currency;
         const hasLastYear = Boolean(this.records?.length && this.filters?.include_previous_year);
-        return (h("div", { key: 'd83c61cbd0e26b3af48e8573efd8b9f78f8cb943', class: "summary-row" }, h("ir-metric-card", { key: '162d76a2f1e59d142e8aa504ed9e1018382ee11f', class: "summary-metric", icon: "moon", label: "Total Room Nights", value: totalNights.toString(), trend: hasLastYear ? calculateTrend(totalNights, lastYearNights) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearNights}` : undefined }), h("ir-metric-card", { key: '9197f10d58d31ae4d02fff8a58d573e1ea636762', class: "summary-metric", icon: "money-bill", label: "Total Revenue", value: formatAmount(currency, totalRevenue), trend: hasLastYear ? calculateTrend(totalRevenue, lastYearRevenue) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${formatAmount(currency, lastYearRevenue)}` : undefined }), h("ir-metric-card", { key: '39462bf43605570319105f1878e2632402fe1b8e', class: "summary-metric", icon: "chart-bar", label: "Sources", value: (this.records?.length ?? 0).toString() })));
+        return (h("div", { key: 'b6002c948c95148efb2269687d859f82ce593f64', class: "summary-row" }, h("ir-metric-card", { key: '6d2e4a5a672b6b94747fb12f759e43f26b99afce', class: "summary-metric", icon: "moon", label: "Total Room Nights", value: totalNights.toString(), trend: hasLastYear ? calculateTrend(totalNights, lastYearNights) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearNights}` : undefined }), h("ir-metric-card", { key: 'a959fb2e21780ee4daad05eed5cc44ad04a32253', class: "summary-metric", icon: "money-bill", label: "Total Revenue", value: formatAmount(currency, totalRevenue), trend: hasLastYear ? calculateTrend(totalRevenue, lastYearRevenue) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${formatAmount(currency, lastYearRevenue)}` : undefined }), h("ir-metric-card", { key: 'fd290d441b124bbd1a3d965068ec6e11e4ee5c0e', class: "summary-metric", icon: "chart-bar", label: "Sources", value: (this.records?.length ?? 0).toString() })));
     }
     static get is() { return "ir-sales-by-channel-summary"; }
     static get encapsulation() { return "scoped"; }
@@ -37,7 +37,7 @@ export class IrSalesByChannelSummary {
                 "mutable": false,
                 "complexType": {
                     "original": "ChannelReportResult",
-                    "resolved": "{ currency?: string; NIGHTS?: number; PCT?: number; REVENUE?: number; SOURCE?: string; PROPERTY_ID?: number; PROPERTY_NAME?: string; last_year?: { currency?: string; NIGHTS?: number; PCT?: number; REVENUE?: number; SOURCE?: string; PROPERTY_ID?: number; PROPERTY_NAME?: string; }; }[]",
+                    "resolved": "{ currency?: string; NIGHTS?: number; PCT?: number; REVENUE?: number; SOURCE?: string; PROPERTY_ID?: number; PROPERTY_NAME?: string; SOURCE_ICON?: string; last_year?: { currency?: string; NIGHTS?: number; PCT?: number; REVENUE?: number; SOURCE?: string; PROPERTY_ID?: number; PROPERTY_NAME?: string; SOURCE_ICON?: string; }; }[]",
                     "references": {
                         "ChannelReportResult": {
                             "location": "import",
@@ -62,7 +62,7 @@ export class IrSalesByChannelSummary {
                 "mutable": false,
                 "complexType": {
                     "original": "ChannelSaleFilter",
-                    "resolved": "{ AC_ID?: string; BOOK_CASE?: string; FROM_DATE?: string; TO_DATE?: string; WINDOW?: number; is_export_to_excel?: boolean; LIST_AC_ID?: number[]; include_previous_year?: boolean; }",
+                    "resolved": "{ is_export_to_excel?: boolean; FROM_DATE?: string; TO_DATE?: string; AC_ID?: string; BOOK_CASE?: string; WINDOW?: number; LIST_AC_ID?: number[]; include_previous_year?: boolean; }",
                     "references": {
                         "ChannelSaleFilter": {
                             "location": "import",

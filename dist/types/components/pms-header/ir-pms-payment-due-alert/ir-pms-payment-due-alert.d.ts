@@ -1,4 +1,4 @@
-import { FetchNotificationsResult as Notifications } from "../../../services/property.service";
+import type { FetchNotificationsResult as Notifications } from "../../../services/property/types";
 export declare class IrPmsPaymentDueAlert {
     propertyid: number;
     ticket: string;

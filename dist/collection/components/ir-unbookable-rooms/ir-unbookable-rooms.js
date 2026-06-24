@@ -1,4 +1,4 @@
-import { Host, h } from "@stencil/core";
+import { h } from "@stencil/core";
 import Token from "../../models/Token";
 import { PropertyService } from "../../services/property.service";
 export class IrUnbookableRooms {
@@ -154,7 +154,7 @@ export class IrUnbookableRooms {
         }
         const totalIssues = this.unbookableRooms?.length ?? 0;
         const propertiesWithIssues = new Set(this.unbookableRooms?.map(entry => entry.property_id)).size;
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "ir-page__container" }, h("h3", { class: "page-title" }, "Availability Alert"), this.mode === 'mpo' && (h("section", { class: "summary", "aria-live": "polite" }, h("wa-card", null, h("span", { class: "summary__value" }, totalIssues), h("span", { class: "summary__label" }, "room types affected")), h("wa-card", null, h("span", { class: "summary__value" }, propertiesWithIssues), h("span", { class: "summary__label" }, "properties impacted")))), h("section", { class: "unbookable-rooms__content" }, h("ir-unbookable-rooms-filters", { mode: this.mode, filters: this.filters, unbookableRooms: this.unbookableRooms, isLoading: this.isLoading, onFiltersChange: this.handleFiltersChange, onFiltersReset: this.handleFiltersReset, onFiltersSave: this.handleRefresh }), h("ir-unbookable-rooms-data", { mode: this.mode, isLoading: this.isLoading, errorMessage: this.errorMessage, unbookableRooms: this.unbookableRooms, allowedProperties: this.allowedProperties, filters: this.filters, progressFilters: this.progressFilters })))));
+        return (h("ir-page", { label: "Availability Alert" }, this.mode === 'mpo' && (h("section", { class: "summary", "aria-live": "polite" }, h("ir-metric-card", { icon: 'bed', value: totalIssues, label: "Affected room types" }), h("ir-metric-card", { icon: 'hotel', value: propertiesWithIssues, label: "Properties impacted" }))), h("section", { class: "unbookable-rooms__content" }, h("ir-unbookable-rooms-filters", { mode: this.mode, filters: this.filters, unbookableRooms: this.unbookableRooms, isLoading: this.isLoading, onFiltersChange: this.handleFiltersChange, onFiltersReset: this.handleFiltersReset, onFiltersSave: this.handleRefresh }), h("ir-unbookable-rooms-data", { mode: this.mode, isLoading: this.isLoading, errorMessage: this.errorMessage, unbookableRooms: this.unbookableRooms, allowedProperties: this.allowedProperties, filters: this.filters, progressFilters: this.progressFilters }))));
     }
     static get is() { return "ir-unbookable-rooms"; }
     static get encapsulation() { return "scoped"; }

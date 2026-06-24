@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { FetchedProperty, LinkedProperty } from "../../../services/property.service";
+import type { FetchedProperty, LinkedProperty } from "../../../services/property/types";
 /**
  * Internal component responsible for rendering the searchable list of properties inside the switcher dialog.
  * It owns the data fetching, filtering and keyboard navigation logic so the parent dialog stays lean.

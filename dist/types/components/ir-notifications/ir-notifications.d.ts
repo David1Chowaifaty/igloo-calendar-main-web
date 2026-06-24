@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 import { Notification } from './types';
-import { FetchNotificationsResult as Notifications } from "../../services/property.service";
+import type { FetchNotificationsResult as Notifications } from "../../services/property/types";
 export declare class IrNotifications {
     el: HTMLElement;
     ticket: string;

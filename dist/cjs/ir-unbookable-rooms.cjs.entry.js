@@ -2,7 +2,7 @@
 
 var index = require('./index-DYQrLNin.js');
 var Token = require('./Token-mN7PQKGF.js');
-var property_service = require('./property.service-CpTJKuQs.js');
+var index$1 = require('./index-Bg6N-iof.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
@@ -13,7 +13,7 @@ require('./moment-CdViwxPQ.js');
 require('./locales.store-6IlEbCjL.js');
 require('./type-Dy9pVS4V.js');
 
-const irUnbookableRoomsCss = () => `.sc-ir-unbookable-rooms-h{height:100% !important;overflow-y:auto !important}.ir-page__container.sc-ir-unbookable-rooms{height:100%;overflow-y:auto}.unbookable-rooms__content.sc-ir-unbookable-rooms{display:flex;flex-direction:column;gap:1rem}.summary.sc-ir-unbookable-rooms{display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:12px}.summary__value.sc-ir-unbookable-rooms{display:block;font-size:1.3rem;font-weight:600}.summary__label.sc-ir-unbookable-rooms{font-size:0.82rem;color:#6a6256}@media (min-width: 768px){.unbookable-rooms__content.sc-ir-unbookable-rooms{flex-direction:row;align-items:flex-start}}`;
+const irUnbookableRoomsCss = () => `.sc-ir-unbookable-rooms-h{height:100% !important;overflow-y:auto !important}.ir-page__container.sc-ir-unbookable-rooms{height:100%;overflow-y:auto}.unbookable-rooms__content.sc-ir-unbookable-rooms{display:flex;flex-direction:column;gap:1rem}.summary.sc-ir-unbookable-rooms{display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:12px}.summary__value.sc-ir-unbookable-rooms{display:block;font-size:1.3rem;font-weight:600}.summary__label.sc-ir-unbookable-rooms{font-size:0.82rem;color:#6a6256}@media (min-width: 1024px){.unbookable-rooms__content.sc-ir-unbookable-rooms{flex-direction:row;align-items:flex-start}}`;
 
 const IrUnbookableRooms = class {
     constructor(hostRef) {
@@ -35,7 +35,7 @@ const IrUnbookableRooms = class {
     lastUpdatedLabel = '';
     isPageLoading = true;
     tokenService = new Token.Token();
-    propertyService = new property_service.PropertyService();
+    propertyService = new index$1.PropertyService();
     componentWillLoad() {
         this.filters = {
             country: 'all',
@@ -171,7 +171,7 @@ const IrUnbookableRooms = class {
         }
         const totalIssues = this.unbookableRooms?.length ?? 0;
         const propertiesWithIssues = new Set(this.unbookableRooms?.map(entry => entry.property_id)).size;
-        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("section", { class: "ir-page__container" }, index.h("h3", { class: "page-title" }, "Availability Alert"), this.mode === 'mpo' && (index.h("section", { class: "summary", "aria-live": "polite" }, index.h("wa-card", null, index.h("span", { class: "summary__value" }, totalIssues), index.h("span", { class: "summary__label" }, "room types affected")), index.h("wa-card", null, index.h("span", { class: "summary__value" }, propertiesWithIssues), index.h("span", { class: "summary__label" }, "properties impacted")))), index.h("section", { class: "unbookable-rooms__content" }, index.h("ir-unbookable-rooms-filters", { mode: this.mode, filters: this.filters, unbookableRooms: this.unbookableRooms, isLoading: this.isLoading, onFiltersChange: this.handleFiltersChange, onFiltersReset: this.handleFiltersReset, onFiltersSave: this.handleRefresh }), index.h("ir-unbookable-rooms-data", { mode: this.mode, isLoading: this.isLoading, errorMessage: this.errorMessage, unbookableRooms: this.unbookableRooms, allowedProperties: this.allowedProperties, filters: this.filters, progressFilters: this.progressFilters })))));
+        return (index.h("ir-page", { label: "Availability Alert" }, this.mode === 'mpo' && (index.h("section", { class: "summary", "aria-live": "polite" }, index.h("ir-metric-card", { icon: 'bed', value: totalIssues, label: "Affected room types" }), index.h("ir-metric-card", { icon: 'hotel', value: propertiesWithIssues, label: "Properties impacted" }))), index.h("section", { class: "unbookable-rooms__content" }, index.h("ir-unbookable-rooms-filters", { mode: this.mode, filters: this.filters, unbookableRooms: this.unbookableRooms, isLoading: this.isLoading, onFiltersChange: this.handleFiltersChange, onFiltersReset: this.handleFiltersReset, onFiltersSave: this.handleRefresh }), index.h("ir-unbookable-rooms-data", { mode: this.mode, isLoading: this.isLoading, errorMessage: this.errorMessage, unbookableRooms: this.unbookableRooms, allowedProperties: this.allowedProperties, filters: this.filters, progressFilters: this.progressFilters }))));
     }
     static get watchers() { return {
         "ticket": [{

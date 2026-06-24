@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-D7D7fhZS.js';
 import { C as CityLedgerService } from './index-UiAzOH9k.js';
-import { P as PropertyService } from './property.service-CAIwQBf3.js';
+import { P as PropertyService } from './index-DhAKe8N2.js';
 import { i as formatAmount } from './utils-DvzWTdKJ.js';
 import { T as Token } from './Token-CkxFIO_J.js';
 import { h as hooks } from './moment-Mki5YqAR.js';

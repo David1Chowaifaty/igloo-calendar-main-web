@@ -1,4 +1,4 @@
-import { AllowedProperties } from "../../services/property.service";
+import type { AllowedProperties } from "../../services/property/types";
 import { ChannelReportResult, ChannelSaleFilter, SalesByChannelMode } from './types';
 export declare class IrSalesByChannel {
     language: string;

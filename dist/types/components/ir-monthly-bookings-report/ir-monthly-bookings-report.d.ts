@@ -1,5 +1,5 @@
 import { DailyReport, DailyReportFilter } from './types';
-import { MonthlyStatsResults } from "../../services/property.service";
+import type { MonthlyStatsResults } from "../../services/property/types";
 export declare class IrMonthlyBookingsReport {
     language: string;
     ticket: string;

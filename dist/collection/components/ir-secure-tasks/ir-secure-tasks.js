@@ -97,6 +97,7 @@ export class IrSecureTasks {
         'payment-options',
         'meal-report',
         'ghs',
+        'fiscal-documents',
     ]);
     isValidPage(value) {
         return this.validPages.has(value);
@@ -111,7 +112,7 @@ export class IrSecureTasks {
         {
             routes: [
                 { name: 'GHS', value: 'ghs' },
-                { name: 'Meal report', value: 'meal-report' },
+                { name: 'Meal Report', value: 'meal-report' },
             ],
         },
         {
@@ -130,6 +131,7 @@ export class IrSecureTasks {
                 { name: 'Country Sales', value: 'country-sales' },
                 { name: 'Channel Sales', value: 'channel-sales' },
                 { name: 'Booking Listing', value: 'booking-listing' },
+                { name: 'Fiscal Documents', value: 'fiscal-documents' },
                 { name: 'Email Logs', value: 'email-logs' },
             ],
         },
@@ -227,6 +229,8 @@ export class IrSecureTasks {
                 return h("ir-ghs-onboarding", { ticket: this.token.getToken() });
             case 'meal-report':
                 return h("ir-meal-report", { propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'fiscal-documents':
+                return h("ir-fiscal-documents", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             default:
                 return null;
         }

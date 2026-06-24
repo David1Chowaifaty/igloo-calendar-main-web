@@ -1,8 +1,8 @@
 'use strict';
 
 var index = require('./index-DYQrLNin.js');
-var index$1 = require('./index-Dd_1v2qq.js');
-var property_service = require('./property.service-CpTJKuQs.js');
+var index$2 = require('./index-Dd_1v2qq.js');
+var index$1 = require('./index-Bg6N-iof.js');
 var utils = require('./utils-DgT4kKsD.js');
 var Token = require('./Token-mN7PQKGF.js');
 var moment = require('./moment-CdViwxPQ.js');
@@ -38,8 +38,8 @@ const IrClStatementPreview = class {
     fiscalDocuments = [];
     clPreviewReady;
     tokenService = new Token.Token();
-    propertyService = new property_service.PropertyService();
-    cityLedgerService = new index$1.CityLedgerService();
+    propertyService = new index$1.PropertyService();
+    cityLedgerService = new index$2.CityLedgerService();
     hasEmitted = false;
     componentWillLoad() {
         if (!this.ticket) {

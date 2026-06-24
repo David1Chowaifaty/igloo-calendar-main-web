@@ -164,13 +164,13 @@ const IrPriceInput = class {
         this.inputFocus.emit();
     };
     render() {
-        return (index.h("fieldset", { key: '7f152bc131b98fb1a084f7e87540d692d0fb4408', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (index.h("div", { key: '2b66dc4a0d26f79958441b6e3b2f820443e070a3', class: `input-group-prepend ${this.labelContainerClassname}` }, index.h("span", { key: '2d243ade463b7e6298d6b3f02cb647f23b7f10bd', class: `input-group-text 
+        return (index.h("fieldset", { key: 'af6c8e324d42c3651139acdc9b5c4cc894c6b877', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (index.h("div", { key: '504fc565c1ec79c21131f8e3f442f0988aaec4b4', class: `input-group-prepend ${this.labelContainerClassname}` }, index.h("span", { key: 'eee9942778ebb4a56efee3ea9043c37e3a7f5fa3', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, index.h("label", { key: '4baef99fda94b82b32a84a4994a4875704a8e1b9', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), index.h("div", { key: '5e7b0d0bbcbac44b778c122a30c81fd642f92d86', class: "position-relative has-icon-left rate-input-container" }, this.currency && (index.h("div", { key: '99c0fdfe8fb939d2ce69a6141a19012889c7d911' }, index.h("span", { key: 'adba06200a65a66cf675b7768e4b9f4f266e1206', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), index.h("input", { key: '50602e8a3d0a3a8ce03126899551d4f2c2f0719a', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, index.h("label", { key: 'c4f9e3838c3cbabd6d1b7af38404a6bf63f21af0', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), index.h("div", { key: '3b17ac1839cbfba1d2f04c274eeecfdc53f41596', class: "position-relative has-icon-left rate-input-container" }, this.currency && (index.h("div", { key: '51123fdab63cd55807d35a10d814430f3d8742e5' }, index.h("span", { key: 'a85e595ff0b2e0a709fbad96bfeca7c8230243e8', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), index.h("input", { key: '142247eedfbfb377746dd287ee675385ea9622aa', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 

@@ -1,0 +1,1 @@
+import{I as o,d as r}from"./ir-fiscal-document-preview2.js";const s=o,e=r;export{s as IrFiscalDocumentPreview,e as defineCustomElement}

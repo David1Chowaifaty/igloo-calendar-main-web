@@ -1,0 +1,1 @@
+import{I as e,d as o}from"./ir-guest-document-preview2.js";const r=e,s=o;export{r as IrGuestDocumentPreview,s as defineCustomElement}

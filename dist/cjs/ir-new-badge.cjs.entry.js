@@ -9,7 +9,7 @@ const IrNewBadge = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: 'e727806d3da47599220f0a75c7c62bf51e15c1e9' }, index.h("span", { key: '0f1adfa557642db1e78518e4703abd4e9ae3af95', class: "new-badge" }, "new")));
+        return (index.h(index.Host, { key: '3775a80ca5a233ab2defaf8714b076f65f4c1b93' }, index.h("span", { key: '19e0b15b83c6e7677e038aed79b4a4bf4fda16c6', class: "new-badge" }, "new")));
     }
 };
 IrNewBadge.style = irNewBadgeCss();

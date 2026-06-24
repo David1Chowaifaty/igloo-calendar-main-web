@@ -1,0 +1,24 @@
+:host {
+  display: contents;
+}
+
+.guest-document-preview__pdf-viewer {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.guest-document-preview__pdf-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
+
+@media print {
+  .guest-document-preview__pdf-viewer {
+    margin: 0;
+  }
+  @page {
+    margin: 0;
+  }
+}

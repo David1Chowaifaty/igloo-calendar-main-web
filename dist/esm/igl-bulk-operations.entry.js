@@ -31,7 +31,7 @@ const IglBulkOperations = class {
         this.tabsEl.style.setProperty('--ir-tabs-top', this.titleEl?.getBoundingClientRect()?.height?.toString() + 'px');
     }
     render() {
-        return (h("div", { key: 'ec027f38128fa04b75c8f6c886e2903bb1b95bed', class: 'bulk-operations-sheet-container' }, h("div", { key: 'b12d94458ba8568b9823dba06871ca6c208cace9', class: "sheet-header d-flex align-items-center" }, h("ir-title", { key: '9373447128eb9f8f4ade8def2400e7803f0cd517', ref: el => (this.titleEl = el), onCloseSideBar: e => {
+        return (h("div", { key: '8629a1264fdbb4587626824854bdbf41fc14dfad', class: 'bulk-operations-sheet-container' }, h("div", { key: '84493a52e1d5d4a72cb30d7000ce7bdc4178c31c', class: "sheet-header d-flex align-items-center" }, h("ir-title", { key: 'e82f91c4e978ff3cb1f3a46faf6f411b1c80f9b7', ref: el => (this.titleEl = el), onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 // if (this.isLoading) {
@@ -40,7 +40,7 @@ const IglBulkOperations = class {
                 this.closeModal.emit(null);
             }, class: "px-1 mb-0",
             // label={locales.entries.Lcz_BulkStopOpenSale}
-            label: 'Bulk Operations', displayContext: "sidebar" })), h("ir-tabs", { key: 'cb6326ed21c5eaa7447b2ec0b3c90148d18e3770', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
+            label: 'Bulk Operations', displayContext: "sidebar" })), h("ir-tabs", { key: '9c0a081169589ef5728aae6add259d168a9f6dd2', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
     }
 };
 IglBulkOperations.style = iglBulkOperationsCss() + sheetCss();

@@ -171,8 +171,8 @@ export class IrUnbookableRoomsData {
                     "references": {
                         "FetchUnBookableRoomsResult": {
                             "location": "import",
-                            "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::FetchUnBookableRoomsResult",
+                            "path": "@/services/property/types",
+                            "id": "src/services/property/types.ts::FetchUnBookableRoomsResult",
                             "referenceLocation": "FetchUnBookableRoomsResult"
                         }
                     }
@@ -196,8 +196,8 @@ export class IrUnbookableRoomsData {
                     "references": {
                         "AllowedProperties": {
                             "location": "import",
-                            "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::AllowedProperties",
+                            "path": "@/services/property/types",
+                            "id": "src/services/property/types.ts::AllowedProperties",
                             "referenceLocation": "AllowedProperties"
                         }
                     }

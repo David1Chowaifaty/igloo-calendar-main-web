@@ -67,8 +67,10 @@ import { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 import { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
 import { FdConfirmAction, FdConfirmationVoidType } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-city-ledger-fiscal-documents-table/ir-fd-confirm-dialog/ir-fd-confirm-dialog";
 import { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
+import { FiscalDocumentPreviewMode } from "./components/ir-fiscal-documents/ir-fiscal-document-preview/ir-fiscal-document-preview";
 import { FiscalDocumentFilters, FiscalDocumentRow, FiscalFolioType } from "./components/ir-fiscal-documents/types";
 import { ClFiscalDocumentPreviewRequest as ClFiscalDocumentPreviewRequest1 } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
+import { GuestDocumentPreviewRequest } from "./components/ir-fiscal-documents/ir-guest-document-preview/types";
 import { GHS_Candidate_Property } from "./services/ghs/types";
 import { ICountry as ICountry1 } from "./models/IBooking";
 import { GuestChangedEvent as GuestChangedEvent1 } from "./components/ir-guest-info/ir-guest-info-form/ir-guest-info-form";
@@ -86,7 +88,7 @@ import { Notification } from "./components/ir-notifications/types";
 import { PaymentOption } from "./models/payment-options";
 import { IrComboboxSelectEventDetail } from "./components/ui/ir-picker/ir-picker";
 import { GetACByACID } from "./components/pms-header/ir-property-switcher/legacy.types";
-import { AllowedProperties, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property.service";
+import { AllowedProperties, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property/types";
 import { SidebarOpenEvent as SidebarOpenEvent1 } from "./components/ir-daily-revenue/types";
 import { ChannelReportResult, ChannelSaleFilter, SalesByChannelMode } from "./components/ir-sales-by-channel/types";
 import { CountrySalesFilter, MappedCountries, SalesRecord } from "./components/ir-sales-by-country/types";
@@ -164,8 +166,10 @@ export { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 export { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
 export { FdConfirmAction, FdConfirmationVoidType } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-city-ledger-fiscal-documents-table/ir-fd-confirm-dialog/ir-fd-confirm-dialog";
 export { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
+export { FiscalDocumentPreviewMode } from "./components/ir-fiscal-documents/ir-fiscal-document-preview/ir-fiscal-document-preview";
 export { FiscalDocumentFilters, FiscalDocumentRow, FiscalFolioType } from "./components/ir-fiscal-documents/types";
 export { ClFiscalDocumentPreviewRequest as ClFiscalDocumentPreviewRequest1 } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
+export { GuestDocumentPreviewRequest } from "./components/ir-fiscal-documents/ir-guest-document-preview/types";
 export { GHS_Candidate_Property } from "./services/ghs/types";
 export { ICountry as ICountry1 } from "./models/IBooking";
 export { GuestChangedEvent as GuestChangedEvent1 } from "./components/ir-guest-info/ir-guest-info-form/ir-guest-info-form";
@@ -183,7 +187,7 @@ export { Notification } from "./components/ir-notifications/types";
 export { PaymentOption } from "./models/payment-options";
 export { IrComboboxSelectEventDetail } from "./components/ui/ir-picker/ir-picker";
 export { GetACByACID } from "./components/pms-header/ir-property-switcher/legacy.types";
-export { AllowedProperties, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property.service";
+export { AllowedProperties, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property/types";
 export { SidebarOpenEvent as SidebarOpenEvent1 } from "./components/ir-daily-revenue/types";
 export { ChannelReportResult, ChannelSaleFilter, SalesByChannelMode } from "./components/ir-sales-by-channel/types";
 export { CountrySalesFilter, MappedCountries, SalesRecord } from "./components/ir-sales-by-country/types";
@@ -3336,20 +3340,42 @@ export namespace Components {
     }
     interface IrFinancialTable {
     }
+    /**
+     * Fiscal Document Preview
+     * Thin wrapper that mounts the appropriate preview component(s). Both inner
+     * previews are passive, window-event-driven listeners, so the host just needs
+     * to render this once. `documentConverted` from the agent preview bubbles
+     * through to the host.
+     */
+    interface IrFiscalDocumentPreview {
+        /**
+          * Which preview flows to enable. Defaults to agent (city-ledger).
+          * @default 'agent'
+         */
+        "mode": FiscalDocumentPreviewMode;
+        "propertyId": number;
+        "ticket": string;
+    }
     interface IrFiscalDocuments {
         "baseurl": string;
         /**
           * @default 'en'
          */
         "language": string;
+        /**
+          * Property username (aname). When provided without `propertyid`, the id is resolved from it.
+         */
+        "p": string;
         "propertyid": number;
         "ticket": string;
     }
     interface IrFiscalDocumentsFilters {
         /**
-          * @default {     fromDate: undefined,     toDate: undefined,     docNumber: '',     taxableOnly: false,     type: 'all',     proformaOnly: false,     folioType: 'all',     agentId: null,     guestId: null,   }
+          * Initial filter values. Edits are kept locally and only sent on submit.
+          * @default { ...DEFAULT_FILTERS }
          */
         "filters": FiscalDocumentFilters;
+        "loading": boolean;
         "propertyId": number;
     }
     interface IrFiscalDocumentsTable {
@@ -3363,9 +3389,14 @@ export namespace Components {
          */
         "currencies": ICurrency[];
         /**
-          * @default '$'
+          * @default 1
          */
-        "currencySymbol": string;
+        "currentPage": number;
+        /**
+          * `_FD_TYPE` setup entries used to display the document type.
+          * @default []
+         */
+        "fdTypes": IEntries[];
         /**
           * Folio scope driving which identity columns are shown.
           * @default 'all'
@@ -3392,20 +3423,32 @@ export namespace Components {
           * @default false
          */
         "isLoading": boolean;
+        /**
+          * @default 'en'
+         */
+        "language": string;
+        /**
+          * @default 20
+         */
+        "pageSize": number;
+        /**
+          * @default [20, 50, 100]
+         */
+        "pageSizes": number[];
         "propertyId": number;
         /**
           * @default []
          */
         "rows": FiscalDocumentRow[];
-        /**
-          * @default false
-         */
-        "taxableOnly": boolean;
         "ticket": string;
         /**
           * @default null
          */
         "toDate": string | null;
+        /**
+          * @default 0
+         */
+        "totalRecords": number;
     }
     interface IrGapNights {
         /**
@@ -3473,6 +3516,18 @@ export namespace Components {
     }
     interface IrGuestBilling {
         "booking": Booking;
+    }
+    /**
+     * Guest Fiscal Document Preview
+     * Self-contained, window-event-driven preview for guest documents — the guest
+     * counterpart to `ir-cl-fiscal-document-preview`. It listens for
+     * `guestDocumentPreview`, fetches the invoice / credit-note PDF via
+     * `BookingService.printInvoice`, and renders it in a preview dialog
+     * (same flow as `ir-guest-billing`).
+     */
+    interface IrGuestDocumentPreview {
+        "propertyId": number;
+        "ticket": string;
     }
     interface IrGuestInfo {
         "booking_nbr": string;
@@ -6950,6 +7005,10 @@ export interface IrFinancialTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrFinancialTableElement;
 }
+export interface IrFiscalDocumentPreviewCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrFiscalDocumentPreviewElement;
+}
 export interface IrFiscalDocumentsFiltersCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrFiscalDocumentsFiltersElement;
@@ -9980,6 +10039,30 @@ declare global {
         prototype: HTMLIrFinancialTableElement;
         new (): HTMLIrFinancialTableElement;
     };
+    interface HTMLIrFiscalDocumentPreviewElementEventMap {
+        "documentConverted": void;
+    }
+    /**
+     * Fiscal Document Preview
+     * Thin wrapper that mounts the appropriate preview component(s). Both inner
+     * previews are passive, window-event-driven listeners, so the host just needs
+     * to render this once. `documentConverted` from the agent preview bubbles
+     * through to the host.
+     */
+    interface HTMLIrFiscalDocumentPreviewElement extends Components.IrFiscalDocumentPreview, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrFiscalDocumentPreviewElementEventMap>(type: K, listener: (this: HTMLIrFiscalDocumentPreviewElement, ev: IrFiscalDocumentPreviewCustomEvent<HTMLIrFiscalDocumentPreviewElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrFiscalDocumentPreviewElementEventMap>(type: K, listener: (this: HTMLIrFiscalDocumentPreviewElement, ev: IrFiscalDocumentPreviewCustomEvent<HTMLIrFiscalDocumentPreviewElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrFiscalDocumentPreviewElement: {
+        prototype: HTMLIrFiscalDocumentPreviewElement;
+        new (): HTMLIrFiscalDocumentPreviewElement;
+    };
     interface HTMLIrFiscalDocumentsElement extends Components.IrFiscalDocuments, HTMLStencilElement {
     }
     var HTMLIrFiscalDocumentsElement: {
@@ -9987,8 +10070,8 @@ declare global {
         new (): HTMLIrFiscalDocumentsElement;
     };
     interface HTMLIrFiscalDocumentsFiltersElementEventMap {
-        "filtersChange": FiscalDocumentFilters;
         "applyFilters": FiscalDocumentFilters;
+        "filterChanged": FiscalDocumentFilters;
     }
     interface HTMLIrFiscalDocumentsFiltersElement extends Components.IrFiscalDocumentsFilters, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrFiscalDocumentsFiltersElementEventMap>(type: K, listener: (this: HTMLIrFiscalDocumentsFiltersElement, ev: IrFiscalDocumentsFiltersCustomEvent<HTMLIrFiscalDocumentsFiltersElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -10007,6 +10090,10 @@ declare global {
     interface HTMLIrFiscalDocumentsTableElementEventMap {
         "clFiscalDocumentPreview": ClFiscalDocumentPreviewRequest;
         "fetchRequested": void;
+        "requestPageChange": PaginationChangeEvent;
+        "requestPageSizeChange": PaginationChangeEvent;
+        "openBookingDetails": string;
+        "guestDocumentPreview": GuestDocumentPreviewRequest;
     }
     interface HTMLIrFiscalDocumentsTableElement extends Components.IrFiscalDocumentsTable, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrFiscalDocumentsTableElementEventMap>(type: K, listener: (this: HTMLIrFiscalDocumentsTableElement, ev: IrFiscalDocumentsTableCustomEvent<HTMLIrFiscalDocumentsTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -10108,6 +10195,20 @@ declare global {
     var HTMLIrGuestBillingElement: {
         prototype: HTMLIrGuestBillingElement;
         new (): HTMLIrGuestBillingElement;
+    };
+    /**
+     * Guest Fiscal Document Preview
+     * Self-contained, window-event-driven preview for guest documents — the guest
+     * counterpart to `ir-cl-fiscal-document-preview`. It listens for
+     * `guestDocumentPreview`, fetches the invoice / credit-note PDF via
+     * `BookingService.printInvoice`, and renders it in a preview dialog
+     * (same flow as `ir-guest-billing`).
+     */
+    interface HTMLIrGuestDocumentPreviewElement extends Components.IrGuestDocumentPreview, HTMLStencilElement {
+    }
+    var HTMLIrGuestDocumentPreviewElement: {
+        prototype: HTMLIrGuestDocumentPreviewElement;
+        new (): HTMLIrGuestDocumentPreviewElement;
     };
     interface HTMLIrGuestInfoElementEventMap {
         "closeSideBar": null;
@@ -12421,6 +12522,7 @@ declare global {
         "ir-financial-filters": HTMLIrFinancialFiltersElement;
         "ir-financial-summary": HTMLIrFinancialSummaryElement;
         "ir-financial-table": HTMLIrFinancialTableElement;
+        "ir-fiscal-document-preview": HTMLIrFiscalDocumentPreviewElement;
         "ir-fiscal-documents": HTMLIrFiscalDocumentsElement;
         "ir-fiscal-documents-filters": HTMLIrFiscalDocumentsFiltersElement;
         "ir-fiscal-documents-table": HTMLIrFiscalDocumentsTableElement;
@@ -12430,6 +12532,7 @@ declare global {
         "ir-ghs-onboarding": HTMLIrGhsOnboardingElement;
         "ir-ghs-selection-bucket": HTMLIrGhsSelectionBucketElement;
         "ir-guest-billing": HTMLIrGuestBillingElement;
+        "ir-guest-document-preview": HTMLIrGuestDocumentPreviewElement;
         "ir-guest-info": HTMLIrGuestInfoElement;
         "ir-guest-info-drawer": HTMLIrGuestInfoDrawerElement;
         "ir-guest-info-form": HTMLIrGuestInfoFormElement;
@@ -16049,22 +16152,48 @@ declare namespace LocalJSX {
     interface IrFinancialTable {
         "onFinancialActionsOpenSidebar"?: (event: IrFinancialTableCustomEvent<SidebarOpenEvent>) => void;
     }
+    /**
+     * Fiscal Document Preview
+     * Thin wrapper that mounts the appropriate preview component(s). Both inner
+     * previews are passive, window-event-driven listeners, so the host just needs
+     * to render this once. `documentConverted` from the agent preview bubbles
+     * through to the host.
+     */
+    interface IrFiscalDocumentPreview {
+        /**
+          * Which preview flows to enable. Defaults to agent (city-ledger).
+          * @default 'agent'
+         */
+        "mode"?: FiscalDocumentPreviewMode;
+        /**
+          * Re-emitted when the agent preview converts a draft into an invoice.
+         */
+        "onDocumentConverted"?: (event: IrFiscalDocumentPreviewCustomEvent<void>) => void;
+        "propertyId"?: number;
+        "ticket"?: string;
+    }
     interface IrFiscalDocuments {
         "baseurl"?: string;
         /**
           * @default 'en'
          */
         "language"?: string;
+        /**
+          * Property username (aname). When provided without `propertyid`, the id is resolved from it.
+         */
+        "p"?: string;
         "propertyid"?: number;
         "ticket"?: string;
     }
     interface IrFiscalDocumentsFilters {
         /**
-          * @default {     fromDate: undefined,     toDate: undefined,     docNumber: '',     taxableOnly: false,     type: 'all',     proformaOnly: false,     folioType: 'all',     agentId: null,     guestId: null,   }
+          * Initial filter values. Edits are kept locally and only sent on submit.
+          * @default { ...DEFAULT_FILTERS }
          */
         "filters"?: FiscalDocumentFilters;
+        "loading"?: boolean;
         "onApplyFilters"?: (event: IrFiscalDocumentsFiltersCustomEvent<FiscalDocumentFilters>) => void;
-        "onFiltersChange"?: (event: IrFiscalDocumentsFiltersCustomEvent<FiscalDocumentFilters>) => void;
+        "onFilterChanged"?: (event: IrFiscalDocumentsFiltersCustomEvent<FiscalDocumentFilters>) => void;
         "propertyId"?: number;
     }
     interface IrFiscalDocumentsTable {
@@ -16078,9 +16207,14 @@ declare namespace LocalJSX {
          */
         "currencies"?: ICurrency[];
         /**
-          * @default '$'
+          * @default 1
          */
-        "currencySymbol"?: string;
+        "currentPage"?: number;
+        /**
+          * `_FD_TYPE` setup entries used to display the document type.
+          * @default []
+         */
+        "fdTypes"?: IEntries[];
         /**
           * Folio scope driving which identity columns are shown.
           * @default 'all'
@@ -16107,22 +16241,44 @@ declare namespace LocalJSX {
           * @default false
          */
         "isLoading"?: boolean;
+        /**
+          * @default 'en'
+         */
+        "language"?: string;
         "onClFiscalDocumentPreview"?: (event: IrFiscalDocumentsTableCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
         "onFetchRequested"?: (event: IrFiscalDocumentsTableCustomEvent<void>) => void;
+        /**
+          * Emitted when a guest document link/action is clicked (caught by ir-guest-document-preview).
+         */
+        "onGuestDocumentPreview"?: (event: IrFiscalDocumentsTableCustomEvent<GuestDocumentPreviewRequest>) => void;
+        /**
+          * Emitted with the booking number when a booking link is clicked.
+         */
+        "onOpenBookingDetails"?: (event: IrFiscalDocumentsTableCustomEvent<string>) => void;
+        "onRequestPageChange"?: (event: IrFiscalDocumentsTableCustomEvent<PaginationChangeEvent>) => void;
+        "onRequestPageSizeChange"?: (event: IrFiscalDocumentsTableCustomEvent<PaginationChangeEvent>) => void;
+        /**
+          * @default 20
+         */
+        "pageSize"?: number;
+        /**
+          * @default [20, 50, 100]
+         */
+        "pageSizes"?: number[];
         "propertyId"?: number;
         /**
           * @default []
          */
         "rows"?: FiscalDocumentRow[];
-        /**
-          * @default false
-         */
-        "taxableOnly"?: boolean;
         "ticket"?: string;
         /**
           * @default null
          */
         "toDate"?: string | null;
+        /**
+          * @default 0
+         */
+        "totalRecords"?: number;
     }
     interface IrGapNights {
         /**
@@ -16201,6 +16357,18 @@ declare namespace LocalJSX {
     interface IrGuestBilling {
         "booking"?: Booking;
         "onBillingClose"?: (event: IrGuestBillingCustomEvent<void>) => void;
+    }
+    /**
+     * Guest Fiscal Document Preview
+     * Self-contained, window-event-driven preview for guest documents — the guest
+     * counterpart to `ir-cl-fiscal-document-preview`. It listens for
+     * `guestDocumentPreview`, fetches the invoice / credit-note PDF via
+     * `BookingService.printInvoice`, and renders it in a preview dialog
+     * (same flow as `ir-guest-billing`).
+     */
+    interface IrGuestDocumentPreview {
+        "propertyId"?: number;
+        "ticket"?: string;
     }
     interface IrGuestInfo {
         "booking_nbr"?: string;
@@ -20420,28 +20588,37 @@ declare namespace LocalJSX {
     interface IrFinancialFiltersAttributes {
         "isLoading": boolean;
     }
+    interface IrFiscalDocumentPreviewAttributes {
+        "ticket": string;
+        "propertyId": number;
+        "mode": FiscalDocumentPreviewMode;
+    }
     interface IrFiscalDocumentsAttributes {
         "ticket": string;
         "baseurl": string;
         "language": string;
         "propertyid": number;
+        "p": string;
     }
     interface IrFiscalDocumentsFiltersAttributes {
         "propertyId": number;
+        "loading": boolean;
     }
     interface IrFiscalDocumentsTableAttributes {
-        "currencySymbol": string;
-        "taxableOnly": boolean;
         "isLoading": boolean;
         "hasDates": boolean;
         "ticket": string;
         "propertyId": number;
+        "language": string;
         "fromDate": string | null;
         "toDate": string | null;
         "hasFetched": boolean;
         "folioType": FiscalFolioType;
         "agentId": number | null;
         "guestId": number | null;
+        "currentPage": number;
+        "pageSize": number;
+        "totalRecords": number;
     }
     interface IrGapNightsAttributes {
         "ticket": string;
@@ -20464,6 +20641,10 @@ declare namespace LocalJSX {
     }
     interface IrGhsSelectionBucketAttributes {
         "isGenerating": boolean;
+    }
+    interface IrGuestDocumentPreviewAttributes {
+        "ticket": string;
+        "propertyId": number;
     }
     interface IrGuestInfoAttributes {
         "language": string;
@@ -21526,6 +21707,7 @@ declare namespace LocalJSX {
         "ir-financial-filters": Omit<IrFinancialFilters, keyof IrFinancialFiltersAttributes> & { [K in keyof IrFinancialFilters & keyof IrFinancialFiltersAttributes]?: IrFinancialFilters[K] } & { [K in keyof IrFinancialFilters & keyof IrFinancialFiltersAttributes as `attr:${K}`]?: IrFinancialFiltersAttributes[K] } & { [K in keyof IrFinancialFilters & keyof IrFinancialFiltersAttributes as `prop:${K}`]?: IrFinancialFilters[K] };
         "ir-financial-summary": IrFinancialSummary;
         "ir-financial-table": IrFinancialTable;
+        "ir-fiscal-document-preview": Omit<IrFiscalDocumentPreview, keyof IrFiscalDocumentPreviewAttributes> & { [K in keyof IrFiscalDocumentPreview & keyof IrFiscalDocumentPreviewAttributes]?: IrFiscalDocumentPreview[K] } & { [K in keyof IrFiscalDocumentPreview & keyof IrFiscalDocumentPreviewAttributes as `attr:${K}`]?: IrFiscalDocumentPreviewAttributes[K] } & { [K in keyof IrFiscalDocumentPreview & keyof IrFiscalDocumentPreviewAttributes as `prop:${K}`]?: IrFiscalDocumentPreview[K] };
         "ir-fiscal-documents": Omit<IrFiscalDocuments, keyof IrFiscalDocumentsAttributes> & { [K in keyof IrFiscalDocuments & keyof IrFiscalDocumentsAttributes]?: IrFiscalDocuments[K] } & { [K in keyof IrFiscalDocuments & keyof IrFiscalDocumentsAttributes as `attr:${K}`]?: IrFiscalDocumentsAttributes[K] } & { [K in keyof IrFiscalDocuments & keyof IrFiscalDocumentsAttributes as `prop:${K}`]?: IrFiscalDocuments[K] };
         "ir-fiscal-documents-filters": Omit<IrFiscalDocumentsFilters, keyof IrFiscalDocumentsFiltersAttributes> & { [K in keyof IrFiscalDocumentsFilters & keyof IrFiscalDocumentsFiltersAttributes]?: IrFiscalDocumentsFilters[K] } & { [K in keyof IrFiscalDocumentsFilters & keyof IrFiscalDocumentsFiltersAttributes as `attr:${K}`]?: IrFiscalDocumentsFiltersAttributes[K] } & { [K in keyof IrFiscalDocumentsFilters & keyof IrFiscalDocumentsFiltersAttributes as `prop:${K}`]?: IrFiscalDocumentsFilters[K] };
         "ir-fiscal-documents-table": Omit<IrFiscalDocumentsTable, keyof IrFiscalDocumentsTableAttributes> & { [K in keyof IrFiscalDocumentsTable & keyof IrFiscalDocumentsTableAttributes]?: IrFiscalDocumentsTable[K] } & { [K in keyof IrFiscalDocumentsTable & keyof IrFiscalDocumentsTableAttributes as `attr:${K}`]?: IrFiscalDocumentsTableAttributes[K] } & { [K in keyof IrFiscalDocumentsTable & keyof IrFiscalDocumentsTableAttributes as `prop:${K}`]?: IrFiscalDocumentsTable[K] };
@@ -21535,6 +21717,7 @@ declare namespace LocalJSX {
         "ir-ghs-onboarding": Omit<IrGhsOnboarding, keyof IrGhsOnboardingAttributes> & { [K in keyof IrGhsOnboarding & keyof IrGhsOnboardingAttributes]?: IrGhsOnboarding[K] } & { [K in keyof IrGhsOnboarding & keyof IrGhsOnboardingAttributes as `attr:${K}`]?: IrGhsOnboardingAttributes[K] } & { [K in keyof IrGhsOnboarding & keyof IrGhsOnboardingAttributes as `prop:${K}`]?: IrGhsOnboarding[K] };
         "ir-ghs-selection-bucket": Omit<IrGhsSelectionBucket, keyof IrGhsSelectionBucketAttributes> & { [K in keyof IrGhsSelectionBucket & keyof IrGhsSelectionBucketAttributes]?: IrGhsSelectionBucket[K] } & { [K in keyof IrGhsSelectionBucket & keyof IrGhsSelectionBucketAttributes as `attr:${K}`]?: IrGhsSelectionBucketAttributes[K] } & { [K in keyof IrGhsSelectionBucket & keyof IrGhsSelectionBucketAttributes as `prop:${K}`]?: IrGhsSelectionBucket[K] };
         "ir-guest-billing": IrGuestBilling;
+        "ir-guest-document-preview": Omit<IrGuestDocumentPreview, keyof IrGuestDocumentPreviewAttributes> & { [K in keyof IrGuestDocumentPreview & keyof IrGuestDocumentPreviewAttributes]?: IrGuestDocumentPreview[K] } & { [K in keyof IrGuestDocumentPreview & keyof IrGuestDocumentPreviewAttributes as `attr:${K}`]?: IrGuestDocumentPreviewAttributes[K] } & { [K in keyof IrGuestDocumentPreview & keyof IrGuestDocumentPreviewAttributes as `prop:${K}`]?: IrGuestDocumentPreview[K] };
         "ir-guest-info": Omit<IrGuestInfo, keyof IrGuestInfoAttributes> & { [K in keyof IrGuestInfo & keyof IrGuestInfoAttributes]?: IrGuestInfo[K] } & { [K in keyof IrGuestInfo & keyof IrGuestInfoAttributes as `attr:${K}`]?: IrGuestInfoAttributes[K] } & { [K in keyof IrGuestInfo & keyof IrGuestInfoAttributes as `prop:${K}`]?: IrGuestInfo[K] };
         "ir-guest-info-drawer": Omit<IrGuestInfoDrawer, keyof IrGuestInfoDrawerAttributes> & { [K in keyof IrGuestInfoDrawer & keyof IrGuestInfoDrawerAttributes]?: IrGuestInfoDrawer[K] } & { [K in keyof IrGuestInfoDrawer & keyof IrGuestInfoDrawerAttributes as `attr:${K}`]?: IrGuestInfoDrawerAttributes[K] } & { [K in keyof IrGuestInfoDrawer & keyof IrGuestInfoDrawerAttributes as `prop:${K}`]?: IrGuestInfoDrawer[K] };
         "ir-guest-info-form": Omit<IrGuestInfoForm, keyof IrGuestInfoFormAttributes> & { [K in keyof IrGuestInfoForm & keyof IrGuestInfoFormAttributes]?: IrGuestInfoForm[K] } & { [K in keyof IrGuestInfoForm & keyof IrGuestInfoFormAttributes as `attr:${K}`]?: IrGuestInfoFormAttributes[K] } & { [K in keyof IrGuestInfoForm & keyof IrGuestInfoFormAttributes as `prop:${K}`]?: IrGuestInfoForm[K] };
@@ -21945,6 +22128,14 @@ declare module "@stencil/core" {
             "ir-financial-filters": LocalJSX.IntrinsicElements["ir-financial-filters"] & JSXBase.HTMLAttributes<HTMLIrFinancialFiltersElement>;
             "ir-financial-summary": LocalJSX.IntrinsicElements["ir-financial-summary"] & JSXBase.HTMLAttributes<HTMLIrFinancialSummaryElement>;
             "ir-financial-table": LocalJSX.IntrinsicElements["ir-financial-table"] & JSXBase.HTMLAttributes<HTMLIrFinancialTableElement>;
+            /**
+             * Fiscal Document Preview
+             * Thin wrapper that mounts the appropriate preview component(s). Both inner
+             * previews are passive, window-event-driven listeners, so the host just needs
+             * to render this once. `documentConverted` from the agent preview bubbles
+             * through to the host.
+             */
+            "ir-fiscal-document-preview": LocalJSX.IntrinsicElements["ir-fiscal-document-preview"] & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentPreviewElement>;
             "ir-fiscal-documents": LocalJSX.IntrinsicElements["ir-fiscal-documents"] & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsElement>;
             "ir-fiscal-documents-filters": LocalJSX.IntrinsicElements["ir-fiscal-documents-filters"] & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsFiltersElement>;
             "ir-fiscal-documents-table": LocalJSX.IntrinsicElements["ir-fiscal-documents-table"] & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsTableElement>;
@@ -21954,6 +22145,15 @@ declare module "@stencil/core" {
             "ir-ghs-onboarding": LocalJSX.IntrinsicElements["ir-ghs-onboarding"] & JSXBase.HTMLAttributes<HTMLIrGhsOnboardingElement>;
             "ir-ghs-selection-bucket": LocalJSX.IntrinsicElements["ir-ghs-selection-bucket"] & JSXBase.HTMLAttributes<HTMLIrGhsSelectionBucketElement>;
             "ir-guest-billing": LocalJSX.IntrinsicElements["ir-guest-billing"] & JSXBase.HTMLAttributes<HTMLIrGuestBillingElement>;
+            /**
+             * Guest Fiscal Document Preview
+             * Self-contained, window-event-driven preview for guest documents — the guest
+             * counterpart to `ir-cl-fiscal-document-preview`. It listens for
+             * `guestDocumentPreview`, fetches the invoice / credit-note PDF via
+             * `BookingService.printInvoice`, and renders it in a preview dialog
+             * (same flow as `ir-guest-billing`).
+             */
+            "ir-guest-document-preview": LocalJSX.IntrinsicElements["ir-guest-document-preview"] & JSXBase.HTMLAttributes<HTMLIrGuestDocumentPreviewElement>;
             "ir-guest-info": LocalJSX.IntrinsicElements["ir-guest-info"] & JSXBase.HTMLAttributes<HTMLIrGuestInfoElement>;
             "ir-guest-info-drawer": LocalJSX.IntrinsicElements["ir-guest-info-drawer"] & JSXBase.HTMLAttributes<HTMLIrGuestInfoDrawerElement>;
             "ir-guest-info-form": LocalJSX.IntrinsicElements["ir-guest-info-form"] & JSXBase.HTMLAttributes<HTMLIrGuestInfoFormElement>;

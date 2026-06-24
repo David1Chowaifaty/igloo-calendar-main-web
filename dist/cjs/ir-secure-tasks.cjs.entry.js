@@ -2,7 +2,7 @@
 
 var index = require('./index-DYQrLNin.js');
 var Token = require('./Token-mN7PQKGF.js');
-var property_service = require('./property.service-CpTJKuQs.js');
+var index$1 = require('./index-Bg6N-iof.js');
 var calendarData = require('./calendar-data-R3j-WBLW.js');
 var utils = require('./utils-DgT4kKsD.js');
 require('./axios-EresIryl.js');
@@ -112,6 +112,7 @@ const IrSecureTasks = class {
         'payment-options',
         'meal-report',
         'ghs',
+        'fiscal-documents',
     ]);
     isValidPage(value) {
         return this.validPages.has(value);
@@ -126,7 +127,7 @@ const IrSecureTasks = class {
         {
             routes: [
                 { name: 'GHS', value: 'ghs' },
-                { name: 'Meal report', value: 'meal-report' },
+                { name: 'Meal Report', value: 'meal-report' },
             ],
         },
         {
@@ -145,6 +146,7 @@ const IrSecureTasks = class {
                 { name: 'Country Sales', value: 'country-sales' },
                 { name: 'Channel Sales', value: 'channel-sales' },
                 { name: 'Booking Listing', value: 'booking-listing' },
+                { name: 'Fiscal Documents', value: 'fiscal-documents' },
                 { name: 'Email Logs', value: 'email-logs' },
             ],
         },
@@ -164,7 +166,7 @@ const IrSecureTasks = class {
             this.isLoading = false;
         }
         else if (this.p) {
-            const propertyService = new property_service.PropertyService();
+            const propertyService = new index$1.PropertyService();
             await propertyService.getExposedProperty({ aname: this.p, id: 42, language: 'en' });
             this.propertyid = calendarData.calendar_data?.property?.id;
             this.isLoading = false;
@@ -242,6 +244,8 @@ const IrSecureTasks = class {
                 return index.h("ir-ghs-onboarding", { ticket: this.token.getToken() });
             case 'meal-report':
                 return index.h("ir-meal-report", { propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'fiscal-documents':
+                return index.h("ir-fiscal-documents", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             default:
                 return null;
         }

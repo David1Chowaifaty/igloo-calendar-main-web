@@ -6,14 +6,14 @@ export declare const GHS_Candidate_Property_Schema: z.ZodObject<{
     level2: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     COUNTRY_ID: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    AC_ID?: number;
     NAME?: string;
+    AC_ID?: number;
     aname?: string;
     level2?: string;
     COUNTRY_ID?: number;
 }, {
-    AC_ID?: number;
     NAME?: string;
+    AC_ID?: number;
     aname?: string;
     level2?: string;
     COUNTRY_ID?: number;

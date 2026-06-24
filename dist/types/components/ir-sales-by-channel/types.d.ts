@@ -25,6 +25,7 @@ declare const ExtendedChanelReportBaseSchema: z.ZodObject<z.objectUtil.extendSha
     PROPERTY_ID: z.ZodNumber;
     PROPERTY_NAME: z.ZodString;
     currency: z.ZodString;
+    SOURCE_ICON: z.ZodString;
 }, {
     last_year: z.ZodOptional<z.ZodObject<{
         NIGHTS: z.ZodNumber;
@@ -34,6 +35,7 @@ declare const ExtendedChanelReportBaseSchema: z.ZodObject<z.objectUtil.extendSha
         PROPERTY_ID: z.ZodNumber;
         PROPERTY_NAME: z.ZodString;
         currency: z.ZodString;
+        SOURCE_ICON: z.ZodString;
     }, "strip", z.ZodTypeAny, {
         currency?: string;
         NIGHTS?: number;
@@ -42,6 +44,7 @@ declare const ExtendedChanelReportBaseSchema: z.ZodObject<z.objectUtil.extendSha
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     }, {
         currency?: string;
         NIGHTS?: number;
@@ -50,6 +53,7 @@ declare const ExtendedChanelReportBaseSchema: z.ZodObject<z.objectUtil.extendSha
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     }>>;
 }>, "strip", z.ZodTypeAny, {
     currency?: string;
@@ -59,6 +63,7 @@ declare const ExtendedChanelReportBaseSchema: z.ZodObject<z.objectUtil.extendSha
     SOURCE?: string;
     PROPERTY_ID?: number;
     PROPERTY_NAME?: string;
+    SOURCE_ICON?: string;
     last_year?: {
         currency?: string;
         NIGHTS?: number;
@@ -67,6 +72,7 @@ declare const ExtendedChanelReportBaseSchema: z.ZodObject<z.objectUtil.extendSha
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     };
 }, {
     currency?: string;
@@ -76,6 +82,7 @@ declare const ExtendedChanelReportBaseSchema: z.ZodObject<z.objectUtil.extendSha
     SOURCE?: string;
     PROPERTY_ID?: number;
     PROPERTY_NAME?: string;
+    SOURCE_ICON?: string;
     last_year?: {
         currency?: string;
         NIGHTS?: number;
@@ -84,6 +91,7 @@ declare const ExtendedChanelReportBaseSchema: z.ZodObject<z.objectUtil.extendSha
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     };
 }>;
 export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
@@ -94,6 +102,7 @@ export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
     PROPERTY_ID: z.ZodNumber;
     PROPERTY_NAME: z.ZodString;
     currency: z.ZodString;
+    SOURCE_ICON: z.ZodString;
 }, {
     last_year: z.ZodOptional<z.ZodObject<{
         NIGHTS: z.ZodNumber;
@@ -103,6 +112,7 @@ export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
         PROPERTY_ID: z.ZodNumber;
         PROPERTY_NAME: z.ZodString;
         currency: z.ZodString;
+        SOURCE_ICON: z.ZodString;
     }, "strip", z.ZodTypeAny, {
         currency?: string;
         NIGHTS?: number;
@@ -111,6 +121,7 @@ export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     }, {
         currency?: string;
         NIGHTS?: number;
@@ -119,6 +130,7 @@ export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     }>>;
 }>, "strip", z.ZodTypeAny, {
     currency?: string;
@@ -128,6 +140,7 @@ export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
     SOURCE?: string;
     PROPERTY_ID?: number;
     PROPERTY_NAME?: string;
+    SOURCE_ICON?: string;
     last_year?: {
         currency?: string;
         NIGHTS?: number;
@@ -136,6 +149,7 @@ export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     };
 }, {
     currency?: string;
@@ -145,6 +159,7 @@ export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
     SOURCE?: string;
     PROPERTY_ID?: number;
     PROPERTY_NAME?: string;
+    SOURCE_ICON?: string;
     last_year?: {
         currency?: string;
         NIGHTS?: number;
@@ -153,6 +168,7 @@ export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     };
 }>;
 export type ChannelReport = z.infer<typeof ExtendedChanelReportBaseSchema>;
@@ -164,6 +180,7 @@ export declare const ChannelReportResultSchema: z.ZodNullable<z.ZodArray<z.ZodOb
     PROPERTY_ID: z.ZodNumber;
     PROPERTY_NAME: z.ZodString;
     currency: z.ZodString;
+    SOURCE_ICON: z.ZodString;
 }, {
     last_year: z.ZodOptional<z.ZodObject<{
         NIGHTS: z.ZodNumber;
@@ -173,6 +190,7 @@ export declare const ChannelReportResultSchema: z.ZodNullable<z.ZodArray<z.ZodOb
         PROPERTY_ID: z.ZodNumber;
         PROPERTY_NAME: z.ZodString;
         currency: z.ZodString;
+        SOURCE_ICON: z.ZodString;
     }, "strip", z.ZodTypeAny, {
         currency?: string;
         NIGHTS?: number;
@@ -181,6 +199,7 @@ export declare const ChannelReportResultSchema: z.ZodNullable<z.ZodArray<z.ZodOb
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     }, {
         currency?: string;
         NIGHTS?: number;
@@ -189,6 +208,7 @@ export declare const ChannelReportResultSchema: z.ZodNullable<z.ZodArray<z.ZodOb
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     }>>;
 }>, "strip", z.ZodTypeAny, {
     currency?: string;
@@ -198,6 +218,7 @@ export declare const ChannelReportResultSchema: z.ZodNullable<z.ZodArray<z.ZodOb
     SOURCE?: string;
     PROPERTY_ID?: number;
     PROPERTY_NAME?: string;
+    SOURCE_ICON?: string;
     last_year?: {
         currency?: string;
         NIGHTS?: number;
@@ -206,6 +227,7 @@ export declare const ChannelReportResultSchema: z.ZodNullable<z.ZodArray<z.ZodOb
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     };
 }, {
     currency?: string;
@@ -215,6 +237,7 @@ export declare const ChannelReportResultSchema: z.ZodNullable<z.ZodArray<z.ZodOb
     SOURCE?: string;
     PROPERTY_ID?: number;
     PROPERTY_NAME?: string;
+    SOURCE_ICON?: string;
     last_year?: {
         currency?: string;
         NIGHTS?: number;
@@ -223,6 +246,7 @@ export declare const ChannelReportResultSchema: z.ZodNullable<z.ZodArray<z.ZodOb
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     };
 }>, "many">>;
 export type ChannelReportResult = z.infer<typeof ChannelReportResultSchema>;
@@ -235,20 +259,20 @@ export declare const ChannelSalesParamsSchema: z.ZodObject<{
     is_export_to_excel: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
     LIST_AC_ID: z.ZodNullable<z.ZodArray<z.ZodNumber, "many">>;
 }, "strip", z.ZodTypeAny, {
-    AC_ID?: string;
-    BOOK_CASE?: string;
+    is_export_to_excel?: boolean;
     FROM_DATE?: string;
     TO_DATE?: string;
+    AC_ID?: string;
+    BOOK_CASE?: string;
     WINDOW?: number;
-    is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
 }, {
-    AC_ID?: string;
-    BOOK_CASE?: string;
+    is_export_to_excel?: boolean;
     FROM_DATE?: string;
     TO_DATE?: string;
+    AC_ID?: string;
+    BOOK_CASE?: string;
     WINDOW?: number;
-    is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
 }>;
 export type ChannelSalesParams = z.infer<typeof ChannelSalesParamsSchema>;
@@ -263,21 +287,21 @@ export declare const ChannelSalesFilterSchema: z.ZodObject<z.objectUtil.extendSh
 }, {
     include_previous_year: z.ZodBoolean;
 }>, "strip", z.ZodTypeAny, {
-    AC_ID?: string;
-    BOOK_CASE?: string;
+    is_export_to_excel?: boolean;
     FROM_DATE?: string;
     TO_DATE?: string;
+    AC_ID?: string;
+    BOOK_CASE?: string;
     WINDOW?: number;
-    is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
     include_previous_year?: boolean;
 }, {
-    AC_ID?: string;
-    BOOK_CASE?: string;
+    is_export_to_excel?: boolean;
     FROM_DATE?: string;
     TO_DATE?: string;
+    AC_ID?: string;
+    BOOK_CASE?: string;
     WINDOW?: number;
-    is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
     include_previous_year?: boolean;
 }>;
@@ -290,6 +314,7 @@ export declare const parseChannelReport: (data: unknown) => {
     SOURCE?: string;
     PROPERTY_ID?: number;
     PROPERTY_NAME?: string;
+    SOURCE_ICON?: string;
     last_year?: {
         currency?: string;
         NIGHTS?: number;
@@ -298,6 +323,7 @@ export declare const parseChannelReport: (data: unknown) => {
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     };
 };
 export declare const safeParseChannelReport: (data: unknown) => z.SafeParseReturnType<{
@@ -308,6 +334,7 @@ export declare const safeParseChannelReport: (data: unknown) => z.SafeParseRetur
     SOURCE?: string;
     PROPERTY_ID?: number;
     PROPERTY_NAME?: string;
+    SOURCE_ICON?: string;
     last_year?: {
         currency?: string;
         NIGHTS?: number;
@@ -316,6 +343,7 @@ export declare const safeParseChannelReport: (data: unknown) => z.SafeParseRetur
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     };
 }, {
     currency?: string;
@@ -325,6 +353,7 @@ export declare const safeParseChannelReport: (data: unknown) => z.SafeParseRetur
     SOURCE?: string;
     PROPERTY_ID?: number;
     PROPERTY_NAME?: string;
+    SOURCE_ICON?: string;
     last_year?: {
         currency?: string;
         NIGHTS?: number;
@@ -333,6 +362,7 @@ export declare const safeParseChannelReport: (data: unknown) => z.SafeParseRetur
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     };
 }>;
 export declare const parseChannelReportResult: (data: unknown) => {
@@ -343,6 +373,7 @@ export declare const parseChannelReportResult: (data: unknown) => {
     SOURCE?: string;
     PROPERTY_ID?: number;
     PROPERTY_NAME?: string;
+    SOURCE_ICON?: string;
     last_year?: {
         currency?: string;
         NIGHTS?: number;
@@ -351,6 +382,7 @@ export declare const parseChannelReportResult: (data: unknown) => {
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     };
 }[];
 export declare const safeParseChannelReportResult: (data: unknown) => z.SafeParseReturnType<{
@@ -361,6 +393,7 @@ export declare const safeParseChannelReportResult: (data: unknown) => z.SafePars
     SOURCE?: string;
     PROPERTY_ID?: number;
     PROPERTY_NAME?: string;
+    SOURCE_ICON?: string;
     last_year?: {
         currency?: string;
         NIGHTS?: number;
@@ -369,6 +402,7 @@ export declare const safeParseChannelReportResult: (data: unknown) => z.SafePars
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     };
 }[], {
     currency?: string;
@@ -378,6 +412,7 @@ export declare const safeParseChannelReportResult: (data: unknown) => z.SafePars
     SOURCE?: string;
     PROPERTY_ID?: number;
     PROPERTY_NAME?: string;
+    SOURCE_ICON?: string;
     last_year?: {
         currency?: string;
         NIGHTS?: number;
@@ -386,32 +421,33 @@ export declare const safeParseChannelReportResult: (data: unknown) => z.SafePars
         SOURCE?: string;
         PROPERTY_ID?: number;
         PROPERTY_NAME?: string;
+        SOURCE_ICON?: string;
     };
 }[]>;
 export declare const parseChannelSalesParams: (data: unknown) => {
-    AC_ID?: string;
-    BOOK_CASE?: string;
+    is_export_to_excel?: boolean;
     FROM_DATE?: string;
     TO_DATE?: string;
+    AC_ID?: string;
+    BOOK_CASE?: string;
     WINDOW?: number;
-    is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
 };
 export declare const safeParseChannelSalesParams: (data: unknown) => z.SafeParseReturnType<{
-    AC_ID?: string;
-    BOOK_CASE?: string;
+    is_export_to_excel?: boolean;
     FROM_DATE?: string;
     TO_DATE?: string;
+    AC_ID?: string;
+    BOOK_CASE?: string;
     WINDOW?: number;
-    is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
 }, {
-    AC_ID?: string;
-    BOOK_CASE?: string;
+    is_export_to_excel?: boolean;
     FROM_DATE?: string;
     TO_DATE?: string;
+    AC_ID?: string;
+    BOOK_CASE?: string;
     WINDOW?: number;
-    is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
 }>;
 export { ChannelReportSchema as ReportSchema, ChannelReportResultSchema as ReportResultSchema, ChannelSalesParamsSchema as SalesParamsSchema };

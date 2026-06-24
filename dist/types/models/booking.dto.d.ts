@@ -3,7 +3,7 @@ import { IAllowedOptions, ICurrency, IPickupCurrency } from './calendarData';
 import { TSourceOption } from './igl-book-property';
 import { ICountry } from './IBooking';
 import { IHouseKeepers } from './housekeeping';
-import { TaxCategory } from "../services/property.service";
+import type { TaxCategory } from "../services/property/types";
 interface IDType {
     code: string;
     description: string;

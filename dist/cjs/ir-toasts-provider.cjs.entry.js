@@ -138,7 +138,7 @@ const IrToastsProvider = class {
         this.positionCache.clear();
     }
     render() {
-        return index.h(index.Host, { key: '33e0c13fe1cf67ef90ec6ac2ea295800c6c70d63' });
+        return index.h(index.Host, { key: '952afc3daabed9c209935bf147f379be20e8937f' });
     }
 };
 IrToastsProvider.style = irToastsProviderCss();

@@ -1,16 +1,19 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import type { ClFiscalDocumentPreviewRequest } from "../../ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
-import type { ICurrency } from "../../../models/property";
+import type { PaginationChangeEvent } from "../../ir-pagination/ir-pagination";
+import type { ICurrency, IEntries } from "../../../models/property";
 import type { FiscalDocumentRow, FiscalFolioType } from '../types';
+import type { GuestDocumentPreviewRequest } from '../ir-guest-document-preview/types';
 export declare class IrFiscalDocumentsTable {
     rows: FiscalDocumentRow[];
-    currencySymbol: string;
     currencies: ICurrency[];
-    taxableOnly: boolean;
     isLoading: boolean;
     hasDates: boolean;
     ticket: string;
     propertyId: number;
+    language: string;
+    /** `_FD_TYPE` setup entries used to display the document type. */
+    fdTypes: IEntries[];
     fromDate: string | null;
     toDate: string | null;
     hasFetched: boolean;
@@ -20,25 +23,30 @@ export declare class IrFiscalDocumentsTable {
     agentId: number | null;
     /** Selected guest id (when a specific guest is chosen under the guest folio). */
     guestId: number | null;
+    currentPage: number;
+    pageSize: number;
+    totalRecords: number;
+    pageSizes: number[];
     clFiscalDocumentPreview: EventEmitter<ClFiscalDocumentPreviewRequest>;
     fetchRequested: EventEmitter<void>;
-    private pendingAction;
-    private isConfirming;
+    requestPageChange: EventEmitter<PaginationChangeEvent>;
+    requestPageSizeChange: EventEmitter<PaginationChangeEvent>;
+    /** Emitted with the booking number when a booking link is clicked. */
+    openBookingDetails: EventEmitter<string>;
+    /** Emitted when a guest document link/action is clicked (caught by ir-guest-document-preview). */
+    guestDocumentPreview: EventEmitter<GuestDocumentPreviewRequest>;
     private columnHelper;
-    private cityLedgerService;
-    /**
-     * A "specific party" is selected when the folio is scoped to a single agent or
-     * guest. In that case the table collapses to the base city-ledger layout (no
-     * identity / booking columns).
-     */
-    private get isSpecificPartySelected();
+    private emitGuestPreview;
+    private handlePageChange;
+    private handlePageSizeChange;
+    /** Agent column is hidden for the guest folio (those rows have no agent). */
     private get showAgentName();
+    /** Guest column is hidden for the agent folio (those rows have no guest). */
     private get showGuestName();
-    private get showBookingNumber();
-    private handleAction;
-    private confirmPendingAction;
+    /** Maps each `_FD_TYPE` code to its localized display label. */
+    private get fdTypeLabels();
+    private emitPreview;
     private get columns();
-    private getSymbol;
     private renderMoney;
     render(): any;
 }

@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { ChannelSaleFilter } from '../types';
-import { AllowedProperties } from "../../../services/property.service";
+import type { AllowedProperties } from "../../../services/property/types";
 export declare class IrSalesByChannelFilters {
     isLoading: boolean;
     baseFilters: ChannelSaleFilter;

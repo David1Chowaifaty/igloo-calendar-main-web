@@ -1,5 +1,5 @@
 import type { HKSkipParams } from "../housekeeping.service";
-import type { SetRoomCalendarExtraParams } from "../property.service";
+import type { SetRoomCalendarExtraParams } from "../property/types";
 import type { SetDepartureTimeProps } from "../booking-service/types";
 import type { ClTx } from "../city-ledger/index";
 import type { RoomHkStatus } from "../../models/booking.dto";

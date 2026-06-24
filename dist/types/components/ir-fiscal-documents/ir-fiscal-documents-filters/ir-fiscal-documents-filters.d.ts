@@ -2,16 +2,20 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { FiscalDocumentFilters } from '../types';
 export declare class IrFiscalDocumentsFilters {
     propertyId: number;
+    loading: boolean;
+    /** Initial filter values. Edits are kept locally and only sent on submit. */
     filters: FiscalDocumentFilters;
-    private docNumber;
+    /** Working copy of the filters — edited locally, emitted to the parent only on submit. */
+    private draft;
     private agents;
     private agentSearch;
     private guests;
-    filtersChange: EventEmitter<FiscalDocumentFilters>;
     applyFilters: EventEmitter<FiscalDocumentFilters>;
+    filterChanged: EventEmitter<FiscalDocumentFilters>;
     private agentsService;
     private bookingService;
     componentWillLoad(): void;
+    handleFiltersChange(newValue: FiscalDocumentFilters): void;
     handlePropertyIdChange(newValue: number, oldValue: number): void;
     private typeOptions;
     private folioOptions;
@@ -19,9 +23,9 @@ export declare class IrFiscalDocumentsFilters {
     private get searchPlaceholder();
     private fetchAgents;
     private fetchGuests;
-    private updateFilters;
+    /** Updates the local draft only — nothing is sent to the parent until submit. */
+    private updateDraft;
     private handleFolioTypeChange;
     private handleGuestSelect;
-    private emitSearchDebounced;
     render(): any;
 }

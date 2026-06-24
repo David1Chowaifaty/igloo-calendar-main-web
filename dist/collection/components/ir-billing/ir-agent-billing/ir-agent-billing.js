@@ -47,6 +47,11 @@ export class IrAgentBilling {
         e.stopPropagation();
         this.fetchFiscalDocuments();
     }
+    handleDocumentConverted(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.fetchFiscalDocuments();
+    }
     render() {
         if (this.isLoading) {
             return (h("div", { class: 'agent-bill__loader-container' }, h("ir-spinner", null)));
@@ -114,6 +119,12 @@ export class IrAgentBilling {
         return [{
                 "name": "fiscalDocumentIssued",
                 "method": "handleFiscalDocumentIssued",
+                "target": "body",
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "documentConverted",
+                "method": "handleDocumentConverted",
                 "target": "body",
                 "capture": false,
                 "passive": false

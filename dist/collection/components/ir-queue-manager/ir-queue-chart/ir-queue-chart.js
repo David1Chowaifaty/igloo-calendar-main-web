@@ -98,7 +98,7 @@ export class IrQueueChart {
         this.chart.update();
     }
     render() {
-        return (h(Host, { key: 'f1da035ade86d6fddfb5c20481300985e45f0295' }, h("div", { key: '2d24f97fef2f82e314a66459ed3a348f23b05dc8', class: "chart-container" }, h("canvas", { key: 'a8b6402167345a7e6fa0ddc2b084a4f16faf75d3', ref: el => (this.canvas = el) }))));
+        return (h(Host, { key: '1d0394227efc921199c4f4f9688116e767f635c3' }, h("div", { key: '6e599a2d9cc650263f2fe337baeccdaf9dc99d6a', class: "chart-container" }, h("canvas", { key: '7fc82bcaefc2067ed2af00bc4143702761a510c6', ref: el => (this.canvas = el) }))));
     }
     static get is() { return "ir-queue-chart"; }
     static get originalStyleUrls() {

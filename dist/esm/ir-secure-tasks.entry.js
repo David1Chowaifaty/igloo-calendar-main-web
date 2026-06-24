@@ -1,6 +1,6 @@
 import { r as registerInstance, d as getElement, h, H as Host } from './index-D7D7fhZS.js';
 import { T as Token } from './Token-CkxFIO_J.js';
-import { P as PropertyService } from './property.service-CAIwQBf3.js';
+import { P as PropertyService } from './index-DhAKe8N2.js';
 import { c as calendar_data } from './calendar-data-15-64PrB.js';
 import { h as checkUserAuthState, m as manageAnchorSession } from './utils-DvzWTdKJ.js';
 import './axios-B50ozOIF.js';
@@ -110,6 +110,7 @@ const IrSecureTasks = class {
         'payment-options',
         'meal-report',
         'ghs',
+        'fiscal-documents',
     ]);
     isValidPage(value) {
         return this.validPages.has(value);
@@ -124,7 +125,7 @@ const IrSecureTasks = class {
         {
             routes: [
                 { name: 'GHS', value: 'ghs' },
-                { name: 'Meal report', value: 'meal-report' },
+                { name: 'Meal Report', value: 'meal-report' },
             ],
         },
         {
@@ -143,6 +144,7 @@ const IrSecureTasks = class {
                 { name: 'Country Sales', value: 'country-sales' },
                 { name: 'Channel Sales', value: 'channel-sales' },
                 { name: 'Booking Listing', value: 'booking-listing' },
+                { name: 'Fiscal Documents', value: 'fiscal-documents' },
                 { name: 'Email Logs', value: 'email-logs' },
             ],
         },
@@ -240,6 +242,8 @@ const IrSecureTasks = class {
                 return h("ir-ghs-onboarding", { ticket: this.token.getToken() });
             case 'meal-report':
                 return h("ir-meal-report", { propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'fiscal-documents':
+                return h("ir-fiscal-documents", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             default:
                 return null;
         }

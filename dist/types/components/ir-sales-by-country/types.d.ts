@@ -1,4 +1,4 @@
-import { CountrySalesParams } from "../../services/property.service";
+import type { CountrySalesParams } from "../../services/property/types";
 import { ICountry } from "../../models/IBooking";
 type BaseSalesRecord = {
     id: string;
