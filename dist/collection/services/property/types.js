@@ -76,8 +76,8 @@ export const GetUnifiedFolioParamsSchema = z.object({
     doc_type: z.string().nullable(),
     fd_type_code: z.string().nullable(),
     doc_number: z.string().nullable(),
-    agent_search_text: z.string().nullable(),
-    guest_search_text: z.string().nullable(),
+    agent_id: z.string().optional().nullable().default(null),
+    guest_id: z.string().optional().nullable().default(null),
     booking_number: z.string().nullable(),
     page_index: z.number().int().nonnegative(),
     page_size: z.number().int().positive(),
@@ -103,5 +103,9 @@ export const UnifiedFolioRecordSchema = z.object({
     FD_TYPE_CODE: z.string().nullable().optional(),
     CURRENCY_ID: z.number().nullable().optional(),
     TOTAL_AMOUNT: z.number().nullable().optional(),
+    CREDIT: z.number().nullable().optional(),
+    DEBIT: z.number().nullable().optional(),
+    NET_AMOUNT: z.number().nullable().optional(),
+    TAX_AMOUNT: z.number().nullable().optional(),
 });
 export const GetUnifiedFolioResultSchema = z.array(UnifiedFolioRecordSchema);

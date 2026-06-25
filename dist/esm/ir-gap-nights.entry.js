@@ -1,7 +1,7 @@
 import { r as registerInstance, h, H as Host } from './index-D7D7fhZS.js';
 import { T as Token } from './Token-CkxFIO_J.js';
 import { B as BookingService } from './booking.store-DIvtT9hT.js';
-import { P as PropertyService } from './index-DhAKe8N2.js';
+import { P as PropertyService } from './index-k3rFWHYR.js';
 import { R as RoomService } from './room.service-RYuSnrxp.js';
 import { i as isRequestPending } from './ir-interceptor.store-B5mzcEc4.js';
 import { j as groupEntryTablesResult, k as showToast } from './utils-DvzWTdKJ.js';

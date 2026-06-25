@@ -20,6 +20,7 @@ export class IrFiscalDocumentsTable {
     hasFetched = false;
     /** Folio scope driving which identity columns are shown. */
     folioType = 'all';
+    taxableOnly = false;
     /** Selected agent id (when a specific agent is chosen under the agent folio). */
     agentId = null;
     /** Selected guest id (when a specific guest is chosen under the guest folio). */
@@ -56,11 +57,11 @@ export class IrFiscalDocumentsTable {
     }
     /** Agent column is hidden for the guest folio (those rows have no agent). */
     get showAgentName() {
-        return this.folioType !== 'guest';
+        return this.folioType !== 'guest' && !this.agentId;
     }
     /** Guest column is hidden for the agent folio (those rows have no guest). */
     get showGuestName() {
-        return this.folioType !== 'agent';
+        return this.folioType !== 'agent' && !this.guestId;
     }
     /** Maps each `_FD_TYPE` code to its localized display label. */
     get fdTypeLabels() {
@@ -140,13 +141,33 @@ export class IrFiscalDocumentsTable {
                 return (h("wa-button", { onClick: () => this.openBookingDetails.emit(String(bookingNbr)), variant: "brand", appearance: "plain", class: "fiscal-table__doc-number" }, bookingNbr));
             },
         }));
+        if (!this.taxableOnly) {
+            identityCols.push(this.columnHelper.accessor('CREDIT', {
+                header: 'Credit',
+                cell: info => h("span", null, this.renderMoney(info.getValue())),
+            }));
+            identityCols.push(this.columnHelper.accessor('DEBIT', {
+                header: 'DEBIT',
+                cell: info => h("span", null, this.renderMoney(info.getValue())),
+            }));
+        }
+        else {
+            identityCols.push(this.columnHelper.accessor('NET_AMOUNT', {
+                header: 'Net amount',
+                cell: info => h("span", null, this.renderMoney(info.getValue())),
+            }));
+            identityCols.push(this.columnHelper.accessor('TAX_AMOUNT', {
+                header: 'Tax amount',
+                cell: info => h("span", null, this.renderMoney(info.getValue())),
+            }));
+            identityCols.push(this.columnHelper.accessor('TOTAL_AMOUNT', {
+                header: 'Total',
+                cell: info => this.renderMoney(info.getValue()),
+            }));
+        }
         return [
             ...base,
             ...identityCols,
-            this.columnHelper.accessor('TOTAL_AMOUNT', {
-                header: 'Total',
-                cell: info => this.renderMoney(info.getValue()),
-            }),
             this.columnHelper.display({
                 id: 'actions',
                 header: 'Actions',
@@ -194,7 +215,7 @@ export class IrFiscalDocumentsTable {
             getCoreRowModel: getCoreRowModel(),
             getSortedRowModel: getSortedRowModel(),
         });
-        const numericColumnIds = ['TOTAL_AMOUNT'];
+        const numericColumnIds = ['TOTAL_AMOUNT', 'CREDIT', 'DEBIT', 'NET_AMOUNT', 'TAX_AMOUNT'];
         const totalPages = this.pageSize > 0 ? Math.ceil(this.totalRecords / this.pageSize) : 0;
         const showing = {
             from: this.totalRecords === 0 ? 0 : (this.currentPage - 1) * this.pageSize + 1,
@@ -229,7 +250,7 @@ export class IrFiscalDocumentsTable {
                 "mutable": false,
                 "complexType": {
                     "original": "FiscalDocumentRow[]",
-                    "resolved": "{ TARGET_TYPE?: \"AGENT\" | \"GUEST\"; AGENT_ID?: number; AGENT_NAME?: string; GUEST_ID?: number; GUEST_NAME?: string; GUEST_EMAIL?: string; BOOKING_ID?: number; BOOKING_NUMBER?: string; DOC_ID?: number; DOC_NUMBER?: string; DOC_DATE?: string; DOC_TYPE?: string; FD_TYPE_CODE?: string; CURRENCY_ID?: number; TOTAL_AMOUNT?: number; }[]",
+                    "resolved": "{ TARGET_TYPE?: \"AGENT\" | \"GUEST\"; AGENT_ID?: number; AGENT_NAME?: string; GUEST_ID?: number; GUEST_NAME?: string; GUEST_EMAIL?: string; BOOKING_ID?: number; BOOKING_NUMBER?: string; DOC_ID?: number; DOC_NUMBER?: string; DOC_DATE?: string; DOC_TYPE?: string; FD_TYPE_CODE?: string; CURRENCY_ID?: number; TOTAL_AMOUNT?: number; CREDIT?: number; DEBIT?: number; NET_AMOUNT?: number; TAX_AMOUNT?: number; }[]",
                     "references": {
                         "FiscalDocumentRow": {
                             "location": "import",
@@ -483,6 +504,26 @@ export class IrFiscalDocumentsTable {
                 "reflect": false,
                 "attribute": "folio-type",
                 "defaultValue": "'all'"
+            },
+            "taxableOnly": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "taxable-only",
+                "defaultValue": "false"
             },
             "agentId": {
                 "type": "number",

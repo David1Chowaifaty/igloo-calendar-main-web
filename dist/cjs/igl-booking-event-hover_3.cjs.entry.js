@@ -7,7 +7,7 @@ var moment = require('./moment-CdViwxPQ.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
 var calendarData = require('./calendar-data-R3j-WBLW.js');
 var booking = require('./booking-D81t5lFq.js');
-var index$1 = require('./index-Bg6N-iof.js');
+var index$1 = require('./index-DFOsLnPn.js');
 var enums = require('./enums-BfYSWFRQ.js');
 require('./index-CLqkDPTC.js');
 require('./type-Dy9pVS4V.js');

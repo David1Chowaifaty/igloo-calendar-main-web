@@ -19,6 +19,7 @@ export declare class IrFiscalDocumentsTable {
     hasFetched: boolean;
     /** Folio scope driving which identity columns are shown. */
     folioType: FiscalFolioType;
+    taxableOnly: boolean;
     /** Selected agent id (when a specific agent is chosen under the agent folio). */
     agentId: number | null;
     /** Selected guest id (when a specific guest is chosen under the guest folio). */

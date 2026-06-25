@@ -5,7 +5,7 @@ import { h as hooks } from './moment-Mki5YqAR.js';
 import { l as locales } from './locales.store-C0aS6UDK.js';
 import { c as calendar_data } from './calendar-data-15-64PrB.js';
 import { a as compareTime, b as createDateWithOffsetAndHour } from './booking-C5iTFi9B.js';
-import { P as PropertyService } from './index-DhAKe8N2.js';
+import { P as PropertyService } from './index-k3rFWHYR.js';
 import { H as HbPreference } from './enums-DC2FbBuL.js';
 import './index-DeW5X45W.js';
 import './type-D7rOPtKA.js';

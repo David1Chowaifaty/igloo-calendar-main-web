@@ -80,8 +80,8 @@ const GetUnifiedFolioParamsSchema = index.libExports.z.object({
     doc_type: index.libExports.z.string().nullable(),
     fd_type_code: index.libExports.z.string().nullable(),
     doc_number: index.libExports.z.string().nullable(),
-    agent_search_text: index.libExports.z.string().nullable(),
-    guest_search_text: index.libExports.z.string().nullable(),
+    agent_id: index.libExports.z.string().optional().nullable().default(null),
+    guest_id: index.libExports.z.string().optional().nullable().default(null),
     booking_number: index.libExports.z.string().nullable(),
     page_index: index.libExports.z.number().int().nonnegative(),
     page_size: index.libExports.z.number().int().positive(),
@@ -107,6 +107,10 @@ const UnifiedFolioRecordSchema = index.libExports.z.object({
     FD_TYPE_CODE: index.libExports.z.string().nullable().optional(),
     CURRENCY_ID: index.libExports.z.number().nullable().optional(),
     TOTAL_AMOUNT: index.libExports.z.number().nullable().optional(),
+    CREDIT: index.libExports.z.number().nullable().optional(),
+    DEBIT: index.libExports.z.number().nullable().optional(),
+    NET_AMOUNT: index.libExports.z.number().nullable().optional(),
+    TAX_AMOUNT: index.libExports.z.number().nullable().optional(),
 });
 index.libExports.z.array(UnifiedFolioRecordSchema);
 

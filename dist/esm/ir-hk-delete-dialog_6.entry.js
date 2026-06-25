@@ -2,7 +2,7 @@ import { r as registerInstance, c as createEvent, h, H as Host, d as getElement,
 import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-I641YNVz.js';
 import { l as locales } from './locales.store-C0aS6UDK.js';
 import { R as RoomService } from './room.service-RYuSnrxp.js';
-import { P as PropertyService } from './index-DhAKe8N2.js';
+import { P as PropertyService } from './index-k3rFWHYR.js';
 import { c as calendar_data } from './calendar-data-15-64PrB.js';
 import { i as isRequestPending } from './ir-interceptor.store-B5mzcEc4.js';
 import { k as showToast } from './utils-DvzWTdKJ.js';

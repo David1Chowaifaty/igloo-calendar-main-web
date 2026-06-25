@@ -2,7 +2,7 @@
 
 var Token = require('./Token-mN7PQKGF.js');
 var index$1 = require('./index-Dd_1v2qq.js');
-var index = require('./index-Bg6N-iof.js');
+var index = require('./index-DFOsLnPn.js');
 
 class ClFiscalDocumentService {
     tokenService = new Token.Token();

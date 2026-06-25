@@ -133,8 +133,8 @@ export class IrFiscalDocuments {
                 doc_type: null,
                 fd_type_code: this.resolveFdTypeCode(filters),
                 doc_number: filters.docNumber || null,
-                agent_search_text: null,
-                guest_search_text: null,
+                agent_id: this.filters?.agentId?.toString(),
+                guest_id: this.filters?.guestId?.toString(),
                 booking_number: null,
                 page_index: this.currentPage - 1,
                 page_size: this.pageSize,
@@ -177,7 +177,7 @@ export class IrFiscalDocuments {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("ir-page", { label: "Fiscal Documents" }, h("ir-fiscal-documents-filters", { propertyId: this.property_id, loading: this.isLoading, filters: this.filters, onFilterChanged: e => (this.filters = { ...this.filters, ...e.detail }), onApplyFilters: e => this.handleApplyFilters(e.detail) }), h("ir-fiscal-documents-table", { rows: this.rows, isLoading: this.isLoading, hasFetched: this.hasFetched, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.property_id, language: this.language, fdTypes: this.fdTypes, currentPage: this.currentPage, pageSize: this.pageSize, totalRecords: this.totalRows, pageSizes: PAGE_SIZES, onFetchRequested: () => this.fetchFiscalDocuments(this.filters), onRequestPageChange: (e) => this.handlePageChange(e.detail.currentPage), onRequestPageSizeChange: (e) => this.handlePageSizeChange(e.detail.pageSize), onOpenBookingDetails: (e) => (this.selectedBookingNumber = e.detail) }), h("ir-booking-details-drawer", { open: !!this.selectedBookingNumber, propertyId: this.property_id, bookingNumber: this.selectedBookingNumber, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.selectedBookingNumber = null) }), h("ir-fiscal-document-preview", { mode: "all", ticket: this.ticket, propertyId: this.property_id, onDocumentConverted: () => this.fetchFiscalDocuments(this.filters) })));
+        return (h("ir-page", { label: "Fiscal Documents" }, h("ir-fiscal-documents-filters", { propertyId: this.property_id, loading: this.isLoading, filters: this.filters, onFilterChanged: e => (this.filters = { ...this.filters, ...e.detail }), onApplyFilters: e => this.handleApplyFilters(e.detail) }), h("ir-fiscal-documents-table", { rows: this.rows, taxableOnly: this.filters?.taxableOnly, isLoading: this.isLoading, hasFetched: this.hasFetched, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.property_id, language: this.language, fdTypes: this.fdTypes, currentPage: this.currentPage, pageSize: this.pageSize, totalRecords: this.totalRows, pageSizes: PAGE_SIZES, onFetchRequested: () => this.fetchFiscalDocuments(this.filters), onRequestPageChange: (e) => this.handlePageChange(e.detail.currentPage), onRequestPageSizeChange: (e) => this.handlePageSizeChange(e.detail.pageSize), onOpenBookingDetails: (e) => (this.selectedBookingNumber = e.detail) }), h("ir-booking-details-drawer", { open: !!this.selectedBookingNumber, propertyId: this.property_id, bookingNumber: this.selectedBookingNumber, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.selectedBookingNumber = null) }), h("ir-fiscal-document-preview", { mode: "all", ticket: this.ticket, propertyId: this.property_id, onDocumentConverted: () => this.fetchFiscalDocuments(this.filters) })));
     }
     static get is() { return "ir-fiscal-documents"; }
     static get encapsulation() { return "scoped"; }

@@ -14,7 +14,7 @@ import { T as Token } from './Token-CkxFIO_J.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-I641YNVz.js';
 import { A as AgentsService } from './agents.service-CfKXQqnt.js';
-import { P as PropertyService } from './index-DhAKe8N2.js';
+import { P as PropertyService } from './index-k3rFWHYR.js';
 import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-Di_lLgCV.js';
 import { a as axios } from './axios-B50ozOIF.js';
 import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-BLFeABkL.js';

@@ -9,7 +9,7 @@ import { c as calendar_data } from './calendar-data-15-64PrB.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service-BKjBibRv.js';
 import { h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-CCbSyPhF.js';
 import { H as HouseKeepingService } from './housekeeping.service-I641YNVz.js';
-import { P as PropertyService, E as ExposedRectifierParamsSchema } from './index-DhAKe8N2.js';
+import { P as PropertyService, E as ExposedRectifierParamsSchema } from './index-k3rFWHYR.js';
 import { l as libExports } from './index-DeW5X45W.js';
 import { i as isRequestPending } from './ir-interceptor.store-B5mzcEc4.js';
 import { S as SelectedUnitSchema } from './types-DFEXQcwc.js';

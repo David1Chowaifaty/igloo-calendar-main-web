@@ -78,8 +78,8 @@ const GetUnifiedFolioParamsSchema = libExports.z.object({
     doc_type: libExports.z.string().nullable(),
     fd_type_code: libExports.z.string().nullable(),
     doc_number: libExports.z.string().nullable(),
-    agent_search_text: libExports.z.string().nullable(),
-    guest_search_text: libExports.z.string().nullable(),
+    agent_id: libExports.z.string().optional().nullable().default(null),
+    guest_id: libExports.z.string().optional().nullable().default(null),
     booking_number: libExports.z.string().nullable(),
     page_index: libExports.z.number().int().nonnegative(),
     page_size: libExports.z.number().int().positive(),
@@ -105,6 +105,10 @@ const UnifiedFolioRecordSchema = libExports.z.object({
     FD_TYPE_CODE: libExports.z.string().nullable().optional(),
     CURRENCY_ID: libExports.z.number().nullable().optional(),
     TOTAL_AMOUNT: libExports.z.number().nullable().optional(),
+    CREDIT: libExports.z.number().nullable().optional(),
+    DEBIT: libExports.z.number().nullable().optional(),
+    NET_AMOUNT: libExports.z.number().nullable().optional(),
+    TAX_AMOUNT: libExports.z.number().nullable().optional(),
 });
 libExports.z.array(UnifiedFolioRecordSchema);
 

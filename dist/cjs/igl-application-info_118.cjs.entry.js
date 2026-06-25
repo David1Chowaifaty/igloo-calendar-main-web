@@ -25,7 +25,7 @@ var index$3 = require('./index-BquCITYD.js');
 var enums = require('./enums-BfYSWFRQ.js');
 var useTable = require('./useTable-BN32DOaV.js');
 var momentWithLocales = require('./moment-with-locales-rbb_iEBE.js');
-var index$4 = require('./index-Bg6N-iof.js');
+var index$4 = require('./index-DFOsLnPn.js');
 var system_service = require('./system.service-q3G6_5Tb.js');
 var global_variables = require('./global.variables-BldIv7Je.js');
 var debounce = require('./debounce-Be8tSGtB.js');
@@ -16643,8 +16643,8 @@ const IrFiscalDocuments = class {
                 doc_type: null,
                 fd_type_code: this.resolveFdTypeCode(filters),
                 doc_number: filters.docNumber || null,
-                agent_search_text: null,
-                guest_search_text: null,
+                agent_id: this.filters?.agentId?.toString(),
+                guest_id: this.filters?.guestId?.toString(),
                 booking_number: null,
                 page_index: this.currentPage - 1,
                 page_size: this.pageSize,
@@ -16687,7 +16687,7 @@ const IrFiscalDocuments = class {
         if (this.isPageLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h("ir-page", { label: "Fiscal Documents" }, index.h("ir-fiscal-documents-filters", { propertyId: this.property_id, loading: this.isLoading, filters: this.filters, onFilterChanged: e => (this.filters = { ...this.filters, ...e.detail }), onApplyFilters: e => this.handleApplyFilters(e.detail) }), index.h("ir-fiscal-documents-table", { rows: this.rows, isLoading: this.isLoading, hasFetched: this.hasFetched, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.property_id, language: this.language, fdTypes: this.fdTypes, currentPage: this.currentPage, pageSize: this.pageSize, totalRecords: this.totalRows, pageSizes: PAGE_SIZES$1, onFetchRequested: () => this.fetchFiscalDocuments(this.filters), onRequestPageChange: (e) => this.handlePageChange(e.detail.currentPage), onRequestPageSizeChange: (e) => this.handlePageSizeChange(e.detail.pageSize), onOpenBookingDetails: (e) => (this.selectedBookingNumber = e.detail) }), index.h("ir-booking-details-drawer", { open: !!this.selectedBookingNumber, propertyId: this.property_id, bookingNumber: this.selectedBookingNumber, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.selectedBookingNumber = null) }), index.h("ir-fiscal-document-preview", { mode: "all", ticket: this.ticket, propertyId: this.property_id, onDocumentConverted: () => this.fetchFiscalDocuments(this.filters) })));
+        return (index.h("ir-page", { label: "Fiscal Documents" }, index.h("ir-fiscal-documents-filters", { propertyId: this.property_id, loading: this.isLoading, filters: this.filters, onFilterChanged: e => (this.filters = { ...this.filters, ...e.detail }), onApplyFilters: e => this.handleApplyFilters(e.detail) }), index.h("ir-fiscal-documents-table", { rows: this.rows, taxableOnly: this.filters?.taxableOnly, isLoading: this.isLoading, hasFetched: this.hasFetched, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.property_id, language: this.language, fdTypes: this.fdTypes, currentPage: this.currentPage, pageSize: this.pageSize, totalRecords: this.totalRows, pageSizes: PAGE_SIZES$1, onFetchRequested: () => this.fetchFiscalDocuments(this.filters), onRequestPageChange: (e) => this.handlePageChange(e.detail.currentPage), onRequestPageSizeChange: (e) => this.handlePageSizeChange(e.detail.pageSize), onOpenBookingDetails: (e) => (this.selectedBookingNumber = e.detail) }), index.h("ir-booking-details-drawer", { open: !!this.selectedBookingNumber, propertyId: this.property_id, bookingNumber: this.selectedBookingNumber, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.selectedBookingNumber = null) }), index.h("ir-fiscal-document-preview", { mode: "all", ticket: this.ticket, propertyId: this.property_id, onDocumentConverted: () => this.fetchFiscalDocuments(this.filters) })));
     }
     static get watchers() { return {
         "ticket": [{
@@ -16815,19 +16815,22 @@ const IrFiscalDocumentsFilters = class {
             } }, index.h("div", { key: '09e275765ddcb1a001d2bad856fc19513fe52baf', class: "filters-bar" }, index.h("ir-validator", { key: '7dc7ea9530156788e5961c799965cf65309656f9', value: this.draft?.fromDate || this.draft?.toDate, schema: index$1.libExports.z.string().nonempty(), class: "filters-bar__dates" }, index.h("ir-date-range-filter", { key: '397765e2d5b9b353c90a4708fbe83a45dbba561a', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.draft.fromDate, toDate: this.draft.toDate, onDatesChanged: e => {
                 this.updateDraft({ fromDate: e.detail.from, toDate: e.detail.to });
                 this.filterChanged.emit({ ...this.draft, fromDate: e.detail.from, toDate: e.detail.to });
-            } })), index.h("div", { key: '8362f38a014a7b144cd496d576ce95e08f1c0db5', class: "filters-bar__search-group" }, index.h("div", { key: '20e57f78978c504f5dbd76cc0e7c0790346d6642', class: "filters-bar__type-group" }, index.h("wa-select", { key: '80311e4615c91b3206cc5e11189ce6b5181715cc', class: "filters-bar__status-select", value: this.draft.type, defaultValue: this.draft.type, onchange: e => this.updateDraft({ type: e.target.value }), size: "s", placeholder: "Document Type" }, this.typeOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label)))), index.h("wa-select", { key: 'ab6fc33a7589fbe53f98dcd95fbd1cc748cc0157', class: "filters-bar__status-select", value: this.draft.folioType, defaultValue: this.draft.folioType, onchange: e => this.handleFolioTypeChange(e.target.value), size: "s", placeholder: "Folios" }, this.folioOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label)))), index.h("wa-switch", { key: '0128b7e1758708c334fcf818addfbbfe03cba7c3', class: "filters-bar__tax-switch", checked: this.draft.taxableOnly, onchange: e => this.updateDraft({ taxableOnly: e.target.checked }) }, "Taxes")), this.draft.folioType === 'agent' && (index.h("ir-autocomplete", { key: 'a556715f83637e64bed31619bd9855b60bb4bb7c', class: "filters-bar__folio-select", size: "s", placeholder: "Select agent", value: this.draft.agentId ? (this.agents.find(a => a.id === this.draft.agentId)?.name ?? '') : ALL_AGENTS_LABEL, "onText-change": (e) => {
+            } })), index.h("div", { key: '8362f38a014a7b144cd496d576ce95e08f1c0db5', class: "filters-bar__search-group" }, index.h("div", { key: '20e57f78978c504f5dbd76cc0e7c0790346d6642', class: "filters-bar__type-group" }, index.h("wa-select", { key: '80311e4615c91b3206cc5e11189ce6b5181715cc', class: "filters-bar__status-select", value: this.draft.type, defaultValue: this.draft.type, onchange: e => this.updateDraft({ type: e.target.value }), size: "s", placeholder: "Document Type" }, this.typeOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label)))), index.h("wa-select", { key: 'ab6fc33a7589fbe53f98dcd95fbd1cc748cc0157', class: "filters-bar__status-select", value: this.draft.folioType, defaultValue: this.draft.folioType, onchange: e => this.handleFolioTypeChange(e.target.value), size: "s", placeholder: "Folios" }, this.folioOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label)))), index.h("wa-switch", { key: 'dc5033182e3d6dde8fb966dbbba3a91fd762807a', class: "filters-bar__tax-switch", checked: this.draft.taxableOnly, onchange: e => {
+                this.updateDraft({ taxableOnly: e.target.checked });
+                this.filterChanged.emit({ ...this.draft, taxableOnly: e.target.checked });
+            } }, "Taxes")), this.draft.folioType === 'agent' && (index.h("ir-autocomplete", { key: '6b344b11c7fd7e1f2b08ff84c4b214a6134ce277', class: "filters-bar__folio-select", size: "s", placeholder: "Select agent", value: this.draft.agentId ? (this.agents.find(a => a.id === this.draft.agentId)?.name ?? '') : ALL_AGENTS_LABEL, "onText-change": (e) => {
                 this.agentSearch = e.detail ?? '';
             }, "onCombobox-change": (e) => {
                 this.agentSearch = '';
                 const value = e.detail;
                 this.updateDraft({ agentId: value && value !== ALL_AGENTS_VALUE ? Number(value) : null });
-            } }, index.h("ir-autocomplete-option", { key: '4be30406514b0e70ff4ef747e9bd0add173316ed', label: ALL_AGENTS_LABEL, value: ALL_AGENTS_VALUE }, ALL_AGENTS_LABEL), this.filteredAgents.map(agent => (index.h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name))))), this.draft.folioType === 'guest' && (index.h("ir-picker", { key: '0508af3613133072ac0061b320fe026c8ce551b0', class: "filters-bar__folio-select", size: "s", placeholder: "Search customer by email or name", withClear: true, mode: "select-async", debounce: 500, loading: irInterceptor_store.isRequestPending('/Fetch_Exposed_Guests'), "onText-change": event => this.fetchGuests(event.detail), "onCombobox-select": this.handleGuestSelect.bind(this), "onCombobox-clear": () => {
+            } }, index.h("ir-autocomplete-option", { key: '58f849bc6876e7d8eb82aeebdbfa8f355f0895b4', label: ALL_AGENTS_LABEL, value: ALL_AGENTS_VALUE }, ALL_AGENTS_LABEL), this.filteredAgents.map(agent => (index.h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name))))), this.draft.folioType === 'guest' && (index.h("ir-picker", { key: 'bbe864483cbda1e1f3e5c5b46b449b051ed7938d', class: "filters-bar__folio-select", size: "s", placeholder: "Search customer by email or name", withClear: true, mode: "select-async", debounce: 500, loading: irInterceptor_store.isRequestPending('/Fetch_Exposed_Guests'), "onText-change": event => this.fetchGuests(event.detail), "onCombobox-select": this.handleGuestSelect.bind(this), "onCombobox-clear": () => {
                 this.updateDraft({ guestId: null });
                 this.applyFilters.emit(this.draft);
             } }, this.guests?.map(guest => {
             const label = `${guest.email} - ${guest.first_name} ${guest.last_name}`;
             return (index.h("ir-picker-item", { label: label, value: guest.id?.toString(), key: guest.id }, label));
-        }))), index.h("div", { key: 'c12c8ca96d858d5f86b7280737e81e909ad418cf', class: "filters-bar__search-actions" }, index.h("ir-input", { key: 'dc0a938944ef0b5ef6b707f6875be32b17e8a9a0', class: "filters-bar__search-input", placeholder: this.searchPlaceholder, value: this.draft.docNumber, "onText-change": e => {
+        }))), index.h("div", { key: 'b45a8f27578071bcacaa649d4a921eb1571ae5d3', class: "filters-bar__search-actions" }, index.h("ir-input", { key: '59c5c563374753e805f909b1668e453905bcd8b8', class: "filters-bar__search-input", placeholder: this.searchPlaceholder, value: this.draft.docNumber, "onText-change": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateDraft({ docNumber: e.detail });
@@ -16835,7 +16838,7 @@ const IrFiscalDocumentsFilters = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.applyFilters.emit({ ...this.draft, docNumber: '' });
-            } }, index.h("wa-icon", { key: 'deeeec7e39ee890000731dde334dca50a42b329e', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), index.h("ir-custom-button", { key: '27446e0cab1d30adf3aa56fb123344f69df5267f', loading: this.loading, class: "filters-bar__search-submit", variant: "neutral", appearance: "outlined", type: "submit" }, index.h("wa-icon", { key: 'ed56d4f3026dae1feb6c80f19855b0bd8e11333a', name: "magnifying-glass" })))))));
+            } }, index.h("wa-icon", { key: '39650e347a4ea44145eb2b0076c1618f54fe2efb', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), index.h("ir-custom-button", { key: '4cc2f787ee54442a03c70302352491cebe2683e0', loading: this.loading, class: "filters-bar__search-submit", variant: "neutral", appearance: "outlined", type: "submit" }, index.h("wa-icon", { key: 'dcfad109a5bc5fc601574e9225d5a22a5e728562', name: "magnifying-glass" })))))));
     }
     static get watchers() { return {
         "filters": [{
@@ -16875,6 +16878,7 @@ const IrFiscalDocumentsTable = class {
     hasFetched = false;
     /** Folio scope driving which identity columns are shown. */
     folioType = 'all';
+    taxableOnly = false;
     /** Selected agent id (when a specific agent is chosen under the agent folio). */
     agentId = null;
     /** Selected guest id (when a specific guest is chosen under the guest folio). */
@@ -16911,11 +16915,11 @@ const IrFiscalDocumentsTable = class {
     }
     /** Agent column is hidden for the guest folio (those rows have no agent). */
     get showAgentName() {
-        return this.folioType !== 'guest';
+        return this.folioType !== 'guest' && !this.agentId;
     }
     /** Guest column is hidden for the agent folio (those rows have no guest). */
     get showGuestName() {
-        return this.folioType !== 'agent';
+        return this.folioType !== 'agent' && !this.guestId;
     }
     /** Maps each `_FD_TYPE` code to its localized display label. */
     get fdTypeLabels() {
@@ -16995,13 +16999,33 @@ const IrFiscalDocumentsTable = class {
                 return (index.h("wa-button", { onClick: () => this.openBookingDetails.emit(String(bookingNbr)), variant: "brand", appearance: "plain", class: "fiscal-table__doc-number" }, bookingNbr));
             },
         }));
+        if (!this.taxableOnly) {
+            identityCols.push(this.columnHelper.accessor('CREDIT', {
+                header: 'Credit',
+                cell: info => index.h("span", null, this.renderMoney(info.getValue())),
+            }));
+            identityCols.push(this.columnHelper.accessor('DEBIT', {
+                header: 'DEBIT',
+                cell: info => index.h("span", null, this.renderMoney(info.getValue())),
+            }));
+        }
+        else {
+            identityCols.push(this.columnHelper.accessor('NET_AMOUNT', {
+                header: 'Net amount',
+                cell: info => index.h("span", null, this.renderMoney(info.getValue())),
+            }));
+            identityCols.push(this.columnHelper.accessor('TAX_AMOUNT', {
+                header: 'Tax amount',
+                cell: info => index.h("span", null, this.renderMoney(info.getValue())),
+            }));
+            identityCols.push(this.columnHelper.accessor('TOTAL_AMOUNT', {
+                header: 'Total',
+                cell: info => this.renderMoney(info.getValue()),
+            }));
+        }
         return [
             ...base,
             ...identityCols,
-            this.columnHelper.accessor('TOTAL_AMOUNT', {
-                header: 'Total',
-                cell: info => this.renderMoney(info.getValue()),
-            }),
             this.columnHelper.display({
                 id: 'actions',
                 header: 'Actions',
@@ -17049,7 +17073,7 @@ const IrFiscalDocumentsTable = class {
             getCoreRowModel: useTable.getCoreRowModel(),
             getSortedRowModel: useTable.getSortedRowModel(),
         });
-        const numericColumnIds = ['TOTAL_AMOUNT'];
+        const numericColumnIds = ['TOTAL_AMOUNT', 'CREDIT', 'DEBIT', 'NET_AMOUNT', 'TAX_AMOUNT'];
         const totalPages = this.pageSize > 0 ? Math.ceil(this.totalRecords / this.pageSize) : 0;
         const showing = {
             from: this.totalRecords === 0 ? 0 : (this.currentPage - 1) * this.pageSize + 1,

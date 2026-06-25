@@ -1,6 +1,6 @@
 import { T as Token } from './Token-CkxFIO_J.js';
 import { C as CityLedgerService } from './index-UiAzOH9k.js';
-import { P as PropertyService } from './index-DhAKe8N2.js';
+import { P as PropertyService } from './index-k3rFWHYR.js';
 
 class ClFiscalDocumentService {
     tokenService = new Token();

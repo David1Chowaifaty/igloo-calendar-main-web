@@ -3440,6 +3440,10 @@ export namespace Components {
           * @default []
          */
         "rows": FiscalDocumentRow[];
+        /**
+          * @default false
+         */
+        "taxableOnly": boolean;
         "ticket": string;
         /**
           * @default null
@@ -16270,6 +16274,10 @@ declare namespace LocalJSX {
           * @default []
          */
         "rows"?: FiscalDocumentRow[];
+        /**
+          * @default false
+         */
+        "taxableOnly"?: boolean;
         "ticket"?: string;
         /**
           * @default null
@@ -20614,6 +20622,7 @@ declare namespace LocalJSX {
         "toDate": string | null;
         "hasFetched": boolean;
         "folioType": FiscalFolioType;
+        "taxableOnly": boolean;
         "agentId": number | null;
         "guestId": number | null;
         "currentPage": number;

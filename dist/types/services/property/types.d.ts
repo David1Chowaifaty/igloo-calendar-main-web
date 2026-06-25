@@ -340,8 +340,8 @@ export declare const GetUnifiedFolioParamsSchema: z.ZodObject<{
     doc_type: z.ZodNullable<z.ZodString>;
     fd_type_code: z.ZodNullable<z.ZodString>;
     doc_number: z.ZodNullable<z.ZodString>;
-    agent_search_text: z.ZodNullable<z.ZodString>;
-    guest_search_text: z.ZodNullable<z.ZodString>;
+    agent_id: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
+    guest_id: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
     booking_number: z.ZodNullable<z.ZodString>;
     page_index: z.ZodNumber;
     page_size: z.ZodNumber;
@@ -352,14 +352,14 @@ export declare const GetUnifiedFolioParamsSchema: z.ZodObject<{
     property_id?: number;
     from_date?: string;
     to_date?: string;
+    agent_id?: string;
     page_index?: number;
     page_size?: number;
     target_type?: string;
     doc_type?: string;
     fd_type_code?: string;
     doc_number?: string;
-    agent_search_text?: string;
-    guest_search_text?: string;
+    guest_id?: string;
     booking_number?: string;
     o_Total_Rows?: number;
     is_export_to_excel?: boolean;
@@ -368,14 +368,14 @@ export declare const GetUnifiedFolioParamsSchema: z.ZodObject<{
     property_id?: number;
     from_date?: string;
     to_date?: string;
+    agent_id?: string;
     page_index?: number;
     page_size?: number;
     target_type?: string;
     doc_type?: string;
     fd_type_code?: string;
     doc_number?: string;
-    agent_search_text?: string;
-    guest_search_text?: string;
+    guest_id?: string;
     booking_number?: string;
     o_Total_Rows?: number;
     is_export_to_excel?: boolean;
@@ -400,6 +400,10 @@ export declare const UnifiedFolioRecordSchema: z.ZodObject<{
     FD_TYPE_CODE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     CURRENCY_ID: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     TOTAL_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    CREDIT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    DEBIT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    NET_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    TAX_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
 }, "strip", z.ZodTypeAny, {
     TARGET_TYPE?: "AGENT" | "GUEST";
     AGENT_ID?: number;
@@ -416,6 +420,10 @@ export declare const UnifiedFolioRecordSchema: z.ZodObject<{
     FD_TYPE_CODE?: string;
     CURRENCY_ID?: number;
     TOTAL_AMOUNT?: number;
+    CREDIT?: number;
+    DEBIT?: number;
+    NET_AMOUNT?: number;
+    TAX_AMOUNT?: number;
 }, {
     TARGET_TYPE?: "AGENT" | "GUEST";
     AGENT_ID?: number;
@@ -432,6 +440,10 @@ export declare const UnifiedFolioRecordSchema: z.ZodObject<{
     FD_TYPE_CODE?: string;
     CURRENCY_ID?: number;
     TOTAL_AMOUNT?: number;
+    CREDIT?: number;
+    DEBIT?: number;
+    NET_AMOUNT?: number;
+    TAX_AMOUNT?: number;
 }>;
 export type UnifiedFolioRecord = z.infer<typeof UnifiedFolioRecordSchema>;
 export declare const GetUnifiedFolioResultSchema: z.ZodArray<z.ZodObject<{
@@ -450,6 +462,10 @@ export declare const GetUnifiedFolioResultSchema: z.ZodArray<z.ZodObject<{
     FD_TYPE_CODE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     CURRENCY_ID: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     TOTAL_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    CREDIT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    DEBIT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    NET_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    TAX_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
 }, "strip", z.ZodTypeAny, {
     TARGET_TYPE?: "AGENT" | "GUEST";
     AGENT_ID?: number;
@@ -466,6 +482,10 @@ export declare const GetUnifiedFolioResultSchema: z.ZodArray<z.ZodObject<{
     FD_TYPE_CODE?: string;
     CURRENCY_ID?: number;
     TOTAL_AMOUNT?: number;
+    CREDIT?: number;
+    DEBIT?: number;
+    NET_AMOUNT?: number;
+    TAX_AMOUNT?: number;
 }, {
     TARGET_TYPE?: "AGENT" | "GUEST";
     AGENT_ID?: number;
@@ -482,6 +502,10 @@ export declare const GetUnifiedFolioResultSchema: z.ZodArray<z.ZodObject<{
     FD_TYPE_CODE?: string;
     CURRENCY_ID?: number;
     TOTAL_AMOUNT?: number;
+    CREDIT?: number;
+    DEBIT?: number;
+    NET_AMOUNT?: number;
+    TAX_AMOUNT?: number;
 }>, "many">;
 export type GetUnifiedFolioResult = z.infer<typeof GetUnifiedFolioResultSchema>;
 /** Paginated unified-folio response: the current page of rows plus the total count. */
