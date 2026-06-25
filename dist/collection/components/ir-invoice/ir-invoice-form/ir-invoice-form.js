@@ -80,7 +80,7 @@ export class IrInvoiceForm {
     previewProformaInvoice;
     loadingChange;
     guestDocumentPreview;
-    version = 'news';
+    version = 'new';
     room;
     confirmButtonRef;
     bookingService = new BookingService();

@@ -17636,7 +17636,7 @@ const IrInvoiceForm = class {
     previewProformaInvoice;
     loadingChange;
     guestDocumentPreview;
-    version = 'news';
+    version = 'new';
     room;
     confirmButtonRef;
     bookingService = new booking_store.BookingService();
