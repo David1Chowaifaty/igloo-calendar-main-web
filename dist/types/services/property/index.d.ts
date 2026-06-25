@@ -1,6 +1,7 @@
 import { type ChannelReportResult, type ChannelSalesParams } from "../../components/ir-sales-by-channel/types";
-import { CountrySalesParams, DailyRevenueReportParams, ExposedRectifierParams, FetchedProperty, FetchNotificationsResult, FetchUnBookableRooms, FetchUnBookableRoomsResult, GetUnifiedFolioParams, GetUnifiedFolioResponse, HandleExposedPropertyTaxCategoriesParams, MonthlyStatsParams, MonthlyStatsResults, SetPropertyCalendarExtraParams, SetPropertyGapConfigParams, SetRoomCalendarExtraParams } from './types';
+import { CountrySalesParams, DailyRevenueReportParams, ExposedRectifierParams, FetchedProperty, FetchNotificationsResult, FetchUnBookableRooms, FetchUnBookableRoomsResult, GetUnifiedFolioParams, GetUnifiedFolioResponse, HandleExposedPropertyTaxCategoriesParams, MonthlyStatsParams, MonthlyStatsResults, SetPropertyCalendarExtraParams, SetPropertyGapConfigParams, SetRoomCalendarExtraParams, PrintGuestFolioDocParams } from './types';
 export declare class PropertyService {
+    printGuestFolioDoc(params: PrintGuestFolioDocParams): Promise<string | null>;
     handleExposedPropertyTaxCategories(params: HandleExposedPropertyTaxCategoriesParams): Promise<any>;
     setPropertyGapConfig(params: SetPropertyGapConfigParams): Promise<any>;
     getExposedProperty(params: {

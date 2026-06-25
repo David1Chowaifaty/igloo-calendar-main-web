@@ -43,6 +43,7 @@ export class IrFiscalDocumentsTable {
         this.guestDocumentPreview.emit({
             documentNumber: row.DOC_NUMBER ?? '',
             fdTypeCode: row.FD_TYPE_CODE ?? '',
+            bookingNumber: row.BOOKING_NUMBER ?? '',
         });
     }
     handlePageChange(event) {

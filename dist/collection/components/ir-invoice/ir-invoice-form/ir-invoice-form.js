@@ -5,6 +5,7 @@ import { Host, h } from "@stencil/core";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
 import axios from "axios";
+import { FdTypes } from "../../../types/enums";
 export class IrInvoiceForm {
     /**
      * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
@@ -78,6 +79,8 @@ export class IrInvoiceForm {
     invoiceCreated;
     previewProformaInvoice;
     loadingChange;
+    guestDocumentPreview;
+    version = 'news';
     room;
     confirmButtonRef;
     bookingService = new BookingService();
@@ -210,8 +213,14 @@ export class IrInvoiceForm {
     async openProformaInvoice() {
         const property = calendar_data.property;
         const documentId = moment().format('YYYYMMDDHHmm') + property.id;
-        let url = this.printingBaseUrl.replace('%1', encodeURIComponent(property.aname)).replace('%2', encodeURIComponent(this.booking.booking_nbr));
-        url += `&documentId=${encodeURIComponent(documentId)}`;
+        let url = '';
+        if (this.version !== 'new') {
+            url = this.printingBaseUrl.replace('%1', encodeURIComponent(property.aname)).replace('%2', encodeURIComponent(this.booking.booking_nbr));
+            url += `&documentId=${encodeURIComponent(documentId)}`;
+        }
+        else {
+            url += 'p';
+        }
         const ids = [...this.selectedItemKeys].join('-');
         if (ids) {
             url += `&ids=${ids}`;
@@ -222,11 +231,21 @@ export class IrInvoiceForm {
         else if (this.selectedRecipient?.startsWith('room__')) {
             url += `&bill_to=${encodeURIComponent(this.selectedRecipient.replace('room__', '').trim())}`;
         }
-        const { data } = await axios.post(`Get_ShortLiving_Token`);
-        if (!data.ExceptionMsg) {
-            url += `&token=${encodeURIComponent(data.My_Result)}`;
+        if (this.version === 'new') {
+            this.guestDocumentPreview.emit({
+                bookingNumber: this.booking.booking_nbr,
+                documentNumber: documentId,
+                fdTypeCode: FdTypes.Proforma,
+                extras: url,
+            });
         }
-        window.open(url, '_blank');
+        else {
+            const { data } = await axios.post(`Get_ShortLiving_Token`);
+            if (!data.ExceptionMsg) {
+                url += `&token=${encodeURIComponent(data.My_Result)}`;
+            }
+            window.open(url, '_blank');
+        }
     }
     /**
      * Returns the union of API-disabled keys and client-calculated non-invoiceable keys.
@@ -444,12 +463,22 @@ export class IrInvoiceForm {
      */
     async openLastInvoice(invoiceInfo) {
         const lastInvoice = invoiceInfo.invoices[invoiceInfo.invoices.length - 1];
-        const { My_Result } = await this.bookingService.printInvoice({
-            property_id: calendar_data.property.id,
-            mode: lastInvoice?.credit_note ? 'creditnote' : 'invoice',
-            invoice_nbr: lastInvoice.nbr,
-        });
-        window.open(My_Result);
+        if (this.version === 'new') {
+            this.guestDocumentPreview.emit({
+                bookingNumber: this.booking.booking_nbr,
+                documentNumber: lastInvoice.nbr,
+                fdTypeCode: lastInvoice?.credit_note ? FdTypes.CreditNote : FdTypes.Invoice,
+                creditNoteDocNumber: lastInvoice?.credit_note ? lastInvoice?.credit_note?.nbr : undefined,
+            });
+        }
+        else {
+            const { My_Result } = await this.bookingService.printInvoice({
+                property_id: calendar_data.property.id,
+                mode: lastInvoice?.credit_note ? 'creditnote' : 'invoice',
+                invoice_nbr: lastInvoice.nbr,
+            });
+            window.open(My_Result);
+        }
     }
     /**
      * Provides the minimum selectable invoice date depending on booking vs. room mode.
@@ -1059,6 +1088,28 @@ export class IrInvoiceForm {
                     "original": "boolean",
                     "resolved": "boolean",
                     "references": {}
+                }
+            }, {
+                "method": "guestDocumentPreview",
+                "name": "guestDocumentPreview",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "GuestDocumentPreviewRequest",
+                    "resolved": "GuestDocumentPreviewRequest",
+                    "references": {
+                        "GuestDocumentPreviewRequest": {
+                            "location": "import",
+                            "path": "@/components/ir-fiscal-documents/ir-guest-document-preview/types",
+                            "id": "src/components/ir-fiscal-documents/ir-guest-document-preview/types.ts::GuestDocumentPreviewRequest",
+                            "referenceLocation": "GuestDocumentPreviewRequest"
+                        }
+                    }
                 }
             }];
     }

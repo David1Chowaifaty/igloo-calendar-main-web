@@ -7,4 +7,8 @@
 export interface GuestDocumentPreviewRequest {
     documentNumber: string;
     fdTypeCode: string;
+    bookingNumber: string;
+    autoDownload?: boolean;
+    extras?: string;
+    creditNoteDocNumber?: string;
 }

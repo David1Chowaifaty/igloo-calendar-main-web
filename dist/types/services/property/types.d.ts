@@ -513,3 +513,23 @@ export interface GetUnifiedFolioResponse {
     rows: GetUnifiedFolioResult;
     total: number;
 }
+export declare const PrintGuestFolioDocParamsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    booking_nbr: z.ZodString;
+    mode: z.ZodString;
+    reference: z.ZodString;
+    extras: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    property_id?: number;
+    reference?: string;
+    booking_nbr?: string;
+    mode?: string;
+    extras?: string;
+}, {
+    property_id?: number;
+    reference?: string;
+    booking_nbr?: string;
+    mode?: string;
+    extras?: string;
+}>;
+export type PrintGuestFolioDocParams = z.infer<typeof PrintGuestFolioDocParamsSchema>;

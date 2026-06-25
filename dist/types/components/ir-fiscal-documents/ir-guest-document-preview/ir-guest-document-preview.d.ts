@@ -13,9 +13,14 @@ export declare class IrGuestDocumentPreview {
     propertyId: number;
     private pdfUrl;
     private isLoading;
-    private bookingService;
+    private request;
+    private readonly modes;
+    private propertyService;
     handlePreviewRequest(event: CustomEvent<GuestDocumentPreviewRequest>): Promise<void>;
-    /** Maps a document's fiscal type to the guest-billing print mode. */
-    private printModeFromFdType;
+    private resetPreview;
+    private renderBody;
+    private getDialogLabel;
+    private getTypeLabel;
+    private handleDownload;
     render(): any;
 }

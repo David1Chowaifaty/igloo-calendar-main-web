@@ -6,6 +6,7 @@ import moment from "moment";
 import { formatAmount } from "../../../utils/utils";
 import calendar_data from "../../../stores/calendar-data";
 import { isAgentMode } from "../functions";
+import { FdTypes } from "../../../types/enums";
 export class IrPaymentDetails {
     booking;
     paymentActions;
@@ -28,6 +29,8 @@ export class IrPaymentDetails {
     toast;
     openSidebar;
     openPrintScreen;
+    /** Opens an existing guest document (e.g. receipt) in the shared in-app preview. */
+    guestDocumentPreview;
     paymentService = new PaymentService();
     bookingService = new BookingService();
     dialogRef;
@@ -114,15 +117,19 @@ export class IrPaymentDetails {
     }
     async handleIssueReceipt(detail) {
         if (detail.receipt_nbr) {
-            this.openPrintScreen.emit({
-                mode: 'receipt',
-                payload: {
-                    pid: detail.system_id?.toString(),
-                    rnb: detail.receipt_nbr,
-                },
+            // Viewing an already-issued receipt now opens the shared in-app preview
+            // (ir-guest-document-preview) instead of a new browser window. Receipt
+            // rendering there is scaffolded and not implemented yet — it currently
+            // shows a placeholder until the fetch flow is wired up.
+            this.guestDocumentPreview.emit({
+                documentNumber: detail.receipt_nbr,
+                fdTypeCode: FdTypes.Receipt,
+                bookingNumber: this.booking.booking_nbr,
             });
             return;
         }
+        // Issuing a brand-new receipt still uses the legacy print flow, which both
+        // creates and renders the receipt.
         const starter = calendar_data.property.company?.receipt_prefix ? calendar_data.property.company?.receipt_prefix + '-' : '';
         const _number = await this.bookingService.getNextValue({ starter: `${starter}${calendar_data.property.aname}` });
         this.openPrintScreen.emit({
@@ -618,6 +625,28 @@ export class IrPaymentDetails {
                             "path": "../types",
                             "id": "src/components/ir-booking-details/types.ts::PrintScreenOptions",
                             "referenceLocation": "PrintScreenOptions"
+                        }
+                    }
+                }
+            }, {
+                "method": "guestDocumentPreview",
+                "name": "guestDocumentPreview",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Opens an existing guest document (e.g. receipt) in the shared in-app preview."
+                },
+                "complexType": {
+                    "original": "GuestDocumentPreviewRequest",
+                    "resolved": "GuestDocumentPreviewRequest",
+                    "references": {
+                        "GuestDocumentPreviewRequest": {
+                            "location": "import",
+                            "path": "@/components/ir-fiscal-documents/ir-guest-document-preview/types",
+                            "id": "src/components/ir-fiscal-documents/ir-guest-document-preview/types.ts::GuestDocumentPreviewRequest",
+                            "referenceLocation": "GuestDocumentPreviewRequest"
                         }
                     }
                 }

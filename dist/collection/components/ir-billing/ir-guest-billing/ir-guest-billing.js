@@ -1,18 +1,19 @@
 import { Fragment, h } from "@stencil/core";
 import { BookingService } from "../../../services/booking-service/booking.service";
-import { downloadFile, formatAmount } from "../../../utils/utils";
+import { formatAmount } from "../../../utils/utils";
 import moment from "moment";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
 import { v4 } from "uuid";
 import calendar_data from "../../../stores/calendar-data";
+import { FdTypes } from "../../../types/enums";
 export class IrGuestBilling {
     booking;
     isOpen = null;
     isLoading = 'page';
     invoiceInfo;
     selectedInvoice = null;
-    pdfUrl = null;
     billingClose;
+    guestDocumentPreview;
     bookingService = new BookingService();
     _id = `issue_invoice__btn_${v4()}`;
     componentWillLoad() {
@@ -67,19 +68,13 @@ export class IrGuestBilling {
     }
     async printInvoice({ invoice, autoDownload, mode = 'invoice' }) {
         try {
-            const { My_Result } = await this.bookingService.printInvoice({
-                property_id: calendar_data.property.id,
-                invoice_nbr: invoice.nbr,
-                mode,
+            this.guestDocumentPreview.emit({
+                documentNumber: invoice.nbr,
+                fdTypeCode: mode === 'invoice' ? FdTypes.Invoice : FdTypes.CreditNote,
+                bookingNumber: this.booking.booking_nbr,
+                autoDownload,
+                creditNoteDocNumber: mode === 'invoice' ? undefined : invoice?.credit_note?.nbr,
             });
-            if (!My_Result) {
-                return;
-            }
-            if (autoDownload) {
-                downloadFile(My_Result);
-                return;
-            }
-            this.pdfUrl = My_Result;
         }
         catch (error) {
             console.error(error);
@@ -123,16 +118,7 @@ export class IrGuestBilling {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = null;
-            }, open: this.isOpen === 'invoice', booking: this.booking }), h("ir-preview-screen-dialog", {
-            // hideDefaultAction
-            open: this.pdfUrl !== null, label: "Invoice", action: "print", onOpenChanged: e => {
-                if (!e.detail) {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
-                    this.pdfUrl = null;
-                }
-            }
-        }, this.pdfUrl && h("ir-pdf-viewer", { class: "guest-billing__pdf-viewer", src: this.pdfUrl })), h("ir-dialog", { label: "Alert", open: this.selectedInvoice !== null, lightDismiss: false, onIrDialogHide: e => {
+            }, open: this.isOpen === 'invoice', booking: this.booking }), h("ir-dialog", { label: "Alert", open: this.selectedInvoice !== null, lightDismiss: false, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onIrDialogAfterHide: e => {
@@ -186,8 +172,7 @@ export class IrGuestBilling {
             "isOpen": {},
             "isLoading": {},
             "invoiceInfo": {},
-            "selectedInvoice": {},
-            "pdfUrl": {}
+            "selectedInvoice": {}
         };
     }
     static get events() {
@@ -205,6 +190,28 @@ export class IrGuestBilling {
                     "original": "void",
                     "resolved": "void",
                     "references": {}
+                }
+            }, {
+                "method": "guestDocumentPreview",
+                "name": "guestDocumentPreview",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "GuestDocumentPreviewRequest",
+                    "resolved": "GuestDocumentPreviewRequest",
+                    "references": {
+                        "GuestDocumentPreviewRequest": {
+                            "location": "import",
+                            "path": "@/components/ir-fiscal-documents/ir-guest-document-preview/types",
+                            "id": "src/components/ir-fiscal-documents/ir-guest-document-preview/types.ts::GuestDocumentPreviewRequest",
+                            "referenceLocation": "GuestDocumentPreviewRequest"
+                        }
+                    }
                 }
             }];
     }

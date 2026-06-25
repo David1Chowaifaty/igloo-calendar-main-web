@@ -1,6 +1,6 @@
 import { r as registerInstance, h } from './index-D7D7fhZS.js';
 import { T as Token } from './Token-CkxFIO_J.js';
-import { P as PropertyService } from './index-k3rFWHYR.js';
+import { P as PropertyService } from './index-C_5AQuvC.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './index-DeW5X45W.js';

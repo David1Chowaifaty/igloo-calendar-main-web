@@ -1,14 +1,15 @@
 import { Booking } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { BookingInvoiceInfo } from '../../ir-invoice/types';
+import { GuestDocumentPreviewRequest } from "../../ir-fiscal-documents/ir-guest-document-preview/types";
 export declare class IrGuestBilling {
     booking: Booking;
     isOpen: 'invoice';
     isLoading: 'page' | 'void';
     invoiceInfo: BookingInvoiceInfo;
     selectedInvoice: string;
-    pdfUrl: string;
     billingClose: EventEmitter<void>;
+    guestDocumentPreview: EventEmitter<GuestDocumentPreviewRequest>;
     private bookingService;
     private _id;
     componentWillLoad(): void;

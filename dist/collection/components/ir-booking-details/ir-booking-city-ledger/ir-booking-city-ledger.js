@@ -3,12 +3,10 @@ import { CityLedgerService } from "../../../services/city-ledger/index";
 import { mapClTxToFolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
-import Token from "../../../models/Token";
 import { actionableClTypes } from "../../../services/city-ledger.service";
 import { formatAmount } from "../../../utils/utils";
 export class IrBookingCityLedger {
     cityLedgerService = new CityLedgerService();
-    tokenService = new Token();
     /** Booking object; component is hidden when booking.agent is null. */
     booking;
     /** Active language code. */
@@ -107,7 +105,7 @@ export class IrBookingCityLedger {
                 this.drawerOpen = false;
                 this.editingRow = null;
                 // this.clRefreshNeeded.emit();
-            } }), h("ir-cl-fiscal-document-preview", { ticket: this.tokenService.getToken(), propertyId: calendar_data?.property?.id }), h("ir-dialog", { label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
+            } }), h("ir-dialog", { label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!this.isDeleting)

@@ -7,7 +7,7 @@ var moment = require('./moment-CdViwxPQ.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
 var calendarData = require('./calendar-data-R3j-WBLW.js');
 var booking = require('./booking-D81t5lFq.js');
-var index$1 = require('./index-DFOsLnPn.js');
+var index$1 = require('./index-Db3oXH3N.js');
 var enums = require('./enums-BfYSWFRQ.js');
 require('./index-CLqkDPTC.js');
 require('./type-Dy9pVS4V.js');
@@ -832,7 +832,7 @@ const IrDropdownItem = class {
         this.dropdownItemSelect.emit(this.value);
     };
     render() {
-        return (index.h(index.Host, { key: 'c2f597d97187ff5ea448002f96721393384492e3', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
+        return (index.h(index.Host, { key: '50ffabedc360a15fcf9d44f76df252e311c0bc88', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
     }
 };
 IrDropdownItem.style = irDropdownItemCss();

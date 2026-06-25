@@ -14,7 +14,7 @@ const IrArrivalTimeCell = class {
     arrival;
     arrivalTimeLabel;
     render() {
-        return (index.h(index.Host, { key: '455e380f76a53491bb536b8b36aa4087a7c3915a' }, index.h("div", { key: '15c40e5cdb0893a5f57c6dd19f930fab83a9083e', class: "arrival-time-cell__container" }, this.arrivalTimeLabel && index.h("span", { key: '6a80faf510c776741ddbcc444cfdd5055ca31d97', class: "arrival-time-cell__label" }, this.arrivalTimeLabel, ": "), index.h("p", { key: 'feffd636496d3740cf2fe22d47c4241e0b25cb36' }, this.arrival?.description))));
+        return (index.h(index.Host, { key: '0319c8ceb5dcfbc5b93340ffa030b6a7e4426481' }, index.h("div", { key: 'ff1878842263538e7e24c00cd28044ddf3a286c2', class: "arrival-time-cell__container" }, this.arrivalTimeLabel && index.h("span", { key: '6e8f9f733f6aab4f2bb06a76f8f18b4902854f93', class: "arrival-time-cell__label" }, this.arrivalTimeLabel, ": "), index.h("p", { key: 'd615b5f6959ff76435589e512a404c235508734c' }, this.arrival?.description))));
     }
 };
 IrArrivalTimeCell.style = irArrivalTimeCellCss();
@@ -30,7 +30,7 @@ const IrBookedOnCell = class {
     label;
     render() {
         const { date, hour, minute } = this.bookedOn;
-        return (index.h(index.Host, { key: 'ce032cdbaa935c956f3769904082f80e056fe66d' }, this.label && index.h("p", { key: '9b1d9b11b985bce70eb3894db82e073990eae90d', class: "cell-label" }, this.label, ":"), index.h("p", { key: '61ab2c04b5df746e3c1fdef013a2997d688c2a41', class: "booked-on-cell__date" }, moment.hooks(date, 'YYYY-MM-DD').format('DD MMM YYYY')), index.h("p", { key: 'b50c9e1be5de1b2c8c1195d0bd0c7e00190cec61', class: "booked-on-cell__time" }, functions._formatTime(hour.toString(), minute.toString()))));
+        return (index.h(index.Host, { key: '5bc7dcd93fe28a5e73eba25fdfe18ed65d290ce5' }, this.label && index.h("p", { key: '67e9b125099ef7386a52c2652b1c6c2b3e7b01ba', class: "cell-label" }, this.label, ":"), index.h("p", { key: 'dbeedd40401fbade4a8ca2be4955949ba8786d93', class: "booked-on-cell__date" }, moment.hooks(date, 'YYYY-MM-DD').format('DD MMM YYYY')), index.h("p", { key: 'a6d5d0c31ed8c356563f6b07d358b7614ab3892e', class: "booked-on-cell__time" }, functions._formatTime(hour.toString(), minute.toString()))));
     }
 };
 IrBookedOnCell.style = irBookedOnCellCss();
@@ -48,7 +48,7 @@ const IrStatusActivityCell = class {
     lastManipulation;
     bookingNumber;
     render() {
-        return (index.h(index.Host, { key: 'e7ad1ed90cad8d43ba016dd94381368bf32a3c84' }, index.h("ir-booking-status-tag", { key: 'c6b6ce61d71cabd3b3f0a354a1f0b1ed53e1707f', status: this.status, isRequestToCancel: this.isRequestToCancel }), this.showModifiedBadge && index.h("p", { key: 'fb5676f44ce4215644891325c64dea4e2a596fc6', class: "status-activity__modified" }, "Modified"), this.showManipulationBadge && (index.h(index.Fragment, { key: '931ced19fd85c08407364d8271288647c318fba4' }, index.h("wa-tooltip", { key: '62782c68ff2ba01cb396476831d54994fcc1f074', for: `manipulation_badge_${this.bookingNumber}` }, `Modified by ${this.lastManipulation.user} at ${this.lastManipulation.date} ${this.lastManipulation.hour}:${this.lastManipulation.minute}`), index.h("p", { key: '7955cd160867fd042f881a9a5d62a83721dbe9c7', class: "status-activity__manipulation", id: `manipulation_badge_${this.bookingNumber}` }, "Modified")))));
+        return (index.h(index.Host, { key: 'f044753abc1e6024ce5205fe6edbc3b2fcfff479' }, index.h("ir-booking-status-tag", { key: 'c87cee85cf464d5c9b6fc0cd2a2343a7c4c1a3d6', status: this.status, isRequestToCancel: this.isRequestToCancel }), this.showModifiedBadge && index.h("p", { key: 'ec19b3ef6f3f2a2e003655baeb02853485434b72', class: "status-activity__modified" }, "Modified"), this.showManipulationBadge && (index.h(index.Fragment, { key: 'e081950cd3521c4a1c46659dd055ef46f0206de3' }, index.h("wa-tooltip", { key: '48ceb0b0d8461686cb7a732e5a3025b358732ecb', for: `manipulation_badge_${this.bookingNumber}` }, `Modified by ${this.lastManipulation.user} at ${this.lastManipulation.date} ${this.lastManipulation.hour}:${this.lastManipulation.minute}`), index.h("p", { key: '7391c8f8b4ff2f865d631ed8c8af23cd58e9ebaf', class: "status-activity__manipulation", id: `manipulation_badge_${this.bookingNumber}` }, "Modified")))));
     }
 };
 IrStatusActivityCell.style = irStatusActivityCellCss();

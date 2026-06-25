@@ -1,6 +1,6 @@
 import { r as registerInstance, d as getElement, h, H as Host } from './index-D7D7fhZS.js';
 import { T as Token } from './Token-CkxFIO_J.js';
-import { P as PropertyService } from './index-k3rFWHYR.js';
+import { P as PropertyService } from './index-C_5AQuvC.js';
 import { c as calendar_data } from './calendar-data-15-64PrB.js';
 import { h as checkUserAuthState, m as manageAnchorSession } from './utils-DvzWTdKJ.js';
 import './axios-B50ozOIF.js';

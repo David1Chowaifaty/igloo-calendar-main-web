@@ -7,6 +7,7 @@ import { PaymentEntries, PaymentSidebarEvent, PrintScreenOptions } from '../type
 import { IEntries } from "../../../models/property";
 import { FolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
 import { ClTx } from "../../../services/city-ledger/types";
+import type { GuestDocumentPreviewRequest } from "../../ir-fiscal-documents/ir-guest-document-preview/types";
 export declare class IrPaymentDetails {
     booking: Booking;
     paymentActions: IPaymentAction[];
@@ -29,6 +30,8 @@ export declare class IrPaymentDetails {
     toast: EventEmitter<IToast>;
     openSidebar: EventEmitter<PaymentSidebarEvent>;
     openPrintScreen: EventEmitter<PrintScreenOptions>;
+    /** Opens an existing guest document (e.g. receipt) in the shared in-app preview. */
+    guestDocumentPreview: EventEmitter<GuestDocumentPreviewRequest>;
     private paymentService;
     private bookingService;
     private dialogRef;

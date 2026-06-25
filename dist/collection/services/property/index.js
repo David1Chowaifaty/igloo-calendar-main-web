@@ -2,8 +2,16 @@ import { parseChannelReportResult, parseChannelSalesParams } from "../../compone
 import calendar_data from "../../stores/calendar-data";
 import { downloadFile } from "../../utils/utils";
 import axios from "axios";
-import { AllowedPropertiesSchema, ExposedRectifierParamsSchema, FetchNotificationsParamsSchema, FetchNotificationsResultSchema, FetchUnBookableRoomsSchema, GetUnifiedFolioParamsSchema, HandleExposedPropertyTaxCategoriesParamsSchema, SetPropertyCalendarExtraParamsSchema, SetPropertyGapConfigParamsSchema, SetRoomCalendarExtraParamsSchema, } from "./types";
+import { AllowedPropertiesSchema, ExposedRectifierParamsSchema, FetchNotificationsParamsSchema, FetchNotificationsResultSchema, FetchUnBookableRoomsSchema, GetUnifiedFolioParamsSchema, HandleExposedPropertyTaxCategoriesParamsSchema, SetPropertyCalendarExtraParamsSchema, SetPropertyGapConfigParamsSchema, SetRoomCalendarExtraParamsSchema, PrintGuestFolioDocParamsSchema, } from "./types";
 export class PropertyService {
+    async printGuestFolioDoc(params) {
+        const payload = PrintGuestFolioDocParamsSchema.parse(params);
+        const { data } = await axios.post('/Print_Guest_Folio_Doc', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
     async handleExposedPropertyTaxCategories(params) {
         const payload = HandleExposedPropertyTaxCategoriesParamsSchema.parse(params);
         const { data } = await axios.post('/Handle_Exposed_Property_Tax_Categories', payload);

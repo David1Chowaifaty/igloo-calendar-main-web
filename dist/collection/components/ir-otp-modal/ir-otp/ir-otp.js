@@ -225,7 +225,7 @@ export class IrOtp {
         this.emitChanges();
     }
     render() {
-        return (h(Host, { key: '289c3392151bad84e2b55e3e9b5896147e7c4a5e', class: "otp-input-container" }, h("div", { key: '7ecd7fb6b970ac93738d18e1da2399a24af092ca', class: "otp-input-wrapper" }, Array(this.length)
+        return (h(Host, { key: '25b0c04befa997a0c8aae64112512c52d22e916d', class: "otp-input-container" }, h("div", { key: 'ed3f8a12d201d6c49f956c86eb6c85192cfef877', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
             .map((_, index) => (h("input", { ref: el => (this.inputRefs[index] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index], onInput: e => this.handleInput(e, index), onKeyDown: e => this.handleKeyDown(e, index), onPaste: e => this.handlePaste(e, index), onFocus: this.handleFocus, "aria-label": `Digit ${index + 1} of ${this.length}` }))))));
     }

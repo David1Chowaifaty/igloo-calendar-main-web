@@ -3,7 +3,6 @@ import { IEntries } from "../../../models/IBooking";
 import { FolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
 export declare class IrBookingCityLedger {
     private cityLedgerService;
-    private tokenService;
     /** Booking object; component is hidden when booking.agent is null. */
     booking: Booking;
     /** Active language code. */

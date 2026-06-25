@@ -20,7 +20,6 @@ import { CleanTaskEvent, HKIssue, IHouseKeepers, Task, THKUser } from "./models/
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, PhysicalRoom, Property, Room, SharedPerson } from "./models/booking.dto";
 import { Currency, ICurrency as ICurrency1, IEntries as IEntries1, IProperty, RatePlan, RoomType } from "./models/property";
 import { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
-import { Toast } from "./components/igl-toast-provider/igl-toast-provider";
 import { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
 import { Agent } from "./services/agents/type";
 import { AgentSetupEntries } from "./components/ir-agents/types";
@@ -73,6 +72,7 @@ import { ClFiscalDocumentPreviewRequest as ClFiscalDocumentPreviewRequest1 } fro
 import { GuestDocumentPreviewRequest } from "./components/ir-fiscal-documents/ir-guest-document-preview/types";
 import { GHS_Candidate_Property } from "./services/ghs/types";
 import { ICountry as ICountry1 } from "./models/IBooking";
+import { GuestDocumentPreviewRequest as GuestDocumentPreviewRequest1 } from "./components/ir-fiscal-documents/ir-guest-document-preview/types";
 import { GuestChangedEvent as GuestChangedEvent1 } from "./components/ir-guest-info/ir-guest-info-form/ir-guest-info-form";
 import { ConnectedHK } from "./services/housekeeping.service";
 import { MaskProp as MaskProp1, NativeWaInput as NativeWaInput1 } from "./components/ui/ir-input/ir-input";
@@ -100,7 +100,7 @@ import { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
 import { TPositions } from "./components/ui/ir-toast/toast";
 import { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 import { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
-import { Toast as Toast1 } from "./components/ir-toast-provider/ir-toast-provider";
+import { Toast } from "./components/ir-toast-provider/ir-toast-provider";
 import { ToastOptions } from "./components/ui/ir-toasts-provider/ir-toasts-provider";
 import { User } from "./models/Users";
 import { AllowedUser } from "./components/ir-user-management/types";
@@ -119,7 +119,6 @@ export { CleanTaskEvent, HKIssue, IHouseKeepers, Task, THKUser } from "./models/
 export { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, PhysicalRoom, Property, Room, SharedPerson } from "./models/booking.dto";
 export { Currency, ICurrency as ICurrency1, IEntries as IEntries1, IProperty, RatePlan, RoomType } from "./models/property";
 export { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
-export { Toast } from "./components/igl-toast-provider/igl-toast-provider";
 export { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
 export { Agent } from "./services/agents/type";
 export { AgentSetupEntries } from "./components/ir-agents/types";
@@ -172,6 +171,7 @@ export { ClFiscalDocumentPreviewRequest as ClFiscalDocumentPreviewRequest1 } fro
 export { GuestDocumentPreviewRequest } from "./components/ir-fiscal-documents/ir-guest-document-preview/types";
 export { GHS_Candidate_Property } from "./services/ghs/types";
 export { ICountry as ICountry1 } from "./models/IBooking";
+export { GuestDocumentPreviewRequest as GuestDocumentPreviewRequest1 } from "./components/ir-fiscal-documents/ir-guest-document-preview/types";
 export { GuestChangedEvent as GuestChangedEvent1 } from "./components/ir-guest-info/ir-guest-info-form/ir-guest-info-form";
 export { ConnectedHK } from "./services/housekeeping.service";
 export { MaskProp as MaskProp1, NativeWaInput as NativeWaInput1 } from "./components/ui/ir-input/ir-input";
@@ -199,7 +199,7 @@ export { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
 export { TPositions } from "./components/ui/ir-toast/toast";
 export { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 export { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
-export { Toast as Toast1 } from "./components/ir-toast-provider/ir-toast-provider";
+export { Toast } from "./components/ir-toast-provider/ir-toast-provider";
 export { ToastOptions } from "./components/ui/ir-toasts-provider/ir-toasts-provider";
 export { User } from "./models/Users";
 export { AllowedUser } from "./components/ir-user-management/types";
@@ -609,10 +609,6 @@ export namespace Components {
         "propertyid": number;
         "to_date": string;
         "unassignedDatesProp": any;
-    }
-    interface IglToastProvider {
-        "hide": (id: string) => Promise<void>;
-        "show": (message: string, options?: { variant?: "primary" | "success" | "warning" | "danger" | "neutral"; duration?: number; closable?: boolean; icon?: string; }) => Promise<string>;
     }
     interface IglooCalendar {
         "baseUrl": string;
@@ -6212,7 +6208,7 @@ export namespace Components {
         "variant": ToastVariants;
     }
     interface IrToastProvider {
-        "addToast": (toast: Toast1) => Promise<string>;
+        "addToast": (toast: Toast) => Promise<string>;
         "clearAllToasts": () => Promise<void>;
         /**
           * @default 5000
@@ -8029,12 +8025,6 @@ declare global {
     var HTMLIglToBeAssignedElement: {
         prototype: HTMLIglToBeAssignedElement;
         new (): HTMLIglToBeAssignedElement;
-    };
-    interface HTMLIglToastProviderElement extends Components.IglToastProvider, HTMLStencilElement {
-    }
-    var HTMLIglToastProviderElement: {
-        prototype: HTMLIglToastProviderElement;
-        new (): HTMLIglToastProviderElement;
     };
     interface HTMLIglooCalendarElementEventMap {
         "dragOverHighlightElement": any;
@@ -10185,6 +10175,7 @@ declare global {
     };
     interface HTMLIrGuestBillingElementEventMap {
         "billingClose": void;
+        "guestDocumentPreview": GuestDocumentPreviewRequest;
     }
     interface HTMLIrGuestBillingElement extends Components.IrGuestBilling, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrGuestBillingElementEventMap>(type: K, listener: (this: HTMLIrGuestBillingElement, ev: IrGuestBillingCustomEvent<HTMLIrGuestBillingElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -10687,6 +10678,7 @@ declare global {
         "invoiceCreated": BookingInvoiceInfo;
         "previewProformaInvoice": IssueInvoiceProps;
         "loadingChange": boolean;
+        "guestDocumentPreview": GuestDocumentPreviewRequest;
     }
     interface HTMLIrInvoiceFormElement extends Components.IrInvoiceForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrInvoiceFormElementEventMap>(type: K, listener: (this: HTMLIrInvoiceFormElement, ev: IrInvoiceFormCustomEvent<HTMLIrInvoiceFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11150,6 +11142,7 @@ declare global {
         "toast": IToast;
         "openSidebar": PaymentSidebarEvent;
         "openPrintScreen": PrintScreenOptions;
+        "guestDocumentPreview": GuestDocumentPreviewRequest;
     }
     interface HTMLIrPaymentDetailsElement extends Components.IrPaymentDetails, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrPaymentDetailsElementEventMap>(type: K, listener: (this: HTMLIrPaymentDetailsElement, ev: IrPaymentDetailsCustomEvent<HTMLIrPaymentDetailsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -12386,7 +12379,6 @@ declare global {
         "igl-tba-booking-view": HTMLIglTbaBookingViewElement;
         "igl-tba-category-view": HTMLIglTbaCategoryViewElement;
         "igl-to-be-assigned": HTMLIglToBeAssignedElement;
-        "igl-toast-provider": HTMLIglToastProviderElement;
         "igloo-calendar": HTMLIglooCalendarElement;
         "ir-accordion": HTMLIrAccordionElement;
         "ir-actions-cell": HTMLIrActionsCellElement;
@@ -13197,8 +13189,6 @@ declare namespace LocalJSX {
         "propertyid"?: number;
         "to_date"?: string;
         "unassignedDatesProp"?: any;
-    }
-    interface IglToastProvider {
     }
     interface IglooCalendar {
         "baseUrl"?: string;
@@ -16365,6 +16355,7 @@ declare namespace LocalJSX {
     interface IrGuestBilling {
         "booking"?: Booking;
         "onBillingClose"?: (event: IrGuestBillingCustomEvent<void>) => void;
+        "onGuestDocumentPreview"?: (event: IrGuestBillingCustomEvent<GuestDocumentPreviewRequest>) => void;
     }
     /**
      * Guest Fiscal Document Preview
@@ -17076,6 +17067,7 @@ declare namespace LocalJSX {
          */
         "formId"?: string;
         "invoiceInfo"?: BookingInvoiceInfo;
+        "onGuestDocumentPreview"?: (event: IrInvoiceFormCustomEvent<GuestDocumentPreviewRequest>) => void;
         /**
           * Emitted when the invoice drawer is closed.  Fired when `closeDrawer()` is called, including when the underlying drawer emits `onDrawerHide`.
          */
@@ -17805,6 +17797,10 @@ declare namespace LocalJSX {
           * @default 'en'
          */
         "language"?: string;
+        /**
+          * Opens an existing guest document (e.g. receipt) in the shared in-app preview.
+         */
+        "onGuestDocumentPreview"?: (event: IrPaymentDetailsCustomEvent<GuestDocumentPreviewRequest>) => void;
         "onOpenPrintScreen"?: (event: IrPaymentDetailsCustomEvent<PrintScreenOptions>) => void;
         "onOpenSidebar"?: (event: IrPaymentDetailsCustomEvent<PaymentSidebarEvent>) => void;
         "onResetBookingEvt"?: (event: IrPaymentDetailsCustomEvent<null>) => void;
@@ -21576,7 +21572,6 @@ declare namespace LocalJSX {
         "igl-tba-booking-view": Omit<IglTbaBookingView, keyof IglTbaBookingViewAttributes> & { [K in keyof IglTbaBookingView & keyof IglTbaBookingViewAttributes]?: IglTbaBookingView[K] } & { [K in keyof IglTbaBookingView & keyof IglTbaBookingViewAttributes as `attr:${K}`]?: IglTbaBookingViewAttributes[K] } & { [K in keyof IglTbaBookingView & keyof IglTbaBookingViewAttributes as `prop:${K}`]?: IglTbaBookingView[K] };
         "igl-tba-category-view": Omit<IglTbaCategoryView, keyof IglTbaCategoryViewAttributes> & { [K in keyof IglTbaCategoryView & keyof IglTbaCategoryViewAttributes]?: IglTbaCategoryView[K] } & { [K in keyof IglTbaCategoryView & keyof IglTbaCategoryViewAttributes as `attr:${K}`]?: IglTbaCategoryViewAttributes[K] } & { [K in keyof IglTbaCategoryView & keyof IglTbaCategoryViewAttributes as `prop:${K}`]?: IglTbaCategoryView[K] };
         "igl-to-be-assigned": Omit<IglToBeAssigned, keyof IglToBeAssignedAttributes> & { [K in keyof IglToBeAssigned & keyof IglToBeAssignedAttributes]?: IglToBeAssigned[K] } & { [K in keyof IglToBeAssigned & keyof IglToBeAssignedAttributes as `attr:${K}`]?: IglToBeAssignedAttributes[K] } & { [K in keyof IglToBeAssigned & keyof IglToBeAssignedAttributes as `prop:${K}`]?: IglToBeAssigned[K] };
-        "igl-toast-provider": IglToastProvider;
         "igloo-calendar": Omit<IglooCalendar, keyof IglooCalendarAttributes> & { [K in keyof IglooCalendar & keyof IglooCalendarAttributes]?: IglooCalendar[K] } & { [K in keyof IglooCalendar & keyof IglooCalendarAttributes as `attr:${K}`]?: IglooCalendarAttributes[K] } & { [K in keyof IglooCalendar & keyof IglooCalendarAttributes as `prop:${K}`]?: IglooCalendar[K] };
         "ir-accordion": Omit<IrAccordion, keyof IrAccordionAttributes> & { [K in keyof IrAccordion & keyof IrAccordionAttributes]?: IrAccordion[K] } & { [K in keyof IrAccordion & keyof IrAccordionAttributes as `attr:${K}`]?: IrAccordionAttributes[K] } & { [K in keyof IrAccordion & keyof IrAccordionAttributes as `prop:${K}`]?: IrAccordion[K] };
         "ir-actions-cell": IrActionsCell;
@@ -21929,7 +21924,6 @@ declare module "@stencil/core" {
             "igl-tba-booking-view": LocalJSX.IntrinsicElements["igl-tba-booking-view"] & JSXBase.HTMLAttributes<HTMLIglTbaBookingViewElement>;
             "igl-tba-category-view": LocalJSX.IntrinsicElements["igl-tba-category-view"] & JSXBase.HTMLAttributes<HTMLIglTbaCategoryViewElement>;
             "igl-to-be-assigned": LocalJSX.IntrinsicElements["igl-to-be-assigned"] & JSXBase.HTMLAttributes<HTMLIglToBeAssignedElement>;
-            "igl-toast-provider": LocalJSX.IntrinsicElements["igl-toast-provider"] & JSXBase.HTMLAttributes<HTMLIglToastProviderElement>;
             "igloo-calendar": LocalJSX.IntrinsicElements["igloo-calendar"] & JSXBase.HTMLAttributes<HTMLIglooCalendarElement>;
             "ir-accordion": LocalJSX.IntrinsicElements["ir-accordion"] & JSXBase.HTMLAttributes<HTMLIrAccordionElement>;
             "ir-actions-cell": LocalJSX.IntrinsicElements["ir-actions-cell"] & JSXBase.HTMLAttributes<HTMLIrActionsCellElement>;

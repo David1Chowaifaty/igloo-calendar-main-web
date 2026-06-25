@@ -8,7 +8,6 @@
     "components/ir-departures/ir-departures-table/ir-departures-table.js",
     "components/igloo-calendar/igloo-calendar.js",
     "components/ui/ir-toast/ir-toast.js",
-    "components/igl-toast-provider/igl-toast-provider.js",
     "components/table-cells/booking/ir-actions-cell/ir-actions-cell.js",
     "components/ui/ir-input/ir-input.js",
     "components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter.js",

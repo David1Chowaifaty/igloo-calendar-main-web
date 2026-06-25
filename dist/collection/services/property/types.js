@@ -109,3 +109,10 @@ export const UnifiedFolioRecordSchema = z.object({
     TAX_AMOUNT: z.number().nullable().optional(),
 });
 export const GetUnifiedFolioResultSchema = z.array(UnifiedFolioRecordSchema);
+export const PrintGuestFolioDocParamsSchema = z.object({
+    property_id: z.number(),
+    booking_nbr: z.string(),
+    mode: z.string(),
+    reference: z.string(),
+    extras: z.string().optional(),
+});

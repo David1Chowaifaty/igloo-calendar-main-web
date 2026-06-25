@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 export class IrGuestNameCell {
     name;
     render() {
-        return (h(Host, { key: 'b1cd8164e10c8e66163ff91a54b096c09e73da77' }, this.name.first_name, " ", this.name.last_name));
+        return (h(Host, { key: '4671981ab9557a513c85ca71b532ac43e6cebd59' }, this.name.first_name, " ", this.name.last_name));
     }
     static get is() { return "ir-guest-name-cell"; }
     static get encapsulation() { return "scoped"; }

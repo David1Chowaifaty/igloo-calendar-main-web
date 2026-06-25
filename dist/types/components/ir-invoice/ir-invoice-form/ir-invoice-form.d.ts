@@ -3,6 +3,7 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { Moment } from 'moment';
 import { BookingInvoiceInfo, InvoiceableItem, ViewMode } from '../types';
 import { IssueInvoiceProps } from "../../../services/booking-service/types";
+import { GuestDocumentPreviewRequest } from "../../ir-fiscal-documents/ir-guest-document-preview/types";
 export declare class IrInvoiceForm {
     /**
      * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
@@ -76,6 +77,8 @@ export declare class IrInvoiceForm {
     invoiceCreated: EventEmitter<BookingInvoiceInfo>;
     previewProformaInvoice: EventEmitter<IssueInvoiceProps>;
     loadingChange: EventEmitter<boolean>;
+    guestDocumentPreview: EventEmitter<GuestDocumentPreviewRequest>;
+    private readonly version;
     private room;
     private confirmButtonRef;
     private bookingService;
