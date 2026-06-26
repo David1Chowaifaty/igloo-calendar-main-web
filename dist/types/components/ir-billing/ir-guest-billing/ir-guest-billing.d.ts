@@ -2,21 +2,25 @@ import { Booking } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { BookingInvoiceInfo } from '../../ir-invoice/types';
 import { GuestDocumentPreviewRequest } from "../../ir-fiscal-documents/ir-guest-document-preview/types";
+import type { UnifiedFolioRecord } from "../../../services/property/types";
 export declare class IrGuestBilling {
     booking: Booking;
     isOpen: 'invoice';
     isLoading: 'page' | 'void';
     invoiceInfo: BookingInvoiceInfo;
+    rows: UnifiedFolioRecord[];
     selectedInvoice: string;
     billingClose: EventEmitter<void>;
     guestDocumentPreview: EventEmitter<GuestDocumentPreviewRequest>;
     private bookingService;
+    private propertyService;
     private _id;
     componentWillLoad(): void;
     handleInvoiceCreation(e: CustomEvent): Promise<void>;
+    private buildFolioParams;
     private init;
     private voidInvoice;
-    private get invoices();
+    private get sortedRows();
     private printInvoice;
     render(): any;
 }

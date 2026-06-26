@@ -1,5 +1,6 @@
 import { Fragment, h } from "@stencil/core";
 import { BookingService } from "../../../services/booking-service/booking.service";
+import { PropertyService } from "../../../services/property.service";
 import { formatAmount } from "../../../utils/utils";
 import moment from "moment";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
@@ -11,10 +12,12 @@ export class IrGuestBilling {
     isOpen = null;
     isLoading = 'page';
     invoiceInfo;
+    rows = [];
     selectedInvoice = null;
     billingClose;
     guestDocumentPreview;
     bookingService = new BookingService();
+    propertyService = new PropertyService();
     _id = `issue_invoice__btn_${v4()}`;
     componentWillLoad() {
         this.init();
@@ -23,11 +26,37 @@ export class IrGuestBilling {
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.invoiceInfo = { ...e.detail };
+        const { rows } = await this.propertyService.getUnifiedFolio(this.buildFolioParams());
+        this.rows = rows;
+    }
+    buildFolioParams() {
+        return {
+            property_id: calendar_data.property.id,
+            from_date: null,
+            to_date: null,
+            target_type: 'GUEST',
+            doc_type: null,
+            fd_type_code: null,
+            doc_number: null,
+            agent_id: null,
+            guest_id: null,
+            booking_number: this.booking.booking_nbr,
+            page_index: 0,
+            page_size: 500,
+            o_Total_Rows: null,
+            is_export_to_excel: false,
+            Link_excel: '',
+        };
     }
     async init() {
         try {
             this.isLoading = 'page';
-            this.invoiceInfo = await this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr });
+            const [invoiceInfo, { rows }] = await Promise.all([
+                this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
+                this.propertyService.getUnifiedFolio(this.buildFolioParams()),
+            ]);
+            this.invoiceInfo = invoiceInfo;
+            this.rows = rows;
         }
         catch (error) {
             console.error(error);
@@ -45,74 +74,62 @@ export class IrGuestBilling {
             property_id: calendar_data.property.id,
             reason: '',
         });
-        this.invoiceInfo = await this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr });
+        const [invoiceInfo, { rows }] = await Promise.all([
+            this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
+            this.propertyService.getUnifiedFolio(this.buildFolioParams()),
+        ]);
+        this.invoiceInfo = invoiceInfo;
+        this.rows = rows;
         this.isLoading = null;
         this.selectedInvoice = null;
     }
-    get invoices() {
-        const _invoices = [];
-        for (const invoice of this.invoiceInfo.invoices) {
-            if (invoice.status.code === 'VALID') {
-                _invoices.push(invoice);
-            }
-            else {
-                _invoices.push({ ...invoice, status: { code: 'VALID', description: '' } });
-                _invoices.push({ ...invoice, date: invoice.credit_note.date });
-            }
-        }
-        return _invoices.sort((a, b) => {
-            const aDate = moment(a.date ?? a.credit_note?.date, 'YYYY-MM-DD');
-            const bDate = moment(b.date ?? b.credit_note?.date, 'YYYY-MM-DD');
-            return aDate.diff(bDate); // ASC order
+    get sortedRows() {
+        return [...this.rows].sort((a, b) => {
+            const aDate = moment(a.DOC_DATE, 'YYYY-MM-DD');
+            const bDate = moment(b.DOC_DATE, 'YYYY-MM-DD');
+            return aDate.diff(bDate);
         });
     }
-    async printInvoice({ invoice, autoDownload, mode = 'invoice' }) {
-        try {
-            this.guestDocumentPreview.emit({
-                documentNumber: invoice.nbr,
-                fdTypeCode: mode === 'invoice' ? FdTypes.Invoice : FdTypes.CreditNote,
-                bookingNumber: this.booking.booking_nbr,
-                autoDownload,
-                creditNoteDocNumber: mode === 'invoice' ? undefined : invoice?.credit_note?.nbr,
-            });
-        }
-        catch (error) {
-            console.error(error);
-        }
+    printInvoice({ row, autoDownload }) {
+        const isInvoice = row.FD_TYPE_CODE === FdTypes.Invoice;
+        this.guestDocumentPreview.emit({
+            documentNumber: row.DOC_NUMBER,
+            fdTypeCode: isInvoice ? FdTypes.Invoice : FdTypes.CreditNote,
+            bookingNumber: this.booking.booking_nbr,
+            autoDownload,
+        });
     }
     render() {
         if (this.isLoading === 'page') {
             return (h("div", { class: "drawer__loader-container" }, h("ir-spinner", null)));
         }
-        // const canIssueInvoice = !moment().isBefore(moment(this.booking.from_date, 'YYYY-MM-DD'), 'dates');
+        const currencySymbol = this.booking.currency?.symbol ?? '';
         return (h(Fragment, null, h("div", { class: "billing__container" }, h("section", null, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, "Issued documents"), h("ir-custom-button", { variant: "brand", id: this._id, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = 'invoice';
-            } }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null, "Actions"))), h("tbody", null, this.invoices?.length === 0 && (h("tr", null, h("td", { colSpan: 4, class: "empty-row" }, h("ir-empty-state", null)))), this.invoices?.map(invoice => {
-            const isValid = invoice.status.code === 'VALID';
-            return (h("tr", { class: "ir-table-row" }, h("td", null, invoice.status.code === 'VALID'
-                ? moment(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY')
-                : moment(invoice.credit_note.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("td", null, h("p", { class: "billing__invoice-nbr" }, h("b", null, isValid ? 'Invoice' : 'Credit note', ":"), " ", isValid ? invoice.nbr : invoice.credit_note.nbr), !isValid && h("p", { class: "billing__invoice-nbr --secondary" }, invoice.nbr)), h("td", { class: "billing__price-col" }, h("span", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(invoice.currency.symbol, invoice.total_amount))), h("td", null, h("div", { class: "billing__actions-row" }, h("wa-dropdown", { "onwa-hide": e => {
+            } }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null, "Actions"))), h("tbody", null, this.sortedRows.length === 0 && (h("tr", null, h("td", { colSpan: 4, class: "empty-row" }, h("ir-empty-state", null)))), this.sortedRows.map(row => {
+            const isInvoice = row.FD_TYPE_CODE === FdTypes.Invoice;
+            return (h("tr", { class: "ir-table-row", key: row.DOC_NUMBER }, h("td", null, row.DOC_DATE ? moment(row.DOC_DATE, 'YYYY-MM-DD').format('MMM DD, YYYY') : '—'), h("td", null, h("p", { class: "billing__invoice-nbr" }, h("b", null, isInvoice ? 'Invoice' : 'Credit note', ":"), " ", row.DOC_NUMBER)), h("td", { class: "billing__price-col" }, h("span", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(currencySymbol, row.TOTAL_AMOUNT ?? 0))), h("td", null, h("div", { class: "billing__actions-row" }, h("wa-dropdown", { "onwa-hide": e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                 }, "onwa-select": async (e) => {
                     switch (e.detail.item.value) {
                         case 'print':
-                            this.printInvoice({ invoice, autoDownload: true, mode: isValid ? 'invoice' : 'creditnote' });
+                            this.printInvoice({ row, autoDownload: true });
                             break;
                         case 'view-print':
-                            this.printInvoice({ invoice, mode: isValid ? 'invoice' : 'creditnote' });
+                            this.printInvoice({ row });
                             break;
                         case 'void':
-                            this.selectedInvoice = invoice.nbr;
+                            this.selectedInvoice = row.DOC_NUMBER;
                             break;
                     }
-                } }, h("h3", null, "Issued by: ", invoice.credit_note ? invoice.credit_note.user : invoice.user), h("wa-divider", null), h("wa-dropdown-item", { value: "view-print" }, "Open PDF", isRequestPending('/Print_Invoice') && h("wa-spinner", { slot: "details" })), isValid && !invoice.credit_note && (h("wa-dropdown-item", { variant: "danger", value: "void" }, "Void with credit note")), h("ir-custom-button", { slot: "trigger", id: `pdf-${invoice.system_id}`, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })))))));
-        })))), h("div", { class: "billing__cards" }, this.invoices?.length === 0 && (h("div", { class: "billing__empty-state" }, h("ir-empty-state", null))), this.invoices?.map(invoice => {
-            const isValid = invoice.status.code === 'VALID';
-            return (h("wa-card", { key: invoice.nbr, class: "billing__card" }, h("div", { class: "billing__card-header" }, h("div", { class: "billing__card-header-info" }, h("p", { class: "billing__card-number" }, isValid ? 'Invoice' : 'Credit note', ":", isValid ? invoice.nbr : invoice.credit_note.nbr), h("p", { class: "billing__card-type" }, isValid ? '' : invoice.nbr)), h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' } }, h("wa-tooltip", { for: `mobile-download-pdf-${invoice.system_id}` }, "Open PDF"), h("ir-custom-button", { onClickHandler: () => this.printInvoice({ invoice, mode: isValid ? 'invoice' : 'creditnote' }), loading: isRequestPending('/Print_Invoice'), id: `mobile-download-pdf-${invoice.system_id}`, variant: "neutral", appearance: "plain", class: "billing__card-download-btn" }, h("wa-icon", { name: "file-pdf", style: { fontSize: '1rem' } })))), h("div", { class: "billing__card-details" }, h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label" }, "Date"), h("p", { class: "billing__card-detail-value" }, ' ', isValid ? moment(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY') : moment(invoice.credit_note.date, 'YYYY-MM-DD').format('MMM DD, YYYY'))), h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label --amount" }, "Amount"), h("p", { class: "billing__card-detail-value" }, formatAmount(invoice.currency.symbol, invoice.total_amount ?? 0)))), isValid && !invoice.credit_note && (h("div", { slot: "footer", class: "billing__card-footer" }, h("ir-custom-button", { onClickHandler: () => {
-                    this.selectedInvoice = invoice.nbr;
+                } }, h("wa-dropdown-item", { value: "view-print" }, "Open PDF", isRequestPending('/Print_Invoice') && h("wa-spinner", { slot: "details" })), isInvoice && (h("wa-dropdown-item", { variant: "danger", value: "void" }, "Void with credit note")), h("ir-custom-button", { slot: "trigger", id: `pdf-${row.DOC_ID ?? row.DOC_NUMBER}`, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })))))));
+        })))), h("div", { class: "billing__cards" }, this.sortedRows.length === 0 && (h("div", { class: "billing__empty-state" }, h("ir-empty-state", null))), this.sortedRows.map(row => {
+            const isInvoice = row.FD_TYPE_CODE === FdTypes.Invoice;
+            return (h("wa-card", { key: row.DOC_NUMBER, class: "billing__card" }, h("div", { class: "billing__card-header" }, h("div", { class: "billing__card-header-info" }, h("p", { class: "billing__card-number" }, isInvoice ? 'Invoice' : 'Credit note', ":", row.DOC_NUMBER)), h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' } }, h("wa-tooltip", { for: `mobile-download-pdf-${row.DOC_ID ?? row.DOC_NUMBER}` }, "Open PDF"), h("ir-custom-button", { onClickHandler: () => this.printInvoice({ row }), loading: isRequestPending('/Print_Invoice'), id: `mobile-download-pdf-${row.DOC_ID ?? row.DOC_NUMBER}`, variant: "neutral", appearance: "plain", class: "billing__card-download-btn" }, h("wa-icon", { name: "file-pdf", style: { fontSize: '1rem' } })))), h("div", { class: "billing__card-details" }, h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label" }, "Date"), h("p", { class: "billing__card-detail-value" }, row.DOC_DATE ? moment(row.DOC_DATE, 'YYYY-MM-DD').format('MMM DD, YYYY') : '—')), h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label --amount" }, "Amount"), h("p", { class: "billing__card-detail-value" }, formatAmount(currencySymbol, row.TOTAL_AMOUNT ?? 0)))), isInvoice && (h("div", { slot: "footer", class: "billing__card-footer" }, h("ir-custom-button", { onClickHandler: () => {
+                    this.selectedInvoice = row.DOC_NUMBER;
                 }, variant: "danger", appearance: "outlined", class: "billing__card-void-btn" }, "Void with credit note")))));
         })))), h("ir-invoice", { invoiceInfo: this.invoiceInfo, onInvoiceClose: e => {
                 e.stopImmediatePropagation();
@@ -172,6 +189,7 @@ export class IrGuestBilling {
             "isOpen": {},
             "isLoading": {},
             "invoiceInfo": {},
+            "rows": {},
             "selectedInvoice": {}
         };
     }

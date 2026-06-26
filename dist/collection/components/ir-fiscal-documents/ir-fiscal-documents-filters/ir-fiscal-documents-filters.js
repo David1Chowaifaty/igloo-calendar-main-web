@@ -19,6 +19,7 @@ const DEFAULT_FILTERS = {
     folioType: 'all',
     agentId: null,
     guestId: null,
+    searchBy: 'doc_nbr',
 };
 export class IrFiscalDocumentsFilters {
     propertyId;
@@ -99,7 +100,7 @@ export class IrFiscalDocumentsFilters {
         // Reset the folio-scoped selections whenever the folio scope changes.
         this.agentSearch = '';
         this.guests = [];
-        this.updateDraft({ folioType, agentId: null, guestId: null });
+        this.updateDraft({ folioType, agentId: null, guestId: null, searchBy: 'doc_nbr' });
     }
     handleGuestSelect(e) {
         const guest = this.guests?.find(g => g.id?.toString() === e.detail.item.value);
@@ -110,28 +111,28 @@ export class IrFiscalDocumentsFilters {
         this.updateDraft({ guestId: guest.id });
     }
     render() {
-        return (h("form", { key: '4ca57553343cbba10960e99e717977c457a294e4', onSubmit: e => {
+        return (h("form", { key: '200ed32a4341811dd55d84a8655bace6238c8343', onSubmit: e => {
                 e.preventDefault();
                 this.applyFilters.emit(this.draft);
-            } }, h("div", { key: '09e275765ddcb1a001d2bad856fc19513fe52baf', class: "filters-bar" }, h("ir-validator", { key: '7dc7ea9530156788e5961c799965cf65309656f9', value: this.draft?.fromDate || this.draft?.toDate, schema: z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: '397765e2d5b9b353c90a4708fbe83a45dbba561a', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.draft.fromDate, toDate: this.draft.toDate, onDatesChanged: e => {
+            } }, h("div", { key: 'fdb4a7753b794aabf1f45caa304fbc9e10ba8fc5', class: "filters-bar" }, h("ir-validator", { key: 'e9b647ffa3feaa6ef263496b59b54ddffd71eaee', value: this.draft?.fromDate || this.draft?.toDate, schema: z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: 'f79f446ec31a62b9e2f7b37d3d3a71efaebb9eea', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.draft.fromDate, toDate: this.draft.toDate, onDatesChanged: e => {
                 this.updateDraft({ fromDate: e.detail.from, toDate: e.detail.to });
                 this.filterChanged.emit({ ...this.draft, fromDate: e.detail.from, toDate: e.detail.to });
-            } })), h("div", { key: '8362f38a014a7b144cd496d576ce95e08f1c0db5', class: "filters-bar__search-group" }, h("div", { key: '20e57f78978c504f5dbd76cc0e7c0790346d6642', class: "filters-bar__type-group" }, h("wa-select", { key: '80311e4615c91b3206cc5e11189ce6b5181715cc', class: "filters-bar__status-select", value: this.draft.type, defaultValue: this.draft.type, onchange: e => this.updateDraft({ type: e.target.value }), size: "s", placeholder: "Document Type" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-select", { key: 'ab6fc33a7589fbe53f98dcd95fbd1cc748cc0157', class: "filters-bar__status-select", value: this.draft.folioType, defaultValue: this.draft.folioType, onchange: e => this.handleFolioTypeChange(e.target.value), size: "s", placeholder: "Folios" }, this.folioOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-switch", { key: 'dc5033182e3d6dde8fb966dbbba3a91fd762807a', class: "filters-bar__tax-switch", checked: this.draft.taxableOnly, onchange: e => {
+            } })), h("div", { key: 'de75ff42086d678802968387c9f861f9412dc648', class: "filters-bar__search-group" }, h("div", { key: '28229b9242731000195a9a19b1db1cc99cb319e1', class: "filters-bar__type-group" }, h("wa-select", { key: '115129b13df784ae86fecb27db0ba8b69ea3cb2e', class: "filters-bar__status-select", value: this.draft.type, defaultValue: this.draft.type, onchange: e => this.updateDraft({ type: e.target.value }), size: "s", placeholder: "Document Type" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-select", { key: '0a4082b76342b4ae43a4fba18c4f7e75a1b9ded7', class: "filters-bar__status-select", value: this.draft.folioType, defaultValue: this.draft.folioType, onchange: e => this.handleFolioTypeChange(e.target.value), size: "s", placeholder: "Folios" }, this.folioOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-switch", { key: 'b72d9f71e003767a86fed58ff399f757216f85bb', class: "filters-bar__tax-switch", checked: this.draft.taxableOnly, onchange: e => {
                 this.updateDraft({ taxableOnly: e.target.checked });
                 this.filterChanged.emit({ ...this.draft, taxableOnly: e.target.checked });
-            } }, "Taxes")), this.draft.folioType === 'agent' && (h("ir-autocomplete", { key: '6b344b11c7fd7e1f2b08ff84c4b214a6134ce277', class: "filters-bar__folio-select", size: "s", placeholder: "Select agent", value: this.draft.agentId ? (this.agents.find(a => a.id === this.draft.agentId)?.name ?? '') : ALL_AGENTS_LABEL, "onText-change": (e) => {
+            } }, "Taxes")), this.draft.folioType === 'agent' && (h("ir-autocomplete", { key: '6192a9555508f1fe3974ea880257b455cac1f4bf', class: "filters-bar__folio-select", size: "s", placeholder: "Select agent", value: this.draft.agentId ? (this.agents.find(a => a.id === this.draft.agentId)?.name ?? '') : ALL_AGENTS_LABEL, "onText-change": (e) => {
                 this.agentSearch = e.detail ?? '';
             }, "onCombobox-change": (e) => {
                 this.agentSearch = '';
                 const value = e.detail;
                 this.updateDraft({ agentId: value && value !== ALL_AGENTS_VALUE ? Number(value) : null });
-            } }, h("ir-autocomplete-option", { key: '58f849bc6876e7d8eb82aeebdbfa8f355f0895b4', label: ALL_AGENTS_LABEL, value: ALL_AGENTS_VALUE }, ALL_AGENTS_LABEL), this.filteredAgents.map(agent => (h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name))))), this.draft.folioType === 'guest' && (h("ir-picker", { key: 'bbe864483cbda1e1f3e5c5b46b449b051ed7938d', class: "filters-bar__folio-select", size: "s", placeholder: "Search customer by email or name", withClear: true, mode: "select-async", debounce: 500, loading: isRequestPending('/Fetch_Exposed_Guests'), "onText-change": event => this.fetchGuests(event.detail), "onCombobox-select": this.handleGuestSelect.bind(this), "onCombobox-clear": () => {
+            } }, h("ir-autocomplete-option", { key: 'e57a4e90daff48f2c812c50dacc98e3d70164283', label: ALL_AGENTS_LABEL, value: ALL_AGENTS_VALUE }, ALL_AGENTS_LABEL), this.filteredAgents.map(agent => (h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name))))), this.draft.folioType === 'guest' && (h("ir-picker", { key: '9ca612b799cf4dd41b844d782f48c99fcb44c6e7', class: "filters-bar__folio-select", size: "s", placeholder: "Search customer by email or name", withClear: true, mode: "select-async", debounce: 500, loading: isRequestPending('/Fetch_Exposed_Guests'), "onText-change": event => this.fetchGuests(event.detail), "onCombobox-select": this.handleGuestSelect.bind(this), "onCombobox-clear": () => {
                 this.updateDraft({ guestId: null });
                 this.applyFilters.emit(this.draft);
             } }, this.guests?.map(guest => {
             const label = `${guest.email} - ${guest.first_name} ${guest.last_name}`;
             return (h("ir-picker-item", { label: label, value: guest.id?.toString(), key: guest.id }, label));
-        }))), h("div", { key: 'b45a8f27578071bcacaa649d4a921eb1571ae5d3', class: "filters-bar__search-actions" }, h("ir-input", { key: '59c5c563374753e805f909b1668e453905bcd8b8', class: "filters-bar__search-input", placeholder: this.searchPlaceholder, value: this.draft.docNumber, "onText-change": e => {
+        }))), h("div", { key: '8886d9d8074e776388bbd16015b582f84dfbad12', class: `filters-bar__search-actions${this.draft.folioType === 'guest' ? ' filters-bar__search-actions--wide' : ''}` }, h("div", { key: '2d1c04d66c95a7c7533fd890680872baccccef14', class: "filters-bar__search-combo" }, h("ir-input", { key: 'be7af6b1cad84aa3f8c891b6d13abc8e99585d94', class: `filters-bar__search-input${this.draft.folioType === 'guest' ? ' filters-bar__combo-input' : ''}`, placeholder: this.searchPlaceholder, value: this.draft.docNumber, "onText-change": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateDraft({ docNumber: e.detail });
@@ -139,7 +140,7 @@ export class IrFiscalDocumentsFilters {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.applyFilters.emit({ ...this.draft, docNumber: '' });
-            } }, h("wa-icon", { key: '39650e347a4ea44145eb2b0076c1618f54fe2efb', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '4cc2f787ee54442a03c70302352491cebe2683e0', loading: this.loading, class: "filters-bar__search-submit", variant: "neutral", appearance: "outlined", type: "submit" }, h("wa-icon", { key: 'dcfad109a5bc5fc601574e9225d5a22a5e728562', name: "magnifying-glass" })))))));
+            } }, h("wa-icon", { key: '5ac5dd7ea0a07ac22479132f140ee8cbb2221e7f', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), this.draft.folioType === 'guest' && (h("wa-select", { key: '17e0fcd41af234aaf311e31039647168683cd009', class: "filters-bar__combo-select", size: "s", value: this.draft.searchBy, defaultValue: this.draft.searchBy, onchange: e => this.updateDraft({ searchBy: e.target.value }) }, h("wa-option", { key: '301fcfdcc00cb98375006ebe39a79c7a234173c6', value: "doc_nbr" }, "Doc number"), h("wa-option", { key: 'd62473660eb98fad087008964d037a2f986536e2', value: "booking_nbr" }, "Booking number")))), h("ir-custom-button", { key: 'be1b6e28de7a0b03b9967ed76b072297146ccda0', loading: this.loading, class: "filters-bar__search-submit", variant: "neutral", appearance: "outlined", type: "submit" }, h("wa-icon", { key: '5b080c01bb26f78dcbdd0a3b94511c8f18de45e9', name: "magnifying-glass" })))))));
     }
     static get is() { return "ir-fiscal-documents-filters"; }
     static get encapsulation() { return "scoped"; }

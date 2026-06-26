@@ -24,6 +24,7 @@ export class IrFiscalDocuments {
         folioType: 'all',
         agentId: null,
         guestId: null,
+        searchBy: 'doc_nbr',
     };
     isPageLoading = true;
     property_id;
@@ -127,15 +128,15 @@ export class IrFiscalDocuments {
         try {
             const { rows, total } = await this.propertyService.getUnifiedFolio({
                 property_id: this.property_id,
-                from_date: effectiveFrom,
-                to_date: effectiveTo,
+                from_date: this.filters?.searchBy === 'booking_nbr' ? null : effectiveFrom,
+                to_date: this.filters?.searchBy === 'booking_nbr' ? null : effectiveTo,
                 target_type: this.targetTypeFromFolio(filters.folioType),
                 doc_type: null,
                 fd_type_code: this.resolveFdTypeCode(filters),
-                doc_number: filters.docNumber || null,
+                doc_number: this.filters?.searchBy === 'doc_nbr' ? filters.docNumber || null : null,
                 agent_id: this.filters?.agentId?.toString(),
                 guest_id: this.filters?.guestId?.toString(),
-                booking_number: null,
+                booking_number: this.filters?.searchBy === 'booking_nbr' ? this.filters.docNumber : null,
                 page_index: this.currentPage - 1,
                 page_size: this.pageSize,
                 o_Total_Rows: null,

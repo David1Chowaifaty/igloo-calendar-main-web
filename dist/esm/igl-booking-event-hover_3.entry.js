@@ -5,7 +5,7 @@ import { h as hooks } from './moment-Mki5YqAR.js';
 import { l as locales } from './locales.store-C0aS6UDK.js';
 import { c as calendar_data } from './calendar-data-15-64PrB.js';
 import { a as compareTime, b as createDateWithOffsetAndHour } from './booking-C5iTFi9B.js';
-import { P as PropertyService } from './index-C_5AQuvC.js';
+import { P as PropertyService } from './index-DS7OlEWP.js';
 import { H as HbPreference } from './enums-DC2FbBuL.js';
 import './index-DeW5X45W.js';
 import './type-D7rOPtKA.js';
@@ -830,7 +830,7 @@ const IrDropdownItem = class {
         this.dropdownItemSelect.emit(this.value);
     };
     render() {
-        return (h(Host, { key: '50ffabedc360a15fcf9d44f76df252e311c0bc88', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: 'a939f849e5a4e7ef8c6e56ac28e3abccfc55938c', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
 };
 IrDropdownItem.style = irDropdownItemCss();

@@ -22,4 +22,6 @@ export interface FiscalDocumentFilters {
     agentId: number | null;
     /** Selected guest id when `folioType === 'guest'`. */
     guestId: number | null;
+    /** Which field the free-text search targets. */
+    searchBy: 'doc_nbr' | 'booking_nbr';
 }

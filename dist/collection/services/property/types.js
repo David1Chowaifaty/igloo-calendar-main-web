@@ -70,8 +70,8 @@ export const SetPropertyGapConfigParamsSchema = z.object({
 });
 export const GetUnifiedFolioParamsSchema = z.object({
     property_id: z.number().int(),
-    from_date: z.string().date(),
-    to_date: z.string().date(),
+    from_date: z.string().date().nullable(),
+    to_date: z.string().date().nullable(),
     target_type: z.string().nullable(),
     doc_type: z.string().nullable(),
     fd_type_code: z.string().nullable(),

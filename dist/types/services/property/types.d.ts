@@ -334,8 +334,8 @@ export declare const SetPropertyGapConfigParamsSchema: z.ZodObject<{
 export type SetPropertyGapConfigParams = z.infer<typeof SetPropertyGapConfigParamsSchema>;
 export declare const GetUnifiedFolioParamsSchema: z.ZodObject<{
     property_id: z.ZodNumber;
-    from_date: z.ZodString;
-    to_date: z.ZodString;
+    from_date: z.ZodNullable<z.ZodString>;
+    to_date: z.ZodNullable<z.ZodString>;
     target_type: z.ZodNullable<z.ZodString>;
     doc_type: z.ZodNullable<z.ZodString>;
     fd_type_code: z.ZodNullable<z.ZodString>;
