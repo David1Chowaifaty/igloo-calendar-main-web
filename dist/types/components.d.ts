@@ -3371,7 +3371,7 @@ export namespace Components {
           * @default { ...DEFAULT_FILTERS }
          */
         "filters": FiscalDocumentFilters;
-        "loading": boolean;
+        "loading": 'search' | 'export';
         "propertyId": number;
     }
     interface IrFiscalDocumentsTable {
@@ -16185,7 +16185,7 @@ declare namespace LocalJSX {
           * @default { ...DEFAULT_FILTERS }
          */
         "filters"?: FiscalDocumentFilters;
-        "loading"?: boolean;
+        "loading"?: 'search' | 'export';
         "onApplyFilters"?: (event: IrFiscalDocumentsFiltersCustomEvent<FiscalDocumentFilters>) => void;
         "onFilterChanged"?: (event: IrFiscalDocumentsFiltersCustomEvent<FiscalDocumentFilters>) => void;
         "propertyId"?: number;
@@ -20606,7 +20606,7 @@ declare namespace LocalJSX {
     }
     interface IrFiscalDocumentsFiltersAttributes {
         "propertyId": number;
-        "loading": boolean;
+        "loading": 'search' | 'export';
     }
     interface IrFiscalDocumentsTableAttributes {
         "isLoading": boolean;

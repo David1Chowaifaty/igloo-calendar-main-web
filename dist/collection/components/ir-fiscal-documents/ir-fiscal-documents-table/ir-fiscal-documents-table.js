@@ -91,6 +91,7 @@ export class IrFiscalDocumentsTable {
             this.columnHelper.accessor('DOC_DATE', {
                 header: 'Date',
                 cell: info => moment(info.getValue(), 'YYYY-MM-DD').format('MMM DD, YYYY') ?? '',
+                enableSorting: true,
             }),
             this.columnHelper.accessor('DOC_NUMBER', {
                 header: 'Doc Number',
@@ -171,29 +172,17 @@ export class IrFiscalDocumentsTable {
             ...identityCols,
             this.columnHelper.display({
                 id: 'actions',
-                header: 'Actions',
+                header: 'Action',
                 cell: info => {
                     const row = info.row.original;
-                    // Guest documents open the invoice/credit-note PDF (ir-guest-billing flow).
-                    if (row.TARGET_TYPE === 'GUEST') {
-                        return (h("wa-dropdown", { "onwa-hide": e => {
-                                e.stopImmediatePropagation();
-                                e.stopPropagation();
-                            }, "onwa-select": (e) => {
-                                if (e.detail.item.value === 'view')
-                                    this.emitGuestPreview(row);
-                            } }, h("wa-button", { slot: "trigger", size: "s", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), h("wa-dropdown-item", { value: "view" }, "Open PDF")));
-                    }
-                    // Agent documents have the city-ledger preview/print flow.
-                    return (h("wa-dropdown", { "onwa-hide": e => {
-                            e.stopImmediatePropagation();
-                            e.stopPropagation();
-                        }, "onwa-select": (e) => {
-                            if (e.detail.item.value === 'print')
-                                this.emitPreview(row, true);
-                            else
+                    return (h("ir-custom-button", { appearance: "plain", onClickHandler: () => {
+                            if (row.TARGET_TYPE === 'GUEST') {
+                                this.emitGuestPreview(row);
+                            }
+                            else {
                                 this.emitPreview(row);
-                        } }, h("wa-button", { slot: "trigger", size: "s", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), h("wa-dropdown-item", { value: "view" }, "View document"), h("wa-dropdown-item", { value: "print" }, "Print")));
+                            }
+                        }, variant: "neutral" }, h("wa-icon", { name: "eye" })));
                 },
                 enableSorting: false,
             }),

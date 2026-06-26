@@ -193,9 +193,9 @@ const IrMealReportFilters = class {
         const tomorrowDate = hooks().add(1, 'day').format('YYYY-MM-DD');
         // Reflect which preset (Today/Tomorrow) is currently active based on the selected fromDate.
         const selectedPreset = this.fromDate === todayDate ? 'today' : this.fromDate === tomorrowDate ? 'tomorrow' : '';
-        return (h("ir-filter-card", { key: 'ccdc35e50cd85e438a314acbd978288f32b24a47' }, h("wa-radio-group", { key: '19041e3be3b8b944f72ee8d04b3c86d0da175959', label: "Report type", size: "s", orientation: "horizontal", value: this.reportType, onchange: e => {
+        return (h("ir-filter-card", { key: 'f5b0a02809039ecac31aa586caff0a2f2baaec92' }, h("wa-radio-group", { key: 'd6b9125fc73566a5201fbb1afeb528e890accd89', label: "Report type", size: "s", orientation: "horizontal", value: this.reportType, onchange: e => {
                 this.reportTypeChange.emit(e.target.value);
-            } }, h("wa-radio", { key: 'c4f3c0f15e445c59bf77ce7cff63c6d68007efa9', style: { flex: '1' }, appearance: "button", value: "GUEST_LIST" }, "Guest list"), h("wa-radio", { key: '535ae343f50107f56bb4fe56d49273a72f8ea1f9', style: { flex: '1' }, appearance: "button", value: "MEAL_COUNT" }, "Meal count")), this.reportType === 'GUEST_LIST' ? (h("wa-radio-group", { label: "Stay date", size: "s", orientation: "horizontal", value: selectedPreset, onchange: e => {
+            } }, h("wa-radio", { key: 'ca66b811c59f648a7bf9384da44db792e3548919', style: { flex: '1' }, appearance: "button", value: "GUEST_LIST" }, "Guest list"), h("wa-radio", { key: '2c025307d89c71cabb3c24a8eee920110556d15c', style: { flex: '1' }, appearance: "button", value: "MEAL_COUNT" }, "Meal count")), this.reportType === 'GUEST_LIST' ? (h("wa-radio-group", { label: "Stay date", size: "s", orientation: "horizontal", value: selectedPreset, onchange: e => {
                 this.presetDate.emit(e.target.value);
             } }, h("wa-radio", { style: { flex: '1' }, appearance: "button", value: "today" }, "Today"), h("wa-radio", { style: { flex: '1' }, appearance: "button", value: "tomorrow" }, "Tomorrow"))) : (h("div", null, h("ir-date-range-filter", { label: "Stay date", fromDate: this.fromDate, showQuickActions: false, toDate: this.toDate, minDate: hooks().format('YYYY-MM-DD'), maxDate: hooks().add(14, 'days').format('YYYY-MM-DD'), onDatesChanged: e => {
                 const { from, to } = e.detail;
@@ -206,14 +206,14 @@ const IrMealReportFilters = class {
             }, withClear: false, selectionMode: "auto" }))), this.reportType === 'GUEST_LIST' &&
             (mealTypes.length > 0 ? (h("wa-radio-group", { defaultValue: this.mealType, label: "Meal type", size: "s", orientation: "horizontal", value: this.mealType, style: { width: '100%' }, onchange: e => {
                     this.mealTypeChange.emit(e.target.value);
-                } }, mealTypes.map(type => (h("wa-radio", { style: { flex: '1' }, appearance: "button", value: type.CODE_NAME }, type.CODE_VALUE_EN))))) : (h("div", { class: "ir-meal-report-filters__warning" }, "No meal types found."))), h("div", { key: 'd03c80b0cc0b4e9b9ea6620c23cae08dd6b5c637', slot: "footer" }, h("ir-custom-button", { key: '639f4e95caba23353056e8acedf4f8ab82130307', type: "button", size: "s", variant: "neutral", appearance: "filled", onClickHandler: (e) => {
+                } }, mealTypes.map(type => (h("wa-radio", { style: { flex: '1' }, appearance: "button", value: type.CODE_NAME }, type.CODE_VALUE_EN))))) : (h("div", { class: "ir-meal-report-filters__warning" }, "No meal types found."))), h("div", { key: '554566f735381d5095b3daf65cbda8aa94b222bb', slot: "footer" }, h("ir-custom-button", { key: 'f4532070eb2800fce0ec4bf145ff3753307edf20', type: "button", size: "s", variant: "neutral", appearance: "filled", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.filterReset.emit();
-            } }, this.lcz.Lcz_Reset || 'Reset'), h("ir-custom-button", { key: 'f50d54ad10736bf765349283568e97634f5cf4fd', type: "button", size: "s", variant: "brand", loading: this.isLoading, onClickHandler: (e) => {
+            } }, this.lcz.Lcz_Reset || 'Reset'), h("ir-custom-button", { key: '4339c45603f7d1c9075c83188dcc3334e4d2a123', type: "button", size: "s", variant: "brand", loading: this.isLoading, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();

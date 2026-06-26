@@ -24,4 +24,5 @@ export interface FiscalDocumentFilters {
     guestId: number | null;
     /** Which field the free-text search targets. */
     searchBy: 'doc_nbr' | 'booking_nbr';
+    export?: boolean;
 }

@@ -58,7 +58,7 @@ export class IrMComboboxItem {
     };
     render() {
         // Render either provided html_content or the slotted content
-        return (h(Host, { key: '238d95e40d2e31a935c6bd09bdea8a45799d63b4', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '2fd7c1ea56cdd5b7176367355f9efc849a1358b5', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
     static get is() { return "ir-m-combobox-item"; }
     static get encapsulation() { return "scoped"; }

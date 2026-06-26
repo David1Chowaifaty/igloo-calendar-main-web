@@ -31,7 +31,7 @@ export class IrFiscalDocuments {
     /** `_FD_TYPE` setup entries — used to display the document type in the table. */
     fdTypes = [];
     rows = [];
-    isLoading = false;
+    isLoading = null;
     hasFetched = false;
     // Server-side pagination state.
     pageSize = PAGE_SIZES[0];
@@ -122,7 +122,7 @@ export class IrFiscalDocuments {
     async fetchFiscalDocuments(filters) {
         if (!filters.fromDate && !filters.toDate)
             return;
-        this.isLoading = true;
+        this.isLoading = this.filters?.export ? 'export' : 'search';
         const effectiveFrom = filters.fromDate ? filters.fromDate : moment(filters.toDate).subtract(5, 'years').format('YYYY-MM-DD');
         const effectiveTo = filters.toDate ? filters.toDate : moment(filters.fromDate).add(5, 'years').format('YYYY-MM-DD');
         try {
@@ -140,7 +140,7 @@ export class IrFiscalDocuments {
                 page_index: this.currentPage - 1,
                 page_size: this.pageSize,
                 o_Total_Rows: null,
-                is_export_to_excel: false,
+                is_export_to_excel: this.filters.export || false,
                 Link_excel: '',
             });
             this.rows = rows;
@@ -152,7 +152,7 @@ export class IrFiscalDocuments {
             this.totalRows = 0;
         }
         finally {
-            this.isLoading = false;
+            this.isLoading = null;
             this.hasFetched = true;
         }
     }
@@ -178,7 +178,7 @@ export class IrFiscalDocuments {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("ir-page", { label: "Fiscal Documents" }, h("ir-fiscal-documents-filters", { propertyId: this.property_id, loading: this.isLoading, filters: this.filters, onFilterChanged: e => (this.filters = { ...this.filters, ...e.detail }), onApplyFilters: e => this.handleApplyFilters(e.detail) }), h("ir-fiscal-documents-table", { rows: this.rows, taxableOnly: this.filters?.taxableOnly, isLoading: this.isLoading, hasFetched: this.hasFetched, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.property_id, language: this.language, fdTypes: this.fdTypes, currentPage: this.currentPage, pageSize: this.pageSize, totalRecords: this.totalRows, pageSizes: PAGE_SIZES, onFetchRequested: () => this.fetchFiscalDocuments(this.filters), onRequestPageChange: (e) => this.handlePageChange(e.detail.currentPage), onRequestPageSizeChange: (e) => this.handlePageSizeChange(e.detail.pageSize), onOpenBookingDetails: (e) => (this.selectedBookingNumber = e.detail) }), h("ir-booking-details-drawer", { open: !!this.selectedBookingNumber, propertyId: this.property_id, bookingNumber: this.selectedBookingNumber, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.selectedBookingNumber = null) }), h("ir-fiscal-document-preview", { mode: "all", ticket: this.ticket, propertyId: this.property_id, onDocumentConverted: () => this.fetchFiscalDocuments(this.filters) })));
+        return (h("ir-page", { label: "Fiscal Documents" }, h("ir-fiscal-documents-filters", { propertyId: this.property_id, loading: this.isLoading, filters: this.filters, onFilterChanged: e => (this.filters = { ...this.filters, ...e.detail }), onApplyFilters: e => this.handleApplyFilters(e.detail) }), h("ir-fiscal-documents-table", { rows: this.rows, taxableOnly: this.filters?.taxableOnly, isLoading: this.isLoading === 'search', hasFetched: this.hasFetched, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.property_id, language: this.language, fdTypes: this.fdTypes, currentPage: this.currentPage, pageSize: this.pageSize, totalRecords: this.totalRows, pageSizes: PAGE_SIZES, onFetchRequested: () => this.fetchFiscalDocuments(this.filters), onRequestPageChange: (e) => this.handlePageChange(e.detail.currentPage), onRequestPageSizeChange: (e) => this.handlePageSizeChange(e.detail.pageSize), onOpenBookingDetails: (e) => (this.selectedBookingNumber = e.detail) }), h("ir-booking-details-drawer", { open: !!this.selectedBookingNumber, propertyId: this.property_id, bookingNumber: this.selectedBookingNumber, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.selectedBookingNumber = null) }), h("ir-fiscal-document-preview", { mode: "all", ticket: this.ticket, propertyId: this.property_id, onDocumentConverted: () => this.fetchFiscalDocuments(this.filters) })));
     }
     static get is() { return "ir-fiscal-documents"; }
     static get encapsulation() { return "scoped"; }

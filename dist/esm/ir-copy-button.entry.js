@@ -75,7 +75,7 @@ const IrCopyButton = class {
     }
     render() {
         const state = this.currentState;
-        return (h("button", { key: '28f80924df06815d5751630a54d33b6867d4e060', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
+        return (h("button", { key: 'd0a53eb6cbc2da5fb3c3679a1f3999b36c5f7856', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
     }
 };
 IrCopyButton.style = irCopyButtonCss();

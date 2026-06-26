@@ -2,7 +2,7 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { FiscalDocumentFilters } from '../types';
 export declare class IrFiscalDocumentsFilters {
     propertyId: number;
-    loading: boolean;
+    loading: 'search' | 'export';
     /** Initial filter values. Edits are kept locally and only sent on submit. */
     filters: FiscalDocumentFilters;
     /** Working copy of the filters — edited locally, emitted to the parent only on submit. */
