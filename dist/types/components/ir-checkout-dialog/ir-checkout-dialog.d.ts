@@ -34,6 +34,22 @@ export declare class IrCheckoutDialog {
     private get missingClSummary();
     private init;
     private detectEarlyCheckout;
+    /**
+     * Determines which checkout action buttons to surface.
+     *
+     * Decision rules (evaluated after `invoiceInfo` is loaded):
+     *
+     * 1. Filter `invoiceable_items` to items that still need invoicing — exclude
+     *    `AlreadyInvoiced` and `PickupCancellationPolicy` reasons.
+     * 2. From those, isolate room/accommodation items (`type === 'BSA'`).
+     * 3. Button set:
+     *    - Nothing outstanding           → `checkout` only
+     *    - Any outstanding items         → `invoice_checkout` (check out + invoice guest)
+     *    - 2+ outstanding room items     → also add `checkout_without_invoice` (skip invoicing)
+     *
+     * `checkout_without_invoice` is withheld when only one room is un-invoiced because
+     * the "check out & invoice" path already covers that case cleanly.
+     */
     private setupButtons;
     private renderEarlyCheckoutContent;
     private get duePayment();

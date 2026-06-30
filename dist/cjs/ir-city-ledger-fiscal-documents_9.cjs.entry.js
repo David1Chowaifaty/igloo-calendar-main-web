@@ -1,20 +1,19 @@
 'use strict';
 
 var index = require('./index-DYQrLNin.js');
-var index$1 = require('./index-Dd_1v2qq.js');
-var enums = require('./enums-BfYSWFRQ.js');
+var index$1 = require('./index-CUNO4zYc.js');
+var enums = require('./enums-D5Uj3POB.js');
 var moment = require('./moment-CdViwxPQ.js');
 var debounce = require('./debounce-Be8tSGtB.js');
 var index$2 = require('./index-CLqkDPTC.js');
 var realtime_service = require('./realtime.service-COdIt6Z-.js');
-var cityLedger_service = require('./city-ledger.service-C6vs3xZZ.js');
+var cityLedger_service = require('./city-ledger.service-Dn_b1_N3.js');
 var calendarData = require('./calendar-data-R3j-WBLW.js');
 var v4 = require('./v4-_2BfiRUa.js');
 var utils = require('./utils-DgT4kKsD.js');
 var useTable = require('./useTable-BN32DOaV.js');
 var functions = require('./functions-mvRDRfzA.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
+require('./axios-C-Phc0sj.js');
 require('./locales.store-6IlEbCjL.js');
 require('./index-C59pxKl1.js');
 require('./type-Dy9pVS4V.js');
@@ -142,7 +141,7 @@ const IrCityLedgerFiscalDocumentsFilters = class {
         this.docNumber = this.filters.docNumber ?? '';
     }
     typeOptions = [
-        { label: 'All Document Types', value: 'all' },
+        { label: 'All document types', value: 'all' },
         { label: 'Invoices', value: enums.FdTypes.Invoice },
         { label: 'Receipts', value: enums.FdTypes.Receipt },
         { label: 'Credit Notes', value: enums.FdTypes.CreditNote },

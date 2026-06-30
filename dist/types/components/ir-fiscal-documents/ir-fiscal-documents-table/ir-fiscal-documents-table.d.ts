@@ -47,6 +47,7 @@ export declare class IrFiscalDocumentsTable {
     /** Maps each `_FD_TYPE` code to its localized display label. */
     private get fdTypeLabels();
     private emitPreview;
+    private getCredit;
     private get columns();
     private renderMoney;
     render(): any;

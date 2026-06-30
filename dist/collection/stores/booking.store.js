@@ -438,7 +438,7 @@ async function getRatePlanDisplayAmount({ rateplanSelection, totalNights, index,
     }
     const guestInfo = rateplanSelection.guest ? rateplanSelection.guest[index] : null;
     let variation = rateplanSelection.selected_variation;
-    if (guestInfo.infant_nbr) {
+    if (guestInfo?.infant_nbr) {
         variation = variationService.getVariationBasedOnInfants({
             variations: rateplanSelection.ratePlan.variations,
             baseVariation: rateplanSelection.selected_variation,

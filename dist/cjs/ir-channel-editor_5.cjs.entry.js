@@ -1,12 +1,11 @@
 'use strict';
 
 var index = require('./index-DYQrLNin.js');
-var channel_service = require('./channel.service-D_0tn_fy.js');
+var channel_service = require('./channel.service-C6tyaa9K.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
 var calendarData = require('./calendar-data-R3j-WBLW.js');
 require('./index-C59pxKl1.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
+require('./axios-C-Phc0sj.js');
 
 const irChannelEditorCss = () => `.sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}`;
 

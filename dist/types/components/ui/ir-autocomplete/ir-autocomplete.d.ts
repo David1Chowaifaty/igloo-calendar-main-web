@@ -110,6 +110,17 @@ export declare class IrAutocomplete {
     /** Disables the input. */
     disabled: boolean;
     /**
+     * When `true`, renders a chevron button on the trailing edge of the input
+     * that toggles the dropdown open and closed — matching the visual pattern of
+     * `<wa-select>`.
+     *
+     * Set to `true` when the autocomplete is used as a pure select (fixed option
+     * list, no free-text filtering) so users have a clear affordance to open the
+     * listbox. Leave at the default `false` for search-as-you-type inputs where
+     * the dropdown opens automatically as the user types.
+     */
+    withExpandIcon: boolean;
+    /**
      * Custom CSS classes applied to the inner `<ir-input>` element.
      *
      * You can also target the exposed parts `::part(input)` and `::part(base)`
@@ -153,6 +164,7 @@ export declare class IrAutocomplete {
     private handleOptionsSlotChange;
     private handleKeydownChange;
     private handleClick;
+    private handleExpandIconClick;
     render(): any;
 }
 export {};

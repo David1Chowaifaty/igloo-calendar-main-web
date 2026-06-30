@@ -1,19 +1,18 @@
 'use strict';
 
 var index = require('./index-DYQrLNin.js');
-var Token = require('./Token-mN7PQKGF.js');
-var booking_store = require('./booking.store-BCEuSVh0.js');
-var room_service = require('./room.service-BDxvptKu.js');
+var Token = require('./Token-BVmOLolB.js');
+var booking_store = require('./booking.store-CQrzdAFz.js');
+var room_service = require('./room.service-CBAFNxM6.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
+require('./axios-C-Phc0sj.js');
 require('./index-CLqkDPTC.js');
 require('./utils-DgT4kKsD.js');
 require('./moment-CdViwxPQ.js');
 require('./calendar-data-R3j-WBLW.js');
 require('./index-C59pxKl1.js');
 require('./type-Dy9pVS4V.js');
-require('./booking-D81t5lFq.js');
+require('./booking-DPQYPZcd.js');
 
 const iglBookPropertyContainerCss = () => `.sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}`;
 

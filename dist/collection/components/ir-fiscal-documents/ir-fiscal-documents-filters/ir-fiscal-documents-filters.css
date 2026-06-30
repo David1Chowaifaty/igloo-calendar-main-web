@@ -93,7 +93,7 @@
 .filters-bar__search-combo {
   display: flex;
   align-items: stretch;
-  /* flex: 1 1 auto; */
+  flex: 1 1 auto;
   min-width: 0;
 }
 
@@ -141,7 +141,7 @@
   /* type-group shrinks back to content width and flows with the rest */
   .filters-bar__type-group {
     width: auto;
-    flex: 1 1 auto;
+    /* flex: 1 1 auto; */
   }
 
   /* wider than folio's status-select to fit "All Document Types" */
@@ -170,7 +170,10 @@
   .filters-bar__search-group {
     flex-wrap: nowrap;
   }
-
+  .filters-bar__type-group {
+    width: auto;
+    flex: 1 1 auto;
+  }
   .filters-bar__type-group {
     flex: 0 0 auto;
     flex-wrap: nowrap;
@@ -194,10 +197,12 @@
 @media (min-width: 1280px) {
   .filters-bar {
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
   }
-
+  .filters-bar__search-combo {
+    flex: auto;
+  }
   .filters-bar__dates {
     width: auto;
     flex: 0 0 auto;

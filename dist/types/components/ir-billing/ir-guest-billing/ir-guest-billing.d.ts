@@ -10,6 +10,8 @@ export declare class IrGuestBilling {
     invoiceInfo: BookingInvoiceInfo;
     rows: UnifiedFolioRecord[];
     selectedInvoice: string;
+    private fdTypes;
+    voidedInvoices: Set<string>;
     billingClose: EventEmitter<void>;
     guestDocumentPreview: EventEmitter<GuestDocumentPreviewRequest>;
     private bookingService;
@@ -20,7 +22,9 @@ export declare class IrGuestBilling {
     private buildFolioParams;
     private init;
     private voidInvoice;
+    private get fdTypeLabels();
     private get sortedRows();
     private printInvoice;
+    private renderMoney;
     render(): any;
 }

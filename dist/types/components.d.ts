@@ -1076,6 +1076,11 @@ export namespace Components {
          */
         "withClear": NativeWaInput['withClear'];
         /**
+          * When `true`, renders a chevron button on the trailing edge of the input that toggles the dropdown open and closed — matching the visual pattern of `<wa-select>`.  Set to `true` when the autocomplete is used as a pure select (fixed option list, no free-text filtering) so users have a clear affordance to open the listbox. Leave at the default `false` for search-as-you-type inputs where the dropdown opens automatically as the user types.
+          * @default false
+         */
+        "withExpandIcon": boolean;
+        /**
           * Used for SSR. Will determine if the SSRed component will have the hint slot rendered on initial paint.
          */
         "withHint": NativeWaInput['withHint'];
@@ -13687,6 +13692,11 @@ declare namespace LocalJSX {
          */
         "withClear"?: NativeWaInput['withClear'];
         /**
+          * When `true`, renders a chevron button on the trailing edge of the input that toggles the dropdown open and closed — matching the visual pattern of `<wa-select>`.  Set to `true` when the autocomplete is used as a pure select (fixed option list, no free-text filtering) so users have a clear affordance to open the listbox. Leave at the default `false` for search-as-you-type inputs where the dropdown opens automatically as the user types.
+          * @default false
+         */
+        "withExpandIcon"?: boolean;
+        /**
           * Used for SSR. Will determine if the SSRed component will have the hint slot rendered on initial paint.
          */
         "withHint"?: NativeWaInput['withHint'];
@@ -19922,6 +19932,7 @@ declare namespace LocalJSX {
         "withHint": NativeWaInput['withHint'];
         "mask": MaskProp;
         "disabled": boolean;
+        "withExpandIcon": boolean;
         "inputClass": string;
     }
     interface IrAutocompleteOptionAttributes {

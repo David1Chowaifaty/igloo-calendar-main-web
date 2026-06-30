@@ -119,6 +119,17 @@ export class IrAutocomplete {
     /** Disables the input. */
     disabled;
     /**
+     * When `true`, renders a chevron button on the trailing edge of the input
+     * that toggles the dropdown open and closed — matching the visual pattern of
+     * `<wa-select>`.
+     *
+     * Set to `true` when the autocomplete is used as a pure select (fixed option
+     * list, no free-text filtering) so users have a clear affordance to open the
+     * listbox. Leave at the default `false` for search-as-you-type inputs where
+     * the dropdown opens automatically as the user types.
+     */
+    withExpandIcon = false;
+    /**
      * Custom CSS classes applied to the inner `<ir-input>` element.
      *
      * You can also target the exposed parts `::part(input)` and `::part(base)`
@@ -434,22 +445,20 @@ export class IrAutocomplete {
         }
     };
     handleClick = () => {
-        if (this.value) {
-            return;
-        }
-        if (this.open) {
-            this.hide();
-            return;
-        }
-        this.show();
+        if (!this.open)
+            this.show();
+    };
+    handleExpandIconClick = (e) => {
+        e.stopPropagation();
+        this.open ? this.hide() : this.show();
     };
     render() {
-        return (h(Host, { key: 'dd269cb52c715288cc0ee7c0d00dee71718266e6' }, h("wa-popup", { key: 'c144f369157bb81621c17d06645fe9cc0aa29c68', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, h("ir-input", { key: '935d1a1050bb2e07130aa4e16c6064b857fca81c', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, onClick: this.handleClick, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize,
+        return (h(Host, { key: '88d06ba8d4e89ba8d11d879dd24f2c966c169873' }, h("wa-popup", { key: '2f4337389c32bff2b4b7011fba2d36c9981da26e', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, h("ir-input", { key: '455b05fc1bff9937643de66de94bbd913cf96769', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, onClick: this.handleClick, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize,
             // autocorrect={this.autocorrect}
-            autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.multiple && this.selectedOptions.length > 0 && (h("div", { key: 'ff9c28a993d57123e9e578b39b70d697143c3e51', slot: "start", class: "selected-tags", part: "tags" }, this.selectedOptions.map(option => (h("wa-tag", { key: this.getOptionValue(option), size: "s", "with-remove": true, "onwa-remove": (e) => {
+            autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.multiple && this.selectedOptions.length > 0 && (h("div", { key: '3245f1599e2f2822837b48324b21609550f48aac', slot: "start", class: "selected-tags", part: "tags" }, this.selectedOptions.map(option => (h("wa-tag", { key: this.getOptionValue(option), size: "s", "with-remove": true, "onwa-remove": (e) => {
                 e.stopPropagation();
                 this.removeOption(option);
-            } }, this.getOptionLabel(option)))))), this.slotManager.hasSlot('label') && h("slot", { key: '505cb6f2955d0c11a39c0ce2658e95cb24133231', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '2dfbd047421903ef183a4abd63dc9131c169aab2', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '1c9aef0a5ec73f17ec02cb1e332d1198370633ea', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: '2abf1a01765e6796adaab847f019b7ba7f05f464', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '8c1ff96dad9a2a82d0a39309a1fdfdcd5ddce929', name: "hint", slot: "hint" })), h("div", { key: '068c1a364b192bf26718046aee48bae12d041f94', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": this.multiple ? 'true' : 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, h("slot", { key: '1cd0caeebbbb946617b8a553750d11b2df48f84a', onSlotchange: this.handleOptionsSlotChange })))));
+            } }, this.getOptionLabel(option)))))), this.withExpandIcon && (h("div", { key: '2f89add92109336340e9c31773cf1b12cd9b24b1', slot: "end", class: `expand-icon${this.open ? ' expand-icon--open' : ''}`, onClick: this.handleExpandIconClick }, h("wa-icon", { key: '0d6cee13379617e630e0d162ec173c283580a42a', library: "system", variant: "solid", name: "chevron-down" }))), this.slotManager.hasSlot('label') && h("slot", { key: '50472644030c83ce9c73bc508b905b6edb12530e', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: 'efab52460c23369535254291d84fb4dd23b2606b', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: 'b3850d8da4b882a9cd6427e37238bd0d7c77a3f1', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: 'ed0dddd5bb43cbd99454e4a0871e9ef9f29045ae', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: 'd2e2038c08d203001838a89319b09dd71eed2fcf', name: "hint", slot: "hint" })), h("div", { key: 'c11b1e026f09308fee52e9a72c3372b34018d97e', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": this.multiple ? 'true' : 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, h("slot", { key: '66784f250a680085e2fcfab5a06fa40b21337c61', onSlotchange: this.handleOptionsSlotChange })))));
     }
     static get is() { return "ir-autocomplete"; }
     static get encapsulation() { return "shadow"; }
@@ -1437,6 +1446,26 @@ export class IrAutocomplete {
                 "setter": false,
                 "reflect": true,
                 "attribute": "disabled"
+            },
+            "withExpandIcon": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "When `true`, renders a chevron button on the trailing edge of the input\nthat toggles the dropdown open and closed \u2014 matching the visual pattern of\n`<wa-select>`.\n\nSet to `true` when the autocomplete is used as a pure select (fixed option\nlist, no free-text filtering) so users have a clear affordance to open the\nlistbox. Leave at the default `false` for search-as-you-type inputs where\nthe dropdown opens automatically as the user types."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": true,
+                "attribute": "with-expand-icon",
+                "defaultValue": "false"
             },
             "inputClass": {
                 "type": "string",

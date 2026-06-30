@@ -4,6 +4,7 @@ import { Host, h } from "@stencil/core";
 import { createColumnHelper, getCoreRowModel, getSortedRowModel } from "@tanstack/table-core";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
+import { FdTypes } from "../../../types/enums";
 const PAGE_SIZES = [20, 50, 100];
 export class IrFiscalDocumentsTable {
     rows = [];
@@ -86,6 +87,18 @@ export class IrFiscalDocumentsTable {
             bookingNbr: row.BOOKING_NUMBER ?? null,
         });
     }
+    getCredit(info) {
+        const { FD_TYPE_CODE } = info.row.original;
+        const value = info.getValue();
+        switch (FD_TYPE_CODE) {
+            case FdTypes.CreditReceipt:
+                return -Math.abs(value);
+            case FdTypes.Receipt:
+                return Math.abs(value);
+            default:
+                return value;
+        }
+    }
     get columns() {
         const base = [
             this.columnHelper.accessor('DOC_DATE', {
@@ -144,13 +157,13 @@ export class IrFiscalDocumentsTable {
             },
         }));
         if (!this.taxableOnly) {
-            identityCols.push(this.columnHelper.accessor('CREDIT', {
-                header: 'Credit',
+            identityCols.push(this.columnHelper.accessor('DEBIT', {
+                header: 'Debit',
                 cell: info => h("span", null, this.renderMoney(info.getValue())),
             }));
-            identityCols.push(this.columnHelper.accessor('DEBIT', {
-                header: 'DEBIT',
-                cell: info => h("span", null, this.renderMoney(info.getValue())),
+            identityCols.push(this.columnHelper.accessor('CREDIT', {
+                header: 'Credit',
+                cell: info => h("span", null, this.renderMoney(this.getCredit(info))),
             }));
         }
         else {

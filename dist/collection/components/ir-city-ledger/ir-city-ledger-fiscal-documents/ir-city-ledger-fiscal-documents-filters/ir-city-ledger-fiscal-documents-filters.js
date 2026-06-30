@@ -30,7 +30,7 @@ export class IrCityLedgerFiscalDocumentsFilters {
         this.docNumber = this.filters.docNumber ?? '';
     }
     typeOptions = [
-        { label: 'All Document Types', value: 'all' },
+        { label: 'All document types', value: 'all' },
         { label: 'Invoices', value: FdTypes.Invoice },
         { label: 'Receipts', value: FdTypes.Receipt },
         { label: 'Credit Notes', value: FdTypes.CreditNote },
