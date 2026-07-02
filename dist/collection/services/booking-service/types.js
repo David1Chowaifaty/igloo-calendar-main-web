@@ -175,3 +175,7 @@ export const CalculateExclusiveTaxPropsSchema = z.object({
 export const AckExposedRevisionPropsSchema = z.object({
     revision_id: z.number(),
 });
+export const VoidPaymentPropsSchema = z.object({
+    receipt_nbr: z.string(),
+    booking_nbr: z.string(),
+});

@@ -20,6 +20,7 @@ export class IrGuestDocumentPreview {
         [FdTypes.Invoice]: 'invoice',
         [FdTypes.Receipt]: 'receipt',
         [FdTypes.CreditNote]: 'creditnote',
+        [FdTypes.CreditReceipt]: 'creditreceipt',
         [FdTypes.Proforma]: 'proforma',
     };
     propertyService = new PropertyService();
@@ -101,13 +102,13 @@ export class IrGuestDocumentPreview {
     }
     render() {
         const isOpen = this.pdfUrl !== null || this.isLoading;
-        return (h(Host, { key: 'a0fffdd335f6a9df79291730c75e30feebcf8668' }, h("ir-preview-screen-dialog", { key: '5969a31d2b6673ba6777d60c0c4e340239499099', open: isOpen, label: this.getDialogLabel(), action: "print", hideDefaultAction: true, onOpenChanged: e => {
+        return (h(Host, { key: '22bf52d3c89b1d3d0b372e49ab008ce9da466550' }, h("ir-preview-screen-dialog", { key: '40b7305e81ad9327fc7b1e451457940f9c8db6d7', open: isOpen, label: this.getDialogLabel(), action: "print", hideDefaultAction: true, onOpenChanged: e => {
                 if (!e.detail) {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.resetPreview();
                 }
-            } }, this.pdfUrl && (h("ir-custom-button", { key: '4c503279743d74702fc5c5e94ede7a7f9d781d6c', slot: "header-actions", size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '50e35e74639fdb25ac60b123ffcd0f5979ead25c', name: "download", style: { fontSize: '1.2rem' }, label: "Download PDF" }))), this.renderBody())));
+            } }, this.pdfUrl && (h("ir-custom-button", { key: '397180b68e2b195427d9244dedff29eb6f042204', slot: "header-actions", size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '0106c3de3a02686aa72cd4a7a3b6af3d95aa6e82', name: "download", style: { fontSize: '1.2rem' }, label: "Download PDF" }))), this.renderBody())));
     }
     static get is() { return "ir-guest-document-preview"; }
     static get encapsulation() { return "scoped"; }

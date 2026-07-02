@@ -4,6 +4,7 @@ import { TSourceOption } from './igl-book-property';
 import { ICountry } from './IBooking';
 import { IHouseKeepers } from './housekeeping';
 import type { TaxCategory } from "../services/property/types";
+import { PayStatus } from "../types/enums";
 interface IDType {
     code: string;
     description: string;
@@ -713,6 +714,10 @@ export interface IFinancial {
     invoice_nbr: string;
 }
 export interface IPayment {
+    credit_receipt_nbr?: string;
+    payment_status?: {
+        code: (typeof PayStatus)[keyof typeof PayStatus];
+    };
     system_id?: number;
     id: number | null;
     date: string;

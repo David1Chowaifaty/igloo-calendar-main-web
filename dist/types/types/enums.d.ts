@@ -13,6 +13,14 @@ export declare const TaxationStrategies: {
     readonly Normal: "000";
     readonly Cumulative: "001";
 };
+export declare const PayTypes: {
+    readonly Payment: "001";
+    readonly Discount: "009";
+    readonly Refund: "010";
+    readonly CancellationAdjustment: "012";
+    readonly CancellationPenalty: "013";
+    readonly CreditReceipt: "014";
+};
 export declare const FdTypes: {
     readonly AdjustmentCredit: "ADJC";
     readonly Draft: "DFT";
@@ -22,6 +30,10 @@ export declare const FdTypes: {
     readonly Receipt: "REC";
     readonly Proforma: "PRF";
     readonly CreditReceipt: "CREC";
+};
+export declare const PayStatus: {
+    Normal: string;
+    Void: string;
 };
 export declare const HbPreference: {
     readonly Dinner: "001";

@@ -1170,3 +1170,14 @@ export declare const AckExposedRevisionPropsSchema: z.ZodObject<{
     revision_id?: number;
 }>;
 export type AckExposedRevisionProps = z.infer<typeof AckExposedRevisionPropsSchema>;
+export declare const VoidPaymentPropsSchema: z.ZodObject<{
+    receipt_nbr: z.ZodString;
+    booking_nbr: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    receipt_nbr?: string;
+    booking_nbr?: string;
+}, {
+    receipt_nbr?: string;
+    booking_nbr?: string;
+}>;
+export type VoidPaymentProps = z.infer<typeof VoidPaymentPropsSchema>;

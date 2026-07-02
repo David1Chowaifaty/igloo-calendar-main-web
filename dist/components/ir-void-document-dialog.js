@@ -1,0 +1,1 @@
+import{I as o,d}from"./ir-void-document-dialog2.js";const i=o,r=d;export{i as IrVoidDocumentDialog,r as defineCustomElement}

@@ -3,12 +3,13 @@
 var index = require('./index-DYQrLNin.js');
 var moment = require('./moment-CdViwxPQ.js');
 var functions = require('./functions-mvRDRfzA.js');
-var booking = require('./booking-DPQYPZcd.js');
-var booking_store = require('./booking.store-CQrzdAFz.js');
-var room_service = require('./room.service-CBAFNxM6.js');
+var booking = require('./booking-D81t5lFq.js');
+var booking_store = require('./booking.store-CiJUpSjF.js');
+var room_service = require('./room.service-BDxvptKu.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
 var utils = require('./utils-DgT4kKsD.js');
-require('./axios-C-Phc0sj.js');
+require('./axios-EresIryl.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-C59pxKl1.js');
 require('./calendar-data-R3j-WBLW.js');
 require('./index-CLqkDPTC.js');

@@ -30,6 +30,7 @@
     "components/ui/ir-text-editor/ir-text-editor.js",
     "components/ir-toast-alert/ir-toast-alert.js",
     "components/ui/ir-toasts-provider/ir-toasts-provider.js",
+    "components/ir-booking-details/ir-void-document-dialog/ir-void-document-dialog.js",
     "components/igl-book-property-container/igl-book-property-container.js",
     "components/igloo-calendar/igl-block-dates-view/igl-block-dates-view.js",
     "components/igloo-calendar/igl-blocked-date-drawer/igl-blocked-date-drawer.js",

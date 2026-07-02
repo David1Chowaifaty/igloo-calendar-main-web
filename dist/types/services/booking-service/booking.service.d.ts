@@ -1,4 +1,4 @@
-import { SetDepartureTimeProps, SetHbPreferenceProps } from './types';
+import { SetDepartureTimeProps, SetHbPreferenceProps, VoidPaymentProps } from './types';
 import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRequest } from '../../models/booking.dto';
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../../models/booking.dto';
@@ -166,6 +166,7 @@ export declare class BookingService {
     private calculateTotalRate;
     fetchExposedGuest(email: string, property_id: number): Promise<ExposedGuests>;
     fetchExposedBookings(booking_nbr: string, property_id: number, from_date: string, to_date: string): Promise<any>;
+    voidPayment(props: VoidPaymentProps): Promise<any>;
     getPCICardInfoURL(BOOK_NBR: string): Promise<any>;
     doReservation(body: any): Promise<any>;
     bookUser({ bookedByInfoData, check_in, currency, extras, fromDate, guestData, pickup_info, propertyid, rooms, source, toDate, totalNights, arrivalTime, bookingNumber, defaultGuest, identifier, pr_id, }: IBookingParams): Promise<void>;

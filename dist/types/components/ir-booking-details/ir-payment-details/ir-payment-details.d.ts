@@ -35,11 +35,14 @@ export declare class IrPaymentDetails {
     private paymentService;
     private bookingService;
     private dialogRef;
+    private voidDialogRef;
     handlePaymentGeneration(e: CustomEvent): void;
     private handleAddPayment;
     private handleEditPayment;
     private handleDeletePayment;
     private handleIssueReceipt;
+    private handleVoidReceipt;
+    private handleDocumentVoided;
     private cancelPayment;
     private handleConfirmModal;
     private handleCancelModal;

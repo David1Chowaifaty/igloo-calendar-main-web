@@ -1,4 +1,4 @@
-import { SetDepartureTimePropsSchema, SetHbPreferencePropsSchema } from "./types";
+import { SetDepartureTimePropsSchema, SetHbPreferencePropsSchema, VoidPaymentPropsSchema } from "./types";
 import axios from "axios";
 import { ZIEntrySchema } from "../../models/IBooking";
 import { convertDateToCustomFormat, convertDateToTime, dateToFormattedString, extras } from "../../utils/utils";
@@ -544,6 +544,14 @@ export class BookingService {
             console.error(error);
             throw new Error(error);
         }
+    }
+    async voidPayment(props) {
+        const payload = VoidPaymentPropsSchema.parse(props);
+        const { data } = await axios.post('/Void_Payment', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
     }
     async getPCICardInfoURL(BOOK_NBR) {
         try {

@@ -51,7 +51,7 @@ export class IrHbPreferenceDialog {
         }
     }
     render() {
-        return (h("ir-dialog", { key: 'a89488cad529923d66f33a9103712d8129df3f1f', open: this.open, label: "Half Board 2nd Meal Preference", ref: el => (this.dialogRef = el), onIrDialogHide: e => {
+        return (h("ir-dialog", { key: 'e28a8cf32a0b2021c0ed42411d4eed36141d68bb', open: this.open, label: "Half Board 2nd Meal Preference", ref: el => (this.dialogRef = el), onIrDialogHide: e => {
                 e.preventDefault();
                 const saved = this.closedBySave;
                 this.hbPreferenceClose.emit({ saved });
@@ -60,7 +60,7 @@ export class IrHbPreferenceDialog {
                 e.stopPropagation();
                 this.closedBySave = false;
                 this.selectedValue = null;
-            } }, h("wa-radio-group", { key: 'c2d19ff0efced92491d4e7879c9b75985c207319', value: this.selectedValue ?? '', onchange: e => (this.selectedValue = e.target.value) }, h("wa-radio", { key: '4276ad20f699c2a33351252b5fd1acd247e31890', value: HbPreference.Lunch }, "Lunch"), h("wa-radio", { key: '5d793f4bded1b4ebea0400d96dd90ccf9be75f7d', value: HbPreference.Dinner }, "Dinner")), h("div", { key: '8c0eea044701cf161f822c1b19cece658c4ab901', slot: "footer", class: 'ir-dialog__footer' }, h("ir-custom-button", { key: '690592ba7973aa7aecf1a20372585672abc17893', size: "m", variant: "neutral", appearance: "filled", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: 'f28dec60189fb6093060bad57de9b8ad4916e204', size: "m", variant: "brand", loading: this.isLoading, disabled: !this.selectedValue, onClickHandler: e => this.handleConfirm(e), appearance: "accent" }, "Confirm"))));
+            } }, h("wa-radio-group", { key: '68ea32f6164ca3965e2ac964b29ddccd15060970', value: this.selectedValue ?? '', onchange: e => (this.selectedValue = e.target.value) }, h("wa-radio", { key: '3f31d40a1227c5a831c5d3f443e128b6c8c4c0f2', value: HbPreference.Lunch }, "Lunch"), h("wa-radio", { key: 'd1f7505a5b6df3545efa7ffababcfc1b7cda39c3', value: HbPreference.Dinner }, "Dinner")), h("div", { key: 'a8f237c5a392cc304f980f2b9d1da50060a0337e', slot: "footer", class: 'ir-dialog__footer' }, h("ir-custom-button", { key: '74694f9ca2b1e4061837bba219b89beb310de5a4', size: "m", variant: "neutral", appearance: "filled", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: 'b069d30ab43b92b92099bff23456cb16e75d7b81', size: "m", variant: "brand", loading: this.isLoading, disabled: !this.selectedValue, onClickHandler: e => this.handleConfirm(e), appearance: "accent" }, "Confirm"))));
     }
     static get is() { return "ir-hb-preference-dialog"; }
     static get encapsulation() { return "scoped"; }

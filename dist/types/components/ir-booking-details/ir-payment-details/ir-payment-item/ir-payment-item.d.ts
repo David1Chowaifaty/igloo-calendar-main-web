@@ -5,6 +5,7 @@ export declare class IrPaymentItem {
     editPayment: EventEmitter<IPayment>;
     deletePayment: EventEmitter<IPayment>;
     issueReceipt: EventEmitter<IPayment>;
+    voidReceipt: EventEmitter<IPayment>;
     private _id;
     render(): any;
 }

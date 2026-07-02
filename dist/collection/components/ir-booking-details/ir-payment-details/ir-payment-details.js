@@ -6,7 +6,7 @@ import moment from "moment";
 import { formatAmount } from "../../../utils/utils";
 import calendar_data from "../../../stores/calendar-data";
 import { isAgentMode } from "../functions";
-import { FdTypes } from "../../../types/enums";
+import { FdTypes, PayTypes } from "../../../types/enums";
 export class IrPaymentDetails {
     booking;
     paymentActions;
@@ -34,6 +34,7 @@ export class IrPaymentDetails {
     paymentService = new PaymentService();
     bookingService = new BookingService();
     dialogRef;
+    voidDialogRef;
     handlePaymentGeneration(e) {
         const value = e.detail;
         const paymentType = this.paymentEntries?.types?.find(p => p.CODE_NAME === (this.booking.status.code === '003' ? value.pay_type_code : '001'));
@@ -116,14 +117,11 @@ export class IrPaymentDetails {
         this.dialogRef.openModal();
     }
     async handleIssueReceipt(detail) {
-        if (detail.receipt_nbr) {
-            // Viewing an already-issued receipt now opens the shared in-app preview
-            // (ir-guest-document-preview) instead of a new browser window. Receipt
-            // rendering there is scaffolded and not implemented yet — it currently
-            // shows a placeholder until the fetch flow is wired up.
+        const { receipt_nbr, credit_receipt_nbr, payment_type } = detail;
+        if (receipt_nbr || credit_receipt_nbr) {
             this.guestDocumentPreview.emit({
-                documentNumber: detail.receipt_nbr,
-                fdTypeCode: FdTypes.Receipt,
+                documentNumber: payment_type?.code === PayTypes.Payment ? receipt_nbr : payment_type?.code === PayTypes.CreditReceipt ? credit_receipt_nbr : null,
+                fdTypeCode: payment_type?.code === PayTypes.Payment ? FdTypes.Receipt : FdTypes.CreditReceipt,
                 bookingNumber: this.booking.booking_nbr,
             });
             return;
@@ -139,6 +137,17 @@ export class IrPaymentDetails {
                 rnb: `${starter}${_number.My_Result}`,
             },
         });
+    }
+    handleVoidReceipt(payment) {
+        if (!payment.receipt_nbr) {
+            return;
+        }
+        this.voidDialogRef?.open({ documentType: FdTypes.Receipt, documentNumber: payment.receipt_nbr, bookingNumber: this.booking.booking_nbr });
+    }
+    async handleDocumentVoided(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.resetBookingEvt.emit(null);
     }
     async cancelPayment() {
         try {
@@ -229,7 +238,8 @@ export class IrPaymentDetails {
                     this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } }, `Charge cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`)))),
             isAgentMode(this.agent) && (h("ir-booking-city-ledger", { booking: this.booking, language: this.language, svcCategories: this.svcCategories, folioRows: this.folioRows, isLoading: this.clLoading, error: this.clError })),
-            h("ir-payments-folio", { booking: this.booking, payments: (financial.payments || []).filter(p => !p.is_city_ledger), isAddPaymentDisabled: this.isAllServicesAgentOwned, onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail), onIssueReceipt: e => this.handleIssueReceipt(e.detail) }),
+            h("ir-payments-folio", { booking: this.booking, payments: (financial.payments || []).filter(p => !p.is_city_ledger), isAddPaymentDisabled: this.isAllServicesAgentOwned, onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail), onIssueReceipt: e => this.handleIssueReceipt(e.detail), onVoidReceipt: e => this.handleVoidReceipt(e.detail) }),
+            h("ir-void-document-dialog", { ref: el => (this.voidDialogRef = el), onDocumentVoided: e => this.handleDocumentVoided(e) }),
             h("ir-dialog", { onIrDialogHide: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
