@@ -1,0 +1,1 @@
+import{I as r,d as e}from"./ir-rectifier-drawer2.js";const i=r,o=e;export{i as IrRectifierDrawer,o as defineCustomElement}

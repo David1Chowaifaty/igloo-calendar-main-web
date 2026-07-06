@@ -4,7 +4,7 @@ import { IRoomNightsData, CalendarModalEvent } from "../../models/property-types
 import { TIglBookPropertyPayload } from "../../models/igl-book-property";
 import { CheckoutRoomEvent } from '../ir-departures/ir-departures-table/ir-departures-table';
 export type CalendarSidebarState = {
-    type: 'room-guests' | 'booking-details' | 'add-days' | 'bulk-blocks' | 'split' | 'reallocate-drawer';
+    type: 'room-guests' | 'booking-details' | 'add-days' | 'bulk-blocks' | 'split' | 'reallocate-drawer' | 'rectifier';
     payload: any;
 };
 export declare class IglooCalendar {

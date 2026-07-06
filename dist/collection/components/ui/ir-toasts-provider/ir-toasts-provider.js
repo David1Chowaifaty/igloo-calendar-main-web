@@ -130,7 +130,7 @@ export class IrToastsProvider {
         this.positionCache.clear();
     }
     render() {
-        return h(Host, { key: '952afc3daabed9c209935bf147f379be20e8937f' });
+        return h(Host, { key: 'aeac7f4234e3fa49923c37e932147bb3f84bf3a8' });
     }
     static get is() { return "ir-toasts-provider"; }
     static get encapsulation() { return "shadow"; }

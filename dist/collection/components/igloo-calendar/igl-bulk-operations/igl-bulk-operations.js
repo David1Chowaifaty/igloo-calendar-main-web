@@ -21,7 +21,7 @@ export class IglBulkOperations {
         this.tabsEl.style.setProperty('--ir-tabs-top', this.titleEl?.getBoundingClientRect()?.height?.toString() + 'px');
     }
     render() {
-        return (h("div", { key: 'b2ec51d2a9c981a95a1d80e5c4614abd9dc99735', class: 'bulk-operations-sheet-container' }, h("div", { key: 'fc32099f511f75083704b20e47fbf0d3bac56935', class: "sheet-header d-flex align-items-center" }, h("ir-title", { key: '5436aaa7bd5f94b7ee7edcb47ae93d40c867c125', ref: el => (this.titleEl = el), onCloseSideBar: e => {
+        return (h("div", { key: 'caee04b2fa070ba8046640b7aea05d46d4a62603', class: 'bulk-operations-sheet-container' }, h("div", { key: '14e45ff9f57c95f7bb7fd9e50b44ea3506dd0185', class: "sheet-header d-flex align-items-center" }, h("ir-title", { key: 'a0808b15976e830924cf9072bcef1c5d94379991', ref: el => (this.titleEl = el), onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 // if (this.isLoading) {
@@ -30,7 +30,7 @@ export class IglBulkOperations {
                 this.closeModal.emit(null);
             }, class: "px-1 mb-0",
             // label={locales.entries.Lcz_BulkStopOpenSale}
-            label: 'Bulk Operations', displayContext: "sidebar" })), h("ir-tabs", { key: '324066983aa60ee26d25d73e5348491134a3b2f0', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
+            label: 'Bulk Operations', displayContext: "sidebar" })), h("ir-tabs", { key: '1d6922a1719dfc24b9afb338dc5df71b90ca9fac', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
     }
     static get is() { return "igl-bulk-operations"; }
     static get encapsulation() { return "scoped"; }

@@ -1,12 +1,11 @@
 'use strict';
 
 var index = require('./index-DYQrLNin.js');
-var paymentOption_store = require('./payment-option.store-C_UQd4dP.js');
+var paymentOption_store = require('./payment-option.store-C_hCrSIQ.js');
 var irInterceptor_store = require('./ir-interceptor.store-DCFOyFp0.js');
 var locales_store = require('./locales.store-6IlEbCjL.js');
 var utils = require('./utils-DgT4kKsD.js');
-var _commonjsHelpers = require('./_commonjsHelpers-BJu3ubxk.js');
-require('./axios-EresIryl.js');
+var axios = require('./axios-C-Phc0sj.js');
 require('./index-C59pxKl1.js');
 require('./moment-CdViwxPQ.js');
 require('./index-CLqkDPTC.js');
@@ -5488,7 +5487,7 @@ function requireLodash_clonedeep () {
 		cloneableTags[weakMapTag] = false;
 
 		/** Detect free variable `global` from Node.js. */
-		var freeGlobal = typeof _commonjsHelpers.commonjsGlobal == 'object' && _commonjsHelpers.commonjsGlobal && _commonjsHelpers.commonjsGlobal.Object === Object && _commonjsHelpers.commonjsGlobal;
+		var freeGlobal = typeof axios.commonjsGlobal == 'object' && axios.commonjsGlobal && axios.commonjsGlobal.Object === Object && axios.commonjsGlobal;
 
 		/** Detect free variable `self`. */
 		var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -7247,7 +7246,7 @@ function requireLodash_isequal () {
 		typedArrayTags[weakMapTag] = false;
 
 		/** Detect free variable `global` from Node.js. */
-		var freeGlobal = typeof _commonjsHelpers.commonjsGlobal == 'object' && _commonjsHelpers.commonjsGlobal && _commonjsHelpers.commonjsGlobal.Object === Object && _commonjsHelpers.commonjsGlobal;
+		var freeGlobal = typeof axios.commonjsGlobal == 'object' && axios.commonjsGlobal && axios.commonjsGlobal.Object === Object && axios.commonjsGlobal;
 
 		/** Detect free variable `self`. */
 		var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -9743,7 +9742,7 @@ function requireDelta () {
 }
 
 var DeltaExports = requireDelta();
-var Delta = /*@__PURE__*/_commonjsHelpers.getDefaultExportFromCjs(DeltaExports);
+var Delta = /*@__PURE__*/axios.getDefaultExportFromCjs(DeltaExports);
 
 class Break extends EmbedBlot$1 {
   static value() {
@@ -10513,7 +10512,7 @@ function requireEventemitter3 () {
 }
 
 var eventemitter3Exports = requireEventemitter3();
-var EventEmitter = /*@__PURE__*/_commonjsHelpers.getDefaultExportFromCjs(eventemitter3Exports);
+var EventEmitter = /*@__PURE__*/axios.getDefaultExportFromCjs(eventemitter3Exports);
 
 var instances = new WeakMap();
 
@@ -16599,7 +16598,7 @@ const IrTextEditor = class {
         }
     }
     render() {
-        return (index.h("div", { key: '5a5ebe54636c30b4218af81e25ffed4074597a5b', class: { 'editor-wrapper': true, 'error': this.error } }, index.h("div", { key: '52a7584cb8b20f30ebd427a9c08f062e056ec72f', ref: el => (this.editorContainer = el), class: "editor-container" })));
+        return (index.h("div", { key: '32669cd7c0d339012ffcbd6ad0a40070cb98db7d', class: { 'editor-wrapper': true, 'error': this.error } }, index.h("div", { key: 'fa51773b6561125688a70cb17aba88962ba18a4b', ref: el => (this.editorContainer = el), class: "editor-container" })));
     }
     static get watchers() { return {
         "value": [{

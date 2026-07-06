@@ -19,6 +19,7 @@ export declare class IrCheckoutDialog {
     penaltyAmount: number;
     agent: Agent;
     paymentEntries: PaymentEntries;
+    includeInvoice: boolean;
     checkoutDialogClosed: EventEmitter<CheckoutDialogCloseEvent>;
     private bookingService;
     private agentService;
