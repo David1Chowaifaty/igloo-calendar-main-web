@@ -2,11 +2,12 @@ import { BookingListingService } from "../../services/booking_listing.service";
 import { RoomService } from "../../services/room.service";
 import booking_listing, { updateUserSelection, onBookingListingChange, updateUserSelections, setPaginationPage, setPaginationPageSize, updatePaginationFromSelection, } from "../../stores/booking_listing.store";
 import { isPrivilegedUser } from "../../utils/utils";
-import { Host, h } from "@stencil/core";
+import { h } from "@stencil/core";
 import Token from "../../models/Token";
 import { getAllParams } from "../../utils/browserHistory";
 import { BookingService } from "../../services/booking-service/booking.service";
 import { PropertyService } from "../../services/property.service";
+import locales from "../../stores/locales.store";
 export class IrBookingListing {
     el;
     language = '';
@@ -268,7 +269,7 @@ export class IrBookingListing {
         if (this.isLoading || this.ticket === '') {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("div", { class: "main-container" }, h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), h("section", { class: "mt-2" }, h("ir-booking-listing-table", null))), h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.editBookingItem?.booking?.property?.id, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
+        return (h("ir-page", { label: locales?.entries?.Lcz_Bookings }, h("div", { class: "main-container" }, h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), h("section", { class: "mt-2" }, h("ir-booking-listing-table", null))), h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.editBookingItem?.booking?.property?.id, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
                 this.editBookingItem = null;
             }, booking_nbr: this.editBookingItem?.booking?.booking_nbr, email: this.editBookingItem?.booking?.guest.email, language: this.language, open: this.editBookingItem?.cause === 'guest' }), h("ir-payment-folio", { style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
                 this.booking = null;

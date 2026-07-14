@@ -17,6 +17,7 @@
 }
 #dialog-overview::part(title) {
   color: var(--wa-color-text-normal);
+  text-align: start;
 }
 
 

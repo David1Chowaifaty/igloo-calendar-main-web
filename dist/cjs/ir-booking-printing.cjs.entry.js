@@ -1,16 +1,17 @@
 'use strict';
 
-var index = require('./index-DYQrLNin.js');
+var index = require('./index-Du1V06mp.js');
 var moment = require('./moment-CdViwxPQ.js');
 var functions = require('./functions-mvRDRfzA.js');
-var booking = require('./booking-DPQYPZcd.js');
-var booking_store = require('./booking.store-cqFpQmEQ.js');
-var room_service = require('./room.service-CBAFNxM6.js');
-var locales_store = require('./locales.store-6IlEbCjL.js');
-var utils = require('./utils-DgT4kKsD.js');
-require('./axios-C-Phc0sj.js');
-require('./index-C59pxKl1.js');
-require('./calendar-data-R3j-WBLW.js');
+var booking = require('./booking-B_k0VYL5.js');
+var booking_store = require('./booking.store-CZr0GkPY.js');
+var room_service = require('./room.service-CwQt7yuI.js');
+var locales_store = require('./locales.store-CYcHBWUG.js');
+var utils = require('./utils-EjuW-lx0.js');
+require('./axios-EresIryl.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
+require('./index-BTAleJGz.js');
+require('./calendar-data-CeBvVadE.js');
 require('./index-CLqkDPTC.js');
 require('./type-Dy9pVS4V.js');
 
@@ -64,7 +65,7 @@ const IrBookingPrinting = class {
             const [property, languageTexts, booking$1, fetchedCountries] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid, language: this.language, is_backend: true }),
                 this.roomService.fetchLanguage(this.language),
-                this.bookingService.getExposedBooking(this.bookingNumber, this.language),
+                this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: this.language }),
                 this.bookingService.getCountries(this.language),
             ]);
             if (!locales_store.locales.entries) {

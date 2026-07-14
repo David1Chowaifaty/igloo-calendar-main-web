@@ -100,6 +100,10 @@ export declare class IrAirDatePicker {
     private currentDate;
     /** The AirDatepicker instance. `undefined` until `componentDidLoad` and after disconnect. */
     private datePicker?;
+    /** Language currently applied to the picker, tracked so `handleLangChange` can detect real changes. */
+    private currentLang;
+    /** Unsubscribes this instance from `LanguageObserver`. */
+    private unsubscribeLang?;
     componentWillLoad(): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
@@ -157,6 +161,10 @@ export declare class IrAirDatePicker {
      * parent's echoed prop update as a no-op.
      */
     private handleDateSelect;
+    /** Normalizes an `<html lang>` value to one of the packs we ship; unrecognized/missing values fall back to `en`. */
+    private normalizeLang;
+    /** `LanguageObserver` callback: live-swaps the calendar's locale, preserving the current selection. */
+    private handleLangChange;
     /**
      * Creates the inline AirDatepicker on the host element (idempotent), seeding the
      * selection from `dates` (preferred) or `currentDate`, then applies the Web Awesome

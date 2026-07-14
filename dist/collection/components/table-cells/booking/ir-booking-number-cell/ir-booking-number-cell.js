@@ -12,10 +12,10 @@ export class IrBookingNumberCell {
     channelBookingNumber;
     openBookingDetails;
     render() {
-        return (h(Host, { key: '7e6ac4b6332d5b818d62183339abd1575f62614c' }, this.channelBookingNumber && h("wa-tooltip", { key: 'bd05b286258723a1dc2a177f99e7c389f1ead20c', for: `source-logo__${this.bookingNumber}` }, this.origin.Label), h("img", { key: 'df45f4bdef893d3c7173a3e4d197899617e314b8', class: "booked-by-source__logo", id: `source-logo__${this.bookingNumber}`, src: this.origin.Icon, alt: this.origin.Label }), h("div", { key: '89c48d6c228ada8afc396cab298545f36aa89a92', class: "booking-nbr-cell__container" }, h("div", { key: 'bf5278049c3d51692491a71adbb278bfa53e0f8f', style: { width: 'fit-content' } }, h("button", { key: '4075764bb8190afb24ec8d1fe9ae46728099b407', class: "booking-nbr-cell__button", onClick: () => this.openBookingDetails.emit(this.bookingNumber) }, this.bookingNumber)), h("p", { key: '6d0bf319afacc9e504a288c69e386a628a75b712', class: "booking-nbr-cell__channel_nbr" }, this.channelBookingNumber ? this.channelBookingNumber : this.origin.Label))));
+        return (h(Host, { key: 'd6043caa733fc1c9b77e6ecda8c9da157240e3d6' }, this.channelBookingNumber && h("wa-tooltip", { key: '02a6a2d0dc0722f79d03fd4842d9648e265ccd41', for: `source-logo__${this.bookingNumber}` }, this.origin.Label), h("img", { key: '6307cc17d8517a8c063188b18855d028f2f3a006', class: "booked-by-source__logo", id: `source-logo__${this.bookingNumber}`, src: this.origin.Icon, alt: this.origin.Label }), h("div", { key: 'ccd685df1815d896af6aae792c8e41c64791ea27', part: "container", class: "booking-nbr-cell__container" }, h("div", { key: '637afd051818af6fb7ce7528d3cd4f6544b17452', style: { width: 'fit-content' } }, h("button", { key: '584ce51f1f2ef02e5fe0974f49825e815a2d776e', class: "booking-nbr-cell__button", onClick: () => this.openBookingDetails.emit(this.bookingNumber) }, this.bookingNumber)), h("p", { key: '4d095c61dfe76b6dc123cf2d35d95a4fdb8d9799', part: "booking-reference", class: "booking-nbr-cell__channel_nbr" }, this.channelBookingNumber ? this.channelBookingNumber : this.origin.Label))));
     }
     static get is() { return "ir-booking-number-cell"; }
-    static get encapsulation() { return "scoped"; }
+    static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-booking-number-cell.css"]

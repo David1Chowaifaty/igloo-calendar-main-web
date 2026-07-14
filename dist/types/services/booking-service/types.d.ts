@@ -1181,3 +1181,19 @@ export declare const VoidPaymentPropsSchema: z.ZodObject<{
     booking_nbr?: string;
 }>;
 export type VoidPaymentProps = z.infer<typeof VoidPaymentPropsSchema>;
+export declare const CalculateOptimBaseGrossAmountParamsSchema: z.ZodObject<{
+    booking_nbr: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    booking_nbr?: string;
+}, {
+    booking_nbr?: string;
+}>;
+export type CalculateOptimBaseGrossAmountParams = z.infer<typeof CalculateOptimBaseGrossAmountParamsSchema>;
+export declare const SimulateDirectBookingParamsSchema: z.ZodObject<{
+    booking_nbr: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    booking_nbr?: string;
+}, {
+    booking_nbr?: string;
+}>;
+export type SimulateDirectBookingParams = z.infer<typeof SimulateDirectBookingParamsSchema>;

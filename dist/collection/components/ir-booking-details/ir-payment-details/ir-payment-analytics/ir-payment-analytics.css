@@ -1,0 +1,109 @@
+:host {
+  display: block;
+  /* margin-top: var(--wa-space-m, 1rem);
+  margin-bottom: var(--wa-space-m, 1rem); */
+}
+
+.dp-effect-callout {
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.4em 0.65em !important;
+}
+
+.dp-effect-callout::part(icon) {
+  font-size: 1em;
+}
+
+.dp-effect-icon {
+  margin-inline-end: 0.4em !important;
+}
+
+.booking-dp-effect {
+  display: flex;
+  /* flex-direction: column-reverse; */
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  /* align-items: center; */
+  padding: 0;
+}
+
+.booking-dp-effect__label {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.6875rem;
+  /* font-weight: 600; */
+  /* text-transform: uppercase; */
+  /* letter-spacing: 0.04em; */
+}
+
+.booking-dp-effect__value {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.booking-dp-effect__value.--loss {
+  color: var(--wa-color-danger-fill-loud);
+}
+
+.booking-dp-effect__value.--gain {
+  color: var(--wa-color-success-fill-loud);
+}
+
+.booking-dp-effect__trend-icon {
+  font-size: 0.9em;
+}
+
+/* #region Icon sparkle ~~~~~~~~~~~~~~~~~~~~~ */
+
+.dp-effect-icon {
+  transform-origin: center;
+  animation: dp-effect-icon-sparkle 2.4s ease-in-out infinite;
+}
+
+@keyframes dp-effect-icon-sparkle {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.18) rotate(-10deg);
+  }
+}
+
+/* #endregion */
+
+/* #region Gain glow ~~~~~~~~~~~~~~~~~~~~~ */
+
+.dp-effect-callout.--gain {
+  animation: dp-effect-glow 1.4s ease-out;
+  border-radius: var(--wa-border-radius-m, 0.5rem);
+}
+
+@keyframes dp-effect-glow {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--wa-color-success-fill-loud) 45%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 0.75rem color-mix(in oklab, var(--wa-color-success-fill-loud) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+/* #endregion */
+
+@media (prefers-reduced-motion: reduce) {
+  .dp-effect-icon,
+  .dp-effect-callout.--gain {
+    animation: none;
+  }
+}

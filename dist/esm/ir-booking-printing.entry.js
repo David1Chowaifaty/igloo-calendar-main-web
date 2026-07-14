@@ -1,14 +1,15 @@
-import { h, r as registerInstance, F as Fragment } from './index-D7D7fhZS.js';
+import { h, r as registerInstance, F as Fragment } from './index-Nexq2OjX.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { _ as _formatTime } from './functions-81yL-Vms.js';
-import { c as calculateDaysBetweenDates } from './booking-C7htRdGU.js';
-import { B as BookingService } from './booking.store-CXePlOMP.js';
-import { R as RoomService } from './room.service-CBeiDAnL.js';
-import { l as locales } from './locales.store-C0aS6UDK.js';
-import { f as formatAmount } from './utils-xLaRr6Y5.js';
-import './axios-CleaxLzD.js';
-import './index-TzZ5wfUy.js';
-import './calendar-data-15-64PrB.js';
+import { c as calculateDaysBetweenDates } from './booking-D8tDiK7e.js';
+import { B as BookingService } from './booking.store-CvDLuSL3.js';
+import { R as RoomService } from './room.service-6cGJ6nq0.js';
+import { l as locales } from './locales.store-flvFxs7J.js';
+import { i as formatAmount } from './utils-CRe_zSvY.js';
+import './axios-B50ozOIF.js';
+import './_commonjsHelpers-BFTU3MAI.js';
+import './index-BX-r5OtJ.js';
+import './calendar-data-CPCc-_Kx.js';
 import './index-DeW5X45W.js';
 import './type-D7rOPtKA.js';
 
@@ -62,7 +63,7 @@ const IrBookingPrinting = class {
             const [property, languageTexts, booking, fetchedCountries] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid, language: this.language, is_backend: true }),
                 this.roomService.fetchLanguage(this.language),
-                this.bookingService.getExposedBooking(this.bookingNumber, this.language),
+                this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: this.language }),
                 this.bookingService.getCountries(this.language),
             ]);
             if (!locales.entries) {

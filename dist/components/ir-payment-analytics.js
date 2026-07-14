@@ -1,0 +1,1 @@
+import{I as a,d as s}from"./ir-payment-analytics2.js";const t=a,o=s;export{t as IrPaymentAnalytics,o as defineCustomElement}

@@ -45,6 +45,14 @@ export declare class IrDateRangeFilter {
     size: string;
     /** Whether to show the quick-action preset buttons in each calendar popup. */
     showQuickActions: boolean;
+    /**
+     * How a quick-date preset behaves when picked from the *to* side:
+     * - `'absolute'` (default): sets only the to-date to `preset.getDate()`, same as the from side.
+     * - `'range'`: treats `preset.getDate()` as a "N units ago" anchor — sets from-date to
+     *   `preset.getDate()` and to-date to today, so e.g. "7 Days Ago" becomes a "last 7 days" range.
+     *   The from side is unaffected by this prop; it always sets only the from-date.
+     */
+    quickDatesMode: 'absolute' | 'range';
     /** Earliest selectable date in YYYY-MM-DD format. Applied to both calendars. */
     minDate?: string;
     /** Latest selectable date in YYYY-MM-DD format. Applied to both calendars. */
@@ -92,7 +100,9 @@ export declare class IrDateRangeFilter {
     /**
      * Updates one side of the date range and emits the change. In `'auto'` selection
      * mode, picking a from-date opens the to-picker on the next frame (the popup needs
-     * the click that closed the from-picker to finish propagating first).
+     * the click that closed the from-picker to finish propagating first). Pass
+     * `skipAutoAdvance` when the caller is about to set the to-date itself right after
+     * (e.g. a range-style quick action), so the to-picker doesn't pop open and then close.
      */
     private selectDate;
     /**

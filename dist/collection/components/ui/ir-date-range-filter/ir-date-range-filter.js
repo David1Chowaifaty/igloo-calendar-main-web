@@ -50,6 +50,14 @@ export class IrDateRangeFilter {
     size = 's';
     /** Whether to show the quick-action preset buttons in each calendar popup. */
     showQuickActions = true;
+    /**
+     * How a quick-date preset behaves when picked from the *to* side:
+     * - `'absolute'` (default): sets only the to-date to `preset.getDate()`, same as the from side.
+     * - `'range'`: treats `preset.getDate()` as a "N units ago" anchor — sets from-date to
+     *   `preset.getDate()` and to-date to today, so e.g. "7 Days Ago" becomes a "last 7 days" range.
+     *   The from side is unaffected by this prop; it always sets only the from-date.
+     */
+    quickDatesMode = 'absolute';
     /** Earliest selectable date in YYYY-MM-DD format. Applied to both calendars. */
     minDate;
     /** Latest selectable date in YYYY-MM-DD format. Applied to both calendars. */
@@ -102,16 +110,18 @@ export class IrDateRangeFilter {
     /**
      * Updates one side of the date range and emits the change. In `'auto'` selection
      * mode, picking a from-date opens the to-picker on the next frame (the popup needs
-     * the click that closed the from-picker to finish propagating first).
+     * the click that closed the from-picker to finish propagating first). Pass
+     * `skipAutoAdvance` when the caller is about to set the to-date itself right after
+     * (e.g. a range-style quick action), so the to-picker doesn't pop open and then close.
      */
-    selectDate(date, type) {
+    selectDate(date, type, skipAutoAdvance = false) {
         let changes = { ...this.dates, [type]: date };
         if (this.dates.to && type === 'from' && date.isAfter(this.dates.to, 'date')) {
             changes = { ...changes, to: date };
         }
         this.dates = changes;
         this.emitChange();
-        if (type === 'from' && date && this.selectionMode === 'auto') {
+        if (!skipAutoAdvance && type === 'from' && date && this.selectionMode === 'auto') {
             requestAnimationFrame(() => {
                 this.toDateSelectRef?.show();
             });
@@ -176,13 +186,19 @@ export class IrDateRangeFilter {
         const toLabel = this.dates.to?.format('YYYY-MM-DD') ?? null;
         // const fromMaxDate = this.getFromMaxDate(toLabel);
         const toMinDate = this.getToMinDate(fromLabel);
-        return (h(Host, { key: '972b3b2a0ec11e28b237e0b7c5f28a692b27482c' }, this.label && (h("label", { key: '03cb64a6ae203a62daf6dcc11c67026134d89ed4', id: `${this.groupId}-label`, class: "drf-label", part: "label", htmlFor: `${this.groupId}-from-btn` }, this.label)), h("div", { key: 'f37918044e56cb7a6b97cde6b3cd8ff80b0cc564', part: "container", class: "drf-container", role: "group", "aria-labelledby": `${this.groupId}-label` }, !this.label && (h("span", { key: '23c8edd1e2465217016e20ea2feea38955e489af', id: `${this.groupId}-label`, class: "sr-only" }, "Date range selector")), h("div", { key: '15601d0b3eea82e441efd403ce8f1b363480b87d', part: "field field-from", class: "drf-field" }, h("button", { key: 'ddb3f474b6eda483799dbaae5f281cd53ba31cf8', id: `${this.groupId}-from-btn`, type: "button", part: "text-btn", class: `drf-text-btn${!fromLabel ? ' drf-text-btn--placeholder' : ''}`, onClick: () => this.fromDateSelectRef?.show(), "aria-haspopup": "dialog", "aria-label": fromLabel ? `Start date: ${fromLabel}` : 'Select start date' }, fromLabel ?? 'From'), fromLabel && this.withClear && (h("button", { key: '300d63a2ddfedbb9018a343c8c892a9bcc8befb4', type: "button", part: "clear-btn", class: "drf-clear-btn", onClick: () => this.clearDate('from'), "aria-label": "Clear start date" }, h("wa-icon", { key: 'af3c28f4feb2f00542e7146854942bf1ac29acf1', name: "xmark" }))), h("ir-date-select", { key: '866b54354137e5830af2bce35b53a7240700f38e', ref: el => (this.fromDateSelectRef = el), exportparts: EXPORT_PARTS.from, date: this.dates.from?.format('YYYY-MM-DD') || null, placeholder: "From", minDate: this.minDate, maxDate: this.maxDate, emitEmptyDate: true, class: "drf-date-select", onDateChanged: evt => this.selectDate(evt.detail.start, 'from') }, h("button", { key: 'b9ca5f685810365edb5e56b6246e351ae7c40b4c', slot: "trigger", type: "button", part: "cal-trigger", class: "drf-cal-trigger", "aria-label": "Open start date calendar" }, h("wa-icon", { key: '1f0b196ba3e394744ad9e2d7f8ae060b70829469', name: "calendar", variant: "regular" })), this.showQuickActions && (h("div", { key: '678500943814b20db8ee27db7545d6e364a3d1a5', part: "quick-actions", class: "drf-quick-actions", role: "group", "aria-label": "Quick start date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", disabled: this.dates?.to?.isSameOrBefore(action.getDate(), 'date'), "aria-label": `Set start date to ${action.label}`, onClickHandler: () => {
+        return (h(Host, { key: '67632446bb9f10085be584e789e6c48259e57cbb' }, this.label && (h("label", { key: 'c19a33689e5f2fdb50d225ab2222a16f46e6b4ff', id: `${this.groupId}-label`, class: "drf-label", part: "label", htmlFor: `${this.groupId}-from-btn` }, this.label)), h("div", { key: '963ea94bfc0602dc9084bebb05f2f25e4329e134', part: "container", class: "drf-container", role: "group", "aria-labelledby": `${this.groupId}-label` }, !this.label && (h("span", { key: 'cbbec81af7d6153894da46a0451ef8cba8a651be', id: `${this.groupId}-label`, class: "sr-only" }, "Date range selector")), h("div", { key: '727431e4b1607bd9e76ba18682639359bcb9a293', part: "field field-from", class: "drf-field" }, h("button", { key: 'f9e0786edc9494add5a36419987e8ea26162b0ec', id: `${this.groupId}-from-btn`, type: "button", part: "text-btn", class: `drf-text-btn${!fromLabel ? ' drf-text-btn--placeholder' : ''}`, onClick: () => this.fromDateSelectRef?.show(), "aria-haspopup": "dialog", "aria-label": fromLabel ? `Start date: ${fromLabel}` : 'Select start date' }, fromLabel ?? 'From'), fromLabel && this.withClear && (h("button", { key: '6c7750cc53b05b7ab29bf10925990fadb41170ca', type: "button", part: "clear-btn", class: "drf-clear-btn", onClick: () => this.clearDate('from'), "aria-label": "Clear start date" }, h("wa-icon", { key: '7c595f2bd4c37c713556db73595c7dd03cea36be', name: "xmark" }))), h("ir-date-select", { key: '75c23dfe81d28d2c1bbeb3432afc75535320f704', ref: el => (this.fromDateSelectRef = el), exportparts: EXPORT_PARTS.from, date: this.dates.from?.format('YYYY-MM-DD') || null, placeholder: "From", minDate: this.minDate, maxDate: this.maxDate, emitEmptyDate: true, class: "drf-date-select", onDateChanged: evt => this.selectDate(evt.detail.start, 'from') }, h("button", { key: '532aca46f190babbfc0763add8d2defd90f5a032', slot: "trigger", type: "button", part: "cal-trigger", class: "drf-cal-trigger", "aria-label": "Open start date calendar" }, h("wa-icon", { key: 'ecf14cc0952a5fb324df30f697f4556dc36993b1', name: "calendar", variant: "regular" })), this.showQuickActions && (h("div", { key: 'e0d6732ce920f80049eed41f3bfd72324fa1fab9', part: "quick-actions", class: "drf-quick-actions", role: "group", "aria-label": "Quick start date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", disabled: this.dates?.to?.isSameOrBefore(action.getDate(), 'date'), "aria-label": `Set start date to ${action.label}`, onClickHandler: () => {
                 this.selectDate(action.getDate(), 'from');
                 this.fromDateSelectRef?.hide();
-            } }, action.label))))))), h("span", { key: '3a38fea361508c830817a51bcf9f34a2cd50dc5e', part: "divider", class: "drf-divider", "aria-hidden": "true" }), h("div", { key: '90c8faec70ab1a86dcb8f0002efb113edb2bc451', part: "field field-to", class: "drf-field" }, h("button", { key: '8911be36bf0f6b6d4fbc063464c2414bc9481722', type: "button", part: "text-btn", class: `drf-text-btn${!toLabel ? ' drf-text-btn--placeholder' : ''}`, onClick: () => this.toDateSelectRef?.show(), "aria-haspopup": "dialog", "aria-label": toLabel ? `End date: ${toLabel}` : 'Select end date' }, toLabel ?? 'To'), toLabel && this.withClear && (h("button", { key: '12213d1d8db6bba1f484fc1a371b43f448374837', type: "button", part: "clear-btn", class: "drf-clear-btn", onClick: () => this.clearDate('to'), "aria-label": "Clear end date" }, h("wa-icon", { key: '937d57c47b60495da49f357640af7e19bc4fe3ed', name: "xmark" }))), h("ir-date-select", { key: '34d1d085f7fb4de7629d0d7947de8a320a8da731', ref: el => (this.toDateSelectRef = el), exportparts: EXPORT_PARTS.to, date: this.dates.to?.format('YYYY-MM-DD') || null, placeholder: "To", minDate: toMinDate, maxDate: this.maxDate, emitEmptyDate: true, class: "drf-date-select", onDateChanged: evt => this.selectDate(evt.detail.start, 'to') }, h("button", { key: '5534680b773788541cb20fbbfad739366c241b71', slot: "trigger", type: "button", part: "cal-trigger", class: "drf-cal-trigger", "aria-label": "Open end date calendar" }, h("wa-icon", { key: '2da43e13d975000ce1486404e9f26df24da18570', name: "calendar", variant: "regular" })), this.showQuickActions && (h("div", { key: '169522c0c98fbe632d38e0c0d9f920156b0c7fb5', part: "quick-actions", class: "drf-quick-actions", role: "group", "aria-label": "Quick end date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", "aria-label": `Set end date to ${action.label}`, disabled: this.dates?.from?.isSameOrAfter(action.getDate(), 'date'), onClickHandler: () => {
-                this.selectDate(action.getDate(), 'to');
+            } }, action.label))))))), h("span", { key: '15dff3f39a490982950d26e7a07de056302e2efc', part: "divider", class: "drf-divider", "aria-hidden": "true" }), h("div", { key: '7272ac5f2572ebbc95ab605678b0276274b94c25', part: "field field-to", class: "drf-field" }, h("button", { key: '102f3120d223b72f495aab30b0802280573221e3', type: "button", part: "text-btn", class: `drf-text-btn${!toLabel ? ' drf-text-btn--placeholder' : ''}`, onClick: () => this.toDateSelectRef?.show(), "aria-haspopup": "dialog", "aria-label": toLabel ? `End date: ${toLabel}` : 'Select end date' }, toLabel ?? 'To'), toLabel && this.withClear && (h("button", { key: '14e138b8afa5bd089bd82b28c01df0625b3fc4c5', type: "button", part: "clear-btn", class: "drf-clear-btn", onClick: () => this.clearDate('to'), "aria-label": "Clear end date" }, h("wa-icon", { key: 'e70ae5c2b88dae7bb43a77fa496ecd48ffef9130', name: "xmark" }))), h("ir-date-select", { key: '8a59f4e46c6c817a2ebe5703e5696c7fdad273bd', ref: el => (this.toDateSelectRef = el), exportparts: EXPORT_PARTS.to, date: this.dates.to?.format('YYYY-MM-DD') || null, placeholder: "To", minDate: toMinDate, maxDate: this.maxDate, emitEmptyDate: true, class: "drf-date-select", onDateChanged: evt => this.selectDate(evt.detail.start, 'to') }, h("button", { key: 'fdd9ae0075a58b96f1da3b5a125299998308b6e7', slot: "trigger", type: "button", part: "cal-trigger", class: "drf-cal-trigger", "aria-label": "Open end date calendar" }, h("wa-icon", { key: '79f6d687acb58144e09e353d592d81c02aa0feb8', name: "calendar", variant: "regular" })), this.showQuickActions && (h("div", { key: '6bd7626c7fa506c541f618dd9db6461bd5856e37', part: "quick-actions", class: "drf-quick-actions", role: "group", "aria-label": "Quick end date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", "aria-label": `Set end date to ${action.label}`, disabled: this.quickDatesMode === 'range' ? false : this.dates?.from?.isSameOrAfter(action.getDate(), 'date'), onClickHandler: () => {
+                if (this.quickDatesMode === 'range') {
+                    this.selectDate(action.getDate(), 'from', true);
+                    this.selectDate(moment(), 'to');
+                }
+                else {
+                    this.selectDate(action.getDate(), 'to');
+                }
                 this.toDateSelectRef?.hide();
-            } }, action.label))))))), h("span", { key: 'd203a51930adf93f61296558fc5649bfbdcc3e23', "aria-live": "polite", "aria-atomic": "true", class: "sr-only" }, this.liveMessage))));
+            } }, action.label))))))), h("span", { key: '5282018c6f198f7faec3340caac2ecb416f3526c', "aria-live": "polite", "aria-atomic": "true", class: "sr-only" }, this.liveMessage))));
     }
     static get is() { return "ir-date-range-filter"; }
     static get encapsulation() { return "shadow"; }
@@ -299,6 +315,26 @@ export class IrDateRangeFilter {
                 "reflect": false,
                 "attribute": "show-quick-actions",
                 "defaultValue": "true"
+            },
+            "quickDatesMode": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'absolute' | 'range'",
+                    "resolved": "\"absolute\" | \"range\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "How a quick-date preset behaves when picked from the *to* side:\n- `'absolute'` (default): sets only the to-date to `preset.getDate()`, same as the from side.\n- `'range'`: treats `preset.getDate()` as a \"N units ago\" anchor \u2014 sets from-date to\n  `preset.getDate()` and to-date to today, so e.g. \"7 Days Ago\" becomes a \"last 7 days\" range.\n  The from side is unaffected by this prop; it always sets only the from-date."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "quick-dates-mode",
+                "defaultValue": "'absolute'"
             },
             "minDate": {
                 "type": "string",

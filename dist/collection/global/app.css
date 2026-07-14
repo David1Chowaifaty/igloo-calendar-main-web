@@ -1452,6 +1452,7 @@ wa-select[aria-invalid='true']::part(combobox) {
 }
 #dialog-overview::part(title) {
   color: var(--wa-color-text-normal);
+  text-align: start;
 }
 
 .ir__drawer {
@@ -1463,6 +1464,9 @@ wa-select[aria-invalid='true']::part(combobox) {
   padding-bottom: calc(var(--spacing) / 2);
   color: var(--wa-color-text-normal);
   background-color: var(--ir-drawer-background-color, var(--wa-color-surface-default));
+}
+.ir__drawer::part(title) {
+  text-align: start;
 }
 .ir__drawer::part(body) {
   background-color: var(--ir-drawer-background-color, var(--wa-color-surface-default));
@@ -1500,6 +1504,10 @@ wa-select[aria-invalid='true']::part(combobox) {
 .my-custom-style {
   background: #000;
   color: white;
+}
+html:dir(rtl),
+body:dir(rtl) {
+  direction: rtl !important;
 }
 /* body {
   background-color: var(--wa-color-surface-default) !important;

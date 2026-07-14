@@ -8,11 +8,15 @@ export class IrDatesCell {
     checkoutLabel;
     overdueCheckin;
     overdueCheckout;
+    /**
+     * Shows a small arrow between check-in and check-out. Intended for `display="inline"`.
+     */
+    showArrow = false;
     formatDate(date) {
         return moment(date, 'YYYY-MM-DD').format('DD MMM YYYY');
     }
     render() {
-        return (h(Host, { key: 'fb2d3d4b92d065488d380f9885dd7dfd96f4d351' }, h("div", { key: '29ec6fb4b9cef37c1502659d14bebc1b8cf6e455', class: "date-cell__container" }, this.checkInLabel && h("span", { key: '016d4d310a5046a1fc70d30214700fe7763220ab', class: "date-cell__label" }, this.checkInLabel, ": "), h("p", { key: '2ebd634cf4112470dde861baa38e8b1dfca1e649', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn))), h("div", { key: '73323b3324e2db710abf2512cdc608899a1121aa', class: "date-cell__container" }, this.checkoutLabel && h("span", { key: 'dfba7b931a249139ebe162fe8532826da553e622', class: "date-cell__label" }, this.checkoutLabel, ": "), h("p", { key: '9ac11e88f169c453bf5d356bf4d3f99507f17591', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut)))));
+        return (h(Host, { key: '1da779bbaa7dbdd504909095e3b44cdd94fd1b24' }, h("div", { key: 'c0fe27bd03de10fd515d2e45fa9ca7ed2e202b06', class: "date-cell__container" }, this.checkInLabel && h("span", { key: 'a20cb79658d51d71ae02288c249101fcbdf00ab6', class: "date-cell__label" }, this.checkInLabel, ": "), h("p", { key: '6cc0c3f72b115d7a81793ebc613bbd1aee55c767', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn))), this.showArrow && h("wa-icon", { key: 'ca15c63e82eeb9f5402c2d21d2123359d7554c70', class: "date-cell__arrow", name: "arrow-right" }), h("div", { key: '82c53416fbc2bcc48b04096b36e0ec0f59af82f6', class: "date-cell__container" }, this.checkoutLabel && h("span", { key: '19773ff9f89ee564b06c9569f4974e5920377897', class: "date-cell__label" }, this.checkoutLabel, ": "), h("p", { key: '6a6b3fc36545d3ee74575874e27fe72f27c41161', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut)))));
     }
     static get is() { return "ir-dates-cell"; }
     static get encapsulation() { return "scoped"; }
@@ -161,6 +165,26 @@ export class IrDatesCell {
                 "setter": false,
                 "reflect": false,
                 "attribute": "overdue-checkout"
+            },
+            "showArrow": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Shows a small arrow between check-in and check-out. Intended for `display=\"inline\"`."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "show-arrow",
+                "defaultValue": "false"
             }
         };
     }

@@ -179,3 +179,9 @@ export const VoidPaymentPropsSchema = z.object({
     receipt_nbr: z.string(),
     booking_nbr: z.string(),
 });
+export const CalculateOptimBaseGrossAmountParamsSchema = z.object({
+    booking_nbr: z.string(),
+});
+export const SimulateDirectBookingParamsSchema = z.object({
+    booking_nbr: z.string(),
+});

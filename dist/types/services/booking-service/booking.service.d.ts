@@ -1,4 +1,4 @@
-import { SetDepartureTimeProps, SetHbPreferenceProps, VoidPaymentProps } from './types';
+import { CalculateOptimBaseGrossAmountParams, SetDepartureTimeProps, SetHbPreferenceProps, SimulateDirectBookingParams, VoidPaymentProps } from './types';
 import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRequest } from '../../models/booking.dto';
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../../models/booking.dto';
@@ -161,7 +161,16 @@ export declare class BookingService {
     }): Promise<any>;
     setDepartureTime(props: SetDepartureTimeProps): Promise<any>;
     getUserInfo(email: string): Promise<any>;
-    getExposedBooking(booking_nbr: string, language: string, withExtras?: boolean): Promise<Booking>;
+    getExposedBooking({ booking_nbr, language, withExtras, include_dp_pricing, extras: _extras, }: {
+        extras?: {
+            key: string;
+            value: unknown;
+        }[];
+        booking_nbr: string;
+        language: string;
+        withExtras?: boolean;
+        include_dp_pricing?: boolean;
+    }): Promise<Booking>;
     private generateDays;
     private calculateTotalRate;
     fetchExposedGuest(email: string, property_id: number): Promise<ExposedGuests>;
@@ -176,4 +185,6 @@ export declare class BookingService {
     issueInvoice(props: IssueInvoiceProps): Promise<any>;
     voidInvoice(props: VoidInvoiceProps): Promise<any>;
     printInvoice(props: PrintInvoiceProps): Promise<any>;
+    calculateOptimBaseGrossAmount(params: CalculateOptimBaseGrossAmountParams): Promise<number>;
+    simulateDirectBooking(params: SimulateDirectBookingParams): Promise<number>;
 }

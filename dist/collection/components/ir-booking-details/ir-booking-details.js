@@ -13,6 +13,7 @@ import { CityLedgerService } from "../../services/city-ledger/index";
 import { mapClTxToFolioRow } from "../ir-city-ledger/ir-city-ledger-folio/types";
 import { isAgentMode } from "./functions";
 import { realtimeService } from "../../services/realtime/realtime.service";
+import { extras } from "../../utils/utils";
 export class IrBookingDetails {
     bookingService = new BookingService();
     roomService = new RoomService();
@@ -376,7 +377,19 @@ export class IrBookingDetails {
                 this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getCountries(this.language),
-                this.bookingService.getExposedBooking(this.bookingNumber, this.language),
+                this.bookingService.getExposedBooking({
+                    booking_nbr: this.bookingNumber,
+                    language: this.language,
+                    include_dp_pricing: true,
+                    withExtras: true,
+                    extras: [
+                        ...extras,
+                        {
+                            key: 'DP_OPTIM_BASE_GROSS',
+                            value: '',
+                        },
+                    ],
+                }),
                 this.bookingService.getSetupEntriesByTableNameMulti([
                     '_BED_PREFERENCE_TYPE',
                     '_DEPARTURE_TIME',
@@ -474,7 +487,7 @@ export class IrBookingDetails {
     async resetBooking() {
         try {
             this.isLoading = true;
-            const booking = await this.bookingService.getExposedBooking(this.bookingNumber, this.language);
+            const booking = await this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: this.language, include_dp_pricing: true });
             this.splitIndex = buildSplitIndex(booking.rooms);
             await this.loadAgentAndFolio(booking);
             this.booking = { ...booking };

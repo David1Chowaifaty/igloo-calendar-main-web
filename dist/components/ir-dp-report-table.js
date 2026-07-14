@@ -1,0 +1,1 @@
+import{I as r,d as o}from"./ir-dp-report-table2.js";const t=r,p=o;export{t as IrDpReportTable,p as defineCustomElement}

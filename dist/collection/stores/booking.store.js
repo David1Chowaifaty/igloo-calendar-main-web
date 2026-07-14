@@ -139,7 +139,7 @@ function resolveSelectedVariation(variations, selected_variation) {
     if (!selected_variation || booking_store.resetBooking) {
         return getDefaultVariation(variations);
     }
-    return variations?.find(v => v.adult_nbr === selected_variation.adult_nbr && v.child_nbr === selected_variation.child_nbr) ?? null;
+    return variations?.find(v => v.adult_nbr === selected_variation.adult_nbr && v.child_nbr === selected_variation.child_nbr) ?? getDefaultVariation(variations);
 }
 /**
  * Returns the best matching variation for a rate plan.
@@ -411,7 +411,7 @@ export function calculateTotalCost(gross = false) {
             }, 0);
         }
         else if (ratePlan.reserved > 0) {
-            const amount = isPrePayment ? (ratePlan.ratePlan.pre_payment_amount ?? 0) : ratePlan.selected_variation[gross ? 'discounted_gross_amount' : 'discounted_amount'];
+            const amount = isPrePayment ? (ratePlan.ratePlan.pre_payment_amount ?? 0) : ratePlan.selected_variation?.[gross ? 'discounted_gross_amount' : 'discounted_amount'];
             return ratePlan.reserved * (amount ?? 0);
         }
         return 0;
@@ -456,18 +456,30 @@ export async function getBookingTotalPrice() {
     const variationService = new VariationService();
     let totalPrice = 0;
     for (const roomTypeSelection of Object.values(booking_store.ratePlanSelections)) {
-        for (let j = 0; j < Object.values(roomTypeSelection).length; j++) {
-            const ratePlan = Object.values(roomTypeSelection)[j];
+        for (const ratePlan of Object.values(roomTypeSelection)) {
             if (ratePlan.reserved === 0)
                 continue;
-            const rateAmount = await getRatePlanDisplayAmount({
-                bookingService,
-                variationService,
-                index: j,
-                rateplanSelection: ratePlan,
-                totalNights: dateDiff,
-            });
-            totalPrice += rateAmount * ratePlan.reserved;
+            if (ratePlan.is_amount_modified) {
+                // Modified amounts don't vary per room; avoid repeating the tax request for each room.
+                const rateAmount = await getRatePlanDisplayAmount({
+                    bookingService,
+                    variationService,
+                    index: 0,
+                    rateplanSelection: ratePlan,
+                    totalNights: dateDiff,
+                });
+                totalPrice += rateAmount * ratePlan.reserved;
+                continue;
+            }
+            for (let roomIndex = 0; roomIndex < ratePlan.reserved; roomIndex++) {
+                totalPrice += await getRatePlanDisplayAmount({
+                    bookingService,
+                    variationService,
+                    index: roomIndex,
+                    rateplanSelection: ratePlan,
+                    totalNights: dateDiff,
+                });
+            }
         }
     }
     return Number(totalPrice.toFixed(2));

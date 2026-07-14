@@ -30,8 +30,10 @@ export class IrMetricCard {
     unit;
     /** Name of a `wa-icon` rendered in the leading icon chip. */
     icon;
-    /** Trend delta as a percentage. The sign selects the up/down arrow and color. */
+    /** Trend delta. Sign selects the up/down arrow and color. Rendered as `{trend}%` unless `trendValue` is given. */
     trend;
+    /** Preformatted text to render in place of `{trend}%` (e.g. a currency amount), while `trend`'s sign still drives the icon/color. */
+    trendValue;
     /** Context text shown beside the trend (e.g. `vs last week`). */
     trendLabel;
     /** Flip trend color semantics so a decrease reads as positive (good). */
@@ -78,8 +80,9 @@ export class IrMetricCard {
         const tone = direction === 'flat' ? 'flat' : this.trendIsPositive ? 'positive' : 'negative';
         const iconName = direction === 'up' ? 'arrow-trend-up' : direction === 'down' ? 'arrow-trend-down' : 'minus';
         const magnitude = Math.abs(this.trend);
-        const ariaLabel = `${direction === 'flat' ? 'no change' : direction} ${magnitude} percent`;
-        return (h("span", { part: "trend", class: `metric__trend metric__trend--${tone}`, "aria-label": ariaLabel }, h("wa-icon", { name: iconName, "aria-hidden": "true" }), h("span", null, magnitude, "%"), this.trendLabel && h("span", { class: "metric__trend-label" }, this.trendLabel)));
+        const displayValue = this.trendValue ?? `${magnitude}%`;
+        const ariaLabel = `${direction === 'flat' ? 'no change' : direction} ${this.trendValue ?? `${magnitude} percent`}`;
+        return (h("span", { part: "trend", class: `metric__trend metric__trend--${tone}`, "aria-label": ariaLabel }, h("wa-icon", { name: iconName, "aria-hidden": "true" }), h("span", null, displayValue), this.trendLabel && h("span", { class: "metric__trend-label" }, this.trendLabel)));
     }
     renderIcon() {
         return (h("span", { part: "icon", class: "metric__icon" }, h("slot", { name: "icon" }, this.icon && h("wa-icon", { name: this.icon, "aria-hidden": "true" }))));
@@ -88,7 +91,7 @@ export class IrMetricCard {
         const hasIcon = !!this.icon;
         const interactive = this.clickable && !this.loading;
         const ariaLabel = [this.label, this.value, this.unit].filter(Boolean).join(' ') || undefined;
-        return (h(Host, { key: 'fa6674178a09649be88da2b74dce0d1b9d6f50eb', role: this.clickable ? 'button' : null, tabindex: interactive ? '0' : null, "aria-label": this.clickable ? ariaLabel : null, "aria-busy": this.loading ? 'true' : null, onClick: interactive ? this.handleActivate : undefined, onKeyDown: interactive ? this.handleKeyDown : undefined }, h("div", { key: '7fed0bd7fe3ab98e183f5415f78c55959ae7d5cd', part: "base", class: "metric" }, (hasIcon || this.label) && (h("div", { key: '6b234fea4763d8eab7a756f4f189b70b75a3ffd1', part: "header", class: "metric__header" }, hasIcon && this.renderIcon(), h("span", { key: '8ec99a7391af94c2fab3733961989b27ed8e5755', part: "label", class: "metric__label" }, h("slot", { key: '39613f2da42ef4a666d7f27c35f5108427173c7a', name: "label" }, this.label)))), this.loading ? (h("div", { class: "metric__skeleton" }, h("span", { class: "metric__skeleton-bar metric__skeleton-bar--value" }), h("span", { class: "metric__skeleton-bar metric__skeleton-bar--caption" }))) : (h("div", { class: "metric__main" }, h("div", { part: "value", class: "metric__value" }, h("slot", { name: "value" }, this.value !== undefined && this.value !== null && h("span", { class: "metric__value-number" }, this.value), this.unit && (h("span", { part: "unit", class: "metric__unit" }, this.unit))), this.renderTrend()), this.caption && (h("p", { part: "caption", class: "metric__caption" }, this.caption)))), h("div", { key: 'bbcac387c611d083d9c62ed7efd55f29f189325e', part: "body", class: "metric__body" }, h("slot", { key: 'ac8d8050c9228ac6f5ad7e63f4d167a5f668864e' })), h("div", { key: 'd6a604c720e9e892ce4258c716596aec2d788c3c', part: "footer", class: "metric__footer" }, h("slot", { key: 'd944240325159701a52e51ee98164bf1cdd16bde', name: "footer" })))));
+        return (h(Host, { key: '12fe32d13be0bf6849a52570bbc19ab52a97e04c', role: this.clickable ? 'button' : null, tabindex: interactive ? '0' : null, "aria-label": this.clickable ? ariaLabel : null, "aria-busy": this.loading ? 'true' : null, onClick: interactive ? this.handleActivate : undefined, onKeyDown: interactive ? this.handleKeyDown : undefined }, h("div", { key: '37ef86e69226d279d705b769dadb2afb7eddadb1', part: "base", class: "metric" }, (hasIcon || this.label) && (h("div", { key: '6702aede1060278853316ef0bbe4856c3a235494', part: "header", class: "metric__header" }, hasIcon && this.renderIcon(), h("span", { key: 'df2cc4d797aedf09a6f0a954e1ae82b00ca9fa4d', part: "label", class: "metric__label" }, h("slot", { key: '8ebffe02fb2aed3d6af5285b4572f4a3aa2c49f6', name: "label" }, this.label)))), this.loading ? (h("div", { class: "metric__skeleton" }, h("span", { class: "metric__skeleton-bar metric__skeleton-bar--value" }), h("span", { class: "metric__skeleton-bar metric__skeleton-bar--caption" }))) : (h("div", { class: "metric__main" }, h("div", { part: "value", class: "metric__value" }, h("slot", { name: "value" }, this.value !== undefined && this.value !== null && h("span", { class: "metric__value-number" }, this.value), this.unit && (h("span", { part: "unit", class: "metric__unit" }, this.unit))), this.renderTrend()), this.caption && (h("p", { part: "caption", class: "metric__caption" }, this.caption)))), h("div", { key: '8e4038c33996cbec83b6c8e75c527be5a9fb286f', part: "body", class: "metric__body" }, h("slot", { key: 'b137ca1184859ab4a15c47c5a71cffdb7f59bb3d' })), h("div", { key: '24a83c875a40330dc69ceac5bb1c1b5bbac4ac79', part: "footer", class: "metric__footer" }, h("slot", { key: 'b7b5aee044beec0d252968d5dc21e8fe481f99d9', name: "footer" })))));
     }
     static get is() { return "ir-metric-card"; }
     static get encapsulation() { return "shadow"; }
@@ -192,12 +195,31 @@ export class IrMetricCard {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Trend delta as a percentage. The sign selects the up/down arrow and color."
+                    "text": "Trend delta. Sign selects the up/down arrow and color. Rendered as `{trend}%` unless `trendValue` is given."
                 },
                 "getter": false,
                 "setter": false,
                 "reflect": false,
                 "attribute": "trend"
+            },
+            "trendValue": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Preformatted text to render in place of `{trend}%` (e.g. a currency amount), while `trend`'s sign still drives the icon/color."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "trend-value"
             },
             "trendLabel": {
                 "type": "string",

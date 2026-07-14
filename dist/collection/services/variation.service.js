@@ -10,6 +10,9 @@ export default class VariationService {
      */
     formatVariationBasedOnInfants(params) {
         const variation = this.getVariationBasedOnInfants(params);
+        if (!variation) {
+            return '';
+        }
         return this.formatVariation(variation, params.infants);
     }
     /**
@@ -32,8 +35,11 @@ export default class VariationService {
      * @returns {Variation} The matching variation or the base variation if no match is found.
      */
     getVariationBasedOnInfants({ variations, baseVariation, infants }) {
+        if (!baseVariation) {
+            return null;
+        }
         const { adult_nbr, child_nbr } = baseVariation;
-        return variations.find(v => v.adult_nbr === adult_nbr && v.child_nbr === Math.max(0, child_nbr - Math.max(0, infants))) || baseVariation;
+        return variations?.find(v => v.adult_nbr === adult_nbr && v.child_nbr === Math.max(0, child_nbr - Math.max(0, infants))) || baseVariation;
     }
     /**
      * Formats a variation object into a human-readable string, adjusted for the number of infants.

@@ -1,0 +1,1 @@
+import{I as r,d as o}from"./ir-dp-report-filters2.js";const s=r,t=o;export{s as IrDpReportFilters,t as defineCustomElement}

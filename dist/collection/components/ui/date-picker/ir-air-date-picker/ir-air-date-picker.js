@@ -1,6 +1,22 @@
 import AirDatepicker from "air-datepicker";
 import moment from "moment";
-import localeEn from "air-datepicker/locale/en";
+import { LanguageObserver } from "../../../../utils/language-observer";
+/** Loaders are dynamic `import()`s so a page only ever downloads the locale packs it actually uses. */
+const localeLoaders = {
+    en: () => import('air-datepicker/locale/en'),
+    ar: () => import('air-datepicker/locale/ar'),
+    fr: () => import('air-datepicker/locale/fr'),
+};
+/** Module-level cache: shared across every `ir-air-date-picker` instance, loaded at most once per locale. */
+const localeCache = new Map();
+async function loadLocale(lang) {
+    const cached = localeCache.get(lang);
+    if (cached)
+        return cached;
+    const { default: locale } = await localeLoaders[lang]();
+    localeCache.set(lang, locale);
+    return locale;
+}
 /**
  * `ir-air-date-picker` — a headless Stencil wrapper around the `air-datepicker` library.
  *
@@ -97,6 +113,10 @@ export class IrAirDatePicker {
     currentDate = null;
     /** The AirDatepicker instance. `undefined` until `componentDidLoad` and after disconnect. */
     datePicker;
+    /** Language currently applied to the picker, tracked so `handleLangChange` can detect real changes. */
+    currentLang = this.normalizeLang(LanguageObserver.getLang());
+    /** Unsubscribes this instance from `LanguageObserver`. */
+    unsubscribeLang;
     componentWillLoad() {
         if (this.date) {
             this.currentDate = this.toMoment(this.date);
@@ -104,8 +124,11 @@ export class IrAirDatePicker {
     }
     componentDidLoad() {
         this.initializeDatepicker();
+        this.unsubscribeLang = LanguageObserver.subscribe(lang => this.handleLangChange(lang));
     }
     disconnectedCallback() {
+        this.unsubscribeLang?.();
+        this.unsubscribeLang = undefined;
         this.datePicker?.destroy?.();
         this.datePicker = undefined;
     }
@@ -300,16 +323,35 @@ export class IrAirDatePicker {
             dates: dates.map(d => moment(d).format('YYYY-MM-DD')),
         });
     }
+    /** Normalizes an `<html lang>` value to one of the packs we ship; unrecognized/missing values fall back to `en`. */
+    normalizeLang(lang) {
+        const value = (lang ?? 'en').toLowerCase();
+        return value === 'ar' || value === 'fr' ? value : 'en';
+    }
+    /** `LanguageObserver` callback: live-swaps the calendar's locale, preserving the current selection. */
+    async handleLangChange(lang) {
+        const nextLang = this.normalizeLang(lang);
+        if (nextLang === this.currentLang || !this.datePicker)
+            return;
+        this.currentLang = nextLang;
+        const locale = await loadLocale(nextLang);
+        if (!this.datePicker)
+            return;
+        this.datePicker.update({ locale, selectedDates: [...this.datePicker.selectedDates] }, { silent: true });
+    }
     /**
      * Creates the inline AirDatepicker on the host element (idempotent), seeding the
      * selection from `dates` (preferred) or `currentDate`, then applies the Web Awesome
      * theme via CSS custom properties on the generated calendar element.
      */
-    initializeDatepicker() {
+    async initializeDatepicker() {
         if (this.datePicker)
             return;
         const preselectedMoments = this.toMoments(this.dates);
         const selectedDates = preselectedMoments.length > 0 ? preselectedMoments.map(m => m.format('YYYY-MM-DD')) : this.currentDate ? [this.currentDate.format('YYYY-MM-DD')] : [];
+        const locale = await loadLocale(this.currentLang);
+        if (this.datePicker)
+            return;
         this.datePicker = new AirDatepicker(this.el, {
             container: this.container,
             inline: true,
@@ -321,7 +363,7 @@ export class IrAirDatePicker {
             minDate: this.toMoment(this.minDate)?.format('YYYY-MM-DD'),
             maxDate: this.toMoment(this.maxDate)?.format('YYYY-MM-DD'),
             autoClose: this.autoClose,
-            locale: localeEn,
+            locale,
             showOtherMonths: this.showOtherMonths,
             selectOtherMonths: this.selectOtherMonths,
             onHide: () => this.datePickerBlur.emit(),

@@ -32,8 +32,10 @@ export declare class IrMetricCard {
     unit: string;
     /** Name of a `wa-icon` rendered in the leading icon chip. */
     icon: string;
-    /** Trend delta as a percentage. The sign selects the up/down arrow and color. */
+    /** Trend delta. Sign selects the up/down arrow and color. Rendered as `{trend}%` unless `trendValue` is given. */
     trend: number;
+    /** Preformatted text to render in place of `{trend}%` (e.g. a currency amount), while `trend`'s sign still drives the icon/color. */
+    trendValue: string;
     /** Context text shown beside the trend (e.g. `vs last week`). */
     trendLabel: string;
     /** Flip trend color semantics so a decrease reads as positive (good). */

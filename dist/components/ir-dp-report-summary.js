@@ -1,0 +1,1 @@
+import{I as r,d as o}from"./ir-dp-report-summary2.js";const s=r,m=o;export{s as IrDpReportSummary,m as defineCustomElement}

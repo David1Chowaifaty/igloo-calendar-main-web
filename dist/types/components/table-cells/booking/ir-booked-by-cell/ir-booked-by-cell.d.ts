@@ -1,5 +1,12 @@
-import { Booking } from "../../../../models/booking.dto";
 import { EventEmitter } from '../../../../stencil-public-runtime';
+export interface BookedByCellGuest {
+    id: number;
+    first_name: string;
+    last_name: string;
+    country_phone_prefix?: string | null;
+    mobile_without_prefix?: string;
+    nbr_confirmed_bookings?: number;
+}
 export declare class IrBookedByCell {
     label: string;
     cellId: string;
@@ -7,7 +14,7 @@ export declare class IrBookedByCell {
     /**
      * Guest associated with this booking.
      */
-    guest: Booking['guest'];
+    guest: BookedByCellGuest;
     /**
      * Unique identifier for this cell. Used for tooltip scoping.
      */

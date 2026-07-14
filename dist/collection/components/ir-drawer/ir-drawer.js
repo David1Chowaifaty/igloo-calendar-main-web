@@ -21,7 +21,7 @@ export class IrDrawer {
      */
     label;
     /** The direction from which the drawer will open. */
-    placement;
+    placement = 'end';
     /** Disables the header. This will also remove the default close button. */
     withoutHeader;
     /** When enabled, the drawer will be closed when the user clicks outside of it. */
@@ -71,7 +71,7 @@ export class IrDrawer {
         this.drawerHide.emit(e.detail);
     }
     render() {
-        return (h("wa-drawer", { key: '20394386cd815b85898a34c433d2256ca5740bf6', id: this.el.id, "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotManager.hasSlot('header-actions') && h("slot", { key: '5da3160f7b4741532870e8ac4081e6146b9633d4', name: "header-actions", slot: "header-actions" }), this.slotManager.hasSlot('label') && h("slot", { key: 'bbc538dd769e8727ce325a4e90dc6bd93c5d6fdf', name: "label", slot: "label" }), h("slot", { key: '808b60fbf4fb0ef7e0c1108f7811e28ed18f0546' }), this.slotManager.hasSlot('footer') && h("slot", { key: '49a26932d350685ba0908027f33b1075f5aa48f3', name: "footer", slot: "footer" })));
+        return (h("wa-drawer", { key: '1b90d6fe7d6ca947b8445600f47c89f0664eaa45', id: this.el.id, "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotManager.hasSlot('header-actions') && h("slot", { key: 'c011977926e34ffd06459d0a4670ee92566bdde0', name: "header-actions", slot: "header-actions" }), this.slotManager.hasSlot('label') && h("slot", { key: 'ed7f70a9db9d8005d7200f66bd90660b53b2faf8', name: "label", slot: "label" }), h("slot", { key: 'e7006588132571f4b78517cb769acbf17e39a813' }), this.slotManager.hasSlot('footer') && h("slot", { key: '61ec05a1cee5731029d83d373731322ae4096d4d', name: "footer", slot: "footer" })));
     }
     static get is() { return "ir-drawer"; }
     static get encapsulation() { return "shadow"; }
@@ -160,7 +160,8 @@ export class IrDrawer {
                 "getter": false,
                 "setter": false,
                 "reflect": true,
-                "attribute": "placement"
+                "attribute": "placement",
+                "defaultValue": "'end'"
             },
             "withoutHeader": {
                 "type": "boolean",

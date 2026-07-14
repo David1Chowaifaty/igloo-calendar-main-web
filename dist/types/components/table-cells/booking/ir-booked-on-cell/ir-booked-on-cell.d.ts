@@ -3,5 +3,6 @@ export declare class IrBookedOnCell {
     display: 'inline' | 'block';
     bookedOn: Booking['booked_on'];
     label: string;
+    showTime: boolean;
     render(): any;
 }

@@ -1,4 +1,4 @@
-import { SetDepartureTimePropsSchema, SetHbPreferencePropsSchema, VoidPaymentPropsSchema } from "./types";
+import { CalculateOptimBaseGrossAmountParamsSchema, SetDepartureTimePropsSchema, SetHbPreferencePropsSchema, SimulateDirectBookingParamsSchema, VoidPaymentPropsSchema, } from "./types";
 import axios from "axios";
 import { ZIEntrySchema } from "../../models/IBooking";
 import { convertDateToCustomFormat, convertDateToTime, dateToFormattedString, extras } from "../../utils/utils";
@@ -474,12 +474,13 @@ export class BookingService {
             throw new Error(error);
         }
     }
-    async getExposedBooking(booking_nbr, language, withExtras = true) {
+    async getExposedBooking({ booking_nbr, language, withExtras = true, include_dp_pricing, extras: _extras = extras, }) {
         try {
             const { data } = await axios.post(`/Get_Exposed_Booking`, {
                 booking_nbr,
                 language,
-                extras: withExtras ? extras : null,
+                extras: withExtras ? _extras : null,
+                is_calculate_dp_effect: include_dp_pricing,
                 is_get_financial_snapshot: true,
             });
             if (data.ExceptionMsg !== '') {
@@ -715,5 +716,21 @@ export class BookingService {
         const payload = PrintInvoicePropsSchema.parse(props);
         const { data } = await axios.post('/Print_Invoice', payload);
         return data;
+    }
+    async calculateOptimBaseGrossAmount(params) {
+        const payload = CalculateOptimBaseGrossAmountParamsSchema.parse(params);
+        const { data } = await axios.post(`/Calculate_Optim_Base_Gross_Amount`, payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data['My_Result'];
+    }
+    async simulateDirectBooking(params) {
+        const payload = SimulateDirectBookingParamsSchema.parse(params);
+        const { data } = await axios.post(`/Simulate_Direct_Booking`, payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data['My_Result'];
     }
 }

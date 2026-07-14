@@ -28,6 +28,7 @@ import { IPaymentAction } from "./services/payment.service";
 import { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
 import { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
 import { MaskProp, NativeWaInput } from "./components/ui/ir-input/ir-input";
+import { BookedByCellGuest } from "./components/table-cells/booking/ir-booked-by-cell/ir-booked-by-cell";
 import { AssignableItem } from "./components/ir-booking-details/ir-booking-source-editor-dialog/types";
 import { FolioRow } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 import { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
@@ -128,6 +129,7 @@ export { IPaymentAction } from "./services/payment.service";
 export { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
 export { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
 export { MaskProp, NativeWaInput } from "./components/ui/ir-input/ir-input";
+export { BookedByCellGuest } from "./components/table-cells/booking/ir-booked-by-cell/ir-booked-by-cell";
 export { AssignableItem } from "./components/ir-booking-details/ir-booking-source-editor-dialog/types";
 export { FolioRow } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 export { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
@@ -1158,7 +1160,7 @@ export namespace Components {
         /**
           * Guest associated with this booking.
          */
-        "guest": Booking['guest'];
+        "guest": BookedByCellGuest;
         /**
           * Unique identifier for this cell. Used for tooltip scoping.
          */
@@ -1210,6 +1212,10 @@ export namespace Components {
          */
         "display": 'inline' | 'block';
         "label": string;
+        /**
+          * @default true
+         */
+        "showTime": boolean;
     }
     interface IrBooking {
         "bookingNumber": string;
@@ -2898,6 +2904,11 @@ export namespace Components {
          */
         "quickDates": QuickDatePreset[];
         /**
+          * How a quick-date preset behaves when picked from the *to* side: - `'absolute'` (default): sets only the to-date to `preset.getDate()`, same as the from side. - `'range'`: treats `preset.getDate()` as a "N units ago" anchor — sets from-date to   `preset.getDate()` and to-date to today, so e.g. "7 Days Ago" becomes a "last 7 days" range.   The from side is unaffected by this prop; it always sets only the from-date.
+          * @default 'absolute'
+         */
+        "quickDatesMode": 'absolute' | 'range';
+        /**
           * Flow after picking a from-date: - `'auto'`: the to-picker opens automatically so the user completes the range in one pass. - `'manual'` (default): nothing opens; the user clicks the to-field themselves.
           * @default 'manual'
          */
@@ -3049,6 +3060,11 @@ export namespace Components {
         "display": 'block' | 'inline';
         "overdueCheckin": boolean;
         "overdueCheckout": boolean;
+        /**
+          * Shows a small arrow between check-in and check-out. Intended for `display="inline"`.
+          * @default false
+         */
+        "showArrow": boolean;
     }
     interface IrDepartures {
         /**
@@ -3084,6 +3100,28 @@ export namespace Components {
          */
         "withoutHeader": boolean;
     }
+    interface IrDpReport {
+        "baseUrl": string;
+        /**
+          * @default ''
+         */
+        "language": string;
+        "p": string;
+        "propertyid": number;
+        /**
+          * @default ''
+         */
+        "ticket": string;
+        "userType": number;
+    }
+    interface IrDpReportChart {
+    }
+    interface IrDpReportFilters {
+    }
+    interface IrDpReportSummary {
+    }
+    interface IrDpReportTable {
+    }
     interface IrDrawer {
         /**
           * The drawer's label as displayed in the header. You should always include a relevant label, as it is required for proper accessibility. If you need to display HTML, use the `label` slot instead.
@@ -3100,6 +3138,7 @@ export namespace Components {
         "open": NativeDrawer['open'];
         /**
           * The direction from which the drawer will open.
+          * @default 'end'
          */
         "placement": NativeDrawer['placement'];
         /**
@@ -4445,13 +4484,17 @@ export namespace Components {
          */
         "size": MetricSize;
         /**
-          * Trend delta as a percentage. The sign selects the up/down arrow and color.
+          * Trend delta. Sign selects the up/down arrow and color. Rendered as `{trend}%` unless `trendValue` is given.
          */
         "trend": number;
         /**
           * Context text shown beside the trend (e.g. `vs last week`).
          */
         "trendLabel": string;
+        /**
+          * Preformatted text to render in place of `{trend}%` (e.g. a currency amount), while `trend`'s sign still drives the icon/color.
+         */
+        "trendValue": string;
         /**
           * Unit rendered after the value (e.g. `guests`, `%`, `nights`).
          */
@@ -4814,6 +4857,9 @@ export namespace Components {
     interface IrPaymentActions {
         "booking": Booking;
         "paymentAction": IPaymentAction[];
+    }
+    interface IrPaymentAnalytics {
+        "booking": Booking;
     }
     interface IrPaymentDetails {
         "agent": Agent;
@@ -6978,6 +7024,10 @@ export interface IrDeparturesTableCustomEvent<T> extends CustomEvent<T> {
 export interface IrDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrDialogElement;
+}
+export interface IrDpReportFiltersCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrDpReportFiltersElement;
 }
 export interface IrDrawerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -9838,6 +9888,47 @@ declare global {
         prototype: HTMLIrDialogElement;
         new (): HTMLIrDialogElement;
     };
+    interface HTMLIrDpReportElement extends Components.IrDpReport, HTMLStencilElement {
+    }
+    var HTMLIrDpReportElement: {
+        prototype: HTMLIrDpReportElement;
+        new (): HTMLIrDpReportElement;
+    };
+    interface HTMLIrDpReportChartElement extends Components.IrDpReportChart, HTMLStencilElement {
+    }
+    var HTMLIrDpReportChartElement: {
+        prototype: HTMLIrDpReportChartElement;
+        new (): HTMLIrDpReportChartElement;
+    };
+    interface HTMLIrDpReportFiltersElementEventMap {
+        "dpFiltersChange": { from: string; to: string };
+    }
+    interface HTMLIrDpReportFiltersElement extends Components.IrDpReportFilters, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrDpReportFiltersElementEventMap>(type: K, listener: (this: HTMLIrDpReportFiltersElement, ev: IrDpReportFiltersCustomEvent<HTMLIrDpReportFiltersElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrDpReportFiltersElementEventMap>(type: K, listener: (this: HTMLIrDpReportFiltersElement, ev: IrDpReportFiltersCustomEvent<HTMLIrDpReportFiltersElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrDpReportFiltersElement: {
+        prototype: HTMLIrDpReportFiltersElement;
+        new (): HTMLIrDpReportFiltersElement;
+    };
+    interface HTMLIrDpReportSummaryElement extends Components.IrDpReportSummary, HTMLStencilElement {
+    }
+    var HTMLIrDpReportSummaryElement: {
+        prototype: HTMLIrDpReportSummaryElement;
+        new (): HTMLIrDpReportSummaryElement;
+    };
+    interface HTMLIrDpReportTableElement extends Components.IrDpReportTable, HTMLStencilElement {
+    }
+    var HTMLIrDpReportTableElement: {
+        prototype: HTMLIrDpReportTableElement;
+        new (): HTMLIrDpReportTableElement;
+    };
     interface HTMLIrDrawerElementEventMap {
         "drawerShow": void;
         "drawerHide": { source: Element };
@@ -11158,6 +11249,12 @@ declare global {
     var HTMLIrPaymentActionsElement: {
         prototype: HTMLIrPaymentActionsElement;
         new (): HTMLIrPaymentActionsElement;
+    };
+    interface HTMLIrPaymentAnalyticsElement extends Components.IrPaymentAnalytics, HTMLStencilElement {
+    }
+    var HTMLIrPaymentAnalyticsElement: {
+        prototype: HTMLIrPaymentAnalyticsElement;
+        new (): HTMLIrPaymentAnalyticsElement;
     };
     interface HTMLIrPaymentDetailsElementEventMap {
         "resetBookingEvt": null;
@@ -12562,6 +12659,11 @@ declare global {
         "ir-departures-filter": HTMLIrDeparturesFilterElement;
         "ir-departures-table": HTMLIrDeparturesTableElement;
         "ir-dialog": HTMLIrDialogElement;
+        "ir-dp-report": HTMLIrDpReportElement;
+        "ir-dp-report-chart": HTMLIrDpReportChartElement;
+        "ir-dp-report-filters": HTMLIrDpReportFiltersElement;
+        "ir-dp-report-summary": HTMLIrDpReportSummaryElement;
+        "ir-dp-report-table": HTMLIrDpReportTableElement;
         "ir-drawer": HTMLIrDrawerElement;
         "ir-dropdown": HTMLIrDropdownElement;
         "ir-dropdown-item": HTMLIrDropdownItemElement;
@@ -12654,6 +12756,7 @@ declare global {
         "ir-password-validator": HTMLIrPasswordValidatorElement;
         "ir-payment-action": HTMLIrPaymentActionElement;
         "ir-payment-actions": HTMLIrPaymentActionsElement;
+        "ir-payment-analytics": HTMLIrPaymentAnalyticsElement;
         "ir-payment-details": HTMLIrPaymentDetailsElement;
         "ir-payment-folio": HTMLIrPaymentFolioElement;
         "ir-payment-folio-form": HTMLIrPaymentFolioFormElement;
@@ -13836,7 +13939,7 @@ declare namespace LocalJSX {
         /**
           * Guest associated with this booking.
          */
-        "guest"?: Booking['guest'];
+        "guest"?: BookedByCellGuest;
         /**
           * Unique identifier for this cell. Used for tooltip scoping.
          */
@@ -13892,6 +13995,10 @@ declare namespace LocalJSX {
          */
         "display"?: 'inline' | 'block';
         "label"?: string;
+        /**
+          * @default true
+         */
+        "showTime"?: boolean;
     }
     interface IrBooking {
         "bookingNumber"?: string;
@@ -15714,6 +15821,11 @@ declare namespace LocalJSX {
          */
         "quickDates"?: QuickDatePreset[];
         /**
+          * How a quick-date preset behaves when picked from the *to* side: - `'absolute'` (default): sets only the to-date to `preset.getDate()`, same as the from side. - `'range'`: treats `preset.getDate()` as a "N units ago" anchor — sets from-date to   `preset.getDate()` and to-date to today, so e.g. "7 Days Ago" becomes a "last 7 days" range.   The from side is unaffected by this prop; it always sets only the from-date.
+          * @default 'absolute'
+         */
+        "quickDatesMode"?: 'absolute' | 'range';
+        /**
           * Flow after picking a from-date: - `'auto'`: the to-picker opens automatically so the user completes the range in one pass. - `'manual'` (default): nothing opens; the user clicks the to-field themselves.
           * @default 'manual'
          */
@@ -15865,6 +15977,11 @@ declare namespace LocalJSX {
         "display"?: 'block' | 'inline';
         "overdueCheckin"?: boolean;
         "overdueCheckout"?: boolean;
+        /**
+          * Shows a small arrow between check-in and check-out. Intended for `display="inline"`.
+          * @default false
+         */
+        "showArrow"?: boolean;
     }
     interface IrDepartures {
         /**
@@ -15917,6 +16034,32 @@ declare namespace LocalJSX {
          */
         "withoutHeader"?: boolean;
     }
+    interface IrDpReport {
+        "baseUrl"?: string;
+        /**
+          * @default ''
+         */
+        "language"?: string;
+        "p"?: string;
+        "propertyid"?: number;
+        /**
+          * @default ''
+         */
+        "ticket"?: string;
+        "userType"?: number;
+    }
+    interface IrDpReportChart {
+    }
+    interface IrDpReportFilters {
+        /**
+          * Emitted only when the user clicks Search. The shared store (updated as soon as the dates change) keeps every filter instance (chart tab + table tab) visually in sync regardless of whether a search has been triggered yet.
+         */
+        "onDpFiltersChange"?: (event: IrDpReportFiltersCustomEvent<{ from: string; to: string }>) => void;
+    }
+    interface IrDpReportSummary {
+    }
+    interface IrDpReportTable {
+    }
     interface IrDrawer {
         /**
           * The drawer's label as displayed in the header. You should always include a relevant label, as it is required for proper accessibility. If you need to display HTML, use the `label` slot instead.
@@ -15941,6 +16084,7 @@ declare namespace LocalJSX {
         "open"?: NativeDrawer['open'];
         /**
           * The direction from which the drawer will open.
+          * @default 'end'
          */
         "placement"?: NativeDrawer['placement'];
         /**
@@ -17429,13 +17573,17 @@ declare namespace LocalJSX {
          */
         "size"?: MetricSize;
         /**
-          * Trend delta as a percentage. The sign selects the up/down arrow and color.
+          * Trend delta. Sign selects the up/down arrow and color. Rendered as `{trend}%` unless `trendValue` is given.
          */
         "trend"?: number;
         /**
           * Context text shown beside the trend (e.g. `vs last week`).
          */
         "trendLabel"?: string;
+        /**
+          * Preformatted text to render in place of `{trend}%` (e.g. a currency amount), while `trend`'s sign still drives the icon/color.
+         */
+        "trendValue"?: string;
         /**
           * Unit rendered after the value (e.g. `guests`, `%`, `nights`).
          */
@@ -17840,6 +17988,9 @@ declare namespace LocalJSX {
     interface IrPaymentActions {
         "booking"?: Booking;
         "paymentAction"?: IPaymentAction[];
+    }
+    interface IrPaymentAnalytics {
+        "booking"?: Booking;
     }
     interface IrPaymentDetails {
         "agent"?: Agent;
@@ -20050,6 +20201,7 @@ declare namespace LocalJSX {
     interface IrBookedOnCellAttributes {
         "display": 'inline' | 'block';
         "label": string;
+        "showTime": boolean;
     }
     interface IrBookingAttributes {
         "propertyid": number;
@@ -20542,6 +20694,7 @@ declare namespace LocalJSX {
         "toDate": string;
         "size": string;
         "showQuickActions": boolean;
+        "quickDatesMode": 'absolute' | 'range';
         "minDate": string;
         "maxDate": string;
         "selectionMode": 'auto' | 'manual';
@@ -20584,6 +20737,7 @@ declare namespace LocalJSX {
         "checkoutLabel": string;
         "overdueCheckin": boolean;
         "overdueCheckout": boolean;
+        "showArrow": boolean;
     }
     interface IrDeparturesAttributes {
         "ticket": string;
@@ -20596,6 +20750,14 @@ declare namespace LocalJSX {
         "open": boolean;
         "withoutHeader": boolean;
         "lightDismiss": boolean;
+    }
+    interface IrDpReportAttributes {
+        "language": string;
+        "ticket": string;
+        "propertyid": number;
+        "p": string;
+        "baseUrl": string;
+        "userType": number;
     }
     interface IrDrawerAttributes {
         "open": NativeDrawer['open'];
@@ -21010,6 +21172,7 @@ declare namespace LocalJSX {
         "unit": string;
         "icon": string;
         "trend": number;
+        "trendValue": string;
         "trendLabel": string;
         "invertTrend": boolean;
         "caption": string;
@@ -21783,6 +21946,11 @@ declare namespace LocalJSX {
         "ir-departures-filter": IrDeparturesFilter;
         "ir-departures-table": IrDeparturesTable;
         "ir-dialog": Omit<IrDialog, keyof IrDialogAttributes> & { [K in keyof IrDialog & keyof IrDialogAttributes]?: IrDialog[K] } & { [K in keyof IrDialog & keyof IrDialogAttributes as `attr:${K}`]?: IrDialogAttributes[K] } & { [K in keyof IrDialog & keyof IrDialogAttributes as `prop:${K}`]?: IrDialog[K] };
+        "ir-dp-report": Omit<IrDpReport, keyof IrDpReportAttributes> & { [K in keyof IrDpReport & keyof IrDpReportAttributes]?: IrDpReport[K] } & { [K in keyof IrDpReport & keyof IrDpReportAttributes as `attr:${K}`]?: IrDpReportAttributes[K] } & { [K in keyof IrDpReport & keyof IrDpReportAttributes as `prop:${K}`]?: IrDpReport[K] };
+        "ir-dp-report-chart": IrDpReportChart;
+        "ir-dp-report-filters": IrDpReportFilters;
+        "ir-dp-report-summary": IrDpReportSummary;
+        "ir-dp-report-table": IrDpReportTable;
         "ir-drawer": Omit<IrDrawer, keyof IrDrawerAttributes> & { [K in keyof IrDrawer & keyof IrDrawerAttributes]?: IrDrawer[K] } & { [K in keyof IrDrawer & keyof IrDrawerAttributes as `attr:${K}`]?: IrDrawerAttributes[K] } & { [K in keyof IrDrawer & keyof IrDrawerAttributes as `prop:${K}`]?: IrDrawer[K] };
         "ir-dropdown": Omit<IrDropdown, keyof IrDropdownAttributes> & { [K in keyof IrDropdown & keyof IrDropdownAttributes]?: IrDropdown[K] } & { [K in keyof IrDropdown & keyof IrDropdownAttributes as `attr:${K}`]?: IrDropdownAttributes[K] } & { [K in keyof IrDropdown & keyof IrDropdownAttributes as `prop:${K}`]?: IrDropdown[K] };
         "ir-dropdown-item": Omit<IrDropdownItem, keyof IrDropdownItemAttributes> & { [K in keyof IrDropdownItem & keyof IrDropdownItemAttributes]?: IrDropdownItem[K] } & { [K in keyof IrDropdownItem & keyof IrDropdownItemAttributes as `attr:${K}`]?: IrDropdownItemAttributes[K] } & { [K in keyof IrDropdownItem & keyof IrDropdownItemAttributes as `prop:${K}`]?: IrDropdownItem[K] } & OneOf<"value", IrDropdownItem["value"], IrDropdownItemAttributes["value"]>;
@@ -21875,6 +22043,7 @@ declare namespace LocalJSX {
         "ir-password-validator": Omit<IrPasswordValidator, keyof IrPasswordValidatorAttributes> & { [K in keyof IrPasswordValidator & keyof IrPasswordValidatorAttributes]?: IrPasswordValidator[K] } & { [K in keyof IrPasswordValidator & keyof IrPasswordValidatorAttributes as `attr:${K}`]?: IrPasswordValidatorAttributes[K] } & { [K in keyof IrPasswordValidator & keyof IrPasswordValidatorAttributes as `prop:${K}`]?: IrPasswordValidator[K] };
         "ir-payment-action": IrPaymentAction;
         "ir-payment-actions": IrPaymentActions;
+        "ir-payment-analytics": IrPaymentAnalytics;
         "ir-payment-details": Omit<IrPaymentDetails, keyof IrPaymentDetailsAttributes> & { [K in keyof IrPaymentDetails & keyof IrPaymentDetailsAttributes]?: IrPaymentDetails[K] } & { [K in keyof IrPaymentDetails & keyof IrPaymentDetailsAttributes as `attr:${K}`]?: IrPaymentDetailsAttributes[K] } & { [K in keyof IrPaymentDetails & keyof IrPaymentDetailsAttributes as `prop:${K}`]?: IrPaymentDetails[K] };
         "ir-payment-folio": Omit<IrPaymentFolio, keyof IrPaymentFolioAttributes> & { [K in keyof IrPaymentFolio & keyof IrPaymentFolioAttributes]?: IrPaymentFolio[K] } & { [K in keyof IrPaymentFolio & keyof IrPaymentFolioAttributes as `attr:${K}`]?: IrPaymentFolioAttributes[K] } & { [K in keyof IrPaymentFolio & keyof IrPaymentFolioAttributes as `prop:${K}`]?: IrPaymentFolio[K] };
         "ir-payment-folio-form": Omit<IrPaymentFolioForm, keyof IrPaymentFolioFormAttributes> & { [K in keyof IrPaymentFolioForm & keyof IrPaymentFolioFormAttributes]?: IrPaymentFolioForm[K] } & { [K in keyof IrPaymentFolioForm & keyof IrPaymentFolioFormAttributes as `attr:${K}`]?: IrPaymentFolioFormAttributes[K] } & { [K in keyof IrPaymentFolioForm & keyof IrPaymentFolioFormAttributes as `prop:${K}`]?: IrPaymentFolioForm[K] };
@@ -22205,6 +22374,11 @@ declare module "@stencil/core" {
             "ir-departures-filter": LocalJSX.IntrinsicElements["ir-departures-filter"] & JSXBase.HTMLAttributes<HTMLIrDeparturesFilterElement>;
             "ir-departures-table": LocalJSX.IntrinsicElements["ir-departures-table"] & JSXBase.HTMLAttributes<HTMLIrDeparturesTableElement>;
             "ir-dialog": LocalJSX.IntrinsicElements["ir-dialog"] & JSXBase.HTMLAttributes<HTMLIrDialogElement>;
+            "ir-dp-report": LocalJSX.IntrinsicElements["ir-dp-report"] & JSXBase.HTMLAttributes<HTMLIrDpReportElement>;
+            "ir-dp-report-chart": LocalJSX.IntrinsicElements["ir-dp-report-chart"] & JSXBase.HTMLAttributes<HTMLIrDpReportChartElement>;
+            "ir-dp-report-filters": LocalJSX.IntrinsicElements["ir-dp-report-filters"] & JSXBase.HTMLAttributes<HTMLIrDpReportFiltersElement>;
+            "ir-dp-report-summary": LocalJSX.IntrinsicElements["ir-dp-report-summary"] & JSXBase.HTMLAttributes<HTMLIrDpReportSummaryElement>;
+            "ir-dp-report-table": LocalJSX.IntrinsicElements["ir-dp-report-table"] & JSXBase.HTMLAttributes<HTMLIrDpReportTableElement>;
             "ir-drawer": LocalJSX.IntrinsicElements["ir-drawer"] & JSXBase.HTMLAttributes<HTMLIrDrawerElement>;
             "ir-dropdown": LocalJSX.IntrinsicElements["ir-dropdown"] & JSXBase.HTMLAttributes<HTMLIrDropdownElement>;
             "ir-dropdown-item": LocalJSX.IntrinsicElements["ir-dropdown-item"] & JSXBase.HTMLAttributes<HTMLIrDropdownItemElement>;
@@ -22344,6 +22518,7 @@ declare module "@stencil/core" {
             "ir-password-validator": LocalJSX.IntrinsicElements["ir-password-validator"] & JSXBase.HTMLAttributes<HTMLIrPasswordValidatorElement>;
             "ir-payment-action": LocalJSX.IntrinsicElements["ir-payment-action"] & JSXBase.HTMLAttributes<HTMLIrPaymentActionElement>;
             "ir-payment-actions": LocalJSX.IntrinsicElements["ir-payment-actions"] & JSXBase.HTMLAttributes<HTMLIrPaymentActionsElement>;
+            "ir-payment-analytics": LocalJSX.IntrinsicElements["ir-payment-analytics"] & JSXBase.HTMLAttributes<HTMLIrPaymentAnalyticsElement>;
             "ir-payment-details": LocalJSX.IntrinsicElements["ir-payment-details"] & JSXBase.HTMLAttributes<HTMLIrPaymentDetailsElement>;
             "ir-payment-folio": LocalJSX.IntrinsicElements["ir-payment-folio"] & JSXBase.HTMLAttributes<HTMLIrPaymentFolioElement>;
             "ir-payment-folio-form": LocalJSX.IntrinsicElements["ir-payment-folio-form"] & JSXBase.HTMLAttributes<HTMLIrPaymentFolioFormElement>;
