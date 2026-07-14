@@ -2,7 +2,7 @@ import Token from "../../models/Token";
 import { PropertyService } from "../../services/property.service";
 import calendar_data from "../../stores/calendar-data";
 import { checkUserAuthState, manageAnchorSession } from "../../utils/utils";
-import { Host, h } from "@stencil/core";
+import { Fragment, Host, h } from "@stencil/core";
 export class IrSecureTasks {
     el;
     propertyid;
@@ -174,7 +174,7 @@ export class IrSecureTasks {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("div", { class: "main__container" }, h("header", { class: "secure-header" }, h("div", { class: "secure-header__topbar" }, h("div", { class: "secure-header__brand" }, h("div", { class: "secure-header__brand-icon" }, h("img", { src: "https://x.igloorooms.com/app-assets/images/portrait/small/avatar-s-19.png", alt: "" })), h("span", { class: "secure-header__brand-name" }, "IglooRooms")), h("div", { class: "secure-header__controls" }, h("ir-booking-new-form", { ticket: this.ticket, propertyid: this.propertyid?.toString(), language: "en" }, h("ir-custom-button", { slot: "trigger", id: "add-booking-btn", size: "s", appearance: "plain", variant: "brand" }, h("wa-icon", { name: "plus", style: { fontSize: '1.2rem' } }))), h("div", { class: "secure-header__sep", role: "separator" }), h("form", { class: "secure-header__aname-form", onSubmit: e => {
+        return (h("div", { class: "main__container" }, h("header", { class: "secure-header" }, h("div", { class: "secure-header__topbar" }, h("div", { class: "secure-header__brand" }, h("div", { class: "secure-header__brand-icon" }, h("img", { src: "https://x.igloorooms.com/app-assets/images/portrait/small/avatar-s-19.png", alt: "" })), h("span", { class: "secure-header__brand-name" }, "IglooRooms")), h("div", { class: "secure-header__controls" }, calendar_data?.property && (h(Fragment, null, h("ir-booking-new-form", { ticket: this.ticket, propertyid: calendar_data?.property?.id?.toString(), language: "en" }, h("ir-custom-button", { slot: "trigger", id: "add-booking-btn", size: "s", appearance: "plain", variant: "brand" }, h("wa-icon", { name: "plus", style: { fontSize: '1.2rem' } }))), h("div", { class: "secure-header__sep", role: "separator" }))), h("form", { class: "secure-header__aname-form", onSubmit: e => {
                 e.preventDefault();
                 if (this.inputValue) {
                     const url = new URL(window.location.href);
