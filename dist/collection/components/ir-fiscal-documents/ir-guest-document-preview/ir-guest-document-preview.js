@@ -21,6 +21,7 @@ export class IrGuestDocumentPreview {
         [FdTypes.Receipt]: 'receipt',
         [FdTypes.CreditNote]: 'creditnote',
         [FdTypes.CreditReceipt]: 'creditreceipt',
+        [FdTypes.Refund]: 'refund',
         [FdTypes.Proforma]: 'proforma',
     };
     propertyService = new PropertyService();
@@ -81,6 +82,8 @@ export class IrGuestDocumentPreview {
                 return 'Debit Note';
             case FdTypes.Receipt:
                 return 'Receipt';
+            case FdTypes.Refund:
+                return 'Refund';
             case FdTypes.Proforma:
                 return 'Proforma Invoice';
             default:
@@ -102,13 +105,13 @@ export class IrGuestDocumentPreview {
     }
     render() {
         const isOpen = this.pdfUrl !== null || this.isLoading;
-        return (h(Host, { key: '4c834eb0d7a65cab84b6865f7072e9c2f55ff9a4' }, h("ir-preview-screen-dialog", { key: '138abe56f4c078263d3f075fd7deb80a4fc610a3', open: isOpen, label: this.getDialogLabel(), action: "print", hideDefaultAction: true, onOpenChanged: e => {
+        return (h(Host, { key: '4948de75902d4d400a2934704e90bafe8d168510' }, h("ir-preview-screen-dialog", { key: '0e32754f7feaff9a6d877284f20838e9af107973', open: isOpen, label: this.getDialogLabel(), action: "print", hideDefaultAction: true, onOpenChanged: e => {
                 if (!e.detail) {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.resetPreview();
                 }
-            } }, this.pdfUrl && (h("ir-custom-button", { key: 'b0da0a0fe4baa7f8dea8862a14991a07eb45b3b4', slot: "header-actions", size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '703f66a0b1f7d47dd2163df17d19fce7c835a26a', name: "download", style: { fontSize: '1.2rem' }, label: "Download PDF" }))), this.renderBody())));
+            } }, this.pdfUrl && (h("ir-custom-button", { key: 'a94ecd809692b27334851753e16ee258efa35927', slot: "header-actions", size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: 'b362c3a7774f1da6cc133892fbf71fbdfebafb89', name: "download", style: { fontSize: '1.2rem' }, label: "Download PDF" }))), this.renderBody())));
     }
     static get is() { return "ir-guest-document-preview"; }
     static get encapsulation() { return "scoped"; }

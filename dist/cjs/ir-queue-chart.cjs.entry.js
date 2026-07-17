@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-Du1V06mp.js');
+var index = require('./index-Bg4VKYKR.js');
 var chart = require('./chart-CMmD0hzI.js');
 
 const irQueueChartCss = () => `:host{display:block}`;

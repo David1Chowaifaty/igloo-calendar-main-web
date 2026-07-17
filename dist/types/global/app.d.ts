@@ -33,5 +33,6 @@ import '@awesome.me/webawesome/dist/components/progress-bar/progress-bar.js';
 import '@awesome.me/webawesome/dist/components/progress-ring/progress-ring.js';
 import '@awesome.me/webawesome/dist/components/slider/slider.js';
 import '@awesome.me/webawesome/dist/components/copy-button/copy-button.js';
+import '@awesome.me/webawesome/dist/components/format-bytes/format-bytes.js';
 declare const _default: () => void;
 export default _default;

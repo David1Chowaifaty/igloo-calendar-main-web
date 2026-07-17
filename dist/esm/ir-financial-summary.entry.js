@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-Nexq2OjX.js';
+import { r as registerInstance, h, H as Host } from './index-JbQjGrUG.js';
 
 const irFinancialSummaryCss = () => `.sc-ir-financial-summary-h{display:block}`;
 

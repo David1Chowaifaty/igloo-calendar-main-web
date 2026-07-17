@@ -13,6 +13,7 @@ export class BookingListingService {
         booking_listing.types = result.types;
         booking_listing.balance_filter = result.balance_filter;
         initializeUserSelection();
+        return result;
     }
     async getExposedBookings(params, options) {
         const { property_id, userTypeCode, channel, property_ids, ...rest } = params;

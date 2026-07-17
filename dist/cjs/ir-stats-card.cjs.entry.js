@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-Du1V06mp.js');
+var index = require('./index-Bg4VKYKR.js');
 
 const irStatsCardCss = () => `.sc-ir-stats-card-h{display:block}`;
 

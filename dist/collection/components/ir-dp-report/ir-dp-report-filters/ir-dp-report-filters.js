@@ -3,6 +3,11 @@ import moment from "moment";
 import dp_report, { updateDpReportFilters } from "../../../stores/dp_report.store";
 export class IrDpReportFilters {
     /**
+     * Earliest selectable date. Set by the parent once it discovers that the property's
+     * data does not go back the full default lookback window.
+     */
+    minDate;
+    /**
      * Emitted only when the user clicks Search. The shared store (updated as soon as the
      * dates change) keeps every filter instance (chart tab + table tab) visually in sync
      * regardless of whether a search has been triggered yet.
@@ -32,7 +37,7 @@ export class IrDpReportFilters {
         this.dpFiltersChange.emit({ from: dp_report.filters.from, to: dp_report.filters.to });
     };
     render() {
-        return (h("div", { key: '9898e3dfa3c10b055995d892d41fa835462aa581', class: "dp-report-filters" }, h("ir-date-range-filter", { key: '09cbe401d489a1ad6a09c889f86cb7df6f28970b', class: "dp-report-filters__date-picker", fromDate: dp_report.filters.from, toDate: dp_report.filters.to, maxDate: moment().format('YYYY-MM-DD'), showQuickActions: true, quickDates: this.quickDates, quickDatesMode: "range", withClear: false, selectionMode: "auto", onDatesChanged: this.handleDatesChanged }), h("wa-tooltip", { key: 'a2aaf69fc3cb5ca9b538383c5aa7676e7605d13c', for: "search-btn" }, "Search"), h("ir-custom-button", { key: 'd74a7dfb2a29cbb4731f1046f456ee4333f219c4', id: "search-btn", loading: dp_report.isLoading, disabled: dp_report.isLoading, onClickHandler: this.handleSearch, variant: "neutral", appearance: "outlined" }, h("wa-icon", { key: 'db2fc37313d15c0d6f4abe4044c89a30a01b3c81', name: "magnifying-glass" }))));
+        return (h("div", { key: '9402fdb2ed3ff496ad1ac3e759cd4a9c2de12978', class: "dp-report-filters" }, h("ir-date-range-filter", { key: '3a1ea24739aef75e68ec426565ad183399a79da6', class: "dp-report-filters__date-picker", fromDate: dp_report.filters.from, toDate: dp_report.filters.to, minDate: this.minDate, maxDate: moment().format('YYYY-MM-DD'), showQuickActions: true, quickDates: this.quickDates, quickDatesMode: "range", withClear: false, selectionMode: "auto", onDatesChanged: this.handleDatesChanged }), h("wa-tooltip", { key: 'aca5c6339a3edc27eacf7ce6354e553d60b9fdfd', for: "search-btn" }, "Search"), h("ir-custom-button", { key: '48181f8eed408ae980d1b0b0848235810a794d79', id: "search-btn", loading: dp_report.isLoading, disabled: dp_report.isLoading, onClickHandler: this.handleSearch, variant: "neutral", appearance: "outlined" }, h("wa-icon", { key: '8da6ad75c580b9991be07635ed48f0b8555e3cd4', name: "magnifying-glass" }))));
     }
     static get is() { return "ir-dp-report-filters"; }
     static get encapsulation() { return "scoped"; }
@@ -44,6 +49,29 @@ export class IrDpReportFilters {
     static get styleUrls() {
         return {
             "$": ["ir-dp-report-filters.css"]
+        };
+    }
+    static get properties() {
+        return {
+            "minDate": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Earliest selectable date. Set by the parent once it discovers that the property's\ndata does not go back the full default lookback window."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "min-date"
+            }
         };
     }
     static get events() {

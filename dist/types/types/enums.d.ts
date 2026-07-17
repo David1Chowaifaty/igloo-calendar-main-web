@@ -30,6 +30,7 @@ export declare const FdTypes: {
     readonly Receipt: "REC";
     readonly Proforma: "PRF";
     readonly CreditReceipt: "CREC";
+    readonly Refund: "RFND";
 };
 export declare const PayStatus: {
     Normal: string;

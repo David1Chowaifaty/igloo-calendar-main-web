@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import { Booking } from "../../models/booking.dto";
+import { BookingInvoiceInfo } from "../../components/ir-invoice/types";
 export type FetchedProperty = {
     A_NAME: string;
     COUNTRY_CODE: string;
@@ -334,8 +336,8 @@ export declare const SetPropertyGapConfigParamsSchema: z.ZodObject<{
 export type SetPropertyGapConfigParams = z.infer<typeof SetPropertyGapConfigParamsSchema>;
 export declare const GetUnifiedFolioParamsSchema: z.ZodObject<{
     property_id: z.ZodNumber;
-    from_date: z.ZodNullable<z.ZodString>;
-    to_date: z.ZodNullable<z.ZodString>;
+    from_date: z.ZodNullable<z.ZodEffects<z.ZodString, string, string>>;
+    to_date: z.ZodNullable<z.ZodEffects<z.ZodString, string, string>>;
     target_type: z.ZodNullable<z.ZodString>;
     doc_type: z.ZodNullable<z.ZodString>;
     fd_type_code: z.ZodNullable<z.ZodString>;
@@ -533,3 +535,39 @@ export declare const PrintGuestFolioDocParamsSchema: z.ZodObject<{
     extras?: string;
 }>;
 export type PrintGuestFolioDocParams = z.infer<typeof PrintGuestFolioDocParamsSchema>;
+export declare const GetExposedBookingsByInvoicedStatusParamsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    booking_nbr: z.ZodString;
+    from_date: z.ZodEffects<z.ZodString, string, string>;
+    to_date: z.ZodEffects<z.ZodString, string, string>;
+    source: z.ZodOptional<z.ZodString>;
+    is_totally_invoiced: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
+    start_row: z.ZodDefault<z.ZodNumber>;
+    end_row: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    property_id?: number;
+    booking_nbr?: string;
+    from_date?: string;
+    to_date?: string;
+    source?: string;
+    is_totally_invoiced?: boolean;
+    start_row?: number;
+    end_row?: number;
+}, {
+    property_id?: number;
+    booking_nbr?: string;
+    from_date?: string;
+    to_date?: string;
+    source?: string;
+    is_totally_invoiced?: boolean;
+    start_row?: number;
+    end_row?: number;
+}>;
+export type GetExposedBookingsByInvoicedStatusParams = z.infer<typeof GetExposedBookingsByInvoicedStatusParamsSchema>;
+export type ExposedBookingByInvoicedStatus = Booking & {
+    invoice_info: BookingInvoiceInfo;
+};
+export type GetExposedBookingsByInvoicedStatusResult = {
+    bookings: ExposedBookingByInvoicedStatus[];
+    total_count: number;
+};

@@ -989,6 +989,11 @@ export namespace Components {
          */
         "max": NativeWaInput['max'];
         /**
+          * In `multiple` mode, the maximum number of selected-option tags shown inside the input. Any further selections collapse into a single "+N" overflow tag. Set to `0` to always show every tag.
+          * @default 3
+         */
+        "maxTagsVisible": number;
+        /**
           * The maximum length of input that will be considered valid.
          */
         "maxlength": NativeWaInput['maxlength'];
@@ -1071,7 +1076,7 @@ export namespace Components {
          */
         "type": NativeWaInput['type'];
         /**
-          * The value of the input.
+          * The value of the input. Not reflected to the host attribute — reflection would rewrite the DOM on every keystroke.
           * @default ''
          */
         "value": string;
@@ -3117,6 +3122,10 @@ export namespace Components {
     interface IrDpReportChart {
     }
     interface IrDpReportFilters {
+        /**
+          * Earliest selectable date. Set by the parent once it discovers that the property's data does not go back the full default lookback window.
+         */
+        "minDate"?: string;
     }
     interface IrDpReportSummary {
     }
@@ -3258,6 +3267,94 @@ export namespace Components {
           * @default false
          */
         "open": boolean;
+    }
+    /**
+     * `ir-file-upload` — a form-associated file picker with a click/drag-and-drop
+     * dropzone, modeled after Web Awesome's `wa-file-input` (a Pro component that
+     * is not part of the bundled free package).
+     * Selected files are listed under the dropzone with an image thumbnail (for
+     * image files) or a type icon, the file name, its formatted size and a remove
+     * button. In `multiple` mode new picks/drops are appended (duplicates by
+     * name+size+mtime are skipped); otherwise a new pick replaces the current file.
+     * Form integration: the component is form-associated — when `name` is set the
+     * files are submitted as multipart entries under that name, `required` hooks
+     * into constraint validation (`valueMissing` while no file is selected), and a
+     * form reset clears the selection.
+     * `files` is a mutable prop: reassign it (never mutate it in place) to control
+     * the selection from outside. Every user-driven change emits `filesChange`
+     * with the full current list.
+     */
+    interface IrFileUpload {
+        /**
+          * Accepted file types, same syntax as the native `accept` attribute (e.g. `".pdf,image/*"`). Empty = accept everything.
+          * @default ''
+         */
+        "accept": string;
+        /**
+          * Camera/microphone to use for capturing media on mobile devices.
+         */
+        "capture"?: 'user' | 'environment';
+        /**
+          * Disables the dropzone, the file dialog and drops. Reflected for CSS hooks.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * True while files are dragged over the dropzone. Reflected so consumers can style `ir-file-upload[dragging]`.
+          * @default false
+         */
+        "dragging": boolean;
+        /**
+          * The selected files. Reassign (don't mutate) to control the selection from outside.
+          * @default []
+         */
+        "files": File[];
+        /**
+          * The file input's hint. If you need to display HTML, use the `hint` slot instead.
+          * @default ''
+         */
+        "hint": string;
+        /**
+          * The file input's label. If you need to display HTML, use the `label` slot instead.
+          * @default ''
+         */
+        "label": string;
+        /**
+          * Allows more than one file. New picks/drops are appended; without it a new pick replaces the current file.
+          * @default false
+         */
+        "multiple": boolean;
+        /**
+          * The name of the file input, submitted with the owning form as multipart entries.
+          * @default null
+         */
+        "name": string | null;
+        /**
+          * Makes a file selection required for the owning form to submit.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Clears a message set with `setCustomValidity`.
+         */
+        "resetValidity": () => Promise<void>;
+        /**
+          * Removes focus from the file input.
+         */
+        "setBlur": () => Promise<void>;
+        /**
+          * Applies a custom validation message. Pass an empty string to restore the default validity checks.
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
+          * Sets focus on the file input.
+         */
+        "setFocus": (options?: FocusOptions) => Promise<void>;
+        /**
+          * The file input's visual size. Reflected for CSS hooks (`ir-file-upload[size='...']`).
+          * @default 'm'
+         */
+        "size": 'xs' | 's' | 'm' | 'l' | 'xl';
     }
     interface IrFilterCard {
     }
@@ -3839,6 +3936,10 @@ export namespace Components {
           * By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
          */
         "form": NativeWaInput1['form'];
+        /**
+          * Returns the native `<input>` element nested inside `wa-input`. Needed by composite controls (e.g. `ir-autocomplete`) to wire ARIA combobox attributes and element reflection onto the real input.
+         */
+        "getNativeInput": () => Promise<HTMLInputElement | undefined>;
         /**
           * The input's hint. If you need to display HTML, use the `hint` slot instead.
          */
@@ -6382,6 +6483,19 @@ export namespace Components {
          */
         "unbookableRooms": FetchUnBookableRoomsResult;
     }
+    interface IrUninvoicedBookings {
+        "baseUrl": string;
+        /**
+          * @default ''
+         */
+        "language": string;
+        "p": string;
+        "propertyid": number;
+        /**
+          * @default ''
+         */
+        "ticket": string;
+    }
     interface IrUnitCell {
         "room": Room;
         /**
@@ -6393,6 +6507,12 @@ export namespace Components {
     }
     interface IrUnitTag {
         "unit": string;
+    }
+    interface IrUnvoicedBookingsFilters {
+    }
+    interface IrUnvoicedBookingsSummary {
+    }
+    interface IrUnvoicedBookingsTable {
     }
     interface IrUserFormPanel {
         /**
@@ -7057,6 +7177,10 @@ export interface IrFdConfirmDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrFdConfirmDialogElement;
 }
+export interface IrFileUploadCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrFileUploadElement;
+}
 export interface IrFiltersPanelCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrFiltersPanelElement;
@@ -7456,6 +7580,14 @@ export interface IrUnbookableRoomsFiltersCustomEvent<T> extends CustomEvent<T> {
 export interface IrUnitStatusCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrUnitStatusElement;
+}
+export interface IrUnvoicedBookingsFiltersCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrUnvoicedBookingsFiltersElement;
+}
+export interface IrUnvoicedBookingsTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrUnvoicedBookingsTableElement;
 }
 export interface IrUserFormPanelCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -10075,6 +10207,39 @@ declare global {
         prototype: HTMLIrFdConfirmDialogElement;
         new (): HTMLIrFdConfirmDialogElement;
     };
+    interface HTMLIrFileUploadElementEventMap {
+        "filesChange": File[];
+    }
+    /**
+     * `ir-file-upload` — a form-associated file picker with a click/drag-and-drop
+     * dropzone, modeled after Web Awesome's `wa-file-input` (a Pro component that
+     * is not part of the bundled free package).
+     * Selected files are listed under the dropzone with an image thumbnail (for
+     * image files) or a type icon, the file name, its formatted size and a remove
+     * button. In `multiple` mode new picks/drops are appended (duplicates by
+     * name+size+mtime are skipped); otherwise a new pick replaces the current file.
+     * Form integration: the component is form-associated — when `name` is set the
+     * files are submitted as multipart entries under that name, `required` hooks
+     * into constraint validation (`valueMissing` while no file is selected), and a
+     * form reset clears the selection.
+     * `files` is a mutable prop: reassign it (never mutate it in place) to control
+     * the selection from outside. Every user-driven change emits `filesChange`
+     * with the full current list.
+     */
+    interface HTMLIrFileUploadElement extends Components.IrFileUpload, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrFileUploadElementEventMap>(type: K, listener: (this: HTMLIrFileUploadElement, ev: IrFileUploadCustomEvent<HTMLIrFileUploadElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrFileUploadElementEventMap>(type: K, listener: (this: HTMLIrFileUploadElement, ev: IrFileUploadCustomEvent<HTMLIrFileUploadElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrFileUploadElement: {
+        prototype: HTMLIrFileUploadElement;
+        new (): HTMLIrFileUploadElement;
+    };
     interface HTMLIrFilterCardElement extends Components.IrFilterCard, HTMLStencilElement {
     }
     var HTMLIrFilterCardElement: {
@@ -12349,6 +12514,12 @@ declare global {
         prototype: HTMLIrUnbookableRoomsFiltersElement;
         new (): HTMLIrUnbookableRoomsFiltersElement;
     };
+    interface HTMLIrUninvoicedBookingsElement extends Components.IrUninvoicedBookings, HTMLStencilElement {
+    }
+    var HTMLIrUninvoicedBookingsElement: {
+        prototype: HTMLIrUninvoicedBookingsElement;
+        new (): HTMLIrUninvoicedBookingsElement;
+    };
     interface HTMLIrUnitCellElement extends Components.IrUnitCell, HTMLStencilElement {
     }
     var HTMLIrUnitCellElement: {
@@ -12377,6 +12548,46 @@ declare global {
     var HTMLIrUnitTagElement: {
         prototype: HTMLIrUnitTagElement;
         new (): HTMLIrUnitTagElement;
+    };
+    interface HTMLIrUnvoicedBookingsFiltersElementEventMap {
+        "uninvoicedBookingsFiltersChange": { from: string; to: string; source: string };
+    }
+    interface HTMLIrUnvoicedBookingsFiltersElement extends Components.IrUnvoicedBookingsFilters, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrUnvoicedBookingsFiltersElementEventMap>(type: K, listener: (this: HTMLIrUnvoicedBookingsFiltersElement, ev: IrUnvoicedBookingsFiltersCustomEvent<HTMLIrUnvoicedBookingsFiltersElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrUnvoicedBookingsFiltersElementEventMap>(type: K, listener: (this: HTMLIrUnvoicedBookingsFiltersElement, ev: IrUnvoicedBookingsFiltersCustomEvent<HTMLIrUnvoicedBookingsFiltersElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrUnvoicedBookingsFiltersElement: {
+        prototype: HTMLIrUnvoicedBookingsFiltersElement;
+        new (): HTMLIrUnvoicedBookingsFiltersElement;
+    };
+    interface HTMLIrUnvoicedBookingsSummaryElement extends Components.IrUnvoicedBookingsSummary, HTMLStencilElement {
+    }
+    var HTMLIrUnvoicedBookingsSummaryElement: {
+        prototype: HTMLIrUnvoicedBookingsSummaryElement;
+        new (): HTMLIrUnvoicedBookingsSummaryElement;
+    };
+    interface HTMLIrUnvoicedBookingsTableElementEventMap {
+        "uninvoicedBookingsPageChange": void;
+    }
+    interface HTMLIrUnvoicedBookingsTableElement extends Components.IrUnvoicedBookingsTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrUnvoicedBookingsTableElementEventMap>(type: K, listener: (this: HTMLIrUnvoicedBookingsTableElement, ev: IrUnvoicedBookingsTableCustomEvent<HTMLIrUnvoicedBookingsTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrUnvoicedBookingsTableElementEventMap>(type: K, listener: (this: HTMLIrUnvoicedBookingsTableElement, ev: IrUnvoicedBookingsTableCustomEvent<HTMLIrUnvoicedBookingsTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrUnvoicedBookingsTableElement: {
+        prototype: HTMLIrUnvoicedBookingsTableElement;
+        new (): HTMLIrUnvoicedBookingsTableElement;
     };
     interface HTMLIrUserFormPanelElementEventMap {
         "resetData": null;
@@ -12674,6 +12885,7 @@ declare global {
         "ir-extra-service-config-form": HTMLIrExtraServiceConfigFormElement;
         "ir-extra-services": HTMLIrExtraServicesElement;
         "ir-fd-confirm-dialog": HTMLIrFdConfirmDialogElement;
+        "ir-file-upload": HTMLIrFileUploadElement;
         "ir-filter-card": HTMLIrFilterCardElement;
         "ir-filters-panel": HTMLIrFiltersPanelElement;
         "ir-financial-actions": HTMLIrFinancialActionsElement;
@@ -12844,9 +13056,13 @@ declare global {
         "ir-unbookable-rooms": HTMLIrUnbookableRoomsElement;
         "ir-unbookable-rooms-data": HTMLIrUnbookableRoomsDataElement;
         "ir-unbookable-rooms-filters": HTMLIrUnbookableRoomsFiltersElement;
+        "ir-uninvoiced-bookings": HTMLIrUninvoicedBookingsElement;
         "ir-unit-cell": HTMLIrUnitCellElement;
         "ir-unit-status": HTMLIrUnitStatusElement;
         "ir-unit-tag": HTMLIrUnitTagElement;
+        "ir-unvoiced-bookings-filters": HTMLIrUnvoicedBookingsFiltersElement;
+        "ir-unvoiced-bookings-summary": HTMLIrUnvoicedBookingsSummaryElement;
+        "ir-unvoiced-bookings-table": HTMLIrUnvoicedBookingsTableElement;
         "ir-user-form-panel": HTMLIrUserFormPanelElement;
         "ir-user-form-panel-drawer": HTMLIrUserFormPanelDrawerElement;
         "ir-user-management": HTMLIrUserManagementElement;
@@ -13760,6 +13976,11 @@ declare namespace LocalJSX {
          */
         "max"?: NativeWaInput['max'];
         /**
+          * In `multiple` mode, the maximum number of selected-option tags shown inside the input. Any further selections collapse into a single "+N" overflow tag. Set to `0` to always show every tag.
+          * @default 3
+         */
+        "maxTagsVisible"?: number;
+        /**
           * The maximum length of input that will be considered valid.
          */
         "maxlength"?: NativeWaInput['maxlength'];
@@ -13843,7 +14064,7 @@ declare namespace LocalJSX {
          */
         "type"?: NativeWaInput['type'];
         /**
-          * The value of the input.
+          * The value of the input. Not reflected to the host attribute — reflection would rewrite the DOM on every keystroke.
           * @default ''
          */
         "value"?: string;
@@ -16052,6 +16273,10 @@ declare namespace LocalJSX {
     }
     interface IrDpReportFilters {
         /**
+          * Earliest selectable date. Set by the parent once it discovers that the property's data does not go back the full default lookback window.
+         */
+        "minDate"?: string;
+        /**
           * Emitted only when the user clicks Search. The shared store (updated as soon as the dates change) keeps every filter instance (chart tab + table tab) visually in sync regardless of whether a search has been triggered yet.
          */
         "onDpFiltersChange"?: (event: IrDpReportFiltersCustomEvent<{ from: string; to: string }>) => void;
@@ -16228,6 +16453,86 @@ declare namespace LocalJSX {
           * @default false
          */
         "open"?: boolean;
+    }
+    /**
+     * `ir-file-upload` — a form-associated file picker with a click/drag-and-drop
+     * dropzone, modeled after Web Awesome's `wa-file-input` (a Pro component that
+     * is not part of the bundled free package).
+     * Selected files are listed under the dropzone with an image thumbnail (for
+     * image files) or a type icon, the file name, its formatted size and a remove
+     * button. In `multiple` mode new picks/drops are appended (duplicates by
+     * name+size+mtime are skipped); otherwise a new pick replaces the current file.
+     * Form integration: the component is form-associated — when `name` is set the
+     * files are submitted as multipart entries under that name, `required` hooks
+     * into constraint validation (`valueMissing` while no file is selected), and a
+     * form reset clears the selection.
+     * `files` is a mutable prop: reassign it (never mutate it in place) to control
+     * the selection from outside. Every user-driven change emits `filesChange`
+     * with the full current list.
+     */
+    interface IrFileUpload {
+        /**
+          * Accepted file types, same syntax as the native `accept` attribute (e.g. `".pdf,image/*"`). Empty = accept everything.
+          * @default ''
+         */
+        "accept"?: string;
+        /**
+          * Camera/microphone to use for capturing media on mobile devices.
+         */
+        "capture"?: 'user' | 'environment';
+        /**
+          * Disables the dropzone, the file dialog and drops. Reflected for CSS hooks.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * True while files are dragged over the dropzone. Reflected so consumers can style `ir-file-upload[dragging]`.
+          * @default false
+         */
+        "dragging"?: boolean;
+        /**
+          * The selected files. Reassign (don't mutate) to control the selection from outside.
+          * @default []
+         */
+        "files"?: File[];
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
+        /**
+          * The file input's hint. If you need to display HTML, use the `hint` slot instead.
+          * @default ''
+         */
+        "hint"?: string;
+        /**
+          * The file input's label. If you need to display HTML, use the `label` slot instead.
+          * @default ''
+         */
+        "label"?: string;
+        /**
+          * Allows more than one file. New picks/drops are appended; without it a new pick replaces the current file.
+          * @default false
+         */
+        "multiple"?: boolean;
+        /**
+          * The name of the file input, submitted with the owning form as multipart entries.
+          * @default null
+         */
+        "name"?: string | null;
+        /**
+          * Fired with the full file list after every user-driven add or remove.
+         */
+        "onFilesChange"?: (event: IrFileUploadCustomEvent<File[]>) => void;
+        /**
+          * Makes a file selection required for the owning form to submit.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * The file input's visual size. Reflected for CSS hooks (`ir-file-upload[size='...']`).
+          * @default 'm'
+         */
+        "size"?: 'xs' | 's' | 'm' | 'l' | 'xl';
     }
     interface IrFilterCard {
     }
@@ -19643,6 +19948,19 @@ declare namespace LocalJSX {
          */
         "unbookableRooms"?: FetchUnBookableRoomsResult;
     }
+    interface IrUninvoicedBookings {
+        "baseUrl"?: string;
+        /**
+          * @default ''
+         */
+        "language"?: string;
+        "p"?: string;
+        "propertyid"?: number;
+        /**
+          * @default ''
+         */
+        "ticket"?: string;
+    }
     interface IrUnitCell {
         "room"?: Room;
         /**
@@ -19655,6 +19973,14 @@ declare namespace LocalJSX {
     }
     interface IrUnitTag {
         "unit"?: string;
+    }
+    interface IrUnvoicedBookingsFilters {
+        "onUninvoicedBookingsFiltersChange"?: (event: IrUnvoicedBookingsFiltersCustomEvent<{ from: string; to: string; source: string }>) => void;
+    }
+    interface IrUnvoicedBookingsSummary {
+    }
+    interface IrUnvoicedBookingsTable {
+        "onUninvoicedBookingsPageChange"?: (event: IrUnvoicedBookingsTableCustomEvent<void>) => void;
     }
     interface IrUserFormPanel {
         /**
@@ -20159,6 +20485,7 @@ declare namespace LocalJSX {
         "disabled": boolean;
         "withExpandIcon": boolean;
         "inputClass": string;
+        "maxTagsVisible": number;
     }
     interface IrAutocompleteOptionAttributes {
         "value": string;
@@ -20759,6 +21086,9 @@ declare namespace LocalJSX {
         "baseUrl": string;
         "userType": number;
     }
+    interface IrDpReportFiltersAttributes {
+        "minDate": string;
+    }
     interface IrDrawerAttributes {
         "open": NativeDrawer['open'];
         "label": NativeDrawer['label'];
@@ -20806,6 +21136,18 @@ declare namespace LocalJSX {
         "isConfirming": boolean;
         "amount": number;
         "fdType": string;
+    }
+    interface IrFileUploadAttributes {
+        "label": string;
+        "hint": string;
+        "accept": string;
+        "capture": 'user' | 'environment';
+        "disabled": boolean;
+        "multiple": boolean;
+        "name": string | null;
+        "required": boolean;
+        "size": 'xs' | 's' | 'm' | 'l' | 'xl';
+        "dragging": boolean;
     }
     interface IrFiltersPanelAttributes {
         "filterTitle": string;
@@ -21724,6 +22066,13 @@ declare namespace LocalJSX {
         "mode": UnbookableRoomsMode;
         "isLoading": boolean;
     }
+    interface IrUninvoicedBookingsAttributes {
+        "language": string;
+        "ticket": string;
+        "propertyid": number;
+        "p": string;
+        "baseUrl": string;
+    }
     interface IrUnitCellAttributes {
         "showDeparture": boolean;
     }
@@ -21948,7 +22297,7 @@ declare namespace LocalJSX {
         "ir-dialog": Omit<IrDialog, keyof IrDialogAttributes> & { [K in keyof IrDialog & keyof IrDialogAttributes]?: IrDialog[K] } & { [K in keyof IrDialog & keyof IrDialogAttributes as `attr:${K}`]?: IrDialogAttributes[K] } & { [K in keyof IrDialog & keyof IrDialogAttributes as `prop:${K}`]?: IrDialog[K] };
         "ir-dp-report": Omit<IrDpReport, keyof IrDpReportAttributes> & { [K in keyof IrDpReport & keyof IrDpReportAttributes]?: IrDpReport[K] } & { [K in keyof IrDpReport & keyof IrDpReportAttributes as `attr:${K}`]?: IrDpReportAttributes[K] } & { [K in keyof IrDpReport & keyof IrDpReportAttributes as `prop:${K}`]?: IrDpReport[K] };
         "ir-dp-report-chart": IrDpReportChart;
-        "ir-dp-report-filters": IrDpReportFilters;
+        "ir-dp-report-filters": Omit<IrDpReportFilters, keyof IrDpReportFiltersAttributes> & { [K in keyof IrDpReportFilters & keyof IrDpReportFiltersAttributes]?: IrDpReportFilters[K] } & { [K in keyof IrDpReportFilters & keyof IrDpReportFiltersAttributes as `attr:${K}`]?: IrDpReportFiltersAttributes[K] } & { [K in keyof IrDpReportFilters & keyof IrDpReportFiltersAttributes as `prop:${K}`]?: IrDpReportFilters[K] };
         "ir-dp-report-summary": IrDpReportSummary;
         "ir-dp-report-table": IrDpReportTable;
         "ir-drawer": Omit<IrDrawer, keyof IrDrawerAttributes> & { [K in keyof IrDrawer & keyof IrDrawerAttributes]?: IrDrawer[K] } & { [K in keyof IrDrawer & keyof IrDrawerAttributes as `attr:${K}`]?: IrDrawerAttributes[K] } & { [K in keyof IrDrawer & keyof IrDrawerAttributes as `prop:${K}`]?: IrDrawer[K] };
@@ -21961,6 +22310,7 @@ declare namespace LocalJSX {
         "ir-extra-service-config-form": Omit<IrExtraServiceConfigForm, keyof IrExtraServiceConfigFormAttributes> & { [K in keyof IrExtraServiceConfigForm & keyof IrExtraServiceConfigFormAttributes]?: IrExtraServiceConfigForm[K] } & { [K in keyof IrExtraServiceConfigForm & keyof IrExtraServiceConfigFormAttributes as `attr:${K}`]?: IrExtraServiceConfigFormAttributes[K] } & { [K in keyof IrExtraServiceConfigForm & keyof IrExtraServiceConfigFormAttributes as `prop:${K}`]?: IrExtraServiceConfigForm[K] };
         "ir-extra-services": Omit<IrExtraServices, keyof IrExtraServicesAttributes> & { [K in keyof IrExtraServices & keyof IrExtraServicesAttributes]?: IrExtraServices[K] } & { [K in keyof IrExtraServices & keyof IrExtraServicesAttributes as `attr:${K}`]?: IrExtraServicesAttributes[K] } & { [K in keyof IrExtraServices & keyof IrExtraServicesAttributes as `prop:${K}`]?: IrExtraServices[K] };
         "ir-fd-confirm-dialog": Omit<IrFdConfirmDialog, keyof IrFdConfirmDialogAttributes> & { [K in keyof IrFdConfirmDialog & keyof IrFdConfirmDialogAttributes]?: IrFdConfirmDialog[K] } & { [K in keyof IrFdConfirmDialog & keyof IrFdConfirmDialogAttributes as `attr:${K}`]?: IrFdConfirmDialogAttributes[K] } & { [K in keyof IrFdConfirmDialog & keyof IrFdConfirmDialogAttributes as `prop:${K}`]?: IrFdConfirmDialog[K] };
+        "ir-file-upload": Omit<IrFileUpload, keyof IrFileUploadAttributes> & { [K in keyof IrFileUpload & keyof IrFileUploadAttributes]?: IrFileUpload[K] } & { [K in keyof IrFileUpload & keyof IrFileUploadAttributes as `attr:${K}`]?: IrFileUploadAttributes[K] } & { [K in keyof IrFileUpload & keyof IrFileUploadAttributes as `prop:${K}`]?: IrFileUpload[K] };
         "ir-filter-card": IrFilterCard;
         "ir-filters-panel": Omit<IrFiltersPanel, keyof IrFiltersPanelAttributes> & { [K in keyof IrFiltersPanel & keyof IrFiltersPanelAttributes]?: IrFiltersPanel[K] } & { [K in keyof IrFiltersPanel & keyof IrFiltersPanelAttributes as `attr:${K}`]?: IrFiltersPanelAttributes[K] } & { [K in keyof IrFiltersPanel & keyof IrFiltersPanelAttributes as `prop:${K}`]?: IrFiltersPanel[K] };
         "ir-financial-actions": Omit<IrFinancialActions, keyof IrFinancialActionsAttributes> & { [K in keyof IrFinancialActions & keyof IrFinancialActionsAttributes]?: IrFinancialActions[K] } & { [K in keyof IrFinancialActions & keyof IrFinancialActionsAttributes as `attr:${K}`]?: IrFinancialActionsAttributes[K] } & { [K in keyof IrFinancialActions & keyof IrFinancialActionsAttributes as `prop:${K}`]?: IrFinancialActions[K] };
@@ -22131,9 +22481,13 @@ declare namespace LocalJSX {
         "ir-unbookable-rooms": Omit<IrUnbookableRooms, keyof IrUnbookableRoomsAttributes> & { [K in keyof IrUnbookableRooms & keyof IrUnbookableRoomsAttributes]?: IrUnbookableRooms[K] } & { [K in keyof IrUnbookableRooms & keyof IrUnbookableRoomsAttributes as `attr:${K}`]?: IrUnbookableRoomsAttributes[K] } & { [K in keyof IrUnbookableRooms & keyof IrUnbookableRoomsAttributes as `prop:${K}`]?: IrUnbookableRooms[K] };
         "ir-unbookable-rooms-data": Omit<IrUnbookableRoomsData, keyof IrUnbookableRoomsDataAttributes> & { [K in keyof IrUnbookableRoomsData & keyof IrUnbookableRoomsDataAttributes]?: IrUnbookableRoomsData[K] } & { [K in keyof IrUnbookableRoomsData & keyof IrUnbookableRoomsDataAttributes as `attr:${K}`]?: IrUnbookableRoomsDataAttributes[K] } & { [K in keyof IrUnbookableRoomsData & keyof IrUnbookableRoomsDataAttributes as `prop:${K}`]?: IrUnbookableRoomsData[K] };
         "ir-unbookable-rooms-filters": Omit<IrUnbookableRoomsFilters, keyof IrUnbookableRoomsFiltersAttributes> & { [K in keyof IrUnbookableRoomsFilters & keyof IrUnbookableRoomsFiltersAttributes]?: IrUnbookableRoomsFilters[K] } & { [K in keyof IrUnbookableRoomsFilters & keyof IrUnbookableRoomsFiltersAttributes as `attr:${K}`]?: IrUnbookableRoomsFiltersAttributes[K] } & { [K in keyof IrUnbookableRoomsFilters & keyof IrUnbookableRoomsFiltersAttributes as `prop:${K}`]?: IrUnbookableRoomsFilters[K] };
+        "ir-uninvoiced-bookings": Omit<IrUninvoicedBookings, keyof IrUninvoicedBookingsAttributes> & { [K in keyof IrUninvoicedBookings & keyof IrUninvoicedBookingsAttributes]?: IrUninvoicedBookings[K] } & { [K in keyof IrUninvoicedBookings & keyof IrUninvoicedBookingsAttributes as `attr:${K}`]?: IrUninvoicedBookingsAttributes[K] } & { [K in keyof IrUninvoicedBookings & keyof IrUninvoicedBookingsAttributes as `prop:${K}`]?: IrUninvoicedBookings[K] };
         "ir-unit-cell": Omit<IrUnitCell, keyof IrUnitCellAttributes> & { [K in keyof IrUnitCell & keyof IrUnitCellAttributes]?: IrUnitCell[K] } & { [K in keyof IrUnitCell & keyof IrUnitCellAttributes as `attr:${K}`]?: IrUnitCellAttributes[K] } & { [K in keyof IrUnitCell & keyof IrUnitCellAttributes as `prop:${K}`]?: IrUnitCell[K] };
         "ir-unit-status": IrUnitStatus;
         "ir-unit-tag": Omit<IrUnitTag, keyof IrUnitTagAttributes> & { [K in keyof IrUnitTag & keyof IrUnitTagAttributes]?: IrUnitTag[K] } & { [K in keyof IrUnitTag & keyof IrUnitTagAttributes as `attr:${K}`]?: IrUnitTagAttributes[K] } & { [K in keyof IrUnitTag & keyof IrUnitTagAttributes as `prop:${K}`]?: IrUnitTag[K] };
+        "ir-unvoiced-bookings-filters": IrUnvoicedBookingsFilters;
+        "ir-unvoiced-bookings-summary": IrUnvoicedBookingsSummary;
+        "ir-unvoiced-bookings-table": IrUnvoicedBookingsTable;
         "ir-user-form-panel": Omit<IrUserFormPanel, keyof IrUserFormPanelAttributes> & { [K in keyof IrUserFormPanel & keyof IrUserFormPanelAttributes]?: IrUserFormPanel[K] } & { [K in keyof IrUserFormPanel & keyof IrUserFormPanelAttributes as `attr:${K}`]?: IrUserFormPanelAttributes[K] } & { [K in keyof IrUserFormPanel & keyof IrUserFormPanelAttributes as `prop:${K}`]?: IrUserFormPanel[K] };
         "ir-user-form-panel-drawer": Omit<IrUserFormPanelDrawer, keyof IrUserFormPanelDrawerAttributes> & { [K in keyof IrUserFormPanelDrawer & keyof IrUserFormPanelDrawerAttributes]?: IrUserFormPanelDrawer[K] } & { [K in keyof IrUserFormPanelDrawer & keyof IrUserFormPanelDrawerAttributes as `attr:${K}`]?: IrUserFormPanelDrawerAttributes[K] } & { [K in keyof IrUserFormPanelDrawer & keyof IrUserFormPanelDrawerAttributes as `prop:${K}`]?: IrUserFormPanelDrawer[K] };
         "ir-user-management": Omit<IrUserManagement, keyof IrUserManagementAttributes> & { [K in keyof IrUserManagement & keyof IrUserManagementAttributes]?: IrUserManagement[K] } & { [K in keyof IrUserManagement & keyof IrUserManagementAttributes as `attr:${K}`]?: IrUserManagementAttributes[K] } & { [K in keyof IrUserManagement & keyof IrUserManagementAttributes as `prop:${K}`]?: IrUserManagement[K] };
@@ -22389,6 +22743,23 @@ declare module "@stencil/core" {
             "ir-extra-service-config-form": LocalJSX.IntrinsicElements["ir-extra-service-config-form"] & JSXBase.HTMLAttributes<HTMLIrExtraServiceConfigFormElement>;
             "ir-extra-services": LocalJSX.IntrinsicElements["ir-extra-services"] & JSXBase.HTMLAttributes<HTMLIrExtraServicesElement>;
             "ir-fd-confirm-dialog": LocalJSX.IntrinsicElements["ir-fd-confirm-dialog"] & JSXBase.HTMLAttributes<HTMLIrFdConfirmDialogElement>;
+            /**
+             * `ir-file-upload` — a form-associated file picker with a click/drag-and-drop
+             * dropzone, modeled after Web Awesome's `wa-file-input` (a Pro component that
+             * is not part of the bundled free package).
+             * Selected files are listed under the dropzone with an image thumbnail (for
+             * image files) or a type icon, the file name, its formatted size and a remove
+             * button. In `multiple` mode new picks/drops are appended (duplicates by
+             * name+size+mtime are skipped); otherwise a new pick replaces the current file.
+             * Form integration: the component is form-associated — when `name` is set the
+             * files are submitted as multipart entries under that name, `required` hooks
+             * into constraint validation (`valueMissing` while no file is selected), and a
+             * form reset clears the selection.
+             * `files` is a mutable prop: reassign it (never mutate it in place) to control
+             * the selection from outside. Every user-driven change emits `filesChange`
+             * with the full current list.
+             */
+            "ir-file-upload": LocalJSX.IntrinsicElements["ir-file-upload"] & JSXBase.HTMLAttributes<HTMLIrFileUploadElement>;
             "ir-filter-card": LocalJSX.IntrinsicElements["ir-filter-card"] & JSXBase.HTMLAttributes<HTMLIrFilterCardElement>;
             "ir-filters-panel": LocalJSX.IntrinsicElements["ir-filters-panel"] & JSXBase.HTMLAttributes<HTMLIrFiltersPanelElement>;
             "ir-financial-actions": LocalJSX.IntrinsicElements["ir-financial-actions"] & JSXBase.HTMLAttributes<HTMLIrFinancialActionsElement>;
@@ -22610,9 +22981,13 @@ declare module "@stencil/core" {
             "ir-unbookable-rooms": LocalJSX.IntrinsicElements["ir-unbookable-rooms"] & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsElement>;
             "ir-unbookable-rooms-data": LocalJSX.IntrinsicElements["ir-unbookable-rooms-data"] & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsDataElement>;
             "ir-unbookable-rooms-filters": LocalJSX.IntrinsicElements["ir-unbookable-rooms-filters"] & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsFiltersElement>;
+            "ir-uninvoiced-bookings": LocalJSX.IntrinsicElements["ir-uninvoiced-bookings"] & JSXBase.HTMLAttributes<HTMLIrUninvoicedBookingsElement>;
             "ir-unit-cell": LocalJSX.IntrinsicElements["ir-unit-cell"] & JSXBase.HTMLAttributes<HTMLIrUnitCellElement>;
             "ir-unit-status": LocalJSX.IntrinsicElements["ir-unit-status"] & JSXBase.HTMLAttributes<HTMLIrUnitStatusElement>;
             "ir-unit-tag": LocalJSX.IntrinsicElements["ir-unit-tag"] & JSXBase.HTMLAttributes<HTMLIrUnitTagElement>;
+            "ir-unvoiced-bookings-filters": LocalJSX.IntrinsicElements["ir-unvoiced-bookings-filters"] & JSXBase.HTMLAttributes<HTMLIrUnvoicedBookingsFiltersElement>;
+            "ir-unvoiced-bookings-summary": LocalJSX.IntrinsicElements["ir-unvoiced-bookings-summary"] & JSXBase.HTMLAttributes<HTMLIrUnvoicedBookingsSummaryElement>;
+            "ir-unvoiced-bookings-table": LocalJSX.IntrinsicElements["ir-unvoiced-bookings-table"] & JSXBase.HTMLAttributes<HTMLIrUnvoicedBookingsTableElement>;
             "ir-user-form-panel": LocalJSX.IntrinsicElements["ir-user-form-panel"] & JSXBase.HTMLAttributes<HTMLIrUserFormPanelElement>;
             "ir-user-form-panel-drawer": LocalJSX.IntrinsicElements["ir-user-form-panel-drawer"] & JSXBase.HTMLAttributes<HTMLIrUserFormPanelDrawerElement>;
             "ir-user-management": LocalJSX.IntrinsicElements["ir-user-management"] & JSXBase.HTMLAttributes<HTMLIrUserManagementElement>;

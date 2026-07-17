@@ -1,15 +1,15 @@
 'use strict';
 
-var index = require('./index-Du1V06mp.js');
+var index = require('./index-Bg4VKYKR.js');
 var chart = require('./chart-CMmD0hzI.js');
 var moment = require('./moment-CdViwxPQ.js');
-var dp_report_store = require('./dp_report.store-C6ZEb7eJ.js');
-var utils = require('./utils-EjuW-lx0.js');
+var dp_report_store = require('./dp_report.store-BR6Xb9iQ.js');
+var utils = require('./utils-Bb-1iFW2.js');
 var useTable = require('./useTable-BN32DOaV.js');
-require('./index-BTAleJGz.js');
+require('./index-KxiFTvIk.js');
 require('./index-CLqkDPTC.js');
-require('./calendar-data-CeBvVadE.js');
-require('./locales.store-CYcHBWUG.js');
+require('./calendar-data-D7gl8C6U.js');
+require('./locales.store-B208i_tH.js');
 require('./type-Dy9pVS4V.js');
 
 const irDpReportChartCss = () => `:host{display:block}.dp-chart-container{position:relative;height:22rem;width:100%;padding:1rem;box-sizing:border-box;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.75rem;background-color:var(--wa-color-surface-default, #fff)}.dp-chart-container--empty{display:flex;align-items:center;justify-content:center}.dp-chart__loading{display:flex;align-items:center;justify-content:center;height:22rem;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.75rem}.dp-chart-tooltip{position:absolute;top:0;left:0;transform:translateY(calc(-100% - 0.625rem));opacity:0;pointer-events:none;transition:opacity 0.1s ease;z-index:10;white-space:nowrap;background-color:var(--wa-color-surface-raised, #fff);border:1px solid var(--wa-color-surface-border, #e5e7eb);border-radius:0.5rem;box-shadow:var(--wa-shadow-m, 0 4px 12px rgba(0, 0, 0, 0.15));padding:0.5rem 0.75rem;font-size:0.75rem;color:var(--wa-color-text-normal, #1a1d2e)}.dp-chart-tooltip::after{content:'';position:absolute;left:var(--dp-tooltip-arrow-left, 50%);bottom:-0.375rem;width:0.75rem;height:0.75rem;background-color:inherit;border-right:1px solid var(--wa-color-surface-border, #e5e7eb);border-bottom:1px solid var(--wa-color-surface-border, #e5e7eb);transform:translateX(-50%) rotate(45deg)}.dp-chart-tooltip--below{transform:translateY(0.625rem)}.dp-chart-tooltip--below::after{top:-0.375rem;bottom:auto;border-right:none;border-bottom:none;border-left:1px solid var(--wa-color-surface-border, #e5e7eb);border-top:1px solid var(--wa-color-surface-border, #e5e7eb)}.dp-chart-tooltip__header{display:flex;align-items:center;gap:0.4rem;margin-bottom:0.375rem}.dp-chart-tooltip__logo{width:1.125rem;height:1.125rem;object-fit:contain;border-radius:0.25rem;flex-shrink:0}.dp-chart-tooltip__row{line-height:1.4;color:var(--wa-color-text-normal, #1a1d2e)}.dp-chart-tooltip__value--gain{color:var(--wa-color-success-fill-loud, #16a34a);font-weight:600}.dp-chart-tooltip__value--loss{color:var(--wa-color-danger-fill-loud, #dc2626);font-weight:600}`;
@@ -261,6 +261,11 @@ const IrDpReportFilters = class {
         this.dpFiltersChange = index.createEvent(this, "dpFiltersChange");
     }
     /**
+     * Earliest selectable date. Set by the parent once it discovers that the property's
+     * data does not go back the full default lookback window.
+     */
+    minDate;
+    /**
      * Emitted only when the user clicks Search. The shared store (updated as soon as the
      * dates change) keeps every filter instance (chart tab + table tab) visually in sync
      * regardless of whether a search has been triggered yet.
@@ -290,7 +295,7 @@ const IrDpReportFilters = class {
         this.dpFiltersChange.emit({ from: dp_report_store.dp_report.filters.from, to: dp_report_store.dp_report.filters.to });
     };
     render() {
-        return (index.h("div", { key: '9898e3dfa3c10b055995d892d41fa835462aa581', class: "dp-report-filters" }, index.h("ir-date-range-filter", { key: '09cbe401d489a1ad6a09c889f86cb7df6f28970b', class: "dp-report-filters__date-picker", fromDate: dp_report_store.dp_report.filters.from, toDate: dp_report_store.dp_report.filters.to, maxDate: moment.hooks().format('YYYY-MM-DD'), showQuickActions: true, quickDates: this.quickDates, quickDatesMode: "range", withClear: false, selectionMode: "auto", onDatesChanged: this.handleDatesChanged }), index.h("wa-tooltip", { key: 'a2aaf69fc3cb5ca9b538383c5aa7676e7605d13c', for: "search-btn" }, "Search"), index.h("ir-custom-button", { key: 'd74a7dfb2a29cbb4731f1046f456ee4333f219c4', id: "search-btn", loading: dp_report_store.dp_report.isLoading, disabled: dp_report_store.dp_report.isLoading, onClickHandler: this.handleSearch, variant: "neutral", appearance: "outlined" }, index.h("wa-icon", { key: 'db2fc37313d15c0d6f4abe4044c89a30a01b3c81', name: "magnifying-glass" }))));
+        return (index.h("div", { key: '9402fdb2ed3ff496ad1ac3e759cd4a9c2de12978', class: "dp-report-filters" }, index.h("ir-date-range-filter", { key: '3a1ea24739aef75e68ec426565ad183399a79da6', class: "dp-report-filters__date-picker", fromDate: dp_report_store.dp_report.filters.from, toDate: dp_report_store.dp_report.filters.to, minDate: this.minDate, maxDate: moment.hooks().format('YYYY-MM-DD'), showQuickActions: true, quickDates: this.quickDates, quickDatesMode: "range", withClear: false, selectionMode: "auto", onDatesChanged: this.handleDatesChanged }), index.h("wa-tooltip", { key: 'aca5c6339a3edc27eacf7ce6354e553d60b9fdfd', for: "search-btn" }, "Search"), index.h("ir-custom-button", { key: '48181f8eed408ae980d1b0b0848235810a794d79', id: "search-btn", loading: dp_report_store.dp_report.isLoading, disabled: dp_report_store.dp_report.isLoading, onClickHandler: this.handleSearch, variant: "neutral", appearance: "outlined" }, index.h("wa-icon", { key: '8da6ad75c580b9991be07635ed48f0b8555e3cd4', name: "magnifying-glass" }))));
     }
 };
 IrDpReportFilters.style = irDpReportFiltersCss();

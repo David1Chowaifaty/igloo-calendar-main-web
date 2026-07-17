@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-Du1V06mp.js');
+var index = require('./index-Bg4VKYKR.js');
 var type = require('./type-Dy9pVS4V.js');
 var index$1 = require('./index-CLqkDPTC.js');
 

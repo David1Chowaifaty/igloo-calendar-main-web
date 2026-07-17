@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-Du1V06mp.js');
+var index = require('./index-Bg4VKYKR.js');
 var index$1 = require('./index-BquCITYD.js');
 var v4 = require('./v4-_2BfiRUa.js');
 
@@ -164,13 +164,13 @@ const IrPriceInput = class {
         this.inputFocus.emit();
     };
     render() {
-        return (index.h("fieldset", { key: 'd04dde84870d6bf1044fe18aaaafaa05a2d91079', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (index.h("div", { key: 'dc9bb0ea065a86468cee22a865233ff1af49da17', class: `input-group-prepend ${this.labelContainerClassname}` }, index.h("span", { key: 'e68e11001cba2866a4cadd2dc0d7d745b1356e6c', class: `input-group-text 
+        return (index.h("fieldset", { key: 'da00fcdec0642b4d4202b32c91821834475ed491', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (index.h("div", { key: '00f35d39d5684b5ffeafeda10749fb7b08d0dc9e', class: `input-group-prepend ${this.labelContainerClassname}` }, index.h("span", { key: 'b583a7830a8d5c4984e67168bb320f66da748050', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, index.h("label", { key: '116384a298047048f55c0219a8561b5136575014', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), index.h("div", { key: 'a253ae82912a052dcd18da529b518fec723a550e', class: "position-relative has-icon-left rate-input-container" }, this.currency && (index.h("div", { key: '5450794c8dd82deead22caa27b8dda7c7c9dbeaf' }, index.h("span", { key: '49ebf990be274e05ef8999857c400b5d5a2ec7de', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), index.h("input", { key: '2a131173bfd03828f59bb023e993d25c1af56ec5', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, index.h("label", { key: '312efb03c9bb3b52daa7e86efde6bcfb4ef0d925', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), index.h("div", { key: '6a9ba21b58c99e3bf63cd04f85f86627851fba38', class: "position-relative has-icon-left rate-input-container" }, this.currency && (index.h("div", { key: '5814c76322bc6b1bcce73babadb5c50f6b70f67a' }, index.h("span", { key: 'ca8aad999bf16687bb0dcde4a6799ca1f941e82c', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), index.h("input", { key: '4d4874d958ee032511bb70ebd10785c477a39253', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 

@@ -1,16 +1,16 @@
 'use strict';
 
-var index = require('./index-Du1V06mp.js');
-var booking_store = require('./booking.store-CZr0GkPY.js');
-var calendarData = require('./calendar-data-CeBvVadE.js');
+var index = require('./index-Bg4VKYKR.js');
+var booking_store = require('./booking.store-BGoBP9ry.js');
+var calendarData = require('./calendar-data-D7gl8C6U.js');
 var moment = require('./moment-CdViwxPQ.js');
 var index$1 = require('./index-CLqkDPTC.js');
-var locales_store = require('./locales.store-CYcHBWUG.js');
-var utils = require('./utils-EjuW-lx0.js');
-var booking = require('./booking-B_k0VYL5.js');
+var locales_store = require('./locales.store-B208i_tH.js');
+var utils = require('./utils-Bb-1iFW2.js');
+var booking = require('./booking-CaWpB_ZS.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./index-BTAleJGz.js');
+require('./index-KxiFTvIk.js');
 require('./type-Dy9pVS4V.js');
 
 class ReloadInterceptor {
@@ -644,7 +644,7 @@ const IrWeekdaySelector = class {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (index.h(index.Host, { key: '79bdb6961ce758cddc36089dfbbf23207f9688ef', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (index.h(index.Host, { key: '9a14841637110fa591d00c6c2053e47b2581eaf8', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get watchers() { return {
         "weekdays": [{

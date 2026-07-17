@@ -431,7 +431,7 @@ async function getRatePlanDisplayAmount({ rateplanSelection, totalNights, index,
     if (rateplanSelection.is_amount_modified) {
         const net = rateplanSelection.view_mode === '001' ? rateplanSelection.rp_amount : rateplanSelection.rp_amount * totalNights;
         const tax = await bookingService.calculateExclusiveTax({
-            property_id: calendar_data.property.id,
+            property_id: calendar_data?.property?.id,
             amount: net,
         });
         return net + tax;

@@ -25,7 +25,7 @@ export class IrAutocomplete {
     placement = 'bottom';
     /** Name attribute forwarded to the underlying input element. */
     name;
-    /** The value of the input. */
+    /** The value of the input. Not reflected to the host attribute — reflection would rewrite the DOM on every keystroke. */
     value = '';
     /**
      * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults
@@ -136,14 +136,29 @@ export class IrAutocomplete {
      * for deeper styling of the native input and container.
      */
     inputClass;
+    /**
+     * In `multiple` mode, the maximum number of selected-option tags shown inside the input.
+     * Any further selections collapse into a single "+N" overflow tag. Set to `0` to always
+     * show every tag.
+     */
+    maxTagsVisible = 3;
     options = [];
     slotStateVersion = 0;
     selectedOptions = [];
     textChange;
     comboboxChange;
     currentOption;
+    // The active typed query; null means no filtering (all options visible).
+    filterQuery = null;
     listboxRef;
     inputRef;
+    // Native <input> inside ir-input → wa-input; combobox ARIA lives here because
+    // string IDREFs (aria-activedescendant/aria-controls) cannot resolve across shadow roots.
+    nativeInput;
+    // Per-option search metadata, built lazily. Reading textContent walks the option's whole
+    // subtree, so it must happen once per option — not on every keystroke.
+    optionMeta = new WeakMap();
+    optionContentObserver;
     SLOT_NAMES = ['label', 'start', 'end', 'clear-icon', 'hint'];
     slotManager = createSlotManager(null, // Will be set in componentWillLoad
     this.SLOT_NAMES, () => {
@@ -164,10 +179,30 @@ export class IrAutocomplete {
     componentDidLoad() {
         this.slotManager.setupListeners();
         this.listboxRef?.addEventListener('click', this.handleOptionClick);
+        this.setupInputAria();
+        this.observeOptionContent();
     }
     disconnectedCallback() {
         this.slotManager.destroy();
         this.listboxRef?.removeEventListener('click', this.handleOptionClick);
+        this.optionContentObserver?.disconnect();
+    }
+    /**
+     * Slot changes rebuild the option list, but consumers can also rewrite an option's
+     * label/value or inner text in place without a slotchange firing. Drop the metadata
+     * cache when that happens; it rebuilds lazily on the next access.
+     */
+    observeOptionContent() {
+        this.optionContentObserver = new MutationObserver(() => {
+            this.optionMeta = new WeakMap();
+        });
+        this.optionContentObserver.observe(this.el, {
+            subtree: true,
+            childList: true,
+            characterData: true,
+            attributes: true,
+            attributeFilter: ['label', 'value'],
+        });
     }
     async show() {
         if (this.disabled)
@@ -181,11 +216,43 @@ export class IrAutocomplete {
     }
     async hide() {
         this.open = false;
+        // Reset the filter so the full option list shows the next time the dropdown opens.
+        this.clearFilter();
+    }
+    /**
+     * Applies the WAI-ARIA combobox pattern to the native input. String IDREFs like
+     * `aria-activedescendant` are dangling across shadow roots, so the active option and
+     * listbox are wired through ARIA element reflection where supported — never both
+     * mechanisms, since setting the IDL property resets the string attribute per spec.
+     */
+    async setupInputAria() {
+        const input = await this.inputRef?.getNativeInput();
+        if (!input || !input.isConnected)
+            return;
+        this.nativeInput = input;
+        input.setAttribute('role', 'combobox');
+        input.setAttribute('aria-autocomplete', 'list');
+        input.setAttribute('aria-haspopup', 'listbox');
+        input.setAttribute('aria-expanded', this.open ? 'true' : 'false');
+        if ('ariaControlsElements' in input && this.listboxRef) {
+            input.ariaControlsElements = [this.listboxRef];
+        }
+        this.syncActiveDescendant();
+    }
+    syncAriaExpanded() {
+        this.nativeInput?.setAttribute('aria-expanded', this.open ? 'true' : 'false');
+    }
+    syncActiveDescendant() {
+        const input = this.nativeInput;
+        if (!input || !('ariaActiveDescendantElement' in input))
+            return;
+        input.ariaActiveDescendantElement = this.open && this.currentOption ? this.currentOption : null;
     }
     handleOpenChange(newValue) {
         if (!this.listboxRef)
             return;
         this.listboxRef.hidden = !newValue;
+        this.syncAriaExpanded();
         if (!newValue) {
             this.clearCurrentOption();
             return;
@@ -246,6 +313,45 @@ export class IrAutocomplete {
     getAllOptions() {
         return this.options;
     }
+    getVisibleOptions() {
+        return this.options.filter(option => !option.hidden);
+    }
+    getOptionMeta(option) {
+        let meta = this.optionMeta.get(option);
+        if (!meta) {
+            const label = option.label || (option.textContent?.trim() ?? '');
+            const value = option.value ?? label;
+            meta = { label, value, haystack: `${label} ${value} ${option.textContent ?? ''}`.toLowerCase() };
+            this.optionMeta.set(option, meta);
+        }
+        return meta;
+    }
+    applyFilter() {
+        // Normalize once per pass, not once per option.
+        const query = this.filterQuery?.trim().toLowerCase() || null;
+        this.getAllOptions().forEach(option => {
+            const shouldHide = query !== null && !this.getOptionMeta(option).haystack.includes(query);
+            if (option.hidden !== shouldHide) {
+                option.hidden = shouldHide;
+            }
+        });
+        if (this.currentOption?.hidden) {
+            this.clearCurrentOption();
+        }
+        if (this.open) {
+            this.ensureCurrentOption();
+        }
+    }
+    clearFilter() {
+        if (this.filterQuery === null)
+            return;
+        this.filterQuery = null;
+        this.getAllOptions().forEach(option => {
+            if (option.hidden) {
+                option.hidden = false;
+            }
+        });
+    }
     updateOptionsFromSlot(slotEl) {
         const slot = slotEl ?? this.listboxRef?.querySelector('slot');
         if (!slot) {
@@ -254,17 +360,26 @@ export class IrAutocomplete {
         }
         const assigned = slot.assignedElements({ flatten: true });
         this.options = assigned.filter(el => el.tagName.toLowerCase() === 'ir-autocomplete-option');
+        // Options are never tab stops (combobox pattern); set once at registration
+        // instead of re-writing tabIndex on every keystroke or arrow key.
+        this.options.forEach(option => (option.tabIndex = -1));
+    }
+    /**
+     * Reassigns the currentOption pointer, clearing the highlight flag on the element it
+     * previously pointed at. Keeps highlight updates O(1) instead of sweeping all options.
+     */
+    setCurrentPointer(option) {
+        if (this.currentOption && this.currentOption !== option) {
+            this.currentOption.current = false;
+        }
+        this.currentOption = option;
     }
     clearCurrentOption() {
-        const allOptions = this.getAllOptions();
-        allOptions.forEach(el => {
-            el.current = false;
-            el.tabIndex = -1;
-        });
-        this.currentOption = undefined;
+        this.setCurrentPointer(undefined);
+        this.syncActiveDescendant();
     }
     ensureCurrentOption() {
-        const allOptions = this.getAllOptions().filter(option => !option.disabled);
+        const allOptions = this.getVisibleOptions().filter(option => !option.disabled);
         if (!allOptions.length) {
             this.clearCurrentOption();
             return;
@@ -278,43 +393,41 @@ export class IrAutocomplete {
     setCurrentOption(option, options = {}) {
         if (!option || option.disabled)
             return;
-        const allOptions = this.getAllOptions();
-        // Clear selection
-        allOptions.forEach(el => {
-            el.current = false;
-            el.tabIndex = -1;
-        });
-        // Select the target option
-        this.currentOption = option;
+        // DOM focus stays on the input (combobox pattern); the highlight moves by clearing
+        // the previous option and flagging the new one — two writes, regardless of list size.
+        this.setCurrentPointer(option);
         option.current = true;
-        option.tabIndex = 0;
+        this.syncActiveDescendant();
         if (options.scroll && this.listboxRef) {
             this.scrollIntoView(option, this.listboxRef, 'vertical', 'auto');
         }
     }
     getOptionLabel(option) {
-        if (option.label)
-            return option.label;
-        return option.textContent?.trim() ?? '';
+        return this.getOptionMeta(option).label;
     }
     getOptionValue(option) {
-        return option.value ?? this.getOptionLabel(option);
+        return this.getOptionMeta(option).value;
     }
     syncSelectedFromValue(value) {
-        const allOptions = this.getAllOptions();
         let selectedOption;
-        allOptions.forEach(option => {
-            const matches = this.getOptionValue(option) === value || this.getOptionLabel(option) === value;
-            option.selected = matches;
+        this.getAllOptions().forEach(option => {
+            const meta = this.getOptionMeta(option);
+            const matches = meta.value === value || meta.label === value;
+            if (option.selected !== matches) {
+                option.selected = matches;
+            }
             if (matches) {
                 selectedOption = option;
             }
         });
         if (selectedOption) {
-            this.currentOption = selectedOption;
+            this.setCurrentPointer(selectedOption);
         }
-        else if (this.currentOption && this.getOptionValue(this.currentOption) !== value && this.getOptionLabel(this.currentOption) !== value) {
-            this.currentOption = undefined;
+        else if (this.currentOption) {
+            const meta = this.getOptionMeta(this.currentOption);
+            if (meta.value !== value && meta.label !== value) {
+                this.setCurrentPointer(undefined);
+            }
         }
     }
     selectOption(option) {
@@ -323,23 +436,25 @@ export class IrAutocomplete {
         if (this.multiple) {
             // Toggle selection without affecting the other options and keep the popup open.
             option.selected = !option.selected;
-            this.currentOption = option;
+            this.setCurrentPointer(option);
             this.refreshSelectedOptions();
             // Clear the typed search text so the user can immediately filter for the next option.
             if (this.value !== '') {
                 this.value = '';
                 this.textChange.emit('');
             }
+            this.clearFilter();
             this.emitChange();
             requestAnimationFrame(() => this.inputRef?.focusInput());
             return;
         }
-        const allOptions = this.getAllOptions();
-        allOptions.forEach(el => {
-            el.selected = false;
+        this.getAllOptions().forEach(el => {
+            if (el.selected && el !== option) {
+                el.selected = false;
+            }
         });
         option.selected = true;
-        this.currentOption = option;
+        this.setCurrentPointer(option);
         const emitValue = this.getOptionValue(option);
         const displayValue = this.getOptionLabel(option);
         if (this.emitOnSameValue || (!this.emitOnSameValue && emitValue !== this.value)) {
@@ -378,6 +493,8 @@ export class IrAutocomplete {
         }
         this.value = nextValue;
         this.textChange.emit(nextValue);
+        this.filterQuery = nextValue;
+        this.applyFilter();
         if (!this.open && this.getAllOptions().length) {
             this.show();
         }
@@ -388,9 +505,8 @@ export class IrAutocomplete {
             this.syncSelectedFromValue(this.value);
         }
         this.refreshSelectedOptions();
-        if (this.open) {
-            this.ensureCurrentOption();
-        }
+        // applyFilter re-runs ensureCurrentOption itself when the dropdown is open.
+        this.applyFilter();
     };
     handleKeydownChange = (event) => {
         if (event.key === 'Escape' && this.open) {
@@ -408,7 +524,7 @@ export class IrAutocomplete {
             return;
         }
         if (['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
-            const allOptions = this.getAllOptions().filter(option => !option.disabled);
+            const allOptions = this.getVisibleOptions().filter(option => !option.disabled);
             if (!allOptions.length)
                 return;
             const baseOption = this.currentOption && allOptions.includes(this.currentOption) ? this.currentOption : allOptions[0];
@@ -448,17 +564,23 @@ export class IrAutocomplete {
         if (!this.open)
             this.show();
     };
+    renderSelectedTags() {
+        const limit = this.maxTagsVisible > 0 ? this.maxTagsVisible : this.selectedOptions.length;
+        const visibleTags = this.selectedOptions.slice(0, limit);
+        const overflow = this.selectedOptions.slice(limit);
+        return (h("div", { slot: "start", class: "selected-tags", part: "tags" }, visibleTags.map(option => (h("wa-tag", { key: this.getOptionValue(option), size: "s", "with-remove": true, "onwa-remove": (e) => {
+                e.stopPropagation();
+                this.removeOption(option);
+            } }, this.getOptionLabel(option)))), overflow.length > 0 && (h("wa-tag", { key: "overflow", size: "s", class: "selected-tags__overflow", title: overflow.map(option => this.getOptionLabel(option)).join(', ') }, "+", overflow.length))));
+    }
     handleExpandIconClick = (e) => {
         e.stopPropagation();
         this.open ? this.hide() : this.show();
     };
     render() {
-        return (h(Host, { key: 'f44ba5e3fde71c82cedca46cb32b73fba06735d3' }, h("wa-popup", { key: '1333df54de31f728d0e1b537e6827f5722fbb773', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, h("ir-input", { key: '54675dd9a431480bc9fe5e29c1c7ef1a29fd1092', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, onClick: this.handleClick, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize,
+        return (h(Host, { key: 'd4225a3757ee03f11640b54ed5a2aad8ee095f9e' }, h("wa-popup", { key: '1bfde60f3c90bd926a8331478bb7511669f4bc10', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, h("ir-input", { key: '886ab744f12033b55a5fcd8892e513824ee29db3', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, onClick: this.handleClick, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize,
             // autocorrect={this.autocorrect}
-            autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.multiple && this.selectedOptions.length > 0 && (h("div", { key: 'b2cf1de8f9ae5464b8e7fec0d3e61c2eb9782138', slot: "start", class: "selected-tags", part: "tags" }, this.selectedOptions.map(option => (h("wa-tag", { key: this.getOptionValue(option), size: "s", "with-remove": true, "onwa-remove": (e) => {
-                e.stopPropagation();
-                this.removeOption(option);
-            } }, this.getOptionLabel(option)))))), this.withExpandIcon && (h("div", { key: 'e7a2368cff51ef7d20f46a829051d868c22193ad', slot: "end", class: `expand-icon${this.open ? ' expand-icon--open' : ''}`, onClick: this.handleExpandIconClick }, h("wa-icon", { key: '90dc608b7c4e965e10cfb3c633437cfa28bd2779', library: "system", variant: "solid", name: "chevron-down" }))), this.slotManager.hasSlot('label') && h("slot", { key: '28ce04213fe54d915fba7a6564d1f3d603d33225', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '1e139b5fd623da8dfe3144c6d03d05ca74fc2c09', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: 'e06a1cc4c6427904587e9a0feac33be15c63292b', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: '7e2e770b981ae61e30a8d32b32b858641b8789be', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '47cd372c9fd0f73eff5df604c438e336f37e9e1f', name: "hint", slot: "hint" })), h("div", { key: '3f052593292572bbb43f6426e850454984e10b49', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": this.multiple ? 'true' : 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, h("slot", { key: '10dab4e6eb9d9f64b8e5cd3c39a35dfe638e2339', onSlotchange: this.handleOptionsSlotChange })))));
+            autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.multiple && this.selectedOptions.length > 0 && this.renderSelectedTags(), this.withExpandIcon && (h("div", { key: '2370331211ab425c09ea1a7688dfc71695ab6197', slot: "end", class: `expand-icon${this.open ? ' expand-icon--open' : ''}`, "aria-hidden": "true", onClick: this.handleExpandIconClick }, h("wa-icon", { key: 'bcbad75c967b847a0f2a2147f267a5590080366f', library: "system", variant: "solid", name: "chevron-down" }))), this.slotManager.hasSlot('label') && h("slot", { key: 'ce45880665a8f2774748e2a2e22e43ea2ca595e6', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '91797eca8a0265dfe2002591afcdb7141a5061f5', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '8c162b9310223ab36cea3ff947be5e5fb72e681c', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: 'f29e7e02a4dcc35feb1f88bc47fea28dbe5d9dcf', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '172ef14a64e8964c7b8e1948b00af7dd9572b96f', name: "hint", slot: "hint" })), h("div", { key: '8dc7903b8617a8186b8f438b8f12b70192b1a58e', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-multiselectable": this.multiple ? 'true' : 'false', "aria-label": this.label || this.placeholder, part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, h("slot", { key: '4ade686fab4306ce42a6f18e00fc11ec658848a6', onSlotchange: this.handleOptionsSlotChange })))));
     }
     static get is() { return "ir-autocomplete"; }
     static get encapsulation() { return "shadow"; }
@@ -573,11 +695,11 @@ export class IrAutocomplete {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The value of the input."
+                    "text": "The value of the input. Not reflected to the host attribute \u2014 reflection would rewrite the DOM on every keystroke."
                 },
                 "getter": false,
                 "setter": false,
-                "reflect": true,
+                "reflect": false,
                 "attribute": "value",
                 "defaultValue": "''"
             },
@@ -1485,6 +1607,26 @@ export class IrAutocomplete {
                 "setter": false,
                 "reflect": false,
                 "attribute": "input-class"
+            },
+            "maxTagsVisible": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "In `multiple` mode, the maximum number of selected-option tags shown inside the input.\nAny further selections collapse into a single \"+N\" overflow tag. Set to `0` to always\nshow every tag."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "max-tags-visible",
+                "defaultValue": "3"
             }
         };
     }

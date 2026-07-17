@@ -16,7 +16,7 @@ export declare class IrAutocomplete {
     placement: AutocompletePopupElement['placement'];
     /** Name attribute forwarded to the underlying input element. */
     name: string;
-    /** The value of the input. */
+    /** The value of the input. Not reflected to the host attribute — reflection would rewrite the DOM on every keystroke. */
     value: string;
     /**
      * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults
@@ -127,22 +127,47 @@ export declare class IrAutocomplete {
      * for deeper styling of the native input and container.
      */
     inputClass: string;
+    /**
+     * In `multiple` mode, the maximum number of selected-option tags shown inside the input.
+     * Any further selections collapse into a single "+N" overflow tag. Set to `0` to always
+     * show every tag.
+     */
+    maxTagsVisible: number;
     private options;
     private slotStateVersion;
     private selectedOptions;
     textChange: EventEmitter<string>;
     comboboxChange: EventEmitter<string | string[]>;
     private currentOption?;
+    private filterQuery;
     private listboxRef?;
     private inputRef?;
+    private nativeInput?;
+    private optionMeta;
+    private optionContentObserver?;
     private readonly SLOT_NAMES;
     private slotManager;
     componentWillLoad(): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
+    /**
+     * Slot changes rebuild the option list, but consumers can also rewrite an option's
+     * label/value or inner text in place without a slotchange firing. Drop the metadata
+     * cache when that happens; it rebuilds lazily on the next access.
+     */
+    private observeOptionContent;
     show(): Promise<void>;
     focusInput(): Promise<void>;
     hide(): Promise<void>;
+    /**
+     * Applies the WAI-ARIA combobox pattern to the native input. String IDREFs like
+     * `aria-activedescendant` are dangling across shadow roots, so the active option and
+     * listbox are wired through ARIA element reflection where supported — never both
+     * mechanisms, since setting the IDL property resets the string attribute per spec.
+     */
+    private setupInputAria;
+    private syncAriaExpanded;
+    private syncActiveDescendant;
     handleOpenChange(newValue: boolean): void;
     private getOffset;
     private scrollIntoView;
@@ -150,7 +175,16 @@ export declare class IrAutocomplete {
     private refreshSelectedOptions;
     private emitChange;
     private getAllOptions;
+    private getVisibleOptions;
+    private getOptionMeta;
+    private applyFilter;
+    private clearFilter;
     private updateOptionsFromSlot;
+    /**
+     * Reassigns the currentOption pointer, clearing the highlight flag on the element it
+     * previously pointed at. Keeps highlight updates O(1) instead of sweeping all options.
+     */
+    private setCurrentPointer;
     private clearCurrentOption;
     private ensureCurrentOption;
     private setCurrentOption;
@@ -164,6 +198,7 @@ export declare class IrAutocomplete {
     private handleOptionsSlotChange;
     private handleKeydownChange;
     private handleClick;
+    private renderSelectedTags;
     private handleExpandIconClick;
     render(): any;
 }

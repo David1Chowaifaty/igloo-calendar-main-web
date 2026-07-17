@@ -479,6 +479,7 @@ export class BookingService {
             const { data } = await axios.post(`/Get_Exposed_Booking`, {
                 booking_nbr,
                 language,
+                is_check_invoice_info: calendar_data?.property?.is_frontdesk_enabled,
                 extras: withExtras ? _extras : null,
                 is_calculate_dp_effect: include_dp_pricing,
                 is_get_financial_snapshot: true,

@@ -1,6 +1,11 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrDpReportFilters {
     /**
+     * Earliest selectable date. Set by the parent once it discovers that the property's
+     * data does not go back the full default lookback window.
+     */
+    minDate?: string;
+    /**
      * Emitted only when the user clicks Search. The shared store (updated as soon as the
      * dates change) keeps every filter instance (chart tab + table tab) visually in sync
      * regardless of whether a search has been triggered yet.

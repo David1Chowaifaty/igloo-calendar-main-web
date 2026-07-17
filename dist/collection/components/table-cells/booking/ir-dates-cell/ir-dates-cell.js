@@ -16,10 +16,10 @@ export class IrDatesCell {
         return moment(date, 'YYYY-MM-DD').format('DD MMM YYYY');
     }
     render() {
-        return (h(Host, { key: '1da779bbaa7dbdd504909095e3b44cdd94fd1b24' }, h("div", { key: 'c0fe27bd03de10fd515d2e45fa9ca7ed2e202b06', class: "date-cell__container" }, this.checkInLabel && h("span", { key: 'a20cb79658d51d71ae02288c249101fcbdf00ab6', class: "date-cell__label" }, this.checkInLabel, ": "), h("p", { key: '6cc0c3f72b115d7a81793ebc613bbd1aee55c767', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn))), this.showArrow && h("wa-icon", { key: 'ca15c63e82eeb9f5402c2d21d2123359d7554c70', class: "date-cell__arrow", name: "arrow-right" }), h("div", { key: '82c53416fbc2bcc48b04096b36e0ec0f59af82f6', class: "date-cell__container" }, this.checkoutLabel && h("span", { key: '19773ff9f89ee564b06c9569f4974e5920377897', class: "date-cell__label" }, this.checkoutLabel, ": "), h("p", { key: '6a6b3fc36545d3ee74575874e27fe72f27c41161', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut)))));
+        return (h(Host, { key: '5dc6a25a0991b8a3455e2f27a78b02b4bd90773f' }, h("div", { key: '742aba1d1130f574a67dd04cbab6f18f089a2062', part: "checkin-container", class: "date-cell__container" }, this.checkInLabel && h("span", { key: '547e0b82c8aee71fd20fba63acd1865a52307354', class: "date-cell__label" }, this.checkInLabel, ": "), h("p", { key: 'b778139d6c30e046e7da9b1f2a30add205a659e7', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn))), this.showArrow && h("wa-icon", { key: 'aaa833aa04d410a619a629f0fb5a52f4fda36976', class: "date-cell__arrow", name: "arrow-right" }), h("div", { key: 'b24adaf9003d22f6825c4de872676709be1157b4', part: "checkout-container", class: "date-cell__container" }, this.checkoutLabel && h("span", { key: 'fa62acbed3fdf7e7851a353c79b1ed5308d4b40e', class: "date-cell__label" }, this.checkoutLabel, ": "), h("p", { key: 'a3f475a9fbf3dd764fb44b97220c0b181e1c2359', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut)))));
     }
     static get is() { return "ir-dates-cell"; }
-    static get encapsulation() { return "scoped"; }
+    static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-dates-cell.css"]

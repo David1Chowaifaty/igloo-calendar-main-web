@@ -2,7 +2,7 @@ import { parseChannelReportResult, parseChannelSalesParams } from "../../compone
 import calendar_data from "../../stores/calendar-data";
 import { downloadFile } from "../../utils/utils";
 import axios from "axios";
-import { AllowedPropertiesSchema, ExposedRectifierParamsSchema, FetchNotificationsParamsSchema, FetchNotificationsResultSchema, FetchUnBookableRoomsSchema, GetUnifiedFolioParamsSchema, HandleExposedPropertyTaxCategoriesParamsSchema, SetPropertyCalendarExtraParamsSchema, SetPropertyGapConfigParamsSchema, SetRoomCalendarExtraParamsSchema, PrintGuestFolioDocParamsSchema, } from "./types";
+import { AllowedPropertiesSchema, ExposedRectifierParamsSchema, FetchNotificationsParamsSchema, FetchNotificationsResultSchema, FetchUnBookableRoomsSchema, GetUnifiedFolioParamsSchema, HandleExposedPropertyTaxCategoriesParamsSchema, SetPropertyCalendarExtraParamsSchema, SetPropertyGapConfigParamsSchema, SetRoomCalendarExtraParamsSchema, GetExposedBookingsByInvoicedStatusParamsSchema, PrintGuestFolioDocParamsSchema, } from "./types";
 export class PropertyService {
     async printGuestFolioDoc(params) {
         const payload = PrintGuestFolioDocParamsSchema.parse(params);
@@ -27,6 +27,14 @@ export class PropertyService {
             throw new Error(data.ExceptionMsg);
         }
         return data;
+    }
+    async getExposedBookingsByInvoicedStatus(params) {
+        const payload = GetExposedBookingsByInvoicedStatusParamsSchema.parse(params);
+        const { data } = await axios.post('/Get_Exposed_Bookings_By_Invoiced_Status', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
     }
     async getExposedProperty(params) {
         try {
@@ -64,6 +72,13 @@ export class PropertyService {
             console.log(error);
             throw new Error(error);
         }
+    }
+    async getActiveOptimExposedProperties() {
+        const { data } = await axios.post('/Get_Active_Optim_Exposed_Properties', {});
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return AllowedPropertiesSchema.parse(data.My_Result);
     }
     async exposedRectifier(params) {
         const payload = ExposedRectifierParamsSchema.parse(params);

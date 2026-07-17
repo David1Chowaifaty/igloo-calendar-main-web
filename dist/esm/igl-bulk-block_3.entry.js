@@ -1,14 +1,14 @@
-import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-Nexq2OjX.js';
-import { B as BookingService } from './booking.store-CvDLuSL3.js';
-import { c as calendar_data } from './calendar-data-CPCc-_Kx.js';
+import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-JbQjGrUG.js';
+import { B as BookingService } from './booking.store-3Tubbm72.js';
+import { c as calendar_data } from './calendar-data-CRLrGQXE.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { l as libExports } from './index-DeW5X45W.js';
-import { l as locales } from './locales.store-flvFxs7J.js';
-import { k as showToast } from './utils-CRe_zSvY.js';
-import { e as calendar_dates } from './booking-D8tDiK7e.js';
+import { l as locales } from './locales.store-CV07I3Cw.js';
+import { k as showToast } from './utils-AafVtJtY.js';
+import { e as calendar_dates } from './booking-BamW7Ksy.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './index-BX-r5OtJ.js';
+import './index-CR94o8Bs.js';
 import './type-D7rOPtKA.js';
 
 class ReloadInterceptor {
@@ -642,7 +642,7 @@ const IrWeekdaySelector = class {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (h(Host, { key: '79bdb6961ce758cddc36089dfbbf23207f9688ef', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (h(Host, { key: '9a14841637110fa591d00c6c2053e47b2581eaf8', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get watchers() { return {
         "weekdays": [{

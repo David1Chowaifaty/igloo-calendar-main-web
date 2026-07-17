@@ -1,0 +1,1 @@
+import{I as o,d as i}from"./ir-uninvoiced-bookings2.js";const s=o,n=i;export{s as IrUninvoicedBookings,n as defineCustomElement}

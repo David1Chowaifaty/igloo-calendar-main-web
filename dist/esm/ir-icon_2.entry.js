@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h, d as getElement, H as Host } from './index-Nexq2OjX.js';
+import { r as registerInstance, c as createEvent, h, d as getElement, H as Host } from './index-JbQjGrUG.js';
 
 const irIconCss = () => `.sc-ir-icon-h{margin:0;padding:0}.icon-button.sc-ir-icon{all:unset;margin:0;padding:0;color:#6b6f82}.icon-button.sc-ir-icon:hover{cursor:pointer;color:#104064}`;
 
@@ -11,7 +11,7 @@ const IrIcon = class {
     type = 'button';
     iconClickHandler;
     render() {
-        return (h("button", { key: '9199d37d59fb0a1ae8f4a7c614038718d3896baa', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '7f474643677bbec9338a585aa34b528e1bcc1e5d', name: "icon" })));
+        return (h("button", { key: 'e619470aa89530726aebdeaeefb6f980816251f0', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '71c0867fcbcf13ff424b4c32572be231f61a5f86', name: "icon" })));
     }
 };
 IrIcon.style = irIconCss();

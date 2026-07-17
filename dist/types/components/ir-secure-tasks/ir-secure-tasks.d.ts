@@ -1,4 +1,4 @@
-export type SecureScreens = 'hk' | 'tasks' | 'daily-revenue' | 'arrivals' | 'departures' | 'front' | 'users' | 'email-logs' | 'country-sales' | 'daily-occupancy' | 'booking-listing' | 'channel-sales' | 'city-ledger' | 'agents' | 'channels' | 'tax-services' | 'payment-options' | 'ghs' | 'meal-report' | 'fiscal-documents';
+export type SecureScreens = 'hk' | 'tasks' | 'daily-revenue' | 'arrivals' | 'departures' | 'front' | 'users' | 'email-logs' | 'country-sales' | 'daily-occupancy' | 'booking-listing' | 'channel-sales' | 'city-ledger' | 'agents' | 'channels' | 'tax-services' | 'payment-options' | 'ghs' | 'meal-report' | 'fiscal-documents' | 'uninvoiced-bookings';
 export declare class IrSecureTasks {
     el: HTMLElement;
     propertyid: number;

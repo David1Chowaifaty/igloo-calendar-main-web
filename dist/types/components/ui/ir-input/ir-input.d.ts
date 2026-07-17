@@ -140,5 +140,11 @@ export declare class IrInput {
     private hasSlot;
     focusInput(): Promise<void>;
     blurInput(): Promise<void>;
+    /**
+     * Returns the native `<input>` element nested inside `wa-input`.
+     * Needed by composite controls (e.g. `ir-autocomplete`) to wire ARIA
+     * combobox attributes and element reflection onto the real input.
+     */
+    getNativeInput(): Promise<HTMLInputElement | undefined>;
     render(): any;
 }

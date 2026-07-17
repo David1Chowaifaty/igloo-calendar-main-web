@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-Du1V06mp.js');
+var index = require('./index-Bg4VKYKR.js');
 var axios = require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 

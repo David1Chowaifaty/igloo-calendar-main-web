@@ -52,6 +52,8 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     from?: string;
     to?: string;
     property_ids?: number[];
+    start_row?: number;
+    end_row?: number;
     total_count?: number;
     channel?: string;
     balance_filter?: string;
@@ -63,8 +65,6 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     is_mpo_used?: boolean;
     is_for_mobile?: boolean;
     is_combined_view?: boolean;
-    start_row?: number;
-    end_row?: number;
     is_to_export?: boolean;
 }, {
     name?: string;
@@ -73,6 +73,8 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     from?: string;
     to?: string;
     property_ids?: number[];
+    start_row?: number;
+    end_row?: number;
     total_count?: number;
     channel?: string;
     balance_filter?: string;
@@ -84,8 +86,6 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     is_mpo_used?: boolean;
     is_for_mobile?: boolean;
     is_combined_view?: boolean;
-    start_row?: number;
-    end_row?: number;
     is_to_export?: boolean;
 }>;
 export type ExposedBookingsParams = z.infer<typeof ExposedBookingsParamsSchema>;

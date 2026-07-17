@@ -30,6 +30,7 @@ export const FdTypes = {
     Receipt: 'REC',
     Proforma: 'PRF',
     CreditReceipt: 'CREC',
+    Refund: 'RFND',
 };
 export const PayStatus = {
     Normal: '001',

@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-Du1V06mp.js');
+var index = require('./index-Bg4VKYKR.js');
 var airDatepicker = require('./air-datepicker-DE2VSLja.js');
 var en = require('./en-DgGChApB.js');
 var moment = require('./moment-CdViwxPQ.js');
@@ -2081,7 +2081,7 @@ const IrDatePicker = class {
         this.datePicker?.destroy?.();
     }
     render() {
-        return (index.h("div", { key: 'c359fb070bf8962bb762821a65324083018931a2', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && index.h("slot", { key: '2c25b65dcb109b24e2335b72122f95a6913abec2', name: "trigger" }), index.h("input", { key: 'ab81df38a90621c28d168695be00dec14f12f428', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
+        return (index.h("div", { key: '851847a0d6781eb6d2e64328dbf327c342b93b64', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && index.h("slot", { key: '1b7a28c9f2c4ff350f7118db73a3628c0dfdaf76', name: "trigger" }), index.h("input", { key: 'b3ec323802d6fc431e5b8ede9179c9d2a4dcdde4', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
     }
     static get watchers() { return {
         "date": [{

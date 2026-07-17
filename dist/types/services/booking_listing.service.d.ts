@@ -1,6 +1,7 @@
+import { IExposedBookingsCriteria } from "../models/IrBookingListing";
 import { ExposedBookingsParams } from "../stores/booking_listing.store";
 export declare class BookingListingService {
-    getExposedBookingsCriteria(property_id: number): Promise<void>;
+    getExposedBookingsCriteria(property_id: number): Promise<IExposedBookingsCriteria>;
     getExposedBookings(params: ExposedBookingsParams, options?: {
         append?: boolean;
         skipStore?: boolean;

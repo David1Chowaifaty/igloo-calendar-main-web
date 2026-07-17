@@ -1,12 +1,13 @@
 import moment from "moment";
 import { z } from "zod";
+import { BookingNumberSchema, DateSchema, PropertyIdSchema } from "../commonSchemas";
 export const SetPropertyCalendarExtraParamsSchema = z.object({
-    property_id: z.number(),
+    property_id: PropertyIdSchema,
     value: z.string(),
 });
 export const AllowedPropertiesSchema = z.array(z.object({ id: z.number(), name: z.string() })).nullable();
 export const SetRoomCalendarExtraParamsSchema = z.object({
-    property_id: z.number(),
+    property_id: PropertyIdSchema,
     room_identifier: z.string(),
     value: z.string(),
 });
@@ -15,7 +16,7 @@ export const FetchNotificationsParamsSchema = z.object({
 });
 export const FetchNotificationsResultSchema = z.array(z.object({ message: z.string(), type: z.enum(['financial', 'availability_alert']) }));
 export const ExposedRectifierParamsSchema = z.object({
-    property_id: z.coerce.number(),
+    property_id: PropertyIdSchema,
     room_type_ids: z.array(z.number()).min(1),
     from: z.string().refine(date => {
         const _date = moment(date, 'YYYY-MM-DD');
@@ -33,7 +34,7 @@ export const ExposedRectifierParamsSchema = z.object({
     }),
 });
 export const FetchUnBookableRoomsSchema = z.object({
-    property_ids: z.array(z.number()),
+    property_ids: z.array(PropertyIdSchema),
     period_to_check: z.coerce.number(),
     consecutive_period: z.coerce.number(),
 });
@@ -53,7 +54,7 @@ export const TaxCategorySchema = z.object({
     property_id: z.number().optional(),
 });
 export const HandleExposedPropertyTaxCategoriesParamsSchema = z.object({
-    property_id: z.number(),
+    property_id: PropertyIdSchema,
     VAT_INCLUDED_CODE: z.string(),
     VAT_PC: z.number(),
     CITY_TAX_INCLUDED_CODE: z.string(),
@@ -64,14 +65,14 @@ export const HandleExposedPropertyTaxCategoriesParamsSchema = z.object({
     TAXATION_STRATEGY: z.string(),
 });
 export const SetPropertyGapConfigParamsSchema = z.object({
-    property_id: z.number(),
+    property_id: PropertyIdSchema,
     gap_rule_code: z.string(),
     gap_lookahead_days: z.number(),
 });
 export const GetUnifiedFolioParamsSchema = z.object({
-    property_id: z.number().int(),
-    from_date: z.string().date().nullable(),
-    to_date: z.string().date().nullable(),
+    property_id: PropertyIdSchema,
+    from_date: DateSchema.nullable(),
+    to_date: DateSchema.nullable(),
     target_type: z.string().nullable(),
     doc_type: z.string().nullable(),
     fd_type_code: z.string().nullable(),
@@ -110,9 +111,19 @@ export const UnifiedFolioRecordSchema = z.object({
 });
 export const GetUnifiedFolioResultSchema = z.array(UnifiedFolioRecordSchema);
 export const PrintGuestFolioDocParamsSchema = z.object({
-    property_id: z.number(),
-    booking_nbr: z.string(),
+    property_id: PropertyIdSchema,
+    booking_nbr: BookingNumberSchema,
     mode: z.string(),
     reference: z.string(),
     extras: z.string().optional(),
+});
+export const GetExposedBookingsByInvoicedStatusParamsSchema = z.object({
+    property_id: PropertyIdSchema,
+    booking_nbr: BookingNumberSchema,
+    from_date: DateSchema,
+    to_date: DateSchema,
+    source: z.string().optional(),
+    is_totally_invoiced: z.boolean().optional().default(false),
+    start_row: z.number().default(0),
+    end_row: z.number(),
 });

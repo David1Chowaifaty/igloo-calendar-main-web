@@ -1,10 +1,10 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-Nexq2OjX.js';
-import { c as calendar_data } from './calendar-data-CPCc-_Kx.js';
-import { i as formatAmount } from './utils-CRe_zSvY.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-JbQjGrUG.js';
+import { c as calendar_data } from './calendar-data-CRLrGQXE.js';
+import { i as formatAmount } from './utils-AafVtJtY.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import './index-BX-r5OtJ.js';
+import './index-CR94o8Bs.js';
 import './index-DeW5X45W.js';
-import './locales.store-flvFxs7J.js';
+import './locales.store-CV07I3Cw.js';
 import './type-D7rOPtKA.js';
 
 const irActionsCellCss = () => `.sc-ir-actions-cell-h{box-sizing:border-box !important}.sc-ir-actions-cell-h *.sc-ir-actions-cell,.sc-ir-actions-cell-h *.sc-ir-actions-cell::before,.sc-ir-actions-cell-h *.sc-ir-actions-cell::after{box-sizing:inherit !important;padding:0;margin:0}[hidden].sc-ir-actions-cell{display:none !important}.sc-ir-actions-cell-h{display:flex;justify-content:flex-end}`;
@@ -95,7 +95,7 @@ const IrBalanceCell = class {
         return value !== null && value !== undefined && value !== 0;
     }
     render() {
-        return (h(Host, { key: '61d5364e9f56f9c506ec7bf96ad172bd82572650' }, this.label && h("p", { key: 'a5a5519ccba677cc965d76c6c40fa327d6e95476', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '21e9349dffd3293e35aabf00b3094c81ae099edc', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: 'b03a93363ee53aa952b5e864ce7edfbef2d73412' }, this.label && h("p", { key: '555fd8334d64cbe401c08f132fc8e16b2ee258c2', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '37deffb4f29648baf7e7bb09cbf411830829ebc0', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.hasAmount(this.financial.cancelation_penality_as_if_today) &&
                 this.hasAmount(this.financial.due_amount) && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -173,7 +173,7 @@ const IrGuestNameCell = class {
     }
     name;
     render() {
-        return (h(Host, { key: '4579f7370c7a18d24631c39ff9738d135cc9d777' }, this.name.first_name, " ", this.name.last_name));
+        return (h(Host, { key: '99d4c51b90dc965b4c4ee6b90670918e5bd02fec' }, this.name.first_name, " ", this.name.last_name));
     }
 };
 IrGuestNameCell.style = irGuestNameCellCss();
@@ -187,7 +187,7 @@ const IrUnitCell = class {
     room;
     showDeparture = false;
     render() {
-        return (h(Host, { key: '9739ea5db28469f994d729743a0296a1175fc021' }, h("p", { key: 'bc8d35f5d0ee958c996f621fda0f72916cd29730' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: '0889724058323653a17299c2fe28ebaaadd62d90', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && h("span", { key: 'd8b6db717700756cdbf250fadc43f82421e03c79' }, this.room?.departure_time?.description)));
+        return (h(Host, { key: 'c37cd1f213b5a3268ca9deb8123cae168f64d162' }, h("p", { key: '88f935103ff2daf38bc4bba1021d8a666ddbe1be' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: 'dc4f5fb9b4208939f99e18daced82d8ddd885758', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && h("span", { key: '815ee727181961a4ba5ccd913b8efe0ad1605388' }, this.room?.departure_time?.description)));
     }
 };
 IrUnitCell.style = irUnitCellCss();

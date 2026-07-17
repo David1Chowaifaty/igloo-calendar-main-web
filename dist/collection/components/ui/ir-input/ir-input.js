@@ -287,6 +287,17 @@ export class IrInput {
     async blurInput() {
         this.inputRef?.blur();
     }
+    /**
+     * Returns the native `<input>` element nested inside `wa-input`.
+     * Needed by composite controls (e.g. `ir-autocomplete`) to wire ARIA
+     * combobox attributes and element reflection onto the real input.
+     */
+    async getNativeInput() {
+        if (!this.inputRef)
+            return undefined;
+        await this.inputRef.updateComplete;
+        return this.inputRef.input;
+    }
     render() {
         let displayValue = this.value;
         if (this._mask && this.returnMaskedValue) {
@@ -295,7 +306,7 @@ export class IrInput {
             // We must pass "1,000.00" to wa-input to avoid the overwrite warning
             displayValue = this._mask.value;
         }
-        return (h(Host, { key: 'a63494811a56c4f45480283ab614b7e646ea9483' }, h("wa-input", { key: 'ed558b804cd44f390c67031f332226c27d35b454', part: "wa-input", type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && h("slot", { key: '80630a7ce783410b4b24e83707be6123ece9dec0', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: '0139a140055438766b80ced200ef4e99f92481ca', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: 'cf248c3a37ef7ba2a330385b8f3084fb26b828c9', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: '3f252c70e12489d2172f058dfef3913d1a0bac9b', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: '9455ffe1bc5b8a5a2205e3190c7014ecfd2e249f', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: 'cbaad990c7f4c6d1a211bd11f8178594846ee11e', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: 'e5f9020c19bd6b494b073bb95a991201b2b56cf5', name: "hint", slot: "hint" }))));
+        return (h(Host, { key: '4b54a530d7e23cee4f0de50402be6e7193a6e7db' }, h("wa-input", { key: 'f932bb664f82db343da69611ea7e9fd332750b5c', part: "wa-input", type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && h("slot", { key: '00580cb9de598820b5f75041bda3c449cbf0e597', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: '5eee30d6dd57ae208f7052a84bea5583693a29b7', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: 'a7d2b4f02731a5c99f45071143e0313502d47262', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: '4535e7a6f63006f75f1b50216c15f663f13d24e7', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: 'cb20f06ab137a3f1bb53d596da13711ca093547c', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: '14ff37aa3eb13dc0e0c8d4c26495a9b4c292301f', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '37181d7e76166ac9f94f1e93d16b7f31ec96e862', name: "hint", slot: "hint" }))));
     }
     static get is() { return "ir-input"; }
     static get encapsulation() { return "shadow"; }
@@ -1289,6 +1300,31 @@ export class IrInput {
                 },
                 "docs": {
                     "text": "",
+                    "tags": []
+                }
+            },
+            "getNativeInput": {
+                "complexType": {
+                    "signature": "() => Promise<HTMLInputElement | undefined>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        },
+                        "HTMLInputElement": {
+                            "location": "global",
+                            "id": "global::HTMLInputElement"
+                        },
+                        "WaInput": {
+                            "location": "global",
+                            "id": "global::WaInput"
+                        }
+                    },
+                    "return": "Promise<HTMLInputElement>"
+                },
+                "docs": {
+                    "text": "Returns the native `<input>` element nested inside `wa-input`.\nNeeded by composite controls (e.g. `ir-autocomplete`) to wire ARIA\ncombobox attributes and element reflection onto the real input.",
                     "tags": []
                 }
             }
