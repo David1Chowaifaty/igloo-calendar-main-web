@@ -91,19 +91,19 @@ export class IrUnvoicedBookingsTable {
             getCoreRowModel: getCoreRowModel(),
         });
         const amountColumnIds = ['totalGuestAmount', 'uninvoicedGuestAmount'];
-        return (h("div", { key: '1dd475ab37a75f3cf21e534edee1c4228f5f5094', class: "uninvoiced-bookings-table" }, h("div", { key: '633f78098c908996dbf815bcbb2b298873d225e4', class: "table--container" }, h("table", { key: '1d0f83701ec63ea5b203154e59582d22e42189d5', class: "table data-table" }, h("thead", { key: '444b8eee2fb0ece1c81991075faf2ecc9666198e' }, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, class: {
+        return (h("div", { key: '02f2c98779000cd774c482ded3fdeba92a010b62', class: "uninvoiced-bookings-table" }, h("div", { key: 'f816b3c8339a4b9e65f79caff0d96dd33f5ec74a', class: "table--container" }, h("table", { key: 'e17a1fcc87d086dd598912c4bd1cc4f004510668', class: "table data-table" }, h("thead", { key: 'f7f31dbbdb3a755fe7f878ea2169ad49e5247b0e' }, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, class: {
                 'cell--align-end': amountColumnIds.includes(header.column.id),
                 'cell--booking': header.column.id === 'booking',
                 'cell--booked-by': header.column.id === 'booked_by',
                 'cell--amount': amountColumnIds.includes(header.column.id),
                 'cell--align-center': ['status', 'units_booked'].includes(header.column.id),
-            } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", { key: '93b32aafc25c9edc2aa3151b554cd78dec218142' }, uninvoiced_bookings.isLoading ? (h("tr", null, h("td", { colSpan: this.columns.length, class: "empty-row" }, h("ir-spinner", null)))) : table.getRowModel().rows.length === 0 ? (h("tr", null, h("td", { colSpan: this.columns.length, class: "empty-row" }, h("ir-empty-state", { message: "No uninvoiced guest-paid bookings for this date range." })))) : (table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
+            } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", { key: 'f2a6e22c85776ef7d5e6a0df43158d0ead20b82e' }, uninvoiced_bookings.isLoading ? (h("tr", null, h("td", { colSpan: this.columns.length, class: "empty-row" }, h("ir-spinner", null)))) : table.getRowModel().rows.length === 0 ? (h("tr", null, h("td", { colSpan: this.columns.length, class: "empty-row" }, h("ir-empty-state", { message: "No uninvoiced guest-paid bookings for this date range." })))) : (table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
                 'cell--align-end': amountColumnIds.includes(cell.column.id),
                 'cell--align-center': ['status', 'units_booked'].includes(cell.column.id),
                 'cell--booking': cell.column.id === 'booking',
                 'cell--booked-by': cell.column.id === 'booked_by',
                 'cell--amount': amountColumnIds.includes(cell.column.id),
-            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))))))), h("ir-pagination", { key: 'fc21b19c5608e01f0305bbbb961470e8803f7c8a', class: "uninvoiced-bookings-table__pagination", total: total, pages: pageCount, pageSize: pageSize, currentPage: currentPage, allowPageSizeChange: true, pageSizes: this.pageSizes, showing: { from: total ? startIndex + 1 : 0, to: startIndex + pageRows.length }, recordLabel: "bookings", onPageChange: this.handlePageChange, onPageSizeChange: this.handlePageSizeChange })));
+            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))))))), h("ir-pagination", { key: 'b2c37ee8c1a65b22b068ab9a5af601c76161bd50', class: "uninvoiced-bookings-table__pagination", total: total, pages: pageCount, pageSize: pageSize, currentPage: currentPage, allowPageSizeChange: true, pageSizes: this.pageSizes, showing: { from: total ? startIndex + 1 : 0, to: startIndex + pageRows.length }, recordLabel: "bookings", onPageChange: this.handlePageChange, onPageSizeChange: this.handlePageSizeChange })));
     }
     static get is() { return "ir-unvoiced-bookings-table"; }
     static get encapsulation() { return "scoped"; }

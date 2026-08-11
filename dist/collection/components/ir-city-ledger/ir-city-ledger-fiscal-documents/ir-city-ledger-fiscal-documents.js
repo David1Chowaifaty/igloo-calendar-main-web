@@ -71,14 +71,14 @@ export class IrCityLedgerFiscalDocuments {
         this.fetchFiscalDocuments(this.filters);
     }
     render() {
-        return (h(Host, { key: '6f6b1c5653e77c202011680601c97fb279d00bf9' }, h("section", { key: 'b5b4218d024b4aca328928afd8290fcd2ba79604', class: "fiscal-documents", "aria-label": "City ledger fiscal documents" }, h("ir-city-ledger-fiscal-documents-filters", { key: '56d4d23f7afebd96ef2ced9d25e99c2d4787df85', filters: this.filters, onFiltersChange: event => {
+        return (h(Host, { key: '65e9ba4a9f2f270a7654bc833fc1ad7335e30cc8' }, h("section", { key: 'f59d1eacce0b286e03b8ed96af12215d55a44bc0', class: "fiscal-documents", "aria-label": "City ledger fiscal documents" }, h("ir-city-ledger-fiscal-documents-filters", { key: '18d9901294fafcb2184526c49f9088139a1412a0', filters: this.filters, onFiltersChange: event => {
                 this.filters = event.detail;
                 this.clFiscalFiltersChange.emit(event.detail);
             }, onApplyFilters: event => {
                 this.filters = event.detail;
                 this.clFiscalFiltersChange.emit(event.detail);
                 this.fetchFiscalDocuments(event.detail);
-            } }), h("ir-city-ledger-fiscal-documents-table", { key: '1ae125dd5da3f61da7f3fe9662bb0fd2e5f0a186', isLoading: this.isLoading, rows: this.filteredDocuments, currencySymbol: this.currencySymbol, currencies: this.currencies, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), hasFetched: this.hasFetched, ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, fromDate: this.filters.fromDate, toDate: this.filters.toDate, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) }))));
+            } }), h("ir-city-ledger-fiscal-documents-table", { key: '044ffed0bdf9efac24d6e3f46c9223f4d08ce930', isLoading: this.isLoading, rows: this.filteredDocuments, currencySymbol: this.currencySymbol, currencies: this.currencies, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), hasFetched: this.hasFetched, ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, fromDate: this.filters.fromDate, toDate: this.filters.toDate, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) }))));
     }
     static get is() { return "ir-city-ledger-fiscal-documents"; }
     static get encapsulation() { return "scoped"; }

@@ -8,7 +8,7 @@ export class IrPrintingExtraService {
     currency;
     invocableKeys;
     render() {
-        return (h("section", { key: '81382e667b43c5cd38e7cc0c2cb49195fe3e3a55', class: "ir-print-extra-services" }, h("h3", { key: '0232c19f5030282af07595d629716e4a86f45a01', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '913f47ee8bc5872f397a933480805e97f3c9ee61', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
+        return (h("section", { key: '8a371ef1e193b0017257179e1beb5f2dee5be918', class: "ir-print-extra-services" }, h("h3", { key: '740592fd2f328974807202f1700b7f030980ecd7', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '994b5c6826765a330bdc0d9900298165342a4d9d', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
             if (!this.invocableKeys.has(service.system_id)) {
                 return null;
             }

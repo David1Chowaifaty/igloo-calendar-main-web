@@ -7,7 +7,7 @@ export class IrClCreditNoteFields {
     fieldChange;
     render() {
         // const noInvoices = this.fiscalDocuments.length === 0;
-        return (h(Fragment, { key: '1a2ab4bf46c25dbbd78d5342a0d0bf5a2ee3ae3d' }, this.creditNoteMode === 'cancel-invoice' && (h("div", { key: '5babe5a6880379b0c18ccc389292164a20c85947', class: "field" }, h("ir-cl-invoice-select", { key: '90cbf9227aaa2de32d4892f51376b2747b286724', value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: "Invoice", onInvoiceChange: event => {
+        return (h(Fragment, { key: '9fe7adc9150bccaa38530f3ca745fb991e2b8e47' }, this.creditNoteMode === 'cancel-invoice' && (h("div", { key: '10826edd6d879b4d423672b8ee8f3f5e5fb31c11', class: "field" }, h("ir-cl-invoice-select", { key: 'ad2a0a7bd8ed3eb520dfaa88da343a49c39130f3', value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: "Invoice", onInvoiceChange: event => {
                 this.fieldChange.emit({ invoiceId: event.detail || undefined });
             }, hint: "Issuing this credit note will void the selected invoice and unlock all associated line items." })))));
     }
