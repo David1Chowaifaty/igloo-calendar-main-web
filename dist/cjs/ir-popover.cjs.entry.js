@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-jMqrfjaT.js');
+var index = require('./index-CJa_TWt0.js');
 
 const irPopoverCss = () => `:host{display:block;width:100%}*{box-sizing:border-box}.popover-trigger{all:unset;cursor:pointer}.popover-trigger:hover,.popover-trigger:focus{color:#000}`;
 

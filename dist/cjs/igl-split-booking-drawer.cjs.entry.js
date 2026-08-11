@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-jMqrfjaT.js');
+var index = require('./index-CJa_TWt0.js');
 
 const iglSplitBookingDrawerCss = () => `.sc-igl-split-booking-drawer-h{display:block}`;
 

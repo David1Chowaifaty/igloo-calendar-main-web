@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, d as getElement, h } from './index-BxxIyJIp.js';
+import { r as registerInstance, c as createEvent, d as getElement, h } from './index-CaNXuIlM.js';
 import { A as AirDatepicker } from './air-datepicker-B-GK2tAj.js';
 import { l as localeEn } from './en-Ca2kHYaa.js';
 import { h as hooks } from './moment-Mki5YqAR.js';

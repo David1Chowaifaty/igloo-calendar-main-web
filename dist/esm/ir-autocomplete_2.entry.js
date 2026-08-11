@@ -1,5 +1,5 @@
-import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-BxxIyJIp.js';
-import { C as ClickOutside, c as createSlotManager } from './slot-FcmHFRmh.js';
+import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-CaNXuIlM.js';
+import { C as ClickOutside, c as createSlotManager } from './slot-qWWTKSSx.js';
 
 const irAutocompleteCss = () => `.listbox{display:block;position:relative;font:inherit;box-shadow:var(--wa-shadow-m);background:var(--wa-color-surface-raised);border-color:var(--wa-color-surface-border);border-radius:var(--wa-border-radius-m);border-style:var(--wa-border-style);border-width:var(--wa-border-width-s);padding-block:0.5em;padding-inline:0;overflow:auto;overscroll-behavior:none;max-width:var(--auto-size-available-width);max-height:var(--auto-size-available-height);&::slotted(wa-divider){--spacing:0.5em}}::slotted(ir-autocomplete-option){display:block}.selected-tags{display:flex;flex-wrap:wrap;gap:0.25rem;align-items:center}.expand-icon{flex:0 0 auto;display:flex;align-items:center;cursor:pointer;color:var(--wa-color-neutral-on-quiet);transition:rotate var(--wa-transition-slow, 0.3s) var(--wa-transition-easing, ease);rotate:0deg;margin-inline-start:var(--wa-form-control-padding-inline, 0.25rem)}.expand-icon--open{rotate:-180deg}`;
 

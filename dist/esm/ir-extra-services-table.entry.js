@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-BxxIyJIp.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-CaNXuIlM.js';
 import { E as ExtraServiceSection, A as AccommodationExtraCode, c as createBlankAddon } from './types-DuVpNPN2.js';
 import { V as VatIncludedCodes } from './enums-DjSFmz1B.js';
 import './index-DeW5X45W.js';

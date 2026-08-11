@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-jMqrfjaT.js');
+var index = require('./index-CJa_TWt0.js');
 var moment = require('./moment-CdViwxPQ.js');
 var useTable = require('./useTable-BN32DOaV.js');
 

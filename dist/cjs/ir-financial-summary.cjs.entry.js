@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-jMqrfjaT.js');
+var index = require('./index-CJa_TWt0.js');
 
 const irFinancialSummaryCss = () => `.sc-ir-financial-summary-h{display:block}`;
 

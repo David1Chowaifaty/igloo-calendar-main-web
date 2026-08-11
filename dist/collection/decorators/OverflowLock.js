@@ -79,7 +79,11 @@ function ensureStyleForTag(tag) {
     // `.trim();
     const css = `
   :root{
-  --ir-scrollbar-width:${scrollbarWidth}px
+    --ir-scrollbar-width:${scrollbarWidth}px;
+  }
+  .wa-scroll-lock body{
+    overflow:hidden !important;
+    margin-inline-end:${scrollbarWidth}px;
   }
   `.trim();
     const style = document.createElement('style');

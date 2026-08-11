@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-jMqrfjaT.js');
+var index = require('./index-CJa_TWt0.js');
 
 const irPasswordValidatorCss = () => `.sc-ir-password-validator-h{display:block}`;
 

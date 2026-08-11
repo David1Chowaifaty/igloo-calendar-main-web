@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-jMqrfjaT.js');
+var index = require('./index-CJa_TWt0.js');
 var airDatepicker = require('./air-datepicker-DE2VSLja.js');
 var en = require('./en-DgGChApB.js');
 var moment = require('./moment-CdViwxPQ.js');

@@ -1,6 +1,13 @@
 .booking-room__extra-services {
   margin-top: 0.5rem;
 }
+.booking-room__extra-services {
+  margin-inline-start: calc(1.25rem + var(--wa-space-sm, 0.5rem));
+}
+.booking-room__extra-services wa-divider {
+  border-color: var(--wa-color-neutral-fill-loud);
+  margin-block: 0.35rem;
+}
 .booking-room__extra-services::part(body) {
   display: flex;
   flex-direction: column;
@@ -10,6 +17,7 @@
 .booking-room__extra-services::part(header) {
   padding-inline: 1em;
   border-width: 0;
+  padding-bottom: 0;
 }
 .booking-room__extra-services-header {
   display: flex;

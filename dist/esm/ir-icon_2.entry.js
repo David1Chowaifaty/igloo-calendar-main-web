@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h, d as getElement, H as Host } from './index-BxxIyJIp.js';
+import { r as registerInstance, c as createEvent, h, d as getElement, H as Host } from './index-CaNXuIlM.js';
 
 const irIconCss = () => `.sc-ir-icon-h{margin:0;padding:0}.icon-button.sc-ir-icon{all:unset;margin:0;padding:0;color:#6b6f82}.icon-button.sc-ir-icon:hover{cursor:pointer;color:#104064}`;
 
