@@ -19,3 +19,11 @@ export const BookedByGuestSchema = z.object({
     firstName: z.string().nonempty(),
     lastName: z.string().nonempty(),
 });
+const dayUseTimeSchema = z
+    .string()
+    .trim()
+    .regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'Enter a valid time');
+export const DayUseHoursSchema = z.object({
+    from: dayUseTimeSchema,
+    to: dayUseTimeSchema,
+});

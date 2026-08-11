@@ -1,0 +1,1 @@
+import{I as s,d as t}from"./igl-day-use-unit-list2.js";const i=s,o=t;export{i as IglDayUseUnitList,o as defineCustomElement}

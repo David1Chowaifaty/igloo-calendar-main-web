@@ -2,7 +2,7 @@ import { parseChannelReportResult, parseChannelSalesParams } from "../../compone
 import calendar_data from "../../stores/calendar-data";
 import { downloadFile } from "../../utils/utils";
 import axios from "axios";
-import { AllowedPropertiesSchema, ExposedRectifierParamsSchema, FetchNotificationsParamsSchema, FetchNotificationsResultSchema, FetchUnBookableRoomsSchema, GetUnifiedFolioParamsSchema, HandleExposedPropertyTaxCategoriesParamsSchema, SetPropertyCalendarExtraParamsSchema, SetPropertyGapConfigParamsSchema, SetRoomCalendarExtraParamsSchema, GetExposedBookingsByInvoicedStatusParamsSchema, PrintGuestFolioDocParamsSchema, } from "./types";
+import { AllowedPropertiesSchema, ExposedRectifierParamsSchema, FetchNotificationsParamsSchema, FetchNotificationsResultSchema, FetchUnBookableRoomsSchema, GetUnifiedFolioParamsSchema, HandleExposedPropertyTaxCategoriesParamsSchema, SetPropertyCalendarExtraParamsSchema, SetPropertyGapConfigParamsSchema, SetRoomCalendarExtraParamsSchema, GetExposedBookingsByInvoicedStatusParamsSchema, PrintGuestFolioDocParamsSchema, GetDayUseBookingsForCalendarParamsSchema, CalculateNetAmountParamsSchema, } from "./types";
 export class PropertyService {
     async printGuestFolioDoc(params) {
         const payload = PrintGuestFolioDocParamsSchema.parse(params);
@@ -199,6 +199,22 @@ export class PropertyService {
     }
     async setExposedGapNightsPolicy(params) {
         const { data } = await axios.post('/Set_Exposed_Gap_Nights_Policy', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
+    async getDayUseBookingsForCalendar(params) {
+        const payload = GetDayUseBookingsForCalendarParamsSchema.parse(params);
+        const { data } = await axios.post('/Get_Day_Use_Bookings_For_Calendar', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
+    async calculateNetAmount(params) {
+        const payload = CalculateNetAmountParamsSchema.parse(params);
+        const { data } = await axios.post('/Calculate_Net_Amount', payload);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }

@@ -1,12 +1,12 @@
 'use strict';
 
-var index = require('./index-Bg4VKYKR.js');
-var calendarData = require('./calendar-data-D7gl8C6U.js');
-var utils = require('./utils-Bb-1iFW2.js');
+var index = require('./index-jMqrfjaT.js');
+var calendarData = require('./calendar-data-UNmh_Xjg.js');
+var utils = require('./utils-BxzV_u8d.js');
 var moment = require('./moment-CdViwxPQ.js');
-require('./index-KxiFTvIk.js');
+require('./index-BXsYsiHK.js');
 require('./index-CLqkDPTC.js');
-require('./locales.store-B208i_tH.js');
+require('./locales.store-EkxfQjEN.js');
 require('./type-Dy9pVS4V.js');
 
 const irActionsCellCss = () => `.sc-ir-actions-cell-h{box-sizing:border-box !important}.sc-ir-actions-cell-h *.sc-ir-actions-cell,.sc-ir-actions-cell-h *.sc-ir-actions-cell::before,.sc-ir-actions-cell-h *.sc-ir-actions-cell::after{box-sizing:inherit !important;padding:0;margin:0}[hidden].sc-ir-actions-cell{display:none !important}.sc-ir-actions-cell-h{display:flex;justify-content:flex-end}`;
@@ -70,7 +70,7 @@ const IrActionsCell = class {
         return (index.h("ir-custom-button", { variant: variant, appearance: appearance, "data-action": type, onClick: () => this.onClick(type) }, label !== 'icon' && label, type === 'edit' && index.h("wa-icon", { name: "edit", style: { fontSize: '1.2rem' } }), type === 'delete' && index.h("wa-icon", { name: "trash-can", style: { fontSize: '1.2rem' } })));
     }
     render() {
-        return index.h(index.Host, { key: 'd1c4e09be320e280932ee965f97dea9b966eb068' }, this.buttons.map(button => this.renderButton(button)));
+        return index.h(index.Host, { key: '3d5adb085757c484aabe38fd8cb68384625cfaaf' }, this.buttons.map(button => this.renderButton(button)));
     }
 };
 IrActionsCell.style = irActionsCellCss();
@@ -97,7 +97,7 @@ const IrBalanceCell = class {
         return value !== null && value !== undefined && value !== 0;
     }
     render() {
-        return (index.h(index.Host, { key: 'b03a93363ee53aa952b5e864ce7edfbef2d73412' }, this.label && index.h("p", { key: '555fd8334d64cbe401c08f132fc8e16b2ee258c2', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (index.h("p", { class: "ir-price", style: { fontWeight: '400' } }, utils.formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), index.h("div", { key: '37deffb4f29648baf7e7bb09cbf411830829ebc0', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (index.h(index.Host, { key: '1910e17623f92f074384fec0bf374869328aa93e' }, this.label && index.h("p", { key: 'e0c13ac879230974dbc33c720b42517200362a12', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (index.h("p", { class: "ir-price", style: { fontWeight: '400' } }, utils.formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), index.h("div", { key: 'b8941cee4b62614e3896de5d2d8e6b97a3e74b13', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.hasAmount(this.financial.cancelation_penality_as_if_today) &&
                 this.hasAmount(this.financial.due_amount) && (index.h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -175,7 +175,7 @@ const IrGuestNameCell = class {
     }
     name;
     render() {
-        return (index.h(index.Host, { key: '99d4c51b90dc965b4c4ee6b90670918e5bd02fec' }, this.name.first_name, " ", this.name.last_name));
+        return (index.h(index.Host, { key: '27f5cbf0fa553dfd9446c3e022adea844cef2d0c' }, this.name.first_name, " ", this.name.last_name));
     }
 };
 IrGuestNameCell.style = irGuestNameCellCss();
@@ -189,7 +189,7 @@ const IrUnitCell = class {
     room;
     showDeparture = false;
     render() {
-        return (index.h(index.Host, { key: 'c37cd1f213b5a3268ca9deb8123cae168f64d162' }, index.h("p", { key: '88f935103ff2daf38bc4bba1021d8a666ddbe1be' }, this.room.roomtype.name), this.room.unit && index.h("ir-unit-tag", { key: 'dc4f5fb9b4208939f99e18daced82d8ddd885758', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && index.h("span", { key: '815ee727181961a4ba5ccd913b8efe0ad1605388' }, this.room?.departure_time?.description)));
+        return (index.h(index.Host, { key: 'e7e91789154a19064ac307e4137bb84230b6b489' }, index.h("p", { key: 'eb8f6e714c31c649efc2c45f836c9808c4145b69' }, this.room.roomtype.name), this.room.unit && index.h("ir-unit-tag", { key: '67a4f4f48bb2e5f85fbe3198fdefad8ea31790e2', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && index.h("span", { key: 'b0faf2314b34964c4093e29adaef823133d3cea9' }, this.room?.departure_time?.description)));
     }
 };
 IrUnitCell.style = irUnitCellCss();

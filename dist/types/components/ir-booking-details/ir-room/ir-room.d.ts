@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { Booking, Room, SharedPerson } from "../../../models/booking.dto";
+import { Booking, ExtraService, Room, SharedPerson } from "../../../models/booking.dto";
 import { Agent } from "../../../services/agents/type";
 import { TIglBookPropertyPayload } from "../../../models/igl-book-property";
 import { IEntries } from "../../../models/IBooking";
@@ -23,6 +23,7 @@ export declare class IrRoom {
     roomsInfo: any;
     bedPreferences: IEntries[];
     departureTime: IEntries[];
+    arrivalTime: IEntries[];
     hasRoomEdit: boolean;
     hasRoomDelete: boolean;
     hasRoomAdd: boolean;
@@ -30,6 +31,8 @@ export declare class IrRoom {
     hasCheckOut: boolean;
     agent: Agent;
     clTransactions: ClTx[];
+    /** `_SVC_CATEGORY` setup entries, used to label extra services in the room's extra-services section. */
+    svcCategories: IEntries[];
     collapsed: boolean;
     isLoading: boolean;
     isToggling: boolean;
@@ -39,6 +42,8 @@ export declare class IrRoom {
     isOpen: boolean;
     isPricingDrawerOpen: boolean;
     isHbDialogOpen: boolean;
+    isDepartureDialogOpen: boolean;
+    isArrivalDialogOpen: boolean;
     deleteFinished: EventEmitter<string>;
     toast: EventEmitter<IToast>;
     pressCheckIn: EventEmitter;
@@ -46,12 +51,21 @@ export declare class IrRoom {
     editInitiated: EventEmitter<TIglBookPropertyPayload>;
     resetBookingEvt: EventEmitter<null>;
     openSidebar: EventEmitter<OpenSidebarEvent<RoomGuestsPayload>>;
+    addExtraServiceToUnit: EventEmitter<{
+        pr_id: number;
+    }>;
     private modal;
     private toggleDialogRef;
     private bookingService;
     dialogRef: HTMLIrDialogElement;
     componentWillLoad(): void;
     handleClick(e: any): void;
+    /**
+     * Early-check-in / late-checkout are managed exclusively through the arrival/departure time
+     * dialogs (price + time are set together there) — intercept edits on those categories and open
+     * the matching dialog instead of letting the generic extra-service edit panel handle them.
+     */
+    handleEditExtraService(e: CustomEvent<ExtraService>): void;
     handleRoomDataChange(): void;
     private getDateStr;
     private handleEditClick;
@@ -59,15 +73,12 @@ export declare class IrRoom {
     private handleModalConfirmation;
     private deleteRoom;
     private toggleRoomAgent;
-    private updateDepartureTime;
-    private formatVariation;
-    private getSmokingLabel;
-    private getBedName;
     private renderModalMessage;
     private handleCheckIn;
     private getMainGuest;
     private showGuestModal;
-    private get isHalfBoard();
-    private get acmTxByDate();
+    private get unitId();
+    private handleAddExtraServiceToUnit;
+    private handleHeaderAction;
     render(): any;
 }

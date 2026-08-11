@@ -1,0 +1,1 @@
+import{I as o,d as r}from"./ir-room-header2.js";const s=o,a=r;export{s as IrRoomHeader,a as defineCustomElement}

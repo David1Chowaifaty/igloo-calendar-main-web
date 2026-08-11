@@ -9,8 +9,8 @@ export class IrMenuItem {
             'menu-item__link--selected': !!this.selected,
             'menu-item__link--clickable': !!this.href,
         };
-        const content = (h(Fragment, { key: '1500e6214e9c146467a9b32b9aec00bb32267d8e' }, h("span", { key: '754b168ae6c1a45f4a6c8e91d82b0b6ff0f44441', class: "menu-item__icon" }, h("slot", { key: 'b2c68b860ea3e3ab1b1bcee42c1625d689b84829', name: "icon" })), h("span", { key: 'fa2a51df7247fa9f2adb9ba23c3c6d88d85fe36f', class: "menu-item__label" }, h("slot", { key: '2d21c7143aed0101480f119473787ab4b7c38556' })), this.badge ? (h("wa-badge", { variant: "danger", class: "menu-item__badge", appearance: "accent" }, this.badge)) : null));
-        return (h(Host, { key: 'ee193029c57696e66797cb22dd890b54c493cec7' }, this.href ? (h("a", { class: contentClass, href: this.href, "aria-current": this.selected ? 'page' : undefined }, content)) : (h("div", { class: contentClass }, content))));
+        const content = (h(Fragment, { key: 'c1b2e83ae4ff0c3c873676436c2b8adbd5490a75' }, h("span", { key: 'c0dd0eebf28b35ec629f4f6ce4b0a03b02e68831', class: "menu-item__icon" }, h("slot", { key: '5064a367db9a1572b4f8c815fe3cd48e156197f5', name: "icon" })), h("span", { key: 'd9f77b014eacc6b96bac9cf0ed26af9748cad76d', class: "menu-item__label" }, h("slot", { key: 'ab036746aaad71eeaf05cc3cc3bea8205342760f' })), this.badge ? (h("wa-badge", { variant: "danger", class: "menu-item__badge", appearance: "accent" }, this.badge)) : null));
+        return (h(Host, { key: '11a8c5df85ed4a1274c0b4358357a55e59ded739' }, this.href ? (h("a", { class: contentClass, href: this.href, "aria-current": this.selected ? 'page' : undefined }, content)) : (h("div", { class: contentClass }, content))));
     }
     static get is() { return "ir-menu-item"; }
     static get encapsulation() { return "shadow"; }

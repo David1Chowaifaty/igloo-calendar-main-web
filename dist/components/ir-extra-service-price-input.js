@@ -1,0 +1,1 @@
+import{I as r,d as e}from"./ir-extra-service-price-input2.js";const i=r,s=e;export{i as IrExtraServicePriceInput,s as defineCustomElement}

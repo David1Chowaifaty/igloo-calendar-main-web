@@ -14,6 +14,7 @@ export class IglCalHeader {
     unassignedDates;
     to_date;
     highlightedDate;
+    dayUseBookings = [];
     renderAgain = false;
     unassignedRoomsNumber = {};
     // private searchValue: string = '';
@@ -177,17 +178,17 @@ export class IglCalHeader {
     //   }, 0);
     // }
     render() {
-        return (h(Host, { key: '62e25264549fff19947766ce9014aa0045b33b21' }, h("div", { key: 'e1b1f52f3950fdcb84b509905bf1bfaa5df69c6e', class: "stickyCell align-items-center topLeftCell preventPageScroll" }, h("div", { key: '974d214275e87edbefe4da6636f843dd7491cc66', class: "header__fd-actions" }, h("div", { key: '76cbaf965e7fda9c6c2928cf1ecd098ef36819c9', class: "row justify-content-around no-gutters", style: { gap: '0' } }, !this.calendarData.is_vacation_rental && (h(Fragment, { key: 'bd33eeb3eacff1e29f3bd6e3b53c879c70c9276f' }, h("wa-tooltip", { key: '01783702ccc13534213ff3c9b220700f14687815', trigger: "hover", for: "fd-unassigned-dates_btn" }, locales.entries.Lcz_UnassignedUnitsTooltip), h("ir-custom-button", { key: 'aad735d0c8f639ebe46c6cf33932be5c2c629821', id: "fd-unassigned-dates_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('showAssigned') }, h("wa-icon", { key: '18d334aa5d208c93799c7d3e9e55ec4746208d04', style: { fontSize: '1.5rem' }, name: "list-ol", label: locales.entries.Lcz_UnassignedUnitsTooltip, "aria-label": locales.entries.Lcz_UnassignedUnitsTooltip })))), h("wa-tooltip", { key: '095da56843ea9ecb753f20da02c642a81d27ec6a', trigger: "hover", for: "fd-dates-navigation_btn" }, locales.entries.Lcz_Navigate), h("ir-date-select", { key: 'b311230ecb6559f19f580bed76dbfdff459698ff', minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), onDateChanged: evt => {
+        return (h(Host, { key: '24cbacab8975ab58d49c8dc2b76fe3e2c203aca5' }, h("div", { key: '76079becf4b213888223c18901d19a345da5ed30', class: "stickyCell align-items-center topLeftCell preventPageScroll" }, h("div", { key: '27308c70eebff71a903cdceb6bae4d32e37974ac', class: "header__fd-actions" }, h("div", { key: '047def8e605fded4d30ee0eb155b9426f0852cfe', class: "row justify-content-around no-gutters", style: { gap: '0' } }, !this.calendarData.is_vacation_rental && (h(Fragment, { key: '2eb02b86745479dd86ca7802b04750ece9f4da15' }, h("wa-tooltip", { key: '4f4a5ce58a8bdc26ed15ff2b6fb8d746dec557c2', trigger: "hover", for: "fd-unassigned-dates_btn" }, locales.entries.Lcz_UnassignedUnitsTooltip), h("ir-custom-button", { key: '08163458588fa30e128689f501b4c0fa69c461db', id: "fd-unassigned-dates_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('showAssigned') }, h("wa-icon", { key: '68b00c3724f76524662aa42f23f872022cddb16c', style: { fontSize: '1.3rem' }, name: "list-ol", label: locales.entries.Lcz_UnassignedUnitsTooltip, "aria-label": locales.entries.Lcz_UnassignedUnitsTooltip })))), !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0 && (h(Fragment, { key: '2da96ac14e8544d29bf198630704fe0a51abfba5' }, h("wa-tooltip", { key: '55a32886210ceccc82b456960b4af5f85471e5a4', trigger: "hover", for: "fd-day-use-bookings_btn" }, 'Day use bookings'), h("ir-custom-button", { key: '6b6f7ce03ac28d66b8723f9e48b8fef69a7973f7', id: "fd-day-use-bookings_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('showDayUseBookings') }, h("wa-icon", { key: 'dbb049cd78675c35b4510974885bd236bb7adc17', style: { fontSize: '1.3rem' }, name: "sun", label: 'Day use', "aria-label": 'Day use' })))), h("wa-tooltip", { key: '014e6ec2d61f3495840022af57c19057ec66b14e', trigger: "hover", for: "fd-dates-navigation_btn" }, locales.entries.Lcz_Navigate), h("ir-date-select", { key: '5cd1034250b60451f595dd8e421104a9e42fcffe', minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), onDateChanged: evt => {
                 console.log('evt', evt);
                 this.handleDateSelect(evt);
-            }, ref: el => (this.dateSelectRef = el) }, h("ir-custom-button", { key: '10acfe1349c7e289ceb866431ae08d3a3e6e3a56', slot: "trigger", id: "fd-dates-navigation_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('calendar') }, h("wa-icon", { key: '52eb6573806e21a9b33f3145d9ad52ddd1f4cbe5', style: { fontSize: '1.5rem' }, name: "calendar-days", variant: "regular", label: locales.entries.Lcz_Navigate, "aria-label": locales.entries.Lcz_Navigate })), h("div", { key: '7004675cb536429bc41b404af600a57392600fcf', class: "fd-dates__actions" }, h("wa-divider", { key: '187b7785ca9d2f61cf1f8a7c310a0ac3dcb700da' }), h("ir-custom-button", { key: '2aa3397eaf76e48450903d5dc78099d1acdf51c3', variant: "neutral", appearance: "outlined", onClickHandler: () => {
+            }, ref: el => (this.dateSelectRef = el) }, h("ir-custom-button", { key: 'eeea454c6752f2e2c2f7dc4619d6f7fcb30bfc99', slot: "trigger", id: "fd-dates-navigation_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('calendar') }, h("wa-icon", { key: '97b3705a9a5f4c980ccd4d6d42c2fa8411e785d4', style: { fontSize: '1.3rem' }, name: "calendar-days", variant: "regular", label: locales.entries.Lcz_Navigate, "aria-label": locales.entries.Lcz_Navigate })), h("div", { key: '0d4d5ad72881e6cb2aee555e6bb9dc1bffb6e2ea', class: "fd-dates__actions" }, h("wa-divider", { key: '8f13ef81a0c57bfdb98d34c820240e2dbc5f387e' }), h("ir-custom-button", { key: '1444f6fa14f065068c07277ff14dc05a75736740', variant: "neutral", appearance: "outlined", onClickHandler: () => {
                 this.handleOptionEvent('gotoToday');
                 this.dateSelectRef.hide();
-            } }, "Today"))), h("wa-tooltip", { key: 'a94a9eac4f5231dd55bbe40ca5b3834fcd4ccda8', trigger: "hover", for: "fd-rectifier" }, "Rectify or open availability"), h("ir-custom-button", { key: 'aa7768fadd15c9a1e53be0fcac0e80d22d79d2f9', id: "fd-rectifier", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('rectify') }, h("wa-icon", { key: '1a4552431cac0d17982cb4a54826117534474201', style: { fontSize: '1.5rem' }, name: "circle-check", variant: "regular", label: 'Rectify or open availability', "aria-label": 'Rectify or open availability' })), h(Fragment, { key: '50bbcc2f8fcc4f5953b9584fd7fb11ab6ad52094' }, h("wa-tooltip", { key: '54d868988baffd199bd95f6570c1b82376b7c882', trigger: "hover", for: "fd-stop-open-sale_btn" }, locales.entries.Lcz_StopOpenSale), h("ir-custom-button", { key: 'aa7a29efcf5c6f167355efad6b8a120b24726c52', id: "fd-stop-open-sale_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('bulk', this.getNewBookingModel()) }, h("wa-icon", { key: 'c4c20e096b8ba0f94e308146b5551dd2f95ef51b',
+            } }, "Today"))), h("wa-tooltip", { key: 'dfc50b6e4598c8f298d5b94a8cf9279f56c1f575', trigger: "hover", for: "fd-rectifier" }, "Rectify or open availability"), h("ir-custom-button", { key: '85a08c0f63d06c8252a2bd1b58fe34b4d472f2c4', id: "fd-rectifier", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('rectify') }, h("wa-icon", { key: 'c53ac4e7c983c37df0de870c8a78854c57c44769', style: { fontSize: '1.3rem' }, name: "circle-check", variant: "regular", label: 'Rectify or open availability', "aria-label": 'Rectify or open availability' })), h(Fragment, { key: '57d928fa449aa197b298f9f1b0eb128a7203dee6' }, h("wa-tooltip", { key: '5c5350f1876205273974c0c7c34464c33d7521e8', trigger: "hover", for: "fd-stop-open-sale_btn" }, locales.entries.Lcz_StopOpenSale), h("ir-custom-button", { key: '786cdb12458bdac0420fc8a95529bbf4ec985702', id: "fd-stop-open-sale_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('bulk', this.getNewBookingModel()) }, h("wa-icon", { key: '7d697ee26bae15babf24a19b344b1eb2c548572d',
             // variant="regular"
-            style: { fontSize: '1.5rem' }, name: "xmarks-lines", label: locales.entries.Lcz_StopOpenSale, "aria-label": locales.entries.Lcz_StopOpenSale })))), this.roomsList.length >= 20 && (h("div", { key: '393472034af52f4f1e9ab1dfd7060511dd307e9d', class: "searchContiner" }, h("ir-picker", { key: '542807de1478b0cc8df0aa5d6fac28f64eb00c6f', size: "s", "onCombobox-select": e => {
+            style: { fontSize: '1.3rem' }, name: "xmarks-lines", label: locales.entries.Lcz_StopOpenSale, "aria-label": locales.entries.Lcz_StopOpenSale })))), this.roomsList.length >= 20 && (h("div", { key: '634a88615237d63ffefa8e7dc3f1934866ffa721', class: "searchContiner" }, h("ir-picker", { key: 'e38d50dce5789eb0397dedb36594ade112170204', size: "s", "onCombobox-select": e => {
                 this.handleScrollToRoom(Number(e.detail.item.value));
-            } }, this.roomsList.map(room => (h("ir-picker-item", { label: room.name, value: room.id }, room.name)))))))), h("div", { key: '58021622f3b2300af5dbc72ce58a997020e958bc', class: "stickyCell headersContainer" }, h("div", { key: '19a79307ced34bd0e6c8305edbcc80ab77917147', class: "monthsContainer" }, this.calendarData.monthsInfo.map(monthInfo => (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, monthInfo.monthName))))), this.calendarData.days.map(dayInfo => {
+            } }, this.roomsList.map(room => (h("ir-picker-item", { label: room.name, value: room.id }, room.name)))))))), h("div", { key: 'bb8423fc40d54c779ee00bca9e2388194094e43f', class: "stickyCell headersContainer" }, h("div", { key: '3be39ab7038298d3daef0425daa8710bd7e429de', class: "monthsContainer" }, this.calendarData.monthsInfo.map(monthInfo => (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, monthInfo.monthName))))), this.calendarData.days.map(dayInfo => {
             return (h("div", { class: `headerCell align-items-center ${'day-' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}`, "data-day": dayInfo.day }, !this.calendarData.is_vacation_rental && (h("div", { class: "preventPageScroll", onClick: () => this.showToBeAssigned(dayInfo) }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr !== 0 ? (h("button", { class: 'fd-header__badge-btn' }, h("wa-badge", { class: "fd-header__badge", variant: 'brand', appearance: 'accent', pill: true }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr))) : (h("wa-badge", { variant: 'neutral', appearance: 'filled', pill: true }, ' ', this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr)))), h("div", { class: { dayTitle: true, weekend: isWeekend(dayInfo.value) } }, dayInfo.dayDisplayName), h("div", { class: "dayCapacityPercent" }, dayInfo.occupancy, "%")));
         }))));
     }
@@ -319,6 +320,31 @@ export class IglCalHeader {
                 "setter": false,
                 "reflect": false,
                 "attribute": "highlighted-date"
+            },
+            "dayUseBookings": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "DayUseBookings[]",
+                    "resolved": "DayUseBookings[]",
+                    "references": {
+                        "DayUseBookings": {
+                            "location": "import",
+                            "path": "@/components",
+                            "id": "src/components.d.ts::DayUseBookings",
+                            "referenceLocation": "DayUseBookings"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[]"
             }
         };
     }

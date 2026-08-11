@@ -36,6 +36,8 @@ export declare const FiscalDocumentSchema: z.ZodObject<{
     FD_TYPE_NAME: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     ISSUE_DATE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     ISSUE_DATE_DISPLAY: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    ISSUE_HOUR: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    ISSUE_MINUTE: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     IS_PRINTED: z.ZodOptional<z.ZodNullable<z.ZodBoolean>>;
     NET_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     NET_AMOUNT_DISPLAY: z.ZodOptional<z.ZodNullable<z.ZodString>>;
@@ -71,6 +73,8 @@ export declare const FiscalDocumentSchema: z.ZodObject<{
     FD_TYPE_NAME?: string;
     ISSUE_DATE?: string;
     ISSUE_DATE_DISPLAY?: string;
+    ISSUE_HOUR?: number;
+    ISSUE_MINUTE?: number;
     IS_PRINTED?: boolean;
     NET_AMOUNT_DISPLAY?: string;
     TAX_AMOUNT_DISPLAY?: string;
@@ -100,6 +104,8 @@ export declare const FiscalDocumentSchema: z.ZodObject<{
     FD_TYPE_NAME?: string;
     ISSUE_DATE?: string;
     ISSUE_DATE_DISPLAY?: string;
+    ISSUE_HOUR?: number;
+    ISSUE_MINUTE?: number;
     IS_PRINTED?: boolean;
     NET_AMOUNT_DISPLAY?: string;
     TAX_AMOUNT_DISPLAY?: string;
@@ -159,6 +165,8 @@ export declare const ClTxSchema: z.ZodObject<{
         FD_TYPE_NAME: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         ISSUE_DATE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         ISSUE_DATE_DISPLAY: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        ISSUE_HOUR: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        ISSUE_MINUTE: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         IS_PRINTED: z.ZodOptional<z.ZodNullable<z.ZodBoolean>>;
         NET_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         NET_AMOUNT_DISPLAY: z.ZodOptional<z.ZodNullable<z.ZodString>>;
@@ -194,6 +202,8 @@ export declare const ClTxSchema: z.ZodObject<{
         FD_TYPE_NAME?: string;
         ISSUE_DATE?: string;
         ISSUE_DATE_DISPLAY?: string;
+        ISSUE_HOUR?: number;
+        ISSUE_MINUTE?: number;
         IS_PRINTED?: boolean;
         NET_AMOUNT_DISPLAY?: string;
         TAX_AMOUNT_DISPLAY?: string;
@@ -223,6 +233,8 @@ export declare const ClTxSchema: z.ZodObject<{
         FD_TYPE_NAME?: string;
         ISSUE_DATE?: string;
         ISSUE_DATE_DISPLAY?: string;
+        ISSUE_HOUR?: number;
+        ISSUE_MINUTE?: number;
         IS_PRINTED?: boolean;
         NET_AMOUNT_DISPLAY?: string;
         TAX_AMOUNT_DISPLAY?: string;
@@ -308,6 +320,8 @@ export declare const ClTxSchema: z.ZodObject<{
         FD_TYPE_NAME?: string;
         ISSUE_DATE?: string;
         ISSUE_DATE_DISPLAY?: string;
+        ISSUE_HOUR?: number;
+        ISSUE_MINUTE?: number;
         IS_PRINTED?: boolean;
         NET_AMOUNT_DISPLAY?: string;
         TAX_AMOUNT_DISPLAY?: string;
@@ -388,6 +402,8 @@ export declare const ClTxSchema: z.ZodObject<{
         FD_TYPE_NAME?: string;
         ISSUE_DATE?: string;
         ISSUE_DATE_DISPLAY?: string;
+        ISSUE_HOUR?: number;
+        ISSUE_MINUTE?: number;
         IS_PRINTED?: boolean;
         NET_AMOUNT_DISPLAY?: string;
         TAX_AMOUNT_DISPLAY?: string;
@@ -497,6 +513,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             FD_TYPE_NAME: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             ISSUE_DATE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             ISSUE_DATE_DISPLAY: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            ISSUE_HOUR: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            ISSUE_MINUTE: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
             IS_PRINTED: z.ZodOptional<z.ZodNullable<z.ZodBoolean>>;
             NET_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
             NET_AMOUNT_DISPLAY: z.ZodOptional<z.ZodNullable<z.ZodString>>;
@@ -532,6 +550,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             FD_TYPE_NAME?: string;
             ISSUE_DATE?: string;
             ISSUE_DATE_DISPLAY?: string;
+            ISSUE_HOUR?: number;
+            ISSUE_MINUTE?: number;
             IS_PRINTED?: boolean;
             NET_AMOUNT_DISPLAY?: string;
             TAX_AMOUNT_DISPLAY?: string;
@@ -561,6 +581,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             FD_TYPE_NAME?: string;
             ISSUE_DATE?: string;
             ISSUE_DATE_DISPLAY?: string;
+            ISSUE_HOUR?: number;
+            ISSUE_MINUTE?: number;
             IS_PRINTED?: boolean;
             NET_AMOUNT_DISPLAY?: string;
             TAX_AMOUNT_DISPLAY?: string;
@@ -646,6 +668,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             FD_TYPE_NAME?: string;
             ISSUE_DATE?: string;
             ISSUE_DATE_DISPLAY?: string;
+            ISSUE_HOUR?: number;
+            ISSUE_MINUTE?: number;
             IS_PRINTED?: boolean;
             NET_AMOUNT_DISPLAY?: string;
             TAX_AMOUNT_DISPLAY?: string;
@@ -726,6 +750,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             FD_TYPE_NAME?: string;
             ISSUE_DATE?: string;
             ISSUE_DATE_DISPLAY?: string;
+            ISSUE_HOUR?: number;
+            ISSUE_MINUTE?: number;
             IS_PRINTED?: boolean;
             NET_AMOUNT_DISPLAY?: string;
             TAX_AMOUNT_DISPLAY?: string;
@@ -809,6 +835,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             FD_TYPE_NAME?: string;
             ISSUE_DATE?: string;
             ISSUE_DATE_DISPLAY?: string;
+            ISSUE_HOUR?: number;
+            ISSUE_MINUTE?: number;
             IS_PRINTED?: boolean;
             NET_AMOUNT_DISPLAY?: string;
             TAX_AMOUNT_DISPLAY?: string;
@@ -892,6 +920,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             FD_TYPE_NAME?: string;
             ISSUE_DATE?: string;
             ISSUE_DATE_DISPLAY?: string;
+            ISSUE_HOUR?: number;
+            ISSUE_MINUTE?: number;
             IS_PRINTED?: boolean;
             NET_AMOUNT_DISPLAY?: string;
             TAX_AMOUNT_DISPLAY?: string;

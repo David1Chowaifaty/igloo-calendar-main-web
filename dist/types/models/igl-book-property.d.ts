@@ -23,6 +23,8 @@ export interface IglBookPropertyPayload {
   TITLE: string;
   event_type: TEventType;
   defaultDateRange: IDefaultDateRange;
+  /** Opens the booking editor drawer with the day-use toggle pre-enabled. */
+  dayUse?: boolean;
 }
 
 export interface IDefaultDateRange {

@@ -196,6 +196,7 @@ export declare const TaxCategorySchema: z.ZodObject<{
         description?: string;
     }>;
     pct: z.ZodNumber;
+    default_price: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     property_id: z.ZodOptional<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
@@ -208,6 +209,7 @@ export declare const TaxCategorySchema: z.ZodObject<{
         description?: string;
     };
     pct?: number;
+    default_price?: number;
 }, {
     property_id?: number;
     category?: {
@@ -219,6 +221,7 @@ export declare const TaxCategorySchema: z.ZodObject<{
         description?: string;
     };
     pct?: number;
+    default_price?: number;
 }>;
 export type TaxCategory = z.infer<typeof TaxCategorySchema>;
 export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject<{
@@ -251,6 +254,7 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
             description?: string;
         }>;
         pct: z.ZodNumber;
+        default_price: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         property_id: z.ZodOptional<z.ZodNumber>;
     }, "strip", z.ZodTypeAny, {
         property_id?: number;
@@ -263,6 +267,7 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
             description?: string;
         };
         pct?: number;
+        default_price?: number;
     }, {
         property_id?: number;
         category?: {
@@ -274,10 +279,13 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
             description?: string;
         };
         pct?: number;
+        default_price?: number;
     }>, "many">;
     TAXATION_STRATEGY: z.ZodString;
+    DAY_USE_BLOCK: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodUnion<[z.ZodLiteral<"0">, z.ZodLiteral<"1">]>>>>;
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
+    DAY_USE_BLOCK?: "0" | "1";
     VAT_INCLUDED_CODE?: string;
     VAT_PC?: number;
     CITY_TAX_INCLUDED_CODE?: string;
@@ -295,10 +303,12 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
             description?: string;
         };
         pct?: number;
+        default_price?: number;
     }[];
     TAXATION_STRATEGY?: string;
 }, {
     property_id?: number;
+    DAY_USE_BLOCK?: "0" | "1";
     VAT_INCLUDED_CODE?: string;
     VAT_PC?: number;
     CITY_TAX_INCLUDED_CODE?: string;
@@ -316,6 +326,7 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
             description?: string;
         };
         pct?: number;
+        default_price?: number;
     }[];
     TAXATION_STRATEGY?: string;
 }>;
@@ -399,6 +410,8 @@ export declare const UnifiedFolioRecordSchema: z.ZodObject<{
     DOC_NUMBER: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     DOC_DATE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     DOC_TYPE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    DOC_HOUR: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    DOC_MINUTE: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     FD_TYPE_CODE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     CURRENCY_ID: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     TOTAL_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
@@ -419,6 +432,8 @@ export declare const UnifiedFolioRecordSchema: z.ZodObject<{
     DOC_NUMBER?: string;
     DOC_DATE?: string;
     DOC_TYPE?: string;
+    DOC_HOUR?: number;
+    DOC_MINUTE?: number;
     FD_TYPE_CODE?: string;
     CURRENCY_ID?: number;
     TOTAL_AMOUNT?: number;
@@ -439,6 +454,8 @@ export declare const UnifiedFolioRecordSchema: z.ZodObject<{
     DOC_NUMBER?: string;
     DOC_DATE?: string;
     DOC_TYPE?: string;
+    DOC_HOUR?: number;
+    DOC_MINUTE?: number;
     FD_TYPE_CODE?: string;
     CURRENCY_ID?: number;
     TOTAL_AMOUNT?: number;
@@ -461,6 +478,8 @@ export declare const GetUnifiedFolioResultSchema: z.ZodArray<z.ZodObject<{
     DOC_NUMBER: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     DOC_DATE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     DOC_TYPE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    DOC_HOUR: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    DOC_MINUTE: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     FD_TYPE_CODE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     CURRENCY_ID: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     TOTAL_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
@@ -481,6 +500,8 @@ export declare const GetUnifiedFolioResultSchema: z.ZodArray<z.ZodObject<{
     DOC_NUMBER?: string;
     DOC_DATE?: string;
     DOC_TYPE?: string;
+    DOC_HOUR?: number;
+    DOC_MINUTE?: number;
     FD_TYPE_CODE?: string;
     CURRENCY_ID?: number;
     TOTAL_AMOUNT?: number;
@@ -501,6 +522,8 @@ export declare const GetUnifiedFolioResultSchema: z.ZodArray<z.ZodObject<{
     DOC_NUMBER?: string;
     DOC_DATE?: string;
     DOC_TYPE?: string;
+    DOC_HOUR?: number;
+    DOC_MINUTE?: number;
     FD_TYPE_CODE?: string;
     CURRENCY_ID?: number;
     TOTAL_AMOUNT?: number;
@@ -571,3 +594,43 @@ export type GetExposedBookingsByInvoicedStatusResult = {
     bookings: ExposedBookingByInvoicedStatus[];
     total_count: number;
 };
+export declare const GetDayUseBookingsForCalendarParamsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    from_date: z.ZodEffects<z.ZodString, string, string>;
+    to_date: z.ZodEffects<z.ZodString, string, string>;
+}, "strip", z.ZodTypeAny, {
+    property_id?: number;
+    from_date?: string;
+    to_date?: string;
+}, {
+    property_id?: number;
+    from_date?: string;
+    to_date?: string;
+}>;
+export type GetDayUseBookingsForCalendarParams = z.infer<typeof GetDayUseBookingsForCalendarParamsSchema>;
+export type DayUseBookings = {
+    bh_id: number;
+    book_nbr: string;
+    from_time: string;
+    gross_amount: number;
+    guest_first_name: string;
+    guest_last_name: string;
+    net_amount: number;
+    room_type_id: number;
+    service_price: number;
+    target_date: string;
+    tax_amount: number;
+    to_time: string;
+    unit_id: number;
+};
+export declare const CalculateNetAmountParamsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    amount: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    property_id?: number;
+    amount?: number;
+}, {
+    property_id?: number;
+    amount?: number;
+}>;
+export type CalculateNetAmountParams = z.infer<typeof CalculateNetAmountParamsSchema>;

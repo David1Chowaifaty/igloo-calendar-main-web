@@ -22,5 +22,9 @@ export declare class IrBookingEditorForm {
     handleRecalculation(e: CustomEvent): Promise<void>;
     private fetchGuests;
     private handleComboboxSelect;
+    private isValidDayUseTime;
+    private getDayUseHour;
+    private handleDayUseFromChange;
+    private getDayUseDuration;
     render(): any;
 }

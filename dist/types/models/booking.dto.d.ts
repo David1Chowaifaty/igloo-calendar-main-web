@@ -314,6 +314,9 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     }, {
         code?: string;
     }>>>;
+    /** Physical room (unit) id this service is linked to, when the booking has multiple units. */
+    pr_id: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodNumber>>>;
+    room_identifier: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
     agent: z.ZodNullable<z.ZodObject<z.objectUtil.extendShape<{
         address: z.ZodString;
         agent_rate_type_code: z.ZodObject<{
@@ -405,6 +408,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         contact_name: z.ZodNullable<z.ZodString>;
         email: z.ZodNullable<z.ZodString>;
         is_active: z.ZodNullable<z.ZodBoolean>;
+        pr_id: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodNumber>>>;
         is_send_guest_confirmation_email: z.ZodNullable<z.ZodBoolean>;
         notes: z.ZodNullable<z.ZodString>;
         payment_mode: z.ZodNullable<z.ZodObject<{
@@ -470,6 +474,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        pr_id?: number;
     }, {
         name?: string;
         id?: number;
@@ -511,6 +516,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        pr_id?: number;
     }>>;
     charges: z.ZodOptional<z.ZodObject<{
         city_tax_amount: z.ZodNumber;
@@ -587,8 +593,10 @@ export declare const ExtraServiceSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        pr_id?: number;
     };
     system_id?: number;
+    room_identifier?: string;
     booking_system_id?: number;
     cost?: number;
     end_date?: string;
@@ -597,6 +605,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     category?: {
         code?: string;
     };
+    pr_id?: number;
     charges?: {
         city_tax_amount?: number;
         city_tax_percent?: number;
@@ -652,8 +661,10 @@ export declare const ExtraServiceSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        pr_id?: number;
     };
     system_id?: number;
+    room_identifier?: string;
     booking_system_id?: number;
     cost?: number;
     end_date?: string;
@@ -662,6 +673,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     category?: {
         code?: string;
     };
+    pr_id?: number;
     charges?: {
         city_tax_amount?: number;
         city_tax_percent?: number;
@@ -916,7 +928,7 @@ export interface Property {
     country: Country;
     currency: Currency;
     description: Description;
-    extra_info: Extrainfo[];
+    extra_info: ExtraInfo[];
     id: number;
     images: Image[];
     internet_offering: Internetoffering;
@@ -943,7 +955,7 @@ export interface Property {
     social_media: Socialmedia[];
     sources: Paymentmode[];
     space_theme: Spacetheme;
-    tags: Extrainfo[];
+    tags: ExtraInfo[];
     tax_nbr: string;
     tax_statement: string;
     taxation_strategy: Paymentmode;
@@ -1058,7 +1070,7 @@ interface Image {
     tooltip: null | string;
     url: string;
 }
-interface Extrainfo {
+export interface ExtraInfo {
     key: string;
     value: string;
 }
@@ -1214,6 +1226,10 @@ export declare const ROOM_IN_OUT: {
     CHECKOUT: string;
     IDLE: string;
 };
+export type ArrivalTime = {
+    code: string;
+    description: string;
+};
 export interface Room {
     charges: Charges;
     hb_preference: string;
@@ -1223,6 +1239,7 @@ export interface Room {
         code: string;
     } | null;
     days: Day[];
+    arrival_time: ArrivalTime;
     applicable_policies: ExposedApplicablePolicy[];
     from_date: string;
     calendar_extra: string;

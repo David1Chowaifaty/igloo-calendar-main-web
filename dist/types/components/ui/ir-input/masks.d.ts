@@ -37,7 +37,7 @@ export declare const masks: {
                 readonly placeholderChar: "m";
             };
         };
-        readonly lazy: false;
+        readonly lazy: true;
         readonly placeholderChar: "_";
     };
     readonly date: {
@@ -71,4 +71,23 @@ export declare const masks: {
             };
         };
     };
+};
+export declare function createTimeToMask(minHour: number): {
+    blocks: {
+        HH: {
+            from: number;
+            mask: typeof MaskedRange;
+            to: 23;
+            placeholderChar: "H";
+        };
+        mm: {
+            readonly mask: typeof MaskedRange;
+            readonly from: 0;
+            readonly to: 59;
+            readonly placeholderChar: "m";
+        };
+    };
+    mask: "HH:mm";
+    lazy: true;
+    placeholderChar: "_";
 };

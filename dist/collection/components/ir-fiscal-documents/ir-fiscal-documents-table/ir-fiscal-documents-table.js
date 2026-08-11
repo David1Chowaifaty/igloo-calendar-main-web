@@ -5,6 +5,7 @@ import { createColumnHelper, getCoreRowModel, getSortedRowModel } from "@tanstac
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
 import { FdTypes } from "../../../types/enums";
+import { _formatTime } from "../../ir-booking-details/functions";
 const PAGE_SIZES = [20, 50, 100];
 export class IrFiscalDocumentsTable {
     rows = [];
@@ -103,7 +104,11 @@ export class IrFiscalDocumentsTable {
         const base = [
             this.columnHelper.accessor('DOC_DATE', {
                 header: 'Date',
-                cell: info => moment(info.getValue(), 'YYYY-MM-DD').format('MMM DD, YYYY') ?? '',
+                cell: info => {
+                    const row = info.row.original;
+                    const date = moment(info.getValue(), 'YYYY-MM-DD').format('MMM DD, YYYY');
+                    return (h("div", { class: "fiscal-table__date-cell" }, h("p", { class: "m-0 p-0" }, date), row.DOC_HOUR != null && row.DOC_MINUTE != null && h("p", { class: "fd_ss" }, _formatTime(String(row.DOC_HOUR), String(row.DOC_MINUTE)))));
+                },
                 enableSorting: true,
             }),
             this.columnHelper.accessor('DOC_NUMBER', {
@@ -253,7 +258,7 @@ export class IrFiscalDocumentsTable {
                 "mutable": false,
                 "complexType": {
                     "original": "FiscalDocumentRow[]",
-                    "resolved": "{ TARGET_TYPE?: \"AGENT\" | \"GUEST\"; AGENT_ID?: number; AGENT_NAME?: string; GUEST_ID?: number; GUEST_NAME?: string; GUEST_EMAIL?: string; BOOKING_ID?: number; BOOKING_NUMBER?: string; DOC_ID?: number; DOC_NUMBER?: string; DOC_DATE?: string; DOC_TYPE?: string; FD_TYPE_CODE?: string; CURRENCY_ID?: number; TOTAL_AMOUNT?: number; CREDIT?: number; DEBIT?: number; NET_AMOUNT?: number; TAX_AMOUNT?: number; }[]",
+                    "resolved": "{ TARGET_TYPE?: \"AGENT\" | \"GUEST\"; AGENT_ID?: number; AGENT_NAME?: string; GUEST_ID?: number; GUEST_NAME?: string; GUEST_EMAIL?: string; BOOKING_ID?: number; BOOKING_NUMBER?: string; DOC_ID?: number; DOC_NUMBER?: string; DOC_DATE?: string; DOC_TYPE?: string; DOC_HOUR?: number; DOC_MINUTE?: number; FD_TYPE_CODE?: string; CURRENCY_ID?: number; TOTAL_AMOUNT?: number; CREDIT?: number; DEBIT?: number; NET_AMOUNT?: number; TAX_AMOUNT?: number; }[]",
                     "references": {
                         "FiscalDocumentRow": {
                             "location": "import",

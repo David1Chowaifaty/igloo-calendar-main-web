@@ -20,6 +20,8 @@ type CalendarStore = CalendarDataDetails & {
 };
 export declare const calendar_data: CalendarStore, onCalendarDatesChange: import("@stencil/store/dist/types").OnChangeHandler<CalendarStore>;
 export declare function isSingleUnit(id: number): boolean;
-export declare const isOptimReadOnly: () => boolean;
-export declare const hasOptim: () => import("@/models/booking.dto").LinkedPms;
+export declare function isOptimReadOnly(): boolean;
+export declare function hasOptim(): import("@/models/booking.dto").LinkedPms;
+export declare function getExtraServiceDefaultPrice(serviceKey: string): string;
+export declare function getDayUseBlockState(): '0' | '1' | undefined;
 export default calendar_data;

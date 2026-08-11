@@ -21,21 +21,6 @@ export declare class IrTaxServiceCategories {
     /** Fetches setup entries and property data, then builds the initial charge rules map. */
     private init;
     /**
-     * Strips non-alphanumeric characters and lowercases a string for fuzzy matching
-     * against tax names from the property data.
-     */
-    private normalizeTaxName;
-    /**
-     * Finds a tax entry by keyword from the property's taxes array.
-     * Returns undefined when no match is found — the caller should treat that as Not Applicable.
-     */
-    private findTax;
-    /**
-     * Converts a property tax entry to a ChargeRule.
-     * Returns `{ mode: '002', value: null }` (Not Applicable) when the tax is absent from the property data.
-     */
-    private toChargeRule;
-    /**
      * Builds the initial charge rules map from property taxes and saved tax categories.
      * ACC (Accommodation) is seeded from the property's taxes array; service categories
      * are seeded from saved `tax_categories` or default to Not Applicable when absent.
@@ -58,6 +43,14 @@ export declare class IrTaxServiceCategories {
      * that still has an empty (unset) VAT value.
      */
     private handleChargeRuleChange;
+    /**
+     * Top-level service categories eligible for their own VAT row here. Sub-categories grouped under
+     * a parent (e.g. Breakfast/Minibar under `ACM`) are excluded — they share the group's rate,
+     * configured on the Extra Services page instead. Synthesized group placeholders (a parent code
+     * with no `svc_category` row of its own, like `ACM`) are excluded too: `ACM`'s rate already
+     * mirrors the Accommodation row above, and it isn't a real backend category to submit.
+     */
+    private get categories();
     /** Assembles the API payload from the current charge rules state. */
     private buildPayload;
     /** Validates and submits the tax configuration to the API. */

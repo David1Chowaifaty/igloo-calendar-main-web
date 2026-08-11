@@ -1,21 +1,22 @@
-import { r as registerInstance, h, H as Host } from './index-JbQjGrUG.js';
+import { r as registerInstance, h, H as Host } from './index-BxxIyJIp.js';
 import { T as Token } from './Token-CkxFIO_J.js';
-import { B as BookingService } from './booking.store-3Tubbm72.js';
-import { P as PropertyService } from './index-6po2_28m.js';
-import { R as RoomService } from './room.service-CQ8L3eOZ.js';
-import { i as isRequestPending } from './ir-interceptor.store-BiWSX1U0.js';
-import { j as groupEntryTablesResult, k as showToast } from './utils-AafVtJtY.js';
+import { B as BookingService } from './booking.store-DE4RcYN8.js';
+import { P as PropertyService } from './index-CJQ5_bi7.js';
+import { R as RoomService } from './room.service-DgMa1jNE.js';
+import { i as isRequestPending } from './ir-interceptor.store-l69uOCdh.js';
+import { j as groupEntryTablesResult, k as showToast } from './utils-CmsmLI2N.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './index-DeW5X45W.js';
-import './booking-BamW7Ksy.js';
+import './booking-iQXnHKbs.js';
 import './moment-Mki5YqAR.js';
-import './locales.store-CV07I3Cw.js';
-import './index-CR94o8Bs.js';
-import './calendar-data-CRLrGQXE.js';
+import './locales.store-BPLMdI8U.js';
+import './index-xEub7_rB.js';
+import './calendar-data-Bwf2mcZp.js';
+import './commonSchemas-Csh6Sdrk.js';
 import './type-D7rOPtKA.js';
 
-const irGapNightsCss = () => `.sc-ir-gap-nights-h{display:block}.gap-nights__card.sc-ir-gap-nights{min-height:70vh}@media (min-width: 768px){.gap-nights__day-options.sc-ir-gap-nights{max-width:300px}}.gap-nights__card-header.sc-ir-gap-nights{display:flex;flex-direction:row;justify-content:space-between;align-items:center;width:100%;gap:var(--wa-space-l)}.gap-nights__card-header.sc-ir-gap-nights p.sc-ir-gap-nights{margin:0;padding:0}.gap-nights__card.sc-ir-gap-nights::part(body),.gap-nights__card.sc-ir-gap-nights [part~="body"]{display:flex;flex-direction:column;gap:var(--wa-space-l)}.gap-nights__period.sc-ir-gap-nights{display:flex;align-items:center;gap:var(--wa-space-m)}.gap-nights__period-label.sc-ir-gap-nights{font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold);color:var(--wa-color-neutral-800);white-space:nowrap}.gap-nights__period--disabled.sc-ir-gap-nights .gap-nights__period-label.sc-ir-gap-nights{color:var(--wa-color-neutral-400)}`;
+const irGapNightsCss = () => `.sc-ir-gap-nights-h{display:block}.gap-nights__card.sc-ir-gap-nights{min-height:70vh}@media (min-width: 768px){.gap-nights__day-options.sc-ir-gap-nights{max-width:300px}}.gap-nights__card.sc-ir-gap-nights{background-color:var(--wa-color-surface-default, white)}.gap-nights__card-header.sc-ir-gap-nights{display:flex;flex-direction:row;justify-content:space-between;align-items:center;width:100%;gap:var(--wa-space-l)}.gap-nights__card-header.sc-ir-gap-nights p.sc-ir-gap-nights{margin:0;padding:0}.gap-nights__card.sc-ir-gap-nights::part(body),.gap-nights__card.sc-ir-gap-nights [part~="body"]{display:flex;flex-direction:column;gap:var(--wa-space-l)}.gap-nights__period.sc-ir-gap-nights{display:flex;align-items:center;gap:var(--wa-space-m)}.gap-nights__period-label.sc-ir-gap-nights{font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold);color:var(--wa-color-neutral-800);white-space:nowrap}.gap-nights__period--disabled.sc-ir-gap-nights .gap-nights__period-label.sc-ir-gap-nights{color:var(--wa-color-neutral-400)}`;
 
 const DEFAULT_RULE_CODE = '000';
 const DEFAULT_LOOKAHEAD_DAYS = 30;
@@ -112,7 +113,7 @@ const IrGapNights = class {
         }
         const ruleDisabled = isRequestPending('/Set_Property_Gap_Config') || this.isSaving;
         const periodDisabled = ruleDisabled || this.selectedRule === DEFAULT_RULE_CODE;
-        return (h(Host, null, h("ir-page", { label: "Gap Nights" }, h("ir-custom-button", { slot: "page-header", variant: "brand", loading: ruleDisabled, onClickHandler: () => this.save() }, "Save"), h("wa-card", { class: "gap-nights__card" }, h("wa-callout", { variant: "neutral", size: "s" }, h("wa-icon", { slot: "icon", name: "circle-info" }), "Gap nights are nights guests can't book because of your length of stay restriction. For example, if you have 2 consecutive nights left and you've set a restriction of 3 nights minimum stay, guests won't be able to book those 2 nights."), h("wa-radio-group", { label: "Rule", value: this.selectedRule, defaultValue: this.selectedRule, onchange: (e) => {
+        return (h(Host, null, h("ir-page", { label: "Gap Nights" }, h("ir-custom-button", { slot: "page-header", variant: "brand", loading: ruleDisabled, onClickHandler: () => this.save() }, "Save"), h("wa-card", { appearance: "plain", class: "gap-nights__card" }, h("wa-callout", { variant: "neutral", size: "s" }, h("wa-icon", { slot: "icon", name: "circle-info" }), "Gap nights are nights guests can't book because of your length of stay restriction. For example, if you have 2 consecutive nights left and you've set a restriction of 3 nights minimum stay, guests won't be able to book those 2 nights."), h("wa-radio-group", { label: "Rule", value: this.selectedRule, defaultValue: this.selectedRule, onchange: (e) => {
                 this.selectedRule = e.target.value;
             } }, this.gapRules.map(r => (h("wa-radio", { key: r.CODE_NAME, value: r.CODE_NAME, disabled: ruleDisabled }, r.CODE_VALUE_EN)))), h("wa-select", { size: "s", class: "gap-nights__day-options", label: "Applicable over the next", value: this.applicableDays.toString(), defaultValue: this.applicableDays.toString(), disabled: periodDisabled, onchange: (e) => {
                 this.applicableDays = Number(e.target.value);

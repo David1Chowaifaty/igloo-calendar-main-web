@@ -24,6 +24,8 @@ export class IrOtpModal {
     error = '';
     isLoading = false;
     timer = 60;
+    open = false;
+    el;
     dialogRef;
     timerInterval;
     systemService = new SystemService();
@@ -45,38 +47,32 @@ export class IrOtpModal {
             this.fetchLocale();
         }
     }
-    handleKeyDownChange(e) {
-        if (e.key === 'Escape' && this.dialogRef?.open) {
-            e.preventDefault();
-        }
-    }
     /** Open & reset everything */
     async openModal() {
         this.resetState();
-        // $(this.modalRef).modal({ backdrop: 'static', keyboard: false });
-        // $(this.modalRef).modal('show');
-        if (typeof this.dialogRef.showModal === 'function') {
-            this.dialogRef.showModal();
-        }
-        else {
-            // fallback for browsers without dialog support
-            this.dialogRef.setAttribute('open', '');
-        }
+        this.open = true;
         if (this.showResend)
             this.startTimer();
         await this.focusFirstInput();
     }
     /** Hide & clear timer */
     async closeModal() {
-        // $(this.modalRef).modal('hide');
-        if (typeof this.dialogRef.close === 'function') {
-            this.dialogRef.close();
-        }
-        else {
-            this.dialogRef.removeAttribute('open');
-        }
+        this.open = false;
         this.otp = null;
         this.clearTimer();
+    }
+    /**
+     * Keeps the dialog non-dismissible: Escape / outside-click / programmatic
+     * hide are ignored, so the flow can only be ended via the Cancel/Verify
+     * buttons (which call closeModal explicitly).
+     */
+    handleDialogHide(e) {
+        e.preventDefault();
+        // ir-dialog has already flipped its internal open state to false; since our
+        // `open` prop is unchanged Stencil won't re-push it, so re-open imperatively.
+        if (this.open) {
+            this.dialogRef?.openModal();
+        }
     }
     async fetchLocale() {
         if (!this.tokenService.getToken()) {
@@ -112,7 +108,7 @@ export class IrOtpModal {
     }
     async focusFirstInput() {
         await new Promise(r => setTimeout(r, 50));
-        const first = this.dialogRef.querySelector('input');
+        const first = this.el.querySelector('input');
         first && first.focus();
     }
     handleOtpComplete = (e) => {
@@ -168,13 +164,14 @@ export class IrOtpModal {
         this.clearTimer();
     }
     render() {
-        return (h(Host, { key: '1ac762128a92b42878ed6185068c50c3bf876eca' }, h("dialog", { key: 'd081f820d0616f8312cfccf15c2f76c4c78e93b1', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: 'b11db85d2af28a6d8d9d1ec84f9b83dbb3312779', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales.entries ? (h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { class: "verification-message text-truncate" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "small mt-1" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+        return (h(Host, { key: '88853b6007b825f51dd0061c0e9ecaf729b11023' }, h("ir-dialog", { key: '1b78a1cdd17b93de1a3b62e73ee537d6075eb855', class: "otp-modal", ref: el => (this.dialogRef = el), open: this.open, withoutHeader: true, lightDismiss: false, onIrDialogHide: e => this.handleDialogHide(e) }, this.isInitializing || !locales.entries ? (h("div", { class: "modal-loading-container" }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body" }, h("p", { class: "verification-message" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "otp-error" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "otp-resend-timer" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-custom-button", { class: "otp-resend-btn", link: true, size: "s", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
-            }, size: "sm", text: 'Didn’t receive code? Resend' }))))), h("footer", { class: "otp-modal-footer justify-content-auto" }, h("ir-button", { class: "w-100", btn_styles: "flex-fill", text: locales.entries.Lcz_Cancel, btn_color: "secondary", onClick: this.handleCancelClicked.bind(this) }), h("ir-button", { class: "w-100", btn_styles: "flex-fill", text: locales.entries.Lcz_VerifyNow, isLoading: this.isLoading, btn_disabled: this.otp?.length < this.otpLength || this.isLoading, onClick: () => this.verifyOtp() }))))))));
+            } }, "Didn\u2019t receive code? Resend"))))), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { variant: "neutral", appearance: "filled", size: "m", onClickHandler: () => this.handleCancelClicked() }, locales.entries.Lcz_Cancel), h("ir-custom-button", { variant: "brand", size: "m", loading: this.isLoading, disabled: this.otp?.length < this.otpLength || this.isLoading, onClickHandler: () => this.verifyOtp() }, locales.entries.Lcz_VerifyNow)))))));
     }
     static get is() { return "ir-otp-modal"; }
+    static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-otp-modal.css"]
@@ -351,6 +348,7 @@ export class IrOtpModal {
             "error": {},
             "isLoading": {},
             "timer": {},
+            "open": {},
             "isInitializing": {}
         };
     }
@@ -410,19 +408,11 @@ export class IrOtpModal {
             }
         };
     }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
                 "propName": "ticket",
                 "methodName": "handleTicketChange"
-            }];
-    }
-    static get listeners() {
-        return [{
-                "name": "keydown",
-                "method": "handleKeyDownChange",
-                "target": "document",
-                "capture": false,
-                "passive": false
             }];
     }
 }

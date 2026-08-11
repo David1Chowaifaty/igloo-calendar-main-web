@@ -6,6 +6,7 @@ import { CityLedgerService } from "../../../../services/city-ledger";
 import { FdStatus, FdTypes } from "../../../../types/enums";
 import moment from "moment";
 import calendar_data from "../../../../stores/calendar-data";
+import { _formatTime } from "../../../ir-booking-details/functions";
 export class IrCityLedgerFiscalDocumentsTable {
     rows = [];
     booking;
@@ -156,7 +157,10 @@ export class IrCityLedgerFiscalDocumentsTable {
             }),
             this.columnHelper.accessor('ISSUE_DATE_DISPLAY', {
                 header: 'Date',
-                cell: info => info.getValue(),
+                cell: info => {
+                    const row = info.row.original;
+                    return (h("div", { class: "fiscal-table__date-cell" }, h("p", { class: "m-0 p-0" }, info.getValue()), row.ISSUE_HOUR != null && row.ISSUE_MINUTE != null && h("p", { class: "fd_ss" }, _formatTime(String(row.ISSUE_HOUR), String(row.ISSUE_MINUTE)))));
+                },
             }),
             this.columnHelper.accessor('DOC_NUMBER', {
                 header: 'Doc Number',
@@ -297,7 +301,7 @@ export class IrCityLedgerFiscalDocumentsTable {
                 "mutable": false,
                 "complexType": {
                     "original": "FiscalDocument[]",
-                    "resolved": "{ DOC_NUMBER?: string; FD_TYPE_CODE?: string; CURRENCY_ID?: number; TOTAL_AMOUNT?: number; CREDIT?: number; DEBIT?: number; NET_AMOUNT?: number; TAX_AMOUNT?: number; FROM_DATE?: string; TO_DATE?: string; BOOK_NBR?: string; AGENCY_ID?: number; AGENCY_NAME?: string; CREDIT_DISPLAY?: string; CURRENCY_CODE?: string; DEBIT_DISPLAY?: string; EXTERNAL_REF?: string; FD_ID?: number; FD_STATUS_CODE?: string; FD_STATUS_NAME?: string; FD_TYPE_NAME?: string; ISSUE_DATE?: string; ISSUE_DATE_DISPLAY?: string; IS_PRINTED?: boolean; NET_AMOUNT_DISPLAY?: string; TAX_AMOUNT_DISPLAY?: string; BALANCE_BEFORE_TX?: number; BALANCE_AFTER_TX?: number; }[]",
+                    "resolved": "{ DOC_NUMBER?: string; FD_TYPE_CODE?: string; CURRENCY_ID?: number; TOTAL_AMOUNT?: number; CREDIT?: number; DEBIT?: number; NET_AMOUNT?: number; TAX_AMOUNT?: number; FROM_DATE?: string; TO_DATE?: string; BOOK_NBR?: string; AGENCY_ID?: number; AGENCY_NAME?: string; CREDIT_DISPLAY?: string; CURRENCY_CODE?: string; DEBIT_DISPLAY?: string; EXTERNAL_REF?: string; FD_ID?: number; FD_STATUS_CODE?: string; FD_STATUS_NAME?: string; FD_TYPE_NAME?: string; ISSUE_DATE?: string; ISSUE_DATE_DISPLAY?: string; ISSUE_HOUR?: number; ISSUE_MINUTE?: number; IS_PRINTED?: boolean; NET_AMOUNT_DISPLAY?: string; TAX_AMOUNT_DISPLAY?: string; BALANCE_BEFORE_TX?: number; BALANCE_AFTER_TX?: number; }[]",
                     "references": {
                         "FiscalDocument": {
                             "location": "import",

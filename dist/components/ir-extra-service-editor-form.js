@@ -1,0 +1,1 @@
+import{I as r,d as o}from"./ir-extra-service-editor-form2.js";const e=r,s=o;export{e as IrExtraServiceEditorForm,s as defineCustomElement}

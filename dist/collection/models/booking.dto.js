@@ -173,6 +173,9 @@ export const ExtraServiceSchema = z.object({
     price: z.coerce.number().min(0.01),
     system_id: z.number().optional(),
     category: z.object({ code: z.string().nonempty() }).nullable().optional(),
+    /** Physical room (unit) id this service is linked to, when the booking has multiple units. */
+    pr_id: z.number().nullable().optional().default(null),
+    room_identifier: z.string().nullable().optional().default(null),
     agent: AgentBaseSchema.extend({
         address: z.string().nullable(),
         agent_rate_type_code: AgentBaseSchema.shape.agent_rate_type_code.nullable(),
@@ -181,6 +184,7 @@ export const ExtraServiceSchema = z.object({
         contact_name: z.string().nullable(),
         email: z.string().email().nullable(),
         is_active: z.boolean().nullable(),
+        pr_id: z.number().nullable().optional().default(null),
         is_send_guest_confirmation_email: z.boolean().nullable(),
         notes: z.string().nullable(),
         payment_mode: AgentBaseSchema.shape.payment_mode.nullable(),

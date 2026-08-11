@@ -1,24 +1,25 @@
 'use strict';
 
-var index$2 = require('./index-Bg4VKYKR.js');
+var index$1 = require('./index-jMqrfjaT.js');
 var moment = require('./moment-CdViwxPQ.js');
 var Token = require('./Token-mN7PQKGF.js');
-var room_service = require('./room.service-D0gXsBj-.js');
+var room_service = require('./room.service-D-s4mUvw.js');
 var axios = require('./axios-EresIryl.js');
 var index = require('./index-CLqkDPTC.js');
-var index$1 = require('./index-Dhj92quS.js');
-var locales_store = require('./locales.store-B208i_tH.js');
-var dp_report_store = require('./dp_report.store-BR6Xb9iQ.js');
-var calendarData = require('./calendar-data-D7gl8C6U.js');
+var commonSchemas = require('./commonSchemas-C-n20RMg.js');
+var locales_store = require('./locales.store-EkxfQjEN.js');
+var dp_report_store = require('./dp_report.store-D3I92WOL.js');
+var calendarData = require('./calendar-data-UNmh_Xjg.js');
+var index$2 = require('./index-KPcMmOad.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./utils-Bb-1iFW2.js');
+require('./index-BXsYsiHK.js');
+require('./utils-BxzV_u8d.js');
 require('./type-Dy9pVS4V.js');
-require('./index-KxiFTvIk.js');
 
 const GetDPBookingsReportParamsSchema = index.libExports.z.object({
-    from_date: index$1.DateSchema,
-    to_date: index$1.DateSchema,
-    property_id: index$1.PropertyIdSchema,
+    from_date: commonSchemas.DateSchema,
+    to_date: commonSchemas.DateSchema,
+    property_id: commonSchemas.PropertyIdSchema,
 });
 
 class DpReportService {
@@ -48,13 +49,13 @@ function mapBookingToDpRow(booking) {
     };
 }
 
-const irDpReportCss = () => `.sc-ir-dp-report-h{display:block}.dp-report__page.sc-ir-dp-report::part(description),.dp-report__page.sc-ir-dp-report [part~="description"]{font-size:var(--wa-font-size-s);margin-top:0.25rem}.dp-report__callout.sc-ir-dp-report{margin-bottom:1rem}.dp-report__callout-header.sc-ir-dp-report{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.25rem}.dp-report__callout-text.sc-ir-dp-report{margin:0}.dp-report__property-select.sc-ir-dp-report::part(listbox),.dp-report__property-select.sc-ir-dp-report [part~="listbox"]{max-height:300px}.dp-report__property-select.sc-ir-dp-report{width:100%}@media (min-width: 1024px){.dp-report__property-select.sc-ir-dp-report{width:300px}}`;
+const irDpReportCss = () => `.sc-ir-dp-report-h{display:block}.dp-report__page.sc-ir-dp-report::part(description),.dp-report__page.sc-ir-dp-report [part~="description"]{font-size:var(--wa-font-size-s);margin-top:0.25rem}.dp-report__callout.sc-ir-dp-report{margin-bottom:1rem}.dp-report__callout-header.sc-ir-dp-report{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.25rem;font-size:var(--wa-font-size-m)}.dp-report__callout-text.sc-ir-dp-report{margin:0}.dp-report__property-select.sc-ir-dp-report::part(listbox),.dp-report__property-select.sc-ir-dp-report [part~="listbox"]{max-height:300px}.dp-report__property-select.sc-ir-dp-report{width:100%}@media (min-width: 1024px){.dp-report__property-select.sc-ir-dp-report{width:300px}}`;
 
 const IrDpReport = class {
     constructor(hostRef) {
-        index$2.registerInstance(this, hostRef);
+        index$1.registerInstance(this, hostRef);
     }
-    get el() { return index$2.getElement(this); }
+    get el() { return index$1.getElement(this); }
     language = '';
     ticket = '';
     propertyid;
@@ -70,7 +71,7 @@ const IrDpReport = class {
     minAllowedDate;
     token = new Token.Token();
     roomService = new room_service.RoomService();
-    propertyService = new index$1.PropertyService();
+    propertyService = new index$2.PropertyService();
     dpReportService = new DpReportService();
     componentWillLoad() {
         if (this.baseUrl) {
@@ -123,6 +124,14 @@ const IrDpReport = class {
             const [languageTexts, allowedProperties] = await Promise.all([
                 this.roomService.fetchLanguage(this.language),
                 this.propertyService.getActiveOptimExposedProperties(),
+                !this.propertyid
+                    ? Promise.resolve(null)
+                    : this.roomService.getExposedProperty({
+                        id: this.propertyId,
+                        aname: this.p,
+                        language: this.language,
+                        is_backend: true,
+                    }),
                 await this.fetchInitialDpReport(),
             ]);
             if (!locales_store.locales.entries) {
@@ -208,9 +217,9 @@ const IrDpReport = class {
     }
     render() {
         if (this.isPageLoading) {
-            return index$2.h("ir-loading-screen", null);
+            return index$1.h("ir-loading-screen", null);
         }
-        return (index$2.h("ir-page", { description: "The dynamic pricing effect is calculated at the time the booking is\ncreated and remains fixed thereafter, serving as an indicator of the additional profit generated or of\nthe incentive price reduction.", label: "Dynamic Pricing Effect", class: "dp-report__page" }, this.allowedProperties && (index$2.h("ir-autocomplete", { slot: "page-header", placeholder: "Change property", withExpandIcon: true, class: 'dp-report__property-select', value: this.allowedProperties.find(property => property.id === this.propertyId)?.name ?? '', "onCombobox-change": this.handlePropertyChange }, index$2.h("wa-icon", { slot: "start", name: "magnifying-glass" }), this.allowedProperties.map(property => (index$2.h("ir-autocomplete-option", { key: property.id, label: property.name, value: String(property.id) }, property.name))))), calendarData.isOptimReadOnly() && (index$2.h("wa-callout", { size: "s", variant: "danger", class: "dp-report__callout" }, index$2.h("wa-icon", { slot: "icon", name: "face-frown" }), index$2.h("div", { class: "dp-report__callout-header" }, index$2.h("b", null, "Potential Missed Profit"), index$2.h("wa-badge", { pill: true, variant: "danger" }, "SIMULATION")), index$2.h("p", { class: "dp-report__callout-text" }, "The figures below estimate the additional profit your hotel could have generated if Dynamic Pricing had been enabled during the selected period. Contact your account manager to subscribe."))), index$2.h("ir-dp-report-summary", null), index$2.h("wa-tab-group", { active: this.activeTab, activation: "manual", "onwa-tab-show": this.handleTabShow }, index$2.h("wa-tab", { panel: "chart" }, "Chart"), index$2.h("wa-tab", { panel: "bookings" }, "Bookings"), index$2.h("wa-tab-panel", { name: "chart" }, index$2.h("ir-dp-report-filters", { minDate: this.minAllowedDate }), index$2.h("ir-dp-report-chart", null)), index$2.h("wa-tab-panel", { name: "bookings" }, index$2.h("ir-dp-report-filters", { minDate: this.minAllowedDate }), index$2.h("ir-dp-report-table", null))), index$2.h("ir-booking-details-drawer", { open: !!this.activeBookingNbr, propertyId: this.propertyId, bookingNumber: this.activeBookingNbr, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.activeBookingNbr = null) }), index$2.h("ir-guest-info-drawer", { open: !!this.activeGuestBookingNbr, booking_nbr: this.activeGuestBookingNbr, email: this.findRow(this.activeGuestBookingNbr)?.raw.guest.email, language: this.language, onGuestInfoDrawerClosed: () => (this.activeGuestBookingNbr = null) })));
+        return (index$1.h("ir-page", { description: "The dynamic pricing effect is calculated at the time the booking is\ncreated and remains fixed thereafter, serving as an indicator of the additional profit generated or of\nthe incentive price reduction.", label: "Dynamic Pricing Effect", class: "dp-report__page" }, this.allowedProperties && (index$1.h("ir-autocomplete", { slot: "page-header", placeholder: "Change property", withExpandIcon: true, class: 'dp-report__property-select', value: this.allowedProperties.find(property => property.id === this.propertyId)?.name ?? '', "onCombobox-change": this.handlePropertyChange }, index$1.h("wa-icon", { slot: "start", name: "magnifying-glass" }), this.allowedProperties.map(property => (index$1.h("ir-autocomplete-option", { key: property.id, label: property.name, value: String(property.id) }, property.name))))), calendarData.isOptimReadOnly() && (index$1.h("wa-callout", { size: "s", variant: "danger", class: "dp-report__callout" }, index$1.h("wa-icon", { slot: "icon", name: "face-frown" }), index$1.h("div", { class: "dp-report__callout-header" }, index$1.h("b", null, "Missed Profit"), index$1.h("wa-badge", { pill: true, variant: "danger" }, "SIMULATION")), index$1.h("p", { class: "dp-report__callout-text" }, "The figures below estimate the additional profit your hotel could have generated if Dynamic Pricing had been enabled during the selected period. Contact your account manager to subscribe."))), index$1.h("ir-dp-report-summary", null), index$1.h("wa-tab-group", { active: this.activeTab, activation: "manual", "onwa-tab-show": this.handleTabShow }, index$1.h("wa-tab", { panel: "chart" }, "Chart"), index$1.h("wa-tab", { panel: "bookings" }, "Bookings"), index$1.h("wa-tab-panel", { name: "chart" }, index$1.h("ir-dp-report-filters", { minDate: this.minAllowedDate }), index$1.h("ir-dp-report-chart", null)), index$1.h("wa-tab-panel", { name: "bookings" }, index$1.h("ir-dp-report-filters", { minDate: this.minAllowedDate }), index$1.h("ir-dp-report-table", null))), index$1.h("ir-booking-details-drawer", { open: !!this.activeBookingNbr, propertyId: this.propertyId, bookingNumber: this.activeBookingNbr, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.activeBookingNbr = null) }), index$1.h("ir-guest-info-drawer", { open: !!this.activeGuestBookingNbr, booking_nbr: this.activeGuestBookingNbr, email: this.findRow(this.activeGuestBookingNbr)?.raw.guest.email, language: this.language, onGuestInfoDrawerClosed: () => (this.activeGuestBookingNbr = null) })));
     }
     static get watchers() { return {
         "ticket": [{

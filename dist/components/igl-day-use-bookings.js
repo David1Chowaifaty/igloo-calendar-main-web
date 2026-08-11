@@ -1,0 +1,1 @@
+import{I as o,d as s}from"./igl-day-use-bookings2.js";const a=o,i=s;export{a as IglDayUseBookings,i as defineCustomElement}

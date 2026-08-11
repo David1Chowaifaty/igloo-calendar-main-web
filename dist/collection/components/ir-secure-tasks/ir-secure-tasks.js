@@ -94,6 +94,7 @@ export class IrSecureTasks {
         'agents',
         'channels',
         'tax-services',
+        'extra-services',
         'payment-options',
         'meal-report',
         'ghs',
@@ -144,6 +145,7 @@ export class IrSecureTasks {
                 { name: 'City Ledger', value: 'city-ledger' },
                 { name: 'Channels', value: 'channels' },
                 { name: 'Tax & Services', value: 'tax-services' },
+                { name: 'Extra Services', value: 'extra-services' },
                 { name: 'Payment Options', value: 'payment-options' },
             ],
         },
@@ -225,6 +227,8 @@ export class IrSecureTasks {
                 return h("ir-channel", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'tax-services':
                 return h("ir-tax-service-categories", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'extra-services':
+                return h("ir-extra-services-settings", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'payment-options':
                 return h("ir-payment-option", { p: this.p, propertyid: this.propertyid.toString(), language: "en", ticket: this.token.getToken() });
             case 'ghs':

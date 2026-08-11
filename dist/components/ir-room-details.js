@@ -1,0 +1,1 @@
+import{I as o,d as r}from"./ir-room-details2.js";const s=o,t=r;export{s as IrRoomDetails,t as defineCustomElement}

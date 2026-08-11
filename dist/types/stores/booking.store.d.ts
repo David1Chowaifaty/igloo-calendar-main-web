@@ -1,7 +1,7 @@
 import { Booking, Guest } from "../models/booking.dto";
 import { ICountry, ISetupEntries } from "../models/IBooking";
 import { BookingSource, TEventType } from "../models/igl-book-property";
-import { BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../models/property";
+import { BeddingSetup, ISmokingOption, PhysicalRoom, RatePlan, RoomType, Variation } from "../models/property";
 import { Moment } from 'moment';
 import { Agent } from "../services/agents/type";
 /**
@@ -80,6 +80,28 @@ export interface BookingDraft {
         adults: number;
         children: number;
     };
+    /** Day-use toggle: single-date, unit-only, no-rate-plan booking flow. */
+    dayUse: boolean;
+    /** Step-2 arrival/departure hour strings (HH:mm) for a day-use booking. */
+    dayUseHours: {
+        from: string;
+        to: string;
+    };
+}
+/**
+ * Physical unit + room type picked in the day-use step-1 unit list, along with the resolved
+ * gross price and its net/tax breakdown — computed once at selection time so step 2's display
+ * and the final `doDayUse` submission always agree on the same amount.
+ */
+export interface DayUseSelection {
+    unit: PhysicalRoom;
+    roomType: RoomType;
+    /** Gross amount to charge — the hotel's default price, or net + tax when overridden. */
+    price: number;
+    netAmount: number;
+    taxAmount: number;
+    /** True when the front-desk agent typed a custom (net) price instead of the hotel's default. */
+    isCustomPrice: boolean;
 }
 /**
  * Lookup datasets used by dropdowns across the booking experience.
@@ -143,6 +165,7 @@ export interface BookingStore {
     selects: BookingSelects;
     bookedByGuest: BookedByGuest;
     bookedByGuestManuallyEdited: boolean;
+    dayUseSelection: DayUseSelection | null;
 }
 export interface ReservedRoomSelection {
     roomTypeId: number;
@@ -237,6 +260,10 @@ export declare function getVisibleInventory(roomTypeId: number, ratePlanId: numb
  */
 export declare function modifyBookingStore(key: keyof BookingStore, value: any): void;
 /**
+ * Sets (or clears) the physical unit + price chosen in the day-use step-1 unit list.
+ */
+export declare function setDayUseSelection(selection: DayUseSelection | null): void;
+/**
  * Computes total and prepayment amounts with an option to force gross calculation.
  */
 export declare function calculateTotalCost(gross?: boolean): {
@@ -267,4 +294,14 @@ export declare function setBookedByGuestManualEditState(isEdited: boolean): void
  * Returns a flat array of each reserved room along with its guest/context.
  */
 export declare function getReservedRooms(): ReservedRoomSelection[];
+/**
+ * Syncs the primary guest's first or last name to the first reserved room,
+ * but only if that field has not already been filled.
+ */
+export declare function syncFirstRoomGuestName(field: 'first_name' | 'last_name', value: string): void;
+/**
+ * Fills empty first/last names on reserved rooms with a placeholder.
+ * Meant to run right before validating/submitting a reservation with multiple rooms.
+ */
+export declare function fillMissingReservedGuestNames(placeholder?: string): void;
 export default booking_store;

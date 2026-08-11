@@ -1,0 +1,1 @@
+import{I as r,d as o}from"./ir-departure-time-dialog2.js";const t=r,a=o;export{t as IrDepartureTimeDialog,a as defineCustomElement}

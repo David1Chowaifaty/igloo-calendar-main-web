@@ -1,4 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
+import { DayUseBookings } from "../../../components";
 export declare class IglCalHeader {
     optionEvent: EventEmitter<{
         [key: string]: any;
@@ -17,6 +18,7 @@ export declare class IglCalHeader {
     unassignedDates: any;
     to_date: string;
     highlightedDate: string;
+    dayUseBookings: DayUseBookings[];
     renderAgain: boolean;
     unassignedRoomsNumber: any;
     private roomsList;

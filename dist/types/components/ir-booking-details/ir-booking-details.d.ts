@@ -45,6 +45,7 @@ export declare class IrBookingDetails {
     rerenderFlag: boolean;
     roomGuest: any;
     selectedService: ExtraService;
+    extraServiceDefaultPrId: number | null;
     showPaymentDetails: any;
     sidebarPayload: any;
     sidebarState: BookingDetailsSidebarEvents | null;
@@ -147,6 +148,9 @@ export declare class IrBookingDetails {
     }>): void;
     handleResetBooking(e: CustomEvent<Booking | null>): Promise<void>;
     handleEditExtraService(e: CustomEvent): void;
+    handleAddExtraServiceToUnit(e: CustomEvent<{
+        pr_id: number;
+    }>): void;
     handleOpenPrintScreen(e: CustomEvent<PrintScreenOptions>): void;
     private fetchCityLedger;
     private loadAgentAndFolio;

@@ -5,6 +5,9 @@ import { BookingService } from "../../services/booking-service/booking.service";
 import { PropertyService } from "../../services/property.service";
 import calendar_data from "../../stores/calendar-data";
 import { showToast } from "../../utils/utils";
+import { extraServicesCategories } from "../../services/extra-services/index";
+import { toAccChargeRule, findAccTax } from "../../services/property/acc-tax.helpers";
+import { getTopLevelSvcCategories } from "../../utils/svc-category.utils";
 export class IrTaxServiceCategories {
     ticket;
     p;
@@ -60,30 +63,6 @@ export class IrTaxServiceCategories {
         }
     }
     /**
-     * Strips non-alphanumeric characters and lowercases a string for fuzzy matching
-     * against tax names from the property data.
-     */
-    normalizeTaxName(s) {
-        return s.toLowerCase().replace(/[^a-z0-9]/g, '');
-    }
-    /**
-     * Finds a tax entry by keyword from the property's taxes array.
-     * Returns undefined when no match is found — the caller should treat that as Not Applicable.
-     */
-    findTax(keyword) {
-        const taxes = calendar_data.property?.taxes ?? [];
-        return taxes.find(t => this.normalizeTaxName(t.name).includes(this.normalizeTaxName(keyword)));
-    }
-    /**
-     * Converts a property tax entry to a ChargeRule.
-     * Returns `{ mode: '002', value: null }` (Not Applicable) when the tax is absent from the property data.
-     */
-    toChargeRule(tax) {
-        if (!tax)
-            return { mode: '002', value: null };
-        return { mode: tax.is_exlusive ? '000' : '001', value: tax.pct };
-    }
-    /**
      * Builds the initial charge rules map from property taxes and saved tax categories.
      * ACC (Accommodation) is seeded from the property's taxes array; service categories
      * are seeded from saved `tax_categories` or default to Not Applicable when absent.
@@ -92,14 +71,14 @@ export class IrTaxServiceCategories {
         const taxCategories = calendar_data.property?.tax_categories ?? [];
         const savedStrategy = calendar_data.property?.taxation_strategy?.code;
         const accSetup = {
-            vat: this.toChargeRule(this.findTax('vat')),
-            cityTax: this.toChargeRule(this.findTax('city')),
-            serviceCharge: this.toChargeRule(this.findTax('service')),
+            vat: toAccChargeRule(findAccTax('vat')),
+            cityTax: toAccChargeRule(findAccTax('city')),
+            serviceCharge: toAccChargeRule(findAccTax('service')),
             taxationStrategy: savedStrategy ?? TaxationStrategy.Normal,
         };
         const rules = new Map();
         rules.set('ACC', accSetup);
-        (this.setupEntries?.svc_category ?? []).forEach(c => {
+        this.categories.forEach(c => {
             const match = taxCategories.find(tc => tc.category.code === c.CODE_NAME);
             rules.set(c.CODE_NAME, match ? { vat: { mode: match.taxation_mode.code, value: match.pct }, cityTax: null, serviceCharge: null, taxationStrategy: null } : this.createEmptyCategorySetup());
         });
@@ -142,7 +121,7 @@ export class IrTaxServiceCategories {
         const next = new Map(this.chargeCategoryRules);
         next.set(categoryCode, { ...next.get(categoryCode), [field]: nextRule });
         if (categoryCode === 'ACC' && field === 'vat') {
-            (this.setupEntries?.svc_category ?? []).forEach(category => {
+            this.categories.forEach(category => {
                 const categorySetup = next.get(category.CODE_NAME);
                 if (this.isChargeRuleEmpty(categorySetup?.vat)) {
                     next.set(category.CODE_NAME, { ...categorySetup, vat: { ...categorySetup.vat, value: nextRule.value } });
@@ -151,10 +130,22 @@ export class IrTaxServiceCategories {
         }
         this.chargeCategoryRules = next;
     }
+    /**
+     * Top-level service categories eligible for their own VAT row here. Sub-categories grouped under
+     * a parent (e.g. Breakfast/Minibar under `ACM`) are excluded — they share the group's rate,
+     * configured on the Extra Services page instead. Synthesized group placeholders (a parent code
+     * with no `svc_category` row of its own, like `ACM`) are excluded too: `ACM`'s rate already
+     * mirrors the Accommodation row above, and it isn't a real backend category to submit.
+     */
+    get categories() {
+        const svcCategories = this.setupEntries?.svc_category ?? [];
+        const realCodes = new Set(svcCategories.map(s => s.CODE_NAME));
+        return getTopLevelSvcCategories(svcCategories).filter(s => realCodes.has(s.CODE_NAME) && !extraServicesCategories.has(s.CODE_NAME));
+    }
     /** Assembles the API payload from the current charge rules state. */
     buildPayload() {
         const accSetup = this.chargeCategoryRules.get('ACC');
-        const tax_categories = (this.setupEntries?.svc_category ?? []).map(category => {
+        const tax_categories = this.categories.map(category => {
             const setup = this.chargeCategoryRules.get(category.CODE_NAME);
             const taxMode = (this.setupEntries?.vat_included ?? []).find(v => v.CODE_NAME === setup?.vat?.mode);
             return {
@@ -201,8 +192,8 @@ export class IrTaxServiceCategories {
         }
         const accSetup = this.chargeCategoryRules.get('ACC');
         const filteredVat = (this.setupEntries?.vat_included ?? []).filter(v => v.CODE_NAME !== '000');
-        const categories = this.setupEntries?.svc_category ?? [];
-        return (h("ir-page", { label: "Tax & Service Categories", description: "Define taxes and service charges for room rates, cancellations, and on-property services.", "data-testid": "ir-tax-service-categories" }, h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "tax-service-categories__form", style: { width: '100px' }, variant: "brand" }, "Save"), h("form", { id: "tax-service-categories__form", onSubmit: e => this.handleSubmit(e) }, h("wa-card", null, h("div", { class: "tax-grid" }, h("div", { class: "tax-grid__header", "aria-hidden": "true" }, h("div", null), h("div", { class: "tax-grid__col-label" }, "VAT"), h("div", { class: "tax-grid__col-label" }, "City Tax"), h("div", { class: "tax-grid__col-label" }, "Service Charge"), h("div", { class: "tax-grid__col-label" }, "Taxation Strategy")), h("div", { class: "tax-grid__row" }, h("div", { class: "tax-grid__name" }, h("p", { class: "tax-grid__title" }, "Accommodation"), h("p", { class: "tax-grid__hint" }, "Room-related charges applied to reservations and cancellations")), h("div", { class: "tax-grid__cell", "data-label": "VAT" }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'vat', e.detail), chargeRule: accSetup?.vat, setupEntries: this.setupEntries?.vat_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": "City Tax" }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'cityTax', e.detail), chargeRule: accSetup?.cityTax, setupEntries: this.setupEntries?.city_tax_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": "Service Charge" }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'serviceCharge', e.detail), chargeRule: accSetup?.serviceCharge, setupEntries: this.setupEntries?.service_charge_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": "Taxation Strategy" }, h("wa-radio-group", { size: "s", orientation: "horizontal", value: accSetup?.taxationStrategy ?? TaxationStrategy.Normal, "onwa-change": (e) => this.handleTaxationStrategyChange(e.detail.value) }, h("wa-radio", { appearance: "button", value: TaxationStrategy.Normal }, "Normal"), h("wa-radio", { appearance: "button", value: TaxationStrategy.Cumulative }, "Cumulative")))), categories.map(category => {
+        const categories = this.categories;
+        return (h("ir-page", { label: "Tax & Service Categories", description: "Define taxes and service charges for room rates, cancellations, and on-property services.", "data-testid": "ir-tax-service-categories" }, h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "tax-service-categories__form", style: { width: '100px' }, variant: "brand" }, "Save"), h("form", { id: "tax-service-categories__form", onSubmit: e => this.handleSubmit(e) }, h("wa-card", { appearance: "plain", class: "tax-service-categories__card" }, h("div", { class: "tax-grid" }, h("div", { class: "tax-grid__header", "aria-hidden": "true" }, h("div", null), h("div", { class: "tax-grid__col-label" }, "VAT"), h("div", { class: "tax-grid__col-label" }, "City Tax"), h("div", { class: "tax-grid__col-label" }, "Service Charge"), h("div", { class: "tax-grid__col-label" }, "Taxation Strategy")), h("div", { class: "tax-grid__row" }, h("div", { class: "tax-grid__name" }, h("p", { class: "tax-grid__title" }, "Accommodation"), h("p", { class: "tax-grid__hint" }, "Room-related charges applied to reservations and cancellations")), h("div", { class: "tax-grid__cell", "data-label": "VAT" }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'vat', e.detail), chargeRule: accSetup?.vat, setupEntries: this.setupEntries?.vat_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": "City Tax" }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'cityTax', e.detail), chargeRule: accSetup?.cityTax, setupEntries: this.setupEntries?.city_tax_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": "Service Charge" }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'serviceCharge', e.detail), chargeRule: accSetup?.serviceCharge, setupEntries: this.setupEntries?.service_charge_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": "Taxation Strategy" }, h("wa-radio-group", { size: "s", orientation: "horizontal", value: accSetup?.taxationStrategy ?? TaxationStrategy.Normal, "onwa-change": (e) => this.handleTaxationStrategyChange(e.detail.value) }, h("wa-radio", { appearance: "button", value: TaxationStrategy.Normal }, "Normal"), h("wa-radio", { appearance: "button", value: TaxationStrategy.Cumulative }, "Cumulative")))), categories.map(category => {
             const categorySetup = this.chargeCategoryRules.get(category.CODE_NAME);
             return [
                 h("div", { class: "tax-grid__divider" }, h("wa-divider", null)),

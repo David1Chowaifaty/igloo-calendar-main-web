@@ -41,7 +41,7 @@ export class ApplicablePoliciesService {
         const groupedRooms = this.groupRoomsForRequest(rooms ?? []);
         try {
             const requests = [];
-            groupedRooms.forEach(grouping => {
+            groupedRooms?.forEach(grouping => {
                 const basePayload = {
                     booking_nbr,
                     currency_id: currency.id,
@@ -80,11 +80,11 @@ export class ApplicablePoliciesService {
      * @param rooms - The rooms attached to the active booking.
      */
     groupRoomsForRequest(rooms) {
-        if (!rooms.length) {
-            throw new Error('Cannot request applicable policies without booking rooms.');
-        }
+        // if (!rooms.length) {
+        //   throw new Error('Cannot request applicable policies without booking rooms.');
+        // }
         const groupMap = new Map();
-        rooms.forEach(room => {
+        rooms?.forEach(room => {
             if (!room.rateplan?.id || !room.roomtype?.id) {
                 throw new Error('Room is missing rate plan or room type information.');
             }

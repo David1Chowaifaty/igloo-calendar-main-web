@@ -2,6 +2,7 @@ import { EventEmitter } from '../../stencil-public-runtime';
 import { Moment } from 'moment';
 import { IRoomNightsData, CalendarModalEvent } from "../../models/property-types";
 import { TIglBookPropertyPayload } from "../../models/igl-book-property";
+import type { DayUseBookings } from "../../services/property/types";
 import { CheckoutRoomEvent } from '../ir-departures/ir-departures-table/ir-departures-table';
 export type CalendarSidebarState = {
     type: 'room-guests' | 'booking-details' | 'add-days' | 'bulk-blocks' | 'split' | 'reallocate-drawer' | 'rectifier';
@@ -32,6 +33,7 @@ export declare class IglooCalendar {
     showLegend: boolean;
     showPaymentDetails: boolean;
     showToBeAssigned: boolean;
+    showDayUseBookings: boolean;
     unassignedDates: {};
     roomNightsData: IRoomNightsData | null;
     renderAgain: boolean;
@@ -44,6 +46,7 @@ export declare class IglooCalendar {
     isAuthenticated: boolean;
     calendarSidebarState: CalendarSidebarState;
     invoiceState: CheckoutRoomEvent;
+    dayUseBookings: DayUseBookings[];
     dragOverHighlightElement: EventEmitter;
     moveBookingTo: EventEmitter;
     calculateUnassignedDates: EventEmitter;
@@ -56,6 +59,7 @@ export declare class IglooCalendar {
     showRoomNightsDialog: EventEmitter<IRoomNightsData>;
     private bookingService;
     private roomService;
+    private propertyService;
     private eventsService;
     private toBeAssignedService;
     private housekeepingService;
@@ -91,6 +95,11 @@ export declare class IglooCalendar {
     private renderModalBody;
     private setUpCalendarData;
     private initializeApp;
+    /**
+     * Fetches day-use bookings for the given window and merges them into `dayUseBookings`
+     * (passed down to `<igl-cal-body>` to mark booked units with a red 2px cell border).
+     */
+    private fetchDayUseBookings;
     private getHkIssues;
     private fetchSetupEntries;
     private getHousekeepingTasks;
@@ -114,7 +123,6 @@ export declare class IglooCalendar {
     private handleChangeInDueAmount;
     private handleChangeInBookStatus;
     private handleNonTechnicalChangeInBooking;
-    private checkBookingAvailability;
     private updateBookingEventsDateRange;
     /**
      *

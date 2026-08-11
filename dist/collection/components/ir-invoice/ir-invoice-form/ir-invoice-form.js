@@ -5,7 +5,7 @@ import { Host, h } from "@stencil/core";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
 import axios from "axios";
-import { FdTypes } from "../../../types/enums";
+import { FdTypes, InOut } from "../../../types/enums";
 export class IrInvoiceForm {
     /**
      * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
@@ -134,9 +134,21 @@ export class IrInvoiceForm {
                 disabledKeys.add(key);
             }
         };
+        const today = moment().startOf('day');
         const rooms = this.booking.rooms ?? [];
         rooms.forEach(room => {
-            markIfBefore(room.system_id, room.to_date, { checkedOut: room?.in_out?.code === '002' });
+            if (typeof room.system_id !== 'number' || !this.invoicableKey.has(room.system_id) || !room.to_date) {
+                return;
+            }
+            const toDate = moment(room.to_date, 'YYYY-MM-DD', true);
+            if (!toDate.isValid() || !toDate.startOf('day').isAfter(today)) {
+                // Departure date has already arrived/passed: invoiceable without needing the checkout flag.
+                return;
+            }
+            // Departure date hasn't arrived yet: only allow if the room was already checked out early.
+            if (room?.in_out?.code !== InOut.CheckedOut) {
+                disabledKeys.add(room.system_id);
+            }
         });
         const pickupInfo = this.booking.pickup_info;
         if (pickupInfo) {

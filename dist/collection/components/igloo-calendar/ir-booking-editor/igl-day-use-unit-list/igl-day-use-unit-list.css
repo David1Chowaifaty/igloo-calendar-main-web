@@ -1,0 +1,63 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.day-use-unit-list__grid {
+  display: inline-grid;
+  grid-template-columns: minmax(50px, max-content) 200px auto;
+  align-items: center;
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+  max-width: 100%;
+  animation: day-use-unit-list-in var(--wa-transition-normal, 180ms) ease-out both;
+}
+.day-use-unit-list__empty-container {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: day-use-unit-list-in var(--wa-transition-normal, 180ms) ease-out both;
+}
+
+@keyframes day-use-unit-list-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .day-use-unit-list__grid,
+  .day-use-unit-list__empty-container {
+    animation: none;
+  }
+}
+.day-use-unit-list__roomtype-name {
+  grid-column: 1 / -1;
+  margin: 1rem 0 0;
+  font-family: var(--wa-font-family-heading);
+  font-weight: var(--wa-font-weight-heading);
+  line-height: var(--wa-line-height-condensed);
+  text-wrap: balance;
+  font-size: var(--wa-font-size-m);
+  margin-bottom: 0.5rem;
+}
+
+.day-use-unit-list__roomtype-name:first-child {
+  margin-top: 0;
+}
+
+.day-use-unit-list__unit-name {
+  white-space: nowrap;
+  color: var(--wa-color-text-normal);
+}
+
+.day-use-unit-list__price-input {
+  width: 100%;
+}

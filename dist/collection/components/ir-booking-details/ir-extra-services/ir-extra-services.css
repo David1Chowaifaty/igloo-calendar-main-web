@@ -1,7 +1,9 @@
 :host {
   display: block;
 }
-
+.extra-service__card {
+  background-color: var(--wa-color-surface-default);
+}
 /* ── Group wrapper ── */
 .service-group {
   padding: 0.125rem 0 0.25rem;

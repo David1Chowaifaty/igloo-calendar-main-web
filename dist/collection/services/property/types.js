@@ -51,6 +51,7 @@ export const TaxCategorySchema = z.object({
     category: CategorySchema,
     taxation_mode: CategorySchema,
     pct: z.number(),
+    default_price: z.number().nullable().optional(),
     property_id: z.number().optional(),
 });
 export const HandleExposedPropertyTaxCategoriesParamsSchema = z.object({
@@ -63,6 +64,11 @@ export const HandleExposedPropertyTaxCategoriesParamsSchema = z.object({
     SERVICE_CHARGE_PCT: z.number(),
     tax_categories: z.array(TaxCategorySchema),
     TAXATION_STRATEGY: z.string(),
+    DAY_USE_BLOCK: z
+        .union([z.literal('0'), z.literal('1')])
+        .nullable()
+        .optional()
+        .default(null),
 });
 export const SetPropertyGapConfigParamsSchema = z.object({
     property_id: PropertyIdSchema,
@@ -101,6 +107,8 @@ export const UnifiedFolioRecordSchema = z.object({
     DOC_NUMBER: z.string().nullable().optional(),
     DOC_DATE: z.string().nullable().optional(),
     DOC_TYPE: z.string().nullable().optional(),
+    DOC_HOUR: z.number().nullable().optional(),
+    DOC_MINUTE: z.number().nullable().optional(),
     FD_TYPE_CODE: z.string().nullable().optional(),
     CURRENCY_ID: z.number().nullable().optional(),
     TOTAL_AMOUNT: z.number().nullable().optional(),
@@ -126,4 +134,13 @@ export const GetExposedBookingsByInvoicedStatusParamsSchema = z.object({
     is_totally_invoiced: z.boolean().optional().default(false),
     start_row: z.number().default(0),
     end_row: z.number(),
+});
+export const GetDayUseBookingsForCalendarParamsSchema = z.object({
+    property_id: PropertyIdSchema,
+    from_date: DateSchema,
+    to_date: DateSchema,
+});
+export const CalculateNetAmountParamsSchema = z.object({
+    property_id: PropertyIdSchema,
+    amount: z.number(),
 });

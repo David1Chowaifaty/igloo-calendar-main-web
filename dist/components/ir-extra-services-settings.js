@@ -1,0 +1,1 @@
+import{I as s,d as r}from"./ir-extra-services-settings2.js";const t=s,e=r;export{t as IrExtraServicesSettings,e as defineCustomElement}

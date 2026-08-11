@@ -4,6 +4,7 @@ import { compareTime, createDateWithOffsetAndHour } from "../../../utils/booking
 import calendar_dates from "../../../stores/calendar-dates.store";
 import locales from "../../../stores/locales.store";
 import calendar_data from "../../../stores/calendar-data";
+import { _formatTime } from "../../ir-booking-details/functions";
 export class IglCalBody {
     isScrollViewDragging;
     propertyId;
@@ -13,6 +14,8 @@ export class IglCalBody {
     language;
     countries;
     highlightedDate;
+    /** Day-use bookings for the currently loaded date window (from `getDayUseBookingsForCalendar`) — booked units get a red 2px cell border. */
+    dayUseBookings = [];
     dragOverElement = '';
     renderAgain = false;
     selectedRoom = null;
@@ -29,6 +32,8 @@ export class IglCalBody {
     dayRateMap = new Map();
     roomsWithTodayCheckinStatus = new Set();
     categoriesWithTodayCheckinStatus = new Set();
+    roomTitleClickTimer = null;
+    dayUseBookingsByKey = new Map();
     // private disabledCellsCache = new Map<string, boolean>();
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
@@ -38,6 +43,13 @@ export class IglCalBody {
             this.dayRateMap.set(day.day, day.rate);
         });
         this.updateDisabledCellsCache();
+        this.updateDayUseBookingKeys();
+    }
+    disconnectedCallback() {
+        if (this.roomTitleClickTimer) {
+            clearTimeout(this.roomTitleClickTimer);
+            this.roomTitleClickTimer = null;
+        }
     }
     handleCalendarDataChange() {
         this.bookingMap = this.getBookingMap(this.getBookingData());
@@ -46,6 +58,9 @@ export class IglCalBody {
     }
     handleTodayChange() {
         this.updateTodayCheckinStatus();
+    }
+    handleDayUseBookingsChange() {
+        this.updateDayUseBookingKeys();
     }
     dragOverHighlightElementHandler(event) {
         this.dragOverElement = event.detail.dragOverElement;
@@ -292,15 +307,100 @@ export class IglCalBody {
             const isCurrentDate = dayInfo.day === this.today || dayInfo.day === this.highlightedDate;
             const cleaningDates = calendar_dates.cleaningTasks.has(+roomId) ? calendar_dates.cleaningTasks.get(+roomId) : null;
             const shouldBeCleaned = ['001', '003'].includes(calendar_data.cleaning_frequency?.code) ? false : cleaningDates?.has(dayInfo.value);
-            return (h("div", { class: `cellData position-relative roomCell ${isCellDisabled ? 'disabled' : ''} ${'room_' + roomId + '_' + dayInfo.day} ${isCurrentDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${isSelected ? 'selectedDay' : ''}`,
+            const dayUseBooking = this.getDayUseBooking(Number(roomId), dayInfo.value);
+            const dayUseStatus = dayUseBooking ? this.getDayUseStatus(dayUseBooking) : null;
+            const dayUseCellClass = dayUseBooking ? `dayUseBooked dayUseBooked--${dayUseStatus}` : '';
+            return (h("div", { class: `cellData position-relative roomCell ${isCellDisabled ? 'disabled' : ''} ${'room_' + roomId + '_' + dayInfo.day} ${isCurrentDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${isSelected ? 'selectedDay' : ''} ${dayUseCellClass}`,
                 // style={!isDisabled && { '--cell-cursor': 'default' }}
                 style: { '--cell-cursor': 'default' }, onClick: () => {
                     // if (isDisabled) {
                     //   return;
                     // }
                     this.clickCell(Number(roomId), dayInfo, roomCategory);
-                }, "aria-label": roomName, role: "gridcell", "data-room-id": roomId, "data-date": dayInfo.value, "aria-current": isCurrentDate ? 'date' : undefined, "data-room-name": roomName, "data-dirty-room": String(shouldBeCleaned), "aria-disabled": String(isDisabled), "aria-selected": Boolean(isSelected) }));
+                }, "aria-label": roomName, role: "gridcell", "data-room-id": roomId, "data-date": dayInfo.value, "aria-current": isCurrentDate ? 'date' : undefined, "data-room-name": roomName, "data-dirty-room": String(shouldBeCleaned), "data-day-use-booked": String(!!dayUseBooking), "aria-disabled": String(isDisabled), "aria-selected": Boolean(isSelected) }, dayUseBooking && (h(Fragment, null, h("wa-tooltip", { for: `day-use-badge_${roomId}_${dayInfo.value}`, trigger: "hover" }, h("div", { class: "dayUseTooltip__main" }, h("span", { class: "dayUseTooltip__time" }, this.formatDayUseTime(dayUseBooking.from_time), " \u2013 ", this.formatDayUseTime(dayUseBooking.to_time)), h("span", { class: "dayUseTooltip__price" }, this.getDayUsePrice(dayUseBooking.gross_amount))), h("div", { class: "dayUseTooltip__meta" }, h("span", { class: "dayUseTooltip__number" }, "#", dayUseBooking.book_nbr), this.getDayUseGuestName(dayUseBooking) && h("span", { class: "dayUseTooltip__guest" }, this.getDayUseGuestName(dayUseBooking)))), h("button", { id: `day-use-badge_${roomId}_${dayInfo.value}`, type: "button", class: "dayUseBadge", "aria-label": "Open day-use booking details", onClick: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.openDayUseBookingDetails(dayUseBooking);
+                } }, h("span", { class: "dayUseBadge__dot" }))))));
         });
+    }
+    /**
+     * Opens the existing day-use reservation's details drawer — same `showBookingPopup`/`EDIT_BOOKING`
+     * path `igl-booking-event-hover`'s "Edit booking" action uses, so `igloo-calendar.tsx`'s existing
+     * `editBookingItem` wiring picks it up without any new plumbing.
+     */
+    formatDayUseTime(time) {
+        const [hour, minute] = time.split(':');
+        return _formatTime(hour, minute);
+    }
+    getDayUseGuestName(booking) {
+        return [booking.guest_first_name, booking.guest_last_name].filter(Boolean).join(' ').trim();
+    }
+    getDayUsePrice(amount) {
+        const symbol = this.currency?.symbol ?? '';
+        return `${symbol}${Number(amount ?? 0).toFixed(2)}`;
+    }
+    getDayUseStatus(booking) {
+        const now = moment();
+        const from = moment(`${booking.target_date} ${booking.from_time}`, 'YYYY-MM-DD HH:mm');
+        const to = moment(`${booking.target_date} ${booking.to_time}`, 'YYYY-MM-DD HH:mm');
+        if (now.isBefore(from)) {
+            return 'future';
+        }
+        if (now.isAfter(to)) {
+            return 'past';
+        }
+        return 'staying';
+    }
+    openDayUseBookingDetails(dayUseBooking) {
+        this.showBookingPopup.emit({
+            key: 'add',
+            data: {
+                BOOKING_NUMBER: dayUseBooking.book_nbr,
+                event_type: 'EDIT_BOOKING',
+                TITLE: `${locales.entries.Lcz_EditBookingFor ?? 'Edit Booking For'} ${''}`,
+            },
+        });
+    }
+    /**
+     * Opens the booking editor drawer in day-use mode with the double-clicked unit preselected
+     * (room type scoped via `roomsInfo`, today as the default day-use date).
+     */
+    openDayUseBooking(room, roomCategory) {
+        const today = moment().format('YYYY-MM-DD');
+        this.showBookingPopup.emit({
+            key: 'add',
+            data: {
+                event_type: 'BAR_BOOKING',
+                PR_ID: room.id.toString(),
+                FROM_DATE: today,
+                TO_DATE: moment().add(1, 'day').format('YYYY-MM-DD'),
+                TITLE: `Day Use Booking For ${roomCategory.name} ${room.name}`,
+                roomsInfo: [{ id: roomCategory.id }],
+                dayUse: true,
+            },
+        });
+    }
+    /**
+     * Disambiguates a single click (toggle housekeeping) from a double click (open day-use booking)
+     * on the room name cell. A native `dblclick` listener doesn't work here: the single-click handler
+     * opens a modal housekeeping dialog, which captures the second click before the browser can pair
+     * it with the first to synthesize `dblclick`. Instead we delay the single-click action briefly so a
+     * fast second click can cancel it and fire the double-click action instead.
+     */
+    handleRoomTitleClick(room, roomCategory) {
+        if (this.roomTitleClickTimer) {
+            clearTimeout(this.roomTitleClickTimer);
+            this.roomTitleClickTimer = null;
+            this.openDayUseBooking(room, roomCategory);
+            return;
+        }
+        this.roomTitleClickTimer = setTimeout(() => {
+            this.roomTitleClickTimer = null;
+            if (calendar_data.housekeeping_enabled) {
+                this.selectedRoom = room;
+            }
+        }, 250);
     }
     toggleCategory(roomCategory) {
         roomCategory.expanded = !roomCategory.expanded;
@@ -334,10 +434,7 @@ export class IglCalBody {
             const roomHasTodayCheckin = this.roomHasTodayCheckin(roomId);
             // const hasHousekeepingOrIssue = room.hk_status !== '001' || calendar_data.unitIssues.has(Number(room.id));
             return (h("div", { class: "roomRow", "data-room-has-today-checkin": String(roomHasTodayCheckin) }, h("div", { class: `cellData room text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomType) <= 1 ? 'pl10' : ''} ${'room_' + roomId}`, "data-room-name": name, "data-hk-enabled": String(calendar_data.housekeeping_enabled), "data-room": roomId, "data-room-has-today-checkin": String(roomHasTodayCheckin), "data-category-has-today-checkin": String(hasRoomWithTodayCheckin), onClick: () => {
-                    if (!calendar_data.housekeeping_enabled) {
-                        return;
-                    }
-                    this.selectedRoom = room;
+                    this.handleRoomTitleClick(room, roomType);
                 }, onMouseEnter: () => {
                     this.interactiveTitle[room.id]?.style?.setProperty('--ir-interactive-hk-bg', roomHasTodayCheckin ? 'var(--wa-color-brand-fill-quiet)' : 'var(--wa-color-neutral-fill-quiet)');
                 }, onMouseLeave: () => {
@@ -429,14 +526,20 @@ export class IglCalBody {
         const { disabled } = calendar_dates.disabled_cells.get(key);
         return disabled;
     }
+    updateDayUseBookingKeys() {
+        this.dayUseBookingsByKey = new Map((this.dayUseBookings ?? []).map(booking => [this.getCellKey(booking.unit_id, booking.target_date), booking]));
+    }
+    getDayUseBooking(roomId, day) {
+        return this.dayUseBookingsByKey.get(this.getCellKey(roomId, day));
+    }
     render() {
-        return (h(Host, { key: 'b06801db882c0082015f8147af37bb4f92058b3e' }, h("div", { key: 'bc22b3062db57dcf5efb4d644fcddfdd96af46fb', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'b6d842e8f5d70b3c0442b8782452e4f30d8bcdb5', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: '2a0923c5cd1d2784857c1ed4d6c078805a6abd46' }, h("div", { key: '5fffb1ebf7e7fb3d6a643f1476b18d102de7e0c9', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'd8ec3ad13b90721cefcb64e0c1dad191e8cbd52e', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: 'c7e0b8a22d0acbfbefe78bb35bca04a02c10efdc', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: 'a37d6ef94b435a0eda562a2dad30abfcf9158d78', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '75563835e70af0666e54232cf70b3a9991b94a88', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '0cc05d40ccbc1e47969e265d41f2a62ab02a1df5', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issues = null;
@@ -613,6 +716,31 @@ export class IglCalBody {
                 "setter": false,
                 "reflect": false,
                 "attribute": "highlighted-date"
+            },
+            "dayUseBookings": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "DayUseBookings[]",
+                    "resolved": "DayUseBookings[]",
+                    "references": {
+                        "DayUseBookings": {
+                            "location": "import",
+                            "path": "@/services/property/types",
+                            "id": "src/services/property/types.ts::DayUseBookings",
+                            "referenceLocation": "DayUseBookings"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Day-use bookings for the currently loaded date window (from `getDayUseBookingsForCalendar`) \u2014 booked units get a red 2px cell border."
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[]"
             }
         };
     }
@@ -680,6 +808,9 @@ export class IglCalBody {
             }, {
                 "propName": "today",
                 "methodName": "handleTodayChange"
+            }, {
+                "propName": "dayUseBookings",
+                "methodName": "handleDayUseBookingsChange"
             }];
     }
     static get listeners() {

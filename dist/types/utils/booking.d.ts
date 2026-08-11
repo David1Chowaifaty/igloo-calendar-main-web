@@ -49,7 +49,7 @@ export declare function transformNewBLockedRooms(data: any): Promise<RoomBlockDe
 export declare function calculateDaysBetweenDates(from_date: string, to_date: string): number;
 export declare function compareTime(date1: Date, date2: Date): boolean;
 /**
- * Creates a Date object for today at the specified hour in a given time zone.
+ * Creates a Date object for today at the specified hour (and optional minute) in a given time zone.
  * The offset is the number of hours that the target time zone is ahead of UTC.
  *
  * For example, if offset = 3 and hour = 9, then the function returns a Date
@@ -57,6 +57,7 @@ export declare function compareTime(date1: Date, date2: Date): boolean;
  *
  * @param offset - The timezone offset in hours (e.g., 2, 3, etc.)
  * @param hour - The desired hour in the target time zone (0-23)
+ * @param minute - The desired minute in the target time zone (0-59)
  * @returns Date object representing the target time (in UTC)
  */
-export declare function createDateWithOffsetAndHour(offset: number, hour: number): Date;
+export declare function createDateWithOffsetAndHour(offset: number, hour: number, minute?: number): Date;

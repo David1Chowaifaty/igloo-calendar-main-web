@@ -1,15 +1,16 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-JbQjGrUG.js';
-import { B as BookingService } from './booking.store-3Tubbm72.js';
-import { l as locales } from './locales.store-CV07I3Cw.js';
-import './index-DeW5X45W.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-BxxIyJIp.js';
+import { B as BookingService } from './booking.store-DE4RcYN8.js';
+import { l as locales } from './locales.store-BPLMdI8U.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './utils-AafVtJtY.js';
+import './index-DeW5X45W.js';
+import './utils-CmsmLI2N.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-CRLrGQXE.js';
-import './index-CR94o8Bs.js';
+import './calendar-data-Bwf2mcZp.js';
+import './index-xEub7_rB.js';
 import './type-D7rOPtKA.js';
-import './booking-BamW7Ksy.js';
+import './booking-iQXnHKbs.js';
+import './commonSchemas-Csh6Sdrk.js';
 
 const iglBlockDatesViewCss = () => `.sc-igl-block-dates-view-h{display:block}.sc-igl-block-dates-view-h .controlContainer.sc-igl-block-dates-view{width:24px}.sc-igl-block-dates-view-h .checkBoxContainer.sc-igl-block-dates-view input.sc-igl-block-dates-view{height:1.2rem !important;width:30px}.releaseTime.sc-igl-block-dates-view{padding-left:5px}.out-of-service-label.sc-igl-block-dates-view{margin-left:5px !important}`;
 
@@ -94,7 +95,7 @@ const IglBlockDatesView = class {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (h(Host, { key: '12a5a234566835380a082b87c7bc0a60412d94c1' }, h("div", { key: '9d19b8828c0a45baf6e36738e1aabffcf3cf93ba', class: `m-0 p-0 mb-1` }, h("div", { key: '6a59d657c74cc91c4b07c6454e032f5753dd0216', class: "text-left p-0" }, h("ir-date-view", { key: '26467b03de9b70dde200d8ec68761c87a4346342', format: 'ddd, MMM DD, YYYY', from_date: this.fromDate, dateOption: "YYYY-MM-DD", showDateDifference: false, to_date: this.toDate }))), h("div", { key: 'fcca548676114f6dfdbe684df511da5ea6ebfd8b', class: ` mb-1 text-left ${this.isEventHover && 'p-0'}` }, h("div", { key: '0a46c95eb5ba37f53c0dfd000c8e1e91247ccbb4', class: "mb-1 " }, h("label", { key: '976c3b14189787a4a558d8a8aa6c5b310473574e', class: "p-0 text-bold-700 font-medium-1 m-0 align-middle" }, locales.entries.Lcz_Reason, ":"), h("div", { key: 'ec642ff0bbff4284fd4fbf95f74af778f613103c', class: "p-0 m-0 pr-1  controlContainer checkBoxContainer d-inline-block align-middle" }, h("input", { key: '7a9db055d1f4bb977c2c3a47e2c5e84dbe389074', class: "form-control", type: "checkbox", checked: this.blockDatesData.OUT_OF_SERVICE, id: "userinput6", onChange: event => this.handleOutOfService(event) })), h("span", { key: '8bae4db6034aa06636be070184057a99a5125cac', class: "align-middle out-of-service-label" }, locales.entries.Lcz_OutOfservice)), !this.blockDatesData.OUT_OF_SERVICE ? (h("div", null, h("div", { class: "mb-1 d-flex  align-items-center" }, h("span", { class: "align-middle" }, locales.entries.Lcz_Or, " "), h("div", { class: "d-inline-flex col pr-0 align-middle" }, h("input", { class: "form-control", type: "text", placeholder: locales.entries.Lcz_OptionalReason, id: "optReason", value: this.blockDatesData.OPTIONAL_REASON, onInput: event => this.handleOptionalReason(event) }))), h("div", { class: "mb-1 w-100 pr-0 " }, h("span", { class: "text-bold-700 font-medium-1" }, locales.entries.Lcz_AutomaticReleaseIn, ": "), h("div", { class: "d-inline-block" }, h("select", { class: "form-control input-sm", id: "zSmallSelect", onChange: evt => this.handleReleaseAfterChange(evt) }, this.releaseList.map(releaseItem => (h("option", { value: +releaseItem.CODE_NAME, selected: Number(this.blockDatesData.RELEASE_AFTER_HOURS) == Number(releaseItem.CODE_NAME) }, releaseItem.CODE_VALUE_EN))))), this.blockDatesData.RELEASE_AFTER_HOURS ? (h("div", { class: "d-inline-block releaseTime" }, h("em", null, locales.entries.Lcz_On, " ", this.getReleaseHoursString()))) : null))) : null)));
+        return (h(Host, { key: '509916d5ddbdd9cc167d4fedb74f06895f561b1b' }, h("div", { key: '7daa95150579a2781e1d89cb845ac803a1a1476c', class: `m-0 p-0 mb-1` }, h("div", { key: '23d1eb4e28d8fef2dce2789a132dd8ff8fa3758a', class: "text-left p-0" }, h("ir-date-view", { key: 'ff95c4da013114ef3fa5e6cec757f91c45a6fe40', format: 'ddd, MMM DD, YYYY', from_date: this.fromDate, dateOption: "YYYY-MM-DD", showDateDifference: false, to_date: this.toDate }))), h("div", { key: 'e03f456fda21365a78a7caddac73c425cbc4c57f', class: ` mb-1 text-left ${this.isEventHover && 'p-0'}` }, h("div", { key: 'cfd41e1bdafb4757d613a87a2be5b45bdb2f479e', class: "mb-1 " }, h("label", { key: 'fe7f08318e301e47d786b6eef940a6a5bc3c5789', class: "p-0 text-bold-700 font-medium-1 m-0 align-middle" }, locales.entries.Lcz_Reason, ":"), h("div", { key: 'fbf1772a142160bf393a61173ae9794dccf0f2aa', class: "p-0 m-0 pr-1  controlContainer checkBoxContainer d-inline-block align-middle" }, h("input", { key: '968627e1caa51e5f5a71de60ee627cb15188d189', class: "form-control", type: "checkbox", checked: this.blockDatesData.OUT_OF_SERVICE, id: "userinput6", onChange: event => this.handleOutOfService(event) })), h("span", { key: '2584f5f6ef4c3a668b75458a7ad09265c748b3a0', class: "align-middle out-of-service-label" }, locales.entries.Lcz_OutOfservice)), !this.blockDatesData.OUT_OF_SERVICE ? (h("div", null, h("div", { class: "mb-1 d-flex  align-items-center" }, h("span", { class: "align-middle" }, locales.entries.Lcz_Or, " "), h("div", { class: "d-inline-flex col pr-0 align-middle" }, h("input", { class: "form-control", type: "text", placeholder: locales.entries.Lcz_OptionalReason, id: "optReason", value: this.blockDatesData.OPTIONAL_REASON, onInput: event => this.handleOptionalReason(event) }))), h("div", { class: "mb-1 w-100 pr-0 " }, h("span", { class: "text-bold-700 font-medium-1" }, locales.entries.Lcz_AutomaticReleaseIn, ": "), h("div", { class: "d-inline-block" }, h("select", { class: "form-control input-sm", id: "zSmallSelect", onChange: evt => this.handleReleaseAfterChange(evt) }, this.releaseList.map(releaseItem => (h("option", { value: +releaseItem.CODE_NAME, selected: Number(this.blockDatesData.RELEASE_AFTER_HOURS) == Number(releaseItem.CODE_NAME) }, releaseItem.CODE_VALUE_EN))))), this.blockDatesData.RELEASE_AFTER_HOURS ? (h("div", { class: "d-inline-block releaseTime" }, h("em", null, locales.entries.Lcz_On, " ", this.getReleaseHoursString()))) : null))) : null)));
     }
 };
 IglBlockDatesView.style = iglBlockDatesViewCss();

@@ -50,14 +50,20 @@ export function isSingleUnit(id) {
     calendar_data.roomHistory[id] = result;
     return result;
 }
-export const isOptimReadOnly = () => {
+export function isOptimReadOnly() {
     const optimIntegration = hasOptim();
     if (!optimIntegration) {
         return false;
     }
     return optimIntegration.is_read_only;
-};
-export const hasOptim = () => {
+}
+export function hasOptim() {
     return calendar_data?.property?.linked_pms?.find(p => p.partner.code?.toUpperCase() === 'OPTIM');
-};
+}
+export function getExtraServiceDefaultPrice(serviceKey) {
+    return calendar_data?.property?.extra_info.find(ei => ei.key === `SVC_DEFAULT_PRICE_${serviceKey}`)?.value;
+}
+export function getDayUseBlockState() {
+    return calendar_data?.property?.extra_info.find(ei => ei.key === 'DAY_USE_BLOCK')?.value;
+}
 export default calendar_data;

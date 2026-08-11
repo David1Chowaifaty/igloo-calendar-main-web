@@ -12,6 +12,8 @@ export declare class IrToastProvider {
     position: 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
     rtl: boolean;
     duration: number;
+    /** Maximum number of toasts shown at once; when exceeded, the oldest are dismissed. */
+    maxToasts: number;
     /** Emitted when a toast's action button is clicked. */
     toastAction: EventEmitter<{
         id: string;
@@ -21,6 +23,7 @@ export declare class IrToastProvider {
     private liveRegion;
     private modalStack;
     private positionCache;
+    private hostDialog;
     connectedCallback(): void;
     disconnectedCallback(): void;
     handleToast(event: CustomEvent<Partial<Toast> & {
@@ -31,6 +34,7 @@ export declare class IrToastProvider {
     addToast(toast: Toast): Promise<string>;
     removeToast(id: string): Promise<void>;
     clearAllToasts(): Promise<void>;
+    private handleHostDialogClose;
     private handleKeyDown;
     private destroyItem;
     private ensureLayer;

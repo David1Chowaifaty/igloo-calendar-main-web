@@ -1,7 +1,9 @@
 :host {
   display: block;
 }
-
+.reservation-information__card {
+  background-color: var(--wa-color-surface-default);
+}
 .reservation-information {
   display: flex;
   flex-direction: column;

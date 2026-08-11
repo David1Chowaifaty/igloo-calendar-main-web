@@ -1,18 +1,19 @@
-import { r as registerInstance, c as createEvent, d as getElement, h, F as Fragment, H as Host } from './index-JbQjGrUG.js';
-import { x as findCountry, c as canCheckIn, i as formatAmount } from './utils-AafVtJtY.js';
-import { E as EventsService } from './events.service-Ot7yj0c5.js';
+import { r as registerInstance, c as createEvent, d as getElement, h, F as Fragment, H as Host } from './index-BxxIyJIp.js';
+import { x as findCountry, c as canCheckIn, i as formatAmount } from './utils-CmsmLI2N.js';
+import { E as EventsService } from './events.service-8_R8JHsn.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { l as locales } from './locales.store-CV07I3Cw.js';
-import { c as calendar_data } from './calendar-data-CRLrGQXE.js';
-import { a as compareTime, b as createDateWithOffsetAndHour } from './booking-BamW7Ksy.js';
-import { P as PropertyService } from './index-6po2_28m.js';
-import { H as HbPreference } from './enums-QjeU2ajV.js';
+import { l as locales } from './locales.store-BPLMdI8U.js';
+import { c as calendar_data } from './calendar-data-Bwf2mcZp.js';
+import { a as compareTime, b as createDateWithOffsetAndHour } from './booking-iQXnHKbs.js';
+import { P as PropertyService } from './index-CJQ5_bi7.js';
+import { H as HbPreference } from './enums-DjSFmz1B.js';
 import './index-DeW5X45W.js';
 import './type-D7rOPtKA.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './booking.store-3Tubbm72.js';
-import './index-CR94o8Bs.js';
+import './booking.store-DE4RcYN8.js';
+import './index-xEub7_rB.js';
+import './commonSchemas-Csh6Sdrk.js';
 
 const iglBookingEventHoverCss = () => `.sc-igl-booking-event-hover-h{display:block;position:relative;z-index:100;--ir-booking-event-arrow:8px;--ir-booking-event-arrow-before:calc(var(--ir-booking-event-arrow) + 1px);--ir-booking-popover-border-color:var(--wa-color-neutral-border-normal)}.btn.sc-igl-booking-event-hover{padding-left:4px !important;padding-right:4px !important}.balance_amount.sc-igl-booking-event-hover{color:var(--wa-color-danger-fill-loud);font-size:0.75rem}.event-hover__origin-row.sc-igl-booking-event-hover{display:flex;align-items:center;justify-content:space-between}.event-hover__origin-label.sc-igl-booking-event-hover{font-size:0.75rem;font-weight:600;color:var(--wa-color-text-quiet, #6b7280);letter-spacing:0.04em}.user-notes.sc-igl-booking-event-hover{margin-left:4px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;line-clamp:5;overflow:hidden;max-width:100%;height:auto}.booking-event-hover__color-picker-trigger.sc-igl-booking-event-hover{all:unset;border:1px solid #e0e0e0;padding:0.25rem 0.25rem;border-radius:0.21rem;cursor:pointer}.events_btns.sc-igl-booking-event-hover{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem}.mx-01.sc-igl-booking-event-hover{--m:5px;margin-left:var(--m) !important;margin-right:var(--m) !important}.ota-notes.sc-igl-booking-event-hover{width:450px}.iglPopOver.sc-igl-booking-event-hover{position:absolute;background-color:var(--wa-color-surface-default);padding:10px;border:1px solid var(--ir-booking-popover-border-color);left:var(--el-left, 50%);transform:translateX(-50%) translateY(10px);box-shadow:1px 0px 20px rgba(0, 0, 0, 0.2);font-size:13.5px;line-height:var(--wa-line-height-normal);padding:var(--wa-space-m);border-radius:var(--wa-panel-border-radius);border-style:var(--wa-panel-border-style);box-shadow:hsl(206 22% 7% / 35%) 0px 10px 38px -10px,     hsl(206 22% 7% / 20%) 0px 10px 20px -15px;box-shadow:var(--wa-shadow-l);color:var(--wa-color-text-normal);user-select:none;-webkit-user-select:none}.iglPopOver.infoBubble.sc-igl-booking-event-hover{min-width:350px}.iglPopOver.blockedView.sc-igl-booking-event-hover{max-width:400px;width:400px}.iglPopOver.newBookingOptions.sc-igl-booking-event-hover{overflow-wrap:break-word !important;min-width:230px;width:fit-content}.bubblePointer.sc-igl-booking-event-hover{position:absolute;width:22px;height:12px;left:50%;transform:translateX(-50%);pointer-events:none}.bubblePointer.sc-igl-booking-event-hover::before,.bubblePointer.sc-igl-booking-event-hover::after{z-index:100;content:'';position:absolute;left:50%;transform:translateX(-50%);border-left:var(--ir-booking-event-arrow) solid transparent;border-right:var(--ir-booking-event-arrow) solid transparent}.bubblePointer.sc-igl-booking-event-hover::before{border-left:var(--ir-booking-event-arrow-before) solid transparent;border-right:var(--ir-booking-event-arrow-before) solid transparent}.bubblePointTop.sc-igl-booking-event-hover{bottom:-12px}.bubblePointTop.sc-igl-booking-event-hover::before{border-top:var(--ir-booking-event-arrow-before) solid var(--ir-booking-popover-border-color);top:0}.bubblePointTop.sc-igl-booking-event-hover::after{border-top:var(--ir-booking-event-arrow) solid var(--wa-color-surface-default);top:-1px}.bubblePointBottom.sc-igl-booking-event-hover{top:-12px}.bubblePointBottom.sc-igl-booking-event-hover::before{border-bottom:var(--ir-booking-event-arrow-before) solid var(--ir-booking-popover-border-color);bottom:0}.bubblePointBottom.sc-igl-booking-event-hover::after{border-bottom:var(--ir-booking-event-arrow) solid var(--wa-color-surface-default);bottom:-1px}.bubbleInfoAbove.sc-igl-booking-event-hover{bottom:35px}.updateBtnIcon.sc-igl-booking-event-hover{margin-right:4px}.icon-image.sc-igl-booking-event-hover{height:auto;width:25px;margin-right:5px}`;
 
@@ -247,7 +248,7 @@ const IglBookingEventHover = class {
     handleCustomerCheckOut() {
         this.showDialog.emit({
             reason: 'checkout',
-            booking: this.bookingEvent.booking,
+            booking: this.bookingEvent.base_booking,
             bookingNumber: this.bookingEvent.BOOKING_NUMBER,
             roomIdentifier: this.bookingEvent.IDENTIFIER,
             roomName: '',
@@ -455,7 +456,7 @@ const IglBookingEventHover = class {
         return h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (h(Host, { key: '12b8558883d9481dc7ece0c5c06801d83773906d' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '8477f6b70fa9cf6c309ba98505d6f17f2dc070bc' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": [{
@@ -728,7 +729,7 @@ const IrDropdown = class {
         this.closeDropdown();
     }
     render() {
-        return (h(Host, { key: '255e224b7d165b23854c49ed78f45e51cca14df3', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '0b4bc04722306a8c15eae94833cd39207ea83f75', onClick: () => {
+        return (h(Host, { key: '718b4769e4a4dd33719f0085a3f9481ec05bd89f', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: 'ef5d059453b1bc87390efbd60b4ef2f398ee6f57', onClick: () => {
                 if (this.disabled)
                     return;
                 if (this.isOpen) {
@@ -737,7 +738,7 @@ const IrDropdown = class {
                 else {
                     this.openDropdown();
                 }
-            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '8e0042767261fa89ffe069d0da2c1bd044933e4b', name: "trigger" }), this.caret && (h("div", { key: '8344e5a896221504bb052e1c58a4cc75030ba748', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '942c180b7aebdf92eb076f1876a33221509e168a', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: '2662b46c0f5a8fc9cad5701ca15d4350c08a5363', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '60a3bf8e38410d40cb01a9382b3e92090ada384c' }))));
+            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '714ce67ec5e8bf01d5251abe497c55de43cfe6a7', name: "trigger" }), this.caret && (h("div", { key: 'bf8721f53f4091ede22b7dc9a2279dba155de8c0', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '7036bcb17844a6a11a5968d6d884ecce66668581', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: 'f0638f4a4844d6440359897cb36ede9f8c19eea3', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '77e1ea872209ee332067edb36be637a594c63540' }))));
     }
     static get watchers() { return {
         "value": [{
@@ -830,7 +831,7 @@ const IrDropdownItem = class {
         this.dropdownItemSelect.emit(this.value);
     };
     render() {
-        return (h(Host, { key: '0bc28ff87b4e95250dd56b2e0d69e3e98c2346a3', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '2c7632325e441c6c893d0c8b6d15f4952cbd895d', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
 };
 IrDropdownItem.style = irDropdownItemCss();

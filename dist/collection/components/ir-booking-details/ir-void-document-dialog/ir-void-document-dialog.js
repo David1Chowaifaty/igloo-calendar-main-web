@@ -68,7 +68,7 @@ export class IrVoidDocumentDialog {
     render() {
         const documentLabel = this.isInvoice ? 'invoice' : 'receipt';
         const creditDocumentLabel = this.isInvoice ? 'credit note' : 'credit receipt';
-        return (h(Host, { key: '57a8af58d2ee45aa7a7c78888c3f004c34a15bf9' }, h("ir-dialog", { key: '03c111ab4119606b50d2ba6880e5b67deaab8797', label: "Alert", open: this.isOpen, lightDismiss: false, onIrDialogHide: e => {
+        return (h(Host, { key: '004595498b14ac38153da6cc4340457b64915d82' }, h("ir-dialog", { key: '05b8a74832926091bff0d14353e3f018b8c60c3f', label: "Alert", open: this.isOpen, lightDismiss: false, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onIrDialogAfterHide: e => {
@@ -76,7 +76,7 @@ export class IrVoidDocumentDialog {
                 e.stopPropagation();
                 this.isOpen = false;
                 this.request = null;
-            } }, h("p", { key: 'b8e828fba4d1ab09f693f9b64bf4d57183dd4bce', class: "void-document-dialog__message" }, "Void ", documentLabel, " ", this.request?.documentNumber, " by generating a ", creditDocumentLabel, "?"), h("div", { key: '91ead70a92be49d5bc39d2188005ac49fad4f271', slot: "footer", class: "void-document-dialog__footer" }, h("ir-custom-button", { key: 'b652032e1ac12ec9c3ff6d71e76b43977da7cd0b', "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '1f067244c16164018262cdde4637d9bf54915b09', loading: this.isLoading, onClickHandler: () => this.handleConfirm(), size: "m", variant: "danger" }, "Confirm")))));
+            } }, h("p", { key: '7666ffaf03281d1acd1cfb2d15c5a245ea11be91', class: "void-document-dialog__message" }, "Void ", documentLabel, " ", this.request?.documentNumber, " by generating a ", creditDocumentLabel, "?"), h("div", { key: '802eb1ad4184c2b2028cfae0893de919de3bda50', slot: "footer", class: "void-document-dialog__footer" }, h("ir-custom-button", { key: '85efd18a8ccf7437c4ba94c848a7896c4233c447', "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '1f727d72e14aeced9d33a4641bcf30f0f57d408b', loading: this.isLoading, onClickHandler: () => this.handleConfirm(), size: "m", variant: "danger" }, "Confirm")))));
     }
     static get is() { return "ir-void-document-dialog"; }
     static get encapsulation() { return "scoped"; }

@@ -35,7 +35,7 @@ export declare class IrCityLedgerFolio {
     private handleFolioMessage;
     private applyClLockingUpdates;
     private handleDelete;
-    handleAgentIdChange(newValue: number | null, oldValue: number | null): void;
+    handleAgentChange(newAgent: Agent | null, oldAgent: Agent | null): void;
     private clearData;
     private fetchCl;
     private fetchFolioData;

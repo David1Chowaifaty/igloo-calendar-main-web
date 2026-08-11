@@ -1,4 +1,3 @@
-import { CalculateOptimBaseGrossAmountParamsSchema, SetDepartureTimePropsSchema, SetHbPreferencePropsSchema, SimulateDirectBookingParamsSchema, VoidPaymentPropsSchema, } from "./types";
 import axios from "axios";
 import { ZIEntrySchema } from "../../models/IBooking";
 import { convertDateToCustomFormat, convertDateToTime, dateToFormattedString, extras } from "../../utils/utils";
@@ -6,7 +5,7 @@ import { getMyBookings } from "../../utils/booking";
 import booking_store from "../../stores/booking.store";
 import calendar_data from "../../stores/calendar-data";
 import { z } from "zod";
-import { AckExposedRevisionPropsSchema, CalculateExclusiveTaxPropsSchema, GetBookingInvoiceInfoPropsSchema, GetRoomsToCheckInPropsSchema, GetRoomsToCheckOutPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, } from "./types";
+import { CalculateOptimBaseGrossAmountParamsSchema, DoDayUseParamsSchema, SetDepartureTimePropsSchema, SetHbPreferencePropsSchema, SimulateDirectBookingParamsSchema, VoidPaymentPropsSchema, AckExposedRevisionPropsSchema, CalculateExclusiveTaxPropsSchema, GetBookingInvoiceInfoPropsSchema, GetRoomsToCheckInPropsSchema, GetRoomsToCheckOutPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, SetArrivalTimePropsSchema, } from "./types";
 import { BookingInvoiceInfoSchema } from "../../components/ir-invoice/types";
 /**
  * Builds a grouped payment types record from raw entries and groups.
@@ -386,6 +385,14 @@ export class BookingService {
         }
         return data.My_Result;
     }
+    async setArrivalTime(props) {
+        const payload = SetArrivalTimePropsSchema.parse(props);
+        const { data } = await axios.post(`/Set_Arrival_Time`, payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
     groupEntryTablesResult(entries) {
         let result = {};
         for (const entry of entries) {
@@ -487,7 +494,7 @@ export class BookingService {
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
-            return data.My_Result;
+            return { ...data.My_Result, rooms: data.My_Result.rooms ?? [] };
         }
         catch (error) {
             console.error(error);
@@ -729,6 +736,14 @@ export class BookingService {
     async simulateDirectBooking(params) {
         const payload = SimulateDirectBookingParamsSchema.parse(params);
         const { data } = await axios.post(`/Simulate_Direct_Booking`, payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data['My_Result'];
+    }
+    async doDayUse(params) {
+        const payload = DoDayUseParamsSchema.parse(params);
+        const { data } = await axios.post('/Do_Day_Use', payload);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }

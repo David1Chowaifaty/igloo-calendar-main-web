@@ -22,6 +22,11 @@ export declare class IrBookingRooms {
      */
     departureTime: IEntries[];
     /**
+     * Available arrival time options for the booking.
+     * Passed down to each room when applicable.
+     */
+    arrivalTime: IEntries[];
+    /**
      * Enables the ability to add a new room/unit to the booking.
      */
     hasRoomAdd: boolean;
@@ -56,6 +61,8 @@ export declare class IrBookingRooms {
      */
     splitIndex: SplitIndex;
     clTransactions: ClTx[];
+    /** `_SVC_CATEGORY` setup entries, threaded down to each room's extra-services section for category labels. */
+    svcCategories: IEntries[];
     roomDeleteFinished: EventEmitter<string>;
     private computeRoomGroups;
     private handleRoomCheckout;

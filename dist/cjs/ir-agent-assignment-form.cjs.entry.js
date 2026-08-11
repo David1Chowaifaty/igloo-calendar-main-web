@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-Bg4VKYKR.js');
+var index = require('./index-jMqrfjaT.js');
 
 const irAgentAssignmentFormCss = () => `.sc-ir-agent-assignment-form-h{display:block}`;
 
@@ -9,7 +9,7 @@ const IrAgentAssignmentForm = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: 'd73b8ee8b8a50e6657049de53ae10543d9534bb3' }, index.h("slot", { key: '9b2afaec94e90b76e7e8b0771582aff37d5902bc' })));
+        return (index.h(index.Host, { key: '88d6d47c46335beb19ea5ed355cd4bf8106beefe' }, index.h("slot", { key: '915d985d194d0c11cc739fe674adb95412637751' })));
     }
 };
 IrAgentAssignmentForm.style = irAgentAssignmentFormCss();

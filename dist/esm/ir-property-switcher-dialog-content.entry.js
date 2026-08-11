@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-JbQjGrUG.js';
+import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-BxxIyJIp.js';
 import { a as axios } from './axios-B50ozOIF.js';
 import { D as Debounce } from './debounce-DF70NVXP.js';
 import './_commonjsHelpers-BFTU3MAI.js';
@@ -157,7 +157,7 @@ const IrPropertySwitcherDialogContent = class {
         return h("div", { class: "property-switcher__status" }, text);
     }
     render() {
-        return (h(Host, { key: '34d5593ee7c2408ae2b0d539e78b5c2828dccb21' }, h("ir-input", { key: 'c4495008ee559a2406be5c4b2ccf98ab8604bbca', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Property name or A number", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: '078388a8bdbcba8ecd45988b0a6a80858c5f98eb', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: '51a912a132ac4720201bd651bf53649986b88013' }, h("p", { key: 'd98c0bbbf0970251ec1608609593dffa1c83416d', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, "Linked Properties"), this.properties.map(property => {
+        return (h(Host, { key: '348540d0b7e2bf64b9e3bd882b3e101921f98d6a' }, h("ir-input", { key: '59be543ba92fdca306f65fd64c86ce40f2bbf545', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Property name or A number", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: '60aafe9b89b384a7e2477a45e2a5a7dd8ac15c40', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: 'f77f462609eb59f458d7f1967ce44edb2b66bc2b' }, h("p", { key: 'b1567af5ccaaa446cb624800327b3bf77a0e6a0b', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, "Linked Properties"), this.properties.map(property => {
             const label = `${property.name}`;
             return (h("wa-option", { onClick: () => {
                     // this.selectProperty(property as any);

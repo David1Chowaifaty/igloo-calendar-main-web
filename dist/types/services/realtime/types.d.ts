@@ -1,6 +1,6 @@
 import type { HKSkipParams } from "../housekeeping.service";
 import type { SetRoomCalendarExtraParams } from "../property/types";
-import type { SetDepartureTimeProps } from "../booking-service/types";
+import type { DoDayUseParams, SetDepartureTimeProps } from "../booking-service/types";
 import type { ClTx } from "../city-ledger/index";
 import type { RoomHkStatus } from "../../models/booking.dto";
 export interface UnitHkStatusChangePayload {
@@ -86,6 +86,8 @@ export interface RealtimeEventMap {
         HK_ISSUE_ID: number | string;
         My_Hka: unknown;
     };
+    /** Broadcast after a `Do_Day_Use` call succeeds — payload mirrors the request body. */
+    DAY_USE_CREATED: DoDayUseParams;
     HK_TASK_OVERRIDE: {
         HKM_ID: number | null;
         DATE: string;

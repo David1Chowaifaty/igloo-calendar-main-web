@@ -65,6 +65,16 @@ export declare const BookedByGuestSchema: z.ZodObject<{
     firstName?: string;
     lastName?: string;
 }>;
+export declare const DayUseHoursSchema: z.ZodObject<{
+    from: z.ZodString;
+    to: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    from?: string;
+    to?: string;
+}, {
+    from?: string;
+    to?: string;
+}>;
 export type BlockedDatePayload = {
     RELEASE_AFTER_HOURS: string;
     ENTRY_DATE: string;

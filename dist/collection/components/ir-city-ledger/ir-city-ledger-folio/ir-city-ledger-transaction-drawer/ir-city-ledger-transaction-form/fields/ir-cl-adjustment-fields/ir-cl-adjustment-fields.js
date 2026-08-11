@@ -13,9 +13,9 @@ export class IrClAdjustmentFields {
     //   return [];
     // }
     render() {
-        return (h(Fragment, { key: 'e84da563122fd18743df941367457a7ec7aa6861' }, h("div", { key: '71cd220b92805f24c8d76e89acd83f6d8cba33c9', class: "field field--full-width" }, h("ir-validator", { key: '49838e829f6281c0bd7b6b05141bfd2400c98e20', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: 'f383a5fd23b0de86cf40585f344ea83e070e7672', label: "Entry Type", orientation: "horizontal", size: "s", value: this.entryType, onchange: event => {
+        return (h(Fragment, { key: 'a02434b35f0edc78302bf81ee4fd4da0582cc2ce' }, h("div", { key: '2fcaa01b07c61cf9a395f4fe3692483cbc8c6878', class: "field field--full-width" }, h("ir-validator", { key: '065ffa67f8fce8cf4513af7e8005e29ff30e6157', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: 'd3679d51346b3463dbd54274acef1178fa7c7f52', label: "Entry Type", orientation: "horizontal", size: "s", value: this.entryType, onchange: event => {
                 this.fieldChange.emit({ entryType: event.target.value });
-            } }, h("wa-radio", { key: 'f5249ae3c8e35ff8717659c67def32ccc083f1e9', value: "CR", appearance: "button", class: "entry-type --credit" }, "Credit"), h("wa-radio", { key: 'f1e30b4d7cbf0a12ae848719d40d0bc2d8c71aa0', value: "DB", appearance: "button", class: "entry-type --debit" }, "Debit"))))));
+            } }, h("wa-radio", { key: 'aaa89be026d0a000a453fdd7f2424761d513566d', value: "CR", appearance: "button", class: "entry-type --credit" }, "Credit"), h("wa-radio", { key: 'bfb6141767c358a2663ce355d832852238200497', value: "DB", appearance: "button", class: "entry-type --debit" }, "Debit"))))));
     }
     static get is() { return "ir-cl-adjustment-fields"; }
     static get encapsulation() { return "scoped"; }

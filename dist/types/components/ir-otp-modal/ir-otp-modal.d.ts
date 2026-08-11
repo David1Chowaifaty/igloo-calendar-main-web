@@ -19,6 +19,8 @@ export declare class IrOtpModal {
     error: string;
     isLoading: boolean;
     timer: number;
+    open: boolean;
+    el: HTMLIrOtpModalElement;
     private dialogRef;
     private timerInterval;
     private systemService;
@@ -33,11 +35,16 @@ export declare class IrOtpModal {
     isInitializing: boolean;
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;
-    handleKeyDownChange(e: KeyboardEvent): void;
     /** Open & reset everything */
     openModal(): Promise<void>;
     /** Hide & clear timer */
     closeModal(): Promise<void>;
+    /**
+     * Keeps the dialog non-dismissible: Escape / outside-click / programmatic
+     * hide are ignored, so the flow can only be ended via the Cancel/Verify
+     * buttons (which call closeModal explicitly).
+     */
+    private handleDialogHide;
     private fetchLocale;
     private resetState;
     private startTimer;

@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-Bg4VKYKR.js');
+var index = require('./index-jMqrfjaT.js');
 
 const irUnvoicedBookingsSummaryCss = () => `:host{display:block}`;
 
@@ -9,7 +9,7 @@ const IrUnvoicedBookingsSummary = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: '84a823faffd905c427730da9cb58c1c973d7a7e6' }, index.h("slot", { key: '8ea785c2ce296916128a3f68d75a143939621df1' })));
+        return (index.h(index.Host, { key: 'f316174cffa12ffe6e3fe59cf85024ecae1e811d' }, index.h("slot", { key: '2febdc54babdea8bd955bc9809f68154086335ab' })));
     }
 };
 IrUnvoicedBookingsSummary.style = irUnvoicedBookingsSummaryCss();

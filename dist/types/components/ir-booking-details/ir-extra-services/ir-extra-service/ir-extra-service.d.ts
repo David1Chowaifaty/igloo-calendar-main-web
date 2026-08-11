@@ -20,7 +20,10 @@ export declare class IrExtraService {
     private bookingService;
     private deleteService;
     private toggleServiceAgent;
+    private get category();
+    private get categoryLabel();
     private get description();
     private get matchedTx();
+    private get linkedUnitName();
     render(): any;
 }

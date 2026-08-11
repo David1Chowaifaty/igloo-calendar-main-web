@@ -9,9 +9,12 @@ export declare class IrToastItem {
     dismissible: boolean;
     progress: number;
     leaving: boolean;
+    entered: boolean;
     /** Emitted once the exit animation finishes and the toast should be removed from the DOM. */
     irDismiss: EventEmitter<void>;
     private timer;
+    private remainingMs;
+    private resumedAt;
     private timerStarted;
     private hiding;
     private hovered;
@@ -26,7 +29,8 @@ export declare class IrToastItem {
     private get hasTimer();
     private prefersReducedMotion;
     private resumeTimer;
-    private clearTimer;
+    private pauseTimer;
+    private handleVisibilityChange;
     private updateInteraction;
     private handleMouseEnter;
     private handleMouseLeave;

@@ -388,7 +388,7 @@ export function getPrivateNote(extras) {
 }
 export function transformNewBooking(data) {
     let bookings = [];
-    const rooms = data.rooms.filter(room => !!room['assigned_units_pool']);
+    const rooms = data.rooms?.filter(room => !!room['assigned_units_pool']) ?? [];
     rooms.forEach(room => {
         const bookingFromDate = moment(room.from_date, 'YYYY-MM-DD').isAfter(moment(calendar_dates.fromDate, 'YYYY-MM-DD')) ? room.from_date : calendar_dates.fromDate;
         const bookingToDate = room.to_date;
@@ -506,7 +506,7 @@ export function compareTime(date1, date2) {
     return date1.getHours() >= date2.getHours() && date1.getMinutes() >= date2.getMinutes();
 }
 /**
- * Creates a Date object for today at the specified hour in a given time zone.
+ * Creates a Date object for today at the specified hour (and optional minute) in a given time zone.
  * The offset is the number of hours that the target time zone is ahead of UTC.
  *
  * For example, if offset = 3 and hour = 9, then the function returns a Date
@@ -514,9 +514,10 @@ export function compareTime(date1, date2) {
  *
  * @param offset - The timezone offset in hours (e.g., 2, 3, etc.)
  * @param hour - The desired hour in the target time zone (0-23)
+ * @param minute - The desired minute in the target time zone (0-59)
  * @returns Date object representing the target time (in UTC)
  */
-export function createDateWithOffsetAndHour(offset, hour) {
+export function createDateWithOffsetAndHour(offset, hour, minute = 0) {
     const now = new Date();
     const offsetMs = offset * 60 * 60 * 1000;
     const targetTzDate = new Date(now.getTime() + offsetMs);
@@ -524,5 +525,5 @@ export function createDateWithOffsetAndHour(offset, hour) {
     const month = targetTzDate.getUTCMonth();
     const day = targetTzDate.getUTCDate();
     const utcHour = hour - offset;
-    return new Date(Date.UTC(year, month, day, utcHour));
+    return new Date(Date.UTC(year, month, day, utcHour, minute));
 }

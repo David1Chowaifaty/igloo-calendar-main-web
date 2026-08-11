@@ -1,12 +1,18 @@
-import { Fragment, Host, h } from "@stencil/core";
-import { BookedByGuestSchema, RoomsGuestsSchema } from "./types";
+import { Host, h } from "@stencil/core";
+import { BookedByGuestSchema, DayUseHoursSchema, RoomsGuestsSchema } from "./types";
 import { RoomService } from "../../../services/room.service";
 import { BookingService } from "../../../services/booking-service/booking.service";
 import locales from "../../../stores/locales.store";
-import booking_store, { getReservedRooms, resetBookingStore, setBookingDraft, setBookingSelectOptions, updateBookedByGuest } from "../../../stores/booking.store";
+import booking_store, { fillMissingReservedGuestNames, getReservedRooms, resetBookingStore, setBookingDraft, setBookingSelectOptions, setDayUseSelection, updateBookedByGuest, } from "../../../stores/booking.store";
 import calendar_data from "../../../stores/calendar-data";
+import { PropertyService } from "../../../services/property.service";
+import { showToast } from "../../../utils/utils";
 import moment from "moment";
 import { IRBookingEditorService } from "./ir-booking-editor.service";
+/** `_SVC_CATEGORY` short code for Day Use, matched against `calendar_data.property.tax_categories`. */
+const DAY_USE_CATEGORY_CODE = 'DUZ';
+/** bookingStatus['002'] in @/utils/booking — CONFIRMED. */
+const CONFIRMED_STATUS_CODE = '002';
 export class IrBookingEditor {
     propertyId;
     language = 'en';
@@ -21,14 +27,77 @@ export class IrBookingEditor {
     unitId;
     isLoading = true;
     isFetchingAvailability = false;
+    hasCheckedAvailability = false;
     unavailableRatePlanIds = new Set();
+    dayUseBookedUnitIds = new Set();
+    resolvingDayUseUnitId = null;
+    /** Net (tax-exclusive) version of `dayUsePrice`, resolved once via `calculateNetAmount` — shown as the default value in the price input so an untouched default reads the same way a typed custom (net) amount does. */
+    dayUseNetPrice = null;
     resetBookingEvt;
     loadingChanged;
     adjustBlockedUnit;
+    bookingStepChange;
     roomService = new RoomService();
     bookingService = new BookingService();
+    propertyService = new PropertyService();
     bookingEditorService = new IRBookingEditorService(this.mode);
     room;
+    get dayUsePrice() {
+        return calendar_data.property?.tax_categories?.find(tc => tc.category?.code === DAY_USE_CATEGORY_CODE)?.default_price ?? 0;
+    }
+    /**
+     * Resolves the gross day-use price for the selected unit and advances to step 2.
+     *
+     * - Hotel default price (untouched): the input shows the default price converted to its **net**
+     *   value (`dayUseNetPrice`, resolved once by `resolveDayUseNetPrice`) so an untouched default
+     *   reads the same way a typed custom amount does. Since it wasn't actually customized, we discard
+     *   that net display value here and show/save the original **gross** default instead.
+     * - Custom price (front-desk typed a value): that value is the **net** amount, mirroring how a
+     *   manually-modified rate-plan rate is treated (`getRatePlanDisplayAmount` in booking.store.ts) —
+     *   `calculateExclusiveTax` derives the tax off the net amount and gross = net + tax.
+     *
+     * Resolved once here so step 2's summary and the final `doDayUse` submission always agree.
+     */
+    async handleDayUseUnitSelected(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const { unit, roomType, price, isCustomPrice } = e.detail;
+        this.resolvingDayUseUnitId = unit.id;
+        try {
+            let netAmount;
+            let taxAmount;
+            let grossAmount;
+            if (isCustomPrice) {
+                netAmount = price;
+                taxAmount = await this.bookingService.calculateExclusiveTax({ property_id: Number(this.propertyId), amount: netAmount });
+                grossAmount = netAmount + taxAmount;
+            }
+            else {
+                grossAmount = this.dayUsePrice;
+                netAmount = this.dayUseNetPrice ?? grossAmount;
+                taxAmount = grossAmount - netAmount;
+            }
+            setDayUseSelection({ unit, roomType, price: grossAmount, netAmount, taxAmount, isCustomPrice });
+            this.bookingStepChange.emit({ direction: 'next' });
+        }
+        finally {
+            this.resolvingDayUseUnitId = null;
+        }
+    }
+    /** Resolves `dayUsePrice` (gross) to its net equivalent once, up front, so it's ready before the day-use unit list renders. */
+    async resolveDayUseNetPrice() {
+        const grossAmount = this.dayUsePrice;
+        if (!grossAmount) {
+            this.dayUseNetPrice = 0;
+            return;
+        }
+        try {
+            this.dayUseNetPrice = await this.propertyService.calculateNetAmount({ property_id: Number(this.propertyId), amount: grossAmount });
+        }
+        catch (error) {
+            console.error('Error resolving day-use net price:', error);
+        }
+    }
     get adjustedCheckout() {
         if (this.bookingEditorService.isEventType('PLUS_BOOKING') && !this.blockedUnit) {
             return undefined;
@@ -73,7 +142,7 @@ export class IrBookingEditor {
                 locales.entries = languageTexts.entries;
                 locales.direction = languageTexts.direction;
             }
-            await this.fetchSetupEntriesAndInitialize();
+            await Promise.all([this.fetchSetupEntriesAndInitialize(), this.resolveDayUseNetPrice()]);
             setBookingSelectOptions({
                 countries: countriesList,
             });
@@ -146,7 +215,7 @@ export class IrBookingEditor {
     async checkBookingAvailability(checkBe = false) {
         this.isFetchingAvailability = true;
         // resetBookingStore(false);
-        const { source, occupancy, dates } = booking_store.bookingDraft;
+        const { source, occupancy, dates, dayUse } = booking_store.bookingDraft;
         const from_date = dates.checkIn.format('YYYY-MM-DD');
         const to_date = dates.checkOut.format('YYYY-MM-DD');
         const is_in_agent_mode = source?.type === 'TRAVEL_AGENCY';
@@ -168,7 +237,7 @@ export class IrBookingEditor {
                 is_in_agent_mode,
                 room_type_ids_to_update,
             };
-            await this.bookingService.getBookingAvailability(params);
+            await Promise.all([this.bookingService.getBookingAvailability(params), this.fetchDayUseBookedUnits(dayUse, from_date)]);
             if (this.mode !== 'EDIT_BOOKING') {
                 await this.assignCountryCode();
             }
@@ -180,10 +249,27 @@ export class IrBookingEditor {
                 this.compareResults(beResults);
             }
             this.isFetchingAvailability = false;
+            this.hasCheckedAvailability = true;
         }
         catch (error) {
             console.error('Error initializing booking availability:', error);
         }
+    }
+    /**
+     * Units already booked for day use on the target date don't reduce a room type's normal
+     * `inventory`/availability, so they must be filtered out separately from the units list.
+     */
+    async fetchDayUseBookedUnits(dayUse, date) {
+        if (!dayUse) {
+            this.dayUseBookedUnitIds = new Set();
+            return;
+        }
+        const bookings = await this.propertyService.getDayUseBookingsForCalendar({
+            property_id: Number(calendar_data.property.id),
+            from_date: date,
+            to_date: date,
+        });
+        this.dayUseBookedUnitIds = new Set(bookings.map(b => b.unit_id));
     }
     compareResults(beResults) {
         const beRoomTypes = Array.isArray(beResults) ? beResults : (beResults?.roomtypes ?? []);
@@ -206,6 +292,11 @@ export class IrBookingEditor {
     async doReservation(source) {
         try {
             this.loadingChanged.emit({ cause: source });
+            if (booking_store.bookingDraft.dayUse) {
+                await this.doDayUseReservation();
+                return;
+            }
+            fillMissingReservedGuestNames();
             const reservedRooms = getReservedRooms();
             RoomsGuestsSchema.parse(reservedRooms.map(r => ({ ...r.guest, requires_bed_preference: r.ratePlanSelection.roomtype.is_bed_configuration_enabled })));
             BookedByGuestSchema.parse(booking_store.bookedByGuest);
@@ -227,6 +318,56 @@ export class IrBookingEditor {
             this.loadingChanged.emit({ cause: null });
         }
         // alert('do reservation');
+    }
+    async doDayUseReservation() {
+        const { dayUseSelection } = booking_store;
+        if (!dayUseSelection) {
+            console.warn('[doDayUseReservation] No unit selected');
+            return;
+        }
+        const { dates, dayUseHours, source } = booking_store.bookingDraft;
+        const { bookedByGuest } = booking_store;
+        BookedByGuestSchema.parse(bookedByGuest);
+        DayUseHoursSchema.parse(dayUseHours);
+        // Gross/net/tax were already resolved when the unit was selected (handleDayUseUnitSelected) —
+        // reused as-is so the amount shown on step 2 matches exactly what gets saved.
+        const { price: grossAmount, netAmount, taxAmount } = dayUseSelection;
+        const date = dates.checkIn.format('YYYY-MM-DD');
+        const payload = {
+            language: this.language,
+            booking: {
+                property: { id: Number(this.propertyId) },
+                currency: { id: calendar_data.property.currency.id },
+                source: { code: source?.code },
+                guest: {
+                    first_name: bookedByGuest.firstName,
+                    last_name: bookedByGuest.lastName,
+                    email: bookedByGuest.email ?? '',
+                    mobile: bookedByGuest.mobile ?? '',
+                },
+                from_date: date,
+                to_date: date,
+                status: { code: CONFIRMED_STATUS_CODE },
+                remark: bookedByGuest.note,
+            },
+            extra_service: {
+                pr_id: dayUseSelection.unit.id,
+                category: { code: DAY_USE_CATEGORY_CODE },
+                description: '',
+                start_date: date,
+                end_date: date,
+                from_time: dayUseHours.from,
+                to_time: dayUseHours.to,
+                net_amount: netAmount,
+                tax_amount: taxAmount,
+                gross_amount: grossAmount,
+                price: grossAmount,
+                currency_id: calendar_data.property.currency.id,
+            },
+        };
+        await this.bookingService.doDayUse(payload);
+        showToast({ title: 'Day Use Booking Created', type: 'success' });
+        this.resetBookingEvt.emit(null);
     }
     async assignCountryCode() {
         const country = await this.bookingService.getUserDefaultCountry();
@@ -310,8 +451,8 @@ export class IrBookingEditor {
         if (this.isLoading) {
             return (h("div", { class: 'drawer__loader-container' }, h("ir-spinner", null)));
         }
-        return (h(Host, null, h("div", null, h("ir-interceptor", null), this.step === 'details' && (h(Fragment, null, h("ir-booking-editor-header", { isLoading: this.isFetchingAvailability, isBlockConversion: !!this.blockedUnit?.STATUS_CODE, booking: this.booking, checkIn: this.checkIn, checkOut: this.adjustedCheckout, mode: this.mode }), h("div", { class: 'booking-editor__roomtype-container' }, !this.isFetchingAvailability &&
-            booking_store.roomTypes?.map(roomType => (h("igl-room-type", { unavailableRatePlanIds: this.unavailableRatePlanIds, key: `room-type-${roomType.id}`, id: roomType.id.toString(), roomType: roomType, bookingType: this.mode, ratePricingMode: booking_store.selects?.ratePricingMode, roomTypeId: this.room?.roomtype?.id, currency: calendar_data.property.currency })))))), this.step === 'confirm' && (h("ir-booking-editor-form", { booking: this.booking, onDoReservation: e => {
+        return (h(Host, null, h("div", null, h("ir-interceptor", null), this.step === 'details' && (h("div", { class: "booking-editor__step", key: "step-details" }, h("ir-booking-editor-header", { isLoading: this.isFetchingAvailability, isBlockConversion: !!this.blockedUnit?.STATUS_CODE, booking: this.booking, checkIn: this.checkIn, checkOut: this.adjustedCheckout, mode: this.mode }), h("div", { class: 'booking-editor__roomtype-container' }, !this.isFetchingAvailability && booking_store.bookingDraft.dayUse ? (h("igl-day-use-unit-list", { roomTypes: booking_store.roomTypes, price: this.dayUsePrice, netPrice: this.dayUseNetPrice, currency: calendar_data.property.currency, bookedUnitIds: this.dayUseBookedUnitIds, unitId: this.unitId, resolvingUnitId: this.resolvingDayUseUnitId, hasSearched: this.hasCheckedAvailability, onUnitSelected: e => this.handleDayUseUnitSelected(e) })) : (!this.isFetchingAvailability &&
+            booking_store.roomTypes?.map(roomType => (h("igl-room-type", { unavailableRatePlanIds: this.unavailableRatePlanIds, key: `room-type-${roomType.id}`, id: roomType.id.toString(), roomType: roomType, bookingType: this.mode, ratePricingMode: booking_store.selects?.ratePricingMode, roomTypeId: this.room?.roomtype?.id, currency: calendar_data.property.currency }))))))), this.step === 'confirm' && (h("ir-booking-editor-form", { class: "booking-editor__step", key: "step-confirm", booking: this.booking, onDoReservation: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.doReservation(e.detail);
@@ -571,7 +712,11 @@ export class IrBookingEditor {
         return {
             "isLoading": {},
             "isFetchingAvailability": {},
-            "unavailableRatePlanIds": {}
+            "hasCheckedAvailability": {},
+            "unavailableRatePlanIds": {},
+            "dayUseBookedUnitIds": {},
+            "resolvingDayUseUnitId": {},
+            "dayUseNetPrice": {}
         };
     }
     static get events() {
@@ -618,6 +763,21 @@ export class IrBookingEditor {
                 "complexType": {
                     "original": "any",
                     "resolved": "any",
+                    "references": {}
+                }
+            }, {
+                "method": "bookingStepChange",
+                "name": "bookingStepChange",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "{ direction: 'next' | 'prev' }",
+                    "resolved": "{ direction: \"next\" | \"prev\"; }",
                     "references": {}
                 }
             }];

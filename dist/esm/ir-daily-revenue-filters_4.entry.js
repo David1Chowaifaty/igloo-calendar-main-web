@@ -1,10 +1,10 @@
-import { r as registerInstance, c as createEvent, h, d as getElement, H as Host, F as Fragment } from './index-JbQjGrUG.js';
+import { r as registerInstance, c as createEvent, h, d as getElement, H as Host, F as Fragment } from './index-BxxIyJIp.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { l as locales } from './locales.store-CV07I3Cw.js';
-import { i as formatAmount, z as calculateTrend } from './utils-AafVtJtY.js';
-import { c as calendar_data } from './calendar-data-CRLrGQXE.js';
+import { l as locales } from './locales.store-BPLMdI8U.js';
+import { i as formatAmount, z as calculateTrend } from './utils-CmsmLI2N.js';
+import { c as calendar_data } from './calendar-data-Bwf2mcZp.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-34GsmACS.js';
-import './index-CR94o8Bs.js';
+import './index-xEub7_rB.js';
 import './index-DeW5X45W.js';
 import './type-D7rOPtKA.js';
 
@@ -64,15 +64,15 @@ const IrDailyRevenueFilters = class {
         });
     }
     render() {
-        return (h("ir-filter-card", { key: '136a651e76f5ace283db76c2621c36c1326f5bf5' }, h("wa-select", { key: '3b4ecde0b0df6a7744e1129ddc85fc88783f0bf7', label: "Selected period", size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
+        return (h("ir-filter-card", { key: '74a7896a99d490427e6fb658699b2854f541c520' }, h("wa-select", { key: '817291ee3df5a8383c21cf03000435aea1246115', label: "Selected period", size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
                 const value = e.target.value;
                 this.updateFilter({ date: value, to_date: value, from_date: value });
-            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: '2fc496ce0545ec8858a15164984d1a01208a6888', class: "or-divider" }, h("span", { key: '5ae256125a539edb36641c06d6d7353a7f5bc21c', class: "or-divider__line" }), h("span", { key: 'a05085521d8892283bbb78f6ab0e2dc0b79130e7', class: "or-divider__text" }, "Or"), h("span", { key: '1c8123e80cf318d7b27267bdad4adac23c49c87b', class: "or-divider__line" })), h("ir-date-range-filter", { key: '913d24d8ebcd3ed59d502f431baebaccaf0d191a', showQuickActions: false, label: "Date range", fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: hooks().format('YYYY-MM-DD'), onDatesChanged: e => {
+            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: 'c97d3857e3418828f47633216a487c63645f5ee1', class: "or-divider" }, h("span", { key: 'aae2b9bdb2ef98ed404bdee5c9e2b7ab266d5808', class: "or-divider__line" }), h("span", { key: '052f638180d06587a5691f9803fad0dce191a6b5', class: "or-divider__text" }, "Or"), h("span", { key: '16e9e9ac7221cab243dd946c26eb82b2a5b664b5', class: "or-divider__line" })), h("ir-date-range-filter", { key: '92cf1869adaf07b57d74349fcd6971242172e65e', showQuickActions: false, label: "Date range", fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: hooks().format('YYYY-MM-DD'), onDatesChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { from, to } = e.detail;
                 this.updateFilter({ from_date: from, to_date: to, date: null });
-            } }), h("div", { key: '03ebd2259204e6dff65fa0a9f123a7136814626f', slot: "footer" }, h("ir-custom-button", { key: 'e87d42ca9efc6ed033675cf5b4230cc98f887662', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: '0bf8c5b1996260a6911dfbd6e0f53b680aeba8b8', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
+            } }), h("div", { key: '6d6cf5acde688870ff53f99cdcca67720c372629', slot: "footer" }, h("ir-custom-button", { key: '12850c818429849a264d5124718782fb549cfc54', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: '8b7339e70c1f4c0d9dfba5764282b4caf5683545', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
     }
     static get watchers() { return {
         "payments": [{
@@ -97,7 +97,7 @@ const IrRevenueRow = class {
     contentId = `ir-rr-content-${++accId}`;
     render() {
         const total = this.payments.reduce((prev, curr) => prev + curr.amount, 0);
-        return (h(Host, { key: '823c27a1a3ea0643f27803339f033379e1b1f9e5' }, h("ir-accordion", { key: '335db0e68e247f1c1d83f63de5768d575d787ef8', class: "ir-revenue-row__accordion" }, h("div", { key: 'cee8bdfef80fec7f865e7a2705509c8b3d695615', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: '7236d47c86d008fd6827d17565a2c20b66c439d3', class: "ir-revenue-row__header-left" }, h("p", { key: '0413931df02fe15262dcd29001f1a5d60d6970e0', class: "ir-revenue-row__group" }, this.groupName, ' ', h("wa-badge", { key: '4983504a6293c5d2ccd0d9eb09b73a9b72b3a4a3', variant: "brand", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), h("p", { key: 'f3f921bef0121e97fbf66811711f234403a59590', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: 'f9f8f65c2d3bbb460e2e2be63e8f360c0acd3b5e', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: 'f2778f59c8692e2d8672108cc651cdddf51925c3', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
+        return (h(Host, { key: '9b92d1bfefb913dcdfd51e76aa4e51f56c8dcaf9' }, h("ir-accordion", { key: '45a9c95886da6b31daec71527b245858a6ea347a', class: "ir-revenue-row__accordion" }, h("div", { key: 'ee2e3becff43f9b3e086f6e584d24bf479f77189', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: 'dee6b4265d94af3a04d55bfc002af3adfd550153', class: "ir-revenue-row__header-left" }, h("p", { key: '5a6b3fb412c51a83ab4e0634daf6f60ee684f00d', class: "ir-revenue-row__group" }, this.groupName, ' ', h("wa-badge", { key: '2f71dd012965a55ded3176e74ff687706d5f2658', variant: "brand", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), h("p", { key: '4625cf204ed0b76f71fbe4005508e32a69f986c0', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: 'a6705eceeee9a1514721d611bbe611317ad873c2', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: '3cf5b09bcf3629b41564222ee093fb465e4d9e8e', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
     }
 };
 IrRevenueRow.style = irRevenueRowCss();
@@ -148,7 +148,7 @@ const IrRevenueSummary = class {
         const previousDateRefundAmount = this.calculateTotalRefunds(this.previousDateGroupedPayments);
         const previousDateTotalAmount = previousDatePaymentsTotal + previousDateRefundAmount;
         const hasPrevious = Boolean(this.filters?.date && this.previousDateGroupedPayments?.size > 0);
-        return (h(Host, { key: 'c3359baa51974c443bd909061e606cf30fff3997' }, h("div", { key: 'c90ec48804ed8d9638d9cd495dd623c14ae17d82', class: "revenue-summary__row" }, h("ir-metric-card", { key: 'a22a8a194194420142f0815118911375ba9a47ae', class: "revenue-summary__metric", icon: "arrow-trend-up", label: "Payments", value: formatAmount(calendar_data.currency.symbol, paymentsTotal), trend: hasPrevious ? calculateTrend(paymentsTotal, previousDatePaymentsTotal) : undefined, trendLabel: "from previous day", caption: hasPrevious ? `Previous day: ${formatAmount(calendar_data.currency.symbol, previousDatePaymentsTotal)}` : undefined }), h("ir-metric-card", { key: '048647a430527e87f50ad73853b5e1d0ae10efc2', class: "revenue-summary__metric", icon: "arrow-trend-down", label: "Refunds", value: formatAmount(calendar_data.currency.symbol, refundAmount), trend: hasPrevious ? calculateTrend(refundAmount, previousDateRefundAmount) : undefined, trendLabel: "from previous day", invertTrend: true, caption: hasPrevious ? `Previous day: ${formatAmount(calendar_data.currency.symbol, previousDateRefundAmount)}` : undefined }), h("ir-metric-card", { key: 'ac6868500a40aeed0de159806804cf7c2b1d9da2', class: "revenue-summary__metric", icon: this.getTrendIcon(totalAmount, previousDateTotalAmount) ?? 'money-bill', label: "Net Total", value: formatAmount(calendar_data.currency.symbol, totalAmount), trend: hasPrevious ? calculateTrend(totalAmount, previousDateTotalAmount) : undefined, trendLabel: "from previous day", caption: hasPrevious ? `Previous day: ${formatAmount(calendar_data.currency.symbol, previousDateTotalAmount)}` : undefined }))));
+        return (h(Host, { key: '0fd535d8fa8c0a7afdf33b92b76f5587732f2653' }, h("div", { key: 'a62b5ebadacdfc492e0c42acbd0443511b7ed792', class: "revenue-summary__row" }, h("ir-metric-card", { key: '06223067ac42493878fd7e71353fcd2f7a77232f', class: "revenue-summary__metric", icon: "arrow-trend-up", label: "Payments", value: formatAmount(calendar_data.currency.symbol, paymentsTotal), trend: hasPrevious ? calculateTrend(paymentsTotal, previousDatePaymentsTotal) : undefined, trendLabel: "from previous day", caption: hasPrevious ? `Previous day: ${formatAmount(calendar_data.currency.symbol, previousDatePaymentsTotal)}` : undefined }), h("ir-metric-card", { key: '4116de6cc06617f6649ad9dd29fee576b9270542', class: "revenue-summary__metric", icon: "arrow-trend-down", label: "Refunds", value: formatAmount(calendar_data.currency.symbol, refundAmount), trend: hasPrevious ? calculateTrend(refundAmount, previousDateRefundAmount) : undefined, trendLabel: "from previous day", invertTrend: true, caption: hasPrevious ? `Previous day: ${formatAmount(calendar_data.currency.symbol, previousDateRefundAmount)}` : undefined }), h("ir-metric-card", { key: 'ae64b32cd5ad8276270d73ab8b4ac5855949e3d3', class: "revenue-summary__metric", icon: this.getTrendIcon(totalAmount, previousDateTotalAmount) ?? 'money-bill', label: "Net Total", value: formatAmount(calendar_data.currency.symbol, totalAmount), trend: hasPrevious ? calculateTrend(totalAmount, previousDateTotalAmount) : undefined, trendLabel: "from previous day", caption: hasPrevious ? `Previous day: ${formatAmount(calendar_data.currency.symbol, previousDateTotalAmount)}` : undefined }))));
     }
 };
 IrRevenueSummary.style = irRevenueSummaryCss();
@@ -231,7 +231,7 @@ const IrRevenueTable = class {
     }
     render() {
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("wa-card", { key: 'd72496bf0a5738ec5c7c8628b71d6abbdb3f1dff', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
+        return (h("wa-card", { key: 'b5e4204031a8050cd583345917333c771ad4e2f1', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 list = this.sortByDateTime(list);
                 const [paymentType, paymentMethod] = key.split('_');

@@ -1,13 +1,13 @@
-import { r as registerInstance, h, F as Fragment, H as Host } from './index-JbQjGrUG.js';
-import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-C_PQyfkM.js';
-import { c as calendar_data } from './calendar-data-CRLrGQXE.js';
-import { i as isRequestPending } from './ir-interceptor.store-BiWSX1U0.js';
-import { l as locales } from './locales.store-CV07I3Cw.js';
-import { l as downloadFile } from './utils-AafVtJtY.js';
+import { r as registerInstance, h, F as Fragment, H as Host } from './index-BxxIyJIp.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-D5mWYWlZ.js';
+import { c as calendar_data } from './calendar-data-Bwf2mcZp.js';
+import { i as isRequestPending } from './ir-interceptor.store-l69uOCdh.js';
+import { l as locales } from './locales.store-BPLMdI8U.js';
+import { l as downloadFile } from './utils-CmsmLI2N.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import './index-DeW5X45W.js';
-import './index-CR94o8Bs.js';
+import './index-xEub7_rB.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './type-D7rOPtKA.js';
@@ -99,7 +99,7 @@ const IrHkArchive = class {
         }
     }
     render() {
-        return (h(Host, { key: 'ee5c555fce15ea6b0a9824bf5d8ef5d79a4f8ed3' }, h("ir-title", { key: 'd5091c6d175ba864d76a5523319a260323a56742', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), h("section", { key: 'b9faaeb58f2a2919fc73677a86d96cb19d349e93', class: "px-1" }, h("div", { key: 'f7eb18f9ed4562af67bc7db56c99177b2157aa1d', class: "d-flex" }, h("ir-select", { key: 'dff090519aa4fe6e543b211532d9aab3bf286290', class: "w-100", showFirstOption: false, data: [
+        return (h(Host, { key: '27942442ad3ba0f08979f527633cc24155107968' }, h("ir-title", { key: '30f44fb7e7911227bd8b63f9a74343da81cc4f4a', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), h("section", { key: '968496ddb202e1c4cffbc3bb05034971131547a4', class: "px-1" }, h("div", { key: '9dc2908746b7c5178686509e2ae2faf9490efe14', class: "d-flex" }, h("ir-select", { key: 'f60df1d6889a081b9a495c05084063f54d33e4f9', class: "w-100", showFirstOption: false, data: [
                 { text: 'All units', value: '000' },
                 ,
                 ...this.units
@@ -117,7 +117,7 @@ const IrHkArchive = class {
                 else {
                     this.updateFilters({ filtered_by_unit: [e.detail] });
                 }
-            } }), housekeeping_store?.hk_criteria?.housekeepers.length > 1 && (h("ir-select", { key: 'b46ed3ea55f4a7b3c5cc98e767cbf1ada9810b07', class: "ml-1 w-100", selectedValue: this.filters?.filtered_by_hkm?.length === housekeeping_store.hk_criteria.housekeepers.length ? '000' : this.filters?.filtered_by_hkm[0]?.toString(), showFirstOption: false, data: [
+            } }), housekeeping_store?.hk_criteria?.housekeepers.length > 1 && (h("ir-select", { key: '2e7ad22649ca4ee7200a4a1d59423cfbec1437f1', class: "ml-1 w-100", selectedValue: this.filters?.filtered_by_hkm?.length === housekeeping_store.hk_criteria.housekeepers.length ? '000' : this.filters?.filtered_by_hkm[0]?.toString(), showFirstOption: false, data: [
                 { text: 'All housekeepers', value: '000' },
                 ...housekeeping_store?.hk_criteria?.housekeepers
                     .map(v => ({
@@ -132,7 +132,7 @@ const IrHkArchive = class {
                 else {
                     this.updateFilters({ filtered_by_hkm: [e.detail] });
                 }
-            } }))), h("div", { key: '9fa9519b69fad139ccc8a7b9343c43974d363b3f', class: "d-flex mt-1 align-items-center" }, h("ir-range-picker", { key: '681d6106f7faea69ec479ca52b4d7e8eb29a4227', maxDate: hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "mr-1", fromDate: this.filters.from_date ? hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), h("ir-button", { key: 'd9e3f0e8291d66cb7694a350db07adb14b871efc', title: locales.entries?.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), h("ir-button", { key: 'eb262f444316b88599c3355a9f7a5e82346dd08d', title: locales.entries?.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (h(Fragment, { key: '49590ee3b85cd8a57633fdca2c86f13ff3c8f22e' }, this.data?.length === 0 && !isRequestPending('/Get_Archived_HK_Tasks') ? (h("p", { class: 'text-center mt-2' }, locales.entries.Lcz_NoResultsFound)) : (h("table", { class: "mt-2 table" }, h("thead", null, h("th", { class: "pl-0" }, locales.entries.Lcz_Period), h("th", null, locales.entries.Lcz_Housekeeper), h("th", null, locales.entries.Lcz_Unit), h("th", null, locales.entries.Lcz_BookingNumber)), h("tbody", null, this.data?.map(d => (h("tr", { key: d.id }, h("td", { class: "pl-0" }, d.date), h("td", null, d.house_keeper), h("td", null, h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), h("td", null, d.booking_nbr ? (h("ir-button", { btn_color: "link", btnStyle: {
+            } }))), h("div", { key: '626f19e9a600c92f8ab305ecf06090338b12aad6', class: "d-flex mt-1 align-items-center" }, h("ir-range-picker", { key: 'f916b3763d2c049455934de5b156f24e012b3429', maxDate: hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "mr-1", fromDate: this.filters.from_date ? hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), h("ir-button", { key: 'bf964d88ee698a8c0e70c8bca76ea1cb112add5b', title: locales.entries?.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), h("ir-button", { key: '799f13423006a65ff121bd5424b06d1bca03c4a4', title: locales.entries?.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (h(Fragment, { key: '50eeb3367de98f3531f626ee1c27aba9ff62ca76' }, this.data?.length === 0 && !isRequestPending('/Get_Archived_HK_Tasks') ? (h("p", { class: 'text-center mt-2' }, locales.entries.Lcz_NoResultsFound)) : (h("table", { class: "mt-2 table" }, h("thead", null, h("th", { class: "pl-0" }, locales.entries.Lcz_Period), h("th", null, locales.entries.Lcz_Housekeeper), h("th", null, locales.entries.Lcz_Unit), h("th", null, locales.entries.Lcz_BookingNumber)), h("tbody", null, this.data?.map(d => (h("tr", { key: d.id }, h("td", { class: "pl-0" }, d.date), h("td", null, d.house_keeper), h("td", null, h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), h("td", null, d.booking_nbr ? (h("ir-button", { btn_color: "link", btnStyle: {
                 width: 'fit-content',
                 padding: '0',
                 margin: '0',
@@ -141,10 +141,10 @@ const IrHkArchive = class {
             }, text: d.booking_nbr.toString(), onClick: () => {
                 this.selectedBooking = d.booking_nbr;
                 // window.open(`https://x.igloorooms.com/manage/acbookingeditV2.aspx?BN=${d.booking_nbr}`, '_blank');
-            } })) : (locales.entries.Lcz_WasVacant))))))))))), h("ir-sidebar", { key: '0839b4b12f3b53013ef162c3dbb8a95275fc0843', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.selectedBooking, showCloseButton: false, sidebarStyles: {
+            } })) : (locales.entries.Lcz_WasVacant))))))))))), h("ir-sidebar", { key: 'f05385af84093f68b765dd638ba00a817fb14c0d', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.selectedBooking, showCloseButton: false, sidebarStyles: {
                 width: '80rem',
                 background: 'var(--ir-color-muted-background,#f2f3f8)',
-            } }, this.selectedBooking && (h("ir-booking-details", { key: '708e5eec026289bd6b0f6f204b77ad7f4e2f9d9d', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.selectedBooking = null), is_from_front_desk: true, propertyid: Number(this.propertyId), hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.selectedBooking?.toString(), language: this.language, hasRoomAdd: true, ticket: this.ticket })))));
+            } }, this.selectedBooking && (h("ir-booking-details", { key: '7d98fd88c52bb988118972afcbfaf0cd78fd12d1', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.selectedBooking = null), is_from_front_desk: true, propertyid: Number(this.propertyId), hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.selectedBooking?.toString(), language: this.language, hasRoomAdd: true, ticket: this.ticket })))));
     }
 };
 IrHkArchive.style = irHkArchiveCss();

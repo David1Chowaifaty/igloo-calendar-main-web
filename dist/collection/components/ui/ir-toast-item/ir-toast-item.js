@@ -8,9 +8,12 @@ export class IrToastItem {
     dismissible = true;
     progress = 100;
     leaving = false;
+    entered = false;
     /** Emitted once the exit animation finishes and the toast should be removed from the DOM. */
     irDismiss;
     timer;
+    remainingMs;
+    resumedAt;
     timerStarted = false;
     hiding = false;
     hovered = false;
@@ -19,16 +22,26 @@ export class IrToastItem {
         if (!this.timerStarted) {
             this.startTimer();
         }
+        // Once the enter animation has played, mark the host so re-parenting (the
+        // provider moving the toast layer in/out of a modal dialog) never replays it.
+        const markEntered = () => {
+            clearTimeout(fallback);
+            this.entered = true;
+        };
+        const fallback = window.setTimeout(markEntered, 500);
+        this.el.shadowRoot?.querySelector('.toast-item')?.addEventListener('animationend', markEntered, { once: true });
     }
     connectedCallback() {
-        // Re-parenting (e.g. the provider moving the toast layer into a modal
-        // dialog) disconnects and reconnects the element; resume the countdown.
+        document.addEventListener('visibilitychange', this.handleVisibilityChange);
+        // Re-parenting disconnects and reconnects the element; resume the countdown
+        // with whatever time was left when it was paused.
         if (this.timerStarted && !this.hovered && !this.focused) {
             this.resumeTimer();
         }
     }
     disconnectedCallback() {
-        this.clearTimer();
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+        this.pauseTimer();
     }
     /** Starts the auto-dismiss countdown. Safe to call more than once. */
     async startTimer() {
@@ -44,7 +57,7 @@ export class IrToastItem {
             return;
         }
         this.hiding = true;
-        this.clearTimer();
+        this.pauseTimer();
         if (!this.prefersReducedMotion()) {
             this.leaving = true;
             await new Promise(resolve => {
@@ -65,29 +78,43 @@ export class IrToastItem {
     prefersReducedMotion() {
         return typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     }
+    // The countdown is wall-clock based so it survives pauses, re-parenting, and
+    // interval throttling in background tabs without drifting.
     resumeTimer() {
-        if (!this.hasTimer || this.hiding || this.timer) {
+        if (!this.hasTimer || this.hiding || this.timer || document.hidden) {
             return;
         }
-        const step = (16 / this.duration) * 100;
+        this.remainingMs = this.remainingMs ?? this.duration;
+        this.resumedAt = Date.now();
         this.timer = window.setInterval(() => {
-            this.progress = Math.max(0, this.progress - step);
-            if (this.progress <= 0) {
+            const left = this.remainingMs - (Date.now() - this.resumedAt);
+            this.progress = Math.max(0, (left / this.duration) * 100);
+            if (left <= 0) {
                 this.hide();
             }
-        }, 16);
+        }, 100);
     }
-    clearTimer() {
+    pauseTimer() {
         if (this.timer) {
+            this.remainingMs = Math.max(0, this.remainingMs - (Date.now() - this.resumedAt));
             clearInterval(this.timer);
             this.timer = undefined;
         }
     }
+    handleVisibilityChange = () => {
+        if (document.hidden) {
+            this.pauseTimer();
+        }
+        else {
+            this.updateInteraction();
+        }
+    };
     updateInteraction() {
         if (this.hovered || this.focused) {
             // Reset the countdown while the user is interacting; it restarts from
             // the full duration once they move away.
-            this.clearTimer();
+            this.pauseTimer();
+            this.remainingMs = this.duration;
             this.progress = 100;
         }
         else if (this.timerStarted) {
@@ -114,7 +141,7 @@ export class IrToastItem {
         this.hide();
     };
     render() {
-        return (h(Host, { key: '2f3a96d2000d90424a2cc0f817b1257f93c77c73', "data-leaving": this.leaving ? 'true' : undefined, style: { '--accent-color': `var(--wa-color-${this.variant}-fill-loud)` } }, h("div", { key: 'd8ed5e7f25eb01c1a47cf81dbfd107cb0255242b', class: 'toast-item', onMouseEnter: this.handleMouseEnter, onMouseLeave: this.handleMouseLeave, onFocusin: this.handleFocusIn, onFocusout: this.handleFocusOut }, h("div", { key: '38450e86f4df2d34179b43e69171bb45c7686e19', part: "accent", class: "accent" }), h("div", { key: '358d23f93d9bebdc045501b766c21008405b9e1a', part: "icon", class: "icon" }, h("slot", { key: 'e631ade91528ba87a5fcf5f8b9b2ac6941d97a64', name: "icon" })), h("div", { key: '7c39972dfc36fc8dcc4b0b0b671aa1fcff2ae081', part: "content", class: "content" }, h("slot", { key: '1fafdbdb37c264b3a47d05d9e702f4cc950c292f' })), this.dismissible && (h("button", { key: 'b90ed98abff50374dfde6a229efaac9e970747cf', part: "close-button", class: "close-button", type: "button", "aria-label": "Close notification", onClick: this.handleClose }, this.hasTimer ? (h("wa-progress-ring", { part: "progress-ring", "aria-hidden": "true", exportparts: "\n                  base:progress-ring__base,\n                  label:progress-ring__label,\n                  track:progress-ring__track,\n                  indicator:progress-ring__indicator\n                ", value: this.progress }, h("wa-icon", { part: "close-icon", exportparts: "svg:close-icon__svg", name: "xmark", library: "system", variant: "solid", "aria-hidden": "true" }))) : (h("wa-icon", { part: "close-icon", exportparts: "svg:close-icon__svg", name: "xmark", library: "system", variant: "solid", "aria-hidden": "true" })))))));
+        return (h(Host, { key: '5f6b8d9b080d6f132f913f1220611220ff38887c', "data-leaving": this.leaving ? 'true' : undefined, "data-entered": this.entered ? 'true' : undefined, style: { '--accent-color': `var(--wa-color-${this.variant}-fill-loud)` } }, h("div", { key: '7b2092fec027d8800a24fdad7c91a517f31f12f9', class: 'toast-item', onMouseEnter: this.handleMouseEnter, onMouseLeave: this.handleMouseLeave, onFocusin: this.handleFocusIn, onFocusout: this.handleFocusOut }, h("div", { key: 'c5255090a853cd5b5ee4cb12f19081fbdbdbb443', part: "accent", class: "accent" }), h("div", { key: 'b4e9ad998bdff56b9d760b86e6cdc83deed34b86', part: "icon", class: "icon" }, h("slot", { key: 'fae7702f4846e46f03bda9f98cc789b6e93619df', name: "icon" })), h("div", { key: '6875dcb044c374df4cd9b67a0ece32d52a76022d', part: "content", class: "content" }, h("slot", { key: '02a7f5794a593b1f4e63b8757085e4115a55cfba' })), this.dismissible && (h("button", { key: '1c361d6f8e3bea47c4fe795e24daba3196f405dd', part: "close-button", class: "close-button", type: "button", "aria-label": "Close notification", onClick: this.handleClose }, this.hasTimer ? (h("wa-progress-ring", { part: "progress-ring", "aria-hidden": "true", exportparts: "\n                  base:progress-ring__base,\n                  label:progress-ring__label,\n                  track:progress-ring__track,\n                  indicator:progress-ring__indicator\n                ", value: this.progress }, h("wa-icon", { part: "close-icon", exportparts: "svg:close-icon__svg", name: "xmark", library: "system", variant: "solid", "aria-hidden": "true" }))) : (h("wa-icon", { part: "close-icon", exportparts: "svg:close-icon__svg", name: "xmark", library: "system", variant: "solid", "aria-hidden": "true" })))))));
     }
     static get is() { return "ir-toast-item"; }
     static get encapsulation() { return "shadow"; }
@@ -201,7 +228,8 @@ export class IrToastItem {
     static get states() {
         return {
             "progress": {},
-            "leaving": {}
+            "leaving": {},
+            "entered": {}
         };
     }
     static get events() {

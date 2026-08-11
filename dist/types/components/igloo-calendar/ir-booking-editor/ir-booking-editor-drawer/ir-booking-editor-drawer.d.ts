@@ -28,6 +28,8 @@ export declare class IrBookingEditorDrawer {
     roomTypeIds: (string | number)[];
     /** Room identifier used by the editor. */
     roomIdentifier: string;
+    /** Pre-enables the day-use toggle (e.g. double-click-on-room-title entry point). */
+    dayUse: boolean;
     step: BookingStep;
     isLoading: string;
     /** Emitted when the booking editor drawer is closed. */
@@ -45,9 +47,11 @@ export declare class IrBookingEditorDrawer {
     handleCheckOutChange(): void;
     handleUnitChange(): void;
     handleModeChange(): void;
+    handleDayUseChange(): void;
     private initializeBlockedUnitState;
     handleBookingStepChange(e: CustomEvent): void;
     private get drawerLabel();
+    private handleDayUseToggle;
     private goToConfirm;
     private goToDetails;
     private renderFooter;

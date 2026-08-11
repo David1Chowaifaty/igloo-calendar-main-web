@@ -50,6 +50,8 @@ export class IrToastProvider {
     position = 'top-end';
     rtl = false;
     duration = 5000;
+    /** Maximum number of toasts shown at once; when exceeded, the oldest are dismissed. */
+    maxToasts = 5;
     /** Emitted when a toast's action button is clicked. */
     toastAction;
     items = [];
@@ -57,6 +59,7 @@ export class IrToastProvider {
     liveRegion = null;
     modalStack = [];
     positionCache = new Map();
+    hostDialog = null;
     connectedCallback() {
         connectedProviders.push(this);
         document.addEventListener('keydown', this.handleKeyDown);
@@ -67,6 +70,8 @@ export class IrToastProvider {
             connectedProviders.splice(index, 1);
         }
         document.removeEventListener('keydown', this.handleKeyDown);
+        this.hostDialog?.removeEventListener('close', this.handleHostDialogClose);
+        this.hostDialog = null;
         this.layer?.remove();
         this.layer = null;
         this.liveRegion = null;
@@ -101,6 +106,10 @@ export class IrToastProvider {
         // Defer so the dialog is actually modal (showModal may run after the event).
         requestAnimationFrame(() => this.relocateLayer());
     }
+    // Wrapper components (ir-dialog) stop the wa-* events and re-emit them under
+    // their own names, so both vocabularies must be listened for. Only the
+    // after-hide events are reliable for relocation: at wa-hide/irDialogHide time
+    // the native dialog is still `:modal` for the duration of the close animation.
     handleOverlayHide() {
         if (!this.layer) {
             return;
@@ -127,6 +136,9 @@ export class IrToastProvider {
         this.capturePositions();
         layer.prepend(item);
         this.items.unshift({ id, el: item });
+        for (const extra of this.items.slice(this.maxToasts)) {
+            extra.el.hide();
+        }
         this.showLayerIfNeeded();
         requestAnimationFrame(() => this.animatePositions());
         this.announce(`${type}: ${toast.title}${toast.description ? '. ' + toast.description : ''}`, type === 'error' || type === 'danger');
@@ -142,6 +154,9 @@ export class IrToastProvider {
     async clearAllToasts() {
         await Promise.all(this.items.map(({ el }) => el.hide()));
     }
+    handleHostDialogClose = () => {
+        requestAnimationFrame(() => this.relocateLayer());
+    };
     handleKeyDown = async (event) => {
         // Let modal drawers/dialogs consume Escape first (they mark it defaultPrevented).
         await new Promise(resolve => setTimeout(resolve));
@@ -181,7 +196,7 @@ export class IrToastProvider {
             right: '0',
             width: 'auto',
             height: 'auto',
-            maxHeight: '100vh',
+            maxHeight: '100dvh',
             margin: '0',
             border: 'none',
             background: 'transparent',
@@ -242,6 +257,14 @@ export class IrToastProvider {
         this.modalStack = this.modalStack.filter(dialog => open.includes(dialog));
         const host = this.modalStack[this.modalStack.length - 1] ?? open[open.length - 1] ?? document.body;
         const inDialog = host !== document.body;
+        // Safety net: the native `close` event always fires on the hosting <dialog>
+        // itself, even when a wrapper component swallows the wa-* events, so the
+        // layer can never be stranded inside a closed dialog.
+        if (this.hostDialog !== host) {
+            this.hostDialog?.removeEventListener('close', this.handleHostDialogClose);
+            this.hostDialog = inDialog ? host : null;
+            this.hostDialog?.addEventListener('close', this.handleHostDialogClose);
+        }
         if (layer.parentNode !== host) {
             if (safeMatches(layer, ':popover-open')) {
                 layer.hidePopover?.();
@@ -400,7 +423,7 @@ export class IrToastProvider {
         }
     }
     render() {
-        return h(Host, { key: '9f0bb17086817265cd08598bd261e63a055e47c8' });
+        return h(Host, { key: '2f1289fca9959b51251762ed70cc6134363475a2' });
     }
     static get is() { return "ir-toast-provider"; }
     static get encapsulation() { return "shadow"; }
@@ -475,6 +498,26 @@ export class IrToastProvider {
                 "reflect": false,
                 "attribute": "duration",
                 "defaultValue": "5000"
+            },
+            "maxToasts": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Maximum number of toasts shown at once; when exceeded, the oldest are dismissed."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "max-toasts",
+                "defaultValue": "5"
             }
         };
     }
@@ -582,6 +625,12 @@ export class IrToastProvider {
                 "capture": false,
                 "passive": false
             }, {
+                "name": "irDialogShow",
+                "method": "handleOverlayShow",
+                "target": "body",
+                "capture": false,
+                "passive": false
+            }, {
                 "name": "wa-show",
                 "method": "handleOverlayShow",
                 "target": "body",
@@ -589,6 +638,18 @@ export class IrToastProvider {
                 "passive": false
             }, {
                 "name": "drawerHide",
+                "method": "handleOverlayHide",
+                "target": "body",
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "irDialogHide",
+                "method": "handleOverlayHide",
+                "target": "body",
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "irDialogAfterHide",
                 "method": "handleOverlayHide",
                 "target": "body",
                 "capture": false,

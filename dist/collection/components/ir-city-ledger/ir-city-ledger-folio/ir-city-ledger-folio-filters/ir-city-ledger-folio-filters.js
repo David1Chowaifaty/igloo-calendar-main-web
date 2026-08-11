@@ -46,7 +46,7 @@ export class IrCityLedgerFolioFilters {
         this.emitFilters();
     }
     render() {
-        return (h("form", { key: 'ca1b86435fbada7106db03bfa70d0cb1b49fdc91', onSubmit: e => {
+        return (h("form", { key: 'c560dc9e92db40cf8f0649cada6006575df7d488', onSubmit: e => {
                 e.preventDefault();
                 this.applyFilters.emit({
                     fromDate: this.dates.from?.format('YYYY-MM-DD'),
@@ -54,20 +54,20 @@ export class IrCityLedgerFolioFilters {
                     status: this.statusFilter,
                     search: this.searchQuery,
                 });
-            } }, h("div", { key: '8f6e9a7bce624b5b05bf461a9c61b5417369d2e8', class: "filters-bar" }, h("ir-validator", { key: 'd24520aa20e590a3b45ed658649d1e795bb13a55', value: this.dates?.from?.format('YYYY-MM-DD') || this.dates?.to?.format('YYYY-MM-DD'), schema: z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: '103b593c2f58f4c252dd5f7f34dffe0c2a33beec', maxDate: moment().format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.dates.from?.format('YYYY-MM-DD') ?? undefined, toDate: this.dates.to?.format('YYYY-MM-DD') ?? undefined, onDatesChanged: e => {
+            } }, h("div", { key: '28d6b12e9277dbb91327ab0c5291a015e47674a5', class: "filters-bar" }, h("ir-validator", { key: '3cd03c2d1ce13834dede00f43ee25b87aa14f541', value: this.dates?.from?.format('YYYY-MM-DD') || this.dates?.to?.format('YYYY-MM-DD'), schema: z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: 'f5af7bb5af3eb389ce09941708e116e553a2c964', maxDate: moment().format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.dates.from?.format('YYYY-MM-DD') ?? undefined, toDate: this.dates.to?.format('YYYY-MM-DD') ?? undefined, onDatesChanged: e => {
                 const { from, to } = e.detail;
                 this.dates = {
                     from: from ? moment(from, 'YYYY-MM-DD') : null,
                     to: to ? moment(to, 'YYYY-MM-DD') : null,
                 };
                 this.emitFilters();
-            } })), h("div", { key: '99083aab3a1569ffed528bed5f4bfb07f9a7157c', class: "filters-bar__search-group" }, h("wa-select", { key: '96931c97e496b2bc0bd4f8ab2f3a40bfb2ed6060', class: "filters-bar__status-select", value: this.statusFilter, onchange: e => {
+            } })), h("div", { key: 'f2e62f6933f1dfd703f82c2e3058950aebf6696a', class: "filters-bar__search-group" }, h("wa-select", { key: '8f93879f9a96961bfa7d466cb8692cf42b6d577f', class: "filters-bar__status-select", value: this.statusFilter, onchange: e => {
                 this.statusFilter = e.target.value?.toString();
                 this.emitFilters();
             }, "onwa-clear": () => {
                 this.statusFilter = 'all';
                 this.emitFilters();
-            }, placeholder: "Status", size: "s", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '484d49592b001222fc7fffa5fe982644ce4b5fdd', class: "filters-bar__search-input", "onText-change": e => {
+            }, placeholder: "Status", size: "s", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: 'df66cc50790ddb034d3d262afb88a44525757c93', class: "filters-bar__search-input", "onText-change": e => {
                 const wasCleared = this.searchQuery !== '' && e.detail === '';
                 this.searchQuery = e.detail;
                 if (wasCleared) {
@@ -88,7 +88,7 @@ export class IrCityLedgerFolioFilters {
                 toDate: this.dates.to?.format('YYYY-MM-DD'),
                 status: this.statusFilter,
                 search: '',
-            }), value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true }, h("wa-icon", { key: '83f0fcd62672d79bd9dfa2a0ff0e9e3e1e92525d', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '77b7a3ba20989391c2d473f37438cc96e0126226', variant: "neutral", type: "submit", appearance: "outlined" }, h("wa-icon", { key: '33978297cff989c75f362116ed13abcc3d5401cf', name: "magnifying-glass" }))), h("div", { key: 'e3d1f35dd223ca2aad64a7500b0ea64cc01841fc', class: "filters-bar__actions" }, h("ir-custom-button", { key: 'b3216046f89454af8368170ec8e4db2aca121570', loading: this.isExporting, appearance: "outlined", disabled: !this.dates.from && !this.dates.to, onClickHandler: () => this.exportFolio.emit() }, h("wa-icon", { key: 'a7dbdb43fd0ecbcf5ca4e098ed762a62e5c3aa3d', name: "download", slot: "start" }), h("span", { key: 'fbff8d818e5ac0824f0ce10587006b24b0a65e97' }, "Export")), h("ir-custom-button", { key: '420bb70ba3e4c992ced74e45f3411576f5528760', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry")))));
+            }), value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true }, h("wa-icon", { key: 'bbaffe5e8f2852831301b867b0bf4d3f12a5d9fc', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '05ede61ebbdc6549fbf20d0ff9711f09c8e4528e', variant: "neutral", type: "submit", appearance: "outlined" }, h("wa-icon", { key: '5a5477170969b9dd6be79e90f25ce25a301bd371', name: "magnifying-glass" }))), h("div", { key: '443c2512bcbb2ef68dff6a2e54295d94e5d8557f', class: "filters-bar__actions" }, h("ir-custom-button", { key: '867da16debcf97f8f6b7d1f87599944824ee052f', loading: this.isExporting, appearance: "outlined", disabled: !this.dates.from && !this.dates.to, onClickHandler: () => this.exportFolio.emit() }, h("wa-icon", { key: '38cb41b9ec00950ddb9011718efa83d06026c768', name: "download", slot: "start" }), h("span", { key: '1b7def08a64c65920e3967bd5e738cfd71284b63' }, "Export")), h("ir-custom-button", { key: 'e4b1f3a56e39815d61c908a6e4aa1dd1c1e63e72', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry")))));
     }
     static get is() { return "ir-city-ledger-folio-filters"; }
     static get encapsulation() { return "scoped"; }

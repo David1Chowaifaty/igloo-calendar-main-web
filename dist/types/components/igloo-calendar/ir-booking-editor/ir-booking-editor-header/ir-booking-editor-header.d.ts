@@ -30,6 +30,7 @@ export declare class IrBookingEditorHeader {
     private handleBookingSearch;
     private handleSubmit;
     private handleDateRangeChange;
+    private handleDayUseDateChange;
     private handleSourceChange;
     private handleAdultsChange;
     private handleChildrenChange;
