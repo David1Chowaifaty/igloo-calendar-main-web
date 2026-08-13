@@ -626,11 +626,14 @@ export type DayUseBookings = {
 export declare const CalculateNetAmountParamsSchema: z.ZodObject<{
     property_id: z.ZodNumber;
     amount: z.ZodNumber;
+    taxes_to_include: z.ZodOptional<z.ZodArray<z.ZodEnum<["VAT", "CITY_TAX", "SERVICE_CHARGE"]>, "many">>;
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
     amount?: number;
+    taxes_to_include?: ("VAT" | "CITY_TAX" | "SERVICE_CHARGE")[];
 }, {
     property_id?: number;
     amount?: number;
+    taxes_to_include?: ("VAT" | "CITY_TAX" | "SERVICE_CHARGE")[];
 }>;
 export type CalculateNetAmountParams = z.infer<typeof CalculateNetAmountParamsSchema>;

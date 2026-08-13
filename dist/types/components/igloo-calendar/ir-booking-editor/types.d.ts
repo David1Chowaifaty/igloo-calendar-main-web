@@ -26,8 +26,12 @@ import { z } from 'zod';
  * - PLUS_BOOKING
  *   Create a **new booking from scratch** with no predefined
  *   rooms or dates.
+ *
+ * - EDIT_DAY_USE
+ *   Edit an existing day-use extra service. Always day-use, unit-only —
+ *   the manual/day-use toggle is locked out and there's no room/rate-plan concept.
  */
-export type BookingEditorMode = 'SPLIT_BOOKING' | 'BAR_BOOKING' | 'ADD_ROOM' | 'EDIT_BOOKING' | 'PLUS_BOOKING';
+export type BookingEditorMode = 'SPLIT_BOOKING' | 'BAR_BOOKING' | 'ADD_ROOM' | 'EDIT_BOOKING' | 'PLUS_BOOKING' | 'EDIT_DAY_USE';
 export type BookingStep = 'details' | 'confirm';
 export declare const RoomsGuestsSchema: z.ZodArray<z.ZodEffects<z.ZodObject<{
     first_name: z.ZodString;

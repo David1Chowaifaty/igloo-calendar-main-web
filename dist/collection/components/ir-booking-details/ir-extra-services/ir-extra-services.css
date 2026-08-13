@@ -10,7 +10,11 @@
   border-left: 3px solid transparent;
   padding-left: 0.625rem;
 }
-
+.extra-services__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 .service-group--guest {
   border-left-color: var(--wa-color-neutral-300, #d4d4d8);
 }

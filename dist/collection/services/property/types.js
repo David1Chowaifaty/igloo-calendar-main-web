@@ -1,6 +1,6 @@
 import moment from "moment";
 import { z } from "zod";
-import { BookingNumberSchema, DateSchema, PropertyIdSchema } from "../commonSchemas";
+import { BookingNumberSchema, DateSchema, PropertyIdSchema, TaxTypesSchema } from "../commonSchemas";
 export const SetPropertyCalendarExtraParamsSchema = z.object({
     property_id: PropertyIdSchema,
     value: z.string(),
@@ -143,4 +143,5 @@ export const GetDayUseBookingsForCalendarParamsSchema = z.object({
 export const CalculateNetAmountParamsSchema = z.object({
     property_id: PropertyIdSchema,
     amount: z.number(),
+    taxes_to_include: TaxTypesSchema,
 });

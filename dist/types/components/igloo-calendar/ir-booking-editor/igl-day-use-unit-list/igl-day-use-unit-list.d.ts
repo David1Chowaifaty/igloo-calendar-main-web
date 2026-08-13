@@ -1,5 +1,6 @@
 import { PhysicalRoom, RoomType } from "../../../../models/property";
 import { EventEmitter } from '../../../../stencil-public-runtime';
+import { ExtraService } from "../../../../models/booking.dto";
 export declare class IglDayUseUnitList {
     /** Room types returned by the day-use availability check. */
     roomTypes: RoomType[];
@@ -16,6 +17,12 @@ export declare class IglDayUseUnitList {
     resolvingUnitId: number | null;
     /** Whether an availability check has completed at least once — distinguishes "no search yet" (render nothing) from "searched, zero units" (show empty state). */
     hasSearched: boolean;
+    /**
+     * The day-use extra service currently being edited (`ir-booking-editor` `mode="EDIT_DAY_USE"`).
+     * Its unit is exempt from `bookedUnitIds` (it's its own existing booking, not a conflict), never
+     * shows the upcoming-check-in warning (same reason), gets its price prefilled, and is highlighted.
+     */
+    currentExtraService?: ExtraService;
     priceOverrides: Record<number, number>;
     unitSelected: EventEmitter<{
         unit: PhysicalRoom;
@@ -23,6 +30,10 @@ export declare class IglDayUseUnitList {
         price: number;
         isCustomPrice: boolean;
     }>;
+    componentWillLoad(): void;
+    private isCurrentUnit;
+    /** Icon + tooltip shown next to a unit's name for each same-day movement (`getDayUseUnitDayStatus`). */
+    private static readonly DAY_STATUS_DISPLAY;
     private getAvailableUnits;
     private get defaultPrice();
     /** What's actually shown as the default input value — the net-converted price when it's ready, otherwise the gross default as a fallback while it resolves. */

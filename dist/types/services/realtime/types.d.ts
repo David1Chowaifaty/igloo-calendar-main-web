@@ -31,6 +31,71 @@ export interface AvailabilityBatchPayload {
     date: string;
     availability: number;
 }
+/** Broadcast when a day-use extra service is added, edited, or removed. */
+export interface DayUseModifiedPayload {
+    booking_nbr: string;
+    is_remove: boolean;
+    system_id: number;
+    booking_system_id: number;
+    category: {
+        code: string;
+        description: string | null;
+    };
+    description: string;
+    start_date: string;
+    end_date: string;
+    price: number;
+    cost: number | null;
+    currency_id: number;
+    pool: string;
+    from_time: string;
+    to_time: string;
+    net_amount: number;
+    tax_amount: number;
+    gross_amount: number;
+    pr_id: number;
+    room_identifier: string | null;
+    agent: unknown;
+    charges: {
+        net_amount: number;
+        tax_amount: number;
+        total_amount: number;
+        vat_percent: number;
+        vat_amount: number;
+        city_tax_percent: number;
+        city_tax_amount: number;
+        service_charge_percent: number;
+        service_charge_amount: number;
+    };
+}
+/** Broadcast when a day-use extra service is removed. Unlike `DAY_USE_MODIFIED`, keys are UPPER_SNAKE. */
+export interface DayUseRemovedPayload {
+    BSE_ID: number;
+    BH_ID: number;
+    START_DATE: string;
+    END_DATE: string;
+    DESCRIPTION: string;
+    CURRENCY_ID: number;
+    PRICE: number;
+    COST: number | null;
+    ENTRY_USER_ID: number;
+    ENTRY_DATE: string;
+    OWNER_ID: number;
+    SVC_CATEGORY_CODE: string;
+    TRAVEL_AGENCY_ID: number | null;
+    POOL: string;
+    FROM_TIME: string;
+    TO_TIME: string;
+    NET_AMOUNT: number;
+    TAX_AMOUNT: number;
+    GROSS_AMOUNT: number;
+    PR_ID: number;
+    BSA_REF: unknown;
+    My_Bh: unknown;
+    My_Currency: unknown;
+    My_Travel_agency: unknown;
+    My_Pr: unknown;
+}
 export interface RealtimeEventMap {
     DORESERVATION: unknown;
     BLOCK_EXPOSED_UNIT: unknown;
@@ -88,6 +153,10 @@ export interface RealtimeEventMap {
     };
     /** Broadcast after a `Do_Day_Use` call succeeds — payload mirrors the request body. */
     DAY_USE_CREATED: DoDayUseParams;
+    /** Broadcast when a day-use extra service is added/edited/removed (e.g. from another agent/tab). */
+    DAY_USE_MODIFIED: DayUseModifiedPayload;
+    /** Broadcast when a day-use extra service is removed. */
+    DAY_USE_REMOVED: DayUseRemovedPayload;
     HK_TASK_OVERRIDE: {
         HKM_ID: number | null;
         DATE: string;

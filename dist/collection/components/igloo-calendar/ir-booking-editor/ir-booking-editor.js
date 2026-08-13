@@ -4,13 +4,12 @@ import { RoomService } from "../../../services/room.service";
 import { BookingService } from "../../../services/booking-service/booking.service";
 import locales from "../../../stores/locales.store";
 import booking_store, { fillMissingReservedGuestNames, getReservedRooms, resetBookingStore, setBookingDraft, setBookingSelectOptions, setDayUseSelection, updateBookedByGuest, } from "../../../stores/booking.store";
-import calendar_data from "../../../stores/calendar-data";
+import calendar_data, { getExtraServiceDefaultPrice } from "../../../stores/calendar-data";
 import { PropertyService } from "../../../services/property.service";
 import { showToast } from "../../../utils/utils";
 import moment from "moment";
 import { IRBookingEditorService } from "./ir-booking-editor.service";
-/** `_SVC_CATEGORY` short code for Day Use, matched against `calendar_data.property.tax_categories`. */
-const DAY_USE_CATEGORY_CODE = 'DUZ';
+import { DAY_USE_CATEGORY_CODE } from "../../../utils/booking";
 /** bookingStatus['002'] in @/utils/booking — CONFIRMED. */
 const CONFIRMED_STATUS_CODE = '002';
 export class IrBookingEditor {
@@ -25,11 +24,14 @@ export class IrBookingEditor {
     step;
     blockedUnit;
     unitId;
+    /** The day-use extra service being edited (`mode="EDIT_DAY_USE"`) — its unit is excluded from the "already booked" filter, highlighted in the unit list, and updated in place via `doBookingExtraService` on submission. */
+    extraService;
     isLoading = true;
     isFetchingAvailability = false;
     hasCheckedAvailability = false;
     unavailableRatePlanIds = new Set();
     dayUseBookedUnitIds = new Set();
+    dayUseRoomTypes = [];
     resolvingDayUseUnitId = null;
     /** Net (tax-exclusive) version of `dayUsePrice`, resolved once via `calculateNetAmount` — shown as the default value in the price input so an untouched default reads the same way a typed custom (net) amount does. */
     dayUseNetPrice = null;
@@ -37,13 +39,14 @@ export class IrBookingEditor {
     loadingChanged;
     adjustBlockedUnit;
     bookingStepChange;
+    preventPageLoad;
     roomService = new RoomService();
     bookingService = new BookingService();
     propertyService = new PropertyService();
     bookingEditorService = new IRBookingEditorService(this.mode);
     room;
     get dayUsePrice() {
-        return calendar_data.property?.tax_categories?.find(tc => tc.category?.code === DAY_USE_CATEGORY_CODE)?.default_price ?? 0;
+        return Number(getExtraServiceDefaultPrice(DAY_USE_CATEGORY_CODE));
     }
     /**
      * Resolves the gross day-use price for the selected unit and advances to step 2.
@@ -69,7 +72,7 @@ export class IrBookingEditor {
             let grossAmount;
             if (isCustomPrice) {
                 netAmount = price;
-                taxAmount = await this.bookingService.calculateExclusiveTax({ property_id: Number(this.propertyId), amount: netAmount });
+                taxAmount = await this.bookingService.calculateExclusiveTax({ property_id: Number(this.propertyId), amount: netAmount, taxes_to_include: ['VAT'] });
                 grossAmount = netAmount + taxAmount;
             }
             else {
@@ -92,7 +95,7 @@ export class IrBookingEditor {
             return;
         }
         try {
-            this.dayUseNetPrice = await this.propertyService.calculateNetAmount({ property_id: Number(this.propertyId), amount: grossAmount });
+            this.dayUseNetPrice = await this.propertyService.calculateNetAmount({ property_id: Number(this.propertyId), amount: grossAmount, taxes_to_include: ['VAT'] });
         }
         catch (error) {
             console.error('Error resolving day-use net price:', error);
@@ -147,7 +150,7 @@ export class IrBookingEditor {
                 countries: countriesList,
             });
             this.initializeDraftFromBooking();
-            if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
+            if (this.bookingEditorService.isEventType(['EDIT_BOOKING', 'EDIT_DAY_USE'])) {
                 await this.checkBookingAvailability();
             }
         }
@@ -174,7 +177,7 @@ export class IrBookingEditor {
      */
     initializeDraftFromBooking() {
         const isEdit = this.bookingEditorService.isEventType('EDIT_BOOKING');
-        const isEditOrAdd = this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM']);
+        const isEditOrAdd = this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM', 'EDIT_DAY_USE']);
         if (isEditOrAdd && (!this.booking || (!this.identifier && isEdit))) {
             throw new Error('Missing booking or identifier');
         }
@@ -208,6 +211,10 @@ export class IrBookingEditor {
             updateBookedByGuest({
                 firstName: this.booking.guest.first_name,
                 lastName: this.booking.guest.last_name,
+                ...(this.bookingEditorService.isEventType('EDIT_DAY_USE') && {
+                    email: this.booking.guest.email ?? '',
+                    mobile: this.booking.guest.mobile_without_prefix ?? this.booking.guest.mobile ?? '',
+                }),
             });
         }
         setBookingDraft(draft);
@@ -220,33 +227,39 @@ export class IrBookingEditor {
         const to_date = dates.checkOut.format('YYYY-MM-DD');
         const is_in_agent_mode = source?.type === 'TRAVEL_AGENCY';
         try {
-            const room_type_ids_to_update = this.bookingEditorService.isEventType('EDIT_BOOKING') ? [this.room.roomtype?.id] : [];
-            const room_type_ids = this.bookingEditorService.isEventType(['BAR_BOOKING', 'SPLIT_BOOKING']) ? this.roomTypeIds.map(r => Number(r)) : [];
-            const params = {
-                from_date,
-                to_date,
-                propertyid: calendar_data.property.id,
-                adultChildCount: {
-                    adult: occupancy.adults,
-                    child: occupancy.children,
-                },
-                language: this.language,
-                room_type_ids,
-                currency: calendar_data.property.currency,
-                agent_id: is_in_agent_mode ? source?.tag : null,
-                is_in_agent_mode,
-                room_type_ids_to_update,
-            };
-            await Promise.all([this.bookingService.getBookingAvailability(params), this.fetchDayUseBookedUnits(dayUse, from_date)]);
+            this.dayUseRoomTypes = [];
+            if (dayUse) {
+                await Promise.all([this.checkDayUseAvailability(from_date), this.fetchDayUseBookedUnits(dayUse, from_date)]);
+            }
+            else {
+                const room_type_ids_to_update = this.bookingEditorService.isEventType('EDIT_BOOKING') ? [this.room.roomtype?.id] : [];
+                const room_type_ids = this.bookingEditorService.isEventType(['BAR_BOOKING', 'SPLIT_BOOKING']) ? this.roomTypeIds.map(r => Number(r)) : [];
+                const params = {
+                    from_date,
+                    to_date,
+                    propertyid: calendar_data.property.id,
+                    adultChildCount: {
+                        adult: occupancy.adults,
+                        child: occupancy.children,
+                    },
+                    language: this.language,
+                    room_type_ids,
+                    currency: calendar_data.property.currency,
+                    agent_id: is_in_agent_mode ? source?.tag : null,
+                    is_in_agent_mode,
+                    room_type_ids_to_update,
+                };
+                await Promise.all([this.bookingService.getBookingAvailability(params), this.fetchDayUseBookedUnits(dayUse, from_date)]);
+                if (checkBe) {
+                    const beResults = await this.bookingService.getBookingAvailability({ ...params, is_backend: false, skip_store: true });
+                    this.compareResults(beResults);
+                }
+            }
             if (this.mode !== 'EDIT_BOOKING') {
                 await this.assignCountryCode();
             }
             if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
                 this.bookingEditorService.updateBooking(this.room);
-            }
-            if (checkBe) {
-                const beResults = await this.bookingService.getBookingAvailability({ ...params, is_backend: false, skip_store: true });
-                this.compareResults(beResults);
             }
             this.isFetchingAvailability = false;
             this.hasCheckedAvailability = true;
@@ -256,8 +269,22 @@ export class IrBookingEditor {
         }
     }
     /**
+     * Day-use branch of availability checking: skips `Check_Availability` entirely and derives
+     * per-unit availability from `Get_Exposed_Calendar` (`getCalendarData`) for the single target date.
+     */
+    async checkDayUseAvailability(date) {
+        this.preventPageLoad.emit('/Get_Exposed_Calendar');
+        const results = await this.bookingService.getCalendarData(Number(calendar_data.property.id), date, date);
+        const day = results?.days?.[0];
+        this.dayUseRoomTypes = day?.rate ?? [];
+    }
+    /**
      * Units already booked for day use on the target date don't reduce a room type's normal
      * `inventory`/availability, so they must be filtered out separately from the units list.
+     *
+     * When editing an existing day-use extra service (`EDIT_DAY_USE`), its own unit is excluded from
+     * this "already booked" set — it's the booking being edited, not a conflict — and its hours seed
+     * `dayUseHours` so step 2 shows the time window that's actually in effect.
      */
     async fetchDayUseBookedUnits(dayUse, date) {
         if (!dayUse) {
@@ -269,7 +296,14 @@ export class IrBookingEditor {
             from_date: date,
             to_date: date,
         });
-        this.dayUseBookedUnitIds = new Set(bookings.map(b => b.unit_id));
+        const editingUnitId = this.bookingEditorService.isEventType('EDIT_DAY_USE') ? this.extraService?.pr_id : undefined;
+        this.dayUseBookedUnitIds = new Set(bookings.filter(b => b.unit_id !== editingUnitId).map(b => b.unit_id));
+        if (editingUnitId != null && !booking_store.bookingDraft.dayUseHours?.from) {
+            const current = bookings.find(b => b.unit_id === editingUnitId);
+            if (current) {
+                setBookingDraft({ dayUseHours: { from: current.from_time, to: current.to_time } });
+            }
+        }
     }
     compareResults(beResults) {
         const beRoomTypes = Array.isArray(beResults) ? beResults : (beResults?.roomtypes ?? []);
@@ -293,7 +327,7 @@ export class IrBookingEditor {
         try {
             this.loadingChanged.emit({ cause: source });
             if (booking_store.bookingDraft.dayUse) {
-                await this.doDayUseReservation();
+                await this.doDayUseReservation(source === 'book&block');
                 return;
             }
             fillMissingReservedGuestNames();
@@ -319,13 +353,13 @@ export class IrBookingEditor {
         }
         // alert('do reservation');
     }
-    async doDayUseReservation() {
+    async doDayUseReservation(block) {
         const { dayUseSelection } = booking_store;
         if (!dayUseSelection) {
             console.warn('[doDayUseReservation] No unit selected');
             return;
         }
-        const { dates, dayUseHours, source } = booking_store.bookingDraft;
+        const { dates, dayUseHours, source, defaultOccupancy } = booking_store.bookingDraft;
         const { bookedByGuest } = booking_store;
         BookedByGuestSchema.parse(bookedByGuest);
         DayUseHoursSchema.parse(dayUseHours);
@@ -333,17 +367,51 @@ export class IrBookingEditor {
         // reused as-is so the amount shown on step 2 matches exactly what gets saved.
         const { price: grossAmount, netAmount, taxAmount } = dayUseSelection;
         const date = dates.checkIn.format('YYYY-MM-DD');
+        const isEditing = this.bookingEditorService.isEventType('EDIT_DAY_USE') && this.extraService;
+        if (isEditing) {
+            // Do_Booking_Extra_Service now updates the existing DUZ extra service in place (keyed off its
+            // `system_id`) — unit/price/hours change, but the booking it belongs to doesn't, so no more
+            // delete-then-recreate-as-a-new-booking round trip.
+            const service = {
+                ...this.extraService,
+                pr_id: dayUseSelection.unit.id,
+                category: { code: DAY_USE_CATEGORY_CODE },
+                start_date: date,
+                end_date: date,
+                from_time: dayUseHours.from,
+                to_time: dayUseHours.to,
+                net_amount: netAmount,
+                tax_amount: taxAmount,
+                gross_amount: grossAmount,
+                price: grossAmount,
+                currency_id: calendar_data.property.currency.id,
+            };
+            await this.bookingService.doBookingExtraService({
+                service,
+                is_remove: false,
+                booking_nbr: this.booking?.booking_nbr,
+            });
+            showToast({ title: 'Day Use Booking Updated', type: 'success' });
+            this.resetBookingEvt.emit(null);
+            return;
+        }
         const payload = {
             language: this.language,
+            is_to_block: block,
             booking: {
                 property: { id: Number(this.propertyId) },
                 currency: { id: calendar_data.property.currency.id },
-                source: { code: source?.code },
+                source,
                 guest: {
                     first_name: bookedByGuest.firstName,
                     last_name: bookedByGuest.lastName,
                     email: bookedByGuest.email ?? '',
                     mobile: bookedByGuest.mobile ?? '',
+                },
+                occupancy: {
+                    adult_nbr: defaultOccupancy?.adults ?? 0,
+                    children_nbr: defaultOccupancy?.children ?? 0,
+                    infant_nbr: null,
                 },
                 from_date: date,
                 to_date: date,
@@ -396,7 +464,7 @@ export class IrBookingEditor {
         });
     }
     resolveSourceOption(bookingSource, filteredSourceOptions) {
-        if (this.bookingEditorService.isEventType('EDIT_BOOKING') && this.booking) {
+        if (this.bookingEditorService.isEventType(['EDIT_BOOKING', 'EDIT_DAY_USE']) && this.booking) {
             if (this.booking.agent) {
                 return bookingSource.find(option => this.booking.agent?.id?.toString() === option.tag?.toString());
             }
@@ -451,7 +519,7 @@ export class IrBookingEditor {
         if (this.isLoading) {
             return (h("div", { class: 'drawer__loader-container' }, h("ir-spinner", null)));
         }
-        return (h(Host, null, h("div", null, h("ir-interceptor", null), this.step === 'details' && (h("div", { class: "booking-editor__step", key: "step-details" }, h("ir-booking-editor-header", { isLoading: this.isFetchingAvailability, isBlockConversion: !!this.blockedUnit?.STATUS_CODE, booking: this.booking, checkIn: this.checkIn, checkOut: this.adjustedCheckout, mode: this.mode }), h("div", { class: 'booking-editor__roomtype-container' }, !this.isFetchingAvailability && booking_store.bookingDraft.dayUse ? (h("igl-day-use-unit-list", { roomTypes: booking_store.roomTypes, price: this.dayUsePrice, netPrice: this.dayUseNetPrice, currency: calendar_data.property.currency, bookedUnitIds: this.dayUseBookedUnitIds, unitId: this.unitId, resolvingUnitId: this.resolvingDayUseUnitId, hasSearched: this.hasCheckedAvailability, onUnitSelected: e => this.handleDayUseUnitSelected(e) })) : (!this.isFetchingAvailability &&
+        return (h(Host, null, h("div", null, h("ir-interceptor", null), this.step === 'details' && (h("div", { class: "booking-editor__step", key: "step-details" }, h("ir-booking-editor-header", { isLoading: this.isFetchingAvailability, isBlockConversion: !!this.blockedUnit?.STATUS_CODE, booking: this.booking, checkIn: this.checkIn, checkOut: this.adjustedCheckout, mode: this.mode }), h("div", { class: 'booking-editor__roomtype-container' }, !this.isFetchingAvailability && booking_store.bookingDraft.dayUse ? (h("igl-day-use-unit-list", { roomTypes: this.dayUseRoomTypes, price: this.dayUsePrice, netPrice: this.dayUseNetPrice, currency: calendar_data.property.currency, bookedUnitIds: this.dayUseBookedUnitIds, unitId: this.unitId, currentExtraService: this.extraService, resolvingUnitId: this.resolvingDayUseUnitId, hasSearched: this.hasCheckedAvailability, onUnitSelected: e => this.handleDayUseUnitSelected(e) })) : (!this.isFetchingAvailability &&
             booking_store.roomTypes?.map(roomType => (h("igl-room-type", { unavailableRatePlanIds: this.unavailableRatePlanIds, key: `room-type-${roomType.id}`, id: roomType.id.toString(), roomType: roomType, bookingType: this.mode, ratePricingMode: booking_store.selects?.ratePricingMode, roomTypeId: this.room?.roomtype?.id, currency: calendar_data.property.currency }))))))), this.step === 'confirm' && (h("ir-booking-editor-form", { class: "booking-editor__step", key: "step-confirm", booking: this.booking, onDoReservation: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
@@ -577,7 +645,7 @@ export class IrBookingEditor {
                 "mutable": false,
                 "complexType": {
                     "original": "BookingEditorMode",
-                    "resolved": "\"ADD_ROOM\" | \"BAR_BOOKING\" | \"EDIT_BOOKING\" | \"PLUS_BOOKING\" | \"SPLIT_BOOKING\"",
+                    "resolved": "\"ADD_ROOM\" | \"BAR_BOOKING\" | \"EDIT_BOOKING\" | \"EDIT_DAY_USE\" | \"PLUS_BOOKING\" | \"SPLIT_BOOKING\"",
                     "references": {
                         "BookingEditorMode": {
                             "location": "import",
@@ -705,6 +773,30 @@ export class IrBookingEditor {
                 "setter": false,
                 "reflect": false,
                 "attribute": "unit-id"
+            },
+            "extraService": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "ExtraService",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; room_identifier?: string; booking_system_id?: number; cost?: number; end_date?: string; start_date?: string; price?: number; category?: { code?: string; }; pr_id?: number; charges?: { city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; total_amount?: number; vat_amount?: number; vat_percent?: number; }; }",
+                    "references": {
+                        "ExtraService": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::ExtraService",
+                            "referenceLocation": "ExtraService"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "The day-use extra service being edited (`mode=\"EDIT_DAY_USE\"`) \u2014 its unit is excluded from the \"already booked\" filter, highlighted in the unit list, and updated in place via `doBookingExtraService` on submission."
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }
@@ -715,6 +807,7 @@ export class IrBookingEditor {
             "hasCheckedAvailability": {},
             "unavailableRatePlanIds": {},
             "dayUseBookedUnitIds": {},
+            "dayUseRoomTypes": {},
             "resolvingDayUseUnitId": {},
             "dayUseNetPrice": {}
         };
@@ -731,9 +824,16 @@ export class IrBookingEditor {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "void",
-                    "resolved": "void",
-                    "references": {}
+                    "original": "Booking | null",
+                    "resolved": "Booking",
+                    "references": {
+                        "Booking": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
+                        }
+                    }
                 }
             }, {
                 "method": "loadingChanged",
@@ -778,6 +878,21 @@ export class IrBookingEditor {
                 "complexType": {
                     "original": "{ direction: 'next' | 'prev' }",
                     "resolved": "{ direction: \"next\" | \"prev\"; }",
+                    "references": {}
+                }
+            }, {
+                "method": "preventPageLoad",
+                "name": "preventPageLoad",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
                     "references": {}
                 }
             }];

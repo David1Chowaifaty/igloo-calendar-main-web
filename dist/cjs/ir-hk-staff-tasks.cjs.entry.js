@@ -1,13 +1,11 @@
 'use strict';
 
 var index = require('./index-CJa_TWt0.js');
-var Token = require('./Token-mN7PQKGF.js');
-var housekeeping_service = require('./housekeeping.service-B-D7aQ2W.js');
-var momentWithLocales = require('./moment-with-locales-rbb_iEBE.js');
-var realtime_service = require('./realtime.service-COdIt6Z-.js');
+var Token = require('./Token-BVmOLolB.js');
+var housekeeping_service = require('./housekeeping.service-BQ6WOApw.js');
+var momentWithLocales = require('./moment-with-locales-ry8PhUIR.js');
 var v4 = require('./v4-_2BfiRUa.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
+require('./axios-C-Phc0sj.js');
 require('./index-CLqkDPTC.js');
 require('./index-DbhEzZeW.js');
 
@@ -196,7 +194,7 @@ const IrHkStaffTasks = class {
         if (this.unsubscribeRealtime) {
             return;
         }
-        this.unsubscribeRealtime = realtime_service.realtimeService.subscribe(this.connectedHk.AC_ID, async (msg) => {
+        this.unsubscribeRealtime = momentWithLocales.realtimeService.subscribe(this.connectedHk.AC_ID, async (msg) => {
             if (msg.reason === 'UNIT_HK_STATUS_CHANGED') {
                 if (msg.payload.HKM_ID === this.connectedHk.HKM_ID) {
                     await this.refreshTasks();

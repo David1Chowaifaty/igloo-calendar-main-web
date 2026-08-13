@@ -1166,12 +1166,15 @@ export type SetHbPreferenceProps = z.infer<typeof SetHbPreferencePropsSchema>;
 export declare const CalculateExclusiveTaxPropsSchema: z.ZodObject<{
     property_id: z.ZodNumber;
     amount: z.ZodNumber;
+    taxes_to_include: z.ZodOptional<z.ZodArray<z.ZodEnum<["VAT", "CITY_TAX", "SERVICE_CHARGE"]>, "many">>;
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
     amount?: number;
+    taxes_to_include?: ("VAT" | "CITY_TAX" | "SERVICE_CHARGE")[];
 }, {
     property_id?: number;
     amount?: number;
+    taxes_to_include?: ("VAT" | "CITY_TAX" | "SERVICE_CHARGE")[];
 }>;
 export type CalculateExclusiveTaxProps = z.infer<typeof CalculateExclusiveTaxPropsSchema>;
 export declare const AckExposedRevisionPropsSchema: z.ZodObject<{
@@ -1211,6 +1214,7 @@ export declare const SimulateDirectBookingParamsSchema: z.ZodObject<{
 export type SimulateDirectBookingParams = z.infer<typeof SimulateDirectBookingParamsSchema>;
 export declare const DoDayUseParamsSchema: z.ZodObject<{
     language: z.ZodString;
+    is_to_block: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
     booking: z.ZodObject<{
         property: z.ZodObject<{
             id: z.ZodNumber;
@@ -1219,6 +1223,19 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
         }, {
             id?: number;
         }>;
+        occupancy: z.ZodNullable<z.ZodOptional<z.ZodObject<{
+            adult_nbr: z.ZodNullable<z.ZodNumber>;
+            children_nbr: z.ZodNullable<z.ZodNumber>;
+            infant_nbr: z.ZodNullable<z.ZodNumber>;
+        }, "strip", z.ZodTypeAny, {
+            adult_nbr?: number;
+            children_nbr?: number;
+            infant_nbr?: number;
+        }, {
+            adult_nbr?: number;
+            children_nbr?: number;
+            infant_nbr?: number;
+        }>>>;
         currency: z.ZodObject<{
             id: z.ZodNumber;
         }, "strip", z.ZodTypeAny, {
@@ -1278,6 +1295,11 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
         from_date?: string;
         to_date?: string;
         remark?: string;
+        occupancy?: {
+            adult_nbr?: number;
+            children_nbr?: number;
+            infant_nbr?: number;
+        };
         source?: {
             code?: string;
         };
@@ -1300,6 +1322,11 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
         from_date?: string;
         to_date?: string;
         remark?: string;
+        occupancy?: {
+            adult_nbr?: number;
+            children_nbr?: number;
+            infant_nbr?: number;
+        };
         source?: {
             code?: string;
         };
@@ -1372,6 +1399,7 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
         gross_amount?: number;
     };
     language?: string;
+    is_to_block?: boolean;
     booking?: {
         status?: {
             code?: string;
@@ -1391,6 +1419,11 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
         from_date?: string;
         to_date?: string;
         remark?: string;
+        occupancy?: {
+            adult_nbr?: number;
+            children_nbr?: number;
+            infant_nbr?: number;
+        };
         source?: {
             code?: string;
         };
@@ -1413,6 +1446,7 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
         gross_amount?: number;
     };
     language?: string;
+    is_to_block?: boolean;
     booking?: {
         status?: {
             code?: string;
@@ -1432,6 +1466,11 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
         from_date?: string;
         to_date?: string;
         remark?: string;
+        occupancy?: {
+            adult_nbr?: number;
+            children_nbr?: number;
+            infant_nbr?: number;
+        };
         source?: {
             code?: string;
         };

@@ -1,6 +1,6 @@
 import type { RealtimeEventMap, RealtimeMessage, RealtimeReason } from './types';
 export type { RealtimeEventMap, RealtimeMessage, RealtimeReason };
-export type { UnitHkStatusChangePayload, SalesBatchPayload, AvailabilityBatchPayload } from './types';
+export type { UnitHkStatusChangePayload, SalesBatchPayload, AvailabilityBatchPayload, DayUseModifiedPayload, DayUseRemovedPayload } from './types';
 export type MessageHandler = (msg: RealtimeMessage) => void | Promise<void>;
 declare class RealtimeService {
     private static _instance;

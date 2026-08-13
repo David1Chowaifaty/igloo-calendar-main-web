@@ -45,6 +45,7 @@
   white-space: nowrap;
   font-weight: 700;
   font-size: var(--wa-font-size-m);
+  margin-inline-start: 2rem;
 }
 
 .booking-editor__booked-by {
@@ -94,7 +95,9 @@
   align-self: center;
   padding-top: 1.5rem;
 }
-
+.booking-editor__day-use-hours-row ir-input {
+  width: 70px;
+}
 @media (min-width: 768px) {
   .booking-editor__total {
     margin-top: 0;

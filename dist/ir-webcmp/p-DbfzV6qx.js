@@ -1,1 +1,0 @@
-import{l as t}from"./p-DeW5X45W.js";const a=t.z.string().regex(/^\d{4}-\d{2}-\d{2}$/,"Date must be in YYYY-MM-DD format").refine((t=>{const[a,e,s]=t.split("-").map(Number),r=new Date(Date.UTC(a,e-1,s));return r.getUTCFullYear()===a&&r.getUTCMonth()===e-1&&r.getUTCDate()===s}),"Invalid date"),e=t.z.number().int(),s=t.z.string();export{s as B,a as D,e as P}

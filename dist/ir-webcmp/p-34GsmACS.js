@@ -1,1 +1,0 @@
-const o=["001","010"];export{o as P}

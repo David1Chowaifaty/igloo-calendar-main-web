@@ -19,8 +19,8 @@ import { IrToast } from "./components/ui/ir-toast/ir-toast";
 import { AllowedProperties, DayUseBookings, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property/types";
 import { DayUseBookings as DayUseBookings1, FolioPayment as FolioPayment1, GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
 import { Currency, ICurrency as ICurrency1, IEntries as IEntries1, IProperty, PhysicalRoom, RatePlan, RoomType } from "./models/property";
-import { CleanTaskEvent, HKIssue, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, PhysicalRoom as PhysicalRoom1, Property, Room, SharedPerson } from "./models/booking.dto";
+import { CleanTaskEvent, HKIssue, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
 import { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
 import { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
 import { Agent } from "./services/agents/type";
@@ -123,8 +123,8 @@ export { IrToast } from "./components/ui/ir-toast/ir-toast";
 export { AllowedProperties, DayUseBookings, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property/types";
 export { DayUseBookings as DayUseBookings1, FolioPayment as FolioPayment1, GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
 export { Currency, ICurrency as ICurrency1, IEntries as IEntries1, IProperty, PhysicalRoom, RatePlan, RoomType } from "./models/property";
-export { CleanTaskEvent, HKIssue, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
 export { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, PhysicalRoom as PhysicalRoom1, Property, Room, SharedPerson } from "./models/booking.dto";
+export { CleanTaskEvent, HKIssue, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
 export { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
 export { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
 export { Agent } from "./services/agents/type";
@@ -482,6 +482,10 @@ export namespace Components {
          */
         "bookedUnitIds": Set<number>;
         "currency": any;
+        /**
+          * The day-use extra service currently being edited (`ir-booking-editor` `mode="EDIT_DAY_USE"`). Its unit is exempt from `bookedUnitIds` (it's its own existing booking, not a conflict), never shows the upcoming-check-in warning (same reason), gets its price prefilled, and is highlighted.
+         */
+        "currentExtraService"?: ExtraService;
         /**
           * Whether an availability check has completed at least once — distinguishes "no search yet" (render nothing) from "searched, zero units" (show empty state).
           * @default false
@@ -1482,6 +1486,10 @@ export namespace Components {
         "booking": Booking;
         "checkIn": string;
         "checkOut": string;
+        /**
+          * The day-use extra service being edited (`mode="EDIT_DAY_USE"`) — its unit is excluded from the "already booked" filter, highlighted in the unit list, and updated in place via `doBookingExtraService` on submission.
+         */
+        "extraService": ExtraService;
         "identifier": string;
         /**
           * @default 'en'
@@ -1521,6 +1529,10 @@ export namespace Components {
           * @default false
          */
         "dayUse": boolean;
+        /**
+          * The day-use extra service being edited (`mode="EDIT_DAY_USE"`) — carries its current unit/price for prefill and is updated in place via `doBookingExtraService` on submission.
+         */
+        "extraService": ExtraService;
         /**
           * Optional drawer title override.
          */
@@ -9149,10 +9161,11 @@ declare global {
         new (): HTMLIrBookingDetailsDrawerElement;
     };
     interface HTMLIrBookingEditorElementEventMap {
-        "resetBookingEvt": void;
+        "resetBookingEvt": Booking | null;
         "loadingChanged": { cause: string | null };
         "adjustBlockedUnit": any;
         "bookingStepChange": { direction: 'next' | 'prev' };
+        "preventPageLoad": string;
     }
     interface HTMLIrBookingEditorElement extends Components.IrBookingEditor, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrBookingEditorElementEventMap>(type: K, listener: (this: HTMLIrBookingEditorElement, ev: IrBookingEditorCustomEvent<HTMLIrBookingEditorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -13989,6 +14002,10 @@ declare namespace LocalJSX {
         "bookedUnitIds"?: Set<number>;
         "currency"?: any;
         /**
+          * The day-use extra service currently being edited (`ir-booking-editor` `mode="EDIT_DAY_USE"`). Its unit is exempt from `bookedUnitIds` (it's its own existing booking, not a conflict), never shows the upcoming-check-in warning (same reason), gets its price prefilled, and is highlighted.
+         */
+        "currentExtraService"?: ExtraService;
+        /**
           * Whether an availability check has completed at least once — distinguishes "no search yet" (render nothing) from "searched, zero units" (show empty state).
           * @default false
          */
@@ -15084,6 +15101,10 @@ declare namespace LocalJSX {
         "booking"?: Booking;
         "checkIn"?: string;
         "checkOut"?: string;
+        /**
+          * The day-use extra service being edited (`mode="EDIT_DAY_USE"`) — its unit is excluded from the "already booked" filter, highlighted in the unit list, and updated in place via `doBookingExtraService` on submission.
+         */
+        "extraService"?: ExtraService;
         "identifier"?: string;
         /**
           * @default 'en'
@@ -15096,7 +15117,8 @@ declare namespace LocalJSX {
         "onAdjustBlockedUnit"?: (event: IrBookingEditorCustomEvent<any>) => void;
         "onBookingStepChange"?: (event: IrBookingEditorCustomEvent<{ direction: 'next' | 'prev' }>) => void;
         "onLoadingChanged"?: (event: IrBookingEditorCustomEvent<{ cause: string | null }>) => void;
-        "onResetBookingEvt"?: (event: IrBookingEditorCustomEvent<void>) => void;
+        "onPreventPageLoad"?: (event: IrBookingEditorCustomEvent<string>) => void;
+        "onResetBookingEvt"?: (event: IrBookingEditorCustomEvent<Booking | null>) => void;
         "propertyId"?: string | number;
         /**
           * @default []
@@ -15127,6 +15149,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "dayUse"?: boolean;
+        /**
+          * The day-use extra service being edited (`mode="EDIT_DAY_USE"`) — carries its current unit/price for prefill and is updated in place via `doBookingExtraService` on submission.
+         */
+        "extraService"?: ExtraService;
         /**
           * Optional drawer title override.
          */

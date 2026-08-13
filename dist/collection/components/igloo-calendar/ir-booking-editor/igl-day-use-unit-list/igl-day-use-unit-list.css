@@ -4,13 +4,18 @@
 }
 
 .day-use-unit-list__grid {
-  display: inline-grid;
-  grid-template-columns: minmax(50px, max-content) 200px auto;
-  align-items: center;
-  column-gap: 0.5rem;
-  row-gap: 0.5rem;
-  max-width: 100%;
+  display: grid;
+  grid-template-columns: minmax(50px, max-content) 200px 1fr;
+  column-gap: 1rem;
+  row-gap: 0.25rem;
+  width: 100%;
   animation: day-use-unit-list-in var(--wa-transition-normal, 180ms) ease-out both;
+}
+.day-use-unit-list__infos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 .day-use-unit-list__empty-container {
   min-height: 60vh;
@@ -53,11 +58,61 @@
   margin-top: 0;
 }
 
+/*
+ * One grid item per unit, spanning every column of the outer grid so its background
+ * reads as a single full-width bar instead of 3 separately-boxed cells. `subgrid` maps
+ * its own columns back onto the parent's tracks so price/button stay aligned across rows.
+ */
+.day-use-unit-list__row {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  align-items: center;
+  min-height: var(--wa-form-control-height, 2.25rem);
+  border-radius: var(--wa-border-radius-m);
+  transition: background-color var(--wa-transition-fast, 120ms) ease;
+}
+
+.day-use-unit-list__row--current {
+  background-color: var(--wa-color-brand-fill-quiet);
+}
+
 .day-use-unit-list__unit-name {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
   white-space: nowrap;
   color: var(--wa-color-text-normal);
+  margin-inline-start: 1rem;
 }
+
+.day-use-unit-list__day-status-icon {
+  margin-inline-start: 0.25rem;
+  vertical-align: middle;
+}
+
+/* .day-use-unit-list__day-status-icon--checkin {
+  color: var(--wa-color-success-fill-loud);
+  color: var(--wa-color-warning-fill-loud);
+}
+
+.day-use-unit-list__day-status-icon--checkout {
+  color: var(--wa-color-neutral-fill-loud);
+  color: var(--wa-color-warning-fill-loud);
+}
+
+.day-use-unit-list__day-status-icon--turnover {
+  color: var(--wa-color-warning-fill-loud);
+} */
 
 .day-use-unit-list__price-input {
   width: 100%;
+}
+
+.day-use-unit-list__book-button {
+  justify-self: start;
+}
+
+.day-use-unit-list__current-tag {
+  flex-shrink: 0;
 }

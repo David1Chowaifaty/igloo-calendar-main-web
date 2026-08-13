@@ -243,6 +243,7 @@ export interface FinancialSnapshotEntry {
 }
 export interface Booking {
     is_source_editable: boolean;
+    is_room_less: boolean;
     charges: Charges;
     agent_booking_nbr: string;
     agent: {

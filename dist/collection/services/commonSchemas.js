@@ -9,3 +9,4 @@ export const DateSchema = z
 }, 'Invalid date');
 export const PropertyIdSchema = z.number().int();
 export const BookingNumberSchema = z.string();
+export const TaxTypesSchema = z.array(z.enum(['VAT', 'CITY_TAX', 'SERVICE_CHARGE'])).optional();

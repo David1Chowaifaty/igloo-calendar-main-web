@@ -4,6 +4,8 @@ import axios from "axios";
 import locales from "../stores/locales.store";
 import calendar_dates from "../stores/calendar-dates.store";
 import calendar_data from "../stores/calendar-data";
+/** `_SVC_CATEGORY` short code for Day Use, matched against `calendar_data.property.tax_categories` / `ExtraService.category.code`. */
+export const DAY_USE_CATEGORY_CODE = 'DUZ';
 /**
  * Builds an index of split chains for a booking's rooms.
  * @param rooms - The booking's rooms array.
@@ -379,6 +381,39 @@ function addOrUpdateBooking(cell, bookingsByPool, stayStatusLookup) {
     if (newData) {
         bookingsByPool.set(cell.POOL, newData);
     }
+}
+/**
+ * A unit is unavailable for day use only when both halves of the day share the same non-empty POOL
+ * (one booking occupies the whole day) — two empty POOLs are NOT a match, since an empty POOL means
+ * "nothing touches that half-day", not a shared identity.
+ *
+ * `dayStatus` classifies same-day movement from the occupied halves:
+ * - `checkin` — left half empty, right half occupied (a fresh check-in later today).
+ * - `checkout` — left half occupied, right half empty (a checkout earlier today).
+ * - `turnover` — both halves occupied by different, non-blank POOLs (checkout then check-in same day).
+ * It's always a subset of `available` (never set for the same-non-empty-POOL case).
+ */
+export function getDayUseUnitAvailability(calendarCell) {
+    const leftPool = calendarCell?.left_cell?.POOL ?? '';
+    const rightPool = calendarCell?.right_cell?.POOL ?? '';
+    const leftEmpty = leftPool === '';
+    const rightEmpty = rightPool === '';
+    const sameNonEmptyPool = !leftEmpty && leftPool === rightPool;
+    let dayStatus = null;
+    if (leftEmpty && !rightEmpty) {
+        dayStatus = 'checkin';
+    }
+    else if (!leftEmpty && rightEmpty) {
+        dayStatus = 'checkout';
+    }
+    else if (!leftEmpty && !rightEmpty && leftPool !== rightPool) {
+        dayStatus = 'turnover';
+    }
+    return {
+        available: !sameNonEmptyPool,
+        hasUpcomingCheckIn: dayStatus === 'checkin' || dayStatus === 'turnover',
+        dayStatus,
+    };
 }
 export function getPrivateNote(extras) {
     if (!extras) {

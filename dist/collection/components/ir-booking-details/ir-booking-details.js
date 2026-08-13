@@ -7,7 +7,7 @@ import { PaymentService } from "../../services/payment.service";
 import Token from "../../models/Token";
 import calendar_data from "../../stores/calendar-data";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
-import { buildSplitIndex } from "../../utils/booking";
+import { buildSplitIndex, DAY_USE_CATEGORY_CODE } from "../../utils/booking";
 import { AgentsService } from "../../services/agents/agents.service";
 import { CityLedgerService } from "../../services/city-ledger/index";
 import { mapClTxToFolioRow } from "../ir-city-ledger/ir-city-ledger-folio/types";
@@ -265,8 +265,29 @@ export class IrBookingDetails {
         }
         await this.resetBooking();
     }
+    /**
+     * Day-use extra services aren't editable through the generic extra-service form (no rate plan,
+     * unit/date/price/hours instead) — intercept and reopen the booking editor drawer in
+     * `EDIT_DAY_USE` mode instead, prefilled from this service and the booking. Same interception
+     * pattern as `ir-room.tsx`'s ECI/LCO handling, just one level up since day-use services aren't
+     * necessarily rendered inside a room block.
+     */
     handleEditExtraService(e) {
-        this.selectedService = e.detail;
+        const service = e.detail;
+        if (service?.category?.code === DAY_USE_CATEGORY_CODE) {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            this.bookingItem = {
+                event_type: 'EDIT_DAY_USE',
+                TITLE: `Edit Day-Use`.trim(),
+                FROM_DATE: service.start_date,
+                TO_DATE: service.start_date,
+                dayUse: true,
+                extraService: service,
+            };
+            return;
+        }
+        this.selectedService = service;
         this.extraServiceDefaultPrId = null;
         this.sidebarState = 'extra_service';
     }
@@ -530,7 +551,7 @@ export class IrBookingDetails {
             return (h("div", { class: 'loading-container' }, h("ir-spinner", null)));
         }
         const isAllServicesAgentOwned = this.isAllServicesAgentOwned();
-        return (h(Host, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } }))), h("ir-booking-header", { agents: this.agents, booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, agent: this.agent, folioRows: this.folioRows, hasReceipt: calendar_data.property.is_frontdesk_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }), h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { countries: this.countries, booking: this.booking }), h("ir-booking-rooms", { booking: this.booking, agent: this.agent, propertyId: this.property_id, language: this.language, departureTime: this.departureTime, arrivalTime: this.arrivalTime, bedPreference: this.bedPreference, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, hasRoomAdd: this.hasRoomAdd, hasRoomEdit: this.hasRoomEdit, hasRoomDelete: this.hasRoomDelete, splitIndex: this.splitIndex, clTransactions: this.rawTransactions, svcCategories: this.svcCategories, onRoomDeleteFinished: this.handleDeleteFinish }), (this.booking?.rooms?.length > 1 || this.booking.rooms.length === 0) && (h("section", null, h("ir-extra-services", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, agent: this.agent, clTransactions: this.rawTransactions }))), h("ir-pickup-view", { booking: this.booking, agent: this.agent, clTransactions: this.rawTransactions })), h("ir-payment-details", { clTransactions: this.rawTransactions, class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking, agent: this.agent, svcCategories: this.svcCategories, isAllServicesAgentOwned: isAllServicesAgentOwned, folioRows: this.folioRows, clLoading: this.clLoading, clError: this.clError })), h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
+        return (h(Host, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } }))), h("ir-booking-header", { agents: this.agents, booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, agent: this.agent, folioRows: this.folioRows, hasReceipt: calendar_data.property.is_frontdesk_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }), h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { countries: this.countries, booking: this.booking }), !this.booking.is_room_less && (h("ir-booking-rooms", { booking: this.booking, agent: this.agent, propertyId: this.property_id, language: this.language, departureTime: this.departureTime, arrivalTime: this.arrivalTime, bedPreference: this.bedPreference, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, hasRoomAdd: this.hasRoomAdd, hasRoomEdit: this.hasRoomEdit, hasRoomDelete: this.hasRoomDelete, splitIndex: this.splitIndex, clTransactions: this.rawTransactions, svcCategories: this.svcCategories, onRoomDeleteFinished: this.handleDeleteFinish })), (this.booking?.rooms?.length > 1 || this.booking.rooms.length === 0) && (h("section", null, h("ir-extra-services", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, agent: this.agent, clTransactions: this.rawTransactions }))), h("ir-pickup-view", { booking: this.booking, agent: this.agent, clTransactions: this.rawTransactions })), h("ir-payment-details", { clTransactions: this.rawTransactions, class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking, agent: this.agent, svcCategories: this.svcCategories, isAllServicesAgentOwned: isAllServicesAgentOwned, folioRows: this.folioRows, clLoading: this.clLoading, clError: this.clError })), h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.modalRef.closeModal();
@@ -555,7 +576,7 @@ export class IrBookingDetails {
                 this.sidebarState = null;
             }, isAllServicesAgentOwned: isAllServicesAgentOwned, booking: this.booking, agent: this.agent }), h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
                 this.sidebarState = null;
-            }, booking_nbr: this.bookingNumber, email: this.booking?.guest.email, language: this.language, open: this.sidebarState === 'guest' }), h("ir-payment-folio", { booking: this.booking, style: { height: 'auto' }, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, payment: this.sidebarPayload?.payment, mode: this.sidebarPayload?.mode, ref: el => (this.paymentFolioRef = el), onCloseModal: () => (this.sidebarState = null) }), h("ir-booking-editor-drawer", { roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, booking: this.booking, ticket: this.ticket, open: this.bookingItem !== null, roomIdentifier: this.bookingItem?.IDENTIFIER, language: this.language, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, checkOut: this.bookingItem?.TO_DATE }), h("ir-fiscal-document-preview", { mode: "all", ticket: this.ticket, propertyId: calendar_data?.property.id, onDocumentConverted: () => this.fetchCityLedger() })));
+            }, booking_nbr: this.bookingNumber, email: this.booking?.guest.email, language: this.language, open: this.sidebarState === 'guest' }), h("ir-payment-folio", { booking: this.booking, style: { height: 'auto' }, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, payment: this.sidebarPayload?.payment, mode: this.sidebarPayload?.mode, ref: el => (this.paymentFolioRef = el), onCloseModal: () => (this.sidebarState = null) }), h("ir-booking-editor-drawer", { roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, booking: this.booking, ticket: this.ticket, open: this.bookingItem !== null, roomIdentifier: this.bookingItem?.IDENTIFIER, language: this.language, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, checkOut: this.bookingItem?.TO_DATE, dayUse: this.bookingItem?.dayUse === true, extraService: this.bookingItem?.extraService }), h("ir-fiscal-document-preview", { mode: "all", ticket: this.ticket, propertyId: calendar_data?.property.id, onDocumentConverted: () => this.fetchCityLedger() })));
     }
     static get is() { return "ir-booking-details"; }
     static get encapsulation() { return "scoped"; }

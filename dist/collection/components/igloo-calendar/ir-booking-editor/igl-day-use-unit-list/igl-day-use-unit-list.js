@@ -1,7 +1,7 @@
 import { Fragment, Host, h } from "@stencil/core";
-import { getExtraServiceDefaultPrice } from "../../../../stores/calendar-data";
-/** `_SVC_CATEGORY` short code for Day Use — used to look up the property's configured default price. */
-const DAY_USE_CATEGORY_CODE = 'DUZ';
+import calendar_data, { getExtraServiceDefaultPrice } from "../../../../stores/calendar-data";
+import booking_store from "../../../../stores/booking.store";
+import { DAY_USE_CATEGORY_CODE, getDayUseUnitAvailability } from "../../../../utils/booking";
 export class IglDayUseUnitList {
     /** Room types returned by the day-use availability check. */
     roomTypes = [];
@@ -18,21 +18,42 @@ export class IglDayUseUnitList {
     resolvingUnitId = null;
     /** Whether an availability check has completed at least once — distinguishes "no search yet" (render nothing) from "searched, zero units" (show empty state). */
     hasSearched = false;
+    /**
+     * The day-use extra service currently being edited (`ir-booking-editor` `mode="EDIT_DAY_USE"`).
+     * Its unit is exempt from `bookedUnitIds` (it's its own existing booking, not a conflict), never
+     * shows the upcoming-check-in warning (same reason), gets its price prefilled, and is highlighted.
+     */
+    currentExtraService;
     priceOverrides = {};
     unitSelected;
-    getAvailableUnits(roomType) {
-        const assignableUnits = roomType.rateplans?.flatMap(rp => rp.assignable_units ?? []) ?? [];
-        const units = assignableUnits.length === 0
-            ? (roomType.physicalrooms ?? [])
-            : (() => {
-                const unavailablePrIds = new Set(assignableUnits.filter(u => u.Is_Not_Available).map(u => u.pr_id));
-                return (roomType.physicalrooms ?? []).filter(unit => !unavailablePrIds.has(unit.id));
-            })();
-        const bookableUnits = units.filter(unit => !this.bookedUnitIds?.has(unit.id));
-        if (this.unitId === undefined || this.unitId === null || this.unitId === '') {
-            return bookableUnits;
+    componentWillLoad() {
+        const { dayUseSelection } = booking_store;
+        if (dayUseSelection && dayUseSelection.isCustomPrice) {
+            this.priceOverrides = { ...this.priceOverrides, [dayUseSelection.unit.id]: dayUseSelection.netAmount };
         }
-        return bookableUnits.filter(unit => unit.id.toString() === this.unitId.toString());
+        else if (this.currentExtraService?.pr_id != null && this.currentExtraService.charges?.net_amount != null) {
+            this.priceOverrides = { ...this.priceOverrides, [this.currentExtraService.pr_id]: this.currentExtraService.charges.net_amount };
+        }
+    }
+    isCurrentUnit(unitId) {
+        return this.currentExtraService?.pr_id === unitId;
+    }
+    /** Icon + tooltip shown next to a unit's name for each same-day movement (`getDayUseUnitDayStatus`). */
+    static DAY_STATUS_DISPLAY = {
+        checkin: { icon: 'plane-arrival', tooltip: 'Check-in happening today' },
+        checkout: { icon: 'plane-departure', tooltip: 'Check-out happening today' },
+        turnover: { icon: 'rotate', tooltip: 'Turnover happening today' },
+    };
+    getAvailableUnits(roomType) {
+        const evaluated = (roomType.physicalrooms ?? []).map(unit => {
+            const { available, dayStatus } = getDayUseUnitAvailability(unit.calendar_cell);
+            return { unit, available, dayStatus: this.isCurrentUnit(unit.id) ? null : dayStatus };
+        });
+        const bookable = evaluated.filter(({ unit, available }) => available && (this.isCurrentUnit(unit.id) || !this.bookedUnitIds?.has(unit.id)));
+        if (this.unitId === undefined || this.unitId === null || this.unitId === '') {
+            return bookable;
+        }
+        return bookable.filter(({ unit }) => unit.id.toString() === this.unitId.toString());
     }
     get defaultPrice() {
         const svcDefaultPrice = getExtraServiceDefaultPrice(DAY_USE_CATEGORY_CODE);
@@ -54,16 +75,16 @@ export class IglDayUseUnitList {
         if (this.hasSearched && !hasBookableUnit) {
             return (h("div", { class: "day-use-unit-list__empty-container" }, h("ir-empty-state", { message: "No units available for the selected date." })));
         }
-        return (h(Host, null, h("div", { class: "day-use-unit-list__grid" }, availableRoomTypes.map(roomType => {
+        return (h(Host, null, availableRoomTypes.length > 0 && (h("div", { class: "day-use-unit-list__infos" }, h("p", { class: 'm-0 p-0' }, this.currentExtraService ? 'Edit the existing unit or switch the booking to another one.' : 'Pick a unit for day-use.'), h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "booking-editor-header__tax_statement" }, calendar_data.tax_statement))), h("div", { class: "day-use-unit-list__grid" }, availableRoomTypes.map(roomType => {
             const units = this.getAvailableUnits(roomType);
             if (units.length === 0) {
                 return null;
             }
-            return (h(Fragment, null, h("h5", { class: "day-use-unit-list__roomtype-name" }, roomType.name), units.map(unit => [
-                h("span", { class: "day-use-unit-list__unit-name", key: `day-use-unit-name-${unit.id}` }, unit.name),
-                h("ir-input", { key: `day-use-unit-price-${unit.id}`, class: "day-use-unit-list__price-input", size: "s", mask: "price", value: this.getPrice(unit.id).toString(), "onText-change": e => (this.priceOverrides = { ...this.priceOverrides, [unit.id]: Number(e.detail) }) }, h("span", { slot: "start" }, this.currency?.symbol)),
-                h("ir-custom-button", { key: `day-use-unit-book-${unit.id}`, "data-testid": "book", type: "button", size: "s", variant: "brand", loading: this.resolvingUnitId === unit.id, disabled: this.resolvingUnitId !== null && this.resolvingUnitId !== unit.id, onClickHandler: () => this.unitSelected.emit({ unit, roomType, price: this.getPrice(unit.id), isCustomPrice: this.isCustomPrice(unit.id) }) }, "Book"),
-            ])));
+            return (h(Fragment, null, h("h5", { class: "day-use-unit-list__roomtype-name" }, roomType.name), units.map(({ unit, dayStatus }) => {
+                const isCurrent = this.isCurrentUnit(unit.id);
+                const dayStatusDisplay = dayStatus ? IglDayUseUnitList.DAY_STATUS_DISPLAY[dayStatus] : null;
+                return (h("div", { class: `day-use-unit-list__row${isCurrent ? ' day-use-unit-list__row--current' : ''}`, key: `day-use-unit-row-${unit.id}` }, h("span", { class: "day-use-unit-list__unit-name" }, unit.name, dayStatusDisplay && (h(Fragment, null, h("wa-tooltip", { for: `day-use-day-status-${unit.id}` }, dayStatusDisplay.tooltip), h("wa-icon", { name: dayStatusDisplay.icon, id: `day-use-day-status-${unit.id}`, class: `day-use-unit-list__day-status-icon day-use-unit-list__day-status-icon--${dayStatus}` })))), h("ir-input", { class: "day-use-unit-list__price-input", size: "s", mask: "price", value: this.getPrice(unit.id).toString(), "onText-change": e => (this.priceOverrides = { ...this.priceOverrides, [unit.id]: Number(e.detail) }) }, h("span", { slot: "start" }, this.currency?.symbol)), h("ir-custom-button", { "data-testid": "book", type: "button", size: "s", variant: "brand", appearance: this.currentExtraService && !isCurrent ? 'outlined' : undefined, class: "day-use-unit-list__book-button", loading: this.resolvingUnitId === unit.id, disabled: this.resolvingUnitId !== null && this.resolvingUnitId !== unit.id, onClickHandler: () => this.unitSelected.emit({ unit, roomType, price: this.getPrice(unit.id), isCustomPrice: this.isCustomPrice(unit.id) }) }, "Book")));
+            })));
         }))));
     }
     static get is() { return "igl-day-use-unit-list"; }
@@ -244,6 +265,30 @@ export class IglDayUseUnitList {
                 "reflect": false,
                 "attribute": "has-searched",
                 "defaultValue": "false"
+            },
+            "currentExtraService": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "ExtraService",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; room_identifier?: string; booking_system_id?: number; cost?: number; end_date?: string; start_date?: string; price?: number; category?: { code?: string; }; pr_id?: number; charges?: { city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; total_amount?: number; vat_amount?: number; vat_percent?: number; }; }",
+                    "references": {
+                        "ExtraService": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::ExtraService",
+                            "referenceLocation": "ExtraService"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": true,
+                "docs": {
+                    "tags": [],
+                    "text": "The day-use extra service currently being edited (`ir-booking-editor` `mode=\"EDIT_DAY_USE\"`).\nIts unit is exempt from `bookedUnitIds` (it's its own existing booking, not a conflict), never\nshows the upcoming-check-in warning (same reason), gets its price prefilled, and is highlighted."
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

@@ -90,6 +90,7 @@ export type LocalizationStrings = {
     'Lcz_AreYouSureWantToMoveAnotherUnit': string;
     'Lcz_ArrivalDate': string;
     'Lcz_ArrivalTime': string;
+    'Lcz_GuestArrivingLaterToday': string;
     'Lcz_Assign': string;
     'Lcz_AssignedAndChecIn': string;
     'Lcz_AssignmentFor': string;

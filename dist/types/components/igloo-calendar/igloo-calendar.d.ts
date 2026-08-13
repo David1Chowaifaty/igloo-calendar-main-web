@@ -100,6 +100,24 @@ export declare class IglooCalendar {
      * (passed down to `<igl-cal-body>` to mark booked units with a red 2px cell border).
      */
     private fetchDayUseBookings;
+    /**
+     * Broadcast after a `Do_Day_Use` call succeeds elsewhere (e.g. another agent/tab).
+     * The socket payload doesn't carry `unit_id`/`bh_id`, so we can't build a
+     * `DayUseBookings` entry from it directly — refetch the affected window instead.
+     */
+    private handleDayUseCreated;
+    /**
+     * Broadcast when a day-use extra service is added, edited, or removed (e.g. from
+     * another agent/tab). Unlike `DAY_USE_CREATED`, this refetches the target date and
+     * *replaces* whatever we currently hold for it, so removed/edited bookings correctly
+     * disappear from units that no longer have one instead of leaving a stale entry behind.
+     */
+    private handleDayUseModified;
+    /**
+     * Broadcast when a day-use extra service is removed. Unlike `DAY_USE_MODIFIED`, the payload
+     * carries enough to identify the exact entry (unit + date), so it's dropped locally without a refetch.
+     */
+    private handleDayUseRemoved;
     private getHkIssues;
     private fetchSetupEntries;
     private getHousekeepingTasks;

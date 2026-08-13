@@ -4,6 +4,7 @@ import booking_store, { hasAtLeastOneRoomSelected, resetAvailability, resetReser
 import calendar_data from "../../../../stores/calendar-data";
 import moment from "moment";
 import { getReleaseHoursString } from "../../../../utils/utils";
+import { getDayUseUnitAvailability } from "../../../../utils/booking";
 import { BookingService } from "../../../../services/booking-service/booking.service";
 import { IRBookingEditorService } from "../ir-booking-editor.service";
 export class IrBookingEditorDrawer {
@@ -35,6 +36,8 @@ export class IrBookingEditorDrawer {
     roomIdentifier;
     /** Pre-enables the day-use toggle (e.g. double-click-on-room-title entry point). */
     dayUse = false;
+    /** The day-use extra service being edited (`mode="EDIT_DAY_USE"`) — carries its current unit/price for prefill and is updated in place via `doBookingExtraService` on submission. */
+    extraService;
     step = 'details';
     isLoading;
     /** Emitted when the booking editor drawer is closed. */
@@ -128,13 +131,15 @@ export class IrBookingEditorDrawer {
         }
     }
     get drawerLabel() {
+        if (booking_store.bookingDraft.dayUse && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode)) {
+            return 'Day-Use Booking';
+        }
         if (this.label) {
             return this.label;
         }
-        if (booking_store.bookingDraft.dayUse && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode)) {
-            return 'Day Use Booking';
-        }
         switch (this.mode) {
+            case 'EDIT_DAY_USE':
+                return 'Edit Day Use Booking';
             case 'SPLIT_BOOKING':
             case 'BAR_BOOKING':
             case 'ADD_ROOM':
@@ -180,7 +185,10 @@ export class IrBookingEditorDrawer {
         const { checkIn, checkOut } = booking_store?.bookingDraft?.dates;
         const now = moment();
         const hasCheckIn = !!calendar_data?.property.is_frontdesk_enabled && !!checkIn && (checkIn.isSame(now, 'date') || now.isBetween(checkIn, checkOut, 'date'));
-        return (h(Fragment, null, h("ir-custom-button", { onClickHandler: this.goToDetails, size: "m", appearance: "filled", variant: "neutral" }, "Back"), h("ir-custom-button", { loading: this.isLoading === 'book', value: "book", form: "new_booking_form", disabled: false, type: "submit", size: "m", appearance: hasCheckIn ? 'outlined' : 'accent', variant: "brand" }, "Book"), hasCheckIn && !this.dayUse && (h("ir-custom-button", { loading: this.isLoading === 'book-checkin', value: "book-checkin", form: "new_booking_form", type: "submit", size: "m", appearance: "accent", variant: "brand" }, "Book and check-in"))));
+        const isNewDayUseBooking = this.mode === 'PLUS_BOOKING' && booking_store.bookingDraft.dayUse;
+        const dayUseUnitHasUpcomingCheckIn = isNewDayUseBooking && getDayUseUnitAvailability(booking_store.dayUseSelection?.unit?.calendar_cell).hasUpcomingCheckIn;
+        const showBookAndBlockTheNight = isNewDayUseBooking && !dayUseUnitHasUpcomingCheckIn;
+        return (h(Fragment, null, h("ir-custom-button", { onClickHandler: this.goToDetails, size: "m", appearance: "filled", variant: "neutral" }, "Back"), showBookAndBlockTheNight && (h("ir-custom-button", { disabled: false, form: "new_booking_form", loading: this.isLoading === 'book&block', value: "book&block", type: "submit", size: "m", appearance: 'outlined', variant: "brand" }, "Book and block the night")), h("ir-custom-button", { loading: this.isLoading === 'book', value: "book", form: "new_booking_form", disabled: false, type: "submit", size: "m", appearance: showBookAndBlockTheNight ? 'accent' : hasCheckIn ? 'outlined' : 'accent', variant: "brand" }, "Book"), hasCheckIn && !booking_store.bookingDraft.dayUse && (h("ir-custom-button", { loading: this.isLoading === 'book-checkin', value: "book-checkin", form: "new_booking_form", type: "submit", size: "m", appearance: "accent", variant: "brand" }, "Book and check-in"))));
     }
     renderDetailsActions() {
         const haveRoomSelected = hasAtLeastOneRoomSelected();
@@ -303,7 +311,7 @@ export class IrBookingEditorDrawer {
         }
     }
     render() {
-        return (h("ir-drawer", { key: '764e0c0e1e9acfe920bba635d272f50c947710e8', onDrawerHide: async (event) => {
+        return (h("ir-drawer", { key: 'a80c571412de48cde3f761445e4b0e929d719f01', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -314,7 +322,7 @@ export class IrBookingEditorDrawer {
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: 'fd19a80432e3964cc14a6215350a8b8d704b1d9d', slot: "header-actions" }, h("wa-radio-group", { key: '04b9917e3ec02f006b4fd5f4866502468e865f7f', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: '768ef919736bc1cddfa741161de0c879c5a29260', appearance: "button", value: "manual" }, "Manual Booking"), h("wa-radio", { key: '97af3568ed3e5f8e2ace00eb4360cd09b9c2a99d', appearance: "button", value: "day-use" }, "Day Use")))), this.open && this.ticket && (h("ir-booking-editor", { key: 'b53133ad2e51653b295ca67f61201f5c504a4a87', onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: '7288f2d9ae4e30b74e160e85a63d684867ab1a02', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: '79a77f3be99497734648551e580d9f8c9b9c88dc', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: 'cd86ca3d6c2d0d680545445f2b88167eb9c3ad05', appearance: "button", value: "manual" }, "Manual Booking"), h("wa-radio", { key: '92001371d160cf60d4ee0a7dfd9be0e04ad63742', appearance: "button", value: "day-use" }, "Day Use")))), this.open && this.ticket && (h("ir-booking-editor", { key: '0bbc623113970d9bfbc381406889249d8b466c64', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -322,7 +330,7 @@ export class IrBookingEditorDrawer {
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), h("div", { key: '9bdda3e995b51230f36d51199de8ace532e9a52e', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: '52d6f0b32a5b83a175b7a9a4deb8431ea6836e59', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get is() { return "ir-booking-editor-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -444,7 +452,7 @@ export class IrBookingEditorDrawer {
                 "mutable": false,
                 "complexType": {
                     "original": "BookingEditorMode",
-                    "resolved": "\"ADD_ROOM\" | \"BAR_BOOKING\" | \"EDIT_BOOKING\" | \"PLUS_BOOKING\" | \"SPLIT_BOOKING\"",
+                    "resolved": "\"ADD_ROOM\" | \"BAR_BOOKING\" | \"EDIT_BOOKING\" | \"EDIT_DAY_USE\" | \"PLUS_BOOKING\" | \"SPLIT_BOOKING\"",
                     "references": {
                         "BookingEditorMode": {
                             "location": "import",
@@ -622,6 +630,30 @@ export class IrBookingEditorDrawer {
                 "reflect": false,
                 "attribute": "day-use",
                 "defaultValue": "false"
+            },
+            "extraService": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "ExtraService",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; room_identifier?: string; booking_system_id?: number; cost?: number; end_date?: string; start_date?: string; price?: number; category?: { code?: string; }; pr_id?: number; charges?: { city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; total_amount?: number; vat_amount?: number; vat_percent?: number; }; }",
+                    "references": {
+                        "ExtraService": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::ExtraService",
+                            "referenceLocation": "ExtraService"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "The day-use extra service being edited (`mode=\"EDIT_DAY_USE\"`) \u2014 carries its current unit/price for prefill and is updated in place via `doBookingExtraService` on submission."
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

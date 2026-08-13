@@ -317,7 +317,7 @@ export class IglCalBody {
                     //   return;
                     // }
                     this.clickCell(Number(roomId), dayInfo, roomCategory);
-                }, "aria-label": roomName, role: "gridcell", "data-room-id": roomId, "data-date": dayInfo.value, "aria-current": isCurrentDate ? 'date' : undefined, "data-room-name": roomName, "data-dirty-room": String(shouldBeCleaned), "data-day-use-booked": String(!!dayUseBooking), "aria-disabled": String(isDisabled), "aria-selected": Boolean(isSelected) }, dayUseBooking && (h(Fragment, null, h("wa-tooltip", { for: `day-use-badge_${roomId}_${dayInfo.value}`, trigger: "hover" }, h("div", { class: "dayUseTooltip__main" }, h("span", { class: "dayUseTooltip__time" }, this.formatDayUseTime(dayUseBooking.from_time), " \u2013 ", this.formatDayUseTime(dayUseBooking.to_time)), h("span", { class: "dayUseTooltip__price" }, this.getDayUsePrice(dayUseBooking.gross_amount))), h("div", { class: "dayUseTooltip__meta" }, h("span", { class: "dayUseTooltip__number" }, "#", dayUseBooking.book_nbr), this.getDayUseGuestName(dayUseBooking) && h("span", { class: "dayUseTooltip__guest" }, this.getDayUseGuestName(dayUseBooking)))), h("button", { id: `day-use-badge_${roomId}_${dayInfo.value}`, type: "button", class: "dayUseBadge", "aria-label": "Open day-use booking details", onClick: e => {
+                }, "aria-label": roomName, role: "gridcell", "data-room-id": roomId, "data-date": dayInfo.value, "aria-current": isCurrentDate ? 'date' : undefined, "data-room-name": roomName, "data-dirty-room": String(shouldBeCleaned), "data-day-use-booked": String(!!dayUseBooking), "aria-disabled": String(isDisabled), "aria-selected": Boolean(isSelected) }, dayUseBooking && (h(Fragment, null, h("wa-tooltip", { style: { '--max-width': 'auto' }, for: `day-use-badge_${roomId}_${dayInfo.value}`, trigger: "hover" }, h("div", { class: "dayUseTooltip__main" }, h("span", { class: "dayUseTooltip__time" }, "Day use ", this.formatDayUseTime(dayUseBooking.from_time), " \u2013 ", this.formatDayUseTime(dayUseBooking.to_time)), h("span", { class: "dayUseTooltip__price" }, this.getDayUsePrice(dayUseBooking.gross_amount))), h("div", { class: "dayUseTooltip__meta" }, h("span", { class: "dayUseTooltip__number" }, "#", dayUseBooking.book_nbr), this.getDayUseGuestName(dayUseBooking) && h("span", { class: "dayUseTooltip__guest" }, this.getDayUseGuestName(dayUseBooking)))), h("button", { id: `day-use-badge_${roomId}_${dayInfo.value}`, type: "button", class: "dayUseBadge", "aria-label": "Open day-use booking details", onClick: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.openDayUseBookingDetails(dayUseBooking);
@@ -375,7 +375,7 @@ export class IglCalBody {
                 PR_ID: room.id.toString(),
                 FROM_DATE: today,
                 TO_DATE: moment().add(1, 'day').format('YYYY-MM-DD'),
-                TITLE: `Day Use Booking For ${roomCategory.name} ${room.name}`,
+                TITLE: `Day-Use Booking For ${roomCategory.name} ${room.name}`,
                 roomsInfo: [{ id: roomCategory.id }],
                 dayUse: true,
             },
@@ -533,13 +533,13 @@ export class IglCalBody {
         return this.dayUseBookingsByKey.get(this.getCellKey(roomId, day));
     }
     render() {
-        return (h(Host, { key: '2a0923c5cd1d2784857c1ed4d6c078805a6abd46' }, h("div", { key: '5fffb1ebf7e7fb3d6a643f1476b18d102de7e0c9', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'd8ec3ad13b90721cefcb64e0c1dad191e8cbd52e', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: 'd6693f7665f3394d299a0548affd460a2b9ebbba' }, h("div", { key: '504d9b2f23681e0ffbe745277982ce07f5f6e8d8', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '0d5004567c8dfb243afb90b9745e83944f1b65bf', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: 'a37d6ef94b435a0eda562a2dad30abfcf9158d78', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: 'd1459fe7f499a95cc54e99571b0b42c9bd2f941e', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '0cc05d40ccbc1e47969e265d41f2a62ab02a1df5', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '38516ff882a7536a39122412ee5508d46ecd0f77', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issues = null;

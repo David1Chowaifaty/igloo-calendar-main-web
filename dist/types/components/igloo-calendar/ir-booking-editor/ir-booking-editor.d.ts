@@ -1,6 +1,8 @@
 import { Booking } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { BlockedDatePayload, BookingEditorMode, BookingStep } from './types';
+import { RoomType } from "../../../models/property";
+import { ExtraService } from "../../../models/booking.dto";
 export declare class IrBookingEditor {
     propertyId: string | number;
     language: string;
@@ -13,15 +15,18 @@ export declare class IrBookingEditor {
     step: BookingStep;
     blockedUnit: BlockedDatePayload;
     unitId: string;
+    /** The day-use extra service being edited (`mode="EDIT_DAY_USE"`) — its unit is excluded from the "already booked" filter, highlighted in the unit list, and updated in place via `doBookingExtraService` on submission. */
+    extraService: ExtraService;
     isLoading: boolean;
     isFetchingAvailability: boolean;
     hasCheckedAvailability: boolean;
     unavailableRatePlanIds: Set<number>;
     dayUseBookedUnitIds: Set<number>;
+    dayUseRoomTypes: RoomType[];
     resolvingDayUseUnitId: number | null;
     /** Net (tax-exclusive) version of `dayUsePrice`, resolved once via `calculateNetAmount` — shown as the default value in the price input so an untouched default reads the same way a typed custom (net) amount does. */
     dayUseNetPrice: number | null;
-    resetBookingEvt: EventEmitter<void>;
+    resetBookingEvt: EventEmitter<Booking | null>;
     loadingChanged: EventEmitter<{
         cause: string | null;
     }>;
@@ -29,6 +34,7 @@ export declare class IrBookingEditor {
     bookingStepChange: EventEmitter<{
         direction: 'next' | 'prev';
     }>;
+    preventPageLoad: EventEmitter<string>;
     private roomService;
     private bookingService;
     private propertyService;
@@ -67,8 +73,17 @@ export declare class IrBookingEditor {
     private initializeDraftFromBooking;
     private checkBookingAvailability;
     /**
+     * Day-use branch of availability checking: skips `Check_Availability` entirely and derives
+     * per-unit availability from `Get_Exposed_Calendar` (`getCalendarData`) for the single target date.
+     */
+    private checkDayUseAvailability;
+    /**
      * Units already booked for day use on the target date don't reduce a room type's normal
      * `inventory`/availability, so they must be filtered out separately from the units list.
+     *
+     * When editing an existing day-use extra service (`EDIT_DAY_USE`), its own unit is excluded from
+     * this "already booked" set — it's the booking being edited, not a conflict — and its hours seed
+     * `dayUseHours` so step 2 shows the time window that's actually in effect.
      */
     private fetchDayUseBookedUnits;
     private compareResults;

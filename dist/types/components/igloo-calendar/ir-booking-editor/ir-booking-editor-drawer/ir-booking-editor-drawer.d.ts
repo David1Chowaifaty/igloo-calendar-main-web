@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { BlockedDatePayload, BookingEditorMode, BookingStep } from '../types';
-import { Booking } from "../../../../models/booking.dto";
+import { Booking, ExtraService } from "../../../../models/booking.dto";
 export declare class IrBookingEditorDrawer {
     /** Controls drawer visibility (reflected to DOM). */
     open: boolean;
@@ -30,6 +30,8 @@ export declare class IrBookingEditorDrawer {
     roomIdentifier: string;
     /** Pre-enables the day-use toggle (e.g. double-click-on-room-title entry point). */
     dayUse: boolean;
+    /** The day-use extra service being edited (`mode="EDIT_DAY_USE"`) — carries its current unit/price for prefill and is updated in place via `doBookingExtraService` on submission. */
+    extraService: ExtraService;
     step: BookingStep;
     isLoading: string;
     /** Emitted when the booking editor drawer is closed. */

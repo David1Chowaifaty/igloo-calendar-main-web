@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { PropertyIdSchema } from "../commonSchemas";
+import { PropertyIdSchema, TaxTypesSchema } from "../commonSchemas";
 const NumberOrStringSchema = z.union([z.number(), z.string().optional()]);
 export const CurrencySchema = z.object({
     id: z.number(),
@@ -172,6 +172,7 @@ export const SetHbPreferencePropsSchema = z.object({
 export const CalculateExclusiveTaxPropsSchema = z.object({
     property_id: z.number().min(1),
     amount: z.number(),
+    taxes_to_include: TaxTypesSchema,
 });
 export const AckExposedRevisionPropsSchema = z.object({
     revision_id: z.number(),
@@ -188,10 +189,19 @@ export const SimulateDirectBookingParamsSchema = z.object({
 });
 export const DoDayUseParamsSchema = z.object({
     language: z.string().min(1),
+    is_to_block: z.boolean().optional().default(false),
     booking: z.object({
         property: z.object({
             id: z.number(),
         }),
+        occupancy: z
+            .object({
+            adult_nbr: z.number().nullable(),
+            children_nbr: z.number().nullable(),
+            infant_nbr: z.number().nullable(),
+        })
+            .optional()
+            .nullable(),
         currency: z.object({
             id: z.number(),
         }),

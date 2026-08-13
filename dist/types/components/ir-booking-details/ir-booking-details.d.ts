@@ -147,7 +147,14 @@ export declare class IrBookingDetails {
         guests: SharedPerson[];
     }>): void;
     handleResetBooking(e: CustomEvent<Booking | null>): Promise<void>;
-    handleEditExtraService(e: CustomEvent): void;
+    /**
+     * Day-use extra services aren't editable through the generic extra-service form (no rate plan,
+     * unit/date/price/hours instead) — intercept and reopen the booking editor drawer in
+     * `EDIT_DAY_USE` mode instead, prefilled from this service and the booking. Same interception
+     * pattern as `ir-room.tsx`'s ECI/LCO handling, just one level up since day-use services aren't
+     * necessarily rendered inside a room block.
+     */
+    handleEditExtraService(e: CustomEvent<ExtraService>): void;
     handleAddExtraServiceToUnit(e: CustomEvent<{
         pr_id: number;
     }>): void;

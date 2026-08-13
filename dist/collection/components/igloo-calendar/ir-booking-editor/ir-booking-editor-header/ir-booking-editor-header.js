@@ -337,7 +337,7 @@ export class IrBookingEditorHeader {
                 "mutable": false,
                 "complexType": {
                     "original": "BookingEditorMode",
-                    "resolved": "\"ADD_ROOM\" | \"BAR_BOOKING\" | \"EDIT_BOOKING\" | \"PLUS_BOOKING\" | \"SPLIT_BOOKING\"",
+                    "resolved": "\"ADD_ROOM\" | \"BAR_BOOKING\" | \"EDIT_BOOKING\" | \"EDIT_DAY_USE\" | \"PLUS_BOOKING\" | \"SPLIT_BOOKING\"",
                     "references": {
                         "BookingEditorMode": {
                             "location": "import",

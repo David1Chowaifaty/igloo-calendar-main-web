@@ -9,5 +9,6 @@ export declare class IrExtraServices {
     svcCategories: IEntries[];
     clTransactions: ClTx[];
     private renderServiceList;
+    private extraServicesHeaderActions;
     render(): any;
 }
