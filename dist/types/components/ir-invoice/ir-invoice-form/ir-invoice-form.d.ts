@@ -86,6 +86,7 @@ export declare class IrInvoiceForm {
     private apiDisabledItemKeys;
     private alreadyInvoicedItemKeys;
     private printingBaseUrl;
+    private svcCategories;
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleViewModeChange(): void;
@@ -199,5 +200,14 @@ export declare class IrInvoiceForm {
      * Renders the cancellation penalty checkbox when the booking contains one.
      */
     private renderCancellationPenalty;
+    private category;
+    private categoryLabel;
+    private description;
+    /**
+     * Opens the existing day-use reservation's details drawer — same `showBookingPopup`/`EDIT_BOOKING`
+     * path `igl-booking-event-hover`'s "Edit booking" action uses, so `igloo-calendar.tsx`'s existing
+     * `editBookingItem` wiring picks it up without any new plumbing.
+     */
+    private formatDayUseTime;
     render(): any;
 }

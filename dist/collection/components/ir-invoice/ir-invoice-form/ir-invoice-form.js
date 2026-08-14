@@ -1,11 +1,12 @@
 import { BookingService } from "../../../services/booking-service/booking.service";
 import { buildSplitIndex } from "../../../utils/booking";
-import { formatAmount } from "../../../utils/utils";
+import { formatAmount, getEntryValue } from "../../../utils/utils";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
 import axios from "axios";
 import { FdTypes, InOut } from "../../../types/enums";
+import { _formatTime } from "../../ir-booking-details/functions";
 export class IrInvoiceForm {
     /**
      * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
@@ -88,6 +89,7 @@ export class IrInvoiceForm {
     apiDisabledItemKeys = new Set();
     alreadyInvoicedItemKeys = new Set();
     printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing/fd?id=%2&mode=proforma';
+    svcCategories = [];
     componentWillLoad() {
         this.init();
     }
@@ -337,11 +339,13 @@ export class IrInvoiceForm {
             this.isLoading = true;
             // let invoiceInfo = this.invoiceInfo;
             // if (!this.invoiceInfo) {
-            const [booking, invoiceInfo] = await Promise.all([
+            const [booking, invoiceInfo, svcCategories] = await Promise.all([
                 this.bookingService.getExposedBooking({ booking_nbr: this.booking.booking_nbr, language: 'en', withExtras: true }),
                 this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
+                this.bookingService.getSetupEntriesByTableName('_SVC_CATEGORY'),
             ]);
             this.booking = { ...booking };
+            this.svcCategories = svcCategories;
             // }
             this.setupInvoicables(invoiceInfo);
             if (this.booking) {
@@ -787,6 +791,29 @@ export class IrInvoiceForm {
                 this.handleCheckChange({ checked: value, system_id: sysId });
             }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, "Cancellation penalty"), this.getDateView(cancellationPenalty.date, null)), this.renderPriceColumn(item.amount, sysId)))));
     }
+    category(service) {
+        return this.svcCategories?.find(c => c.CODE_NAME === service?.category?.code);
+    }
+    categoryLabel(service) {
+        const category = this.category(service);
+        return category ? getEntryValue({ entry: category, language: 'en' }) : null;
+    }
+    description(service) {
+        const categoryLabel = this.categoryLabel(service);
+        if (categoryLabel) {
+            return (h("span", null, h("span", null, categoryLabel, service.description ? ':' : '', ' '), service.description));
+        }
+        return service.description;
+    }
+    /**
+     * Opens the existing day-use reservation's details drawer — same `showBookingPopup`/`EDIT_BOOKING`
+     * path `igl-booking-event-hover`'s "Edit booking" action uses, so `igloo-calendar.tsx`'s existing
+     * `editBookingItem` wiring picks it up without any new plumbing.
+     */
+    formatDayUseTime(time) {
+        const [hour, minute] = time.split(':');
+        return _formatTime(hour, minute);
+    }
     render() {
         if (this.isLoading) {
             return (h("div", { class: "drawer__loader-container" }, h("ir-spinner", null)));
@@ -809,7 +836,7 @@ export class IrInvoiceForm {
             return (h("div", { key: extra_service.system_id, class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "s", onchange: e => {
                     const value = e.target.checked;
                     this.handleCheckChange({ checked: value, system_id: sysId });
-                }, defaultChecked: isSelected, class: "ir-invoice__checkbox", checked: isSelected }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, extra_service.description), this.getDateView(extra_service.start_date, extra_service.end_date)), this.renderPriceColumn(extra_service.price, sysId)))));
+                }, defaultChecked: isSelected, class: "ir-invoice__checkbox", checked: isSelected }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, this.description(extra_service)), extra_service.category?.code === 'DUZ' ? (h("div", null, moment(new Date(extra_service.start_date)).format('MMM DD, YYYY'), ' ', extra_service.category.code === 'DUZ' && (h("span", null, this.formatDayUseTime(extra_service.from_time), " \u2013 ", this.formatDayUseTime(extra_service.to_time))))) : (this.getDateView(extra_service.start_date, extra_service.end_date))), this.renderPriceColumn(extra_service.price, sysId)))));
         }), this.renderCancellationPenalty()))))));
     }
     static get is() { return "ir-invoice-form"; }

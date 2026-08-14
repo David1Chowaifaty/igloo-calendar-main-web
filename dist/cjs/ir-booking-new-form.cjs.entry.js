@@ -1,0 +1,50 @@
+'use strict';
+
+var index = require('./index-CJa_TWt0.js');
+
+const irBookingNewFormCss = () => `.sc-ir-booking-new-form-h{display:block}`;
+
+const IrBookingNewForm = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+    }
+    ticket;
+    propertyid;
+    language;
+    bookingItem = null;
+    handleTriggerClicked() {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        this.bookingItem = {
+            FROM_DATE: undefined,
+            defaultDateRange: {
+                fromDate: new Date(),
+                fromDateStr: '',
+                toDate: tomorrow,
+                toDateStr: '',
+                dateDifference: 0,
+                message: '',
+            },
+            TO_DATE: undefined,
+            EMAIL: '',
+            event_type: 'PLUS_BOOKING',
+            ID: '',
+            NAME: '',
+            PHONE: '',
+            REFERENCE_TYPE: '',
+            TITLE: 'New Booking',
+        };
+    }
+    render() {
+        return (index.h(index.Host, { key: '2eeda1f38caf0f3830e80ecd41736e8acc000abc' }, index.h("div", { key: '05596367cadd27d53be0b407c2dbe2453dfe34b6', onClick: () => {
+                this.handleTriggerClicked();
+            } }, index.h("slot", { key: '04c96963709a8f51c8fb7229d858c65d648d918d', name: "trigger" }, index.h("ir-custom-button", { key: '4ac5432c83679835c1f0bce7bca449863830b6cb', appearance: "plain", variant: "brand" }, index.h("wa-icon", { key: 'c60aaa01b8d02217da86c4aadc7c95ae273ee311', name: "circle-plus", style: { fontSize: '1.2rem' } })))), index.h("ir-booking-editor-drawer", { key: 'eebde0978e4533594c05cfb11de0bafcfe27fa46', onBookingEditorClosed: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.bookingItem = null;
+            }, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, open: this.bookingItem !== null, language: this.language, propertyid: this.propertyid })));
+    }
+};
+IrBookingNewForm.style = irBookingNewFormCss();
+
+exports.ir_booking_new_form = IrBookingNewForm;
