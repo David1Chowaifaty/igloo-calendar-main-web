@@ -346,6 +346,8 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             code?: string;
         };
         pr_id?: number;
+        from_time?: string;
+        to_time?: string;
         charges?: {
             city_tax_amount?: number;
             city_tax_percent?: number;
@@ -414,6 +416,8 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             code?: string;
         };
         pr_id?: number;
+        from_time?: string;
+        to_time?: string;
         charges?: {
             city_tax_amount?: number;
             city_tax_percent?: number;
@@ -487,6 +491,8 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             code?: string;
         };
         pr_id?: number;
+        from_time?: string;
+        to_time?: string;
         charges?: {
             city_tax_amount?: number;
             city_tax_percent?: number;
@@ -559,6 +565,8 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             code?: string;
         };
         pr_id?: number;
+        from_time?: string;
+        to_time?: string;
         charges?: {
             city_tax_amount?: number;
             city_tax_percent?: number;
@@ -1360,10 +1368,10 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
             code?: string;
         };
         pr_id?: number;
-        net_amount?: number;
-        tax_amount?: number;
         from_time?: string;
         to_time?: string;
+        net_amount?: number;
+        tax_amount?: number;
         gross_amount?: number;
     }, {
         description?: string;
@@ -1375,10 +1383,10 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
             code?: string;
         };
         pr_id?: number;
-        net_amount?: number;
-        tax_amount?: number;
         from_time?: string;
         to_time?: string;
+        net_amount?: number;
+        tax_amount?: number;
         gross_amount?: number;
     }>;
 }, "strip", z.ZodTypeAny, {
@@ -1392,10 +1400,10 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
             code?: string;
         };
         pr_id?: number;
-        net_amount?: number;
-        tax_amount?: number;
         from_time?: string;
         to_time?: string;
+        net_amount?: number;
+        tax_amount?: number;
         gross_amount?: number;
     };
     language?: string;
@@ -1439,10 +1447,10 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
             code?: string;
         };
         pr_id?: number;
-        net_amount?: number;
-        tax_amount?: number;
         from_time?: string;
         to_time?: string;
+        net_amount?: number;
+        tax_amount?: number;
         gross_amount?: number;
     };
     language?: string;

@@ -192,6 +192,8 @@ export const ExtraServiceSchema = z.object({
         tax_nbr: z.string().nullable(),
         cl_post_timing: AgentBaseSchema.shape.cl_post_timing.nullable(),
     }).nullable(),
+    from_time: z.string().optional().nullable().default(null),
+    to_time: z.string().optional().nullable().default(null),
     charges: ChargesSchema.optional(),
 });
 export const ROOM_IN_OUT = {

@@ -25,5 +25,11 @@ export declare class IrExtraService {
     private get description();
     private get matchedTx();
     private get linkedUnitName();
+    /**
+     * Opens the existing day-use reservation's details drawer — same `showBookingPopup`/`EDIT_BOOKING`
+     * path `igl-booking-event-hover`'s "Edit booking" action uses, so `igloo-calendar.tsx`'s existing
+     * `editBookingItem` wiring picks it up without any new plumbing.
+     */
+    private formatDayUseTime;
     render(): any;
 }

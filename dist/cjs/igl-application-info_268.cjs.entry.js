@@ -1,17 +1,17 @@
 'use strict';
 
 var index = require('./index-CJa_TWt0.js');
-var booking_store = require('./booking.store-CxT-9eg4.js');
+var booking_store = require('./booking.store-D3Rq2pkA.js');
 var locales_store = require('./locales.store-BDFcUAoA.js');
 var calendarData = require('./calendar-data-DHUlGBMy.js');
-var utils = require('./utils-B1GQQmQv.js');
+var utils = require('./utils-CMyxvfxV.js');
 var types = require('./types-Cu7HWegB.js');
 var index$1 = require('./index-CLqkDPTC.js');
 var v4 = require('./v4-_2BfiRUa.js');
-var booking = require('./booking-C3cU-sTA.js');
+var booking = require('./booking-Ev3l16an.js');
 var moment$2 = require('./moment-CdViwxPQ.js');
 var axios = require('./axios-C-Phc0sj.js');
-var index$2 = require('./index-DK1x7r44.js');
+var index$2 = require('./index-Dnw3WkAf.js');
 var enums = require('./enums-CF2eqtU7.js');
 var functions = require('./functions-mvRDRfzA.js');
 var index$3 = require('./index-DbhEzZeW.js');
@@ -21,15 +21,15 @@ var types$1 = require('./types-DO5wSQfH.js');
 var room_service = require('./room.service-Bp6ZsInK.js');
 var momentWithLocales = require('./moment-with-locales-ry8PhUIR.js');
 var Token = require('./Token-BVmOLolB.js');
-var index$4 = require('./index-B4EFb4Kp.js');
-var arrivals_store = require('./arrivals.store-oTUx9RUO.js');
+var index$4 = require('./index-CPJP34lJ.js');
+var arrivals_store = require('./arrivals.store-CrdRhLUx.js');
 var payment_service = require('./payment.service-Ckz3z1d-.js');
 var index$5 = require('./index-BquCITYD.js');
-var booking_listing_service = require('./booking_listing.service-BgJWqzZm.js');
+var booking_listing_service = require('./booking_listing.service-sUfHsjzb.js');
 var debounce$1 = require('./debounce-Be8tSGtB.js');
 var useTable = require('./useTable-BN32DOaV.js');
-var departures_store = require('./departures.store-Cu-Ujnrh.js');
-var constants = require('./constants-C5tzYt5-.js');
+var departures_store = require('./departures.store-BEVdZH_s.js');
+var constants = require('./constants-JKNzLwdb.js');
 var index$6 = require('./index-C1Wwb0DY.js');
 require('./commonSchemas-hgXVqmtC.js');
 require('./types-BH9cEzZc.js');
@@ -31203,14 +31203,23 @@ const IrExtraService = class {
         }
         return null;
     }
+    /**
+     * Opens the existing day-use reservation's details drawer — same `showBookingPopup`/`EDIT_BOOKING`
+     * path `igl-booking-event-hover`'s "Edit booking" action uses, so `igloo-calendar.tsx`'s existing
+     * `editBookingItem` wiring picks it up without any new plumbing.
+     */
+    formatDayUseTime(time) {
+        const [hour, minute] = time.split(':');
+        return functions._formatTime(hour, minute);
+    }
     render() {
         const agentMode = functions.isAgentMode(this.agent);
         const tx = this.matchedTx;
         const statusTag = tx ? index.h("ir-cl-status-tag", { transaction: { _rowId: '', ...mapClTxToFolioRow(tx), balance: 0 }, size: "extra-small" }) : null;
         const unitName = this.linkedUnitName;
         const hasMeta = !!(this.service.start_date || unitName || statusTag);
-        return (index.h(index.Host, { key: '4a0982594124a004a16369b66b1a6d7c805f0560' }, index.h("div", { key: '74bf9fd7b93ef57719f1b5c8cfae35070f3ba0e9', class: "es-row" }, index.h("div", { key: 'a87c635142c441990f7aa2e6ec015415ff4bc424', class: "es-content" }, index.h("p", { key: 'df75098456b36071dc436349577a62080cc285c3', class: "es-description" }, this.description), hasMeta && (index.h("div", { key: 'e292c04c1c043a5b22a5e309385d7c106f7a0696', class: "es-meta" }, this.service.start_date &&
-            (this.service.end_date ? (index.h("ir-date-view", { from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (index.h("span", { class: "es-meta-date" }, moment$2.hooks(new Date(this.service.start_date)).format('MMM DD, YYYY')))), unitName && index.h("ir-unit-tag", { key: '7975fae2f97920d378d226ee1e13a0ea691ca252', unit: unitName }), statusTag))), index.h("div", { key: '214c3c07b30579ed35f68d5ad14680ccd898ebcb', class: "es-aside" }, !!this.service.price && this.service.price > 0 && (index.h("div", { key: 'fb3bc8ef5431b04aaa255574521bb97817a70837', class: "es-pricing" }, index.h("p", { key: 'a94c1deb5b7a51515a4476eed6dabebfb314698c', class: "es-price" }, utils.formatAmount(this.currencySymbol, this.service.price)), !!this.service.charges?.vat_percent && index.h("p", { key: '08bc952c2937d20bbc938e83e7db733809c03888', class: "es-vat" }, "incl. ", this.service.charges.vat_percent, "% VAT"))), index.h("wa-dropdown", { key: '0ff5f65ca993cfb738802cbbd6f28b82c7aef11c', "onwa-show": e => {
+        return (index.h(index.Host, { key: '474eba84158fb0c7703ecf44df81048ffcec418a' }, index.h("div", { key: '5a18400e031a597ab65bf4053b5c74a9c1f9e9a2', class: "es-row" }, index.h("div", { key: '36e15d15b545a111a5e89b325be849ee1216e0d6', class: "es-content" }, index.h("p", { key: '7ae5627caa2e9a915c26118e6f2529f28ff6a0f9', class: "es-description" }, this.description), hasMeta && (index.h("div", { key: '50ff61e660aa49531b54a8279c0505c432b832c1', class: "es-meta" }, this.service.start_date &&
+            (this.service.end_date && this.service?.category?.code !== 'DUZ' ? (index.h("ir-date-view", { from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (index.h("span", { class: "es-meta-date" }, moment$2.hooks(new Date(this.service.start_date)).format('MMM DD, YYYY'), ' ', this.service.category.code === 'DUZ' && (index.h("span", null, this.formatDayUseTime(this.service.from_time), " \u2013 ", this.formatDayUseTime(this.service.to_time)))))), unitName && index.h("ir-unit-tag", { key: '5c80681a11d9584b0b1aa7bf83da80c37be21545', unit: unitName }), statusTag))), index.h("div", { key: '5c14646b25a0ce4f33489bd7180348f49047dd9e', class: "es-aside" }, !!this.service.price && this.service.price > 0 && (index.h("div", { key: '46c860b060cee8b0f8badf1b84451d8d251830a2', class: "es-pricing" }, index.h("p", { key: '96d8f2d6b82aef2db135be10a5ef56530bbe5c55', class: "es-price" }, utils.formatAmount(this.currencySymbol, this.service.price)), !!this.service.charges?.vat_percent && index.h("p", { key: '13824e8315fb05d4c49f7b9d0fa9377ef2371d0b', class: "es-vat" }, "incl. ", this.service.charges.vat_percent, "% VAT"))), index.h("wa-dropdown", { key: '0daa8e38ce5cae7415eddc58b52c4da0b9aa565b', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-hide": e => {
@@ -31228,10 +31237,10 @@ const IrExtraService = class {
                         this.toggleDialogRef.openModal();
                         break;
                 }
-            } }, index.h("wa-button", { key: '3626a8ad150e157dbba4bf8e93510107f20b3bcc', class: "es-action-trigger", slot: "trigger", size: "s", appearance: "plain", id: `extra-service-actions-${this.service.system_id}`, variant: "neutral", "aria-label": "Service actions" }, index.h("wa-icon", { key: '0008859ab6563f430b0f6784a9a6192902cfe730', class: "es-action-trigger-icon", name: "ellipsis-vertical" })), index.h("wa-dropdown-item", { key: '73f7c602fdd84624287922a534c5ce7366e64b8d', value: "edit" }, "Edit"), agentMode && index.h("wa-dropdown-item", { key: 'deb439db20db78ed55c47d0414583d134b06010b', value: "toggle" }, "Re-assign to ", this.service.agent ? 'guest' : 'agent', " folio"), index.h("wa-dropdown-item", { key: 'd59303ae8f4158e3b0c4df683a3f68106ec7f3be', value: "delete", variant: "danger" }, "Delete")))), index.h("ir-assignment-toggle-dialog", { key: '81be6f78191f71914d74a9273ce2f866f088495f', ref: el => (this.toggleDialogRef = el), loading: this.isToggling, message: `Switch "${this.service.description}" to ${this.service.agent ? 'guest' : (this.booking?.agent?.name ?? 'agent')}?`, onConfirmToggle: () => this.toggleServiceAgent() }, index.h("span", { key: 'bc3953cb7f2559e259f8a738bc2c8b2864f93c9f', slot: "message" }, "Re-assign ", this.description, " ", index.h("br", { key: '73c12f8dc69e6c7be0a092cd0501fca73f6d231b' }), " from ", this.service.agent ? 'Agent' : 'Guest', " folio to ", index.h("b", { key: '6134dae66ddab76662b065a13fc8c12dd2e7a439' }, this.service.agent ? 'Guest' : 'Agent', " folio"), ".")), index.h("ir-dialog", { key: '792c9a1420d9c28fa17c5764d6c7588ae254197f', onIrDialogHide: e => {
+            } }, index.h("wa-button", { key: '137084b9e5453c7d6309cc096263c52692b34735', class: "es-action-trigger", slot: "trigger", size: "s", appearance: "plain", id: `extra-service-actions-${this.service.system_id}`, variant: "neutral", "aria-label": "Service actions" }, index.h("wa-icon", { key: '5ff35cab84f455934fd389fe641aa908f894b6ae', class: "es-action-trigger-icon", name: "ellipsis-vertical" })), index.h("wa-dropdown-item", { key: '4b11b24fc3e6bba5b9b833553fe930b828102d86', value: "edit" }, "Edit"), agentMode && index.h("wa-dropdown-item", { key: 'ac4bf93f7279d8ab858c9cb6987b030836df4bd1', value: "toggle" }, "Re-assign to ", this.service.agent ? 'guest' : 'agent', " folio"), index.h("wa-dropdown-item", { key: '6aa77740a83132c563d28ad7cc4328b475fcfcb3', value: "delete", variant: "danger" }, "Delete")))), index.h("ir-assignment-toggle-dialog", { key: 'cea9308eca1e89a35f3c2da659325a664bb5e257', ref: el => (this.toggleDialogRef = el), loading: this.isToggling, message: `Switch "${this.service.description}" to ${this.service.agent ? 'guest' : (this.booking?.agent?.name ?? 'agent')}?`, onConfirmToggle: () => this.toggleServiceAgent() }, index.h("span", { key: '2fbedade7a9917b8202ac1114bf208a0481f257d', slot: "message" }, "Re-assign ", this.description, " ", index.h("br", { key: '9e3f1d8ce3c33b1c4d7adb24529126ef8c945ddb' }), " from ", this.service.agent ? 'Agent' : 'Guest', " folio to ", index.h("b", { key: '1d18f370f33243f044322f8f9508e2052d15c778' }, this.service.agent ? 'Guest' : 'Agent', " folio"), ".")), index.h("ir-dialog", { key: 'aab0827ae33df152b0cfe9efd9c9fc30f414bfeb', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, label: "Alert", ref: el => (this.irModalRef = el), lightDismiss: false }, `${locales_store.locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales_store.locales.entries.Lcz_ThisService} ${locales_store.locales.entries.Lcz_FromThisBooking}`, index.h("div", { key: '61d97271a82f2cf0523041891e8b97789cc97f0d', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '92d1fcac1ccdaacf1167f121383eb73b33f64064', appearance: "filled", variant: "neutral", size: "m", "data-dialog": "close" }, locales_store.locales.entries.Lcz_Cancel), index.h("ir-custom-button", { key: '36e8ce7f3b8b939f7725bde9e71351351f4f49c2', onClickHandler: () => this.deleteService(), loading: irInterceptor_store.isRequestPending('/Do_Booking_Extra_Service'), variant: "danger", size: "m" }, locales_store.locales.entries.Lcz_Delete)))));
+            }, label: "Alert", ref: el => (this.irModalRef = el), lightDismiss: false }, `${locales_store.locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales_store.locales.entries.Lcz_ThisService} ${locales_store.locales.entries.Lcz_FromThisBooking}`, index.h("div", { key: '96cad134ebd8c4fc2fcedc2356185887f20be5d0', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '8f769cac2b1d6f95f812490a388e86087cb3b7e8', appearance: "filled", variant: "neutral", size: "m", "data-dialog": "close" }, locales_store.locales.entries.Lcz_Cancel), index.h("ir-custom-button", { key: '207199822b93f0be44116e085bc920422f1e2994', onClickHandler: () => this.deleteService(), loading: irInterceptor_store.isRequestPending('/Do_Booking_Extra_Service'), variant: "danger", size: "m" }, locales_store.locales.entries.Lcz_Delete)))));
     }
 };
 IrExtraService.style = irExtraServiceCss();

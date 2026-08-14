@@ -2,8 +2,8 @@
 
 var index = require('./index-CJa_TWt0.js');
 var moment = require('./moment-CdViwxPQ.js');
-var booking = require('./booking-C3cU-sTA.js');
-var utils = require('./utils-B1GQQmQv.js');
+var booking = require('./booking-Ev3l16an.js');
+var utils = require('./utils-CMyxvfxV.js');
 require('./axios-C-Phc0sj.js');
 require('./locales.store-BDFcUAoA.js');
 require('./index-DbhEzZeW.js');

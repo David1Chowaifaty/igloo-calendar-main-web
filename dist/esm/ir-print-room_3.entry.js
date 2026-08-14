@@ -1,5 +1,5 @@
 import { r as registerInstance, h, F as Fragment } from './index-CaNXuIlM.js';
-import { f as formatAmount } from './utils-D3iMLGYK.js';
+import { f as formatAmount } from './utils-DiE2GsBk.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { _ as _formatTime } from './functions-81yL-Vms.js';
 import './index-DeW5X45W.js';

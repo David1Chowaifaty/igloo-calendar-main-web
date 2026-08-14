@@ -519,6 +519,8 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         };
         pr_id?: number;
     }>>;
+    from_time: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
+    to_time: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
     charges: z.ZodOptional<z.ZodObject<{
         city_tax_amount: z.ZodNumber;
         city_tax_percent: z.ZodNumber;
@@ -607,6 +609,8 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         code?: string;
     };
     pr_id?: number;
+    from_time?: string;
+    to_time?: string;
     charges?: {
         city_tax_amount?: number;
         city_tax_percent?: number;
@@ -675,6 +679,8 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         code?: string;
     };
     pr_id?: number;
+    from_time?: string;
+    to_time?: string;
     charges?: {
         city_tax_amount?: number;
         city_tax_percent?: number;
