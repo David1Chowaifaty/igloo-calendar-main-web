@@ -159,6 +159,7 @@ export type LocalizationStrings = {
     'Lcz_Date': string;
     'Lcz_Dates': string;
     'Lcz_DatesOn': string;
+    'Lcz_DayUseBookingBetweenSelectedDates': string;
     'Lcz_Delete': string;
     'Lcz_Description': string;
     'Lcz_Designation': string;

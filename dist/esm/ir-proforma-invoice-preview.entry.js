@@ -1,7 +1,7 @@
 import { r as registerInstance, h, F as Fragment, H as Host } from './index-CaNXuIlM.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { c as calculateDaysBetweenDates } from './booking-lSEMkxhN.js';
-import { i as formatAmount } from './utils-EPM45dJU.js';
+import { c as calculateDaysBetweenDates } from './booking-CBcWbGM0.js';
+import { f as formatAmount } from './utils-BuVomnMs.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './locales.store-VrM8jHuM.js';

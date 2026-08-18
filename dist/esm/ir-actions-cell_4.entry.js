@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CaNXuIlM.js';
 import { c as calendar_data } from './calendar-data-C4sU6rT3.js';
-import { i as formatAmount } from './utils-EPM45dJU.js';
+import { f as formatAmount } from './utils-BuVomnMs.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import './index-Cn49IR5D.js';
 import './index-DeW5X45W.js';
@@ -95,7 +95,7 @@ const IrBalanceCell = class {
         return value !== null && value !== undefined && value !== 0;
     }
     render() {
-        return (h(Host, { key: 'e5c28ce15ce5f30c50428c654250692347a6a2a1' }, this.label && h("p", { key: 'c1c21298a3fabe40d1acb9ed7de63b244edafb4d', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: 'af8ebbd3c9f1552af6ef0258ac3b0feaa9bc2506', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: 'c9318740020c864a1482747ba45bf64f30d33191' }, this.label && h("p", { key: '23f0a42ead490fa72052903b2ee2a45b7a6b40c0', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '4e0bf42258f618ab46a4488e63aef820cca72804', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.hasAmount(this.financial.cancelation_penality_as_if_today) &&
                 this.hasAmount(this.financial.due_amount) && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -173,7 +173,7 @@ const IrGuestNameCell = class {
     }
     name;
     render() {
-        return (h(Host, { key: 'ed2634c583f3dbca5c35935259803047b35d2d8c' }, this.name.first_name, " ", this.name.last_name));
+        return (h(Host, { key: 'c9642ac45c3c90f2d093dd2319a63184905c5857' }, this.name.first_name, " ", this.name.last_name));
     }
 };
 IrGuestNameCell.style = irGuestNameCellCss();
@@ -187,7 +187,7 @@ const IrUnitCell = class {
     room;
     showDeparture = false;
     render() {
-        return (h(Host, { key: '406dc38bda433f80bd28dfd5acf6fba6d4bc95b9' }, h("p", { key: 'aed5db9993a01ae32b29ead49ac9fae83c762120' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: '128e2d0830ff1a0a45491cc18ef0ff99d6315b5a', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && h("span", { key: '746c12916247325ef4c5a7f5f99ec7b626bf6e30' }, this.room?.departure_time?.description)));
+        return (h(Host, { key: 'f83a1ae0b99f2348305bf87817aa1c51af2b0058' }, h("p", { key: '389519d338ddcbd3b00ae0596247ade34871bae6' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: '73f7ed40f03cdbaf1dfe39953fa5b9b6ff6d0208', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && h("span", { key: '69827ed5a2024686eeccaa884a6b367e7af023f5' }, this.room?.departure_time?.description)));
     }
 };
 IrUnitCell.style = irUnitCellCss();

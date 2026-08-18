@@ -112,5 +112,6 @@ export declare class IglCalBody {
     private isCellDisabled;
     private updateDayUseBookingKeys;
     private getDayUseBooking;
+    private hasDayUseBookingBetween;
     render(): any;
 }

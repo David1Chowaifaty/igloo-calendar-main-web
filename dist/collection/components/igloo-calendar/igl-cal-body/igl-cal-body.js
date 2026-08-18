@@ -5,6 +5,7 @@ import calendar_dates from "../../../stores/calendar-dates.store";
 import locales from "../../../stores/locales.store";
 import calendar_data from "../../../stores/calendar-data";
 import { _formatTime } from "../../ir-booking-details/functions";
+import { showToast } from "../../../utils/utils";
 export class IglCalBody {
     isScrollViewDragging;
     propertyId;
@@ -257,6 +258,16 @@ export class IglCalBody {
                 //   this.renderElement();
                 //   return;
                 // }
+                if (this.hasDayUseBookingBetween(roomId, this.selectedRooms[Object.keys(this.selectedRooms)[0]].value, selectedDay.value)) {
+                    this.removeNewEvent();
+                    this.selectedRooms = {};
+                    this.renderElement();
+                    showToast({
+                        type: 'error',
+                        title: locales.entries.Lcz_DayUseBookingBetweenSelectedDates ?? 'Selection cancelled. A day-use booking already exists within the selected dates.',
+                    });
+                    return;
+                }
                 this.selectedRooms[refKey] = { ...selectedDay, roomId };
                 this.addNewEvent(roomCategory);
                 this.selectedRooms = {};
@@ -532,14 +543,27 @@ export class IglCalBody {
     getDayUseBooking(roomId, day) {
         return this.dayUseBookingsByKey.get(this.getCellKey(roomId, day));
     }
+    hasDayUseBookingBetween(roomId, startValue, endValue) {
+        const start = moment(startValue, 'YYYY-MM-DD');
+        const end = moment(endValue, 'YYYY-MM-DD');
+        const [rangeStart, rangeEnd] = start.isBefore(end) ? [start, end] : [end, start];
+        const cursor = rangeStart.clone().add(1, 'days');
+        while (cursor.isBefore(rangeEnd, 'day')) {
+            if (this.getDayUseBooking(roomId, cursor.format('YYYY-MM-DD'))) {
+                return true;
+            }
+            cursor.add(1, 'days');
+        }
+        return false;
+    }
     render() {
-        return (h(Host, { key: 'd6693f7665f3394d299a0548affd460a2b9ebbba' }, h("div", { key: '504d9b2f23681e0ffbe745277982ce07f5f6e8d8', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '0d5004567c8dfb243afb90b9745e83944f1b65bf', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: '4d7d00854425b7b99108d0b7baae6a9d49396c4d' }, h("div", { key: 'e458380e40867f5fd6e172a548f167f04be55273', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'd35909e0fe9fa08f582c0c339048df31b1026524', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: 'd1459fe7f499a95cc54e99571b0b42c9bd2f941e', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: '1de7aa0362a8c31381a0dd60d5c44b287704abb4', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '38516ff882a7536a39122412ee5508d46ecd0f77', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '1f7a4c87808c19a94902f7c7d1dc53f6cc820bb9', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issues = null;

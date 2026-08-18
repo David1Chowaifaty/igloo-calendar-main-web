@@ -54,7 +54,7 @@ const IrHoldTransactionDialog = class {
     }
     render() {
         const isHeld = this.row?.status?.label === 'Held';
-        return (index.h(index.Host, { key: 'e4feda5ab7019ca81b824628eba79a41a49103ce' }, index.h("ir-dialog", { key: '96eff1affc1e6fb957f6c519d4699e8db55f9220', label: isHeld ? 'Revert Transaction' : 'Hold Transaction', ref: el => (this.dialogRef = el) }, index.h("div", { key: 'c7c825452a514c011e61fd3068520ca8430b62f4', class: "hold-dialog__body" }, isHeld ? (index.h("p", null, "Revert this transaction back to ", index.h("strong", null, "Unbilled"), " status? It will re-enter the billing queue.")) : (index.h("p", null, "Place this transaction on ", index.h("strong", null, "Hold"), "? It will be excluded from invoicing until released."))), index.h("div", { key: 'bda2380f0c320ca20ba532d466aadbb60c6161a7', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: 'b4c9a43837a7fc0d00cc53e39d9d2c882f4e04cb', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), index.h("ir-custom-button", { key: 'ec9c8607ea3d6580444bb6253bb7c221d92cb511', size: "m", loading: this.isLoading, onClickHandler: () => this.handleConfirm(), appearance: "accent", variant: "brand" }, "Confirm")))));
+        return (index.h(index.Host, { key: 'eacbe604e188a5a96d4c7169aae8c54e385f8f1d' }, index.h("ir-dialog", { key: '8228c89475bc5a429aa1006117c496c65bbba8f4', label: isHeld ? 'Revert Transaction' : 'Hold Transaction', ref: el => (this.dialogRef = el) }, index.h("div", { key: '5ffab4ac25ec5e356866c6374fd6f0863a6ef291', class: "hold-dialog__body" }, isHeld ? (index.h("p", null, "Revert this transaction back to ", index.h("strong", null, "Unbilled"), " status? It will re-enter the billing queue.")) : (index.h("p", null, "Place this transaction on ", index.h("strong", null, "Hold"), "? It will be excluded from invoicing until released."))), index.h("div", { key: 'f2258200e790c1e192bedd969d6774a119285f55', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '2b54369de9e8dbde79056d547e5a201f00a70f60', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), index.h("ir-custom-button", { key: '30bbf6785b3be9163a2d91c6a5d03dd4e4a1d948', size: "m", loading: this.isLoading, onClickHandler: () => this.handleConfirm(), appearance: "accent", variant: "brand" }, "Confirm")))));
     }
 };
 IrHoldTransactionDialog.style = irHoldTransactionDialogCss();
@@ -125,7 +125,7 @@ const IrInputCell = class {
         this.slotState = newState;
     }
     render() {
-        return (index.h("div", { key: 'bcadc18343b72c1548a36c9c61b3ad2ea99ac94b', onDblClick: () => {
+        return (index.h("div", { key: '059c30cb7433dc04d9bab8afa68ac1098d0d15f7', onDblClick: () => {
                 if (this.disabled) {
                     return;
                 }

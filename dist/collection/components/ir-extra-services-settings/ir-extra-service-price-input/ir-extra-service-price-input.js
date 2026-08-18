@@ -24,16 +24,16 @@ export class IrExtraServicePriceInput {
         this.price = { ...(this.price || {}), ...params };
     }
     render() {
-        return (h(Host, { key: 'bfb670759410f0efd9d93c3c332054fa6c6891c9', class: "ir-extra-service-price-input" }, h("ir-validator", { key: 'e22bfb2d9dee69809b1ebba91b0ec3b5339bb7a1', form: "extra-services-settings__form", class: "ir-extra-service-price-input__price-wrapper", value: this.price?.value ?? null, schema: z
+        return (h(Host, { key: 'fbcb240ba21f7927e69da918b866fa86dd447391', class: "ir-extra-service-price-input" }, h("ir-validator", { key: 'b08fa19e38a8791f8ed6f7c10d617a2e4eb5af53', form: "extra-services-settings__form", class: "ir-extra-service-price-input__price-wrapper", value: this.price?.value ?? null, schema: z
                 .number()
                 .nullable()
-                .refine(value => value === null || value >= 0.01, { message: 'Price must be greater than 0' }) }, h("ir-input", { key: '3aa2535562bc48600631faaecb216fb4aefe2159', value: this.price?.value?.toString() ?? '', mask: 'price', onChange: () => {
+                .refine(value => value === null || value >= 0.01, { message: 'Price must be greater than 0' }) }, h("ir-input", { key: '99a509047e32fc41ea8235bfb1c897f0cbc28691', value: this.price?.value?.toString() ?? '', mask: 'price', onChange: () => {
                 this.priceChange.emit({ value: this.price?.value ?? this.chargeRule?.value ?? null, mode: this.price?.mode ?? this.chargeRule?.mode ?? '' });
             }, part: "input", label: this.label, class: "ir-extra-service-price-input__price", size: "s", placeholder: this.placeholder, "onText-change": e => {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updatePriceField({ value });
-            } }, h("span", { key: 'e184a39c41648ba1de31941f9df68fb91e944e82', slot: "start", class: "ir-extra-service-price-input__price-symbol" }, "$")))));
+            } }, h("span", { key: '796ea68b61ccf7ae123ec86745159bc95eedaf9f', slot: "start", class: "ir-extra-service-price-input__price-symbol" }, "$")))));
     }
     static get is() { return "ir-extra-service-price-input"; }
     static get encapsulation() { return "shadow"; }
