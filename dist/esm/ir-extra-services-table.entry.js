@@ -1,6 +1,6 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-CaNXuIlM.js';
-import { E as ExtraServiceSection, A as AccommodationExtraCode, c as createBlankAddon } from './types-DuVpNPN2.js';
-import { V as VatIncludedCodes } from './enums-DjSFmz1B.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-Kqbk9HdW.js';
+import { E as ExtraServiceSection, A as AccommodationExtraCode, c as createBlankAddon } from './types-ZPMvSxvD.js';
+import { V as VatIncludedCodes } from './enums--hu2_M6P.js';
 import './index-DeW5X45W.js';
 
 const irExtraServicesTableCss = () => `.sc-ir-extra-services-table-h{display:block}.extra-services-table__action.sc-ir-extra-services-table{display:flex;min-width:60px;justify-content:flex-end}.extra-services-table__muted.sc-ir-extra-services-table{font-size:0.8125rem;color:var(--wa-color-text-quiet, var(--wa-color-neutral-on-quiet));white-space:normal !important}`;

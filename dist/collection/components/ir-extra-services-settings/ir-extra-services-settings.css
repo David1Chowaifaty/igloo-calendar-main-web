@@ -107,13 +107,11 @@
   .extra-services-grid__cell:empty {
     display: block;
   }
-
+  /* ir-extra-service-price-input::part(input) {
+    width: 22ch;
+  } */
   ir-extra-service-price-input,
   .extra-services-grid__cell {
-    width: fit-content;
-  }
-
-  ir-extra-service-price-input::part(input) {
-    width: 22ch;
+    width: 100%;
   }
 }

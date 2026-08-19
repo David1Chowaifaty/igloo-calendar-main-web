@@ -1,4 +1,7 @@
 import { ChargeRule, TaxesSetupEntries } from "../ir-tax-service-categories/types";
+/** Valid `BABY_COT_PRICING_MODEL` values — the baby cot's default price is either a flat per-stay charge or a per-night charge. */
+declare const BABY_COT_PRICING_MODELS: readonly ["Stay", "Night"];
+type BabyCotPricingModel = (typeof BABY_COT_PRICING_MODELS)[number];
 export declare class IrExtraServicesSettings {
     ticket: string;
     p: string;
@@ -10,6 +13,7 @@ export declare class IrExtraServicesSettings {
     priceCategoryRules: Map<string, ChargeRule>;
     autoValidate: boolean;
     dayUseBlockNight: boolean;
+    babyCotPricingModel: BabyCotPricingModel;
     private tokenService;
     private bookingService;
     private propertyService;
@@ -33,6 +37,8 @@ export declare class IrExtraServicesSettings {
     private formatAccChargeRule;
     /** Builds the initial price rules map from `extra_info`'s `SVC_DEFAULT_PRICE_<code>` entries. Mode is always Inclusive — see `vatSummary`. */
     private buildInitialRules;
+    /** Narrows the persisted `BABY_COT_PRICING_MODEL` string to a known option, defaulting to `'Stay'` if unset or unrecognized. */
+    private resolveBabyCotPricingModel;
     private handlePriceRuleChange;
     /** Assembles the API payload from the current price rules state. Every category shares the property's VAT rate and is Inclusive. */
     private buildPayload;
@@ -40,3 +46,4 @@ export declare class IrExtraServicesSettings {
     private handleSubmit;
     render(): any;
 }
+export {};

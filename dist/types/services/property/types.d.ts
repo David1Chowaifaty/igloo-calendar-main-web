@@ -231,7 +231,8 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
     CITY_TAX_INCLUDED_CODE: z.ZodString;
     CITY_TAX_PCT: z.ZodNumber;
     SERVICE_CHARGE_INCLUDED_CODE: z.ZodString;
-    SERVICE_CHARGE_PCT: z.ZodNumber;
+    BABY_COT_PRICING_MODEL: z.ZodString;
+    SERVICE_CHARGE_PCT: z.ZodOptional<z.ZodNumber>;
     tax_categories: z.ZodArray<z.ZodObject<{
         category: z.ZodObject<{
             code: z.ZodString;
@@ -286,6 +287,7 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
     DAY_USE_BLOCK?: "0" | "1";
+    BABY_COT_PRICING_MODEL?: string;
     VAT_INCLUDED_CODE?: string;
     VAT_PC?: number;
     CITY_TAX_INCLUDED_CODE?: string;
@@ -309,6 +311,7 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
 }, {
     property_id?: number;
     DAY_USE_BLOCK?: "0" | "1";
+    BABY_COT_PRICING_MODEL?: string;
     VAT_INCLUDED_CODE?: string;
     VAT_PC?: number;
     CITY_TAX_INCLUDED_CODE?: string;

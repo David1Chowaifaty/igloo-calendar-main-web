@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-CJa_TWt0.js');
+var index = require('./index-DgHWBwDV.js');
 var _commonjsHelpers = require('./_commonjsHelpers-BJu3ubxk.js');
 
 /** Detect free variable `global` from Node.js. */

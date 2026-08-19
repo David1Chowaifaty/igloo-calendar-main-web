@@ -153,8 +153,17 @@
      against content inside this same cell. It becomes meaningless against the neighboring
      cell's z-index: auto, which then wins purely by being later in DOM order — no z-index value
      on the badge could ever fix that. color-mix produces the same translucent look without it. */
-  background-color: var(--day-use-color, var(--day-use-color-past));
-  background-color: color-mix(in srgb, var(--day-use-color, var(--day-use-color-past)) 60%, transparent);
+  background-color: var(--day-use-color, var(--day-use-color-past)) !important;
+  background-color: color-mix(in srgb, var(--day-use-color, var(--day-use-color-past)) 60%, transparent) !important;
+}
+.dayUseBooked:hover {
+  /* Tint via color-mix, not the element's own `opacity` — opacity < 1 creates a new stacking
+     context on this cell, which traps the badge's z-index (a descendant) so it only ranks
+     against content inside this same cell. It becomes meaningless against the neighboring
+     cell's z-index: auto, which then wins purely by being later in DOM order — no z-index value
+     on the badge could ever fix that. color-mix produces the same translucent look without it. */
+  background-color: var(--day-use-color, var(--day-use-color-past)) !important;
+  background-color: color-mix(in srgb, var(--day-use-color, var(--day-use-color-past)) 80%, transparent) !important;
 }
 
 /* Not yet started (today before its start time, or a future date). */

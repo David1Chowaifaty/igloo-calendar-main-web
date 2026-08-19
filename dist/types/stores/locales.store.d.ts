@@ -106,11 +106,13 @@ export type LocalizationStrings = {
     'Lcz_Blockdates': string;
     'Lcz_BlockDatesFor': string;
     'Lcz_BlockedTill': string;
+    'Lcz_BlockedDatesBetweenSelectedDates': string;
     'Lcz_Book': string;
     'Lcz_BookAndChekcIn': string;
     'Lcz_BookedBy': string;
     'Lcz_BookedOn': string;
     'Lcz_Booking': string;
+    'Lcz_BookingBetweenSelectedDates': string;
     'Lcz_BookingCancellation': string;
     'Lcz_BookingCode': string;
     'Lcz_BookingGuarantee': string;
@@ -307,6 +309,7 @@ export type LocalizationStrings = {
     'Lcz_Unassigned': string;
     'Lcz_UnassignedUnits': string;
     'Lcz_UnassignedUnitsTooltip': string;
+    'Lcz_UnavailableDatesBetweenSelectedDates': string;
     'Lcz_Unit': string;
     'Lcz_Update': string;
     'Lcz_UpdateStatus': string;

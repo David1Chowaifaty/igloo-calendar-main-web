@@ -5,7 +5,7 @@ import calendar_dates from "../../../stores/calendar-dates.store";
 import locales from "../../../stores/locales.store";
 import calendar_data from "../../../stores/calendar-data";
 import { _formatTime } from "../../ir-booking-details/functions";
-import { showToast } from "../../../utils/utils";
+import { isBlockUnit, showToast } from "../../../utils/utils";
 export class IglCalBody {
     isScrollViewDragging;
     propertyId;
@@ -29,6 +29,7 @@ export class IglCalBody {
     newEvent;
     currentDate = new Date();
     bookingMap = new Map();
+    roomEventsIndex = new Map();
     interactiveTitle = [];
     dayRateMap = new Map();
     roomsWithTodayCheckinStatus = new Set();
@@ -39,6 +40,7 @@ export class IglCalBody {
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
         this.bookingMap = this.getBookingMap(this.getBookingData());
+        this.updateRoomEventsIndex();
         this.updateTodayCheckinStatus();
         calendar_dates.days.forEach(day => {
             this.dayRateMap.set(day.day, day.rate);
@@ -54,6 +56,7 @@ export class IglCalBody {
     }
     handleCalendarDataChange() {
         this.bookingMap = this.getBookingMap(this.getBookingData());
+        this.updateRoomEventsIndex();
         this.updateTodayCheckinStatus();
         this.updateDisabledCellsCache();
     }
@@ -223,6 +226,13 @@ export class IglCalBody {
         this.calendarData.bookingEvents = this.calendarData.bookingEvents.filter(events => events.ID !== 'NEW_TEMP_EVENT');
         this.newEvent = null;
     }
+    /** Cancels the in-progress range selection and surfaces why, shared by every conflict check in `clickCell`. */
+    cancelSelectionWithConflictToast(title) {
+        this.removeNewEvent();
+        this.selectedRooms = {};
+        this.renderElement();
+        showToast({ type: 'error', title });
+    }
     clickCell(roomId, selectedDay, roomCategory) {
         if (!this.isScrollViewDragging && selectedDay.currentDate >= this.currentDate.getTime()) {
             let refKey = this.getSelectedCellRefName(roomId, selectedDay);
@@ -240,32 +250,23 @@ export class IglCalBody {
                 this.renderElement();
             }
             else {
-                // const keys = Object.keys(this.selectedRooms);
-                // const startDate = moment(this.selectedRooms[keys[0]].value, 'YYYY-MM-DD');
-                // const endDate = moment(selectedDay.value, 'YYYY-MM-DD');
-                // let cursor = startDate.clone().add(1, 'days');
-                // let disabledCount = 0;
-                // while (cursor.isBefore(endDate, 'day')) {
-                //   const dateKey = cursor.format('YYYY-MM-DD');
-                //   if (this.isCellDisabled(roomId, dateKey)) {
-                //     disabledCount++;
-                //   }
-                //   cursor.add(1, 'days');
-                // }
-                // if (disabledCount >= 1) {
-                //   this.selectedRooms = {};
-                //   this.fromRoomId = roomId;
-                //   this.renderElement();
-                //   return;
-                // }
-                if (this.hasDayUseBookingBetween(roomId, this.selectedRooms[Object.keys(this.selectedRooms)[0]].value, selectedDay.value)) {
-                    this.removeNewEvent();
-                    this.selectedRooms = {};
-                    this.renderElement();
-                    showToast({
-                        type: 'error',
-                        title: locales.entries.Lcz_DayUseBookingBetweenSelectedDates ?? 'Selection cancelled. A day-use booking already exists within the selected dates.',
-                    });
+                const startValue = this.selectedRooms[Object.keys(this.selectedRooms)[0]].value;
+                const endValue = selectedDay.value;
+                // Cheapest checks first (indexed O(bookings-in-room)), day-loop checks last — each short-circuits the selection.
+                if (this.hasBookingConflictBetween(roomId, startValue, endValue)) {
+                    this.cancelSelectionWithConflictToast(locales.entries.Lcz_BookingBetweenSelectedDates ?? 'Selection cancelled. A booking already exists within the selected dates.');
+                    return;
+                }
+                if (this.hasBlockedConflictBetween(roomId, startValue, endValue)) {
+                    this.cancelSelectionWithConflictToast(locales.entries.Lcz_BlockedDatesBetweenSelectedDates ?? 'Selection cancelled. These dates are blocked.');
+                    return;
+                }
+                if (this.hasUnavailableCellBetween(roomId, startValue, endValue)) {
+                    this.cancelSelectionWithConflictToast(locales.entries.Lcz_UnavailableDatesBetweenSelectedDates ?? 'Selection cancelled. These dates are not available.');
+                    return;
+                }
+                if (this.hasDayUseBookingBetween(roomId, startValue, endValue)) {
+                    this.cancelSelectionWithConflictToast(locales.entries.Lcz_DayUseBookingBetweenSelectedDates ?? 'Selection cancelled. A day-use booking already exists within the selected dates.');
                     return;
                 }
                 this.selectedRooms[refKey] = { ...selectedDay, roomId };
@@ -302,6 +303,35 @@ export class IglCalBody {
             }
         }
         return bookingMap;
+    }
+    /**
+     * Indexes every booking/block event in `calendarData.bookingEvents` by physical room id, with
+     * FROM_DATE/TO_DATE pre-parsed to day-level timestamps and block-vs-booking pre-classified via
+     * `isBlockUnit`. Rebuilt whenever `calendarData` changes so the range-conflict checks used during
+     * cell selection (`hasBookingConflictBetween`/`hasBlockedConflictBetween`) are O(events-in-that-room)
+     * numeric comparisons instead of scanning/parsing the full bookings array on every click.
+     */
+    updateRoomEventsIndex() {
+        const index = new Map();
+        for (const event of this.getBookingData()) {
+            const roomId = Number(event.PR_ID);
+            if (Number.isNaN(roomId) || !event.FROM_DATE || !event.TO_DATE) {
+                continue;
+            }
+            const entry = {
+                start: moment(event.FROM_DATE, 'YYYY-MM-DD').startOf('day').valueOf(),
+                end: moment(event.TO_DATE, 'YYYY-MM-DD').startOf('day').valueOf(),
+                isBlock: isBlockUnit(event.STATUS_CODE),
+            };
+            const bucket = index.get(roomId);
+            if (bucket) {
+                bucket.push(entry);
+            }
+            else {
+                index.set(roomId, [entry]);
+            }
+        }
+        this.roomEventsIndex = index;
     }
     getRoomtypeDayInventoryCells(addClass, isCategory = false, index) {
         return calendar_dates.days.map(dayInfo => {
@@ -543,6 +573,11 @@ export class IglCalBody {
     getDayUseBooking(roomId, day) {
         return this.dayUseBookingsByKey.get(this.getCellKey(roomId, day));
     }
+    /**
+     * True if a day-use booking for `roomId` falls strictly between `startValue` and `endValue`
+     * (both `'YYYY-MM-DD'`, either order). Endpoint-exclusive — a day-use booking on either clicked
+     * date itself doesn't block the selection.
+     */
     hasDayUseBookingBetween(roomId, startValue, endValue) {
         const start = moment(startValue, 'YYYY-MM-DD');
         const end = moment(endValue, 'YYYY-MM-DD');
@@ -556,14 +591,72 @@ export class IglCalBody {
         }
         return false;
     }
+    /**
+     * Shared O(events-in-room) endpoint-exclusive range-overlap test behind `hasBookingConflictBetween`
+     * and `hasBlockedConflictBetween`. Two ranges overlap (endpoints excluded) when
+     * `eventStart < rangeEnd && eventEnd > rangeStart` — a single numeric comparison per event, no
+     * per-day iteration, using the pre-parsed timestamps cached in `roomEventsIndex`.
+     */
+    hasRoomEventConflictBetween(roomId, startValue, endValue, isBlock) {
+        const events = this.roomEventsIndex.get(roomId);
+        if (!events || events.length === 0) {
+            return false;
+        }
+        const a = moment(startValue, 'YYYY-MM-DD').startOf('day').valueOf();
+        const b = moment(endValue, 'YYYY-MM-DD').startOf('day').valueOf();
+        const rangeStart = Math.min(a, b);
+        const rangeEnd = Math.max(a, b);
+        for (const event of events) {
+            if (event.isBlock === isBlock && event.start < rangeEnd && event.end > rangeStart) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * True if an existing (non-block) booking for `roomId` overlaps the open interval between
+     * `startValue` and `endValue` — i.e. a real booking's stay exists strictly between the two
+     * clicked dates. Endpoint-exclusive: a booking checking out or in exactly on a clicked date
+     * does not count (standard checkout-day/checkin-day overlap semantics).
+     */
+    hasBookingConflictBetween(roomId, startValue, endValue) {
+        return this.hasRoomEventConflictBetween(roomId, startValue, endValue, false);
+    }
+    /**
+     * True if a blocked-dates entry for `roomId` overlaps the open interval between `startValue`
+     * and `endValue`. Same endpoint-exclusive semantics and cached-index lookup as
+     * `hasBookingConflictBetween`, filtered to block entries instead of real bookings.
+     */
+    hasBlockedConflictBetween(roomId, startValue, endValue) {
+        return this.hasRoomEventConflictBetween(roomId, startValue, endValue, true);
+    }
+    /**
+     * True if any date strictly between `startValue` and `endValue` is disabled for `roomId` in
+     * `calendar_dates.disabled_cells` (stop-sale / zero availability). Endpoint-exclusive, same loop
+     * shape as `hasDayUseBookingBetween`; reuses the existing `isCellDisabled` cache so no new
+     * per-day data structure is needed.
+     */
+    hasUnavailableCellBetween(roomId, startValue, endValue) {
+        const start = moment(startValue, 'YYYY-MM-DD');
+        const end = moment(endValue, 'YYYY-MM-DD');
+        const [rangeStart, rangeEnd] = start.isBefore(end) ? [start, end] : [end, start];
+        const cursor = rangeStart.clone().add(1, 'days');
+        while (cursor.isBefore(rangeEnd, 'day')) {
+            if (this.isCellDisabled(roomId, cursor.format('YYYY-MM-DD'))) {
+                return true;
+            }
+            cursor.add(1, 'days');
+        }
+        return false;
+    }
     render() {
-        return (h(Host, { key: '4d7d00854425b7b99108d0b7baae6a9d49396c4d' }, h("div", { key: 'e458380e40867f5fd6e172a548f167f04be55273', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'd35909e0fe9fa08f582c0c339048df31b1026524', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: '98bea917be7debf3e555277567de1b960713c94a' }, h("div", { key: '6ea818f4a4645df76117548d9966088ec6543d54', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'faec85de154ab9e5b0e7da589039d33ef9f26c18', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: '1de7aa0362a8c31381a0dd60d5c44b287704abb4', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: '6db740d25dd7fb5a7f19f6b98ceeb15c90b77894', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '1f7a4c87808c19a94902f7c7d1dc53f6cc820bb9', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: 'a17f73ce7d74a85dde39c7dc9fe00ce7dffa2491', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issues = null;

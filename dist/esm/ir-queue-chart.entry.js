@@ -1,4 +1,4 @@
-import { r as registerInstance, d as getElement, h, H as Host } from './index-CaNXuIlM.js';
+import { r as registerInstance, d as getElement, h, H as Host } from './index-Kqbk9HdW.js';
 import { C as Chart, r as registerables } from './chart-3KrsuFTS.js';
 
 const irQueueChartCss = () => `:host{display:block}`;

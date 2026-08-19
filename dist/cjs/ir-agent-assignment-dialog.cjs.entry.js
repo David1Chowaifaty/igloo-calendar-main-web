@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-CJa_TWt0.js');
+var index = require('./index-DgHWBwDV.js');
 
 const irAgentAssignmentDialogCss = () => `.sc-ir-agent-assignment-dialog-h{display:block}`;
 

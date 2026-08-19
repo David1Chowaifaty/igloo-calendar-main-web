@@ -61,7 +61,8 @@ export const HandleExposedPropertyTaxCategoriesParamsSchema = z.object({
     CITY_TAX_INCLUDED_CODE: z.string(),
     CITY_TAX_PCT: z.number(),
     SERVICE_CHARGE_INCLUDED_CODE: z.string(),
-    SERVICE_CHARGE_PCT: z.number(),
+    BABY_COT_PRICING_MODEL: z.string(),
+    SERVICE_CHARGE_PCT: z.number().optional(),
     tax_categories: z.array(TaxCategorySchema),
     TAXATION_STRATEGY: z.string(),
     DAY_USE_BLOCK: z

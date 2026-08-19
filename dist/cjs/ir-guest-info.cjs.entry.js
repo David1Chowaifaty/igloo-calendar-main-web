@@ -1,19 +1,19 @@
 'use strict';
 
-var index = require('./index-CJa_TWt0.js');
-var booking_store = require('./booking.store-BOlYRnXi.js');
-var room_service = require('./room.service-C7BT7pd1.js');
-var locales_store = require('./locales.store-BDFcUAoA.js');
+var index = require('./index-DgHWBwDV.js');
+var booking_service = require('./booking.service-BLomRFMF.js');
+var room_service = require('./room.service-DAtFSjog.js');
+var locales_store = require('./locales.store-CqlNSy6z.js');
 var Token = require('./Token-mN7PQKGF.js');
-var irInterceptor_store = require('./ir-interceptor.store-Cfz0I8ZO.js');
-var utils = require('./utils-E_4JVEHN.js');
+var irInterceptor_store = require('./ir-interceptor.store-Xl3b3GY8.js');
+var utils = require('./utils-BHTfkyQu.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
-require('./booking-rSBwZzM-.js');
+require('./booking-BNALZMTg.js');
 require('./moment-CdViwxPQ.js');
-require('./index-DbhEzZeW.js');
-require('./calendar-data-DHUlGBMy.js');
+require('./index-daCuTVuG.js');
+require('./calendar-data-CgquPLci.js');
 require('./commonSchemas-hgXVqmtC.js');
 require('./type-Dy9pVS4V.js');
 
@@ -40,7 +40,7 @@ const GuestInfo = class {
     autoValidate = false;
     closeSideBar;
     resetBookingEvt;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     roomService = new room_service.RoomService();
     token = new Token.Token();
     async componentWillLoad() {

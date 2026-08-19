@@ -14,6 +14,7 @@ import { mapClTxToFolioRow } from "../ir-city-ledger/ir-city-ledger-folio/types"
 import { isAgentMode } from "./functions";
 import { realtimeService } from "../../services/realtime/realtime.service";
 import { extras } from "../../utils/utils";
+import moment from "moment";
 export class IrBookingDetails {
     bookingService = new BookingService();
     roomService = new RoomService();
@@ -205,7 +206,7 @@ export class IrBookingDetails {
                     REFERENCE_TYPE: '',
                     FROM_DATE: this.booking.from_date,
                     ARRIVAL: this.booking.arrival,
-                    TO_DATE: this.booking.to_date,
+                    TO_DATE: this.booking.is_room_less ? moment(this.booking.to_date, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD') : this.booking.to_date,
                     TITLE: `${locales.entries.Lcz_AddingUnitToBooking}# ${this.booking.booking_nbr}`,
                     defaultDateRange: {
                         fromDate: new Date(this.booking.from_date),

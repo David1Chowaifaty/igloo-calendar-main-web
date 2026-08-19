@@ -4,11 +4,15 @@ import { BookingService } from "../../services/booking-service/booking.service";
 import { PropertyService } from "../../services/property.service";
 import { taxationModes } from "../../services/property/types";
 import { getAccTaxPayloadFields, findAccTax, toAccChargeRule } from "../../services/property/acc-tax.helpers";
-import { getExtraServiceDefaultPrice, getDayUseBlockState } from "../../stores/calendar-data";
+import { getExtraServiceDefaultPrice, getDayUseBlockState, getBabyCotPricingModel } from "../../stores/calendar-data";
 import { getEntryValue, showToast } from "../../utils/utils";
 import { groupSvcCategoriesByParent } from "../../utils/svc-category.utils";
 /** `_SVC_CATEGORY` short code for Day Use — only used to place the Block Night switch, not for grouping. */
 const DAY_USE_CATEGORY_CODE = 'DUZ';
+/** `_SVC_CATEGORY` short code for Baby Cot — only used to place the Stay/Night pricing-model select, not for grouping. */
+const BABY_COT_CATEGORY_CODE = 'BCT';
+/** Valid `BABY_COT_PRICING_MODEL` values — the baby cot's default price is either a flat per-stay charge or a per-night charge. */
+const BABY_COT_PRICING_MODELS = ['Stay', 'Night'];
 export class IrExtraServicesSettings {
     ticket;
     p;
@@ -20,6 +24,7 @@ export class IrExtraServicesSettings {
     priceCategoryRules = new Map();
     autoValidate;
     dayUseBlockNight = false;
+    babyCotPricingModel = 'Stay';
     tokenService = new Token();
     bookingService = new BookingService();
     propertyService = new PropertyService();
@@ -55,6 +60,7 @@ export class IrExtraServicesSettings {
             this.setupEntries = this.bookingService.groupEntryTablesResult(tableEntries);
             this.priceCategoryRules = this.buildInitialRules();
             this.dayUseBlockNight = getDayUseBlockState() === '1';
+            this.babyCotPricingModel = this.resolveBabyCotPricingModel(getBabyCotPricingModel());
         }
         catch (error) {
             console.error(error);
@@ -94,6 +100,10 @@ export class IrExtraServicesSettings {
         });
         return rules;
     }
+    /** Narrows the persisted `BABY_COT_PRICING_MODEL` string to a known option, defaulting to `'Stay'` if unset or unrecognized. */
+    resolveBabyCotPricingModel(value) {
+        return BABY_COT_PRICING_MODELS.includes(value ?? '') ? value : 'Stay';
+    }
     handlePriceRuleChange(categoryCode, nextRule) {
         const next = new Map(this.priceCategoryRules);
         next.set(categoryCode, nextRule);
@@ -117,6 +127,7 @@ export class IrExtraServicesSettings {
             ...getAccTaxPayloadFields(),
             tax_categories,
             DAY_USE_BLOCK: this.dayUseBlockNight ? '1' : '0',
+            BABY_COT_PRICING_MODEL: this.babyCotPricingModel,
         };
     }
     /** Validates and submits the extra-service price configuration to the API. */
@@ -146,9 +157,13 @@ export class IrExtraServicesSettings {
         return (h("ir-page", { label: "Extra Services", description: "Define pricing and options for the extra services offered on this property.", "data-testid": "ir-extra-services-settings" }, h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "extra-services-settings__form", style: { width: '100px' }, variant: "brand" }, "Save"), h("form", { id: "extra-services-settings__form", onSubmit: e => this.handleSubmit(e), class: "extra-services-settings__groups" }, this.serviceGroups.length === 0 && (h("ir-empty-state", { message: "No extra-service groups are set up yet. Add a service category whose CODE_NAME is referenced by other categories' NOTES to group them here." })), this.serviceGroups.map(group => (h("wa-card", { appearance: "plain", class: "extra-services-settings__card" }, h("div", { slot: "header", class: "extra-services-settings__header" }, h("span", null, group.label), h("span", { class: "extra-services-settings__tax-chip" }, h("span", { class: "extra-services-settings__tax-chip-label" }, "VAT"), h("span", null, this.formatAccChargeRule(this.vatSummary)))), h("div", { class: "extra-services-grid" }, group.categories.map((category, idx) => {
             const rule = this.priceCategoryRules.get(category.CODE_NAME);
             const isDayUse = category.CODE_NAME === DAY_USE_CATEGORY_CODE;
+            const isBabyCot = category.CODE_NAME === BABY_COT_CATEGORY_CODE;
             return [
-                idx > 0 && (h("div", { class: "extra-services-grid__divider" }, h("wa-divider", null))),
-                h("div", { class: "extra-services-grid__row" }, h("div", { class: "extra-services-grid__name" }, h("p", { class: "extra-services-grid__title" }, getEntryValue({ entry: category, language: this.language }))), h("div", { class: "extra-services-grid__controls" }, h("div", { class: "extra-services-grid__cell" }, h("ir-extra-service-price-input", { autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule })), h("div", { class: "extra-services-grid__cell" }, isDayUse && (h("wa-switch", { checked: this.dayUseBlockNight, defaultChecked: this.dayUseBlockNight, onchange: e => (this.dayUseBlockNight = e.target.checked) }, "Block night"))))),
+                idx > 0 && (h("div", { class: "extra-services-grid__divider", key: category.CODE_NAME + 'divider' + idx }, h("wa-divider", null))),
+                h("div", { class: "extra-services-grid__row", id: category.CODE_NAME, key: category.CODE_NAME + 'row' + idx }, h("div", { class: "extra-services-grid__name" }, h("p", { class: "extra-services-grid__title" }, getEntryValue({ entry: category, language: this.language }))), h("div", { class: "extra-services-grid__controls" }, h("div", { class: "extra-services-grid__cell" }, isBabyCot ? (h("div", { class: 'ir__field-group' }, h("ir-extra-service-price-input", {
+                    // class={'--grow'}
+                    autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule
+                }), h("wa-select", { value: this.babyCotPricingModel, defaultValue: this.babyCotPricingModel, size: "s", style: { width: 'min-content', minWidth: '100px' }, onchange: e => (this.babyCotPricingModel = e.target.value) }, h("wa-option", { value: "Stay" }, "Stay"), h("wa-option", { value: "Night" }, "Night")))) : (h("ir-extra-service-price-input", { autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule }))), h("div", { class: "extra-services-grid__cell" }, isDayUse && (h("wa-switch", { checked: this.dayUseBlockNight, defaultChecked: this.dayUseBlockNight, onchange: e => (this.dayUseBlockNight = e.target.checked) }, "Block night"))))),
             ];
         }))))))));
     }
@@ -252,7 +267,8 @@ export class IrExtraServicesSettings {
             "setupEntries": {},
             "priceCategoryRules": {},
             "autoValidate": {},
-            "dayUseBlockNight": {}
+            "dayUseBlockNight": {},
+            "babyCotPricingModel": {}
         };
     }
     static get watchers() {

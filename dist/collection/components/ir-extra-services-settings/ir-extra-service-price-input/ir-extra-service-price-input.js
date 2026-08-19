@@ -1,5 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { z } from "zod";
+import calendar_data from "../../../stores/calendar-data";
 export class IrExtraServicePriceInput {
     label;
     placeholder;
@@ -24,16 +25,16 @@ export class IrExtraServicePriceInput {
         this.price = { ...(this.price || {}), ...params };
     }
     render() {
-        return (h(Host, { key: 'fbcb240ba21f7927e69da918b866fa86dd447391', class: "ir-extra-service-price-input" }, h("ir-validator", { key: 'b08fa19e38a8791f8ed6f7c10d617a2e4eb5af53', form: "extra-services-settings__form", class: "ir-extra-service-price-input__price-wrapper", value: this.price?.value ?? null, schema: z
+        return (h(Host, { key: 'b82a84a64b0bf36b7c0ed4e7634607000ca9b75c', class: "ir-extra-service-price-input" }, h("ir-validator", { key: 'b005a0c93e8e99076de864ba5392a1b3014a6ccd', form: "extra-services-settings__form", class: "ir-extra-service-price-input__price-wrapper", value: this.price?.value ?? null, schema: z
                 .number()
                 .nullable()
-                .refine(value => value === null || value >= 0.01, { message: 'Price must be greater than 0' }) }, h("ir-input", { key: '99a509047e32fc41ea8235bfb1c897f0cbc28691', value: this.price?.value?.toString() ?? '', mask: 'price', onChange: () => {
+                .refine(value => value === null || value >= 0.01, { message: 'Price must be greater than 0' }) }, h("ir-input", { key: '601877e033652727b10ffd2ec5bd64fff6f8ad7d', value: this.price?.value?.toString() ?? '', mask: 'price', onChange: () => {
                 this.priceChange.emit({ value: this.price?.value ?? this.chargeRule?.value ?? null, mode: this.price?.mode ?? this.chargeRule?.mode ?? '' });
-            }, part: "input", label: this.label, class: "ir-extra-service-price-input__price", size: "s", placeholder: this.placeholder, "onText-change": e => {
+            }, part: "input", label: this.label, class: "ir-extra-service-price-input__price", exportparts: "base", size: "s", placeholder: this.placeholder, "onText-change": e => {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updatePriceField({ value });
-            } }, h("span", { key: '796ea68b61ccf7ae123ec86745159bc95eedaf9f', slot: "start", class: "ir-extra-service-price-input__price-symbol" }, "$")))));
+            } }, h("span", { key: 'b416c11232c682bc2b1fa05c50505fe22b449218', slot: "start", class: "ir-extra-service-price-input__price-symbol" }, calendar_data.property.currency.symbol)))));
     }
     static get is() { return "ir-extra-service-price-input"; }
     static get encapsulation() { return "shadow"; }

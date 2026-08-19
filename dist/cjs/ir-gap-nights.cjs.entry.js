@@ -1,20 +1,20 @@
 'use strict';
 
-var index = require('./index-CJa_TWt0.js');
+var index = require('./index-DgHWBwDV.js');
 var Token = require('./Token-mN7PQKGF.js');
-var booking_store = require('./booking.store-BOlYRnXi.js');
-var index$1 = require('./index-hejx2A_N.js');
-var room_service = require('./room.service-C7BT7pd1.js');
-var irInterceptor_store = require('./ir-interceptor.store-Cfz0I8ZO.js');
-var utils = require('./utils-E_4JVEHN.js');
+var booking_service = require('./booking.service-BLomRFMF.js');
+var index$1 = require('./index-DWncJknx.js');
+var room_service = require('./room.service-DAtFSjog.js');
+var irInterceptor_store = require('./ir-interceptor.store-Xl3b3GY8.js');
+var utils = require('./utils-BHTfkyQu.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
-require('./booking-rSBwZzM-.js');
+require('./booking-BNALZMTg.js');
 require('./moment-CdViwxPQ.js');
-require('./locales.store-BDFcUAoA.js');
-require('./index-DbhEzZeW.js');
-require('./calendar-data-DHUlGBMy.js');
+require('./locales.store-CqlNSy6z.js');
+require('./index-daCuTVuG.js');
+require('./calendar-data-CgquPLci.js');
 require('./commonSchemas-hgXVqmtC.js');
 require('./type-Dy9pVS4V.js');
 
@@ -40,7 +40,7 @@ const IrGapNights = class {
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     componentWillLoad() {
         if (this.ticket) {
             this.tokenService.setToken(this.ticket);

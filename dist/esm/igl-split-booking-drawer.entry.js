@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h } from './index-CaNXuIlM.js';
+import { r as registerInstance, c as createEvent, h } from './index-Kqbk9HdW.js';
 
 const iglSplitBookingDrawerCss = () => `.sc-igl-split-booking-drawer-h{display:block}`;
 

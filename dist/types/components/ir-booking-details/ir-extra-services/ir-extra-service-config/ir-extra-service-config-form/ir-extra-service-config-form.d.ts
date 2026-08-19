@@ -18,6 +18,8 @@ export declare class IrExtraServiceConfigForm {
     assignee: 'agent' | 'guest';
     /** Group (e.g. Accommodation/ACM) the currently selected top-level category belongs to, when it has sub-categories to pick from. */
     selectedGroupCode: string | null;
+    /** True once the price field has been set by user input (typed, or loaded from an existing saved service) — freezes it against further auto-recalculation. */
+    priceManuallyEdited: boolean;
     closeModal: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
     private bookingService;
@@ -41,8 +43,23 @@ export declare class IrExtraServiceConfigForm {
     private get effectiveRoomIdentifier();
     private saveAmenity;
     private closeDialog;
-    /** Sets the chosen leaf category and, when the property has a configured default price for it, overwrites the price field to match. */
+    /**
+     * Sets the chosen leaf category and, when the property has a configured default price for it,
+     * overwrites the price field to match. Re-arms auto-recalculation (see `priceManuallyEdited`) —
+     * a fresh category selection always gets its default, even over a previously typed price.
+     */
     private selectCategory;
+    /**
+     * Resolves the property's configured default price for `code`. For every category except Baby
+     * Cot this is just the flat `SVC_DEFAULT_PRICE_<code>` rate. Baby Cot's rate is charged once per
+     * stay or once per night depending on `BABY_COT_PRICING_MODEL` (set on the Extra Services
+     * settings page) — when it's per night, the rate is multiplied by the number of nights in the
+     * currently selected date range (falling back to the full booking stay when no range is picked
+     * yet), so the field always reflects "rate × nights" until the user overrides it by typing.
+     */
+    private resolveDefaultPrice;
+    /** Keeps Baby Cot's per-night price in sync with the selected date range, unless the user has already typed a price of their own. */
+    private syncBabyCotPriceWithDateRange;
     private updateService;
     private assignmentChanged;
     render(): any;

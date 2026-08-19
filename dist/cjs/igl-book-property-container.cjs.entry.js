@@ -1,19 +1,19 @@
 'use strict';
 
-var index = require('./index-CJa_TWt0.js');
+var index = require('./index-DgHWBwDV.js');
 var Token = require('./Token-mN7PQKGF.js');
-var booking_store = require('./booking.store-BOlYRnXi.js');
-var room_service = require('./room.service-C7BT7pd1.js');
-var locales_store = require('./locales.store-BDFcUAoA.js');
+var booking_service = require('./booking.service-BLomRFMF.js');
+var room_service = require('./room.service-DAtFSjog.js');
+var locales_store = require('./locales.store-CqlNSy6z.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
-require('./utils-E_4JVEHN.js');
+require('./utils-BHTfkyQu.js');
 require('./moment-CdViwxPQ.js');
-require('./calendar-data-DHUlGBMy.js');
-require('./index-DbhEzZeW.js');
+require('./calendar-data-CgquPLci.js');
+require('./index-daCuTVuG.js');
 require('./type-Dy9pVS4V.js');
-require('./booking-rSBwZzM-.js');
+require('./booking-BNALZMTg.js');
 require('./commonSchemas-hgXVqmtC.js');
 
 const iglBookPropertyContainerCss = () => `.sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}`;
@@ -35,7 +35,7 @@ const IglBookPropertyContainer = class {
     countries;
     calendarData = {};
     resetBookingData;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     roomService = new room_service.RoomService();
     token = new Token.Token();
     setRoomsData(roomServiceResp) {

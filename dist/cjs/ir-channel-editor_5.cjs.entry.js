@@ -1,10 +1,10 @@
 'use strict';
 
-var index = require('./index-CJa_TWt0.js');
-var channel_service = require('./channel.service-9xdxtZb6.js');
-var locales_store = require('./locales.store-BDFcUAoA.js');
-var calendarData = require('./calendar-data-DHUlGBMy.js');
-require('./index-DbhEzZeW.js');
+var index = require('./index-DgHWBwDV.js');
+var channel_service = require('./channel.service-DeA0EsAF.js');
+var locales_store = require('./locales.store-CqlNSy6z.js');
+var calendarData = require('./calendar-data-CgquPLci.js');
+require('./index-daCuTVuG.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 

@@ -24,4 +24,5 @@ export declare function isOptimReadOnly(): boolean;
 export declare function hasOptim(): import("@/models/booking.dto").LinkedPms;
 export declare function getExtraServiceDefaultPrice(serviceKey: string): string;
 export declare function getDayUseBlockState(): '0' | '1' | undefined;
+export declare function getBabyCotPricingModel(): string | undefined;
 export default calendar_data;
