@@ -18,6 +18,7 @@ import { IPageTwoDataUpdateProps } from "./models/models";
 import { IrToast } from "./components/ui/ir-toast/ir-toast";
 import { AllowedProperties, DayUseBookings, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property/types";
 import { DayUseBookings as DayUseBookings1, FolioPayment as FolioPayment1, GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
+import { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
 import { Currency, ICurrency as ICurrency1, IEntries as IEntries1, IProperty, PhysicalRoom, RatePlan, RoomType } from "./models/property";
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, PhysicalRoom as PhysicalRoom1, Property, Room, SharedPerson } from "./models/booking.dto";
 import { CleanTaskEvent, HKIssue, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
@@ -33,7 +34,6 @@ import { MaskProp, NativeWaInput } from "./components/ui/ir-input/ir-input";
 import { BookedByCellGuest } from "./components/table-cells/booking/ir-booked-by-cell/ir-booked-by-cell";
 import { AssignableItem } from "./components/ir-booking-details/ir-booking-source-editor-dialog/types";
 import { FolioRow } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
-import { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
 import { BookingService } from "./services/booking-service/booking.service";
 import { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload as RoomGuestsPayload1 } from "./components/ir-booking-details/types";
 import { ClTx, FiscalDocuments } from "./services/city-ledger/types";
@@ -122,6 +122,7 @@ export { IPageTwoDataUpdateProps } from "./models/models";
 export { IrToast } from "./components/ui/ir-toast/ir-toast";
 export { AllowedProperties, DayUseBookings, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property/types";
 export { DayUseBookings as DayUseBookings1, FolioPayment as FolioPayment1, GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
+export { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
 export { Currency, ICurrency as ICurrency1, IEntries as IEntries1, IProperty, PhysicalRoom, RatePlan, RoomType } from "./models/property";
 export { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, PhysicalRoom as PhysicalRoom1, Property, Room, SharedPerson } from "./models/booking.dto";
 export { CleanTaskEvent, HKIssue, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
@@ -137,7 +138,6 @@ export { MaskProp, NativeWaInput } from "./components/ui/ir-input/ir-input";
 export { BookedByCellGuest } from "./components/table-cells/booking/ir-booked-by-cell/ir-booked-by-cell";
 export { AssignableItem } from "./components/ir-booking-details/ir-booking-source-editor-dialog/types";
 export { FolioRow } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
-export { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
 export { BookingService } from "./services/booking-service/booking.service";
 export { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload as RoomGuestsPayload1 } from "./components/ir-booking-details/types";
 export { ClTx, FiscalDocuments } from "./services/city-ledger/types";
@@ -491,6 +491,7 @@ export namespace Components {
           * @default false
          */
         "hasSearched": boolean;
+        "mode": BookingEditorMode;
         /**
           * Net (tax-exclusive) version of the resolved gross default price, pre-computed by the parent (`calculateNetAmount`) — shown as the input's default value so an untouched default reads the same way a typed custom (net) amount does.
           * @default null
@@ -14015,6 +14016,7 @@ declare namespace LocalJSX {
           * @default false
          */
         "hasSearched"?: boolean;
+        "mode"?: BookingEditorMode;
         /**
           * Net (tax-exclusive) version of the resolved gross default price, pre-computed by the parent (`calculateNetAmount`) — shown as the input's default value so an untouched default reads the same way a typed custom (net) amount does.
           * @default null
@@ -21254,6 +21256,7 @@ declare namespace LocalJSX {
         "highlightedDate": string;
     }
     interface IglDayUseUnitListAttributes {
+        "mode": BookingEditorMode;
         "price": number;
         "netPrice": number | null;
         "currency": string;

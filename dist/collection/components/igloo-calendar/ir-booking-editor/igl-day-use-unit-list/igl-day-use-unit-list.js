@@ -3,6 +3,7 @@ import calendar_data, { getExtraServiceDefaultPrice } from "../../../../stores/c
 import booking_store from "../../../../stores/booking.store";
 import { DAY_USE_CATEGORY_CODE, getDayUseUnitAvailability } from "../../../../utils/booking";
 export class IglDayUseUnitList {
+    mode;
     /** Room types returned by the day-use availability check. */
     roomTypes = [];
     /** Fallback day-use price used only if the property has no `SVC_DEFAULT_PRICE_DUZ` configured, editable per unit. */
@@ -70,12 +71,21 @@ export class IglDayUseUnitList {
         return this.priceOverrides[unitId] !== undefined;
     }
     render() {
-        const availableRoomTypes = (this.roomTypes ?? []).filter(roomType => roomType.is_available_to_book);
+        const availableRoomTypes = (this.roomTypes ?? []).filter(roomType => {
+            if (roomType.is_available_to_book) {
+                return true;
+            }
+            if (roomType.physicalrooms.some(p => p.id === this.currentExtraService?.pr_id)) {
+                return true;
+            }
+            return false;
+        });
         const hasBookableUnit = availableRoomTypes.some(roomType => this.getAvailableUnits(roomType).length > 0);
+        console.log(availableRoomTypes, hasBookableUnit);
         if (this.hasSearched && !hasBookableUnit) {
             return (h("div", { class: "day-use-unit-list__empty-container" }, h("ir-empty-state", { message: "No units available for the selected date." })));
         }
-        return (h(Host, null, availableRoomTypes.length > 0 && (h("div", { class: "day-use-unit-list__infos" }, h("p", { class: 'm-0 p-0' }, this.currentExtraService ? 'Edit the existing unit or switch the booking to another one.' : 'Pick a unit for day-use.'), h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "booking-editor-header__tax_statement" }, calendar_data.tax_statement))), h("div", { class: "day-use-unit-list__grid" }, availableRoomTypes.map(roomType => {
+        return (h(Host, null, availableRoomTypes.length > 0 && (h("div", { class: "day-use-unit-list__infos" }, this.mode !== 'BAR_BOOKING' && (h("p", { class: 'm-0 p-0' }, this.currentExtraService ? 'Edit the existing unit or switch the booking to another one.' : 'Pick a unit for day-use.')), h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "booking-editor-header__tax_statement" }, calendar_data.tax_statement))), h("div", { class: "day-use-unit-list__grid" }, availableRoomTypes.map(roomType => {
             const units = this.getAvailableUnits(roomType);
             if (units.length === 0) {
                 return null;
@@ -83,7 +93,7 @@ export class IglDayUseUnitList {
             return (h(Fragment, null, h("h5", { class: "day-use-unit-list__roomtype-name" }, roomType.name), units.map(({ unit, dayStatus }) => {
                 const isCurrent = this.isCurrentUnit(unit.id);
                 const dayStatusDisplay = dayStatus ? IglDayUseUnitList.DAY_STATUS_DISPLAY[dayStatus] : null;
-                return (h("div", { class: `day-use-unit-list__row${isCurrent ? ' day-use-unit-list__row--current' : ''}`, key: `day-use-unit-row-${unit.id}` }, h("span", { class: "day-use-unit-list__unit-name" }, unit.name, dayStatusDisplay && (h(Fragment, null, h("wa-tooltip", { for: `day-use-day-status-${unit.id}` }, dayStatusDisplay.tooltip), h("wa-icon", { name: dayStatusDisplay.icon, id: `day-use-day-status-${unit.id}`, class: `day-use-unit-list__day-status-icon day-use-unit-list__day-status-icon--${dayStatus}` })))), h("ir-input", { class: "day-use-unit-list__price-input", size: "s", mask: "price", value: this.getPrice(unit.id).toString(), "onText-change": e => (this.priceOverrides = { ...this.priceOverrides, [unit.id]: Number(e.detail) }) }, h("span", { slot: "start" }, this.currency?.symbol)), h("ir-custom-button", { "data-testid": "book", type: "button", size: "s", variant: "brand", appearance: this.currentExtraService && !isCurrent ? 'outlined' : undefined, class: "day-use-unit-list__book-button", loading: this.resolvingUnitId === unit.id, disabled: this.resolvingUnitId !== null && this.resolvingUnitId !== unit.id, onClickHandler: () => this.unitSelected.emit({ unit, roomType, price: this.getPrice(unit.id), isCustomPrice: this.isCustomPrice(unit.id) }) }, "Book")));
+                return (h("div", { class: `day-use-unit-list__row${isCurrent ? ' day-use-unit-list__row--current' : ''}`, key: `day-use-unit-row-${unit.id}` }, h("span", { class: "day-use-unit-list__unit-name" }, unit.name, dayStatusDisplay && (h(Fragment, null, h("wa-tooltip", { for: `day-use-day-status-${unit.id}` }, dayStatusDisplay.tooltip), h("wa-icon", { name: dayStatusDisplay.icon, id: `day-use-day-status-${unit.id}`, class: `day-use-unit-list__day-status-icon day-use-unit-list__day-status-icon--${dayStatus}` })))), h("ir-input", { class: "day-use-unit-list__price-input", size: "s", mask: "price", value: this.getPrice(unit.id).toString(), "onText-change": e => (this.priceOverrides = { ...this.priceOverrides, [unit.id]: Number(e.detail) }) }, h("span", { slot: "start" }, this.currency?.symbol)), h("ir-custom-button", { "data-testid": "book", type: "button", size: "s", variant: "brand", appearance: this.currentExtraService && !isCurrent ? 'outlined' : 'accent', class: "day-use-unit-list__book-button", loading: this.resolvingUnitId === unit.id, disabled: this.resolvingUnitId !== null && this.resolvingUnitId !== unit.id, onClickHandler: () => this.unitSelected.emit({ unit, roomType, price: this.getPrice(unit.id), isCustomPrice: this.isCustomPrice(unit.id) }) }, "Book")));
             })));
         }))));
     }
@@ -101,6 +111,32 @@ export class IglDayUseUnitList {
     }
     static get properties() {
         return {
+            "mode": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "BookingEditorMode",
+                    "resolved": "\"ADD_ROOM\" | \"BAR_BOOKING\" | \"EDIT_BOOKING\" | \"EDIT_DAY_USE\" | \"PLUS_BOOKING\" | \"SPLIT_BOOKING\"",
+                    "references": {
+                        "BookingEditorMode": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/igloo-calendar/ir-booking-editor/types.ts::BookingEditorMode",
+                            "referenceLocation": "BookingEditorMode"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "mode"
+            },
             "roomTypes": {
                 "type": "unknown",
                 "mutable": false,

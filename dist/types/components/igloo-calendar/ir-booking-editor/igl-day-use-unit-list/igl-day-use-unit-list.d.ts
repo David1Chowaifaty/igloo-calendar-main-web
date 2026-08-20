@@ -1,7 +1,9 @@
 import { PhysicalRoom, RoomType } from "../../../../models/property";
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { ExtraService } from "../../../../models/booking.dto";
+import { BookingEditorMode } from '../types';
 export declare class IglDayUseUnitList {
+    mode: BookingEditorMode;
     /** Room types returned by the day-use availability check. */
     roomTypes: RoomType[];
     /** Fallback day-use price used only if the property has no `SVC_DEFAULT_PRICE_DUZ` configured, editable per unit. */

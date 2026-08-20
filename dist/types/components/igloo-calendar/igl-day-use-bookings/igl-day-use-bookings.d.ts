@@ -27,6 +27,26 @@ export declare class IglDayUseBookings {
     private groupByRoomType;
     private openBookingDetails;
     private handleOptionEvent;
+    /**
+     * Stays sitting on the same unit — day-use rows are extra services and never appear in `bookingEvents`,
+     * and blocks are filtered out since they carry no booking number.
+     */
+    private getStayEvents;
+    /** `FROM_DATE`/`TO_DATE` are clamped to the loaded window, so the untouched `defaultDates` win when present. */
+    private getStayDates;
+    private getStayRoom;
+    /** Accepts both `HH:mm` values (formatted to `hh:mm A`) and plain setup labels such as "Not sure yet". */
+    private formatClockTime;
+    private getDepartureTime;
+    private getArrivalTime;
+    private toStayMovement;
+    /**
+     * The same-day movements the day use has to fit around: the stay leaving that morning, the stay
+     * arriving that evening, or — when both exist — the turnover between the two.
+     */
+    private getStayMovements;
+    /** Movement chips plus the tooltip spelling out the stay(s) behind them — both bookings when it's a turnover. */
+    private renderStayMovements;
     private renderBooking;
     private renderCategory;
     render(): any;

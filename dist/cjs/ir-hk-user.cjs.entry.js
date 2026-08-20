@@ -1,18 +1,15 @@
 'use strict';
 
 var index = require('./index-DgHWBwDV.js');
-var housekeeping_service = require('./housekeeping.service-vLRy-cll.js');
-var user_service = require('./user.service-eE0dmpkb.js');
+var housekeeping_service = require('./housekeeping.service-BQBlF6Gs.js');
+var constants = require('./constants-CK8Awbj8.js');
 var calendarData = require('./calendar-data-CgquPLci.js');
 var locales_store = require('./locales.store-CqlNSy6z.js');
-var constants = require('./constants-BLID23LD.js');
 var index$1 = require('./index-CLqkDPTC.js');
 require('./index-daCuTVuG.js');
-require('./axios-EresIryl.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
-require('./utils-BHTfkyQu.js');
+require('./axios-C-Phc0sj.js');
+require('./utils-TF1m8eYR.js');
 require('./moment-CdViwxPQ.js');
-require('./type-Dy9pVS4V.js');
 
 const irHkUserCss = () => `.sc-ir-hk-user-h{display:block}`;
 
@@ -69,7 +66,7 @@ const IrHkUser = class {
                 return true;
             }
             if (name.length >= 3) {
-                return !(await new user_service.UserService().checkUserExistence({ UserName: name }));
+                return !(await new constants.UserService().checkUserExistence({ UserName: name }));
             }
             return true;
         }, { message: 'Username already exists.' }),

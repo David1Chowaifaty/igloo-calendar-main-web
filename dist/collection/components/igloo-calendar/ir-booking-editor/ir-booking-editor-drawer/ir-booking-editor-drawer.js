@@ -131,7 +131,7 @@ export class IrBookingEditorDrawer {
         }
     }
     get drawerLabel() {
-        if (booking_store.bookingDraft.dayUse && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode)) {
+        if (booking_store.bookingDraft.dayUse && ['PLUS_BOOKING'].includes(this.mode)) {
             return 'Day-Use Booking';
         }
         if (this.label) {
@@ -311,7 +311,7 @@ export class IrBookingEditorDrawer {
         }
     }
     render() {
-        return (h("ir-drawer", { key: 'a80c571412de48cde3f761445e4b0e929d719f01', onDrawerHide: async (event) => {
+        return (h("ir-drawer", { key: '0639c7ca0da2bb654bcb07b73b01830838eabf6e', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -322,7 +322,7 @@ export class IrBookingEditorDrawer {
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: '7288f2d9ae4e30b74e160e85a63d684867ab1a02', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: '79a77f3be99497734648551e580d9f8c9b9c88dc', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: 'cd86ca3d6c2d0d680545445f2b88167eb9c3ad05', appearance: "button", value: "manual" }, "Manual Booking"), h("wa-radio", { key: '92001371d160cf60d4ee0a7dfd9be0e04ad63742', appearance: "button", value: "day-use" }, "Day Use")))), this.open && this.ticket && (h("ir-booking-editor", { key: '0bbc623113970d9bfbc381406889249d8b466c64', onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: '3d0dbedacd49e58368084aad6c47b5d34503b0f8', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: '9465e05b4fc0a51e869f6180dc7b3b59ab50c0b4', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: 'd5e0d750d9b212faa3e9fc5b7a8e7e689b3d4b1d', appearance: "button", value: "manual" }, "Manual Booking"), h("wa-radio", { key: '2c297dfc43910192e76fb6b441b2f5024207af2e', appearance: "button", value: "day-use" }, "Day Use")))), this.open && this.ticket && (h("ir-booking-editor", { key: 'a7f5beced0a5936b69648269990b7d466c53a278', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -330,7 +330,7 @@ export class IrBookingEditorDrawer {
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: '52d6f0b32a5b83a175b7a9a4deb8431ea6836e59', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: '5105cf346f3806517404f179fd21c5eb106c0fe7', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get is() { return "ir-booking-editor-drawer"; }
     static get encapsulation() { return "scoped"; }
