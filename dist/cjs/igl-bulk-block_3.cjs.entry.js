@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-DgHWBwDV.js');
-var booking_service = require('./booking.service-BLomRFMF.js');
+var booking_store = require('./booking.store-BGyRo2jh.js');
 var calendarData = require('./calendar-data-CgquPLci.js');
 var moment = require('./moment-CdViwxPQ.js');
 var index$1 = require('./index-CLqkDPTC.js');
@@ -10,8 +10,8 @@ var utils = require('./utils-BHTfkyQu.js');
 var booking = require('./booking-BNALZMTg.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./commonSchemas-hgXVqmtC.js');
 require('./index-daCuTVuG.js');
+require('./commonSchemas-hgXVqmtC.js');
 require('./type-Dy9pVS4V.js');
 
 class ReloadInterceptor {
@@ -73,7 +73,7 @@ const IglBulkBlock = class {
     dateRefs = [];
     reloadInterceptor;
     minDate = moment.hooks().format('YYYY-MM-DD');
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     datesSchema = index$1.libExports.z.array(index$1.libExports.z.object({
         from: index$1.libExports.z
             .any()
@@ -293,7 +293,7 @@ const IglBulkStopSale = class {
     // private allRoomTypes: SelectedRooms[] = [];
     reloadInterceptor;
     minDate = moment.hooks().format('YYYY-MM-DD');
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     getDayIndex(dateStr) {
         return moment.hooks(dateStr, 'YYYY-MM-DD').day();
     }
@@ -645,7 +645,7 @@ const IrWeekdaySelector = class {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (index.h(index.Host, { key: '22a538d5951970d3e4ba0f53c0bde02153bacad8', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (index.h(index.Host, { key: 'c209f728e7f872440b2485cb88078059174e755f', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get watchers() { return {
         "weekdays": [{

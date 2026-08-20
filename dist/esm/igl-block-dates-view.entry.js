@@ -1,15 +1,15 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-Kqbk9HdW.js';
-import { B as BookingService } from './booking.service-CGh5oFNL.js';
+import { B as BookingService } from './booking.store-CYT-Ws_4.js';
 import { l as locales } from './locales.store-C-PbJt6i.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './index-DeW5X45W.js';
-import './utils-aikO_b6Z.js';
+import './utils-k8E2pDGf.js';
 import './moment-Mki5YqAR.js';
 import './calendar-data-MrKyEgFn.js';
 import './index-BJS0kaeV.js';
 import './type-D7rOPtKA.js';
-import './booking-CGjPrFOk.js';
+import './booking-C1H-B51B.js';
 import './commonSchemas-ByEkDTMV.js';
 
 const iglBlockDatesViewCss = () => `.sc-igl-block-dates-view-h{display:block}.sc-igl-block-dates-view-h .controlContainer.sc-igl-block-dates-view{width:24px}.sc-igl-block-dates-view-h .checkBoxContainer.sc-igl-block-dates-view input.sc-igl-block-dates-view{height:1.2rem !important;width:30px}.releaseTime.sc-igl-block-dates-view{padding-left:5px}.out-of-service-label.sc-igl-block-dates-view{margin-left:5px !important}`;

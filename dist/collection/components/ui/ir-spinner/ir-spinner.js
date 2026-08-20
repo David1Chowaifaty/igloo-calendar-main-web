@@ -60,7 +60,7 @@ export class IrSpinner {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return (h(Host, { key: '6635dee77ce0aa2a458e89200a6374c4e9a78627' }, h("wa-spinner", { key: '79b9a4c39dcc65a1b62a9a9ae5863eb85fd272a0', style: { 'fontSize': '2rem', '--track-width': '3px' } })));
+        return (h(Host, { key: '380bcea4e410b73154ff7f949d6955e796e01484' }, h("wa-spinner", { key: 'd24ed8e19dd79886d64e08426f74025f23786161', style: { 'fontSize': '2rem', '--track-width': '3px' } })));
     }
     static get is() { return "ir-spinner"; }
     static get encapsulation() { return "shadow"; }

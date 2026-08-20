@@ -2148,6 +2148,11 @@ export namespace Components {
         "pageSize": number;
         "propertyId": number;
         /**
+          * `_SVC_CATEGORY` setup entries, used to label extra-service descriptions.
+          * @default []
+         */
+        "serviceCategoryOptions": ServiceCategoryOption[];
+        /**
           * @default 0
          */
         "startingBalance": number;
@@ -15815,6 +15820,11 @@ declare namespace LocalJSX {
          */
         "pageSize"?: number;
         "propertyId"?: number;
+        /**
+          * `_SVC_CATEGORY` setup entries, used to label extra-service descriptions.
+          * @default []
+         */
+        "serviceCategoryOptions"?: ServiceCategoryOption[];
         /**
           * @default 0
          */

@@ -1,39 +1,38 @@
 import { r as registerInstance, c as createEvent, d as getElement, h, F as Fragment, H as Host } from './index-Kqbk9HdW.js';
 import { R as RoomService } from './room.service-DpkAyTYs.js';
-import { B as BookingService } from './booking.service-CGh5oFNL.js';
-import { C as formatLegendColors, d as dateToFormattedString, n as isBlockUnit, D as getNextDay, E as addTwoMonthToDate, F as computeEndDate, G as convertDMYToISO, k as showToast, p as isPrivilegedUser, o as downloadFile, j as groupEntryTablesResult, l as getEntryValue } from './utils-aikO_b6Z.js';
+import { B as BookingService } from './booking.store-CYT-Ws_4.js';
+import { C as formatLegendColors, d as dateToFormattedString, n as isBlockUnit, D as getNextDay, E as addTwoMonthToDate, F as computeEndDate, G as convertDMYToISO, l as showToast, p as isPrivilegedUser, o as getEntryValue, j as downloadFile, k as groupEntryTablesResult } from './utils-k8E2pDGf.js';
 import { r as realtimeService } from './realtime.service-BLk631kq.js';
-import { E as EventsService } from './events.service-BIVFBsya.js';
+import { E as EventsService } from './events.service-DexjASve.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-vn8xHus9.js';
-import { e as calendar_dates, i as addCleaningTasks, j as formatName, k as getRoomStatus, l as cleanRoom, m as addRoomForCleaning, t as transformNewBooking, n as transformNewBLockedRooms, o as bookingStatus, d as getPrivateNote, c as calculateDaysBetweenDates } from './booking-CGjPrFOk.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-Cfg597kY.js';
+import { e as calendar_dates, i as addCleaningTasks, j as formatName, k as getRoomStatus, l as cleanRoom, m as addRoomForCleaning, t as transformNewBooking, n as transformNewBLockedRooms, o as bookingStatus, d as getPrivateNote, c as calculateDaysBetweenDates } from './booking-C1H-B51B.js';
 import { l as locales } from './locales.store-C-PbJt6i.js';
-import { c as calendar_data } from './calendar-data-MrKyEgFn.js';
+import { c as calendar_data, g as getDayUseBlockState, a as getBabyCotPricingModel, b as getExtraServiceDefaultPrice } from './calendar-data-MrKyEgFn.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-DG_DITx3.js';
 import { T as Token } from './Token-CkxFIO_J.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-DAx753ac.js';
-import { P as PropertyService } from './index-BAOyChVe.js';
+import { P as PropertyService, t as taxationModes } from './index-BF4L56DB.js';
 import { A as AgentsService } from './agents.service-CfKXQqnt.js';
-import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-C3BpAUFy.js';
+import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-IP4Jptg4.js';
 import { a as axios } from './axios-B50ozOIF.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-ByMDKLJA.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-Bim1vA81.js';
 import { d as setChannelIdAndActiveState, u as updateChannelSettings, s as selectChannel, t as testConnection, C as ChannelService, r as resetStore, c as channels_data } from './channel.service-CrxMBTm0.js';
-import { S as SystemService } from './system.service-DN8zRqj9.js';
-import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-BbldYaHF.js';
-import { F as FdTypes } from './enums--hu2_M6P.js';
+import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-C4UnVlVw.js';
+import { g as groupSvcCategoriesByParent, t as toAccChargeRule, f as findAccTax, a as getAccTaxPayloadFields, b as getTopLevelSvcCategories } from './svc-category.utils-BgFsfUyV.js';
+import { F as FdTypes } from './enums-DjSFmz1B.js';
 import { l as libExports } from './index-DeW5X45W.js';
 import { m as setLoading, b as updateTasks, h as hkTasksStore, c as clearSelectedTasks, n as updateSelectedTasks } from './hk-tasks.store-DXa8LfLD.js';
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-a7jbIApF.js';
-import { e as extraServicesCategories } from './index-CcGtQg2x.js';
-import { t as toAccChargeRule, f as findAccTax, b as getTopLevelSvcCategories } from './svc-category.utils-BUHTr2yK.js';
+import { e as extraServicesCategories } from './index-DiGS_3VB.js';
 import { a as uninvoiced_bookings, c as setUninvoicedBookingsCriteria } from './uninvoiced_bookings.store-Xq2LNXTn.js';
-import { U as UserService } from './user.service-Dx80LEoH.js';
-import './commonSchemas-ByEkDTMV.js';
+import { U as UserService } from './user.service-feH5hXPo.js';
 import './index-BJS0kaeV.js';
+import './commonSchemas-ByEkDTMV.js';
 import './type-D7rOPtKA.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './types-ZPMvSxvD.js';
+import './types-DuVpNPN2.js';
 
 class BatchingQueue {
     queue = [];
@@ -2510,191 +2509,6 @@ const IrChannel = class {
 };
 IrChannel.style = irChannelCss();
 
-const irCityLedgerCss = () => `.sc-ir-city-ledger-h{display:block;height:100%}.city-ledger__agents-autocomplete.sc-ir-city-ledger{width:100%}@media (min-width: 768px){.city-ledger__agents-autocomplete.sc-ir-city-ledger{max-width:400px}}.city-ledger__content.sc-ir-city-ledger{display:flex;flex-direction:column;gap:var(--wa-space-m, 1rem)}.city-ledger__no-agent.sc-ir-city-ledger{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.625rem;padding:5rem 2rem;height:100%;text-align:center;color:var(--wa-color-text-quiet, #6b7280)}.city-ledger__no-agent-icon-container.sc-ir-city-ledger{display:flex;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:0.875rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);color:var(--wa-color-brand-fill-loud, #2563eb);font-size:1.5rem;margin-bottom:0.5rem}.city-ledger__no-agent-title.sc-ir-city-ledger{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.city-ledger__no-agent-sub.sc-ir-city-ledger{margin:0;font-size:0.875rem;max-width:400px;line-height:1.6}.statement-tab-panel.sc-ir-city-ledger{min-height:400px}.statement__empty-state.sc-ir-city-ledger{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;padding:4rem 2rem;color:var(--wa-color-text-quiet, #6b7280);text-align:center}.statement__empty-title.sc-ir-city-ledger{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.statement__empty-subtitle.sc-ir-city-ledger{margin:0;font-size:0.875rem;max-width:360px}.statement__content.sc-ir-city-ledger{display:flex;flex-direction:column;gap:1.25rem}.statement__controls.sc-ir-city-ledger{display:flex;align-items:flex-end;flex-wrap:wrap;gap:1rem}.statement__period-group.sc-ir-city-ledger{display:flex;flex-direction:column;gap:0.375rem}.statement__label.sc-ir-city-ledger{font-size:0.8125rem;font-weight:500;color:var(--wa-color-text-quiet, #6b7280)}.statement__dates.sc-ir-city-ledger{display:flex;align-items:center;gap:0.5rem}.statement__date-picker.sc-ir-city-ledger{width:160px}.statement__dates-sep.sc-ir-city-ledger{color:var(--wa-color-text-quiet, #9ca3af);font-weight:500}.statement__action-bar.sc-ir-city-ledger{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:0.75rem 1rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);border:1px solid var(--wa-color-brand-border-quiet, #bfdbfe);border-radius:0.625rem 0.625rem 0 0;font-size:0.875rem}.statement__action-bar-label.sc-ir-city-ledger{display:flex;align-items:center;font-weight:500;color:var(--wa-color-brand-on-quiet)}.statement__action-bar-buttons.sc-ir-city-ledger{display:flex;gap:0.5rem;flex-wrap:wrap}.statement__preview-wrapper.sc-ir-city-ledger{display:flex;flex-direction:column}.statement-doc.sc-ir-city-ledger{background:#fff;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-top:0;border-radius:0 0 0.75rem 0.75rem;padding:2rem;display:flex;flex-direction:column;gap:1.5rem;box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.04)}.statement-doc__header.sc-ir-city-ledger{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem}.statement-doc__hotel.sc-ir-city-ledger{display:flex;align-items:center;gap:0.875rem}.statement-doc__hotel-logo.sc-ir-city-ledger{display:flex;align-items:center;justify-content:center;width:3rem;height:3rem;background:var(--wa-color-neutral-fill-quiet, #f3f4f6);border-radius:0.5rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__title.sc-ir-city-ledger{margin:0;font-size:1.375rem;font-weight:700;color:var(--wa-color-text-normal, #111827)}.statement-doc__subtitle.sc-ir-city-ledger{margin:0;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__meta.sc-ir-city-ledger{display:flex;flex-direction:column;gap:0.25rem;text-align:right}.statement-doc__meta-row.sc-ir-city-ledger{display:flex;justify-content:flex-end;gap:0.5rem;font-size:0.8125rem}.statement-doc__meta-label.sc-ir-city-ledger{color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__meta-value.sc-ir-city-ledger{font-weight:500;color:var(--wa-color-text-normal, #111827)}.statement-doc__statement-number.sc-ir-city-ledger{font-family:ui-monospace, 'Cascadia Code', monospace;font-size:0.8125rem}.statement-doc__divider.sc-ir-city-ledger{border:0;border-top:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);margin:0}.statement-doc__parties.sc-ir-city-ledger{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.statement-doc__party-label.sc-ir-city-ledger{margin:0 0 0.375rem;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__party-name.sc-ir-city-ledger{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.statement-doc__party-detail.sc-ir-city-ledger{margin:0.125rem 0 0;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__summary.sc-ir-city-ledger{display:grid;grid-template-columns:repeat(2, 1fr);gap:0.75rem}@media (min-width: 768px){.statement-doc__summary.sc-ir-city-ledger{grid-template-columns:repeat(4, 1fr)}}.statement-doc__summary-card.sc-ir-city-ledger{padding:1rem;border-radius:0.5rem;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);display:flex;flex-direction:column;gap:0.25rem}.statement-doc__summary-card--opening.sc-ir-city-ledger{border-color:var(--wa-color-neutral-border-quiet, #e5e7eb)}.statement-doc__summary-card--charges.sc-ir-city-ledger{border-color:#fecaca;background:#fef2f2}.statement-doc__summary-card--payments.sc-ir-city-ledger{border-color:#bbf7d0;background:#f0fdf4}.statement-doc__summary-card--due.sc-ir-city-ledger{border-color:var(--wa-color-brand-border-quiet, #bfdbfe);background:var(--wa-color-brand-fill-quiet, #eff6ff)}.statement-doc__summary-card-label.sc-ir-city-ledger{font-size:0.75rem;font-weight:500;color:var(--wa-color-text-quiet, #6b7280);text-transform:uppercase;letter-spacing:0.03em}.statement-doc__summary-card-value.sc-ir-city-ledger{font-size:1.125rem;font-weight:700;color:var(--wa-color-text-normal, #111827);font-variant-numeric:tabular-nums}.statement-doc__balance-due.sc-ir-city-ledger{color:var(--wa-color-brand-fill-loud, #2563eb)}.statement-doc__table-wrapper.sc-ir-city-ledger{overflow-x:auto;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem}.statement-doc__table.sc-ir-city-ledger{width:100%;border-collapse:collapse;font-size:0.875rem}.statement-doc__table.sc-ir-city-ledger thead.sc-ir-city-ledger th.sc-ir-city-ledger{padding:0.625rem 0.875rem;background:var(--wa-color-neutral-fill-quiet, #f9fafb);font-weight:600;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280);text-align:left;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);white-space:nowrap}.statement-doc__table.sc-ir-city-ledger tbody.sc-ir-city-ledger td.sc-ir-city-ledger{padding:0.625rem 0.875rem;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #f3f4f6);color:var(--wa-color-text-normal, #111827)}.statement-doc__table.sc-ir-city-ledger tfoot.sc-ir-city-ledger td.sc-ir-city-ledger{padding:0.75rem 0.875rem;background:var(--wa-color-neutral-fill-quiet, #f9fafb);border-top:2px solid var(--wa-color-neutral-border-quiet, #e5e7eb);font-weight:700}.statement-doc__col--right.sc-ir-city-ledger{text-align:right}.statement-doc__opening-row.sc-ir-city-ledger td.sc-ir-city-ledger{font-weight:500;background:var(--wa-color-neutral-fill-quiet, #fafafa);color:var(--wa-color-text-quiet, #6b7280);font-size:0.8125rem}.statement-doc__totals-row.sc-ir-city-ledger td.sc-ir-city-ledger{font-weight:700}.statement-doc__table-note.sc-ir-city-ledger{text-align:center;color:var(--wa-color-text-quiet, #9ca3af);font-size:0.8125rem;padding:1.5rem !important}.statement-doc__footer.sc-ir-city-ledger{background:var(--wa-color-neutral-fill-quiet, #f9fafb);border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem;padding:0.875rem 1rem}.statement-doc__payment-notice.sc-ir-city-ledger{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__payment-notice.sc-ir-city-ledger p.sc-ir-city-ledger{margin:0;line-height:1.5}`;
-
-const IrCityLedger = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-    }
-    get el() { return getElement(this); }
-    ticket;
-    p;
-    baseurl;
-    language = 'en';
-    propertyid;
-    agentId = null;
-    resolvedPropertyId = null;
-    currentTab = 'folio';
-    isLoading = false;
-    agents = [];
-    selectedAgent = null;
-    taxOptions = [];
-    serviceCategoryOptions = [];
-    currencySymbol = '$';
-    // Statement tab state
-    statementFrom = null;
-    statementTo = null;
-    showStatementPreview = false;
-    folioSummary = null;
-    agentSearch = '';
-    fiscalFilters = { fromDate: undefined, toDate: undefined, docNumber: '', taxableOnly: false, type: 'all', proformaOnly: false };
-    stmtFilters = { fromDate: null, toDate: null };
-    panels = [
-        { id: 'folio', label: 'Folio' },
-        { id: 'fiscal-documents', label: 'Fiscal Documents' },
-        { id: 'create-statement', label: 'Create Statement' },
-    ];
-    tokenService = new Token();
-    agentsService = new AgentsService();
-    propertyService = new PropertyService();
-    bookingService = new BookingService();
-    systemService = new SystemService();
-    toolbarRef;
-    createInvoiceDialogRef;
-    currencies = [];
-    get filteredAgents() {
-        const q = this.agentSearch.trim().toLowerCase();
-        if (!q)
-            return this.agents;
-        return this.agents.filter(a => a.name.toLowerCase().includes(q));
-    }
-    componentWillLoad() {
-        const agentId = this.getAgentIdFromSearchParams();
-        if (agentId && !this.agentId) {
-            this.agentId = agentId;
-        }
-        if (this.ticket) {
-            if (this.baseurl) {
-                this.tokenService.setBaseUrl(this.baseurl);
-            }
-            this.tokenService.setToken(this.ticket);
-            this.init();
-        }
-    }
-    handleTicketChange(newValue, oldValue) {
-        if (newValue === oldValue)
-            return;
-        if (this.baseurl)
-            this.tokenService.setBaseUrl(this.baseurl);
-        this.tokenService.setToken(this.ticket);
-        this.init();
-    }
-    handlePropertyIdChange(newValue, oldValue) {
-        if (newValue === oldValue)
-            return;
-        if (this.ticket)
-            this.init();
-    }
-    handleAgentIdChange(newId, oldId) {
-        if (newId === oldId || this.isLoading)
-            return;
-        this.applyAgentIdProp();
-    }
-    getAgentIdFromSearchParams() {
-        const agentId = new URLSearchParams(window.location.search).get('agentId');
-        return agentId ? Number(agentId) : null;
-    }
-    applyAgentIdProp() {
-        if (this.agentId == null)
-            return;
-        const agent = this.agents.find(a => a.id === this.agentId);
-        if (!agent)
-            return;
-        this.selectedAgent = agent;
-        this.showStatementPreview = false;
-        this.folioSummary = null;
-        requestAnimationFrame(() => {
-            const autocomplete = this.el.querySelector('ir-autocomplete');
-            if (autocomplete)
-                autocomplete.value = agent.name;
-        });
-    }
-    async init() {
-        try {
-            this.isLoading = true;
-            // If a property name was supplied but no numeric id, resolve the id first.
-            let propertyId = this.propertyid;
-            if (!propertyId && this.p) {
-                await this.propertyService.getExposedProperty({ id: null, language: this.language, aname: this.p });
-                propertyId = calendar_data.id;
-            }
-            this.resolvedPropertyId = propertyId;
-            const resolvedByName = !this.propertyid && !!this.p;
-            const [, setupEntries, agents, currencies] = await Promise.all([
-                resolvedByName ? Promise.resolve() : this.propertyService.getExposedProperty({ id: propertyId, language: this.language }),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_SVC_CATEGORY']),
-                this.agentsService.getExposedAgents({ property_id: propertyId }),
-                this.systemService.getExposedCurrencies(),
-            ]);
-            this.currencies = currencies;
-            this.agents = agents ?? [];
-            this.applyAgentIdProp();
-            const { svc_category } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.serviceCategoryOptions = (svc_category ?? []).map(entry => ({
-                id: entry.CODE_NAME,
-                label: entry.CODE_VALUE_EN,
-            }));
-            this.currencySymbol = calendar_data.currency?.symbol ?? '$';
-        }
-        catch (error) {
-            console.error('Failed to initialize city ledger', error);
-        }
-        finally {
-            this.isLoading = false;
-        }
-    }
-    render() {
-        if (this.isLoading) {
-            return h("ir-loading-screen", null);
-        }
-        return (h(Host, null, h("ir-page", { label: 'City Ledger', description: this.selectedAgent?.name }, h("i", { slot: "page-description", style: { marginLeft: '0.5rem' } }, this.selectedAgent?.code), h("ir-autocomplete", { slot: "page-header",
-            // size="m"
-            placeholder: "Select agent", class: "city-ledger__agents-autocomplete", "onText-change": (e) => {
-                this.agentSearch = e.detail ?? '';
-            }, "onCombobox-change": (e) => {
-                this.agentSearch = '';
-                const value = e.detail;
-                if (!value) {
-                    // Cleared — keep the previously selected agent and don't fetch anything.
-                    requestAnimationFrame(() => {
-                        const autocomplete = this.el.querySelector('ir-autocomplete');
-                        if (autocomplete && this.selectedAgent)
-                            autocomplete.value = this.selectedAgent.name;
-                    });
-                    return;
-                }
-                const newAgent = this.agents?.find(agent => agent.id === Number(value));
-                if (newAgent?.id === this.selectedAgent?.id)
-                    return;
-                this.selectedAgent = newAgent ?? null;
-                this.showStatementPreview = false;
-                this.folioSummary = null;
-                // Update URL search param
-                if (this.selectedAgent) {
-                    const url = new URL(window.location.href);
-                    url.searchParams.set('agentId', this.selectedAgent.id.toString());
-                    window.history.replaceState({}, '', url);
-                }
-            } }, this.filteredAgents.map(agent => (h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name)))), !this.selectedAgent ? (h("ir-empty-state", { message: "Select an agent to get started", class: "city-ledger__no-agent" }, h("div", { slot: "icon", class: 'city-ledger__no-agent-icon-container' }, h("wa-icon", { name: "building", class: "city-ledger__no-agent-icon" })), h("p", { class: "city-ledger__no-agent-sub" }, "Choose an agent from the selector above to view their city ledger folio, fiscal documents, and statements."))) : (h("div", { class: "city-ledger__content" }, h("ir-city-ledger-toolbar", { ref: el => (this.toolbarRef = el), agentId: this.selectedAgent?.id, currencySymbol: this.currencySymbol, onCreateInvoice: () => this.createInvoiceDialogRef.openModal() }), h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
-                this.currentTab = e.detail.name.toString();
-            }, active: this.currentTab }, this.panels.map(panel => (h("wa-tab", { key: panel.id, panel: panel.id }, panel.label))), h("wa-tab-panel", { name: "folio" }, h("ir-city-ledger-folio", { agent: this.selectedAgent, propertyId: this.resolvedPropertyId, ticket: this.ticket, language: this.language, serviceCategoryOptions: this.serviceCategoryOptions, currencies: this.currencies, onFolioSummaryUpdate: e => (this.folioSummary = e.detail) })), h("wa-tab-panel", { name: "fiscal-documents" }, h("ir-city-ledger-fiscal-documents", { agentId: this.selectedAgent?.id, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId, initialFilters: this.fiscalFilters, onClFiscalFiltersChange: e => (this.fiscalFilters = e.detail) })), h("wa-tab-panel", { name: "create-statement", class: "statement-tab-panel" }, h("ir-city-ledger-statements", { agentId: this.selectedAgent?.id, agentName: this.selectedAgent?.name ?? '', currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId, initialFilters: this.stmtFilters, onClStmtFiltersChange: e => (this.stmtFilters = e.detail) })))))), h("ir-cl-invoice-dialog", { ref: el => (this.createInvoiceDialogRef = el), agentId: this.selectedAgent?.id, onInvoiceIssued: async () => {
-                await this.toolbarRef?.refresh();
-            } }), h("ir-cl-fiscal-document-preview", { ticket: this.ticket, propertyId: calendar_data?.property?.id, onDocumentConverted: () => this.toolbarRef?.refresh() })));
-    }
-    static get watchers() { return {
-        "ticket": [{
-                "handleTicketChange": 0
-            }],
-        "propertyid": [{
-                "handlePropertyIdChange": 0
-            }],
-        "agentId": [{
-                "handleAgentIdChange": 0
-            }]
-    }; }
-};
-IrCityLedger.style = irCityLedgerCss();
-
 const irDailyRevenueCss = () => `.sc-ir-daily-revenue-h{display:block}.revenue-content-row.sc-ir-daily-revenue{display:flex;flex-direction:column;gap:1rem}.revenue-table-card.sc-ir-daily-revenue{flex:1 1 0%}@media (min-width: 992px){.revenue-content-row.sc-ir-daily-revenue{flex-direction:row}}`;
 
 const IrDailyRevenue = class {
@@ -3056,6 +2870,185 @@ const IrDepartures = class {
     }; }
 };
 IrDepartures.style = irDeparturesCss();
+
+const irExtraServicesSettingsCss = () => `.sc-ir-extra-services-settings-h{display:block}.extra-services-settings__groups.sc-ir-extra-services-settings{display:flex;flex-direction:column;gap:var(--wa-space-l)}.extra-services-settings__card.sc-ir-extra-services-settings{background-color:var(--wa-color-surface-default, white)}.extra-services-settings__header.sc-ir-extra-services-settings{display:flex;align-items:center;font-size:var(--wa-font-size-l);gap:var(--wa-space-s)}.extra-services-settings__tax-chip.sc-ir-extra-services-settings{display:flex;align-items:center;gap:var(--wa-space-3xs);font-size:var(--wa-font-size-s);font-weight:400;color:var(--wa-color-text-quiet);padding-top:0.25rem}.extra-services-settings__tax-chip-label.sc-ir-extra-services-settings{font-weight:600;color:var(--wa-color-text-normal)}.extra-services-grid__row.sc-ir-extra-services-settings{display:flex;flex-direction:column;gap:var(--wa-space-m);padding:var(--wa-space-m) 0}.extra-services-grid__name.sc-ir-extra-services-settings{display:flex;flex-direction:column;gap:var(--wa-space-3xs)}.extra-services-grid__title.sc-ir-extra-services-settings{font-size:var(--wa-font-size-m);margin:0;padding:0}.extra-services-grid__hint.sc-ir-extra-services-settings{margin:0;padding:0;font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet)}.extra-services-grid__controls.sc-ir-extra-services-settings{display:flex;align-items:flex-end;gap:var(--wa-space-m)}.extra-services-grid__cell.sc-ir-extra-services-settings:empty{display:none}@media (min-width: 768px){.extra-services-grid.sc-ir-extra-services-settings{display:grid;grid-template-columns:max-content max-content 1fr;column-gap:var(--wa-space-xl);align-items:center}.extra-services-grid__row.sc-ir-extra-services-settings{display:contents}.extra-services-grid__controls.sc-ir-extra-services-settings{display:contents}.extra-services-grid__divider.sc-ir-extra-services-settings{grid-column:1 / -1}.extra-services-grid__name.sc-ir-extra-services-settings,.extra-services-grid__cell.sc-ir-extra-services-settings{align-self:center}.extra-services-grid__cell.sc-ir-extra-services-settings:empty{display:block}ir-extra-service-price-input.sc-ir-extra-services-settings,.extra-services-grid__cell.sc-ir-extra-services-settings{width:100%}}`;
+
+/** `_SVC_CATEGORY` short code for Day Use — only used to place the Block Night switch, not for grouping. */
+const DAY_USE_CATEGORY_CODE = 'DUZ';
+/** `_SVC_CATEGORY` short code for Baby Cot — only used to place the Stay/Night pricing-model select, not for grouping. */
+const BABY_COT_CATEGORY_CODE = 'BCT';
+/** Valid `BABY_COT_PRICING_MODEL` values — the baby cot's default price is either a flat per-stay charge or a per-night charge. */
+const BABY_COT_PRICING_MODELS = ['Stay', 'Night'];
+const IrExtraServicesSettings = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    ticket;
+    p;
+    language = 'en';
+    propertyid;
+    isLoading;
+    isSaving;
+    setupEntries;
+    priceCategoryRules = new Map();
+    autoValidate;
+    dayUseBlockNight = false;
+    babyCotPricingModel = 'Stay';
+    tokenService = new Token();
+    bookingService = new BookingService();
+    propertyService = new PropertyService();
+    componentWillLoad() {
+        if (this.ticket) {
+            this.tokenService.setToken(this.ticket);
+            this.init();
+        }
+    }
+    handleTicketChange(newValue, oldValue) {
+        if (newValue !== oldValue)
+            this.reinit();
+    }
+    handlePChange(newValue, oldValue) {
+        if (newValue !== oldValue && this.ticket)
+            this.reinit();
+    }
+    handlePropertyIdChange(newValue, oldValue) {
+        if (newValue !== oldValue && this.ticket)
+            this.reinit();
+    }
+    reinit() {
+        this.tokenService.setToken(this.ticket);
+        this.init();
+    }
+    async init() {
+        this.isLoading = true;
+        try {
+            const [, tableEntries] = await Promise.all([
+                this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY']),
+            ]);
+            this.setupEntries = this.bookingService.groupEntryTablesResult(tableEntries);
+            this.priceCategoryRules = this.buildInitialRules();
+            this.dayUseBlockNight = getDayUseBlockState() === '1';
+            this.babyCotPricingModel = this.resolveBabyCotPricingModel(getBabyCotPricingModel());
+        }
+        catch (error) {
+            console.error(error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
+    /** `svc_category` entries grouped by their `NOTES`-referenced parent code. See `groupSvcCategoriesByParent`. */
+    get serviceGroups() {
+        return Array.from(groupSvcCategoriesByParent(this.setupEntries?.svc_category ?? [], this.language).values());
+    }
+    /** All grouped categories flattened, for building the price-rules map and the save payload. */
+    get categories() {
+        return this.serviceGroups.flatMap(group => group.categories);
+    }
+    /**
+     * The property's VAT setup. Every grouped extra service shares this one rate and is always
+     * marked Inclusive — there's no per-category tax mode to configure anymore, so this single
+     * value both drives the card-header summary and is what gets saved for every category.
+     */
+    get vatSummary() {
+        return toAccChargeRule(findAccTax('vat'));
+    }
+    /** Formats a charge rule as e.g. "15% Inclusive" or "Not Applicable". */
+    formatAccChargeRule(rule) {
+        if (rule.mode === taxationModes.NOT_APPLICABLE)
+            return 'Not Applicable';
+        return `${rule.value ?? 0}% ${rule.mode === taxationModes.INCLUSIVE ? 'Inclusive' : 'Exclusive'}`;
+    }
+    /** Builds the initial price rules map from `extra_info`'s `SVC_DEFAULT_PRICE_<code>` entries. Mode is always Inclusive — see `vatSummary`. */
+    buildInitialRules() {
+        const rules = new Map();
+        this.categories.forEach(c => {
+            const defaultPrice = getExtraServiceDefaultPrice(c.CODE_NAME);
+            rules.set(c.CODE_NAME, { mode: taxationModes.INCLUSIVE, value: defaultPrice !== undefined ? Number(defaultPrice) : null });
+        });
+        return rules;
+    }
+    /** Narrows the persisted `BABY_COT_PRICING_MODEL` string to a known option, defaulting to `'Stay'` if unset or unrecognized. */
+    resolveBabyCotPricingModel(value) {
+        return BABY_COT_PRICING_MODELS.includes(value ?? '') ? value : 'Stay';
+    }
+    handlePriceRuleChange(categoryCode, nextRule) {
+        const next = new Map(this.priceCategoryRules);
+        next.set(categoryCode, nextRule);
+        this.priceCategoryRules = next;
+    }
+    /** Assembles the API payload from the current price rules state. Every category shares the property's VAT rate and is Inclusive. */
+    buildPayload() {
+        const vat = this.vatSummary;
+        const inclusiveEntry = (this.setupEntries?.vat_included ?? []).find(v => v.CODE_NAME === taxationModes.INCLUSIVE);
+        const tax_categories = this.categories.map(category => {
+            const rule = this.priceCategoryRules.get(category.CODE_NAME);
+            return {
+                category: { code: category.CODE_NAME, description: category.CODE_VALUE_EN },
+                taxation_mode: { code: taxationModes.INCLUSIVE, description: inclusiveEntry?.CODE_VALUE_EN ?? 'Inclusive' },
+                pct: vat.mode === taxationModes.NOT_APPLICABLE ? 0 : (vat.value ?? 0),
+                default_price: rule?.value ?? null,
+            };
+        });
+        return {
+            property_id: this.propertyid,
+            ...getAccTaxPayloadFields(),
+            tax_categories,
+            DAY_USE_BLOCK: this.dayUseBlockNight ? '1' : '0',
+            BABY_COT_PRICING_MODEL: this.babyCotPricingModel,
+        };
+    }
+    /** Validates and submits the extra-service price configuration to the API. */
+    async handleSubmit(e) {
+        e.preventDefault();
+        this.autoValidate = true;
+        try {
+            this.isSaving = true;
+            const payload = this.buildPayload();
+            await this.propertyService.handleExposedPropertyTaxCategories(payload);
+            showToast({
+                title: 'Saved Successfully',
+                type: 'success',
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+        finally {
+            this.isSaving = false;
+        }
+    }
+    render() {
+        if (this.isLoading) {
+            return h("ir-loading-screen", null);
+        }
+        return (h("ir-page", { label: "Extra Services", description: "Define pricing and options for the extra services offered on this property.", "data-testid": "ir-extra-services-settings" }, h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "extra-services-settings__form", style: { width: '100px' }, variant: "brand" }, "Save"), h("form", { id: "extra-services-settings__form", onSubmit: e => this.handleSubmit(e), class: "extra-services-settings__groups" }, this.serviceGroups.length === 0 && (h("ir-empty-state", { message: "No extra-service groups are set up yet. Add a service category whose CODE_NAME is referenced by other categories' NOTES to group them here." })), this.serviceGroups.map(group => (h("wa-card", { appearance: "plain", class: "extra-services-settings__card" }, h("div", { slot: "header", class: "extra-services-settings__header" }, h("span", null, group.label), h("span", { class: "extra-services-settings__tax-chip" }, h("span", { class: "extra-services-settings__tax-chip-label" }, "VAT"), h("span", null, this.formatAccChargeRule(this.vatSummary)))), h("div", { class: "extra-services-grid" }, group.categories.map((category, idx) => {
+            const rule = this.priceCategoryRules.get(category.CODE_NAME);
+            const isDayUse = category.CODE_NAME === DAY_USE_CATEGORY_CODE;
+            const isBabyCot = category.CODE_NAME === BABY_COT_CATEGORY_CODE;
+            return [
+                idx > 0 && (h("div", { class: "extra-services-grid__divider", key: category.CODE_NAME + 'divider' + idx }, h("wa-divider", null))),
+                h("div", { class: "extra-services-grid__row", id: category.CODE_NAME, key: category.CODE_NAME + 'row' + idx }, h("div", { class: "extra-services-grid__name" }, h("p", { class: "extra-services-grid__title" }, getEntryValue({ entry: category, language: this.language }))), h("div", { class: "extra-services-grid__controls" }, h("div", { class: "extra-services-grid__cell" }, isBabyCot ? (h("div", { class: 'ir__field-group' }, h("ir-extra-service-price-input", {
+                    // class={'--grow'}
+                    autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule
+                }), h("wa-select", { value: this.babyCotPricingModel, defaultValue: this.babyCotPricingModel, size: "s", style: { width: 'min-content', minWidth: '100px' }, onchange: e => (this.babyCotPricingModel = e.target.value) }, h("wa-option", { value: "Stay" }, "Stay"), h("wa-option", { value: "Night" }, "Night")))) : (h("ir-extra-service-price-input", { autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule }))), h("div", { class: "extra-services-grid__cell" }, isDayUse && (h("wa-switch", { checked: this.dayUseBlockNight, defaultChecked: this.dayUseBlockNight, onchange: e => (this.dayUseBlockNight = e.target.checked) }, "Block night"))))),
+            ];
+        }))))))));
+    }
+    static get watchers() { return {
+        "ticket": [{
+                "handleTicketChange": 0
+            }],
+        "p": [{
+                "handlePChange": 0
+            }],
+        "propertyid": [{
+                "handlePropertyIdChange": 0
+            }]
+    }; }
+};
+IrExtraServicesSettings.style = irExtraServicesSettingsCss();
 
 const irFiscalDocumentsCss = () => `.sc-ir-fiscal-documents-h{display:block}`;
 
@@ -4236,6 +4229,8 @@ const IrMonthlyBookingsReport = class {
         try {
             const getReportObj = (report) => {
                 return {
+                    adults: report.Adults,
+                    children: report.Children,
                     day: report.Date,
                     units_booked: report.Units_booked,
                     occupancy_percent: report.Occupancy,
@@ -5458,4 +5453,4 @@ const IrUserManagement = class {
 };
 IrUserManagement.style = irUserManagementCss();
 
-export { IglooCalendar as igloo_calendar, IrAgents as ir_agents, IrArrivals as ir_arrivals, IrBookingEmailLogs as ir_booking_email_logs, IrBookingListing as ir_booking_listing, IrChannel as ir_channel, IrCityLedger as ir_city_ledger, IrDailyRevenue as ir_daily_revenue, IrDepartures as ir_departures, IrFiscalDocuments as ir_fiscal_documents, IrGhsOnboarding as ir_ghs_onboarding, IrHkTasks as ir_hk_tasks, IrHousekeeping as ir_housekeeping, IrMealReport as ir_meal_report, IrMonthlyBookingsReport as ir_monthly_bookings_report, IrPaymentOption as ir_payment_option, IrSalesByChannel as ir_sales_by_channel, IrSalesByCountry as ir_sales_by_country, IrTaxServiceCategories as ir_tax_service_categories, IrUninvoicedBookings as ir_uninvoiced_bookings, IrUserManagement as ir_user_management };
+export { IglooCalendar as igloo_calendar, IrAgents as ir_agents, IrArrivals as ir_arrivals, IrBookingEmailLogs as ir_booking_email_logs, IrBookingListing as ir_booking_listing, IrChannel as ir_channel, IrDailyRevenue as ir_daily_revenue, IrDepartures as ir_departures, IrExtraServicesSettings as ir_extra_services_settings, IrFiscalDocuments as ir_fiscal_documents, IrGhsOnboarding as ir_ghs_onboarding, IrHkTasks as ir_hk_tasks, IrHousekeeping as ir_housekeeping, IrMealReport as ir_meal_report, IrMonthlyBookingsReport as ir_monthly_bookings_report, IrPaymentOption as ir_payment_option, IrSalesByChannel as ir_sales_by_channel, IrSalesByCountry as ir_sales_by_country, IrTaxServiceCategories as ir_tax_service_categories, IrUninvoicedBookings as ir_uninvoiced_bookings, IrUserManagement as ir_user_management };

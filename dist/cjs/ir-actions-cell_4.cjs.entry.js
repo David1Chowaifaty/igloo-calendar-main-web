@@ -97,7 +97,7 @@ const IrBalanceCell = class {
         return value !== null && value !== undefined && value !== 0;
     }
     render() {
-        return (index.h(index.Host, { key: 'c9318740020c864a1482747ba45bf64f30d33191' }, this.label && index.h("p", { key: '23f0a42ead490fa72052903b2ee2a45b7a6b40c0', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (index.h("p", { class: "ir-price", style: { fontWeight: '400' } }, utils.formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), index.h("div", { key: '4e0bf42258f618ab46a4488e63aef820cca72804', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (index.h(index.Host, { key: '1582625890f57eec5e700fb55b0f00e905b58278' }, this.label && index.h("p", { key: '99c5df6e326bedb88d7245f328c63bc9cdf3afc5', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (index.h("p", { class: "ir-price", style: { fontWeight: '400' } }, utils.formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), index.h("div", { key: 'a69dd87a998d0b0b1152452d75636a775de07e0c', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.hasAmount(this.financial.cancelation_penality_as_if_today) &&
                 this.hasAmount(this.financial.due_amount) && (index.h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -175,7 +175,7 @@ const IrGuestNameCell = class {
     }
     name;
     render() {
-        return (index.h(index.Host, { key: 'c9642ac45c3c90f2d093dd2319a63184905c5857' }, this.name.first_name, " ", this.name.last_name));
+        return (index.h(index.Host, { key: 'a72d7771c6e702a3fe8d8cf4bd5ffa1f350db303' }, this.name.first_name, " ", this.name.last_name));
     }
 };
 IrGuestNameCell.style = irGuestNameCellCss();
@@ -189,7 +189,7 @@ const IrUnitCell = class {
     room;
     showDeparture = false;
     render() {
-        return (index.h(index.Host, { key: 'f83a1ae0b99f2348305bf87817aa1c51af2b0058' }, index.h("p", { key: '389519d338ddcbd3b00ae0596247ade34871bae6' }, this.room.roomtype.name), this.room.unit && index.h("ir-unit-tag", { key: '73f7ed40f03cdbaf1dfe39953fa5b9b6ff6d0208', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && index.h("span", { key: '69827ed5a2024686eeccaa884a6b367e7af023f5' }, this.room?.departure_time?.description)));
+        return (index.h(index.Host, { key: 'b3c9443358ef2944c1a2f2e7037b665ba0dd1a94' }, index.h("p", { key: '21201b4c550b70631836e4f8d230a9df8efe4765' }, this.room.roomtype.name), this.room.unit && index.h("ir-unit-tag", { key: 'a607780bcee848333a34af61d665adfc9255acf5', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && index.h("span", { key: '9eb0424dd4f190ee4cb8f710430c5c1ec20f8d30' }, this.room?.departure_time?.description)));
     }
 };
 IrUnitCell.style = irUnitCellCss();

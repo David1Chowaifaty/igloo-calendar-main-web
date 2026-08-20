@@ -3,7 +3,7 @@ import * as z from 'zod';
 export declare const CategorySchema: z.ZodNullable<z.ZodString>;
 /** Optional transaction category code. */
 export type Category = z.infer<typeof CategorySchema>;
-export declare const RelEntitySchema: z.ZodEnum<["TBL_BSAD", "TBL_BSP"]>;
+export declare const RelEntitySchema: z.ZodEnum<["TBL_BSAD", "TBL_BSP", "TBL_BSE"]>;
 /** Related entity table name for a city-ledger record. */
 export type RelEntity = z.infer<typeof RelEntitySchema>;
 export declare const CLAgencyContextSchema: z.ZodObject<{
@@ -250,7 +250,7 @@ export declare const ClTxSchema: z.ZodObject<{
     NET_AMOUNT: z.ZodNumber;
     OWNER_ID: z.ZodNumber;
     PAY_METHOD_CODE: z.ZodUnion<[z.ZodString, z.ZodNull]>;
-    REL_ENTITY: z.ZodEnum<["TBL_BSAD", "TBL_BSP"]>;
+    REL_ENTITY: z.ZodEnum<["TBL_BSAD", "TBL_BSP", "TBL_BSE"]>;
     REL_ENTITY_KEY: z.ZodNumber;
     TAX_AMOUNT: z.ZodNumber;
     TOTAL_AMOUNT: z.ZodNumber;
@@ -334,7 +334,7 @@ export declare const ClTxSchema: z.ZodObject<{
     My_Room_type?: any;
     My_Travel_agency?: null;
     PAY_METHOD_CODE?: string;
-    REL_ENTITY?: "TBL_BSAD" | "TBL_BSP";
+    REL_ENTITY?: "TBL_BSAD" | "TBL_BSP" | "TBL_BSE";
     REL_ENTITY_KEY?: number;
     TRAVEL_AGENCY_ID?: number;
     VAT_AMOUNT?: number;
@@ -416,7 +416,7 @@ export declare const ClTxSchema: z.ZodObject<{
     My_Room_type?: any;
     My_Travel_agency?: null;
     PAY_METHOD_CODE?: string;
-    REL_ENTITY?: "TBL_BSAD" | "TBL_BSP";
+    REL_ENTITY?: "TBL_BSAD" | "TBL_BSP" | "TBL_BSE";
     REL_ENTITY_KEY?: number;
     TRAVEL_AGENCY_ID?: number;
     VAT_AMOUNT?: number;
@@ -598,7 +598,7 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         NET_AMOUNT: z.ZodNumber;
         OWNER_ID: z.ZodNumber;
         PAY_METHOD_CODE: z.ZodUnion<[z.ZodString, z.ZodNull]>;
-        REL_ENTITY: z.ZodEnum<["TBL_BSAD", "TBL_BSP"]>;
+        REL_ENTITY: z.ZodEnum<["TBL_BSAD", "TBL_BSP", "TBL_BSE"]>;
         REL_ENTITY_KEY: z.ZodNumber;
         TAX_AMOUNT: z.ZodNumber;
         TOTAL_AMOUNT: z.ZodNumber;
@@ -682,7 +682,7 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         My_Room_type?: any;
         My_Travel_agency?: null;
         PAY_METHOD_CODE?: string;
-        REL_ENTITY?: "TBL_BSAD" | "TBL_BSP";
+        REL_ENTITY?: "TBL_BSAD" | "TBL_BSP" | "TBL_BSE";
         REL_ENTITY_KEY?: number;
         TRAVEL_AGENCY_ID?: number;
         VAT_AMOUNT?: number;
@@ -764,7 +764,7 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         My_Room_type?: any;
         My_Travel_agency?: null;
         PAY_METHOD_CODE?: string;
-        REL_ENTITY?: "TBL_BSAD" | "TBL_BSP";
+        REL_ENTITY?: "TBL_BSAD" | "TBL_BSP" | "TBL_BSE";
         REL_ENTITY_KEY?: number;
         TRAVEL_AGENCY_ID?: number;
         VAT_AMOUNT?: number;
@@ -849,7 +849,7 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         My_Room_type?: any;
         My_Travel_agency?: null;
         PAY_METHOD_CODE?: string;
-        REL_ENTITY?: "TBL_BSAD" | "TBL_BSP";
+        REL_ENTITY?: "TBL_BSAD" | "TBL_BSP" | "TBL_BSE";
         REL_ENTITY_KEY?: number;
         TRAVEL_AGENCY_ID?: number;
         VAT_AMOUNT?: number;
@@ -934,7 +934,7 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         My_Room_type?: any;
         My_Travel_agency?: null;
         PAY_METHOD_CODE?: string;
-        REL_ENTITY?: "TBL_BSAD" | "TBL_BSP";
+        REL_ENTITY?: "TBL_BSAD" | "TBL_BSP" | "TBL_BSE";
         REL_ENTITY_KEY?: number;
         TRAVEL_AGENCY_ID?: number;
         VAT_AMOUNT?: number;

@@ -5,7 +5,7 @@ import * as z from "zod";
 // Shared / Base types
 // ---------------------------------------------------------------------------
 export const CategorySchema = z.string().nullable();
-export const RelEntitySchema = z.enum(['TBL_BSAD', 'TBL_BSP']);
+export const RelEntitySchema = z.enum(['TBL_BSAD', 'TBL_BSP', 'TBL_BSE']);
 export const CLAgencyContextSchema = z.object({
     AGENCY_ID: z.number(),
     CURRENCY_ID: z.number(),

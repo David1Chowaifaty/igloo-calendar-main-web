@@ -2,7 +2,7 @@ import { r as registerInstance, c as createEvent, d as getElement, h, H as Host 
 import { v as v4 } from './v4-CK3_k8jD.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { l as locales } from './locales.store-C-PbJt6i.js';
-import { i as formatAmount, z as calculateTrend } from './utils-aikO_b6Z.js';
+import { i as formatAmount, z as calculateTrend } from './utils-k8E2pDGf.js';
 import './index-BJS0kaeV.js';
 import './index-DeW5X45W.js';
 import './calendar-data-MrKyEgFn.js';
@@ -464,9 +464,9 @@ const IrSalesByChannelFilters = class {
         },
     ];
     render() {
-        return (h("ir-filter-card", { key: 'a0c1a17c5a3a4fab8c369527ce89a5c1534dc644' }, h("wa-radio-group", { key: 'aa34a9f59b10cd069ee6ea22d4a34028d4833d10', label: "Rooms", orientation: "horizontal", size: "s", style: { width: '100%' }, value: this.filters?.BOOK_CASE, onchange: (e) => {
+        return (h("ir-filter-card", { key: 'b29064ec3f08d9cebae1cdef9e78de6d8252b8e1' }, h("wa-radio-group", { key: '6f929a7c4e4b63c073968d15d6c53e500e7d0107', label: "Rooms", orientation: "horizontal", size: "s", style: { width: '100%' }, value: this.filters?.BOOK_CASE, onchange: (e) => {
                 this.updateFilter({ BOOK_CASE: e.target.value });
-            } }, h("wa-radio", { key: 'f7740ffea258c6ad92a7672c0b393b3c2556c5a7', style: { flex: '1 1 0%' }, appearance: "button", value: "001" }, "Booked"), h("wa-radio", { key: '14feaf6b957a5bf78cb94cdf49097cd461e3e3ac', style: { flex: '1 1 0%' }, appearance: "button", value: "002" }, "Stayed")), this.allowedProperties.length > 1 && (h("ir-m-combobox", { key: '8f03735b996753ec95b03a9fdd0f1bc920ce3537', defaultOption: this.filters?.LIST_AC_ID?.length === this.allowedProperties?.length ? 'all' : this.filters?.LIST_AC_ID[0]?.toString(), onOptionChange: e => {
+            } }, h("wa-radio", { key: '52d407844a1948a41360c5830dd9f49bda64697c', style: { flex: '1 1 0%' }, appearance: "button", value: "001" }, "Booked"), h("wa-radio", { key: 'abbb6dac1a6cde8684a3ada51c6dd0442967fdda', style: { flex: '1 1 0%' }, appearance: "button", value: "002" }, "Stayed")), this.allowedProperties.length > 1 && (h("ir-m-combobox", { key: '25056fac04d229a529005c39235ea4882af82e83', defaultOption: this.filters?.LIST_AC_ID?.length === this.allowedProperties?.length ? 'all' : this.filters?.LIST_AC_ID[0]?.toString(), onOptionChange: e => {
                 const value = e.detail.value;
                 if (value === 'all') {
                     this.updateFilter({ LIST_AC_ID: this.allowedProperties.map(p => p.id) });
@@ -480,7 +480,7 @@ const IrSalesByChannelFilters = class {
                     label: p.name,
                     value: p.id.toString(),
                 })),
-            ] })), h("wa-select", { key: '84bc60f169ef0d88e90d2924979dace7f5d3fa48', label: "Selected period", size: "s", value: this.window, defaultValue: this.window, onchange: (e) => {
+            ] })), h("wa-select", { key: 'f967bc17e11204e0a49f8e20bd6d9aa4707ca2ca', label: "Selected period", size: "s", value: this.window, defaultValue: this.window, onchange: (e) => {
                 const val = e.target.value;
                 const dateDiff = Number(val);
                 this.updateFilter({
@@ -489,17 +489,17 @@ const IrSalesByChannelFilters = class {
                     FROM_DATE: hooks().subtract(dateDiff, 'days').format('YYYY-MM-DD'),
                 });
                 this.window = val;
-            } }, h("wa-option", { key: 'f92bd916bf5b866ac00a2c9a012ce67ad60068e2', value: "7" }, "For the past 7 days"), h("wa-option", { key: '52ff61601d61df8dbd557a9dea2e462e97b948c0', value: "14" }, "For the past 14 days"), h("wa-option", { key: 'a06d35075dabb8e1b6b86520beca9896f72aff83', value: "30" }, "For the past 30 days"), h("wa-option", { key: '86ed6f870676c3aa8ceaf002e337a13f052387b6', value: "60" }, "For the past 60 days"), h("wa-option", { key: '0402bbe1140e0b8172ebc46b489cc9422fa78346', value: "90" }, "For the past 90 days"), h("wa-option", { key: 'fd5d20ead393eac1effc78bc86c79c26a5ffe7df', value: "365" }, "For the past 365 days")), h("div", { key: '5566501bb993c78ba38f32a5347424e0fc55adc8', class: "or-divider" }, h("span", { key: 'ba3b045c3649ed991b4163fb33ba5ed1cba2dcd7', class: "or-divider__line" }), h("span", { key: 'c23dff8f395ff1496a1bb833506d479722aa65c5', class: "or-divider__text" }, "Or"), h("span", { key: '74a3eba8a1b88ec430cdd84e25c26598c64f3df4', class: "or-divider__line" })), h("ir-date-range-filter", { key: '3826a968f3efb939f86508f5b0dac984723c38ec', label: 'Date range', fromDate: this.filters?.FROM_DATE, toDate: this.filters?.TO_DATE, maxDate: hooks().format('YYYY-MM-DD'), selectionMode: "auto", quickDates: this.quickDates, withClear: false, onDatesChanged: e => {
+            } }, h("wa-option", { key: 'f9d777eb7bdd72e5abe499a468babcd77eba1a49', value: "7" }, "For the past 7 days"), h("wa-option", { key: '63deb6bffdd884ba2e27e8a271fd445f2086fe03', value: "14" }, "For the past 14 days"), h("wa-option", { key: '4237c150004619c573a2d58223082b0ae4b4725b', value: "30" }, "For the past 30 days"), h("wa-option", { key: 'f6b94ca70e8021cc6955cba219ecd8f20c3d877a', value: "60" }, "For the past 60 days"), h("wa-option", { key: '29291ad2b133d34157a5d7d930616b3a2e03fef0', value: "90" }, "For the past 90 days"), h("wa-option", { key: '035be2477e05597fce9052fce75163ca6accdb81', value: "365" }, "For the past 365 days")), h("div", { key: 'ace6ba9a6cdc8f95e4729ed83738ec25efe2178d', class: "or-divider" }, h("span", { key: '8057523f7ea215a5e9193d212d5174fcc029edb0', class: "or-divider__line" }), h("span", { key: 'dc30310c15b690e85211ce2f204865700d946725', class: "or-divider__text" }, "Or"), h("span", { key: 'c7437c4439a6b6c65b4be495efcfa28fe1dda949', class: "or-divider__line" })), h("ir-date-range-filter", { key: '394b24566f3e493ce327a52382b6d7d4445d8ceb', label: 'Date range', fromDate: this.filters?.FROM_DATE, toDate: this.filters?.TO_DATE, maxDate: hooks().format('YYYY-MM-DD'), selectionMode: "auto", quickDates: this.quickDates, withClear: false, onDatesChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { from, to } = e.detail;
                 this.updateFilter({ FROM_DATE: from, TO_DATE: to });
                 this.window = '';
-            } }), h("wa-checkbox", { key: '653c212ad158fa1476e3e9d4a8f07383d44ad3d2', checked: this.filters?.include_previous_year, onchange: (e) => {
+            } }), h("wa-checkbox", { key: '1810fe980d8e9ab2f43aec046c69754aa0e48959', checked: this.filters?.include_previous_year, onchange: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ include_previous_year: e.target.checked });
-            } }, "Compare with previous year"), h("div", { key: '6434df76387e13cdbae1f9be544ecd2a4a82b959', slot: "footer" }, h("ir-custom-button", { key: '807d87449acdbf1d0c6e758b37a34e15a227ceff', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: '2976a880fefd615b4def5c0804bb802e07c76b87', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
+            } }, "Compare with previous year"), h("div", { key: 'e13a7f3971f44bebd0d6d771727a1ec373050a80', slot: "footer" }, h("ir-custom-button", { key: '4632f23a0ec096a76834a4348c958b0bc3529ae7', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: '6315620db88ddeddfccd1f501525ef242fadc25f', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
     }
 };
 IrSalesByChannelFilters.style = irSalesByChannelFiltersCss();
@@ -525,7 +525,7 @@ const IrSalesByChannelSummary = class {
         const lastYearRevenue = this.sum('REVENUE', true);
         const currency = this.records?.[0]?.currency;
         const hasLastYear = Boolean(this.records?.length && this.filters?.include_previous_year);
-        return (h("div", { key: '3d4581eae4e5fb53acc88f87fd86b6e07c6ac4f7', class: "summary-row" }, h("ir-metric-card", { key: '106aa6290db36c3612c5a3112e75e2283823d542', class: "summary-metric", icon: "moon", label: "Total Room Nights", value: totalNights.toString(), trend: hasLastYear ? calculateTrend(totalNights, lastYearNights) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearNights}` : undefined }), h("ir-metric-card", { key: '78c90e011d89ab9c9c06b60e7ac4447e88999076', class: "summary-metric", icon: "money-bill", label: "Total Revenue", value: formatAmount(currency, totalRevenue), trend: hasLastYear ? calculateTrend(totalRevenue, lastYearRevenue) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${formatAmount(currency, lastYearRevenue)}` : undefined }), h("ir-metric-card", { key: 'b2c80e2c76c918dfc4e5c16320c4b7ee669a80d2', class: "summary-metric", icon: "chart-bar", label: "Sources", value: (this.records?.length ?? 0).toString() })));
+        return (h("div", { key: '81a9777a668d24e8c2d15bb0bb9d167a971a6ca5', class: "summary-row" }, h("ir-metric-card", { key: '2c528f325cc5d28ccffe53b5a90000dc35aee452', class: "summary-metric", icon: "moon", label: "Total Room Nights", value: totalNights.toString(), trend: hasLastYear ? calculateTrend(totalNights, lastYearNights) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearNights}` : undefined }), h("ir-metric-card", { key: 'aba55b5a9f1d7c82b2bd6b6943976148fa2ef524', class: "summary-metric", icon: "money-bill", label: "Total Revenue", value: formatAmount(currency, totalRevenue), trend: hasLastYear ? calculateTrend(totalRevenue, lastYearRevenue) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${formatAmount(currency, lastYearRevenue)}` : undefined }), h("ir-metric-card", { key: '056d45177b78e88cb28a07e3c8e1556c4bc98644', class: "summary-metric", icon: "chart-bar", label: "Sources", value: (this.records?.length ?? 0).toString() })));
     }
 };
 IrSalesByChannelSummary.style = irSalesByChannelSummaryCss();

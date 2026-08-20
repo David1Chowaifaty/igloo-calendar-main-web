@@ -59,6 +59,8 @@ export interface PeakDay {
 }
 export interface DailyStat {
     Date: string;
+    Adults: number;
+    Children: number;
     Occupancy: number;
     Units_booked: number;
     Rooms_Revenue: number;
