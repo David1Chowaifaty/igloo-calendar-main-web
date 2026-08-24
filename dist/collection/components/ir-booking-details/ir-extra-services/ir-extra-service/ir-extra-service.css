@@ -34,7 +34,10 @@
   font-size: var(--wa-font-size-s);
 }
 
-.es-meta-date {
+.es-meta-date,
+.es-meta-date::part(base),
+.es-meta-date::part(from-date),
+.es-meta-date::part(to-date) {
   font-weight: 700;
   white-space: nowrap;
 }
