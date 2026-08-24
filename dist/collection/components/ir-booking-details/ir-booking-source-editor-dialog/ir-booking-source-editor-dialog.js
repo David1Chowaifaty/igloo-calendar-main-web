@@ -11,14 +11,14 @@ export class IrBookingSourceEditorDialog {
         this.open = false;
     }
     render() {
-        return (h("ir-dialog", { key: '9dc690fc216045536c04e1f0eae45db43e4f729e', label: "Change Booking Source", onIrDialogHide: e => {
+        return (h("ir-dialog", { key: 'e4bd66acc9b310d2d588abde11b48c99a8c72a49', label: "Change Booking Source", onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.open = false;
-            }, open: this.open }, this.open && (h("ir-booking-source-editor-form", { key: '556a3e877f0099f4d3a5414dfd880175bfc5b72c', booking: this.booking, onBookingSourceSaved: () => {
+            }, open: this.open }, this.open && (h("ir-booking-source-editor-form", { key: '436078fad45f8c5dc9b4c42ca34d27303f33a3dc', booking: this.booking, onBookingSourceSaved: () => {
                 this.closeDialog();
                 setTimeout(() => this.resetBookingEvt.emit(null), 100);
-            }, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: 'a28573ec9d147063adf710c93cea063f5ac8dde0', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'c075e21d80b8c7cd08834fc96f3b18483dca520b', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { key: '66a4a7e4f91fe037dd5fd6aea25ff888d7fe752c', type: "submit", form: `change-source-form-${this.booking?.booking_nbr}`, size: "m", appearance: "accent", variant: "brand", loading: this.isLoading }, "Save"))));
+            }, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: '8f9c0360fe9c26beae9421f7872e4733fec86acf', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '4e26fa6d1c98b063f384f1fcafc81b7393629b34', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { key: 'cc9b36b7e753048de99094b8927e055603be67ab', type: "submit", form: `change-source-form-${this.booking?.booking_nbr}`, size: "m", appearance: "accent", variant: "brand", loading: this.isLoading }, "Save"))));
     }
     static get is() { return "ir-booking-source-editor-dialog"; }
     static get encapsulation() { return "scoped"; }

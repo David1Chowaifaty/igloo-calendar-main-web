@@ -40,7 +40,7 @@ export class IrPickup {
     closeModal;
     _id = `pickup-form-${v4()}`;
     render() {
-        return (h("ir-drawer", { key: '12b8d655fffbb6da0323d50729dfa916942dce97', style: {
+        return (h("ir-drawer", { key: '9f40a1cef001c58ca48f84beab6efc3a4ed3b17a', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -51,7 +51,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-pickup-form", { key: '70952c08408376f2ff47299b8c2256ddf1d37f0a', booking: this.booking, agent: this.agent, onCanSubmitPickupChange: e => {
+            } }, this.open && (h("ir-pickup-form", { key: '9742aaaecbdb0e0d2af67fc13893ba82c4e0f70c', booking: this.booking, agent: this.agent, onCanSubmitPickupChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.canSubmitPickup = e.detail;
@@ -59,7 +59,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            }, formId: this._id })), h("div", { key: 'd0c98aa56d7916d89c51c7cac5aa2ab5fe29bb47', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'b8e9126adb19c180117ec1ab4a86df562a67b85b', class: `flex-fill`, size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: '4bead65a7b1cb3dbb8f055e7ed4377bd1e0aa590', type: "submit", loading: this.isLoading, form: this._id, size: "m", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
+            }, formId: this._id })), h("div", { key: '0274f8a5bb9cf70b58c433cd19100af9322b5a88', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'dd36b43e5f34b7b4dfb6d30ee1a270a3fa6a0fb9', class: `flex-fill`, size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: 'e76e253180393afa080a1db0f95aad0423b64ff6', type: "submit", loading: this.isLoading, form: this._id, size: "m", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
     }
     static get is() { return "ir-pickup"; }
     static get encapsulation() { return "scoped"; }

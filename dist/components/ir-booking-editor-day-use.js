@@ -1,0 +1,1 @@
+import{I as o,d as r}from"./ir-booking-editor-day-use2.js";const s=o,i=r;export{s as IrBookingEditorDayUse,i as defineCustomElement}

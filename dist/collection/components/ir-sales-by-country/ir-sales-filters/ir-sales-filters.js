@@ -27,9 +27,9 @@ export class IrSalesFilters {
         this.applyFilters.emit(this.filters);
     }
     render() {
-        return (h("ir-filter-card", { key: 'd83024b992f54d38d4891b30c7e1bee93103bec0' }, h("wa-radio-group", { key: 'bb8b2cc48e887415d82e824ba9ef5d07d16e9de1', label: "Rooms", orientation: "horizontal", size: "s", style: { width: '100%' }, value: this.filters?.BOOK_CASE, onchange: (e) => {
+        return (h("ir-filter-card", { key: '4140e882dea9ae7527a19ce8ee8be7ad2b986e8e' }, h("wa-radio-group", { key: '29f54bf368916ec2088c4356a2eae4e0636be72e', label: "Rooms", orientation: "horizontal", size: "s", style: { width: '100%' }, value: this.filters?.BOOK_CASE, onchange: (e) => {
                 this.updateFilter({ BOOK_CASE: e.target.value });
-            } }, h("wa-radio", { key: '27220d7c96ca87d2b087d40011707f97e4da6a5b', style: { flex: '1 1 0%' }, appearance: "button", value: "001" }, "Booked"), h("wa-radio", { key: '2258875b1376608763dfc49545c26148f9642f12', style: { flex: '1 1 0%' }, appearance: "button", value: "002" }, "Stayed")), h("wa-select", { key: '6308f8f3addf79fd020886754b2febfd84992da7', label: "Selected period", size: "s", value: this.window, defaultValue: this.window, onchange: (e) => {
+            } }, h("wa-radio", { key: '7baefa38d58c5248876e7807c7ba9e4c07918bc4', style: { flex: '1 1 0%' }, appearance: "button", value: "001" }, "Booked"), h("wa-radio", { key: '96b350728d56b133dad7ddeab5e894a6a9bf0b8c', style: { flex: '1 1 0%' }, appearance: "button", value: "002" }, "Stayed")), h("wa-select", { key: 'ef0c3616b382c4ae3f6e64a6cb0e4dc2486f4d9c', label: "Selected period", size: "s", value: this.window, defaultValue: this.window, onchange: (e) => {
                 const val = e.target.value;
                 const dateDiff = Number(val);
                 this.updateFilter({
@@ -38,17 +38,17 @@ export class IrSalesFilters {
                     FROM_DATE: moment().subtract(dateDiff, 'days').format('YYYY-MM-DD'),
                 });
                 this.window = val;
-            } }, h("wa-option", { key: 'f9c78467e6283127e3e418edb9dfda2c89c42b94', value: "7" }, "For the past 7 days"), h("wa-option", { key: '18194d161ff78bd81d3f5d856cb8c32167931b30', value: "14" }, "For the past 14 days"), h("wa-option", { key: '0c76b3cf11276b5ab87436934cfb06c9497ff54a', value: "30" }, "For the past 30 days"), h("wa-option", { key: 'd06b65acec1009f4dc09400f1ed0fbd836c652f7', value: "60" }, "For the past 60 days"), h("wa-option", { key: '71f947b97c7463ba94490ebea143ed554a257339', value: "90" }, "For the past 90 days"), h("wa-option", { key: 'f78a1bbe5f86d65e7391be1e921404a8c83d9464', value: "365" }, "For the past 365 days")), h("div", { key: '78620cb009f4c92a2c0ffef4688a735c21515613', class: "or-divider" }, h("span", { key: 'e4e5b5049e274ff3e209d1fe48b2188f25e90c61', class: "or-divider__line" }), h("span", { key: '70e95a2e04e0e8d84cffd29af453c98c2c40fec6', class: "or-divider__text" }, "Or"), h("span", { key: '75c43f850b7565ee4dabd69bebb45a2bfd4efbda', class: "or-divider__line" })), h("ir-date-range-filter", { key: '7653db9e6f0454c804a7822f22cedc379fecd44d', label: "Date range", fromDate: this.filters?.FROM_DATE, toDate: this.filters?.TO_DATE, maxDate: moment().format('YYYY-MM-DD'), selectionMode: "auto", showQuickActions: false, withClear: false, onDatesChanged: e => {
+            } }, h("wa-option", { key: '0503927fe08a375312e207f639a7db2a1d4e72c9', value: "7" }, "For the past 7 days"), h("wa-option", { key: '4d76c11ad651b7c67e1cfff65d85f62e1966c1d4', value: "14" }, "For the past 14 days"), h("wa-option", { key: 'f122f3e7ea6d3cb21a3e4a91ace381d987483598', value: "30" }, "For the past 30 days"), h("wa-option", { key: '711dafc641d0e512137835ea3c1822afb71f7a1c', value: "60" }, "For the past 60 days"), h("wa-option", { key: '2f556a29f5e3275873e8ac02130ed7ce4609b709', value: "90" }, "For the past 90 days"), h("wa-option", { key: 'b8f48807cac6790255d6aae7859ced5c8f88843c', value: "365" }, "For the past 365 days")), h("div", { key: '947111920f5da309c16f7880c63b7e01bd850c60', class: "or-divider" }, h("span", { key: 'c465679fec0111e0f63a9d5c4ed66d2cdecc7f64', class: "or-divider__line" }), h("span", { key: 'a6ad55753627cc1a465b0f2222f696412546aa42', class: "or-divider__text" }, "Or"), h("span", { key: '1915e105c60b90fab877aca9a4c111b9810ec04a', class: "or-divider__line" })), h("ir-date-range-filter", { key: '0eb3be1b312e00ff164435faac8b118ce5d9a375', label: "Date range", fromDate: this.filters?.FROM_DATE, toDate: this.filters?.TO_DATE, maxDate: moment().format('YYYY-MM-DD'), selectionMode: "auto", showQuickActions: false, withClear: false, onDatesChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { from, to } = e.detail;
                 this.updateFilter({ FROM_DATE: from, TO_DATE: to });
                 this.window = '';
-            } }), h("wa-checkbox", { key: '485a3af8042910ad24cd977410cf143d864da632', checked: this.filters?.include_previous_year, onchange: (e) => {
+            } }), h("wa-checkbox", { key: 'ad92d2ec720f09757090a9dffdaed87fc457adc1', checked: this.filters?.include_previous_year, onchange: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ include_previous_year: e.target.checked });
-            } }, "Compare with previous year"), h("div", { key: '720e8988af5dff15af290f3ef4646ddaacd8adf4', slot: "footer" }, h("ir-custom-button", { key: '1c620796b441b8691c4e789db21749df9f883927', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: 'd524415f6703a351eeb6124cfeba25737414cd55', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
+            } }, "Compare with previous year"), h("div", { key: '2c08a47439004e6ee54e4fb827eabc1869cae4c3', slot: "footer" }, h("ir-custom-button", { key: '758b4571b32b71748e2c03af7a69007fdf8884cb', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: '7f031c66ec744afca12f40e62ef04d5a08bf3258', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
     }
     static get is() { return "ir-sales-filters"; }
     static get encapsulation() { return "scoped"; }

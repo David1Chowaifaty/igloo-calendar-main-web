@@ -69,6 +69,10 @@ export interface DayUseUnitAvailability {
  * It's always a subset of `available` (never set for the same-non-empty-POOL case).
  */
 export declare function getDayUseUnitAvailability(calendarCell: CalendarCellType | null | undefined): DayUseUnitAvailability;
+/** Icon shown for a unit's same-day movement (`getDayUseUnitAvailability`'s `dayStatus`). */
+export declare const DAY_USE_STATUS_ICON: Record<Exclude<DayUseUnitDayStatus, null>, string>;
+/** Human-readable text for a same-day movement, incorporating the checkout/checkin clock time when known. */
+export declare function formatDayUseStatusText(dayStatus: Exclude<DayUseUnitDayStatus, null>, checkoutTime: string | null, checkinTime: string | null): string;
 export declare function getPrivateNote(extras: Extras[] | null): any;
 export declare function transformNewBooking(data: any): RoomBookingDetails[];
 export declare function transformNewBLockedRooms(data: any): Promise<RoomBlockDetails>;

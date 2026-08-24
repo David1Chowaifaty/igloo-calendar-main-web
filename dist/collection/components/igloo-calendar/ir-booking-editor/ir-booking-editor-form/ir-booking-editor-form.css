@@ -69,35 +69,6 @@
   /* margin-bottom: 1.5rem; */
 }
 
-.booking-editor__day-use-hours {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.booking-editor__day-use-hours-row {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  align-items: end;
-}
-
-.booking-editor__day-use-duration {
-  color: var(--wa-color-text-quiet);
-  font-size: var(--wa-font-size-s);
-  white-space: nowrap;
-}
-
-/* Vertically centers the arrow and duration text against the taller "from" field
-   (its label pushes the row's height up), instead of sitting at the row's baseline. */
-.booking-editor__day-use-hours-connector {
-  align-self: center;
-  padding-top: 1.5rem;
-}
-.booking-editor__day-use-hours-row ir-input {
-  width: 70px;
-}
 @media (min-width: 768px) {
   .booking-editor__total {
     margin-top: 0;

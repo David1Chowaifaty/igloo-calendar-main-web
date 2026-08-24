@@ -442,6 +442,21 @@ export function getDayUseUnitAvailability(calendarCell) {
         checkinTime,
     };
 }
+/** Icon shown for a unit's same-day movement (`getDayUseUnitAvailability`'s `dayStatus`). */
+export const DAY_USE_STATUS_ICON = {
+    checkin: 'plane-arrival',
+    checkout: 'plane-departure',
+    turnover: 'rotate',
+};
+/** Human-readable text for a same-day movement, incorporating the checkout/checkin clock time when known. */
+export function formatDayUseStatusText(dayStatus, checkoutTime, checkinTime) {
+    const checkoutText = checkoutTime ? `Check-out at ${checkoutTime}` : 'Check-out happening today';
+    const checkinText = checkinTime ? `Check-in at ${checkinTime}` : 'Check-in happening today';
+    if (dayStatus === 'turnover') {
+        return `${checkoutText}  ${checkinText}`;
+    }
+    return dayStatus === 'checkout' ? checkoutText : checkinText;
+}
 export function getPrivateNote(extras) {
     if (!extras) {
         return null;

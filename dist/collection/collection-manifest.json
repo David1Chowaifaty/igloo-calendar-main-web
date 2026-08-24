@@ -71,6 +71,7 @@
     "components/igloo-calendar/igl-to-be-assigned/igl-tba-category-view/igl-tba-category-view.js",
     "components/igloo-calendar/ir-booking-editor/ir-booking-editor.js",
     "components/igloo-calendar/ir-booking-editor/igl-day-use-unit-list/igl-day-use-unit-list.js",
+    "components/igloo-calendar/ir-booking-editor/ir-booking-editor-day-use/ir-booking-editor-day-use.js",
     "components/igloo-calendar/ir-booking-editor/ir-booking-editor-drawer/ir-booking-editor-drawer.js",
     "components/igloo-calendar/ir-booking-editor/ir-booking-editor-form/ir-booking-editor-form.js",
     "components/igloo-calendar/ir-booking-editor/ir-booking-editor-guest-form/ir-booking-editor-guest-form.js",

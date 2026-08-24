@@ -1549,6 +1549,13 @@ export namespace Components {
         "step": BookingStep;
         "unitId": string;
     }
+    /**
+     * Owns the day-use-only parts of the booking editor form: the selected unit's summary
+     * (date, room type, unit, price, same-day movement status) and the hours picker. Rendered
+     * by `ir-booking-editor-form` only when `booking_store.bookingDraft.dayUse` is true.
+     */
+    interface IrBookingEditorDayUse {
+    }
     interface IrBookingEditorDrawer {
         /**
           * Payload for blocked unit dates.
@@ -9283,6 +9290,17 @@ declare global {
         prototype: HTMLIrBookingEditorElement;
         new (): HTMLIrBookingEditorElement;
     };
+    /**
+     * Owns the day-use-only parts of the booking editor form: the selected unit's summary
+     * (date, room type, unit, price, same-day movement status) and the hours picker. Rendered
+     * by `ir-booking-editor-form` only when `booking_store.bookingDraft.dayUse` is true.
+     */
+    interface HTMLIrBookingEditorDayUseElement extends Components.IrBookingEditorDayUse, HTMLStencilElement {
+    }
+    var HTMLIrBookingEditorDayUseElement: {
+        prototype: HTMLIrBookingEditorDayUseElement;
+        new (): HTMLIrBookingEditorDayUseElement;
+    };
     interface HTMLIrBookingEditorDrawerElementEventMap {
         "bookingEditorClosed": void;
     }
@@ -13476,6 +13494,7 @@ declare global {
         "ir-booking-details": HTMLIrBookingDetailsElement;
         "ir-booking-details-drawer": HTMLIrBookingDetailsDrawerElement;
         "ir-booking-editor": HTMLIrBookingEditorElement;
+        "ir-booking-editor-day-use": HTMLIrBookingEditorDayUseElement;
         "ir-booking-editor-drawer": HTMLIrBookingEditorDrawerElement;
         "ir-booking-editor-form": HTMLIrBookingEditorFormElement;
         "ir-booking-editor-guest-form": HTMLIrBookingEditorGuestFormElement;
@@ -15279,6 +15298,13 @@ declare namespace LocalJSX {
         "roomTypeIds"?: (string | number)[];
         "step"?: BookingStep;
         "unitId"?: string;
+    }
+    /**
+     * Owns the day-use-only parts of the booking editor form: the selected unit's summary
+     * (date, room type, unit, price, same-day movement status) and the hours picker. Rendered
+     * by `ir-booking-editor-form` only when `booking_store.bookingDraft.dayUse` is true.
+     */
+    interface IrBookingEditorDayUse {
     }
     interface IrBookingEditorDrawer {
         /**
@@ -23409,6 +23435,7 @@ declare namespace LocalJSX {
         "ir-booking-details": Omit<IrBookingDetails, keyof IrBookingDetailsAttributes> & { [K in keyof IrBookingDetails & keyof IrBookingDetailsAttributes]?: IrBookingDetails[K] } & { [K in keyof IrBookingDetails & keyof IrBookingDetailsAttributes as `attr:${K}`]?: IrBookingDetailsAttributes[K] } & { [K in keyof IrBookingDetails & keyof IrBookingDetailsAttributes as `prop:${K}`]?: IrBookingDetails[K] };
         "ir-booking-details-drawer": Omit<IrBookingDetailsDrawer, keyof IrBookingDetailsDrawerAttributes> & { [K in keyof IrBookingDetailsDrawer & keyof IrBookingDetailsDrawerAttributes]?: IrBookingDetailsDrawer[K] } & { [K in keyof IrBookingDetailsDrawer & keyof IrBookingDetailsDrawerAttributes as `attr:${K}`]?: IrBookingDetailsDrawerAttributes[K] } & { [K in keyof IrBookingDetailsDrawer & keyof IrBookingDetailsDrawerAttributes as `prop:${K}`]?: IrBookingDetailsDrawer[K] };
         "ir-booking-editor": Omit<IrBookingEditor, keyof IrBookingEditorAttributes> & { [K in keyof IrBookingEditor & keyof IrBookingEditorAttributes]?: IrBookingEditor[K] } & { [K in keyof IrBookingEditor & keyof IrBookingEditorAttributes as `attr:${K}`]?: IrBookingEditorAttributes[K] } & { [K in keyof IrBookingEditor & keyof IrBookingEditorAttributes as `prop:${K}`]?: IrBookingEditor[K] };
+        "ir-booking-editor-day-use": IrBookingEditorDayUse;
         "ir-booking-editor-drawer": Omit<IrBookingEditorDrawer, keyof IrBookingEditorDrawerAttributes> & { [K in keyof IrBookingEditorDrawer & keyof IrBookingEditorDrawerAttributes]?: IrBookingEditorDrawer[K] } & { [K in keyof IrBookingEditorDrawer & keyof IrBookingEditorDrawerAttributes as `attr:${K}`]?: IrBookingEditorDrawerAttributes[K] } & { [K in keyof IrBookingEditorDrawer & keyof IrBookingEditorDrawerAttributes as `prop:${K}`]?: IrBookingEditorDrawer[K] };
         "ir-booking-editor-form": Omit<IrBookingEditorForm, keyof IrBookingEditorFormAttributes> & { [K in keyof IrBookingEditorForm & keyof IrBookingEditorFormAttributes]?: IrBookingEditorForm[K] } & { [K in keyof IrBookingEditorForm & keyof IrBookingEditorFormAttributes as `attr:${K}`]?: IrBookingEditorFormAttributes[K] } & { [K in keyof IrBookingEditorForm & keyof IrBookingEditorFormAttributes as `prop:${K}`]?: IrBookingEditorForm[K] };
         "ir-booking-editor-guest-form": IrBookingEditorGuestForm;
@@ -23833,6 +23860,12 @@ declare module "@stencil/core" {
              */
             "ir-booking-details-drawer": LocalJSX.IntrinsicElements["ir-booking-details-drawer"] & JSXBase.HTMLAttributes<HTMLIrBookingDetailsDrawerElement>;
             "ir-booking-editor": LocalJSX.IntrinsicElements["ir-booking-editor"] & JSXBase.HTMLAttributes<HTMLIrBookingEditorElement>;
+            /**
+             * Owns the day-use-only parts of the booking editor form: the selected unit's summary
+             * (date, room type, unit, price, same-day movement status) and the hours picker. Rendered
+             * by `ir-booking-editor-form` only when `booking_store.bookingDraft.dayUse` is true.
+             */
+            "ir-booking-editor-day-use": LocalJSX.IntrinsicElements["ir-booking-editor-day-use"] & JSXBase.HTMLAttributes<HTMLIrBookingEditorDayUseElement>;
             "ir-booking-editor-drawer": LocalJSX.IntrinsicElements["ir-booking-editor-drawer"] & JSXBase.HTMLAttributes<HTMLIrBookingEditorDrawerElement>;
             "ir-booking-editor-form": LocalJSX.IntrinsicElements["ir-booking-editor-form"] & JSXBase.HTMLAttributes<HTMLIrBookingEditorFormElement>;
             "ir-booking-editor-guest-form": LocalJSX.IntrinsicElements["ir-booking-editor-guest-form"] & JSXBase.HTMLAttributes<HTMLIrBookingEditorGuestFormElement>;

@@ -192,11 +192,11 @@ export class IrPreviewScreenDialog {
         this.restorePrintLayout();
     }
     render() {
-        return (h("ir-dialog", { key: '94c974557d22bb8bd136435a429face53b27cd40', onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '1304bb767a64db232b1919051c6062ebe0acee46', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openChanged.emit(false);
-            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, h("div", { key: 'b54e9af42994a2827bab4cb218c8c5787467b75e', slot: "header-actions", class: "ir-fullscreen-dialog__header-actions" }, h("slot", { key: '1070b0f83f119d56c1eaad4b674cff4549f693a9', name: "header-actions" }), !this.hideDefaultAction && (h(Fragment, { key: '06b9a198130cfc5d13b1d01f5d42c3695a0898eb' }, h("wa-tooltip", { key: '14beeb8399932afc25ad33060ea71b6051431f2f', for: this._id }, "Print PDF"), h("ir-custom-button", { key: '43a68894cc28c576266d4dc04d472dabc234174c', id: this._id, size: "m", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: 'fb78df85c37f7ca320102bdf84098baffa88d080', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))))), h("slot", { key: '022013c606f5905ad30375dcbb43b9c6bae4a137' })));
+            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, h("div", { key: '2729106cccba45afd4a7654edb683120c104defd', slot: "header-actions", class: "ir-fullscreen-dialog__header-actions" }, h("slot", { key: '8cf7fd48d92187f7d98e9c46484c20a55d767bf2', name: "header-actions" }), !this.hideDefaultAction && (h(Fragment, { key: '5bb1e74de92886c2683b7e07d901db66542cddd5' }, h("wa-tooltip", { key: '19b70e958cb1cbf19db40fb5507fabdbc62e3b19', for: this._id }, "Print PDF"), h("ir-custom-button", { key: '318aee277058efa1fefd675b021f67f0f425d22e', id: this._id, size: "m", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: 'f401f885c1f6a566ad8185558e8d5d31653cc6de', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))))), h("slot", { key: '4e9e107269e57bb77c0c7912fdf2983a0b491d07' })));
     }
     static get is() { return "ir-preview-screen-dialog"; }
     static get encapsulation() { return "shadow"; }

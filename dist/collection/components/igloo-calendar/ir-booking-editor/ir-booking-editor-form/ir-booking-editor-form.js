@@ -3,15 +3,12 @@ import calendar_data from "../../../../stores/calendar-data";
 import locales from "../../../../stores/locales.store";
 import { formatAmount } from "../../../../utils/utils";
 import { Fragment, h } from "@stencil/core";
-import { DayUseHoursSchema } from "../types";
 import { calculateDaysBetweenDates } from "../../../../utils/booking";
 import { AgentsService } from "../../../../services/agents/agents.service";
 import { BookingService } from "../../../../services/booking-service/booking.service";
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import { isAgentMode } from "../../../ir-booking-details/functions";
 import { IRBookingEditorService } from "../ir-booking-editor.service";
-import { createTimeToMask } from "../../../ui/ir-input/masks";
-import moment from "moment";
 export class IrBookingEditorForm {
     mode = 'PLUS_BOOKING';
     room;
@@ -76,37 +73,14 @@ export class IrBookingEditorForm {
         syncFirstRoomGuestName('first_name', guest.first_name);
         syncFirstRoomGuestName('last_name', guest.last_name);
     }
-    isValidDayUseTime(value) {
-        return DayUseHoursSchema.shape.from.safeParse(value).success;
-    }
-    getDayUseHour(value) {
-        return this.isValidDayUseTime(value) ? Number(value.slice(0, 2)) : 0;
-    }
-    handleDayUseFromChange(from, dayUseHours) {
-        const fromIsBeforeTo = this.isValidDayUseTime(from) && this.isValidDayUseTime(dayUseHours.to) && this.getDayUseHour(dayUseHours.to) < this.getDayUseHour(from);
-        setBookingDraft({ dayUseHours: { from, to: fromIsBeforeTo ? '' : dayUseHours.to } });
-    }
-    getDayUseDuration(dayUseHours) {
-        if (!this.isValidDayUseTime(dayUseHours.from) || !this.isValidDayUseTime(dayUseHours.to)) {
-            return '';
-        }
-        const minutes = moment(dayUseHours.to, 'HH:mm').diff(moment(dayUseHours.from, 'HH:mm'), 'minutes');
-        if (minutes <= 0) {
-            return '';
-        }
-        const hours = Math.floor(minutes / 60);
-        const remainingMinutes = minutes % 60;
-        return [hours && `${hours}h`, remainingMinutes && `${remainingMinutes}m`].filter(Boolean).join(' ');
-    }
     render() {
-        const { dates, dayUse, dayUseHours } = booking_store.bookingDraft;
-        const { dayUseSelection } = booking_store;
+        const { dates, dayUse } = booking_store.bookingDraft;
         let hasBookedByGuestController = false;
-        return (h("form", { key: '056c1e01d45b0290586c0fb6cff09d99186eb383', class: "booking-editor__guest-form", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
+        return (h("form", { key: '70542c74c263c07af46b75af4119a927beaadf2f', class: "booking-editor__guest-form", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
                 e.preventDefault();
                 const submitter = e.submitter;
                 this.doReservation.emit(submitter?.value);
-            } }, h("div", { key: '8710aa4964817a1799273af4c87ca50fb3b5f96b', class: "booking-editor__header" }, dayUse ? (h("span", { class: "booking-editor__dates" }, dates.checkIn.format('DD MMM YYYY'))) : (h("ir-date-view", { class: "booking-editor__dates", from_date: dates.checkIn, to_date: dayUse ? dates.checkIn : dates.checkOut, dateOption: "DD MMM YYYY" })), dayUse ? (h("div", { class: "booking-editor__total" }, h("span", { class: "booking-editor__total-label" }, dayUseSelection?.roomType?.name, " ", h("ir-unit-tag", { unit: dayUseSelection?.unit?.name })), ' ', h("span", { class: "booking-editor__total-amount" }, formatAmount(calendar_data.property.currency.symbol, dayUseSelection?.price ?? 0)), h("span", { style: { marginInlineStart: '0.5rem', padding: '0', fontSize: '0.75rem' } }, "Including taxes and fees"))) : (this.totalRooms > 1 && (h("div", { class: "booking-editor__total" }, h("span", { class: "booking-editor__total-label" }, locales.entries.Lcz_TotalPrice), ' ', h("span", { class: "booking-editor__total-amount" }, formatAmount(calendar_data.property.currency.symbol, this.totalCost)))))), !dayUse &&
+            } }, !dayUse && (h("div", { key: '9c2ade47439143cb80905694b7f5e7cd3c0ea254', class: "booking-editor__header" }, h("ir-date-view", { key: '87733ed2a95fc32f3cc9ccc2fba7b89fd3f3f7c4', class: "booking-editor__dates", from_date: dates.checkIn, to_date: dates.checkOut, dateOption: "DD MMM YYYY" }), this.totalRooms > 1 && (h("div", { key: '856e4b91537ed9b9e4823666214fd0093520c1a1', class: "booking-editor__total" }, h("span", { key: '398ccc44d4fbbce20d8e67e0572965358210a2a3', class: "booking-editor__total-label" }, locales.entries.Lcz_TotalPrice), ' ', h("span", { key: '6779b172f81c8d2610ed33f6979875a07657b3b9', class: "booking-editor__total-amount" }, formatAmount(calendar_data.property.currency.symbol, this.totalCost)))))), dayUse && h("ir-booking-editor-day-use", { key: '0953abc9bd6d6b8e27dc4b950fba158f90081700' }), !dayUse &&
             Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
                 const rp = ratePlan;
                 if (rp.reserved === 0) {
@@ -127,7 +101,7 @@ export class IrBookingEditorForm {
                             }
                             : undefined }));
                 });
-            })), dayUse && (h("section", { key: 'f49983d5c94e7d3944b87fa72ba58da37f0f3357', class: "booking-editor__day-use-hours" }, h("div", { key: '1caf9e1345d345919289172dc756a2f32c0caf05', class: "booking-editor__day-use-hours-row" }, h("ir-validator", { key: '423be625c3c75d0b2a0e59718702899d7a0687a1', value: dayUseHours.from, schema: DayUseHoursSchema.shape.from }, h("ir-input", { key: 'bb6076c2864c23046f97ffd44823619fdf6e33c9', label: "Time period", mask: "time", placeholder: "11:30", value: dayUseHours.from, "onText-change": e => this.handleDayUseFromChange(e.detail, dayUseHours) })), h("wa-icon", { key: 'bd736420066e4b8ede37631560c440f2573268d9', class: "booking-editor__day-use-hours-connector", name: "arrow-right" }), h("ir-validator", { key: '2304953ee7a80aaceddaf77946c2c7b5fa3bda43', value: dayUseHours.to, schema: DayUseHoursSchema.shape.to }, h("ir-input", { key: 'a3e84a57e72ca4c2dad32c86a0b2352af49190a6', disabled: !this.isValidDayUseTime(dayUseHours.from), mask: createTimeToMask(this.getDayUseHour(dayUseHours.from)), placeholder: "16:00", value: dayUseHours.to, "onText-change": e => setBookingDraft({ dayUseHours: { ...dayUseHours, to: e.detail } }) })), this.getDayUseDuration(dayUseHours) && (h("span", { key: '58d2cea95f0f0d96a422b4556af03ac01157220b', class: "booking-editor__day-use-duration booking-editor__day-use-hours-connector" }, "Duration: ", this.getDayUseDuration(dayUseHours)))))), this.bookingEditorService.isEventType(['BAR_BOOKING', 'PLUS_BOOKING']) && (h("section", { key: '21d81bef025da8cab2aa4c505dddad152195928a', class: "booking-editor__booked-by-section" }, h("div", { key: '1c679721b7b68c429a19e0d6cae5481caf8cca08', class: "booking-editor__booked-by booking-editor__booked-by-header" }, h("h4", { key: 'a9a7ad1c9865fb2aefea276b97c3dee1aecd8682', class: "booking-editor__heading booking-editor__booked-by-title" }, "Booked by"), booking_store.bookingDraft?.agent ? (h("span", null, booking_store.bookingDraft?.agent.name)) : (h(Fragment, null, h("ir-picker", { class: "booking-editor__booked-by-picker", appearance: "filled",
+            })), this.bookingEditorService.isEventType(['BAR_BOOKING', 'PLUS_BOOKING']) && (h("section", { key: '791a13a891e9729115593484a3bf149378784da3', class: "booking-editor__booked-by-section" }, h("div", { key: '901fdb13041313f1ac5b0889ffe0ce06bb260081', class: "booking-editor__booked-by booking-editor__booked-by-header" }, h("h4", { key: '65afffe45d9bc993f2265c2292d85a039e60ffb4', class: "booking-editor__heading booking-editor__booked-by-title" }, "Booked by"), booking_store.bookingDraft?.agent ? (h("span", null, booking_store.bookingDraft?.agent.name)) : (h(Fragment, null, h("ir-picker", { class: "booking-editor__booked-by-picker", appearance: "filled",
             // placeholder="Search customer by email, name or company name"
             placeholder: "Search customer by email or name", withClear: true, "onText-change": event => this.fetchGuests(event.detail), debounce: 500, loading: isRequestPending('/Fetch_Exposed_Guests'), mode: "select-async", ref: el => (this.pickerEl = el), "onCombobox-select": this.handleComboboxSelect.bind(this) }, this.guests?.map(guest => {
             const label = `${guest.email} - ${guest.first_name} ${guest.last_name}`;
@@ -135,7 +109,7 @@ export class IrBookingEditorForm {
         })), booking_store.bookedByGuest.id !== -1 && (h("ir-custom-button", { onClickHandler: () => {
                 updateBookedByGuest(bookedByGuestBaseData);
                 this.pickerEl.clearInput();
-            }, variant: "brand" }, "Clear user"))))), h("ir-booking-editor-guest-form", { key: '426c64befc58ec7e24694a05bf793b6ee300e2d1' }))), this.bookingEditorService.isEventType(['SPLIT_BOOKING', 'ADD_ROOM']) && isAgentMode(this.resolvedAgent) && (h("ir-service-assignee-select", { key: 'c61a2a6244c9c18764a6061e67a1fb34f85f66b4', style: { maxWidth: '500px' }, agent: this.booking.agent, assigneeType: this.assignee, onAssignmentChange: e => {
+            }, variant: "brand" }, "Clear user"))))), h("ir-booking-editor-guest-form", { key: 'f94e69be5ef7b372257f628773c0d6bd1e5331be' }))), this.bookingEditorService.isEventType(['SPLIT_BOOKING', 'ADD_ROOM']) && isAgentMode(this.resolvedAgent) && (h("ir-service-assignee-select", { key: '822ad6d8d46f51c4f52846e2b01b4809a5a33e47', style: { maxWidth: '500px' }, agent: this.booking.agent, assigneeType: this.assignee, onAssignmentChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.assignee = e.detail;
