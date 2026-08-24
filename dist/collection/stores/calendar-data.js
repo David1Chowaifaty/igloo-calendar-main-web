@@ -67,6 +67,6 @@ export function getDayUseBlockState() {
     return calendar_data?.property?.extra_info.find(ei => ei.key === 'DAY_USE_BLOCK')?.value;
 }
 export function getBabyCotPricingModel() {
-    return calendar_data?.property?.extra_info.find(ei => ei.key === 'BABY_COT_PRICING_MODEL')?.value;
+    return calendar_data?.property?.extra_info.find(ei => ei.key === 'BABY_COT_PRICING_MODEL')?.value || 'Night';
 }
 export default calendar_data;

@@ -34,8 +34,10 @@ export declare class IglDayUseUnitList {
     }>;
     componentWillLoad(): void;
     private isCurrentUnit;
-    /** Icon + tooltip shown next to a unit's name for each same-day movement (`getDayUseUnitDayStatus`). */
-    private static readonly DAY_STATUS_DISPLAY;
+    /** Icon shown next to a unit's name for each same-day movement (`getDayUseUnitDayStatus`). */
+    private static readonly DAY_STATUS_ICON;
+    /** Tooltip text for a same-day movement, incorporating the checkout/checkin clock time when known. */
+    private dayStatusTooltip;
     private getAvailableUnits;
     private get defaultPrice();
     /** What's actually shown as the default input value — the net-converted price when it's ready, otherwise the gross default as a fallback while it resolves. */

@@ -56,6 +56,8 @@
     "components/igloo-calendar/igl-cal-body/igl-housekeeping-dialog/igl-housekeeping-dialog.js",
     "components/igloo-calendar/igl-cal-footer/igl-cal-footer.js",
     "components/igloo-calendar/igl-cal-header/igl-cal-header.js",
+    "components/igloo-calendar/igl-cal-header/igl-cal-header-days/igl-cal-header-days.js",
+    "components/igloo-calendar/igl-cal-header/igl-cal-header-toolbar/igl-cal-header-toolbar.js",
     "components/igloo-calendar/igl-day-use-bookings/igl-day-use-bookings.js",
     "components/igloo-calendar/igl-legend/igl-legend.js",
     "components/igloo-calendar/igl-rate-extender-drawer/igl-rate-extender-drawer.js",

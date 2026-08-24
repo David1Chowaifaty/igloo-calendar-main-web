@@ -1,0 +1,1 @@
+import{I as a,d as s}from"./igl-cal-header-days2.js";const o=a,r=s;export{o as IglCalHeaderDays,r as defineCustomElement}

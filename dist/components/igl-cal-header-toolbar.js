@@ -1,0 +1,1 @@
+import{I as o,d as a}from"./igl-cal-header-toolbar2.js";const r=o,s=a;export{r as IglCalHeaderToolbar,s as defineCustomElement}

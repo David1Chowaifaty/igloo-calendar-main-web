@@ -4,6 +4,7 @@ import axios from "axios";
 import locales from "../stores/locales.store";
 import calendar_dates from "../stores/calendar-dates.store";
 import calendar_data from "../stores/calendar-data";
+import { _formatTime } from "../components/ir-booking-details/functions";
 /** `_SVC_CATEGORY` short code for Day Use, matched against `calendar_data.property.tax_categories` / `ExtraService.category.code`. */
 export const DAY_USE_CATEGORY_CODE = 'DUZ';
 /**
@@ -223,9 +224,9 @@ function getDefaultData(cell, stayStatusLookup) {
     //   console.log(moment(cell.room.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.from_date : cell.DATE);
     //   console.log(cell);
     // }
-    if (cell.booking.booking_nbr.toString() === '53836432664') {
-        console.log(cell);
-    }
+    // if (cell.booking.booking_nbr.toString() === '34502153208') {
+    //   console.log(cell);
+    // }
     try {
         const bookingFromDate = moment(cell.room.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.from_date : cell.DATE;
         const bookingToDate = moment(cell.room.to_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.to_date : cell.DATE;
@@ -382,6 +383,18 @@ function addOrUpdateBooking(cell, bookingsByPool, stayStatusLookup) {
         bookingsByPool.set(cell.POOL, newData);
     }
 }
+/** `_DEPARTURE_TIME` code meaning the guest never picked one — the property's standard check-out applies. */
+const UNSET_DEPARTURE_TIME_CODE = '000';
+/** `_ARRIVAL_TIME` code for "Not sure yet" — same idea, the property's standard check-in applies. */
+const UNSET_ARRIVAL_TIME_CODE = '001';
+/** Accepts both `HH:mm` values (formatted to `hh:mm A`) and plain setup labels such as "Not sure yet". */
+function formatClockTime(value) {
+    if (!value) {
+        return null;
+    }
+    const match = value.match(/^(\d{1,2}):(\d{2})/);
+    return match ? _formatTime(match[1], match[2]) : value.trim() || null;
+}
 /**
  * A unit is unavailable for day use only when both halves of the day share the same non-empty POOL
  * (one booking occupies the whole day) — two empty POOLs are NOT a match, since an empty POOL means
@@ -399,9 +412,6 @@ export function getDayUseUnitAvailability(calendarCell) {
     const leftEmpty = leftPool === '';
     const rightEmpty = rightPool === '';
     const sameNonEmptyPool = !leftEmpty && leftPool === rightPool;
-    if (calendarCell.left_cell.pr_id === 509 || calendarCell.right_cell.pr_id === 509) {
-        console.log(calendarCell);
-    }
     let dayStatus = null;
     if (leftEmpty && !rightEmpty) {
         dayStatus = 'checkin';
@@ -412,10 +422,24 @@ export function getDayUseUnitAvailability(calendarCell) {
     else if (!leftEmpty && !rightEmpty && leftPool !== rightPool) {
         dayStatus = 'turnover';
     }
+    let checkoutTime = null;
+    if (dayStatus === 'checkout' || dayStatus === 'turnover') {
+        const departure = calendarCell.left_cell.room?.departure_time;
+        const requested = departure?.code && departure.code !== UNSET_DEPARTURE_TIME_CODE ? departure.description : null;
+        checkoutTime = formatClockTime(requested ?? calendar_data.property?.time_constraints?.check_out_till);
+    }
+    let checkinTime = null;
+    if (dayStatus === 'checkin' || dayStatus === 'turnover') {
+        const arrival = calendarCell.right_cell.room?.arrival_time;
+        const requested = arrival?.code && arrival.code !== UNSET_ARRIVAL_TIME_CODE ? arrival.description : null;
+        checkinTime = formatClockTime(requested ?? calendar_data.property?.time_constraints?.check_in_from);
+    }
     return {
         available: !sameNonEmptyPool,
         hasUpcomingCheckIn: dayStatus === 'checkin' || dayStatus === 'turnover',
         dayStatus,
+        checkoutTime,
+        checkinTime,
     };
 }
 export function getPrivateNote(extras) {

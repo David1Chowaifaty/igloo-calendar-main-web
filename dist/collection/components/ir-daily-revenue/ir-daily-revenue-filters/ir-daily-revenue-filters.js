@@ -51,15 +51,15 @@ export class IrDailyRevenueFilters {
         });
     }
     render() {
-        return (h("ir-filter-card", { key: '14d720f5adba69593b96b5310eadef8935fff490' }, h("wa-select", { key: '96fee6475924cafa0fd2a999a4f3838e1db348a2', label: "Selected period", size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
+        return (h("ir-filter-card", { key: '91f2b1fc0751c39fe09ade4d7c6cf515ca497f47' }, h("wa-select", { key: 'bddc087bd3c085433d1d13d89ecfd53849469ea4', label: "Selected period", size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
                 const value = e.target.value;
                 this.updateFilter({ date: value, to_date: value, from_date: value });
-            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: 'ba43d2c9c0b564a847cb6ae73bf8567d0d017afe', class: "or-divider" }, h("span", { key: '624e84048715dc7bcf8d17cc82d7c73e984aab41', class: "or-divider__line" }), h("span", { key: '6ebd7ee2c9bb8ee33fb7f97ae092479cb86bfaf0', class: "or-divider__text" }, "Or"), h("span", { key: '04fb46880a2f95d9e00e8e24a5d7a2421bc05131', class: "or-divider__line" })), h("ir-date-range-filter", { key: '487f69907b6235a7381a3fb472ab581ee836d6b2', showQuickActions: false, label: "Date range", fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: moment().format('YYYY-MM-DD'), onDatesChanged: e => {
+            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: '481b4bce8e102d365c41d30bdedef7c0c3712aa3', class: "or-divider" }, h("span", { key: 'e10dd702840dea4bdb6470cde2bbf3182272cd42', class: "or-divider__line" }), h("span", { key: '6896f4202cbb13e324e33c9c29eeb02bd231b3f4', class: "or-divider__text" }, "Or"), h("span", { key: 'e4623e0c171b16eb08b351f59b961e4977c8f5b2', class: "or-divider__line" })), h("ir-date-range-filter", { key: '7834fe9342d0cd0f638d40e2de5256e42f4f43ae', showQuickActions: false, label: "Date range", fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: moment().format('YYYY-MM-DD'), onDatesChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { from, to } = e.detail;
                 this.updateFilter({ from_date: from, to_date: to, date: null });
-            } }), h("div", { key: '8e108781c74e50c6a76e6747761056fefb143ebe', slot: "footer" }, h("ir-custom-button", { key: '098c59f503187a6f6ec081ef7a518dd1d56d5937', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: 'b13eed39689858f316b7e12a203f04e093f3033b', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
+            } }), h("div", { key: '571ca51ff749508ed5a6e27e2aba17a2c8dfcd78', slot: "footer" }, h("ir-custom-button", { key: '868a68f4695b6ef53385b8ca44a448cd318356f4', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: 'ccd41380ea4b18cb6fb593c032b17a0dd7e46882', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
     }
     static get is() { return "ir-daily-revenue-filters"; }
     static get encapsulation() { return "scoped"; }

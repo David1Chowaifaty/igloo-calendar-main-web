@@ -1,0 +1,152 @@
+'use strict';
+
+var index = require('./index-DgHWBwDV.js');
+var type = require('./type-Dy9pVS4V.js');
+var index$1 = require('./index-CLqkDPTC.js');
+
+const irAgentContractCss = () => `.sc-ir-agent-contract-h{display:block}.contract-card.sc-ir-agent-contract::part(body),.contract-card.sc-ir-agent-contract [part~="body"]{padding-inline:0;padding-bottom:0}.contract-card.sc-ir-agent-contract::part(header),.contract-card.sc-ir-agent-contract [part~="header"]{border-bottom:0;padding-inline:0;padding-bottom:0;padding-top:var(--wa-space-l, 1.5rem)}.contract-card.sc-ir-agent-contract:first-of-type::part(header),.contract-card.sc-ir-agent-contract:first-of-type [part~="header"]{padding-top:0 !important}.contract-card.sc-ir-agent-contract::part(body),.contract-card.sc-ir-agent-contract [part~="body"],.contract.sc-ir-agent-contract{display:flex;flex-direction:column;gap:1rem}.contract-card.sc-ir-agent-contract::part(body),.contract-card.sc-ir-agent-contract [part~="body"]{padding-top:1rem}.contract-form-group.sc-ir-agent-contract{display:flex;flex-direction:column;gap:1rem}.contract-card.sc-ir-agent-contract p.sc-ir-agent-contract{padding:0;margin:0}.contract-card--horizontal.sc-ir-agent-contract::part(body),.contract-card--horizontal.sc-ir-agent-contract [part~="body"]{display:flex;align-items:center;gap:1rem}.contract-hint.sc-ir-agent-contract,.radio-hint.sc-ir-agent-contract{font-size:0.75rem;color:var(--wa-color-text-quiet);margin-top:0.25rem}.contract-row__text.sc-ir-agent-contract{flex:1 1 0%}.contract-row.sc-ir-agent-contract{display:flex;align-items:center;gap:1rem}.rate-mode.sc-ir-agent-contract::part(form-control-input),.rate-mode.sc-ir-agent-contract [part~="form-control-input"]{display:flex;flex-direction:column;gap:0.5rem}.rates-extra.sc-ir-agent-contract{display:flex;flex-direction:column;gap:1rem;margin-left:2rem}.rates-extra__slider.sc-ir-agent-contract{max-width:320px}.rates-extra__row.sc-ir-agent-contract{display:flex;align-items:center;justify-content:space-between;gap:1rem}.rates-extra__text.sc-ir-agent-contract{display:flex;flex-direction:column;gap:0.15rem}.rates-extra__title.sc-ir-agent-contract{font-weight:500;margin:0}.rates-extra__hint.sc-ir-agent-contract{font-size:0.75rem;opacity:0.7;margin:0}.rates-extra__slider-label.sc-ir-agent-contract{display:flex;align-items:center;justify-content:space-between;width:100%}.rates-extra__slider-label.sc-ir-agent-contract p.sc-ir-agent-contract{margin:0;padding:0}.rates-extra__switch.sc-ir-agent-contract{flex-shrink:0}@media (min-width: 768px){.contract-card.sc-ir-agent-contract::part(body){padding-inline-start:0.5rem}.rates-extra.sc-ir-agent-contract{padding:0.5rem 1rem;border-inline-start:1px solid var(--wa-color-surface-border)}}`;
+
+const IrAgentContract = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.agentFieldChanged = index.createEvent(this, "agentFieldChanged");
+    }
+    agent;
+    setupEntries;
+    agentFieldChanged;
+    componentWillLoad() { }
+    updateField(value) {
+        const agent = this.agent ?? {};
+        this.agentFieldChanged.emit({ ...agent, ...value });
+    }
+    handleRatesChange = (event) => {
+        const value = event.currentTarget.value;
+        let payload = {};
+        // Reduce BAR → default to 003
+        if (value === 'reduce_bar') {
+            payload = { agent_rate_type_code: { code: '003' } };
+            const discount = this.agent?.provided_discount;
+            if (discount == null || Number.isNaN(discount)) {
+                payload = { ...payload, provided_discount: 4 };
+            }
+        }
+        // Other modes
+        if (value === 'agent_rate_plans') {
+            payload = { agent_rate_type_code: { code: '001' } };
+        }
+        if (value === 'contract_reference') {
+            payload = { agent_rate_type_code: { code: '004' } };
+        }
+        this.updateField(payload);
+    };
+    get selectedRate() {
+        const code = this.agent?.agent_rate_type_code?.code;
+        if (code === '002' || code === '003')
+            return 'reduce_bar';
+        if (code === '001')
+            return 'agent_rate_plans';
+        if (code === '004')
+            return 'contract_reference';
+        return undefined;
+    }
+    render() {
+        const isTourOperator = this.agent?.agent_type_code?.code === type.AgentsTypes.TOUR_OPERATOR;
+        return (index.h(index.Host, { key: 'f02f17e72ade1282d9cc55afda3d20a3faf4736b', "data-testid": "agent-contract" }, !isTourOperator && (index.h("wa-card", { key: 'e12a9b35b36f7db3fca3c15b52ea3ce9edd9f385', appearance: "plain", class: "contract-card contract-card--identification", "data-testid": "agent-contract-identification-card" }, index.h("p", { key: 'cb639f1f33d2dfe0e4d09e5735d860a19262dcb8', slot: "header", class: "contract-card__title", "data-testid": "agent-contract-identification-title" }, "Agent Identification"), index.h("wa-radio-group", { key: 'dea098756e65e4c81f8e5db2db0f2332568df0eb', class: "identification-mode rate-mode", value: this.agent?.verification_mode, "data-testid": "agent-contract-verification-mode-group", onchange: e => {
+                this.updateField({
+                    verification_mode: e.currentTarget.value.toString(),
+                });
+            } }, index.h("wa-radio", { key: '7d13eaba826215d98a31a654b5f75e23c24f8171', value: "code", "data-testid": "agent-contract-verification-code-radio" }, index.h("div", { key: '70bd0096e44e23b79bed83d6813e2f4d7986d353', class: "radio-title" }, "Booking engine code"), index.h("div", { key: '802643ff9431f3d2ef741b5cdc9dee19f688bf43', class: "radio-hint" }, "Used during the online booking")), this.agent?.verification_mode === 'code' && (index.h("div", { key: '238adc6bd623ea27be8df98c8d6a28423a31a9b0', class: "rates-extra", "data-testid": "agent-contract-verification-code-section" }, index.h("ir-validator", { key: 'daf0f0a63fbcab2ee839e69de28ab102f5f276a9', schema: index$1.libExports.z.string().min(5).max(10), value: this.agent?.code, valueEvent: "text-change input input-change", "data-testid": "agent-contract-verification-code-validator" }, index.h("ir-input", { key: 'd707dfd0b66e6252f92016871159a842bd69c1ae', mask: {
+                mask: /^[A-Z0-9]{0,10}$/,
+                prepare: (value) => value.toUpperCase(),
+            }, onKeyDown: e => {
+                e.stopPropagation();
+            }, placeholder: "5 to 10 characters", maxlength: 10, minlength: 5, value: this.agent?.code, "data-testid": "agent-contract-verification-code-input", "onText-change": (e) => this.updateField({ code: e.detail || null }) }, this.agent?.code && this.agent?.id !== -1 && index.h("wa-copy-button", { key: '9ea1c68bc4f29d595fe101432d9fff1b037a8f7c', slot: "end", value: this.agent?.code }))))), index.h("wa-radio", { key: '71855e42098d8e5f05fbcc2d6dda7ac018ec43ee', value: "question", "data-testid": "agent-contract-verification-question-radio" }, index.h("div", { key: 'e952e133c300862b3bc7c0322f6f30624c30cb09', class: "radio-title" }, "Affiliation Yes/No question"), index.h("div", { key: '7ad1f9f3548ecf6eaa2e6200947d753cc106748c', class: "radio-hint" }, "Answering ", index.h("b", { key: '81c0ae9e249bb9fb182037b8f9a4116e05d47526' }, "Yes"), " will apply the agency rates")), this.agent?.verification_mode === 'question' && (index.h("div", { key: '5756780c8b0a339fc43754ad8c3ad9fea5c76df0', class: "rates-extra", "data-testid": "agent-contract-verification-question-section" }, index.h("ir-validator", { key: '03b12b3d83d83a87a9de988ea473e7b2c9ad7d78', schema: index$1.libExports.z.string().nonempty(), value: this.agent?.question, valueEvent: "text-change input input-change", "data-testid": "agent-contract-verification-question-validator" }, index.h("ir-input", { key: 'e485e508c66fa73194ba2d0d82ed5cce26973dd4', onKeyDown: e => {
+                e.stopPropagation();
+            }, placeholder: "e.g. Are you a Wizz Air cabin crew?", value: this.agent?.question, "data-testid": "agent-contract-verification-question-input", "onText-change": (e) => this.updateField({ question: e.detail || null }) }))))))), index.h("wa-card", { key: '17ed94af09159e0eccfa1f7abcd685cf4e4c2cd9', appearance: "plain", class: `contract-card`, "data-testid": "agent-contract-rates-card" }, index.h("p", { key: 'b88e7f026206c3a703f7e0a8358a36671c72d75a', slot: "header", class: "contract-card__title", "data-testid": "agent-contract-rates-title" }, "Rates"), index.h("ir-validator", { key: '59c12b3eb8450fac55903859e45a0a8f177ee27e', schema: type.AgentBaseSchema.shape.agent_rate_type_code, value: this.agent?.agent_rate_type_code, valueEvent: "change", "data-testid": "agent-contract-rates-validator" }, index.h("wa-radio-group", { key: '4bdf1c91c5e6148ddd6cdce276401af3c24dbd17', name: "rates", class: "rate-mode", value: this.selectedRate, "data-testid": "agent-contract-rates-group", onchange: this.handleRatesChange }, index.h("wa-radio", { key: '6d6b3692d50c8dca1f4afa2b83cc97368c8b4f41', value: "agent_rate_plans", "data-testid": "agent-contract-rates-agent-rate-plans-radio" }, index.h("div", { key: 'b13a2ff6074a7c19507483741f51d783efaa64c9' }, index.h("div", { key: 'b3c639395c8764c4bba9cf72be70c074b9a023b9', class: "radio-title" }, "Use agent-assigned rate plans (Net)"))), !isTourOperator && (index.h(index.Fragment, { key: '68d7b08e37eab7e93c551c7ec69b217db9fc006c' }, index.h("wa-radio", { key: '6c3090c10242db0ea748ad218c989e93d9a80c38', value: "reduce_bar", "data-testid": "agent-contract-rates-reduce-bar-radio" }, index.h("div", { key: 'd3ba0379d8992d7c7a127f78cb76805bd01f2f43' }, index.h("div", { key: '8fede5f358f24ae34f107c6c1ff23f214b3f9373', class: "radio-title" }, "Apply a percentage commission on BAR"), index.h("div", { key: '84c461eaf2939bac98102a65d2065220da42f2e6', class: "radio-hint" }, "Reduce the nightly Best Available Rate by a fixed %"))), ['002', '003'].includes(this.agent?.agent_rate_type_code?.code) && (index.h("div", { key: '7a75bf99ba7db40cee0244fe83263ea3a068a861', class: "rates-extra", "data-testid": "agent-contract-rates-reduce-bar-section" }, index.h("wa-slider", { key: '6878c73969df84b125f05a3aab747fbc52b0989b', min: 4, max: 40, value: this.agent?.provided_discount ?? 4, "with-tooltip": true, label: "Commission", "data-testid": "agent-contract-rates-commission-slider", onKeyDown: event => event.stopPropagation(), onchange: event => {
+                event.stopPropagation();
+                this.updateField({ provided_discount: event.target.value });
+            } }, index.h("div", { key: 'cedf114d952a9ec4c5eeee1654b662fcfe478550', slot: "label", class: 'rates-extra__slider-label', "data-testid": "agent-contract-rates-commission-label" }, index.h("p", { key: '88ef8b41fcf1bec57db87844bb9cc57df8b46579' }, "Commission"), this.agent?.provided_discount && index.h("p", { key: '53f8da235ef1318e389aa8a748a092752608f61c' }, this.agent?.provided_discount, "%"))), index.h("div", { key: 'cdd9a1829103563b9fd12edc30a7c3f328eb8526', class: "rates-extra__row", "data-testid": "agent-contract-rates-non-refundable-row" }, index.h("div", { key: 'fc354f3626c0c766447c9a00ba2d742400f1560a', class: "rates-extra__text", "data-testid": "agent-contract-rates-non-refundable-text" }, index.h("p", { key: '6e42f0fa97a49ef9b8878767a1ab445a7e6dda02', class: "rates-extra__title" }, "Applies to Non-Refundable rates")), index.h("wa-switch", { key: '3fcb79fd2d6bba98cf4a613f6acc84f9d2839e86', class: "rates-extra__switch", checked: this.agent?.agent_rate_type_code?.code === '002', defaultChecked: this.agent?.agent_rate_type_code?.code === '002', "data-testid": "agent-contract-rates-non-refundable-switch", onKeyDown: event => {
+                event.stopPropagation();
+            }, onchange: event => {
+                event.stopPropagation();
+                this.updateField({ agent_rate_type_code: { code: event.target.checked ? '002' : '003' } });
+            } })))))), index.h("wa-radio", { key: 'd7761eb3678b58e4d536ecc9f8a1027cb62b72f6', value: "contract_reference", "data-testid": "agent-contract-rates-contract-reference-radio" }, index.h("div", { key: '008853f8fe4206e2cad47349974a7a429a974e74' }, index.h("div", { key: '241dbc6f93bdd86cb84d9e5721927f8942a0a8d6', class: "radio-title" }, "Use contract-based rates"))), this.agent?.agent_rate_type_code?.code === '004' && (index.h("div", { key: '375439e844863be58518878633f9bce5ef61bafe', class: "rates-extra", "data-testid": "agent-contract-rates-contract-reference-section" }, index.h("ir-validator", { key: '0d03c0c66f0cbd225bfeaa03f59e23577bcd7c73', schema: index$1.libExports.z.string().nonempty(), value: this.agent?.contract_nbr, valueEvent: "text-change input input-change", "data-testid": "agent-contract-rates-contract-reference-validator" }, index.h("ir-input", { key: '0163ead760ff305d9738735b89ba9a6367a5f61d', placeholder: "Enter contract reference", onKeyDown: e => {
+                e.stopPropagation();
+            }, maxlength: 50, value: this.agent?.contract_nbr, "data-testid": "agent-contract-rates-contract-reference-input", "onText-change": e => this.updateField({ contract_nbr: e.detail }) }))))))), index.h("wa-card", { key: '551f752959fb8b272739bd2b7a984ca19ef93f0b', appearance: "plain", class: "contract-card", "data-testid": "agent-contract-collection-card" }, index.h("p", { key: '8a87fc8c79a2415cf2545127a34679fdc803c6d7', slot: "header", class: "contract-card__title", "data-testid": "agent-contract-collection-title" }, "Collection Method"), isTourOperator ? (index.h("div", { "data-testid": "agent-contract-collection-tour-operator" }, index.h("div", { class: "radio-title", "data-testid": "agent-contract-collection-tour-operator-title" }, "Net pay later (City ledger)"), index.h("div", { class: "radio-hint", "data-testid": "agent-contract-collection-tour-operator-hint" }, "Agent pays on credit terms after guest checkout"))) : (index.h("wa-radio-group", { class: "rate-mode", name: "collection", value: this.agent?.payment_mode?.code, "data-testid": "agent-contract-collection-group", onchange: e => {
+                const code = e.currentTarget.value.toString();
+                const paymentMethod = this.setupEntries.ta_payment_method.find(c => c.CODE_NAME === code);
+                if (!paymentMethod) {
+                    return;
+                }
+                this.updateField({
+                    payment_mode: {
+                        code: paymentMethod.CODE_NAME,
+                        description: paymentMethod.CODE_VALUE_EN,
+                    },
+                });
+            } }, index.h("wa-radio", { value: "001", "data-testid": "agent-contract-collection-city-ledger-radio" }, index.h("div", null, index.h("div", { class: "radio-title" }, "Net pay later (City ledger)"), index.h("div", { class: "radio-hint" }, "Agent pays on credit terms after guest checkout"))), index.h("wa-radio", { value: "002", "data-testid": "agent-contract-collection-from-guest-radio" }, index.h("div", null, index.h("div", { class: "radio-title" }, "From guest"), index.h("div", { class: "radio-hint" }, "Payment collected directly from the guest"))))))));
+    }
+};
+IrAgentContract.style = irAgentContractCss();
+
+const irAgentProfileCss = () => `.agent-profile.sc-ir-agent-profile,.agent-form-group.sc-ir-agent-profile{display:flex;flex-direction:column;gap:1rem}.agent-card.--status-card.sc-ir-agent-profile::part(body),.agent-card.--status-card.sc-ir-agent-profile [part~="body"]{padding-top:0}.agent-card.sc-ir-agent-profile::part(body),.agent-card.sc-ir-agent-profile [part~="body"]{padding-inline:0;padding-bottom:0;padding-top:1rem}.agent-card.--business-info.sc-ir-agent-profile::part(header),.agent-card.--business-info.sc-ir-agent-profile [part~="header"]{padding-top:0}.agent-card.sc-ir-agent-profile::part(header),.agent-card.sc-ir-agent-profile [part~="header"]{border-bottom:0;padding-inline:0;padding-bottom:0;padding-top:var(--wa-space-l, 1.5rem)}.agent-card.sc-ir-agent-profile p.sc-ir-agent-profile{padding:0;margin:0}.agent-card--horizontal.sc-ir-agent-profile::part(body),.agent-card--horizontal.sc-ir-agent-profile [part~="body"]{display:flex;align-items:center;gap:1rem}.agent-card__header.sc-ir-agent-profile{flex:1 1 0%}.agent-card__description.sc-ir-agent-profile{font-size:0.75rem;color:var(--wa-color-text-quiet)}.agent-form-row.sc-ir-agent-profile{display:flex;align-items:center;justify-content:space-between;gap:1rem}@media (min-width: 768px){.agent-card.sc-ir-agent-profile::part(body){padding-inline-start:0.5rem}}`;
+
+const IrAgentProfile = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.agentFieldChanged = index.createEvent(this, "agentFieldChanged");
+    }
+    agent;
+    countries;
+    setupEntries;
+    agentFieldChanged;
+    updateField(value) {
+        const agent = this.agent ?? {};
+        this.agentFieldChanged.emit({ ...agent, ...value });
+    }
+    getCountryPhonePrefix() {
+        if (!this.agent?.country_id) {
+            return;
+        }
+        const country = this.countries.find(c => c.id.toString() === this.agent.country_id.toString());
+        if (!country) {
+            return;
+        }
+        return country.phone_prefix;
+    }
+    render() {
+        const agent = this.agent;
+        const phone_prefix = this.getCountryPhonePrefix();
+        return (index.h(index.Host, { key: '137d7797694378cfabb7e23d24bf58d032957b86', "data-testid": "agent-profile" }, index.h("wa-card", { key: 'c7ad63821c9526fb24538d04c271f17dfd208569', appearance: "plain", class: "agent-card --business-info", "data-testid": "agent-profile-business-card" }, index.h("p", { key: '16035df75f0d640bc038179861785ccfa72d0eec', slot: "header", "data-testid": "agent-profile-business-title" }, "Business Information"), index.h("div", { key: '68ed90089a676319c35cb9b0a6c9780c41e64b6d', class: "agent-form-group" }, index.h("ir-validator", { key: 'afe1a30bc26c24a1c20c0b9ea1e6994361f376ea', schema: type.AgentBaseSchema?.shape?.agent_type_code, value: agent?.agent_type_code, valueEvent: "change", "data-testid": "agent-profile-agent-type-validator" }, index.h("wa-select", { key: '96e9f0a1435fb3a3200641cc1dd9f20c595953d9', size: "s", placeholder: "Select agent type ...", value: agent?.agent_type_code?.code, defaultValue: agent?.agent_type_code?.code, "data-testid": "agent-profile-agent-type-select", onchange: e => {
+                const code = e.target.value;
+                let payload = { agent_type_code: { code, description: '' } };
+                if (code === type.AgentsTypes.TOUR_OPERATOR) {
+                    payload = {
+                        ...payload,
+                        payment_mode: {
+                            code: '001',
+                        },
+                        verification_mode: null,
+                        provided_discount: null,
+                        code: null,
+                        question: null,
+                        agent_rate_type_code: {
+                            code: '001',
+                        },
+                    };
+                }
+                this.updateField(payload);
+            } }, this.setupEntries.agent_type
+            ?.filter(t => t.CODE_NAME !== '004')
+            ?.sort((a, b) => a.CODE_VALUE_EN.toLowerCase().localeCompare(b.CODE_VALUE_EN.toLowerCase()))
+            ?.map(agent => (index.h("wa-option", { key: agent.CODE_NAME, value: agent.CODE_NAME, "data-testid": `agent-profile-agent-type-option-${agent.CODE_NAME}` }, agent.CODE_VALUE_EN))))), index.h("ir-validator", { key: '919757e2d4c2cd0292338f9c7f58e8b571201d7c', schema: type.AgentBaseSchema.shape.name, value: agent?.name, valueEvent: "text-change input input-change", "data-testid": "agent-profile-business-name-validator" }, index.h("ir-input", { key: 'ab3e8d19568a1865b87a1d446f427edc16ad01de', autocomplete: "none", placeholder: "Business name", value: agent?.name, "data-testid": "agent-profile-business-name-input", "onText-change": (e) => this.updateField({ name: e.detail }) })), index.h("ir-validator", { key: '39a9b3fd4912968ebb79c22318b964ed45301623', schema: type.AgentBaseSchema.shape.tax_nbr, value: agent?.tax_nbr, valueEvent: "text-change input input-change", "data-testid": "agent-profile-tax-number-validator" }, index.h("ir-input", { key: '3c909508fa09acbd154a7d8788a41598c8ad9947', placeholder: "Tax number", value: agent?.tax_nbr, "data-testid": "agent-profile-tax-number-input", "onText-change": (e) => this.updateField({ tax_nbr: e.detail }) })), index.h("ir-validator", { key: '489f791a190c233d816a9b8ed5e13c7d7867234e', schema: type.AgentBaseSchema.shape.reference, value: agent?.reference, valueEvent: "text-change input input-change", "data-testid": "agent-profile-reference-validator" }, index.h("ir-input", { key: '4c5540fcdaec3ef1e3ffd8f9422683b71f338ee7', mask: {
+                mask: /^[A-Za-z0-9 ]*$/,
+            }, maxlength: 20, placeholder: "Codename", value: agent?.reference, "data-testid": "agent-profile-reference-input", "onText-change": (e) => this.updateField({ reference: e.detail || null }) })))), index.h("wa-card", { key: '7abdd28b4da95a0b83024c90341d19c8b8ebf6a1', appearance: "plain", class: "agent-card", "data-testid": "agent-profile-billing-card" }, index.h("p", { key: 'c33848402de537ffffc5734b8ad94960e9ca0d55', slot: "header", "data-testid": "agent-profile-billing-title" }, "Billing Address"), index.h("div", { key: 'f263d58d74fee6e7fa42506c4803e4d9a5767638', class: "agent-form-group" }, index.h("ir-validator", { key: '9266e2cc41b81606e9c9c9fcd0e5fbd06aaa4dd2', schema: type.AgentBaseSchema.shape.country_id, value: agent?.country_id, valueEvent: "text-change input input-change", "data-testid": "agent-profile-country-validator" }, index.h("ir-country-picker", { key: '35fcea52327461121902edd34ba3c05a83763e5a', placeholder: "Country", country: this.countries.find(c => agent?.country_id?.toString() === c.id?.toString()), countries: this.countries, variant: "modern", "data-testid": "agent-profile-country-picker", onCountryChange: event => this.updateField({ country_id: event.detail.id }) })), index.h("ir-validator", { key: 'a2c6b31feea47e37f8ebbe6dac778507df65e8ce', schema: type.AgentBaseSchema.shape.city, value: agent?.city, valueEvent: "text-change input input-change", "data-testid": "agent-profile-city-validator" }, index.h("ir-input", { key: '8c169a6e84e82a6daf0510f68944476aa1fecec1', placeholder: "City", value: agent?.city, "data-testid": "agent-profile-city-input", "onText-change": (e) => this.updateField({ city: e.detail }) })), index.h("ir-validator", { key: '14a94adac9199d5c75ef3bdd51589335cd719174', schema: type.AgentBaseSchema.shape.address, value: agent?.address, valueEvent: "text-change input input-change", "data-testid": "agent-profile-address-validator" }, index.h("ir-input", { key: '00978a08c1c09ce2fca87e382993e126252b9a54', placeholder: "Address", value: agent?.address, "data-testid": "agent-profile-address-input", "onText-change": (e) => this.updateField({ address: e.detail }) })))), index.h("wa-card", { key: '4f7b958ac19c0ddcf83a3a4d01f4d754d6abb510', appearance: "plain", class: "agent-card", "data-testid": "agent-profile-contact-card" }, index.h("p", { key: '5491e18067a914afd93f7204aacc82425c705810', slot: "header", "data-testid": "agent-profile-contact-title" }, "Contact Information"), index.h("div", { key: 'a994c2e1bbd9add28b2b5587c648c10f249319c5', class: "agent-form-group" }, index.h("ir-validator", { key: '6d6d859d4111f45c9ce49cae05b0c03350efdccf', schema: type.AgentBaseSchema.shape.contact_name, value: agent?.contact_name, "data-testid": "agent-profile-contact-name-validator" }, index.h("ir-input", { key: '5bb910e70784fff3621035225bca993aa55d1dba', placeholder: "Name", value: agent?.contact_name, "data-testid": "agent-profile-contact-name-input", "onText-change": (e) => this.updateField({ contact_name: e.detail }) })), index.h("ir-validator", { key: 'f7f50f3fc3c8ddc748b0f0fa3a256567906be38e', schema: type.AgentBaseSchema.shape.phone, value: agent?.phone, "data-testid": "agent-profile-phone-validator" }, index.h("ir-input", { key: '20182fe55f4250885fd461f281eacc6f815c3d25', placeholder: "Phone", value: agent?.phone, "data-testid": "agent-profile-phone-input", "onText-change": (e) => this.updateField({ phone: e.detail }) }, phone_prefix && (index.h("span", { key: 'fff43b08f1eea284c1c381b23baa1e374ce078c5', slot: "start", "data-testid": "agent-profile-phone-prefix" }, phone_prefix)))), index.h("ir-validator", { key: '0a0fff4066cd45cc8f9a4cfd9b16fcfcf15f7f84', schema: type.AgentBaseSchema.shape.email, value: agent?.email, "data-testid": "agent-profile-email-validator" }, index.h("ir-input", { key: '7f3382a8b502b72cdd12502d7caab9cbd23bbd5c', placeholder: "Email", value: agent?.email, "data-testid": "agent-profile-email-input", "onText-change": (e) => this.updateField({ email: e.detail ?? null }) })), index.h("ir-validator", { key: 'dbc466aa746f88f00d886cd4d9363a099fcadcde', schema: type.AgentBaseSchema.shape.email_copied_upon_booking, value: agent?.email_copied_upon_booking, "data-testid": "agent-profile-email-bcc-validator" }, index.h("ir-input", { key: 'aee9fc4622e9fabfba01cacda81e24c2c2c8b205', placeholder: "Email BCCed on booking notifications",
+            // hint="Additional email address to receive booking notifications"
+            value: agent?.email_copied_upon_booking, "data-testid": "agent-profile-email-bcc-input", "onText-change": (e) => this.updateField({ email_copied_upon_booking: e.detail || null }) })), index.h("ir-validator", { key: 'd47ab88659325889e1ddda14856719924ab1e047', schema: type.AgentBaseSchema.shape.notes, value: agent?.notes, valueEvent: "input change", "data-testid": "agent-profile-notes-validator" }, index.h("wa-textarea", { key: 'bbf602d6137c5cbf135b7e4410d49f73bd40d942', placeholder: "Note", size: "s", value: agent?.notes, defaultValue: agent?.notes, "data-testid": "agent-profile-notes-textarea", onchange: e => this.updateField({ notes: e.target.value }) }))))));
+    }
+};
+IrAgentProfile.style = irAgentProfileCss();
+
+exports.ir_agent_contract = IrAgentContract;
+exports.ir_agent_profile = IrAgentProfile;

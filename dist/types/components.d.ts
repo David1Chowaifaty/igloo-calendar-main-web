@@ -18,6 +18,7 @@ import { IPageTwoDataUpdateProps } from "./models/models";
 import { IrToast } from "./components/ui/ir-toast/ir-toast";
 import { AllowedProperties, DayUseBookings, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property/types";
 import { DayUseBookings as DayUseBookings1, FolioPayment as FolioPayment1, GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
+import { DayInfo, MonthInfo, RoomListItem } from "./components/igloo-calendar/igl-cal-header/types";
 import { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
 import { Currency, ICurrency as ICurrency1, IEntries as IEntries1, IProperty, PhysicalRoom, RatePlan, RoomType } from "./models/property";
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, PhysicalRoom as PhysicalRoom1, Property, Room, SharedPerson } from "./models/booking.dto";
@@ -122,6 +123,7 @@ export { IPageTwoDataUpdateProps } from "./models/models";
 export { IrToast } from "./components/ui/ir-toast/ir-toast";
 export { AllowedProperties, DayUseBookings, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property/types";
 export { DayUseBookings as DayUseBookings1, FolioPayment as FolioPayment1, GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
+export { DayInfo, MonthInfo, RoomListItem } from "./components/igloo-calendar/igl-cal-header/types";
 export { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
 export { Currency, ICurrency as ICurrency1, IEntries as IEntries1, IProperty, PhysicalRoom, RatePlan, RoomType } from "./models/property";
 export { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, PhysicalRoom as PhysicalRoom1, Property, Room, SharedPerson } from "./models/booking.dto";
@@ -466,6 +468,45 @@ export namespace Components {
         "to_date": string;
         "today": String;
         "unassignedDates": any;
+    }
+    /**
+     * The `.headersContainer` sticky bar of `igl-cal-header`: the month row plus the per-day header
+     * cells (unassigned-units badge, day title, occupancy percent). `.headersContainer`/`.headerCell`
+     * and each cell's `data-day` attribute are read directly by `igloo-calendar.tsx`'s drag-bounds
+     * calculation (`document.querySelectorAll('.headersContainer .headerCell')`) — do not rename them.
+     */
+    interface IglCalHeaderDays {
+        /**
+          * @default []
+         */
+        "days": DayInfo[];
+        "highlightedDate": string;
+        "isVacationRental": boolean;
+        /**
+          * @default []
+         */
+        "monthsInfo": MonthInfo[];
+        "today": String;
+        /**
+          * Unassigned-unit counts keyed by `dayInfo.day`, falling back to `dayInfo.unassigned_units_nbr` per cell.
+          * @default {}
+         */
+        "unassignedRoomsNumber": { [key: string]: number };
+    }
+    /**
+     * The `.topLeftCell` sticky bar of `igl-cal-header`: unassigned-units / day-use-bookings buttons,
+     * date navigation, rectifier and stop/open-sale buttons, and the room-search picker. `.topLeftCell`
+     * is read directly by `igloo-calendar.tsx`'s drag-bounds calculation
+     * (`document.querySelector('igl-cal-header .topLeftCell')`) — do not rename it.
+     */
+    interface IglCalHeaderToolbar {
+        "isVacationRental": boolean;
+        "minDate": string;
+        /**
+          * @default []
+         */
+        "roomsList": RoomListItem[];
+        "showDayUseButton": boolean;
     }
     interface IglDayUseBookings {
         "calendarData": { [key: string]: any };
@@ -7090,6 +7131,14 @@ export interface IglCalHeaderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglCalHeaderElement;
 }
+export interface IglCalHeaderDaysCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIglCalHeaderDaysElement;
+}
+export interface IglCalHeaderToolbarCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIglCalHeaderToolbarElement;
+}
 export interface IglDayUseBookingsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglDayUseBookingsElement;
@@ -8345,6 +8394,53 @@ declare global {
     var HTMLIglCalHeaderElement: {
         prototype: HTMLIglCalHeaderElement;
         new (): HTMLIglCalHeaderElement;
+    };
+    interface HTMLIglCalHeaderDaysElementEventMap {
+        "dayBadgeClicked": { day: string; currentDate: any };
+    }
+    /**
+     * The `.headersContainer` sticky bar of `igl-cal-header`: the month row plus the per-day header
+     * cells (unassigned-units badge, day title, occupancy percent). `.headersContainer`/`.headerCell`
+     * and each cell's `data-day` attribute are read directly by `igloo-calendar.tsx`'s drag-bounds
+     * calculation (`document.querySelectorAll('.headersContainer .headerCell')`) — do not rename them.
+     */
+    interface HTMLIglCalHeaderDaysElement extends Components.IglCalHeaderDays, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIglCalHeaderDaysElementEventMap>(type: K, listener: (this: HTMLIglCalHeaderDaysElement, ev: IglCalHeaderDaysCustomEvent<HTMLIglCalHeaderDaysElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIglCalHeaderDaysElementEventMap>(type: K, listener: (this: HTMLIglCalHeaderDaysElement, ev: IglCalHeaderDaysCustomEvent<HTMLIglCalHeaderDaysElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIglCalHeaderDaysElement: {
+        prototype: HTMLIglCalHeaderDaysElement;
+        new (): HTMLIglCalHeaderDaysElement;
+    };
+    interface HTMLIglCalHeaderToolbarElementEventMap {
+        "actionSelected": { key: string; data?: any };
+        "roomSelected": { roomId: number };
+    }
+    /**
+     * The `.topLeftCell` sticky bar of `igl-cal-header`: unassigned-units / day-use-bookings buttons,
+     * date navigation, rectifier and stop/open-sale buttons, and the room-search picker. `.topLeftCell`
+     * is read directly by `igloo-calendar.tsx`'s drag-bounds calculation
+     * (`document.querySelector('igl-cal-header .topLeftCell')`) — do not rename it.
+     */
+    interface HTMLIglCalHeaderToolbarElement extends Components.IglCalHeaderToolbar, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIglCalHeaderToolbarElementEventMap>(type: K, listener: (this: HTMLIglCalHeaderToolbarElement, ev: IglCalHeaderToolbarCustomEvent<HTMLIglCalHeaderToolbarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIglCalHeaderToolbarElementEventMap>(type: K, listener: (this: HTMLIglCalHeaderToolbarElement, ev: IglCalHeaderToolbarCustomEvent<HTMLIglCalHeaderToolbarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIglCalHeaderToolbarElement: {
+        prototype: HTMLIglCalHeaderToolbarElement;
+        new (): HTMLIglCalHeaderToolbarElement;
     };
     interface HTMLIglDayUseBookingsElementEventMap {
         "optionEvent": { [key: string]: any };
@@ -13325,6 +13421,8 @@ declare global {
         "igl-cal-body": HTMLIglCalBodyElement;
         "igl-cal-footer": HTMLIglCalFooterElement;
         "igl-cal-header": HTMLIglCalHeaderElement;
+        "igl-cal-header-days": HTMLIglCalHeaderDaysElement;
+        "igl-cal-header-toolbar": HTMLIglCalHeaderToolbarElement;
         "igl-day-use-bookings": HTMLIglDayUseBookingsElement;
         "igl-day-use-unit-list": HTMLIglDayUseUnitListElement;
         "igl-hk-issues-dialog": HTMLIglHkIssuesDialogElement;
@@ -13989,6 +14087,54 @@ declare namespace LocalJSX {
         "to_date"?: string;
         "today"?: String;
         "unassignedDates"?: any;
+    }
+    /**
+     * The `.headersContainer` sticky bar of `igl-cal-header`: the month row plus the per-day header
+     * cells (unassigned-units badge, day title, occupancy percent). `.headersContainer`/`.headerCell`
+     * and each cell's `data-day` attribute are read directly by `igloo-calendar.tsx`'s drag-bounds
+     * calculation (`document.querySelectorAll('.headersContainer .headerCell')`) — do not rename them.
+     */
+    interface IglCalHeaderDays {
+        /**
+          * @default []
+         */
+        "days"?: DayInfo[];
+        "highlightedDate"?: string;
+        "isVacationRental"?: boolean;
+        /**
+          * @default []
+         */
+        "monthsInfo"?: MonthInfo[];
+        /**
+          * Emitted only when a badge with a non-zero count is clicked — a zero-count badge is inert.
+         */
+        "onDayBadgeClicked"?: (event: IglCalHeaderDaysCustomEvent<{ day: string; currentDate: any }>) => void;
+        "today"?: String;
+        /**
+          * Unassigned-unit counts keyed by `dayInfo.day`, falling back to `dayInfo.unassigned_units_nbr` per cell.
+          * @default {}
+         */
+        "unassignedRoomsNumber"?: { [key: string]: number };
+    }
+    /**
+     * The `.topLeftCell` sticky bar of `igl-cal-header`: unassigned-units / day-use-bookings buttons,
+     * date navigation, rectifier and stop/open-sale buttons, and the room-search picker. `.topLeftCell`
+     * is read directly by `igloo-calendar.tsx`'s drag-bounds calculation
+     * (`document.querySelector('igl-cal-header .topLeftCell')`) — do not rename it.
+     */
+    interface IglCalHeaderToolbar {
+        "isVacationRental"?: boolean;
+        "minDate"?: string;
+        /**
+          * All toolbar-button actions, keyed the same way the existing `optionEvent` payload's `key` already is.
+         */
+        "onActionSelected"?: (event: IglCalHeaderToolbarCustomEvent<{ key: string; data?: any }>) => void;
+        "onRoomSelected"?: (event: IglCalHeaderToolbarCustomEvent<{ roomId: number }>) => void;
+        /**
+          * @default []
+         */
+        "roomsList"?: RoomListItem[];
+        "showDayUseButton"?: boolean;
     }
     interface IglDayUseBookings {
         "calendarData"?: { [key: string]: any };
@@ -21255,6 +21401,15 @@ declare namespace LocalJSX {
         "to_date": string;
         "highlightedDate": string;
     }
+    interface IglCalHeaderDaysAttributes {
+        "isVacationRental": boolean;
+        "highlightedDate": string;
+    }
+    interface IglCalHeaderToolbarAttributes {
+        "isVacationRental": boolean;
+        "showDayUseButton": boolean;
+        "minDate": string;
+    }
     interface IglDayUseUnitListAttributes {
         "mode": BookingEditorMode;
         "price": number;
@@ -23199,6 +23354,8 @@ declare namespace LocalJSX {
         "igl-cal-body": Omit<IglCalBody, keyof IglCalBodyAttributes> & { [K in keyof IglCalBody & keyof IglCalBodyAttributes]?: IglCalBody[K] } & { [K in keyof IglCalBody & keyof IglCalBodyAttributes as `attr:${K}`]?: IglCalBodyAttributes[K] } & { [K in keyof IglCalBody & keyof IglCalBodyAttributes as `prop:${K}`]?: IglCalBody[K] };
         "igl-cal-footer": Omit<IglCalFooter, keyof IglCalFooterAttributes> & { [K in keyof IglCalFooter & keyof IglCalFooterAttributes]?: IglCalFooter[K] } & { [K in keyof IglCalFooter & keyof IglCalFooterAttributes as `attr:${K}`]?: IglCalFooterAttributes[K] } & { [K in keyof IglCalFooter & keyof IglCalFooterAttributes as `prop:${K}`]?: IglCalFooter[K] };
         "igl-cal-header": Omit<IglCalHeader, keyof IglCalHeaderAttributes> & { [K in keyof IglCalHeader & keyof IglCalHeaderAttributes]?: IglCalHeader[K] } & { [K in keyof IglCalHeader & keyof IglCalHeaderAttributes as `attr:${K}`]?: IglCalHeaderAttributes[K] } & { [K in keyof IglCalHeader & keyof IglCalHeaderAttributes as `prop:${K}`]?: IglCalHeader[K] };
+        "igl-cal-header-days": Omit<IglCalHeaderDays, keyof IglCalHeaderDaysAttributes> & { [K in keyof IglCalHeaderDays & keyof IglCalHeaderDaysAttributes]?: IglCalHeaderDays[K] } & { [K in keyof IglCalHeaderDays & keyof IglCalHeaderDaysAttributes as `attr:${K}`]?: IglCalHeaderDaysAttributes[K] } & { [K in keyof IglCalHeaderDays & keyof IglCalHeaderDaysAttributes as `prop:${K}`]?: IglCalHeaderDays[K] };
+        "igl-cal-header-toolbar": Omit<IglCalHeaderToolbar, keyof IglCalHeaderToolbarAttributes> & { [K in keyof IglCalHeaderToolbar & keyof IglCalHeaderToolbarAttributes]?: IglCalHeaderToolbar[K] } & { [K in keyof IglCalHeaderToolbar & keyof IglCalHeaderToolbarAttributes as `attr:${K}`]?: IglCalHeaderToolbarAttributes[K] } & { [K in keyof IglCalHeaderToolbar & keyof IglCalHeaderToolbarAttributes as `prop:${K}`]?: IglCalHeaderToolbar[K] };
         "igl-day-use-bookings": IglDayUseBookings;
         "igl-day-use-unit-list": Omit<IglDayUseUnitList, keyof IglDayUseUnitListAttributes> & { [K in keyof IglDayUseUnitList & keyof IglDayUseUnitListAttributes]?: IglDayUseUnitList[K] } & { [K in keyof IglDayUseUnitList & keyof IglDayUseUnitListAttributes as `attr:${K}`]?: IglDayUseUnitListAttributes[K] } & { [K in keyof IglDayUseUnitList & keyof IglDayUseUnitListAttributes as `prop:${K}`]?: IglDayUseUnitList[K] };
         "igl-hk-issues-dialog": Omit<IglHkIssuesDialog, keyof IglHkIssuesDialogAttributes> & { [K in keyof IglHkIssuesDialog & keyof IglHkIssuesDialogAttributes]?: IglHkIssuesDialog[K] } & { [K in keyof IglHkIssuesDialog & keyof IglHkIssuesDialogAttributes as `attr:${K}`]?: IglHkIssuesDialogAttributes[K] } & { [K in keyof IglHkIssuesDialog & keyof IglHkIssuesDialogAttributes as `prop:${K}`]?: IglHkIssuesDialog[K] };
@@ -23576,6 +23733,20 @@ declare module "@stencil/core" {
             "igl-cal-body": LocalJSX.IntrinsicElements["igl-cal-body"] & JSXBase.HTMLAttributes<HTMLIglCalBodyElement>;
             "igl-cal-footer": LocalJSX.IntrinsicElements["igl-cal-footer"] & JSXBase.HTMLAttributes<HTMLIglCalFooterElement>;
             "igl-cal-header": LocalJSX.IntrinsicElements["igl-cal-header"] & JSXBase.HTMLAttributes<HTMLIglCalHeaderElement>;
+            /**
+             * The `.headersContainer` sticky bar of `igl-cal-header`: the month row plus the per-day header
+             * cells (unassigned-units badge, day title, occupancy percent). `.headersContainer`/`.headerCell`
+             * and each cell's `data-day` attribute are read directly by `igloo-calendar.tsx`'s drag-bounds
+             * calculation (`document.querySelectorAll('.headersContainer .headerCell')`) — do not rename them.
+             */
+            "igl-cal-header-days": LocalJSX.IntrinsicElements["igl-cal-header-days"] & JSXBase.HTMLAttributes<HTMLIglCalHeaderDaysElement>;
+            /**
+             * The `.topLeftCell` sticky bar of `igl-cal-header`: unassigned-units / day-use-bookings buttons,
+             * date navigation, rectifier and stop/open-sale buttons, and the room-search picker. `.topLeftCell`
+             * is read directly by `igloo-calendar.tsx`'s drag-bounds calculation
+             * (`document.querySelector('igl-cal-header .topLeftCell')`) — do not rename it.
+             */
+            "igl-cal-header-toolbar": LocalJSX.IntrinsicElements["igl-cal-header-toolbar"] & JSXBase.HTMLAttributes<HTMLIglCalHeaderToolbarElement>;
             "igl-day-use-bookings": LocalJSX.IntrinsicElements["igl-day-use-bookings"] & JSXBase.HTMLAttributes<HTMLIglDayUseBookingsElement>;
             "igl-day-use-unit-list": LocalJSX.IntrinsicElements["igl-day-use-unit-list"] & JSXBase.HTMLAttributes<HTMLIglDayUseUnitListElement>;
             "igl-hk-issues-dialog": LocalJSX.IntrinsicElements["igl-hk-issues-dialog"] & JSXBase.HTMLAttributes<HTMLIglHkIssuesDialogElement>;

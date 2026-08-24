@@ -1,8 +1,9 @@
 'use strict';
 
 var index = require('./index-DgHWBwDV.js');
-var axios = require('./axios-C-Phc0sj.js');
+var axios = require('./axios-EresIryl.js');
 var debounce = require('./debounce-Be8tSGtB.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
 
 const irPropertySwitcherDialogContentCss = () => `.sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__search-input.sc-ir-property-switcher-dialog-content::part(base),.property-switcher__search-input.sc-ir-property-switcher-dialog-content [part~="base"]{font-size:16px;height:32px}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}@media (min-width: 640px){.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}}`;
 
@@ -158,7 +159,7 @@ const IrPropertySwitcherDialogContent = class {
         return index.h("div", { class: "property-switcher__status" }, text);
     }
     render() {
-        return (index.h(index.Host, { key: '86aced9a005fa93ed2414855ee14fd7af7f43dbb' }, index.h("ir-input", { key: '8be3578033269738917f4944ef111d01b35f6389', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Property name or A number", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), index.h("div", { key: '347786bfb87c3812d0e0b93370d657b45abea703', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (index.h("div", { key: '4bbb00a45c74ae8a884c6ebe7e35aadb480a4754' }, index.h("p", { key: 'ef4b732a9d4d5788309b9002cbd6fa69f342557d', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, "Linked Properties"), this.properties.map(property => {
+        return (index.h(index.Host, { key: '6fcbc862ad8203e3ada53d4f7f637fadf7b5b723' }, index.h("ir-input", { key: '7bb3e6c7a720981a2e37ce884ebd773f8fafe5c1', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Property name or A number", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), index.h("div", { key: '21349ded3000a681fbf04492aca49d1bf5e26e01', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (index.h("div", { key: 'e0d6d5ddb91381fb2604de06a56688874af495df' }, index.h("p", { key: '58c15fbe8f11cfe6ec6a8ce6e1dd46450cf76c86', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, "Linked Properties"), this.properties.map(property => {
             const label = `${property.name}`;
             return (index.h("wa-option", { onClick: () => {
                     // this.selectProperty(property as any);

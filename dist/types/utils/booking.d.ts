@@ -52,6 +52,10 @@ export interface DayUseUnitAvailability {
     /** @deprecated Use `dayStatus` (`'checkin' | 'turnover'`) — kept for callers that only care about the boolean. */
     hasUpcomingCheckIn: boolean;
     dayStatus: DayUseUnitDayStatus;
+    /** Formatted clock time (`02:00 PM`) of the checkout happening today — set when `dayStatus` is `'checkout'` or `'turnover'`. */
+    checkoutTime: string | null;
+    /** Formatted clock time (`02:00 PM`) of the checkin happening today — set when `dayStatus` is `'checkin'` or `'turnover'`. */
+    checkinTime: string | null;
 }
 /**
  * A unit is unavailable for day use only when both halves of the day share the same non-empty POOL

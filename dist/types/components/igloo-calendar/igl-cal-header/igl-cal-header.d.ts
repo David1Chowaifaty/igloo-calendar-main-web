@@ -23,8 +23,6 @@ export declare class IglCalHeader {
     unassignedRoomsNumber: any;
     private roomsList;
     private toBeAssignedService;
-    dateRef: HTMLIrButtonElement;
-    dateSelectRef: HTMLIrDateSelectElement;
     componentWillLoad(): void;
     handleCalendarDataChanged(): void;
     private initializeRoomsList;
@@ -34,12 +32,7 @@ export declare class IglCalHeader {
         fromDate: string;
         toDate: string;
     }>): void;
-    showToBeAssigned(dayInfo: any): void;
     handleOptionEvent(key: any, data?: any): void;
-    handleDateSelect(event: CustomEvent): void;
-    handleClearSearch(): void;
-    handleFilterRooms(event: Event): void;
-    handleScrollToRoom(roomId: any): void;
     getStringDateFormat(dt: any): string;
     getNewBookingModel(): {
         ID: string;
@@ -64,5 +57,8 @@ export declare class IglCalHeader {
         };
     };
     renderView(): void;
+    private handleToolbarAction;
+    private handleRoomSelected;
+    private handleDayBadgeClicked;
     render(): any;
 }

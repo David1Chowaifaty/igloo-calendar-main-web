@@ -9,7 +9,7 @@ const IrUnvoicedBookingsSummary = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: '3a76a03680449756835122d685558d165e9c49a2' }, index.h("slot", { key: 'd1f2cef5b0e5ffb605fdba03bf20b248e33fce27' })));
+        return (index.h(index.Host, { key: '9363ec251ee82f03f9ed751166427df2f49401af' }, index.h("slot", { key: '79067e3468dbdc1180cc70009880795a65ed56e1' })));
     }
 };
 IrUnvoicedBookingsSummary.style = irUnvoicedBookingsSummaryCss();

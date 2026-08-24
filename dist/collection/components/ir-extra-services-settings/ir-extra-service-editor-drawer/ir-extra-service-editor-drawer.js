@@ -18,7 +18,7 @@ export class IrExtraServiceEditorDrawer {
     render() {
         const isAddon = this.service?.section === ExtraServiceSection.BookingEngineAddon;
         const isNewAddon = isAddon && this.service?.id === -1;
-        return (h(Host, { key: '209ace7c7cc3b8f6f098734d875c2c1453de0946', "data-testid": "extra-service-editor-drawer" }, h("ir-drawer", { key: '04b33bf3872de0c3276bf287e74926cfdd1003eb', class: "extra-service__drawer", style: { '--ir-drawer-width': '32rem' }, label: isNewAddon ? 'New Add-On' : `Edit ${this.service?.name ?? 'Extra Service'}`, open: this.open, "data-testid": "extra-service-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (h("ir-extra-service-editor-form", { key: '43eae9dfb8f365be1da00a1d9015d7e2d1a23b1c', onCloseDrawer: e => {
+        return (h(Host, { key: 'a2b36dba9574f2c68bf6a7e8dd22fe34771067ed', "data-testid": "extra-service-editor-drawer" }, h("ir-drawer", { key: '1fb6c93106943d4bc8bba53d759b003712158add', class: "extra-service__drawer", style: { '--ir-drawer-width': '32rem' }, label: isNewAddon ? 'New Add-On' : `Edit ${this.service?.name ?? 'Extra Service'}`, open: this.open, "data-testid": "extra-service-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (h("ir-extra-service-editor-form", { key: '42eba1776a05914b786ae71fd015b4f367b53415', onCloseDrawer: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.extraServiceEditorClose.emit();
@@ -26,7 +26,7 @@ export class IrExtraServiceEditorDrawer {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.loading = e.detail;
-            }, service: this.service, formId: this.baseId, "data-testid": "extra-service-editor-form" })), h("div", { key: '82028b7cac3a118a8e381c31f8b6912557e4c002', slot: "footer", class: "ir__drawer-footer", "data-testid": "extra-service-editor-drawer-footer" }, h("ir-custom-button", { key: 'fd5cdd547d51abecb831f92e3edf0abcb76512b8', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "extra-service-editor-cancel-button" }, "Cancel"), h("ir-custom-button", { key: 'dbd20dd78ffa412198b65b582ff8ae3ce7dca44b', loading: this.loading, type: "submit", form: this.baseId, size: "m", appearance: "accent", variant: "brand", "data-testid": "extra-service-editor-save-button" }, "Save")))));
+            }, service: this.service, formId: this.baseId, "data-testid": "extra-service-editor-form" })), h("div", { key: '93d9c17f3932179649472b8f2eef9b79ec4348bd', slot: "footer", class: "ir__drawer-footer", "data-testid": "extra-service-editor-drawer-footer" }, h("ir-custom-button", { key: '7c6c3addb62a11de987bb25974ab319bc62542eb', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "extra-service-editor-cancel-button" }, "Cancel"), h("ir-custom-button", { key: '1923a651db43ca1afa108c8a92fc8c5887a1df83', loading: this.loading, type: "submit", form: this.baseId, size: "m", appearance: "accent", variant: "brand", "data-testid": "extra-service-editor-save-button" }, "Save")))));
     }
     static get is() { return "ir-extra-service-editor-drawer"; }
     static get encapsulation() { return "scoped"; }

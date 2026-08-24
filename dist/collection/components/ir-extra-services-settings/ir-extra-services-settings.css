@@ -75,7 +75,10 @@
 }
 
 /* ── Grid (desktop: shared-column table layout) ──────────── */
-
+ir-extra-service-price-input,
+.extra-services-grid__cell {
+  width: 100%;
+}
 @media (min-width: 768px) {
   .extra-services-grid {
     display: grid;

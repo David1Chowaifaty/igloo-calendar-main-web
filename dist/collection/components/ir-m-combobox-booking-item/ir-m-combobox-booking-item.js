@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 export class IrMComboboxBookingItem {
     booking;
     render() {
-        return (h(Host, { key: 'c7aa55e3726a9ae0f92fa469760f43bf51690026', class: "pe-1" }, h("img", { key: '6d3128438cab04ad40344f1899e9494e634d66ae', src: this.booking.origin.Icon, alt: this.booking.origin.Label, class: "origin-icon" }), h("div", { key: '476c06d944a903cfe0eff49841fd4feb3016abd6' }, h("p", { key: 'f8453630259a1d33c122a64902d952522c66cc15', class: "p-0 m-0" }, this.booking.booking_nbr), !this.booking.is_direct && h("p", { key: '7cc41c2815b3be2d9d59e559220b565c1887d447', class: "small p-0 m-0" }, this.booking.channel_booking_nbr)), h("p", { key: 'a93114dea0dd60cafd00c038cba170134753dae7', class: "p-0 m-0" }, this.booking.guest.first_name, " ", this.booking.guest.last_name)));
+        return (h(Host, { key: '6eb9ed217b11ca7def86c648ed76480a74c2bb0d', class: "pe-1" }, h("img", { key: '8370c2e036db80a133aa06a7b44df6ded5abbeca', src: this.booking.origin.Icon, alt: this.booking.origin.Label, class: "origin-icon" }), h("div", { key: '44408b511557803f590963a1d73829edac7098f0' }, h("p", { key: '14fa7a1cab14251aff8d3d7d1b79ecacfd1ea0db', class: "p-0 m-0" }, this.booking.booking_nbr), !this.booking.is_direct && h("p", { key: 'a8ba5f17cdf95a93a08c9530acf8cb8c6d2c549c', class: "small p-0 m-0" }, this.booking.channel_booking_nbr)), h("p", { key: '7b4966d251b4f3f4666a1386e6bec63a188bd1d7', class: "p-0 m-0" }, this.booking.guest.first_name, " ", this.booking.guest.last_name)));
     }
     static get is() { return "ir-m-combobox-booking-item"; }
     static get encapsulation() { return "scoped"; }
