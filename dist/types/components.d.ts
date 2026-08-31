@@ -62,6 +62,7 @@ import { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./compone
 import { DateRangeChangeEvent } from "./components/ui/ir-date-range/ir-date-range";
 import { QuickDatePreset } from "./components/ui/ir-date-range-filter/ir-date-range-filter";
 import { DateChangeEvent } from "./components/ui/date-picker/ir-date-select/ir-date-select";
+import { DateStyle } from "./utils/date/index";
 import { CheckoutRoomEvent } from "./components/ir-departures/ir-departures-table/ir-departures-table";
 import { Element } from "./stencil-public-runtime";
 import { NativeDrawer } from "./components/ir-drawer/ir-drawer";
@@ -107,6 +108,7 @@ import { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 import { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
 import { Toast } from "./components/ir-toast-provider/ir-toast-provider";
 import { ToastOptions } from "./components/ui/ir-toasts-provider/ir-toasts-provider";
+import { TranslationEntry, TranslationLanguage, TranslationTable } from "./components/ir-translations-manager/types";
 import { User } from "./models/Users";
 import { AllowedUser } from "./components/ir-user-management/types";
 import { VoidDocumentRequest } from "./components/ir-booking-details/ir-void-document-dialog/ir-void-document-dialog";
@@ -167,6 +169,7 @@ export { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./compone
 export { DateRangeChangeEvent } from "./components/ui/ir-date-range/ir-date-range";
 export { QuickDatePreset } from "./components/ui/ir-date-range-filter/ir-date-range-filter";
 export { DateChangeEvent } from "./components/ui/date-picker/ir-date-select/ir-date-select";
+export { DateStyle } from "./utils/date/index";
 export { CheckoutRoomEvent } from "./components/ir-departures/ir-departures-table/ir-departures-table";
 export { Element } from "./stencil-public-runtime";
 export { NativeDrawer } from "./components/ir-drawer/ir-drawer";
@@ -212,6 +215,7 @@ export { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 export { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
 export { Toast } from "./components/ir-toast-provider/ir-toast-provider";
 export { ToastOptions } from "./components/ui/ir-toasts-provider/ir-toasts-provider";
+export { TranslationEntry, TranslationLanguage, TranslationTable } from "./components/ir-translations-manager/types";
 export { User } from "./models/Users";
 export { AllowedUser } from "./components/ir-user-management/types";
 export { VoidDocumentRequest } from "./components/ir-booking-details/ir-void-document-dialog/ir-void-document-dialog";
@@ -355,6 +359,7 @@ export namespace Components {
          */
         "is_vacation_rental": boolean;
         "language": string;
+        "roomTop": number;
     }
     interface IglBookingEventHover {
         "bookingEvent": { [key: string]: any };
@@ -673,18 +678,15 @@ export namespace Components {
          */
         "unavailableRatePlanIds": Set<number>;
     }
-    interface IglSpiltBookingForm {
-        "booking": Booking;
-        "identifier": Room['identifier'];
-    }
-    interface IglSplitBooking {
-        "booking": Booking;
-        "identifier": Room['identifier'];
-    }
     interface IglSplitBookingDrawer {
         "booking": Booking;
         "identifier": Room['identifier'];
         "open": boolean;
+    }
+    interface IglSplitBookingForm {
+        "booking": Booking;
+        "formId": string;
+        "identifier": Room['identifier'];
     }
     interface IglTbaBookingView {
         "calendarData": { [key: string]: any };
@@ -3204,15 +3206,10 @@ export namespace Components {
     }
     interface IrDateView {
         /**
-          * Input format used when `from_date` / `to_date` are plain strings
-          * @default 'YYYY-MM-DD'
+          * Display style for both dates
+          * @default 'medium'
          */
-        "dateOption": string;
-        /**
-          * Display format for both dates
-          * @default 'MMM DD, YYYY'
-         */
-        "format": string;
+        "format": DateStyle;
         /**
           * Raw from-date — accepts ISO string, JS Date, or Moment
          */
@@ -6797,6 +6794,232 @@ export namespace Components {
          */
         "withHtml": boolean;
     }
+    /**
+     * Owns the entries table plus its client-side search/status filtering — the
+     * parent manager just hands it one table's raw entries and listens for the
+     * CRUD intents it emits.
+     */
+    interface IrTranslationsEntriesPanel {
+        /**
+          * Ids of rows whose position differs from the last-loaded/saved order — marked in the table while a reorder is pending.
+          * @default new Set()
+         */
+        "changedEntryIds": Set<string>;
+        /**
+          * Disables the "New key" action, e.g. while another write is in flight.
+          * @default false
+         */
+        "disableActions": boolean;
+        /**
+          * The active table's unfiltered entries — filtered internally for display.
+          * @default []
+         */
+        "entries": TranslationEntry[];
+        /**
+          * True once a drag reorder is applied locally but not yet saved — shows the Save/Discard order buttons.
+          * @default false
+         */
+        "hasPendingOrder": boolean;
+        /**
+          * True while the active table's keys are still loading.
+          * @default false
+         */
+        "isLoading": boolean;
+        /**
+          * @default []
+         */
+        "languages": TranslationLanguage[];
+        "sourceCode"?: string;
+    }
+    interface IrTranslationsEntriesTable {
+        /**
+          * Ids of rows whose position differs from the last-loaded/saved order — highlighted while a reorder is pending.
+          * @default new Set()
+         */
+        "changedEntryIds": Set<string>;
+        /**
+          * @default true
+         */
+        "compact": boolean;
+        /**
+          * Rows to render, already filtered by the parent.
+          * @default []
+         */
+        "entries": TranslationEntry[];
+        /**
+          * True when the parent's filters hid every row, so the empty state can say so.
+          * @default false
+         */
+        "filtered": boolean;
+        /**
+          * Column order — the source language is expected first.
+          * @default []
+         */
+        "languages": TranslationLanguage[];
+        /**
+          * False while a search/status filter is active — reordering a filtered subset can't map cleanly onto the full list.
+          * @default true
+         */
+        "reorderEnabled": boolean;
+        /**
+          * Code of the reference language, marked in the header.
+         */
+        "sourceCode"?: string;
+    }
+    /**
+     * Dumb open/close shell — the nested ir-translations-entry-form owns the
+     * draft, validation, and the actual save call.
+     */
+    interface IrTranslationsEntryDrawer {
+        /**
+          * The entry being edited. Null puts the drawer in create mode.
+          * @default null
+         */
+        "entry": TranslationEntry | null;
+        "entryUserId": number;
+        /**
+          * Keys already used in the active table, for duplicate detection.
+          * @default []
+         */
+        "existingKeys": string[];
+        /**
+          * @default 'translations-entry-form'
+         */
+        "formId": string;
+        /**
+          * @default []
+         */
+        "languages": TranslationLanguage[];
+        /**
+          * DISPLAY_ORDER a brand-new key should get — one past the highest order already in the table.
+          * @default 0
+         */
+        "nextDisplayOrder": number;
+        /**
+          * @default false
+         */
+        "open": boolean;
+        "ownerId": number;
+        "tableName": string;
+    }
+    /**
+     * Owns the create/edit draft for a single translation key and saves it directly —
+     * the drawer around this form is a dumb open/close shell.
+     */
+    interface IrTranslationsEntryForm {
+        /**
+          * The entry being edited. Null puts the form in create mode.
+          * @default null
+         */
+        "entry": TranslationEntry | null;
+        "entryUserId": number;
+        /**
+          * Keys already used in the active table, for duplicate detection.
+          * @default []
+         */
+        "existingKeys": string[];
+        "formId": string;
+        /**
+          * @default []
+         */
+        "languages": TranslationLanguage[];
+        /**
+          * DISPLAY_ORDER a brand-new key should get — one past the highest order already in the table.
+          * @default 0
+         */
+        "nextDisplayOrder": number;
+        "ownerId": number;
+        "tableName": string;
+    }
+    interface IrTranslationsLanguageDialog {
+        /**
+          * Every language this property exposes and Setup can persist — the picker offers whichever of these aren't already shown.
+          * @default []
+         */
+        "catalog": TranslationLanguage[];
+        /**
+          * Every entry across every table, used to report per-language coverage.
+          * @default []
+         */
+        "entries": TranslationEntry[];
+        /**
+          * @default []
+         */
+        "languages": TranslationLanguage[];
+        /**
+          * @default false
+         */
+        "open": boolean;
+    }
+    interface IrTranslationsManager {
+        /**
+          * Owning property id, sent as OWNER_ID on every write.
+         */
+        "propertyid": number;
+        /**
+          * Auth ticket for the Setup API, following the same pattern as other feature roots.
+         */
+        "ticket": string;
+        /**
+          * Acting user id, sent as ENTRY_USER_ID on every write.
+         */
+        "userId": number;
+    }
+    /**
+     * Dumb open/close shell — the nested ir-translations-table-form owns the
+     * draft, validation, and the actual save call.
+     */
+    interface IrTranslationsTableDialog {
+        "entryUserId": number;
+        /**
+          * Names of the other tables, for duplicate detection.
+          * @default []
+         */
+        "existingNames": string[];
+        /**
+          * @default 'translations-table-form'
+         */
+        "formId": string;
+        /**
+          * @default 'create'
+         */
+        "mode": 'create' | 'edit';
+        /**
+          * @default false
+         */
+        "open": boolean;
+        "ownerId": number;
+        /**
+          * @default null
+         */
+        "table": TranslationTable | null;
+    }
+    /**
+     * Owns the table name draft and saves it directly — the dialog around this
+     * form is a dumb open/close shell.
+     * Setup only lists tables that already have at least one row, so creating a
+     * table and renaming an empty one are purely local (no API call); renaming a
+     * non-empty table has to recreate every entry under the new TBL_NAME and
+     * soft-delete the old rows, since there's no bulk-rename endpoint.
+     */
+    interface IrTranslationsTableForm {
+        "entryUserId": number;
+        /**
+          * Names of the other tables, for duplicate detection.
+          * @default []
+         */
+        "existingNames": string[];
+        "formId": string;
+        /**
+          * @default 'create'
+         */
+        "mode": 'create' | 'edit';
+        "ownerId": number;
+        /**
+          * @default null
+         */
+        "table": TranslationTable | null;
+    }
     interface IrUnbookableRooms {
         /**
           * @default 14
@@ -7186,17 +7409,13 @@ export interface IglReallocationDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglReallocationDialogElement;
 }
-export interface IglSpiltBookingFormCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIglSpiltBookingFormElement;
-}
-export interface IglSplitBookingCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIglSplitBookingElement;
-}
 export interface IglSplitBookingDrawerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglSplitBookingDrawerElement;
+}
+export interface IglSplitBookingFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIglSplitBookingFormElement;
 }
 export interface IglTbaBookingViewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -8002,6 +8221,34 @@ export interface IrToastProviderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrToastProviderElement;
 }
+export interface IrTranslationsEntriesPanelCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrTranslationsEntriesPanelElement;
+}
+export interface IrTranslationsEntriesTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrTranslationsEntriesTableElement;
+}
+export interface IrTranslationsEntryDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrTranslationsEntryDrawerElement;
+}
+export interface IrTranslationsEntryFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrTranslationsEntryFormElement;
+}
+export interface IrTranslationsLanguageDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrTranslationsLanguageDialogElement;
+}
+export interface IrTranslationsTableDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrTranslationsTableDialogElement;
+}
+export interface IrTranslationsTableFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrTranslationsTableFormElement;
+}
 export interface IrUnbookableRoomsFiltersCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrUnbookableRoomsFiltersElement;
@@ -8631,40 +8878,6 @@ declare global {
         prototype: HTMLIglRoomTypeElement;
         new (): HTMLIglRoomTypeElement;
     };
-    interface HTMLIglSpiltBookingFormElementEventMap {
-        "closeModal": null;
-    }
-    interface HTMLIglSpiltBookingFormElement extends Components.IglSpiltBookingForm, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIglSpiltBookingFormElementEventMap>(type: K, listener: (this: HTMLIglSpiltBookingFormElement, ev: IglSpiltBookingFormCustomEvent<HTMLIglSpiltBookingFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIglSpiltBookingFormElementEventMap>(type: K, listener: (this: HTMLIglSpiltBookingFormElement, ev: IglSpiltBookingFormCustomEvent<HTMLIglSpiltBookingFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLIglSpiltBookingFormElement: {
-        prototype: HTMLIglSpiltBookingFormElement;
-        new (): HTMLIglSpiltBookingFormElement;
-    };
-    interface HTMLIglSplitBookingElementEventMap {
-        "closeModal": null;
-    }
-    interface HTMLIglSplitBookingElement extends Components.IglSplitBooking, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIglSplitBookingElementEventMap>(type: K, listener: (this: HTMLIglSplitBookingElement, ev: IglSplitBookingCustomEvent<HTMLIglSplitBookingElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIglSplitBookingElementEventMap>(type: K, listener: (this: HTMLIglSplitBookingElement, ev: IglSplitBookingCustomEvent<HTMLIglSplitBookingElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLIglSplitBookingElement: {
-        prototype: HTMLIglSplitBookingElement;
-        new (): HTMLIglSplitBookingElement;
-    };
     interface HTMLIglSplitBookingDrawerElementEventMap {
         "closeModal": null;
     }
@@ -8681,6 +8894,23 @@ declare global {
     var HTMLIglSplitBookingDrawerElement: {
         prototype: HTMLIglSplitBookingDrawerElement;
         new (): HTMLIglSplitBookingDrawerElement;
+    };
+    interface HTMLIglSplitBookingFormElementEventMap {
+        "closeModal": null;
+    }
+    interface HTMLIglSplitBookingFormElement extends Components.IglSplitBookingForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIglSplitBookingFormElementEventMap>(type: K, listener: (this: HTMLIglSplitBookingFormElement, ev: IglSplitBookingFormCustomEvent<HTMLIglSplitBookingFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIglSplitBookingFormElementEventMap>(type: K, listener: (this: HTMLIglSplitBookingFormElement, ev: IglSplitBookingFormCustomEvent<HTMLIglSplitBookingFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIglSplitBookingFormElement: {
+        prototype: HTMLIglSplitBookingFormElement;
+        new (): HTMLIglSplitBookingFormElement;
     };
     interface HTMLIglTbaBookingViewElementEventMap {
         "highlightToBeAssignedBookingEvent": any;
@@ -13190,6 +13420,181 @@ declare global {
         prototype: HTMLIrTooltipElement;
         new (): HTMLIrTooltipElement;
     };
+    interface HTMLIrTranslationsEntriesPanelElementEventMap {
+        "createEntry": void;
+        "editEntry": TranslationEntry;
+        "duplicateEntry": TranslationEntry;
+        "deleteEntry": TranslationEntry;
+        "entryChange": TranslationEntry;
+        "reorderEntries": TranslationEntry[];
+        "toggleVisibility": TranslationEntry;
+        "saveOrder": void;
+        "discardOrder": void;
+    }
+    /**
+     * Owns the entries table plus its client-side search/status filtering — the
+     * parent manager just hands it one table's raw entries and listens for the
+     * CRUD intents it emits.
+     */
+    interface HTMLIrTranslationsEntriesPanelElement extends Components.IrTranslationsEntriesPanel, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrTranslationsEntriesPanelElementEventMap>(type: K, listener: (this: HTMLIrTranslationsEntriesPanelElement, ev: IrTranslationsEntriesPanelCustomEvent<HTMLIrTranslationsEntriesPanelElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrTranslationsEntriesPanelElementEventMap>(type: K, listener: (this: HTMLIrTranslationsEntriesPanelElement, ev: IrTranslationsEntriesPanelCustomEvent<HTMLIrTranslationsEntriesPanelElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrTranslationsEntriesPanelElement: {
+        prototype: HTMLIrTranslationsEntriesPanelElement;
+        new (): HTMLIrTranslationsEntriesPanelElement;
+    };
+    interface HTMLIrTranslationsEntriesTableElementEventMap {
+        "entryChange": TranslationEntry;
+        "editEntry": TranslationEntry;
+        "duplicateEntry": TranslationEntry;
+        "deleteEntry": TranslationEntry;
+        "clearFilters": void;
+        "reorderEntries": TranslationEntry[];
+        "toggleVisibility": TranslationEntry;
+    }
+    interface HTMLIrTranslationsEntriesTableElement extends Components.IrTranslationsEntriesTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrTranslationsEntriesTableElementEventMap>(type: K, listener: (this: HTMLIrTranslationsEntriesTableElement, ev: IrTranslationsEntriesTableCustomEvent<HTMLIrTranslationsEntriesTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrTranslationsEntriesTableElementEventMap>(type: K, listener: (this: HTMLIrTranslationsEntriesTableElement, ev: IrTranslationsEntriesTableCustomEvent<HTMLIrTranslationsEntriesTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrTranslationsEntriesTableElement: {
+        prototype: HTMLIrTranslationsEntriesTableElement;
+        new (): HTMLIrTranslationsEntriesTableElement;
+    };
+    interface HTMLIrTranslationsEntryDrawerElementEventMap {
+        "closeDrawer": void;
+        "entrySaved": void;
+    }
+    /**
+     * Dumb open/close shell — the nested ir-translations-entry-form owns the
+     * draft, validation, and the actual save call.
+     */
+    interface HTMLIrTranslationsEntryDrawerElement extends Components.IrTranslationsEntryDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrTranslationsEntryDrawerElementEventMap>(type: K, listener: (this: HTMLIrTranslationsEntryDrawerElement, ev: IrTranslationsEntryDrawerCustomEvent<HTMLIrTranslationsEntryDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrTranslationsEntryDrawerElementEventMap>(type: K, listener: (this: HTMLIrTranslationsEntryDrawerElement, ev: IrTranslationsEntryDrawerCustomEvent<HTMLIrTranslationsEntryDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrTranslationsEntryDrawerElement: {
+        prototype: HTMLIrTranslationsEntryDrawerElement;
+        new (): HTMLIrTranslationsEntryDrawerElement;
+    };
+    interface HTMLIrTranslationsEntryFormElementEventMap {
+        "entrySaved": void;
+        "submitDisabledChange": boolean;
+        "isSubmittingChange": boolean;
+    }
+    /**
+     * Owns the create/edit draft for a single translation key and saves it directly —
+     * the drawer around this form is a dumb open/close shell.
+     */
+    interface HTMLIrTranslationsEntryFormElement extends Components.IrTranslationsEntryForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrTranslationsEntryFormElementEventMap>(type: K, listener: (this: HTMLIrTranslationsEntryFormElement, ev: IrTranslationsEntryFormCustomEvent<HTMLIrTranslationsEntryFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrTranslationsEntryFormElementEventMap>(type: K, listener: (this: HTMLIrTranslationsEntryFormElement, ev: IrTranslationsEntryFormCustomEvent<HTMLIrTranslationsEntryFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrTranslationsEntryFormElement: {
+        prototype: HTMLIrTranslationsEntryFormElement;
+        new (): HTMLIrTranslationsEntryFormElement;
+    };
+    interface HTMLIrTranslationsLanguageDialogElementEventMap {
+        "addLanguage": TranslationLanguage;
+        "removeLanguage": string;
+        "setSourceLanguage": string;
+        "closeDialog": void;
+    }
+    interface HTMLIrTranslationsLanguageDialogElement extends Components.IrTranslationsLanguageDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrTranslationsLanguageDialogElementEventMap>(type: K, listener: (this: HTMLIrTranslationsLanguageDialogElement, ev: IrTranslationsLanguageDialogCustomEvent<HTMLIrTranslationsLanguageDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrTranslationsLanguageDialogElementEventMap>(type: K, listener: (this: HTMLIrTranslationsLanguageDialogElement, ev: IrTranslationsLanguageDialogCustomEvent<HTMLIrTranslationsLanguageDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrTranslationsLanguageDialogElement: {
+        prototype: HTMLIrTranslationsLanguageDialogElement;
+        new (): HTMLIrTranslationsLanguageDialogElement;
+    };
+    interface HTMLIrTranslationsManagerElement extends Components.IrTranslationsManager, HTMLStencilElement {
+    }
+    var HTMLIrTranslationsManagerElement: {
+        prototype: HTMLIrTranslationsManagerElement;
+        new (): HTMLIrTranslationsManagerElement;
+    };
+    interface HTMLIrTranslationsTableDialogElementEventMap {
+        "closeDialog": void;
+        "tableSaved": { id: string; name: string; mode: 'create' | 'edit' };
+        "tableSaveFailed": void;
+    }
+    /**
+     * Dumb open/close shell — the nested ir-translations-table-form owns the
+     * draft, validation, and the actual save call.
+     */
+    interface HTMLIrTranslationsTableDialogElement extends Components.IrTranslationsTableDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrTranslationsTableDialogElementEventMap>(type: K, listener: (this: HTMLIrTranslationsTableDialogElement, ev: IrTranslationsTableDialogCustomEvent<HTMLIrTranslationsTableDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrTranslationsTableDialogElementEventMap>(type: K, listener: (this: HTMLIrTranslationsTableDialogElement, ev: IrTranslationsTableDialogCustomEvent<HTMLIrTranslationsTableDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrTranslationsTableDialogElement: {
+        prototype: HTMLIrTranslationsTableDialogElement;
+        new (): HTMLIrTranslationsTableDialogElement;
+    };
+    interface HTMLIrTranslationsTableFormElementEventMap {
+        "tableSaved": { id: string; name: string; mode: 'create' | 'edit' };
+        "tableSaveFailed": void;
+        "submitDisabledChange": boolean;
+        "isSubmittingChange": boolean;
+    }
+    /**
+     * Owns the table name draft and saves it directly — the dialog around this
+     * form is a dumb open/close shell.
+     * Setup only lists tables that already have at least one row, so creating a
+     * table and renaming an empty one are purely local (no API call); renaming a
+     * non-empty table has to recreate every entry under the new TBL_NAME and
+     * soft-delete the old rows, since there's no bulk-rename endpoint.
+     */
+    interface HTMLIrTranslationsTableFormElement extends Components.IrTranslationsTableForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrTranslationsTableFormElementEventMap>(type: K, listener: (this: HTMLIrTranslationsTableFormElement, ev: IrTranslationsTableFormCustomEvent<HTMLIrTranslationsTableFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrTranslationsTableFormElementEventMap>(type: K, listener: (this: HTMLIrTranslationsTableFormElement, ev: IrTranslationsTableFormCustomEvent<HTMLIrTranslationsTableFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrTranslationsTableFormElement: {
+        prototype: HTMLIrTranslationsTableFormElement;
+        new (): HTMLIrTranslationsTableFormElement;
+    };
     interface HTMLIrUnbookableRoomsElement extends Components.IrUnbookableRooms, HTMLStencilElement {
     }
     var HTMLIrUnbookableRoomsElement: {
@@ -13452,9 +13857,8 @@ declare global {
         "igl-rate-plan": HTMLIglRatePlanElement;
         "igl-reallocation-dialog": HTMLIglReallocationDialogElement;
         "igl-room-type": HTMLIglRoomTypeElement;
-        "igl-spilt-booking-form": HTMLIglSpiltBookingFormElement;
-        "igl-split-booking": HTMLIglSplitBookingElement;
         "igl-split-booking-drawer": HTMLIglSplitBookingDrawerElement;
+        "igl-split-booking-form": HTMLIglSplitBookingFormElement;
         "igl-tba-booking-view": HTMLIglTbaBookingViewElement;
         "igl-tba-category-view": HTMLIglTbaCategoryViewElement;
         "igl-to-be-assigned": HTMLIglToBeAssignedElement;
@@ -13775,6 +14179,14 @@ declare global {
         "ir-toast-provider": HTMLIrToastProviderElement;
         "ir-toasts-provider": HTMLIrToastsProviderElement;
         "ir-tooltip": HTMLIrTooltipElement;
+        "ir-translations-entries-panel": HTMLIrTranslationsEntriesPanelElement;
+        "ir-translations-entries-table": HTMLIrTranslationsEntriesTableElement;
+        "ir-translations-entry-drawer": HTMLIrTranslationsEntryDrawerElement;
+        "ir-translations-entry-form": HTMLIrTranslationsEntryFormElement;
+        "ir-translations-language-dialog": HTMLIrTranslationsLanguageDialogElement;
+        "ir-translations-manager": HTMLIrTranslationsManagerElement;
+        "ir-translations-table-dialog": HTMLIrTranslationsTableDialogElement;
+        "ir-translations-table-form": HTMLIrTranslationsTableFormElement;
         "ir-unbookable-rooms": HTMLIrUnbookableRoomsElement;
         "ir-unbookable-rooms-data": HTMLIrUnbookableRoomsDataElement;
         "ir-unbookable-rooms-filters": HTMLIrUnbookableRoomsFiltersElement;
@@ -13962,6 +14374,7 @@ declare namespace LocalJSX {
         "onShowRoomNightsDialog"?: (event: IglBookingEventCustomEvent<IRoomNightsData>) => void;
         "onUpdateBookingEvent"?: (event: IglBookingEventCustomEvent<{ [key: string]: any }>) => void;
         "onUpdateEventData"?: (event: IglBookingEventCustomEvent<any>) => void;
+        "roomTop"?: number;
     }
     interface IglBookingEventHover {
         "bookingEvent"?: { [key: string]: any };
@@ -14342,21 +14755,17 @@ declare namespace LocalJSX {
          */
         "unavailableRatePlanIds"?: Set<number>;
     }
-    interface IglSpiltBookingForm {
-        "booking"?: Booking;
-        "identifier"?: Room['identifier'];
-        "onCloseModal"?: (event: IglSpiltBookingFormCustomEvent<null>) => void;
-    }
-    interface IglSplitBooking {
-        "booking"?: Booking;
-        "identifier"?: Room['identifier'];
-        "onCloseModal"?: (event: IglSplitBookingCustomEvent<null>) => void;
-    }
     interface IglSplitBookingDrawer {
         "booking"?: Booking;
         "identifier"?: Room['identifier'];
         "onCloseModal"?: (event: IglSplitBookingDrawerCustomEvent<null>) => void;
         "open"?: boolean;
+    }
+    interface IglSplitBookingForm {
+        "booking"?: Booking;
+        "formId"?: string;
+        "identifier"?: Room['identifier'];
+        "onCloseModal"?: (event: IglSplitBookingFormCustomEvent<null>) => void;
     }
     interface IglTbaBookingView {
         "calendarData"?: { [key: string]: any };
@@ -17070,15 +17479,10 @@ declare namespace LocalJSX {
     }
     interface IrDateView {
         /**
-          * Input format used when `from_date` / `to_date` are plain strings
-          * @default 'YYYY-MM-DD'
+          * Display style for both dates
+          * @default 'medium'
          */
-        "dateOption"?: string;
-        /**
-          * Display format for both dates
-          * @default 'MMM DD, YYYY'
-         */
-        "format"?: string;
+        "format"?: DateStyle;
         /**
           * Raw from-date — accepts ISO string, JS Date, or Moment
          */
@@ -21012,6 +21416,267 @@ declare namespace LocalJSX {
          */
         "withHtml"?: boolean;
     }
+    /**
+     * Owns the entries table plus its client-side search/status filtering — the
+     * parent manager just hands it one table's raw entries and listens for the
+     * CRUD intents it emits.
+     */
+    interface IrTranslationsEntriesPanel {
+        /**
+          * Ids of rows whose position differs from the last-loaded/saved order — marked in the table while a reorder is pending.
+          * @default new Set()
+         */
+        "changedEntryIds"?: Set<string>;
+        /**
+          * Disables the "New key" action, e.g. while another write is in flight.
+          * @default false
+         */
+        "disableActions"?: boolean;
+        /**
+          * The active table's unfiltered entries — filtered internally for display.
+          * @default []
+         */
+        "entries"?: TranslationEntry[];
+        /**
+          * True once a drag reorder is applied locally but not yet saved — shows the Save/Discard order buttons.
+          * @default false
+         */
+        "hasPendingOrder"?: boolean;
+        /**
+          * True while the active table's keys are still loading.
+          * @default false
+         */
+        "isLoading"?: boolean;
+        /**
+          * @default []
+         */
+        "languages"?: TranslationLanguage[];
+        "onCreateEntry"?: (event: IrTranslationsEntriesPanelCustomEvent<void>) => void;
+        "onDeleteEntry"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry>) => void;
+        "onDiscardOrder"?: (event: IrTranslationsEntriesPanelCustomEvent<void>) => void;
+        "onDuplicateEntry"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry>) => void;
+        "onEditEntry"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry>) => void;
+        "onEntryChange"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry>) => void;
+        "onReorderEntries"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry[]>) => void;
+        "onSaveOrder"?: (event: IrTranslationsEntriesPanelCustomEvent<void>) => void;
+        "onToggleVisibility"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry>) => void;
+        "sourceCode"?: string;
+    }
+    interface IrTranslationsEntriesTable {
+        /**
+          * Ids of rows whose position differs from the last-loaded/saved order — highlighted while a reorder is pending.
+          * @default new Set()
+         */
+        "changedEntryIds"?: Set<string>;
+        /**
+          * @default true
+         */
+        "compact"?: boolean;
+        /**
+          * Rows to render, already filtered by the parent.
+          * @default []
+         */
+        "entries"?: TranslationEntry[];
+        /**
+          * True when the parent's filters hid every row, so the empty state can say so.
+          * @default false
+         */
+        "filtered"?: boolean;
+        /**
+          * Column order — the source language is expected first.
+          * @default []
+         */
+        "languages"?: TranslationLanguage[];
+        "onClearFilters"?: (event: IrTranslationsEntriesTableCustomEvent<void>) => void;
+        "onDeleteEntry"?: (event: IrTranslationsEntriesTableCustomEvent<TranslationEntry>) => void;
+        "onDuplicateEntry"?: (event: IrTranslationsEntriesTableCustomEvent<TranslationEntry>) => void;
+        "onEditEntry"?: (event: IrTranslationsEntriesTableCustomEvent<TranslationEntry>) => void;
+        "onEntryChange"?: (event: IrTranslationsEntriesTableCustomEvent<TranslationEntry>) => void;
+        "onReorderEntries"?: (event: IrTranslationsEntriesTableCustomEvent<TranslationEntry[]>) => void;
+        "onToggleVisibility"?: (event: IrTranslationsEntriesTableCustomEvent<TranslationEntry>) => void;
+        /**
+          * False while a search/status filter is active — reordering a filtered subset can't map cleanly onto the full list.
+          * @default true
+         */
+        "reorderEnabled"?: boolean;
+        /**
+          * Code of the reference language, marked in the header.
+         */
+        "sourceCode"?: string;
+    }
+    /**
+     * Dumb open/close shell — the nested ir-translations-entry-form owns the
+     * draft, validation, and the actual save call.
+     */
+    interface IrTranslationsEntryDrawer {
+        /**
+          * The entry being edited. Null puts the drawer in create mode.
+          * @default null
+         */
+        "entry"?: TranslationEntry | null;
+        "entryUserId"?: number;
+        /**
+          * Keys already used in the active table, for duplicate detection.
+          * @default []
+         */
+        "existingKeys"?: string[];
+        /**
+          * @default 'translations-entry-form'
+         */
+        "formId"?: string;
+        /**
+          * @default []
+         */
+        "languages"?: TranslationLanguage[];
+        /**
+          * DISPLAY_ORDER a brand-new key should get — one past the highest order already in the table.
+          * @default 0
+         */
+        "nextDisplayOrder"?: number;
+        "onCloseDrawer"?: (event: IrTranslationsEntryDrawerCustomEvent<void>) => void;
+        "onEntrySaved"?: (event: IrTranslationsEntryDrawerCustomEvent<void>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+        "ownerId"?: number;
+        "tableName"?: string;
+    }
+    /**
+     * Owns the create/edit draft for a single translation key and saves it directly —
+     * the drawer around this form is a dumb open/close shell.
+     */
+    interface IrTranslationsEntryForm {
+        /**
+          * The entry being edited. Null puts the form in create mode.
+          * @default null
+         */
+        "entry"?: TranslationEntry | null;
+        "entryUserId"?: number;
+        /**
+          * Keys already used in the active table, for duplicate detection.
+          * @default []
+         */
+        "existingKeys"?: string[];
+        "formId"?: string;
+        /**
+          * @default []
+         */
+        "languages"?: TranslationLanguage[];
+        /**
+          * DISPLAY_ORDER a brand-new key should get — one past the highest order already in the table.
+          * @default 0
+         */
+        "nextDisplayOrder"?: number;
+        "onEntrySaved"?: (event: IrTranslationsEntryFormCustomEvent<void>) => void;
+        "onIsSubmittingChange"?: (event: IrTranslationsEntryFormCustomEvent<boolean>) => void;
+        "onSubmitDisabledChange"?: (event: IrTranslationsEntryFormCustomEvent<boolean>) => void;
+        "ownerId"?: number;
+        "tableName"?: string;
+    }
+    interface IrTranslationsLanguageDialog {
+        /**
+          * Every language this property exposes and Setup can persist — the picker offers whichever of these aren't already shown.
+          * @default []
+         */
+        "catalog"?: TranslationLanguage[];
+        /**
+          * Every entry across every table, used to report per-language coverage.
+          * @default []
+         */
+        "entries"?: TranslationEntry[];
+        /**
+          * @default []
+         */
+        "languages"?: TranslationLanguage[];
+        "onAddLanguage"?: (event: IrTranslationsLanguageDialogCustomEvent<TranslationLanguage>) => void;
+        "onCloseDialog"?: (event: IrTranslationsLanguageDialogCustomEvent<void>) => void;
+        /**
+          * Hides a language from this manager's view. Every CODE_VALUE_* column always exists in Setup, so nothing is deleted.
+         */
+        "onRemoveLanguage"?: (event: IrTranslationsLanguageDialogCustomEvent<string>) => void;
+        "onSetSourceLanguage"?: (event: IrTranslationsLanguageDialogCustomEvent<string>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+    }
+    interface IrTranslationsManager {
+        /**
+          * Owning property id, sent as OWNER_ID on every write.
+         */
+        "propertyid"?: number;
+        /**
+          * Auth ticket for the Setup API, following the same pattern as other feature roots.
+         */
+        "ticket"?: string;
+        /**
+          * Acting user id, sent as ENTRY_USER_ID on every write.
+         */
+        "userId"?: number;
+    }
+    /**
+     * Dumb open/close shell — the nested ir-translations-table-form owns the
+     * draft, validation, and the actual save call.
+     */
+    interface IrTranslationsTableDialog {
+        "entryUserId"?: number;
+        /**
+          * Names of the other tables, for duplicate detection.
+          * @default []
+         */
+        "existingNames"?: string[];
+        /**
+          * @default 'translations-table-form'
+         */
+        "formId"?: string;
+        /**
+          * @default 'create'
+         */
+        "mode"?: 'create' | 'edit';
+        "onCloseDialog"?: (event: IrTranslationsTableDialogCustomEvent<void>) => void;
+        "onTableSaveFailed"?: (event: IrTranslationsTableDialogCustomEvent<void>) => void;
+        "onTableSaved"?: (event: IrTranslationsTableDialogCustomEvent<{ id: string; name: string; mode: 'create' | 'edit' }>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+        "ownerId"?: number;
+        /**
+          * @default null
+         */
+        "table"?: TranslationTable | null;
+    }
+    /**
+     * Owns the table name draft and saves it directly — the dialog around this
+     * form is a dumb open/close shell.
+     * Setup only lists tables that already have at least one row, so creating a
+     * table and renaming an empty one are purely local (no API call); renaming a
+     * non-empty table has to recreate every entry under the new TBL_NAME and
+     * soft-delete the old rows, since there's no bulk-rename endpoint.
+     */
+    interface IrTranslationsTableForm {
+        "entryUserId"?: number;
+        /**
+          * Names of the other tables, for duplicate detection.
+          * @default []
+         */
+        "existingNames"?: string[];
+        "formId"?: string;
+        /**
+          * @default 'create'
+         */
+        "mode"?: 'create' | 'edit';
+        "onIsSubmittingChange"?: (event: IrTranslationsTableFormCustomEvent<boolean>) => void;
+        "onSubmitDisabledChange"?: (event: IrTranslationsTableFormCustomEvent<boolean>) => void;
+        "onTableSaveFailed"?: (event: IrTranslationsTableFormCustomEvent<void>) => void;
+        "onTableSaved"?: (event: IrTranslationsTableFormCustomEvent<{ id: string; name: string; mode: 'create' | 'edit' }>) => void;
+        "ownerId"?: number;
+        /**
+          * @default null
+         */
+        "table"?: TranslationTable | null;
+    }
     interface IrUnbookableRooms {
         /**
           * @default 14
@@ -21362,6 +22027,7 @@ declare namespace LocalJSX {
         "currency": string;
         "is_vacation_rental": boolean;
         "language": string;
+        "roomTop": number;
     }
     interface IglBookingEventHoverAttributes {
         "bubbleInfoTop": boolean;
@@ -21493,15 +22159,13 @@ declare namespace LocalJSX {
         "currency": string;
         "isBookDisabled": boolean;
     }
-    interface IglSpiltBookingFormAttributes {
-        "identifier": Room['identifier'];
-    }
-    interface IglSplitBookingAttributes {
-        "identifier": Room['identifier'];
-    }
     interface IglSplitBookingDrawerAttributes {
         "identifier": Room['identifier'];
         "open": boolean;
+    }
+    interface IglSplitBookingFormAttributes {
+        "identifier": Room['identifier'];
+        "formId": string;
     }
     interface IglTbaBookingViewAttributes {
         "selectedDate": string;
@@ -22214,8 +22878,7 @@ declare namespace LocalJSX {
         "from_date": string | Date | moment.Moment;
         "to_date": string | Date | moment.Moment;
         "showDateDifference": boolean;
-        "dateOption": string;
-        "format": string;
+        "format": DateStyle;
     }
     interface IrDatesCellAttributes {
         "display": 'block' | 'inline';
@@ -23273,6 +23936,54 @@ declare namespace LocalJSX {
         "containerClass": string;
         "alignment": 'start' | 'end' | 'center';
     }
+    interface IrTranslationsEntriesPanelAttributes {
+        "sourceCode": string;
+        "isLoading": boolean;
+        "disableActions": boolean;
+        "hasPendingOrder": boolean;
+    }
+    interface IrTranslationsEntriesTableAttributes {
+        "sourceCode": string;
+        "compact": boolean;
+        "filtered": boolean;
+        "reorderEnabled": boolean;
+    }
+    interface IrTranslationsEntryDrawerAttributes {
+        "open": boolean;
+        "formId": string;
+        "nextDisplayOrder": number;
+        "tableName": string;
+        "ownerId": number;
+        "entryUserId": number;
+    }
+    interface IrTranslationsEntryFormAttributes {
+        "formId": string;
+        "nextDisplayOrder": number;
+        "tableName": string;
+        "ownerId": number;
+        "entryUserId": number;
+    }
+    interface IrTranslationsLanguageDialogAttributes {
+        "open": boolean;
+    }
+    interface IrTranslationsManagerAttributes {
+        "ticket": string;
+        "propertyid": number;
+        "userId": number;
+    }
+    interface IrTranslationsTableDialogAttributes {
+        "open": boolean;
+        "formId": string;
+        "mode": 'create' | 'edit';
+        "ownerId": number;
+        "entryUserId": number;
+    }
+    interface IrTranslationsTableFormAttributes {
+        "formId": string;
+        "mode": 'create' | 'edit';
+        "ownerId": number;
+        "entryUserId": number;
+    }
     interface IrUnbookableRoomsAttributes {
         "ticket": string;
         "propertyid": number;
@@ -23393,9 +24104,8 @@ declare namespace LocalJSX {
         "igl-rate-plan": Omit<IglRatePlan, keyof IglRatePlanAttributes> & { [K in keyof IglRatePlan & keyof IglRatePlanAttributes]?: IglRatePlan[K] } & { [K in keyof IglRatePlan & keyof IglRatePlanAttributes as `attr:${K}`]?: IglRatePlanAttributes[K] } & { [K in keyof IglRatePlan & keyof IglRatePlanAttributes as `prop:${K}`]?: IglRatePlan[K] } & OneOf<"shouldBeDisabled", IglRatePlan["shouldBeDisabled"], IglRatePlanAttributes["shouldBeDisabled"]>;
         "igl-reallocation-dialog": IglReallocationDialog;
         "igl-room-type": Omit<IglRoomType, keyof IglRoomTypeAttributes> & { [K in keyof IglRoomType & keyof IglRoomTypeAttributes]?: IglRoomType[K] } & { [K in keyof IglRoomType & keyof IglRoomTypeAttributes as `attr:${K}`]?: IglRoomTypeAttributes[K] } & { [K in keyof IglRoomType & keyof IglRoomTypeAttributes as `prop:${K}`]?: IglRoomType[K] };
-        "igl-spilt-booking-form": Omit<IglSpiltBookingForm, keyof IglSpiltBookingFormAttributes> & { [K in keyof IglSpiltBookingForm & keyof IglSpiltBookingFormAttributes]?: IglSpiltBookingForm[K] } & { [K in keyof IglSpiltBookingForm & keyof IglSpiltBookingFormAttributes as `attr:${K}`]?: IglSpiltBookingFormAttributes[K] } & { [K in keyof IglSpiltBookingForm & keyof IglSpiltBookingFormAttributes as `prop:${K}`]?: IglSpiltBookingForm[K] };
-        "igl-split-booking": Omit<IglSplitBooking, keyof IglSplitBookingAttributes> & { [K in keyof IglSplitBooking & keyof IglSplitBookingAttributes]?: IglSplitBooking[K] } & { [K in keyof IglSplitBooking & keyof IglSplitBookingAttributes as `attr:${K}`]?: IglSplitBookingAttributes[K] } & { [K in keyof IglSplitBooking & keyof IglSplitBookingAttributes as `prop:${K}`]?: IglSplitBooking[K] };
         "igl-split-booking-drawer": Omit<IglSplitBookingDrawer, keyof IglSplitBookingDrawerAttributes> & { [K in keyof IglSplitBookingDrawer & keyof IglSplitBookingDrawerAttributes]?: IglSplitBookingDrawer[K] } & { [K in keyof IglSplitBookingDrawer & keyof IglSplitBookingDrawerAttributes as `attr:${K}`]?: IglSplitBookingDrawerAttributes[K] } & { [K in keyof IglSplitBookingDrawer & keyof IglSplitBookingDrawerAttributes as `prop:${K}`]?: IglSplitBookingDrawer[K] };
+        "igl-split-booking-form": Omit<IglSplitBookingForm, keyof IglSplitBookingFormAttributes> & { [K in keyof IglSplitBookingForm & keyof IglSplitBookingFormAttributes]?: IglSplitBookingForm[K] } & { [K in keyof IglSplitBookingForm & keyof IglSplitBookingFormAttributes as `attr:${K}`]?: IglSplitBookingFormAttributes[K] } & { [K in keyof IglSplitBookingForm & keyof IglSplitBookingFormAttributes as `prop:${K}`]?: IglSplitBookingForm[K] };
         "igl-tba-booking-view": Omit<IglTbaBookingView, keyof IglTbaBookingViewAttributes> & { [K in keyof IglTbaBookingView & keyof IglTbaBookingViewAttributes]?: IglTbaBookingView[K] } & { [K in keyof IglTbaBookingView & keyof IglTbaBookingViewAttributes as `attr:${K}`]?: IglTbaBookingViewAttributes[K] } & { [K in keyof IglTbaBookingView & keyof IglTbaBookingViewAttributes as `prop:${K}`]?: IglTbaBookingView[K] };
         "igl-tba-category-view": Omit<IglTbaCategoryView, keyof IglTbaCategoryViewAttributes> & { [K in keyof IglTbaCategoryView & keyof IglTbaCategoryViewAttributes]?: IglTbaCategoryView[K] } & { [K in keyof IglTbaCategoryView & keyof IglTbaCategoryViewAttributes as `attr:${K}`]?: IglTbaCategoryViewAttributes[K] } & { [K in keyof IglTbaCategoryView & keyof IglTbaCategoryViewAttributes as `prop:${K}`]?: IglTbaCategoryView[K] };
         "igl-to-be-assigned": Omit<IglToBeAssigned, keyof IglToBeAssignedAttributes> & { [K in keyof IglToBeAssigned & keyof IglToBeAssignedAttributes]?: IglToBeAssigned[K] } & { [K in keyof IglToBeAssigned & keyof IglToBeAssignedAttributes as `attr:${K}`]?: IglToBeAssignedAttributes[K] } & { [K in keyof IglToBeAssigned & keyof IglToBeAssignedAttributes as `prop:${K}`]?: IglToBeAssigned[K] };
@@ -23716,6 +24426,14 @@ declare namespace LocalJSX {
         "ir-toast-provider": Omit<IrToastProvider, keyof IrToastProviderAttributes> & { [K in keyof IrToastProvider & keyof IrToastProviderAttributes]?: IrToastProvider[K] } & { [K in keyof IrToastProvider & keyof IrToastProviderAttributes as `attr:${K}`]?: IrToastProviderAttributes[K] } & { [K in keyof IrToastProvider & keyof IrToastProviderAttributes as `prop:${K}`]?: IrToastProvider[K] };
         "ir-toasts-provider": IrToastsProvider;
         "ir-tooltip": Omit<IrTooltip, keyof IrTooltipAttributes> & { [K in keyof IrTooltip & keyof IrTooltipAttributes]?: IrTooltip[K] } & { [K in keyof IrTooltip & keyof IrTooltipAttributes as `attr:${K}`]?: IrTooltipAttributes[K] } & { [K in keyof IrTooltip & keyof IrTooltipAttributes as `prop:${K}`]?: IrTooltip[K] };
+        "ir-translations-entries-panel": Omit<IrTranslationsEntriesPanel, keyof IrTranslationsEntriesPanelAttributes> & { [K in keyof IrTranslationsEntriesPanel & keyof IrTranslationsEntriesPanelAttributes]?: IrTranslationsEntriesPanel[K] } & { [K in keyof IrTranslationsEntriesPanel & keyof IrTranslationsEntriesPanelAttributes as `attr:${K}`]?: IrTranslationsEntriesPanelAttributes[K] } & { [K in keyof IrTranslationsEntriesPanel & keyof IrTranslationsEntriesPanelAttributes as `prop:${K}`]?: IrTranslationsEntriesPanel[K] };
+        "ir-translations-entries-table": Omit<IrTranslationsEntriesTable, keyof IrTranslationsEntriesTableAttributes> & { [K in keyof IrTranslationsEntriesTable & keyof IrTranslationsEntriesTableAttributes]?: IrTranslationsEntriesTable[K] } & { [K in keyof IrTranslationsEntriesTable & keyof IrTranslationsEntriesTableAttributes as `attr:${K}`]?: IrTranslationsEntriesTableAttributes[K] } & { [K in keyof IrTranslationsEntriesTable & keyof IrTranslationsEntriesTableAttributes as `prop:${K}`]?: IrTranslationsEntriesTable[K] };
+        "ir-translations-entry-drawer": Omit<IrTranslationsEntryDrawer, keyof IrTranslationsEntryDrawerAttributes> & { [K in keyof IrTranslationsEntryDrawer & keyof IrTranslationsEntryDrawerAttributes]?: IrTranslationsEntryDrawer[K] } & { [K in keyof IrTranslationsEntryDrawer & keyof IrTranslationsEntryDrawerAttributes as `attr:${K}`]?: IrTranslationsEntryDrawerAttributes[K] } & { [K in keyof IrTranslationsEntryDrawer & keyof IrTranslationsEntryDrawerAttributes as `prop:${K}`]?: IrTranslationsEntryDrawer[K] };
+        "ir-translations-entry-form": Omit<IrTranslationsEntryForm, keyof IrTranslationsEntryFormAttributes> & { [K in keyof IrTranslationsEntryForm & keyof IrTranslationsEntryFormAttributes]?: IrTranslationsEntryForm[K] } & { [K in keyof IrTranslationsEntryForm & keyof IrTranslationsEntryFormAttributes as `attr:${K}`]?: IrTranslationsEntryFormAttributes[K] } & { [K in keyof IrTranslationsEntryForm & keyof IrTranslationsEntryFormAttributes as `prop:${K}`]?: IrTranslationsEntryForm[K] };
+        "ir-translations-language-dialog": Omit<IrTranslationsLanguageDialog, keyof IrTranslationsLanguageDialogAttributes> & { [K in keyof IrTranslationsLanguageDialog & keyof IrTranslationsLanguageDialogAttributes]?: IrTranslationsLanguageDialog[K] } & { [K in keyof IrTranslationsLanguageDialog & keyof IrTranslationsLanguageDialogAttributes as `attr:${K}`]?: IrTranslationsLanguageDialogAttributes[K] } & { [K in keyof IrTranslationsLanguageDialog & keyof IrTranslationsLanguageDialogAttributes as `prop:${K}`]?: IrTranslationsLanguageDialog[K] };
+        "ir-translations-manager": Omit<IrTranslationsManager, keyof IrTranslationsManagerAttributes> & { [K in keyof IrTranslationsManager & keyof IrTranslationsManagerAttributes]?: IrTranslationsManager[K] } & { [K in keyof IrTranslationsManager & keyof IrTranslationsManagerAttributes as `attr:${K}`]?: IrTranslationsManagerAttributes[K] } & { [K in keyof IrTranslationsManager & keyof IrTranslationsManagerAttributes as `prop:${K}`]?: IrTranslationsManager[K] };
+        "ir-translations-table-dialog": Omit<IrTranslationsTableDialog, keyof IrTranslationsTableDialogAttributes> & { [K in keyof IrTranslationsTableDialog & keyof IrTranslationsTableDialogAttributes]?: IrTranslationsTableDialog[K] } & { [K in keyof IrTranslationsTableDialog & keyof IrTranslationsTableDialogAttributes as `attr:${K}`]?: IrTranslationsTableDialogAttributes[K] } & { [K in keyof IrTranslationsTableDialog & keyof IrTranslationsTableDialogAttributes as `prop:${K}`]?: IrTranslationsTableDialog[K] };
+        "ir-translations-table-form": Omit<IrTranslationsTableForm, keyof IrTranslationsTableFormAttributes> & { [K in keyof IrTranslationsTableForm & keyof IrTranslationsTableFormAttributes]?: IrTranslationsTableForm[K] } & { [K in keyof IrTranslationsTableForm & keyof IrTranslationsTableFormAttributes as `attr:${K}`]?: IrTranslationsTableFormAttributes[K] } & { [K in keyof IrTranslationsTableForm & keyof IrTranslationsTableFormAttributes as `prop:${K}`]?: IrTranslationsTableForm[K] };
         "ir-unbookable-rooms": Omit<IrUnbookableRooms, keyof IrUnbookableRoomsAttributes> & { [K in keyof IrUnbookableRooms & keyof IrUnbookableRoomsAttributes]?: IrUnbookableRooms[K] } & { [K in keyof IrUnbookableRooms & keyof IrUnbookableRoomsAttributes as `attr:${K}`]?: IrUnbookableRoomsAttributes[K] } & { [K in keyof IrUnbookableRooms & keyof IrUnbookableRoomsAttributes as `prop:${K}`]?: IrUnbookableRooms[K] };
         "ir-unbookable-rooms-data": Omit<IrUnbookableRoomsData, keyof IrUnbookableRoomsDataAttributes> & { [K in keyof IrUnbookableRoomsData & keyof IrUnbookableRoomsDataAttributes]?: IrUnbookableRoomsData[K] } & { [K in keyof IrUnbookableRoomsData & keyof IrUnbookableRoomsDataAttributes as `attr:${K}`]?: IrUnbookableRoomsDataAttributes[K] } & { [K in keyof IrUnbookableRoomsData & keyof IrUnbookableRoomsDataAttributes as `prop:${K}`]?: IrUnbookableRoomsData[K] };
         "ir-unbookable-rooms-filters": Omit<IrUnbookableRoomsFilters, keyof IrUnbookableRoomsFiltersAttributes> & { [K in keyof IrUnbookableRoomsFilters & keyof IrUnbookableRoomsFiltersAttributes]?: IrUnbookableRoomsFilters[K] } & { [K in keyof IrUnbookableRoomsFilters & keyof IrUnbookableRoomsFiltersAttributes as `attr:${K}`]?: IrUnbookableRoomsFiltersAttributes[K] } & { [K in keyof IrUnbookableRoomsFilters & keyof IrUnbookableRoomsFiltersAttributes as `prop:${K}`]?: IrUnbookableRoomsFilters[K] };
@@ -23785,9 +24503,8 @@ declare module "@stencil/core" {
             "igl-rate-plan": LocalJSX.IntrinsicElements["igl-rate-plan"] & JSXBase.HTMLAttributes<HTMLIglRatePlanElement>;
             "igl-reallocation-dialog": LocalJSX.IntrinsicElements["igl-reallocation-dialog"] & JSXBase.HTMLAttributes<HTMLIglReallocationDialogElement>;
             "igl-room-type": LocalJSX.IntrinsicElements["igl-room-type"] & JSXBase.HTMLAttributes<HTMLIglRoomTypeElement>;
-            "igl-spilt-booking-form": LocalJSX.IntrinsicElements["igl-spilt-booking-form"] & JSXBase.HTMLAttributes<HTMLIglSpiltBookingFormElement>;
-            "igl-split-booking": LocalJSX.IntrinsicElements["igl-split-booking"] & JSXBase.HTMLAttributes<HTMLIglSplitBookingElement>;
             "igl-split-booking-drawer": LocalJSX.IntrinsicElements["igl-split-booking-drawer"] & JSXBase.HTMLAttributes<HTMLIglSplitBookingDrawerElement>;
+            "igl-split-booking-form": LocalJSX.IntrinsicElements["igl-split-booking-form"] & JSXBase.HTMLAttributes<HTMLIglSplitBookingFormElement>;
             "igl-tba-booking-view": LocalJSX.IntrinsicElements["igl-tba-booking-view"] & JSXBase.HTMLAttributes<HTMLIglTbaBookingViewElement>;
             "igl-tba-category-view": LocalJSX.IntrinsicElements["igl-tba-category-view"] & JSXBase.HTMLAttributes<HTMLIglTbaCategoryViewElement>;
             "igl-to-be-assigned": LocalJSX.IntrinsicElements["igl-to-be-assigned"] & JSXBase.HTMLAttributes<HTMLIglToBeAssignedElement>;
@@ -24274,6 +24991,39 @@ declare module "@stencil/core" {
             "ir-toast-provider": LocalJSX.IntrinsicElements["ir-toast-provider"] & JSXBase.HTMLAttributes<HTMLIrToastProviderElement>;
             "ir-toasts-provider": LocalJSX.IntrinsicElements["ir-toasts-provider"] & JSXBase.HTMLAttributes<HTMLIrToastsProviderElement>;
             "ir-tooltip": LocalJSX.IntrinsicElements["ir-tooltip"] & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
+            /**
+             * Owns the entries table plus its client-side search/status filtering — the
+             * parent manager just hands it one table's raw entries and listens for the
+             * CRUD intents it emits.
+             */
+            "ir-translations-entries-panel": LocalJSX.IntrinsicElements["ir-translations-entries-panel"] & JSXBase.HTMLAttributes<HTMLIrTranslationsEntriesPanelElement>;
+            "ir-translations-entries-table": LocalJSX.IntrinsicElements["ir-translations-entries-table"] & JSXBase.HTMLAttributes<HTMLIrTranslationsEntriesTableElement>;
+            /**
+             * Dumb open/close shell — the nested ir-translations-entry-form owns the
+             * draft, validation, and the actual save call.
+             */
+            "ir-translations-entry-drawer": LocalJSX.IntrinsicElements["ir-translations-entry-drawer"] & JSXBase.HTMLAttributes<HTMLIrTranslationsEntryDrawerElement>;
+            /**
+             * Owns the create/edit draft for a single translation key and saves it directly —
+             * the drawer around this form is a dumb open/close shell.
+             */
+            "ir-translations-entry-form": LocalJSX.IntrinsicElements["ir-translations-entry-form"] & JSXBase.HTMLAttributes<HTMLIrTranslationsEntryFormElement>;
+            "ir-translations-language-dialog": LocalJSX.IntrinsicElements["ir-translations-language-dialog"] & JSXBase.HTMLAttributes<HTMLIrTranslationsLanguageDialogElement>;
+            "ir-translations-manager": LocalJSX.IntrinsicElements["ir-translations-manager"] & JSXBase.HTMLAttributes<HTMLIrTranslationsManagerElement>;
+            /**
+             * Dumb open/close shell — the nested ir-translations-table-form owns the
+             * draft, validation, and the actual save call.
+             */
+            "ir-translations-table-dialog": LocalJSX.IntrinsicElements["ir-translations-table-dialog"] & JSXBase.HTMLAttributes<HTMLIrTranslationsTableDialogElement>;
+            /**
+             * Owns the table name draft and saves it directly — the dialog around this
+             * form is a dumb open/close shell.
+             * Setup only lists tables that already have at least one row, so creating a
+             * table and renaming an empty one are purely local (no API call); renaming a
+             * non-empty table has to recreate every entry under the new TBL_NAME and
+             * soft-delete the old rows, since there's no bulk-rename endpoint.
+             */
+            "ir-translations-table-form": LocalJSX.IntrinsicElements["ir-translations-table-form"] & JSXBase.HTMLAttributes<HTMLIrTranslationsTableFormElement>;
             "ir-unbookable-rooms": LocalJSX.IntrinsicElements["ir-unbookable-rooms"] & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsElement>;
             "ir-unbookable-rooms-data": LocalJSX.IntrinsicElements["ir-unbookable-rooms-data"] & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsDataElement>;
             "ir-unbookable-rooms-filters": LocalJSX.IntrinsicElements["ir-unbookable-rooms-filters"] & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsFiltersElement>;

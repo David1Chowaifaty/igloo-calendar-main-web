@@ -10,6 +10,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { ClickOutside } from "../../../../decorators/ClickOutside";
 import { createSlotManager } from "../../../../utils/slot";
+import { formatDate } from "../../../../utils/date/index";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 export class IrDateSelect {
@@ -175,20 +176,20 @@ export class IrDateSelect {
     }
     get _label() {
         if (this.range) {
-            return this.dates.map(d => moment(d).format('MMM DD, YYYY')).join(' → ');
+            return this.dates.map(d => formatDate(d, { style: 'medium' })).join(' → ');
         }
         if (!this.currentDate) {
             return null;
         }
-        return this.timepicker ? moment(this.currentDate).format('MMM DD, YYYY, HH:mm') : moment(this.currentDate).format('MMM DD, YYYY');
+        return formatDate(this.currentDate, { style: 'medium', withTime: this.timepicker ? 'short' : undefined });
     }
     render() {
-        return (h(Host, { key: 'e359d60e04ee2719feee75376b2794f65fee42fa', class: {
+        return (h(Host, { key: 'a3c720573fcbe07ae686c7938240908f81e74d81', class: {
                 'ir-date-select': true,
                 'ir-date-select--active': this.isActive,
                 'ir-date-select--inline': this.inline,
                 'ir-date-select--disabled': this.disabled,
-            } }, h("wa-popup", { key: '7e2e2cd9f163a531c1dccef73512df45e5edc8d9', arrow: true, part: "base", placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "ir-date-select__popup" }, h("div", { key: '69bb1d4e3893a4b92dfdc64908aae06b4ee0d625', slot: "anchor", part: "anchor", class: "ir-date-select__trigger" }, h("div", { key: '99d04732545ddaba6509bf34c0fb03fd9eeef933', part: "combobox", class: "ir-date-select__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": "Select date", onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("slot", { key: '3e12e929d8e2d6b0c48a350452a39132d595d553', name: "trigger" }, h("ir-input", { key: '2917861f112b189424d803c2c7e1d1eb2c9d2e1a', disabled: this.disabled, class: "ir-date-select__input", placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, "aria-invalid": this.isValid, readonly: true, defaultValue: this._label, label: this.label, value: this._label }, this.slotManager.hasSlot('label') && h("slot", { key: '8002107bc344ada2002cf7c2f46c5391a3991a81', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '3ff7b82381dc2511cb493fcbf41ce4403a4682e0', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '0f041dd362d8bb6b333898377bf675ea181d2eca', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: '57de995be9c91f7acda5680355c74fb21bf9e523', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: 'eaf5e7a944aa766316e28c3f20221c3fa8fd4b1c', name: "hint", slot: "hint" }))))), h("div", { key: 'df2b5a77e462d29b6bd473ffe6dab48bdb3ee989', part: "body", id: this.popupId, class: "ir-date-select__calendar", role: "dialog", "aria-modal": "false", "aria-label": "Date selection dialog" }, h("ir-air-date-picker", { key: '25d1c158cfa6aa6d7ee0a3df2e9c6f883d752af2', ref: el => (this.airDatePickerRef = el), withClear: this.withClear, placeholder: this.placeholder, label: this.label, dates: this.dates, inline: this.inline, date: this.date, multipleDates: this.multipleDates, range: this.range, dateFormat: this.dateFormat, timepicker: this.timepicker, minDate: this.minDate, maxDate: this.maxDate, disabled: this.disabled, autoClose: this.autoClose, showOtherMonths: this.showOtherMonths, selectOtherMonths: this.selectOtherMonths, customPicker: this.customPicker, container: this.container, forceDestroyOnUpdate: this.forceDestroyOnUpdate, emitEmptyDate: this.emitEmptyDate, onDateChanged: e => {
+            } }, h("wa-popup", { key: 'f608d04c6ccad876ce4785a3e7b941424a3ae2b0', arrow: true, part: "base", placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "ir-date-select__popup" }, h("div", { key: 'd8be4f535784103d7e6a50a48714822436efa48c', slot: "anchor", part: "anchor", class: "ir-date-select__trigger" }, h("div", { key: '80a1d4a968d1a3a48b5de82b31543e2124106a3c', part: "combobox", class: "ir-date-select__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": "Select date", onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("slot", { key: '8bd37b842e2967f3d1d6d767e62bbdeb7f062775', name: "trigger" }, h("ir-input", { key: '6d409746e453602be837cf25f1c21ef6c49cc02a', disabled: this.disabled, class: "ir-date-select__input", placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, "aria-invalid": this.isValid, readonly: true, defaultValue: this._label, label: this.label, value: this._label }, this.slotManager.hasSlot('label') && h("slot", { key: 'dc86113e105ff83178fee7cd5ddf22d1d41ba20c', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '5bb9ecd78b774b9bd6d776bfb671457216ca2383', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '7b6a642d7eb7da16679fbd81835032b52339837f', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: 'aa08f3d9676edb5dd5e12544e33267c4ce858062', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: 'dd889d3b4cccb9e8cf1c097230d9d65a3438d4e7', name: "hint", slot: "hint" }))))), h("div", { key: 'b333cb679fccdf6c74239402d953757a5e6a3d24', part: "body", id: this.popupId, class: "ir-date-select__calendar", role: "dialog", "aria-modal": "false", "aria-label": "Date selection dialog" }, h("ir-air-date-picker", { key: '1bd36f86a97bdbf6a407d347400c088ed7d4973d', ref: el => (this.airDatePickerRef = el), withClear: this.withClear, placeholder: this.placeholder, label: this.label, dates: this.dates, inline: this.inline, date: this.date, multipleDates: this.multipleDates, range: this.range, dateFormat: this.dateFormat, timepicker: this.timepicker, minDate: this.minDate, maxDate: this.maxDate, disabled: this.disabled, autoClose: this.autoClose, showOtherMonths: this.showOtherMonths, selectOtherMonths: this.selectOtherMonths, customPicker: this.customPicker, container: this.container, forceDestroyOnUpdate: this.forceDestroyOnUpdate, emitEmptyDate: this.emitEmptyDate, onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.currentDate = e.detail?.start;
@@ -197,7 +198,7 @@ export class IrDateSelect {
                 if (shouldClose) {
                     this.hide();
                 }
-            } }), h("slot", { key: 'dc07baf56511e0c4685ac33eb0e1c03caf599597' })))));
+            } }), h("slot", { key: '93622299a6d480a653836c154cdd5c9b0d0fe554' })))));
     }
     static get is() { return "ir-date-select"; }
     static get encapsulation() { return "shadow"; }

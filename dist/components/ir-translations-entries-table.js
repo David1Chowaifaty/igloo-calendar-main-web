@@ -1,0 +1,1 @@
+import{I as s,d as t}from"./ir-translations-entries-table2.js";const r=s,a=t;export{r as IrTranslationsEntriesTable,a as defineCustomElement}

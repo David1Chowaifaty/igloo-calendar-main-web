@@ -1,0 +1,1 @@
+import{c as e}from"./index4.js";const{state:r}=e({resolved:"gregory",override:null});export{r as c}

@@ -55,6 +55,8 @@ export declare class IrBookingEditor {
      * Resolved once here so step 2's summary and the final `doDayUse` submission always agree.
      */
     private handleDayUseUnitSelected;
+    /** Resolves taxation policy on accommodation level. */
+    private isAccommodationVatExclusive;
     /** Resolves `dayUsePrice` (gross) to its net equivalent once, up front, so it's ready before the day-use unit list renders. */
     private resolveDayUseNetPrice;
     private get adjustedCheckout();

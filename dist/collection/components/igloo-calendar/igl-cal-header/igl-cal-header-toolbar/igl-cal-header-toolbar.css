@@ -16,7 +16,7 @@
 }
 
 .topLeftCell {
-  left: 0px;
+  inset-inline-start: 0px;
   z-index: 3;
   width: 170px;
   background-color: var(--wa-color-surface-default);

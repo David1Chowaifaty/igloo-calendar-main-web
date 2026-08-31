@@ -311,7 +311,7 @@ export class IrBookingEditorDrawer {
         }
     }
     render() {
-        return (h("ir-drawer", { key: '860b0168f6e99591f106315be7d2efe79d091a3e', onDrawerHide: async (event) => {
+        return (h("ir-drawer", { key: '5445de21c702bef5d7eb3ee5cb9bb9c9ccb99cda', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -322,7 +322,7 @@ export class IrBookingEditorDrawer {
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: '19f48c12e934f9318585d7b7fd553c54ad3ebfc9', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: 'cc405932001b81f831506523ea804e41a6f25da2', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: 'c25af6e69870dd17167583feec552e989dc042b0', appearance: "button", value: "manual" }, "Stay"), h("wa-radio", { key: '7874dc0e00d24999702626cab95f63d38b19e16f', appearance: "button", value: "day-use" }, "Day-use")))), this.open && this.ticket && (h("ir-booking-editor", { key: 'f8f4f586464af9c1438714971d16fb0d2005c4af', onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: '252e007e1afbd7ac26c2e7ec953a8900260ed12a', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: '463e5287a79618c5c095f26a646291547f196ff3', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: 'd6270a7f83e1b0f58ca3716a3c7f47af39fac168', appearance: "button", value: "manual" }, "Stay"), h("wa-radio", { key: '29babf44aa4f2416c26052bf3002e501ced698b6', appearance: "button", value: "day-use" }, "Day-use")))), this.open && this.ticket && (h("ir-booking-editor", { key: '3a1ab5d78d810cd33f591f87f80069cb24b18054', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -330,7 +330,7 @@ export class IrBookingEditorDrawer {
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: 'dabfc4e10bd107c575a90d447e60b3c8e66de0df', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: 'c419a1e87c8e58604790d4f4438731ed3d002367', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get is() { return "ir-booking-editor-drawer"; }
     static get encapsulation() { return "scoped"; }

@@ -1,6 +1,5 @@
 import { createStore } from "@stencil/store";
-import calendar_data from "./calendar-data";
-const defaultTasksList = [10, 20, 50, 100];
+const defaultTasksList = [20, 50, 100];
 function getPaginationInitialParams() {
     const tasks = getTaskList();
     return {
@@ -84,18 +83,7 @@ export function updateTaskList() {
     updatePagination();
 }
 function getTaskList() {
-    if (!calendar_data.roomsInfo) {
-        return defaultTasksList;
-    }
-    const totalRooms = calendar_data.roomsInfo.length;
-    if (totalRooms <= 10) {
-        return defaultTasksList;
-    }
-    const calculatedList = [...Array(4)].map((_, i) => {
-        const t = totalRooms * (i + 1);
-        return i === 3 ? (t < 100 ? 100 : t) : t;
-    });
-    return calculatedList;
+    return defaultTasksList;
 }
 // function shouldUpdateTaskList(newTaskCount: number): boolean {
 //   const currentMax = Math.max(...hkTasksStore.pagination.tasksList);

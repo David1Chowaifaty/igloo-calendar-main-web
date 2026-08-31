@@ -1,6 +1,7 @@
 export interface ILocale {
     entries: TLocaleEntries;
     direction: 'ltr' | 'rtl';
+    language?: string;
 }
 export type TLocaleEntries = (LocalizationStrings & LocalizationChannelFrontEntries & BookingListingCodes & HousekeepingLocalizedWords & LocalizationPAYMENTBACK & UserManagementWords) | null;
 export type UserManagementWords = {

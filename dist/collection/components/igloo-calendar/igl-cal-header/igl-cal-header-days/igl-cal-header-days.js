@@ -1,5 +1,7 @@
 import { Host, h } from "@stencil/core";
 import { isWeekend } from "../../../../utils/utils";
+import { calendarPreference } from "../../../../stores/calendar-preference.store";
+import { formatDate, getMonthLabel } from "../../../../utils/date/index";
 /**
  * The `.headersContainer` sticky bar of `igl-cal-header`: the month row plus the per-day header
  * cells (unassigned-units badge, day title, occupancy percent). `.headersContainer`/`.headerCell`
@@ -22,8 +24,13 @@ export class IglCalHeaderDays {
         }
     }
     render() {
-        return (h(Host, { key: '737292e17bec04dfc4b240bbc2e5e600c8c6072a' }, h("div", { key: '5558910372f2bafae484a623f8573931d326a77d', class: "stickyCell headersContainer" }, h("div", { key: '79613d212fe1ff26b0a3c5555470d6ce0276e43b', class: "monthsContainer" }, this.monthsInfo.map(monthInfo => (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, monthInfo.monthName))))), this.days.map(dayInfo => {
-            return (h("div", { class: `headerCell align-items-center ${'day-' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}`, "data-day": dayInfo.day }, !this.isVacationRental && (h("div", { class: "preventPageScroll", onClick: () => this.handleBadgeClick(dayInfo) }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr !== 0 ? (h("button", { class: 'fd-header__badge-btn' }, h("wa-badge", { class: "fd-header__badge", variant: 'brand', appearance: 'accent', pill: true }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr))) : (h("wa-badge", { variant: 'neutral', appearance: 'filled', pill: true }, ' ', this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr)))), h("div", { class: { dayTitle: true, weekend: isWeekend(dayInfo.value) } }, dayInfo.dayDisplayName), h("div", { class: "dayCapacityPercent" }, dayInfo.occupancy, "%")));
+        // Backend `monthName`/`dayDisplayName` are already Gregorian-formatted text — this is the
+        // default path and stays byte-identical to before. Hijri is computed client-side from the
+        // untouched ISO `value`/`firstDayValue` fields only when the resolved calendar is Hijri;
+        // `data-day`/`dayInfo.day` (read by igloo-calendar.tsx's drag-bounds calc) are never touched.
+        const isHijri = calendarPreference.resolved === 'islamic-umalqura';
+        return (h(Host, { key: 'e5e7f652bd8d03f4644e52133c231670d26b0a9c' }, h("div", { key: '04162ff384312d89c0eba1edd682941266cc9d74', class: "stickyCell headersContainer" }, h("div", { key: '237f056020614fc25484447b78d6d63321e98478', class: "monthsContainer" }, this.monthsInfo.map(monthInfo => (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, isHijri && monthInfo.firstDayValue ? getMonthLabel(monthInfo.firstDayValue, { style: 'long' }) : monthInfo.monthName))))), this.days.map(dayInfo => {
+            return (h("div", { class: `headerCell align-items-center ${'day-' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}`, "data-day": dayInfo.day }, !this.isVacationRental && (h("div", { class: "preventPageScroll", onClick: () => this.handleBadgeClick(dayInfo) }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr !== 0 ? (h("button", { class: 'fd-header__badge-btn' }, h("wa-badge", { class: "fd-header__badge", variant: 'brand', appearance: 'accent', pill: true }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr))) : (h("wa-badge", { variant: 'neutral', appearance: 'filled', pill: true }, ' ', this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr)))), h("div", { class: { dayTitle: true, weekend: isWeekend(dayInfo.value) } }, isHijri ? formatDate(dayInfo.value, { style: 'weekday-medium' }) : dayInfo.dayDisplayName), h("div", { class: "dayCapacityPercent" }, dayInfo.occupancy, "%")));
         }))));
     }
     static get is() { return "igl-cal-header-days"; }

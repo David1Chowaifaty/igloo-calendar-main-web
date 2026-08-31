@@ -1,7 +1,5 @@
 import { Extras, Room } from './../models/booking.dto';
 import { MonthType, CalendarCellType, STATUS, RoomBookingDetails, RoomBlockDetails } from '../models/IBooking';
-/** `_SVC_CATEGORY` short code for Day Use, matched against `calendar_data.property.tax_categories` / `ExtraService.category.code`. */
-export declare const DAY_USE_CATEGORY_CODE = "DUZ";
 export type SplitRole = 'fullSplit' | 'leftSplit' | 'rightSplit' | null;
 export type SplitIndex = {
     parentOf: Map<string, string | null>;

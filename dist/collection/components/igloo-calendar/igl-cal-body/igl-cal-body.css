@@ -34,6 +34,9 @@
   user-select: none;
   -webkit-user-drag: none;
 }
+.categoryTitle {
+  text-align: start !important;
+}
 .hk_issue_btn::part(base) {
   height: auto;
   width: fit-content;
@@ -69,6 +72,7 @@
 }
 .roomRow .room {
   cursor: pointer;
+  text-align: start !important;
   transition:
     color 0.15s ease-in-out,
     background-color 0.15s ease-in-out,
@@ -121,7 +125,7 @@
 .roomHeaderCell {
   position: -webkit-sticky;
   position: sticky;
-  left: 0;
+  inset-inline-start: 0;
   background: var(--wa-color-surface-default);
   border-inline-end: 1px solid var(--wa-color-surface-border);
   width: 170px;
@@ -313,7 +317,7 @@
 
 .categoryTitle {
   grid-template-columns: 1fr 20px;
-  padding-left: 10px;
+  padding-inline-start: 10px;
   cursor: pointer;
   height: 40px;
   font-size: 0.9em;
@@ -325,7 +329,7 @@
 }
 
 .roomTitle {
-  padding-left: 20px;
+  padding-inline-start: 20px;
   font-size: 0.9em;
   -webkit-user-select: none;
   user-select: none;
@@ -339,7 +343,7 @@
 }
 
 .roomTitle.pl10 {
-  padding-left: 10px;
+  padding-inline-start: 10px;
 }
 
 .categoryPriceColumn {
@@ -351,6 +355,9 @@
 }
 
 /* BOOKING EVENT */
+/* Physical left, not inset-inline-start: this is the containing block for igl-booking-event's
+   manually direction-mirrored absolute positions (see toPhysicalLeft in calendar-grid.ts),
+   which are computed relative to a stable physical-left origin regardless of direction. */
 .bookingEventsContainer {
   position: absolute;
   top: 0;

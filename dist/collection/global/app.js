@@ -1,4 +1,5 @@
 import "../assets/webawesome/themes/default.css";
+import { CalendarPreferenceController } from "../utils/date/calendar-preference-controller";
 /**
  * Register only the Web Awesome components we actually use so they get bundled with our library.
  * This avoids forcing consumers to include additional scripts or styles.
@@ -35,5 +36,5 @@ import "@awesome.me/webawesome/dist/components/slider/slider.js";
 import "@awesome.me/webawesome/dist/components/copy-button/copy-button.js";
 import "@awesome.me/webawesome/dist/components/format-bytes/format-bytes.js";
 export default () => {
-    /* The side-effect imports above define the custom elements; nothing else to execute at runtime. */
+    CalendarPreferenceController.init();
 };

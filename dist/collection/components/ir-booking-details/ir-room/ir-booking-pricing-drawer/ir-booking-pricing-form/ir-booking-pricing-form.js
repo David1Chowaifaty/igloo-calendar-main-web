@@ -4,7 +4,7 @@ import { z } from "zod";
 import { BookingService } from "../../../../../services/booking-service/booking.service";
 import { isAgentMode } from "../../../functions";
 import calendar_data from "../../../../../stores/calendar-data";
-import { InvoiceableItemReason } from "../../../../../types/enums";
+import { InvoiceableItemReason, SvcCategory } from "../../../../../types/enums";
 const nightAmountSchema = z.coerce.number({ invalid_type_error: 'Required' }).min(0, 'Minimum is 0');
 export class IrBookingPricingForm {
     formId = 'booking-pricing-form';
@@ -79,7 +79,7 @@ export class IrBookingPricingForm {
         });
     }
     get acmTxByDate() {
-        return new Map(this.folioEntries.filter(tx => tx.CATEGORY === 'ACM' && tx.BSA_REF === this.room.identifier).map(tx => [tx.SERVICE_DATE, tx]));
+        return new Map(this.folioEntries.filter(tx => tx.CATEGORY === SvcCategory.Accommodation && tx.BSA_REF === this.room.identifier).map(tx => [tx.SERVICE_DATE, tx]));
     }
     updateNight(date, value) {
         this.nights = this.nights.map(n => (n.date === date ? { ...n, amount: value } : n));

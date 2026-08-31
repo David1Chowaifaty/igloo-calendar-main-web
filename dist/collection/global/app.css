@@ -1508,6 +1508,7 @@ wa-select[aria-invalid='true']::part(combobox) {
 html:dir(rtl),
 body:dir(rtl) {
   direction: rtl !important;
+  text-align: start;
 }
 /* body {
   background-color: var(--wa-color-surface-default) !important;
@@ -1521,6 +1522,7 @@ body:dir(rtl) {
 .wa-dark {
   --ir-color-loader: rgba(0, 0, 0, 0.2);
   --ir-color-muted-background: #12141a;
+  --ir-color-muted-background: #15171f;
 }
 body {
   background-color: var(--ir-color-muted-background) !important;

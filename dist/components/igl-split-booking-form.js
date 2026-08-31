@@ -1,0 +1,1 @@
+import{I as o,d as s}from"./igl-split-booking-form2.js";const i=o,r=s;export{i as IglSplitBookingForm,r as defineCustomElement}

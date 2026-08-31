@@ -1,0 +1,1 @@
+import{I as a,d as o}from"./ir-translations-table-dialog2.js";const s=a,t=o;export{s as IrTranslationsTableDialog,t as defineCustomElement}

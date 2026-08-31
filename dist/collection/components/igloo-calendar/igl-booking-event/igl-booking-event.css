@@ -17,23 +17,23 @@
   cursor: pointer;
 }
 .bookingEventBase.leftSplit {
-  border-left: var(--split-border-width) solid var(--split-border-color);
+  border-inline-start: var(--split-border-width) solid var(--split-border-color);
 }
 .bookingEventBase.rightSplit {
-  border-right: var(--split-border-width) solid var(--split-border-color);
+  border-inline-end: var(--split-border-width) solid var(--split-border-color);
 }
 .bookingEventBase.fullSplit {
-  border-right: var(--split-border-width) solid var(--split-border-color);
-  border-left: var(--split-border-width) solid var(--split-border-color);
+  border-inline-end: var(--split-border-width) solid var(--split-border-color);
+  border-inline-start: var(--split-border-width) solid var(--split-border-color);
 }
 
 .bookingEventBase.fullSplit.skewedLeft,
 .bookingEventBase.leftSplit.skewedLeft {
-  border-left: 0;
+  border-inline-start: 0;
 }
 .bookingEventBase.fullSplit.skewedRight,
 .bookingEventBase.leftSplit.skewedRight {
-  border-right: 0;
+  border-inline-end: 0;
 }
 .bookingEventBase.pending {
   border-width: 2px;
@@ -54,7 +54,7 @@
 .bookingEventHiddenBase {
   position: absolute;
   top: 0;
-  left: -4px;
+  inset-inline-start: -4px;
   width: calc(100% + 8px);
 }
 
@@ -67,7 +67,7 @@
   bottom: 0;
   width: 50%;
   height: 100%;
-  left: -4px;
+  inset-inline-start: -4px;
   background-color: var(--ir-event-bg);
   border-radius: 4px;
 }
@@ -76,8 +76,8 @@
 .bookingEventBase.skewedLeft::before {
   transform-origin: right;
   transform: skewX(22deg);
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
 }
 .bookingEventBase.fullSplit.skewedLeft::before,
 .bookingEventBase.leftSplit.skewedLeft::before {
@@ -108,31 +108,31 @@
 .bookingEventBase.skewedRight::before {
   transform-origin: left;
   transform: skewX(22deg 0deg);
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
 }
 
 /* Border variant on skewed halves */
 .bookingEventBase.border.skewedLeft::before {
   border: var(--ota-bar-width) solid #424242;
-  border-right: 0;
-  border-left: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-inline-end: 0;
+  border-inline-start: 0;
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
   top: calc(var(--ota-bar-width) * -1);
   height: 20px;
-  left: -4px;
+  inset-inline-start: -4px;
 }
 
 .bookingEventBase.border.skewedRight::before {
   border: var(--ota-bar-width) solid #424242;
-  border-left: 0;
-  border-right: 0;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-inline-start: 0;
+  border-inline-end: 0;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
   top: calc(var(--ota-bar-width) * -1);
   height: 20px;
-  right: -4px;
+  inset-inline-end: -4px;
 }
 
 .bookingEventBase.striped-bar.fullSplit.skewedLeft.vertical::after,
@@ -168,11 +168,11 @@
 }
 .bookingEventBase.skewedRight.striped-bar::after,
 .bookingEventBase.border.skewedRight::after {
-  right: -8px;
+  inset-inline-end: -8px;
 }
 .bookingEventBase.skewedLeft.striped-bar::after,
 .bookingEventBase.border.skewedLeft::after {
-  left: -8px;
+  inset-inline-start: -8px;
 }
 .bookingEventBase.striped-bar.animated::after {
   background-size: 28.28px 28.28px;
@@ -212,6 +212,11 @@
   opacity: 1;
 }
 
+/* Physical left/right, not logical: these are interactive drag-resize handles, and
+   handleMouseMove()/startDragging() in igl-booking-event.tsx key their resize math to
+   resizeSide === 'leftSide' | 'rightSide' meaning "the physical edge under this handle" -
+   the handle a user actually grabs must stay on the physical side the drag math assumes,
+   in both LTR and RTL. (Purely cosmetic chrome - icons, borders, skew - stays logical.) */
 .leftSide {
   left: 0;
 }
@@ -230,7 +235,7 @@
 .bookingEventTitle {
   position: relative;
   top: 2px;
-  left: 5px;
+  inset-inline-start: 5px;
   max-width: calc(100% - 10px);
   color: #fff;
   font-size: 0.8em;
@@ -245,7 +250,8 @@
 .legend_circle {
   width: 10px;
   height: 10px;
-  margin: 3px 3px 3px 2px;
+  margin-block: 3px;
+  margin-inline: 2px 3px;
   border: 1px solid #fff;
   border-radius: 100%;
 }
@@ -253,17 +259,39 @@
 .noteIcon {
   position: absolute;
   bottom: -8px;
-  left: 2px;
+  inset-inline-start: 2px;
 }
 
 .balanceIcon {
   position: absolute;
   top: -8px;
-  right: 2px;
+  inset-inline-end: 2px;
 }
 .splitBooking {
-  border-right: 2px solid #000000;
+  border-inline-end: 2px solid #000000;
 }
 .bookingEventTitle.pending {
   color: var(--wa-color-success-on-quiet) !important;
+}
+
+/* Skew is a cosmetic "leaning into the future" lean, tied to physical direction rather than
+   inline-start/end (CSS has no logical skew). Mirror it for RTL so the bar still leans toward
+   the visual direction time flows in. */
+:host([dir='rtl']) .bookingEventBase {
+  transform: skewX(22deg);
+}
+:host([dir='rtl']) .bookingEventDragHandle {
+  transform: skewX(22deg);
+}
+:host([dir='rtl']) .leftSide.skewedLeft,
+:host([dir='rtl']) .rightSide.skewedRight {
+  transform: skewX(0);
+}
+:host([dir='rtl']) .bookingEventBase.skewedLeft::before {
+  transform-origin: left;
+  transform: skewX(-22deg);
+}
+:host([dir='rtl']) .bookingEventBase.skewedRight::before {
+  transform-origin: right;
+  transform: skewX(-22deg);
 }

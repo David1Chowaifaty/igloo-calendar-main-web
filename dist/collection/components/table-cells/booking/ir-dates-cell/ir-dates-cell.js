@@ -1,5 +1,5 @@
 import { Host, h } from "@stencil/core";
-import moment from "moment";
+import { formatDate } from "../../../../utils/date/index";
 export class IrDatesCell {
     display = 'block';
     checkIn;
@@ -13,10 +13,10 @@ export class IrDatesCell {
      */
     showArrow = false;
     formatDate(date) {
-        return moment(date, 'YYYY-MM-DD').format('DD MMM YYYY');
+        return formatDate(date, { style: 'medium' });
     }
     render() {
-        return (h(Host, { key: '9a088818468f04136312f62f9da7f03587889e34' }, h("div", { key: '6c55921ab2db2ad9a959d6db2f9e640606ca51de', part: "checkin-container", class: "date-cell__container" }, this.checkInLabel && h("span", { key: 'f0ba90b9a39c6f919d354d19e28ec7f2bedf3c0f', class: "date-cell__label" }, this.checkInLabel, ": "), h("p", { key: 'dbe45f01f6cb1a2c8f10f1b2168ba17b379c5ba3', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn))), this.showArrow && h("wa-icon", { key: 'd18c9b07b3225afb27a481f1f9f950db8ad0420b', class: "date-cell__arrow", name: "arrow-right" }), h("div", { key: '02a838f656be7131837ea833accebfa8fb0fef19', part: "checkout-container", class: "date-cell__container" }, this.checkoutLabel && h("span", { key: '48110f7e17529ce456143075a005f64f0e07f286', class: "date-cell__label" }, this.checkoutLabel, ": "), h("p", { key: '3e4ea625f41bbdce2873c5c6007065edf8693019', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut)))));
+        return (h(Host, { key: '15932ef452d7985b3381bc8b4b328e1dac6422bc' }, h("div", { key: 'd5dd08c4e2f56fe204809913fde0ccbbac048e7f', part: "checkin-container", class: "date-cell__container" }, this.checkInLabel && h("span", { key: 'e4e732c6b358ff3a1d7cfd3f402f6f959fc479d7', class: "date-cell__label" }, this.checkInLabel, ": "), h("p", { key: '81af43599a8b865e647e6fee0590b7483bc3f98e', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn))), this.showArrow && h("wa-icon", { key: '71fb1be72be5fa6229b3871c67bb960729057e5a', class: "date-cell__arrow", name: "arrow-right" }), h("div", { key: '87edd0cee93df71a96e23b560209c0048b17fa75', part: "checkout-container", class: "date-cell__container" }, this.checkoutLabel && h("span", { key: '5d03282b256db32df80e6ea4f42b280160fa3309', class: "date-cell__label" }, this.checkoutLabel, ": "), h("p", { key: '6110132901af9ca0cc49fb859f97b6a751abf6b3', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut)))));
     }
     static get is() { return "ir-dates-cell"; }
     static get encapsulation() { return "shadow"; }

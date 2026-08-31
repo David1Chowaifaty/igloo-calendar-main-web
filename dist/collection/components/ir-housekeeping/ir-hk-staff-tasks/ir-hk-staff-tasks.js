@@ -164,13 +164,13 @@ export class IrHkStaffTasks {
                 from_date: this.fromDate,
                 to_date: this.toDate,
                 property_id: this.connectedHk.AC_ID,
-                housekeepers: [{ id: this.connectedHk.HKM_ID }],
+                // housekeepers: [{ id: this.connectedHk.HKM_ID }],
                 cleaning_frequency: '001',
                 dusty_window: '000',
                 highlight_window: '000',
             });
             if (tasks) {
-                const mapped = tasks.map((task) => ({ ...task, id: v4() }));
+                const mapped = tasks.filter(i => !i.hkm_id || i.hkm_id === this.connectedHk.HKM_ID).map((task) => ({ ...task, id: v4() }));
                 this.tasksByDate = this.groupByDate(this.groupTasks(mapped));
             }
             this.isLoading = false;

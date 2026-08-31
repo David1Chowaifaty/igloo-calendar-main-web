@@ -292,7 +292,7 @@ export class IrHkTasks {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, { "data-testid": "hk_tasks_base" }, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "ir-page__container " }, h("h3", { class: "page-title" }, "Housekeeping Tasks"), h("div", { class: "tasks-view" }, h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
+        return (h(Host, { "data-testid": "hk_tasks_base" }, h("ir-page", { label: "Daily Housekeeping Schedule" }, h("div", { class: "tasks-view" }, h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
                 this.applyFilters(e);
             } }), h("div", { class: "tasks-table-wrapper" }, h("ir-tasks-table", { onRowSelectChange: e => {
                 e.stopImmediatePropagation();

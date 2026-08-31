@@ -74,7 +74,7 @@ export class IrDropdownItem {
         this.dropdownItemSelect.emit(this.value);
     };
     render() {
-        return (h(Host, { key: '4ec0fb95ab4d638645d79a15fc2be605a5312194', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '95fbee9cbe047bcfe4001cfb5ec9309fc8a579d6', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
     static get is() { return "ir-dropdown-item"; }
     static get encapsulation() { return "scoped"; }

@@ -1,1 +1,1 @@
-import{c as t}from"./index4.js";const{state:e}=t({entries:null,direction:"ltr"});export{e as l}
+import{c as e}from"./index4.js";const{state:t}=e({entries:null,direction:"ltr",language:"en"});export{t as l}

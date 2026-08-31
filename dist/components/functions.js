@@ -1,1 +1,1 @@
-import{h as m}from"./moment.js";const s=s=>m(s).format("MMM DD, YYYY"),a=s=>m(s).format("DD/MM ddd"),o=(s,a)=>m(`${s}:${a}`,"HH:mm").format("hh:mm A"),M=m=>m&&"002"!==m.payment_mode.code;export{o as _,s as a,a as b,M as i}
+import{h as m}from"./moment.js";const o=o=>m(o).format("MMM DD, YYYY"),s=o=>m(o).format("DD/MM ddd"),n=(o,s)=>{const n=new Intl.DateTimeFormat(void 0,{hour:"numeric"}).resolvedOptions().hour12;return m(`${o}:${s}`,"HH:mm").format(n?"h:mm A":"HH:mm")},r=m=>m&&"002"!==m.payment_mode.code;export{n as _,o as a,s as b,r as i}

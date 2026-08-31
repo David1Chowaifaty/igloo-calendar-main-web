@@ -1,7 +1,8 @@
 import { Fragment, Host, h } from "@stencil/core";
 import calendar_data, { getExtraServiceDefaultPrice } from "../../../../stores/calendar-data";
 import booking_store from "../../../../stores/booking.store";
-import { DAY_USE_CATEGORY_CODE, DAY_USE_STATUS_ICON, formatDayUseStatusText, getDayUseUnitAvailability } from "../../../../utils/booking";
+import { DAY_USE_STATUS_ICON, formatDayUseStatusText, getDayUseUnitAvailability } from "../../../../utils/booking";
+import { SvcCategory } from "../../../../types/enums";
 export class IglDayUseUnitList {
     mode;
     /** Room types returned by the day-use availability check. */
@@ -52,7 +53,7 @@ export class IglDayUseUnitList {
         return bookable.filter(({ unit }) => unit.id.toString() === this.unitId.toString());
     }
     get defaultPrice() {
-        const svcDefaultPrice = getExtraServiceDefaultPrice(DAY_USE_CATEGORY_CODE);
+        const svcDefaultPrice = getExtraServiceDefaultPrice(SvcCategory.DayUse);
         return svcDefaultPrice !== undefined ? Number(svcDefaultPrice) : (this.price ?? 0);
     }
     /** What's actually shown as the default input value — the net-converted price when it's ready, otherwise the gross default as a fallback while it resolves. */
@@ -67,7 +68,7 @@ export class IglDayUseUnitList {
     }
     render() {
         const availableRoomTypes = (this.roomTypes ?? []).filter(roomType => {
-            if (roomType.is_available_to_book) {
+            if (roomType.is_active) {
                 return true;
             }
             if (roomType.physicalrooms.some(p => p.id === this.currentExtraService?.pr_id)) {
@@ -79,7 +80,7 @@ export class IglDayUseUnitList {
         if (this.hasSearched && !hasBookableUnit) {
             return (h("div", { class: "day-use-unit-list__empty-container" }, h("ir-empty-state", { message: "No units available for the selected date." })));
         }
-        return (h(Host, null, availableRoomTypes.length > 0 && (h("div", { class: "day-use-unit-list__infos" }, this.mode !== 'BAR_BOOKING' && (h("p", { class: 'm-0 p-0' }, this.currentExtraService ? 'Edit the existing unit or switch the booking to another one.' : 'Pick a unit for day-use.')), h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "booking-editor-header__tax_statement" }, calendar_data.tax_statement))), h("div", { class: "day-use-unit-list__grid" }, availableRoomTypes.map(roomType => {
+        return (h(Host, null, availableRoomTypes.length > 0 && (h("div", { class: "day-use-unit-list__infos" }, this.mode !== 'BAR_BOOKING' && (h("p", { class: 'm-0 p-0' }, this.currentExtraService ? 'Edit the existing unit or switch the booking to another one.' : 'Pick a unit for day-use.')), calendar_data.property.tax_statement && (h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "booking-editor-header__tax_statement" }, calendar_data.property.tax_statement)))), h("div", { class: "day-use-unit-list__grid" }, availableRoomTypes.map(roomType => {
             const units = this.getAvailableUnits(roomType);
             if (units.length === 0) {
                 return null;

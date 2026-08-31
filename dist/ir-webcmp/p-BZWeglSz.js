@@ -1,0 +1,1 @@
+import{a as t}from"./p-C63jMJYk.js";const{state:e}=t({entries:null,direction:"ltr",language:"en"});export{e as l}

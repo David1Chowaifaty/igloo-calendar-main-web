@@ -1,0 +1,1 @@
+import{I as r,d as s}from"./ir-translations-entry-drawer2.js";const t=r,a=s;export{t as IrTranslationsEntryDrawer,a as defineCustomElement}

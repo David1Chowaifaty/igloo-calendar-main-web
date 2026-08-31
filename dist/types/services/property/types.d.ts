@@ -232,8 +232,8 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
     VAT_PC: z.ZodNumber;
     CITY_TAX_INCLUDED_CODE: z.ZodString;
     CITY_TAX_PCT: z.ZodNumber;
-    SERVICE_CHARGE_INCLUDED_CODE: z.ZodString;
-    BABY_COT_PRICING_MODEL: z.ZodString;
+    SERVICE_CHARGE_INCLUDED_CODE: z.ZodOptional<z.ZodString>;
+    BABY_COT_PRICING_MODEL: z.ZodOptional<z.ZodString>;
     SERVICE_CHARGE_PCT: z.ZodOptional<z.ZodNumber>;
     tax_categories: z.ZodArray<z.ZodObject<{
         category: z.ZodObject<{

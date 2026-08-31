@@ -1,4 +1,4 @@
-import { SelectedUnitSchema } from "../../igloo-calendar/igl-split-booking/types";
+import { SelectedUnitSchema } from "../../../models/room-selection";
 import { BookingService } from "../../../services/booking-service/booking.service";
 import { EventsService } from "../../../services/events.service";
 import { resetBookingStore } from "../../../stores/booking.store";

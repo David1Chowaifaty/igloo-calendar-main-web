@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-DgHWBwDV.js');
+var index = require('./index-DN8J4ULi.js');
 
 const iglBulkOperationsCss = () => `.bulk-operations-sheet-container.sc-igl-bulk-operations{display:flex;flex-direction:column;height:auto !important;min-height:100vh;background:white !important}.animated-container.sc-igl-bulk-operations{transition:all 0.5s ease}.tabs.sc-igl-bulk-operations{position:sticky;top:var(--ir-tabs-top, 54px);background-color:white;z-index:9999999;padding-top:1rem;margin-bottom:1rem}`;
 
@@ -33,7 +33,7 @@ const IglBulkOperations = class {
         this.tabsEl.style.setProperty('--ir-tabs-top', this.titleEl?.getBoundingClientRect()?.height?.toString() + 'px');
     }
     render() {
-        return (index.h("div", { key: '3b84e86178300e4f796d0c6c6b3ac8c0d14b627c', class: 'bulk-operations-sheet-container' }, index.h("div", { key: '341dac5ba8d351205d7b3a79b272c7e4f72cf23d', class: "sheet-header d-flex align-items-center" }, index.h("ir-title", { key: 'ce80db17af7de204268010782e29f0eb85de5157', ref: el => (this.titleEl = el), onCloseSideBar: e => {
+        return (index.h("div", { key: '7e0ebae056563da493c4036df2c294a7f9104737', class: 'bulk-operations-sheet-container' }, index.h("div", { key: '5aa3832843b57da57a9ccafed7717665cb33bc44', class: "sheet-header d-flex align-items-center" }, index.h("ir-title", { key: '430f4b61271704656c565430786176554f8c6aa7', ref: el => (this.titleEl = el), onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 // if (this.isLoading) {
@@ -42,7 +42,7 @@ const IglBulkOperations = class {
                 this.closeModal.emit(null);
             }, class: "px-1 mb-0",
             // label={locales.entries.Lcz_BulkStopOpenSale}
-            label: 'Bulk Operations', displayContext: "sidebar" })), index.h("ir-tabs", { key: 'f2eee30fc940ef6f0c2eeff1cd2212c4bb302a5f', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (index.h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (index.h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
+            label: 'Bulk Operations', displayContext: "sidebar" })), index.h("ir-tabs", { key: '7d550e61d9c06dac10a5e3762ce93109eb891134', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (index.h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (index.h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
     }
 };
 IglBulkOperations.style = iglBulkOperationsCss() + sheetCss();

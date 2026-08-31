@@ -136,7 +136,7 @@ export class RoomService {
             }
             let entries = this.transformArrayToObject(data.My_Result.entries);
             locales.entries = { ...locales.entries, ...entries };
-            locales.direction = data.My_Result.direction;
+            locales.direction = 'rtl';
             //copy entries
             // this.copyEntries(entries);
             return { entries, direction: data.My_Result.direction };

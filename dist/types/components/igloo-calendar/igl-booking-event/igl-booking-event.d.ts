@@ -13,6 +13,7 @@ export declare class IglBookingEvent {
         [key: string]: any;
     };
     countries: ICountry[];
+    roomTop: number;
     hideBubbleInfo: EventEmitter;
     updateEventData: EventEmitter;
     dragOverEventData: EventEmitter;
@@ -81,8 +82,6 @@ export declare class IglBookingEvent {
     getBookingStatus(): any;
     getBookedBy(): any;
     getBookedRoomId(): any;
-    getEventStartingDate(): Date;
-    getEventEndingDate(): Date;
     getEventType(): any;
     getEventLegend(): any;
     getLegendOfStatus(aStatusId: any): any;
@@ -90,6 +89,13 @@ export declare class IglBookingEvent {
     getBalanceNode(): any;
     setStayDays(aStayDays: number): void;
     getStayDays(): any;
+    /**
+     * True once the booking's actual FROM_DATE lands after the loaded calendar window's nominal
+     * start date - i.e. this is a "normal" booking, not one that continues in from before the
+     * visible range. Drives both the skewed/continuation visual (render()) and the half-cell
+     * position adjustment (getPosition()), computed once so both stay in sync.
+     */
+    private startsAfterWindowOpen;
     getPosition(): {
         top: string;
         left: string;

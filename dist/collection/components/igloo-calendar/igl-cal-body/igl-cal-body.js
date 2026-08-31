@@ -1,9 +1,10 @@
-import { Host, h, Fragment } from "@stencil/core";
+import { Host, h, Fragment, forceUpdate } from "@stencil/core";
 import moment from "moment";
 import { compareTime, createDateWithOffsetAndHour } from "../../../utils/booking";
 import calendar_dates from "../../../stores/calendar-dates.store";
 import locales from "../../../stores/locales.store";
 import calendar_data from "../../../stores/calendar-data";
+import { isRtlDirection } from "../../../utils/calendar-grid";
 import { _formatTime } from "../../ir-booking-details/functions";
 import { isBlockUnit, showToast } from "../../../utils/utils";
 export class IglCalBody {
@@ -34,9 +35,35 @@ export class IglCalBody {
     dayRateMap = new Map();
     roomsWithTodayCheckinStatus = new Set();
     categoriesWithTodayCheckinStatus = new Set();
+    lastRenderedRoomTops = new Map();
     roomTitleClickTimer = null;
     dayUseBookingsByKey = new Map();
     // private disabledCellsCache = new Map<string, boolean>();
+    componentDidRender() {
+        // Room row offsets are read from the previously-committed DOM at the top of render(), so
+        // they're always one commit stale: on first mount that DOM doesn't exist yet, and after any
+        // row-structure change (category expand/collapse, calendarData updates adding/removing
+        // rooms) the offsets used for this pass were measured *before* the change took effect. Once
+        // the DOM actually commits here, re-measure and force one corrective re-render whenever the
+        // fresh offsets disagree with what was used, so booking bars settle on the real (current) row
+        // positions instead of stale ones — this is a vertical measurement (offsetTop), so it applies
+        // identically regardless of RTL/LTR.
+        const currentRoomTops = this.getRoomTopOffsets();
+        if (!this.roomTopsEqual(this.lastRenderedRoomTops, currentRoomTops)) {
+            forceUpdate(this);
+        }
+    }
+    roomTopsEqual(a, b) {
+        if (a.size !== b.size) {
+            return false;
+        }
+        for (const [roomId, top] of a) {
+            if (b.get(roomId) !== top) {
+                return false;
+            }
+        }
+        return true;
+    }
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
         this.bookingMap = this.getBookingMap(this.getBookingData());
@@ -130,6 +157,20 @@ export class IglCalBody {
     }
     getBookingData() {
         return this.calendarData.bookingEvents ?? [];
+    }
+    /**
+     * Single batched DOM read (one querySelectorAll) shared by every booking bar, instead of
+     * each igl-booking-event independently measuring its own room row. Room row top offsets
+     * can't be derived from a fixed formula alone since rows are conditionally rendered based
+     * on category expand/collapse state owned by this component.
+     */
+    getRoomTopOffsets() {
+        const offsets = new Map();
+        document.querySelectorAll('.bodyContainer .roomRow .roomTitle[data-room]').forEach(element => {
+            const roomId = Number(element.getAttribute('data-room'));
+            offsets.set(roomId, element.offsetTop);
+        });
+        return offsets;
     }
     addBookingDatas(aData) {
         this.addBookingDatasEvent.emit(aData);
@@ -474,7 +515,7 @@ export class IglCalBody {
             const roomId = this.getRoomId(room);
             const roomHasTodayCheckin = this.roomHasTodayCheckin(roomId);
             // const hasHousekeepingOrIssue = room.hk_status !== '001' || calendar_data.unitIssues.has(Number(room.id));
-            return (h("div", { class: "roomRow", "data-room-has-today-checkin": String(roomHasTodayCheckin) }, h("div", { class: `cellData room text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomType) <= 1 ? 'pl10' : ''} ${'room_' + roomId}`, "data-room-name": name, "data-hk-enabled": String(calendar_data.housekeeping_enabled), "data-room": roomId, "data-room-has-today-checkin": String(roomHasTodayCheckin), "data-category-has-today-checkin": String(hasRoomWithTodayCheckin), onClick: () => {
+            return (h("div", { class: "roomRow", "data-room-has-today-checkin": String(roomHasTodayCheckin) }, h("div", { class: `cellData room  align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomType) <= 1 ? 'pl10' : ''} ${'room_' + roomId}`, "data-room-name": name, "data-hk-enabled": String(calendar_data.housekeeping_enabled), "data-room": roomId, "data-room-has-today-checkin": String(roomHasTodayCheckin), "data-category-has-today-checkin": String(hasRoomWithTodayCheckin), onClick: () => {
                     this.handleRoomTitleClick(room, roomType);
                 }, onMouseEnter: () => {
                     this.interactiveTitle[room.id]?.style?.setProperty('--ir-interactive-hk-bg', roomHasTodayCheckin ? 'var(--wa-color-brand-fill-quiet)' : 'var(--wa-color-neutral-fill-quiet)');
@@ -650,13 +691,15 @@ export class IglCalBody {
         return false;
     }
     render() {
-        return (h(Host, { key: '98bea917be7debf3e555277567de1b960713c94a' }, h("div", { key: '6ea818f4a4645df76117548d9966088ec6543d54', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'faec85de154ab9e5b0e7da589039d33ef9f26c18', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
-            return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: '6db740d25dd7fb5a7f19f6b98ceeb15c90b77894', onIrAfterClose: e => {
+        const roomTopOffsets = this.getRoomTopOffsets();
+        this.lastRenderedRoomTops = roomTopOffsets;
+        return (h(Host, { key: 'bea24520bd80e01f01673ed73cf82d8f446e4f1d', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: 'faa84e77a50c618c364b4cb593463d2c95b22cad', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '1d59d199f9b7b55db0d59249214da95baf0cdd0d', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+            return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData(), roomTop: roomTopOffsets.get(Number(bookingEvent.PR_ID)) }));
+        }))), h("igl-housekeeping-dialog", { key: 'ec8743be382361ab9540abab38d30d2999173de0', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: 'a17f73ce7d74a85dde39c7dc9fe00ce7dffa2491', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '01113469acc4ad612fa95864227eae0894a0c3af', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issues = null;

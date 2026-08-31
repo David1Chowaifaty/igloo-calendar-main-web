@@ -14,11 +14,13 @@
   display: none !important;
 }
 
+
 :host {
   display: block;
   font-size: 0.93rem;
 }
-:host[display='inline'] {
+
+:host([display='inline']) {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;

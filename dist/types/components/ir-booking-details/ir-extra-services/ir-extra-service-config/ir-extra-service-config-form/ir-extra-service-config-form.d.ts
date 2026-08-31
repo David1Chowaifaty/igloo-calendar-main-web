@@ -16,7 +16,7 @@ export declare class IrExtraServiceConfigForm {
     toDateClicked: boolean;
     autoValidate: boolean;
     assignee: 'agent' | 'guest';
-    /** Group (e.g. Accommodation/ACM) the currently selected top-level category belongs to, when it has sub-categories to pick from. */
+    /** Group (e.g. Accommodation) the currently selected top-level category belongs to, when it has sub-categories to pick from. */
     selectedGroupCode: string | null;
     /** True once the price field has been set by user input (typed, or loaded from an existing saved service) — freezes it against further auto-recalculation. */
     priceManuallyEdited: boolean;
@@ -26,7 +26,7 @@ export declare class IrExtraServiceConfigForm {
     componentWillLoad(): void;
     handleServiceChange(): void;
     private assignService;
-    /** Which group (e.g. `ACM`) a leaf category code belongs to, if any — used to re-derive the group selection when editing an existing service. */
+    /** Which group (e.g. `Accommodation`) a leaf category code belongs to, if any — used to re-derive the group selection when editing an existing service. */
     private groupCodeForCategoryCode;
     private get taxCategoryLookup();
     private toCategoryOption;

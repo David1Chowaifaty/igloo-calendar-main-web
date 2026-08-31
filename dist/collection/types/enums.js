@@ -9,6 +9,28 @@ export const ClTxTypeCode = {
     CancellationPenalty: 'CPN',
     AdjustmentCredit: 'ADJC',
 };
+export const SvcCategory = {
+    Accommodation: 'ACM',
+    FoodAndBeverage: 'FNB',
+    Other: 'GEN',
+    MeetingAndEvents: 'MEV',
+    Minibar: 'MNB',
+    Resale: 'RES',
+    Spa: 'SPA',
+    Transfers: 'TRF',
+    Laundry: 'LAU',
+    EarlyCheckIn: 'ECI',
+    LateCheckOut: 'LCO',
+    DayUse: 'DUZ',
+    BabyCot: 'BCT',
+    ExtraBed: 'EXB',
+    HoneymoonPackage: 'HMP',
+    AnniversaryPackage: 'ANP',
+    Breakfast: 'BRF',
+    Lunch: 'LNC',
+    Dinner: 'DIN',
+    FullBoard: 'FBD',
+};
 export const TaxationStrategies = {
     Normal: '000',
     Cumulative: '001',

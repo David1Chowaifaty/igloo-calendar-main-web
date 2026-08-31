@@ -148,6 +148,7 @@ export class BookingService {
                 customMonths.push({
                     daysCount: month.days.length,
                     monthName: month.description,
+                    firstDayValue: month.days[0]?.value,
                 });
                 return month.days.map(day => {
                     if (day['value'] === '2025-05-30') {

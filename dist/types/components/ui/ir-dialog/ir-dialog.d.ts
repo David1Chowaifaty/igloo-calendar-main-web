@@ -51,6 +51,13 @@ export declare class IrDialog {
     disconnectedCallback(): void;
     openModal(): Promise<void>;
     closeModal(): Promise<void>;
+    /**
+     * Nested Web Awesome components (dropdowns, selects, tooltips) emit their own
+     * composed `wa-show`/`wa-hide`, which bubble through the slot into these
+     * handlers. Acting on them would close the dialog when a menu closes, so only
+     * the dialog's own events count.
+     */
+    private isOwnEvent;
     private handleWaHide;
     private handleWaShow;
     private handleWaAfterHide;

@@ -1,4 +1,4 @@
-import { r as registerInstance, d as getElement, h, H as Host } from './index-Kqbk9HdW.js';
+import { r as registerInstance, d as getElement, h, H as Host } from './index-C63jMJYk.js';
 
 const irToastsProviderCss = () => `:host{display:none}`;
 
@@ -136,7 +136,7 @@ const IrToastsProvider = class {
         this.positionCache.clear();
     }
     render() {
-        return h(Host, { key: '810f1e1f73effa94c29a5f1a8b0e1549a5fafffb' });
+        return h(Host, { key: '39e1d1cb0d77e3c87d2c2a40ef12b124e2d7036e' });
     }
 };
 IrToastsProvider.style = irToastsProviderCss();

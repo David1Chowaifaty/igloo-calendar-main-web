@@ -9,6 +9,28 @@ export declare const ClTxTypeCode: {
     readonly CancellationPenalty: "CPN";
     readonly AdjustmentCredit: "ADJC";
 };
+export declare const SvcCategory: {
+    readonly Accommodation: "ACM";
+    readonly FoodAndBeverage: "FNB";
+    readonly Other: "GEN";
+    readonly MeetingAndEvents: "MEV";
+    readonly Minibar: "MNB";
+    readonly Resale: "RES";
+    readonly Spa: "SPA";
+    readonly Transfers: "TRF";
+    readonly Laundry: "LAU";
+    readonly EarlyCheckIn: "ECI";
+    readonly LateCheckOut: "LCO";
+    readonly DayUse: "DUZ";
+    readonly BabyCot: "BCT";
+    readonly ExtraBed: "EXB";
+    readonly HoneymoonPackage: "HMP";
+    readonly AnniversaryPackage: "ANP";
+    readonly Breakfast: "BRF";
+    readonly Lunch: "LNC";
+    readonly Dinner: "DIN";
+    readonly FullBoard: "FBD";
+};
 export declare const TaxationStrategies: {
     readonly Normal: "000";
     readonly Cumulative: "001";

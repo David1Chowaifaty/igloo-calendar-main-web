@@ -11,7 +11,8 @@ export const validReasons = new Set([
     'CHANGE_IN_BOOK_STATUS',
     'NON_TECHNICAL_CHANGE_IN_BOOKING',
 ]);
-export const ZIEntrySchema = z.object({
+export const ZIEntrySchema = z
+    .object({
     CODE_NAME: z.string(),
     CODE_VALUE_AR: z.string().nullable(),
     CODE_VALUE_DE: z.string().nullable(),
@@ -34,7 +35,8 @@ export const ZIEntrySchema = z.object({
     NOTES: z.string().nullable(),
     OWNER_ID: z.number().nullable(),
     TBL_NAME: z.string(),
-});
+})
+    .passthrough();
 export var AmenityType;
 (function (AmenityType) {
     AmenityType["Room"] = "room";

@@ -1,0 +1,1 @@
+import{I as r,d as o}from"./ir-translations-entry-form2.js";const s=r,t=o;export{s as IrTranslationsEntryForm,t as defineCustomElement}

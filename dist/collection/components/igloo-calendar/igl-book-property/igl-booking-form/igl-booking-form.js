@@ -120,9 +120,9 @@ export class IglBookingForm {
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        return (h("form", { key: 'c46b65e69f9658756dbf5f95ae5c2158ee2693a1', class: "d-flex flex-column h-100", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
+        return (h("form", { key: '203137c3cac2f4b24dea75a436103d04d24de5ae', class: "d-flex flex-column h-100", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
                 e.preventDefault();
-            } }, h("div", { key: '7582681a38675ef15d004197dead08ac31bca3a3', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '22a81d472be135a73e0b71c948b0cacd9f460b53', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '6d15e11727b32eaa26ec1c0b8f77f96f9da5505b', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: 'a737fd6e020459d14a1220783858d38e8c3f0e06', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+            } }, h("div", { key: 'f5f0588325bf35cdae03a32c3d55e7998028cd39', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '0ced60e0562a67f3f63c8b1f69ac31ec5b21f81a', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate) }), this.guestData.length > 1 && (h("div", { key: '8593ea6b2f5f567d2d0231bd6738e7bb9943b249', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '28109a2a2dbb5ffb018c1548261db1cbc53a28ce', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
                 return null;

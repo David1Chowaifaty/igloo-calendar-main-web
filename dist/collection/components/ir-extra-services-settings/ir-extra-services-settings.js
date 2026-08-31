@@ -7,10 +7,9 @@ import { getAccTaxPayloadFields, findAccTax, toAccChargeRule } from "../../servi
 import { getExtraServiceDefaultPrice, getDayUseBlockState, getBabyCotPricingModel } from "../../stores/calendar-data";
 import { getEntryValue, showToast } from "../../utils/utils";
 import { groupSvcCategoriesByParent } from "../../utils/svc-category.utils";
-// /** `_SVC_CATEGORY` short code for Day Use — only used to place the Block Night switch, not for grouping. */
-// const DAY_USE_CATEGORY_CODE = 'DUZ';
-/** `_SVC_CATEGORY` short code for Baby Cot — only used to place the Stay/Night pricing-model select, not for grouping. */
-const BABY_COT_CATEGORY_CODE = 'BCT';
+import { SvcCategory } from "../../types/enums";
+/** Hidden `_SVC_CATEGORY` — only used for categories that doesn't require a default price. */
+const HIDDEN_SUB_CATEGORIES = new Set([SvcCategory.Minibar]);
 /** Valid `BABY_COT_PRICING_MODEL` values — the baby cot's default price is either a flat per-stay charge or a per-night charge. */
 const BABY_COT_PRICING_MODELS = ['Stay', 'Night'];
 export class IrExtraServicesSettings {
@@ -154,10 +153,12 @@ export class IrExtraServicesSettings {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("ir-page", { label: "Extra Services", description: "Define default pricing and options for the extra services offered on this property.", "data-testid": "ir-extra-services-settings" }, h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "extra-services-settings__form", style: { width: '100px' }, variant: "brand" }, "Save"), h("form", { id: "extra-services-settings__form", onSubmit: e => this.handleSubmit(e), class: "extra-services-settings__groups" }, this.serviceGroups.length === 0 && (h("ir-empty-state", { message: "No extra-service groups are set up yet. Add a service category whose CODE_NAME is referenced by other categories' NOTES to group them here." })), this.serviceGroups.map(group => (h("wa-card", { appearance: "plain", class: "extra-services-settings__card" }, h("div", { slot: "header", class: "extra-services-settings__header" }, h("span", null, group.label), h("span", { class: "extra-services-settings__tax-chip" }, h("span", { class: "extra-services-settings__tax-chip-label" }, "VAT"), h("span", null, this.formatAccChargeRule(this.vatSummary)))), h("div", { class: "extra-services-grid" }, group.categories.map((category, idx) => {
+        return (h("ir-page", { label: "Extra Services", description: "Define default pricing and options for the extra services offered on this property.", "data-testid": "ir-extra-services-settings" }, h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "extra-services-settings__form", style: { width: '100px' }, variant: "brand" }, "Save"), h("form", { id: "extra-services-settings__form", onSubmit: e => this.handleSubmit(e), class: "extra-services-settings__groups" }, this.serviceGroups.length === 0 && (h("ir-empty-state", { message: "No extra-service groups are set up yet. Add a service category whose CODE_NAME is referenced by other categories' NOTES to group them here." })), this.serviceGroups.map(group => (h("wa-card", { appearance: "plain", class: "extra-services-settings__card" }, h("div", { slot: "header", class: "extra-services-settings__header" }, h("span", null, group.label), h("span", { class: "extra-services-settings__tax-chip" }, h("span", { class: "extra-services-settings__tax-chip-label" }, "VAT"), h("span", null, this.formatAccChargeRule(this.vatSummary)))), h("div", { class: "extra-services-grid" }, group.categories
+            .filter(c => !HIDDEN_SUB_CATEGORIES.has(c.CODE_NAME))
+            .map((category, idx) => {
             const rule = this.priceCategoryRules.get(category.CODE_NAME);
             // const isDayUse = category.CODE_NAME === DAY_USE_CATEGORY_CODE;
-            const isBabyCot = category.CODE_NAME === BABY_COT_CATEGORY_CODE;
+            const isBabyCot = category.CODE_NAME === SvcCategory.BabyCot;
             const isExtraBed = category.CODE_NAME === 'EXB';
             return [
                 idx > 0 && (h("div", { class: "extra-services-grid__divider", key: category.CODE_NAME + 'divider' + idx }, h("wa-divider", null))),

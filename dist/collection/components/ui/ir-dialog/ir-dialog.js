@@ -70,6 +70,15 @@ export class IrDialog {
     async closeModal() {
         this.open = false;
     }
+    /**
+     * Nested Web Awesome components (dropdowns, selects, tooltips) emit their own
+     * composed `wa-show`/`wa-hide`, which bubble through the slot into these
+     * handlers. Acting on them would close the dialog when a menu closes, so only
+     * the dialog's own events count.
+     */
+    isOwnEvent(e) {
+        return e.target === e.currentTarget;
+    }
     handleWaHide(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
@@ -125,7 +134,7 @@ export class IrDialog {
         return !!this.el.querySelector(`[slot="${name}"]`);
     }
     render() {
-        return (h("wa-dialog", { key: '90aff78daa09c87ff0a464d81a4a5f687d9204b1', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, style: { '--width': 'var(--ir-dialog-width,31rem)' }, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotState.get('header-actions') && h("slot", { key: 'db50dab399148b438fb206b85e70d54c652ede4c', name: "header-actions", slot: "header-actions" }), this.slotState.get('label') && h("slot", { key: 'fbeeca0fee13b0779117e43f6c6032ba3f92e4bf', name: "label", slot: "label" }), h("slot", { key: 'c02ea3f4477c766216a9946b5f6c50852a103957' }), this.slotState.get('footer') && h("slot", { key: '5b44e576a1dfe62c0c5ccb90946f9941addab0e4', name: "footer", slot: "footer" })));
+        return (h("wa-dialog", { key: '912445c62b499212538df79cfc94def1ad121bb3', "onwa-hide": (e) => this.isOwnEvent(e) && this.handleWaHide(e), "onwa-show": (e) => this.isOwnEvent(e) && this.handleWaShow(e), "onwa-after-hide": (e) => this.isOwnEvent(e) && this.handleWaAfterHide(e), "onwa-after-show": (e) => this.isOwnEvent(e) && this.handleWaAfterShow(e), label: this.label, id: "dialog-overview", open: this.open, style: { '--width': 'var(--ir-dialog-width,31rem)' }, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotState.get('header-actions') && h("slot", { key: '219f83417a07047835069c637e2efe6b555b6d7b', name: "header-actions", slot: "header-actions" }), this.slotState.get('label') && h("slot", { key: '0630adb9121094684ca2397df81f99062e463d5f', name: "label", slot: "label" }), h("slot", { key: 'c5a2d930fd8a07f3ffeedc31458d72780309f843' }), this.slotState.get('footer') && h("slot", { key: '16a855adeb282d7af80d0e7ef73ae8f65e853b68', name: "footer", slot: "footer" })));
     }
     static get is() { return "ir-dialog"; }
     static get encapsulation() { return "shadow"; }

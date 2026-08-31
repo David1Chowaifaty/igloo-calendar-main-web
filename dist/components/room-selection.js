@@ -1,0 +1,1 @@
+import{l as i}from"./index2.js";const o=i.z.object({roomtype_id:i.z.coerce.number(),unit_id:i.z.coerce.number(),rateplan_id:i.z.coerce.number()});export{o as S}

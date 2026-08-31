@@ -15,21 +15,21 @@ export class IrCityLedgerStatementsFilter {
     printStatement;
     render() {
         const canCreate = !!(this.fromDate && this.toDate);
-        return (h("form", { key: '1f29602de9a30dd258b2c16b5b741439ef8e72b7', onSubmit: e => {
+        return (h("form", { key: '8a69b5eb3ca80cd052688ce5ad6fac1b0b536f4b', onSubmit: e => {
                 e.preventDefault();
                 if (canCreate)
                     this.createStatement.emit({ fromDate: this.fromDate, toDate: this.toDate });
-            } }, h("div", { key: '770a661466bfbb2f753470de099fd1bd709456eb', class: "stmt-filters" }, h("ir-validator", { key: 'faedbe6e93ddbfa80fb67a65b8b53d2feee54842', schema: z.object({
+            } }, h("div", { key: '33050a3874493d909d9f5d4e1df1ecade97a34a5', class: "stmt-filters" }, h("ir-validator", { key: '7d125d6541c59a77318a30894f88332e2bbe5762', schema: z.object({
                 fromDate: z.string().nonempty(),
                 toDate: z.string().nonempty(),
             }), value: {
                 fromDate: this.fromDate,
                 toDate: this.toDate,
-            }, class: "stmt-filters__left" }, h("ir-date-range-filter", { key: '3d93097f767d4c2ba421deb2202e52f1d1aa4a6e', selectionMode: "auto", class: "stmt-filters__date-picker", maxDate: moment().format('YYYY-MM-DD'), fromDate: this.fromDate, toDate: this.toDate, onDatesChanged: e => {
+            }, class: "stmt-filters__left" }, h("ir-date-range-filter", { key: 'eae74dc4126d89fd1846c6010cc6bce3015a2ce2', selectionMode: "auto", class: "stmt-filters__date-picker", maxDate: moment().format('YYYY-MM-DD'), fromDate: this.fromDate, toDate: this.toDate, onDatesChanged: e => {
                 this.fromDate = e.detail.from ?? null;
                 this.toDate = e.detail.to ?? null;
                 this.filtersChange.emit({ fromDate: this.fromDate, toDate: this.toDate });
-            } })), h("div", { key: '93f097f2f0cf00c06ffb0be1ffa927ce799ba922', class: "stmt-filters__right" }, h("ir-custom-button", { key: 'a5d86efb5196460489fdeccd30d1aa2fb5796b2a', variant: "brand", type: "submit" }, "Create Statement"), h("ir-custom-button", { key: 'd7a59a7658279afb840c0c3c617ee6b25adf56a7', variant: "brand", appearance: "outlined", disabled: !canCreate, onClickHandler: () => {
+            } })), h("div", { key: '59f02f886a014ceb970df2a481ce5c3474e681b5', class: "stmt-filters__right" }, h("ir-custom-button", { key: '3442214a7c71a4e9657947c0aba6390e8256dfaa', variant: "brand", type: "submit" }, "Create Statement"), h("ir-custom-button", { key: '2f62ba2f57580f64c3c56f6583a46a72e32d09c9', variant: "brand", appearance: "outlined", disabled: !canCreate, onClickHandler: () => {
                 if (canCreate) {
                     this.printStatement.emit({ fromDate: this.fromDate, toDate: this.toDate });
                 }

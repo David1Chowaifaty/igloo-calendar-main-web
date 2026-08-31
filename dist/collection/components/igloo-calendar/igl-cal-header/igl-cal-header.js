@@ -4,6 +4,7 @@ import { dateToFormattedString } from "../../../utils/utils";
 import moment from "moment";
 import locales from "../../../stores/locales.store";
 import { handleUnAssignedDatesChange } from "../../../stores/unassigned_dates.store";
+import { isRtlDirection } from "../../../utils/calendar-grid";
 export class IglCalHeader {
     optionEvent;
     gotoRoomEvent;
@@ -145,7 +146,7 @@ export class IglCalHeader {
         }, 100);
     };
     render() {
-        return (h(Host, { key: '4897508473130a9202003cfb285d7f2e64a691e3' }, h("igl-cal-header-toolbar", { key: '47de8d46dda045123e37be3fe18c9e051b91b4bc', isVacationRental: this.calendarData.is_vacation_rental, showDayUseButton: !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0, minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), roomsList: this.roomsList, onActionSelected: this.handleToolbarAction, onRoomSelected: this.handleRoomSelected }), h("igl-cal-header-days", { key: '16d1390492b18ff1d8538ec51404e045366417e0', isVacationRental: this.calendarData.is_vacation_rental, today: this.today, highlightedDate: this.highlightedDate, monthsInfo: this.calendarData.monthsInfo, days: this.calendarData.days, unassignedRoomsNumber: { ...this.unassignedRoomsNumber }, onDayBadgeClicked: this.handleDayBadgeClicked })));
+        return (h(Host, { key: '79470177e74e9faf393399b21670857652d95036', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("igl-cal-header-toolbar", { key: 'f26d21bf80c5fdce2891f6b907551f8e512eb992', isVacationRental: this.calendarData.is_vacation_rental, showDayUseButton: !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0, minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), roomsList: this.roomsList, onActionSelected: this.handleToolbarAction, onRoomSelected: this.handleRoomSelected }), h("igl-cal-header-days", { key: 'f87f1cd22fc5e367153fc493bb758cc95d70d15d', isVacationRental: this.calendarData.is_vacation_rental, today: this.today, highlightedDate: this.highlightedDate, monthsInfo: this.calendarData.monthsInfo, days: this.calendarData.days, unassignedRoomsNumber: { ...this.unassignedRoomsNumber }, onDayBadgeClicked: this.handleDayBadgeClicked })));
     }
     static get is() { return "igl-cal-header"; }
     static get encapsulation() { return "scoped"; }

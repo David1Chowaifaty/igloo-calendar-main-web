@@ -1,120 +1,248 @@
 :host {
+  /* Public theming API — every value resolves to a Web Awesome token */
+  --eh-gap: var(--wa-space-2xs, 0.25rem);
+  --eh-row-gap: var(--wa-space-3xs, 0.125rem);
+  --eh-pad: var(--wa-space-s, 0.5rem);
+  --eh-font: var(--wa-font-size-s, 0.8125rem);
+  --eh-label-color: var(--wa-color-text-quiet, #64748b);
+
+  --ir-booking-event-arrow: 8px;
+  --ir-booking-event-arrow-before: calc(var(--ir-booking-event-arrow) + 1px);
+  --ir-booking-popover-border-color: var(--wa-color-neutral-border-normal, #cbd5e1);
+
   display: block;
   position: relative;
   z-index: 100;
-  --ir-booking-event-arrow: 8px;
-  --ir-booking-event-arrow-before: calc(var(--ir-booking-event-arrow) + 1px);
-  --ir-booking-popover-border-color: var(--wa-color-neutral-border-normal);
 }
 
-.btn {
-  padding-left: 4px !important;
-  padding-right: 4px !important;
+/* ─── Popover shell ─────────────────────────────────────── */
+.iglPopOver {
+  position: absolute;
+  /* Physical `left`, not `inset-inline-start`: this is a symmetric self-centering
+     transform (left:50% + translateX(-50%)) that must behave identically in LTR and
+     RTL. `inset-inline-start` would resolve to `right:50%` under `:host([dir=rtl])`
+     and throw the popover ~1 width off its anchor. */
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  transform-origin: center top;
+
+  box-sizing: border-box;
+  padding: var(--eh-pad);
+  text-align: start;
+  white-space: normal;
+  user-select: none;
+  -webkit-user-select: none;
+
+  font-size: var(--eh-font);
+  line-height: var(--wa-line-height-normal, 1.5);
+  color: var(--wa-color-text-normal, #1e293b);
+
+  background-color: var(--wa-color-surface-default, #fff);
+  border: var(--wa-panel-border-width, 1px) var(--wa-panel-border-style, solid) var(--ir-booking-popover-border-color);
+  border-radius: var(--wa-panel-border-radius, 0.5rem);
+  box-shadow: var(--wa-shadow-l, 0 10px 38px -10px rgba(15, 23, 42, 0.35));
+
+  animation: eh-in 160ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.balance_amount {
-  color: var(--wa-color-danger-fill-loud);
-  font-size: 0.75rem;
+.iglPopOver.infoBubble {
+  min-width: 320px;
+  max-width: 360px;
 }
 
+.iglPopOver.blockedView {
+  width: 380px;
+  max-width: 380px;
+}
+
+.iglPopOver.newBookingOptions {
+  min-width: 240px;
+  width: fit-content;
+  overflow-wrap: break-word;
+}
+
+.iglPopOver.bubbleInfoAbove {
+  bottom: 35px;
+  transform-origin: center bottom;
+}
+
+@keyframes eh-in {
+  from {
+    opacity: 0;
+    scale: 0.97;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iglPopOver {
+    animation: eh-fade 120ms ease;
+  }
+  @keyframes eh-fade {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
+/* ─── Header (channel + booking no + price + color) ─────── */
+.event-hover__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--eh-gap);
+  margin-block-end: var(--eh-gap);
+}
+
+.event-hover__identity {
+  display: flex;
+  align-items: center;
+  gap: var(--eh-gap);
+  min-width: 0;
+  font-weight: var(--wa-font-weight-bold, 700);
+}
+
+.event-hover__channel-icon {
+  block-size: auto;
+  inline-size: 22px;
+  flex-shrink: 0;
+}
+
+.event-hover__booking-no {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event-hover__price {
+  display: flex;
+  align-items: center;
+  gap: var(--eh-gap);
+  flex-shrink: 0;
+  font-weight: var(--wa-font-weight-semibold, 600);
+}
+
+/* ─── Color picker ─────────────────────────────────────── */
+.event-hover__color-dropdown::part(menu) {
+  min-width: max-content;
+}
+
+.event-hover__color-trigger {
+  all: unset;
+  display: inline-flex;
+  cursor: pointer;
+  padding: var(--wa-space-3xs, 2px);
+  border: 1px solid var(--wa-color-neutral-border-quiet, #e2e8f0);
+  border-radius: var(--wa-border-radius-s, 0.1875rem);
+  transition: transform 120ms ease-out;
+}
+
+.event-hover__color-trigger:active {
+  transform: scale(0.97);
+}
+
+.event-hover__color-trigger:focus-visible {
+  outline: var(--wa-focus-ring, 2px solid);
+  outline-offset: var(--wa-focus-ring-offset, 1px);
+}
+
+.event-hover__swatch {
+  display: block;
+  inline-size: 1rem;
+  block-size: 1rem;
+  border-radius: var(--wa-border-radius-s, 0.1875rem);
+}
+
+.event-hover__swatch.--none {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+/* ─── Origin / agent / balance ─────────────────────────── */
 .event-hover__origin-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--eh-gap);
 }
 
 .event-hover__origin-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--wa-color-text-quiet, #6b7280);
+  font-size: var(--wa-font-size-xs, 0.75rem);
+  font-weight: var(--wa-font-weight-semibold, 600);
+  color: var(--eh-label-color);
   letter-spacing: 0.04em;
 }
 
-.user-notes {
-  margin-left: 4px;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;
-  line-clamp: 5;
+.event-hover__agent {
+  display: inline-block;
+  max-inline-size: 16ch;
   overflow: hidden;
-  max-width: 100%;
-  height: auto;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
 }
 
-.booking-event-hover__color-picker-trigger {
-  all: unset;
-  border: 1px solid #e0e0e0;
-  padding: 0.25rem 0.25rem;
-  border-radius: 0.21rem;
-  cursor: pointer;
+.event-hover__balance {
+  flex-shrink: 0;
+  font-size: var(--wa-font-size-xs, 0.75rem);
+  color: var(--wa-color-danger-fill-loud, #dc2626);
 }
 
-.events_btns {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-.mx-01 {
-  --m: 5px;
-  margin-left: var(--m) !important;
-  margin-right: var(--m) !important;
+/* ─── Dates ────────────────────────────────────────────── */
+.event-hover__dates {
+  display: block;
+  margin-block: var(--eh-gap);
+  --ir-date-view-font-size: var(--eh-font);
 }
 
-.ota-notes {
-  width: 450px;
+/* ─── Detail rows ──────────────────────────────────────── */
+.event-hover__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eh-row-gap);
 }
 
-.iglPopOver {
-  /* max-width: 350px; */
-  position: absolute;
-  background-color: var(--wa-color-surface-default);
-  padding: 10px;
-  border: 1px solid var(--ir-booking-popover-border-color);
-  left: var(--el-left, 50%);
-  transform: translateX(-50%) translateY(10px);
-  box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.2);
-  font-size: 13.5px;
-  line-height: var(--wa-line-height-normal);
-  /* ;
-  text-align: start;
-  white-space: normal;
-  background-color: var(--wa-color-surface-default);
-  border-top: none;
-  border-left: none;
-  border-bottom: solid var(--wa-panel-border-width) var(--wa-color-surface-border);
-  border-right: solid var(--wa-panel-border-width) var(--wa-color-surface-border);
-  box-shadow: none; */
-  /* transform-origin: bottom; */
-  /* display: flex;
-  flex-direction: column; */
-  padding: var(--wa-space-m);
-  border-radius: var(--wa-panel-border-radius);
-  border-style: var(--wa-panel-border-style);
-  box-shadow:
-    hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
-    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
-  box-shadow: var(--wa-shadow-l);
-  color: var(--wa-color-text-normal);
-  user-select: none;
-  -webkit-user-select: none;
+/* ─── Action buttons — self-balancing 2-up row ──────────────
+   Flex-wrap, not a fixed 2-col grid: the count of visible buttons varies per
+   booking (some are conditional) and per view (2 for a plain booking, 3 for the
+   blocked view, …). Each button targets a half-width track but grows to absorb
+   leftover space, so a lone trailing button — or a popover with only two —
+   fills its row instead of leaving a dead gap. */
+.event-hover__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--eh-gap);
+  margin-block-start: var(--wa-space-s, 0.5rem);
+
+  --ir-c-btn-height: 1.9rem;
+  --ir-c-btn-font-size: var(--wa-font-size-s, 0.8125rem);
 }
 
-.iglPopOver.infoBubble {
-  min-width: 350px;
+.newBookingOptions .event-hover__actions,
+.blockedView .event-hover__actions {
+  margin-block-start: 0;
 }
 
-.iglPopOver.blockedView {
-  max-width: 400px;
-  width: 400px;
+.event-hover__actions > ir-custom-button {
+  flex: 1 1 calc(50% - var(--eh-gap));
+  min-width: 7rem;
 }
 
-.iglPopOver.newBookingOptions {
-  overflow-wrap: break-word !important;
-  min-width: 230px;
-  width: fit-content;
+.event-hover__actions .--full,
+.event-hover__error {
+  flex-basis: 100%;
 }
 
+.event-hover__error {
+  margin: 0;
+  color: var(--wa-color-danger-fill-loud, #dc2626);
+  font-size: var(--wa-font-size-xs, 0.75rem);
+}
+
+/* ─── Pointer / arrow ──────────────────────────────────────
+   Symmetric centring (left:50% + translateX(-50%)) and a symmetric triangle:
+   physical props on purpose so it stays centred in both LTR and RTL. */
 .bubblePointer {
   position: absolute;
   width: 22px;
@@ -139,6 +267,7 @@
   border-left: var(--ir-booking-event-arrow-before) solid transparent;
   border-right: var(--ir-booking-event-arrow-before) solid transparent;
 }
+
 .bubblePointTop {
   bottom: -12px;
 }
@@ -149,7 +278,7 @@
 }
 
 .bubblePointTop::after {
-  border-top: var(--ir-booking-event-arrow) solid var(--wa-color-surface-default);
+  border-top: var(--ir-booking-event-arrow) solid var(--wa-color-surface-default, #fff);
   top: -1px;
 }
 
@@ -163,19 +292,11 @@
 }
 
 .bubblePointBottom::after {
-  border-bottom: var(--ir-booking-event-arrow) solid var(--wa-color-surface-default);
+  border-bottom: var(--ir-booking-event-arrow) solid var(--wa-color-surface-default, #fff);
   bottom: -1px;
 }
 
-.bubbleInfoAbove {
-  bottom: 35px;
-}
-
-.updateBtnIcon {
-  margin-right: 4px;
-}
-.icon-image {
-  height: auto;
-  width: 25px;
-  margin-right: 5px;
+/* ─── RTL: mirror the LTR-only arrow glyph in ir-date-view ─ */
+:host([dir='rtl']) .event-hover__dates::part(separator-icon) {
+  transform: scaleX(-1);
 }

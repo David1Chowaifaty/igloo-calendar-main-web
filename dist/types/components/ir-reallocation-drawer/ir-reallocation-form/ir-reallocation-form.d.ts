@@ -1,4 +1,4 @@
-import { SelectedUnit } from "../../igloo-calendar/igl-split-booking/types";
+import { SelectedUnit } from "../../../models/room-selection";
 import { Booking, Room } from "../../../models/booking.dto";
 import { PropertyRoomType } from "../../../models/IBooking";
 import { SelectOption } from "../../../utils/utils";

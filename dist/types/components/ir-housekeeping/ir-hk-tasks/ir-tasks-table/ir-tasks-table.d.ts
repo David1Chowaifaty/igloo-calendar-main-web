@@ -48,6 +48,11 @@ export declare class IrTasksTable {
      * Determines if a task is skippable.
      */
     private isSkippable;
+    /**
+     * Marks the boundary row/group between today's tasks and future tasks.
+     * Only relevant when the list actually contains a date beyond today.
+     */
+    private isEndOfTodayBoundary;
     private taskBadges;
     private getHousekeeperName;
     private confirmOwnershipChange;

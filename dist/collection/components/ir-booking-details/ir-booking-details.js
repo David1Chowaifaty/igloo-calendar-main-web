@@ -7,7 +7,7 @@ import { PaymentService } from "../../services/payment.service";
 import Token from "../../models/Token";
 import calendar_data from "../../stores/calendar-data";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
-import { buildSplitIndex, DAY_USE_CATEGORY_CODE } from "../../utils/booking";
+import { buildSplitIndex } from "../../utils/booking";
 import { AgentsService } from "../../services/agents/agents.service";
 import { CityLedgerService } from "../../services/city-ledger/index";
 import { mapClTxToFolioRow } from "../ir-city-ledger/ir-city-ledger-folio/types";
@@ -15,6 +15,7 @@ import { isAgentMode } from "./functions";
 import { realtimeService } from "../../services/realtime/realtime.service";
 import { extras } from "../../utils/utils";
 import moment from "moment";
+import { SvcCategory } from "../../types/enums";
 export class IrBookingDetails {
     bookingService = new BookingService();
     roomService = new RoomService();
@@ -275,7 +276,7 @@ export class IrBookingDetails {
      */
     handleEditExtraService(e) {
         const service = e.detail;
-        if (service?.category?.code === DAY_USE_CATEGORY_CODE) {
+        if (service?.category?.code === SvcCategory.DayUse) {
             e.stopImmediatePropagation();
             e.stopPropagation();
             this.bookingItem = {

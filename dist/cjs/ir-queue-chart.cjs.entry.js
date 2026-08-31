@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-DgHWBwDV.js');
+var index = require('./index-DN8J4ULi.js');
 var chart = require('./chart-CMmD0hzI.js');
 
 const irQueueChartCss = () => `:host{display:block}`;
@@ -106,7 +106,7 @@ const IrQueueChart = class {
         this.chart.update();
     }
     render() {
-        return (index.h(index.Host, { key: 'f32dd44ae3a1252f9878a5f2c36d85129924ad86' }, index.h("div", { key: 'd6913628df7b61281c5686faed8843744448c590', class: "chart-container" }, index.h("canvas", { key: 'b971ccbaf70c15d972d4a8ba6a343b34d1c70282', ref: el => (this.canvas = el) }))));
+        return (index.h(index.Host, { key: 'e10dac52a83a08e88348655f891a05e633f92440' }, index.h("div", { key: '36432b70d1a71b96c12d62ee25d21eda047139b8', class: "chart-container" }, index.h("canvas", { key: 'e1d6c1716eaffe389d7514eb6b1f1e490497906d', ref: el => (this.canvas = el) }))));
     }
     static get watchers() { return {
         "values": [{

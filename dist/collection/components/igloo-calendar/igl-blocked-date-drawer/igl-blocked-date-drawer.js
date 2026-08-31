@@ -80,11 +80,11 @@ export class IglBlockedDateDrawer {
         };
     }
     render() {
-        return (h("ir-drawer", { key: 'd4c35979969d440d106e773d775eec6ee19e3b20', label: this.label, onDrawerHide: e => {
+        return (h("ir-drawer", { key: '934ebee4d12551f0665956d1bd2320eeab2f40c7', label: this.label, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDrawer();
-            }, open: this.open }, this.open && (h("igl-block-dates-view", { key: '91abf5ba4ee641e7af1fb0b9e2737192ec8c194a', onDataUpdateEvent: e => (this.blockDatesData = { ...e.detail.data }), fromDate: this.fromDate, toDate: this.toDate })), h("div", { key: '6698a9123fce2a28ff449ffb8b3ee48bdeae3332', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '2cdd14e0c1a23ac59130408ffd3177bc1c178865', "data-drawer": "close", size: "m", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { key: '6b2ce4eedef6174cdef421933a8f7d980b1c4547', loading: this.isLoading, onClickHandler: () => {
+            }, open: this.open }, this.open && (h("igl-block-dates-view", { key: '67e5b2b1638c3107c8c030bacfd89aa208c9120b', onDataUpdateEvent: e => (this.blockDatesData = { ...e.detail.data }), fromDate: this.fromDate, toDate: this.toDate })), h("div", { key: 'dd3d3c3ae1ca5089eb7112bfcb1b2a1c802efb92', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '0794fc0e7ec1ac933cca793e3f2f435377f8d5ff', "data-drawer": "close", size: "m", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { key: 'b41de35fdb28db9b4ce80514c1fe89b07a33f87e', loading: this.isLoading, onClickHandler: () => {
                 this.handleBlockDate();
             }, size: "m", appearance: "accent", variant: "brand" }, "Save"))));
     }

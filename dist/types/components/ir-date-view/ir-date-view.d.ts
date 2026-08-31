@@ -1,3 +1,4 @@
+import { DateStyle } from "../../utils/date/index";
 import moment from 'moment';
 export declare class IrDateView {
     /** Raw from-date — accepts ISO string, JS Date, or Moment */
@@ -6,10 +7,7 @@ export declare class IrDateView {
     to_date: string | Date | moment.Moment;
     /** Show the night-count badge after the to-date */
     showDateDifference: boolean;
-    /** Input format used when `from_date` / `to_date` are plain strings */
-    dateOption: string;
-    /** Display format for both dates */
-    format: string;
-    private formatDate;
+    /** Display style for both dates */
+    format: DateStyle;
     render(): any;
 }

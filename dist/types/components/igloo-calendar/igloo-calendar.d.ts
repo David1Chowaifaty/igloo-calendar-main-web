@@ -205,9 +205,7 @@ export declare class IglooCalendar {
     private handleModalConfirm;
     private handleModalCancel;
     private handleRoomNightsDialogClose;
-    private handleSideBarToggle;
     private handleCloseBookingWindow;
-    private get isSidebarOpen();
     private handleInvoiceClose;
     private handleCheckoutDialogClosed;
     render(): any;

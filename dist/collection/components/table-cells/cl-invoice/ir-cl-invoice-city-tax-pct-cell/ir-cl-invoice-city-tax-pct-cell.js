@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 export class IrClInvoiceCityTaxPctCell {
     cityTaxPercent;
     render() {
-        return h(Host, { key: '042fe95085d99cf16cb128679bbec800b4b92a9d' }, this.cityTaxPercent > 0 ? `${this.cityTaxPercent}%` : '');
+        return h(Host, { key: 'd304423e0f9a54be6fe59909db3bc07105e1936f' }, this.cityTaxPercent > 0 ? `${this.cityTaxPercent}%` : '');
     }
     static get is() { return "ir-cl-invoice-city-tax-pct-cell"; }
     static get encapsulation() { return "scoped"; }
