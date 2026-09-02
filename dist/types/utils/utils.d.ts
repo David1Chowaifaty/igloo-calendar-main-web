@@ -112,13 +112,19 @@ export declare function getReleaseHoursString(releaseDate: number): {
 export declare function computeEndDate(startDate: string, numberOfDays: number): string;
 export declare function convertDMYToISO(date: string): string;
 export declare function addTwoMonthToDate(date: Date): string;
-export declare function formatDate(dateString: any, option?: string): string;
 export declare function getNextDay(date: Date): string;
+/** Row label for the per-night price breakdown — display only. */
 export declare function convertDatePrice(date: string): string;
 export declare function getDaysArray(date1: string, date2: string): any[];
 export declare function renderTime(time: number): string;
 export declare function validateEmail(email: string): boolean;
-export declare function formatAmount(currency: string, amount?: number): string;
+/**
+ * Re-exported from `@/utils/number` so the ~135 existing call sites pick up locale- and
+ * digit-script-aware formatting without changing. Previously this used `toLocaleString(undefined,
+ * …)`, i.e. the *browser's* locale rather than the app's — so a French browser rendered
+ * `1 234,50` inside an English UI. It now follows the app's active language.
+ */
+export { formatAmount } from './number';
 /**
  * Determines whether the given user has privileged (global or elevated) access.
  *
@@ -212,4 +218,3 @@ export declare function generateTimeSlotsMilitary(from: string, to: string, step
 export declare function isWeekend(date: string, format?: MomentFormatSpecification): boolean;
 export declare function getFormSubmitter(e: Event): string;
 export declare function groupEntryTablesResult(entries: IEntries[]): GroupedTableEntries;
-export {};

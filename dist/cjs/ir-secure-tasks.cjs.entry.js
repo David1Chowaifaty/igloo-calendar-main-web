@@ -1,19 +1,23 @@
 'use strict';
 
-var index = require('./index-DN8J4ULi.js');
+var index = require('./index-P5Mginch.js');
 var Token = require('./Token-mN7PQKGF.js');
-var index$1 = require('./index-CqzK4ONa.js');
-var calendarData = require('./calendar-data-CdMMPf5M.js');
-var utils = require('./utils-t-vm9_Z2.js');
+var index$1 = require('./index-Cv1UlKPY.js');
+var calendarData = require('./calendar-data-PetnikUI.js');
+var utils = require('./utils-CwIiTro6.js');
+var direction = require('./direction-BKlLiim_.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
 require('./moment-CdViwxPQ.js');
 require('./commonSchemas-hgXVqmtC.js');
-require('./locales.store-QRiel1Gy.js');
+require('./index-BLJXadKe.js');
+require('./locales.store-v9LoZcAK.js');
+require('./booking.dto-kenLHU-o.js');
 require('./type-Dy9pVS4V.js');
+require('./ir-date-BH2JQpbC.js');
 
-const irSecureTasksCss = () => `ir-agents .ir-page__container{gap:var(--wa-space-l, 1.5rem) !important}.ir-page__container,.main__container{height:100%}.secure-header{position:sticky;top:0;z-index:100;display:flex;flex-direction:column}.secure-header__topbar{display:flex;align-items:center;justify-content:space-between;padding:0 var(--wa-space-m, 1rem);height:52px;background:#111827;gap:var(--wa-space-m, 1rem);flex-shrink:0}.secure-header__brand{display:flex;align-items:center;gap:var(--wa-space-xs, 0.375rem);color:#fff;font-weight:700;font-size:var(--wa-font-size-m, 0.9rem);letter-spacing:-0.01em;flex-shrink:0;user-select:none}.secure-header__brand-icon{width:28px;height:28px;border-radius:7px;overflow:hidden;flex-shrink:0;background:white;border-radius:100%;display:flex;align-items:center;justify-content:center}.secure-header__brand-icon img{width:100%;height:100%;object-fit:cover;display:block}.secure-header__brand-name{color:#fff}.secure-header__brand-pill{font-size:0.6rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;background:rgba(255, 255, 255, 0.12);border:1px solid rgba(255, 255, 255, 0.18);border-radius:999px;padding:1px 6px;color:rgba(255, 255, 255, 0.6);align-self:center}.secure-header__controls{display:flex;align-items:center;gap:var(--wa-space-s, 0.5rem)}.secure-header__aname-form{margin:0}.secure-header__aname-input{width:200px}.secure-header__aname-save{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border:none;border-radius:999px;background:transparent;cursor:pointer;flex-shrink:0;transition:background 0.15s,     color 0.15s;padding:0;font-size:0.8rem}.secure-header__aname-save:hover{background:rgba(255, 255, 255, 0.12)}.secure-header__sep{width:1px;height:22px;background:rgba(255, 255, 255, 0.15);flex-shrink:0}#secure-logout-btn{--wa-button-padding-start:0;--wa-button-padding-end:0;width:30px;height:30px;color:rgba(255, 255, 255, 0.65)}#secure-logout-btn:hover{color:#fff}.secure-header__tabbar{display:flex;align-items:center;background:var(--wa-color-surface-default, #fff);border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);padding:0 var(--wa-space-2xs, 0.25rem);height:44px;flex-shrink:0;gap:2px;box-shadow:0 1px 4px rgba(0, 0, 0, 0.06)}.secure-header__scroll-btn{flex-shrink:0;transition:opacity 0.2s,     visibility 0.2s}.secure-header__scroll-btn--hidden{opacity:0;pointer-events:none}.secure-tabs-track{flex:1;overflow-x:auto;scrollbar-width:none}.secure-tabs-track::-webkit-scrollbar{display:none}.secure-tabs{display:flex;align-items:center;list-style:none;padding:0;margin:0;height:100%;gap:1px;white-space:nowrap}.secure-tabs__sep{display:flex;align-items:center;padding:0 var(--wa-space-xs, 0.375rem);flex-shrink:0}.secure-tabs__sep::after{content:'';display:block;width:1px;height:16px;background:var(--wa-color-neutral-border-quiet, #e5e7eb)}.secure-tabs__group-label{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--wa-color-text-quiet, #9ca3af);padding:0 var(--wa-space-xs, 0.375rem) 0 var(--wa-space-2xs, 0.25rem);white-space:nowrap;flex-shrink:0;user-select:none}.secure-tabs__item{display:flex;align-items:center;height:100%;flex-shrink:0}.secure-tabs__btn{position:relative;display:inline-flex;align-items:center;height:100%;padding:0 var(--wa-space-s, 0.625rem);border:none;background:transparent;color:var(--wa-color-text-quiet, #6b7280);font-size:var(--wa-font-size-s, 0.8125rem);font-weight:500;font-family:inherit;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:color 0.15s,     border-color 0.15s,     background 0.15s;border-radius:var(--wa-border-radius-s, 4px) var(--wa-border-radius-s, 4px) 0 0;margin-bottom:-1px;}.secure-tabs__btn:hover{color:var(--wa-color-text-normal, #111827);background:var(--wa-color-neutral-fill-quiet, #f3f4f6)}.secure-tabs__btn:focus-visible{outline:2px solid var(--wa-color-brand-border-normal, #3b82f6);outline-offset:-2px}.secure-tabs__btn.active{color:var(--wa-color-brand-fill-loud, #2563eb);font-weight:600}`;
+const irSecureTasksCss = () => `ir-agents .ir-page__container{gap:var(--wa-space-l, 1.5rem) !important}.ir-page__container,.main__container{height:100%}.secure-header{position:sticky;top:0;z-index:100;display:flex;flex-direction:column}.secure-header__topbar{display:flex;align-items:center;justify-content:space-between;padding:0 var(--wa-space-m, 1rem);height:52px;background:#111827;gap:var(--wa-space-m, 1rem);flex-shrink:0}.secure-header__brand{display:flex;align-items:center;gap:var(--wa-space-xs, 0.375rem);color:#fff;font-weight:700;font-size:var(--wa-font-size-m, 0.9rem);letter-spacing:-0.01em;flex-shrink:0;user-select:none}.secure-header__brand-icon{width:28px;height:28px;border-radius:7px;overflow:hidden;flex-shrink:0;background:white;border-radius:100%;display:flex;align-items:center;justify-content:center}.secure-header__brand-icon img{width:100%;height:100%;object-fit:cover;display:block}.secure-header__brand-name{color:#fff}.secure-header__brand-pill{font-size:0.6rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;background:rgba(255, 255, 255, 0.12);border:1px solid rgba(255, 255, 255, 0.18);border-radius:999px;padding:1px 6px;color:rgba(255, 255, 255, 0.6);align-self:center}.secure-header__controls{display:flex;align-items:center;gap:var(--wa-space-s, 0.5rem)}.secure-header__aname-form{margin:0}.secure-header__aname-input{width:200px}.secure-header__aname-save{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border:none;border-radius:999px;background:transparent;cursor:pointer;flex-shrink:0;transition:background 0.15s,     color 0.15s;padding:0;font-size:0.8rem}.secure-header__aname-save:hover{background:rgba(255, 255, 255, 0.12)}.secure-header__sep{width:1px;height:22px;background:rgba(255, 255, 255, 0.15);flex-shrink:0}#secure-logout-btn{--wa-button-padding-start:0;--wa-button-padding-end:0;width:30px;height:30px;color:rgba(255, 255, 255, 0.65)}#secure-logout-btn:hover{color:#fff}.secure-header__tabbar{display:flex;align-items:center;background:var(--wa-color-surface-default, #fff);border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);padding:0 var(--wa-space-2xs, 0.25rem);height:44px;flex-shrink:0;gap:2px;box-shadow:0 1px 4px rgba(0, 0, 0, 0.06)}.secure-header__scroll-btn{flex-shrink:0;transition:opacity 0.2s,     visibility 0.2s}.secure-header__scroll-btn--hidden{opacity:0;pointer-events:none}.secure-tabs-track{flex:1;overflow-x:auto;scrollbar-width:none}.secure-tabs-track::-webkit-scrollbar{display:none}.secure-tabs{display:flex;align-items:center;list-style:none;padding:0;margin:0;height:100%;gap:1px;white-space:nowrap}.secure-tabs__sep{display:flex;align-items:center;padding:0 var(--wa-space-xs, 0.375rem);flex-shrink:0}.secure-tabs__sep::after{content:'';display:block;width:1px;height:16px;background:var(--wa-color-neutral-border-quiet, #e5e7eb)}.secure-tabs__group-label{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--wa-color-text-quiet, #9ca3af);padding:0 var(--wa-space-xs, 0.375rem) 0 var(--wa-space-2xs, 0.25rem);white-space:nowrap;flex-shrink:0;user-select:none}.secure-tabs__item{display:flex;align-items:center;height:100%;flex-shrink:0}.secure-tabs__btn{position:relative;display:inline-flex;align-items:center;height:100%;padding:0 var(--wa-space-s, 0.625rem);border:none;background:transparent;color:var(--wa-color-text-quiet, #6b7280);font-size:var(--wa-font-size-s, 0.8125rem);font-weight:500;font-family:inherit;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:color 0.15s,     border-color 0.15s,     background 0.15s;border-radius:var(--wa-border-radius-s, 4px) var(--wa-border-radius-s, 4px) 0 0;margin-bottom:-1px;}.secure-tabs__btn:hover{color:var(--wa-color-text-normal, #111827);background:var(--wa-color-neutral-fill-quiet, #f3f4f6)}.secure-tabs__btn:focus-visible{outline:2px solid var(--wa-color-brand-border-normal, #3b82f6);outline-offset:-2px}.secure-tabs__btn.active{color:var(--wa-color-brand-fill-loud, #2563eb);font-weight:600}.ir-flip-rtl:dir(rtl){scale:-1 1}`;
 
 const IrSecureTasks = class {
     constructor(hostRef) {
@@ -27,8 +31,8 @@ const IrSecureTasks = class {
     isAuthenticated = false;
     currentPage = 'front';
     inputValue;
-    canScrollLeft = false;
-    canScrollRight = true;
+    canScrollTowardsStart = false;
+    canScrollTowardsEnd = true;
     isLoading = true;
     token = new Token.Token();
     dates = {};
@@ -86,11 +90,15 @@ const IrSecureTasks = class {
         if (!this.tabsTrackRef)
             return;
         const { scrollLeft, scrollWidth, clientWidth } = this.tabsTrackRef;
-        this.canScrollLeft = scrollLeft > 2;
-        this.canScrollRight = scrollLeft + clientWidth < scrollWidth - 2;
+        // An RTL scroller reports `scrollLeft` as <= 0, so normalise it to a distance travelled
+        // from the inline start; the two arrows are "earlier"/"later", not physical sides.
+        const inlineOffset = Math.abs(scrollLeft);
+        this.canScrollTowardsStart = inlineOffset > 2;
+        this.canScrollTowardsEnd = inlineOffset + clientWidth < scrollWidth - 2;
     }
-    scrollTabs(dir) {
-        this.tabsTrackRef?.scrollBy({ left: dir === 'left' ? -240 : 240, behavior: 'smooth' });
+    scrollTabs(towards) {
+        // `scrollBy` still takes a physical x delta, and the inline axis points the other way in RTL.
+        this.tabsTrackRef?.scrollBy({ left: 240 * direction.inlineSign() * (towards === 'end' ? 1 : -1), behavior: 'smooth' });
     }
     validPages = new Set([
         'hk',
@@ -201,12 +209,12 @@ const IrSecureTasks = class {
                     window.history.pushState({}, '', url);
                 }
                 this.logout();
-            } }, index.h("ir-input", { class: "secure-header__aname-input", size: "s", pill: true, value: this.inputValue, placeholder: "Property", "aria-label": "Property AName", "onText-change": e => (this.inputValue = e.detail) }, index.h("wa-icon", { slot: "start", name: "building", "aria-hidden": "true" }), index.h("button", { slot: "end", class: "secure-header__aname-save", type: "submit", "aria-label": "Save property" }, index.h("wa-icon", { name: "arrow-right" })))), index.h("div", { class: "secure-header__sep", role: "separator" }), index.h("wa-tooltip", { for: "secure-logout-btn", placement: "bottom" }, "Sign out"), index.h("wa-button", { id: "secure-logout-btn", size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Sign out", onClick: () => this.logout() }, index.h("wa-icon", { name: "arrow-right-from-bracket" })))), index.h("nav", { class: "secure-header__tabbar", "aria-label": "Secure screens navigation" }, index.h("wa-button", { class: `secure-header__scroll-btn${this.canScrollLeft ? '' : ' secure-header__scroll-btn--hidden'}`, size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Scroll tabs left", tabIndex: -1, onClick: () => this.scrollTabs('left') }, index.h("wa-icon", { name: "chevron-left" })), index.h("div", { class: "secure-tabs-track", ref: el => {
+            } }, index.h("ir-input", { class: "secure-header__aname-input", size: "s", pill: true, value: this.inputValue, placeholder: "Property", "aria-label": "Property AName", "onText-change": e => (this.inputValue = e.detail) }, index.h("wa-icon", { slot: "start", name: "building", "aria-hidden": "true" }), index.h("button", { slot: "end", class: "secure-header__aname-save", type: "submit", "aria-label": "Save property" }, index.h("wa-icon", { class: "ir-flip-rtl", name: "arrow-right" })))), index.h("div", { class: "secure-header__sep", role: "separator" }), index.h("wa-tooltip", { for: "secure-logout-btn", placement: "bottom" }, "Sign out"), index.h("wa-button", { id: "secure-logout-btn", size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Sign out", onClick: () => this.logout() }, index.h("wa-icon", { name: "arrow-right-from-bracket" })))), index.h("nav", { class: "secure-header__tabbar", "aria-label": "Secure screens navigation" }, index.h("wa-button", { class: `secure-header__scroll-btn${this.canScrollTowardsStart ? '' : ' secure-header__scroll-btn--hidden'}`, size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Scroll tabs to earlier items", tabIndex: -1, onClick: () => this.scrollTabs('start') }, index.h("wa-icon", { class: "ir-flip-rtl", name: "chevron-left" })), index.h("div", { class: "secure-tabs-track", ref: el => {
                 this.tabsTrackRef = el;
             } }, index.h("ul", { class: "secure-tabs", role: "tablist" }, this.routeGroups.map((group, gi) => [
             gi > 0 && index.h("li", { class: "secure-tabs__sep", role: "none", "aria-hidden": "true" }),
             ...group.routes.map(route => (index.h("li", { key: route.value, class: "secure-tabs__item", role: "none" }, index.h("button", { type: "button", role: "tab", class: { 'secure-tabs__btn': true, 'active': this.currentPage === route.value }, "aria-selected": this.currentPage === route.value ? 'true' : 'false', onClick: () => this.navigateTo(route.value) }, route.name)))),
-        ]))), index.h("wa-button", { class: `secure-header__scroll-btn${this.canScrollRight ? '' : ' secure-header__scroll-btn--hidden'}`, size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Scroll tabs right", tabIndex: -1, onClick: () => this.scrollTabs('right') }, index.h("wa-icon", { name: "chevron-right" })))), index.h("div", { class: "ir-page__container", style: { padding: '0' } }, this.renderPage())));
+        ]))), index.h("wa-button", { class: `secure-header__scroll-btn${this.canScrollTowardsEnd ? '' : ' secure-header__scroll-btn--hidden'}`, size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Scroll tabs to later items", tabIndex: -1, onClick: () => this.scrollTabs('end') }, index.h("wa-icon", { class: "ir-flip-rtl", name: "chevron-right" })))), index.h("div", { class: "ir-page__container", style: { padding: '0' } }, this.renderPage())));
     }
     renderPage() {
         switch (this.currentPage) {

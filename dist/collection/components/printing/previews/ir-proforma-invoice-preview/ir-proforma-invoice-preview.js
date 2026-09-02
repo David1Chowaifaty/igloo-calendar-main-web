@@ -2,6 +2,8 @@ import { Fragment, Host, h } from "@stencil/core";
 import moment from "moment";
 import { calculateDaysBetweenDates } from "../../../../utils/booking";
 import { formatAmount } from "../../../../utils/utils";
+import { formatDate } from "../../../../utils/date/index";
+import { formatBookingNumber } from "../../../../utils/number";
 export class IrProformaInvoicePreview {
     /**
      * Booking context used to display property, guest, and folio details.
@@ -38,9 +40,9 @@ export class IrProformaInvoicePreview {
     }
     get bookingNumber() {
         if (!this.booking.is_direct) {
-            return `${this.booking.booking_nbr} | ${this.booking.channel_booking_nbr}`;
+            return `${formatBookingNumber(this.booking.booking_nbr)} | ${formatBookingNumber(this.booking.channel_booking_nbr)}`;
         }
-        return this.booking.booking_nbr;
+        return formatBookingNumber(this.booking.booking_nbr);
     }
     get CompanyLocation() {
         const { company } = this.property;
@@ -85,7 +87,7 @@ export class IrProformaInvoicePreview {
         if (!parsedDate.isValid()) {
             return null;
         }
-        return parsedDate.format('MMMM DD, YYYY');
+        return formatDate(parsedDate, 'MMMM DD, YYYY');
     }
     get issueDate() {
         return this.formatDisplayDate(this.invoice?.Date) ?? '—';
@@ -103,7 +105,7 @@ export class IrProformaInvoicePreview {
         return (h("section", { class: "property-overview", "aria-label": "Property overview" }, h("div", { class: "property-overview__text" }, h("p", { class: "property-overview__name" }, this.property.name), h("p", { class: "property-overview__location" }, propertyLocation)), propertyLogo && h("img", { src: propertyLogo, alt: `${this.property.name} logo`, class: "property-logo" })));
     }
     formatBookingDates(date) {
-        return moment(date, 'YYYY-MM-DD').format('DD-MMM-YYYY');
+        return formatDate(date, 'DD-MMM-YYYY');
     }
     renderBillToSection() {
         const { guest, company_name, company_tax_nbr } = this.booking;

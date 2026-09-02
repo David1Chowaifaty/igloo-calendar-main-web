@@ -45,7 +45,7 @@ export class AcPagesMenu {
                     const menuId = submenu.id ?? v4();
                     return (h("li", { key: menuId, id: menuId, class: `navigation-item ${submenu.className ?? ''}` }, h("a", { onClick: e => {
                             this.linkClicked.emit(e);
-                        }, class: "dropdown-item menu-icon-container", href: submenu.href }, h("div", { class: "menu-icon-container mr-auto" }, submenu.icon && this.Icon({ name: submenu.icon }), h("span", null, submenu.label)), submenu.isNew && (h("span", { id: submenu.badgeId, class: "new-badge" }, "new")))));
+                        }, class: "dropdown-item menu-icon-container", href: submenu.href }, h("div", { class: "menu-icon-container ir-me-auto" }, submenu.icon && this.Icon({ name: submenu.icon }), h("span", null, submenu.label)), submenu.isNew && (h("span", { id: submenu.badgeId, class: "new-badge" }, "new")))));
                 }))));
             }
             return (h("li", { key: id, id: id, class: `${page.className ?? ''}  navigation-item` }, h("a", { href: page.href, onClick: e => this.linkClicked.emit(e), class: `navigation-link` }, h("div", { class: "menu-icon-container" }, page.icon && this.Icon({ name: page.icon }), h("span", null, page.label), page.isNew && (h("span", { id: page.badgeId, class: "new-badge" }, "new"))))));

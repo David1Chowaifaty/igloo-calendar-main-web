@@ -1,6 +1,7 @@
 import { h } from "@stencil/core";
 import moment from "moment";
 import locales from "../../../stores/locales.store";
+import { formatDate } from "../../../utils/date/index";
 export class IrDailyRevenueFilters {
     payments;
     isLoading;
@@ -46,20 +47,20 @@ export class IrDailyRevenueFilters {
     getLast30Days() {
         return Array.from({ length: 30 }, (_, i) => {
             const date = moment().subtract(i, 'days');
-            const label = i === 0 ? 'Today' : date.format('MMM DD, YYYY');
+            const label = i === 0 ? 'Today' : formatDate(date, 'MMM DD, YYYY');
             return { text: label, value: date.format('YYYY-MM-DD') };
         });
     }
     render() {
-        return (h("ir-filter-card", { key: '14d720f5adba69593b96b5310eadef8935fff490' }, h("wa-select", { key: '96fee6475924cafa0fd2a999a4f3838e1db348a2', label: "Selected period", size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
+        return (h("ir-filter-card", { key: 'e8d0defcbff20024663225ccbf21b156866d884b' }, h("wa-select", { key: 'f2a1b4db1f1c89aaace3c0ca265093149f285380', label: "Selected period", size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
                 const value = e.target.value;
                 this.updateFilter({ date: value, to_date: value, from_date: value });
-            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: 'ba43d2c9c0b564a847cb6ae73bf8567d0d017afe', class: "or-divider" }, h("span", { key: '624e84048715dc7bcf8d17cc82d7c73e984aab41', class: "or-divider__line" }), h("span", { key: '6ebd7ee2c9bb8ee33fb7f97ae092479cb86bfaf0', class: "or-divider__text" }, "Or"), h("span", { key: '04fb46880a2f95d9e00e8e24a5d7a2421bc05131', class: "or-divider__line" })), h("ir-date-range-filter", { key: '487f69907b6235a7381a3fb472ab581ee836d6b2', showQuickActions: false, label: "Date range", fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: moment().format('YYYY-MM-DD'), onDatesChanged: e => {
+            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: 'd4bbb19e73483232f8723c8014155c66aa62e678', class: "or-divider" }, h("span", { key: '62dd4579bd0bd64edcc8f012f9a3c0652f3c560a', class: "or-divider__line" }), h("span", { key: '0e77e0faeb9ad6ecb5306490b22c0ef36c1e8035', class: "or-divider__text" }, "Or"), h("span", { key: '8c5d581e496adc52ad6f691a3fed49d7f902c0cc', class: "or-divider__line" })), h("ir-date-range-filter", { key: '88fada3181bf66c205bf909fb5020ceceee8b1a1', showQuickActions: false, label: "Date range", fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: moment().format('YYYY-MM-DD'), onDatesChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { from, to } = e.detail;
                 this.updateFilter({ from_date: from, to_date: to, date: null });
-            } }), h("div", { key: '8e108781c74e50c6a76e6747761056fefb143ebe', slot: "footer" }, h("ir-custom-button", { key: '098c59f503187a6f6ec081ef7a518dd1d56d5937', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: 'b13eed39689858f316b7e12a203f04e093f3033b', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
+            } }), h("div", { key: '9ee9741027fcc79dafdbdfd0788ca4751525f54f', slot: "footer" }, h("ir-custom-button", { key: '6118fad80dfbad83b2c65e7716e43ed295cdbf3e', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: '88a892ee30f44f150b14f6d883fc0e1fb47e0d71', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
     }
     static get is() { return "ir-daily-revenue-filters"; }
     static get encapsulation() { return "scoped"; }

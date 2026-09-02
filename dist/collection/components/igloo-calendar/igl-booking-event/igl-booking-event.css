@@ -81,13 +81,13 @@
 }
 .bookingEventBase.fullSplit.skewedLeft::before,
 .bookingEventBase.leftSplit.skewedLeft::before {
-  border-left: var(--split-border-width) solid var(--split-border-color) !important;
+  border-inline-start: var(--split-border-width) solid var(--split-border-color) !important;
   z-index: 2;
   background-color: transparent;
 }
 .bookingEventBase.fullSplit.skewedRight::before,
 .bookingEventBase.leftRight.skewedRight::before {
-  border-right: var(--split-border-width) solid var(--split-border-color) !important;
+  border-inline-end: var(--split-border-width) solid var(--split-border-color) !important;
   z-index: 2;
   background-color: transparent;
 }
@@ -99,8 +99,8 @@
   background: inherit;
   background-color: var(--ir-event-bg);
   transform-origin: left;
-  left: 10px;
-  right: -4px;
+  inset-inline-start: 10px;
+  inset-inline-end: -4px;
   transform: skewX(22deg);
   border-radius: inherit;
 } */
@@ -138,12 +138,12 @@
 .bookingEventBase.striped-bar.fullSplit.skewedLeft.vertical::after,
 .bookingEventBase.striped-bar.leftSplit.skewedLeft.vertical::after {
   z-index: 1;
-  border-left: var(--split-border-width) solid var(--split-border-color);
+  border-inline-start: var(--split-border-width) solid var(--split-border-color);
 }
 .bookingEventBase.striped-bar.fullSplit.skewedRight.vertical::after,
 .bookingEventBase.striped-bar.rightSplit.skewedRight.vertical::after {
   z-index: 1;
-  border-right: var(--split-border-width) solid var(--split-border-color);
+  border-inline-end: var(--split-border-width) solid var(--split-border-color);
 }
 
 .bookingEventBase.striped-bar.vertical::after {
@@ -220,6 +220,7 @@
 .leftSide {
   left: 0;
 }
+/* Physical, for the same reason as .leftSide above. */
 .rightSide {
   right: 0;
 }

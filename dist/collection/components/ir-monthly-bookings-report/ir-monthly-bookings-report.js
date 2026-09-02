@@ -4,6 +4,7 @@ import moment from "moment";
 import locales from "../../stores/locales.store";
 import { RoomService } from "../../services/room.service";
 import { PropertyService } from "../../services/property.service";
+import { formatDate } from "../../utils/date/index";
 export class IrMonthlyBookingsReport {
     language = '';
     ticket = '';
@@ -22,7 +23,7 @@ export class IrMonthlyBookingsReport {
     componentWillLoad() {
         this.baseFilters = {
             date: {
-                description: moment().format('MMMM YYYY'),
+                description: formatDate(moment(), 'MMMM YYYY'),
                 firstOfMonth: moment().startOf('month').format('YYYY-MM-DD'),
                 lastOfMonth: moment().endOf('month').format('YYYY-MM-DD'),
             },
@@ -153,7 +154,7 @@ export class IrMonthlyBookingsReport {
                 await this.getReports(true);
             }, appearance: "outlined", slot: "page-header", loading: this.isLoading === 'export' }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("section", { class: "report-layout" }, h("section", null, h("div", { class: "report-stats-row" }, h("ir-metric-card", { class: "report-metric", icon: this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? 'arrow-trend-down' : 'arrow-trend-up', label: "Average Occupancy", value: this.stats.AverageOccupancy ? this.stats?.AverageOccupancy.toFixed(2) : null, unit: "%", trend: this.stats?.Occupancy_Difference_From_Previous_Month, trendLabel: "from last month", caption: this.stats?.Occupancy_Difference_From_Previous_Month != null && this.stats?.AverageOccupancy != null
                 ? `Last month: ${(this.stats.AverageOccupancy - this.stats.Occupancy_Difference_From_Previous_Month).toFixed(2)}%`
-                : undefined }), h("ir-metric-card", { class: "report-metric", icon: "hotel", label: "Total Units", value: this.stats?.TotalUnitsBooked ? this.stats?.TotalUnitsBooked.toString() : null, caption: "Booked" }), h("ir-metric-card", { class: "report-metric", icon: "user-group", label: "Total Guests", value: this.stats?.Total_Guests ? this.stats?.Total_Guests?.toString() : null, caption: "Stayed" }), h("ir-metric-card", { class: "report-metric", icon: "calendar", label: "Peak Days", value: this.stats?.PeakDays.length === 0 ? null : this.stats?.PeakDays?.map(pd => moment(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '), caption: `${Math.max(...(this.stats.PeakDays?.map(pd => pd.OccupancyPercent) || []))}% occupancy` })), h("div", { class: "report-content-row" }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
+                : undefined }), h("ir-metric-card", { class: "report-metric", icon: "hotel", label: "Total Units", value: this.stats?.TotalUnitsBooked ? this.stats?.TotalUnitsBooked.toString() : null, caption: "Booked" }), h("ir-metric-card", { class: "report-metric", icon: "user-group", label: "Total Guests", value: this.stats?.Total_Guests ? this.stats?.Total_Guests?.toString() : null, caption: "Stayed" }), h("ir-metric-card", { class: "report-metric", icon: "calendar", label: "Peak Days", value: this.stats?.PeakDays.length === 0 ? null : this.stats?.PeakDays?.map(pd => formatDate(pd.Date, 'D').concat('th')).join(' - '), caption: `${Math.max(...(this.stats.PeakDays?.map(pd => pd.OccupancyPercent) || []))}% occupancy` })), h("div", { class: "report-content-row" }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
     }
     static get is() { return "ir-monthly-bookings-report"; }
     static get encapsulation() { return "scoped"; }

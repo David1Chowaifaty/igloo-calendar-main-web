@@ -13,6 +13,7 @@ import locales from "../../../stores/locales.store";
 import { calculateDaysBetweenDates } from "../../../utils/booking";
 import { h } from "@stencil/core";
 import moment from "moment";
+import { formatDate } from "../../../utils/date/index";
 /**
  * @component ir-date-range
  * @description An accessible, popup-based date-range picker.
@@ -143,8 +144,8 @@ export class IrDateRange {
         this.handleDateSelectEvent('selectedDateRange', {
             fromDate: start.getTime(),
             toDate: end.getTime(),
-            fromDateStr: startMoment.format('DD MMM YYYY'),
-            toDateStr: endMoment.format('DD MMM YYYY'),
+            fromDateStr: formatDate(startMoment, 'DD MMM YYYY'),
+            toDateStr: formatDate(endMoment, 'DD MMM YYYY'),
             dateDifference: this.totalNights,
         });
         this.dateRangeChange.emit({ checkIn: startMoment, checkOut: endMoment });
@@ -181,13 +182,13 @@ export class IrDateRange {
         }
     }
     get formattedLabel() {
-        const from = moment(this.fromDate).format('MMM DD, YYYY');
-        const to = moment(this.toDate).format('MMM DD, YYYY');
+        const from = formatDate(this.fromDate, 'MMM DD, YYYY');
+        const to = formatDate(this.toDate, 'MMM DD, YYYY');
         return `${from} → ${to}`;
     }
     render() {
         const showNights = this.variant === 'booking' && this.withDateDifference;
-        return (h("wa-popup", { key: 'fd11099e55eddbbada97841f29d861b3be2e01b9', part: "popup", arrow: true, placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "igl-date-range__popup" }, h("div", { key: 'ee796ade6e4b922a1387ab403b118d261c003cce', slot: "anchor", part: "anchor", class: "igl-date-range__trigger" }, h("div", { key: '5418da6d8abc5649314ef9eab2a9de23586c18ab', part: "combobox", class: "igl-date-range__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": "Select date range", onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("ir-input", { key: 'a52daa8338853931eb5929789618e42da9df7014', part: "input", disabled: this.disabled, class: "igl-date-range__input", readonly: true, value: this.formattedLabel, "aria-invalid": this.isInvalid, "aria-expanded": String(this.isActive), "aria-disabled": this.disabled ? 'true' : undefined }, h("wa-icon", { key: '764565a89efb6bc6908ccdb9cd21bb7932c3ecce', part: "calendar-icon", slot: "start", variant: "regular", name: "calendar" }), showNights && this.totalNights > 0 && (h("span", { key: '0567f91b6692ed04cb22300dda04dedd6987eaa1', part: "nights-badge", slot: "end", class: "igl-date-range__nights" }, this.totalNights, " ", this.totalNights > 1 ? locales.entries.Lcz_Nights : locales.entries.Lcz_Night))))), h("div", { key: '4ff1ad868dc052959f9ddf9f2fed2a405f7202e6', part: "body", id: this.popupId, class: "igl-date-range__calendar", role: "dialog", "aria-modal": "false", "aria-label": "Date range selection dialog" }, h("ir-custom-date-range", { key: '763ca73ffe70d1b1ec8d7fe94a0d55e6de411854', part: "calendar", exportparts: "base: calendar-base, calendar, calendar-header, month-navigation, nav-prev, nav-next, month-label, weekday-row, weekday, days-grid, week-row, day-cell, day-button", style: { '--cal-button-size': '35px' }, fromDate: moment(this.fromDate), toDate: moment(this.toDate), minDate: this.minDate ? moment(this.minDate) : undefined, maxDate: this.maxDate ? moment(this.maxDate) : undefined, onDateChange: e => this.handleCustomDateChange(e) }))));
+        return (h("wa-popup", { key: 'd3c2a23e6f7eb5f7fbfe2496a14310c7070f6523', part: "popup", arrow: true, placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "igl-date-range__popup" }, h("div", { key: '8f08881d042c702ada19433aeee4f2978a362e68', slot: "anchor", part: "anchor", class: "igl-date-range__trigger" }, h("div", { key: '3e3060e738df81e614a6f43bb6981e0562aa494c', part: "combobox", class: "igl-date-range__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": "Select date range", onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("ir-input", { key: '78e58c8f7ef183062797dbd06804e194be6f7ee2', part: "input", disabled: this.disabled, class: "igl-date-range__input", readonly: true, value: this.formattedLabel, "aria-invalid": this.isInvalid, "aria-expanded": String(this.isActive), "aria-disabled": this.disabled ? 'true' : undefined }, h("wa-icon", { key: '6719db8e358ae766a99f9ec67624a52f2ce1d560', part: "calendar-icon", slot: "start", variant: "regular", name: "calendar" }), showNights && this.totalNights > 0 && (h("span", { key: 'a6e7e0da0fd553ad5d3e77c31000ce5d52088a26', part: "nights-badge", slot: "end", class: "igl-date-range__nights" }, this.totalNights, " ", this.totalNights > 1 ? locales.entries.Lcz_Nights : locales.entries.Lcz_Night))))), h("div", { key: 'b3420973270ac54ea9b9837892102f81f1f62b2a', part: "body", id: this.popupId, class: "igl-date-range__calendar", role: "dialog", "aria-modal": "false", "aria-label": "Date range selection dialog" }, h("ir-custom-date-range", { key: 'd667a012fc191099beefd50e1bcc9afa1892ca1a', part: "calendar", exportparts: "base: calendar-base, calendar, calendar-header, month-navigation, nav-prev, nav-next, month-label, weekday-row, weekday, days-grid, week-row, day-cell, day-button", style: { '--cal-button-size': '35px' }, fromDate: moment(this.fromDate), toDate: moment(this.toDate), minDate: this.minDate ? moment(this.minDate) : undefined, maxDate: this.maxDate ? moment(this.maxDate) : undefined, onDateChange: e => this.handleCustomDateChange(e) }))));
     }
     static get is() { return "ir-date-range"; }
     static get encapsulation() { return "shadow"; }

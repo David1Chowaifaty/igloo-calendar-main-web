@@ -1,18 +1,22 @@
 'use strict';
 
-var index = require('./index-DN8J4ULi.js');
-var booking_listing_service = require('./booking_listing.service-BBP5ZSyc.js');
-var locales_store = require('./locales.store-QRiel1Gy.js');
+var index = require('./index-P5Mginch.js');
+var booking_listing_service = require('./booking_listing.service-BnUwxHAW.js');
+var locales_store = require('./locales.store-v9LoZcAK.js');
 var payment_service = require('./payment.service-CGBWAElK.js');
 var moment = require('./moment-CdViwxPQ.js');
+var number = require('./number-BU1_BuJC.js');
+require('./index-BLJXadKe.js');
 require('./index-CLqkDPTC.js');
-require('./utils-t-vm9_Z2.js');
-require('./calendar-data-CdMMPf5M.js');
+require('./utils-CwIiTro6.js');
+require('./calendar-data-PetnikUI.js');
+require('./booking.dto-kenLHU-o.js');
 require('./type-Dy9pVS4V.js');
-require('./axios-EresIryl.js');
+require('./ir-date-BH2JQpbC.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
+require('./axios-EresIryl.js');
 
-const irListingModalCss = () => `.backdropModal.sc-ir-listing-modal{background-color:rgba(0, 0, 0, 0.5);z-index:1000;position:fixed;top:0;left:0;height:100vh;width:100%;opacity:0;transition:opacity 0.3s ease-in-out;pointer-events:none}.backdropModal.active.sc-ir-listing-modal{cursor:pointer;opacity:1 !important;pointer-events:all}.ir-modal[data-state='opened'].sc-ir-listing-modal{opacity:1;visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-alert-content.sc-ir-listing-modal{padding:10px;background:white;border-radius:5px}.modal.sc-ir-listing-modal{z-index:1001 !important}.modal-dialog.sc-ir-listing-modal{height:100vh;display:flex;align-items:center}.ir-alert-footer.sc-ir-listing-modal{gap:10px}.exit-icon.sc-ir-listing-modal{position:absolute;right:10px;top:5px;margin:0}.ir-modal.sc-ir-listing-modal{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);z-index:1050;width:90%;max-width:32rem;overflow:hidden;outline:0;opacity:0;transition:transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;visibility:hidden;pointer-events:none}.ir-modal.active.sc-ir-listing-modal{opacity:1;transform:translate(-50%, 0);visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}`;
+const irListingModalCss = () => `.backdropModal.sc-ir-listing-modal{background-color:rgba(0, 0, 0, 0.5);z-index:1000;position:fixed;top:0;inset-inline-start:0;height:100vh;width:100%;opacity:0;transition:opacity 0.3s ease-in-out;pointer-events:none}.backdropModal.active.sc-ir-listing-modal{cursor:pointer;opacity:1 !important;pointer-events:all}.ir-modal[data-state='opened'].sc-ir-listing-modal{opacity:1;visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-alert-content.sc-ir-listing-modal{padding:10px;background:white;border-radius:5px}.modal.sc-ir-listing-modal{z-index:1001 !important}.modal-dialog.sc-ir-listing-modal{height:100vh;display:flex;align-items:center}.ir-alert-footer.sc-ir-listing-modal{gap:10px}.exit-icon.sc-ir-listing-modal{position:absolute;inset-inline-end:10px;top:5px;margin:0}.ir-modal.sc-ir-listing-modal{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);z-index:1050;width:90%;max-width:32rem;overflow:hidden;outline:0;opacity:0;transition:transform 0.3s ease-in-out,     opacity 0.3s ease-in-out,     visibility 0.3s ease-in-out;visibility:hidden;pointer-events:none}.ir-modal.active.sc-ir-listing-modal{opacity:1;transform:translate(-50%, 0);visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-text-start.sc-ir-listing-modal{text-align:start}`;
 
 const IrListingModal = class {
     constructor(hostRef) {
@@ -118,7 +122,7 @@ const IrListingModal = class {
             //   return locales.entries.Lcz_SureYouWantToDeleteBookingNbr + this.editBooking?.booking.booking_nbr;
             // }
             // return locales.entries.Lcz_WantToRecoverAllotment;
-            return locales_store.locales.entries.Lcz_SureYouWantToDeleteBookingNbr + this.editBooking?.booking.booking_nbr;
+            return locales_store.locales.entries.Lcz_SureYouWantToDeleteBookingNbr + number.formatBookingNumber(this.editBooking?.booking.booking_nbr);
         }
     }
     renderConfirmationTitle() {
@@ -158,7 +162,7 @@ const IrListingModal = class {
                 } }),
             index.h("div", { "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, this.isOpen && (index.h("div", { class: `ir-alert-content p-2` }, index.h("div", { class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }, index.h("p", { class: "p-0 my-0 mb-1" }, this.renderTitle()), index.h("ir-icon", { class: "exit-icon", style: { cursor: 'pointer' }, onClick: () => {
                     this.closeModal();
-                } }, index.h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "14", width: "10.5", viewBox: "0 0 384 512" }, index.h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), index.h("div", { class: "modal-body text-left p-0 mb-2" }, this.editBooking.cause === 'payment' ? (index.h("ir-select", { selectedValue: this.selectedDesignation?.CODE_NAME, onSelectChange: this.handleDropdownChange.bind(this), showFirstOption: false, data: this.paymentEntries.methods?.map(m => ({
+                } }, index.h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "14", width: "10.5", viewBox: "0 0 384 512" }, index.h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), index.h("div", { class: "modal-body ir-text-start p-0 mb-2" }, this.editBooking.cause === 'payment' ? (index.h("ir-select", { selectedValue: this.selectedDesignation?.CODE_NAME, onSelectChange: this.handleDropdownChange.bind(this), showFirstOption: false, data: this.paymentEntries.methods?.map(m => ({
                     value: m.CODE_NAME,
                     text: m.CODE_VALUE_EN,
                 })) })) : null), index.h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, index.h("ir-button", { isLoading: this.loadingBtn === 'just_delete', btn_color: 'secondary', btn_block: true, text: this.renderCancellationTitle(), name: 'cancel' }), index.h("ir-button", { isLoading: this.loadingBtn === 'confirm',

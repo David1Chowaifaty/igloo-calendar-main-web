@@ -4,6 +4,7 @@ import locales from "../../../stores/locales.store";
 import { BookingListingService } from "../../../services/booking_listing.service";
 import { PaymentService } from "../../../services/payment.service";
 import moment from "moment";
+import { formatBookingNumber } from "../../../utils/number";
 export class IrListingModal {
     modalTitle = 'Modal Title';
     editBooking;
@@ -103,7 +104,7 @@ export class IrListingModal {
             //   return locales.entries.Lcz_SureYouWantToDeleteBookingNbr + this.editBooking?.booking.booking_nbr;
             // }
             // return locales.entries.Lcz_WantToRecoverAllotment;
-            return locales.entries.Lcz_SureYouWantToDeleteBookingNbr + this.editBooking?.booking.booking_nbr;
+            return locales.entries.Lcz_SureYouWantToDeleteBookingNbr + formatBookingNumber(this.editBooking?.booking.booking_nbr);
         }
     }
     renderConfirmationTitle() {
@@ -143,7 +144,7 @@ export class IrListingModal {
                 } }),
             h("div", { "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, this.isOpen && (h("div", { class: `ir-alert-content p-2` }, h("div", { class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }, h("p", { class: "p-0 my-0 mb-1" }, this.renderTitle()), h("ir-icon", { class: "exit-icon", style: { cursor: 'pointer' }, onClick: () => {
                     this.closeModal();
-                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "14", width: "10.5", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("div", { class: "modal-body text-left p-0 mb-2" }, this.editBooking.cause === 'payment' ? (h("ir-select", { selectedValue: this.selectedDesignation?.CODE_NAME, onSelectChange: this.handleDropdownChange.bind(this), showFirstOption: false, data: this.paymentEntries.methods?.map(m => ({
+                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "14", width: "10.5", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("div", { class: "modal-body ir-text-start p-0 mb-2" }, this.editBooking.cause === 'payment' ? (h("ir-select", { selectedValue: this.selectedDesignation?.CODE_NAME, onSelectChange: this.handleDropdownChange.bind(this), showFirstOption: false, data: this.paymentEntries.methods?.map(m => ({
                     value: m.CODE_NAME,
                     text: m.CODE_VALUE_EN,
                 })) })) : null), h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, h("ir-button", { isLoading: this.loadingBtn === 'just_delete', btn_color: 'secondary', btn_block: true, text: this.renderCancellationTitle(), name: 'cancel' }), h("ir-button", { isLoading: this.loadingBtn === 'confirm',

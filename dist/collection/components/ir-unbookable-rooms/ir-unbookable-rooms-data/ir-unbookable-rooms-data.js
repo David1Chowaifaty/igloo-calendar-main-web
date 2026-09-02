@@ -11,6 +11,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { Host, h } from "@stencil/core";
 import { Debounce } from "../../../decorators/debounce";
 import moment from "moment";
+import { formatDate } from "../../../utils/date/index";
 export class IrUnbookableRoomsData {
     mode = 'default';
     isLoading = false;
@@ -20,7 +21,7 @@ export class IrUnbookableRoomsData {
     filters = { period_to_check: 2, consecutive_period: 14, country: 'all' };
     progressFilters = { period_to_check: 2, consecutive_period: 14 };
     propertyNameFilter = '';
-    todayFormatted = moment().format('MMM DD');
+    todayFormatted = formatDate(moment(), 'MMM DD');
     getPropertyName(propertyId) {
         if (!this.allowedProperties?.length) {
             return `Property ${propertyId}`;
@@ -43,7 +44,7 @@ export class IrUnbookableRoomsData {
         return Math.max(0, Math.min(100, offset));
     }
     getEndDateFormatted() {
-        return moment().add(this.progressFilters.period_to_check, 'months').format('MMM DD');
+        return formatDate(moment().add(this.progressFilters.period_to_check, 'months'), 'MMM DD');
     }
     filterProperties(value) {
         this.propertyNameFilter = value?.trim().toLowerCase() ?? '';
@@ -78,7 +79,7 @@ export class IrUnbookableRoomsData {
                         width: `${this.getPeriodOffset(entry.first_night_not_bookable)}%`,
                     } }), h("div", { class: "period-chart__marker", style: {
                         left: `${this.getPeriodOffset(entry.first_night_not_bookable)}%`,
-                    } }, h("span", { class: "period-chart__label" }, moment(entry.first_night_not_bookable, 'YYYY-MM-DD').format('MMM DD')))), h("span", { class: "period-chart__end" }, this.getEndDateFormatted()))),
+                    } }, h("span", { class: "period-chart__label" }, formatDate(entry.first_night_not_bookable, 'MMM DD')))), h("span", { class: "period-chart__end" }, this.getEndDateFormatted()))),
             ])), h("section", { class: "period-chart__legend" }, h("div", { class: "period-chart__legend-item" }, h("span", { class: "period-chart__legend-swatch period-chart__legend-swatch--bookable" }), h("span", null, "Bookable period")), h("div", { class: "period-chart__legend-item" }, h("span", { class: "period-chart__legend-swatch period-chart__legend-swatch--blocked" }), h("span", null, "Not bookable period"))))),
             i !== filteredEntries.length - 1 && h("wa-divider", null),
         ])))));

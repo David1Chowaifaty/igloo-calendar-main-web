@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-DN8J4ULi.js');
+var index = require('./index-P5Mginch.js');
 
 const irDropdownItemCss = () => `.sc-ir-dropdown-item-h{display:block;cursor:pointer}[hidden].sc-ir-dropdown-item-h{display:none !important}.focused.sc-ir-dropdown-item-h{background:#f4f5fa !important}.active.sc-ir-dropdown-item-h,[aria-selected='true'].sc-ir-dropdown-item-h,.sc-ir-dropdown-item-h:active{outline:none;background-color:var(--blue, #1e9ff2) !important;color:white !important}.dropdown-item.sc-ir-dropdown-item-h{padding:0.25rem 1rem !important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}`;
 
@@ -85,7 +85,7 @@ const IrDropdownItem = class {
         this.dropdownItemSelect.emit(this.value);
     };
     render() {
-        return (index.h(index.Host, { key: '95fbee9cbe047bcfe4001cfb5ec9309fc8a579d6', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
+        return (index.h(index.Host, { key: '304765c5a1fe9edbd62f820fa8a781c1a93b9735', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
     }
 };
 IrDropdownItem.style = irDropdownItemCss();

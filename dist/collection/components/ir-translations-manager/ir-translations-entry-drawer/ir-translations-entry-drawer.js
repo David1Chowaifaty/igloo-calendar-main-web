@@ -22,12 +22,12 @@ export class IrTranslationsEntryDrawer {
     isSubmitting = false;
     render() {
         const isEditing = !!this.entry;
-        return (h("ir-drawer", { key: 'ce89cc3cba6e2e99660d3c01796cbce4560c06ac', label: isEditing ? 'Edit key' : 'New key', open: this.open, onDrawerHide: () => this.closeDrawer.emit() }, this.open && (h("ir-translations-entry-form", { key: '1f9cd66d0e1495c6238e91a3cfa07791ba7919c6', formId: this.formId, languages: this.languages, entry: this.entry, existingKeys: this.existingKeys, nextDisplayOrder: this.nextDisplayOrder, tableName: this.tableName, ownerId: this.ownerId, entryUserId: this.entryUserId, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onEntrySaved: (e) => {
+        return (h("ir-drawer", { key: '1c253f0297ff08ee0e18d96bc8a2316be812d282', label: isEditing ? 'Edit key' : 'New key', open: this.open, onDrawerHide: () => this.closeDrawer.emit() }, this.open && (h("ir-translations-entry-form", { key: 'ea7740b3e7b0792a8bb14df33de6c08b2d1f5d50', formId: this.formId, languages: this.languages, entry: this.entry, existingKeys: this.existingKeys, nextDisplayOrder: this.nextDisplayOrder, tableName: this.tableName, ownerId: this.ownerId, entryUserId: this.entryUserId, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onEntrySaved: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.entrySaved.emit();
                 this.closeDrawer.emit();
-            } })), h("div", { key: 'd8c2aa46ef9d8e6cfab6cee97f7d6aca9070e77c', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '5d9ab6ce2ca7a0dad9368d7e7315cf05175274a7', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: 'cfb0201f4b53b8ca369a5e0db562f492c7d37f2e', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, "Save"))));
+            } })), h("div", { key: '5642ccc98c51fc408677b46cda3b0d25c1dff85c', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'c1b06604e1f11590ad6c81a35cc94e59511fcd79', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: 'b8fec56ece49a512d826075191d6e52fd432e1de', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, "Save"))));
     }
     static get is() { return "ir-translations-entry-drawer"; }
     static get encapsulation() { return "scoped"; }

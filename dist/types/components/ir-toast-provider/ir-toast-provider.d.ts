@@ -10,6 +10,7 @@ export interface Toast {
 }
 export declare class IrToastProvider {
     position: 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
+    /** Pins the toast layer to RTL. Leave unset to inherit the document direction. */
     rtl: boolean;
     duration: number;
     /** Maximum number of toasts shown at once; when exceeded, the oldest are dismissed. */

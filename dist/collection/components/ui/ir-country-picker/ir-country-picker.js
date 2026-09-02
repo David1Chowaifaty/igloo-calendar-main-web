@@ -113,7 +113,7 @@ export class IrCountryPicker {
                         return;
                     }
                     this.selectCountry(country);
-                } }, this.filteredCountries.map(country => (h("ir-picker-item", { value: country.id?.toString(), label: country.name, key: country.id }, h("img", { src: country.flag, alt: country.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, country.name))))));
+                } }, this.filteredCountries.map(country => (h("ir-picker-item", { value: country.id?.toString(), label: country.name, key: country.id }, h("img", { src: country.flag, alt: country.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "ir-ps-1 m-0" }, country.name))))));
         }
         return (h("form", { class: "dropdown m-0 p-0" }, h("ir-input-text", { onTextChange: e => {
                 if (!this.searching) {
@@ -128,9 +128,9 @@ export class IrCountryPicker {
                 }
             } }), h("div", { class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, null, h("button", { type: "button", class: `dropdown-item d-flex align-items-center ${this.selectedCountry?.id === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
                 this.selectCountry(this.propertyCountry);
-            } }, h("img", { src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { class: "dropdown-divider" }))), this.filteredCountries?.map(c => (h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${this.selectedCountry?.id === c.id ? 'active' : ''}`, onClick: () => {
+            } }, h("img", { src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "ir-ps-1 m-0" }, this.propertyCountry.name)), h("div", { class: "dropdown-divider" }))), this.filteredCountries?.map(c => (h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${this.selectedCountry?.id === c.id ? 'active' : ''}`, onClick: () => {
                 this.selectCountry(c);
-            } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, c.name)))), this.filteredCountries?.length === 0 && h("p", { class: "dropdown-item-text" }, "Invalid Country"))));
+            } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "ir-ps-1 m-0" }, c.name)))), this.filteredCountries?.length === 0 && h("p", { class: "dropdown-item-text" }, "Invalid Country"))));
     }
     static get is() { return "ir-country-picker"; }
     static get encapsulation() { return "scoped"; }

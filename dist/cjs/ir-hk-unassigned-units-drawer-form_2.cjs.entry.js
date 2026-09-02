@@ -1,24 +1,27 @@
 'use strict';
 
-var index = require('./index-DN8J4ULi.js');
-var housekeeping_service = require('./housekeeping.service-DZOIAGrO.js');
-var calendarData = require('./calendar-data-CdMMPf5M.js');
-var locales_store = require('./locales.store-QRiel1Gy.js');
-var booking_store = require('./booking.store-DkcsSX5n.js');
-var user_service = require('./user.service-CWvSqBXT.js');
+var index = require('./index-P5Mginch.js');
+var housekeeping_service = require('./housekeeping.service-CXKCfWFZ.js');
+var calendarData = require('./calendar-data-PetnikUI.js');
+var locales_store = require('./locales.store-v9LoZcAK.js');
+var booking_store = require('./booking.store-Bi052xjW.js');
+var user_service = require('./user.service-CJrDaOYT.js');
 var constants = require('./constants-BLID23LD.js');
 var index$1 = require('./index-CLqkDPTC.js');
+require('./index-BLJXadKe.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-BtFRLVyo.js');
-require('./utils-t-vm9_Z2.js');
+require('./utils-CwIiTro6.js');
 require('./moment-CdViwxPQ.js');
+require('./booking.dto-kenLHU-o.js');
 require('./type-Dy9pVS4V.js');
-require('./booking-C49A660o.js');
-require('./functions-tvRFdeyd.js');
+require('./ir-date-BH2JQpbC.js');
+require('./booking-51dS0UQD.js');
+require('./functions-DgKYncGa.js');
 require('./commonSchemas-hgXVqmtC.js');
 
-const irHkUnassignedUnitsDrawerFormCss = () => `.sc-ir-hk-unassigned-units-drawer-form-h{display:block;min-width:20rem;--ir-root-active-color:#1e9ff2;--ir-root-inactive-color:#d2d2d2;text-align:start !important}table.sc-ir-hk-unassigned-units-drawer-form{width:100%}td.sc-ir-hk-unassigned-units-drawer-form{padding-top:3px;padding-bottom:3px}td.sc-ir-hk-unassigned-units-drawer-form:last-child{text-align:end}.title.sc-ir-hk-unassigned-units-drawer-form{min-width:230px !important}`;
+const irHkUnassignedUnitsDrawerFormCss = () => `.sc-ir-hk-unassigned-units-drawer-form-h{display:block;min-width:20rem;--ir-root-active-color:#1e9ff2;--ir-root-inactive-color:#d2d2d2;text-align:start !important}table.sc-ir-hk-unassigned-units-drawer-form{width:100%}td.sc-ir-hk-unassigned-units-drawer-form{padding-top:3px;padding-bottom:3px}td.sc-ir-hk-unassigned-units-drawer-form:last-child{text-align:end}.title.sc-ir-hk-unassigned-units-drawer-form{min-width:230px !important}.ir-ps-1.sc-ir-hk-unassigned-units-drawer-form{padding-inline-start:0.25rem}`;
 
 const IrHkUnassignedUnitsDrawerForm = class {
     constructor(hostRef) {
@@ -80,7 +83,7 @@ const IrHkUnassignedUnitsDrawerForm = class {
     }
     renderRooms() {
         if (!this.user) {
-            return housekeeping_service.housekeeping_store.hk_criteria.units_assignments.unassigned_units?.map(unit => (index.h("tr", { key: unit.id }, index.h("td", { class: "" }, unit.name), index.h("td", { class: "sr-only" }), index.h("td", { class: "pl-1" }, index.h("wa-select", { size: "s", style: { textAlign: 'start' }, placeholder: "Select", onchange: e => {
+            return housekeeping_service.housekeeping_store.hk_criteria.units_assignments.unassigned_units?.map(unit => (index.h("tr", { key: unit.id }, index.h("td", { class: "" }, unit.name), index.h("td", { class: "sr-only" }), index.h("td", { class: "ir-ps-1" }, index.h("wa-select", { size: "s", style: { textAlign: 'start' }, placeholder: "Select", onchange: e => {
                     let hk_id = e.target.value;
                     if (hk_id === '') {
                         hk_id = null;
@@ -120,15 +123,15 @@ const IrHkUnassignedUnitsDrawerForm = class {
         });
     }
     render() {
-        return (index.h("form", { key: 'b90eb5f7ceebe63f8d93f238d6600b4aa6db35da', id: this.formId, onSubmit: e => {
+        return (index.h("form", { key: 'ed25407cbe9758a28c0629f9d28259739b8b4d83', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.assignUnits();
-            } }, index.h("table", { key: '7e27ac60e25a8e5e7c79c6b8e65fcba5ca01cff7' }, index.h("thead", { key: 'ab54ebe8989d28e4625bf98a8f4b1ebaf4c84923' }, index.h("th", { key: 'cf4255d1a91f1640ad4aecf0e1873009d84f7ca0', class: "sr-only" }, locales_store.locales.entries.Lcz_RoomName), index.h("th", { key: '1c1fbf1fb9f63f8cfe0e956e53fca7627bf3284e', class: "sr-only" }, locales_store.locales.entries.Lcz_HousekeeperName), index.h("th", { key: '1fec6603370c48ef427a79a166913ff698005dfb', class: "sr-only" }, locales_store.locales.entries.Lcz_Actions)), index.h("tbody", { key: '8a649b7ecea6398d9fe4a350f760d8668ef9009c' }, this.renderRooms()))));
+            } }, index.h("table", { key: '4ede7ac9491ca3666c270ca02463b3c75ba4bcba' }, index.h("thead", { key: 'd0c46b78a45b4cb637d4e467bd0b063126cf4a9e' }, index.h("th", { key: '46db6d689bd45c8d6b9d5c6b49239e0ea8b1b2c5', class: "sr-only" }, locales_store.locales.entries.Lcz_RoomName), index.h("th", { key: '41735792f475c4810b449ab6d0af452e31c3d614', class: "sr-only" }, locales_store.locales.entries.Lcz_HousekeeperName), index.h("th", { key: '42c84f0cc48fdfe82c197e80e1ef10a09f73dec2', class: "sr-only" }, locales_store.locales.entries.Lcz_Actions)), index.h("tbody", { key: 'e1ae26740c80b7b9a24cf3a8ba02937e66867465' }, this.renderRooms()))));
     }
 };
 IrHkUnassignedUnitsDrawerForm.style = irHkUnassignedUnitsDrawerFormCss();
 
-const irHkUserDrawerFormCss = () => `.sc-ir-hk-user-drawer-form-h{display:block;height:100%}.hk-user-form.sc-ir-hk-user-drawer-form{display:flex;flex-direction:column;gap:1rem}.hk-user-form--password-change.sc-ir-hk-user-drawer-form{position:relative;height:100%;justify-content:center;align-items:center}.hk-user-form__back-btn.sc-ir-hk-user-drawer-form{position:absolute;top:0;left:0}.hk-user-form__password-fields.sc-ir-hk-user-drawer-form{display:flex;flex-direction:column;gap:1rem;width:100%;max-width:26rem}.hk-user-form__password-header.sc-ir-hk-user-drawer-form{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0.5rem;margin-bottom:0.5rem}.hk-user-form__password-icon.sc-ir-hk-user-drawer-form{font-size:2.25rem;color:var(--wa-color-text-normal)}.hk-user-form__password-title.sc-ir-hk-user-drawer-form{margin:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-l)}.hk-user-form__password-hint.sc-ir-hk-user-drawer-form{margin:0;font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold);color:var(--wa-color-text-normal);max-width:22rem}.hk-user-form__change-password-btn.sc-ir-hk-user-drawer-form{align-self:flex-end}.hk-user-form__change-password-btn.sc-ir-hk-user-drawer-form::part(base),.hk-user-form__change-password-btn.sc-ir-hk-user-drawer-form [part~="base"]{padding:0;height:auto;width:fit-content}`;
+const irHkUserDrawerFormCss = () => `.sc-ir-hk-user-drawer-form-h{display:block;height:100%}.hk-user-form.sc-ir-hk-user-drawer-form{display:flex;flex-direction:column;gap:1rem}.hk-user-form--password-change.sc-ir-hk-user-drawer-form{position:relative;height:100%;justify-content:center;align-items:center}.hk-user-form__back-btn.sc-ir-hk-user-drawer-form{position:absolute;top:0;inset-inline-start:0}.hk-user-form__password-fields.sc-ir-hk-user-drawer-form{display:flex;flex-direction:column;gap:1rem;width:100%;max-width:26rem}.hk-user-form__password-header.sc-ir-hk-user-drawer-form{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0.5rem;margin-bottom:0.5rem}.hk-user-form__password-icon.sc-ir-hk-user-drawer-form{font-size:2.25rem;color:var(--wa-color-text-normal)}.hk-user-form__password-title.sc-ir-hk-user-drawer-form{margin:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-l)}.hk-user-form__password-hint.sc-ir-hk-user-drawer-form{margin:0;font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold);color:var(--wa-color-text-normal);max-width:22rem}.hk-user-form__change-password-btn.sc-ir-hk-user-drawer-form{align-self:flex-end}.hk-user-form__change-password-btn.sc-ir-hk-user-drawer-form::part(base),.hk-user-form__change-password-btn.sc-ir-hk-user-drawer-form [part~="base"]{padding:0;height:auto;width:fit-content}.ir-flip-rtl.sc-ir-hk-user-drawer-form:dir(rtl){scale:-1 1}`;
 
 const nameSchema = index$1.libExports.z.string().min(2, 'Name must be at least 2 characters.');
 const mobileSchema = index$1.libExports.z.string().min(1, 'Mobile is required.').max(14, 'Mobile must be at most 14 characters.');
@@ -274,7 +277,7 @@ const IrHkUserDrawerForm = class {
         return (index.h("form", { id: this.formId, class: "hk-user-form hk-user-form--password-change", onSubmit: e => {
                 e.preventDefault();
                 this.addUser();
-            } }, index.h("ir-custom-button", { type: "button", class: "hk-user-form__back-btn", appearance: "plain", variant: "neutral", size: "s", onClickHandler: () => this.cancelPasswordChange() }, index.h("wa-icon", { name: "arrow-left", "aria-hidden": "true", style: { fontSize: '1rem' } })), index.h("div", { class: "hk-user-form__password-fields" }, index.h("div", { class: "hk-user-form__password-header" }, index.h("wa-icon", { name: "lock", class: "hk-user-form__password-icon" }), index.h("h4", { class: "hk-user-form__password-title" }, "Set New Password"), index.h("p", { class: "hk-user-form__password-hint" }, "Your new password must be different to previously used password")), index.h("ir-validator", { schema: this.passwordSchema, value: this.userInfo.password, valueEvent: "text-change", showErrorMessage: true }, index.h("ir-input", { placeholder: "New password", value: this.userInfo.password, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => this.updateUserField('password', e.detail), onInputFocus: () => (this.showPasswordValidation = true) })), this.showPasswordValidation && index.h("ir-password-validator", { password: this.userInfo.password }), index.h("ir-validator", { schema: index$1.libExports.z.string().refine(v => v === this.userInfo.password, { message: 'Passwords do not match.' }), value: this.confirmPassword, valueEvent: "text-change", showErrorMessage: true }, index.h("ir-input", { placeholder: "Confirm password", value: this.confirmPassword, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => (this.confirmPassword = e.detail) })))));
+            } }, index.h("ir-custom-button", { type: "button", class: "hk-user-form__back-btn", appearance: "plain", variant: "neutral", size: "s", onClickHandler: () => this.cancelPasswordChange() }, index.h("wa-icon", { class: "ir-flip-rtl", name: "arrow-left", "aria-hidden": "true", style: { fontSize: '1rem' } })), index.h("div", { class: "hk-user-form__password-fields" }, index.h("div", { class: "hk-user-form__password-header" }, index.h("wa-icon", { name: "lock", class: "hk-user-form__password-icon" }), index.h("h4", { class: "hk-user-form__password-title" }, "Set New Password"), index.h("p", { class: "hk-user-form__password-hint" }, "Your new password must be different to previously used password")), index.h("ir-validator", { schema: this.passwordSchema, value: this.userInfo.password, valueEvent: "text-change", showErrorMessage: true }, index.h("ir-input", { placeholder: "New password", value: this.userInfo.password, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => this.updateUserField('password', e.detail), onInputFocus: () => (this.showPasswordValidation = true) })), this.showPasswordValidation && index.h("ir-password-validator", { password: this.userInfo.password }), index.h("ir-validator", { schema: index$1.libExports.z.string().refine(v => v === this.userInfo.password, { message: 'Passwords do not match.' }), value: this.confirmPassword, valueEvent: "text-change", showErrorMessage: true }, index.h("ir-input", { placeholder: "Confirm password", value: this.confirmPassword, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => (this.confirmPassword = e.detail) })))));
     }
     render() {
         if (this.isPageLoading) {

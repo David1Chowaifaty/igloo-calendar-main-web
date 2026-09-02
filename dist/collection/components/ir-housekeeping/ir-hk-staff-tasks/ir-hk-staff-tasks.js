@@ -1,15 +1,12 @@
 import Token from "../../../models/Token";
 import { HouseKeepingService } from "../../../services/housekeeping.service";
 import { Host, h } from "@stencil/core";
-import moment from "moment/min/moment-with-locales";
+import moment from "moment";
+import { formatDate } from "../../../utils/date/index";
+import { isRtlLanguage } from "../../../utils/direction";
 import { realtimeService } from "../../../services/realtime/realtime.service";
 import { v4 } from "uuid";
 const LANGUAGE_KEY = 'ir_language';
-const localeMap = {
-    en: 'en',
-    ar: 'ar',
-    el: 'el',
-};
 const translations = {
     en: {
         noTasks: 'No tasks for this day.',
@@ -33,14 +30,10 @@ const translations = {
         cancel: 'Ακύρωση',
     },
 };
-function toMomentLocale(lang) {
-    return localeMap[lang?.toLowerCase()] ?? 'en';
-}
 function t(lang) {
     return translations[lang?.toLowerCase()] ?? translations.en;
 }
 export class IrHkStaffTasks {
-    el;
     ticket;
     baseurl;
     language = 'en';
@@ -63,8 +56,7 @@ export class IrHkStaffTasks {
     componentWillLoad() {
         // Language resolution: stored preference wins, then prop, then default 'en'
         this.activeLanguage = localStorage.getItem(LANGUAGE_KEY) || this.language;
-        moment.locale(toMomentLocale(this.activeLanguage));
-        this.el.setAttribute('dir', this.activeLanguage === 'ar' ? 'rtl' : 'ltr');
+        this.publishLanguage(this.activeLanguage);
         if (this.baseurl) {
             this.tokenService.setBaseUrl(this.baseurl);
         }
@@ -82,13 +74,25 @@ export class IrHkStaffTasks {
         }
         this.activeLanguage = lang;
         localStorage.setItem(LANGUAGE_KEY, lang);
-        moment.locale(toMomentLocale(lang));
-        this.el.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+        this.publishLanguage(lang);
         this.tasksByDate = this.tasksByDate.map(group => ({
             ...group,
-            // Use locale('en') clone so display format uses active locale correctly
-            formattedDate: moment(group.date).format('ddd, DD MMM'),
+            formattedDate: formatDate(group.date, 'ddd, DD MMM'),
         }));
+    }
+    /**
+     * This component is mounted standalone (staff open it directly), so nothing else has run
+     * `fetchLanguage` to publish the active language. Setting `<html lang>` is what routes it to
+     * the date layer — see `resolveLocale` in `src/utils/date/ir-date.ts`. Deliberately no
+     * `moment.locale()` call: that is a global mutation that would change date output for every
+     * other component on the page.
+     */
+    publishLanguage(lang) {
+        const normalized = (lang ?? 'en').toLowerCase();
+        document.documentElement.lang = normalized;
+        // Direction is a document-level concern - dialogs, drawers and toasts render outside
+        // this element's subtree and would keep the page default if `dir` only went on the host.
+        document.documentElement.setAttribute('dir', isRtlLanguage(normalized) ? 'rtl' : 'ltr');
     }
     async handleTicketChange(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -141,7 +145,7 @@ export class IrHkStaffTasks {
             const dateStr = cursor.clone().locale('en').format('YYYY-MM-DD');
             dateMap.set(dateStr, {
                 date: dateStr,
-                formattedDate: cursor.format('ddd, DD MMM'), // uses active global locale for display
+                formattedDate: formatDate(dateStr, 'ddd, DD MMM'),
                 isFuture: dateStr > today,
                 tasks: [],
             });
@@ -360,7 +364,6 @@ export class IrHkStaffTasks {
             "anythingToReportString": {}
         };
     }
-    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
                 "propName": "language",

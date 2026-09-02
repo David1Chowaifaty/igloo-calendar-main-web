@@ -1,0 +1,1 @@
+import{l as n}from"./p-DVx8D5UJ.js";function t(t){const r=document.dir||t||n.direction;return"rtl"===String(r).toLowerCase()}function r(){return t(n.direction)?-1:1}const o=new Set(["ar","he","fa","ur"]);function u(n){return o.has(String(n??"").toLowerCase().split(/[-_]/)[0])}function e(r,o){return t(n.direction)?o.right-r.right:r.left-o.left}export{r as a,e as b,t as c,u as i}

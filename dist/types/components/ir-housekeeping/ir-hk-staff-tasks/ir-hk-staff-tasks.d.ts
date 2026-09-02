@@ -7,7 +7,6 @@ type TaskDateGroup = {
     tasks: Task[];
 };
 export declare class IrHkStaffTasks {
-    el: HTMLElement;
     ticket: string;
     baseurl: string;
     language: string;
@@ -29,6 +28,14 @@ export declare class IrHkStaffTasks {
     componentWillLoad(): void;
     handleLanguageChange(newLang: string): void;
     private applyLanguage;
+    /**
+     * This component is mounted standalone (staff open it directly), so nothing else has run
+     * `fetchLanguage` to publish the active language. Setting `<html lang>` is what routes it to
+     * the date layer — see `resolveLocale` in `src/utils/date/ir-date.ts`. Deliberately no
+     * `moment.locale()` call: that is a global mutation that would change date output for every
+     * other component on the page.
+     */
+    private publishLanguage;
     handleTicketChange(newValue: string, oldValue: string): Promise<void>;
     private groupTasks;
     private groupByDate;

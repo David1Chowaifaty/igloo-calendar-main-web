@@ -1,8 +1,8 @@
 import { h } from "@stencil/core";
-import moment from "moment";
 import { formatAmount } from "../../../../../../../utils/utils";
 import calendar_data from "../../../../../../../stores/calendar-data";
 import { invoiceIdRequiredFieldSchema } from "../../ir-city-ledger-transaction-form.schema";
+import { formatDate } from "../../../../../../../utils/date/index";
 export class IrClInvoiceSelect {
     value = '';
     fiscalDocuments = [];
@@ -10,10 +10,10 @@ export class IrClInvoiceSelect {
     hint = '';
     invoiceChange;
     render() {
-        return (h("ir-validator", { key: '91c3ebe31274d4ce71ab91b61bdbf875e7d7434e', schema: invoiceIdRequiredFieldSchema, value: this.value, valueEvent: "change" }, h("wa-select", { key: 'aee222a2b845080208f1d6013c87bb0c071a061f', label: this.label, size: "s", required: true, hint: this.hint || undefined, placeholder: "Select invoice", value: this.value, onchange: event => {
+        return (h("ir-validator", { key: '2b7dec0c924842c5cd00830fe74303455cfafa79', schema: invoiceIdRequiredFieldSchema, value: this.value, valueEvent: "change" }, h("wa-select", { key: '9c528b1d07f6908e87d29e566c8879fa2de7a668', label: this.label, size: "s", required: true, hint: this.hint || undefined, placeholder: "Select invoice", value: this.value, onchange: event => {
                 this.invoiceChange.emit(event.target.value || '');
             } }, this.fiscalDocuments.map(doc => {
-            const date = doc.ISSUE_DATE_DISPLAY ?? (doc.ISSUE_DATE ? moment(doc.ISSUE_DATE, 'YYYY-MM-DD').format('MMM D, YYYY') : '');
+            const date = doc.ISSUE_DATE_DISPLAY ?? (doc.ISSUE_DATE ? formatDate(doc.ISSUE_DATE, 'MMM D, YYYY') : '');
             const amount = doc.TOTAL_AMOUNT != null ? formatAmount(calendar_data.property?.currency?.symbol, doc.TOTAL_AMOUNT) : '';
             const docNumber = doc.DOC_NUMBER ?? '';
             return (h("wa-option", { key: doc.FD_ID, value: String(doc.FD_ID), label: docNumber }, h("div", { class: "invoice-option" }, h("div", { class: "invoice-option__left" }, h("span", { class: "invoice-option__number" }, docNumber), date && h("span", { class: "invoice-option__date" }, date), doc.EXTERNAL_REF && h("span", { class: "invoice-option__ref" }, "Ref: ", doc.EXTERNAL_REF)), amount && h("span", { class: "invoice-option__amount" }, amount))));

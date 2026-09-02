@@ -231,3 +231,73 @@ export declare const ZExposedLanguagesSchema: z.ZodArray<z.ZodObject<{
     culture?: string;
 }>, "many">;
 export type ExposedLanguages = z.infer<typeof ZExposedLanguagesSchema>;
+export declare const MoveSetupEntryParamsSchema: z.ZodObject<{
+    old_tbl_name: z.ZodString;
+    code_name: z.ZodString;
+    new_tbl_name: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    old_tbl_name?: string;
+    code_name?: string;
+    new_tbl_name?: string;
+}, {
+    old_tbl_name?: string;
+    code_name?: string;
+    new_tbl_name?: string;
+}>;
+export type MoveSetupEntryParams = z.infer<typeof MoveSetupEntryParamsSchema>;
+export declare const MissingSetupEntriesParamsSchema: z.ZodObject<{
+    language: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    language?: string;
+}, {
+    language?: string;
+}>;
+export type MissingSetupEntriesParams = z.infer<typeof MissingSetupEntriesParamsSchema>;
+export declare const ZSearchSetupByDescriptionParamsSchema: z.ZodObject<{
+    query: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    query?: string;
+}, {
+    query?: string;
+}>;
+export type SearchSetupByDescriptionParams = z.infer<typeof ZSearchSetupByDescriptionParamsSchema>;
+export declare const ZEntrySchema: z.ZodObject<{
+    CODE_NAME: z.ZodString;
+    TBL_NAME: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    CODE_NAME?: string;
+    TBL_NAME?: string;
+}, {
+    CODE_NAME?: string;
+    TBL_NAME?: string;
+}>;
+export declare const ZDuplicatedSetupEntriesAcrossTablesSchema: z.ZodObject<{
+    DESCRIPTION: z.ZodString;
+    ENTRIES: z.ZodArray<z.ZodObject<{
+        CODE_NAME: z.ZodString;
+        TBL_NAME: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        CODE_NAME?: string;
+        TBL_NAME?: string;
+    }, {
+        CODE_NAME?: string;
+        TBL_NAME?: string;
+    }>, "many">;
+    OCCURRENCES: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    DESCRIPTION?: string;
+    ENTRIES?: {
+        CODE_NAME?: string;
+        TBL_NAME?: string;
+    }[];
+    OCCURRENCES?: number;
+}, {
+    DESCRIPTION?: string;
+    ENTRIES?: {
+        CODE_NAME?: string;
+        TBL_NAME?: string;
+    }[];
+    OCCURRENCES?: number;
+}>;
+export type Entry = z.infer<typeof ZEntrySchema>;
+export type DuplicatedSetupEntriesAcrossTables = z.infer<typeof ZDuplicatedSetupEntriesAcrossTablesSchema>;

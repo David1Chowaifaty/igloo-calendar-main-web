@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { IDateModifiers } from './ir-custom-date-range.types';
-import { Moment } from 'moment/min/moment-with-locales';
+import { Moment } from 'moment';
 /**
  * @component ir-custom-date-range
  * @description A two-month inline calendar for selecting a date range.

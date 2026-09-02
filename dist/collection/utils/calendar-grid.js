@@ -1,4 +1,3 @@
-import locales from "../stores/locales.store";
 /**
  * Fixed calendar grid dimensions, in pixels.
  * Must stay in sync with the literal values in igl-cal-body.css (.cellData, .roomHeaderCell)
@@ -10,14 +9,10 @@ export const ROOM_HEADER_WIDTH = 170;
 export const CATEGORY_HEADER_HEIGHT = 40;
 export const EVENT_SPACE = 8;
 /**
- * `locales.direction` comes straight from the language API and isn't guaranteed to be
- * lowercase (observed 'RTL' from at least one property/language combination), so every
- * direction check in the calendar goes through this instead of a raw `=== 'rtl'` compare.
+ * Re-exported so the calendar's existing call sites keep working. The canonical
+ * implementation is app-wide and lives in `src/utils/direction.ts`.
  */
-export function isRtlDirection(direction) {
-    const dir = document.dir || direction || locales.direction;
-    return String(dir).toLowerCase() === 'rtl';
-}
+export { isRtlDirection } from './direction';
 export function getDayIndex(days, dateValue) {
     return days.findIndex(day => day.value === dateValue);
 }

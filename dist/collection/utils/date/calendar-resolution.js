@@ -1,4 +1,33 @@
 const STORAGE_KEY = 'ir_calendar_system'; // sibling naming convention to the existing 'ir_language' key
+const NUMBERING_STORAGE_KEY = 'ir_numbering_system';
+const NUMBERING_SYSTEMS = ['auto', 'latn', 'arab', 'arabext'];
+/** Narrows arbitrary input (localStorage, URL param) to a valid preference, or `null`. */
+export function parseNumberingSystem(raw) {
+    return NUMBERING_SYSTEMS.includes(raw) ? raw : null;
+}
+/** Reads the persisted digit-script preference, or `null` if unset / storage unavailable. */
+export function readStoredNumberingSystem() {
+    try {
+        return parseNumberingSystem(localStorage.getItem(NUMBERING_STORAGE_KEY));
+    }
+    catch {
+        return null;
+    }
+}
+/** Persists (or clears, on `null`) the digit-script preference. Never throws. */
+export function persistNumberingSystem(value) {
+    try {
+        if (value === null) {
+            localStorage.removeItem(NUMBERING_STORAGE_KEY);
+        }
+        else {
+            localStorage.setItem(NUMBERING_STORAGE_KEY, value);
+        }
+    }
+    catch {
+        // localStorage unavailable (private mode, disabled cookies, etc.) — preference won't persist.
+    }
+}
 /**
  * Locales whose users conventionally expect the Hijri calendar by default. This is a curated
  * allowlist, not a query of the device's actual OS calendar setting — there is no standard web
@@ -59,4 +88,4 @@ export function persistOverride(value) {
 export function resolveCalendarSystem() {
     return readStoredOverride() ?? detectDeviceCalendar();
 }
-export { STORAGE_KEY as CALENDAR_STORAGE_KEY };
+export { STORAGE_KEY as CALENDAR_STORAGE_KEY, NUMBERING_STORAGE_KEY };

@@ -1,3 +1,24 @@
+// Demo-page direction/language harness.
+// Every src/pages/index-*.html loads this file from <head>, so reading `?dir=` and `?lang=`
+// here sets the document direction before any component upgrades. This is the only way to
+// exercise RTL locally — the pages themselves ship a hardcoded `dir` on <html>.
+(function applyUrlDirection() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const dir = (params.get('dir') || '').toLowerCase();
+        const lang = params.get('lang');
+        if (dir === 'rtl' || dir === 'ltr') {
+            document.documentElement.setAttribute('dir', dir);
+        }
+        if (lang) {
+            document.documentElement.setAttribute('lang', lang);
+        }
+    } catch (e) {
+        // Non-fatal: the page just stays in its markup-declared direction.
+        console.warn('direction harness skipped', e);
+    }
+})();
+
 async function getToken() {
     try {
         if (!document.getElementById("jwt-decode-cdn")) {

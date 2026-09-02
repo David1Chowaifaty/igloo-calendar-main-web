@@ -119,11 +119,11 @@ export class IrCityLedgerStatementsTable {
     }
     renderStartingBalanceRow() {
         const bal = this.startingBalance;
-        return (h("tr", { class: "ir-table-row balance-row balance-row--start" }, h("td", null, this.formatDate(this.fromDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Starting Balance"), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, bal))));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--start" }, h("td", null, this.formatDate(this.fromDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginInlineEnd: '0.375rem', fontSize: '0.875rem' } }), "Starting Balance"), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, bal))));
     }
     renderEndingBalanceRow() {
         const bal = this.runningBalances[this.runningBalances.length - 1];
-        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, bal))));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginInlineEnd: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, bal))));
     }
     render() {
         if (!this.hasFetched) {

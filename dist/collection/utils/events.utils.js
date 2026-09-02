@@ -20,7 +20,11 @@ export async function updateCategories(key, calendarData, property_id, unassigne
         //  toastr.error(error);
     }
 }
+/**
+ * Converts an English `'ddd, DD MMM YYYY'` string into the internal `D_M_YYYY` cell key. Both
+ * sides are identity, never display — hence the pinned English locale.
+ */
 export function transformDateFormatWithMoment(dateStr) {
-    var dateObj = moment(dateStr, 'ddd, DD MMM YYYY');
+    var dateObj = moment(dateStr, 'ddd, DD MMM YYYY', 'en');
     return dateObj.format('D_M_YYYY');
 }

@@ -1,8 +1,8 @@
 'use strict';
 
-var index = require('./index-DN8J4ULi.js');
+var index = require('./index-P5Mginch.js');
 
-const irTooltipCss = () => `.sc-ir-tooltip-h{position:relative}.tooltip-icon.sc-ir-tooltip{margin:0 5px;padding:0}.tooltip-inner-custom.sc-ir-tooltip{min-width:max-content !important}`;
+const irTooltipCss = () => `.sc-ir-tooltip-h{position:relative}.tooltip-icon.sc-ir-tooltip{margin:0 5px;padding:0}.tooltip-inner-custom.sc-ir-tooltip{min-width:max-content !important}.ir-ms-1.sc-ir-tooltip{margin-inline-start:0.25rem}`;
 
 const IrTooltip = class {
     constructor(hostRef) {

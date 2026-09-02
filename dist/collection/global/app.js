@@ -1,5 +1,4 @@
 import "../assets/webawesome/themes/default.css";
-import { CalendarPreferenceController } from "../utils/date/calendar-preference-controller";
 /**
  * Register only the Web Awesome components we actually use so they get bundled with our library.
  * This avoids forcing consumers to include additional scripts or styles.
@@ -35,6 +34,11 @@ import "@awesome.me/webawesome/dist/components/progress-ring/progress-ring.js";
 import "@awesome.me/webawesome/dist/components/slider/slider.js";
 import "@awesome.me/webawesome/dist/components/copy-button/copy-button.js";
 import "@awesome.me/webawesome/dist/components/format-bytes/format-bytes.js";
-export default () => {
-    CalendarPreferenceController.init();
-};
+/**
+ * Deliberately empty of date/store setup. Importing `@/stores/*` from this global script makes
+ * `createStore` run in the global-script bundle, where `@stencil/store` cannot see
+ * `getRenderingRef` — it then installs a no-op subscription and the store stops re-rendering
+ * components entirely, silently. The date layer initialises itself lazily instead; see
+ * `ensureDateLayer()` in `src/utils/date/ir-date.ts`.
+ */
+export default () => { };

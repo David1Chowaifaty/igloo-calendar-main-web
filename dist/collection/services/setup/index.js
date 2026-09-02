@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as z from "zod";
-import { DistinctSetupTablesResponseSchema, EditSetupParamsSchema, EditSetupManyParamsSchema, GetSetupEntriesByTblNameMultiParamsSchema, GetSetupEntriesByTblNameParamsSchema, GetSetupEntryByCodeParamsSchema, ZIEntrySchema, ZExposedLanguagesSchema, } from "./types";
+import { DistinctSetupTablesResponseSchema, EditSetupParamsSchema, EditSetupManyParamsSchema, GetSetupEntriesByTblNameMultiParamsSchema, GetSetupEntriesByTblNameParamsSchema, GetSetupEntryByCodeParamsSchema, ZIEntrySchema, ZExposedLanguagesSchema, MoveSetupEntryParamsSchema, MissingSetupEntriesParamsSchema, ZSearchSetupByDescriptionParamsSchema, } from "./types";
 export * from './types';
 export class SetupService {
     /**
@@ -88,5 +88,67 @@ export class SetupService {
             throw new Error(data.ExceptionMsg);
         }
         return ZExposedLanguagesSchema.parse(data.My_Result);
+    }
+    /**
+     * Fetches setup entries that are missing for the specified language.
+     *
+     * @param language Language code to check, e.g. "AR".
+     * @returns A validated list of missing setup entries and their translated values.
+     * @throws If the API returns an exception or the response fails validation.
+     */
+    async getMissingSetupEntries(params) {
+        const payload = MissingSetupEntriesParamsSchema.parse(params);
+        const { data } = await axios.post(`/Get_Missing_Setup_Entries`, payload);
+        if (data.ExceptionMsg) {
+            throw new Error(data.ExceptionMsg);
+        }
+        return z.array(ZIEntrySchema).parse(data.My_Result ?? []);
+    }
+    /**
+     * Moves a setup entry from one setup table to another.
+     *
+     * The API throws a business exception when the requested code is already
+     * being used by another table.
+     *
+     * @param params Source table, setup code, and destination table.
+     * @throws If the API returns an exception or the request parameters fail validation.
+     */
+    async moveSetupEntry(params) {
+        const payload = MoveSetupEntryParamsSchema.parse(params);
+        const { data } = await axios.post(`/Move_Setup_Entry`, payload);
+        if (data.ExceptionMsg) {
+            throw new Error(data.ExceptionMsg);
+        }
+    }
+    /**
+     * Searches setup entries by their description/value.
+     *
+     * @param query Text to search for in setup descriptions.
+     * @returns A validated list of matching setup entries.
+     * @throws If the API returns an exception or the response fails validation.
+     */
+    async searchSetupByDescription(params) {
+        const payload = ZSearchSetupByDescriptionParamsSchema.parse(params);
+        const { data } = await axios.post(`/Search_Setup_By_Description`, payload);
+        if (data.ExceptionMsg) {
+            throw new Error(data.ExceptionMsg);
+        }
+        return z.array(ZIEntrySchema).parse(data.My_Result ?? []);
+    }
+    /**
+     * Fetches duplicated setup entries that exist across multiple setup tables.
+     *
+     * Each result contains the duplicated description, the number of occurrences,
+     * and the setup entries/tables where that description is used.
+     *
+     * @returns A validated list of duplicated setup entries grouped by description.
+     * @throws If the API returns an exception or the response fails validation.
+     */
+    async getDuplicatedSetupEntriesAcrossTables() {
+        const { data } = await axios.post(`/Get_Duplicated_Setup_Entries_Across_Tables`, {});
+        if (data.ExceptionMsg) {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
     }
 }

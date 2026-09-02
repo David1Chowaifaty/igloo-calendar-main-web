@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-DN8J4ULi.js');
+var index = require('./index-P5Mginch.js');
 
 const irAgentAssignmentFormCss = () => `.sc-ir-agent-assignment-form-h{display:block}`;
 

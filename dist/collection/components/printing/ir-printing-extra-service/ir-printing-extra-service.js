@@ -1,6 +1,6 @@
 import { formatAmount } from "../../../utils/utils";
 import { Fragment, h } from "@stencil/core";
-import moment from "moment";
+import { formatDate } from "../../../utils/date/index";
 export class IrPrintingExtraService {
     /** Extra services attached to the booking */
     extraServices;
@@ -8,11 +8,11 @@ export class IrPrintingExtraService {
     currency;
     invocableKeys;
     render() {
-        return (h("section", { key: '7e29c265c1d3568b9ae183290b6e22e8dfdd6498', class: "ir-print-extra-services" }, h("h3", { key: '13fcf90d325b3a83a6d9b99803a6540ae02d3011', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '8c9e2af8c76c904c025b8cb96ab1507bd612e040', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
+        return (h("section", { key: '60504f0db1bfcad3c383ede45c5fde0b02457c7a', class: "ir-print-extra-services" }, h("h3", { key: 'c0f748cd61ed9e9200884a405a93c2f79b2affb5', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '410036b6fe4b129719d074e9cdf3a626d7aae3e6', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
             if (!this.invocableKeys.has(service.system_id)) {
                 return null;
             }
-            return (h("div", { key: `service_${service.system_id}`, class: "ir-print-extra-services__item" }, h("div", { class: "ir-print-extra-services__details" }, h("ir-printing-label", { display: "inline", label: "", class: "ir-print-extra-services__description", content: service.description }), (service.start_date || service.end_date) && (h("div", { class: "ir-print-extra-services__dates" }, h("span", { class: "ir-print-extra-services__date-wrapper" }, "(", service.start_date && (h("ir-printing-label", { class: "ir-print-extra-services__date", label: "", content: moment(service.start_date).format('dddd, DD MMM YYYY') })), service.end_date && (h(Fragment, null, h("span", { class: "ir-print-extra-services__date-separator" }, "\u2013"), h("ir-printing-label", { class: "ir-print-extra-services__date", label: "", content: moment(service.end_date).format('dddd, DD MMM YYYY') }))), ")")))), h("div", { class: "ir-print-extra-services__price" }, formatAmount(this.currency?.symbol, service?.price || 0))));
+            return (h("div", { key: `service_${service.system_id}`, class: "ir-print-extra-services__item" }, h("div", { class: "ir-print-extra-services__details" }, h("ir-printing-label", { display: "inline", label: "", class: "ir-print-extra-services__description", content: service.description }), (service.start_date || service.end_date) && (h("div", { class: "ir-print-extra-services__dates" }, h("span", { class: "ir-print-extra-services__date-wrapper" }, "(", service.start_date && h("ir-printing-label", { class: "ir-print-extra-services__date", label: "", content: formatDate(service.start_date, 'dddd, DD MMM YYYY') }), service.end_date && (h(Fragment, null, h("span", { class: "ir-print-extra-services__date-separator" }, "\u2013"), h("ir-printing-label", { class: "ir-print-extra-services__date", label: "", content: formatDate(service.end_date, 'dddd, DD MMM YYYY') }))), ")")))), h("div", { class: "ir-print-extra-services__price" }, formatAmount(this.currency?.symbol, service?.price || 0))));
         }))));
     }
     static get is() { return "ir-printing-extra-service"; }

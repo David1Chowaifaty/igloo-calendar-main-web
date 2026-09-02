@@ -1,11 +1,15 @@
-import { r as registerInstance, h } from './index-C63jMJYk.js';
-import { s as setDeparturesSearchTerm, d as departuresStore, a as setDeparturesReferenceDate } from './departures.store-BlGHrzlN.js';
-import './utils-D7g9MYlv.js';
+import { r as registerInstance, h } from './index-BYqrdgY9.js';
+import { s as setDeparturesSearchTerm, d as departuresStore, a as setDeparturesReferenceDate } from './departures.store-BobsUFa1.js';
+import './utils-h4Y9o8Os.js';
 import './moment-Mki5YqAR.js';
 import './index-DeW5X45W.js';
-import './calendar-data-Bgq-VjK-.js';
-import './locales.store-Dv_C-G-l.js';
+import './calendar-data-BebdClG4.js';
+import './index-CimhgHoX.js';
+import './locales.store-C9qsbKR0.js';
+import './booking.dto-DpE31yhG.js';
 import './type-D7rOPtKA.js';
+import './ir-date-VwsP30iT.js';
+import './_commonjsHelpers-BFTU3MAI.js';
 
 const irDeparturesFilterCss = () => `.sc-ir-departures-filter-h{display:block}.sc-ir-departures-filter-h{display:block}.departures-filters__container.sc-ir-departures-filter{display:flex;flex-direction:column;gap:1rem}@media (min-width: 768px){.departures-filters__container.sc-ir-departures-filter{flex-direction:row;align-items:center}.departures-filters__container.sc-ir-departures-filter>*.sc-ir-departures-filter{flex:1 1 0%}.departures-filters__date-picker.sc-ir-departures-filter{max-width:200px}.departures-filters__search-bar.sc-ir-departures-filter{max-width:400px}}`;
 
@@ -17,11 +21,11 @@ const IrDeparturesFilter = class {
         setDeparturesSearchTerm(event.detail ?? '');
     };
     render() {
-        return (h("div", { key: 'b8c5f55a186f9db6b9db95833ae2ec23d5aabf61', class: "departures-filters__container" }, h("ir-date-select", { key: 'a9c0246bfb115d3b2bf731d73b98255b9146de6f', onDateChanged: e => {
+        return (h("div", { key: 'f2aced3235039c7249885c19e5c1dea15552ebc5', class: "departures-filters__container" }, h("ir-date-select", { key: 'df1e3d27ecbfec56edc08fc718c732403f76315e', onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 setDeparturesReferenceDate(e.detail.start.format('YYYY-MM-DD'));
-            }, date: departuresStore.today, class: "departures-filters__date-picker" }, h("wa-icon", { key: 'eb45af6dfe88f89a92ec13fcdab1ef5163b529f0', name: "calendar", slot: "start" })), h("ir-input", { key: '634e430f5f4ae58f59636c9546bd7f3d04275cd1', withClear: true, class: "departures-filters__search-bar", placeholder: "Search guests or bookings", value: departuresStore.searchTerm, "onText-change": this.handleSearchChange }, h("wa-icon", { key: 'a93e0391ccd298f58e93820aba5e1f507421ac46', name: "magnifying-glass", slot: "start" }))));
+            }, date: departuresStore.today, class: "departures-filters__date-picker" }, h("wa-icon", { key: '1d4f48e183536f3699ec79e7ccbede52b07d0bc7', name: "calendar", slot: "start" })), h("ir-input", { key: 'f6e20871f2e4d8a076bfb6c7b2484ad12e00e814', withClear: true, class: "departures-filters__search-bar", placeholder: "Search guests or bookings", value: departuresStore.searchTerm, "onText-change": this.handleSearchChange }, h("wa-icon", { key: '645d33bbf7dccd3b0b43dba0c5f8416b5e619277', name: "magnifying-glass", slot: "start" }))));
     }
 };
 IrDeparturesFilter.style = irDeparturesFilterCss();

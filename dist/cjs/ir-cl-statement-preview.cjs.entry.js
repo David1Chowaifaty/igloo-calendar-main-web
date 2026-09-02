@@ -1,21 +1,25 @@
 'use strict';
 
-var index = require('./index-DN8J4ULi.js');
-var index$2 = require('./index-BGPiW5tG.js');
-var index$1 = require('./index-CqzK4ONa.js');
-var utils = require('./utils-t-vm9_Z2.js');
-var Token = require('./Token-mN7PQKGF.js');
+var index = require('./index-P5Mginch.js');
+var index$2 = require('./index-D30e4dRW.js');
+var index$1 = require('./index-Cv1UlKPY.js');
 var moment = require('./moment-CdViwxPQ.js');
+require('./calendar-data-PetnikUI.js');
+require('./locales.store-v9LoZcAK.js');
+require('./booking.dto-kenLHU-o.js');
+require('./ir-date-BH2JQpbC.js');
+var number = require('./number-BU1_BuJC.js');
+var Token = require('./Token-mN7PQKGF.js');
 var enums = require('./enums-BSCnMYlE.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
-require('./calendar-data-CdMMPf5M.js');
+require('./utils-CwIiTro6.js');
 require('./commonSchemas-hgXVqmtC.js');
-require('./locales.store-QRiel1Gy.js');
+require('./index-BLJXadKe.js');
 require('./type-Dy9pVS4V.js');
 
-const irClStatementPreviewCss = () => `.cl-table{width:100%;border-collapse:collapse;font-size:0.8125rem;table-layout:auto}.cl-th{padding:0.5rem 0.75rem;text-align:left;font-size:0.75rem;font-weight:600;text-transform:capitalize;color:#374151;border-top:2px solid #111827;border-bottom:1px solid #111827;white-space:nowrap}.cl-th--num{text-align:right}.cl-td{padding:0.45rem 0.75rem;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:middle}.cl-td--num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.cl-td--muted{color:#6b7280}.cl-td--bold{font-weight:700;color:#111827}.cl-td--nowrap{white-space:nowrap}.cl-td--empty{text-align:center;color:#6b7280;padding:1.5rem 0.75rem;font-style:italic}.cl-balance-row td{background:#f3f4f6;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-weight:600;color:#111827;padding-top:0.5rem;padding-bottom:0.5rem}@media print{.cl-table{font-size:0.75rem}.cl-th,.cl-td{padding:0.35rem 0.5rem}.cl-td--muted,.cl-td--empty{color:#374151}.cl-balance-row td{-webkit-print-color-adjust:exact;print-color-adjust:exact}.cl-balance-row{page-break-inside:avoid}}:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:960px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.statement-period{display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;padding:0.5rem 0.75rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:4px;font-size:0.8125rem}.statement-period__label{font-weight:600;color:#374151}.statement-period__value{color:#374151}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}`;
+const irClStatementPreviewCss = () => `.cl-table{width:100%;border-collapse:collapse;font-size:0.8125rem;table-layout:auto}.cl-th{padding:0.5rem 0.75rem;text-align:start;font-size:0.75rem;font-weight:600;text-transform:capitalize;color:#374151;border-top:2px solid #111827;border-bottom:1px solid #111827;white-space:nowrap}.cl-th--num{text-align:end}.cl-td{padding:0.45rem 0.75rem;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:middle}.cl-td--num{text-align:end;font-variant-numeric:tabular-nums;white-space:nowrap}.cl-td--muted{color:#6b7280}.cl-td--bold{font-weight:700;color:#111827}.cl-td--nowrap{white-space:nowrap}.cl-td--empty{text-align:center;color:#6b7280;padding:1.5rem 0.75rem;font-style:italic}.cl-balance-row td{background:#f3f4f6;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-weight:600;color:#111827;padding-top:0.5rem;padding-bottom:0.5rem}@media print{.cl-table{font-size:0.75rem}.cl-th,.cl-td{padding:0.35rem 0.5rem}.cl-td--muted,.cl-td--empty{color:#374151}.cl-balance-row td{-webkit-print-color-adjust:exact;print-color-adjust:exact}.cl-balance-row{page-break-inside:avoid}}:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:960px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.statement-period{display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;padding:0.5rem 0.75rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:4px;font-size:0.8125rem}.statement-period__label{font-weight:600;color:#374151}.statement-period__value{color:#374151}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}`;
 
 const DATE_DISPLAY = 'MMM DD, YYYY';
 const IrClStatementPreview = class {
@@ -104,7 +108,7 @@ const IrClStatementPreview = class {
         }
         const { STARTING_BALANCE, ENDING_BALANCE } = this.statement;
         const currency = this.property?.currency?.symbol ?? '$';
-        const fmt = (v) => (v != null ? utils.formatAmount(currency, v) : '—');
+        const fmt = (v) => (v != null ? number.formatAmount(currency, v) : '—');
         return (index.h(index.Host, null, index.h("div", { class: "document" }, index.h("ir-cl-document-header", { style: { marginBottom: '1.75rem' }, property: this.property, agentName: this.agentName, documentType: "statement" }), index.h("table", { class: "cl-table" }, index.h("thead", null, index.h("tr", null, index.h("th", { class: "cl-th" }, "Date"), index.h("th", { class: "cl-th" }, "Document #"), index.h("th", { class: "cl-th" }, "Type"), index.h("th", { class: "cl-th cl-th--num" }, "Debit"), index.h("th", { class: "cl-th cl-th--num" }, "Credit"), index.h("th", { class: "cl-th cl-th--num" }, "Balance"))), index.h("tbody", null, index.h("tr", { class: "cl-balance-row" }, index.h("td", { class: "cl-td", colSpan: 3 }, "Opening Balance \u2014 ", moment.hooks(this.fromDate).format(DATE_DISPLAY)), index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(STARTING_BALANCE))), (() => {
             let running = STARTING_BALANCE;
             return this.fiscalDocuments.map(doc => {

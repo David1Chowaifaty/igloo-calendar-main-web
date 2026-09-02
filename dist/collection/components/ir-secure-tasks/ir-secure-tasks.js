@@ -2,6 +2,7 @@ import Token from "../../models/Token";
 import { PropertyService } from "../../services/property.service";
 import calendar_data from "../../stores/calendar-data";
 import { checkUserAuthState, manageAnchorSession } from "../../utils/utils";
+import { inlineSign } from "../../utils/direction";
 import { Fragment, Host, h } from "@stencil/core";
 export class IrSecureTasks {
     el;
@@ -12,8 +13,8 @@ export class IrSecureTasks {
     isAuthenticated = false;
     currentPage = 'front';
     inputValue;
-    canScrollLeft = false;
-    canScrollRight = true;
+    canScrollTowardsStart = false;
+    canScrollTowardsEnd = true;
     isLoading = true;
     token = new Token();
     dates = {};
@@ -71,11 +72,15 @@ export class IrSecureTasks {
         if (!this.tabsTrackRef)
             return;
         const { scrollLeft, scrollWidth, clientWidth } = this.tabsTrackRef;
-        this.canScrollLeft = scrollLeft > 2;
-        this.canScrollRight = scrollLeft + clientWidth < scrollWidth - 2;
+        // An RTL scroller reports `scrollLeft` as <= 0, so normalise it to a distance travelled
+        // from the inline start; the two arrows are "earlier"/"later", not physical sides.
+        const inlineOffset = Math.abs(scrollLeft);
+        this.canScrollTowardsStart = inlineOffset > 2;
+        this.canScrollTowardsEnd = inlineOffset + clientWidth < scrollWidth - 2;
     }
-    scrollTabs(dir) {
-        this.tabsTrackRef?.scrollBy({ left: dir === 'left' ? -240 : 240, behavior: 'smooth' });
+    scrollTabs(towards) {
+        // `scrollBy` still takes a physical x delta, and the inline axis points the other way in RTL.
+        this.tabsTrackRef?.scrollBy({ left: 240 * inlineSign() * (towards === 'end' ? 1 : -1), behavior: 'smooth' });
     }
     validPages = new Set([
         'hk',
@@ -186,12 +191,12 @@ export class IrSecureTasks {
                     window.history.pushState({}, '', url);
                 }
                 this.logout();
-            } }, h("ir-input", { class: "secure-header__aname-input", size: "s", pill: true, value: this.inputValue, placeholder: "Property", "aria-label": "Property AName", "onText-change": e => (this.inputValue = e.detail) }, h("wa-icon", { slot: "start", name: "building", "aria-hidden": "true" }), h("button", { slot: "end", class: "secure-header__aname-save", type: "submit", "aria-label": "Save property" }, h("wa-icon", { name: "arrow-right" })))), h("div", { class: "secure-header__sep", role: "separator" }), h("wa-tooltip", { for: "secure-logout-btn", placement: "bottom" }, "Sign out"), h("wa-button", { id: "secure-logout-btn", size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Sign out", onClick: () => this.logout() }, h("wa-icon", { name: "arrow-right-from-bracket" })))), h("nav", { class: "secure-header__tabbar", "aria-label": "Secure screens navigation" }, h("wa-button", { class: `secure-header__scroll-btn${this.canScrollLeft ? '' : ' secure-header__scroll-btn--hidden'}`, size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Scroll tabs left", tabIndex: -1, onClick: () => this.scrollTabs('left') }, h("wa-icon", { name: "chevron-left" })), h("div", { class: "secure-tabs-track", ref: el => {
+            } }, h("ir-input", { class: "secure-header__aname-input", size: "s", pill: true, value: this.inputValue, placeholder: "Property", "aria-label": "Property AName", "onText-change": e => (this.inputValue = e.detail) }, h("wa-icon", { slot: "start", name: "building", "aria-hidden": "true" }), h("button", { slot: "end", class: "secure-header__aname-save", type: "submit", "aria-label": "Save property" }, h("wa-icon", { class: "ir-flip-rtl", name: "arrow-right" })))), h("div", { class: "secure-header__sep", role: "separator" }), h("wa-tooltip", { for: "secure-logout-btn", placement: "bottom" }, "Sign out"), h("wa-button", { id: "secure-logout-btn", size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Sign out", onClick: () => this.logout() }, h("wa-icon", { name: "arrow-right-from-bracket" })))), h("nav", { class: "secure-header__tabbar", "aria-label": "Secure screens navigation" }, h("wa-button", { class: `secure-header__scroll-btn${this.canScrollTowardsStart ? '' : ' secure-header__scroll-btn--hidden'}`, size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Scroll tabs to earlier items", tabIndex: -1, onClick: () => this.scrollTabs('start') }, h("wa-icon", { class: "ir-flip-rtl", name: "chevron-left" })), h("div", { class: "secure-tabs-track", ref: el => {
                 this.tabsTrackRef = el;
             } }, h("ul", { class: "secure-tabs", role: "tablist" }, this.routeGroups.map((group, gi) => [
             gi > 0 && h("li", { class: "secure-tabs__sep", role: "none", "aria-hidden": "true" }),
             ...group.routes.map(route => (h("li", { key: route.value, class: "secure-tabs__item", role: "none" }, h("button", { type: "button", role: "tab", class: { 'secure-tabs__btn': true, 'active': this.currentPage === route.value }, "aria-selected": this.currentPage === route.value ? 'true' : 'false', onClick: () => this.navigateTo(route.value) }, route.name)))),
-        ]))), h("wa-button", { class: `secure-header__scroll-btn${this.canScrollRight ? '' : ' secure-header__scroll-btn--hidden'}`, size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Scroll tabs right", tabIndex: -1, onClick: () => this.scrollTabs('right') }, h("wa-icon", { name: "chevron-right" })))), h("div", { class: "ir-page__container", style: { padding: '0' } }, this.renderPage())));
+        ]))), h("wa-button", { class: `secure-header__scroll-btn${this.canScrollTowardsEnd ? '' : ' secure-header__scroll-btn--hidden'}`, size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Scroll tabs to later items", tabIndex: -1, onClick: () => this.scrollTabs('end') }, h("wa-icon", { class: "ir-flip-rtl", name: "chevron-right" })))), h("div", { class: "ir-page__container", style: { padding: '0' } }, this.renderPage())));
     }
     renderPage() {
         switch (this.currentPage) {
@@ -339,8 +344,8 @@ export class IrSecureTasks {
             "isAuthenticated": {},
             "currentPage": {},
             "inputValue": {},
-            "canScrollLeft": {},
-            "canScrollRight": {},
+            "canScrollTowardsStart": {},
+            "canScrollTowardsEnd": {},
             "isLoading": {}
         };
     }

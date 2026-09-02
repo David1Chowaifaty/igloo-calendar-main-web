@@ -1,8 +1,8 @@
 'use strict';
 
-var index = require('./index-DN8J4ULi.js');
+var index = require('./index-P5Mginch.js');
 
-const irOtaServicesCss = () => `.sc-ir-ota-services-h{display:block}.bottom-border.sc-ir-ota-services{border-bottom:1px solid rgba(0, 0, 0, 0.1)}`;
+const irOtaServicesCss = () => `.sc-ir-ota-services-h{display:block}.bottom-border.sc-ir-ota-services{border-bottom:1px solid rgba(0, 0, 0, 0.1)}.ir-me-2.sc-ir-ota-services{margin-inline-end:0.5rem}.ir-ms-2.sc-ir-ota-services{margin-inline-start:0.5rem}`;
 
 const IrOtaServices = class {
     constructor(hostRef) {
@@ -13,7 +13,7 @@ const IrOtaServices = class {
         if (!this.services || this.services?.length === 0) {
             return null;
         }
-        return (index.h(index.Host, null, index.h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, index.h("p", { class: 'font-size-large p-0 m-0 ' }, "Channel Services")), index.h("div", { class: "card" }, this.services?.map((service, idx) => (index.h(index.Fragment, null, index.h("ir-ota-service", { service: service }), idx !== this.services.length - 1 && index.h("hr", { class: "mr-2 ml-2 my-0 p-0" })))))));
+        return (index.h(index.Host, null, index.h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, index.h("p", { class: 'font-size-large p-0 m-0 ' }, "Channel Services")), index.h("div", { class: "card" }, this.services?.map((service, idx) => (index.h(index.Fragment, null, index.h("ir-ota-service", { service: service }), idx !== this.services.length - 1 && index.h("hr", { class: "ir-me-2 ir-ms-2 my-0 p-0" })))))));
     }
 };
 IrOtaServices.style = irOtaServicesCss();

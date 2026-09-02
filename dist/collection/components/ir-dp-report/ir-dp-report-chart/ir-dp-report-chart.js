@@ -3,6 +3,7 @@ import { Chart, registerables } from "chart.js";
 import moment from "moment";
 import dp_report, { onDpReportChange } from "../../../stores/dp_report.store";
 import { formatAmount } from "../../../utils/utils";
+import { formatDate } from "../../../utils/date/index";
 Chart.register(...registerables);
 export class IrDpReportChart {
     el;
@@ -45,7 +46,7 @@ export class IrDpReportChart {
     }
     formatDateLabel(date) {
         const m = moment(date, 'YYYY-MM-DD', true);
-        return m.isValid() ? m.format('MMM DD') : date;
+        return m.isValid() ? formatDate(m, 'MMM DD') : date;
     }
     buildDataset(rows) {
         const successColor = this.getCssVar('--wa-color-success-fill-loud');
@@ -114,7 +115,7 @@ export class IrDpReportChart {
             header.appendChild(logo);
         }
         const date = document.createElement('span');
-        date.textContent = moment(row.date).format('MMM DD, YYYY');
+        date.textContent = formatDate(row.date, 'MMM DD, YYYY');
         header.appendChild(date);
         // const tone = row.profit >= 0 ? 'Gain' : 'Reduction';
         const sign = row.profit >= 0 ? '+' : '-';

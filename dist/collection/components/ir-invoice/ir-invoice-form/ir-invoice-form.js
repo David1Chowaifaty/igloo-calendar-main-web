@@ -7,6 +7,7 @@ import calendar_data from "../../../stores/calendar-data";
 import axios from "axios";
 import { FdTypes, InOut } from "../../../types/enums";
 import { _formatTime } from "../../ir-booking-details/functions";
+import { formatDate } from "../../../utils/date/index";
 export class IrInvoiceForm {
     /**
      * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
@@ -607,12 +608,12 @@ export class IrInvoiceForm {
         if (!fromDate) {
             return;
         }
-        const from_date = moment(fromDate, 'YYYY-MM-DD').format('MMM DD, YYYY');
+        const from_date = formatDate(fromDate, 'MMM DD, YYYY');
         if (!toDate) {
             return h("span", null, from_date);
         }
-        const to_date = moment(toDate, 'YYYY-MM-DD').format('MMM DD, YYYY');
-        return (h("span", null, from_date, " ", h("wa-icon", { name: "arrow-right" }), " ", to_date));
+        const to_date = formatDate(toDate, 'MMM DD, YYYY');
+        return (h("span", null, from_date, " ", h("wa-icon", { class: "ir-flip-rtl", name: "arrow-right" }), " ", to_date));
     }
     /**
      * Outputs the non-invoiceable reason text for a given system ID when in invoice mode.
@@ -732,7 +733,7 @@ export class IrInvoiceForm {
                 return (h("div", { class: "ir-invoice__service", key: room.identifier }, h("wa-checkbox", { disabled: isDisabled, size: "s", onchange: e => {
                         const value = e.target.checked;
                         this.handleCheckChange({ checked: value, system_id: room.system_id });
-                    }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: 'ir-invoice__room-checkbox-container align-items-center' }, h("div", { class: "ir-invoice__room-info" }, h("span", null, h("b", null, room.roomtype.name), h("span", { style: { paddingLeft: '0.5rem' } }, room.rateplan.short_name)), this.getDateView(room.from_date, room.to_date)), this.renderPriceColumn(room.gross_total, room.system_id))))
+                    }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: 'ir-invoice__room-checkbox-container align-items-center' }, h("div", { class: "ir-invoice__room-info" }, h("span", null, h("b", null, room.roomtype.name), h("span", { style: { paddingInlineStart: '0.5rem' } }, room.rateplan.short_name)), this.getDateView(room.from_date, room.to_date)), this.renderPriceColumn(room.gross_total, room.system_id))))
                 // {this.renderRoomItem(room, indexById.get(room.identifier) ?? idx)}
                 // {idx < groupRooms.length - 1 ? <wa-divider></wa-divider> : null}
                 );
@@ -826,7 +827,7 @@ export class IrInvoiceForm {
             }, class: "ir-invoice__container" }, h("ir-date-select", { onDateChanged: e => {
                 this.invoiceDate = e.detail.start;
                 this.setUpDisabledItems();
-            }, label: "Date", date: this.invoiceDate.format('YYYY-MM-DD'), minDate: this.getMinDate(), maxDate: this.getMaxDate() }), h("ir-booking-billing-recipient", { onRecipientChange: e => (this.selectedRecipient = e.detail), booking: this.booking }), this.viewMode === 'invoice' && moment().isBefore(moment(this.booking.from_date, 'YYYY-MM-DD'), 'dates') ? (h("ir-empty-state", { message: "Invoices cannot be issued before guest arrival" })) : (h("div", { class: 'ir-invoice__services' }, h("p", { class: "ir-invoice__form-control-label" }, "Choose what to invoice ", h("span", { style: { color: 'var(--wa-color-gray-60)', paddingLeft: '0.5rem' } }, " (Disabled services are not eligible to be invoiced yet)")), h("div", { class: "ir-invoice__services-container" }, this.invoicableKey.size === 0 && h("ir-empty-state", { style: { marginTop: '3rem' } }), this.renderRooms(), this.booking.pickup_info && this.renderPickup(), this.booking.extra_services?.map(extra_service => {
+            }, label: "Date", date: this.invoiceDate.format('YYYY-MM-DD'), minDate: this.getMinDate(), maxDate: this.getMaxDate() }), h("ir-booking-billing-recipient", { onRecipientChange: e => (this.selectedRecipient = e.detail), booking: this.booking }), this.viewMode === 'invoice' && moment().isBefore(moment(this.booking.from_date, 'YYYY-MM-DD'), 'dates') ? (h("ir-empty-state", { message: "Invoices cannot be issued before guest arrival" })) : (h("div", { class: 'ir-invoice__services' }, h("p", { class: "ir-invoice__form-control-label" }, "Choose what to invoice", ' ', h("span", { style: { color: 'var(--wa-color-gray-60)', paddingInlineStart: '0.5rem' } }, " (Disabled services are not eligible to be invoiced yet)")), h("div", { class: "ir-invoice__services-container" }, this.invoicableKey.size === 0 && h("ir-empty-state", { style: { marginTop: '3rem' } }), this.renderRooms(), this.booking.pickup_info && this.renderPickup(), this.booking.extra_services?.map(extra_service => {
             const sysId = extra_service.system_id;
             if (!this.invoicableKey?.has(sysId)) {
                 return null;
@@ -836,7 +837,7 @@ export class IrInvoiceForm {
             return (h("div", { key: extra_service.system_id, class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "s", onchange: e => {
                     const value = e.target.checked;
                     this.handleCheckChange({ checked: value, system_id: sysId });
-                }, defaultChecked: isSelected, class: "ir-invoice__checkbox", checked: isSelected }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, this.description(extra_service), extra_service.category.code === 'DUZ' && (h("span", null, ": ", this.formatDayUseTime(extra_service.from_time), " \u2013 ", this.formatDayUseTime(extra_service.to_time)))), extra_service.category?.code === 'DUZ' ? (h("div", null, moment(new Date(extra_service.start_date)).format('MMM DD, YYYY'), " ")) : (this.getDateView(extra_service.start_date, extra_service.end_date))), this.renderPriceColumn(extra_service.price, sysId)))));
+                }, defaultChecked: isSelected, class: "ir-invoice__checkbox", checked: isSelected }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, this.description(extra_service), extra_service.category.code === 'DUZ' && (h("span", null, ": ", this.formatDayUseTime(extra_service.from_time), " \u2013 ", this.formatDayUseTime(extra_service.to_time)))), extra_service.category?.code === 'DUZ' ? (h("div", null, formatDate(new Date(extra_service.start_date), 'MMM DD, YYYY'), " ")) : (this.getDateView(extra_service.start_date, extra_service.end_date))), this.renderPriceColumn(extra_service.price, sysId)))));
         }), this.renderCancellationPenalty()))))));
     }
     static get is() { return "ir-invoice-form"; }

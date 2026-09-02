@@ -56,7 +56,6 @@ import { Row } from "@tanstack/table-core";
 import { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
 import { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
 import { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
-import { Moment as Moment1 } from "moment/min/moment-with-locales";
 import { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-date-range.types";
 import { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./components/ir-daily-revenue/types";
 import { DateRangeChangeEvent } from "./components/ui/ir-date-range/ir-date-range";
@@ -108,7 +107,7 @@ import { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 import { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
 import { Toast } from "./components/ir-toast-provider/ir-toast-provider";
 import { ToastOptions } from "./components/ui/ir-toasts-provider/ir-toasts-provider";
-import { TranslationEntry, TranslationLanguage, TranslationTable } from "./components/ir-translations-manager/types";
+import { DuplicateInfo, TranslationEntry, TranslationLanguage, TranslationTable } from "./components/ir-translations-manager/types";
 import { User } from "./models/Users";
 import { AllowedUser } from "./components/ir-user-management/types";
 import { VoidDocumentRequest } from "./components/ir-booking-details/ir-void-document-dialog/ir-void-document-dialog";
@@ -163,7 +162,6 @@ export { Row } from "@tanstack/table-core";
 export { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
 export { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
 export { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
-export { Moment as Moment1 } from "moment/min/moment-with-locales";
 export { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-date-range.types";
 export { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./components/ir-daily-revenue/types";
 export { DateRangeChangeEvent } from "./components/ui/ir-date-range/ir-date-range";
@@ -215,7 +213,7 @@ export { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 export { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
 export { Toast } from "./components/ir-toast-provider/ir-toast-provider";
 export { ToastOptions } from "./components/ui/ir-toasts-provider/ir-toasts-provider";
-export { TranslationEntry, TranslationLanguage, TranslationTable } from "./components/ir-translations-manager/types";
+export { DuplicateInfo, TranslationEntry, TranslationLanguage, TranslationTable } from "./components/ir-translations-manager/types";
 export { User } from "./models/Users";
 export { AllowedUser } from "./components/ir-user-management/types";
 export { VoidDocumentRequest } from "./components/ir-booking-details/ir-void-document-dialog/ir-void-document-dialog";
@@ -368,7 +366,6 @@ export namespace Components {
          */
         "bubbleInfoTop": boolean;
         "countries": ICountry[];
-        "currency": any;
         /**
           * @default false
          */
@@ -2844,7 +2841,7 @@ export namespace Components {
           * The currently selected check-in date.
           * @default null
          */
-        "fromDate": Moment1 | null;
+        "fromDate": Moment | null;
         /**
           * BCP-47 locale tag used to localise day names and month formatting.
           * @reflect 
@@ -2855,7 +2852,7 @@ export namespace Components {
           * The latest selectable date. Defaults to 24 years in the future.
           * @default moment().add(24, 'years')
          */
-        "maxDate": Moment1;
+        "maxDate": Moment;
         /**
           * Maximum number of nights that can be selected in one span.
           * @default 90
@@ -2865,7 +2862,7 @@ export namespace Components {
           * The earliest selectable date. Defaults to 24 years in the past.
           * @default moment().add(-24, 'years')
          */
-        "minDate": Moment1;
+        "minDate": Moment;
         /**
           * When `true`, displays a price line inside each day button (requires `dateModifiers`).
           * @default false
@@ -2875,7 +2872,7 @@ export namespace Components {
           * The currently selected check-out date.
           * @default null
          */
-        "toDate": Moment1 | null;
+        "toDate": Moment | null;
     }
     interface IrDailyRevenue {
         /**
@@ -4679,6 +4676,34 @@ export namespace Components {
           * @default ''
          */
         "message": string;
+    }
+    /**
+     * A floating dev/QA panel for switching language, calendar system and text direction at runtime,
+     * with a live preview of how dates render under the current combination.
+     * Drop it anywhere on a page:
+     *   <ir-locale-switcher></ir-locale-switcher>
+     * Nothing else needs wiring. Language and calendar both live in `@stencil/store` stores, and
+     * `@stencil/store` tracks reads via `getRenderingRef()` at any call depth — so every component
+     * that calls `formatDate()` inside its `render()` re-renders on its own when this panel changes
+     * something. Values formatted once into `@State` during `componentWillLoad` are the exception;
+     * those refresh on that component's next natural re-render.
+     * This is a development tool, not a customer-facing setting. Keep it out of production pages.
+     */
+    interface IrLocaleSwitcher {
+        /**
+          * Start collapsed to a single button.
+          * @default true
+         */
+        "collapsed": boolean;
+        /**
+          * Corner to pin the panel to.
+          * @default 'bottom-end'
+         */
+        "placement": 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end';
+        /**
+          * Sample date for the preview, `YYYY-MM-DD`. Defaults to today.
+         */
+        "sampleDate": string;
     }
     interface IrLogin {
     }
@@ -6755,6 +6780,7 @@ export namespace Components {
         "position": 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
         "removeToast": (id: string) => Promise<void>;
         /**
+          * Pins the toast layer to RTL. Leave unset to inherit the document direction.
           * @default false
          */
         "rtl": boolean;
@@ -6811,10 +6837,25 @@ export namespace Components {
          */
         "disableActions": boolean;
         /**
+          * Disables the "New key" action outright, e.g. in the cross-table view where there is no single table to create into.
+          * @default false
+         */
+        "disableCreate": boolean;
+        /**
+          * Entry id → the tables sharing that row's description; rows present here get a duplicate badge.
+          * @default new Map()
+         */
+        "duplicates": Map<string, DuplicateInfo>;
+        /**
           * The active table's unfiltered entries — filtered internally for display.
           * @default []
          */
         "entries": TranslationEntry[];
+        /**
+          * True when `entries` span several setup tables — adds the table filter and hands the table its grouped rendering.
+          * @default false
+         */
+        "groupByTable": boolean;
         /**
           * True once a drag reorder is applied locally but not yet saved — shows the Save/Discard order buttons.
           * @default false
@@ -6830,6 +6871,11 @@ export namespace Components {
          */
         "languages": TranslationLanguage[];
         "sourceCode"?: string;
+        /**
+          * Distinct table names present in `entries`, in display order — the table filter's options.
+          * @default []
+         */
+        "tableNames": string[];
     }
     interface IrTranslationsEntriesTable {
         /**
@@ -6842,6 +6888,11 @@ export namespace Components {
          */
         "compact": boolean;
         /**
+          * Entry id → the tables sharing that row's description; rows present here get a duplicate badge beside their key.
+          * @default new Map()
+         */
+        "duplicates": Map<string, DuplicateInfo>;
+        /**
           * Rows to render, already filtered by the parent.
           * @default []
          */
@@ -6851,6 +6902,11 @@ export namespace Components {
           * @default false
          */
         "filtered": boolean;
+        /**
+          * True when `entries` span several setup tables — rows are then broken up by collapsible per-table header rows.
+          * @default false
+         */
+        "groupByTable": boolean;
         /**
           * Column order — the source language is expected first.
           * @default []
@@ -11894,6 +11950,24 @@ declare global {
         prototype: HTMLIrLoadingScreenElement;
         new (): HTMLIrLoadingScreenElement;
     };
+    /**
+     * A floating dev/QA panel for switching language, calendar system and text direction at runtime,
+     * with a live preview of how dates render under the current combination.
+     * Drop it anywhere on a page:
+     *   <ir-locale-switcher></ir-locale-switcher>
+     * Nothing else needs wiring. Language and calendar both live in `@stencil/store` stores, and
+     * `@stencil/store` tracks reads via `getRenderingRef()` at any call depth — so every component
+     * that calls `formatDate()` inside its `render()` re-renders on its own when this panel changes
+     * something. Values formatted once into `@State` during `componentWillLoad` are the exception;
+     * those refresh on that component's next natural re-render.
+     * This is a development tool, not a customer-facing setting. Keep it out of production pages.
+     */
+    interface HTMLIrLocaleSwitcherElement extends Components.IrLocaleSwitcher, HTMLStencilElement {
+    }
+    var HTMLIrLocaleSwitcherElement: {
+        prototype: HTMLIrLocaleSwitcherElement;
+        new (): HTMLIrLocaleSwitcherElement;
+    };
     interface HTMLIrLoginElementEventMap {
         "authFinish": {
     token: string;
@@ -14060,6 +14134,7 @@ declare global {
         "ir-listing-header": HTMLIrListingHeaderElement;
         "ir-listing-modal": HTMLIrListingModalElement;
         "ir-loading-screen": HTMLIrLoadingScreenElement;
+        "ir-locale-switcher": HTMLIrLocaleSwitcherElement;
         "ir-login": HTMLIrLoginElement;
         "ir-m-combobox": HTMLIrMComboboxElement;
         "ir-m-combobox-booking-item": HTMLIrMComboboxBookingItemElement;
@@ -14383,7 +14458,6 @@ declare namespace LocalJSX {
          */
         "bubbleInfoTop"?: boolean;
         "countries"?: ICountry[];
-        "currency"?: any;
         /**
           * @default false
          */
@@ -17090,7 +17164,7 @@ declare namespace LocalJSX {
           * The currently selected check-in date.
           * @default null
          */
-        "fromDate"?: Moment1 | null;
+        "fromDate"?: Moment | null;
         /**
           * BCP-47 locale tag used to localise day names and month formatting.
           * @reflect 
@@ -17101,7 +17175,7 @@ declare namespace LocalJSX {
           * The latest selectable date. Defaults to 24 years in the future.
           * @default moment().add(24, 'years')
          */
-        "maxDate"?: Moment1;
+        "maxDate"?: Moment;
         /**
           * Maximum number of nights that can be selected in one span.
           * @default 90
@@ -17111,7 +17185,7 @@ declare namespace LocalJSX {
           * The earliest selectable date. Defaults to 24 years in the past.
           * @default moment().add(-24, 'years')
          */
-        "minDate"?: Moment1;
+        "minDate"?: Moment;
         /**
           * Emits the selected start and end dates as native `Date` objects. `end` is `null` when the user has only picked the first date.
          */
@@ -17125,7 +17199,7 @@ declare namespace LocalJSX {
           * The currently selected check-out date.
           * @default null
          */
-        "toDate"?: Moment1 | null;
+        "toDate"?: Moment | null;
     }
     interface IrDailyRevenue {
         /**
@@ -19095,6 +19169,34 @@ declare namespace LocalJSX {
           * @default ''
          */
         "message"?: string;
+    }
+    /**
+     * A floating dev/QA panel for switching language, calendar system and text direction at runtime,
+     * with a live preview of how dates render under the current combination.
+     * Drop it anywhere on a page:
+     *   <ir-locale-switcher></ir-locale-switcher>
+     * Nothing else needs wiring. Language and calendar both live in `@stencil/store` stores, and
+     * `@stencil/store` tracks reads via `getRenderingRef()` at any call depth — so every component
+     * that calls `formatDate()` inside its `render()` re-renders on its own when this panel changes
+     * something. Values formatted once into `@State` during `componentWillLoad` are the exception;
+     * those refresh on that component's next natural re-render.
+     * This is a development tool, not a customer-facing setting. Keep it out of production pages.
+     */
+    interface IrLocaleSwitcher {
+        /**
+          * Start collapsed to a single button.
+          * @default true
+         */
+        "collapsed"?: boolean;
+        /**
+          * Corner to pin the panel to.
+          * @default 'bottom-end'
+         */
+        "placement"?: 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end';
+        /**
+          * Sample date for the preview, `YYYY-MM-DD`. Defaults to today.
+         */
+        "sampleDate"?: string;
     }
     interface IrLogin {
         "onAuthFinish"?: (event: IrLoginCustomEvent<{
@@ -21381,6 +21483,7 @@ declare namespace LocalJSX {
          */
         "position"?: 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
         /**
+          * Pins the toast layer to RTL. Leave unset to inherit the document direction.
           * @default false
          */
         "rtl"?: boolean;
@@ -21433,10 +21536,25 @@ declare namespace LocalJSX {
          */
         "disableActions"?: boolean;
         /**
+          * Disables the "New key" action outright, e.g. in the cross-table view where there is no single table to create into.
+          * @default false
+         */
+        "disableCreate"?: boolean;
+        /**
+          * Entry id → the tables sharing that row's description; rows present here get a duplicate badge.
+          * @default new Map()
+         */
+        "duplicates"?: Map<string, DuplicateInfo>;
+        /**
           * The active table's unfiltered entries — filtered internally for display.
           * @default []
          */
         "entries"?: TranslationEntry[];
+        /**
+          * True when `entries` span several setup tables — adds the table filter and hands the table its grouped rendering.
+          * @default false
+         */
+        "groupByTable"?: boolean;
         /**
           * True once a drag reorder is applied locally but not yet saved — shows the Save/Discard order buttons.
           * @default false
@@ -21461,6 +21579,11 @@ declare namespace LocalJSX {
         "onSaveOrder"?: (event: IrTranslationsEntriesPanelCustomEvent<void>) => void;
         "onToggleVisibility"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry>) => void;
         "sourceCode"?: string;
+        /**
+          * Distinct table names present in `entries`, in display order — the table filter's options.
+          * @default []
+         */
+        "tableNames"?: string[];
     }
     interface IrTranslationsEntriesTable {
         /**
@@ -21473,6 +21596,11 @@ declare namespace LocalJSX {
          */
         "compact"?: boolean;
         /**
+          * Entry id → the tables sharing that row's description; rows present here get a duplicate badge beside their key.
+          * @default new Map()
+         */
+        "duplicates"?: Map<string, DuplicateInfo>;
+        /**
           * Rows to render, already filtered by the parent.
           * @default []
          */
@@ -21482,6 +21610,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "filtered"?: boolean;
+        /**
+          * True when `entries` span several setup tables — rows are then broken up by collapsible per-table header rows.
+          * @default false
+         */
+        "groupByTable"?: boolean;
         /**
           * Column order — the source language is expected first.
           * @default []
@@ -22031,7 +22164,6 @@ declare namespace LocalJSX {
     }
     interface IglBookingEventHoverAttributes {
         "bubbleInfoTop": boolean;
-        "currency": string;
         "is_vacation_rental": boolean;
     }
     interface IglBookingFormAttributes {
@@ -23320,6 +23452,11 @@ declare namespace LocalJSX {
     interface IrLoadingScreenAttributes {
         "message": string;
     }
+    interface IrLocaleSwitcherAttributes {
+        "placement": 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end';
+        "collapsed": boolean;
+        "sampleDate": string;
+    }
     interface IrMComboboxAttributes {
         "placeholder": string;
         "defaultOption": ComboboxOption['value'];
@@ -23941,12 +24078,15 @@ declare namespace LocalJSX {
         "isLoading": boolean;
         "disableActions": boolean;
         "hasPendingOrder": boolean;
+        "groupByTable": boolean;
+        "disableCreate": boolean;
     }
     interface IrTranslationsEntriesTableAttributes {
         "sourceCode": string;
         "compact": boolean;
         "filtered": boolean;
         "reorderEnabled": boolean;
+        "groupByTable": boolean;
     }
     interface IrTranslationsEntryDrawerAttributes {
         "open": boolean;
@@ -24307,6 +24447,7 @@ declare namespace LocalJSX {
         "ir-listing-header": Omit<IrListingHeader, keyof IrListingHeaderAttributes> & { [K in keyof IrListingHeader & keyof IrListingHeaderAttributes]?: IrListingHeader[K] } & { [K in keyof IrListingHeader & keyof IrListingHeaderAttributes as `attr:${K}`]?: IrListingHeaderAttributes[K] } & { [K in keyof IrListingHeader & keyof IrListingHeaderAttributes as `prop:${K}`]?: IrListingHeader[K] };
         "ir-listing-modal": Omit<IrListingModal, keyof IrListingModalAttributes> & { [K in keyof IrListingModal & keyof IrListingModalAttributes]?: IrListingModal[K] } & { [K in keyof IrListingModal & keyof IrListingModalAttributes as `attr:${K}`]?: IrListingModalAttributes[K] } & { [K in keyof IrListingModal & keyof IrListingModalAttributes as `prop:${K}`]?: IrListingModal[K] };
         "ir-loading-screen": Omit<IrLoadingScreen, keyof IrLoadingScreenAttributes> & { [K in keyof IrLoadingScreen & keyof IrLoadingScreenAttributes]?: IrLoadingScreen[K] } & { [K in keyof IrLoadingScreen & keyof IrLoadingScreenAttributes as `attr:${K}`]?: IrLoadingScreenAttributes[K] } & { [K in keyof IrLoadingScreen & keyof IrLoadingScreenAttributes as `prop:${K}`]?: IrLoadingScreen[K] };
+        "ir-locale-switcher": Omit<IrLocaleSwitcher, keyof IrLocaleSwitcherAttributes> & { [K in keyof IrLocaleSwitcher & keyof IrLocaleSwitcherAttributes]?: IrLocaleSwitcher[K] } & { [K in keyof IrLocaleSwitcher & keyof IrLocaleSwitcherAttributes as `attr:${K}`]?: IrLocaleSwitcherAttributes[K] } & { [K in keyof IrLocaleSwitcher & keyof IrLocaleSwitcherAttributes as `prop:${K}`]?: IrLocaleSwitcher[K] };
         "ir-login": IrLogin;
         "ir-m-combobox": Omit<IrMCombobox, keyof IrMComboboxAttributes> & { [K in keyof IrMCombobox & keyof IrMComboboxAttributes]?: IrMCombobox[K] } & { [K in keyof IrMCombobox & keyof IrMComboboxAttributes as `attr:${K}`]?: IrMComboboxAttributes[K] } & { [K in keyof IrMCombobox & keyof IrMComboboxAttributes as `prop:${K}`]?: IrMCombobox[K] };
         "ir-m-combobox-booking-item": IrMComboboxBookingItem;
@@ -24863,6 +25004,19 @@ declare module "@stencil/core" {
             "ir-listing-header": LocalJSX.IntrinsicElements["ir-listing-header"] & JSXBase.HTMLAttributes<HTMLIrListingHeaderElement>;
             "ir-listing-modal": LocalJSX.IntrinsicElements["ir-listing-modal"] & JSXBase.HTMLAttributes<HTMLIrListingModalElement>;
             "ir-loading-screen": LocalJSX.IntrinsicElements["ir-loading-screen"] & JSXBase.HTMLAttributes<HTMLIrLoadingScreenElement>;
+            /**
+             * A floating dev/QA panel for switching language, calendar system and text direction at runtime,
+             * with a live preview of how dates render under the current combination.
+             * Drop it anywhere on a page:
+             *   <ir-locale-switcher></ir-locale-switcher>
+             * Nothing else needs wiring. Language and calendar both live in `@stencil/store` stores, and
+             * `@stencil/store` tracks reads via `getRenderingRef()` at any call depth — so every component
+             * that calls `formatDate()` inside its `render()` re-renders on its own when this panel changes
+             * something. Values formatted once into `@State` during `componentWillLoad` are the exception;
+             * those refresh on that component's next natural re-render.
+             * This is a development tool, not a customer-facing setting. Keep it out of production pages.
+             */
+            "ir-locale-switcher": LocalJSX.IntrinsicElements["ir-locale-switcher"] & JSXBase.HTMLAttributes<HTMLIrLocaleSwitcherElement>;
             "ir-login": LocalJSX.IntrinsicElements["ir-login"] & JSXBase.HTMLAttributes<HTMLIrLoginElement>;
             "ir-m-combobox": LocalJSX.IntrinsicElements["ir-m-combobox"] & JSXBase.HTMLAttributes<HTMLIrMComboboxElement>;
             "ir-m-combobox-booking-item": LocalJSX.IntrinsicElements["ir-m-combobox-booking-item"] & JSXBase.HTMLAttributes<HTMLIrMComboboxBookingItemElement>;

@@ -2,10 +2,10 @@ import { formatAmount, getEntryValue } from "../../../utils/utils";
 import { flexRender, useTable } from "../../../utils/useTable";
 import { Host, h } from "@stencil/core";
 import { createColumnHelper, getCoreRowModel, getSortedRowModel } from "@tanstack/table-core";
-import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
 import { FdTypes } from "../../../types/enums";
 import { _formatTime } from "../../ir-booking-details/functions";
+import { formatDate } from "../../../utils/date/index";
 const PAGE_SIZES = [20, 50, 100];
 export class IrFiscalDocumentsTable {
     rows = [];
@@ -106,7 +106,7 @@ export class IrFiscalDocumentsTable {
                 header: 'Date',
                 cell: info => {
                     const row = info.row.original;
-                    const date = moment(info.getValue(), 'YYYY-MM-DD').format('MMM DD, YYYY');
+                    const date = formatDate(info.getValue(), 'MMM DD, YYYY');
                     return (h("div", { class: "fiscal-table__date-cell" }, h("p", { class: "m-0 p-0" }, date), row.DOC_HOUR != null && row.DOC_MINUTE != null && h("p", { class: "fd_ss" }, _formatTime(String(row.DOC_HOUR), String(row.DOC_MINUTE)))));
                 },
                 enableSorting: true,

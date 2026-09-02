@@ -8,8 +8,8 @@ export declare class IrSecureTasks {
     isAuthenticated: boolean;
     currentPage: SecureScreens;
     inputValue: string;
-    canScrollLeft: boolean;
-    canScrollRight: boolean;
+    canScrollTowardsStart: boolean;
+    canScrollTowardsEnd: boolean;
     isLoading: boolean;
     private token;
     private dates;

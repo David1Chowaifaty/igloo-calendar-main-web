@@ -48,6 +48,7 @@ function findDialogIn(el) {
 }
 export class IrToastProvider {
     position = 'top-end';
+    /** Pins the toast layer to RTL. Leave unset to inherit the document direction. */
     rtl = false;
     duration = 5000;
     /** Maximum number of toasts shown at once; when exceeded, the oldest are dismissed. */
@@ -225,7 +226,15 @@ export class IrToastProvider {
         s.top = vertical === 'bottom' ? 'auto' : '0';
         s.bottom = vertical === 'bottom' ? '0' : 'auto';
         s.alignItems = horizontal === 'center' ? 'center' : horizontal === 'start' ? 'flex-start' : 'flex-end';
-        this.layer.setAttribute('dir', this.rtl ? 'rtl' : 'ltr');
+        // The layer lives in document.body (and is re-parented into modal dialogs), so it already
+        // inherits the document direction. Only an explicit `rtl` opt-in pins it; forcing 'ltr'
+        // otherwise would un-mirror every toast on an RTL page.
+        if (this.rtl) {
+            this.layer.setAttribute('dir', 'rtl');
+        }
+        else {
+            this.layer.removeAttribute('dir');
+        }
     }
     /** Deep-scans the document (piercing shadow roots) for open modal dialogs. */
     findOpenModalDialogs() {
@@ -423,7 +432,7 @@ export class IrToastProvider {
         }
     }
     render() {
-        return h(Host, { key: '2f1289fca9959b51251762ed70cc6134363475a2' });
+        return h(Host, { key: '464bf4ad997e57aeebe8f080d864ece72f85c0f4' });
     }
     static get is() { return "ir-toast-provider"; }
     static get encapsulation() { return "shadow"; }
@@ -471,7 +480,7 @@ export class IrToastProvider {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Pins the toast layer to RTL. Leave unset to inherit the document direction."
                 },
                 "getter": false,
                 "setter": false,

@@ -1,6 +1,6 @@
 import { HouseKeepingService } from "../../../../services/housekeeping.service";
 import { h } from "@stencil/core";
-import moment from "moment";
+import { formatDate } from "../../../../utils/date/index";
 export class IglHkIssuesDialog {
     open = false;
     unitId;
@@ -67,7 +67,7 @@ export class IglHkIssuesDialog {
         const isMultiple = this.issues.length > 1;
         const isSelected = this.selectedIds.has(issue.id);
         // const initials = this.getInitials(issue.housekeeper_name);
-        return (h("div", { class: `ticket ${isSelected ? 'ticket--selected' : ''}`, key: issue.id, onClick: () => isMultiple && this.toggleIssue(issue.id) }, h("p", { class: "ticket-description" }, issue.description || 'No description provided.'), h("div", { class: "ticket-footer-row" }, h("div", { class: "ticket-reporter" }, h("span", { class: "ticket-reporter-name" }, issue.housekeeper_name)), h("div", { class: 'ticket-meta' }, h("span", { class: "ticket-date" }, moment(issue.date).format('MMM D, YYYY'), issue.hour != null && issue.minute != null && (h("span", { class: "ticket-time" }, String(issue.hour).padStart(2, '0'), ":", String(issue.minute).padStart(2, '0')))), isMultiple && (h("wa-checkbox", { checked: isSelected, defaultChecked: isSelected, onchange: (e) => {
+        return (h("div", { class: `ticket ${isSelected ? 'ticket--selected' : ''}`, key: issue.id, onClick: () => isMultiple && this.toggleIssue(issue.id) }, h("p", { class: "ticket-description" }, issue.description || 'No description provided.'), h("div", { class: "ticket-footer-row" }, h("div", { class: "ticket-reporter" }, h("span", { class: "ticket-reporter-name" }, issue.housekeeper_name)), h("div", { class: 'ticket-meta' }, h("span", { class: "ticket-date" }, formatDate(issue.date, 'MMM D, YYYY'), issue.hour != null && issue.minute != null && (h("span", { class: "ticket-time" }, String(issue.hour).padStart(2, '0'), ":", String(issue.minute).padStart(2, '0')))), isMultiple && (h("wa-checkbox", { checked: isSelected, defaultChecked: isSelected, onchange: (e) => {
                 e.stopPropagation();
                 this.toggleIssue(issue.id);
             } }))))));
@@ -80,7 +80,7 @@ export class IglHkIssuesDialog {
     render() {
         const count = this.issues?.length ?? 0;
         const selectedCount = this.selectedIds.size;
-        return (h("ir-dialog", { key: 'c727d33db1d64242bca6064ff20f195fe8d4da02', ref: el => (this.dialogRef = el), label: `Reported ${count > 1 ? 'Issues' : 'Issue'}: ${this.unitName}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderContent(), h("div", { key: '4ce19c62379dd7cbe810527d0a4350e34eda6e96', slot: "footer", class: "dialog-footer" }, h("ir-custom-button", { key: 'a2965012a9640e52d91d8509886116de22fc9b64', variant: "neutral", size: "m", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, "Close"), h("ir-custom-button", { key: '3a8e6729fe81e984156f99065dc79dfcfc0f4d01', variant: "brand", size: "m", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, "Mark as Resolved"))));
+        return (h("ir-dialog", { key: 'f67cd354e56969958d1d516c273de025eaf8d7ca', ref: el => (this.dialogRef = el), label: `Reported ${count > 1 ? 'Issues' : 'Issue'}: ${this.unitName}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderContent(), h("div", { key: '2f64b487f9ed7406ba3c27648cf9b569d9a5d90c', slot: "footer", class: "dialog-footer" }, h("ir-custom-button", { key: '9153f7a02d0a52bd673a8d3d9dd61dcd53403d71', variant: "neutral", size: "m", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, "Close"), h("ir-custom-button", { key: '00ea013da244056084a477b0525c2a14e3d4a6c0', variant: "brand", size: "m", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, "Mark as Resolved"))));
     }
     static get is() { return "igl-hk-issues-dialog"; }
     static get encapsulation() { return "scoped"; }

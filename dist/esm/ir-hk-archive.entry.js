@@ -1,17 +1,20 @@
-import { r as registerInstance, h, F as Fragment, H as Host } from './index-C63jMJYk.js';
-import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-DzohZu-D.js';
-import { c as calendar_data } from './calendar-data-Bgq-VjK-.js';
-import { i as isRequestPending } from './ir-interceptor.store-VH7huf-z.js';
-import { l as locales } from './locales.store-Dv_C-G-l.js';
-import { h as downloadFile } from './utils-D7g9MYlv.js';
+import { r as registerInstance, h, F as Fragment, H as Host } from './index-BYqrdgY9.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-C7mt9QTJ.js';
+import { c as calendar_data } from './calendar-data-BebdClG4.js';
+import { i as isRequestPending } from './ir-interceptor.store-CyWfUv6a.js';
+import { l as locales } from './locales.store-C9qsbKR0.js';
+import { f as downloadFile } from './utils-h4Y9o8Os.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import './index-DeW5X45W.js';
+import './index-CimhgHoX.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
+import './booking.dto-DpE31yhG.js';
 import './type-D7rOPtKA.js';
+import './ir-date-VwsP30iT.js';
 
-const irHkArchiveCss = () => `.sc-ir-hk-archive-h{display:block}.unit-name.sc-ir-hk-archive{max-width:100px;display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 !important;margin:0 !important;text-align:start}.table.sc-ir-hk-archive th.sc-ir-hk-archive,.table.sc-ir-hk-archive td.sc-ir-hk-archive{white-space:nowrap;width:fit-content;max-width:max-content !important;border:0;text-align:start;background-color:white;padding:0.25rem !important}.table.sc-ir-hk-archive th.sc-ir-hk-archive:first-child,.table.sc-ir-hk-archive td.sc-ir-hk-archive:first-child{padding-left:0 !important}`;
+const irHkArchiveCss = () => `.sc-ir-hk-archive-h{display:block}.unit-name.sc-ir-hk-archive{max-width:100px;display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 !important;margin:0 !important;text-align:start}.table.sc-ir-hk-archive th.sc-ir-hk-archive,.table.sc-ir-hk-archive td.sc-ir-hk-archive{white-space:nowrap;width:fit-content;max-width:max-content !important;border:0;text-align:start;background-color:white;padding:0.25rem !important}.table.sc-ir-hk-archive th.sc-ir-hk-archive:first-child,.table.sc-ir-hk-archive td.sc-ir-hk-archive:first-child{padding-inline-start:0 !important}.ir-me-1.sc-ir-hk-archive{margin-inline-end:0.25rem}.ir-ms-1.sc-ir-hk-archive{margin-inline-start:0.25rem}.ir-ps-0.sc-ir-hk-archive{padding-inline-start:0}`;
 
 const IrHkArchive = class {
     constructor(hostRef) {
@@ -98,7 +101,7 @@ const IrHkArchive = class {
         }
     }
     render() {
-        return (h(Host, { key: 'cc3bef439bc06a4b7272f9b8ac02dc71798e3303' }, h("ir-title", { key: 'a64c999a7a149c529b1a5e4ad270f9a3d2aaa735', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), h("section", { key: 'e5fb863dd3e1b5ab0f9d8ded54bcfd4228aca536', class: "px-1" }, h("div", { key: '369571586e1d90cda709d32fc52814e12387494a', class: "d-flex" }, h("ir-select", { key: 'ac4d82f099c42bf809fd8dd14812c63a04e7530c', class: "w-100", showFirstOption: false, data: [
+        return (h(Host, { key: '8917f2ae89bde5dfe58dd2dd164f76e32698c4f7' }, h("ir-title", { key: '3dcb089205a040d99cd775ea11957b0816a5c276', class: "px-1", label: "Cleaning Archives (90 days)", displayContext: "sidebar" }), h("section", { key: '3b97dfb246dd15fcc58840083f0c839303abb719', class: "px-1" }, h("div", { key: '6b6704b6e021cff86dc082a5fd4280abe5550183', class: "d-flex" }, h("ir-select", { key: 'e9fd0de70e8a1e0a2c183b74d100275207bf506f', class: "w-100", showFirstOption: false, data: [
                 { text: 'All units', value: '000' },
                 ,
                 ...this.units
@@ -116,7 +119,7 @@ const IrHkArchive = class {
                 else {
                     this.updateFilters({ filtered_by_unit: [e.detail] });
                 }
-            } }), housekeeping_store?.hk_criteria?.housekeepers.length > 1 && (h("ir-select", { key: 'faa684f1694f865a45e24cd4ead6e0fd718b83d1', class: "ml-1 w-100", selectedValue: this.filters?.filtered_by_hkm?.length === housekeeping_store.hk_criteria.housekeepers.length ? '000' : this.filters?.filtered_by_hkm[0]?.toString(), showFirstOption: false, data: [
+            } }), housekeeping_store?.hk_criteria?.housekeepers.length > 1 && (h("ir-select", { key: 'a8aea76f122ce4a91b5b867640933e24dec01076', class: "ir-ms-1 w-100", selectedValue: this.filters?.filtered_by_hkm?.length === housekeeping_store.hk_criteria.housekeepers.length ? '000' : this.filters?.filtered_by_hkm[0]?.toString(), showFirstOption: false, data: [
                 { text: 'All housekeepers', value: '000' },
                 ...housekeeping_store?.hk_criteria?.housekeepers
                     .map(v => ({
@@ -131,7 +134,7 @@ const IrHkArchive = class {
                 else {
                     this.updateFilters({ filtered_by_hkm: [e.detail] });
                 }
-            } }))), h("div", { key: '0051da39b37e543be1d6b803da75a5d15d5e6a03', class: "d-flex mt-1 align-items-center" }, h("ir-range-picker", { key: '5a6c595135949e6e3973594cc275ce65cd465f00', maxDate: hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "mr-1", fromDate: this.filters.from_date ? hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), h("ir-button", { key: 'c58ae712a8403628c6648e2572e89af0cae58e17', title: locales.entries?.Lcz_Search, variant: "icon", icon_name: "search", class: "mr-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), h("ir-button", { key: 'a4e9cdad5a32a96325343eaf40076cd5c49202df', title: locales.entries?.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (h(Fragment, { key: '9e3bd60855c528615cf140030a350de74de26b40' }, this.data?.length === 0 && !isRequestPending('/Get_Archived_HK_Tasks') ? (h("p", { class: 'text-center mt-2' }, locales.entries.Lcz_NoResultsFound)) : (h("table", { class: "mt-2 table" }, h("thead", null, h("th", { class: "pl-0" }, locales.entries.Lcz_Period), h("th", null, locales.entries.Lcz_Housekeeper), h("th", null, locales.entries.Lcz_Unit), h("th", null, locales.entries.Lcz_BookingNumber)), h("tbody", null, this.data?.map(d => (h("tr", { key: d.id }, h("td", { class: "pl-0" }, d.date), h("td", null, d.house_keeper), h("td", null, h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), h("td", null, d.booking_nbr ? (h("ir-button", { btn_color: "link", btnStyle: {
+            } }))), h("div", { key: '896fb88ddde91e477fa4c48f8e2bd770769ee2da', class: "d-flex mt-1 align-items-center" }, h("ir-range-picker", { key: '300c171a7e0c225cf5c969a7c3d0ef2785c754c3', maxDate: hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "ir-me-1", fromDate: this.filters.from_date ? hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), h("ir-button", { key: '7c973efc6dd02e7885c87ce7de9d6a3c8f061e8d', title: locales.entries?.Lcz_Search, variant: "icon", icon_name: "search", class: "ir-me-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), h("ir-button", { key: 'da75526fc229b51a704da89290fdad8b52ea975e', title: locales.entries?.Lcz_ExportToExcel, variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (h(Fragment, { key: 'd3b2c1bfcf096c161fe4d38803f78667e0b5eedf' }, this.data?.length === 0 && !isRequestPending('/Get_Archived_HK_Tasks') ? (h("p", { class: 'text-center mt-2' }, locales.entries.Lcz_NoResultsFound)) : (h("table", { class: "mt-2 table" }, h("thead", null, h("th", { class: "ir-ps-0" }, locales.entries.Lcz_Period), h("th", null, locales.entries.Lcz_Housekeeper), h("th", null, locales.entries.Lcz_Unit), h("th", null, locales.entries.Lcz_BookingNumber)), h("tbody", null, this.data?.map(d => (h("tr", { key: d.id }, h("td", { class: "ir-ps-0" }, d.date), h("td", null, d.house_keeper), h("td", null, h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), h("td", null, d.booking_nbr ? (h("ir-button", { btn_color: "link", btnStyle: {
                 width: 'fit-content',
                 padding: '0',
                 margin: '0',
@@ -140,10 +143,10 @@ const IrHkArchive = class {
             }, text: d.booking_nbr.toString(), onClick: () => {
                 this.selectedBooking = d.booking_nbr;
                 // window.open(`https://x.igloorooms.com/manage/acbookingeditV2.aspx?BN=${d.booking_nbr}`, '_blank');
-            } })) : (locales.entries.Lcz_WasVacant))))))))))), h("ir-sidebar", { key: '37a7e22b6c2e7c7c516f61689013930105093bfa', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.selectedBooking, showCloseButton: false, sidebarStyles: {
+            } })) : (locales.entries.Lcz_WasVacant))))))))))), h("ir-sidebar", { key: 'e505411dee87dfd91e4079628efd0710a5a609e3', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.selectedBooking, showCloseButton: false, sidebarStyles: {
                 width: '80rem',
                 background: 'var(--ir-color-muted-background,#f2f3f8)',
-            } }, this.selectedBooking && (h("ir-booking-details", { key: 'fe2958b758887f26da23781cf962d72843bf34db', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.selectedBooking = null), is_from_front_desk: true, propertyid: Number(this.propertyId), hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.selectedBooking?.toString(), language: this.language, hasRoomAdd: true, ticket: this.ticket })))));
+            } }, this.selectedBooking && (h("ir-booking-details", { key: '75914fd90b14d5966bee841c9b4fa5b6b4e6bfd7', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.selectedBooking = null), is_from_front_desk: true, propertyid: Number(this.propertyId), hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.selectedBooking?.toString(), language: this.language, hasRoomAdd: true, ticket: this.ticket })))));
     }
 };
 IrHkArchive.style = irHkArchiveCss();

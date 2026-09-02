@@ -1,23 +1,22 @@
 'use strict';
 
-var index = require('./index-DN8J4ULi.js');
+var index = require('./index-P5Mginch.js');
 var Token = require('./Token-mN7PQKGF.js');
-var housekeeping_service = require('./housekeeping.service-DZOIAGrO.js');
-var momentWithLocales = require('./moment-with-locales-CS2j7lwa.js');
+var housekeeping_service = require('./housekeeping.service-CXKCfWFZ.js');
+var moment = require('./moment-CdViwxPQ.js');
+var irDate = require('./ir-date-BH2JQpbC.js');
+var direction = require('./direction-BKlLiim_.js');
 var realtime_service = require('./realtime.service-COdIt6Z-.js');
 var v4 = require('./v4-_2BfiRUa.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
+require('./index-BLJXadKe.js');
+require('./locales.store-v9LoZcAK.js');
 
 const irHkStaffTasksCss = () => `.sc-ir-hk-staff-tasks-h{display:block;background:white;height:100%;min-height:100vh}.tasks__container.sc-ir-hk-staff-tasks{display:flex;flex-direction:column;gap:0.75rem;padding:1rem !important}.tasks__section.sc-ir-hk-staff-tasks{display:flex;flex-direction:column;gap:0.375rem}.tasks__section--future.sc-ir-hk-staff-tasks{opacity:0.4;filter:grayscale(0.3)}.tasks-grid.sc-ir-hk-staff-tasks{display:grid;gap:1rem}.tasks__count.sc-ir-hk-staff-tasks{font-size:var(--wa-font-size-s);color:var(--wa-color-text-quiet)}.tasks__header.sc-ir-hk-staff-tasks{display:flex;align-items:end;padding:0.25rem 0;gap:1rem}.tasks__section.sc-ir-hk-staff-tasks:not(:first-of-type){padding-top:0.875rem}.tasks__date.sc-ir-hk-staff-tasks{font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-l);margin:0;padding:0}@media (min-width: 640px){.tasks-grid.sc-ir-hk-staff-tasks{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 1024px){.tasks__container.sc-ir-hk-staff-tasks{padding:1rem 2rem !important}.tasks-grid.sc-ir-hk-staff-tasks{grid-template-columns:repeat(3, minmax(0, 1fr))}}.tasks__empty.sc-ir-hk-staff-tasks{color:var(--wa-color-text-quiet);padding:0.375rem 0;margin:0}.hk-staff-tasks__dialog.sc-ir-hk-staff-tasks::part(title),.hk-staff-tasks__dialog.sc-ir-hk-staff-tasks [part~="title"]{text-align:start}`;
 
 const LANGUAGE_KEY = 'ir_language';
-const localeMap = {
-    en: 'en',
-    ar: 'ar',
-    el: 'el',
-};
 const translations = {
     en: {
         noTasks: 'No tasks for this day.',
@@ -41,9 +40,6 @@ const translations = {
         cancel: 'Ακύρωση',
     },
 };
-function toMomentLocale(lang) {
-    return localeMap[lang?.toLowerCase()] ?? 'en';
-}
 function t(lang) {
     return translations[lang?.toLowerCase()] ?? translations.en;
 }
@@ -51,15 +47,14 @@ const IrHkStaffTasks = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
     }
-    get el() { return index.getElement(this); }
     ticket;
     baseurl;
     language = 'en';
     tokenService = new Token.Token();
     houseKeepingService = new housekeeping_service.HouseKeepingService();
     // Always use English locale for date keys to avoid Arabic-Indic numerals
-    fromDate = momentWithLocales.moment().locale('en').format('YYYY-MM-DD');
-    toDate = momentWithLocales.moment().add(3, 'days').locale('en').format('YYYY-MM-DD');
+    fromDate = moment.hooks().locale('en').format('YYYY-MM-DD');
+    toDate = moment.hooks().add(3, 'days').locale('en').format('YYYY-MM-DD');
     confirmDialog;
     unsubscribeRealtime = null;
     hkOverrideTimer = null;
@@ -74,8 +69,7 @@ const IrHkStaffTasks = class {
     componentWillLoad() {
         // Language resolution: stored preference wins, then prop, then default 'en'
         this.activeLanguage = localStorage.getItem(LANGUAGE_KEY) || this.language;
-        momentWithLocales.moment.locale(toMomentLocale(this.activeLanguage));
-        this.el.setAttribute('dir', this.activeLanguage === 'ar' ? 'rtl' : 'ltr');
+        this.publishLanguage(this.activeLanguage);
         if (this.baseurl) {
             this.tokenService.setBaseUrl(this.baseurl);
         }
@@ -93,13 +87,25 @@ const IrHkStaffTasks = class {
         }
         this.activeLanguage = lang;
         localStorage.setItem(LANGUAGE_KEY, lang);
-        momentWithLocales.moment.locale(toMomentLocale(lang));
-        this.el.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+        this.publishLanguage(lang);
         this.tasksByDate = this.tasksByDate.map(group => ({
             ...group,
-            // Use locale('en') clone so display format uses active locale correctly
-            formattedDate: momentWithLocales.moment(group.date).format('ddd, DD MMM'),
+            formattedDate: irDate.formatDate(group.date, 'ddd, DD MMM'),
         }));
+    }
+    /**
+     * This component is mounted standalone (staff open it directly), so nothing else has run
+     * `fetchLanguage` to publish the active language. Setting `<html lang>` is what routes it to
+     * the date layer — see `resolveLocale` in `src/utils/date/ir-date.ts`. Deliberately no
+     * `moment.locale()` call: that is a global mutation that would change date output for every
+     * other component on the page.
+     */
+    publishLanguage(lang) {
+        const normalized = (lang ?? 'en').toLowerCase();
+        document.documentElement.lang = normalized;
+        // Direction is a document-level concern - dialogs, drawers and toasts render outside
+        // this element's subtree and would keep the page default if `dir` only went on the host.
+        document.documentElement.setAttribute('dir', direction.isRtlLanguage(normalized) ? 'rtl' : 'ltr');
     }
     async handleTicketChange(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -144,15 +150,15 @@ const IrHkStaffTasks = class {
     groupByDate(tasks) {
         // Always use 'en' locale for date keys/comparisons — Arabic locale formats
         // dates with Arabic-Indic numerals which breaks string matching against API dates.
-        const today = momentWithLocales.moment().locale('en').format('YYYY-MM-DD');
+        const today = moment.hooks().locale('en').format('YYYY-MM-DD');
         const dateMap = new Map();
-        const cursor = momentWithLocales.moment(this.fromDate);
-        const end = momentWithLocales.moment(this.toDate);
+        const cursor = moment.hooks(this.fromDate);
+        const end = moment.hooks(this.toDate);
         while (cursor.isSameOrBefore(end, 'day')) {
             const dateStr = cursor.clone().locale('en').format('YYYY-MM-DD');
             dateMap.set(dateStr, {
                 date: dateStr,
-                formattedDate: cursor.format('ddd, DD MMM'), // uses active global locale for display
+                formattedDate: irDate.formatDate(dateStr, 'ddd, DD MMM'),
                 isFuture: dateStr > today,
                 tasks: [],
             });

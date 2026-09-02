@@ -399,7 +399,7 @@ export class IrTextEditor {
     render() {
         const hasLabel = !!this.label || this.hasLabelSlot;
         const hasHint = !!this.hint || this.hasHintSlot;
-        return (h(Host, { key: '367034dfe86f243c69f34edb7e109192716796f8' }, h("div", { key: '256f946cb6db56d7c1af9f9345a701c6583a6c5c', class: "field" }, hasLabel && (h("label", { key: '3b8f6b4330c78fe25149c26162946c9d2aa46df8', id: this.labelId, class: "label has-label ", part: "form-control-label label", onClick: () => this.editor?.focus() }, h("slot", { key: '0bfb8ac450c694bfd419abb3c85fe1bcabb841bd', name: "label" }, this.label))), h("div", { key: 'fb8c2ba15a3079b0f7523d5e7888b762fd1c5a8d', class: { 'editor-wrapper': true, 'error': this.error }, part: "base" }, h("div", { key: '27549487fbbbc80eec0cbafac24ebdc4a1938331', ref: el => (this.editorContainer = el), class: "editor-container" })), hasHint && (h("div", { key: '4a1caab82f68f30bbb16c38c2ede555585a6121a', id: this.hintId, class: "field__hint has-hint", part: "hint" }, h("slot", { key: '635dcc4a0485f1efa8acc79dd5f2030f0478b455', name: "hint" }, this.hint))))));
+        return (h(Host, { key: '105429a7a1cc9f5c19be3f93d8a33a2a869165ab' }, h("div", { key: '79c76dcaf8f9142c5fccc2f2424ddf6d85dcd229', class: "field" }, hasLabel && (h("label", { key: 'd6ed3b6a43e65e7ee0756d2e9d0a91817ff85cde', id: this.labelId, class: "label has-label ", part: "form-control-label label", onClick: () => this.editor?.focus() }, h("slot", { key: '824fe7664c950a1d923f825051759630526311a7', name: "label" }, this.label))), h("div", { key: '5864ab668d31db4bf8ea2b1fd1b4cd361cb6e240', class: { 'editor-wrapper': true, 'error': this.error }, part: "base" }, h("div", { key: '3b4d3e685900f7e1213f8783908060ca9e8f4b11', ref: el => (this.editorContainer = el), class: "editor-container" })), hasHint && (h("div", { key: '25136f2d0dd9d38d16d27190ab3881f817da10d3', id: this.hintId, class: "field__hint has-hint", part: "hint" }, h("slot", { key: '6ff234a5283104b3f2e5fbb61420c6e028f718b0', name: "hint" }, this.hint))))));
     }
     static get is() { return "ir-text-editor"; }
     static get encapsulation() { return "shadow"; }
@@ -407,12 +407,12 @@ export class IrTextEditor {
     static get formAssociated() { return true; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-text-editor.css", "quill.snow.css"]
+            "$": ["ir-text-editor.css", "quill.snow.css", "quill-rtl.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-text-editor.css", "quill.snow.css"]
+            "$": ["ir-text-editor.css", "quill.snow.css", "quill-rtl.css"]
         };
     }
     static get properties() {

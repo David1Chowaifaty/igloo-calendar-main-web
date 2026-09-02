@@ -201,8 +201,8 @@
 
 .sticky-column {
   position: sticky !important;
-  right: 0;
-  background-color: white;
+  inset-inline-end: 0;
+  background-color: var(--wa-color-surface-default, white);
 }
 
 /* #endregion */
@@ -221,10 +221,6 @@
 .text-center {
   text-align: center;
 }
-.text-right {
-  text-align: right;
-}
-
 /* Future-date rows */
 .future-report td {
   background-color: var(--wa-color-neutral-fill-quiet) !important;
@@ -309,4 +305,10 @@
 
 .legend-dot--previous {
   background: var(--wa-color-brand-fill-normal);
+}
+
+/* Logical replacements for the Bootstrap 4 directional utilities this
+   component used; the injected Bootstrap sheet is LTR-only and cannot mirror. */
+.ir-text-end {
+  text-align: end;
 }

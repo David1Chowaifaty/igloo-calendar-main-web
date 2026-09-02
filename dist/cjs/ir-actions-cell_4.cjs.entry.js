@@ -1,12 +1,16 @@
 'use strict';
 
-var index = require('./index-DN8J4ULi.js');
-var calendarData = require('./calendar-data-CdMMPf5M.js');
-var utils = require('./utils-t-vm9_Z2.js');
+var index = require('./index-P5Mginch.js');
+var calendarData = require('./calendar-data-PetnikUI.js');
 var moment = require('./moment-CdViwxPQ.js');
+require('./locales.store-v9LoZcAK.js');
+require('./booking.dto-kenLHU-o.js');
+require('./ir-date-BH2JQpbC.js');
+var number = require('./number-BU1_BuJC.js');
+require('./index-BLJXadKe.js');
 require('./index-CLqkDPTC.js');
-require('./locales.store-QRiel1Gy.js');
 require('./type-Dy9pVS4V.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
 
 const irActionsCellCss = () => `.sc-ir-actions-cell-h{box-sizing:border-box !important}.sc-ir-actions-cell-h *.sc-ir-actions-cell,.sc-ir-actions-cell-h *.sc-ir-actions-cell::before,.sc-ir-actions-cell-h *.sc-ir-actions-cell::after{box-sizing:inherit !important;padding:0;margin:0}[hidden].sc-ir-actions-cell{display:none !important}.sc-ir-actions-cell-h{display:flex;justify-content:flex-end}`;
 
@@ -96,7 +100,7 @@ const IrBalanceCell = class {
         return value !== null && value !== undefined && value !== 0;
     }
     render() {
-        return (index.h(index.Host, { key: '49f23984f34d7b205873b487e721c4ac1024cfb0' }, this.label && index.h("p", { key: '510764347386b4c4e83ca2949bc596a0898652d3', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (index.h("p", { class: "ir-price", style: { fontWeight: '400' } }, utils.formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), index.h("div", { key: 'a95724fd38b9eeff0cbbf965afb117b44d965fe3', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (index.h(index.Host, { key: '36f55b285852f09ba5329afc9cb0cb0824745228' }, this.label && index.h("p", { key: 'd1dd58d922ccaffa18a6a564c2e684a9e6ada161', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (index.h("p", { class: "ir-price", style: { fontWeight: '400' } }, number.formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), index.h("div", { key: 'baa34ad84db178abb00ffba3eae3081a2abfd8bf', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.hasAmount(this.financial.cancelation_penality_as_if_today) &&
                 this.hasAmount(this.financial.due_amount) && (index.h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -112,7 +116,7 @@ const IrBalanceCell = class {
                             reference: '',
                         },
                     });
-                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, index.h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), utils.formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
+                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, index.h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), number.formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
             : this.hasAmount(this.guestFinancial?.due_amount) && (index.h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
                         booking_nbr: this.bookingNumber,
@@ -144,7 +148,7 @@ const IrBalanceCell = class {
                                             reference: '',
                                         },
                                     });
-                                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, index.h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), utils.formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
+                                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, index.h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), number.formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
                             : this.financial.due_amount !== 0 && (index.h("ir-custom-button", { onClickHandler: () => {
                                     this.payBookingBalance.emit({
                                         booking_nbr: this.bookingNumber,
@@ -159,9 +163,9 @@ const IrBalanceCell = class {
                                             reference: '',
                                         },
                                     });
-                                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, utils.formatAmount(this.currencySymbol, this.financial.due_amount)));
+                                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, number.formatAmount(this.currencySymbol, this.financial.due_amount)));
                     }
-                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, utils.formatAmount(this.currencySymbol, this.guestFinancial?.due_amount))))));
+                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, number.formatAmount(this.currencySymbol, this.guestFinancial?.due_amount))))));
     }
 };
 IrBalanceCell.style = irBalanceCellCss();
@@ -174,7 +178,7 @@ const IrGuestNameCell = class {
     }
     name;
     render() {
-        return (index.h(index.Host, { key: '18eff41245528367dc89da528e274bd37bd62f44' }, this.name.first_name, " ", this.name.last_name));
+        return (index.h(index.Host, { key: '304c0d732c864433bcbaa4d900821f2373f53db4' }, this.name.first_name, " ", this.name.last_name));
     }
 };
 IrGuestNameCell.style = irGuestNameCellCss();
@@ -188,7 +192,7 @@ const IrUnitCell = class {
     room;
     showDeparture = false;
     render() {
-        return (index.h(index.Host, { key: '00d42ae1af3c1283fee4231483935a15d769ccd2' }, index.h("p", { key: 'a8927608385412101b773029facc1efd87f06d1d' }, this.room.roomtype.name), this.room.unit && index.h("ir-unit-tag", { key: 'bbf8c8a6ad44b6f08a610135a3635d6daafa9f77', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && index.h("span", { key: '3443850a172ccc61592b41dbf316123ba84208c8' }, this.room?.departure_time?.description)));
+        return (index.h(index.Host, { key: '0a832e098bbf9c924a9fa2da0bc88b41b3dd0cfc' }, index.h("p", { key: 'ef487b4ede93dd1f184d784b03bb240013b5d744' }, this.room.roomtype.name), this.room.unit && index.h("ir-unit-tag", { key: '21066cb0cc7a09ad116c6b7ff6cc37a24500fd1f', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && index.h("span", { key: 'f509030739ae10ac8aa0e4ff70158e2c6e4a4ea5' }, this.room?.departure_time?.description)));
     }
 };
 IrUnitCell.style = irUnitCellCss();

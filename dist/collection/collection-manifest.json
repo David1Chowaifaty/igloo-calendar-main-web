@@ -361,6 +361,7 @@
     "components/ui/ir-input-text/ir-input-text.js",
     "components/ui/ir-interactive-title/ir-interactive-title.js",
     "components/ui/ir-label/ir-label.js",
+    "components/ui/ir-locale-switcher/ir-locale-switcher.js",
     "components/ui/ir-modal/ir-modal.js",
     "components/ui/ir-page/ir-page.js",
     "components/ui/ir-phone-input/ir-phone-input.js",

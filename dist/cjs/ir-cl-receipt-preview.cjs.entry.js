@@ -1,24 +1,28 @@
 'use strict';
 
-var index = require('./index-DN8J4ULi.js');
-var clFiscalDocument_service = require('./cl-fiscal-document.service-Brc8FYvE.js');
-var utils = require('./utils-t-vm9_Z2.js');
-var index$1 = require('./index-BGPiW5tG.js');
-var booking_store = require('./booking.store-DkcsSX5n.js');
+var index = require('./index-P5Mginch.js');
+var clFiscalDocument_service = require('./cl-fiscal-document.service-CRAC15VN.js');
+require('./moment-CdViwxPQ.js');
+require('./calendar-data-PetnikUI.js');
+require('./locales.store-v9LoZcAK.js');
+require('./booking.dto-kenLHU-o.js');
+require('./ir-date-BH2JQpbC.js');
+var number = require('./number-BU1_BuJC.js');
+var index$1 = require('./index-D30e4dRW.js');
+var booking_store = require('./booking.store-Bi052xjW.js');
 require('./Token-mN7PQKGF.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./index-CqzK4ONa.js');
+require('./index-Cv1UlKPY.js');
 require('./index-CLqkDPTC.js');
-require('./calendar-data-CdMMPf5M.js');
-require('./moment-CdViwxPQ.js');
+require('./utils-CwIiTro6.js');
 require('./commonSchemas-hgXVqmtC.js');
-require('./locales.store-QRiel1Gy.js');
+require('./index-BLJXadKe.js');
 require('./type-Dy9pVS4V.js');
 require('./enums-BSCnMYlE.js');
 require('./IBooking-BtFRLVyo.js');
-require('./booking-C49A660o.js');
-require('./functions-tvRFdeyd.js');
+require('./booking-51dS0UQD.js');
+require('./functions-DgKYncGa.js');
 
 const irClReceiptPreviewCss = () => `:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:900px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.receipt-body{display:flex;flex-direction:column;gap:1.75rem}.receipt-section__title{margin:0 0 0.625rem;padding-bottom:0.375rem;font-size:0.6875rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#9ca3af;border-bottom:1px solid #e5e7eb}.receipt-rows{display:flex;flex-direction:column;gap:0.35rem}.receipt-row{display:flex;align-items:baseline;gap:0.375rem;font-size:0.875rem}.receipt-row__label{color:#6b7280;font-weight:400;flex-shrink:0}.receipt-row__label::after{content:':'}.receipt-row__value{color:#111827;font-weight:500}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}.receipt-section__title{color:#374151}.receipt-row__label{color:#374151}}`;
 
@@ -105,7 +109,7 @@ const IrClReceiptPreview = class {
             return (index.h(index.Host, null, index.h("div", { class: "document-state document-state--error" }, "No receipt data found.")));
         }
         const currency = this.property?.currency?.symbol ?? '$';
-        const fmt = (v) => (v != null ? utils.formatAmount(currency, v) : '—');
+        const fmt = (v) => (v != null ? number.formatAmount(currency, v) : '—');
         return (index.h(index.Host, null, index.h("div", { class: "document" }, index.h("ir-cl-document-header", { style: { marginBottom: '2.5rem' }, property: this.property, documentNumber: this.documentNumber, agentName: this.agentName, documentType: "receipt" }), index.h("div", { class: "receipt-body" }, index.h("section", { class: "receipt-section" }, index.h("h4", { class: "receipt-section__title" }, "Payment Details"), index.h("div", { class: "receipt-rows" }, index.h("div", { class: "receipt-row" }, index.h("span", { class: "receipt-row__label" }, "Amount Received"), index.h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), index.h("div", { class: "receipt-row" }, index.h("span", { class: "receipt-row__label" }, "Payment Method"), index.h("span", { class: "receipt-row__value" }, this.getPaymentMethodLabel(tx.PAY_METHOD_CODE))), tx.DESCRIPTION && (index.h("div", { class: "receipt-row" }, index.h("span", { class: "receipt-row__label" }, "Reference"), index.h("span", { class: "receipt-row__value" }, tx.DESCRIPTION))))), index.h("section", { class: "receipt-section" }, index.h("h4", { class: "receipt-section__title" }, "Balance Summary (Account)"), index.h("div", { class: "receipt-rows" }, index.h("div", { class: "receipt-row" }, index.h("span", { class: "receipt-row__label" }, "Balance Before Payment"), index.h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_BEFORE_TX))), index.h("div", { class: "receipt-row" }, index.h("span", { class: "receipt-row__label" }, "Payment Received"), index.h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), index.h("div", { class: "receipt-row" }, index.h("span", { class: "receipt-row__label" }, "Balance After Payment"), index.h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_AFTER_TX)))))))));
     }
 };

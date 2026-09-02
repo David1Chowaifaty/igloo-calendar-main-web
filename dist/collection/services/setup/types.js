@@ -70,3 +70,32 @@ export const ZExposedLanguageSchema = z.object({
     id: z.number(),
 });
 export const ZExposedLanguagesSchema = z.array(ZExposedLanguageSchema);
+/* -------------------------------------------------------------------------- */
+/*                              Move Setup Entry                              */
+/* -------------------------------------------------------------------------- */
+export const MoveSetupEntryParamsSchema = z.object({
+    old_tbl_name: z.string(),
+    code_name: z.string(),
+    new_tbl_name: z.string(),
+});
+/* -------------------------------------------------------------------------- */
+/*                              Move Setup Entry                              */
+/* -------------------------------------------------------------------------- */
+export const MissingSetupEntriesParamsSchema = z.object({
+    language: z.string(),
+});
+/* -------------------------------------------------------------------------- */
+/*                       Search Setup By Description                          */
+/* -------------------------------------------------------------------------- */
+export const ZSearchSetupByDescriptionParamsSchema = z.object({
+    query: z.string(),
+});
+export const ZEntrySchema = z.object({
+    CODE_NAME: z.string(),
+    TBL_NAME: z.string(),
+});
+export const ZDuplicatedSetupEntriesAcrossTablesSchema = z.object({
+    DESCRIPTION: z.string(),
+    ENTRIES: z.array(ZEntrySchema),
+    OCCURRENCES: z.number(),
+});

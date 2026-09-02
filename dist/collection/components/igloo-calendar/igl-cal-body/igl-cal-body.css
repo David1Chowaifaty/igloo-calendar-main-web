@@ -53,8 +53,8 @@
   position: absolute;
   bottom: 0;
   height: 100%;
-  left: 30%;
-  right: 30%;
+  inset-inline-start: 30%;
+  inset-inline-end: 30%;
   background-color: #d4d0be !important;
 }
 
@@ -91,13 +91,13 @@
   height: 30px;
   display: inline-grid;
   border-top: 1px solid var(--wa-color-surface-border);
-  border-left: 1px solid var(--wa-color-surface-border);
+  border-inline-start: 1px solid var(--wa-color-surface-border);
   vertical-align: top;
 }
 .triangle-button {
   --size: 10px;
   position: absolute;
-  right: -6px;
+  inset-inline-end: -6px;
   top: -1px;
 
   width: 0;
@@ -112,14 +112,19 @@
   border-right: var(--size) solid transparent;
   border-bottom: var(--size) solid var(--wa-color-surface-border);
 
+  /* The transparent left/right pair draws an upward triangle; the rotation tips it towards
+     the cell's outer corner, which is the opposite physical corner under RTL. */
   transform: rotate(45deg);
 }
+.triangle-button:dir(rtl) {
+  transform: rotate(-45deg);
+}
 .cellData:nth-child(2) {
-  border-left: 0px;
+  border-inline-start: 0px;
 }
 
 .cellData:last-child {
-  border-right: 1px solid var(--wa-color-surface-border);
+  border-inline-end: 1px solid var(--wa-color-surface-border);
 }
 
 .roomHeaderCell {
@@ -185,8 +190,8 @@
   --day-use-color: var(--day-use-color-past);
 }
 
-/* Centered on the cell's top-right corner point — sits at the edge, half outside the cell's own
-   box. That overlaps the neighboring cell to the right (same row, a later DOM sibling with its
+/* Centered on the cell's top inline-end corner point — sits at the edge, half outside the
+   cell's own box. That overlaps the neighbouring cell (same row, a later DOM sibling with its
    own opaque background), so a high z-index is required to keep painting on top of it. */
 .dayUseBadge {
   position: absolute;
@@ -367,4 +372,16 @@
   --ir-interactive-hk-bg: var(--wa-color-brand-fill-quiet);
   color: var(--wa-color-brand-on-quiet);
   background-color: var(--wa-color-brand-fill-quiet) !important;
+}
+
+/* Logical replacements for the Bootstrap 4 directional utilities this
+   component used; the injected Bootstrap sheet is LTR-only and cannot mirror. */
+.ir-text-start {
+  text-align: start;
+}
+
+/* Directional icon: a chevron, nav arrow or date-range separator points the other way
+   under RTL. Mirroring in CSS keeps it correct without a re-render on direction change. */
+.ir-flip-rtl:dir(rtl) {
+  scale: -1 1;
 }

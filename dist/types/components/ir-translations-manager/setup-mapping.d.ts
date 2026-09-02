@@ -15,7 +15,11 @@ export declare function isSetupLanguageCode(code: string): code is SetupLanguage
  * CODE_VALUE_* column.
  */
 export declare function exposedLanguagesToTranslationLanguages(exposed: ExposedLanguages): TranslationLanguage[];
-/** CODE_NAME is unique within a table, so it doubles as a stable local id. */
+/**
+ * CODE_NAME is unique within a table but not across tables, so the local id is
+ * table-qualified — the cross-table "missing translations" view holds rows from
+ * several tables in one list and would otherwise collide on shared codes.
+ */
 export declare function setupEntryToTranslationEntry(entry: SetupEntry): TranslationEntry;
 /**
  * Builds a full Edit_Setup payload for creating or updating one entry.

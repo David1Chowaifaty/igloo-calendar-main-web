@@ -3,6 +3,7 @@ import { z } from "zod";
 import calendarData from "../stores/calendar-data";
 import locales from "../stores/locales.store";
 import { ROOM_IN_OUT } from "../models/booking.dto";
+import { formatDate } from "./date/index";
 const LANGUAGE_KEY_MAP = {
     en: 'CODE_VALUE_EN',
     ar: 'CODE_VALUE_AR',
@@ -46,14 +47,17 @@ export function getEntryValue({ entry, language = 'en' }) {
 }
 export function convertDateToCustomFormat(dayWithWeekday, monthWithYear, format = 'D_M_YYYY') {
     const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
-    const date = moment(dateStr, 'DD MMM YYYY');
+    // Parses the backend's English `day.description`/`month.description` and produces an internal
+    // calendar cell key — both ends are identity, not display, so the locale is pinned to English.
+    const date = moment(dateStr, 'DD MMM YYYY', 'en');
     if (!date.isValid()) {
         throw new Error('Invalid Date');
     }
     return date.format(format);
 }
 export function convertDateToTime(dayWithWeekday, monthWithYear) {
-    const date = moment(dayWithWeekday + ' ' + monthWithYear, 'ddd DD MMM YYYY').toDate();
+    // Same English-only backend strings as `convertDateToCustomFormat` — pinned for the same reason.
+    const date = moment(dayWithWeekday + ' ' + monthWithYear, 'ddd DD MMM YYYY', 'en').toDate();
     date.setHours(0, 0, 0, 0);
     return date.getTime();
 }
@@ -272,15 +276,12 @@ export function convertDMYToISO(date) {
 export function addTwoMonthToDate(date) {
     return moment(date).add(2, 'months').format('YYYY-MM-DD');
 }
-export function formatDate(dateString, option = 'DD MMM YYYY') {
-    const formattedDate = moment(dateString, option).format('ddd, DD MMM YYYY');
-    return formattedDate;
-}
 export function getNextDay(date) {
     return moment(date).add(1, 'days').format('YYYY-MM-DD');
 }
+/** Row label for the per-night price breakdown — display only. */
 export function convertDatePrice(date) {
-    return moment(date, 'YYYY-MM-DD').format('DD/MM ddd');
+    return formatDate(date, 'DD/MM ddd');
 }
 export function getDaysArray(date1, date2) {
     let dates = [];
@@ -302,9 +303,15 @@ export function validateEmail(email) {
     const parsedEmailResults = z.string().email().safeParse(email);
     return !parsedEmailResults.success;
 }
-export function formatAmount(currency, amount = 0) {
-    return `${amount < 0 ? '- ' : ''}${currency} ${Math.abs(amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-}
+/**
+ * Re-exported from `@/utils/number` so the ~135 existing call sites pick up locale- and
+ * digit-script-aware formatting without changing. Previously this used `toLocaleString(undefined,
+ * …)`, i.e. the *browser's* locale rather than the app's — so a French browser rendered
+ * `1 234,50` inside an English UI. It now follows the app's active language.
+ */
+// NB: relative, not `@/utils/number` — Stencil's transpiler rewrites tsconfig path
+// aliases on `import` statements but not on re-exports, so the alias fails under jest.
+export { formatAmount } from './number';
 /**
  * Determines whether the given user has privileged (global or elevated) access.
  *

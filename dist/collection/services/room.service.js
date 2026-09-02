@@ -136,7 +136,13 @@ export class RoomService {
             }
             let entries = this.transformArrayToObject(data.My_Result.entries);
             locales.entries = { ...locales.entries, ...entries };
-            locales.direction = 'rtl';
+            locales.direction = String(data.My_Result.direction).toLowerCase() === 'rtl' ? 'rtl' : 'ltr';
+            // The date layer resolves its language from here and from `<html lang>` — see
+            // `resolveLocale` in `src/utils/date/ir-date.ts`. Without this, every component's
+            // `@Prop() language` stopped at the locale strings and dates stayed English.
+            const language = String(code ?? '').toLowerCase();
+            locales.language = language;
+            document.documentElement.lang = language;
             //copy entries
             // this.copyEntries(entries);
             return { entries, direction: data.My_Result.direction };

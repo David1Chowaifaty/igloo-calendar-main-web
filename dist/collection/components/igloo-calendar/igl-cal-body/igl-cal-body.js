@@ -7,6 +7,7 @@ import calendar_data from "../../../stores/calendar-data";
 import { isRtlDirection } from "../../../utils/calendar-grid";
 import { _formatTime } from "../../ir-booking-details/functions";
 import { isBlockUnit, showToast } from "../../../utils/utils";
+import { formatNumber } from "../../../utils/number";
 export class IglCalBody {
     isScrollViewDragging;
     propertyId;
@@ -377,7 +378,7 @@ export class IglCalBody {
     getRoomtypeDayInventoryCells(addClass, isCategory = false, index) {
         return calendar_dates.days.map(dayInfo => {
             // const isActive = true;
-            return (h("div", { class: `cellData  font-weight-bold categoryPriceColumn ${addClass + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}` }, isCategory ? (h(Fragment, null, h("span", { class: 'categoryName' }, dayInfo.rate[index].exposed_inventory.rts))) : ('')));
+            return (h("div", { class: `cellData  font-weight-bold categoryPriceColumn ${addClass + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}` }, isCategory ? (h(Fragment, null, h("span", { class: 'categoryName' }, formatNumber(dayInfo.rate[index].exposed_inventory.rts)))) : ('')));
         });
     }
     getGeneralUnitsDayCells(roomId, roomCategory, roomName) {
@@ -493,7 +494,7 @@ export class IglCalBody {
             return null;
         }
         const hasRoomWithTodayCheckin = this.categoryHasRoomWithTodayCheckin(roomType);
-        return (h("div", { class: "roomRow", "data-has-today-checkin": String(hasRoomWithTodayCheckin) }, h("div", { class: `cellData text-left align-items-center roomHeaderCell categoryTitle ${'category_' + this.getCategoryId(roomType)}`, onClick: () => this.toggleCategory(roomType), "data-has-today-checkin": String(hasRoomWithTodayCheckin) }, h("div", { class: 'categoryName' }, h("ir-interactive-title", { popoverTitle: this.getCategoryName(roomType) })), roomType.expanded ? h("wa-icon", { name: "angle-down" }) : h("wa-icon", { name: "angle-right" })), this.getRoomtypeDayInventoryCells('category_' + this.getCategoryId(roomType), true, index)));
+        return (h("div", { class: "roomRow", "data-has-today-checkin": String(hasRoomWithTodayCheckin) }, h("div", { class: `cellData ir-text-start align-items-center roomHeaderCell categoryTitle ${'category_' + this.getCategoryId(roomType)}`, onClick: () => this.toggleCategory(roomType), "data-has-today-checkin": String(hasRoomWithTodayCheckin) }, h("div", { class: 'categoryName' }, h("ir-interactive-title", { popoverTitle: this.getCategoryName(roomType) })), roomType.expanded ? h("wa-icon", { name: "angle-down" }) : h("wa-icon", { class: "ir-flip-rtl", name: "angle-right" })), this.getRoomtypeDayInventoryCells('category_' + this.getCategoryId(roomType), true, index)));
     }
     /**
      * Renders a list of active rooms for an expanded room category. Returns an array of JSX elements, including headers and day columns, or an empty array if the category is collapsed or contains no active rooms.
@@ -693,13 +694,13 @@ export class IglCalBody {
     render() {
         const roomTopOffsets = this.getRoomTopOffsets();
         this.lastRenderedRoomTops = roomTopOffsets;
-        return (h(Host, { key: 'bea24520bd80e01f01673ed73cf82d8f446e4f1d', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: 'faa84e77a50c618c364b4cb593463d2c95b22cad', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '1d59d199f9b7b55db0d59249214da95baf0cdd0d', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: '5e06a35536e902ee79b959ea258b5e26669c9f7a', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: '086181d5d886be1e9054b62fadfe6d0eaed12fe6', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '0348a988cca55d7a750b9f456d56c195d4860521', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData(), roomTop: roomTopOffsets.get(Number(bookingEvent.PR_ID)) }));
-        }))), h("igl-housekeeping-dialog", { key: 'ec8743be382361ab9540abab38d30d2999173de0', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: 'd152ea880ecc6950072d7468cef7d23a355e2796', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '01113469acc4ad612fa95864227eae0894a0c3af', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '892573eb39cfb7f6acef044ed2aaf087c65a6af0', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issues = null;

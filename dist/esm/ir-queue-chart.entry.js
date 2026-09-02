@@ -1,4 +1,4 @@
-import { r as registerInstance, d as getElement, h, H as Host } from './index-C63jMJYk.js';
+import { r as registerInstance, d as getElement, h, H as Host } from './index-BYqrdgY9.js';
 import { C as Chart, r as registerables } from './chart-3KrsuFTS.js';
 
 const irQueueChartCss = () => `:host{display:block}`;
@@ -104,7 +104,7 @@ const IrQueueChart = class {
         this.chart.update();
     }
     render() {
-        return (h(Host, { key: 'e10dac52a83a08e88348655f891a05e633f92440' }, h("div", { key: '36432b70d1a71b96c12d62ee25d21eda047139b8', class: "chart-container" }, h("canvas", { key: 'e1d6c1716eaffe389d7514eb6b1f1e490497906d', ref: el => (this.canvas = el) }))));
+        return (h(Host, { key: '63ecf90e773939a4247af7abfcd461df3e56fb59' }, h("div", { key: '9b862f109bbe5e8028fc54c55ab06b1bcff7a787', class: "chart-container" }, h("canvas", { key: 'ea250e6dfed4beec829e8f2542565b7a2151a153', ref: el => (this.canvas = el) }))));
     }
     static get watchers() { return {
         "values": [{

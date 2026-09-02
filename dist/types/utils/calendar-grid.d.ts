@@ -10,11 +10,10 @@ export declare const ROOM_HEADER_WIDTH = 170;
 export declare const CATEGORY_HEADER_HEIGHT = 40;
 export declare const EVENT_SPACE = 8;
 /**
- * `locales.direction` comes straight from the language API and isn't guaranteed to be
- * lowercase (observed 'RTL' from at least one property/language combination), so every
- * direction check in the calendar goes through this instead of a raw `=== 'rtl'` compare.
+ * Re-exported so the calendar's existing call sites keep working. The canonical
+ * implementation is app-wide and lives in `src/utils/direction.ts`.
  */
-export declare function isRtlDirection(direction: string | undefined | null): boolean;
+export { isRtlDirection } from './direction';
 export declare function getDayIndex(days: DayData[], dateValue: string): number;
 export declare function getTotalGridWidth(dayCount: number): number;
 /**

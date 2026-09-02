@@ -6,6 +6,7 @@ import locales from "../../../../stores/locales.store";
 import { HelpDocButton } from "../../../HelpButton";
 import { ApplicablePoliciesService } from "../../../../services/applicable-policies.service";
 import { BookingService } from "../../../../services/booking-service/booking.service";
+import { formatDate } from "../../../../utils/date/index";
 export class IrApplicablePolicies {
     booking;
     propertyId;
@@ -41,9 +42,9 @@ export class IrApplicablePolicies {
     }
     formatPreviousBracketDueOn(d1, d2) {
         if (d1.isSame(d2, 'year')) {
-            return d1.format('MMM DD');
+            return formatDate(d1, 'MMM DD');
         }
-        return d1.format('MMM DD, YYYY');
+        return formatDate(d1, 'MMM DD, YYYY');
     }
     getBracketLabelsAndArrowState({ bracket, index, brackets, checkInDate }) {
         // Validate inputs
@@ -69,15 +70,15 @@ export class IrApplicablePolicies {
         const momentCheckInDate = moment(checkInDate, 'YYYY-MM-DD');
         if (bracketDueDate.isSame(momentCheckInDate, 'days')) {
             return {
-                leftLabel: `${momentCheckInDate.format('MMM DD')} onwards`,
+                leftLabel: `${formatDate(momentCheckInDate, 'MMM DD')} onwards`,
                 showArrow: false,
                 rightLabel: '',
             };
         }
         return {
-            leftLabel: bracketDueDate.format('MMM DD'),
+            leftLabel: formatDate(bracketDueDate, 'MMM DD'),
             showArrow: true,
-            rightLabel: moment(checkInDate, 'YYYY-MM-DD').format('MMM DD, YYYY'),
+            rightLabel: formatDate(checkInDate, 'MMM DD, YYYY'),
         };
     }
     handleMultipleBrackets(bracket, index, brackets, checkInDate) {
@@ -100,13 +101,13 @@ export class IrApplicablePolicies {
                 leftLabel: 'Until',
                 showArrow: false,
                 rightLabel: nextBracketDueDate.isSame(momentCheckInDate, 'dates')
-                    ? nextBracketDueDate.clone().add(-1, 'days').format('MMM DD, YYYY')
-                    : nextBracketDueDate.format('MMM DD, YYYY'),
+                    ? formatDate(nextBracketDueDate.clone().add(-1, 'days'), 'MMM DD, YYYY')
+                    : formatDate(nextBracketDueDate, 'MMM DD, YYYY'),
             };
         }
         if (moment(bracket.due_on, 'YYYY-MM-DD').isSameOrAfter(momentCheckInDate, 'days')) {
             return {
-                leftLabel: `${momentCheckInDate.format('MMM DD')} onwards`,
+                leftLabel: `${formatDate(momentCheckInDate, 'MMM DD')} onwards`,
                 showArrow: false,
                 rightLabel: '',
             };
@@ -114,9 +115,9 @@ export class IrApplicablePolicies {
         // Last bracket
         if (index === brackets.length - 1) {
             return {
-                leftLabel: bracketDueDate.clone().format('MMM DD'),
+                leftLabel: formatDate(bracketDueDate.clone(), 'MMM DD'),
                 showArrow: true,
-                rightLabel: moment(checkInDate).format('MMM DD, YYYY'),
+                rightLabel: formatDate(checkInDate, 'MMM DD, YYYY'),
             };
         }
         // Middle brackets
@@ -134,7 +135,7 @@ export class IrApplicablePolicies {
         return {
             leftLabel: this.formatPreviousBracketDueOn(bracketDueDate, periodEndDate),
             showArrow: !haveSameDays,
-            rightLabel: haveSameDays ? '' : periodEndDate.add(-1, 'days').format('MMM DD, YYYY'),
+            rightLabel: haveSameDays ? '' : formatDate(periodEndDate.add(-1, 'days'), 'MMM DD, YYYY'),
         };
     }
     generateCancellationStatement() {
@@ -179,7 +180,7 @@ export class IrApplicablePolicies {
             return null;
         }
         const remainingGuaranteeAmount = this.booking.financial.collected - this.guaranteeAmount;
-        return (h(Host, null, this.guaranteeAmount !== 0 && (h("section", null, h("wa-callout", { variant: "danger", class: "applicable-policies__guarantee" }, h("div", { class: "applicable-policies__guarantee-info" }, h("p", { class: "applicable-policies__guarantee-date" }, moment(this.booking.booked_on.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { class: "applicable-policies__guarantee-amount" }, h("span", { class: "px-1" }, formatAmount(calendar_data.currency.symbol, remainingGuaranteeAmount < 0 ? Math.abs(remainingGuaranteeAmount) : this.guaranteeAmount))), h("p", { class: "applicable-policies__guarantee-label" }, "Guarantee ", remainingGuaranteeAmount < 0 ? 'balance' : '')), remainingGuaranteeAmount < 0 && (h("div", { class: "applicable-policies__guarantee-action" }, h("ir-custom-button", { onClickHandler: () => {
+        return (h(Host, null, this.guaranteeAmount !== 0 && (h("section", null, h("wa-callout", { variant: "danger", class: "applicable-policies__guarantee" }, h("div", { class: "applicable-policies__guarantee-info" }, h("p", { class: "applicable-policies__guarantee-date" }, formatDate(this.booking.booked_on.date, 'MMM DD, YYYY')), h("p", { class: "applicable-policies__guarantee-amount" }, h("span", { class: "px-1" }, formatAmount(calendar_data.currency.symbol, remainingGuaranteeAmount < 0 ? Math.abs(remainingGuaranteeAmount) : this.guaranteeAmount))), h("p", { class: "applicable-policies__guarantee-label" }, "Guarantee ", remainingGuaranteeAmount < 0 ? 'balance' : '')), remainingGuaranteeAmount < 0 && (h("div", { class: "applicable-policies__guarantee-action" }, h("ir-custom-button", { onClickHandler: () => {
                 this.generatePayment.emit({
                     amount: Math.abs(remainingGuaranteeAmount),
                     currency: calendar_data.currency,
@@ -199,7 +200,7 @@ export class IrApplicablePolicies {
                     checkInDate: statement.checkInDate,
                 });
                 const isInCurrentBracket = moment(bracket.due_on, 'YYYY-MM-DD').isSame(currentBracket, 'date');
-                return (h("div", { class: { 'applicable-policies__bracket': true, 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, h("p", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("p", { class: "applicable-policies__amount" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("p", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
+                return (h("div", { class: { 'applicable-policies__bracket': true, 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, h("p", { class: "applicable-policies__bracket-dates" }, leftLabel, ' ', showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon ir-flip-rtl", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("p", { class: "applicable-policies__amount" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("p", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
             })), h("div", { class: "applicable-policies__brackets-table" }, h("table", null, h("tbody", null, statement.brackets.map((bracket, idx) => {
                 const { leftLabel, rightLabel, showArrow } = this.getBracketLabelsAndArrowState({
                     index: idx,
@@ -208,7 +209,7 @@ export class IrApplicablePolicies {
                     checkInDate: statement.checkInDate,
                 });
                 const isInCurrentBracket = moment(bracket.due_on, 'YYYY-MM-DD').isSame(currentBracket, 'date');
-                return (h("tr", { class: { 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, h("td", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("td", { class: "applicable-policies__amount px-1" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("td", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
+                return (h("tr", { class: { 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, h("td", { class: "applicable-policies__bracket-dates" }, leftLabel, ' ', showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon ir-flip-rtl", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("td", { class: "applicable-policies__amount px-1" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("td", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
             }))))));
         }))))));
     }

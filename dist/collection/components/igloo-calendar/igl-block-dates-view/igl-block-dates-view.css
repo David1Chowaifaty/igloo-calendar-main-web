@@ -12,7 +12,7 @@
 }
 
 .block-dates__dates {
-  --ir-date-view-font-size: var(--wa-font-size-s, 0.8125rem);
+  --ir-date-view-font-size: var(--wa-font-size-m, 0.8125rem);
 }
 
 .block-dates__label {

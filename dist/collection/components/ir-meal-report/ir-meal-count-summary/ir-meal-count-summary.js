@@ -1,7 +1,7 @@
 import { Host, h } from "@stencil/core";
-import moment from "moment";
 import { flexRender, useTable } from "../../../utils/useTable";
 import { createColumnHelper, getCoreRowModel } from "@tanstack/table-core";
+import { formatDate } from "../../../utils/date/index";
 export class IrMealCountSummary {
     mealCountSummary = [];
     columnHelper = createColumnHelper();
@@ -17,7 +17,7 @@ export class IrMealCountSummary {
     columns = [
         this.columnHelper.accessor('Date', {
             header: 'Date',
-            cell: info => h("span", { class: "meal-count__date" }, moment(info.getValue()).format('ddd, MMM DD')),
+            cell: info => h("span", { class: "meal-count__date" }, formatDate(info.getValue(), 'ddd, MMM DD')),
         }),
         this.columnHelper.group({
             id: 'breakfast',

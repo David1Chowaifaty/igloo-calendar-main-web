@@ -1,9 +1,14 @@
-import { r as registerInstance, c as createEvent, h, d as getElement, H as Host, F as Fragment } from './index-C63jMJYk.js';
+import { r as registerInstance, c as createEvent, h, d as getElement, H as Host, F as Fragment } from './index-BYqrdgY9.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { l as locales } from './locales.store-Dv_C-G-l.js';
-import { f as formatAmount, x as calculateTrend } from './utils-D7g9MYlv.js';
-import { c as calendar_data } from './calendar-data-Bgq-VjK-.js';
+import { l as locales } from './locales.store-C9qsbKR0.js';
+import { f as formatDate } from './ir-date-VwsP30iT.js';
+import { c as calendar_data } from './calendar-data-BebdClG4.js';
+import './booking.dto-DpE31yhG.js';
+import { f as formatAmount } from './number-BZWB3cYi.js';
+import { v as calculateTrend } from './utils-h4Y9o8Os.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-34GsmACS.js';
+import './index-CimhgHoX.js';
+import './_commonjsHelpers-BFTU3MAI.js';
 import './index-DeW5X45W.js';
 import './type-D7rOPtKA.js';
 
@@ -58,20 +63,20 @@ const IrDailyRevenueFilters = class {
     getLast30Days() {
         return Array.from({ length: 30 }, (_, i) => {
             const date = hooks().subtract(i, 'days');
-            const label = i === 0 ? 'Today' : date.format('MMM DD, YYYY');
+            const label = i === 0 ? 'Today' : formatDate(date, 'MMM DD, YYYY');
             return { text: label, value: date.format('YYYY-MM-DD') };
         });
     }
     render() {
-        return (h("ir-filter-card", { key: '14d720f5adba69593b96b5310eadef8935fff490' }, h("wa-select", { key: '96fee6475924cafa0fd2a999a4f3838e1db348a2', label: "Selected period", size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
+        return (h("ir-filter-card", { key: 'e8d0defcbff20024663225ccbf21b156866d884b' }, h("wa-select", { key: 'f2a1b4db1f1c89aaace3c0ca265093149f285380', label: "Selected period", size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
                 const value = e.target.value;
                 this.updateFilter({ date: value, to_date: value, from_date: value });
-            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: 'ba43d2c9c0b564a847cb6ae73bf8567d0d017afe', class: "or-divider" }, h("span", { key: '624e84048715dc7bcf8d17cc82d7c73e984aab41', class: "or-divider__line" }), h("span", { key: '6ebd7ee2c9bb8ee33fb7f97ae092479cb86bfaf0', class: "or-divider__text" }, "Or"), h("span", { key: '04fb46880a2f95d9e00e8e24a5d7a2421bc05131', class: "or-divider__line" })), h("ir-date-range-filter", { key: '487f69907b6235a7381a3fb472ab581ee836d6b2', showQuickActions: false, label: "Date range", fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: hooks().format('YYYY-MM-DD'), onDatesChanged: e => {
+            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: 'd4bbb19e73483232f8723c8014155c66aa62e678', class: "or-divider" }, h("span", { key: '62dd4579bd0bd64edcc8f012f9a3c0652f3c560a', class: "or-divider__line" }), h("span", { key: '0e77e0faeb9ad6ecb5306490b22c0ef36c1e8035', class: "or-divider__text" }, "Or"), h("span", { key: '8c5d581e496adc52ad6f691a3fed49d7f902c0cc', class: "or-divider__line" })), h("ir-date-range-filter", { key: '88fada3181bf66c205bf909fb5020ceceee8b1a1', showQuickActions: false, label: "Date range", fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: hooks().format('YYYY-MM-DD'), onDatesChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { from, to } = e.detail;
                 this.updateFilter({ from_date: from, to_date: to, date: null });
-            } }), h("div", { key: '8e108781c74e50c6a76e6747761056fefb143ebe', slot: "footer" }, h("ir-custom-button", { key: '098c59f503187a6f6ec081ef7a518dd1d56d5937', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: 'b13eed39689858f316b7e12a203f04e093f3033b', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
+            } }), h("div", { key: '9ee9741027fcc79dafdbdfd0788ca4751525f54f', slot: "footer" }, h("ir-custom-button", { key: '6118fad80dfbad83b2c65e7716e43ed295cdbf3e', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: '88a892ee30f44f150b14f6d883fc0e1fb47e0d71', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
     }
     static get watchers() { return {
         "payments": [{
@@ -81,7 +86,7 @@ const IrDailyRevenueFilters = class {
 };
 IrDailyRevenueFilters.style = irDailyRevenueFiltersCss();
 
-const irRevenueRowCss = () => `.sc-ir-revenue-row-h{--ir-border:var(--wa-color-surface-border)}.ir-revenue-row__accordion.sc-ir-revenue-row::part(base),.ir-revenue-row__accordion.sc-ir-revenue-row [part~="base"],.ir-revenue-row.sc-ir-revenue-row{border:0;border-radius:0;border-bottom:1px solid var(--ir-border, #e5e7eb);padding:0}.ir-revenue-row__header.sc-ir-revenue-row{display:flex;align-items:center;justify-content:space-between;padding:var(--ir-space-4, 1rem);border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__accordion.sc-ir-revenue-row [part~="trigger"],.ir-revenue-row__title.sc-ir-revenue-row{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:0;padding:0;cursor:pointer;text-align:left;width:100%;justify-content:space-between;padding:0.5rem;color:var(--wa-color-text-normal);transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.ir-revenue-row__title.sc-ir-revenue-row{padding:0}.ir-revenue-row__header-left.sc-ir-revenue-row{display:flex;align-items:center;gap:0.5rem}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger):hover,.ir-revenue-row__accordion.sc-ir-revenue-row [part~="trigger"]:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet))}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger):active,.ir-revenue-row__accordion.sc-ir-revenue-row [part~="trigger"]:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active))}.ir-revenue-row__group.sc-ir-revenue-row{margin:0}.ir-revenue-row__total.sc-ir-revenue-row{font-weight:700;margin:0}.ir-revenue-row__accordion.sc-ir-revenue-row::part(content),.ir-revenue-row__accordion.sc-ir-revenue-row [part~="content"]{padding:0.25rem 1rem}.ir-revenue-row__detail.sc-ir-revenue-row{display:block;border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__detail.sc-ir-revenue-row:last-child{border-bottom:none}@media (min-width: 1024px){.ir-revenue-row__header-left.sc-ir-revenue-row{width:40.77vw}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__title.sc-ir-revenue-row{justify-content:flex-start}}`;
+const irRevenueRowCss = () => `.sc-ir-revenue-row-h{--ir-border:var(--wa-color-surface-border)}.ir-revenue-row__accordion.sc-ir-revenue-row::part(base),.ir-revenue-row__accordion.sc-ir-revenue-row [part~="base"],.ir-revenue-row.sc-ir-revenue-row{border:0;border-radius:0;border-bottom:1px solid var(--ir-border, #e5e7eb);padding:0}.ir-revenue-row__header.sc-ir-revenue-row{display:flex;align-items:center;justify-content:space-between;padding:var(--ir-space-4, 1rem);border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__accordion.sc-ir-revenue-row [part~="trigger"],.ir-revenue-row__title.sc-ir-revenue-row{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:0;padding:0;cursor:pointer;text-align:start;width:100%;justify-content:space-between;padding:0.5rem;color:var(--wa-color-text-normal);transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.ir-revenue-row__title.sc-ir-revenue-row{padding:0}.ir-revenue-row__header-left.sc-ir-revenue-row{display:flex;align-items:center;gap:0.5rem}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger):hover,.ir-revenue-row__accordion.sc-ir-revenue-row [part~="trigger"]:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet))}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger):active,.ir-revenue-row__accordion.sc-ir-revenue-row [part~="trigger"]:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active))}.ir-revenue-row__group.sc-ir-revenue-row{margin:0}.ir-revenue-row__total.sc-ir-revenue-row{font-weight:700;margin:0}.ir-revenue-row__accordion.sc-ir-revenue-row::part(content),.ir-revenue-row__accordion.sc-ir-revenue-row [part~="content"]{padding:0.25rem 1rem}.ir-revenue-row__detail.sc-ir-revenue-row{display:block;border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__detail.sc-ir-revenue-row:last-child{border-bottom:none}@media (min-width: 1024px){.ir-revenue-row__header-left.sc-ir-revenue-row{width:40.77vw}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__title.sc-ir-revenue-row{justify-content:flex-start}}`;
 
 let accId = 0;
 const IrRevenueRow = class {

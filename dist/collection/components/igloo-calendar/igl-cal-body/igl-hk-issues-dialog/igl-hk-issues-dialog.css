@@ -16,7 +16,7 @@
   flex-direction: column;
   gap: 0.625rem;
   overflow-y: auto;
-  padding-right: 2px;
+  padding-inline-end: 2px;
 }
 
 /* ── Ticket card ── */
@@ -188,7 +188,7 @@
 }
 
 .selected-hint {
-  margin-right: auto;
+  margin-inline-end: auto;
   font-size: 0.78rem;
   font-weight: 500;
   color: var(--wa-color-neutral-on-quiet);

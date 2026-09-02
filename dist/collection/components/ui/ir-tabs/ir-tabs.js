@@ -1,4 +1,5 @@
 import { Host, h } from "@stencil/core";
+import { inlineOffset, inlineSign } from "../../../utils/direction";
 export class IrTabs {
     el;
     /**
@@ -72,11 +73,13 @@ export class IrTabs {
         requestAnimationFrame(() => {
             const selectedTab = this.el.querySelector(`.tab[data-state="selected"]`);
             if (selectedTab) {
-                const { left, width } = selectedTab.getBoundingClientRect();
-                const parentLeft = this.el.getBoundingClientRect().left;
-                const position = left - parentLeft - this.remSize;
-                this.activeIndicator.style.width = `${width - this.remSize}px`;
-                this.activeIndicator.style.transform = `translateX(${position}px)`;
+                const tabRect = selectedTab.getBoundingClientRect();
+                // The indicator is absolutely positioned with no inset, so it starts at the strip's
+                // inline start - which is the right edge under RTL, where a positive translateX walks
+                // it the wrong way. Measure the offset on the inline axis and push it the same way.
+                const position = inlineOffset(tabRect, this.el.getBoundingClientRect()) - this.remSize;
+                this.activeIndicator.style.width = `${tabRect.width - this.remSize}px`;
+                this.activeIndicator.style.transform = `translateX(${position * inlineSign()}px)`;
             }
         });
     }
@@ -97,14 +100,14 @@ export class IrTabs {
         const currentIndex = this.tabs.findIndex(t => t.id === currentTab.id);
         let nextIndex = currentIndex;
         switch (event.key) {
+            // Arrow keys move along the inline axis, so RTL swaps which key is "next".
             case 'ArrowRight':
+            case 'ArrowLeft': {
                 event.preventDefault();
-                nextIndex = (currentIndex + 1) % this.tabs.length;
+                const forward = (event.key === 'ArrowRight') === (inlineSign() === 1);
+                nextIndex = forward ? (currentIndex + 1) % this.tabs.length : currentIndex === 0 ? this.tabs.length - 1 : currentIndex - 1;
                 break;
-            case 'ArrowLeft':
-                event.preventDefault();
-                nextIndex = currentIndex === 0 ? this.tabs.length - 1 : currentIndex - 1;
-                break;
+            }
             case 'Home':
                 event.preventDefault();
                 nextIndex = 0;
@@ -133,7 +136,7 @@ export class IrTabs {
         }
     }
     render() {
-        return (h(Host, { key: 'a086deda46990f1aab293a27cc7ff825eaa6a3ec', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: 'e9e4f0a44d199982039f2e96846702f01e1dcfdd', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+        return (h(Host, { key: 'cf7057c4b5dab69d68876a73f6b2dc9cab392549', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: 'd966c3b2860f1df37b97cd2a92b4f2e6cdc67b31', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
     static get is() { return "ir-tabs"; }
     static get encapsulation() { return "scoped"; }

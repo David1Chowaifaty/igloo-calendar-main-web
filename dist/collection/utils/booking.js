@@ -5,6 +5,7 @@ import locales from "../stores/locales.store";
 import calendar_dates from "../stores/calendar-dates.store";
 import calendar_data from "../stores/calendar-data";
 import { _formatTime } from "../components/ir-booking-details/functions";
+import { formatDate } from "./date/index";
 /**
  * Builds an index of split chains for a booking's rooms.
  * @param rooms - The booking's rooms array.
@@ -181,7 +182,7 @@ function renderBlock003Date(date, hour, minute) {
     const dt = new Date(date);
     dt.setHours(hour);
     dt.setMinutes(minute);
-    return `${locales.entries.Lcz_BlockedTill} ${moment(dt).format('MMM DD, HH:mm')}`;
+    return `${locales.entries.Lcz_BlockedTill} ${formatDate(dt, 'MMM DD, HH:mm')}`;
 }
 function getDefaultData(cell, stayStatusLookup) {
     if (isBlockUnit(cell.STAY_STATUS_CODE)) {

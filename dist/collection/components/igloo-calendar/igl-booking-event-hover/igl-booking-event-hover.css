@@ -46,8 +46,8 @@
 }
 
 .iglPopOver.infoBubble {
-  min-width: 320px;
-  max-width: 360px;
+  min-width: 350px;
+  /* max-width: 360px; */
 }
 
 .iglPopOver.blockedView {
@@ -203,20 +203,15 @@
   gap: var(--eh-row-gap);
 }
 
-/* ─── Action buttons — self-balancing 2-up row ──────────────
-   Flex-wrap, not a fixed 2-col grid: the count of visible buttons varies per
-   booking (some are conditional) and per view (2 for a plain booking, 3 for the
-   blocked view, …). Each button targets a half-width track but grows to absorb
-   leftover space, so a lone trailing button — or a popover with only two —
-   fills its row instead of leaving a dead gap. */
+/* ─── Action buttons ──────────────────────────────────────
+   Info and blocked views keep every action on a single row — never wrapping —
+   buttons shrink together to fit. The new-booking view opts its buttons into
+   `.--full` for a stacked layout. */
 .event-hover__actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--eh-gap);
   margin-block-start: var(--wa-space-s, 0.5rem);
-
-  --ir-c-btn-height: 1.9rem;
-  --ir-c-btn-font-size: var(--wa-font-size-s, 0.8125rem);
 }
 
 .newBookingOptions .event-hover__actions,
@@ -224,9 +219,21 @@
   margin-block-start: 0;
 }
 
-.event-hover__actions > ir-custom-button {
-  flex: 1 1 calc(50% - var(--eh-gap));
-  min-width: 7rem;
+.infoBubble .event-hover__actions,
+.blockedView .event-hover__actions {
+  flex-wrap: nowrap;
+}
+
+.infoBubble .event-hover__actions > ir-custom-button,
+.blockedView .event-hover__actions > ir-custom-button {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.event-hover__actions ir-custom-button::part(label) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .event-hover__actions .--full,
@@ -252,6 +259,8 @@
   pointer-events: none;
 }
 
+/* Physical, per the note above: centred on the bubble, triangle drawn from a symmetric
+   border pair. */
 .bubblePointer::before,
 .bubblePointer::after {
   z-index: 100;
@@ -263,6 +272,7 @@
   border-right: var(--ir-booking-event-arrow) solid transparent;
 }
 
+/* Physical, per the note above: a symmetric border pair drawing the triangle. */
 .bubblePointer::before {
   border-left: var(--ir-booking-event-arrow-before) solid transparent;
   border-right: var(--ir-booking-event-arrow-before) solid transparent;
@@ -294,9 +304,4 @@
 .bubblePointBottom::after {
   border-bottom: var(--ir-booking-event-arrow) solid var(--wa-color-surface-default, #fff);
   bottom: -1px;
-}
-
-/* ─── RTL: mirror the LTR-only arrow glyph in ir-date-view ─ */
-:host([dir='rtl']) .event-hover__dates::part(separator-icon) {
-  transform: scaleX(-1);
 }

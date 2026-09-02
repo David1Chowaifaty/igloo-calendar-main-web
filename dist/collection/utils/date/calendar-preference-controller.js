@@ -1,5 +1,5 @@
 import { calendarPreference } from "../../stores/calendar-preference.store";
-import { CALENDAR_STORAGE_KEY, persistOverride, resolveCalendarSystem } from "./calendar-resolution";
+import { CALENDAR_STORAGE_KEY, NUMBERING_STORAGE_KEY, parseNumberingSystem, persistNumberingSystem, persistOverride, readStoredNumberingSystem, resolveCalendarSystem, } from "./calendar-resolution";
 /**
  * Owns the calendar-preference store's lifecycle: resolves the initial value, reacts to
  * cross-tab storage changes, and exposes `setOverride` as the integration point for a future
@@ -17,10 +17,14 @@ export class CalendarPreferenceController {
         this.initialized = true;
         this.applyUrlOverrideIfPresent();
         calendarPreference.override = this.readOverrideFromStore();
+        calendarPreference.numberingSystem = readStoredNumberingSystem() ?? calendarPreference.numberingSystem;
         this.refresh();
         window.addEventListener('storage', e => {
             if (e.key === CALENDAR_STORAGE_KEY)
                 this.refresh();
+            if (e.key === NUMBERING_STORAGE_KEY) {
+                calendarPreference.numberingSystem = readStoredNumberingSystem() ?? 'latn';
+            }
         });
     }
     /** Sets (or clears, on `null`) the persisted manual override and re-resolves immediately. */
@@ -28,6 +32,15 @@ export class CalendarPreferenceController {
         persistOverride(value);
         calendarPreference.override = value;
         this.refresh();
+    }
+    /**
+     * Sets the digit script dates render in. `'auto'` follows the moment locale's own numerals
+     * (Arabic-Indic under `ar`); anything else forces that script. Never affects `toApiDate` —
+     * the API boundary is Latin by construction.
+     */
+    static setNumberingSystem(value) {
+        persistNumberingSystem(value);
+        calendarPreference.numberingSystem = value;
     }
     /** Secondary escape hatch for non-component `.ts` code that needs push notification rather than a store read. */
     static subscribe(listener) {
@@ -51,14 +64,20 @@ export class CalendarPreferenceController {
         }
     }
     /**
-     * QA/manual-verification hook: `?calendar=islamic-umalqura` or `?calendar=gregory` in the URL
-     * sets the persisted override once, on load. No settings UI exists yet — this is the stand-in.
+     * QA/manual-verification hook: `?calendar=islamic-umalqura|gregory` and `?numbers=arab|latn|
+     * arabext|auto` in the URL set the persisted preferences once, on load. `<ir-locale-switcher>`
+     * is the interactive equivalent.
      */
     static applyUrlOverrideIfPresent() {
         try {
-            const param = new URLSearchParams(window.location.search).get('calendar');
+            const params = new URLSearchParams(window.location.search);
+            const param = params.get('calendar');
             if (param === 'gregory' || param === 'islamic-umalqura') {
                 persistOverride(param);
+            }
+            const numbers = parseNumberingSystem(params.get('numbers'));
+            if (numbers) {
+                persistNumberingSystem(numbers);
             }
         }
         catch {

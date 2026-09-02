@@ -1,10 +1,12 @@
 import { h, Fragment } from "@stencil/core";
 import { BookingService } from "../../../services/booking-service/booking.service";
-import { convertDatePrice, formatDate, getDaysArray } from "../../../utils/utils";
+import { convertDatePrice, getDaysArray } from "../../../utils/utils";
+import { formatDate } from "../../../utils/date/index";
 import moment from "moment";
 import locales from "../../../stores/locales.store";
 import booking_store from "../../../stores/booking.store";
 import calendar_data from "../../../stores/calendar-data";
+import { formatBookingNumber } from "../../../utils/number";
 export class IrRoomNights {
     bookingNumber;
     propertyId;
@@ -136,10 +138,10 @@ export class IrRoomNights {
         }
     }
     renderInputField(index, currency_symbol, day) {
-        return (h("div", { class: "col-3 ml-1 position-relative  m-0 p-0 rate-input-container" }, h("ir-price-input", { value: day.amount > 0 ? day.amount.toString() : '', disabled: this.inventory === 0 || this.inventory === null, currency: currency_symbol, "aria-label": "rate", "aria-describedby": "rate cost", onTextChange: e => this.handleInput(e.detail, index) })));
+        return (h("div", { class: "col-3 ir-ms-1 position-relative  m-0 p-0 rate-input-container" }, h("ir-price-input", { value: day.amount > 0 ? day.amount.toString() : '', disabled: this.inventory === 0 || this.inventory === null, currency: currency_symbol, "aria-label": "rate", "aria-describedby": "rate cost", onTextChange: e => this.handleInput(e.detail, index) })));
     }
     renderReadOnlyField(currency_symbol, day) {
-        return h("p", { class: "col-9 ml-1 m-0 p-0" }, `${currency_symbol}${Number(day.amount).toFixed(2)}`);
+        return h("p", { class: "col-9 ir-ms-1 m-0 p-0" }, `${currency_symbol}${Number(day.amount).toFixed(2)}`);
     }
     renderRateFields(index, currency_symbol, day) {
         if (this.isEndDateBeforeFromDate) {
@@ -207,7 +209,7 @@ export class IrRoomNights {
         if (!this.bookingEvent) {
             return (h("div", { class: "loading-container" }, h("ir-loading-screen", null)));
         }
-        return (h("div", { class: "sheet-container" }, h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${locales.entries.Lcz_AddingRoomNightsTo} ${this.selectedRoom?.roomtype?.name} ${(this.selectedRoom?.unit).name}`, displayContext: "sidebar" }), h("section", { class: 'text-left px-1 pt-0 sheet-body' }, h("p", { class: 'font-medium-1' }, `${locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), this.initialLoading ? (h("p", { class: 'mt-2 text-secondary' }, locales.entries['Lcz_CheckingRoomAvailability '])) : (h(Fragment, null, h("p", { class: 'font-weight-bold font-medium-1' }, `${formatDate(moment(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')} - ${formatDate(moment(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')}`), h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && h("span", { class: 'irfontgreen' }, locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && h("p", { class: "font-medium-1 text danger" }, locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), booking_store.roomTypes?.length > 0 && calendar_data.tax_statement && (h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "mt-1 booking-editor-header__tax_statement" }, calendar_data.tax_statement)), this.renderDates()))), h("section", { class: 'sheet-footer' }, h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales?.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (h("ir-button", { isLoading: this.isLoading, text: locales?.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
+        return (h("div", { class: "sheet-container" }, h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${locales.entries.Lcz_AddingRoomNightsTo} ${this.selectedRoom?.roomtype?.name} ${(this.selectedRoom?.unit).name}`, displayContext: "sidebar" }), h("section", { class: 'ir-text-start px-1 pt-0 sheet-body' }, h("p", { class: 'font-medium-1' }, `${locales.entries.Lcz_Booking}#`, " ", formatBookingNumber(this.bookingNumber)), this.initialLoading ? (h("p", { class: 'mt-2 text-secondary' }, locales.entries['Lcz_CheckingRoomAvailability '])) : (h(Fragment, null, h("p", { class: 'font-weight-bold font-medium-1' }, `${formatDate(this.dates.from_date, 'ddd, DD MMM YYYY')} - ${formatDate(this.dates.to_date, 'ddd, DD MMM YYYY')}`), h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && h("span", { class: 'irfontgreen' }, locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && h("p", { class: "font-medium-1 text danger" }, locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), booking_store.roomTypes?.length > 0 && calendar_data.tax_statement && (h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "mt-1 booking-editor-header__tax_statement" }, calendar_data.tax_statement)), this.renderDates()))), h("section", { class: 'sheet-footer' }, h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales?.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (h("ir-button", { isLoading: this.isLoading, text: locales?.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
     }
     static get is() { return "ir-room-nights"; }
     static get encapsulation() { return "scoped"; }

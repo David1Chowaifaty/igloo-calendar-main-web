@@ -1,4 +1,4 @@
-import { type EditSetupParams, type EditSetupManyParams, type GetSetupEntriesByTblNameMultiParams, type GetSetupEntriesByTblNameParams, type GetSetupEntryByCodeParams, type SetupEntry, type ExposedLanguages } from './types';
+import { type EditSetupParams, type EditSetupManyParams, type GetSetupEntriesByTblNameMultiParams, type GetSetupEntriesByTblNameParams, type GetSetupEntryByCodeParams, type SetupEntry, type ExposedLanguages, MoveSetupEntryParams, MissingSetupEntriesParams, SearchSetupByDescriptionParams, DuplicatedSetupEntriesAcrossTables } from './types';
 export * from './types';
 export declare class SetupService {
     /**
@@ -60,4 +60,40 @@ export declare class SetupService {
      * @throws If the API returns an exception or the response fails validation.
      */
     getExposedLanguages(): Promise<ExposedLanguages>;
+    /**
+     * Fetches setup entries that are missing for the specified language.
+     *
+     * @param language Language code to check, e.g. "AR".
+     * @returns A validated list of missing setup entries and their translated values.
+     * @throws If the API returns an exception or the response fails validation.
+     */
+    getMissingSetupEntries(params: MissingSetupEntriesParams): Promise<SetupEntry[]>;
+    /**
+     * Moves a setup entry from one setup table to another.
+     *
+     * The API throws a business exception when the requested code is already
+     * being used by another table.
+     *
+     * @param params Source table, setup code, and destination table.
+     * @throws If the API returns an exception or the request parameters fail validation.
+     */
+    moveSetupEntry(params: MoveSetupEntryParams): Promise<void>;
+    /**
+     * Searches setup entries by their description/value.
+     *
+     * @param query Text to search for in setup descriptions.
+     * @returns A validated list of matching setup entries.
+     * @throws If the API returns an exception or the response fails validation.
+     */
+    searchSetupByDescription(params: SearchSetupByDescriptionParams): Promise<SetupEntry[]>;
+    /**
+     * Fetches duplicated setup entries that exist across multiple setup tables.
+     *
+     * Each result contains the duplicated description, the number of occurrences,
+     * and the setup entries/tables where that description is used.
+     *
+     * @returns A validated list of duplicated setup entries grouped by description.
+     * @throws If the API returns an exception or the response fails validation.
+     */
+    getDuplicatedSetupEntriesAcrossTables(): Promise<DuplicatedSetupEntriesAcrossTables[]>;
 }

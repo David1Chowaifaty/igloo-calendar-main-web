@@ -9,7 +9,6 @@ export declare class IglBookingEventHover {
         [key: string]: any;
     };
     bubbleInfoTop: boolean;
-    currency: any;
     countries: ICountry[];
     is_vacation_rental: boolean;
     isLoading: string;

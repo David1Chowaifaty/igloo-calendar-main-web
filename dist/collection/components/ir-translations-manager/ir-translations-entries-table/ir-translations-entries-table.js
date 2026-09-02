@@ -16,6 +16,10 @@ export class IrTranslationsEntriesTable {
     reorderEnabled = true;
     /** Ids of rows whose position differs from the last-loaded/saved order — highlighted while a reorder is pending. */
     changedEntryIds = new Set();
+    /** True when `entries` span several setup tables — rows are then broken up by collapsible per-table header rows. */
+    groupByTable = false;
+    /** Entry id → the tables sharing that row's description; rows present here get a duplicate badge beside their key. */
+    duplicates = new Map();
     entryChange;
     editEntry;
     duplicateEntry;
@@ -29,6 +33,8 @@ export class IrTranslationsEntriesTable {
     draggingId = null;
     /** `.table--container`'s current content-box width — language columns stretch to fill it instead of sitting fixed. */
     containerWidth = 0;
+    /** Table names whose group is currently folded shut. Only meaningful while `groupByTable` is on. */
+    collapsedTables = new Set();
     cellInputRef;
     lastFocusKey = null;
     /** Live text of the cell being edited. Deliberately not @State — keystrokes must not re-render the grid. */
@@ -38,6 +44,13 @@ export class IrTranslationsEntriesTable {
     /** Latest pointer Y during a drag, read by the auto-scroll loop — not @State, it'd re-render on every dragover. */
     dragClientY = null;
     autoScrollRaf = null;
+    /**
+     * One tooltip serves the whole grid. Anchoring per element would mean a
+     * `wa-tooltip` per cell — ~2,300 of them in the cross-table view — so hovers are
+     * delegated and this single instance is re-anchored instead.
+     */
+    tooltipRef;
+    tooltipTimer;
     componentWillLoad() {
         this.dragEntries = this.entries;
     }
@@ -55,7 +68,41 @@ export class IrTranslationsEntriesTable {
     disconnectedCallback() {
         this.containerResizeObserver?.disconnect();
         this.stopAutoScroll();
+        clearTimeout(this.tooltipTimer);
     }
+    // #region Shared tooltip
+    /** Re-points the shared tooltip at whatever `[data-tooltip]` element the pointer is over. */
+    handleTooltipOver = (event) => {
+        const tooltip = this.tooltipRef;
+        if (!tooltip) {
+            return;
+        }
+        const target = event.target?.closest?.('[data-tooltip]');
+        const text = target?.dataset.tooltip;
+        if (!target || !text) {
+            this.hideTooltip();
+            return;
+        }
+        if (tooltip.anchor === target && tooltip.open) {
+            return;
+        }
+        // Re-anchoring a visible tooltip makes the bubble skate across the grid, so it
+        // always closes first and re-opens on the new anchor after the usual hover beat.
+        clearTimeout(this.tooltipTimer);
+        tooltip.open = false;
+        this.tooltipTimer = setTimeout(() => {
+            tooltip.textContent = text;
+            tooltip.anchor = target;
+            tooltip.open = true;
+        }, 250);
+    };
+    hideTooltip = () => {
+        clearTimeout(this.tooltipTimer);
+        if (this.tooltipRef) {
+            this.tooltipRef.open = false;
+        }
+    };
+    // #endregion
     /** A drag in progress owns row order locally — only resync from the parent once it's idle. */
     handleEntriesChange(newEntries) {
         if (!this.draggingId) {
@@ -249,7 +296,7 @@ export class IrTranslationsEntriesTable {
     }
     renderDragHandle(entry) {
         const label = this.reorderEnabled ? `Reorder ${entry.key || 'key'}` : 'Clear filters to reorder';
-        return (h("span", { class: `entries-table__drag-handle ${this.reorderEnabled ? '' : '--disabled'}`, draggable: this.reorderEnabled, title: label, "aria-label": label, onDragStart: (e) => this.handleDragStart(e, entry), onDragEnd: this.handleDragEnd }, h("wa-icon", { name: "grip-vertical", "aria-hidden": "true" })));
+        return (h("span", { class: `entries-table__drag-handle ${this.reorderEnabled ? '' : '--disabled'}`, draggable: this.reorderEnabled, "data-tooltip": label, "aria-label": label, onDragStart: (e) => this.handleDragStart(e, entry), onDragEnd: this.handleDragEnd }, h("wa-icon", { name: "grip-vertical", "aria-hidden": "true" })));
     }
     // #endregion
     renderValueCell(entry, language) {
@@ -257,21 +304,37 @@ export class IrTranslationsEntriesTable {
         const isEditing = this.editingCell?.entryId === entry.id && this.editingCell?.languageCode === language.code;
         const ariaLabel = `${language.name} translation for ${entry.key || 'new entry'}`;
         if (entry.meta?.isUpdateable === false) {
-            return (h("span", { class: "entries-table__cell-display --readonly", "aria-label": `${ariaLabel} (read-only)` }, hasValue(value) ? (h("span", { class: "entries-table__cell-text", title: value }, value)) : (h("span", { class: "entries-table__cell-missing" }, "Missing")), h("wa-icon", { name: "lock", class: "entries-table__cell-lock", "aria-hidden": "true" })));
+            return (h("span", { class: "entries-table__cell-display --readonly", "aria-label": `${ariaLabel} (read-only)` }, hasValue(value) ? (h("span", { class: "entries-table__cell-text", "data-tooltip": value }, value)) : (h("span", { class: "entries-table__cell-missing" }, "Missing")), h("wa-icon", { name: "lock", class: "entries-table__cell-lock", "aria-hidden": "true" })));
         }
         if (isEditing) {
             return (h("wa-input", { size: "s", value: value, class: "entries-table__cell-input", label: ariaLabel, autocomplete: "off", spellcheck: false, ref: el => (this.cellInputRef = el), oninput: (e) => (this.draft = e.target.value), onKeyDown: (e) => this.handleCellKeyDown(e, entry, language.code, value), onblur: () => this.handleCellBlur(entry, language.code), onchange: () => {
                     this.commitDraft(entry, language.code);
                 } }));
         }
-        return (h("button", { type: "button", class: `entries-table__cell-display ${hasValue(value) ? '' : '--empty'}`, "aria-label": hasValue(value) ? `Edit ${ariaLabel}` : `Add ${ariaLabel}`, onClick: () => this.startEditing(entry, language.code) }, hasValue(value) ? (h("span", { class: "entries-table__cell-text", title: value }, value)) : (h("span", { class: "entries-table__cell-missing" }, "Missing"))));
+        return (h("button", { type: "button", class: `entries-table__cell-display ${hasValue(value) ? '' : '--empty'}`, "aria-label": hasValue(value) ? `Edit ${ariaLabel}` : `Add ${ariaLabel}`, onClick: () => this.startEditing(entry, language.code) }, hasValue(value) ? (h("span", { class: "entries-table__cell-text", "data-tooltip": value }, value)) : (h("span", { class: "entries-table__cell-missing" }, "Missing"))));
+    }
+    /** The duplicate badge. Its tooltip rides the shared instance like every other hover target here. */
+    renderDuplicateBadge(entry) {
+        const duplicate = this.duplicates.get(entry.id);
+        if (!duplicate) {
+            return null;
+        }
+        const tableCount = duplicate.tables.length;
+        // OCCURRENCES counts rows, not tables — they diverge when a description repeats
+        // inside one table, which is worth calling out rather than hiding behind a table count.
+        const label = duplicate.occurrences > tableCount
+            ? `${duplicate.occurrences} entries across ${tableCount} tables: ${duplicate.tables.join(', ')}`
+            : `Appears in ${tableCount} tables: ${duplicate.tables.join(', ')}`;
+        return (h("span", { class: "entries-table__dup-badge", "data-tooltip": label, "aria-label": label,
+            // The whole key cell opens the entry drawer — the badge is a hover target, not a way in.
+            onClick: (event) => event.stopPropagation() }, h("wa-icon", { name: "clone", "aria-hidden": "true" }), tableCount));
     }
     renderKeyCell(entry) {
         const isHidden = entry.meta?.isVisible === false;
-        return (h("div", { class: "entries-table__key-container" }, isHidden && (h("span", { class: "entries-table__key-hidden-mark", title: "Hidden from the app", "aria-label": `${entry.key || 'This key'} is hidden from the app` }, h("wa-icon", { name: "eye-slash", "aria-hidden": "true" }))), h("span", { class: "entries-table__key-text", title: entry.key }, entry.key), h("wa-icon", { class: "entries-table__key-icon", name: "pen-to-square" })));
+        return (h("div", { class: "entries-table__key-container" }, isHidden && (h("span", { class: "entries-table__key-hidden-mark", "data-tooltip": "Hidden from the app", "aria-label": `${entry.key || 'This key'} is hidden from the app` }, h("wa-icon", { name: "eye-slash", "aria-hidden": "true" }))), h("span", { class: "entries-table__key-text", "data-tooltip": entry.key }, entry.key), this.renderDuplicateBadge(entry), h("wa-icon", { class: "entries-table__key-icon", name: "pen-to-square" })));
     }
     renderLangHead(language) {
-        return (h("span", { class: "entries-table__lang-head" }, h("abbr", { class: "entries-table__lang-code", title: language.name }, language.code.toUpperCase()), language.code === this.sourceCode && h("span", { class: "entries-table__lang-source" }, "source")));
+        return (h("span", { class: "entries-table__lang-head" }, h("abbr", { class: "entries-table__lang-code", "data-tooltip": language.name, "aria-label": language.name }, language.code.toUpperCase()), language.code === this.sourceCode && h("span", { class: "entries-table__lang-source" }, "source")));
     }
     renderActionsCell(entry) {
         return (h("wa-dropdown", { "onwa-select": (e) => this.handleRowAction(e.detail.item.value, entry) }, h("ir-custom-button", { slot: "trigger", appearance: "plain", variant: "neutral", iconBtn: true }, h("wa-icon", { name: "ellipsis", label: `Actions for ${entry.key || 'entry'}` })), h("wa-dropdown-item", { value: "edit", disabled: entry.meta?.isUpdateable === false }, h("wa-icon", { slot: "icon", name: "pen" }), "Edit all languages"), h("wa-dropdown-item", { value: "copy" }, h("wa-icon", { slot: "icon", name: "clipboard" }), "Copy key"), h("wa-dropdown-item", { value: "toggle-visibility" }, h("wa-icon", { slot: "icon", name: entry.meta?.isVisible === false ? 'eye' : 'eye-slash' }), entry.meta?.isVisible === false ? 'Show in app' : 'Hide from app'), h("wa-dropdown-item", { value: "delete", variant: "danger", disabled: entry.meta?.isDeleteable === false }, h("wa-icon", { slot: "icon", name: "trash-can" }), "Delete")));
@@ -301,11 +364,20 @@ export class IrTranslationsEntriesTable {
             }),
         ];
     }
+    /**
+     * The language column pinned beside the key. Deliberately "whichever is
+     * leftmost" rather than a lookup by source code — pinning a column from the
+     * middle of the row would park it on top of its neighbours.
+     */
+    get pinnedLanguageCode() {
+        return this.languages[0]?.code;
+    }
     renderCell(cell) {
         const columnId = cell.column.id;
         const isLangColumn = this.languages.some(language => language.code === columnId);
         return (h("td", { key: cell.id, class: {
                 'entries-table__key': columnId === 'key',
+                'entries-table__source-cell': isLangColumn && columnId === this.pinnedLanguageCode,
                 'entries-table__value-cell': isLangColumn,
                 'entries-table__actions': columnId === 'actions',
                 'entries-table__drag-cell': columnId === 'drag',
@@ -321,6 +393,47 @@ export class IrTranslationsEntriesTable {
                 'entries-table__row--deleted': entry.meta?.isDeleted === true,
             }, onDragOver: (e) => this.handleDragOver(e, entry), onDrop: (e) => e.preventDefault() }, row.getVisibleCells().map(cell => this.renderCell(cell))));
     }
+    // #region Table grouping
+    toggleGroup(name) {
+        const next = new Set(this.collapsedTables);
+        if (next.has(name)) {
+            next.delete(name);
+        }
+        else {
+            next.add(name);
+        }
+        this.collapsedTables = next;
+    }
+    renderGroupHeader(name, count) {
+        const collapsed = this.collapsedTables.has(name);
+        return (h("tr", { key: `group:${name}`, class: "entries-table__group-row" }, h("td", { class: "entries-table__group-cell", colSpan: 3 + this.languages.length }, h("button", { type: "button", class: "entries-table__group-toggle", "aria-expanded": collapsed ? 'false' : 'true', onClick: () => this.toggleGroup(name) }, h("wa-icon", { class: "entries-table__group-chevron", name: "chevron-down", "aria-hidden": "true" }), h("span", { class: "entries-table__group-name" }, name), h("span", { class: "entries-table__group-count" }, count, " key", count === 1 ? '' : 's')))));
+    }
+    /**
+     * Opens a group header row each time the table name changes and drops the rows
+     * of collapsed groups. Rows arrive already sorted by table, so one pass suffices
+     * and a group can never be reopened further down the list.
+     */
+    renderGroupedRows(rows) {
+        const counts = new Map();
+        rows.forEach(row => {
+            const name = row.original.tableName ?? '';
+            counts.set(name, (counts.get(name) ?? 0) + 1);
+        });
+        const nodes = [];
+        let currentGroup = null;
+        rows.forEach(row => {
+            const name = row.original.tableName ?? '';
+            if (name !== currentGroup) {
+                currentGroup = name;
+                nodes.push(this.renderGroupHeader(name, counts.get(name) ?? 0));
+            }
+            if (!this.collapsedTables.has(name)) {
+                nodes.push(this.renderRow(row));
+            }
+        });
+        return nodes;
+    }
+    // #endregion
     renderEmptyState() {
         if (this.languages.length === 0) {
             return h("ir-empty-state", { message: "Add a language before creating translation keys." });
@@ -348,7 +461,10 @@ export class IrTranslationsEntriesTable {
         const minLangColWidth = 200;
         const langColWidth = Math.max(minLangColWidth, Math.floor((this.containerWidth - fixedColsWidth) / this.languages.length));
         const minWidth = fixedColsWidth + langColWidth * this.languages.length;
-        return (h(Host, { class: this.compact ? '--compact' : '' }, h("div", { class: "table--container", ref: el => (this.containerRef = el), onDragOver: this.handleContainerDragOver }, h("table", { class: "table data-table entries-table__table", style: { minWidth: `${minWidth}px` } }, h("colgroup", null, h("col", { class: "entries-table__col--drag" }), h("col", { class: "entries-table__col--key" }), h("col", { class: "entries-table__col--lang", span: this.languages.length, style: { width: `${langColWidth}px` } }), h("col", { class: "entries-table__col--actions" })), h("thead", null, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, scope: "col", class: { 'entries-table__key-head': header.column.id === 'key' } }, !header.isPlaceholder && flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", null, table.getRowModel().rows.map(row => this.renderRow(row)), h("tr", { class: 'last__row' }, h("td", { colSpan: 10 })))))));
+        return (h(Host, { class: this.compact ? '--compact' : '' }, h("div", { class: "table--container", ref: el => (this.containerRef = el), onDragOver: this.handleContainerDragOver, onMouseOver: this.handleTooltipOver, onMouseLeave: this.hideTooltip, onScroll: this.hideTooltip }, h("table", { class: "table data-table entries-table__table", style: { minWidth: `${minWidth}px` } }, h("colgroup", null, h("col", { class: "entries-table__col--drag" }), h("col", { class: "entries-table__col--key" }), h("col", { class: "entries-table__col--lang", span: this.languages.length, style: { width: `${langColWidth}px` } }), h("col", { class: "entries-table__col--actions" })), h("thead", null, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, scope: "col", class: {
+                'entries-table__key-head': header.column.id === 'key',
+                'entries-table__source-head': header.column.id === this.pinnedLanguageCode,
+            } }, !header.isPlaceholder && flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", null, this.groupByTable ? this.renderGroupedRows(table.getRowModel().rows) : table.getRowModel().rows.map(row => this.renderRow(row)), h("tr", { class: 'last__row' }, h("td", { colSpan: 10 }))))), h("wa-tooltip", { class: "entries-table__tooltip", ref: el => (this.tooltipRef = el), trigger: "manual", placement: "top" })));
     }
     static get is() { return "ir-translations-entries-table"; }
     static get encapsulation() { return "scoped"; }
@@ -515,6 +631,55 @@ export class IrTranslationsEntriesTable {
                 "getter": false,
                 "setter": false,
                 "defaultValue": "new Set()"
+            },
+            "groupByTable": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "True when `entries` span several setup tables \u2014 rows are then broken up by collapsible per-table header rows."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "group-by-table",
+                "defaultValue": "false"
+            },
+            "duplicates": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Map<string, DuplicateInfo>",
+                    "resolved": "Map<string, DuplicateInfo>",
+                    "references": {
+                        "Map": {
+                            "location": "global",
+                            "id": "global::Map"
+                        },
+                        "DuplicateInfo": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/ir-translations-manager/types.ts::DuplicateInfo",
+                            "referenceLocation": "DuplicateInfo"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Entry id \u2192 the tables sharing that row's description; rows present here get a duplicate badge beside their key."
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "new Map()"
             }
         };
     }
@@ -523,7 +688,8 @@ export class IrTranslationsEntriesTable {
             "editingCell": {},
             "dragEntries": {},
             "draggingId": {},
-            "containerWidth": {}
+            "containerWidth": {},
+            "collapsedTables": {}
         };
     }
     static get events() {
