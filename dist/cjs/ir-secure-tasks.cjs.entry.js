@@ -214,7 +214,7 @@ const IrSecureTasks = class {
             } }, index.h("ul", { class: "secure-tabs", role: "tablist" }, this.routeGroups.map((group, gi) => [
             gi > 0 && index.h("li", { class: "secure-tabs__sep", role: "none", "aria-hidden": "true" }),
             ...group.routes.map(route => (index.h("li", { key: route.value, class: "secure-tabs__item", role: "none" }, index.h("button", { type: "button", role: "tab", class: { 'secure-tabs__btn': true, 'active': this.currentPage === route.value }, "aria-selected": this.currentPage === route.value ? 'true' : 'false', onClick: () => this.navigateTo(route.value) }, route.name)))),
-        ]))), index.h("wa-button", { class: `secure-header__scroll-btn${this.canScrollTowardsEnd ? '' : ' secure-header__scroll-btn--hidden'}`, size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Scroll tabs to later items", tabIndex: -1, onClick: () => this.scrollTabs('end') }, index.h("wa-icon", { class: "ir-flip-rtl", name: "chevron-right" })))), index.h("div", { class: "ir-page__container", style: { padding: '0' } }, this.renderPage())));
+        ]))), index.h("wa-button", { class: `secure-header__scroll-btn${this.canScrollTowardsEnd ? '' : ' secure-header__scroll-btn--hidden'}`, size: "s", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Scroll tabs to later items", tabIndex: -1, onClick: () => this.scrollTabs('end') }, index.h("wa-icon", { class: "ir-flip-rtl", name: "chevron-right" })))), index.h("div", { class: "ir-page__container", style: { padding: '0' } }, index.h("ir-locale-switcher", { placement: "bottom-end" }), this.renderPage())));
     }
     renderPage() {
         switch (this.currentPage) {
