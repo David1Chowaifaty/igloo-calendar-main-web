@@ -4678,20 +4678,14 @@ export namespace Components {
         "message": string;
     }
     /**
-     * A floating dev/QA panel for switching language, calendar system and text direction at runtime,
-     * with a live preview of how dates render under the current combination.
-     * Drop it anywhere on a page:
-     *   <ir-locale-switcher></ir-locale-switcher>
-     * Nothing else needs wiring. Language and calendar both live in `@stencil/store` stores, and
-     * `@stencil/store` tracks reads via `getRenderingRef()` at any call depth — so every component
-     * that calls `formatDate()` inside its `render()` re-renders on its own when this panel changes
-     * something. Values formatted once into `@State` during `componentWillLoad` are the exception;
-     * those refresh on that component's next natural re-render.
-     * This is a development tool, not a customer-facing setting. Keep it out of production pages.
+     * A floating dev/QA panel for switching language, calendar system,
+     * numbering system and text direction at runtime.
+     * All user-selected settings are persisted in localStorage and restored
+     * automatically the next time the page is opened.
      */
     interface IrLocaleSwitcher {
         /**
-          * Start collapsed to a single button.
+          * Start collapsed to a single button when no saved state exists.
           * @default true
          */
         "collapsed": boolean;
@@ -4701,7 +4695,7 @@ export namespace Components {
          */
         "placement": 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end';
         /**
-          * Sample date for the preview, `YYYY-MM-DD`. Defaults to today.
+          * Sample date for the preview, YYYY-MM-DD. Defaults to today.
          */
         "sampleDate": string;
     }
@@ -11951,16 +11945,10 @@ declare global {
         new (): HTMLIrLoadingScreenElement;
     };
     /**
-     * A floating dev/QA panel for switching language, calendar system and text direction at runtime,
-     * with a live preview of how dates render under the current combination.
-     * Drop it anywhere on a page:
-     *   <ir-locale-switcher></ir-locale-switcher>
-     * Nothing else needs wiring. Language and calendar both live in `@stencil/store` stores, and
-     * `@stencil/store` tracks reads via `getRenderingRef()` at any call depth — so every component
-     * that calls `formatDate()` inside its `render()` re-renders on its own when this panel changes
-     * something. Values formatted once into `@State` during `componentWillLoad` are the exception;
-     * those refresh on that component's next natural re-render.
-     * This is a development tool, not a customer-facing setting. Keep it out of production pages.
+     * A floating dev/QA panel for switching language, calendar system,
+     * numbering system and text direction at runtime.
+     * All user-selected settings are persisted in localStorage and restored
+     * automatically the next time the page is opened.
      */
     interface HTMLIrLocaleSwitcherElement extends Components.IrLocaleSwitcher, HTMLStencilElement {
     }
@@ -19171,20 +19159,14 @@ declare namespace LocalJSX {
         "message"?: string;
     }
     /**
-     * A floating dev/QA panel for switching language, calendar system and text direction at runtime,
-     * with a live preview of how dates render under the current combination.
-     * Drop it anywhere on a page:
-     *   <ir-locale-switcher></ir-locale-switcher>
-     * Nothing else needs wiring. Language and calendar both live in `@stencil/store` stores, and
-     * `@stencil/store` tracks reads via `getRenderingRef()` at any call depth — so every component
-     * that calls `formatDate()` inside its `render()` re-renders on its own when this panel changes
-     * something. Values formatted once into `@State` during `componentWillLoad` are the exception;
-     * those refresh on that component's next natural re-render.
-     * This is a development tool, not a customer-facing setting. Keep it out of production pages.
+     * A floating dev/QA panel for switching language, calendar system,
+     * numbering system and text direction at runtime.
+     * All user-selected settings are persisted in localStorage and restored
+     * automatically the next time the page is opened.
      */
     interface IrLocaleSwitcher {
         /**
-          * Start collapsed to a single button.
+          * Start collapsed to a single button when no saved state exists.
           * @default true
          */
         "collapsed"?: boolean;
@@ -19194,7 +19176,7 @@ declare namespace LocalJSX {
          */
         "placement"?: 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end';
         /**
-          * Sample date for the preview, `YYYY-MM-DD`. Defaults to today.
+          * Sample date for the preview, YYYY-MM-DD. Defaults to today.
          */
         "sampleDate"?: string;
     }
@@ -25005,16 +24987,10 @@ declare module "@stencil/core" {
             "ir-listing-modal": LocalJSX.IntrinsicElements["ir-listing-modal"] & JSXBase.HTMLAttributes<HTMLIrListingModalElement>;
             "ir-loading-screen": LocalJSX.IntrinsicElements["ir-loading-screen"] & JSXBase.HTMLAttributes<HTMLIrLoadingScreenElement>;
             /**
-             * A floating dev/QA panel for switching language, calendar system and text direction at runtime,
-             * with a live preview of how dates render under the current combination.
-             * Drop it anywhere on a page:
-             *   <ir-locale-switcher></ir-locale-switcher>
-             * Nothing else needs wiring. Language and calendar both live in `@stencil/store` stores, and
-             * `@stencil/store` tracks reads via `getRenderingRef()` at any call depth — so every component
-             * that calls `formatDate()` inside its `render()` re-renders on its own when this panel changes
-             * something. Values formatted once into `@State` during `componentWillLoad` are the exception;
-             * those refresh on that component's next natural re-render.
-             * This is a development tool, not a customer-facing setting. Keep it out of production pages.
+             * A floating dev/QA panel for switching language, calendar system,
+             * numbering system and text direction at runtime.
+             * All user-selected settings are persisted in localStorage and restored
+             * automatically the next time the page is opened.
              */
             "ir-locale-switcher": LocalJSX.IntrinsicElements["ir-locale-switcher"] & JSXBase.HTMLAttributes<HTMLIrLocaleSwitcherElement>;
             "ir-login": LocalJSX.IntrinsicElements["ir-login"] & JSXBase.HTMLAttributes<HTMLIrLoginElement>;

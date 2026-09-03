@@ -2,7 +2,7 @@ import { r as registerInstance, h, H as Host } from './index-BYqrdgY9.js';
 import { T as Token } from './Token-CkxFIO_J.js';
 import { H as HouseKeepingService } from './housekeeping.service-C7mt9QTJ.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { f as formatDate } from './ir-date-VwsP30iT.js';
+import { f as formatDate } from './ir-date-_0rd4VZd.js';
 import { i as isRtlLanguage } from './direction-ChMsVFnM.js';
 import { r as realtimeService } from './realtime.service-BLk631kq.js';
 import { v as v4 } from './v4-CK3_k8jD.js';

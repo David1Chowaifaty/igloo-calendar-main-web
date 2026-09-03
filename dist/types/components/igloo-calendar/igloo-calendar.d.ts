@@ -65,6 +65,11 @@ export declare class IglooCalendar {
     private housekeepingService;
     private countries;
     private visibleCalendarCells;
+    /**
+     * Set whenever `addDatesToCalendar()` appends day cells, so an in-flight drag knows its cached
+     * drop-target bounds are short a few days and re-measures on the next `DRAG_OVER`.
+     */
+    private dragOverBoundsStale;
     private scrollContainer;
     private today;
     private reachedEndOfCalendar;
@@ -90,6 +95,14 @@ export declare class IglooCalendar {
     showBookingPopupEventDataHandler(event: CustomEvent): void;
     updateEventDataHandler(event: CustomEvent): void;
     dragOverEventDataHandler(event: CustomEvent): void;
+    /**
+     * Caches every day column's and room row's extent, in `.bodyContainer` grid space - the same
+     * space `igl-booking-event` writes its `style.top`/`style.left` in, so a dragged bar's position
+     * can be hit-tested against it directly. Measured once per drag; the values are scroll-invariant
+     * (the day header is sticky vertically only, `offsetTop` ignores `scrollTop`), so only a change
+     * to the set of rendered cells invalidates them.
+     */
+    private measureDragOverBounds;
     ticketChanged(newValue: string, oldValue: string): void;
     private init;
     private renderModalBody;

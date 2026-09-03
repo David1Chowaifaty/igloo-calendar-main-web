@@ -7,7 +7,8 @@ import { EventsService } from "../../../services/events.service";
 import locales from "../../../stores/locales.store";
 import calendar_dates from "../../../stores/calendar-dates.store";
 import calendar_data from "../../../stores/calendar-data";
-import { CELL_HEIGHT, CELL_WIDTH, computeEventHorizontalGeometry, getTotalGridWidth, isRtlDirection, toPhysicalLeft } from "../../../utils/calendar-grid";
+import { CELL_WIDTH, computeEventHorizontalGeometry, EVENT_HEIGHT, getEventTopWithinRow, getTotalGridWidth, isRtlDirection, ROOM_HEADER_WIDTH, snapEventLeft, toPhysicalLeft, } from "../../../utils/calendar-grid";
+import { DragAutoScroller } from "../../../utils/drag-autoscroll";
 import { formatBookingNumber } from "../../../utils/number";
 export class IglBookingEvent {
     element;
@@ -30,7 +31,6 @@ export class IglBookingEvent {
     isShrinking = null;
     dayWidth = CELL_WIDTH;
     eventSpace = 8;
-    vertSpace = 10;
     /* show bubble */
     showInfoPopup = false;
     bubbleInfoTopSide = false;
@@ -56,9 +56,22 @@ export class IglBookingEvent {
     moveDifferenceY;
     animationFrameId = null;
     minResizeDays = 1;
+    /* Auto-scroll: keeps the calendar moving while a drag or stretch is held near its edge. */
+    autoScroller = null;
+    scrollHost = null;
+    /** Last drag offsets written to the DOM, so a repeated apply for the same state is skipped. */
+    appliedDistance = null;
+    /**
+     * Room row extents captured when a move drag starts, in the same `.bodyContainer` grid space the
+     * bar positions itself in, and used to settle it on release. Captured up front rather than read
+     * at drop time so the measurement can't be disturbed by the drag itself, and because the same
+     * pass is what excludes category headers (taller than a room row, and not droppable).
+     */
+    dragRowBands = [];
     handleMouseMoveBind = this.handleMouseMove.bind(this);
     handleMouseUpBind = this.handleMouseUp.bind(this);
     handleClickOutsideBind = this.handleClickOutside.bind(this);
+    handleHostScrollBind = this.handleHostScroll.bind(this);
     role = '';
     componentWillLoad() {
         window.addEventListener('click', this.handleClickOutsideBind);
@@ -88,6 +101,7 @@ export class IglBookingEvent {
     }
     disconnectedCallback() {
         window.removeEventListener('click', this.handleClickOutsideBind);
+        this.endAutoScroll();
         if (this.animationFrameId) {
             cancelAnimationFrame(this.animationFrameId);
         }
@@ -543,11 +557,11 @@ export class IglBookingEvent {
         return !this.isNewEvent() && !!this.bookingEvent.defaultDates && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE));
     }
     getPosition() {
-        const pos = { top: '0px', left: '0px', width: '0px', height: '20px' };
+        const pos = { top: '0px', left: '0px', width: '0px', height: `${EVENT_HEIGHT}px` };
         if (typeof this.roomTop !== 'number') {
             return pos;
         }
-        pos.top = `${this.roomTop + CELL_HEIGHT / 2 - this.vertSpace}px`;
+        pos.top = `${this.roomTop + getEventTopWithinRow()}px`;
         const days = calendar_dates.days;
         const { left: logicalLeft, width } = computeEventHorizontalGeometry({
             days,
@@ -564,6 +578,17 @@ export class IglBookingEvent {
     getNumber(aData) {
         return aData ? parseFloat(aData) : 0;
     }
+    /**
+     * Pointer coordinates for a mouse, pointer or touch event, in viewport space.
+     * Touch events carry no `clientX`/`clientY` of their own - they live on the first touch point.
+     */
+    getPointerPosition(event) {
+        const touch = event.touches?.[0] ?? event.changedTouches?.[0];
+        return {
+            clientX: event.clientX ?? touch?.clientX ?? 0,
+            clientY: event.clientY ?? touch?.clientY ?? 0,
+        };
+    }
     startDragging(event, side) {
         event.preventDefault();
         event.stopPropagation();
@@ -575,9 +600,10 @@ export class IglBookingEvent {
         this.isDragging = true;
         this.showEventInfo(false);
         this.isStretch = side !== 'move';
+        const { clientX, clientY } = this.getPointerPosition(event);
         if (side === 'move') {
-            this.initialX = event.clientX || event.touches[0].clientX;
-            this.initialY = event.clientY || event.touches[0].clientY;
+            this.initialX = clientX;
+            this.initialY = clientY;
             this.elementRect = this.element.getBoundingClientRect();
             const offsetX = 0;
             const offsetY = 0;
@@ -586,6 +612,10 @@ export class IglBookingEvent {
                 fromRoomId: this.getBookedRoomId(),
                 top: this.getNumber(this.element.style.top) + offsetY,
                 left: this.getNumber(this.element.style.left) + offsetX,
+                // Carried so the very first highlight resolves off the same edge every later one does: in
+                // RTL the bar is mirrored and its check-in edge is the physical right, which needs `width`
+                // to locate. Without it the drag opens by highlighting the checkout day for one frame.
+                width: this.element.offsetWidth,
             };
             this.dragInitPos.x = this.dragInitPos.left;
             this.dragInitPos.y = this.dragInitPos.top;
@@ -593,6 +623,7 @@ export class IglBookingEvent {
             this.element.style.top = `${this.dragInitPos.top}px`;
             this.element.style.left = `${this.dragInitPos.left}px`;
             this.isTouchStart = true; // !!(event.touches && event.touches.length);
+            this.captureRowBands();
             this.dragOverEventData.emit({
                 id: 'CALCULATE_DRAG_OVER_BOUNDS',
                 data: this.dragInitPos,
@@ -601,19 +632,27 @@ export class IglBookingEvent {
         else {
             this.initialWidth = this.element.offsetWidth;
             this.initialLeft = this.element.offsetLeft;
-            this.initialX = event.clientX || event.touches[0].clientX;
+            this.initialX = clientX;
+            // A stretch never moves the bar vertically, but the origin still has to be recorded so the
+            // shared position pass isn't left comparing against whatever a previous drag left behind.
+            this.initialY = clientY;
+            const top = this.getNumber(this.element.style.top);
             this.dragOverEventData.emit({
                 id: 'CALCULATE_DRAG_OVER_BOUNDS',
                 data: {
                     id: this.getBookingId(),
                     fromRoomId: this.getBookedRoomId(),
-                    top: this.getNumber(this.element.style.top),
+                    top,
                     left: this.initialLeft,
-                    x: this.initialX,
-                    y: event.clientY || event.touches[0].clientY,
+                    // Grid-space, like the `move` branch above: the bounds this seeds the first highlight
+                    // against are measured relative to `.bodyContainer`, not the viewport.
+                    x: this.initialLeft,
+                    y: top,
+                    width: this.initialWidth,
                 },
             });
         }
+        this.beginAutoScroll(side, clientX, clientY);
         document.addEventListener('mousemove', this.handleMouseMoveBind);
         document.addEventListener('touchmove', this.handleMouseMoveBind);
         document.addEventListener('pointermove', this.handleMouseMoveBind);
@@ -621,13 +660,177 @@ export class IglBookingEvent {
         document.addEventListener('touchup', this.handleMouseUpBind);
         document.addEventListener('pointerup', this.handleMouseUpBind);
     }
+    /**
+     * Arms edge auto-scrolling for the drag that just started.
+     *
+     * A `move` drag can travel on both axes, so it scrolls on both. A stretch only ever changes the
+     * bar's width, so vertical scrolling there would move the grid for no reason - horizontal only.
+     *
+     * The `scroll` listener covers scrolling this component didn't cause (a mouse wheel, a trackpad
+     * swipe): the bar's position is derived from viewport-space pointer deltas, so it has to be
+     * re-applied whenever the content underneath it moves, not only when the pointer moves.
+     */
+    beginAutoScroll(side, clientX, clientY) {
+        this.scrollHost = this.element.closest('.calendarScrollContainer');
+        if (!this.scrollHost) {
+            return;
+        }
+        this.autoScroller = new DragAutoScroller({
+            container: this.scrollHost,
+            axes: { x: true, y: side === 'move' },
+            // The room-name column is sticky against the inline start edge, which bidi-mirrors to the
+            // physical right in RTL. Skip it, so the hot zone starts at the edge of the scrollable grid
+            // rather than underneath a column that never moves.
+            inlineStartInset: ROOM_HEADER_WIDTH,
+            inlineStartEdge: isRtlDirection(locales.direction) ? 'right' : 'left',
+            getBounds: () => this.getGridScrollBounds(),
+            onScroll: () => this.applyDragPosition(),
+        });
+        this.appliedDistance = null;
+        this.autoScroller.start();
+        this.autoScroller.update(clientX, clientY);
+        this.scrollHost.addEventListener('scroll', this.handleHostScrollBind, { passive: true });
+    }
+    /**
+     * How far auto-scroll may travel, in the scroll container's own coordinates.
+     *
+     * Deliberately *not* the container's own `scrollHeight`/`scrollWidth`: this bar is an absolutely
+     * positioned descendant of that container, so following the pointer past the last room row
+     * extends the container's scrollable overflow by exactly as much as it just scrolled, and the
+     * drag would chase its own tail off the end of the grid. The room rows are the real limit - they
+     * are also the only thing a booking can be dropped on - and they don't move mid-drag.
+     *
+     * Positions are expressed as `elementEdge - containerEdge + scrollPosition`, which is invariant
+     * under scrolling and therefore direction-agnostic: it yields the usual `0 .. max` range in LTR
+     * and the mirrored `-max .. 0` range RTL containers report.
+     */
+    getGridScrollBounds() {
+        const rows = this.scrollHost?.querySelectorAll('.bodyContainer .roomRow');
+        if (!rows?.length) {
+            return {};
+        }
+        const containerRect = this.scrollHost.getBoundingClientRect();
+        const { scrollLeft, scrollTop, clientWidth, clientHeight } = this.scrollHost;
+        // Every row spans the full grid width (`.roomRow { width: max-content }`), so the first one
+        // gives the horizontal extent; the last one gives the vertical extent.
+        const firstRow = rows[0].getBoundingClientRect();
+        const lastRow = rows[rows.length - 1].getBoundingClientRect();
+        return {
+            x: [firstRow.left - containerRect.left + scrollLeft, firstRow.right - containerRect.left + scrollLeft - clientWidth],
+            y: [0, lastRow.bottom - containerRect.top + scrollTop - clientHeight],
+        };
+    }
+    /**
+     * Records where every room row starts and ends, so a move drag can snap onto one.
+     *
+     * Same selector and same coordinate space as the drop-target bounds `igloo-calendar` measures
+     * (`offsetTop` inside `.bodyContainer`), so the row the bar snaps to is by construction the row
+     * the drop resolves to - the bar can never come to rest looking like it is over one row while
+     * releasing into another.
+     */
+    captureRowBands() {
+        const rows = document.querySelectorAll('.bodyContainer .roomRow .roomTitle[data-room]');
+        this.dragRowBands = Array.from(rows).map(row => ({ top: row.offsetTop, height: row.offsetHeight }));
+    }
+    /**
+     * Snaps a dropped bar's top onto the centre of the room row it came to rest over.
+     *
+     * The bar's own middle picks the row, so it belongs to whichever row it is more than half way
+     * into - and the nearest row wins outright when that middle is over a category header or past
+     * the end of the list, which keeps the bar on a droppable row instead of between two.
+     */
+    snapTopToRow(rawTop) {
+        if (!this.dragRowBands.length) {
+            return rawTop;
+        }
+        const barMiddle = rawTop + EVENT_HEIGHT / 2;
+        let closest = this.dragRowBands[0];
+        let closestDistance = Infinity;
+        for (const band of this.dragRowBands) {
+            const distance = Math.max(band.top - barMiddle, barMiddle - (band.top + band.height), 0);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closest = band;
+            }
+            if (distance === 0) {
+                break;
+            }
+        }
+        return closest.top + getEventTopWithinRow(closest.height);
+    }
+    /**
+     * Settles a just-dropped bar onto the grid: centred in the room row it was released over, and
+     * half a day cell in from that day's column edge, which is where a booking starting there rests.
+     *
+     * The settled position is written back to `dragEndPos` as well as to the element, so the drop
+     * resolves to the cell the bar visibly landed on rather than to the raw pointer position - the
+     * two disagree within a few pixels either side of a day boundary.
+     */
+    settleToGrid() {
+        const top = this.snapTopToRow(this.dragEndPos.top);
+        const left = this.snapLeftToDay(this.dragEndPos.left);
+        this.element.style.top = `${top}px`;
+        this.element.style.left = `${left}px`;
+        this.dragEndPos = { ...this.dragEndPos, top, left, x: left, y: top };
+    }
+    /** Snaps a dropped bar's physical left onto the day a booking released there would start on. */
+    snapLeftToDay(rawLeft) {
+        return snapEventLeft({
+            physicalLeft: rawLeft,
+            width: this.element.offsetWidth,
+            isRtl: isRtlDirection(locales.direction),
+            totalGridWidth: getTotalGridWidth(calendar_dates.days.length),
+            startsAfterWindowOpen: this.startsAfterWindowOpen(),
+            eventSpace: this.eventSpace,
+        });
+    }
+    /** Disarms auto-scrolling. Safe to call when no drag is in progress. */
+    endAutoScroll() {
+        this.autoScroller?.stop();
+        this.autoScroller = null;
+        this.scrollHost?.removeEventListener('scroll', this.handleHostScrollBind);
+        this.scrollHost = null;
+    }
+    handleHostScroll() {
+        if (this.isDragging) {
+            this.applyDragPosition();
+        }
+    }
     handleMouseMove(event) {
         if (this.isDragging) {
-            this.currentX = event.clientX || event.touches[0].clientX;
-            let distanceX = this.currentX - this.initialX;
+            const { clientX, clientY } = this.getPointerPosition(event);
+            this.currentX = clientX;
+            this.currentY = clientY;
+            this.autoScroller?.update(clientX, clientY);
+            this.applyDragPosition();
+        }
+        else {
+            console.log('still mouse move listening...');
+        }
+    }
+    /**
+     * Positions the bar (and, for a move, reports the drop target) from the last known pointer
+     * position. Called both on pointer movement and on every frame the calendar auto-scrolls, since
+     * a pointer parked in the edge hot zone keeps the grid moving without firing another `mousemove`.
+     */
+    applyDragPosition() {
+        if (this.isDragging) {
+            // `element.style.top/left` are grid-space (relative to `.bodyContainer`) while the pointer
+            // deltas below are viewport-space. Folding the container's scroll travel back in is what
+            // keeps the two in step - without it the bar rides the scrolling content away from the
+            // cursor, and the drop resolves to whatever cell that stale position happens to land on.
+            const scrollOffset = this.autoScroller?.offset ?? { x: 0, y: 0 };
+            let distanceX = this.currentX - this.initialX + scrollOffset.x;
+            let distanceY = this.currentY - this.initialY + scrollOffset.y;
+            // An auto-scrolled frame reaches here twice - once from the scroller's own callback, once
+            // from the container's `scroll` event - and both describe the same position.
+            if (this.appliedDistance?.x === distanceX && this.appliedDistance?.y === distanceY) {
+                return;
+            }
+            this.appliedDistance = { x: distanceX, y: distanceY };
             if (this.resizeSide === 'move') {
-                this.currentY = event.clientY || event.touches[0].clientY;
-                let distanceY = this.currentY - this.initialY;
+                // Follows the pointer pixel for pixel; the grid snap happens once, on release, in
+                // `settleToGrid()`.
                 this.element.style.top = `${this.dragInitPos.top + distanceY}px`;
                 this.element.style.left = `${this.dragInitPos.left + distanceX}px`;
                 this.dragEndPos = {
@@ -679,9 +882,6 @@ export class IglBookingEvent {
                 this.finalWidth = newWidth;
             }
         }
-        else {
-            console.log('still mouse move listening...');
-        }
     }
     handleMouseUp() {
         if (this.isDragging) {
@@ -690,10 +890,13 @@ export class IglBookingEvent {
                 // console.log("Initial Y::"+this.dragInitPos.y);
                 // console.log("End X::"+this.dragEndPos.x);
                 // console.log("End Y::"+this.dragEndPos.y);
+                // Measured before settling, so the click-vs-drag test still reads raw pointer travel
+                // rather than how far the bar happened to snap.
                 if (this.isTouchStart) {
                     this.moveDifferenceX = Math.abs(this.dragEndPos.x - this.dragInitPos.x);
                     this.moveDifferenceY = Math.abs(this.dragEndPos.y - this.dragInitPos.y);
                 }
+                this.settleToGrid();
                 this.dragOverEventData.emit({
                     id: 'DRAG_OVER_END',
                     data: {
@@ -748,6 +951,9 @@ export class IglBookingEvent {
             console.log('still mouse up listening...');
         }
         this.isDragging = false;
+        // Safe to release only now: the emits above read the `element.style.*` values that auto-scroll
+        // had been keeping up to date.
+        this.endAutoScroll();
         document.removeEventListener('mousemove', this.handleMouseMoveBind);
         document.removeEventListener('touchmove', this.handleMouseMoveBind);
         document.removeEventListener('pointermove', this.handleMouseMoveBind);
@@ -882,7 +1088,7 @@ export class IglBookingEvent {
         const pending = this.bookingEvent.STATUS === 'PENDING-CONFIRMATION' && this.bookingEvent.ID !== 'NEW_TEMP_EVENT';
         const startsAfterWindowOpen = this.startsAfterWindowOpen();
         const endsBeforeWindowClose = !this.isNewEvent() && !!this.bookingEvent.defaultDates && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE));
-        return (h(Host, { key: '6b4198df6ce7d2bdf60bde6e634bf6f7c6f46b27', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: bar, dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: '91c63a38941e70c3acd61995975e87c10fbb84d0', "data-identifier": this.bookingEvent?.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
+        return (h(Host, { key: 'ca14836bdfccadbc04eed5bec02e9fbb46daec18', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: bar, dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: 'f10a5a4e22266265360e74b7afcc333a3b99cb6e', "data-identifier": this.bookingEvent?.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
                 'bookingEventBase': true,
                 'pending': pending,
                 'skewedLeft': startsAfterWindowOpen,
@@ -895,7 +1101,7 @@ export class IglBookingEvent {
                 'backgroundColor': backgroundColor,
                 '--ir-event-bg': backgroundColor,
                 '--ir-event-bg-stripe-color': stripe,
-            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), isDepartureAfterHotelCheckout && h("wa-tooltip", { key: '92591cc1c443dcf04c9d58b9e2c5eefdff9f622d', for: lateCheckout }, "Departure time: ", this.bookingEvent.DEPARTURE_TIME?.description), balanceNode && h("wa-tooltip", { key: '6339e9ddd3f2ac3e8271c7edf187f292d86af546', for: balance }, "Balance: ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE)), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, (balanceNode || isDepartureAfterHotelCheckout) && (h("div", { key: 'd37ff97e4762c2f94bf8c417f87b4860f9fe8280', class: "balanceIcon d-flex" }, isDepartureAfterHotelCheckout && h("div", { key: '2159c41c77baf5ba3ddc713ea3b2b4915297ea12', id: lateCheckout, class: "legend_circle", style: { backgroundColor: '#999999' } }), balanceNode ? h("div", { id: balance, class: "legend_circle", style: { backgroundColor: '#f34752' } }) : null)), h("div", { key: '55faee1698ed03583a13ef7c2d753718638febd8', class: `bookingEventTitle ${pending ? 'pending' : ''}`, style: !pending && { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '76998d359034619f084398851711b28d03701a0d' }, h("div", { key: '2a5b0248e6b8e72009e6c3b8a140089d336d34a7', class: `bookingEventDragHandle leftSide ${startsAfterWindowOpen ? 'skewedLeft' : ''} ${endsBeforeWindowClose ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: 'af180bb4b1e782b151431434e56c7745ebc1eaa8', class: `bookingEventDragHandle rightSide ${startsAfterWindowOpen ? 'skewedLeft' : ''} ${endsBeforeWindowClose ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
+            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), isDepartureAfterHotelCheckout && h("wa-tooltip", { key: 'c9fe0098a5f178d52a395830090d731cb09d9b7f', for: lateCheckout }, "Departure time: ", this.bookingEvent.DEPARTURE_TIME?.description), balanceNode && h("wa-tooltip", { key: '8622e954505cdd46d1bdc45c13cf2668f2ea19fa', for: balance }, "Balance: ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE)), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, (balanceNode || isDepartureAfterHotelCheckout) && (h("div", { key: '8a36092abaa1eff1169cdee9220b359812c81cd7', class: "balanceIcon d-flex" }, isDepartureAfterHotelCheckout && h("div", { key: 'ac1bea38f4bad027f98d7a6e06c78cf08df61fae', id: lateCheckout, class: "legend_circle", style: { backgroundColor: '#999999' } }), balanceNode ? h("div", { id: balance, class: "legend_circle", style: { backgroundColor: '#f34752' } }) : null)), h("div", { key: '6dbe5648027e8cdc53fd775a657c3a8fc59e927e', class: `bookingEventTitle ${pending ? 'pending' : ''}`, style: !pending && { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: 'd5dbfbb524e26ecebeff1a93c0ae7cb73692e436' }, h("div", { key: '642cd2369cade2da76805d63e5edd6e83a8891e1', class: `bookingEventDragHandle leftSide ${startsAfterWindowOpen ? 'skewedLeft' : ''} ${endsBeforeWindowClose ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '91d087fea2b8df266f900f0d95bab4f545e5afa3', class: `bookingEventDragHandle rightSide ${startsAfterWindowOpen ? 'skewedLeft' : ''} ${endsBeforeWindowClose ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     static get is() { return "igl-booking-event"; }
     static get encapsulation() { return "scoped"; }

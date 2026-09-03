@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-BYqrdgY9.js';
-import { b as formatPercent, c as formatNumber } from './number-BZWB3cYi.js';
-import './ir-date-VwsP30iT.js';
+import { b as formatPercent, c as formatNumber } from './number-DuxNax9Y.js';
+import './ir-date-_0rd4VZd.js';
 import './index-CimhgHoX.js';
 import './locales.store-C9qsbKR0.js';
 import './moment-Mki5YqAR.js';

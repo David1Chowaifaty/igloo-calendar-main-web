@@ -1,37 +1,37 @@
 import { r as registerInstance, c as createEvent, h, H as Host, d as getElement, F as Fragment, f as forceUpdate } from './index-BYqrdgY9.js';
-import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams, i as getVisibleInventory, r as resetBookingStore, j as setDayUseSelection, s as setBookingDraft, d as setBookingSelectOptions, k as fillMissingReservedGuestNames, l as getReservedRooms, n as resetAvailability, o as hasAtLeastOneRoomSelected, c as calculateTotalRooms, p as getBookingTotalPrice, q as syncFirstRoomGuestName, t as bookedByGuestBaseData } from './booking.store-7NO3urZm.js';
+import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams, i as getVisibleInventory, r as resetBookingStore, j as setDayUseSelection, s as setBookingDraft, d as setBookingSelectOptions, k as fillMissingReservedGuestNames, l as getReservedRooms, n as resetAvailability, o as hasAtLeastOneRoomSelected, c as calculateTotalRooms, p as getBookingTotalPrice, q as syncFirstRoomGuestName, t as bookedByGuestBaseData } from './booking.store-CAX7ugRB.js';
 import { l as locales } from './locales.store-C9qsbKR0.js';
 import { d as isSingleUnit, c as calendar_data, b as getExtraServiceDefaultPrice, a as getBabyCotPricingModel, i as isOptimReadOnly } from './calendar-data-BebdClG4.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { l as libExports } from './index-DeW5X45W.js';
 import { E as ExtraServiceSchema, R as ROOM_IN_OUT, v as validateSharedPerson, Z as ZSharedPerson } from './booking.dto-DpE31yhG.js';
-import { f as formatDate, L as LanguageObserver, g as getWeekdayLabels, d as getMonthLabel, e as toDate, C as CalendarPreferenceController, h as toApiDate, i as getFirstDayOfWeek, j as calendarPreference } from './ir-date-VwsP30iT.js';
-import { f as formatAmount, a as formatBookingNumber, c as formatNumber, d as formatCount, b as formatPercent } from './number-BZWB3cYi.js';
+import { f as formatDate, L as LanguageObserver, g as getWeekdayLabels, d as getMonthLabel, e as toDate, h as calendarPreference, C as CalendarPreferenceController, i as toApiDate, j as getFirstDayOfWeek } from './ir-date-_0rd4VZd.js';
+import { f as formatAmount, a as formatBookingNumber, c as formatNumber, d as formatCount, b as formatPercent } from './number-DuxNax9Y.js';
 import { G as GuestCredentials } from './types-C7GI5X38.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
-import { p as getReleaseHoursString, k as extras, i as isBlockUnit, d as showToast, x as checkMealPlan, y as findCountry, c as canCheckIn, z as isWeekend, q as dateToFormattedString, e as dateDifference, n as getDaysArray, A as formatLegendColors, B as getNextDay, C as addTwoMonthToDate, D as computeEndDate, E as convertDMYToISO, F as toFloat, a as canCheckout, h as getEntryValue, G as renderTime } from './utils-h4Y9o8Os.js';
-import { b as buildSplitIndex, d as getSplitRole, c as calculateDaysBetweenDates, t as transformNewBooking, e as calendar_dates, f as compareTime, h as createDateWithOffsetAndHour, i as getDayUseUnitAvailability, D as DAY_USE_STATUS_ICON, j as formatDayUseStatusText, k as addCleaningTasks, l as formatName, m as getRoomStatus, n as cleanRoom, o as addRoomForCleaning, p as transformNewBLockedRooms, q as bookingStatus, a as getPrivateNote } from './booking-D-2iB90i.js';
+import { p as getReleaseHoursString, k as extras, i as isBlockUnit, d as showToast, x as checkMealPlan, y as findCountry, c as canCheckIn, z as isWeekend, q as dateToFormattedString, e as dateDifference, n as getDaysArray, A as formatLegendColors, B as getNextDay, C as addTwoMonthToDate, D as computeEndDate, E as convertDMYToISO, F as toFloat, a as canCheckout, h as getEntryValue, G as renderTime } from './utils-COglgzDo.js';
+import { b as buildSplitIndex, d as getSplitRole, c as calculateDaysBetweenDates, t as transformNewBooking, e as calendar_dates, f as compareTime, h as createDateWithOffsetAndHour, i as getDayUseUnitAvailability, D as DAY_USE_STATUS_ICON, j as formatDayUseStatusText, k as addCleaningTasks, l as formatName, m as getRoomStatus, n as cleanRoom, o as addRoomForCleaning, p as transformNewBLockedRooms, q as bookingStatus, a as getPrivateNote } from './booking-B3XQbHrM.js';
 import { a as axios } from './axios-B50ozOIF.js';
 import { c as isRtlDirection, i as isRtlLanguage } from './direction-ChMsVFnM.js';
-import { P as PropertyService, t as taxationModes, E as ExposedRectifierParamsSchema } from './index-Bf2pKYHB.js';
+import { P as PropertyService, t as taxationModes, E as ExposedRectifierParamsSchema } from './index-CbjeKhiT.js';
 import { H as HbPreference, S as SvcCategory, I as InvoiceableItemReason, F as FdTypes, a as FdStatus, C as ClTxTypeCode, V as VatIncludedCodes, b as InOut, P as PayTypes, c as PayStatus } from './enums-CSCQSgBu.js';
-import { _ as _formatTime, i as isAgentMode, a as _formatDate, b as _getDay } from './functions-DZw5tp3g.js';
+import { _ as _formatTime, i as isAgentMode, a as _formatDate, b as _getDay } from './functions-CtmxIeXe.js';
 import { c as createStore } from './index-CimhgHoX.js';
 import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-C7mt9QTJ.js';
 import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-CyWfUv6a.js';
 import { R as RoomService } from './room.service-BC62uNSi.js';
 import { r as realtimeService } from './realtime.service-BLk631kq.js';
 import { T as Token } from './Token-CkxFIO_J.js';
-import { C as CityLedgerService } from './index-DO9s6iD5.js';
+import { C as CityLedgerService } from './index-BTiwtg05.js';
 import { A as AirDatepicker } from './air-datepicker-B-GK2tAj.js';
-import { a as actionableClTypes, m as mapClTxToFolioRow } from './city-ledger.service-Da4K5LyI.js';
+import { a as actionableClTypes, m as mapClTxToFolioRow } from './city-ledger.service-mlnv2uM2.js';
 import { P as PaymentService } from './payment.service-D2gbn5FN.js';
 import { A as AgentsService } from './agents.service-CfKXQqnt.js';
 import { M as MaskedRange, I as IMask } from './index-BQB1ooJC.js';
 import { c as createColumnHelper, u as useTable, f as flexRender, a as getSortedRowModel, g as getCoreRowModel } from './useTable-CXkYMQoa.js';
 import { Z as ZIEntrySchema } from './IBooking-xt_aVEnI.js';
 import { C as ClickOutside, c as createSlotManager } from './slot-B8r4nrm7.js';
-import { t as toAccChargeRule, f as findAccTax, b as getTopLevelSvcCategories, g as groupSvcCategoriesByParent } from './svc-category.utils-WAS2qevJ.js';
+import { t as toAccChargeRule, f as findAccTax, b as getTopLevelSvcCategories, g as groupSvcCategoriesByParent } from './svc-category.utils-CvCjZytF.js';
 import { S as SystemService } from './system.service-DN8zRqj9.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-34GsmACS.js';
 import { D as Debounce } from './debounce-DF70NVXP.js';
@@ -512,6 +512,8 @@ const CELL_WIDTH = 58;
 const CELL_HEIGHT = 30;
 const ROOM_HEADER_WIDTH = 170;
 const EVENT_SPACE = 8;
+/** Height of a booking bar. Must stay in sync with the `height` igl-booking-event renders. */
+const EVENT_HEIGHT = 20;
 function getDayIndex(days, dateValue) {
     return days.findIndex(day => day.value === dateValue);
 }
@@ -527,6 +529,45 @@ function toPhysicalLeft(logicalLeft, width, isRtl, totalGridWidth) {
     return isRtl ? totalGridWidth - logicalLeft - width : logicalLeft;
 }
 /**
+ * Inverse of `toPhysicalLeft`. A reflection is its own inverse, so this is the same computation -
+ * it exists so call sites converting the other way read as what they actually mean.
+ */
+function toLogicalLeft(physicalLeft, width, isRtl, totalGridWidth) {
+    return toPhysicalLeft(physicalLeft, width, isRtl, totalGridWidth);
+}
+/**
+ * Vertical offset of a booking bar inside its room row, centring the bar in the row.
+ *
+ * Pass the row's measured height where it is known; rows are `CELL_HEIGHT` tall, but a measured
+ * value keeps the bar centred rather than merely 5px down if that ever stops being true.
+ */
+function getEventTopWithinRow(rowHeight = CELL_HEIGHT) {
+    return (rowHeight - EVENT_HEIGHT) / 2;
+}
+/**
+ * Distance from a day column's start edge to where a bar beginning on that day rests.
+ *
+ * Check-in is midday, so a booking bar starts half a cell into its first day rather than on the
+ * column boundary - which is why a bar reads as centred on the cell it starts in.
+ */
+function getEventLeftWithinDay(startsAfterWindowOpen, eventSpace = EVENT_SPACE) {
+    return (startsAfterWindowOpen ? 0 : CELL_WIDTH / 2) + eventSpace / 2;
+}
+/**
+ * Snaps a freely dragged bar's physical `left` onto the day grid, so it always sits exactly where
+ * a booking starting on that day would render.
+ *
+ * The snap happens in chronological space and is mirrored back, so the bar lands on the same day
+ * in RTL as it would in LTR rather than on the reflection of it.
+ */
+function snapEventLeft({ physicalLeft, width, isRtl, totalGridWidth, startsAfterWindowOpen, eventSpace = EVENT_SPACE, }) {
+    const withinDay = getEventLeftWithinDay(startsAfterWindowOpen, eventSpace);
+    const logicalLeft = toLogicalLeft(physicalLeft, width, isRtl, totalGridWidth);
+    const dayIndex = Math.round((logicalLeft - ROOM_HEADER_WIDTH - withinDay) / CELL_WIDTH);
+    const snappedLogicalLeft = ROOM_HEADER_WIDTH + dayIndex * CELL_WIDTH + withinDay;
+    return toPhysicalLeft(snappedLogicalLeft, width, isRtl, totalGridWidth);
+}
+/**
  * Computes a booking bar's chronological (LTR-oriented) left offset and width, purely from
  * data - no DOM measurement. Mirrors the pixel math the previous DOM-measurement-based
  * implementation produced, including the half-cell adjustment applied when a booking's
@@ -534,9 +575,178 @@ function toPhysicalLeft(logicalLeft, width, isRtl, totalGridWidth) {
  */
 function computeEventHorizontalGeometry({ days, fromDate, stayDays, startsAfterWindowOpen, eventSpace = EVENT_SPACE, }) {
     const dayIndex = Math.max(getDayIndex(days, fromDate), 0);
-    const left = ROOM_HEADER_WIDTH + dayIndex * CELL_WIDTH + (startsAfterWindowOpen ? 0 : CELL_WIDTH / 2) + eventSpace / 2;
+    const left = ROOM_HEADER_WIDTH + dayIndex * CELL_WIDTH + getEventLeftWithinDay(startsAfterWindowOpen, eventSpace);
     const width = (stayDays + (startsAfterWindowOpen ? 0.5 : 0)) * CELL_WIDTH - eventSpace;
     return { left, width };
+}
+
+/**
+ * Edge auto-scroll for pointer drags inside a scrollable container.
+ *
+ * While a drag is in progress the owning component feeds pointer coordinates in through
+ * `update()`. Whenever the pointer sits inside a "hot zone" measured inward from one of the
+ * container's edges, an animation-frame loop scrolls the container in that direction, ramping
+ * from a standstill at the far side of the zone up to `maxSpeed` at the very edge.
+ *
+ * The scroller does **not** move the dragged element itself. It only reports, through
+ * `offset`, how far the container has actually scrolled since `start()`. Callers that position
+ * their dragged element from viewport-space pointer deltas (`clientX - initialX`) must add that
+ * offset back in, otherwise the element stays glued to the scrolling content and slides out from
+ * under the cursor. `onScroll` fires on every frame that moved so the caller can re-apply the
+ * position even while the pointer is stationary and no `mousemove` is being dispatched.
+ *
+ * ## Direction
+ *
+ * Everything here is in *physical* pixels and needs no LTR/RTL branch:
+ *
+ * - `scrollLeft` increases toward the physical right in both directions. RTL simply uses a
+ *   non-positive range (`-(scrollWidth - clientWidth) .. 0`) in modern engines — the convention
+ *   `igloo-calendar`'s `scrollToElement()` already assumes — so a `scrollLeft` *delta* is
+ *   physical either way, and so is `offset.x`.
+ * - `getBoundingClientRect()` only ever reports physical edges, so the hot-zone tests are
+ *   physical too.
+ *
+ * The one direction-aware input is `inlineStartInset`: a sticky column pinned with
+ * `inset-inline-start: 0` overlays the container's physical *left* edge in LTR and its physical
+ * *right* edge in RTL. Callers pass the column's width plus which physical edge it currently
+ * covers, so the hot zone can start at the real edge of the scrollable content rather than
+ * underneath the sticky overlay.
+ */
+/** Hot-zone depth in px, measured inward from each edge of the container. */
+const DEFAULT_EDGE_SIZE = 60;
+/** Peak scroll speed in px per animation frame (~840px/s at 60fps). */
+const DEFAULT_MAX_SPEED = 14;
+class DragAutoScroller {
+    container;
+    scrollX;
+    scrollY;
+    edgeSize;
+    maxSpeed;
+    inlineStartInset;
+    inlineStartEdge;
+    getBounds;
+    onScroll;
+    /** Container scroll position captured by `start()`, the baseline `offset` is measured against. */
+    origin = { x: 0, y: 0 };
+    /** Last pointer position handed to `update()`, in viewport coordinates. */
+    pointer = null;
+    frameId = null;
+    constructor(options) {
+        this.container = options.container;
+        this.scrollX = options.axes?.x ?? false;
+        this.scrollY = options.axes?.y ?? false;
+        this.edgeSize = options.edgeSize ?? DEFAULT_EDGE_SIZE;
+        this.maxSpeed = options.maxSpeed ?? DEFAULT_MAX_SPEED;
+        this.inlineStartInset = options.inlineStartInset ?? 0;
+        this.inlineStartEdge = options.inlineStartEdge ?? 'left';
+        this.getBounds = options.getBounds;
+        this.onScroll = options.onScroll;
+    }
+    /** Snapshots the container's current scroll position as the zero point for `offset`. */
+    start() {
+        this.origin = { x: this.container.scrollLeft, y: this.container.scrollTop };
+        this.pointer = null;
+    }
+    /**
+     * How far the container has scrolled since `start()`, in physical px.
+     *
+     * Read live rather than accumulated per frame, so scrolling from any other source during the
+     * drag — a mouse wheel, a trackpad swipe, the calendar jumping to a date — is included too.
+     */
+    get offset() {
+        return {
+            x: this.container.scrollLeft - this.origin.x,
+            y: this.container.scrollTop - this.origin.y,
+        };
+    }
+    /** Records the pointer position and starts or stops the scroll loop to match. */
+    update(clientX, clientY) {
+        this.pointer = { x: clientX, y: clientY };
+        const { x, y } = this.computeVelocity();
+        if (x === 0 && y === 0) {
+            this.cancelFrame();
+            return;
+        }
+        if (this.frameId === null) {
+            this.frameId = requestAnimationFrame(this.tick);
+        }
+    }
+    /** Stops the scroll loop. Safe to call repeatedly, and when no drag is in progress. */
+    stop() {
+        this.cancelFrame();
+        this.pointer = null;
+    }
+    cancelFrame() {
+        if (this.frameId !== null) {
+            cancelAnimationFrame(this.frameId);
+            this.frameId = null;
+        }
+    }
+    tick = () => {
+        this.frameId = null;
+        const velocity = this.computeVelocity();
+        if (velocity.x === 0 && velocity.y === 0) {
+            return;
+        }
+        // Assign then read back: the browser clamps at the scroll extents, so the applied delta is
+        // the real one and `offset` never runs past the end of the content.
+        const bounds = this.getBounds?.() ?? {};
+        const before = { x: this.container.scrollLeft, y: this.container.scrollTop };
+        if (velocity.x !== 0) {
+            this.container.scrollLeft = clampToRange(before.x + velocity.x, bounds.x);
+        }
+        if (velocity.y !== 0) {
+            this.container.scrollTop = clampToRange(before.y + velocity.y, bounds.y);
+        }
+        const moved = this.container.scrollLeft !== before.x || this.container.scrollTop !== before.y;
+        if (moved) {
+            this.onScroll?.(this.offset);
+        }
+        // Keep going even on a frame that didn't move: the pointer is still in the hot zone, and the
+        // axis that hit its limit may free up again if the content grows (lazy-loaded days).
+        this.frameId = requestAnimationFrame(this.tick);
+    };
+    /** Scroll speed for this frame, in px, derived from the pointer's distance to each edge. */
+    computeVelocity() {
+        if (!this.pointer) {
+            return { x: 0, y: 0 };
+        }
+        const rect = this.container.getBoundingClientRect();
+        const startInset = this.inlineStartEdge === 'left' ? this.inlineStartInset : 0;
+        const endInset = this.inlineStartEdge === 'right' ? this.inlineStartInset : 0;
+        return {
+            x: this.scrollX ? this.axisVelocity(this.pointer.x, rect.left + startInset, rect.right - endInset) : 0,
+            y: this.scrollY ? this.axisVelocity(this.pointer.y, rect.top, rect.bottom) : 0,
+        };
+    }
+    /**
+     * Signed speed along one axis: negative near `min`, positive near `max`, zero in between.
+     * A pointer dragged past an edge entirely keeps the full `maxSpeed` rather than falling off.
+     */
+    axisVelocity(position, min, max) {
+        // A zone deeper than half the axis would make the two overlap, with no neutral middle.
+        const zone = Math.min(this.edgeSize, Math.max((max - min) / 2, 0));
+        if (zone <= 0) {
+            return 0;
+        }
+        if (position < min + zone) {
+            const intensity = Math.min((min + zone - position) / zone, 1);
+            return -this.maxSpeed * intensity;
+        }
+        if (position > max - zone) {
+            const intensity = Math.min((position - (max - zone)) / zone, 1);
+            return this.maxSpeed * intensity;
+        }
+        return 0;
+    }
+}
+/** Clamps to an optional `[min, max]`; a range whose min exceeds its max collapses to its min. */
+function clampToRange(value, range) {
+    if (!range) {
+        return value;
+    }
+    const [min, max] = range;
+    return Math.min(Math.max(value, min), Math.max(min, max));
 }
 
 const iglBookingEventCss = () => `.sc-igl-booking-event-h{display:block;position:absolute;--ota-bar-width:2px;--stripe-period:20px;--split-border-width:5px;--split-border-color:var(--wa-color-text-normal)}.bookingEventBase.sc-igl-booking-event{position:absolute;width:100%;height:100%;border-radius:4px;background-color:rgb(49, 190, 241);transform:skewX(-22deg);cursor:pointer}.bookingEventBase.leftSplit.sc-igl-booking-event{border-inline-start:var(--split-border-width) solid var(--split-border-color)}.bookingEventBase.rightSplit.sc-igl-booking-event{border-inline-end:var(--split-border-width) solid var(--split-border-color)}.bookingEventBase.fullSplit.sc-igl-booking-event{border-inline-end:var(--split-border-width) solid var(--split-border-color);border-inline-start:var(--split-border-width) solid var(--split-border-color)}.bookingEventBase.fullSplit.skewedLeft.sc-igl-booking-event,.bookingEventBase.leftSplit.skewedLeft.sc-igl-booking-event{border-inline-start:0}.bookingEventBase.fullSplit.skewedRight.sc-igl-booking-event,.bookingEventBase.leftSplit.skewedRight.sc-igl-booking-event{border-inline-end:0}.bookingEventBase.pending.sc-igl-booking-event{border-width:2px;border-style:dashed;border-color:var(--wa-color-success-fill-loud)}.bookingEvent.sc-igl-booking-event{cursor:pointer}.ota-booking-event.sc-igl-booking-event{border-width:var(--ota-bar-width) !important}.bookingEventHiddenBase.sc-igl-booking-event{position:absolute;top:0;inset-inline-start:-4px;width:calc(100% + 8px)}.bookingEventBase.skewedLeft.sc-igl-booking-event::before,.bookingEventBase.skewedRight.sc-igl-booking-event::before{content:'';position:absolute;top:0;bottom:0;width:50%;height:100%;inset-inline-start:-4px;background-color:var(--ir-event-bg);border-radius:4px}.bookingEventBase.skewedLeft.sc-igl-booking-event::before{transform-origin:right;transform:skewX(22deg);border-start-start-radius:0;border-end-start-radius:0}.bookingEventBase.fullSplit.skewedLeft.sc-igl-booking-event::before,.bookingEventBase.leftSplit.skewedLeft.sc-igl-booking-event::before{border-inline-start:var(--split-border-width) solid var(--split-border-color) !important;z-index:2;background-color:transparent}.bookingEventBase.fullSplit.skewedRight.sc-igl-booking-event::before,.bookingEventBase.leftRight.skewedRight.sc-igl-booking-event::before{border-inline-end:var(--split-border-width) solid var(--split-border-color) !important;z-index:2;background-color:transparent}.bookingEventBase.skewedRight.sc-igl-booking-event::before{transform-origin:left;transform:skewX(22deg 0deg);border-start-end-radius:0;border-end-end-radius:0}.bookingEventBase.border.skewedLeft.sc-igl-booking-event::before{border:var(--ota-bar-width) solid #424242;border-inline-end:0;border-inline-start:0;border-start-end-radius:0;border-end-end-radius:0;top:calc(var(--ota-bar-width) * -1);height:20px;inset-inline-start:-4px}.bookingEventBase.border.skewedRight.sc-igl-booking-event::before{border:var(--ota-bar-width) solid #424242;border-inline-start:0;border-inline-end:0;border-start-start-radius:0;border-end-start-radius:0;top:calc(var(--ota-bar-width) * -1);height:20px;inset-inline-end:-4px}.bookingEventBase.striped-bar.fullSplit.skewedLeft.vertical.sc-igl-booking-event::after,.bookingEventBase.striped-bar.leftSplit.skewedLeft.vertical.sc-igl-booking-event::after{z-index:1;border-inline-start:var(--split-border-width) solid var(--split-border-color)}.bookingEventBase.striped-bar.fullSplit.skewedRight.vertical.sc-igl-booking-event::after,.bookingEventBase.striped-bar.rightSplit.skewedRight.vertical.sc-igl-booking-event::after{z-index:1;border-inline-end:var(--split-border-width) solid var(--split-border-color)}.bookingEventBase.striped-bar.vertical.sc-igl-booking-event::after{--stripe-angle:360deg}.bookingEventBase.striped-bar.sc-igl-booking-event::after{content:'';position:absolute;inset:0;border-radius:4px;background:repeating-linear-gradient(     var(--stripe-angle, 45deg),     var(--ir-event-bg) 0,     var(--ir-event-bg) calc(var(--stripe-period) / 2),     var(--ir-event-bg-stripe-color) calc(var(--stripe-period) / 2),     var(--ir-event-bg-stripe-color) var(--stripe-period)   );backface-visibility:hidden}.bookingEventBase.skewedRight.striped-bar.sc-igl-booking-event::after,.bookingEventBase.border.skewedRight.sc-igl-booking-event::after{inset-inline-end:-8px}.bookingEventBase.skewedLeft.striped-bar.sc-igl-booking-event::after,.bookingEventBase.border.skewedLeft.sc-igl-booking-event::after{inset-inline-start:-8px}.bookingEventBase.striped-bar.animated.sc-igl-booking-event::after{background-size:28.28px 28.28px;backface-visibility:hidden;animation:stripes 0.8s linear infinite;will-change:background-position}@keyframes stripes{0%{background-position:0 0}100%{background-position:28.28px 0}}.bookingEventDragHandle.sc-igl-booking-event{position:absolute;top:0;width:15px;height:100%;opacity:0.1;background-color:rgba(0, 0, 0, 0.15);transform:skewX(-22deg);border-radius:4px;cursor:pointer}.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:block;opacity:1}.newEvent.sc-igl-booking-event-h:hover .bookingEventDragHandle.sc-igl-booking-event{display:none;opacity:1}.leftSide.sc-igl-booking-event{left:0}.rightSide.sc-igl-booking-event{right:0}.leftSide.skewedLeft.sc-igl-booking-event{transform:skewX(0)}.rightSide.skewedRight.sc-igl-booking-event{transform:skewX(0)}.bookingEventTitle.sc-igl-booking-event{position:relative;top:2px;inset-inline-start:5px;max-width:calc(100% - 10px);color:#fff;font-size:0.8em;overflow:hidden;text-overflow:ellipsis;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;cursor:pointer}.legend_circle.sc-igl-booking-event{width:10px;height:10px;margin-block:3px;margin-inline:2px 3px;border:1px solid #fff;border-radius:100%}.noteIcon.sc-igl-booking-event{position:absolute;bottom:-8px;inset-inline-start:2px}.balanceIcon.sc-igl-booking-event{position:absolute;top:-8px;inset-inline-end:2px}.splitBooking.sc-igl-booking-event{border-inline-end:2px solid #000000}.bookingEventTitle.pending.sc-igl-booking-event{color:var(--wa-color-success-on-quiet) !important}[dir='rtl'].sc-igl-booking-event-h .bookingEventBase.sc-igl-booking-event{transform:skewX(22deg)}[dir='rtl'].sc-igl-booking-event-h .bookingEventDragHandle.sc-igl-booking-event{transform:skewX(22deg)}[dir='rtl'].sc-igl-booking-event-h .leftSide.skewedLeft.sc-igl-booking-event,[dir='rtl'].sc-igl-booking-event-h .rightSide.skewedRight.sc-igl-booking-event{transform:skewX(0)}[dir='rtl'].sc-igl-booking-event-h .bookingEventBase.skewedLeft.sc-igl-booking-event::before{transform-origin:left;transform:skewX(-22deg)}[dir='rtl'].sc-igl-booking-event-h .bookingEventBase.skewedRight.sc-igl-booking-event::before{transform-origin:right;transform:skewX(-22deg)}`;
@@ -572,7 +782,6 @@ const IglBookingEvent = class {
     isShrinking = null;
     dayWidth = CELL_WIDTH;
     eventSpace = 8;
-    vertSpace = 10;
     /* show bubble */
     showInfoPopup = false;
     bubbleInfoTopSide = false;
@@ -598,9 +807,22 @@ const IglBookingEvent = class {
     moveDifferenceY;
     animationFrameId = null;
     minResizeDays = 1;
+    /* Auto-scroll: keeps the calendar moving while a drag or stretch is held near its edge. */
+    autoScroller = null;
+    scrollHost = null;
+    /** Last drag offsets written to the DOM, so a repeated apply for the same state is skipped. */
+    appliedDistance = null;
+    /**
+     * Room row extents captured when a move drag starts, in the same `.bodyContainer` grid space the
+     * bar positions itself in, and used to settle it on release. Captured up front rather than read
+     * at drop time so the measurement can't be disturbed by the drag itself, and because the same
+     * pass is what excludes category headers (taller than a room row, and not droppable).
+     */
+    dragRowBands = [];
     handleMouseMoveBind = this.handleMouseMove.bind(this);
     handleMouseUpBind = this.handleMouseUp.bind(this);
     handleClickOutsideBind = this.handleClickOutside.bind(this);
+    handleHostScrollBind = this.handleHostScroll.bind(this);
     role = '';
     componentWillLoad() {
         window.addEventListener('click', this.handleClickOutsideBind);
@@ -630,6 +852,7 @@ const IglBookingEvent = class {
     }
     disconnectedCallback() {
         window.removeEventListener('click', this.handleClickOutsideBind);
+        this.endAutoScroll();
         if (this.animationFrameId) {
             cancelAnimationFrame(this.animationFrameId);
         }
@@ -1085,11 +1308,11 @@ const IglBookingEvent = class {
         return !this.isNewEvent() && !!this.bookingEvent.defaultDates && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE));
     }
     getPosition() {
-        const pos = { top: '0px', left: '0px', width: '0px', height: '20px' };
+        const pos = { top: '0px', left: '0px', width: '0px', height: `${EVENT_HEIGHT}px` };
         if (typeof this.roomTop !== 'number') {
             return pos;
         }
-        pos.top = `${this.roomTop + CELL_HEIGHT / 2 - this.vertSpace}px`;
+        pos.top = `${this.roomTop + getEventTopWithinRow()}px`;
         const days = calendar_dates.days;
         const { left: logicalLeft, width } = computeEventHorizontalGeometry({
             days,
@@ -1106,6 +1329,17 @@ const IglBookingEvent = class {
     getNumber(aData) {
         return aData ? parseFloat(aData) : 0;
     }
+    /**
+     * Pointer coordinates for a mouse, pointer or touch event, in viewport space.
+     * Touch events carry no `clientX`/`clientY` of their own - they live on the first touch point.
+     */
+    getPointerPosition(event) {
+        const touch = event.touches?.[0] ?? event.changedTouches?.[0];
+        return {
+            clientX: event.clientX ?? touch?.clientX ?? 0,
+            clientY: event.clientY ?? touch?.clientY ?? 0,
+        };
+    }
     startDragging(event, side) {
         event.preventDefault();
         event.stopPropagation();
@@ -1117,9 +1351,10 @@ const IglBookingEvent = class {
         this.isDragging = true;
         this.showEventInfo(false);
         this.isStretch = side !== 'move';
+        const { clientX, clientY } = this.getPointerPosition(event);
         if (side === 'move') {
-            this.initialX = event.clientX || event.touches[0].clientX;
-            this.initialY = event.clientY || event.touches[0].clientY;
+            this.initialX = clientX;
+            this.initialY = clientY;
             this.elementRect = this.element.getBoundingClientRect();
             const offsetX = 0;
             const offsetY = 0;
@@ -1128,6 +1363,10 @@ const IglBookingEvent = class {
                 fromRoomId: this.getBookedRoomId(),
                 top: this.getNumber(this.element.style.top) + offsetY,
                 left: this.getNumber(this.element.style.left) + offsetX,
+                // Carried so the very first highlight resolves off the same edge every later one does: in
+                // RTL the bar is mirrored and its check-in edge is the physical right, which needs `width`
+                // to locate. Without it the drag opens by highlighting the checkout day for one frame.
+                width: this.element.offsetWidth,
             };
             this.dragInitPos.x = this.dragInitPos.left;
             this.dragInitPos.y = this.dragInitPos.top;
@@ -1135,6 +1374,7 @@ const IglBookingEvent = class {
             this.element.style.top = `${this.dragInitPos.top}px`;
             this.element.style.left = `${this.dragInitPos.left}px`;
             this.isTouchStart = true; // !!(event.touches && event.touches.length);
+            this.captureRowBands();
             this.dragOverEventData.emit({
                 id: 'CALCULATE_DRAG_OVER_BOUNDS',
                 data: this.dragInitPos,
@@ -1143,19 +1383,27 @@ const IglBookingEvent = class {
         else {
             this.initialWidth = this.element.offsetWidth;
             this.initialLeft = this.element.offsetLeft;
-            this.initialX = event.clientX || event.touches[0].clientX;
+            this.initialX = clientX;
+            // A stretch never moves the bar vertically, but the origin still has to be recorded so the
+            // shared position pass isn't left comparing against whatever a previous drag left behind.
+            this.initialY = clientY;
+            const top = this.getNumber(this.element.style.top);
             this.dragOverEventData.emit({
                 id: 'CALCULATE_DRAG_OVER_BOUNDS',
                 data: {
                     id: this.getBookingId(),
                     fromRoomId: this.getBookedRoomId(),
-                    top: this.getNumber(this.element.style.top),
+                    top,
                     left: this.initialLeft,
-                    x: this.initialX,
-                    y: event.clientY || event.touches[0].clientY,
+                    // Grid-space, like the `move` branch above: the bounds this seeds the first highlight
+                    // against are measured relative to `.bodyContainer`, not the viewport.
+                    x: this.initialLeft,
+                    y: top,
+                    width: this.initialWidth,
                 },
             });
         }
+        this.beginAutoScroll(side, clientX, clientY);
         document.addEventListener('mousemove', this.handleMouseMoveBind);
         document.addEventListener('touchmove', this.handleMouseMoveBind);
         document.addEventListener('pointermove', this.handleMouseMoveBind);
@@ -1163,13 +1411,177 @@ const IglBookingEvent = class {
         document.addEventListener('touchup', this.handleMouseUpBind);
         document.addEventListener('pointerup', this.handleMouseUpBind);
     }
+    /**
+     * Arms edge auto-scrolling for the drag that just started.
+     *
+     * A `move` drag can travel on both axes, so it scrolls on both. A stretch only ever changes the
+     * bar's width, so vertical scrolling there would move the grid for no reason - horizontal only.
+     *
+     * The `scroll` listener covers scrolling this component didn't cause (a mouse wheel, a trackpad
+     * swipe): the bar's position is derived from viewport-space pointer deltas, so it has to be
+     * re-applied whenever the content underneath it moves, not only when the pointer moves.
+     */
+    beginAutoScroll(side, clientX, clientY) {
+        this.scrollHost = this.element.closest('.calendarScrollContainer');
+        if (!this.scrollHost) {
+            return;
+        }
+        this.autoScroller = new DragAutoScroller({
+            container: this.scrollHost,
+            axes: { x: true, y: side === 'move' },
+            // The room-name column is sticky against the inline start edge, which bidi-mirrors to the
+            // physical right in RTL. Skip it, so the hot zone starts at the edge of the scrollable grid
+            // rather than underneath a column that never moves.
+            inlineStartInset: ROOM_HEADER_WIDTH,
+            inlineStartEdge: isRtlDirection(locales.direction) ? 'right' : 'left',
+            getBounds: () => this.getGridScrollBounds(),
+            onScroll: () => this.applyDragPosition(),
+        });
+        this.appliedDistance = null;
+        this.autoScroller.start();
+        this.autoScroller.update(clientX, clientY);
+        this.scrollHost.addEventListener('scroll', this.handleHostScrollBind, { passive: true });
+    }
+    /**
+     * How far auto-scroll may travel, in the scroll container's own coordinates.
+     *
+     * Deliberately *not* the container's own `scrollHeight`/`scrollWidth`: this bar is an absolutely
+     * positioned descendant of that container, so following the pointer past the last room row
+     * extends the container's scrollable overflow by exactly as much as it just scrolled, and the
+     * drag would chase its own tail off the end of the grid. The room rows are the real limit - they
+     * are also the only thing a booking can be dropped on - and they don't move mid-drag.
+     *
+     * Positions are expressed as `elementEdge - containerEdge + scrollPosition`, which is invariant
+     * under scrolling and therefore direction-agnostic: it yields the usual `0 .. max` range in LTR
+     * and the mirrored `-max .. 0` range RTL containers report.
+     */
+    getGridScrollBounds() {
+        const rows = this.scrollHost?.querySelectorAll('.bodyContainer .roomRow');
+        if (!rows?.length) {
+            return {};
+        }
+        const containerRect = this.scrollHost.getBoundingClientRect();
+        const { scrollLeft, scrollTop, clientWidth, clientHeight } = this.scrollHost;
+        // Every row spans the full grid width (`.roomRow { width: max-content }`), so the first one
+        // gives the horizontal extent; the last one gives the vertical extent.
+        const firstRow = rows[0].getBoundingClientRect();
+        const lastRow = rows[rows.length - 1].getBoundingClientRect();
+        return {
+            x: [firstRow.left - containerRect.left + scrollLeft, firstRow.right - containerRect.left + scrollLeft - clientWidth],
+            y: [0, lastRow.bottom - containerRect.top + scrollTop - clientHeight],
+        };
+    }
+    /**
+     * Records where every room row starts and ends, so a move drag can snap onto one.
+     *
+     * Same selector and same coordinate space as the drop-target bounds `igloo-calendar` measures
+     * (`offsetTop` inside `.bodyContainer`), so the row the bar snaps to is by construction the row
+     * the drop resolves to - the bar can never come to rest looking like it is over one row while
+     * releasing into another.
+     */
+    captureRowBands() {
+        const rows = document.querySelectorAll('.bodyContainer .roomRow .roomTitle[data-room]');
+        this.dragRowBands = Array.from(rows).map(row => ({ top: row.offsetTop, height: row.offsetHeight }));
+    }
+    /**
+     * Snaps a dropped bar's top onto the centre of the room row it came to rest over.
+     *
+     * The bar's own middle picks the row, so it belongs to whichever row it is more than half way
+     * into - and the nearest row wins outright when that middle is over a category header or past
+     * the end of the list, which keeps the bar on a droppable row instead of between two.
+     */
+    snapTopToRow(rawTop) {
+        if (!this.dragRowBands.length) {
+            return rawTop;
+        }
+        const barMiddle = rawTop + EVENT_HEIGHT / 2;
+        let closest = this.dragRowBands[0];
+        let closestDistance = Infinity;
+        for (const band of this.dragRowBands) {
+            const distance = Math.max(band.top - barMiddle, barMiddle - (band.top + band.height), 0);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closest = band;
+            }
+            if (distance === 0) {
+                break;
+            }
+        }
+        return closest.top + getEventTopWithinRow(closest.height);
+    }
+    /**
+     * Settles a just-dropped bar onto the grid: centred in the room row it was released over, and
+     * half a day cell in from that day's column edge, which is where a booking starting there rests.
+     *
+     * The settled position is written back to `dragEndPos` as well as to the element, so the drop
+     * resolves to the cell the bar visibly landed on rather than to the raw pointer position - the
+     * two disagree within a few pixels either side of a day boundary.
+     */
+    settleToGrid() {
+        const top = this.snapTopToRow(this.dragEndPos.top);
+        const left = this.snapLeftToDay(this.dragEndPos.left);
+        this.element.style.top = `${top}px`;
+        this.element.style.left = `${left}px`;
+        this.dragEndPos = { ...this.dragEndPos, top, left, x: left, y: top };
+    }
+    /** Snaps a dropped bar's physical left onto the day a booking released there would start on. */
+    snapLeftToDay(rawLeft) {
+        return snapEventLeft({
+            physicalLeft: rawLeft,
+            width: this.element.offsetWidth,
+            isRtl: isRtlDirection(locales.direction),
+            totalGridWidth: getTotalGridWidth(calendar_dates.days.length),
+            startsAfterWindowOpen: this.startsAfterWindowOpen(),
+            eventSpace: this.eventSpace,
+        });
+    }
+    /** Disarms auto-scrolling. Safe to call when no drag is in progress. */
+    endAutoScroll() {
+        this.autoScroller?.stop();
+        this.autoScroller = null;
+        this.scrollHost?.removeEventListener('scroll', this.handleHostScrollBind);
+        this.scrollHost = null;
+    }
+    handleHostScroll() {
+        if (this.isDragging) {
+            this.applyDragPosition();
+        }
+    }
     handleMouseMove(event) {
         if (this.isDragging) {
-            this.currentX = event.clientX || event.touches[0].clientX;
-            let distanceX = this.currentX - this.initialX;
+            const { clientX, clientY } = this.getPointerPosition(event);
+            this.currentX = clientX;
+            this.currentY = clientY;
+            this.autoScroller?.update(clientX, clientY);
+            this.applyDragPosition();
+        }
+        else {
+            console.log('still mouse move listening...');
+        }
+    }
+    /**
+     * Positions the bar (and, for a move, reports the drop target) from the last known pointer
+     * position. Called both on pointer movement and on every frame the calendar auto-scrolls, since
+     * a pointer parked in the edge hot zone keeps the grid moving without firing another `mousemove`.
+     */
+    applyDragPosition() {
+        if (this.isDragging) {
+            // `element.style.top/left` are grid-space (relative to `.bodyContainer`) while the pointer
+            // deltas below are viewport-space. Folding the container's scroll travel back in is what
+            // keeps the two in step - without it the bar rides the scrolling content away from the
+            // cursor, and the drop resolves to whatever cell that stale position happens to land on.
+            const scrollOffset = this.autoScroller?.offset ?? { x: 0, y: 0 };
+            let distanceX = this.currentX - this.initialX + scrollOffset.x;
+            let distanceY = this.currentY - this.initialY + scrollOffset.y;
+            // An auto-scrolled frame reaches here twice - once from the scroller's own callback, once
+            // from the container's `scroll` event - and both describe the same position.
+            if (this.appliedDistance?.x === distanceX && this.appliedDistance?.y === distanceY) {
+                return;
+            }
+            this.appliedDistance = { x: distanceX, y: distanceY };
             if (this.resizeSide === 'move') {
-                this.currentY = event.clientY || event.touches[0].clientY;
-                let distanceY = this.currentY - this.initialY;
+                // Follows the pointer pixel for pixel; the grid snap happens once, on release, in
+                // `settleToGrid()`.
                 this.element.style.top = `${this.dragInitPos.top + distanceY}px`;
                 this.element.style.left = `${this.dragInitPos.left + distanceX}px`;
                 this.dragEndPos = {
@@ -1221,9 +1633,6 @@ const IglBookingEvent = class {
                 this.finalWidth = newWidth;
             }
         }
-        else {
-            console.log('still mouse move listening...');
-        }
     }
     handleMouseUp() {
         if (this.isDragging) {
@@ -1232,10 +1641,13 @@ const IglBookingEvent = class {
                 // console.log("Initial Y::"+this.dragInitPos.y);
                 // console.log("End X::"+this.dragEndPos.x);
                 // console.log("End Y::"+this.dragEndPos.y);
+                // Measured before settling, so the click-vs-drag test still reads raw pointer travel
+                // rather than how far the bar happened to snap.
                 if (this.isTouchStart) {
                     this.moveDifferenceX = Math.abs(this.dragEndPos.x - this.dragInitPos.x);
                     this.moveDifferenceY = Math.abs(this.dragEndPos.y - this.dragInitPos.y);
                 }
+                this.settleToGrid();
                 this.dragOverEventData.emit({
                     id: 'DRAG_OVER_END',
                     data: {
@@ -1290,6 +1702,9 @@ const IglBookingEvent = class {
             console.log('still mouse up listening...');
         }
         this.isDragging = false;
+        // Safe to release only now: the emits above read the `element.style.*` values that auto-scroll
+        // had been keeping up to date.
+        this.endAutoScroll();
         document.removeEventListener('mousemove', this.handleMouseMoveBind);
         document.removeEventListener('touchmove', this.handleMouseMoveBind);
         document.removeEventListener('pointermove', this.handleMouseMoveBind);
@@ -1422,7 +1837,7 @@ const IglBookingEvent = class {
         const pending = this.bookingEvent.STATUS === 'PENDING-CONFIRMATION' && this.bookingEvent.ID !== 'NEW_TEMP_EVENT';
         const startsAfterWindowOpen = this.startsAfterWindowOpen();
         const endsBeforeWindowClose = !this.isNewEvent() && !!this.bookingEvent.defaultDates && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE));
-        return (h(Host, { key: '6b4198df6ce7d2bdf60bde6e634bf6f7c6f46b27', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: bar, dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: '91c63a38941e70c3acd61995975e87c10fbb84d0', "data-identifier": this.bookingEvent?.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
+        return (h(Host, { key: 'ca14836bdfccadbc04eed5bec02e9fbb46daec18', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: bar, dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: 'f10a5a4e22266265360e74b7afcc333a3b99cb6e', "data-identifier": this.bookingEvent?.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
                 'bookingEventBase': true,
                 'pending': pending,
                 'skewedLeft': startsAfterWindowOpen,
@@ -1435,7 +1850,7 @@ const IglBookingEvent = class {
                 'backgroundColor': backgroundColor,
                 '--ir-event-bg': backgroundColor,
                 '--ir-event-bg-stripe-color': stripe,
-            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), isDepartureAfterHotelCheckout && h("wa-tooltip", { key: '92591cc1c443dcf04c9d58b9e2c5eefdff9f622d', for: lateCheckout }, "Departure time: ", this.bookingEvent.DEPARTURE_TIME?.description), balanceNode && h("wa-tooltip", { key: '6339e9ddd3f2ac3e8271c7edf187f292d86af546', for: balance }, "Balance: ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE)), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, (balanceNode || isDepartureAfterHotelCheckout) && (h("div", { key: 'd37ff97e4762c2f94bf8c417f87b4860f9fe8280', class: "balanceIcon d-flex" }, isDepartureAfterHotelCheckout && h("div", { key: '2159c41c77baf5ba3ddc713ea3b2b4915297ea12', id: lateCheckout, class: "legend_circle", style: { backgroundColor: '#999999' } }), balanceNode ? h("div", { id: balance, class: "legend_circle", style: { backgroundColor: '#f34752' } }) : null)), h("div", { key: '55faee1698ed03583a13ef7c2d753718638febd8', class: `bookingEventTitle ${pending ? 'pending' : ''}`, style: !pending && { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '76998d359034619f084398851711b28d03701a0d' }, h("div", { key: '2a5b0248e6b8e72009e6c3b8a140089d336d34a7', class: `bookingEventDragHandle leftSide ${startsAfterWindowOpen ? 'skewedLeft' : ''} ${endsBeforeWindowClose ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: 'af180bb4b1e782b151431434e56c7745ebc1eaa8', class: `bookingEventDragHandle rightSide ${startsAfterWindowOpen ? 'skewedLeft' : ''} ${endsBeforeWindowClose ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
+            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), isDepartureAfterHotelCheckout && h("wa-tooltip", { key: 'c9fe0098a5f178d52a395830090d731cb09d9b7f', for: lateCheckout }, "Departure time: ", this.bookingEvent.DEPARTURE_TIME?.description), balanceNode && h("wa-tooltip", { key: '8622e954505cdd46d1bdc45c13cf2668f2ea19fa', for: balance }, "Balance: ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE)), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, (balanceNode || isDepartureAfterHotelCheckout) && (h("div", { key: '8a36092abaa1eff1169cdee9220b359812c81cd7', class: "balanceIcon d-flex" }, isDepartureAfterHotelCheckout && h("div", { key: 'ac1bea38f4bad027f98d7a6e06c78cf08df61fae', id: lateCheckout, class: "legend_circle", style: { backgroundColor: '#999999' } }), balanceNode ? h("div", { id: balance, class: "legend_circle", style: { backgroundColor: '#f34752' } }) : null)), h("div", { key: '6dbe5648027e8cdc53fd775a657c3a8fc59e927e', class: `bookingEventTitle ${pending ? 'pending' : ''}`, style: !pending && { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: 'd5dbfbb524e26ecebeff1a93c0ae7cb73692e436' }, h("div", { key: '642cd2369cade2da76805d63e5edd6e83a8891e1', class: `bookingEventDragHandle leftSide ${startsAfterWindowOpen ? 'skewedLeft' : ''} ${endsBeforeWindowClose ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '91d087fea2b8df266f900f0d95bab4f545e5afa3', class: `bookingEventDragHandle rightSide ${startsAfterWindowOpen ? 'skewedLeft' : ''} ${endsBeforeWindowClose ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
 };
 IglBookingEvent.style = iglBookingEventCss();
@@ -5883,6 +6298,11 @@ const IglooCalendar = class {
     // private auth = new Auth();
     countries = [];
     visibleCalendarCells = { x: [], y: [] };
+    /**
+     * Set whenever `addDatesToCalendar()` appends day cells, so an in-flight drag knows its cached
+     * drop-target bounds are short a few days and re-measures on the next `DRAG_OVER`.
+     */
+    dragOverBoundsStale = false;
     scrollContainer;
     today = '';
     reachedEndOfCalendar = false;
@@ -6004,47 +6424,60 @@ const IglooCalendar = class {
         }
     }
     dragOverEventDataHandler(event) {
-        if (event.detail.id === 'CALCULATE_DRAG_OVER_BOUNDS') {
-            const bodyContainer = document.querySelector('.bodyContainer');
-            const bodyContainerRect = bodyContainer.getBoundingClientRect();
-            let containerDays = document.querySelectorAll('.headersContainer .headerCell');
-            let containerRooms = document.querySelectorAll('.bodyContainer .roomRow .roomTitle');
-            this.visibleCalendarCells = { x: [], y: [] };
-            // Measure the header day cells' true rendered position relative to .bodyContainer
-            // (getBoundingClientRect), rather than reconstructing it from offsetLeft. igl-cal-header's
-            // .topLeftCell and .headersContainer are separate sibling boxes that bidi-mirror
-            // independently of each other in RTL, while igl-booking-event's own coordinate system
-            // (element.style.left, which this array is hit-tested against) treats the room-header
-            // column and day cells as one combined mirrored box - the two reconstructions only happen
-            // to agree in LTR. Reading the actual rendered rect sidesteps that mismatch entirely.
-            containerDays.forEach(element => {
-                const htmlElement = element;
-                const rect = htmlElement.getBoundingClientRect();
-                this.visibleCalendarCells.x.push({
-                    left: rect.left - bodyContainerRect.left,
-                    width: rect.width,
-                    id: htmlElement.getAttribute('data-day'),
-                });
+        const { id, data } = event.detail;
+        // Auto-scrolling to the end of the loaded range makes `calendarScrolling()` lazy-load two more
+        // months mid-drag. Those day cells aren't in the bounds measured when the drag started, so a
+        // drop onto one would resolve to no day at all and revert. Re-measure before the next
+        // hit-test, whichever one that is - a stretch reports nothing at all until it ends, so waiting
+        // for a DRAG_OVER would miss it.
+        if (id === 'CALCULATE_DRAG_OVER_BOUNDS' || this.dragOverBoundsStale) {
+            this.measureDragOverBounds();
+        }
+        if (id === 'CALCULATE_DRAG_OVER_BOUNDS' || id === 'DRAG_OVER') {
+            this.highlightDragOver(true, data);
+        }
+        else if (id === 'DRAG_OVER_END' || id === 'STRETCH_OVER_END') {
+            this.highlightDragOver(false, data);
+        }
+    }
+    /**
+     * Caches every day column's and room row's extent, in `.bodyContainer` grid space - the same
+     * space `igl-booking-event` writes its `style.top`/`style.left` in, so a dragged bar's position
+     * can be hit-tested against it directly. Measured once per drag; the values are scroll-invariant
+     * (the day header is sticky vertically only, `offsetTop` ignores `scrollTop`), so only a change
+     * to the set of rendered cells invalidates them.
+     */
+    measureDragOverBounds() {
+        const bodyContainer = document.querySelector('.bodyContainer');
+        const bodyContainerRect = bodyContainer.getBoundingClientRect();
+        let containerDays = document.querySelectorAll('.headersContainer .headerCell');
+        let containerRooms = document.querySelectorAll('.bodyContainer .roomRow .roomTitle');
+        this.visibleCalendarCells = { x: [], y: [] };
+        // Measure the header day cells' true rendered position relative to .bodyContainer
+        // (getBoundingClientRect), rather than reconstructing it from offsetLeft. igl-cal-header's
+        // .topLeftCell and .headersContainer are separate sibling boxes that bidi-mirror
+        // independently of each other in RTL, while igl-booking-event's own coordinate system
+        // (element.style.left, which this array is hit-tested against) treats the room-header
+        // column and day cells as one combined mirrored box - the two reconstructions only happen
+        // to agree in LTR. Reading the actual rendered rect sidesteps that mismatch entirely.
+        containerDays.forEach(element => {
+            const htmlElement = element;
+            const rect = htmlElement.getBoundingClientRect();
+            this.visibleCalendarCells.x.push({
+                left: rect.left - bodyContainerRect.left,
+                width: rect.width,
+                id: htmlElement.getAttribute('data-day'),
             });
-            containerRooms.forEach(element => {
-                const htmlElement = element;
-                this.visibleCalendarCells.y.push({
-                    top: htmlElement.offsetTop,
-                    height: htmlElement.offsetHeight,
-                    id: htmlElement.getAttribute('data-room'),
-                });
+        });
+        containerRooms.forEach(element => {
+            const htmlElement = element;
+            this.visibleCalendarCells.y.push({
+                top: htmlElement.offsetTop,
+                height: htmlElement.offsetHeight,
+                id: htmlElement.getAttribute('data-room'),
             });
-            this.highlightDragOver(true, event.detail.data);
-        }
-        else if (event.detail.id === 'DRAG_OVER') {
-            this.highlightDragOver(true, event.detail.data);
-        }
-        else if (event.detail.id === 'DRAG_OVER_END') {
-            this.highlightDragOver(false, event.detail.data);
-        }
-        else if (event.detail.id === 'STRETCH_OVER_END') {
-            this.highlightDragOver(false, event.detail.data);
-        }
+        });
+        this.dragOverBoundsStale = false;
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -6956,6 +7389,7 @@ const IglooCalendar = class {
             };
             addUnassignedDates(data);
         }
+        this.dragOverBoundsStale = true;
     }
     async handleDateSearch(dates) {
         const startDate = hooks(dates.start).toDate();
@@ -7029,7 +7463,7 @@ const IglooCalendar = class {
             }
             const isRtl = isRtlDirection(locales.direction);
             const containerRect = this.scrollContainer.getBoundingClientRect();
-            let leftSideMenuSize = 170;
+            let leftSideMenuSize = ROOM_HEADER_WIDTH;
             let maxWidth = containerRect.width - leftSideMenuSize;
             // The sticky room-header column is pinned to the physical left in LTR but to the physical
             // right in RTL (inset-inline-start: 0), so the usable/scrollable grid bounds mirror too.
@@ -7220,7 +7654,7 @@ const IglooCalendar = class {
         //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
         // }
         // console.log(this.bookingItem);
-        return (h(Host, { key: 'cc1131461a699e43eb2a2e49306278c0fb5bdf0b' }, h("ir-toast", { key: '19b18db079c1db9904af20434bf079c62d1ea8b4' }), h("ir-interceptor", { key: 'c186d89833cc7cb883961ed3cc40ec6bd5f4730d' }), h("div", { key: '36d804f90f8ecdbc47c6e0a9a44f615739c7c150', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend, 'showDayUseBookings': this.showDayUseBookings } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legend", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), this.showDayUseBookings && (h("igl-day-use-bookings", { class: "dayUseBookingsContainer", calendarData: this.calendarData, dayUseBookings: this.dayUseBookings, onOptionEvent: evt => this.onOptionSelect(evt) })), h("div", { class: "calendarScrollContainer", dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr', onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt), dayUseBookings: this.dayUseBookings }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData, dayUseBookings: this.dayUseBookings }), h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), h("igl-split-booking-drawer", { key: '6a7de8d355744cf55aeaaffe5fa6c76adf24659a', open: this.calendarSidebarState?.type === 'split', booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), h("igl-rate-extender-drawer", { key: 'aa0ac7d0492050cdf26a93139cb0b5ab91028e5c', open: !!this.roomNightsData, bookingNumber: this.roomNightsData?.bookingNumber, identifier: this.roomNightsData?.identifier, toDate: this.roomNightsData?.to_date, fromDate: this.roomNightsData?.from_date, defaultDates: this.roomNightsData?.defaultDates, pool: this.roomNightsData?.pool, ticket: this.ticket, propertyId: this.property_id, language: this.language, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this) }), h("ir-booking-details-drawer", { key: 'c71bda6ae931f3febe9d126dca209d555d243356', open: this.editBookingItem?.event_type === 'EDIT_BOOKING', propertyId: this.property_id, bookingNumber: this.editBookingItem && this.editBookingItem?.event_type === 'EDIT_BOOKING' ? this.editBookingItem.BOOKING_NUMBER : null, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-room-guests", { key: 'aaf9ad17eb8813270355a00fec562e9f42e024f5', open: this.calendarSidebarState?.type === 'room-guests', countries: this.countries, language: this.language, identifier: this.calendarSidebarState?.payload?.identifier, bookingNumber: this.calendarSidebarState?.payload?.bookingNumber, roomName: this.calendarSidebarState?.payload?.roomName, totalGuests: this.calendarSidebarState?.payload?.totalGuests, sharedPersons: this.calendarSidebarState?.payload?.sharing_persons, checkIn: true, onCloseModal: () => (this.calendarSidebarState = null) }), h("ir-reallocation-drawer", { key: '060d284cbfacb6acda18684b833c607acd4f6b59', open: this.calendarSidebarState?.type === 'reallocate-drawer', booking: this.calendarSidebarState?.payload?.booking, pool: this.calendarSidebarState?.payload?.pool, roomIdentifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), h("igl-reallocation-dialog", { key: '314b30dcc3a36b2060aeb2ddb07bfddcee1a0c8a', onResetModalState: () => (this.dialogData = null), onDialogClose: () => this.handleModalCancel(), data: this.dialogData?.reason === 'reallocate' ? this.dialogData : undefined }), h("ir-modal", { key: 'd5e7f4d5492c2714b615ff46441bcc003879ae12', ref: el => (this.calendarModalEl = el), modalTitle: 'lol', rightBtnActive: this.dialogData?.reason === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: locales?.entries?.Lcz_Cancel, rightBtnText: locales?.entries?.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) }), h("ir-checkout-dialog", { key: '1b8ef22ef0681d4e0633d3ce5602fd51973c607e', style: { textAlign: 'start' }, booking: this.dialogData?.reason === 'checkout' ? this.dialogData?.booking : null, identifier: this.dialogData?.reason === 'checkout' ? this.dialogData?.roomIdentifier : null, open: this.dialogData?.reason === 'checkout', onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: '2765bcc2d307345b2efd46bafa25eb03c2183c1f', style: { textAlign: 'start' }, onInvoiceClose: event => this.handleInvoiceClose(event), booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null }), h("ir-booking-editor-drawer", { key: 'db7839cde61c1cab3444a8cd35884a3767bb24ca', roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, roomIdentifier: this.bookingItem?.IDENTIFIER, open: this.bookingItem !== null && this.bookingItem.event_type !== 'BLOCK_DATES', language: this.language, booking: this.bookingItem?.booking, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, blockedUnit: {
+        return (h(Host, { key: '567e214150b506d50fc9f261dd36cbdf216d284f' }, h("ir-toast", { key: '7f4f00b6603b2088a0d0c9722f49b87b700bca2e' }), h("ir-interceptor", { key: '65d44dc54f60f54135ec8999e1a5e070aea0617a' }), h("div", { key: 'ca3473b3647e5a3d45438bc1d4efbff719bb8565', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend, 'showDayUseBookings': this.showDayUseBookings } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legend", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), this.showDayUseBookings && (h("igl-day-use-bookings", { class: "dayUseBookingsContainer", calendarData: this.calendarData, dayUseBookings: this.dayUseBookings, onOptionEvent: evt => this.onOptionSelect(evt) })), h("div", { class: "calendarScrollContainer", dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr', onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt), dayUseBookings: this.dayUseBookings }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData, dayUseBookings: this.dayUseBookings }), h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), h("igl-split-booking-drawer", { key: 'cd572fe1bb083b9fb86eaa5357345d71155c87a5', open: this.calendarSidebarState?.type === 'split', booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), h("igl-rate-extender-drawer", { key: '527c1cb0ef8213569bb1615a67d5ca93162d38a4', open: !!this.roomNightsData, bookingNumber: this.roomNightsData?.bookingNumber, identifier: this.roomNightsData?.identifier, toDate: this.roomNightsData?.to_date, fromDate: this.roomNightsData?.from_date, defaultDates: this.roomNightsData?.defaultDates, pool: this.roomNightsData?.pool, ticket: this.ticket, propertyId: this.property_id, language: this.language, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this) }), h("ir-booking-details-drawer", { key: 'c6f920febb0f7345110252e9674ec54f7fbaf8e7', open: this.editBookingItem?.event_type === 'EDIT_BOOKING', propertyId: this.property_id, bookingNumber: this.editBookingItem && this.editBookingItem?.event_type === 'EDIT_BOOKING' ? this.editBookingItem.BOOKING_NUMBER : null, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-room-guests", { key: '17688c40e07aecf9a2543d1fca1895b953d3e259', open: this.calendarSidebarState?.type === 'room-guests', countries: this.countries, language: this.language, identifier: this.calendarSidebarState?.payload?.identifier, bookingNumber: this.calendarSidebarState?.payload?.bookingNumber, roomName: this.calendarSidebarState?.payload?.roomName, totalGuests: this.calendarSidebarState?.payload?.totalGuests, sharedPersons: this.calendarSidebarState?.payload?.sharing_persons, checkIn: true, onCloseModal: () => (this.calendarSidebarState = null) }), h("ir-reallocation-drawer", { key: '9d2c8bee40dd119ab5014c898b06b0a38b15820a', open: this.calendarSidebarState?.type === 'reallocate-drawer', booking: this.calendarSidebarState?.payload?.booking, pool: this.calendarSidebarState?.payload?.pool, roomIdentifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), h("igl-reallocation-dialog", { key: 'b9a5693f55a5c76e0055a52af33f5eb91f6bed31', onResetModalState: () => (this.dialogData = null), onDialogClose: () => this.handleModalCancel(), data: this.dialogData?.reason === 'reallocate' ? this.dialogData : undefined }), h("ir-modal", { key: 'f6c45eb557ac57fadd830e26792669b68b8ea6d6', ref: el => (this.calendarModalEl = el), modalTitle: 'lol', rightBtnActive: this.dialogData?.reason === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: locales?.entries?.Lcz_Cancel, rightBtnText: locales?.entries?.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) }), h("ir-checkout-dialog", { key: '4dd5e05a413c448943a886dbf8224127023c707d', style: { textAlign: 'start' }, booking: this.dialogData?.reason === 'checkout' ? this.dialogData?.booking : null, identifier: this.dialogData?.reason === 'checkout' ? this.dialogData?.roomIdentifier : null, open: this.dialogData?.reason === 'checkout', onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: 'a2f3cb24603c0f63d51c46c66db8470d0c33463d', style: { textAlign: 'start' }, onInvoiceClose: event => this.handleInvoiceClose(event), booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null }), h("ir-booking-editor-drawer", { key: '0f0fe3feaf1347e8fd93b1b8b9096932f4d0d521', roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, roomIdentifier: this.bookingItem?.IDENTIFIER, open: this.bookingItem !== null && this.bookingItem.event_type !== 'BLOCK_DATES', language: this.language, booking: this.bookingItem?.booking, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, blockedUnit: {
                 ENTRY_DATE: this.bookingItem?.ENTRY_DATE,
                 ENTRY_HOUR: this.bookingItem?.ENTRY_HOUR,
                 ENTRY_MINUTE: this.bookingItem?.ENTRY_MINUTE,
@@ -7228,7 +7662,7 @@ const IglooCalendar = class {
                 OUT_OF_SERVICE: this.bookingItem?.OUT_OF_SERVICE,
                 RELEASE_AFTER_HOURS: this.bookingItem?.RELEASE_AFTER_HOURS,
                 STATUS_CODE: this.bookingItem?.STATUS_CODE,
-            }, checkOut: this.bookingItem?.TO_DATE, dayUse: this.bookingItem?.dayUse === true }), h("igl-bulk-operations-drawer", { key: '9c77329980cdd10d56d67ad73d2b8df6a1f074d5', property_id: this.property_id, onCloseDrawer: () => (this.calendarSidebarState = null), open: this.calendarSidebarState?.type === 'bulk-blocks' }), h("ir-rectifier-drawer", { key: 'd92fccb557e8f3be16a4383e981e579acefee72c', onCloseDrawer: () => (this.calendarSidebarState = null), open: this.calendarSidebarState?.type === 'rectifier' }), h("igl-blocked-date-drawer", { key: '3a729b9bc430a95a62dbab66e35491cfea081b7f', onBlockedDateDrawerClosed: e => {
+            }, checkOut: this.bookingItem?.TO_DATE, dayUse: this.bookingItem?.dayUse === true }), h("igl-bulk-operations-drawer", { key: 'd2fef402851171b3d973f8c26724fa0ece134bc3', property_id: this.property_id, onCloseDrawer: () => (this.calendarSidebarState = null), open: this.calendarSidebarState?.type === 'bulk-blocks' }), h("ir-rectifier-drawer", { key: '810b7cd40c19f7807627a096f538581a2a6c717e', onCloseDrawer: () => (this.calendarSidebarState = null), open: this.calendarSidebarState?.type === 'rectifier' }), h("igl-blocked-date-drawer", { key: '81002d4fb8bd6be3fbc7d336b17851e8c6eed2a5', onBlockedDateDrawerClosed: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingItem = null;
@@ -19402,10 +19836,10 @@ IrLoadingScreen.style = irLoadingScreenCss();
 
 const irLocaleSwitcherCss = () => `.sc-ir-locale-switcher-h{position:fixed;z-index:2147483000;font-size:0.75rem;line-height:1.4}.ls-host--bottom-end.sc-ir-locale-switcher-h{inset-block-end:1rem;inset-inline-end:1rem}.ls-host--bottom-start.sc-ir-locale-switcher-h{inset-block-end:1rem;inset-inline-start:1rem}.ls-host--top-end.sc-ir-locale-switcher-h{inset-block-start:1rem;inset-inline-end:1rem}.ls-host--top-start.sc-ir-locale-switcher-h{inset-block-start:1rem;inset-inline-start:1rem}.ls-fab.sc-ir-locale-switcher{display:flex;align-items:center;gap:0.375rem;padding:0.5rem 0.75rem;border:1px solid var(--wa-color-neutral-border-normal, #d4d4d8);border-radius:999px;background:var(--wa-color-surface-raised, #fff);color:inherit;cursor:pointer;box-shadow:0 2px 12px rgb(0 0 0 / 18%)}.ls-fab__label.sc-ir-locale-switcher{font-weight:600;letter-spacing:0.04em}.ls-panel.sc-ir-locale-switcher{display:flex;flex-direction:column;gap:0.625rem;inline-size:19rem;max-inline-size:calc(100vw - 2rem);max-block-size:calc(100vh - 2rem);overflow-y:auto;padding:0.75rem;border:1px solid var(--wa-color-neutral-border-normal, #d4d4d8);border-radius:0.625rem;background:var(--wa-color-surface-raised, #fff);box-shadow:0 8px 32px rgb(0 0 0 / 24%)}.ls-panel__header.sc-ir-locale-switcher{display:flex;align-items:center;justify-content:space-between}.ls-panel__title.sc-ir-locale-switcher{font-weight:700;text-transform:uppercase;letter-spacing:0.06em;opacity:0.7}.ls-panel__close.sc-ir-locale-switcher,.ls-panel__reset.sc-ir-locale-switcher{border:none;background:none;color:inherit;cursor:pointer;padding:0.125rem 0.25rem}.ls-panel__reset.sc-ir-locale-switcher{text-decoration:underline;opacity:0.75;white-space:nowrap}.ls-preview.sc-ir-locale-switcher{display:flex;flex-direction:column;gap:0.25rem;padding:0.5rem;border-radius:0.375rem;background:var(--wa-color-neutral-fill-quiet, rgb(0 0 0 / 5%))}.ls-preview__title.sc-ir-locale-switcher{font-weight:600;opacity:0.7;margin-block-end:0.125rem}.ls-preview__row.sc-ir-locale-switcher{display:flex;align-items:baseline;justify-content:space-between;gap:0.5rem}.ls-preview__row--muted.sc-ir-locale-switcher{opacity:0.7}.ls-preview__format.sc-ir-locale-switcher{flex:none;font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:0.6875rem;opacity:0.65}.ls-preview__value.sc-ir-locale-switcher{text-align:end;font-weight:600;unicode-bidi:isolate}.ls-preview__value.sc-ir-locale-switcher em.sc-ir-locale-switcher{font-weight:400;opacity:0.65}.ls-panel__footer.sc-ir-locale-switcher{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.375rem 0.5rem}.ls-panel__resolved.sc-ir-locale-switcher{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:0.6875rem;opacity:0.6;unicode-bidi:isolate}`;
 
+const STORAGE_KEY = 'ir-locale-switcher';
 /**
- * The languages the app ships locale strings and moment locale data for, plus every Arabic
- * regional variant — those differ in Gregorian month names (سبتمبر / شتنبر / أيلول) and in the
- * digits the locale natively renders, which is worth being able to see side by side.
+ * The languages the app ships locale strings and moment locale data for,
+ * plus every Arabic regional variant.
  */
 const LANGUAGES = [
     { code: 'en', label: 'English' },
@@ -19425,78 +19859,309 @@ const LANGUAGES = [
     { code: 'ru', label: 'Русский — Russian' },
     { code: 'ua', label: 'Українська — Ukrainian' },
 ];
-/** Digit scripts, with a sample so the effect is visible before selecting. */
+/**
+ * Digit scripts, with a sample so the effect is visible before selecting.
+ */
 const NUMBERING_SYSTEMS = [
     { value: 'latn', label: 'Latin — 0123456789' },
     { value: 'arab', label: 'Arabic-Indic — ٠١٢٣٤٥٦٧٨٩' },
-    { value: 'arabext', label: 'Eastern Arabic-Indic — ۰۱۲۳۴۵۶۷۸۹' },
-    { value: 'auto', label: "Auto — the locale's own digits" },
+    {
+        value: 'arabext',
+        label: 'Eastern Arabic-Indic — ۰۱۲۳۴۵۶۷۸۹',
+    },
+    {
+        value: 'auto',
+        label: "Auto — the locale's own digits",
+    },
 ];
-/** Formats shown in the live preview — the ones actually used across the app. */
+/**
+ * Formats shown in the live preview.
+ */
 const PREVIEW_FORMATS = ['ddd, DD MMM YYYY', 'MMM DD, YYYY', 'MMMM YYYY', 'ddd D', 'DD/MM ddd', 'DD-MMM-YYYY'];
 const IrLocaleSwitcher = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
     get el() { return getElement(this); }
-    /** Corner to pin the panel to. */
+    /**
+     * Corner to pin the panel to.
+     */
     placement = 'bottom-end';
-    /** Start collapsed to a single button. */
+    /**
+     * Start collapsed to a single button when no saved state exists.
+     */
     collapsed = true;
-    /** Sample date for the preview, `YYYY-MM-DD`. Defaults to today. */
+    /**
+     * Sample date for the preview, YYYY-MM-DD.
+     * Defaults to today.
+     */
     sampleDate;
     open;
     direction = 'auto';
-    componentWillLoad() {
-        this.open = !this.collapsed;
-        // Adopt whatever the page already has, so the panel opens reflecting reality.
-        const htmlDir = document.documentElement.getAttribute('dir');
-        this.direction = htmlDir === 'rtl' || htmlDir === 'ltr' ? htmlDir : 'auto';
-        // `locales.language` initialises to 'en', so a truthiness check would never adopt a page
-        // that declares `<html lang="ar">`. On mount the page's own declaration wins.
-        const htmlLang = document.documentElement.lang;
-        if (htmlLang && htmlLang !== locales.language) {
-            locales.language = htmlLang;
+    /**
+     * Read persisted switcher state.
+     */
+    loadSettings() {
+        if (typeof window === 'undefined') {
+            return null;
+        }
+        try {
+            const raw = window.localStorage.getItem(STORAGE_KEY);
+            if (!raw) {
+                return null;
+            }
+            const parsed = JSON.parse(raw);
+            if (!parsed || typeof parsed !== 'object') {
+                return null;
+            }
+            return parsed;
+        }
+        catch (error) {
+            console.warn(`[ir-locale-switcher] Failed to read "${STORAGE_KEY}" from localStorage.`, error);
+            return null;
         }
     }
     /**
-     * Publishes the language the same way `RoomService.fetchLanguage` does, then pushes it onto
-     * every mounted component exposing a `language` prop so their `@Watch('language')` refetches
-     * the `Lcz_*` strings. Without that second step only the dates would switch.
+     * Save the current switcher state.
      */
-    applyLanguage(language) {
+    saveSettings() {
+        if (typeof window === 'undefined') {
+            return;
+        }
+        try {
+            const state = {
+                language: locales.language ?? 'en',
+                calendar: calendarPreference.override ?? 'auto',
+                numberingSystem: calendarPreference.numberingSystem,
+                direction: this.direction,
+                open: this.open,
+            };
+            window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+        catch (error) {
+            console.warn(`[ir-locale-switcher] Failed to save "${STORAGE_KEY}" to localStorage.`, error);
+        }
+    }
+    /**
+     * Make sure a stored language is one that this switcher supports.
+     */
+    isValidLanguage(value) {
+        return typeof value === 'string' && LANGUAGES.some(language => language.code === value);
+    }
+    /**
+     * Validate persisted calendar values before applying them.
+     */
+    isValidCalendar(value) {
+        return value === 'auto' || value === 'gregory' || value === 'islamic-umalqura';
+    }
+    /**
+     * Validate persisted numbering-system values.
+     */
+    isValidNumberingSystem(value) {
+        return NUMBERING_SYSTEMS.some(system => system.value === value);
+    }
+    /**
+     * Validate persisted direction values.
+     */
+    isValidDirection(value) {
+        return value === 'auto' || value === 'ltr' || value === 'rtl';
+    }
+    componentWillLoad() {
+        const stored = this.loadSettings();
+        /*
+         * Panel state.
+         *
+         * Saved state wins. If there is no saved state, fall back to the
+         * component's `collapsed` prop.
+         */
+        if (typeof stored?.open === 'boolean') {
+            this.open = stored.open;
+        }
+        else {
+            this.open = !this.collapsed;
+        }
+        /*
+         * Language.
+         *
+         * Priority:
+         * 1. localStorage
+         * 2. <html lang="...">
+         * 3. locales.language
+         * 4. English
+         */
+        let language = locales.language ?? 'en';
+        if (this.isValidLanguage(stored?.language)) {
+            language = stored.language;
+        }
+        else {
+            const htmlLanguage = document.documentElement.lang;
+            if (this.isValidLanguage(htmlLanguage)) {
+                language = htmlLanguage;
+            }
+        }
         locales.language = language;
         document.documentElement.lang = language;
-        this.applyDirection(this.direction, language);
+        /*
+         * Direction.
+         *
+         * Saved direction wins. Without saved state, adopt an explicit
+         * <html dir>, otherwise use "auto".
+         */
+        if (this.isValidDirection(stored?.direction)) {
+            this.direction = stored.direction;
+        }
+        else {
+            const htmlDirection = document.documentElement.getAttribute('dir');
+            this.direction = htmlDirection === 'rtl' || htmlDirection === 'ltr' ? htmlDirection : 'auto';
+        }
+        /*
+         * Calendar.
+         */
+        if (this.isValidCalendar(stored?.calendar)) {
+            CalendarPreferenceController.setOverride(stored.calendar === 'auto' ? null : stored.calendar);
+        }
+        /*
+         * Numbering system.
+         */
+        if (this.isValidNumberingSystem(stored?.numberingSystem)) {
+            CalendarPreferenceController.setNumberingSystem(stored.numberingSystem);
+        }
+        /*
+         * Apply direction only after language has been restored because
+         * "auto" depends on the selected language.
+         */
+        this.applyDirection(this.direction, language, false);
+        /*
+         * Save once so older/incomplete localStorage data gets normalized.
+         */
+        this.saveSettings();
+    }
+    /**
+     * Publishes the language the same way RoomService.fetchLanguage does,
+     * then pushes it onto every mounted component exposing a `language`
+     * prop so their @Watch('language') handlers can update localized text.
+     */
+    applyLanguage(language, persist = true) {
+        if (!this.isValidLanguage(language)) {
+            return;
+        }
+        locales.language = language;
+        document.documentElement.lang = language;
+        /*
+         * Re-resolve direction because "auto" depends on language.
+         */
+        this.applyDirection(this.direction, language, false);
         document.querySelectorAll('*').forEach(node => {
             if (node.tagName.includes('-') && node !== this.el && 'language' in node && node.language !== language) {
                 node.language = language;
             }
         });
+        if (persist) {
+            this.saveSettings();
+        }
     }
-    applyCalendar(value) {
-        // `null` clears the persisted override and returns to device auto-detect.
+    /**
+     * Apply calendar preference and persist it.
+     */
+    applyCalendar(value, persist = true) {
+        if (!this.isValidCalendar(value)) {
+            return;
+        }
+        /*
+         * null clears the explicit override and returns to device auto-detect.
+         */
         CalendarPreferenceController.setOverride(value === 'auto' ? null : value);
+        if (persist) {
+            this.saveSettings();
+        }
     }
-    applyNumberingSystem(value) {
+    /**
+     * Apply numbering-system preference and persist it.
+     */
+    applyNumberingSystem(value, persist = true) {
+        if (!this.isValidNumberingSystem(value)) {
+            return;
+        }
         CalendarPreferenceController.setNumberingSystem(value);
+        if (persist) {
+            this.saveSettings();
+        }
     }
-    applyDirection(mode, language = locales.language ?? 'en') {
+    /**
+     * Apply text direction.
+     *
+     * `auto` resolves according to the current language.
+     */
+    applyDirection(mode, language = locales.language ?? 'en', persist = true) {
+        if (!this.isValidDirection(mode)) {
+            return;
+        }
         this.direction = mode;
         const resolved = mode === 'auto' ? (isRtlLanguage(language) ? 'rtl' : 'ltr') : mode;
         document.documentElement.setAttribute('dir', resolved);
         locales.direction = resolved;
+        if (persist) {
+            this.saveSettings();
+        }
+    }
+    /**
+     * Open/collapse panel and persist that UI state too.
+     */
+    setOpen(open) {
+        this.open = open;
+        this.saveSettings();
+    }
+    /**
+     * Remove every locale-switcher preference and restore defaults.
+     */
+    resetSettings() {
+        if (typeof window !== 'undefined') {
+            try {
+                window.localStorage.removeItem(STORAGE_KEY);
+            }
+            catch (error) {
+                console.warn(`[ir-locale-switcher] Failed to clear "${STORAGE_KEY}".`, error);
+            }
+        }
+        const htmlLanguage = document.documentElement.lang;
+        const language = this.isValidLanguage(htmlLanguage) ? htmlLanguage : 'en';
+        locales.language = language;
+        document.documentElement.lang = language;
+        CalendarPreferenceController.setOverride(null);
+        CalendarPreferenceController.setNumberingSystem('auto');
+        this.direction = 'auto';
+        const resolvedDirection = isRtlLanguage(language) ? 'rtl' : 'ltr';
+        document.documentElement.setAttribute('dir', resolvedDirection);
+        locales.direction = resolvedDirection;
+        /*
+         * Keep the component's original prop behavior after reset.
+         */
+        this.open = !this.collapsed;
     }
     get sample() {
         return this.sampleDate ?? toApiDate(new Date());
     }
     renderPreview() {
-        return (h("div", { class: "ls-preview" }, h("div", { class: "ls-preview__title" }, "Preview \u2014 ", this.sample), PREVIEW_FORMATS.map(format => (h("div", { class: "ls-preview__row" }, h("code", { class: "ls-preview__format" }, format), h("span", { class: "ls-preview__value" }, formatDate(this.sample, format))))), h("div", { class: "ls-preview__row" }, h("code", { class: "ls-preview__format" }, "price"), h("span", { class: "ls-preview__value" }, formatAmount('$', 1234.5))), h("div", { class: "ls-preview__row" }, h("code", { class: "ls-preview__format" }, "count \u00B7 percent"), h("span", { class: "ls-preview__value" }, formatCount(3), " \u00B7 ", formatPercent(87))), h("div", { class: "ls-preview__row ls-preview__row--muted" }, h("code", { class: "ls-preview__format" }, "weekdays"), h("span", { class: "ls-preview__value" }, getWeekdayLabels().join(' '))), h("div", { class: "ls-preview__row ls-preview__row--muted" }, h("code", { class: "ls-preview__format" }, "toApiDate"), h("span", { class: "ls-preview__value" }, toApiDate(this.sample), " ", h("em", null, "\u00B7 always Gregorian"))), h("div", { class: "ls-preview__row ls-preview__row--muted" }, h("code", { class: "ls-preview__format" }, "week starts"), h("span", { class: "ls-preview__value" }, getWeekdayLabels()[getFirstDayOfWeek()], " \u00B7 grid stays Sunday-first"))));
+        return (h("div", { class: "ls-preview" }, h("div", { class: "ls-preview__title" }, "Preview \u2014 ", this.sample), PREVIEW_FORMATS.map(format => (h("div", { class: "ls-preview__row", key: format }, h("code", { class: "ls-preview__format" }, format), h("span", { class: "ls-preview__value" }, formatDate(this.sample, format))))), h("div", { class: "ls-preview__row" }, h("code", { class: "ls-preview__format" }, "price"), h("span", { class: "ls-preview__value" }, formatAmount('$', 1234.5))), h("div", { class: "ls-preview__row" }, h("code", { class: "ls-preview__format" }, "count \u00B7 percent"), h("span", { class: "ls-preview__value" }, formatCount(3), " \u00B7 ", formatPercent(87))), h("div", { class: "ls-preview__row ls-preview__row--muted" }, h("code", { class: "ls-preview__format" }, "weekdays"), h("span", { class: "ls-preview__value" }, getWeekdayLabels().join(' '))), h("div", { class: "ls-preview__row ls-preview__row--muted" }, h("code", { class: "ls-preview__format" }, "toApiDate"), h("span", { class: "ls-preview__value" }, toApiDate(this.sample), " ", h("em", null, "\u00B7 always Gregorian"))), h("div", { class: "ls-preview__row ls-preview__row--muted" }, h("code", { class: "ls-preview__format" }, "week starts"), h("span", { class: "ls-preview__value" }, getWeekdayLabels()[getFirstDayOfWeek()], " \u00B7 grid stays Sunday-first"))));
     }
     render() {
         const language = locales.language ?? 'en';
         const calendar = calendarPreference.override ?? 'auto';
-        return (h(Host, { key: '96da77624494792f1687ac6872d807cf46cb4174', class: `ls-host ls-host--${this.placement}` }, !this.open && (h("button", { key: '8eb0ab28091451089aec8e774449f9a3e5ecd87d', class: "ls-fab", title: "Locale switcher", onClick: () => (this.open = true) }, h("wa-icon", { key: 'fa0db34e5012eb072ce92f5f9838559c19126da6', name: "globe" }), h("span", { key: 'f5a06793a1af49f6d402f8ff7ce50095bca90301', class: "ls-fab__label" }, language.toUpperCase()))), this.open && (h("div", { key: '176630f253b48753a3dc15c8f7028b845eca56a6', class: "ls-panel" }, h("header", { key: 'bc330a0ffe64ab389c1f704df00a710cc9aca371', class: "ls-panel__header" }, h("span", { key: 'a43237f877622c113297a693d012e29c61f5b988', class: "ls-panel__title" }, "Locale switcher"), h("button", { key: '89509eebb512b312667d15aa6a2463a372d533cb', class: "ls-panel__close", title: "Collapse", onClick: () => (this.open = false) }, h("wa-icon", { key: '5f2c31e4233b908f39f458ffe0bf694a1ff1312f', name: "xmark" }))), h("wa-select", { key: '1fc7804a30e5201d8a76fb0766df2263ac16a20c', label: "Language", size: "s", value: language, onchange: (e) => this.applyLanguage(e.target.value?.toString()) }, LANGUAGES.map(({ code, label }) => (h("wa-option", { value: code }, label)))), h("wa-select", { key: 'c5f1d28c592361e32e4949062487c9c02e65fcb2', label: "Calendar", size: "s", value: calendar, onchange: (e) => this.applyCalendar(e.target.value?.toString()) }, h("wa-option", { key: '82d97f8edfefb3f96a0b39da5503683d8d3276e3', value: "auto" }, "Auto \u2014 detect from device"), h("wa-option", { key: '4186890cc86de74c571f509825c4014118e403d1', value: "gregory" }, "Gregorian"), h("wa-option", { key: '426d0c72373ffdb5d01a204f319bca552af09a99', value: "islamic-umalqura" }, "Hijri \u2014 Umm al-Qura")), h("wa-select", { key: '37e5e9f68b78469f2a72eccd821cb9a229d9401f', label: "Numbers", size: "s", value: calendarPreference.numberingSystem, onchange: (e) => this.applyNumberingSystem(e.target.value?.toString()) }, NUMBERING_SYSTEMS.map(({ value, label }) => (h("wa-option", { value: value }, label)))), h("wa-select", { key: 'f520b125dd62c605a537793bf925a3ebed75d532', label: "Direction", size: "s", value: this.direction, onchange: (e) => this.applyDirection(e.target.value?.toString()) }, h("wa-option", { key: 'c1d77a524ec23f74ec782897687883383dc1139d', value: "auto" }, "Auto \u2014 from language"), h("wa-option", { key: 'ad9af7b015a217f36739854479b3c08bcdc2c19a', value: "ltr" }, "LTR"), h("wa-option", { key: '8981bbf2857cd9d9da579f2ab427038d0b14f540', value: "rtl" }, "RTL")), this.renderPreview(), h("footer", { key: 'de62599982f52e8732bcafc6e8770c460d8bad1a', class: "ls-panel__footer" }, h("span", { key: 'f8ecb05cbcf877f6e094c257f28b0405758055bd', class: "ls-panel__resolved" }, "resolved: ", language, " \u00B7 ", calendarPreference.resolved, " \u00B7 ", calendarPreference.numberingSystem, " \u00B7 ", document.documentElement.getAttribute('dir') ?? 'ltr'), h("button", { key: '70ec2a6208999ea8bab8e23ecbb8fff25be1abb7', class: "ls-panel__reset", onClick: () => this.applyCalendar('auto') }, "Reset calendar"))))));
+        return (h(Host, { key: '2b3e4148e1a48584deaedac4a82756b81e1b8364', class: `ls-host ls-host--${this.placement}` }, !this.open && (h("button", { key: '91654fc6d10aad9ff126161faf177a3946465587', class: "ls-fab", title: "Locale switcher", onClick: () => this.setOpen(true) }, h("wa-icon", { key: 'e19c5982caa9c6eea626cf10539b8716dcb7212f', name: "globe" }), h("span", { key: '3253ef74339bfd58c56240a65fa8bed53d380a89', class: "ls-fab__label" }, language.toUpperCase()))), this.open && (h("div", { key: 'b0128226a6d652042d6bf308612e970c975b9591', class: "ls-panel" }, h("header", { key: '3bb3114a75db753048f256b4e110f9fc23d98b5d', class: "ls-panel__header" }, h("span", { key: '1270493b6e448de00940aa111875fdce928bc4a6', class: "ls-panel__title" }, "Locale switcher"), h("button", { key: '9a361bd478d51b1a15db1dd2c4db442c9bb20add', class: "ls-panel__close", title: "Collapse", onClick: () => this.setOpen(false) }, h("wa-icon", { key: '04bc592caf2347aad4171f30c7aebceaeab59beb', name: "xmark" }))), h("wa-select", { key: '97ff9df123062b4bfa2374a7dc56aab421f45766', label: "Language", size: "s", value: language, onchange: (event) => {
+                const value = event.target.value?.toString();
+                if (value) {
+                    this.applyLanguage(value);
+                }
+            } }, LANGUAGES.map(({ code, label }) => (h("wa-option", { key: code, value: code }, label)))), h("wa-select", { key: '8eb3ab75cba6c3ae93d2e09adb492fa6c1cb948a', label: "Calendar", size: "s", value: calendar, onchange: (event) => {
+                const value = event.target.value?.toString();
+                this.applyCalendar(value);
+            } }, h("wa-option", { key: '9478332872bdefb231c91213c16ae3f69100b649', value: "auto" }, "Auto \u2014 detect from device"), h("wa-option", { key: '5cb7d00aad864043021e3ddb0ebad4edd9ff5dbf', value: "gregory" }, "Gregorian"), h("wa-option", { key: 'dc46e590f5db41c20088774eee0f2fe7bb3265cf', value: "islamic-umalqura" }, "Hijri \u2014 Umm al-Qura")), h("wa-select", { key: '6666c1b04c9abc92125f9f783a73e3a413be4158', label: "Numbers", size: "s", value: calendarPreference.numberingSystem, onchange: (event) => {
+                const value = event.target.value?.toString();
+                this.applyNumberingSystem(value);
+            } }, NUMBERING_SYSTEMS.map(({ value, label }) => (h("wa-option", { key: value, value: value }, label)))), h("wa-select", { key: '6c77bc01ba8d5d711f27040d3fed9238d4db443d', label: "Direction", size: "s", value: this.direction, onchange: (event) => {
+                const value = event.target.value?.toString();
+                this.applyDirection(value);
+            } }, h("wa-option", { key: '62be7fb5ce9e57c79ebf350579622765ce6ecd08', value: "auto" }, "Auto \u2014 from language"), h("wa-option", { key: '16fef9cb0e4335f574693e2a24a6cca558983ecd', value: "ltr" }, "LTR"), h("wa-option", { key: '661cdf463832f3a3af8d87f4f153c4266c017b05', value: "rtl" }, "RTL")), this.renderPreview(), h("footer", { key: '5b82b8495f117b198307734dfb963741f96a3dfb', class: "ls-panel__footer" }, h("span", { key: 'f9148ab92f033a05c560d23cf84be84a6fabbaa4', class: "ls-panel__resolved" }, "resolved: ", language, " \u00B7 ", calendarPreference.resolved, " \u00B7 ", calendarPreference.numberingSystem, " \u00B7 ", document.documentElement.getAttribute('dir') ?? 'ltr'), h("button", { key: 'a772cfd39d7fc82cf65f7bbbcebb6c634ac1652b', class: "ls-panel__reset", onClick: () => this.resetSettings() }, "Reset all"))))));
     }
 };
 IrLocaleSwitcher.style = irLocaleSwitcherCss();
