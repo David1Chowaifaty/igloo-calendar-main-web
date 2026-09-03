@@ -1,8 +1,8 @@
 import { r as registerInstance, d as getElement, h, H as Host, F as Fragment } from './index-BYqrdgY9.js';
-import { T as Token } from './Token-CkxFIO_J.js';
-import { P as PropertyService } from './index-CbjeKhiT.js';
-import { c as calendar_data } from './calendar-data-BebdClG4.js';
-import { b as checkUserAuthState, m as manageAnchorSession } from './utils-COglgzDo.js';
+import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
+import { P as PropertyService } from './index-B4QXVOb6.js';
+import { c as calendar_data } from './calendar-data-DT3jrP3G.js';
+import { b as checkUserAuthState, m as manageAnchorSession } from './utils-Ct-kEjIU.js';
 import { a as inlineSign } from './direction-ChMsVFnM.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
@@ -13,7 +13,7 @@ import './index-CimhgHoX.js';
 import './locales.store-C9qsbKR0.js';
 import './booking.dto-DpE31yhG.js';
 import './type-D7rOPtKA.js';
-import './ir-date-_0rd4VZd.js';
+import './ir-date-BT3QqYg6.js';
 
 const irSecureTasksCss = () => `ir-agents .ir-page__container{gap:var(--wa-space-l, 1.5rem) !important}.ir-page__container,.main__container{height:100%}.secure-header{position:sticky;top:0;z-index:100;display:flex;flex-direction:column}.secure-header__topbar{display:flex;align-items:center;justify-content:space-between;padding:0 var(--wa-space-m, 1rem);height:52px;background:#111827;gap:var(--wa-space-m, 1rem);flex-shrink:0}.secure-header__brand{display:flex;align-items:center;gap:var(--wa-space-xs, 0.375rem);color:#fff;font-weight:700;font-size:var(--wa-font-size-m, 0.9rem);letter-spacing:-0.01em;flex-shrink:0;user-select:none}.secure-header__brand-icon{width:28px;height:28px;border-radius:7px;overflow:hidden;flex-shrink:0;background:white;border-radius:100%;display:flex;align-items:center;justify-content:center}.secure-header__brand-icon img{width:100%;height:100%;object-fit:cover;display:block}.secure-header__brand-name{color:#fff}.secure-header__brand-pill{font-size:0.6rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;background:rgba(255, 255, 255, 0.12);border:1px solid rgba(255, 255, 255, 0.18);border-radius:999px;padding:1px 6px;color:rgba(255, 255, 255, 0.6);align-self:center}.secure-header__controls{display:flex;align-items:center;gap:var(--wa-space-s, 0.5rem)}.secure-header__aname-form{margin:0}.secure-header__aname-input{width:200px}.secure-header__aname-save{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border:none;border-radius:999px;background:transparent;cursor:pointer;flex-shrink:0;transition:background 0.15s,     color 0.15s;padding:0;font-size:0.8rem}.secure-header__aname-save:hover{background:rgba(255, 255, 255, 0.12)}.secure-header__sep{width:1px;height:22px;background:rgba(255, 255, 255, 0.15);flex-shrink:0}#secure-logout-btn{--wa-button-padding-start:0;--wa-button-padding-end:0;width:30px;height:30px;color:rgba(255, 255, 255, 0.65)}#secure-logout-btn:hover{color:#fff}.secure-header__tabbar{display:flex;align-items:center;background:var(--wa-color-surface-default, #fff);border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);padding:0 var(--wa-space-2xs, 0.25rem);height:44px;flex-shrink:0;gap:2px;box-shadow:0 1px 4px rgba(0, 0, 0, 0.06)}.secure-header__scroll-btn{flex-shrink:0;transition:opacity 0.2s,     visibility 0.2s}.secure-header__scroll-btn--hidden{opacity:0;pointer-events:none}.secure-tabs-track{flex:1;overflow-x:auto;scrollbar-width:none}.secure-tabs-track::-webkit-scrollbar{display:none}.secure-tabs{display:flex;align-items:center;list-style:none;padding:0;margin:0;height:100%;gap:1px;white-space:nowrap}.secure-tabs__sep{display:flex;align-items:center;padding:0 var(--wa-space-xs, 0.375rem);flex-shrink:0}.secure-tabs__sep::after{content:'';display:block;width:1px;height:16px;background:var(--wa-color-neutral-border-quiet, #e5e7eb)}.secure-tabs__group-label{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--wa-color-text-quiet, #9ca3af);padding:0 var(--wa-space-xs, 0.375rem) 0 var(--wa-space-2xs, 0.25rem);white-space:nowrap;flex-shrink:0;user-select:none}.secure-tabs__item{display:flex;align-items:center;height:100%;flex-shrink:0}.secure-tabs__btn{position:relative;display:inline-flex;align-items:center;height:100%;padding:0 var(--wa-space-s, 0.625rem);border:none;background:transparent;color:var(--wa-color-text-quiet, #6b7280);font-size:var(--wa-font-size-s, 0.8125rem);font-weight:500;font-family:inherit;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:color 0.15s,     border-color 0.15s,     background 0.15s;border-radius:var(--wa-border-radius-s, 4px) var(--wa-border-radius-s, 4px) 0 0;margin-bottom:-1px;}.secure-tabs__btn:hover{color:var(--wa-color-text-normal, #111827);background:var(--wa-color-neutral-fill-quiet, #f3f4f6)}.secure-tabs__btn:focus-visible{outline:2px solid var(--wa-color-brand-border-normal, #3b82f6);outline-offset:-2px}.secure-tabs__btn.active{color:var(--wa-color-brand-fill-loud, #2563eb);font-weight:600}.ir-flip-rtl:dir(rtl){scale:-1 1}`;
 
@@ -32,7 +32,7 @@ const IrSecureTasks = class {
     canScrollTowardsStart = false;
     canScrollTowardsEnd = true;
     isLoading = true;
-    token = new Token();
+    ApiClient = new ApiClient();
     dates = {};
     tabsTrackRef;
     resizeObserver;
@@ -41,11 +41,11 @@ const IrSecureTasks = class {
         this.generateDates();
         if (this.ticket) {
             this.isAuthenticated = true;
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
         }
         if (isAuthenticated) {
             this.isAuthenticated = true;
-            this.token.setToken(isAuthenticated.token);
+            this.ApiClient.setApiClient(isAuthenticated.ApiClient);
         }
         this.inputValue = this.p;
         const pageParam = new URLSearchParams(window.location.search).get('page');
@@ -73,7 +73,7 @@ const IrSecureTasks = class {
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.isAuthenticated = true;
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
         }
     }
     generateDates() {
@@ -183,10 +183,10 @@ const IrSecureTasks = class {
         }
     }
     async handleAuthFinish(e) {
-        const token = e.detail.token;
-        this.token.setToken(token);
+        const ApiClient = e.detail.ApiClient;
+        this.ApiClient.setApiClient(ApiClient);
         this.isAuthenticated = true;
-        manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
+        manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, ApiClient } });
         await this.resolvePropertyId();
     }
     logout() {
@@ -199,7 +199,7 @@ const IrSecureTasks = class {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("div", { class: "main__container" }, h("header", { class: "secure-header" }, h("div", { class: "secure-header__topbar" }, h("div", { class: "secure-header__brand" }, h("div", { class: "secure-header__brand-icon" }, h("img", { src: "https://x.igloorooms.com/app-assets/images/portrait/small/avatar-s-19.png", alt: "" })), h("span", { class: "secure-header__brand-name" }, "IglooRooms")), h("div", { class: "secure-header__controls" }, calendar_data?.property && (h(Fragment, null, h("ir-booking-new-form", { ticket: this.token.getToken(), propertyid: calendar_data?.property?.id?.toString(), language: "en" }, h("ir-custom-button", { slot: "trigger", id: "add-booking-btn", size: "s", appearance: "plain", variant: "brand" }, h("wa-icon", { name: "plus", style: { fontSize: '1.2rem' } }))), h("div", { class: "secure-header__sep", role: "separator" }))), h("form", { class: "secure-header__aname-form", onSubmit: e => {
+        return (h("div", { class: "main__container" }, h("header", { class: "secure-header" }, h("div", { class: "secure-header__topbar" }, h("div", { class: "secure-header__brand" }, h("div", { class: "secure-header__brand-icon" }, h("img", { src: "https://x.igloorooms.com/app-assets/images/portrait/small/avatar-s-19.png", alt: "" })), h("span", { class: "secure-header__brand-name" }, "IglooRooms")), h("div", { class: "secure-header__controls" }, calendar_data?.property && (h(Fragment, null, h("ir-booking-new-form", { ticket: this.ApiClient.getToken(), propertyid: calendar_data?.property?.id?.toString(), language: "en" }, h("ir-custom-button", { slot: "trigger", id: "add-booking-btn", size: "s", appearance: "plain", variant: "brand" }, h("wa-icon", { name: "plus", style: { fontSize: '1.2rem' } }))), h("div", { class: "secure-header__sep", role: "separator" }))), h("form", { class: "secure-header__aname-form", onSubmit: e => {
                 e.preventDefault();
                 if (this.inputValue) {
                     const url = new URL(window.location.href);
@@ -217,49 +217,49 @@ const IrSecureTasks = class {
     renderPage() {
         switch (this.currentPage) {
             case 'front':
-                return (h("div", { style: { flex: '1 1 0%', display: 'block' } }, h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.token.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" })));
+                return (h("div", { style: { flex: '1 1 0%', display: 'block' } }, h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.ApiClient.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" })));
             case 'arrivals':
-                return h("ir-arrivals", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+                return h("ir-arrivals", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
             case 'departures':
-                return h("ir-departures", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+                return h("ir-departures", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
             case 'tasks':
-                return h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+                return h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
             case 'hk':
-                return h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+                return h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
             case 'daily-revenue':
-                return h("ir-daily-revenue", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+                return h("ir-daily-revenue", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
             case 'daily-occupancy':
-                return h("ir-monthly-bookings-report", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+                return h("ir-monthly-bookings-report", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
             case 'country-sales':
-                return h("ir-sales-by-country", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+                return h("ir-sales-by-country", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
             case 'channel-sales':
-                return h("ir-sales-by-channel", { mode: "property", language: "en", propertyid: this.propertyid.toString(), ticket: this.token.getToken() });
+                return h("ir-sales-by-channel", { mode: "property", language: "en", propertyid: this.propertyid.toString(), ticket: this.ApiClient.getToken() });
             case 'booking-listing':
-                return h("ir-booking-listing", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+                return h("ir-booking-listing", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
             case 'email-logs':
-                return h("ir-booking-email-logs", { ticket: this.token.getToken() });
+                return h("ir-booking-email-logs", { ticket: this.ApiClient.getToken() });
             case 'users':
-                return h("ir-user-management", { userTypeCode: 5, p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+                return h("ir-user-management", { userTypeCode: 5, p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
             case 'agents':
-                return h("ir-agents", { style: { gap: '1.5rem' }, p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+                return h("ir-agents", { style: { gap: '1.5rem' }, p: this.p, language: "en", propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
             case 'city-ledger':
-                return h("ir-city-ledger", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+                return h("ir-city-ledger", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
             case 'channels':
-                return h("ir-channel", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+                return h("ir-channel", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
             case 'tax-services':
-                return h("ir-tax-service-categories", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+                return h("ir-tax-service-categories", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
             case 'extra-services':
-                return h("ir-extra-services-settings", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+                return h("ir-extra-services-settings", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
             case 'payment-options':
-                return h("ir-payment-option", { p: this.p, propertyid: this.propertyid.toString(), language: "en", ticket: this.token.getToken() });
+                return h("ir-payment-option", { p: this.p, propertyid: this.propertyid.toString(), language: "en", ticket: this.ApiClient.getToken() });
             case 'ghs':
-                return h("ir-ghs-onboarding", { ticket: this.token.getToken() });
+                return h("ir-ghs-onboarding", { ticket: this.ApiClient.getToken() });
             case 'meal-report':
-                return h("ir-meal-report", { propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+                return h("ir-meal-report", { propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
             case 'fiscal-documents':
-                return h("ir-fiscal-documents", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+                return h("ir-fiscal-documents", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
             case 'uninvoiced-bookings':
-                return h("ir-uninvoiced-bookings", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+                return h("ir-uninvoiced-bookings", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
             default:
                 return null;
         }

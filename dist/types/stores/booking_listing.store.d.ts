@@ -13,7 +13,7 @@ export interface BookingListingPagination {
     showing: PaginationRange;
 }
 export interface IBookingListingStore extends IExposedBookingsCriteria {
-    token: string;
+    ApiClient: string;
     userSelection: ExposedBookingsParams;
     bookings: Booking[];
     download_url: string | null;

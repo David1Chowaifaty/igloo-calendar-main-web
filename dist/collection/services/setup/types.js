@@ -5,18 +5,6 @@ import * as z from "zod";
 // ---------------------------------------------------------------------------
 export { ZIEntrySchema };
 // ---------------------------------------------------------------------------
-// Get_Setup_Entries_By_TBL_NAME
-// ---------------------------------------------------------------------------
-export const GetSetupEntriesByTblNameParamsSchema = z.object({
-    TBL_NAME: z.string().min(1),
-});
-// ---------------------------------------------------------------------------
-// Get_Setup_Entries_By_TBL_NAME_Multi
-// ---------------------------------------------------------------------------
-export const GetSetupEntriesByTblNameMultiParamsSchema = z.object({
-    TBL_NAMES: z.array(z.string().min(1)),
-});
-// ---------------------------------------------------------------------------
 // Get_Distinct_Setup_Tables
 // ---------------------------------------------------------------------------
 // The API has been observed to return either plain table-name strings or row

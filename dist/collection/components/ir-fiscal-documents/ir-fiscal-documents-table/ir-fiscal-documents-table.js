@@ -1,4 +1,5 @@
-import { formatAmount, getEntryValue } from "../../../utils/utils";
+import { formatAmount } from "../../../utils/utils";
+import { getEntryValue } from "../../../services/setup/index";
 import { flexRender, useTable } from "../../../utils/useTable";
 import { Host, h } from "@stencil/core";
 import { createColumnHelper, getCoreRowModel, getSortedRowModel } from "@tanstack/table-core";

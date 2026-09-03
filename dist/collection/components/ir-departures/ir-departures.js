@@ -1,8 +1,9 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { departuresStore, initializeDeparturesStore, onDeparturesStoreChange, setDeparturesPage, setDeparturesPageSize, setDepartureTotal } from "../../stores/departures.store";
 import { Host, h } from "@stencil/core";
 import { RoomService } from "../../services/room.service";
 import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService } from "../../services/setup/index";
 import calendar_data from "../../stores/calendar-data";
 export class IrDepartures {
     ticket;
@@ -16,13 +17,14 @@ export class IrDepartures {
     payment;
     checkoutState = null;
     invoiceState = null;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     roomService = new RoomService();
     bookingService = new BookingService();
+    setupService = new SetupService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
         onDeparturesStoreChange('today', _ => {
@@ -31,7 +33,7 @@ export class IrDepartures {
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -74,14 +76,13 @@ export class IrDepartures {
                     is_backend: true,
                 });
             }
-            const [_, __, setupEntries] = await Promise.all([
+            const [_, __, paymentEntries] = await Promise.all([
                 calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
+                this.setupService.getPaymentEntries(),
                 this.getBookings(),
             ]);
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
+            this.paymentEntries = paymentEntries;
         }
         catch (error) {
         }

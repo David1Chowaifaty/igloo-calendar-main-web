@@ -3,7 +3,7 @@ import { Payment, PaymentEntries, RoomGuestsPayload } from '../ir-booking-detail
 import { ICountry } from "../../models/IBooking";
 export declare class IrArrivals {
     /**
-     * Authentication token issued by the PMS backend.
+     * Authentication ApiClient issued by the PMS backend.
      * Required for initializing the component and making API calls.
      */
     ticket: string;
@@ -38,6 +38,7 @@ export declare class IrArrivals {
     private tokenService;
     private roomService;
     private bookingService;
+    private setupService;
     private paymentFolioRef;
     componentWillLoad(): void;
     handlePageSizeChange(newValue: number, oldValue: number): void;

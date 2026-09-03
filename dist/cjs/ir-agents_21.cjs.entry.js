@@ -1,38 +1,40 @@
 'use strict';
 
 var index = require('./index-P5Mginch.js');
-var Token = require('./Token-mN7PQKGF.js');
+var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var agents_service = require('./agents.service-DWaVZIds.js');
-var booking_store = require('./booking.store-Bi052xjW.js');
-var calendarData = require('./calendar-data-PetnikUI.js');
-var index$1 = require('./index-Cv1UlKPY.js');
-var utils = require('./utils-CwIiTro6.js');
-var room_service = require('./room.service-DQBAC40E.js');
-var arrivals_store = require('./arrivals.store-CWe2c7vR.js');
+var booking_store = require('./booking.store-SmjvQvnY.js');
+var index$2 = require('./index-B6tr59-v.js');
+var calendarData = require('./calendar-data-BjlxOXi1.js');
+var index$1 = require('./index-BWx5TYc1.js');
+var utils$1 = require('./utils-5rzlNNGQ.js');
+var utils = require('./utils-CXqwALIi.js');
+var room_service = require('./room.service-Dv4u9Qiq.js');
+var arrivals_store = require('./arrivals.store-Cb-YAwl4.js');
 var axios = require('./axios-EresIryl.js');
-var booking_listing_service = require('./booking_listing.service-BnUwxHAW.js');
+var booking_listing_service = require('./booking_listing.service-Cce82j79.js');
 var locales_store = require('./locales.store-v9LoZcAK.js');
-var channel_service = require('./channel.service-QWHnEozQ.js');
+var channel_service = require('./channel.service-CureyNaj.js');
 var system_service = require('./system.service-q3G6_5Tb.js');
 var moment = require('./moment-CdViwxPQ.js');
 var v4 = require('./v4-_2BfiRUa.js');
-var departures_store = require('./departures.store-C2hutD7m.js');
-var svcCategory_utils = require('./svc-category.utils-CpQz76dF.js');
+var departures_store = require('./departures.store-BZdrx_rE.js');
+var svcCategory_utils = require('./svc-category.utils-cBxz2Skd.js');
 var enums = require('./enums-BSCnMYlE.js');
-var index$2 = require('./index-CLqkDPTC.js');
+var index$3 = require('./index-CLqkDPTC.js');
 var housekeeping_service = require('./housekeeping.service-CXKCfWFZ.js');
 var hkTasks_store = require('./hk-tasks.store-KZiARyxb.js');
-var irDate = require('./ir-date-BH2JQpbC.js');
-var paymentOption_store = require('./payment-option.store-CBVUrxYZ.js');
-var index$3 = require('./index-B1i80_nI.js');
+var irDate = require('./ir-date-CUot5M4p.js');
+var paymentOption_store = require('./payment-option.store-BE1JJuf9.js');
+var index$4 = require('./index-B1i80_nI.js');
 var uninvoiced_bookings_store = require('./uninvoiced_bookings.store-m_fmUkYI.js');
-var user_service = require('./user.service-CJrDaOYT.js');
+var user_service = require('./user.service-jZj227cu.js');
 var realtime_service = require('./realtime.service-COdIt6Z-.js');
 require('./type-Dy9pVS4V.js');
 require('./IBooking-BtFRLVyo.js');
-require('./booking-51dS0UQD.js');
+require('./booking-DAw6VPzA.js');
 require('./index-BLJXadKe.js');
-require('./functions-DgKYncGa.js');
+require('./functions-CVUndUSp.js');
 require('./commonSchemas-hgXVqmtC.js');
 require('./booking.dto-kenLHU-o.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
@@ -45,7 +47,7 @@ const IrAgents = class {
         index.registerInstance(this, hostRef);
     }
     /**
-     * Authentication token issued by the PMS backend.
+     * Authentication ApiClient issued by the PMS backend.
      * Required for initializing the component and making API calls.
      */
     ticket;
@@ -74,15 +76,16 @@ const IrAgents = class {
     agentsService = new agents_service.AgentsService();
     propertyService = new index$1.PropertyService();
     bookingService = new booking_store.BookingService();
-    tokenService = new Token.Token();
+    setupService = new index$2.SetupService();
+    tokenService = new ApiClient.ApiClient();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
     handleTicketChange() {
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.init();
     }
     handleUpsertAgentListener(e) {
@@ -107,7 +110,7 @@ const IrAgents = class {
             }
             const [countries, setupEntries] = await Promise.all([
                 this.bookingService.getCountries(this.language),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_AGENT_RATE_TYPE', '_AGENT_TYPE', '_TA_PAYMENT_METHOD', '_CL_POST_TIMING']),
+                this.setupService.getSetupEntriesByTableNameMulti(['_AGENT_RATE_TYPE', '_AGENT_TYPE', '_TA_PAYMENT_METHOD', '_CL_POST_TIMING']),
                 calendarData.calendar_data?.property
                     ? Promise.resolve(null)
                     : this.propertyService.getExposedProperty({
@@ -117,7 +120,7 @@ const IrAgents = class {
                     }),
                 this.fetchAgents(),
             ]);
-            const { agent_rate_type, agent_type, ta_payment_method, cl_post_timing } = this.bookingService.groupEntryTablesResult(setupEntries);
+            const { agent_rate_type, agent_type, ta_payment_method, cl_post_timing } = utils.groupEntryTablesResult(setupEntries);
             this.setupEntries = {
                 agent_rate_type,
                 agent_type,
@@ -165,7 +168,7 @@ const IrAgents = class {
         try {
             await this.agentsService.handleExposedAgent({ agent });
             this.upsertAgent();
-            utils.showToast({
+            utils$1.showToast({
                 type: 'success',
                 description: '',
                 title: 'Saved Successfully',
@@ -198,7 +201,7 @@ const IrArrivals = class {
         index.registerInstance(this, hostRef);
     }
     /**
-     * Authentication token issued by the PMS backend.
+     * Authentication ApiClient issued by the PMS backend.
      * Required for initializing the component and making API calls.
      */
     ticket;
@@ -230,13 +233,14 @@ const IrArrivals = class {
     payment;
     roomGuestState = null;
     countries;
-    tokenService = new Token.Token();
+    tokenService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
         arrivals_store.setArrivalsPageSize(this.pageSize);
@@ -250,7 +254,7 @@ const IrArrivals = class {
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue && newValue) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -293,16 +297,15 @@ const IrArrivals = class {
                     is_backend: true,
                 });
             }
-            const [_, __, countries, setupEntries] = await Promise.all([
+            const [_, __, countries, paymentEntries] = await Promise.all([
                 calendarData.calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getCountries(this.language),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
+                this.setupService.getPaymentEntries(),
                 this.getBookings(),
             ]);
             this.countries = countries;
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
+            this.paymentEntries = paymentEntries;
         }
         catch (error) {
         }
@@ -389,19 +392,19 @@ const IrBookingEmailLogs = class {
     ticket;
     data;
     bookingNumber;
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     componentWillLoad() {
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
         }
     }
     handleTicketChange() {
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
         }
     }
     render() {
-        return (index.h(index.Host, { key: '709508d0a2f9c1dd3a994467894cce59004ad5b9', class: "p-1" }, index.h("ir-interceptor", { key: 'a2bfeecb93bb967b3c3fe97a82edf03ffed26fcf', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: '05ba2eb30e9500ec46a7248467d7f9a407374952' }), index.h("div", { key: 'cb658e38ee5a5bb886757b389e958269694a78ac', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: '95ed8be004a45599a8b051ca416fa493f5f06e6a', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: '273e7e3bcf3d7753d79564d397ca4f34aa43aee3', size: "sm", text: "search", onClickHandler: async () => {
+        return (index.h(index.Host, { key: '539979d4587e4b28a52f7d1201b9d1d9d65f3a19', class: "p-1" }, index.h("ir-interceptor", { key: '59298a40b31aaf0ed022bb64d11f49c02f2574b8', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: 'e09445543b639efa5a84f4943b6396bbdf421447' }), index.h("div", { key: '869a55a4f525ce6d5e06d2b6a2ba71d0de753c8c', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: 'eadd72ff1773c6a2ac56f51a36bf73aa39e6aec3', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: '2d138e330281a7b382924f9909f94b46d879fb19', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -409,7 +412,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), index.h("p", { key: '04081a6dfcf29266842257e0b5bd3d2a77adce2c' }, JSON.stringify(this.data, null, 2))));
+            } })), index.h("p", { key: '24eb789b659b124e071e384ee21a93261ee6c967' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": [{
@@ -454,10 +457,10 @@ const IrBookingListing = class {
     payment;
     booking;
     bookingListingService = new booking_listing_service.BookingListingService();
-    bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     listingModal;
     listingModalTimeout;
     allowedProperties;
@@ -465,14 +468,14 @@ const IrBookingListing = class {
     paymentFolioRef;
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         booking_listing_service.updateUserSelection('end_row', this.rowCount);
         booking_listing_service.booking_listing.rowCount = this.rowCount;
         booking_listing_service.setPaginationPageSize(this.rowCount);
         if (this.ticket !== '') {
-            booking_listing_service.booking_listing.token = this.ticket;
-            this.token.setToken(this.ticket);
+            booking_listing_service.booking_listing.ApiClient = this.ticket;
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
         booking_listing_service.onBookingListingChange('userSelection', newValue => {
@@ -486,8 +489,8 @@ const IrBookingListing = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
-        booking_listing_service.booking_listing.token = this.ticket;
+        this.ApiClient.setApiClient(this.ticket);
+        booking_listing_service.booking_listing.ApiClient = this.ticket;
         this.initializeApp();
     }
     async fetchBookings() {
@@ -499,7 +502,7 @@ const IrBookingListing = class {
     async initializeApp() {
         try {
             this.isLoading = true;
-            this.havePrivilege = utils.isPrivilegedUser(this.userType);
+            this.havePrivilege = utils$1.isPrivilegedUser(this.userType);
             let propertyId = this.propertyid;
             if (!this.havePrivilege) {
                 if (!this.propertyid && !this.p) {
@@ -516,7 +519,7 @@ const IrBookingListing = class {
                 }
             }
             const parallelRequests = [
-                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
+                this.setupService.getPaymentEntries(),
                 this.bookingListingService.getExposedBookingsCriteria(this.havePrivilege ? null : propertyId),
                 this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT', '_PMS_FRONT']),
             ];
@@ -535,13 +538,8 @@ const IrBookingListing = class {
                 parallelRequests.push(this.propertyService.getExposedAllowedProperties());
             }
             const results = await Promise.all(parallelRequests);
-            const [setupEntries] = results;
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = {
-                groups: pay_type_group,
-                methods: pay_method,
-                types: pay_type,
-            };
+            const [paymentEntries] = results;
+            this.paymentEntries = paymentEntries;
             this.allowedProperties = allowedPropertiesIndex !== null ? results[allowedPropertiesIndex]?.map(p => p.id) : null;
             booking_listing_service.updateUserSelection('property_id', propertyId);
             booking_listing_service.updateUserSelections({
@@ -819,13 +817,13 @@ const IrChannel = class {
     isLoading = false;
     roomService = new room_service.RoomService();
     channelService = new channel_service.ChannelService();
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     irModalRef;
     propertyId;
     componentWillLoad() {
         this.isLoading = true;
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -895,7 +893,7 @@ const IrChannel = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     handleCancelModal(e) {
@@ -1011,10 +1009,10 @@ const IrCityLedger = class {
         { id: 'fiscal-documents', label: 'Fiscal Documents' },
         { id: 'create-statement', label: 'Create Statement' },
     ];
-    tokenService = new Token.Token();
+    tokenService = new ApiClient.ApiClient();
     agentsService = new agents_service.AgentsService();
     propertyService = new index$1.PropertyService();
-    bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     systemService = new system_service.SystemService();
     toolbarRef;
     createInvoiceDialogRef;
@@ -1034,7 +1032,7 @@ const IrCityLedger = class {
             if (this.baseurl) {
                 this.tokenService.setBaseUrl(this.baseurl);
             }
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -1043,7 +1041,7 @@ const IrCityLedger = class {
             return;
         if (this.baseurl)
             this.tokenService.setBaseUrl(this.baseurl);
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.init();
     }
     handlePropertyIdChange(newValue, oldValue) {
@@ -1089,14 +1087,14 @@ const IrCityLedger = class {
             const resolvedByName = !this.propertyid && !!this.p;
             const [, setupEntries, agents, currencies] = await Promise.all([
                 resolvedByName ? Promise.resolve() : this.propertyService.getExposedProperty({ id: propertyId, language: this.language }),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_SVC_CATEGORY']),
+                this.setupService.getSetupEntriesByTableNameMulti(['_SVC_CATEGORY']),
                 this.agentsService.getExposedAgents({ property_id: propertyId }),
                 this.systemService.getExposedCurrencies(),
             ]);
             this.currencies = currencies;
             this.agents = agents ?? [];
             this.applyAgentIdProp();
-            const { svc_category } = this.bookingService.groupEntryTablesResult(setupEntries);
+            const { svc_category } = utils.groupEntryTablesResult(setupEntries);
             this.serviceCategoryOptions = (svc_category ?? []).map(entry => ({
                 id: entry.CODE_NAME,
                 label: entry.CODE_VALUE_EN,
@@ -1185,15 +1183,15 @@ const IrDailyRevenue = class {
         users: null,
     };
     sideBarEvent;
-    tokenService = new Token.Token();
+    tokenService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
-    bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     paymentEntries;
     preventPageLoad;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -1201,7 +1199,7 @@ const IrDailyRevenue = class {
         if (newValue === oldValue) {
             return;
         }
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.initializeApp();
     }
     handleOpenSidebar(e) {
@@ -1243,11 +1241,7 @@ const IrDailyRevenue = class {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [
-                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
-                this.getPaymentReports(),
-                this.roomService.fetchLanguage(this.language),
-            ];
+            const requests = [this.setupService.getPaymentEntries(), this.getPaymentReports(), this.roomService.fetchLanguage(this.language)];
             if (propertyId) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
@@ -1256,13 +1250,8 @@ const IrDailyRevenue = class {
                     include_units_hk_status: true,
                 }));
             }
-            const [setupEntries] = await Promise.all(requests);
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = {
-                groups: pay_type_group,
-                methods: pay_method,
-                types: pay_type,
-            };
+            const [paymentEntries] = await Promise.all(requests);
+            this.paymentEntries = paymentEntries;
         }
         catch (error) {
             console.log(error);
@@ -1375,13 +1364,14 @@ const IrDepartures = class {
     payment;
     checkoutState = null;
     invoiceState = null;
-    tokenService = new Token.Token();
+    tokenService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
         departures_store.onDeparturesStoreChange('today', _ => {
@@ -1390,7 +1380,7 @@ const IrDepartures = class {
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -1433,14 +1423,13 @@ const IrDepartures = class {
                     is_backend: true,
                 });
             }
-            const [_, __, setupEntries] = await Promise.all([
+            const [_, __, paymentEntries] = await Promise.all([
                 calendarData.calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
+                this.setupService.getPaymentEntries(),
                 this.getBookings(),
             ]);
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
+            this.paymentEntries = paymentEntries;
         }
         catch (error) {
         }
@@ -1545,12 +1534,12 @@ const IrExtraServicesSettings = class {
     autoValidate;
     dayUseBlockNight = false;
     babyCotPricingModel = 'Stay';
-    tokenService = new Token.Token();
-    bookingService = new booking_store.BookingService();
+    tokenService = new ApiClient.ApiClient();
+    setupService = new index$2.SetupService();
     propertyService = new index$1.PropertyService();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -1567,7 +1556,7 @@ const IrExtraServicesSettings = class {
             this.reinit();
     }
     reinit() {
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.init();
     }
     async init() {
@@ -1575,9 +1564,9 @@ const IrExtraServicesSettings = class {
         try {
             const [, tableEntries] = await Promise.all([
                 this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY']),
+                this.setupService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY']),
             ]);
-            this.setupEntries = this.bookingService.groupEntryTablesResult(tableEntries);
+            this.setupEntries = utils.groupEntryTablesResult(tableEntries);
             this.priceCategoryRules = this.buildInitialRules();
             this.dayUseBlockNight = calendarData.getDayUseBlockState() === '1';
             this.babyCotPricingModel = this.resolveBabyCotPricingModel(calendarData.getBabyCotPricingModel());
@@ -1658,7 +1647,7 @@ const IrExtraServicesSettings = class {
             this.isSaving = true;
             const payload = this.buildPayload();
             await this.propertyService.handleExposedPropertyTaxCategories(payload);
-            utils.showToast({
+            utils$1.showToast({
                 title: 'Saved Successfully',
                 type: 'success',
             });
@@ -1743,16 +1732,16 @@ const IrFiscalDocuments = class {
     totalRows = 0;
     /** Booking number whose details drawer is currently open. */
     selectedBookingNumber = null;
-    tokenService = new Token.Token();
+    tokenService = new ApiClient.ApiClient();
     propertyService = new index$1.PropertyService();
     roomService = new room_service.RoomService();
-    bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     componentWillLoad() {
         if (this.baseurl) {
             this.tokenService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -1762,7 +1751,7 @@ const IrFiscalDocuments = class {
         if (this.baseurl) {
             this.tokenService.setBaseUrl(this.baseurl);
         }
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.init();
     }
     /**
@@ -1791,7 +1780,7 @@ const IrFiscalDocuments = class {
             this.property_id = propertyId;
             // Remaining setup — all in parallel. The property is only fetched here
             // when we didn't already load it through the aname lookup above.
-            const requests = [this.bookingService.getSetupEntriesByTableName('_FD_TYPE'), this.roomService.fetchLanguage(this.language)];
+            const requests = [this.setupService.getSetupEntriesByTableName('_FD_TYPE'), this.roomService.fetchLanguage(this.language)];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
@@ -1892,22 +1881,22 @@ const IrFiscalDocuments = class {
 };
 IrFiscalDocuments.style = irFiscalDocumentsCss();
 
-index$2.libExports.z.object({
-    AC_ID: index$2.libExports.z.number(),
-    NAME: index$2.libExports.z.string(),
-    aname: index$2.libExports.z.string(),
-    level2: index$2.libExports.z.string().nullable().optional(),
-    COUNTRY_ID: index$2.libExports.z.number(),
+index$3.libExports.z.object({
+    AC_ID: index$3.libExports.z.number(),
+    NAME: index$3.libExports.z.string(),
+    aname: index$3.libExports.z.string(),
+    level2: index$3.libExports.z.string().nullable().optional(),
+    COUNTRY_ID: index$3.libExports.z.number(),
 });
-const Params_Get_GHS_Candidate_Properties_Schema = index$2.libExports.z.object({
-    COUNTRY_ID: index$2.libExports.z.number().nullable().optional(),
+const Params_Get_GHS_Candidate_Properties_Schema = index$3.libExports.z.object({
+    COUNTRY_ID: index$3.libExports.z.number().nullable().optional(),
 });
-const Params_Generate_GHS_Listing_For_Selection_Schema = index$2.libExports.z.object({
-    Selected_AC_IDs: index$2.libExports.z.array(index$2.libExports.z.number()),
+const Params_Generate_GHS_Listing_For_Selection_Schema = index$3.libExports.z.object({
+    Selected_AC_IDs: index$3.libExports.z.array(index$3.libExports.z.number()),
 });
-const Params_Update_GHS_Enablement_Schema = index$2.libExports.z.object({
-    AC_ID: index$2.libExports.z.number(),
-    IS_ENABLED: index$2.libExports.z.boolean(),
+const Params_Update_GHS_Enablement_Schema = index$3.libExports.z.object({
+    AC_ID: index$3.libExports.z.number(),
+    IS_ENABLED: index$3.libExports.z.boolean(),
 });
 
 class GHSService {
@@ -1956,12 +1945,12 @@ const IrGhsOnboarding = class {
     propertyToActivate = null;
     ghsService = new GHSService();
     bookingService = new booking_store.BookingService();
-    tokenService = new Token.Token();
+    tokenService = new ApiClient.ApiClient();
     removeAllModal;
     activateModal;
     ticketChanged(newValue) {
         if (newValue) {
-            this.tokenService.setToken(newValue);
+            this.tokenService.setApiClient(newValue);
             this.init();
         }
     }
@@ -1970,7 +1959,7 @@ const IrGhsOnboarding = class {
             this.tokenService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             await this.init();
         }
     }
@@ -2104,7 +2093,7 @@ const IrGhsOnboarding = class {
         }
     }
     showToast(type, title, description) {
-        utils.showToast({
+        utils$1.showToast({
             type,
             title,
             description,
@@ -2188,15 +2177,15 @@ const IrHkTasks = class {
     hkNameCache = {};
     roomService = new room_service.RoomService();
     houseKeepingService = new housekeeping_service.HouseKeepingService();
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     table_sorting = new Map();
     modal;
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -2204,7 +2193,7 @@ const IrHkTasks = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.init();
     }
     handleCloseSidebar(e) {
@@ -2360,7 +2349,7 @@ const IrHkTasks = class {
                 }));
                 console.log(sortingArray);
                 const { url } = await this.fetchTasksWithFilters(true);
-                utils.downloadFile(url);
+                utils$1.downloadFile(url);
                 break;
             case 'archive':
                 this.isSidebarOpen = true;
@@ -2467,7 +2456,7 @@ const IrHkTasks = class {
                     this.modalCauses = null;
                 }
                 this.modal.closeModal();
-            } }, locales_store.locales.entries.Lcz_Cancel), index.h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales_store.locales.entries.Lcz_Confirm))), index.h("ir-hk-archive-drawer", { open: this.isSidebarOpen, ticket: this.token.getToken(), propertyId: this.property_id, onDrawerClosed: () => (this.isSidebarOpen = false) })));
+            } }, locales_store.locales.entries.Lcz_Cancel), index.h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales_store.locales.entries.Lcz_Confirm))), index.h("ir-hk-archive-drawer", { open: this.isSidebarOpen, ticket: this.ApiClient.getToken(), propertyId: this.property_id, onDrawerClosed: () => (this.isSidebarOpen = false) })));
     }
     static get watchers() { return {
         "ticket": [{
@@ -2492,14 +2481,14 @@ const IrHousekeeping = class {
     frequencies = [];
     roomService = new room_service.RoomService();
     houseKeepingService = new housekeeping_service.HouseKeepingService();
-    bookingService = new booking_store.BookingService();
-    token = new Token.Token();
+    setupService = new index$2.SetupService();
+    ApiClient = new ApiClient.ApiClient();
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -2512,7 +2501,7 @@ const IrHousekeeping = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     async initializeApp() {
@@ -2529,9 +2518,9 @@ const IrHousekeeping = class {
                 });
                 propertyId = propertyData.My_Result.id;
             }
-            housekeeping_service.updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
+            housekeeping_service.updateHKStore('default_properties', { ApiClient: this.ticket, property_id: propertyId, language: this.language });
             const [frequencies] = await Promise.all([
-                this.bookingService.getSetupEntriesByTableName('_HK_FREQUENCY'),
+                this.setupService.getSetupEntriesByTableName('_HK_FREQUENCY'),
                 this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT']),
                 this.propertyid &&
                     this.roomService.getExposedProperty({
@@ -2565,18 +2554,18 @@ const IrHousekeeping = class {
 };
 IrHousekeeping.style = irHousekeepingCss();
 
-const ParamsGetMealReportSchema = index$2.libExports.object({
-    property_id: index$2.libExports.number(),
-    report_type: index$2.libExports.enum(['GUEST_LIST', 'MEAL_COUNT']),
-    from: index$2.libExports.string(),
-    to: index$2.libExports.string(),
-    meal_type_code: index$2.libExports.string().optional().nullable(),
-    is_export_to_excel: index$2.libExports.boolean().optional().default(false),
+const ParamsGetMealReportSchema = index$3.libExports.object({
+    property_id: index$3.libExports.number(),
+    report_type: index$3.libExports.enum(['GUEST_LIST', 'MEAL_COUNT']),
+    from: index$3.libExports.string(),
+    to: index$3.libExports.string(),
+    meal_type_code: index$3.libExports.string().optional().nullable(),
+    is_export_to_excel: index$3.libExports.boolean().optional().default(false),
 });
-const ParamsSetHBPreferenceSchema = index$2.libExports.object({
-    property_id: index$2.libExports.number(),
-    room_identifier: index$2.libExports.string(),
-    code: index$2.libExports.string(),
+const ParamsSetHBPreferenceSchema = index$3.libExports.object({
+    property_id: index$3.libExports.number(),
+    room_identifier: index$3.libExports.string(),
+    code: index$3.libExports.string(),
 });
 
 class MealReportService {
@@ -2594,13 +2583,6 @@ class MealReportService {
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
-    }
-    async getSetupEntriesByTableNameMulti(entries) {
-        const { data } = await axios.axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: entries });
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        return data.My_Result;
     }
 }
 
@@ -2628,10 +2610,11 @@ const IrMealReport = class {
         hb_preference: [],
     };
     mealReportService = new MealReportService();
-    tokenService = new Token.Token();
+    setupService = new index$2.SetupService();
+    tokenService = new ApiClient.ApiClient();
     ticketChanged(newValue) {
         if (newValue) {
-            this.tokenService.setToken(newValue);
+            this.tokenService.setApiClient(newValue);
             this.init();
         }
     }
@@ -2640,7 +2623,7 @@ const IrMealReport = class {
             this.tokenService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -2651,7 +2634,7 @@ const IrMealReport = class {
         try {
             this.isPageLoading = true;
             this.isDataLoading = true;
-            const setupEntries = await this.mealReportService.getSetupEntriesByTableNameMulti(['_MEAL_TYPE', '_HB_PREFERENCE']);
+            const setupEntries = await this.setupService.getSetupEntriesByTableNameMulti(['_MEAL_TYPE', '_HB_PREFERENCE']);
             const grouped = utils.groupEntryTablesResult(setupEntries);
             const meal_type = grouped.meal_type || [];
             const hb_preference = grouped.hb_preference || [];
@@ -2811,7 +2794,7 @@ const IrMonthlyBookingsReport = class {
     property_id;
     stats;
     baseFilters;
-    tokenService = new Token.Token();
+    tokenService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
     componentWillLoad() {
@@ -2825,13 +2808,13 @@ const IrMonthlyBookingsReport = class {
         };
         this.filters = this.baseFilters;
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -2975,12 +2958,12 @@ const IrPaymentOption = class {
     selectedOption = null;
     paymentOptionService = new paymentOption_store.PaymentOptionService();
     roomService = new room_service.RoomService();
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     propertyOptionsById;
     propertyOptionsByCode;
     componentWillLoad() {
         if (!!this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -2988,7 +2971,7 @@ const IrPaymentOption = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.init();
     }
     init() {
@@ -3058,7 +3041,7 @@ const IrPaymentOption = class {
         }
     }
     initServices() {
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
     }
     modifyPaymentList(paymentOption) {
         let prevPaymentOptions = [...this.paymentOptions];
@@ -3079,7 +3062,7 @@ const IrPaymentOption = class {
             await this.changePaymentMethod(newOption);
             this.modifyPaymentList(newOption);
             if (po.code === '000' && is_active && this.paymentOptions.filter(p => p.code !== '000').every(p => p.is_active === false || p.is_active === null)) {
-                utils.showToast({
+                utils$1.showToast({
                     type: 'success',
                     description: '',
                     title: locales_store.locales.entries['Lcz_YouNeedToSelect'],
@@ -3104,7 +3087,7 @@ const IrPaymentOption = class {
     async changePaymentMethod(newOption) {
         try {
             await this.paymentOptionService.HandlePaymentMethod(newOption);
-            utils.showToast({
+            utils$1.showToast({
                 position: 'top-right',
                 title: 'Saved Successfully',
                 description: '',
@@ -3164,7 +3147,7 @@ const IrSalesByChannel = class {
     channelSalesFilters;
     allowedProperties = [];
     propertyID;
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
     baseFilters = {
@@ -3178,7 +3161,7 @@ const IrSalesByChannel = class {
     componentWillLoad() {
         this.channelSalesFilters = this.baseFilters;
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -3186,7 +3169,7 @@ const IrSalesByChannel = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     async initializeApp() {
@@ -3385,7 +3368,7 @@ const IrSalesByCountry = class {
     salesData;
     salesFilters;
     countries = new Map();
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
     bookingService = new booking_store.BookingService();
@@ -3399,7 +3382,7 @@ const IrSalesByCountry = class {
     componentWillLoad() {
         this.salesFilters = this.baseFilters;
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -3407,7 +3390,7 @@ const IrSalesByCountry = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     async initializeApp() {
@@ -3538,18 +3521,18 @@ var TaxationStrategy;
 /**
  * Charge rule (VAT, City Tax, Service Charge)
  */
-const ChargeRuleSchema = index$2.libExports.z.object({
-    value: index$2.libExports.z.number().nullable(),
-    mode: index$2.libExports.z.string().min(1),
+const ChargeRuleSchema = index$3.libExports.z.object({
+    value: index$3.libExports.z.number().nullable(),
+    mode: index$3.libExports.z.string().min(1),
 });
 /**
  * Main setup schema
  */
-index$2.libExports.z.object({
+index$3.libExports.z.object({
     vat: ChargeRuleSchema,
     cityTax: ChargeRuleSchema.nullable(),
     serviceCharge: ChargeRuleSchema.nullable(),
-    taxationStrategy: index$2.libExports.z.nativeEnum(TaxationStrategy).nullable(),
+    taxationStrategy: index$3.libExports.z.nativeEnum(TaxationStrategy).nullable(),
 });
 
 const irTaxServiceCategoriesCss = () => `.sc-ir-tax-service-categories-h{display:block}.tax-page.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-xl)}.tax-page__header.sc-ir-tax-service-categories{display:flex;align-items:center;justify-content:space-between;gap:var(--wa-space-m)}.tax-service-categories__card.sc-ir-tax-service-categories{background-color:var(--wa-color-surface-default, white)}.tax-page__heading.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-2xs)}.page-title.sc-ir-tax-service-categories{margin:0}.tax-page__subtitle.sc-ir-tax-service-categories{margin:0;color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.tax-grid__header.sc-ir-tax-service-categories{display:none}.tax-grid__col-label.sc-ir-tax-service-categories{font-size:var(--wa-font-size-xs);font-weight:600;color:var(--wa-color-text-quiet);text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap}.tax-grid__row.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-m);padding:var(--wa-space-m) 0}.tax-grid__name.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-3xs)}.tax-grid__title.sc-ir-tax-service-categories{font-size:var(--wa-font-size-m);margin:0;padding:0}.tax-grid__hint.sc-ir-tax-service-categories{margin:0;padding:0;font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet)}.tax-grid__cell[data-label].sc-ir-tax-service-categories::before{content:attr(data-label);display:block;font-size:var(--wa-font-size-xs);font-weight:600;color:var(--wa-color-text-quiet);margin-bottom:var(--wa-space-2xs)}.tax-grid__cell.sc-ir-tax-service-categories:empty{display:none}ir-tax-input.sc-ir-tax-service-categories::part(input),ir-tax-input.sc-ir-tax-service-categories [part~="input"]{width:8ch}@media (min-width: 768px){.tax-grid.sc-ir-tax-service-categories{display:grid;grid-template-columns:minmax(auto, 320px) repeat(3, auto) auto;column-gap:var(--wa-space-m);align-items:center}.tax-grid__header.sc-ir-tax-service-categories,.tax-grid__row.sc-ir-tax-service-categories{display:contents}.tax-grid__divider.sc-ir-tax-service-categories{grid-column:1 / -1}.tax-grid__col-label.sc-ir-tax-service-categories{padding-bottom:0}.tax-grid__name.sc-ir-tax-service-categories,.tax-grid__cell.sc-ir-tax-service-categories{padding-bottom:var(--wa-space-s);align-self:center}.tax-grid__cell.sc-ir-tax-service-categories:empty{display:block}.tax-grid__cell[data-label].sc-ir-tax-service-categories::before{display:none}.ir-tax-input.sc-ir-tax-service-categories,.tax-grid__cell.sc-ir-tax-service-categories{width:fit-content}}`;
@@ -3567,12 +3550,12 @@ const IrTaxServiceCategories = class {
     chargeCategoryRules = new Map();
     setupEntries;
     autoValidate;
-    tokenService = new Token.Token();
-    bookingService = new booking_store.BookingService();
+    tokenService = new ApiClient.ApiClient();
+    setupService = new index$2.SetupService();
     propertyService = new index$1.PropertyService();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -3590,7 +3573,7 @@ const IrTaxServiceCategories = class {
     }
     /** Re-authenticates and re-fetches configuration when a watched prop changes. */
     reinit() {
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.init();
     }
     /** Fetches setup entries and property data, then builds the initial charge rules map. */
@@ -3599,9 +3582,9 @@ const IrTaxServiceCategories = class {
         try {
             const [, tableEntries] = await Promise.all([
                 this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY', '_CITY_TAX_INCLUDED', '_SERVICE_CHARGE_INCLUDED']),
+                this.setupService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY', '_CITY_TAX_INCLUDED', '_SERVICE_CHARGE_INCLUDED']),
             ]);
-            this.setupEntries = this.bookingService.groupEntryTablesResult(tableEntries);
+            this.setupEntries = utils.groupEntryTablesResult(tableEntries);
             this.chargeCategoryRules = this.buildInitialRules();
         }
         catch (error) {
@@ -3689,7 +3672,7 @@ const IrTaxServiceCategories = class {
     get categories() {
         const svcCategories = this.setupEntries?.svc_category ?? [];
         const realCodes = new Set(svcCategories.map(s => s.CODE_NAME));
-        return svcCategory_utils.getTopLevelSvcCategories(svcCategories).filter(s => realCodes.has(s.CODE_NAME) && !index$3.extraServicesCategories.has(s.CODE_NAME));
+        return svcCategory_utils.getTopLevelSvcCategories(svcCategories).filter(s => realCodes.has(s.CODE_NAME) && !index$4.extraServicesCategories.has(s.CODE_NAME));
     }
     /** Assembles the API payload from the current charge rules state. */
     buildPayload() {
@@ -3723,7 +3706,7 @@ const IrTaxServiceCategories = class {
             this.isSaving = true;
             const payload = this.buildPayload();
             await this.propertyService.handleExposedPropertyTaxCategories(payload);
-            utils.showToast({
+            utils$1.showToast({
                 title: 'Saved Successfully',
                 type: 'success',
             });
@@ -3811,17 +3794,17 @@ const IrUninvoicedBookings = class {
     isPageLoading = true;
     activeBookingNbr = null;
     activeGuestBookingNbr = null;
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
     bookingListingService = new booking_listing_service.BookingListingService();
     propertyId;
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -3829,7 +3812,7 @@ const IrUninvoicedBookings = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     async handleFiltersChange(e) {
@@ -3955,19 +3938,20 @@ const IrUserManagement = class {
     users = [];
     property_id;
     allowedUsersTypes = [];
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     userService = new user_service.UserService();
     bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     userTypes = new Map();
     unsubscribeRealtime = null;
     superAdminId = '5';
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -3975,7 +3959,7 @@ const IrUserManagement = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     async handleResetData(e) {
@@ -3986,7 +3970,7 @@ const IrUserManagement = class {
     async initializeApp() {
         try {
             if (this.baseUrl) {
-                this.token.setBaseUrl(this.baseUrl);
+                this.ApiClient.setBaseUrl(this.baseUrl);
             }
             this.isLoading = true;
             let propertyId = this.propertyid;
@@ -4079,7 +4063,7 @@ const IrUserManagement = class {
         });
     }
     async fetchUserTypes() {
-        const res = await Promise.all([this.bookingService.getSetupEntriesByTableName('_USER_TYPE'), this.bookingService.getLov()]);
+        const res = await Promise.all([this.setupService.getSetupEntriesByTableName('_USER_TYPE'), this.bookingService.getLov()]);
         const allowedUsers = res[1]?.My_Result?.allowed_user_types;
         for (const e of res[0]) {
             const value = utils.getEntryValue({ entry: e, language: this.language });

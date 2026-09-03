@@ -1,7 +1,7 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { h } from "@stencil/core";
 import { TaxationStrategy } from "./types";
-import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
 import { PropertyService } from "../../services/property.service";
 import calendar_data from "../../stores/calendar-data";
 import { showToast } from "../../utils/utils";
@@ -18,12 +18,12 @@ export class IrTaxServiceCategories {
     chargeCategoryRules = new Map();
     setupEntries;
     autoValidate;
-    tokenService = new Token();
-    bookingService = new BookingService();
+    tokenService = new ApiClient();
+    setupService = new SetupService();
     propertyService = new PropertyService();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -41,7 +41,7 @@ export class IrTaxServiceCategories {
     }
     /** Re-authenticates and re-fetches configuration when a watched prop changes. */
     reinit() {
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.init();
     }
     /** Fetches setup entries and property data, then builds the initial charge rules map. */
@@ -50,9 +50,9 @@ export class IrTaxServiceCategories {
         try {
             const [, tableEntries] = await Promise.all([
                 this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY', '_CITY_TAX_INCLUDED', '_SERVICE_CHARGE_INCLUDED']),
+                this.setupService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY', '_CITY_TAX_INCLUDED', '_SERVICE_CHARGE_INCLUDED']),
             ]);
-            this.setupEntries = this.bookingService.groupEntryTablesResult(tableEntries);
+            this.setupEntries = groupEntryTablesResult(tableEntries);
             this.chargeCategoryRules = this.buildInitialRules();
         }
         catch (error) {

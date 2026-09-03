@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 import axios from "axios";
 import { GHSService } from "../../services/ghs/ghs.service";
 import { BookingService } from "../../services/booking-service/booking.service";
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { showToast } from "../../utils/utils";
 export class IrGhsOnboarding {
     el;
@@ -19,12 +19,12 @@ export class IrGhsOnboarding {
     propertyToActivate = null;
     ghsService = new GHSService();
     bookingService = new BookingService();
-    tokenService = new Token();
+    tokenService = new ApiClient();
     removeAllModal;
     activateModal;
     ticketChanged(newValue) {
         if (newValue) {
-            this.tokenService.setToken(newValue);
+            this.tokenService.setApiClient(newValue);
             this.init();
         }
     }
@@ -33,7 +33,7 @@ export class IrGhsOnboarding {
             this.tokenService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             await this.init();
         }
     }

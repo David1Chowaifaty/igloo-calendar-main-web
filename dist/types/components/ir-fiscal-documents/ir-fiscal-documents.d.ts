@@ -22,7 +22,7 @@ export declare class IrFiscalDocuments {
     private tokenService;
     private propertyService;
     private roomService;
-    private bookingService;
+    private setupService;
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     /**

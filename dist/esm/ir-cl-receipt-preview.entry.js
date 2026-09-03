@@ -1,26 +1,25 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-BYqrdgY9.js';
-import { C as ClFiscalDocumentService } from './cl-fiscal-document.service-ChqcuW4C.js';
+import { C as ClFiscalDocumentService } from './cl-fiscal-document.service-CPyPDxs3.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-BebdClG4.js';
+import './calendar-data-DT3jrP3G.js';
 import './locales.store-C9qsbKR0.js';
 import './booking.dto-DpE31yhG.js';
-import './ir-date-_0rd4VZd.js';
-import { f as formatAmount } from './number-DuxNax9Y.js';
-import { C as CityLedgerService } from './index-BTiwtg05.js';
-import { B as BookingService } from './booking.store-CAX7ugRB.js';
-import './Token-CkxFIO_J.js';
+import './ir-date-BT3QqYg6.js';
+import { f as formatAmount } from './number-CF5xh0GV.js';
+import { C as CityLedgerService } from './index-CZpp4toz.js';
+import { S as SetupService } from './index-C7bnvJN3.js';
+import './ApiClient-4jHvz1N4.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './index-CbjeKhiT.js';
+import './index-B4QXVOb6.js';
 import './index-DeW5X45W.js';
-import './utils-COglgzDo.js';
+import './utils-Ct-kEjIU.js';
 import './commonSchemas-ByEkDTMV.js';
 import './index-CimhgHoX.js';
 import './type-D7rOPtKA.js';
 import './enums-CSCQSgBu.js';
+import './utils-DbzivNBs.js';
 import './IBooking-xt_aVEnI.js';
-import './booking-B3XQbHrM.js';
-import './functions-CtmxIeXe.js';
 
 const irClReceiptPreviewCss = () => `:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:900px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.receipt-body{display:flex;flex-direction:column;gap:1.75rem}.receipt-section__title{margin:0 0 0.625rem;padding-bottom:0.375rem;font-size:0.6875rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#9ca3af;border-bottom:1px solid #e5e7eb}.receipt-rows{display:flex;flex-direction:column;gap:0.35rem}.receipt-row{display:flex;align-items:baseline;gap:0.375rem;font-size:0.875rem}.receipt-row__label{color:#6b7280;font-weight:400;flex-shrink:0}.receipt-row__label::after{content:':'}.receipt-row__value{color:#111827;font-weight:500}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}.receipt-section__title{color:#374151}.receipt-row__label{color:#374151}}`;
 
@@ -44,7 +43,7 @@ const IrClReceiptPreview = class {
     clPreviewReady;
     hasEmitted = false;
     dataService = new ClFiscalDocumentService();
-    bookingService = new BookingService();
+    setupService = new SetupService();
     cityLedgerService = new CityLedgerService();
     componentWillLoad() {
         if (!this.ticket) {
@@ -60,7 +59,7 @@ const IrClReceiptPreview = class {
         try {
             const [{ property, transactions }, paymentMethods, documents] = await Promise.all([
                 this.dataService.fetchData(this.propertyId, this.agentId, this.documentNumber),
-                this.bookingService.getSetupEntriesByTableName('_PAY_METHOD'),
+                this.setupService.getSetupEntriesByTableName('_PAY_METHOD'),
                 this.cityLedgerService.getFiscalDocuments({
                     AGENCY_ID: this.agentId,
                     DOC_NUMBER: this.documentNumber,

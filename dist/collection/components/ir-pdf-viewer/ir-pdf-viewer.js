@@ -14,7 +14,7 @@ export class IrPdfViewer {
     loadingTask = null;
     pdf = null;
     renderTask = null;
-    loadToken = 0;
+    loadApiClient = 0;
     resizeObserver;
     resizeTimer;
     el;
@@ -42,7 +42,7 @@ export class IrPdfViewer {
             this.loadPdf(this.src);
     }
     disconnectedCallback() {
-        this.loadToken++;
+        this.loadApiClient++;
         this.renderTask?.cancel();
         this.renderTask = null;
         this.pdf = null;
@@ -56,7 +56,7 @@ export class IrPdfViewer {
         }
     }
     async loadPdf(url) {
-        const token = ++this.loadToken;
+        const ApiClient = ++this.loadApiClient;
         this.isLoading = true;
         this.error = null;
         this.totalPages = 0;
@@ -69,26 +69,26 @@ export class IrPdfViewer {
             const task = getDocument({ url });
             this.loadingTask = task;
             const pdf = await task.promise;
-            if (token !== this.loadToken) {
+            if (ApiClient !== this.loadApiClient) {
                 await task.destroy();
                 return;
             }
             this.pdf = pdf;
             this.totalPages = pdf.numPages;
-            await this.renderPage(this.currentPage, token);
+            await this.renderPage(this.currentPage, ApiClient);
         }
         catch (err) {
-            if (token !== this.loadToken || isCancelled(err))
+            if (ApiClient !== this.loadApiClient || isCancelled(err))
                 return;
             const msg = err instanceof Error ? err.message : String(err);
             this.error = `Could not load PDF: ${msg}`;
         }
         finally {
-            if (token === this.loadToken)
+            if (ApiClient === this.loadApiClient)
                 this.isLoading = false;
         }
     }
-    async renderPage(pageNumber, token) {
+    async renderPage(pageNumber, ApiClient) {
         const pdf = this.pdf;
         const canvas = this.canvasEl;
         if (!pdf || !canvas)
@@ -96,7 +96,7 @@ export class IrPdfViewer {
         this.renderTask?.cancel();
         this.renderTask = null;
         const page = await pdf.getPage(pageNumber);
-        if (token !== this.loadToken)
+        if (ApiClient !== this.loadApiClient)
             return;
         const hostW = this.el.clientWidth;
         if (hostW === 0)
@@ -130,26 +130,26 @@ export class IrPdfViewer {
             window.clearTimeout(this.resizeTimer);
         this.resizeTimer = window.setTimeout(() => {
             this.resizeTimer = undefined;
-            this.renderPage(this.currentPage, this.loadToken);
+            this.renderPage(this.currentPage, this.loadApiClient);
         }, 120);
     }
     async goTo(page) {
         if (!this.pdf || page < 1 || page > this.totalPages || this.isLoading)
             return;
-        const token = this.loadToken;
+        const ApiClient = this.loadApiClient;
         this.currentPage = page;
         this.isLoading = true;
         try {
-            await this.renderPage(page, token);
+            await this.renderPage(page, ApiClient);
         }
         catch (err) {
-            if (token !== this.loadToken || isCancelled(err))
+            if (ApiClient !== this.loadApiClient || isCancelled(err))
                 return;
             const msg = err instanceof Error ? err.message : String(err);
             this.error = `Could not render page: ${msg}`;
         }
         finally {
-            if (token === this.loadToken)
+            if (ApiClient === this.loadApiClient)
                 this.isLoading = false;
         }
     }
@@ -162,7 +162,7 @@ export class IrPdfViewer {
         const { isLoading, error, totalPages, currentPage } = this;
         const atFirstPage = currentPage <= 1 || isLoading;
         const atLastPage = currentPage >= totalPages || isLoading;
-        return (h(Host, { key: '0d3a53e74d8b6e5c1e6438a631f5bb2e5159489f' }, h("canvas", { key: 'c7ab31a07dc5ab28388e93da953d3c39f09ed97a', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: '18f9c1473080715b5b92ca2deebf0fbbfd0c1066', class: "overlay" }, h("wa-spinner", { key: 'faa2f8205eaec9c8da01b0f39ca9f95c12e5e946' }))), error && !isLoading && (h("div", { key: '5c0de1aac310f34a34d1a34a385eb09a9bad4b25', class: "error-state", role: "alert" }, h("wa-icon", { key: 'b0be0a675703b2a04dda4ec8ad36deacd6c93489', name: "triangle-exclamation" }), h("span", { key: 'b5fb396eeb8fc49f3c78e296128c8a5116fdb1ad' }, error))), totalPages > 1 && (h("div", { key: 'f6e09d3b68955d64f646b27c31531051b8785e36', class: "pagination" }, h("button", { key: '71fa09e954d1b2eecaa9643498f1295a3c2390ba', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '48d7032dae69217551a09c7c410da7fd979cd94c', class: "ir-flip-rtl", name: "chevron-left" })), h("span", { key: '7703a77f69d2c6ffa7a9a54311a9a3451991d9f0', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: 'c477f519734d44461a89be5dc761fb5ff5fd39af', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: '9c615007c4873c4deb12c178d2458dfd0f869080', class: "ir-flip-rtl", name: "chevron-right" }))))));
+        return (h(Host, { key: '74ea2b56a72adc0b11eb46c1f253d3ec126fcfb3' }, h("canvas", { key: 'cc71e0fb43101eacd5e43a67387c3557dbbc43bd', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: 'b2c4f298282e312ebb4aafd58f82e4f5297d2bbb', class: "overlay" }, h("wa-spinner", { key: 'ea34c3214c3b0c2396851d5724201a683ad466ad' }))), error && !isLoading && (h("div", { key: '511a19e33de2a213c4426a33553f2c331f0bd033', class: "error-state", role: "alert" }, h("wa-icon", { key: '0553da979e2cee4e1533799dd3da7468f256e891', name: "triangle-exclamation" }), h("span", { key: '1b5c5968447a51a7ea2ecd503e4feae70150473a' }, error))), totalPages > 1 && (h("div", { key: '988a55da3ddb17d59f112bd9028dfd5219ba3c5b', class: "pagination" }, h("button", { key: '83a9c7b008ddce0087164ccde9c243e546d09073', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: 'c2b598dec3007ea8bbc131963ad4486573e4365d', class: "ir-flip-rtl", name: "chevron-left" })), h("span", { key: 'f6a1118c2d3444486f85e722ef39f8dbec9d8a72', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: '98c5e0022580b44fed603761bd21a04513c2e922', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: '139445eb0e16c32fb524df2534ed2aba524444c7', class: "ir-flip-rtl", name: "chevron-right" }))))));
     }
     static get is() { return "ir-pdf-viewer"; }
     static get encapsulation() { return "shadow"; }

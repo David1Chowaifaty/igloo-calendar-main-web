@@ -40,7 +40,7 @@ import momentHijri from "moment-hijri";
 const ARABIC_LOCALES = ['ar', 'ar-dz', 'ar-kw', 'ar-ly', 'ar-ma', 'ar-ps', 'ar-sa', 'ar-tn'];
 const ARABIC_HIJRI_MONTHS = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الثاني', 'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
 const ARABIC_HIJRI_MONTHS_SHORT = ['محرم', 'صفر', 'ربيع ١', 'ربيع ٢', 'جمادى ١', 'جمادى ٢', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
-// Locale data for every language in `EntryLanguage` (`src/utils/utils.ts`), plus every Arabic
+// Locale data for every language in `EntryLanguage` (`src/services/setup/types.ts`), plus every Arabic
 // regional variant moment ships — they differ in month names (سبتمبر / شتنبر / أيلول) and in
 // native digits. `en` is built in; `ua` maps to moment's `uk` (see `locale-map.ts`).
 //

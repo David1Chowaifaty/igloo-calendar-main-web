@@ -1,4 +1,4 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { h } from "@stencil/core";
 import moment from "moment";
 import locales from "../../stores/locales.store";
@@ -17,7 +17,7 @@ export class IrMonthlyBookingsReport {
     property_id;
     stats;
     baseFilters;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     roomService = new RoomService();
     propertyService = new PropertyService();
     componentWillLoad() {
@@ -31,13 +31,13 @@ export class IrMonthlyBookingsReport {
         };
         this.filters = this.baseFilters;
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }

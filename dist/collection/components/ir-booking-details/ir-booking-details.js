@@ -1,10 +1,11 @@
 import { h, Fragment, Host } from "@stencil/core";
 import axios from "axios";
 import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
 import { RoomService } from "../../services/room.service";
 import locales from "../../stores/locales.store";
 import { PaymentService } from "../../services/payment.service";
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import calendar_data from "../../stores/calendar-data";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { buildSplitIndex } from "../../utils/booking";
@@ -19,6 +20,7 @@ import { SvcCategory } from "../../types/enums";
 import { formatBookingNumber } from "../../utils/number";
 export class IrBookingDetails {
     bookingService = new BookingService();
+    setupService = new SetupService();
     roomService = new RoomService();
     paymentService = new PaymentService();
     agentService = new AgentsService();
@@ -26,7 +28,7 @@ export class IrBookingDetails {
     unsubscribeRealtime = null;
     clLockingPending = new Map();
     clLockingTimer = null;
-    token = new Token();
+    ApiClient = new ApiClient();
     arrivalTime;
     svcCategories;
     printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing/fd?id=%2';
@@ -127,7 +129,7 @@ export class IrBookingDetails {
      */
     propertyid;
     /**
-     * Authentication token used to initialize the component.
+     * Authentication ApiClient used to initialize the component.
      * Triggers re-initialization when changed.
      */
     ticket = '';
@@ -135,7 +137,7 @@ export class IrBookingDetails {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     /**
@@ -150,7 +152,7 @@ export class IrBookingDetails {
     closeSidebar;
     componentWillLoad() {
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -424,7 +426,7 @@ export class IrBookingDetails {
                         },
                     ],
                 }),
-                this.bookingService.getSetupEntriesByTableNameMulti([
+                this.setupService.getSetupEntriesByTableNameMulti([
                     '_BED_PREFERENCE_TYPE',
                     '_DEPARTURE_TIME',
                     '_PAY_TYPE',
@@ -439,7 +441,7 @@ export class IrBookingDetails {
             const resolvedPropertyId = roomResponse?.My_Result?.id;
             await this.loadAgentAndFolio(bookingDetails, resolvedPropertyId);
             this.property_id = resolvedPropertyId;
-            const { bed_preference_type, svc_category, departure_time, pay_type, pay_type_group, pay_method, arrival_time } = this.bookingService.groupEntryTablesResult(setupEntries);
+            const { bed_preference_type, svc_category, departure_time, pay_type, pay_type_group, pay_method, arrival_time } = groupEntryTablesResult(setupEntries);
             this.bedPreference = bed_preference_type;
             this.svcCategories = svc_category;
             this.departureTime = departure_time;
@@ -503,10 +505,10 @@ export class IrBookingDetails {
                 .join('&');
             url += `&${safeParams}`;
         }
-        // Add token safely
-        const { data } = await axios.post(`Get_ShortLiving_Token`);
+        // Add ApiClient safely
+        const { data } = await axios.post(`Get_ShortLiving_ApiClient`);
         if (!data.ExceptionMsg) {
-            url += `&token=${encodeURIComponent(data.My_Result)}`;
+            url += `&ApiClient=${encodeURIComponent(data.My_Result)}`;
         }
         // Final: fully safe URL
         window.open(url);
@@ -905,7 +907,7 @@ export class IrBookingDetails {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Authentication token used to initialize the component.\nTriggers re-initialization when changed."
+                    "text": "Authentication ApiClient used to initialize the component.\nTriggers re-initialization when changed."
                 },
                 "getter": false,
                 "setter": false,

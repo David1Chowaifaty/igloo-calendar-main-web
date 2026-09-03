@@ -1,8 +1,8 @@
 import { r as registerInstance, h, H as Host } from './index-BYqrdgY9.js';
-import { T as Token } from './Token-CkxFIO_J.js';
+import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { H as HouseKeepingService } from './housekeeping.service-C7mt9QTJ.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { f as formatDate } from './ir-date-_0rd4VZd.js';
+import { f as formatDate } from './ir-date-BT3QqYg6.js';
 import { i as isRtlLanguage } from './direction-ChMsVFnM.js';
 import { r as realtimeService } from './realtime.service-BLk631kq.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
@@ -48,7 +48,7 @@ const IrHkStaffTasks = class {
     ticket;
     baseurl;
     language = 'en';
-    tokenService = new Token();
+    tokenService = new ApiClient();
     houseKeepingService = new HouseKeepingService();
     // Always use English locale for date keys to avoid Arabic-Indic numerals
     fromDate = hooks().locale('en').format('YYYY-MM-DD');
@@ -72,7 +72,7 @@ const IrHkStaffTasks = class {
             this.tokenService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.loadTasks();
         }
     }
@@ -110,7 +110,7 @@ const IrHkStaffTasks = class {
             return;
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.loadTasks();
         }
     }

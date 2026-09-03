@@ -10,6 +10,7 @@ import { type ClTx } from "../../services/city-ledger/index";
 import { FolioRow } from "../ir-city-ledger/ir-city-ledger-folio/types";
 export declare class IrBookingDetails {
     private bookingService;
+    private setupService;
     private roomService;
     private paymentService;
     private agentService;
@@ -17,7 +18,7 @@ export declare class IrBookingDetails {
     private unsubscribeRealtime;
     private clLockingPending;
     private clLockingTimer;
-    private token;
+    private ApiClient;
     private arrivalTime;
     private svcCategories;
     private printingBaseUrl;
@@ -121,7 +122,7 @@ export declare class IrBookingDetails {
      */
     propertyid: number;
     /**
-     * Authentication token used to initialize the component.
+     * Authentication ApiClient used to initialize the component.
      * Triggers re-initialization when changed.
      */
     ticket: string;

@@ -1,11 +1,11 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { HouseKeepingService } from "../../services/housekeeping.service";
 import { RoomService } from "../../services/room.service";
 import calendar_data from "../../stores/calendar-data";
 import { updateHKStore } from "../../stores/housekeeping.store";
 import { h } from "@stencil/core";
 import locales from "../../stores/locales.store";
-import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService } from "../../services/setup/index";
 export class IrHousekeeping {
     language = '';
     ticket = '';
@@ -16,14 +16,14 @@ export class IrHousekeeping {
     frequencies = [];
     roomService = new RoomService();
     houseKeepingService = new HouseKeepingService();
-    bookingService = new BookingService();
-    token = new Token();
+    setupService = new SetupService();
+    ApiClient = new ApiClient();
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -36,7 +36,7 @@ export class IrHousekeeping {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     async initializeApp() {
@@ -53,9 +53,9 @@ export class IrHousekeeping {
                 });
                 propertyId = propertyData.My_Result.id;
             }
-            updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
+            updateHKStore('default_properties', { ApiClient: this.ticket, property_id: propertyId, language: this.language });
             const [frequencies] = await Promise.all([
-                this.bookingService.getSetupEntriesByTableName('_HK_FREQUENCY'),
+                this.setupService.getSetupEntriesByTableName('_HK_FREQUENCY'),
                 this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT']),
                 this.propertyid &&
                     this.roomService.getExposedProperty({

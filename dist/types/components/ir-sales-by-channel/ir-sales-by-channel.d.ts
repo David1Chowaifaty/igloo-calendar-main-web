@@ -12,7 +12,7 @@ export declare class IrSalesByChannel {
     channelSalesFilters: ChannelSaleFilter;
     allowedProperties: AllowedProperties;
     propertyID: number;
-    private token;
+    private ApiClient;
     private roomService;
     private propertyService;
     private baseFilters;

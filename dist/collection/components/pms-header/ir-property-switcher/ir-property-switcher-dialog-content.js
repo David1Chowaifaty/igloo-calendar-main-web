@@ -285,7 +285,7 @@ export class IrPropertySwitcherDialogContent {
                 },
                 "complexType": {
                     "original": "LinkedProperty",
-                    "resolved": "{ name: string; property_id: number; token: string; }",
+                    "resolved": "{ name: string; property_id: number; ApiClient: string; }",
                     "references": {
                         "LinkedProperty": {
                             "location": "import",

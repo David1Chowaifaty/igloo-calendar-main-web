@@ -11,7 +11,7 @@ export declare class IrSecureTasks {
     canScrollTowardsStart: boolean;
     canScrollTowardsEnd: boolean;
     isLoading: boolean;
-    private token;
+    private ApiClient;
     private dates;
     private tabsTrackRef;
     private resizeObserver;

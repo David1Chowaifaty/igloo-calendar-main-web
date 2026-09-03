@@ -1,20 +1,20 @@
 'use strict';
 
 var index = require('./index-P5Mginch.js');
-var index$2 = require('./index-D30e4dRW.js');
-var index$1 = require('./index-Cv1UlKPY.js');
+var index$2 = require('./index-BSCI8j1N.js');
+var index$1 = require('./index-BWx5TYc1.js');
 var moment = require('./moment-CdViwxPQ.js');
-require('./calendar-data-PetnikUI.js');
+require('./calendar-data-BjlxOXi1.js');
 require('./locales.store-v9LoZcAK.js');
 require('./booking.dto-kenLHU-o.js');
-require('./ir-date-BH2JQpbC.js');
-var number = require('./number-BU1_BuJC.js');
-var Token = require('./Token-mN7PQKGF.js');
+require('./ir-date-CUot5M4p.js');
+var number = require('./number-3J_Nkle1.js');
+var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var enums = require('./enums-BSCnMYlE.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
-require('./utils-CwIiTro6.js');
+require('./utils-5rzlNNGQ.js');
 require('./commonSchemas-hgXVqmtC.js');
 require('./index-BLJXadKe.js');
 require('./type-Dy9pVS4V.js');
@@ -41,7 +41,7 @@ const IrClStatementPreview = class {
     statement = null;
     fiscalDocuments = [];
     clPreviewReady;
-    tokenService = new Token.Token();
+    tokenService = new ApiClient.ApiClient();
     propertyService = new index$1.PropertyService();
     cityLedgerService = new index$2.CityLedgerService();
     hasEmitted = false;
@@ -52,7 +52,7 @@ const IrClStatementPreview = class {
         }
         if (this.baseurl)
             this.tokenService.setBaseUrl(this.baseurl);
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         return this.fetchData();
     }
     componentDidRender() {

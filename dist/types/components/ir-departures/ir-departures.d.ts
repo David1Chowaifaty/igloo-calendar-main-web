@@ -16,6 +16,7 @@ export declare class IrDepartures {
     private tokenService;
     private roomService;
     private bookingService;
+    private setupService;
     private paymentFolioRef;
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;

@@ -1,4 +1,4 @@
-import Token from "../../../models/Token";
+import ApiClient from "../../../models/ApiClient";
 import { BookingListingService } from "../../../services/booking_listing.service";
 import { Host, h } from "@stencil/core";
 import { Subject } from "rxjs";
@@ -10,7 +10,7 @@ export class IrPmsSearch {
     shortcutHint = null;
     bookings = [];
     isLoading;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     bookingListingService = new BookingListingService();
     search$ = new Subject();
     subscription;
@@ -20,7 +20,7 @@ export class IrPmsSearch {
         document.addEventListener('keydown', this.focusInput);
         this.detectShortcutHint();
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
         }
         this.subscription = this.search$
             .pipe(debounceTime(500), distinctUntilChanged(), filter(value => value.length >= 2), tap(() => {
@@ -63,7 +63,7 @@ export class IrPmsSearch {
     handleTicketChange(newValue, oldValue) {
         console.log(this.ticket);
         if (newValue !== oldValue && newValue) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
         }
     }
     detectShortcutHint() {
@@ -109,7 +109,7 @@ export class IrPmsSearch {
         });
     }
     render() {
-        return (h(Host, { key: 'ae156d3c3074f52e2844183f0990e881533e9dc9' }, h("ir-autocomplete", { key: 'e7edac466941cd0ca9aa710cdac58e8ffdfca288', class: "pms-search__autocomplete", placeholder: "Booking# or guest name", ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: 'cb6277fa7dc46d8d5b7f09755f1539c9f810b588', name: "magnifying-glass", slot: "start" }), h("div", { key: '3d6947a3e69a471e77412b207cb7bdd494056c88', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: '8037d72b51815bbbe56a212fe2a66dc7ea718365' }), this.shortcutHint && h("span", { key: '1f826e47381a70d5d3f792471b2746224b1e3f32' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (h("div", { key: '0b280539da5bd09b48f721cc279e1616a3782029', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: '717faa66628fa5a90de921fff86f72235264d913', name: "circle-info", "aria-hidden": "true" }), h("div", { key: '794c769b76334e121ef92d624ac7ddf4b750c67a', class: "pms-search__empty-content" }, h("div", { key: 'b6184bd4ef20da57b1b7449c325d2ff76b148b62', class: "pms-search__empty-title" }, "No results found")))), (this.bookings ?? [])?.map(b => {
+        return (h(Host, { key: '6999037b66e48ede393d5e33f7ac86e69387ef28' }, h("ir-autocomplete", { key: '6d1a881dbf10299962d47a142c75ea268c888fc3', class: "pms-search__autocomplete", placeholder: "Booking# or guest name", ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: '75b9f75420f2880238381f2982234a6d2380b682', name: "magnifying-glass", slot: "start" }), h("div", { key: '4b97ac1db8ef472d8e5212f63c7dacc61a059841', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: '02a8f40c41ae508b255c1c8bb997d67dab119551' }), this.shortcutHint && h("span", { key: '2277b3c5979309c769808d2b6bdbf3f9819017e0' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (h("div", { key: '98957c7b1f9b506382b6c9aaa1c04eb08c47a68a', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: '58a765f8c0ff6ccd7ddb34c65c9133f1de6e41ba', name: "circle-info", "aria-hidden": "true" }), h("div", { key: '6ef6b80d225e3182072d40a65f82a59ef2bca7ad', class: "pms-search__empty-content" }, h("div", { key: '42f6d15cd3691bbf1f97bf6390876621c3b91853', class: "pms-search__empty-title" }, "No results found")))), (this.bookings ?? [])?.map(b => {
             if (!b) {
                 return null;
             }

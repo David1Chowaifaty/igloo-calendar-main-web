@@ -1,4 +1,4 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { RoomService } from "../../services/room.service";
 import { SystemService } from "../../services/system.service";
 import locales from "../../stores/locales.store";
@@ -30,20 +30,20 @@ export class IrOtpModal {
     timerInterval;
     systemService = new SystemService();
     roomService = new RoomService();
-    tokenService = new Token();
+    tokenService = new ApiClient();
     otpVerificationSchema = z.object({ email: z.string().nonempty(), requestUrl: z.string().nonempty(), otp: z.string().length(this.otpLength) });
     /** Emits the final OTP (or empty on cancel) */
     otpFinished;
     isInitializing;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
         }
         this.fetchLocale();
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.tokenService.setToken(newValue);
+            this.tokenService.setApiClient(newValue);
             this.fetchLocale();
         }
     }
@@ -164,7 +164,7 @@ export class IrOtpModal {
         this.clearTimer();
     }
     render() {
-        return (h(Host, { key: '7ac4bfab05a6263d79b62cee4f3f7d88027ce93a' }, h("ir-dialog", { key: '019c34f8f9028d80ec21a999c31fa4e3e3c346c6', class: "otp-modal", ref: el => (this.dialogRef = el), open: this.open, withoutHeader: true, lightDismiss: false, onIrDialogHide: e => this.handleDialogHide(e) }, this.isInitializing || !locales.entries ? (h("div", { class: "modal-loading-container" }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body" }, h("p", { class: "verification-message" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "otp-error" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "otp-resend-timer" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-custom-button", { class: "otp-resend-btn", link: true, size: "s", onClickHandler: e => {
+        return (h(Host, { key: '378b8765d19beea358d51eb276f104f590b36b80' }, h("ir-dialog", { key: '7305c7d5c3bbe7af0cbbc470d354c8c4fc113752', class: "otp-modal", ref: el => (this.dialogRef = el), open: this.open, withoutHeader: true, lightDismiss: false, onIrDialogHide: e => this.handleDialogHide(e) }, this.isInitializing || !locales.entries ? (h("div", { class: "modal-loading-container" }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body" }, h("p", { class: "verification-message" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "otp-error" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "otp-resend-timer" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-custom-button", { class: "otp-resend-btn", link: true, size: "s", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();

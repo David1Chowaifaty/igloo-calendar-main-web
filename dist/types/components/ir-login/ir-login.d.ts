@@ -4,11 +4,11 @@ export declare class IrLogin {
     password: string;
     showPassword: boolean;
     authFinish: EventEmitter<{
-        token: string;
+        ApiClient: string;
         code: 'succsess' | 'error';
     }>;
     private authService;
-    private token;
+    private ApiClient;
     private handleSignIn;
     render(): any;
 }

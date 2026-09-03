@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host } from './index-BYqrdgY9.js';
-import { a as formatBookingNumber } from './number-DuxNax9Y.js';
-import './ir-date-_0rd4VZd.js';
+import { a as formatBookingNumber } from './number-CF5xh0GV.js';
+import './ir-date-BT3QqYg6.js';
 import './index-CimhgHoX.js';
 import './locales.store-C9qsbKR0.js';
 import './moment-Mki5YqAR.js';

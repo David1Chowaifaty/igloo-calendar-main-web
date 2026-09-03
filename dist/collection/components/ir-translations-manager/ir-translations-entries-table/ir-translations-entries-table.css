@@ -634,7 +634,7 @@
   -webkit-line-clamp: 3;
   line-clamp: 3;
   overflow: hidden;
-  /* The clamp needs a text-shaped box: `word-break` keeps an unbroken token
+  /* The clamp needs a text-shaped box: `word-break` keeps an unbroken ApiClient
      (a long key, a URL) from blowing the popup past its max-width instead. */
   overflow-wrap: anywhere;
 }

@@ -25,7 +25,7 @@ export declare class IrHkTasks {
     private hkNameCache;
     private roomService;
     private houseKeepingService;
-    private token;
+    private ApiClient;
     private table_sorting;
     private modal;
     componentWillLoad(): void;

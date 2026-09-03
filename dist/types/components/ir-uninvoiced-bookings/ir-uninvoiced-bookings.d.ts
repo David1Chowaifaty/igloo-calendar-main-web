@@ -8,7 +8,7 @@ export declare class IrUninvoicedBookings {
     isPageLoading: boolean;
     activeBookingNbr: string | null;
     activeGuestBookingNbr: string | null;
-    private token;
+    private ApiClient;
     private roomService;
     private propertyService;
     private bookingListingService;

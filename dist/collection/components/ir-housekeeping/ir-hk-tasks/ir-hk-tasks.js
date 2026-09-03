@@ -1,4 +1,4 @@
-import Token from "../../../models/Token";
+import ApiClient from "../../../models/ApiClient";
 import { HouseKeepingService } from "../../../services/housekeeping.service";
 import { RoomService } from "../../../services/room.service";
 import housekeeping_store from "../../../stores/housekeeping.store";
@@ -31,15 +31,15 @@ export class IrHkTasks {
     hkNameCache = {};
     roomService = new RoomService();
     houseKeepingService = new HouseKeepingService();
-    token = new Token();
+    ApiClient = new ApiClient();
     table_sorting = new Map();
     modal;
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -47,7 +47,7 @@ export class IrHkTasks {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.init();
     }
     handleCloseSidebar(e) {
@@ -310,7 +310,7 @@ export class IrHkTasks {
                     this.modalCauses = null;
                 }
                 this.modal.closeModal();
-            } }, locales.entries.Lcz_Cancel), h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales.entries.Lcz_Confirm))), h("ir-hk-archive-drawer", { open: this.isSidebarOpen, ticket: this.token.getToken(), propertyId: this.property_id, onDrawerClosed: () => (this.isSidebarOpen = false) })));
+            } }, locales.entries.Lcz_Cancel), h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales.entries.Lcz_Confirm))), h("ir-hk-archive-drawer", { open: this.isSidebarOpen, ticket: this.ApiClient.getToken(), propertyId: this.property_id, onDrawerClosed: () => (this.isSidebarOpen = false) })));
     }
     static get is() { return "ir-hk-tasks"; }
     static get encapsulation() { return "scoped"; }

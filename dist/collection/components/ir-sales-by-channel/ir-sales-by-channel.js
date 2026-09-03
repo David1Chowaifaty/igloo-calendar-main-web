@@ -1,5 +1,5 @@
 import { Host, h } from "@stencil/core";
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { PropertyService } from "../../services/property.service";
 import { RoomService } from "../../services/room.service";
 import locales from "../../stores/locales.store";
@@ -16,7 +16,7 @@ export class IrSalesByChannel {
     channelSalesFilters;
     allowedProperties = [];
     propertyID;
-    token = new Token();
+    ApiClient = new ApiClient();
     roomService = new RoomService();
     propertyService = new PropertyService();
     baseFilters = {
@@ -30,7 +30,7 @@ export class IrSalesByChannel {
     componentWillLoad() {
         this.channelSalesFilters = this.baseFilters;
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -38,7 +38,7 @@ export class IrSalesByChannel {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     async initializeApp() {

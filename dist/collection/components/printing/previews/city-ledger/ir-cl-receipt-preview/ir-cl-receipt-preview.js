@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 import { ClFiscalDocumentService } from "../cl-fiscal-document.service";
 import { formatAmount } from "../../../../../utils/utils";
 import { CityLedgerService } from "../../../../../services/city-ledger/index";
-import { BookingService } from "../../../../../services/booking-service/booking.service";
+import { SetupService } from "../../../../../services/setup/index";
 export class IrClReceiptPreview {
     propertyId;
     ticket;
@@ -19,7 +19,7 @@ export class IrClReceiptPreview {
     clPreviewReady;
     hasEmitted = false;
     dataService = new ClFiscalDocumentService();
-    bookingService = new BookingService();
+    setupService = new SetupService();
     cityLedgerService = new CityLedgerService();
     componentWillLoad() {
         if (!this.ticket) {
@@ -35,7 +35,7 @@ export class IrClReceiptPreview {
         try {
             const [{ property, transactions }, paymentMethods, documents] = await Promise.all([
                 this.dataService.fetchData(this.propertyId, this.agentId, this.documentNumber),
-                this.bookingService.getSetupEntriesByTableName('_PAY_METHOD'),
+                this.setupService.getSetupEntriesByTableName('_PAY_METHOD'),
                 this.cityLedgerService.getFiscalDocuments({
                     AGENCY_ID: this.agentId,
                     DOC_NUMBER: this.documentNumber,

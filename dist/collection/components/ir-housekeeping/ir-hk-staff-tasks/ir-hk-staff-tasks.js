@@ -1,4 +1,4 @@
-import Token from "../../../models/Token";
+import ApiClient from "../../../models/ApiClient";
 import { HouseKeepingService } from "../../../services/housekeeping.service";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
@@ -37,7 +37,7 @@ export class IrHkStaffTasks {
     ticket;
     baseurl;
     language = 'en';
-    tokenService = new Token();
+    tokenService = new ApiClient();
     houseKeepingService = new HouseKeepingService();
     // Always use English locale for date keys to avoid Arabic-Indic numerals
     fromDate = moment().locale('en').format('YYYY-MM-DD');
@@ -61,7 +61,7 @@ export class IrHkStaffTasks {
             this.tokenService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.loadTasks();
         }
     }
@@ -99,7 +99,7 @@ export class IrHkStaffTasks {
             return;
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.loadTasks();
         }
     }

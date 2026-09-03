@@ -9,8 +9,8 @@ export declare class IrHousekeeping {
     frequencies: IEntries[];
     private roomService;
     private houseKeepingService;
-    private bookingService;
-    private token;
+    private setupService;
+    private ApiClient;
     componentWillLoad(): void;
     handleResetData(e: CustomEvent): Promise<void>;
     ticketChanged(newValue: string, oldValue: string): void;

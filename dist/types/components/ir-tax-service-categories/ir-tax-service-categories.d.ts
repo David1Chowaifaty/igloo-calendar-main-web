@@ -10,7 +10,7 @@ export declare class IrTaxServiceCategories {
     setupEntries: TaxesSetupEntries;
     autoValidate: boolean;
     private tokenService;
-    private bookingService;
+    private setupService;
     private propertyService;
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;

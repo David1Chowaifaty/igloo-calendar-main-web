@@ -14,7 +14,7 @@ export declare class IrGapNights {
     private tokenService;
     private roomService;
     private propertyService;
-    private bookingService;
+    private setupService;
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     handlePChange(newValue: string, oldValue: string): void;

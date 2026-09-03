@@ -258,10 +258,11 @@ export declare const ClTxSchema: z.ZodObject<{
     VAT_AMOUNT: z.ZodNumber;
     VAT_PERCENT: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    PR_ID?: number;
     ENTRY_DATE?: string;
     ENTRY_USER_ID?: number;
     OWNER_ID?: number;
+    DESCRIPTION?: string;
+    PR_ID?: number;
     DOC_NUMBER?: string;
     CURRENCY_ID?: number;
     TOTAL_AMOUNT?: number;
@@ -291,7 +292,6 @@ export declare const ClTxSchema: z.ZodObject<{
     CITY_TAX_PERCENT?: number;
     CL_TX_ID?: number;
     CL_TX_TYPE_CODE?: string;
-    DESCRIPTION?: string;
     IS_HOLD?: boolean;
     IS_LOCKED?: boolean;
     My_Bh?: any;
@@ -340,10 +340,11 @@ export declare const ClTxSchema: z.ZodObject<{
     VAT_AMOUNT?: number;
     VAT_PERCENT?: number;
 }, {
-    PR_ID?: number;
     ENTRY_DATE?: string;
     ENTRY_USER_ID?: number;
     OWNER_ID?: number;
+    DESCRIPTION?: string;
+    PR_ID?: number;
     DOC_NUMBER?: string;
     CURRENCY_ID?: number;
     TOTAL_AMOUNT?: number;
@@ -373,7 +374,6 @@ export declare const ClTxSchema: z.ZodObject<{
     CITY_TAX_PERCENT?: number;
     CL_TX_ID?: number;
     CL_TX_TYPE_CODE?: string;
-    DESCRIPTION?: string;
     IS_HOLD?: boolean;
     IS_LOCKED?: boolean;
     My_Bh?: any;
@@ -606,10 +606,11 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         VAT_AMOUNT: z.ZodNumber;
         VAT_PERCENT: z.ZodNumber;
     }, "strip", z.ZodTypeAny, {
-        PR_ID?: number;
         ENTRY_DATE?: string;
         ENTRY_USER_ID?: number;
         OWNER_ID?: number;
+        DESCRIPTION?: string;
+        PR_ID?: number;
         DOC_NUMBER?: string;
         CURRENCY_ID?: number;
         TOTAL_AMOUNT?: number;
@@ -639,7 +640,6 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         CITY_TAX_PERCENT?: number;
         CL_TX_ID?: number;
         CL_TX_TYPE_CODE?: string;
-        DESCRIPTION?: string;
         IS_HOLD?: boolean;
         IS_LOCKED?: boolean;
         My_Bh?: any;
@@ -688,10 +688,11 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         VAT_AMOUNT?: number;
         VAT_PERCENT?: number;
     }, {
-        PR_ID?: number;
         ENTRY_DATE?: string;
         ENTRY_USER_ID?: number;
         OWNER_ID?: number;
+        DESCRIPTION?: string;
+        PR_ID?: number;
         DOC_NUMBER?: string;
         CURRENCY_ID?: number;
         TOTAL_AMOUNT?: number;
@@ -721,7 +722,6 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         CITY_TAX_PERCENT?: number;
         CL_TX_ID?: number;
         CL_TX_TYPE_CODE?: string;
-        DESCRIPTION?: string;
         IS_HOLD?: boolean;
         IS_LOCKED?: boolean;
         My_Bh?: any;
@@ -773,10 +773,11 @@ export declare const FetchCLResultSchema: z.ZodObject<{
     TOTAL_COUNT: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     My_Cl_tx?: {
-        PR_ID?: number;
         ENTRY_DATE?: string;
         ENTRY_USER_ID?: number;
         OWNER_ID?: number;
+        DESCRIPTION?: string;
+        PR_ID?: number;
         DOC_NUMBER?: string;
         CURRENCY_ID?: number;
         TOTAL_AMOUNT?: number;
@@ -806,7 +807,6 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         CITY_TAX_PERCENT?: number;
         CL_TX_ID?: number;
         CL_TX_TYPE_CODE?: string;
-        DESCRIPTION?: string;
         IS_HOLD?: boolean;
         IS_LOCKED?: boolean;
         My_Bh?: any;
@@ -858,10 +858,11 @@ export declare const FetchCLResultSchema: z.ZodObject<{
     TOTAL_COUNT?: number;
 }, {
     My_Cl_tx?: {
-        PR_ID?: number;
         ENTRY_DATE?: string;
         ENTRY_USER_ID?: number;
         OWNER_ID?: number;
+        DESCRIPTION?: string;
+        PR_ID?: number;
         DOC_NUMBER?: string;
         CURRENCY_ID?: number;
         TOTAL_AMOUNT?: number;
@@ -891,7 +892,6 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         CITY_TAX_PERCENT?: number;
         CL_TX_ID?: number;
         CL_TX_TYPE_CODE?: string;
-        DESCRIPTION?: string;
         IS_HOLD?: boolean;
         IS_LOCKED?: boolean;
         My_Bh?: any;
@@ -972,6 +972,7 @@ export declare const IssueManualCLTxParamsSchema: z.ZodEffects<z.ZodObject<{
     BH_ID: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodNumber>>>;
     IS_DELETE: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
 }, "strip", z.ZodTypeAny, {
+    DESCRIPTION?: string;
     VAT_INCLUDED_CODE?: "" | "001" | "002";
     CURRENCY_ID?: number;
     CREDIT?: number;
@@ -982,11 +983,11 @@ export declare const IssueManualCLTxParamsSchema: z.ZodEffects<z.ZodObject<{
     SERVICE_DATE?: string;
     CL_TX_ID?: number;
     CL_TX_TYPE_CODE?: string;
-    DESCRIPTION?: string;
     PAY_METHOD_CODE?: string;
     VAT_PCT?: number;
     IS_DELETE?: boolean;
 }, {
+    DESCRIPTION?: string;
     VAT_INCLUDED_CODE?: "" | "001" | "002";
     CURRENCY_ID?: number;
     CREDIT?: number;
@@ -997,11 +998,11 @@ export declare const IssueManualCLTxParamsSchema: z.ZodEffects<z.ZodObject<{
     SERVICE_DATE?: string;
     CL_TX_ID?: number;
     CL_TX_TYPE_CODE?: string;
-    DESCRIPTION?: string;
     PAY_METHOD_CODE?: string;
     VAT_PCT?: number;
     IS_DELETE?: boolean;
 }>, {
+    DESCRIPTION?: string;
     VAT_INCLUDED_CODE?: "" | "001" | "002";
     CURRENCY_ID?: number;
     CREDIT?: number;
@@ -1012,11 +1013,11 @@ export declare const IssueManualCLTxParamsSchema: z.ZodEffects<z.ZodObject<{
     SERVICE_DATE?: string;
     CL_TX_ID?: number;
     CL_TX_TYPE_CODE?: string;
-    DESCRIPTION?: string;
     PAY_METHOD_CODE?: string;
     VAT_PCT?: number;
     IS_DELETE?: boolean;
 }, {
+    DESCRIPTION?: string;
     VAT_INCLUDED_CODE?: "" | "001" | "002";
     CURRENCY_ID?: number;
     CREDIT?: number;
@@ -1027,7 +1028,6 @@ export declare const IssueManualCLTxParamsSchema: z.ZodEffects<z.ZodObject<{
     SERVICE_DATE?: string;
     CL_TX_ID?: number;
     CL_TX_TYPE_CODE?: string;
-    DESCRIPTION?: string;
     PAY_METHOD_CODE?: string;
     VAT_PCT?: number;
     IS_DELETE?: boolean;
@@ -1041,26 +1041,26 @@ export declare const AllocateCLCreditParamsSchema: z.ZodObject<{
         AMOUNT: z.ZodNumber;
         DESCRIPTION: z.ZodString;
     }, "strip", z.ZodTypeAny, {
-        FD_ID?: number;
         DESCRIPTION?: string;
+        FD_ID?: number;
         AMOUNT?: number;
     }, {
-        FD_ID?: number;
         DESCRIPTION?: string;
+        FD_ID?: number;
         AMOUNT?: number;
     }>, "many">;
 }, "strip", z.ZodTypeAny, {
     CL_TX_ID?: number;
     List_Cl_tx_allocation?: {
-        FD_ID?: number;
         DESCRIPTION?: string;
+        FD_ID?: number;
         AMOUNT?: number;
     }[];
 }, {
     CL_TX_ID?: number;
     List_Cl_tx_allocation?: {
-        FD_ID?: number;
         DESCRIPTION?: string;
+        FD_ID?: number;
         AMOUNT?: number;
     }[];
 }>;
@@ -1264,14 +1264,14 @@ export declare const PrintClStatementParamsSchema: z.ZodObject<{
     to_date: z.ZodString;
     lang: z.ZodDefault<z.ZodOptional<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
+    lang?: string;
     from_date?: string;
     to_date?: string;
-    lang?: string;
     agency_id?: string;
 }, {
+    lang?: string;
     from_date?: string;
     to_date?: string;
-    lang?: string;
     agency_id?: string;
 }>;
 export type PrintClStatementParams = z.infer<typeof PrintClStatementParamsSchema>;
@@ -1283,15 +1283,15 @@ export declare const PrintClProformaParamsSchema: z.ZodObject<{
     booking_nbr: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
 }, "strip", z.ZodTypeAny, {
     booking_nbr?: string;
+    lang?: string;
     from_date?: string;
     to_date?: string;
-    lang?: string;
     agency_id?: string;
 }, {
     booking_nbr?: string;
+    lang?: string;
     from_date?: string;
     to_date?: string;
-    lang?: string;
     agency_id?: string;
 }>;
 export type PrintClProformaParams = z.infer<typeof PrintClProformaParamsSchema>;

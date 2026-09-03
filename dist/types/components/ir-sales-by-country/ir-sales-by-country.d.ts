@@ -10,7 +10,7 @@ export declare class IrSalesByCountry {
     salesData: SalesRecord[];
     salesFilters: CountrySalesFilter;
     countries: MappedCountries;
-    private token;
+    private ApiClient;
     private roomService;
     private propertyService;
     private bookingService;

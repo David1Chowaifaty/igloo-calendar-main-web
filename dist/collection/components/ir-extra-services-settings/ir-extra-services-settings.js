@@ -1,11 +1,11 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { h } from "@stencil/core";
-import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService, getEntryValue, groupEntryTablesResult } from "../../services/setup/index";
 import { PropertyService } from "../../services/property.service";
 import { taxationModes } from "../../services/property/types";
 import { getAccTaxPayloadFields, findAccTax, toAccChargeRule } from "../../services/property/acc-tax.helpers";
 import { getExtraServiceDefaultPrice, getDayUseBlockState, getBabyCotPricingModel } from "../../stores/calendar-data";
-import { getEntryValue, showToast } from "../../utils/utils";
+import { showToast } from "../../utils/utils";
 import { groupSvcCategoriesByParent } from "../../utils/svc-category.utils";
 import { SvcCategory } from "../../types/enums";
 /** Hidden `_SVC_CATEGORY` — only used for categories that doesn't require a default price. */
@@ -24,12 +24,12 @@ export class IrExtraServicesSettings {
     autoValidate;
     dayUseBlockNight = false;
     babyCotPricingModel = 'Stay';
-    tokenService = new Token();
-    bookingService = new BookingService();
+    tokenService = new ApiClient();
+    setupService = new SetupService();
     propertyService = new PropertyService();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -46,7 +46,7 @@ export class IrExtraServicesSettings {
             this.reinit();
     }
     reinit() {
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.init();
     }
     async init() {
@@ -54,9 +54,9 @@ export class IrExtraServicesSettings {
         try {
             const [, tableEntries] = await Promise.all([
                 this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY']),
+                this.setupService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY']),
             ]);
-            this.setupEntries = this.bookingService.groupEntryTablesResult(tableEntries);
+            this.setupEntries = groupEntryTablesResult(tableEntries);
             this.priceCategoryRules = this.buildInitialRules();
             this.dayUseBlockNight = getDayUseBlockState() === '1';
             this.babyCotPricingModel = this.resolveBabyCotPricingModel(getBabyCotPricingModel());

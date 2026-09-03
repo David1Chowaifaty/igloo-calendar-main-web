@@ -1,6 +1,6 @@
 import { CityLedgerService } from "../../../services/city-ledger/index";
 import calendar_data from "../../../stores/calendar-data";
-import Token from "../../../models/Token";
+import ApiClient from "../../../models/ApiClient";
 import { Host, h } from "@stencil/core";
 export class IrAgentBilling {
     booking;
@@ -9,7 +9,7 @@ export class IrAgentBilling {
     hasFetched = false;
     invoiceDialogRef;
     cityLedgerService = new CityLedgerService();
-    tokenService = new Token();
+    tokenService = new ApiClient();
     async componentWillLoad() {
         await this.fetchFiscalDocuments();
     }

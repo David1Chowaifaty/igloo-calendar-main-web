@@ -2,21 +2,21 @@
 
 var index$1 = require('./index-P5Mginch.js');
 var moment = require('./moment-CdViwxPQ.js');
-var Token = require('./Token-mN7PQKGF.js');
-var room_service = require('./room.service-DQBAC40E.js');
+var ApiClient = require('./ApiClient-u7fuhiXA.js');
+var room_service = require('./room.service-Dv4u9Qiq.js');
 var axios = require('./axios-EresIryl.js');
 var index = require('./index-CLqkDPTC.js');
 var commonSchemas = require('./commonSchemas-hgXVqmtC.js');
 var locales_store = require('./locales.store-v9LoZcAK.js');
 var dp_report_store = require('./dp_report.store-CPDI7r2E.js');
-var calendarData = require('./calendar-data-PetnikUI.js');
-var index$2 = require('./index-Cv1UlKPY.js');
+var calendarData = require('./calendar-data-BjlxOXi1.js');
+var index$2 = require('./index-BWx5TYc1.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-BLJXadKe.js');
-require('./utils-CwIiTro6.js');
+require('./utils-5rzlNNGQ.js');
 require('./booking.dto-kenLHU-o.js');
 require('./type-Dy9pVS4V.js');
-require('./ir-date-BH2JQpbC.js');
+require('./ir-date-CUot5M4p.js');
 
 const GetDPBookingsReportParamsSchema = index.libExports.z.object({
     from_date: commonSchemas.DateSchema,
@@ -71,16 +71,16 @@ const IrDpReport = class {
     propertyId;
     allowedProperties = null;
     minAllowedDate;
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     propertyService = new index$2.PropertyService();
     dpReportService = new DpReportService();
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -88,7 +88,7 @@ const IrDpReport = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     async handleDpFiltersChange(e) {

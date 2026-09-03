@@ -65,8 +65,8 @@ export declare const ExtraServiceDefinitionSchema: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     name?: string;
     id?: number;
-    property_id?: number;
     code?: string;
+    property_id?: number;
     is_active?: boolean;
     section?: "accommodation" | "addon";
     default_price?: number;
@@ -80,8 +80,8 @@ export declare const ExtraServiceDefinitionSchema: z.ZodObject<{
 }, {
     name?: string;
     id?: number;
-    property_id?: number;
     code?: string;
+    property_id?: number;
     is_active?: boolean;
     section?: "accommodation" | "addon";
     default_price?: number;
@@ -129,8 +129,8 @@ export declare const HandleExposedExtraServicePropsSchema: z.ZodObject<{
     }, "strip", z.ZodTypeAny, {
         name?: string;
         id?: number;
-        property_id?: number;
         code?: string;
+        property_id?: number;
         is_active?: boolean;
         section?: "accommodation" | "addon";
         default_price?: number;
@@ -144,8 +144,8 @@ export declare const HandleExposedExtraServicePropsSchema: z.ZodObject<{
     }, {
         name?: string;
         id?: number;
-        property_id?: number;
         code?: string;
+        property_id?: number;
         is_active?: boolean;
         section?: "accommodation" | "addon";
         default_price?: number;
@@ -161,8 +161,8 @@ export declare const HandleExposedExtraServicePropsSchema: z.ZodObject<{
     extra_service?: {
         name?: string;
         id?: number;
-        property_id?: number;
         code?: string;
+        property_id?: number;
         is_active?: boolean;
         section?: "accommodation" | "addon";
         default_price?: number;
@@ -178,8 +178,8 @@ export declare const HandleExposedExtraServicePropsSchema: z.ZodObject<{
     extra_service?: {
         name?: string;
         id?: number;
-        property_id?: number;
         code?: string;
+        property_id?: number;
         is_active?: boolean;
         section?: "accommodation" | "addon";
         default_price?: number;

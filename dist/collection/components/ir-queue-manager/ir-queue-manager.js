@@ -1,4 +1,4 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { Host, h } from "@stencil/core";
 import axios from "axios";
@@ -6,17 +6,17 @@ export class IrQueueManager {
     el;
     ticket = '';
     isLoading = true;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     data;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue && newValue) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }

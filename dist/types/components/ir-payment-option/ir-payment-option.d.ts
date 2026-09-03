@@ -11,7 +11,7 @@ export declare class IrPaymentOption {
     selectedOption: PaymentOption | null;
     private paymentOptionService;
     private roomService;
-    private token;
+    private ApiClient;
     private propertyOptionsById;
     private propertyOptionsByCode;
     componentWillLoad(): void;

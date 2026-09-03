@@ -27,12 +27,12 @@ export declare const ParamsSetHBPreferenceSchema: z.ZodObject<{
     room_identifier: z.ZodString;
     code: z.ZodString;
 }, "strip", z.ZodTypeAny, {
-    property_id?: number;
     code?: string;
+    property_id?: number;
     room_identifier?: string;
 }, {
-    property_id?: number;
     code?: string;
+    property_id?: number;
     room_identifier?: string;
 }>;
 export type ParamsSetHBPreference = z.infer<typeof ParamsSetHBPreferenceSchema>;

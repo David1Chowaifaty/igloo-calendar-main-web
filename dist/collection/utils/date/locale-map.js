@@ -1,5 +1,5 @@
 /**
- * Maps an app language code (the `EntryLanguage` union in `src/utils/utils.ts`) to the moment
+ * Maps an app language code (the `EntryLanguage` union in `src/services/setup/types.ts`) to the moment
  * locale to format with, per calendar system.
  *
  * Under Hijri, each language keeps its **own** locale rather than falling back to English: a

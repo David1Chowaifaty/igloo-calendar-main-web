@@ -21,9 +21,9 @@ export class IrPhoneInput {
      */
     error = false;
     /**
-     * Auth token used by the booking service (if needed).
+     * Auth ApiClient used by the booking service (if needed).
      */
-    token;
+    ApiClient;
     /**
      * Two-letter language code used for country fetching.
      */
@@ -307,7 +307,7 @@ export class IrPhoneInput {
                 "attribute": "error",
                 "defaultValue": "false"
             },
-            "token": {
+            "ApiClient": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -319,12 +319,12 @@ export class IrPhoneInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Auth token used by the booking service (if needed)."
+                    "text": "Auth ApiClient used by the booking service (if needed)."
                 },
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "token"
+                "attribute": "api-client"
             },
             "language": {
                 "type": "string",

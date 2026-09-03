@@ -1,22 +1,15 @@
 import { r as registerInstance, h, H as Host } from './index-BYqrdgY9.js';
-import { T as Token } from './Token-CkxFIO_J.js';
+import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { l as locales } from './locales.store-C9qsbKR0.js';
-import { R as RoomService } from './room.service-BC62uNSi.js';
-import { B as BookingService } from './booking.store-CAX7ugRB.js';
+import { R as RoomService } from './room.service-CNYsIJKu.js';
+import { S as SetupService } from './index-C7bnvJN3.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './index-CimhgHoX.js';
-import './calendar-data-BebdClG4.js';
-import './IBooking-xt_aVEnI.js';
+import './calendar-data-DT3jrP3G.js';
 import './index-DeW5X45W.js';
-import './utils-COglgzDo.js';
-import './moment-Mki5YqAR.js';
-import './booking.dto-DpE31yhG.js';
-import './type-D7rOPtKA.js';
-import './ir-date-_0rd4VZd.js';
-import './booking-B3XQbHrM.js';
-import './functions-CtmxIeXe.js';
-import './commonSchemas-ByEkDTMV.js';
+import './utils-DbzivNBs.js';
+import './IBooking-xt_aVEnI.js';
 
 const irFinancialActionsCss = () => `.sc-ir-financial-actions-h{display:block}.financial-actions__meta.sc-ir-financial-actions{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-financial-actions{flex:1 1 0%}@media (min-width: 768px){.financial-actions__meta.sc-ir-financial-actions{flex-direction:row}}`;
 
@@ -32,13 +25,13 @@ const IrFinancialActions = class {
     isPageLoading = true;
     property_id;
     sideBarEvent;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     roomService = new RoomService();
-    bookingService = new BookingService();
+    setupService = new SetupService();
     paymentEntries;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -46,7 +39,7 @@ const IrFinancialActions = class {
         if (newValue === oldValue) {
             return;
         }
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.initializeApp();
     }
     handleSidebarClose = (e) => {
@@ -93,11 +86,7 @@ const IrFinancialActions = class {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [
-                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
-                this.getFinancialAction(),
-                this.roomService.fetchLanguage(this.language),
-            ];
+            const requests = [this.setupService.getPaymentEntries(), this.getFinancialAction(), this.roomService.fetchLanguage(this.language)];
             if (propertyId) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
@@ -106,13 +95,8 @@ const IrFinancialActions = class {
                     include_units_hk_status: true,
                 }));
             }
-            const [setupEntries] = await Promise.all(requests);
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = {
-                groups: pay_type_group,
-                methods: pay_method,
-                types: pay_type,
-            };
+            const [paymentEntries] = await Promise.all(requests);
+            this.paymentEntries = paymentEntries;
         }
         catch (error) {
             console.log(error);

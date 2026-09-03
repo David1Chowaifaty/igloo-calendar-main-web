@@ -20,9 +20,9 @@ export declare class IrPhoneInput {
      */
     error: boolean;
     /**
-     * Auth token used by the booking service (if needed).
+     * Auth ApiClient used by the booking service (if needed).
      */
-    token: string;
+    ApiClient: string;
     /**
      * Two-letter language code used for country fetching.
      */

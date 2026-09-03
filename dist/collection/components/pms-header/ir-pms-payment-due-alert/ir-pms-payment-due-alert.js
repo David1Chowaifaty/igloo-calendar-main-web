@@ -1,19 +1,19 @@
 import { PropertyService } from "../../../services/property.service";
-import Token from "../../../models/Token";
+import ApiClient from "../../../models/ApiClient";
 import { Host, h } from "@stencil/core";
 export class IrPmsPaymentDueAlert {
     propertyid;
     ticket;
     baseUrl;
     notifications = [];
-    tokenService = new Token();
+    tokenService = new ApiClient();
     propertyService = new PropertyService();
     componentWillLoad() {
         if (this.baseUrl) {
             this.tokenService.setBaseUrl(this.baseUrl);
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.fetchNotifications();
         }
     }
@@ -21,7 +21,7 @@ export class IrPmsPaymentDueAlert {
         if (newValue === oldValue || !newValue) {
             return;
         }
-        this.tokenService.setToken(newValue);
+        this.tokenService.setApiClient(newValue);
         this.fetchNotifications();
     }
     async fetchNotifications() {

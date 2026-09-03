@@ -1,20 +1,22 @@
 'use strict';
 
 var index = require('./index-P5Mginch.js');
-var setupMapping = require('./setup-mapping-CoXQ9gyf.js');
-var utils$1 = require('./utils-CwIiTro6.js');
+var index$1 = require('./index-B6tr59-v.js');
+var utils$1 = require('./utils-5rzlNNGQ.js');
+var setupMapping = require('./setup-mapping-D72fId4a.js');
 var utils = require('./utils-DGikCG8C.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
+require('./utils-CXqwALIi.js');
 require('./IBooking-BtFRLVyo.js');
-require('./moment-CdViwxPQ.js');
-require('./calendar-data-PetnikUI.js');
-require('./index-BLJXadKe.js');
 require('./locales.store-v9LoZcAK.js');
+require('./index-BLJXadKe.js');
+require('./moment-CdViwxPQ.js');
+require('./calendar-data-BjlxOXi1.js');
 require('./booking.dto-kenLHU-o.js');
 require('./type-Dy9pVS4V.js');
-require('./ir-date-BH2JQpbC.js');
+require('./ir-date-CUot5M4p.js');
 
 const irTranslationsEntryFormCss = () => `.sc-ir-translations-entry-form-h{display:block}.entry-form__body.sc-ir-translations-entry-form{display:flex;flex-direction:column;gap:1.25rem}.entry-form__field.sc-ir-translations-entry-form{display:flex;align-items:end}.entry-form__field.sc-ir-translations-entry-form>.entry-form__value-input.sc-ir-translations-entry-form{flex:1 1 0%}.entry-form__field.sc-ir-translations-entry-form:dir(rtl){flex-direction:row-reverse}.entry-form__field.sc-ir-translations-entry-form>.entry-form__value-copy.sc-ir-translations-entry-form{margin-bottom:0.5rem}.entry-form__key-input.sc-ir-translations-entry-form::part(input),.entry-form__key-input.sc-ir-translations-entry-form [part~="input"]{font-family:var(--wa-font-family-code, ui-monospace, SFMono-Regular, Menlo, monospace)}.entry-form__error.sc-ir-translations-entry-form{margin:-1rem 0 0;font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-danger-on-quiet, #991b1b)}.entry-form__section.sc-ir-translations-entry-form{display:flex;flex-direction:column;gap:0.75rem;padding-top:1rem;border-top:1px solid var(--wa-color-neutral-border-quiet, #e2e8f0)}.entry-form__section-header.sc-ir-translations-entry-form{display:flex;align-items:baseline;justify-content:space-between;gap:0.5rem}.entry-form__section-title.sc-ir-translations-entry-form{margin:0;font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold, 600);color:var(--wa-color-text-normal)}.entry-form__section-meta.sc-ir-translations-entry-form{font-size:var(--wa-font-size-xs, 0.75rem);font-variant-numeric:tabular-nums;color:var(--wa-color-text-quiet)}.entry-form__ai-actions.sc-ir-translations-entry-form{display:flex;flex-wrap:wrap;gap:0.5rem}.entry-form__fields.sc-ir-translations-entry-form{display:flex;flex-direction:column;gap:0.85rem}.entry-form__field-label.sc-ir-translations-entry-form{display:inline-flex;align-items:center;gap:0.4rem}.entry-form__field-code.sc-ir-translations-entry-form{font-size:0.6875rem;font-weight:var(--wa-font-weight-semibold, 600);color:var(--wa-color-text-quiet)}.entry-form__field-source.sc-ir-translations-entry-form{padding:0.05rem 0.35rem;font-size:0.6875rem;font-weight:var(--wa-font-weight-normal, 400);color:var(--wa-color-brand-on-quiet);background:var(--wa-color-brand-fill-quiet);border-radius:var(--wa-border-radius-s)}`;
 
@@ -64,7 +66,7 @@ const IrTranslationsEntryForm = class {
     values = {};
     isSubmitting = false;
     keyInputRef;
-    setupService = new setupMapping.SetupService();
+    setupService = new index$1.SetupService();
     componentWillLoad() {
         this.key = this.entry?.key ?? '';
         this.values = { ...(this.entry?.values ?? {}) };

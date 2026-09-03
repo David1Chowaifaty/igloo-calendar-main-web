@@ -1,5 +1,5 @@
-import Token from "../../models/Token";
-import { BookingService } from "../../services/booking-service/booking.service";
+import ApiClient from "../../models/ApiClient";
+import { SetupService } from "../../services/setup/index";
 import { PropertyService } from "../../services/property.service";
 import { RoomService } from "../../services/room.service";
 import locales from "../../stores/locales.store";
@@ -23,15 +23,15 @@ export class IrDailyRevenue {
         users: null,
     };
     sideBarEvent;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     roomService = new RoomService();
     propertyService = new PropertyService();
-    bookingService = new BookingService();
+    setupService = new SetupService();
     paymentEntries;
     preventPageLoad;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -39,7 +39,7 @@ export class IrDailyRevenue {
         if (newValue === oldValue) {
             return;
         }
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.initializeApp();
     }
     handleOpenSidebar(e) {
@@ -81,11 +81,7 @@ export class IrDailyRevenue {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [
-                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
-                this.getPaymentReports(),
-                this.roomService.fetchLanguage(this.language),
-            ];
+            const requests = [this.setupService.getPaymentEntries(), this.getPaymentReports(), this.roomService.fetchLanguage(this.language)];
             if (propertyId) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
@@ -94,13 +90,8 @@ export class IrDailyRevenue {
                     include_units_hk_status: true,
                 }));
             }
-            const [setupEntries] = await Promise.all(requests);
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = {
-                groups: pay_type_group,
-                methods: pay_method,
-                types: pay_type,
-            };
+            const [paymentEntries] = await Promise.all(requests);
+            this.paymentEntries = paymentEntries;
         }
         catch (error) {
             console.log(error);

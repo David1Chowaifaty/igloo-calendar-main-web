@@ -16,10 +16,11 @@ export declare class IrUserManagement {
     users: User[];
     property_id: number;
     allowedUsersTypes: AllowedUser[];
-    private token;
+    private ApiClient;
     private roomService;
     private userService;
     private bookingService;
+    private setupService;
     private userTypes;
     private unsubscribeRealtime;
     private superAdminId;

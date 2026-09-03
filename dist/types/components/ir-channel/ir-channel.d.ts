@@ -12,7 +12,7 @@ export declare class IrChannel {
     isLoading: boolean;
     private roomService;
     private channelService;
-    private token;
+    private ApiClient;
     private irModalRef;
     propertyId: number;
     componentWillLoad(): void;

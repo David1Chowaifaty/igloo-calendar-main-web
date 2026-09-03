@@ -29,7 +29,7 @@ export declare class IrCityLedgerTransactionForm {
     submitDisabledChange: EventEmitter<boolean>;
     clFiscalDocumentPreview: EventEmitter<ClFiscalDocumentPreviewRequest>;
     private taxOptions;
-    private bookingService;
+    private setupService;
     private cityLedgerService;
     private clTxTypes;
     private get resolvedInitialType();

@@ -15,7 +15,7 @@ export declare class IglBlockDatesView {
     }>;
     private blockDatesData;
     private releaseList;
-    private bookingService;
+    private setupService;
     componentWillLoad(): Promise<void>;
     private handleOptionalReason;
     private handleReleaseAfterChange;

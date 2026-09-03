@@ -1,12 +1,13 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService } from "../../services/setup/index";
 import { RoomService } from "../../services/room.service";
 import { Host, h } from "@stencil/core";
 import { arrivalsStore, initializeArrivalsStore, onArrivalsStoreChange, setArrivalsPage, setArrivalsPageSize, setArrivalsTotal } from "../../stores/arrivals.store";
 import calendar_data from "../../stores/calendar-data";
 export class IrArrivals {
     /**
-     * Authentication token issued by the PMS backend.
+     * Authentication ApiClient issued by the PMS backend.
      * Required for initializing the component and making API calls.
      */
     ticket;
@@ -38,13 +39,14 @@ export class IrArrivals {
     payment;
     roomGuestState = null;
     countries;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     roomService = new RoomService();
     bookingService = new BookingService();
+    setupService = new SetupService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
         setArrivalsPageSize(this.pageSize);
@@ -58,7 +60,7 @@ export class IrArrivals {
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue && newValue) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -101,16 +103,15 @@ export class IrArrivals {
                     is_backend: true,
                 });
             }
-            const [_, __, countries, setupEntries] = await Promise.all([
+            const [_, __, countries, paymentEntries] = await Promise.all([
                 calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getCountries(this.language),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
+                this.setupService.getPaymentEntries(),
                 this.getBookings(),
             ]);
             this.countries = countries;
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
+            this.paymentEntries = paymentEntries;
         }
         catch (error) {
         }
@@ -203,7 +204,7 @@ export class IrArrivals {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Authentication token issued by the PMS backend.\nRequired for initializing the component and making API calls."
+                    "text": "Authentication ApiClient issued by the PMS backend.\nRequired for initializing the component and making API calls."
                 },
                 "getter": false,
                 "setter": false,

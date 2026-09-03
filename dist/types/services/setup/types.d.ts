@@ -1,26 +1,38 @@
 import { ZIEntrySchema } from "../../models/IBooking";
+import type { IEntries } from "../../models/IBooking";
 import * as z from 'zod';
 export { ZIEntrySchema };
 /** A single labeled setup row (one translated string across all supported languages). */
 export type SetupEntry = z.infer<typeof ZIEntrySchema>;
-export declare const GetSetupEntriesByTblNameParamsSchema: z.ZodObject<{
-    TBL_NAME: z.ZodString;
-}, "strip", z.ZodTypeAny, {
-    TBL_NAME?: string;
-}, {
-    TBL_NAME?: string;
-}>;
-/** Params for fetching every entry belonging to one setup table. */
-export type GetSetupEntriesByTblNameParams = z.infer<typeof GetSetupEntriesByTblNameParamsSchema>;
-export declare const GetSetupEntriesByTblNameMultiParamsSchema: z.ZodObject<{
-    TBL_NAMES: z.ZodArray<z.ZodString, "many">;
-}, "strip", z.ZodTypeAny, {
-    TBL_NAMES?: string[];
-}, {
-    TBL_NAMES?: string[];
-}>;
-/** Params for fetching entries across several setup tables in one call. */
-export type GetSetupEntriesByTblNameMultiParams = z.infer<typeof GetSetupEntriesByTblNameMultiParamsSchema>;
+/**
+ * Every setup `TBL_NAME` the app reads at runtime, as string literals, plus an
+ * open `(string & {})` member so ad-hoc names still type-check while keeping
+ * editor autocomplete for the known ones.
+ *
+ * Canonical definition — `@/services/booking-service/types` and
+ * `booking.service.ts` re-export this. Superset of the two historical unions.
+ * Keep in sync with `USED_SETUP_TABLES` in
+ * `src/components/ir-translations-manager/used-setup-tables.ts`.
+ */
+export type TableEntries = '_CALENDAR_BLOCKED_TILL' | '_DEPARTURE_TIME' | '_ARRIVAL_TIME' | '_RATE_PRICING_MODE' | '_BED_PREFERENCE_TYPE' | '_PAY_TYPE' | '_PAY_TYPE_GROUP' | '_PAY_METHOD' | '_AGENT_RATE_TYPE' | '_AGENT_TYPE' | '_TA_PAYMENT_METHOD' | '_VAT_INCLUDED' | '_CITY_TAX_INCLUDED' | '_SERVICE_CHARGE_INCLUDED' | '_TAXATION_STRATEGY' | '_SVC_CATEGORY' | '_CL_TX_TYPE' | '_FD_TYPE' | '_FD_STATUS' | '_CL_POST_TIMING' | '_GAP_RANGE' | '_GAP_RULE' | '_INVOICE_TARGET' | '_ID_TYPE' | '_USER_TYPE' | '_HK_FREQUENCY' | '_MEAL_TYPE' | '_HB_PREFERENCE' | (string & {});
+/**
+ * Setup entries grouped by table: the key is the lower-cased `TBL_NAME` with its
+ * leading underscore stripped (`_PAY_TYPE` -> `pay_type`).
+ */
+export type GroupedTableEntries = {
+    [K in TableEntries as K extends `_${infer Rest}` ? Lowercase<Rest> : never]: IEntries[];
+};
+/**
+ * The `_PAY_TYPE` / `_PAY_TYPE_GROUP` / `_PAY_METHOD` setup tables, grouped for
+ * the payment folio. Produced by {@link SetupService.getPaymentEntries}.
+ */
+export type PaymentEntries = {
+    types: IEntries[];
+    groups: IEntries[];
+    methods: IEntries[];
+};
+/** Language codes that map to the `CODE_VALUE_*` columns on a setup entry. */
+export type EntryLanguage = 'en' | 'ar' | 'de' | 'el' | 'fr' | 'he' | 'pl' | 'ru' | 'ua';
 export declare const DistinctSetupTableSchema: z.ZodUnion<[z.ZodString, z.ZodObject<{
     TBL_NAME: z.ZodString;
 }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
@@ -191,18 +203,18 @@ export declare const ZExposedLanguageSchema: z.ZodObject<{
     id?: number;
     code?: string;
     entries?: null;
-    description?: string;
-    flag?: string;
-    direction?: string;
     culture?: string;
+    description?: string;
+    direction?: string;
+    flag?: string;
 }, {
     id?: number;
     code?: string;
     entries?: null;
-    description?: string;
-    flag?: string;
-    direction?: string;
     culture?: string;
+    description?: string;
+    direction?: string;
+    flag?: string;
 }>;
 export type ExposedLanguage = z.infer<typeof ZExposedLanguageSchema>;
 export declare const ZExposedLanguagesSchema: z.ZodArray<z.ZodObject<{
@@ -217,18 +229,18 @@ export declare const ZExposedLanguagesSchema: z.ZodArray<z.ZodObject<{
     id?: number;
     code?: string;
     entries?: null;
-    description?: string;
-    flag?: string;
-    direction?: string;
     culture?: string;
+    description?: string;
+    direction?: string;
+    flag?: string;
 }, {
     id?: number;
     code?: string;
     entries?: null;
-    description?: string;
-    flag?: string;
-    direction?: string;
     culture?: string;
+    description?: string;
+    direction?: string;
+    flag?: string;
 }>, "many">;
 export type ExposedLanguages = z.infer<typeof ZExposedLanguagesSchema>;
 export declare const MoveSetupEntryParamsSchema: z.ZodObject<{

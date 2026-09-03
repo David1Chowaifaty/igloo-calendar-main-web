@@ -32,7 +32,7 @@ export declare class IrCityLedger {
     private tokenService;
     private agentsService;
     private propertyService;
-    private bookingService;
+    private setupService;
     private systemService;
     private toolbarRef;
     private createInvoiceDialogRef;

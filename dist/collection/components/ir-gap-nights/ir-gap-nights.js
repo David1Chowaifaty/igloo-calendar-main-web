@@ -1,9 +1,9 @@
-import Token from "../../models/Token";
-import { BookingService } from "../../services/booking-service/booking.service";
+import ApiClient from "../../models/ApiClient";
+import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
 import { PropertyService } from "../../services/property.service";
 import { RoomService } from "../../services/room.service";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
-import { groupEntryTablesResult, showToast } from "../../utils/utils";
+import { showToast } from "../../utils/utils";
 import { Host, h } from "@stencil/core";
 const DEFAULT_RULE_CODE = '000';
 const DEFAULT_LOOKAHEAD_DAYS = 30;
@@ -19,19 +19,19 @@ export class IrGapNights {
     gapRules = [];
     gapRanges = [];
     propertyId;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     roomService = new RoomService();
     propertyService = new PropertyService();
-    bookingService = new BookingService();
+    setupService = new SetupService();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.tokenService.setToken(newValue);
+            this.tokenService.setApiClient(newValue);
             this.init();
         }
     }
@@ -54,7 +54,7 @@ export class IrGapNights {
                     is_backend: true,
                 }),
                 this.roomService.fetchLanguage(this.language),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_GAP_RANGE', '_GAP_RULE']),
+                this.setupService.getSetupEntriesByTableNameMulti(['_GAP_RANGE', '_GAP_RULE']),
             ]);
             this.propertyId = propertyRes.My_Result.id;
             const { gap_rule, gap_range } = groupEntryTablesResult(setupEntries);

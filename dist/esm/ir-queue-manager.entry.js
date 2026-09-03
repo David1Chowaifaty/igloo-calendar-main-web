@@ -1,5 +1,5 @@
 import { r as registerInstance, d as getElement, h, H as Host } from './index-BYqrdgY9.js';
-import { T as Token } from './Token-CkxFIO_J.js';
+import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { i as isRequestPending } from './ir-interceptor.store-CyWfUv6a.js';
 import { a as axios } from './axios-B50ozOIF.js';
 import './index-CimhgHoX.js';
@@ -14,17 +14,17 @@ const IrQueueManager = class {
     get el() { return getElement(this); }
     ticket = '';
     isLoading = true;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     data;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue && newValue) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }

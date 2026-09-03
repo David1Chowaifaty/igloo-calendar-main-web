@@ -3,7 +3,7 @@
 var index = require('./index-P5Mginch.js');
 var debounce = require('./debounce-Be8tSGtB.js');
 var moment = require('./moment-CdViwxPQ.js');
-var irDate = require('./ir-date-BH2JQpbC.js');
+var irDate = require('./ir-date-CUot5M4p.js');
 require('./index-BLJXadKe.js');
 require('./locales.store-v9LoZcAK.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

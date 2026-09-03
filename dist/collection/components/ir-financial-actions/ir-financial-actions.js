@@ -1,8 +1,8 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { Host, h } from "@stencil/core";
 import locales from "../../stores/locales.store";
 import { RoomService } from "../../services/room.service";
-import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService } from "../../services/setup/index";
 export class IrFinancialActions {
     language = '';
     ticket = '';
@@ -12,13 +12,13 @@ export class IrFinancialActions {
     isPageLoading = true;
     property_id;
     sideBarEvent;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     roomService = new RoomService();
-    bookingService = new BookingService();
+    setupService = new SetupService();
     paymentEntries;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -26,7 +26,7 @@ export class IrFinancialActions {
         if (newValue === oldValue) {
             return;
         }
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.initializeApp();
     }
     handleSidebarClose = (e) => {
@@ -73,11 +73,7 @@ export class IrFinancialActions {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [
-                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
-                this.getFinancialAction(),
-                this.roomService.fetchLanguage(this.language),
-            ];
+            const requests = [this.setupService.getPaymentEntries(), this.getFinancialAction(), this.roomService.fetchLanguage(this.language)];
             if (propertyId) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
@@ -86,13 +82,8 @@ export class IrFinancialActions {
                     include_units_hk_status: true,
                 }));
             }
-            const [setupEntries] = await Promise.all(requests);
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = {
-                groups: pay_type_group,
-                methods: pay_method,
-                types: pay_type,
-            };
+            const [paymentEntries] = await Promise.all(requests);
+            this.paymentEntries = paymentEntries;
         }
         catch (error) {
             console.log(error);

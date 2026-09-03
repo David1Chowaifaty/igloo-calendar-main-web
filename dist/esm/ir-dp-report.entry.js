@@ -1,20 +1,20 @@
 import { r as registerInstance, d as getElement, h } from './index-BYqrdgY9.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { T as Token } from './Token-CkxFIO_J.js';
-import { R as RoomService } from './room.service-BC62uNSi.js';
+import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
+import { R as RoomService } from './room.service-CNYsIJKu.js';
 import { a as axios } from './axios-B50ozOIF.js';
 import { l as libExports } from './index-DeW5X45W.js';
 import { P as PropertyIdSchema, D as DateSchema } from './commonSchemas-ByEkDTMV.js';
 import { l as locales } from './locales.store-C9qsbKR0.js';
 import { u as updateDpReportFilters, d as dp_report } from './dp_report.store-D2mkCTcc.js';
-import { i as isOptimReadOnly } from './calendar-data-BebdClG4.js';
-import { P as PropertyService } from './index-CbjeKhiT.js';
+import { i as isOptimReadOnly } from './calendar-data-DT3jrP3G.js';
+import { P as PropertyService } from './index-B4QXVOb6.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './index-CimhgHoX.js';
-import './utils-COglgzDo.js';
+import './utils-Ct-kEjIU.js';
 import './booking.dto-DpE31yhG.js';
 import './type-D7rOPtKA.js';
-import './ir-date-_0rd4VZd.js';
+import './ir-date-BT3QqYg6.js';
 
 const GetDPBookingsReportParamsSchema = libExports.z.object({
     from_date: DateSchema,
@@ -69,16 +69,16 @@ const IrDpReport = class {
     propertyId;
     allowedProperties = null;
     minAllowedDate;
-    token = new Token();
+    ApiClient = new ApiClient();
     roomService = new RoomService();
     propertyService = new PropertyService();
     dpReportService = new DpReportService();
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -86,7 +86,7 @@ const IrDpReport = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     async handleDpFiltersChange(e) {

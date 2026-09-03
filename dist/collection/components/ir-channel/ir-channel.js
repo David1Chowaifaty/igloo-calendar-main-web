@@ -4,7 +4,7 @@ import locales from "../../stores/locales.store";
 import { Host, h, Fragment } from "@stencil/core";
 import { actions } from "./data";
 import { ChannelService } from "../../services/channel.service";
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 export class IrChannel {
     el;
     ticket = '';
@@ -17,13 +17,13 @@ export class IrChannel {
     isLoading = false;
     roomService = new RoomService();
     channelService = new ChannelService();
-    token = new Token();
+    ApiClient = new ApiClient();
     irModalRef;
     propertyId;
     componentWillLoad() {
         this.isLoading = true;
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -93,7 +93,7 @@ export class IrChannel {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     handleCancelModal(e) {

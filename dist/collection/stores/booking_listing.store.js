@@ -31,7 +31,7 @@ const initialState = {
     settlement_methods: [],
     statuses: [],
     types: [],
-    token: '',
+    ApiClient: '',
     rowCount: 10,
     bookings: [],
     balance_filter: [],

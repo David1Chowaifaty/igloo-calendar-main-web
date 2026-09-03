@@ -2,16 +2,16 @@
 
 var index = require('./index-P5Mginch.js');
 var moment = require('./moment-CdViwxPQ.js');
-var functions = require('./functions-DgKYncGa.js');
-var booking = require('./booking-51dS0UQD.js');
-var booking_store = require('./booking.store-Bi052xjW.js');
-var room_service = require('./room.service-DQBAC40E.js');
+var functions = require('./functions-CVUndUSp.js');
+var booking = require('./booking-DAw6VPzA.js');
+var booking_store = require('./booking.store-SmjvQvnY.js');
+var room_service = require('./room.service-Dv4u9Qiq.js');
 var locales_store = require('./locales.store-v9LoZcAK.js');
-require('./calendar-data-PetnikUI.js');
+require('./calendar-data-BjlxOXi1.js');
 require('./booking.dto-kenLHU-o.js');
-var irDate = require('./ir-date-BH2JQpbC.js');
-var number = require('./number-BU1_BuJC.js');
-require('./utils-CwIiTro6.js');
+var irDate = require('./ir-date-CUot5M4p.js');
+var number = require('./number-3J_Nkle1.js');
+require('./utils-5rzlNNGQ.js');
 require('./index-CLqkDPTC.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
@@ -30,7 +30,7 @@ const IrBookingPrinting = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
     }
-    token = '';
+    ApiClient = '';
     bookingNumber = '';
     language = 'en';
     propertyid;
@@ -40,7 +40,7 @@ const IrBookingPrinting = class {
     property;
     guestCountryName;
     isLoading;
-    // @State() token: string;
+    // @State() ApiClient: string;
     bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     currency;
@@ -48,7 +48,7 @@ const IrBookingPrinting = class {
     totalPersons;
     componentWillLoad() {
         document.body.style.background = 'white';
-        if (this.token) {
+        if (this.ApiClient) {
             this.init();
         }
     }
@@ -156,7 +156,7 @@ const IrBookingPrinting = class {
         return (index.h("div", { class: "main-container" }, index.h("section", { class: "header" }, this.renderPrintingHeader()), index.h("section", null, index.h("section", { class: "booking-details" }, index.h("p", { class: "label-title" }, "Booked by:", index.h("span", { class: "label-value" }, this.formatGuestName(this.booking?.guest), " - ", this.totalPersons, " ", this.totalPersons > 1 ? 'persons' : 'person')), index.h("p", { class: "label-title" }, "Phone:", index.h("span", { class: "label-value" }, this.formatPhoneNumber(this.booking?.guest, this.booking?.is_direct))), index.h("p", { class: "label-title" }, "Email:", index.h("span", { class: "label-value" }, this.booking?.guest?.email)), this.guestCountryName && (index.h("p", { class: "label-title" }, "Country:", index.h("span", { class: "label-value" }, this.guestCountryName))), this.booking.guest.city && (index.h("p", { class: "label-title" }, "City:", index.h("span", { class: "label-value" }, this.booking?.guest?.city))), index.h("p", { class: "label-title" }, "Arrival Time:", index.h("span", { class: "label-value" }, this.booking?.arrival?.description))), index.h("section", null, index.h("div", { class: "accommodation-summary" }, index.h("p", { class: "accommodation-title" }, "ACCOMMODATION"), index.h("p", { class: "booking-dates" }, this.formatBookingDates(this.booking?.from_date)), index.h("p", { class: "booking-dates" }, this.formatBookingDates(this.booking?.to_date)), index.h("p", { class: "number-of-nights" }, this.totalNights, " ", this.totalNights === 1 ? 'night' : 'nights'), index.h("p", { class: "vat-exclusion" }, index.h("i", null, this.property.tax_statement))), index.h("div", null, this.booking?.rooms?.map(room => (index.h(index.Fragment, null, index.h("table", null, index.h("tr", { class: 'roomtype-title' }, index.h("td", null, room.roomtype.name), index.h("td", null, room.rateplan.name)), index.h("tr", null, index.h("td", { colSpan: 12 }, index.h("p", { class: "label-title" }, "Guest name:", index.h("span", { class: "label-value" }, this.formatGuestName(room?.guest)))))), index.h("div", { class: "policies-container" }, index.h("p", { class: "policies", innerHTML: room.rateplan.cancelation }), index.h("p", { class: "policies", innerHTML: room.rateplan.guarantee })), index.h("div", { class: "pricing-summary" }, index.h("div", { class: 'pricing-breakdown' }, index.h("p", { class: "label-title" }, "Total:", index.h("span", { class: "label-value" }, number.formatAmount(this.currency, room.total))), index.h("span", null, "-"), this.getTaxAmount(room)), index.h("p", { class: "label-title" }, "Grand total:", index.h("span", { class: "label-value" }, number.formatAmount(this.currency, room.gross_total))), index.h("p", { class: "label-title" }, "Due upon booking:", index.h("span", { class: "label-value" }, number.formatAmount(this.currency, room.gross_guarantee)))), index.h("div", { class: 'room_amount_main_container' }, room.days?.map(d => (index.h("div", { class: 'room_amount_container' }, index.h("p", { class: "room_amount date" }, this.formatDate(moment.hooks(d.date, 'YYYY-MM-DD'))), index.h("p", { class: "room_amount amount" }, number.formatAmount(this.currency, d.amount)))))))))))), this.booking.pickup_info && (index.h("section", { class: "pickup-container" }, index.h("p", { class: "pickup_title" }, "PICKUP Yes,from ", this.booking.pickup_info.selected_option.location.description), index.h("div", { class: 'pickup-details' }, index.h("p", { class: "label-title" }, "Arrival date:", index.h("span", { class: "label-value" }, irDate.formatDate(this.booking?.pickup_info.date, 'ddd, DD MMM YYYY'))), index.h("p", { class: "label-title" }, "Time:", index.h("span", { class: "label-value" }, functions._formatTime(this.booking.pickup_info.hour.toString(), this.booking.pickup_info.minute.toString()))), index.h("p", { class: "label-title" }, "Fight details:", index.h("span", { class: "label-value" }, this.booking?.pickup_info.details)), index.h("p", { class: "car_name" }, this.booking.pickup_info.selected_option.vehicle.description, index.h("span", null, " - "), number.formatAmount(this.booking.pickup_info.selected_option.currency.code, this.booking.pickup_info.selected_option.amount)), index.h("p", { class: "label-title" }, "No. of Vehicles:", index.h("span", { class: "label-value" }, this.booking?.pickup_info.nbr_of_units)), index.h("p", { class: "label-title" }, "Due upon booking:", index.h("span", { class: "label-value" }, number.formatAmount(this.booking.pickup_info.currency.code, this.booking?.pickup_info.total)))))), this.booking.financial?.payments && (index.h("section", null, index.h("table", { class: "billing_table" }, index.h("caption", null, "Billing"), index.h("thead", null, index.h("th", { class: "billing_header" }, "Date"), index.h("th", { class: "billing_header" }, "Amount"), index.h("th", { class: "billing_header" }, "Designation")), index.h("tbody", null, this.booking.financial?.payments?.map(p => (index.h(index.Fragment, null, index.h("tr", { key: p.id }, index.h("td", { class: "billing_cell" }, irDate.formatDate(p.date, 'DD-MMM-YYYY')), index.h("td", { class: "billing_cell" }, number.formatAmount(p.currency.code, p.amount)), index.h("td", { class: "billing_cell" }, p.designation || '_')), p.reference && (index.h("tr", null, index.h("td", { colSpan: 3 }, "Ref:", p.reference))))))))))));
     }
     static get watchers() { return {
-        "token": [{
+        "ApiClient": [{
                 "ticketChanged": 0
             }]
     }; }

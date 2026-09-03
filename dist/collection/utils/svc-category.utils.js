@@ -1,5 +1,5 @@
 import { SvcCategory } from "../types/enums";
-import { getEntryValue } from "./utils";
+import { getEntryValue } from "../services/setup/index";
 /** A `NOTES` value counts as a group-code reference (not a free-text description) when it's shaped like a setup-entry code. */
 const GROUP_CODE_PATTERN = /^[a-z0-9_]{2,10}$/i;
 /** Friendlier titles for known group codes that don't have their own `svc_category` row to source a `CODE_VALUE_EN` from. */

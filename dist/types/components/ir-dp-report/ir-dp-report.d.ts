@@ -15,7 +15,7 @@ export declare class IrDpReport {
     propertyId: number;
     allowedProperties: AllowedProperties;
     minAllowedDate: string | undefined;
-    private token;
+    private ApiClient;
     private roomService;
     private propertyService;
     private dpReportService;

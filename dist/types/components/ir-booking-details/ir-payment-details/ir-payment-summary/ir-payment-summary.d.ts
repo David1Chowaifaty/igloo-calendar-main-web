@@ -12,10 +12,8 @@ export declare class IrPaymentSummary {
     booking: Booking;
     agent: Agent;
     clTransactions: ClTx[];
-    private allowedClOps;
     private shouldShowTotalCost;
     private get agentTotal();
-    private get guestTotal();
     private get bookingTotal();
     render(): any;
 }

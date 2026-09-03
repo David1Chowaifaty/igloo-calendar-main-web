@@ -16,7 +16,7 @@ export declare class GuestInfo {
     resetBookingEvt: EventEmitter<null>;
     private bookingService;
     private roomService;
-    private token;
+    private ApiClient;
     componentWillLoad(): Promise<void>;
     ticketChanged(newValue: string, oldValue: string): void;
     init(): Promise<void>;

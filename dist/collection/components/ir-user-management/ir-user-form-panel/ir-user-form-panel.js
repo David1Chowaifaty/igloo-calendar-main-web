@@ -6,7 +6,7 @@ import { UserService } from "../../../services/user.service";
 import calendar_data from "../../../stores/calendar-data";
 import { _formatTime } from "../../ir-booking-details/functions";
 import { UAParser } from "ua-parser-js";
-import Token from "../../../models/Token";
+import ApiClient from "../../../models/ApiClient";
 import { formatDate } from "../../../utils/date/index";
 export class IrUserFormPanel {
     formId;
@@ -44,7 +44,7 @@ export class IrUserFormPanel {
     userService = new UserService();
     disableFields = false;
     isPropertyAdmin = false;
-    token = new Token();
+    ApiClient = new ApiClient();
     mobileMask = {};
     userSchema = z.object({
         mobile: z.string().optional(),
@@ -135,14 +135,14 @@ export class IrUserFormPanel {
         }
     }
     render() {
-        return (h("form", { key: '7d7c64f9067af4ca90fdf195c1e0c3f6c82a10ac', id: this.formId,
+        return (h("form", { key: '2ab4dfe77ca98bf5ca465e638e0e5348c6afc618', id: this.formId,
             // class="sheet-container"
             onSubmit: async (e) => {
                 e.preventDefault();
                 await this.createOrUpdateUser();
-            } }, h("div", { key: 'c166273d54fa46cb78af106f53aca9db7fbc7d52', class: "d-flex flex-column", style: { gap: '1rem' } }, h("ir-validator", { key: 'aafacfc05fc6599f6be29d084593c0026b0c3c03', asyncValidation: true, showErrorMessage: true, value: this.userInfo.email, schema: this.userSchema.shape.email }, h("ir-input", { key: '70a2c51ee4e79f8616c781013bc4c3fe643f0522', maxlength: 40, "onText-change": e => this.updateUserField('email', e.detail), value: this.userInfo.email, label: locales.entries.Lcz_Email, "data-testid": "email", id: "user-email" })), h("ir-validator", { key: '7e34007f7230097fa27c2e023a7e6bb0263a276b', showErrorMessage: true, value: this.userInfo.mobile, schema: this.userSchema.shape.mobile }, h("ir-input", { key: '919373fa847e0fd8d6d54811574c490585995628', "onText-change": e => this.updateUserField('mobile', e.detail), value: this.userInfo.mobile, label: locales.entries.Lcz_Mobile, "data-testid": "mobile", mask: this.mobileMask })), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("ir-validator", { value: this.userInfo.type?.toString(), schema: this.userSchema.shape.type }, h("wa-select", { "data-testId": "user_type",
+            } }, h("div", { key: '58a26b22676739abbd4f585729fd13b6281dfe8f', class: "d-flex flex-column", style: { gap: '1rem' } }, h("ir-validator", { key: '0c72e4b6e6969818bfbbd69fce31d5d9f504e347', asyncValidation: true, showErrorMessage: true, value: this.userInfo.email, schema: this.userSchema.shape.email }, h("ir-input", { key: 'cfef0eef47a8541d7c13b038f76f488ddd7dc42b', maxlength: 40, "onText-change": e => this.updateUserField('email', e.detail), value: this.userInfo.email, label: locales.entries.Lcz_Email, "data-testid": "email", id: "user-email" })), h("ir-validator", { key: '3ff83aea5ee379dd3038ac1aa4de247b5958d2a5', showErrorMessage: true, value: this.userInfo.mobile, schema: this.userSchema.shape.mobile }, h("ir-input", { key: '628c0dc89c4eb8aeace8a183318535639ca6c06e', "onText-change": e => this.updateUserField('mobile', e.detail), value: this.userInfo.mobile, label: locales.entries.Lcz_Mobile, "data-testid": "mobile", mask: this.mobileMask })), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("ir-validator", { value: this.userInfo.type?.toString(), schema: this.userSchema.shape.type }, h("wa-select", { "data-testId": "user_type",
             // error={this.errors?.type && !this.userInfo.type}
-            disabled: this.disableFields, label: "Role", value: this.userInfo.type?.toString(), size: "s", defaultValue: this.userInfo.type?.toString(), placeholder: locales.entries.Lcz_Select, onchange: e => this.updateUserField('type', e.target.value) }, this.allowedUsersTypes.map(t => (h("wa-option", { value: t.code }, t.value)))))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: 'af95fe0e8e5aa29e3473d635d3d8d39025870650' }, h("input", { key: '5e01f05388e37a681ac167d246d6524be1a2ce66', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { key: 'f9e353df03e90d3595b161799b314622d2a58e60', asyncValidation: true, schema: this.userSchema.shape.username, value: this.userInfo.username }, h("ir-input", { key: '17c086e4589178d083d09d1063390a8e9b5f81bb', "onText-change": e => this.updateUserField('username', e.detail), autocomplete: "off", maxlength: 40, value: this.userInfo.username, disabled: this.disableFields, label: locales.entries.Lcz_Username })))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { value: this.userInfo.password, schema: this.userSchema.shape.password }, h("ir-input", { "data-testId": "password", label: locales.entries.Lcz_Password, value: this.userInfo.password, autocomplete: "off", passwordToggle: true, type: "password", id: "password", maxlength: 16, onInputFocus: () => (this.showPasswordValidation = true), "onInput-blur": () => {
+            disabled: this.disableFields, label: "Role", value: this.userInfo.type?.toString(), size: "s", defaultValue: this.userInfo.type?.toString(), placeholder: locales.entries.Lcz_Select, onchange: e => this.updateUserField('type', e.target.value) }, this.allowedUsersTypes.map(t => (h("wa-option", { value: t.code }, t.value)))))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: 'a5e54fc0750df03fe81ef1cf2162a8a9b7466cdb' }, h("input", { key: 'c1ed8059726f10069e824ce13a0a0157fb5e10a9', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { key: '389719a48c8a49373621493f02544458bc949bd8', asyncValidation: true, schema: this.userSchema.shape.username, value: this.userInfo.username }, h("ir-input", { key: '92d6c7965deb3bc8c5ca27d605d5cf2356183db6', "onText-change": e => this.updateUserField('username', e.detail), autocomplete: "off", maxlength: 40, value: this.userInfo.username, disabled: this.disableFields, label: locales.entries.Lcz_Username })))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { value: this.userInfo.password, schema: this.userSchema.shape.password }, h("ir-input", { "data-testId": "password", label: locales.entries.Lcz_Password, value: this.userInfo.password, autocomplete: "off", passwordToggle: true, type: "password", id: "password", maxlength: 16, onInputFocus: () => (this.showPasswordValidation = true), "onInput-blur": () => {
                 // if (this.user) this.showPasswordValidation = false;
             }, "onText-change": e => this.updateUserField('password', e.detail) })), this.showPasswordValidation && h("ir-password-validator", { class: "mb-1", password: this.userInfo.password }))) : (
         // this.haveAdminPrivileges &&
@@ -150,16 +150,16 @@ export class IrUserFormPanel {
         // (this.user?.type.toString() === '17' && this.userTypeCode?.toString() === '17' ? null : (
         h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0 logins-history-title" }, locales.entries.Lcz_Password), h("ir-button", { size: "sm", btn_styles: 'ir-pe-0', onClickHandler: () => (this.isOpen = true), text: locales.entries.Lcz_ChangePassword, btn_color: "link" }))
         // ))
-        )), this.user?.sign_ins?.length > 0 && (h("section", { key: '0f8ba3ed536eb040ca4cf7c5ebaebf8cc451781e', class: "logins-history-section mt-2" }, h("div", { key: '3d01e011c506ce5f236a42ed76553922043ed34e', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: 'de2b41f4f33b79617321a56d498491dd5ffbc8d4', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: '392c48544b146d534ac327e2dabe740caf827991', btn_styles: 'ir-pe-0', text: !this.showFullHistory ? locales.entries.Lcz_ViewAll : locales.entries.Lcz_ViewLess, btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: 'edbb28115362ebcbbdd896e027cd0a49a61a89d7', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
+        )), this.user?.sign_ins?.length > 0 && (h("section", { key: 'e149fd237e10e3a908c6f3ca6fd5bf1bea3b8df5', class: "logins-history-section mt-2" }, h("div", { key: 'a40d8ca859bca660d21a24e7d2b5dc499f7b03dc', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '4b1edc613fb07f5def2d024ca31b040f42c88c55', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: '75c81b54ad764b84c33870254b30b1e90d9ab960', btn_styles: 'ir-pe-0', text: !this.showFullHistory ? locales.entries.Lcz_ViewAll : locales.entries.Lcz_ViewLess, btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: '2a6dd1064751b4d02a473ad094bbdbe3742e715d', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
             const ua = UAParser(s.user_agent);
             return (h("li", { class: "login-entry", key: s.date + '_' + i }, h("div", { class: "login-meta" }, h("p", { class: "login-datetime" }, formatDate(s.date, 'DD-MMM-YYYY'), " ", _formatTime(s.hour?.toString(), s.minute?.toString()), " |"), h("p", { class: "login-location" }, h("span", { class: "login-ip" }, locales.entries.Lcz_IP, ": ", s.ip), ' ', "\u00A0|\u00A0", h("span", { class: "login-country" }, locales.entries.Lcz_Location, ": ", s.country), ' ', "\u00A0|\u00A0", h("span", { class: "login-os" }, "OS: ", ua.os.name ?? 'N/A', " ", ua.os.version)))));
-        })))), h("ir-sidebar", { key: '840897bdc9fd9f3496d2a53e0d95368bb2f9be05', open: this.isOpen, showCloseButton: false, style: {
+        })))), h("ir-sidebar", { key: '76b2229b310e8f144ab6e4b7f6bfc72c6d2fbeac', open: this.isOpen, showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
             }, onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            } }, this.isOpen && (h("ir-reset-password", { key: 'c66d0499cc3070a8bb0f0fa51477717cf41fbbe3', ticket: this.token.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
+            } }, this.isOpen && (h("ir-reset-password", { key: '51650f8d6f08755dba2bf55bb00c0933bbedb5f3', ticket: this.ApiClient.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;

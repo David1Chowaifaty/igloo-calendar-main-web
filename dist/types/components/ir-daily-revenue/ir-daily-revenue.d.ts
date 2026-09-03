@@ -15,7 +15,7 @@ export declare class IrDailyRevenue {
     private tokenService;
     private roomService;
     private propertyService;
-    private bookingService;
+    private setupService;
     private paymentEntries;
     preventPageLoad: EventEmitter<null>;
     componentWillLoad(): void;

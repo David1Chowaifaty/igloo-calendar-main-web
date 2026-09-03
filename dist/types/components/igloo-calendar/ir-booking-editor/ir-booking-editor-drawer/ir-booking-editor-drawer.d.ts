@@ -4,7 +4,7 @@ import { Booking, ExtraService } from "../../../../models/booking.dto";
 export declare class IrBookingEditorDrawer {
     /** Controls drawer visibility (reflected to DOM). */
     open: boolean;
-    /** Auth token used for API requests. */
+    /** Auth ApiClient used for API requests. */
     ticket: string;
     /** Property identifier. */
     propertyid: string;
@@ -36,7 +36,7 @@ export declare class IrBookingEditorDrawer {
     isLoading: string;
     /** Emitted when the booking editor drawer is closed. */
     bookingEditorClosed: EventEmitter<void>;
-    private token;
+    private ApiClient;
     private bookingService;
     private bookingEditorService;
     private wasBlockedUnit;

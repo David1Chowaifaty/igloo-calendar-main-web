@@ -1,7 +1,7 @@
 /**
  * Translates a Gregorian moment format string into its moment-hijri equivalent, so that call
  * sites can keep passing one plain format string (`'ddd, DD MMM YYYY'`) and get Hijri output
- * when the Hijri calendar is active — without knowing moment-hijri's `i`-prefixed token set.
+ * when the Hijri calendar is active — without knowing moment-hijri's `i`-prefixed ApiClient set.
  *
  * Only the tokens that actually name a *calendar* field are rewritten. Day-of-week and
  * clock-time are calendar-independent — Thursday is Thursday in both systems — so `dddd`, `ddd`,
@@ -15,7 +15,7 @@
  * codebase. Anything unmapped is passed through, yielding a Gregorian field under a Hijri
  * preference — extend `HIJRI_TOKENS` rather than working around it at the call site.
  */
-/** Gregorian token → moment-hijri token. Order in the regex below is longest-match-first. */
+/** Gregorian ApiClient → moment-hijri ApiClient. Order in the regex below is longest-match-first. */
 const HIJRI_TOKENS = {
     // Year
     YYYY: 'iYYYY',
@@ -35,7 +35,7 @@ const HIJRI_TOKENS = {
     D: 'iD',
 };
 /**
- * Matches, in priority order: a `[bracketed literal]`, then any translatable token
+ * Matches, in priority order: a `[bracketed literal]`, then any translatable ApiClient
  * longest-first, then any single remaining character (separators, weekday/time tokens, stray
  * letters). Bracketed literals are matched first so `'[MMM]'` stays the text `MMM`.
  */

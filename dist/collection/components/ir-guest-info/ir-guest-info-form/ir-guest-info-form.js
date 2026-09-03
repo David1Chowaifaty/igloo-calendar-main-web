@@ -1,7 +1,7 @@
 import { h } from "@stencil/core";
 import locales from "../../../stores/locales.store";
 import { guestInfoFormSchema } from "./types";
-import Token from "../../../models/Token";
+import ApiClient from "../../../models/ApiClient";
 import { BookingService } from "../../../services/booking-service/booking.service";
 import { RoomService } from "../../../services/room.service";
 import { z } from "zod";
@@ -21,12 +21,12 @@ export class IrGuestInfoForm {
     guestChanged;
     bookingService = new BookingService();
     roomService = new RoomService();
-    token = new Token();
+    ApiClient = new ApiClient();
     componentWillLoad() {
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
         }
-        if (!!this.token.getToken()) {
+        if (!!this.ApiClient.getToken()) {
             this.init();
         }
     }
@@ -34,7 +34,7 @@ export class IrGuestInfoForm {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
     }
     handleInputChange(params) {
         this.guest = { ...this.guest, ...params };

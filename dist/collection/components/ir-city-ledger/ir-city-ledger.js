@@ -1,7 +1,7 @@
 import { Host, h } from "@stencil/core";
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { AgentsService } from "../../services/agents/agents.service";
-import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
 import { PropertyService } from "../../services/property.service";
 import calendar_data from "../../stores/calendar-data";
 import { SystemService } from "../../services/system.service";
@@ -34,10 +34,10 @@ export class IrCityLedger {
         { id: 'fiscal-documents', label: 'Fiscal Documents' },
         { id: 'create-statement', label: 'Create Statement' },
     ];
-    tokenService = new Token();
+    tokenService = new ApiClient();
     agentsService = new AgentsService();
     propertyService = new PropertyService();
-    bookingService = new BookingService();
+    setupService = new SetupService();
     systemService = new SystemService();
     toolbarRef;
     createInvoiceDialogRef;
@@ -57,7 +57,7 @@ export class IrCityLedger {
             if (this.baseurl) {
                 this.tokenService.setBaseUrl(this.baseurl);
             }
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -66,7 +66,7 @@ export class IrCityLedger {
             return;
         if (this.baseurl)
             this.tokenService.setBaseUrl(this.baseurl);
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.init();
     }
     handlePropertyIdChange(newValue, oldValue) {
@@ -112,14 +112,14 @@ export class IrCityLedger {
             const resolvedByName = !this.propertyid && !!this.p;
             const [, setupEntries, agents, currencies] = await Promise.all([
                 resolvedByName ? Promise.resolve() : this.propertyService.getExposedProperty({ id: propertyId, language: this.language }),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_SVC_CATEGORY']),
+                this.setupService.getSetupEntriesByTableNameMulti(['_SVC_CATEGORY']),
                 this.agentsService.getExposedAgents({ property_id: propertyId }),
                 this.systemService.getExposedCurrencies(),
             ]);
             this.currencies = currencies;
             this.agents = agents ?? [];
             this.applyAgentIdProp();
-            const { svc_category } = this.bookingService.groupEntryTablesResult(setupEntries);
+            const { svc_category } = groupEntryTablesResult(setupEntries);
             this.serviceCategoryOptions = (svc_category ?? []).map(entry => ({
                 id: entry.CODE_NAME,
                 label: entry.CODE_VALUE_EN,

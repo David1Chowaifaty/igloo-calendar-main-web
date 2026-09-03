@@ -3,9 +3,9 @@ import { RoomService } from "../../services/room.service";
 import booking_listing, { updateUserSelection, onBookingListingChange, updateUserSelections, setPaginationPage, setPaginationPageSize, updatePaginationFromSelection, } from "../../stores/booking_listing.store";
 import { isPrivilegedUser } from "../../utils/utils";
 import { h } from "@stencil/core";
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { getAllParams } from "../../utils/browserHistory";
-import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService } from "../../services/setup/index";
 import { PropertyService } from "../../services/property.service";
 import locales from "../../stores/locales.store";
 export class IrBookingListing {
@@ -24,10 +24,10 @@ export class IrBookingListing {
     payment;
     booking;
     bookingListingService = new BookingListingService();
-    bookingService = new BookingService();
+    setupService = new SetupService();
     roomService = new RoomService();
     propertyService = new PropertyService();
-    token = new Token();
+    ApiClient = new ApiClient();
     listingModal;
     listingModalTimeout;
     allowedProperties;
@@ -35,14 +35,14 @@ export class IrBookingListing {
     paymentFolioRef;
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         updateUserSelection('end_row', this.rowCount);
         booking_listing.rowCount = this.rowCount;
         setPaginationPageSize(this.rowCount);
         if (this.ticket !== '') {
-            booking_listing.token = this.ticket;
-            this.token.setToken(this.ticket);
+            booking_listing.ApiClient = this.ticket;
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
         onBookingListingChange('userSelection', newValue => {
@@ -56,8 +56,8 @@ export class IrBookingListing {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
-        booking_listing.token = this.ticket;
+        this.ApiClient.setApiClient(this.ticket);
+        booking_listing.ApiClient = this.ticket;
         this.initializeApp();
     }
     async fetchBookings() {
@@ -86,7 +86,7 @@ export class IrBookingListing {
                 }
             }
             const parallelRequests = [
-                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
+                this.setupService.getPaymentEntries(),
                 this.bookingListingService.getExposedBookingsCriteria(this.havePrivilege ? null : propertyId),
                 this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT', '_PMS_FRONT']),
             ];
@@ -105,13 +105,8 @@ export class IrBookingListing {
                 parallelRequests.push(this.propertyService.getExposedAllowedProperties());
             }
             const results = await Promise.all(parallelRequests);
-            const [setupEntries] = results;
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = {
-                groups: pay_type_group,
-                methods: pay_method,
-                types: pay_type,
-            };
+            const [paymentEntries] = results;
+            this.paymentEntries = paymentEntries;
             this.allowedProperties = allowedPropertiesIndex !== null ? results[allowedPropertiesIndex]?.map(p => p.id) : null;
             updateUserSelection('property_id', propertyId);
             updateUserSelections({

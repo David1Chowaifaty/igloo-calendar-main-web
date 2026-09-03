@@ -3,7 +3,7 @@ import { RoomService } from "../../services/room.service";
 import locales from "../../stores/locales.store";
 import payment_option_store from "../../stores/payment-option.store";
 import { Host, h } from "@stencil/core";
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { showToast } from "../../utils/utils";
 export class IrPaymentOption {
     propertyid;
@@ -17,12 +17,12 @@ export class IrPaymentOption {
     selectedOption = null;
     paymentOptionService = new PaymentOptionService();
     roomService = new RoomService();
-    token = new Token();
+    ApiClient = new ApiClient();
     propertyOptionsById;
     propertyOptionsByCode;
     componentWillLoad() {
         if (!!this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -30,7 +30,7 @@ export class IrPaymentOption {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.init();
     }
     init() {
@@ -100,7 +100,7 @@ export class IrPaymentOption {
         }
     }
     initServices() {
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
     }
     modifyPaymentList(paymentOption) {
         let prevPaymentOptions = [...this.paymentOptions];

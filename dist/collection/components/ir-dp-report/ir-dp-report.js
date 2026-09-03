@@ -1,6 +1,6 @@
 import { h } from "@stencil/core";
 import moment from "moment";
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { RoomService } from "../../services/room.service";
 import { DpReportService } from "../../services/dp-report.service";
 import locales from "../../stores/locales.store";
@@ -23,16 +23,16 @@ export class IrDpReport {
     propertyId;
     allowedProperties = null;
     minAllowedDate;
-    token = new Token();
+    ApiClient = new ApiClient();
     roomService = new RoomService();
     propertyService = new PropertyService();
     dpReportService = new DpReportService();
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -40,7 +40,7 @@ export class IrDpReport {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     async handleDpFiltersChange(e) {

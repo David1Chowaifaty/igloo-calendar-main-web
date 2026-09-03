@@ -1,8 +1,8 @@
 'use strict';
 
 var index = require('./index-P5Mginch.js');
-var number = require('./number-BU1_BuJC.js');
-require('./ir-date-BH2JQpbC.js');
+var number = require('./number-3J_Nkle1.js');
+require('./ir-date-CUot5M4p.js');
 require('./index-BLJXadKe.js');
 require('./locales.store-v9LoZcAK.js');
 require('./moment-CdViwxPQ.js');

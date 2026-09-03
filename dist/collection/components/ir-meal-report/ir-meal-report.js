@@ -1,10 +1,10 @@
 import { h } from "@stencil/core";
 import { MealReportService } from "../../services/meal-report/meal-report.service";
-import Token from "../../models/Token";
+import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
+import ApiClient from "../../models/ApiClient";
 import moment from "moment";
 import locales from "../../stores/locales.store";
 import axios from "axios";
-import { groupEntryTablesResult } from "../../utils/utils";
 export class IrMealReport {
     ticket;
     propertyid;
@@ -24,10 +24,11 @@ export class IrMealReport {
         hb_preference: [],
     };
     mealReportService = new MealReportService();
-    tokenService = new Token();
+    setupService = new SetupService();
+    tokenService = new ApiClient();
     ticketChanged(newValue) {
         if (newValue) {
-            this.tokenService.setToken(newValue);
+            this.tokenService.setApiClient(newValue);
             this.init();
         }
     }
@@ -36,7 +37,7 @@ export class IrMealReport {
             this.tokenService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -47,7 +48,7 @@ export class IrMealReport {
         try {
             this.isPageLoading = true;
             this.isDataLoading = true;
-            const setupEntries = await this.mealReportService.getSetupEntriesByTableNameMulti(['_MEAL_TYPE', '_HB_PREFERENCE']);
+            const setupEntries = await this.setupService.getSetupEntriesByTableNameMulti(['_MEAL_TYPE', '_HB_PREFERENCE']);
             const grouped = groupEntryTablesResult(setupEntries);
             const meal_type = grouped.meal_type || [];
             const hb_preference = grouped.hb_preference || [];

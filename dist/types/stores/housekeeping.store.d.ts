@@ -2,7 +2,7 @@ import { IExposedHouseKeepingSetup, IHKTasks, IPendingActions } from "../models/
 export interface IHouseKeepingStore {
     hk_criteria: IExposedHouseKeepingSetup;
     default_properties: {
-        token: string;
+        ApiClient: string;
         property_id: number;
         language: string;
     };
@@ -15,7 +15,7 @@ export interface IHouseKeepingStore {
 export declare const housekeeping_store: IHouseKeepingStore;
 export declare function updateHKStore(key: keyof IHouseKeepingStore, value: any): void;
 export declare function getDefaultProperties(): {
-    token: string;
+    ApiClient: string;
     property_id: number;
     language: string;
 };

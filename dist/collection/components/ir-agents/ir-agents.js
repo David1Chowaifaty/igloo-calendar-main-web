@@ -1,13 +1,14 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { AgentsService } from "../../services/agents/agents.service";
 import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
 import { Host, h } from "@stencil/core";
 import calendar_data from "../../stores/calendar-data";
 import { PropertyService } from "../../services/property.service";
 import { showToast } from "../../utils/utils";
 export class IrAgents {
     /**
-     * Authentication token issued by the PMS backend.
+     * Authentication ApiClient issued by the PMS backend.
      * Required for initializing the component and making API calls.
      */
     ticket;
@@ -36,15 +37,16 @@ export class IrAgents {
     agentsService = new AgentsService();
     propertyService = new PropertyService();
     bookingService = new BookingService();
-    tokenService = new Token();
+    setupService = new SetupService();
+    tokenService = new ApiClient();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
     handleTicketChange() {
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.init();
     }
     handleUpsertAgentListener(e) {
@@ -69,7 +71,7 @@ export class IrAgents {
             }
             const [countries, setupEntries] = await Promise.all([
                 this.bookingService.getCountries(this.language),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_AGENT_RATE_TYPE', '_AGENT_TYPE', '_TA_PAYMENT_METHOD', '_CL_POST_TIMING']),
+                this.setupService.getSetupEntriesByTableNameMulti(['_AGENT_RATE_TYPE', '_AGENT_TYPE', '_TA_PAYMENT_METHOD', '_CL_POST_TIMING']),
                 calendar_data?.property
                     ? Promise.resolve(null)
                     : this.propertyService.getExposedProperty({
@@ -79,7 +81,7 @@ export class IrAgents {
                     }),
                 this.fetchAgents(),
             ]);
-            const { agent_rate_type, agent_type, ta_payment_method, cl_post_timing } = this.bookingService.groupEntryTablesResult(setupEntries);
+            const { agent_rate_type, agent_type, ta_payment_method, cl_post_timing } = groupEntryTablesResult(setupEntries);
             this.setupEntries = {
                 agent_rate_type,
                 agent_type,
@@ -171,7 +173,7 @@ export class IrAgents {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Authentication token issued by the PMS backend.\nRequired for initializing the component and making API calls."
+                    "text": "Authentication ApiClient issued by the PMS backend.\nRequired for initializing the component and making API calls."
                 },
                 "getter": false,
                 "setter": false,

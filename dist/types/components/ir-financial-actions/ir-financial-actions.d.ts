@@ -10,7 +10,7 @@ export declare class IrFinancialActions {
     sideBarEvent: SidebarOpenEvent | null;
     private tokenService;
     private roomService;
-    private bookingService;
+    private setupService;
     private paymentEntries;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;

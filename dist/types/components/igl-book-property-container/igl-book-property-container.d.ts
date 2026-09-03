@@ -16,7 +16,7 @@ export declare class IglBookPropertyContainer {
     resetBookingData: EventEmitter<null>;
     private bookingService;
     private roomService;
-    private token;
+    private ApiClient;
     setRoomsData(roomServiceResp: any): void;
     initializeApp(): Promise<void>;
     componentWillLoad(): void;

@@ -4,6 +4,7 @@ import { Fragment, h } from "@stencil/core";
 import moment from "moment";
 import { dateMask, defaultGuest } from "../data";
 import { BookingService } from "../../../../services/booking-service/booking.service";
+import { SetupService } from "../../../../services/setup/index";
 import { ZodError } from "zod";
 export class IrRoomGuestsForm {
     /**
@@ -57,6 +58,7 @@ export class IrRoomGuestsForm {
     updateRoomGuests;
     loadingChange;
     bookingService = new BookingService();
+    setupService = new SetupService();
     componentWillLoad() {
         this.init();
         this.initializeGuests();
@@ -64,7 +66,7 @@ export class IrRoomGuestsForm {
     async init() {
         try {
             this.isLoading = true;
-            const [country, idTypes] = await Promise.all([this.bookingService.getUserDefaultCountry(), this.bookingService.getSetupEntriesByTableName('_ID_TYPE')]);
+            const [country, idTypes] = await Promise.all([this.bookingService.getUserDefaultCountry(), this.setupService.getSetupEntriesByTableName('_ID_TYPE')]);
             this.idTypes = idTypes;
             if (country) {
                 this.propertyCountry = this.countries.find(c => c.id === country.COUNTRY_ID);

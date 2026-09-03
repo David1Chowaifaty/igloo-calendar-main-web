@@ -21,7 +21,7 @@ export declare class IrGuestInfoForm {
     guestChanged: EventEmitter<GuestChangedEvent>;
     private bookingService;
     private roomService;
-    private token;
+    private ApiClient;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
     private handleInputChange;

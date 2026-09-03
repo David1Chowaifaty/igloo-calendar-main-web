@@ -1,7 +1,7 @@
 import { Booking } from "../../models/booking.dto";
 import { IProperty } from "../../models/property";
 export declare class IrBookingPrinting {
-    token: string;
+    ApiClient: string;
     bookingNumber: string;
     language: string;
     propertyid: number;

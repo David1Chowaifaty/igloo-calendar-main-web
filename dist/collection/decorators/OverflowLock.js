@@ -58,7 +58,7 @@ export function OverflowRelease(_tag = 'data-ir-overflow') {
 // const BODY_ATTR = 'data-overflow-locks';
 // Style element id prefix for per-tag CSS
 const STYLE_ID_PREFIX = 'overflow-style-';
-/** Ensure a <style> for this tag exists (once) and targets the body attr token. */
+/** Ensure a <style> for this tag exists (once) and targets the body attr ApiClient. */
 function ensureStyleForTag(tag) {
     if (!isDomAvailable())
         return;
@@ -91,7 +91,7 @@ function ensureStyleForTag(tag) {
     style.textContent = css;
     document.head.appendChild(style);
 }
-/** Add the tag token to body’s data-overflow-locks (space-separated tokens). */
+/** Add the tag ApiClient to body’s data-overflow-locks (space-separated tokens). */
 // function addBodyTag(tag: string) {
 //   if (!isDomAvailable()) return;
 //
@@ -105,7 +105,7 @@ function ensureStyleForTag(tag) {
 //     body.setAttribute(BODY_ATTR, Array.from(tokens).join(' '));
 //   }
 // }
-/** Remove the tag token from body’s data-overflow-locks. */
+/** Remove the tag ApiClient from body’s data-overflow-locks. */
 // function removeBodyTag(tag: string) {
 //   if (!isDomAvailable()) return;
 //

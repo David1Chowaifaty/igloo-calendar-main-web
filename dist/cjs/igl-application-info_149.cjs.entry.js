@@ -1,39 +1,41 @@
 'use strict';
 
 var index = require('./index-P5Mginch.js');
-var booking_store = require('./booking.store-Bi052xjW.js');
+var booking_store = require('./booking.store-SmjvQvnY.js');
 var locales_store = require('./locales.store-v9LoZcAK.js');
-var calendarData = require('./calendar-data-PetnikUI.js');
+var calendarData = require('./calendar-data-BjlxOXi1.js');
 var moment = require('./moment-CdViwxPQ.js');
 var index$1 = require('./index-CLqkDPTC.js');
 var booking_dto = require('./booking.dto-kenLHU-o.js');
-var irDate = require('./ir-date-BH2JQpbC.js');
-var number = require('./number-BU1_BuJC.js');
+var irDate = require('./ir-date-CUot5M4p.js');
+var number = require('./number-3J_Nkle1.js');
 var types = require('./types-Cu7HWegB.js');
 var v4 = require('./v4-_2BfiRUa.js');
-var utils = require('./utils-CwIiTro6.js');
-var booking = require('./booking-51dS0UQD.js');
+var index$2 = require('./index-B6tr59-v.js');
+var utils = require('./utils-5rzlNNGQ.js');
+var booking = require('./booking-DAw6VPzA.js');
 var axios = require('./axios-EresIryl.js');
 var direction = require('./direction-BKlLiim_.js');
-var index$2 = require('./index-Cv1UlKPY.js');
+var index$3 = require('./index-BWx5TYc1.js');
 var enums = require('./enums-BSCnMYlE.js');
-var functions = require('./functions-DgKYncGa.js');
-var index$3 = require('./index-BLJXadKe.js');
+var functions = require('./functions-CVUndUSp.js');
+var index$4 = require('./index-BLJXadKe.js');
 var housekeeping_service = require('./housekeeping.service-CXKCfWFZ.js');
 var irInterceptor_store = require('./ir-interceptor.store-BGTJSCIh.js');
-var room_service = require('./room.service-DQBAC40E.js');
+var room_service = require('./room.service-Dv4u9Qiq.js');
 var realtime_service = require('./realtime.service-COdIt6Z-.js');
-var Token = require('./Token-mN7PQKGF.js');
-var index$4 = require('./index-D30e4dRW.js');
+var ApiClient = require('./ApiClient-u7fuhiXA.js');
+var index$5 = require('./index-BSCI8j1N.js');
 var airDatepicker = require('./air-datepicker-DE2VSLja.js');
-var cityLedger_service = require('./city-ledger.service-DW6dExBh.js');
+var cityLedger_service = require('./city-ledger.service-C___D_oW.js');
 var payment_service = require('./payment.service-CGBWAElK.js');
 var agents_service = require('./agents.service-DWaVZIds.js');
-var index$5 = require('./index-BquCITYD.js');
+var utils$1 = require('./utils-CXqwALIi.js');
+var index$6 = require('./index-BquCITYD.js');
 var useTable = require('./useTable-BN32DOaV.js');
 var IBooking = require('./IBooking-BtFRLVyo.js');
 var slot = require('./slot-EBOtU3BJ.js');
-var svcCategory_utils = require('./svc-category.utils-CpQz76dF.js');
+var svcCategory_utils = require('./svc-category.utils-cBxz2Skd.js');
 var system_service = require('./system.service-q3G6_5Tb.js');
 var global_variables = require('./global.variables-BldIv7Je.js');
 var debounce = require('./debounce-Be8tSGtB.js');
@@ -276,10 +278,10 @@ const IglBlockDatesView = class {
         OUT_OF_SERVICE: false,
     }; // Change of property name might require updates in booking-event-hover
     releaseList = [];
-    bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     async componentWillLoad() {
         try {
-            this.releaseList = await this.bookingService.getBlockedInfo();
+            this.releaseList = await this.setupService.getBlockedInfo();
             if (this.defaultData) {
                 this.blockDatesData = { ...this.defaultData };
             }
@@ -348,7 +350,7 @@ const IglBlockDatesView = class {
         const { OUT_OF_SERVICE, OPTIONAL_REASON, RELEASE_AFTER_HOURS } = this.blockDatesData;
         const releaseValue = String(Number(RELEASE_AFTER_HOURS) || 0);
         const releaseHours = Number(RELEASE_AFTER_HOURS) || 0;
-        return (index.h(index.Host, { key: '371da50bc575f154039c0365431d1584daa5cf66' }, index.h("div", { key: '3960ed2e3033cc7cf0a4aeb7106b31e103ae841e', class: "block-dates" }, index.h("ir-date-view", { key: '2b01c45097dc918751b45882716bf51c31abd407', format: 'weekday-medium', from_date: this.fromDate, to_date: this.toDate, showDateDifference: false }), index.h("wa-radio-group", { key: 'ca3572f46fdc76598270e53f9e3953c75d3be79c', class: "block-dates__mode", size: "m", orientation: "vertical", value: OUT_OF_SERVICE ? 'oos' : 'auto', onchange: evt => this.handleModeChange(evt) }, index.h("span", { key: 'e58c5da641dd6f1619c507a6af1e2756b7539569', slot: "label", class: "block-dates__label" }, locales_store.locales.entries.Lcz_Reason), index.h("wa-radio", { key: '27beb8f5b6bd0a463173a97b1261d716e3514c05', value: "auto" }, locales_store.locales.entries.Lcz_AutomaticReleaseIn), !OUT_OF_SERVICE && (index.h("div", { key: '3ad033db11cd825e3f6ed9b9b6df86319312b7bf', class: "block-dates__fields" }, index.h("wa-select", { key: '3c2e189f7e86f56182ec0c14ad4f4759923eca6a', class: "block-dates__select", size: "s", value: releaseValue, defaultValue: releaseValue, onchange: evt => this.handleReleaseAfterChange(evt) }, index.h("wa-icon", { key: '9b5fad56a88ac5cc575a6ebea02a2fee68e3a6ba', slot: "start", name: "clock", label: locales_store.locales.entries.Lcz_AutomaticReleaseIn }), releaseHours > 0 && (index.h("span", { key: '638883b78a10ef6fbdb7db75d1a6fb9f035cdf7f', slot: "end", class: "block-dates__release-on" }, locales_store.locales.entries.Lcz_On, " ", this.getReleaseHoursString())), this.releaseList.map(releaseItem => (index.h("wa-option", { value: String(Number(releaseItem.CODE_NAME) || 0) }, releaseItem.CODE_VALUE_EN)))), index.h("wa-input", { key: '3dac5b89ae47403146790a528a7f2ca8e82c1034', class: "block-dates__reason", size: "s", placeholder: locales_store.locales.entries.Lcz_OptionalReason, value: OPTIONAL_REASON, oninput: event => this.handleOptionalReason(event) }, index.h("wa-icon", { key: 'e75016e63a7c737019db762960615057a09d8f08', slot: "start", name: "comment", label: locales_store.locales.entries.Lcz_OptionalReason })))), index.h("wa-radio", { key: 'c8264c62f2e4af463881822d3be1722b1f9dbe29', value: "oos" }, locales_store.locales.entries.Lcz_OutOfservice)))));
+        return (index.h(index.Host, { key: 'a9f71dae53c9a0d13b295af0f753078d3355d083' }, index.h("div", { key: '536fb38c2870447defe6ebe5de940f25bf41a4c0', class: "block-dates" }, index.h("ir-date-view", { key: '6e891bb80f0aabef06cad33ef7b73b55857e8c48', format: 'weekday-medium', from_date: this.fromDate, to_date: this.toDate, showDateDifference: false }), index.h("wa-radio-group", { key: '29f138fb18f5796c076225640e734aaaf2f6081f', class: "block-dates__mode", size: "m", orientation: "vertical", value: OUT_OF_SERVICE ? 'oos' : 'auto', onchange: evt => this.handleModeChange(evt) }, index.h("span", { key: '62da51db558fc79a82d477285ea5aaca37272205', slot: "label", class: "block-dates__label" }, locales_store.locales.entries.Lcz_Reason), index.h("wa-radio", { key: 'c7368859d61adf16584893fa604276657c47baa2', value: "auto" }, locales_store.locales.entries.Lcz_AutomaticReleaseIn), !OUT_OF_SERVICE && (index.h("div", { key: '54b1e3c84e14864e28620ce9072886545c42a8d7', class: "block-dates__fields" }, index.h("wa-select", { key: '5b257e9c0cb6955f47b86cdfeb33d31981a1ee97', class: "block-dates__select", size: "s", value: releaseValue, defaultValue: releaseValue, onchange: evt => this.handleReleaseAfterChange(evt) }, index.h("wa-icon", { key: '6146650b4c24293f42c487dad114249fc556914f', slot: "start", name: "clock", label: locales_store.locales.entries.Lcz_AutomaticReleaseIn }), releaseHours > 0 && (index.h("span", { key: 'a517d6309fb388aee6174fcf96cdc0eb05e3bf0d', slot: "end", class: "block-dates__release-on" }, locales_store.locales.entries.Lcz_On, " ", this.getReleaseHoursString())), this.releaseList.map(releaseItem => (index.h("wa-option", { value: String(Number(releaseItem.CODE_NAME) || 0) }, releaseItem.CODE_VALUE_EN)))), index.h("wa-input", { key: '94974c8c47d2a4f45e7dfc02528497c9948c873f', class: "block-dates__reason", size: "s", placeholder: locales_store.locales.entries.Lcz_OptionalReason, value: OPTIONAL_REASON, oninput: event => this.handleOptionalReason(event) }, index.h("wa-icon", { key: '2f938e4186ddacf8099c37c61e105a42ad43d1ce', slot: "start", name: "comment", label: locales_store.locales.entries.Lcz_OptionalReason })))), index.h("wa-radio", { key: 'd4c2359216a32645d40d4eb9968a1d64eacbc8c6', value: "oos" }, locales_store.locales.entries.Lcz_OutOfservice)))));
     }
 };
 IglBlockDatesView.style = iglBlockDatesViewCss();
@@ -1887,7 +1889,7 @@ const IglBookingEventHover = class {
     openCalendarSidebar;
     eventService = new EventsService();
     hideButtons = false;
-    propertyService = new index$2.PropertyService();
+    propertyService = new index$3.PropertyService();
     baseColor;
     componentWillLoad() {
         let selectedRt = this.bookingEvent.roomsInfo.find(r => r.id === this.bookingEvent.RATE_TYPE);
@@ -3814,7 +3816,7 @@ class ToBeAssignedService {
 const initialState = {
     unassigned_dates: {},
 };
-let { state: unassigned_dates, onChange: handleUnAssignedDatesChange } = index$3.createStore(initialState);
+let { state: unassigned_dates, onChange: handleUnAssignedDatesChange } = index$4.createStore(initialState);
 function addUnassignedDates(data) {
     unassigned_dates.unassigned_dates = { ...unassigned_dates.unassigned_dates, ...data };
     /*
@@ -4590,7 +4592,7 @@ const IglLegend = class {
     saveError;
     loadingIndex = [];
     optionEvent;
-    propertyService = new index$2.PropertyService();
+    propertyService = new index$3.PropertyService();
     saveTimeout;
     disconnectedCallback() {
         if (this.saveTimeout) {
@@ -6293,8 +6295,9 @@ const IglooCalendar = class {
     openCalendarSidebar;
     showRoomNightsDialog;
     bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     roomService = new room_service.RoomService();
-    propertyService = new index$2.PropertyService();
+    propertyService = new index$3.PropertyService();
     eventsService = new EventsService();
     toBeAssignedService = new ToBeAssignedService();
     housekeepingService = new housekeeping_service.HouseKeepingService();
@@ -6310,7 +6313,7 @@ const IglooCalendar = class {
     today = '';
     reachedEndOfCalendar = false;
     unsubscribeRealtime = null;
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     calendarModalEl;
     salesQueue = new BatchingQueue(this.processSalesBatch.bind(this), {
         batchSize: 50,
@@ -6330,7 +6333,7 @@ const IglooCalendar = class {
     departureTimes;
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         this.init();
     }
@@ -6486,7 +6489,7 @@ const IglooCalendar = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     init() {
@@ -6495,7 +6498,7 @@ const IglooCalendar = class {
             to: this.to_date,
         };
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
         this.calDates = {
@@ -6708,7 +6711,7 @@ const IglooCalendar = class {
         calendarData.calendar_data.unitIssues = new Map(_issues);
     }
     async fetchSetupEntries() {
-        const d = await this.bookingService.getSetupEntriesByTableName('_DEPARTURE_TIME');
+        const d = await this.setupService.getSetupEntriesByTableName('_DEPARTURE_TIME');
         this.departureTimes = d;
     }
     async getHousekeepingTasks({ from_date, to_date }) {
@@ -7657,7 +7660,7 @@ const IglooCalendar = class {
         //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
         // }
         // console.log(this.bookingItem);
-        return (index.h(index.Host, { key: '567e214150b506d50fc9f261dd36cbdf216d284f' }, index.h("ir-toast", { key: '7f4f00b6603b2088a0d0c9722f49b87b700bca2e' }), index.h("ir-interceptor", { key: '65d44dc54f60f54135ec8999e1a5e070aea0617a' }), index.h("div", { key: 'ca3473b3647e5a3d45438bc1d4efbff719bb8565', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend, 'showDayUseBookings': this.showDayUseBookings } }, this.shouldRenderCalendarView() ? (index.h(index.Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (index.h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && index.h("igl-legend", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), this.showDayUseBookings && (index.h("igl-day-use-bookings", { class: "dayUseBookingsContainer", calendarData: this.calendarData, dayUseBookings: this.dayUseBookings, onOptionEvent: evt => this.onOptionSelect(evt) })), index.h("div", { class: "calendarScrollContainer", dir: direction.isRtlDirection(locales_store.locales.direction) ? 'rtl' : 'ltr', onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, index.h("div", { id: "calendarContainer" }, index.h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt), dayUseBookings: this.dayUseBookings }), index.h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData, dayUseBookings: this.dayUseBookings }), index.h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (index.h("ir-loading-screen", { message: "Preparing Calendar Data" }))), index.h("igl-split-booking-drawer", { key: 'cd572fe1bb083b9fb86eaa5357345d71155c87a5', open: this.calendarSidebarState?.type === 'split', booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), index.h("igl-rate-extender-drawer", { key: '527c1cb0ef8213569bb1615a67d5ca93162d38a4', open: !!this.roomNightsData, bookingNumber: this.roomNightsData?.bookingNumber, identifier: this.roomNightsData?.identifier, toDate: this.roomNightsData?.to_date, fromDate: this.roomNightsData?.from_date, defaultDates: this.roomNightsData?.defaultDates, pool: this.roomNightsData?.pool, ticket: this.ticket, propertyId: this.property_id, language: this.language, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this) }), index.h("ir-booking-details-drawer", { key: 'c6f920febb0f7345110252e9674ec54f7fbaf8e7', open: this.editBookingItem?.event_type === 'EDIT_BOOKING', propertyId: this.property_id, bookingNumber: this.editBookingItem && this.editBookingItem?.event_type === 'EDIT_BOOKING' ? this.editBookingItem.BOOKING_NUMBER : null, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), index.h("ir-room-guests", { key: '17688c40e07aecf9a2543d1fca1895b953d3e259', open: this.calendarSidebarState?.type === 'room-guests', countries: this.countries, language: this.language, identifier: this.calendarSidebarState?.payload?.identifier, bookingNumber: this.calendarSidebarState?.payload?.bookingNumber, roomName: this.calendarSidebarState?.payload?.roomName, totalGuests: this.calendarSidebarState?.payload?.totalGuests, sharedPersons: this.calendarSidebarState?.payload?.sharing_persons, checkIn: true, onCloseModal: () => (this.calendarSidebarState = null) }), index.h("ir-reallocation-drawer", { key: '9d2c8bee40dd119ab5014c898b06b0a38b15820a', open: this.calendarSidebarState?.type === 'reallocate-drawer', booking: this.calendarSidebarState?.payload?.booking, pool: this.calendarSidebarState?.payload?.pool, roomIdentifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), index.h("igl-reallocation-dialog", { key: 'b9a5693f55a5c76e0055a52af33f5eb91f6bed31', onResetModalState: () => (this.dialogData = null), onDialogClose: () => this.handleModalCancel(), data: this.dialogData?.reason === 'reallocate' ? this.dialogData : undefined }), index.h("ir-modal", { key: 'f6c45eb557ac57fadd830e26792669b68b8ea6d6', ref: el => (this.calendarModalEl = el), modalTitle: 'lol', rightBtnActive: this.dialogData?.reason === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: locales_store.locales?.entries?.Lcz_Cancel, rightBtnText: locales_store.locales?.entries?.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) }), index.h("ir-checkout-dialog", { key: '4dd5e05a413c448943a886dbf8224127023c707d', style: { textAlign: 'start' }, booking: this.dialogData?.reason === 'checkout' ? this.dialogData?.booking : null, identifier: this.dialogData?.reason === 'checkout' ? this.dialogData?.roomIdentifier : null, open: this.dialogData?.reason === 'checkout', onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), index.h("ir-invoice", { key: 'a2f3cb24603c0f63d51c46c66db8470d0c33463d', style: { textAlign: 'start' }, onInvoiceClose: event => this.handleInvoiceClose(event), booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null }), index.h("ir-booking-editor-drawer", { key: '0f0fe3feaf1347e8fd93b1b8b9096932f4d0d521', roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, roomIdentifier: this.bookingItem?.IDENTIFIER, open: this.bookingItem !== null && this.bookingItem.event_type !== 'BLOCK_DATES', language: this.language, booking: this.bookingItem?.booking, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, blockedUnit: {
+        return (index.h(index.Host, { key: 'd834452205e753913d8f6580a9cd14d0ddccccf6' }, index.h("ir-toast", { key: '73704da5e96ec8f1e13bbebe4e87e875fda69800' }), index.h("ir-interceptor", { key: '6fe8f8870f3cbe3b482797add8643301c77e48d3' }), index.h("div", { key: 'e5e9950bcb48b7a042d93efb57bfe37e756985ef', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend, 'showDayUseBookings': this.showDayUseBookings } }, this.shouldRenderCalendarView() ? (index.h(index.Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (index.h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && index.h("igl-legend", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), this.showDayUseBookings && (index.h("igl-day-use-bookings", { class: "dayUseBookingsContainer", calendarData: this.calendarData, dayUseBookings: this.dayUseBookings, onOptionEvent: evt => this.onOptionSelect(evt) })), index.h("div", { class: "calendarScrollContainer", dir: direction.isRtlDirection(locales_store.locales.direction) ? 'rtl' : 'ltr', onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, index.h("div", { id: "calendarContainer" }, index.h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt), dayUseBookings: this.dayUseBookings }), index.h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData, dayUseBookings: this.dayUseBookings }), index.h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (index.h("ir-loading-screen", { message: "Preparing Calendar Data" }))), index.h("igl-split-booking-drawer", { key: 'd9badb55f786b8e48999beca46fe78baf5d47941', open: this.calendarSidebarState?.type === 'split', booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), index.h("igl-rate-extender-drawer", { key: '5c09b6e6ee07e88b0ac4dc09b4c416ce386e0804', open: !!this.roomNightsData, bookingNumber: this.roomNightsData?.bookingNumber, identifier: this.roomNightsData?.identifier, toDate: this.roomNightsData?.to_date, fromDate: this.roomNightsData?.from_date, defaultDates: this.roomNightsData?.defaultDates, pool: this.roomNightsData?.pool, ticket: this.ticket, propertyId: this.property_id, language: this.language, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this) }), index.h("ir-booking-details-drawer", { key: '34664ec3cdb1546c8dacc370a88ca526386f2658', open: this.editBookingItem?.event_type === 'EDIT_BOOKING', propertyId: this.property_id, bookingNumber: this.editBookingItem && this.editBookingItem?.event_type === 'EDIT_BOOKING' ? this.editBookingItem.BOOKING_NUMBER : null, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), index.h("ir-room-guests", { key: '467d88f0c4a42ff98e9b5dfcd72369d887817fd7', open: this.calendarSidebarState?.type === 'room-guests', countries: this.countries, language: this.language, identifier: this.calendarSidebarState?.payload?.identifier, bookingNumber: this.calendarSidebarState?.payload?.bookingNumber, roomName: this.calendarSidebarState?.payload?.roomName, totalGuests: this.calendarSidebarState?.payload?.totalGuests, sharedPersons: this.calendarSidebarState?.payload?.sharing_persons, checkIn: true, onCloseModal: () => (this.calendarSidebarState = null) }), index.h("ir-reallocation-drawer", { key: '6a855e5c432f99c56fbe1abd6282f90c89bb6d47', open: this.calendarSidebarState?.type === 'reallocate-drawer', booking: this.calendarSidebarState?.payload?.booking, pool: this.calendarSidebarState?.payload?.pool, roomIdentifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), index.h("igl-reallocation-dialog", { key: 'a730d5d95b54e57615c42d23d372979b923a2839', onResetModalState: () => (this.dialogData = null), onDialogClose: () => this.handleModalCancel(), data: this.dialogData?.reason === 'reallocate' ? this.dialogData : undefined }), index.h("ir-modal", { key: 'a328b96172dfe015717fc7a4efa70c3c0e963d84', ref: el => (this.calendarModalEl = el), modalTitle: 'lol', rightBtnActive: this.dialogData?.reason === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: locales_store.locales?.entries?.Lcz_Cancel, rightBtnText: locales_store.locales?.entries?.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) }), index.h("ir-checkout-dialog", { key: 'a3ebd96d6030f13a354a13f244c0a4e04257dd49', style: { textAlign: 'start' }, booking: this.dialogData?.reason === 'checkout' ? this.dialogData?.booking : null, identifier: this.dialogData?.reason === 'checkout' ? this.dialogData?.roomIdentifier : null, open: this.dialogData?.reason === 'checkout', onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), index.h("ir-invoice", { key: '918d2fb8521f07297129d764ddc5cbda50a74ecf', style: { textAlign: 'start' }, onInvoiceClose: event => this.handleInvoiceClose(event), booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null }), index.h("ir-booking-editor-drawer", { key: '6a047ef2a095ebbcda5b8695b7d86fba416eac77', roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, roomIdentifier: this.bookingItem?.IDENTIFIER, open: this.bookingItem !== null && this.bookingItem.event_type !== 'BLOCK_DATES', language: this.language, booking: this.bookingItem?.booking, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, blockedUnit: {
                 ENTRY_DATE: this.bookingItem?.ENTRY_DATE,
                 ENTRY_HOUR: this.bookingItem?.ENTRY_HOUR,
                 ENTRY_MINUTE: this.bookingItem?.ENTRY_MINUTE,
@@ -7665,7 +7668,7 @@ const IglooCalendar = class {
                 OUT_OF_SERVICE: this.bookingItem?.OUT_OF_SERVICE,
                 RELEASE_AFTER_HOURS: this.bookingItem?.RELEASE_AFTER_HOURS,
                 STATUS_CODE: this.bookingItem?.STATUS_CODE,
-            }, checkOut: this.bookingItem?.TO_DATE, dayUse: this.bookingItem?.dayUse === true }), index.h("igl-bulk-operations-drawer", { key: 'd2fef402851171b3d973f8c26724fa0ece134bc3', property_id: this.property_id, onCloseDrawer: () => (this.calendarSidebarState = null), open: this.calendarSidebarState?.type === 'bulk-blocks' }), index.h("ir-rectifier-drawer", { key: '810b7cd40c19f7807627a096f538581a2a6c717e', onCloseDrawer: () => (this.calendarSidebarState = null), open: this.calendarSidebarState?.type === 'rectifier' }), index.h("igl-blocked-date-drawer", { key: '81002d4fb8bd6be3fbc7d336b17851e8c6eed2a5', onBlockedDateDrawerClosed: e => {
+            }, checkOut: this.bookingItem?.TO_DATE, dayUse: this.bookingItem?.dayUse === true }), index.h("igl-bulk-operations-drawer", { key: '92535a7a6538fa33d4bcf0bb2d91936b7f69ed9c', property_id: this.property_id, onCloseDrawer: () => (this.calendarSidebarState = null), open: this.calendarSidebarState?.type === 'bulk-blocks' }), index.h("ir-rectifier-drawer", { key: '436a5869b3134e17d0f18e5d7e84f791a317d06a', onCloseDrawer: () => (this.calendarSidebarState = null), open: this.calendarSidebarState?.type === 'rectifier' }), index.h("igl-blocked-date-drawer", { key: '3378e975e5684a35cbde3fc68fbd2e7ba5a8ef2c', onBlockedDateDrawerClosed: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingItem = null;
@@ -7690,8 +7693,8 @@ const IrAgentBilling = class {
     isLoading = false;
     hasFetched = false;
     invoiceDialogRef;
-    cityLedgerService = new index$4.CityLedgerService();
-    tokenService = new Token.Token();
+    cityLedgerService = new index$5.CityLedgerService();
+    tokenService = new ApiClient.ApiClient();
     async componentWillLoad() {
         await this.fetchFiscalDocuments();
     }
@@ -9082,7 +9085,7 @@ const IrBookingCityLedger = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
     }
-    cityLedgerService = new index$4.CityLedgerService();
+    cityLedgerService = new index$5.CityLedgerService();
     /** Booking object; component is hidden when booking.agent is null. */
     booking;
     /** Active language code. */
@@ -9299,14 +9302,15 @@ const IrBookingDetails = class {
         this.closeSidebar = index.createEvent(this, "closeSidebar");
     }
     bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     roomService = new room_service.RoomService();
     paymentService = new payment_service.PaymentService();
     agentService = new agents_service.AgentsService();
-    cityLedgerService = new index$4.CityLedgerService();
+    cityLedgerService = new index$5.CityLedgerService();
     unsubscribeRealtime = null;
     clLockingPending = new Map();
     clLockingTimer = null;
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     arrivalTime;
     svcCategories;
     printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing/fd?id=%2';
@@ -9407,7 +9411,7 @@ const IrBookingDetails = class {
      */
     propertyid;
     /**
-     * Authentication token used to initialize the component.
+     * Authentication ApiClient used to initialize the component.
      * Triggers re-initialization when changed.
      */
     ticket = '';
@@ -9415,7 +9419,7 @@ const IrBookingDetails = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     /**
@@ -9430,7 +9434,7 @@ const IrBookingDetails = class {
     closeSidebar;
     componentWillLoad() {
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -9704,7 +9708,7 @@ const IrBookingDetails = class {
                         },
                     ],
                 }),
-                this.bookingService.getSetupEntriesByTableNameMulti([
+                this.setupService.getSetupEntriesByTableNameMulti([
                     '_BED_PREFERENCE_TYPE',
                     '_DEPARTURE_TIME',
                     '_PAY_TYPE',
@@ -9719,7 +9723,7 @@ const IrBookingDetails = class {
             const resolvedPropertyId = roomResponse?.My_Result?.id;
             await this.loadAgentAndFolio(bookingDetails, resolvedPropertyId);
             this.property_id = resolvedPropertyId;
-            const { bed_preference_type, svc_category, departure_time, pay_type, pay_type_group, pay_method, arrival_time } = this.bookingService.groupEntryTablesResult(setupEntries);
+            const { bed_preference_type, svc_category, departure_time, pay_type, pay_type_group, pay_method, arrival_time } = utils$1.groupEntryTablesResult(setupEntries);
             this.bedPreference = bed_preference_type;
             this.svcCategories = svc_category;
             this.departureTime = departure_time;
@@ -9783,10 +9787,10 @@ const IrBookingDetails = class {
                 .join('&');
             url += `&${safeParams}`;
         }
-        // Add token safely
-        const { data } = await axios.axios.post(`Get_ShortLiving_Token`);
+        // Add ApiClient safely
+        const { data } = await axios.axios.post(`Get_ShortLiving_ApiClient`);
         if (!data.ExceptionMsg) {
-            url += `&token=${encodeURIComponent(data.My_Result)}`;
+            url += `&ApiClient=${encodeURIComponent(data.My_Result)}`;
         }
         // Final: fully safe URL
         window.open(url);
@@ -10326,7 +10330,8 @@ const IrBookingEditor = class {
     preventPageLoad;
     roomService = new room_service.RoomService();
     bookingService = new booking_store.BookingService();
-    propertyService = new index$2.PropertyService();
+    setupService = new index$2.SetupService();
+    propertyService = new index$3.PropertyService();
     bookingEditorService = new IRBookingEditorService(this.mode);
     room;
     get dayUsePrice() {
@@ -10806,7 +10811,7 @@ const IrBookingEditor = class {
         });
     }
     async fetchSetupEntries() {
-        return await this.bookingService.fetchSetupEntries();
+        return await this.setupService.fetchSetupEntries();
     }
     render() {
         if (this.isLoading) {
@@ -10869,13 +10874,13 @@ const masks = {
         mask: 'HH:mm',
         blocks: {
             HH: {
-                mask: index$5.MaskedRange,
+                mask: index$6.MaskedRange,
                 from: 0,
                 to: 23,
                 placeholderChar: 'H',
             },
             mm: {
-                mask: index$5.MaskedRange,
+                mask: index$6.MaskedRange,
                 from: 0,
                 to: 59,
                 placeholderChar: 'm',
@@ -10896,19 +10901,19 @@ const masks = {
         placeholderChar: '_',
         blocks: {
             YYYY: {
-                mask: index$5.MaskedRange,
+                mask: index$6.MaskedRange,
                 from: 1900,
                 to: moment.hooks().format('YYYY'),
                 placeholderChar: 'Y',
             },
             MM: {
-                mask: index$5.MaskedRange,
+                mask: index$6.MaskedRange,
                 from: 1,
                 to: 12,
                 placeholderChar: 'M',
             },
             DD: {
-                mask: index$5.MaskedRange,
+                mask: index$6.MaskedRange,
                 from: 1,
                 to: 31,
                 placeholderChar: 'D',
@@ -10994,7 +10999,7 @@ const IrBookingEditorDrawer = class {
     }
     /** Controls drawer visibility (reflected to DOM). */
     open;
-    /** Auth token used for API requests. */
+    /** Auth ApiClient used for API requests. */
     ticket;
     /** Property identifier. */
     propertyid;
@@ -11026,15 +11031,15 @@ const IrBookingEditorDrawer = class {
     isLoading;
     /** Emitted when the booking editor drawer is closed. */
     bookingEditorClosed;
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     bookingService = new booking_store.BookingService();
     bookingEditorService = new IRBookingEditorService();
     wasBlockedUnit = false;
     didAdjustBlockedUnit = false;
     originalBlockPayload;
     componentWillLoad() {
-        if (this.token) {
-            this.token.setToken(this.ticket);
+        if (this.ApiClient) {
+            this.ApiClient.setApiClient(this.ticket);
         }
         this.initializeBlockedUnitState(this.blockedUnit);
         if (this.mode) {
@@ -11045,8 +11050,8 @@ const IrBookingEditorDrawer = class {
         }
     }
     handleTicketChange() {
-        if (this.token) {
-            this.token.setToken(this.ticket);
+        if (this.ApiClient) {
+            this.ApiClient.setApiClient(this.ticket);
         }
     }
     handleBlockedUnitChange(newValue) {
@@ -11295,7 +11300,7 @@ const IrBookingEditorDrawer = class {
         }
     }
     render() {
-        return (index.h("ir-drawer", { key: '5445de21c702bef5d7eb3ee5cb9bb9c9ccb99cda', onDrawerHide: async (event) => {
+        return (index.h("ir-drawer", { key: '5e56a7fbd15175b048a400bc9b66d48241daa021', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -11306,7 +11311,7 @@ const IrBookingEditorDrawer = class {
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendarData.calendar_data?.property?.is_frontdesk_enabled && (index.h("div", { key: '252e007e1afbd7ac26c2e7ec953a8900260ed12a', slot: "header-actions", style: { alignSelf: 'center' } }, index.h("wa-radio-group", { key: '463e5287a79618c5c095f26a646291547f196ff3', size: "s", value: booking_store.booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, index.h("wa-radio", { key: 'd6270a7f83e1b0f58ca3716a3c7f47af39fac168', appearance: "button", value: "manual" }, "Stay"), index.h("wa-radio", { key: '29babf44aa4f2416c26052bf3002e501ced698b6', appearance: "button", value: "day-use" }, "Day-use")))), this.open && this.ticket && (index.h("ir-booking-editor", { key: '3a1ab5d78d810cd33f591f87f80069cb24b18054', onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendarData.calendar_data?.property?.is_frontdesk_enabled && (index.h("div", { key: '6fe62cb615d682ca2abaf75896c2676bb8d3360c', slot: "header-actions", style: { alignSelf: 'center' } }, index.h("wa-radio-group", { key: 'edc66dc688247c1f418bd7f18023679711af1188', size: "s", value: booking_store.booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, index.h("wa-radio", { key: '2c066a31d948ef35b15711b97bf9ab0fc8329dca', appearance: "button", value: "manual" }, "Stay"), index.h("wa-radio", { key: 'dd67202c908137c076c64694e6f18a9a65d22861', appearance: "button", value: "day-use" }, "Day-use")))), this.open && this.ticket && (index.h("ir-booking-editor", { key: 'f3374d6a7739d2ff26352502713885a15ddfed63', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -11314,7 +11319,7 @@ const IrBookingEditorDrawer = class {
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), index.h("div", { key: 'c419a1e87c8e58604790d4f4438731ed3d002367', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), index.h("div", { key: '43c5255aae2516696f6b657d5fe8531200c54ef0', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get watchers() { return {
         "ticket": [{
@@ -11470,13 +11475,13 @@ const IrBookingEditorGuestForm = class {
         placeholderChar: '_',
         blocks: {
             MM: {
-                mask: index$5.IMask.MaskedRange,
+                mask: index$6.IMask.MaskedRange,
                 from: 1,
                 to: 12,
                 maxLength: 2,
             },
             YY: {
-                mask: index$5.IMask.MaskedRange,
+                mask: index$6.IMask.MaskedRange,
                 from: new Date().getFullYear() % 100,
                 to: (new Date().getFullYear() % 100) + 20,
                 maxLength: 2,
@@ -12878,8 +12883,9 @@ const IrCheckoutDialog = class {
     includeInvoice = false;
     checkoutDialogClosed;
     bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     agentService = new agents_service.AgentsService();
-    cityLedgerService = new index$4.CityLedgerService();
+    cityLedgerService = new index$5.CityLedgerService();
     initialPenaltyStr = '0.00';
     transactions = [];
     paymentFolioRef;
@@ -12947,16 +12953,15 @@ const IrCheckoutDialog = class {
             this.detectEarlyCheckout();
             const hasAgent = !!this.room?.agent;
             const hasDueAmount = (this.booking?.financial?.due_amount ?? 0) > 0;
-            const [invoiceInfo, agent, setupEntries] = await Promise.all([
+            const [invoiceInfo, agent, paymentEntries] = await Promise.all([
                 this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
                 hasAgent ? this.agentService.getExposedAgent({ id: this.booking.agent.id }) : Promise.resolve(null),
-                hasDueAmount ? this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']) : Promise.resolve(null),
+                hasDueAmount ? this.setupService.getPaymentEntries() : Promise.resolve(null),
             ]);
             this.invoiceInfo = invoiceInfo;
             this.setupButtons();
-            if (setupEntries) {
-                const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-                this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
+            if (paymentEntries) {
+                this.paymentEntries = paymentEntries;
             }
             if (agent && functions.isAgentMode(agent)) {
                 this.agent = agent;
@@ -13066,14 +13071,14 @@ const IrCheckoutDialog = class {
     render() {
         const isEarly = this.isEarlyCheckout && this.isLoading !== 'page';
         const hasDue = (this.booking?.guest_financial?.due_amount ?? 0) > 0;
-        return (index.h(index.Fragment, { key: 'c7300ea0f100267ae5ac3ba5f6124aa84e50c2d5' }, index.h("ir-dialog", { key: 'f1e69ca0b86be816e69660a4c19c8527ebc414ed', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
+        return (index.h(index.Fragment, { key: '6efc0a2973b44961366a2293658210a38f6cd2af' }, index.h("ir-dialog", { key: '7a2ab411d82769be0e906196b81483138642b9c9', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.buttons.clear();
                 this.checkoutDialogClosed.emit({ reason: 'cancel' });
-            } }, this.open && (index.h(index.Fragment, { key: '355bbf4746f9d8361b26456d9f72bec5f1d04337' }, this.isLoading === 'page' ? (index.h("div", { class: "dialog__loader-container" }, index.h("ir-spinner", null))) : (index.h(index.Fragment, null, index.h("div", { class: "checkout-dialog__callouts" }, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.renderSameDayWarning()), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (index.h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")), this.buttons.has('invoice_checkout') && (index.h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' } }, index.h("wa-checkbox", { style: { marginTop: '1rem', color: 'var(--wa-color-text-quiet)', marginInlineStart: 'auto' }, value: String(this.includeInvoice), defaultChecked: this.includeInvoice, onchange: () => {
+            } }, this.open && (index.h(index.Fragment, { key: '98a31eb3520b5752b0c3ac0af1f9e9f97a051dde' }, this.isLoading === 'page' ? (index.h("div", { class: "dialog__loader-container" }, index.h("ir-spinner", null))) : (index.h(index.Fragment, null, index.h("div", { class: "checkout-dialog__callouts" }, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.renderSameDayWarning()), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (index.h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")), this.buttons.has('invoice_checkout') && (index.h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' } }, index.h("wa-checkbox", { style: { marginTop: '1rem', color: 'var(--wa-color-text-quiet)', marginInlineStart: 'auto' }, value: String(this.includeInvoice), defaultChecked: this.includeInvoice, onchange: () => {
                 this.includeInvoice = !this.includeInvoice;
-            } }, "Prepare guest invoice after checkout"))))))), index.h("div", { key: 'b9b39024a004f42e158669ce9e6c6456f3edd55c', slot: "footer", class: "ir-dialog__footer" }, index.h(index.Fragment, { key: '7c5811b953b0c21a223d6908bb056d0fde6a9f0e' }, index.h("ir-custom-button", { key: '0a19f00539b56d20ccd8e748b16b81871e2addef', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales_store.locales?.entries?.Lcz_Cancel ?? 'Cancel'), index.h("ir-custom-button", { key: '634b23edb4ef7ab34becdfad5fcc83fbfed4f49a', size: "m", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm early check-out' : 'Check out')))), hasDue && this.paymentEntries && (index.h("ir-payment-folio", { key: 'c2ec296a6bacd12c9b0ca93a4c27e11c24e6dba0', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
+            } }, "Prepare guest invoice after checkout"))))))), index.h("div", { key: 'e63b6db25b616792a932ea9ce7d215d002c36684', slot: "footer", class: "ir-dialog__footer" }, index.h(index.Fragment, { key: '96cc13774563203ac8e86b46005e9cdb27a9bd2c' }, index.h("ir-custom-button", { key: 'bdc3c66d77ee156fec0f369ce8deece34e0e77ae', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales_store.locales?.entries?.Lcz_Cancel ?? 'Cancel'), index.h("ir-custom-button", { key: '0ed8b77e0b3ce81ed3523a7c8221c8b1a054ad0f', size: "m", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm early check-out' : 'Check out')))), hasDue && this.paymentEntries && (index.h("ir-payment-folio", { key: '4b887e2cea2f90bf891c3ed437285634cc2ec312', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
     }
     static get watchers() { return {
         "open": [{
@@ -13109,7 +13114,7 @@ const IrCityLedgerFiscalDocumentsTable = class {
     pendingAction = null;
     isConfirming = false;
     columnHelper = useTable.createColumnHelper();
-    cityLedgerService = new index$4.CityLedgerService();
+    cityLedgerService = new index$5.CityLedgerService();
     handleAction(action, row) {
         switch (action) {
             case 'view':
@@ -13812,8 +13817,8 @@ const IrCityLedgerTransactionForm = class {
     submitDisabledChange;
     clFiscalDocumentPreview;
     taxOptions = [];
-    bookingService = new booking_store.BookingService();
-    cityLedgerService = new index$4.CityLedgerService();
+    setupService = new index$2.SetupService();
+    cityLedgerService = new index$5.CityLedgerService();
     clTxTypes;
     get resolvedInitialType() {
         return enums.ClTxTypeCode.Payment;
@@ -13888,8 +13893,8 @@ const IrCityLedgerTransactionForm = class {
     async fetchPaymentEntries() {
         try {
             this.isLoading = true;
-            const setupEntries = await this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD', '_CL_TX_TYPE']);
-            const { pay_type, pay_type_group, pay_method, cl_tx_type } = this.bookingService.groupEntryTablesResult(setupEntries);
+            const setupEntries = await this.setupService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD', '_CL_TX_TYPE']);
+            const { pay_type, pay_type_group, pay_method, cl_tx_type } = utils$1.groupEntryTablesResult(setupEntries);
             this.paymentEntries = {
                 types: pay_type ?? [],
                 groups: pay_type_group ?? [],
@@ -14148,7 +14153,7 @@ const IrClFiscalDocumentPreview = class {
     isConverting = false;
     isFetching = false;
     documentConverted;
-    cityLedgerService = new index$4.CityLedgerService();
+    cityLedgerService = new index$5.CityLedgerService();
     async handlePreviewRequest(event) {
         event.stopImmediatePropagation();
         event.stopPropagation();
@@ -14329,7 +14334,7 @@ const IrClInvoiceDialog = class {
     dialogRef;
     formRef;
     invoicedClTxTypeCode = new Set([enums.ClTxTypeCode.Adjustment, enums.ClTxTypeCode.CancellationPenalty, enums.ClTxTypeCode.Discount, enums.ClTxTypeCode.StandardChargeDebit]);
-    cityLedgerService = new index$4.CityLedgerService();
+    cityLedgerService = new index$5.CityLedgerService();
     async openModal() {
         this.error = null;
         this.noResults = false;
@@ -14604,10 +14609,10 @@ const IrClPaymentFields = class {
         this.fieldChange.emit({ payment_method });
     }
     render() {
-        return (index.h(index.Fragment, { key: 'ea0661cda9507eac6a0e47e889983cd5312a0b1b' }, index.h("div", { key: '27e97f717d79614acbbe6fd0f9d81cd51939c3ae', class: "payment-section" }, index.h("div", { key: '71a9d907418ec968569cc7eb0eb7e217f72b0b6d', class: "field" }, index.h("ir-validator", { key: '31ec8eab58264627bf450b655c90596e3677af8c', schema: paymentMethodCodeFieldSchema, value: this.paymentMethodCode, valueEvent: "change" }, index.h("wa-select", { key: '046c653931edab813158d517cfa327afe2b1bbb4', size: "s", label: "Payment method", placeholder: "Select method\u2026", value: this.paymentMethodCode, "onwa-show": e => this.stopPropagation(e), "onwa-hide": e => this.stopPropagation(e), onchange: e => {
+        return (index.h(index.Fragment, { key: '8ca521c5989a4a847780e4c13f62a2b002463156' }, index.h("div", { key: '924b90e1a4a068ca2d691d7797e69ac49f2de3ce', class: "payment-section" }, index.h("div", { key: '84574795b8a501a35ad208460b7676f5bc5e834d', class: "field" }, index.h("ir-validator", { key: 'edc7f88d6aca577b0d252f7d4100a6fcc6f06880', schema: paymentMethodCodeFieldSchema, value: this.paymentMethodCode, valueEvent: "change" }, index.h("wa-select", { key: 'f2655be75940647530a1c231508916069a68bcf4', size: "s", label: "Payment method", placeholder: "Select method\u2026", value: this.paymentMethodCode, "onwa-show": e => this.stopPropagation(e), "onwa-hide": e => this.stopPropagation(e), onchange: e => {
                 this.stopPropagation(e);
                 this.handlePaymentMethodChange(e.target.value);
-            } }, index.h("wa-option", { key: '4e6c31d3dde781d0db53f35a06d0c45f6957e370', value: "" }, "Select method\u2026"), this.paymentMethods.map(method => (index.h("wa-option", { key: method.CODE_NAME, label: method.CODE_VALUE_EN, value: method.CODE_NAME }, utils.getEntryValue({ entry: method, language: this.language }))))))))));
+            } }, index.h("wa-option", { key: '30db923fa19ba295b4775e9ae70a875ebbbe1faf', value: "" }, "Select method\u2026"), this.paymentMethods.map(method => (index.h("wa-option", { key: method.CODE_NAME, label: method.CODE_VALUE_EN, value: method.CODE_NAME }, utils$1.getEntryValue({ entry: method, language: this.language }))))))))));
     }
 };
 IrClPaymentFields.style = irClPaymentFieldsCss();
@@ -16091,7 +16096,7 @@ function OverflowRelease(_tag = 'data-ir-overflow') {
 // const BODY_ATTR = 'data-overflow-locks';
 // Style element id prefix for per-tag CSS
 const STYLE_ID_PREFIX = 'overflow-style-';
-/** Ensure a <style> for this tag exists (once) and targets the body attr token. */
+/** Ensure a <style> for this tag exists (once) and targets the body attr ApiClient. */
 function ensureStyleForTag(tag) {
     if (!isDomAvailable())
         return;
@@ -16124,7 +16129,7 @@ function ensureStyleForTag(tag) {
     style.textContent = css;
     document.head.appendChild(style);
 }
-/** Add the tag token to body’s data-overflow-locks (space-separated tokens). */
+/** Add the tag ApiClient to body’s data-overflow-locks (space-separated tokens). */
 // function addBodyTag(tag: string) {
 //   if (!isDomAvailable()) return;
 //
@@ -16138,7 +16143,7 @@ function ensureStyleForTag(tag) {
 //     body.setAttribute(BODY_ATTR, Array.from(tokens).join(' '));
 //   }
 // }
-/** Remove the tag token from body’s data-overflow-locks. */
+/** Remove the tag ApiClient from body’s data-overflow-locks. */
 // function removeBodyTag(tag: string) {
 //   if (!isDomAvailable()) return;
 //
@@ -16599,7 +16604,7 @@ const IrExtraService = class {
     }
     get categoryLabel() {
         const category = this.category;
-        return category ? utils.getEntryValue({ entry: category, language: this.language }) : null;
+        return category ? utils$1.getEntryValue({ entry: category, language: this.language }) : null;
     }
     get description() {
         const categoryLabel = this.categoryLabel;
@@ -16638,8 +16643,8 @@ const IrExtraService = class {
         const statusTag = tx ? index.h("ir-cl-status-tag", { transaction: { _rowId: '', ...cityLedger_service.mapClTxToFolioRow(tx), balance: 0 }, size: "extra-small" }) : null;
         const unitName = this.linkedUnitName;
         const hasMeta = !!(this.service.start_date || unitName || statusTag);
-        return (index.h(index.Host, { key: 'f96b728d01d8401140f79cad2939fb2888c4cf79' }, index.h("div", { key: '4bdb291cbe0277e6334999c5a2758b0849cb82d2', class: "es-row" }, index.h("div", { key: '39a6195380df8a53c390f663a26e4d6f7fbed705', class: "es-content" }, index.h("p", { key: '339cc92b3d4785513e774eeea01de15182bc8cfa', class: "es-description" }, this.description, this.service.category.code === enums.SvcCategory.DayUse && (index.h("span", { key: 'd45c74ff306dc68e4f32bd2d8121e41f2b2713e2' }, ": ", this.formatDayUseTime(this.service.from_time), " \u2013 ", this.formatDayUseTime(this.service.to_time)))), hasMeta && (index.h("div", { key: 'f41cbbc8371b9ff8aacdb24884e63990094603ea', class: "es-meta" }, this.service.start_date &&
-            (this.service.end_date && this.service?.category?.code !== enums.SvcCategory.DayUse ? (index.h("ir-date-view", { class: "es-meta-date", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (index.h("span", { class: "es-meta-date" }, irDate.formatDate(new Date(this.service.start_date), 'MMM DD, YYYY'), " "))), unitName && index.h("ir-unit-tag", { key: '70309b5679251d1b80e4c17fc6d6b582b8696a5b', unit: unitName }), statusTag))), index.h("div", { key: '504579d6a2b698b36d4fa808e1fe6387f97d658e', class: "es-aside" }, !!this.service.price && this.service.price > 0 && (index.h("div", { key: '48c2f1295edb85ee6e319101472344848f90543a', class: "es-pricing" }, index.h("p", { key: 'd243cdd0573d957ffebc53a93c76953cf10f95ce', class: "es-price" }, number.formatAmount(this.currencySymbol, this.service.price)), !!this.service.charges?.vat_percent && index.h("p", { key: '3b1ad87a0e0373c7eccf05117e49a6c828310890', class: "es-vat" }, "incl. ", this.service.charges.vat_percent, "% VAT"))), index.h("wa-dropdown", { key: '644c412cc168d3a4e8cb81750c0fd686163ce6dd', "onwa-show": e => {
+        return (index.h(index.Host, { key: '2495b89e4d13aa9324646aa8f4a639b12b29957b' }, index.h("div", { key: '0dc74497f928e3db28702bb70b458e2560a5bac8', class: "es-row" }, index.h("div", { key: '9a21925ec764650b1aa86d6d24e0aa61439fc84d', class: "es-content" }, index.h("p", { key: 'f9f354fcdd115fe2383f5cad8af42e5f599be2b2', class: "es-description" }, this.description, this.service.category.code === enums.SvcCategory.DayUse && (index.h("span", { key: 'c198e5fc259c40522d2da454ccd0d060406e55fb' }, ": ", this.formatDayUseTime(this.service.from_time), " \u2013 ", this.formatDayUseTime(this.service.to_time)))), hasMeta && (index.h("div", { key: '91cd86694055150060509fa0bf9e121b3cf17271', class: "es-meta" }, this.service.start_date &&
+            (this.service.end_date && this.service?.category?.code !== enums.SvcCategory.DayUse ? (index.h("ir-date-view", { class: "es-meta-date", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (index.h("span", { class: "es-meta-date" }, irDate.formatDate(new Date(this.service.start_date), 'MMM DD, YYYY'), " "))), unitName && index.h("ir-unit-tag", { key: '267a8a1362aa1ecbb59647f1041f837418d3d9a1', unit: unitName }), statusTag))), index.h("div", { key: 'b9ae6e706835d54988742ab39842304c4f34f3b3', class: "es-aside" }, !!this.service.price && this.service.price > 0 && (index.h("div", { key: '2d09b92bbde28b645e5fcdae5534d4aa68ab5488', class: "es-pricing" }, index.h("p", { key: 'cdc9d8518d3d3b6ff4d323e877b332b72c20da54', class: "es-price" }, number.formatAmount(this.currencySymbol, this.service.price)), !!this.service.charges?.vat_percent && index.h("p", { key: 'fd624bd6b999f18042bb57367100baf01d5ad21c', class: "es-vat" }, "incl. ", this.service.charges.vat_percent, "% VAT"))), index.h("wa-dropdown", { key: 'f1584a7bb3bd6591868a1d77b3845fb0c6423331', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-hide": e => {
@@ -16657,10 +16662,10 @@ const IrExtraService = class {
                         this.toggleDialogRef.openModal();
                         break;
                 }
-            } }, index.h("wa-button", { key: '93a76f060ed9adf4254f26b423d943f359d12005', class: "es-action-trigger", slot: "trigger", size: "s", appearance: "plain", id: `extra-service-actions-${this.service.system_id}`, variant: "neutral", "aria-label": "Service actions" }, index.h("wa-icon", { key: '9881107adf2e6429a63f1e96d702f7c8d69f2cd6', class: "es-action-trigger-icon", name: "ellipsis-vertical" })), index.h("wa-dropdown-item", { key: 'f88412724dd76c29658445b7475c18aae4d84f64', value: "edit" }, "Edit"), agentMode && index.h("wa-dropdown-item", { key: 'aeabdddd540f6b1366c5c66750bddd17d2de181a', value: "toggle" }, "Re-assign to ", this.service.agent ? 'guest' : 'agent', " folio"), index.h("wa-dropdown-item", { key: '934085417b65a1883743f7e719f6dfff30b395f8', value: "delete", variant: "danger" }, "Delete")))), index.h("ir-assignment-toggle-dialog", { key: 'f747eae6bc88dac1113e0e9e5da348397fa79d84', ref: el => (this.toggleDialogRef = el), loading: this.isToggling, message: `Switch "${this.service.description}" to ${this.service.agent ? 'guest' : (this.booking?.agent?.name ?? 'agent')}?`, onConfirmToggle: () => this.toggleServiceAgent() }, index.h("span", { key: 'fe44172626d638221c80edc1fd1410a4ec51de53', slot: "message" }, "Re-assign ", this.description, " ", index.h("br", { key: '2ac7657e52a7cae52d9b0d86762b1bfb25e52ade' }), " from ", this.service.agent ? 'Agent' : 'Guest', " folio to ", index.h("b", { key: '8ececb7767cabfe47e95964cd182da4061676143' }, this.service.agent ? 'Guest' : 'Agent', " folio"), ".")), index.h("ir-dialog", { key: 'e469a08db49ed3c48abc3684d2d2e60163c1124d', onIrDialogHide: e => {
+            } }, index.h("wa-button", { key: '8e5f9b6d5e650bff18fba5f539ecac35eb893a6e', class: "es-action-trigger", slot: "trigger", size: "s", appearance: "plain", id: `extra-service-actions-${this.service.system_id}`, variant: "neutral", "aria-label": "Service actions" }, index.h("wa-icon", { key: '771a3aab2cfab9730e06711a4dd914dac186871a', class: "es-action-trigger-icon", name: "ellipsis-vertical" })), index.h("wa-dropdown-item", { key: '335124d7a96dd861d65e681b03a6af992fcb764a', value: "edit" }, "Edit"), agentMode && index.h("wa-dropdown-item", { key: '90a2f244b72b5519a41e7c3be7dded302fc6cf9d', value: "toggle" }, "Re-assign to ", this.service.agent ? 'guest' : 'agent', " folio"), index.h("wa-dropdown-item", { key: '5e91a0e920771b17d6da27b8766651ad278035b3', value: "delete", variant: "danger" }, "Delete")))), index.h("ir-assignment-toggle-dialog", { key: '4f0c75df5c2dc791af9f292d41e0f0bd65102015', ref: el => (this.toggleDialogRef = el), loading: this.isToggling, message: `Switch "${this.service.description}" to ${this.service.agent ? 'guest' : (this.booking?.agent?.name ?? 'agent')}?`, onConfirmToggle: () => this.toggleServiceAgent() }, index.h("span", { key: 'eda9cc48f9f815384d343f0c4cdd795afde701da', slot: "message" }, "Re-assign ", this.description, " ", index.h("br", { key: '63f1fdeedfc23236604ba27d1f789f5455db07e5' }), " from ", this.service.agent ? 'Agent' : 'Guest', " folio to ", index.h("b", { key: '5dfba7dbc24ce850dfee0ab8600963db26c006ec' }, this.service.agent ? 'Guest' : 'Agent', " folio"), ".")), index.h("ir-dialog", { key: 'f21dc31e20afb209eb0c020bbe6867bb509ff90c', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, label: "Alert", ref: el => (this.irModalRef = el), lightDismiss: false }, `${locales_store.locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales_store.locales.entries.Lcz_ThisService} ${locales_store.locales.entries.Lcz_FromThisBooking}`, index.h("div", { key: '2225026f1c17519ccec81e42652fe5136dc82959', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: 'eb7cf873cb0675f73a4c00cce14a60bdc017cd78', appearance: "filled", variant: "neutral", size: "m", "data-dialog": "close" }, locales_store.locales.entries.Lcz_Cancel), index.h("ir-custom-button", { key: '09f2e4f50a63637816347517d1fb05729a36bedf', onClickHandler: () => this.deleteService(), loading: irInterceptor_store.isRequestPending('/Do_Booking_Extra_Service'), variant: "danger", size: "m" }, locales_store.locales.entries.Lcz_Delete)))));
+            }, label: "Alert", ref: el => (this.irModalRef = el), lightDismiss: false }, `${locales_store.locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales_store.locales.entries.Lcz_ThisService} ${locales_store.locales.entries.Lcz_FromThisBooking}`, index.h("div", { key: '25be12065ec1ea22bc52144abb9258ab35111ae8', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: 'ccb1baea0cc0c93fbc3b97d05dc939b7f44d85cd', appearance: "filled", variant: "neutral", size: "m", "data-dialog": "close" }, locales_store.locales.entries.Lcz_Cancel), index.h("ir-custom-button", { key: '475dab7c159b0dc19842477dc7a4ac8312ac7524', onClickHandler: () => this.deleteService(), loading: irInterceptor_store.isRequestPending('/Do_Booking_Extra_Service'), variant: "danger", size: "m" }, locales_store.locales.entries.Lcz_Delete)))));
     }
 };
 IrExtraService.style = irExtraServiceCss();
@@ -16785,7 +16790,7 @@ const IrExtraServiceConfigForm = class {
         return null;
     }
     get taxCategoryLookup() {
-        const notApplicableCodes = new Set(calendarData.calendar_data.property.tax_categories.filter(c => c.taxation_mode?.code === index$2.taxationModes.NOT_APPLICABLE).map(c => c.category.code));
+        const notApplicableCodes = new Set(calendarData.calendar_data.property.tax_categories.filter(c => c.taxation_mode?.code === index$3.taxationModes.NOT_APPLICABLE).map(c => c.category.code));
         const taxPctByCode = Object.fromEntries(calendarData.calendar_data.property.tax_categories.map(c => [c.category.code, c.pct || 0]));
         const realCodes = new Set(this.svcCategories.map(c => c.CODE_NAME));
         const accVat = svcCategory_utils.toAccChargeRule(svcCategory_utils.findAccTax('vat'));
@@ -16796,7 +16801,7 @@ const IrExtraServiceConfigForm = class {
         // Synthesized parent-group placeholders (e.g. Accommodation) have no `tax_categories` row of their
         // own — their rate mirrors the property's accommodation VAT, same as it does on the Extra Services page.
         if (!realCodes.has(cat.CODE_NAME)) {
-            return { ...cat, pct: accVat.mode === index$2.taxationModes.NOT_APPLICABLE ? 0 : (accVat.value ?? 0), isNotApplicable: accVat.mode === index$2.taxationModes.NOT_APPLICABLE };
+            return { ...cat, pct: accVat.mode === index$3.taxationModes.NOT_APPLICABLE ? 0 : (accVat.value ?? 0), isNotApplicable: accVat.mode === index$3.taxationModes.NOT_APPLICABLE };
         }
         return { ...cat, pct: taxPctByCode[cat.CODE_NAME] ?? 0, isNotApplicable: notApplicableCodes.has(cat.CODE_NAME) };
     }
@@ -17140,7 +17145,8 @@ const IrGuestBilling = class {
     /** Refreshes the wider booking-details tree. Emit with a Booking payload to skip ir-booking-details' full-page loading spinner. */
     resetBookingEvt;
     bookingService = new booking_store.BookingService();
-    propertyService = new index$2.PropertyService();
+    setupService = new index$2.SetupService();
+    propertyService = new index$3.PropertyService();
     _id = `issue_invoice__btn_${v4.v4()}`;
     voidDialogRef;
     componentWillLoad() {
@@ -17175,7 +17181,7 @@ const IrGuestBilling = class {
     async init() {
         try {
             this.isLoading = 'page';
-            const [, fdTypes] = await Promise.all([this.refreshInvoiceAndFolio(), this.bookingService.getSetupEntriesByTableName('_FD_TYPE')]);
+            const [, fdTypes] = await Promise.all([this.refreshInvoiceAndFolio(), this.setupService.getSetupEntriesByTableName('_FD_TYPE')]);
             this.fdTypes = fdTypes ?? [];
             let voidedReceipts = new Set();
             this.booking.financial.payments?.forEach(payment => {
@@ -17225,7 +17231,7 @@ const IrGuestBilling = class {
     get fdTypeLabels() {
         const map = {};
         for (const entry of this.fdTypes) {
-            map[entry.CODE_NAME] = utils.getEntryValue({ entry, language: 'en' });
+            map[entry.CODE_NAME] = utils$1.getEntryValue({ entry, language: 'en' });
         }
         return map;
     }
@@ -17315,7 +17321,7 @@ const IrGuestDocumentPreview = class {
         [enums.FdTypes.Refund]: 'refund',
         [enums.FdTypes.Proforma]: 'proforma',
     };
-    propertyService = new index$2.PropertyService();
+    propertyService = new index$3.PropertyService();
     async handlePreviewRequest(event) {
         event.stopImmediatePropagation();
         event.stopPropagation();
@@ -17486,12 +17492,12 @@ const IrGuestInfoForm = class {
     guestChanged;
     bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     componentWillLoad() {
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
         }
-        if (!!this.token.getToken()) {
+        if (!!this.ApiClient.getToken()) {
             this.init();
         }
     }
@@ -17499,7 +17505,7 @@ const IrGuestInfoForm = class {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
     }
     handleInputChange(params) {
         this.guest = { ...this.guest, ...params };
@@ -18115,7 +18121,7 @@ const IrInput = class {
         const nativeInput = this.inputRef.input;
         if (!nativeInput)
             return;
-        this._mask = index$5.IMask(nativeInput, maskOpts);
+        this._mask = index$6.IMask(nativeInput, maskOpts);
         if (this.value) {
             if (this.returnMaskedValue) {
                 this._mask.unmaskedValue = this.value;
@@ -18397,7 +18403,7 @@ const IrInputText = class {
         if (!this.mask || this.maskInstance) {
             return;
         }
-        this.maskInstance = index$5.IMask(this.inputRef, this.mask);
+        this.maskInstance = index$6.IMask(this.inputRef, this.mask);
         this.maskInstance.on('accept', () => {
             const isEmpty = this.inputRef.value.trim() === '' || this.maskInstance.unmaskedValue === '';
             if (isEmpty) {
@@ -18896,7 +18902,7 @@ const IrInvoice = class {
     viewMode = 'invoice';
     isLoading;
     _id = `invoice-form__${v4.v4()}`;
-    tokenService = new Token.Token();
+    tokenService = new ApiClient.ApiClient();
     componentWillLoad() {
         if (this.booking) {
             if (moment.hooks().isBefore(moment.hooks(this.booking.from_date, 'YYYY-MM-DD'), 'dates') && this.viewMode === 'invoice') {
@@ -18913,7 +18919,7 @@ const IrInvoice = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '3b130cf953aa817e21da03a0aeafbfae65ccb79b' }, index.h("ir-drawer", { key: '9988cb5ece23fc70b652069fdf3e16b351db3a9d', style: {
+        return (index.h(index.Host, { key: 'f349ec63b1163709877e7a67de1ef099c9dc78cb' }, index.h("ir-drawer", { key: '0c53efa31c1a117bb1ded9b099acf99fe5af3fcc', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -18924,16 +18930,16 @@ const IrInvoice = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDrawer();
-            } }, index.h("div", { key: '45126b5530c5e3917537953cb7401d0c21645166', class: "d-flex align-items-center", slot: "header-actions" }, index.h("wa-switch", { key: '1f5855fc737a4b0ebc16f768091d414aca2785a1', defaultChecked: this.viewMode === 'proforma', checked: this.viewMode === 'proforma', onchange: e => {
+            } }, index.h("div", { key: '99ee15d5432889a53860ae2de6f20430b28c31cc', class: "d-flex align-items-center", slot: "header-actions" }, index.h("wa-switch", { key: '1c68601bb00e8d38a37fefdbf6dfd968330d17af', defaultChecked: this.viewMode === 'proforma', checked: this.viewMode === 'proforma', onchange: e => {
                 if (e.target.checked) {
                     this.viewMode = 'proforma';
                 }
                 else {
                     this.viewMode = 'invoice';
                 }
-            } }, "Proforma")), this.open && (index.h("ir-invoice-form", { key: '92f4b70a7262d53d2a01006083f175b0f9581970', viewMode: this.viewMode, for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, formId: this._id, onPreviewProformaInvoice: e => (this.invoice = e.detail.invoice), invoiceInfo: this.invoiceInfo, onLoadingChange: e => (this.isLoading = e.detail) })), index.h("div", { key: 'c09482a388d1149a3d4a9599b84d320cd9575322', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: 'b1f26efff1fd818add11ee580b06d81936a9ab25', size: "m", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
+            } }, "Proforma")), this.open && (index.h("ir-invoice-form", { key: '6f101315a9fd309b4407acb1d838ee81fcda2884', viewMode: this.viewMode, for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, formId: this._id, onPreviewProformaInvoice: e => (this.invoice = e.detail.invoice), invoiceInfo: this.invoiceInfo, onLoadingChange: e => (this.isLoading = e.detail) })), index.h("div", { key: 'f371318b7678a9cceca06217849530503082979c', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: '3395c70d2cc78eaa5621d548c814e6df7c90100f', size: "m", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
                 this.closeDrawer();
-            } }, "Cancel"), index.h("ir-custom-button", { key: '59944877931bd863be597c47b5ce26700a4d431b', disabled: this.invoiceInfo?.invoiceable_items?.filter(i => i.is_invoiceable)?.length === 0, loading: this.isLoading, value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "m", variant: "brand", id: `confirm-btn_${this._id}` }, "Confirm"))), index.h("ir-fiscal-document-preview", { key: 'c48ba2848b7630b1ab9ec41afe63f1a91bf3959e', mode: "all", ticket: this.tokenService.getToken(), propertyId: calendarData.calendar_data?.property?.id })));
+            } }, "Cancel"), index.h("ir-custom-button", { key: 'df27a842d49861e382fc51b7addf7a213ba0a4af', disabled: this.invoiceInfo?.invoiceable_items?.filter(i => i.is_invoiceable)?.length === 0, loading: this.isLoading, value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "m", variant: "brand", id: `confirm-btn_${this._id}` }, "Confirm"))), index.h("ir-fiscal-document-preview", { key: '5afe0dc31b7629845ba720b957e5d436ba1d456b', mode: "all", ticket: this.tokenService.getToken(), propertyId: calendarData.calendar_data?.property?.id })));
     }
     static get watchers() { return {
         "booking": [{
@@ -19032,6 +19038,7 @@ const IrInvoiceForm = class {
     room;
     confirmButtonRef;
     bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     invoiceTarget;
     apiDisabledItemKeys = new Set();
     alreadyInvoicedItemKeys = new Set();
@@ -19198,9 +19205,9 @@ const IrInvoiceForm = class {
             });
         }
         else {
-            const { data } = await axios.axios.post(`Get_ShortLiving_Token`);
+            const { data } = await axios.axios.post(`Get_ShortLiving_ApiClient`);
             if (!data.ExceptionMsg) {
-                url += `&token=${encodeURIComponent(data.My_Result)}`;
+                url += `&ApiClient=${encodeURIComponent(data.My_Result)}`;
             }
             window.open(url, '_blank');
         }
@@ -19286,7 +19293,7 @@ const IrInvoiceForm = class {
             const [booking, invoiceInfo, svcCategories] = await Promise.all([
                 this.bookingService.getExposedBooking({ booking_nbr: this.booking.booking_nbr, language: 'en', withExtras: true }),
                 this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
-                this.bookingService.getSetupEntriesByTableName('_SVC_CATEGORY'),
+                this.setupService.getSetupEntriesByTableName('_SVC_CATEGORY'),
             ]);
             this.booking = { ...booking };
             this.svcCategories = svcCategories;
@@ -19298,7 +19305,7 @@ const IrInvoiceForm = class {
                     this.room = this.booking.rooms.find(r => r.identifier === this.roomIdentifier);
                 }
             }
-            this.invoiceTarget = await this.bookingService.getSetupEntriesByTableName('_INVOICE_TARGET');
+            this.invoiceTarget = await this.setupService.getSetupEntriesByTableName('_INVOICE_TARGET');
         }
         catch (error) {
             console.error(error);
@@ -19731,7 +19738,7 @@ const IrInvoiceForm = class {
     }
     categoryLabel(service) {
         const category = this.category(service);
-        return category ? utils.getEntryValue({ entry: category, language: 'en' }) : null;
+        return category ? utils$1.getEntryValue({ entry: category, language: 'en' }) : null;
     }
     description(service) {
         const categoryLabel = this.categoryLabel(service);
@@ -20748,20 +20755,20 @@ const IrOtpModal = class {
     timerInterval;
     systemService = new system_service.SystemService();
     roomService = new room_service.RoomService();
-    tokenService = new Token.Token();
+    tokenService = new ApiClient.ApiClient();
     otpVerificationSchema = index$1.libExports.z.object({ email: index$1.libExports.z.string().nonempty(), requestUrl: index$1.libExports.z.string().nonempty(), otp: index$1.libExports.z.string().length(this.otpLength) });
     /** Emits the final OTP (or empty on cancel) */
     otpFinished;
     isInitializing;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
         }
         this.fetchLocale();
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.tokenService.setToken(newValue);
+            this.tokenService.setApiClient(newValue);
             this.fetchLocale();
         }
     }
@@ -20882,7 +20889,7 @@ const IrOtpModal = class {
         this.clearTimer();
     }
     render() {
-        return (index.h(index.Host, { key: '7ac4bfab05a6263d79b62cee4f3f7d88027ce93a' }, index.h("ir-dialog", { key: '019c34f8f9028d80ec21a999c31fa4e3e3c346c6', class: "otp-modal", ref: el => (this.dialogRef = el), open: this.open, withoutHeader: true, lightDismiss: false, onIrDialogHide: e => this.handleDialogHide(e) }, this.isInitializing || !locales_store.locales.entries ? (index.h("div", { class: "modal-loading-container" }, index.h("ir-spinner", null))) : (index.h(index.Fragment, null, index.h("header", { class: "otp-modal-header" }, index.h("h5", { class: "otp-modal-title" }, locales_store.locales.entries.Lcz_VerifyYourIdentity)), index.h("section", { class: "otp-modal-body" }, index.h("p", { class: "verification-message" }, locales_store.locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), index.h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && index.h("p", { class: "otp-error" }, this.error), this.showResend && (index.h(index.Fragment, null, this.timer > 0 ? (index.h("p", { class: "otp-resend-timer" }, locales_store.locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (index.h("ir-custom-button", { class: "otp-resend-btn", link: true, size: "s", onClickHandler: e => {
+        return (index.h(index.Host, { key: '378b8765d19beea358d51eb276f104f590b36b80' }, index.h("ir-dialog", { key: '7305c7d5c3bbe7af0cbbc470d354c8c4fc113752', class: "otp-modal", ref: el => (this.dialogRef = el), open: this.open, withoutHeader: true, lightDismiss: false, onIrDialogHide: e => this.handleDialogHide(e) }, this.isInitializing || !locales_store.locales.entries ? (index.h("div", { class: "modal-loading-container" }, index.h("ir-spinner", null))) : (index.h(index.Fragment, null, index.h("header", { class: "otp-modal-header" }, index.h("h5", { class: "otp-modal-title" }, locales_store.locales.entries.Lcz_VerifyYourIdentity)), index.h("section", { class: "otp-modal-body" }, index.h("p", { class: "verification-message" }, locales_store.locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), index.h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && index.h("p", { class: "otp-error" }, this.error), this.showResend && (index.h(index.Fragment, null, this.timer > 0 ? (index.h("p", { class: "otp-resend-timer" }, locales_store.locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (index.h("ir-custom-button", { class: "otp-resend-btn", link: true, size: "s", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
@@ -21629,30 +21636,36 @@ const IrPaymentSummary = class {
     booking;
     agent;
     clTransactions = [];
-    allowedClOps = new Set([enums.ClTxTypeCode.Adjustment, enums.ClTxTypeCode.StandardChargeDebit, enums.ClTxTypeCode.CancellationPenalty, enums.ClTxTypeCode.Discount]);
+    // private allowedClOps = new Set([ClTxTypeCode.Adjustment, ClTxTypeCode.StandardChargeDebit, ClTxTypeCode.CancellationPenalty, ClTxTypeCode.Discount]);
     shouldShowTotalCost() {
         return this.totalCost > 0 && this.totalCost !== null;
     }
     get agentTotal() {
-        return ((this.booking.agent_financial.gross_total ?? 0) +
-            this.clTransactions.reduce((prev, curr) => {
-                if (this.allowedClOps.has(curr.CL_TX_TYPE_CODE) && curr.CATEGORY === null) {
-                    return prev + curr.DEBIT - curr.CREDIT;
-                }
-                return prev;
-            }, 0));
+        // return (
+        //   (this.booking.agent_financial.gross_total ?? 0) +
+        //   this.clTransactions.reduce((prev, curr) => {
+        //     if (this.allowedClOps.has(curr.CL_TX_TYPE_CODE as any) && curr.CATEGORY === null) {
+        //       return prev + curr.DEBIT - curr.CREDIT;
+        //     }
+        //     return prev;
+        //   }, 0)
+        // );
+        return this.booking?.financial?.agent_total ?? 0;
     }
-    get guestTotal() {
-        return ((this.booking.guest_financial.gross_total ?? 0) +
-            this.booking.financial.payments.reduce((prev, curr) => {
-                if (curr.is_city_ledger) {
-                    return prev;
-                }
-                return prev + (curr.payment_type.operation === 'CR' ? (curr.payment_type.code === '009' ? curr.amount * -1 : 0) : curr.amount);
-            }, 0));
-    }
+    // private get guestTotal() {
+    //   return (
+    //     (this.booking.guest_financial.gross_total ?? 0) +
+    //     this.booking.financial.payments.reduce((prev, curr) => {
+    //       if (curr.is_city_ledger) {
+    //         return prev;
+    //       }
+    //       return prev + (curr.payment_type.operation === 'CR' ? (curr.payment_type.code === '009' ? curr.amount * -1 : 0) : curr.amount);
+    //     }, 0)
+    //   );
+    // }
     get bookingTotal() {
-        return this.agentTotal + this.guestTotal;
+        return this.booking.financial.booking_total;
+        // return this.agentTotal + this.guestTotal;
     }
     render() {
         if (functions.isAgentMode(this.agent)) {
@@ -49102,7 +49115,7 @@ const IrPdfViewer = class {
     loadingTask = null;
     pdf = null;
     renderTask = null;
-    loadToken = 0;
+    loadApiClient = 0;
     resizeObserver;
     resizeTimer;
     get el() { return index.getElement(this); }
@@ -49130,7 +49143,7 @@ const IrPdfViewer = class {
             this.loadPdf(this.src);
     }
     disconnectedCallback() {
-        this.loadToken++;
+        this.loadApiClient++;
         this.renderTask?.cancel();
         this.renderTask = null;
         this.pdf = null;
@@ -49144,7 +49157,7 @@ const IrPdfViewer = class {
         }
     }
     async loadPdf(url) {
-        const token = ++this.loadToken;
+        const ApiClient = ++this.loadApiClient;
         this.isLoading = true;
         this.error = null;
         this.totalPages = 0;
@@ -49157,26 +49170,26 @@ const IrPdfViewer = class {
             const task = getDocument({ url });
             this.loadingTask = task;
             const pdf = await task.promise;
-            if (token !== this.loadToken) {
+            if (ApiClient !== this.loadApiClient) {
                 await task.destroy();
                 return;
             }
             this.pdf = pdf;
             this.totalPages = pdf.numPages;
-            await this.renderPage(this.currentPage, token);
+            await this.renderPage(this.currentPage, ApiClient);
         }
         catch (err) {
-            if (token !== this.loadToken || isCancelled(err))
+            if (ApiClient !== this.loadApiClient || isCancelled(err))
                 return;
             const msg = err instanceof Error ? err.message : String(err);
             this.error = `Could not load PDF: ${msg}`;
         }
         finally {
-            if (token === this.loadToken)
+            if (ApiClient === this.loadApiClient)
                 this.isLoading = false;
         }
     }
-    async renderPage(pageNumber, token) {
+    async renderPage(pageNumber, ApiClient) {
         const pdf = this.pdf;
         const canvas = this.canvasEl;
         if (!pdf || !canvas)
@@ -49184,7 +49197,7 @@ const IrPdfViewer = class {
         this.renderTask?.cancel();
         this.renderTask = null;
         const page = await pdf.getPage(pageNumber);
-        if (token !== this.loadToken)
+        if (ApiClient !== this.loadApiClient)
             return;
         const hostW = this.el.clientWidth;
         if (hostW === 0)
@@ -49218,26 +49231,26 @@ const IrPdfViewer = class {
             window.clearTimeout(this.resizeTimer);
         this.resizeTimer = window.setTimeout(() => {
             this.resizeTimer = undefined;
-            this.renderPage(this.currentPage, this.loadToken);
+            this.renderPage(this.currentPage, this.loadApiClient);
         }, 120);
     }
     async goTo(page) {
         if (!this.pdf || page < 1 || page > this.totalPages || this.isLoading)
             return;
-        const token = this.loadToken;
+        const ApiClient = this.loadApiClient;
         this.currentPage = page;
         this.isLoading = true;
         try {
-            await this.renderPage(page, token);
+            await this.renderPage(page, ApiClient);
         }
         catch (err) {
-            if (token !== this.loadToken || isCancelled(err))
+            if (ApiClient !== this.loadApiClient || isCancelled(err))
                 return;
             const msg = err instanceof Error ? err.message : String(err);
             this.error = `Could not render page: ${msg}`;
         }
         finally {
-            if (token === this.loadToken)
+            if (ApiClient === this.loadApiClient)
                 this.isLoading = false;
         }
     }
@@ -49250,7 +49263,7 @@ const IrPdfViewer = class {
         const { isLoading, error, totalPages, currentPage } = this;
         const atFirstPage = currentPage <= 1 || isLoading;
         const atLastPage = currentPage >= totalPages || isLoading;
-        return (index.h(index.Host, { key: '0d3a53e74d8b6e5c1e6438a631f5bb2e5159489f' }, index.h("canvas", { key: 'c7ab31a07dc5ab28388e93da953d3c39f09ed97a', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (index.h("div", { key: '18f9c1473080715b5b92ca2deebf0fbbfd0c1066', class: "overlay" }, index.h("wa-spinner", { key: 'faa2f8205eaec9c8da01b0f39ca9f95c12e5e946' }))), error && !isLoading && (index.h("div", { key: '5c0de1aac310f34a34d1a34a385eb09a9bad4b25', class: "error-state", role: "alert" }, index.h("wa-icon", { key: 'b0be0a675703b2a04dda4ec8ad36deacd6c93489', name: "triangle-exclamation" }), index.h("span", { key: 'b5fb396eeb8fc49f3c78e296128c8a5116fdb1ad' }, error))), totalPages > 1 && (index.h("div", { key: 'f6e09d3b68955d64f646b27c31531051b8785e36', class: "pagination" }, index.h("button", { key: '71fa09e954d1b2eecaa9643498f1295a3c2390ba', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, index.h("wa-icon", { key: '48d7032dae69217551a09c7c410da7fd979cd94c', class: "ir-flip-rtl", name: "chevron-left" })), index.h("span", { key: '7703a77f69d2c6ffa7a9a54311a9a3451991d9f0', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), index.h("button", { key: 'c477f519734d44461a89be5dc761fb5ff5fd39af', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, index.h("wa-icon", { key: '9c615007c4873c4deb12c178d2458dfd0f869080', class: "ir-flip-rtl", name: "chevron-right" }))))));
+        return (index.h(index.Host, { key: '74ea2b56a72adc0b11eb46c1f253d3ec126fcfb3' }, index.h("canvas", { key: 'cc71e0fb43101eacd5e43a67387c3557dbbc43bd', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (index.h("div", { key: 'b2c4f298282e312ebb4aafd58f82e4f5297d2bbb', class: "overlay" }, index.h("wa-spinner", { key: 'ea34c3214c3b0c2396851d5724201a683ad466ad' }))), error && !isLoading && (index.h("div", { key: '511a19e33de2a213c4426a33553f2c331f0bd033', class: "error-state", role: "alert" }, index.h("wa-icon", { key: '0553da979e2cee4e1533799dd3da7468f256e891', name: "triangle-exclamation" }), index.h("span", { key: '1b5c5968447a51a7ea2ecd503e4feae70150473a' }, error))), totalPages > 1 && (index.h("div", { key: '988a55da3ddb17d59f112bd9028dfd5219ba3c5b', class: "pagination" }, index.h("button", { key: '83a9c7b008ddce0087164ccde9c243e546d09073', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, index.h("wa-icon", { key: 'c2b598dec3007ea8bbc131963ad4486573e4365d', class: "ir-flip-rtl", name: "chevron-left" })), index.h("span", { key: 'f6a1118c2d3444486f85e722ef39f8dbec9d8a72', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), index.h("button", { key: '98c5e0022580b44fed603761bd21a04513c2e922', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, index.h("wa-icon", { key: '139445eb0e16c32fb524df2534ed2aba524444c7', class: "ir-flip-rtl", name: "chevron-right" }))))));
     }
     static get watchers() { return {
         "src": [{
@@ -50724,7 +50737,7 @@ const IrRectifier = class {
     showRoomTypeError = false;
     loadingChanged;
     closeDrawer;
-    propertyService = new index$2.PropertyService();
+    propertyService = new index$3.PropertyService();
     toDateRef;
     componentWillLoad() {
         this.form = {
@@ -50768,7 +50781,7 @@ const IrRectifier = class {
         this.showRoomTypeError = false;
         try {
             const propertyId = this.form.property_id ?? calendarData.calendar_data.property?.id ?? calendarData.calendar_data.id ?? undefined;
-            const result = index$2.ExposedRectifierParamsSchema.safeParse({
+            const result = index$3.ExposedRectifierParamsSchema.safeParse({
                 ...this.form,
                 property_id: propertyId,
             });
@@ -50806,11 +50819,11 @@ const IrRectifier = class {
                     const checked = e.target.checked;
                     this.updateRoomTypeSelection(roomTypeId, checked);
                 } }, roomtype.name));
-        })), this.showRoomTypeError && index.h("p", { key: 'd8036c403878fff1cc09a4b3959de3d8b994934f', class: "text-danger m-0" }, "Please select at least one room type."), index.h("div", { key: '8e4de76c6567cd82c1e3a82aed17fe6fad9e80a0', class: "ir-rectifier__date-range" }, index.h("ir-validator", { key: 'd9aba1514e47ed70adb71df2714bc3c8815cc6d8', value: this.form.from ?? null, schema: index$2.ExposedRectifierParamsSchema.shape.from, autovalidate: this.autoValidate }, index.h("ir-date-select", { key: 'c37788f2d04c88d37be5b04965b53ff2cafc63df', class: "ir-rectifier__date-picker ir-rectifier__date-picker--from", label: "Date from", emitEmptyDate: true, date: this.form.from, onDateChanged: e => {
+        })), this.showRoomTypeError && index.h("p", { key: 'd8036c403878fff1cc09a4b3959de3d8b994934f', class: "text-danger m-0" }, "Please select at least one room type."), index.h("div", { key: '8e4de76c6567cd82c1e3a82aed17fe6fad9e80a0', class: "ir-rectifier__date-range" }, index.h("ir-validator", { key: 'd9aba1514e47ed70adb71df2714bc3c8815cc6d8', value: this.form.from ?? null, schema: index$3.ExposedRectifierParamsSchema.shape.from, autovalidate: this.autoValidate }, index.h("ir-date-select", { key: 'c37788f2d04c88d37be5b04965b53ff2cafc63df', class: "ir-rectifier__date-picker ir-rectifier__date-picker--from", label: "Date from", emitEmptyDate: true, date: this.form.from, onDateChanged: e => {
                 const from = e.detail.start?.format('YYYY-MM-DD') ?? null;
                 this.updateForm(this.normalizeDateRange({ from }));
                 requestAnimationFrame(() => this.toDateRef?.show());
-            } })), index.h("ir-validator", { key: 'ae18f78372e414c7672e2415f411df248d833936', value: this.form.to ?? null, schema: index$2.ExposedRectifierParamsSchema.shape.to, autovalidate: this.autoValidate }, index.h("ir-date-select", { key: '084082063c545f570977b2df2181c911a89673f4', class: "ir-rectifier__date-picker ir-rectifier__date-picker--to", label: "To (inclusive)", emitEmptyDate: true, disabled: !this.form.from, ref: el => (this.toDateRef = el), date: this.form.to, minDate: this.form.from, onDateChanged: e => {
+            } })), index.h("ir-validator", { key: 'ae18f78372e414c7672e2415f411df248d833936', value: this.form.to ?? null, schema: index$3.ExposedRectifierParamsSchema.shape.to, autovalidate: this.autoValidate }, index.h("ir-date-select", { key: '084082063c545f570977b2df2181c911a89673f4', class: "ir-rectifier__date-picker ir-rectifier__date-picker--to", label: "To (inclusive)", emitEmptyDate: true, disabled: !this.form.from, ref: el => (this.toDateRef = el), date: this.form.to, minDate: this.form.from, onDateChanged: e => {
                 const to = e.detail.start?.format('YYYY-MM-DD') ?? null;
                 this.updateForm(this.normalizeDateRange({ to }));
             } }))))));
@@ -51637,19 +51650,19 @@ const dateMask = {
     placeholderChar: '_',
     blocks: {
         YYYY: {
-            mask: index$5.MaskedRange,
+            mask: index$6.MaskedRange,
             from: 1900,
             to: new Date().getFullYear(),
             placeholderChar: 'Y',
         },
         MM: {
-            mask: index$5.MaskedRange,
+            mask: index$6.MaskedRange,
             from: 1,
             to: 12,
             placeholderChar: 'M',
         },
         DD: {
-            mask: index$5.MaskedRange,
+            mask: index$6.MaskedRange,
             from: 1,
             to: 31,
             placeholderChar: 'D',
@@ -51718,6 +51731,7 @@ const IrRoomGuestsForm = class {
     updateRoomGuests;
     loadingChange;
     bookingService = new booking_store.BookingService();
+    setupService = new index$2.SetupService();
     componentWillLoad() {
         this.init();
         this.initializeGuests();
@@ -51725,7 +51739,7 @@ const IrRoomGuestsForm = class {
     async init() {
         try {
             this.isLoading = true;
-            const [country, idTypes] = await Promise.all([this.bookingService.getUserDefaultCountry(), this.bookingService.getSetupEntriesByTableName('_ID_TYPE')]);
+            const [country, idTypes] = await Promise.all([this.bookingService.getUserDefaultCountry(), this.setupService.getSetupEntriesByTableName('_ID_TYPE')]);
             this.idTypes = idTypes;
             if (country) {
                 this.propertyCountry = this.countries.find(c => c.id === country.COUNTRY_ID);
@@ -52935,7 +52949,7 @@ const IrValidator = class {
             return [];
         return spec
             .split(/[\s,]+/)
-            .map(token => token.trim())
+            .map(ApiClient => ApiClient.trim())
             .filter(Boolean);
     }
     async handleValuePropChange(next, previous) {
@@ -53142,7 +53156,7 @@ const IrValidator = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '26798ed53897a9051f1160a5ca2f4527cec536bb' }, index.h("slot", { key: '8ee7ee17049004b3169c60fd201603e9b8818ab1' }), !this.isValid && this.showErrorMessage && (index.h("span", { key: 'f9781fa2f2931af15a342e7b1321407e719179cf', part: "error-message", class: "error-message" }, this.errorMessage))));
+        return (index.h(index.Host, { key: '0d222c47637ad3258f07d46b6a7e2aea8f51a936' }, index.h("slot", { key: '5d09339a279661879ddd7cdbb5daf08d99a385e9' }), !this.isValid && this.showErrorMessage && (index.h("span", { key: 'e91c7563cef41eb963682f8e0f919a961e586bf1', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get watchers() { return {
         "schema": [{

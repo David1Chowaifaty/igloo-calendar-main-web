@@ -48,7 +48,7 @@ export class IrExtraServicesTable {
                 "mutable": false,
                 "complexType": {
                     "original": "ExtraServiceDefinition[]",
-                    "resolved": "{ name?: string; id?: number; property_id?: number; code?: string; is_active?: boolean; section?: \"accommodation\" | \"addon\"; default_price?: number; vat_mode?: \"001\" | \"000\"; allow_price_override?: boolean; day_use_config?: { block_night?: boolean; default_start_time?: string; default_end_time?: string; }; }[]",
+                    "resolved": "{ name?: string; id?: number; code?: string; property_id?: number; is_active?: boolean; section?: \"accommodation\" | \"addon\"; default_price?: number; vat_mode?: \"001\" | \"000\"; allow_price_override?: boolean; day_use_config?: { block_night?: boolean; default_start_time?: string; default_end_time?: string; }; }[]",
                     "references": {
                         "ExtraServiceDefinition": {
                             "location": "import",
@@ -128,7 +128,7 @@ export class IrExtraServicesTable {
                 },
                 "complexType": {
                     "original": "ExtraServiceDefinition",
-                    "resolved": "{ name?: string; id?: number; property_id?: number; code?: string; is_active?: boolean; section?: \"accommodation\" | \"addon\"; default_price?: number; vat_mode?: \"001\" | \"000\"; allow_price_override?: boolean; day_use_config?: { block_night?: boolean; default_start_time?: string; default_end_time?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; code?: string; property_id?: number; is_active?: boolean; section?: \"accommodation\" | \"addon\"; default_price?: number; vat_mode?: \"001\" | \"000\"; allow_price_override?: boolean; day_use_config?: { block_night?: boolean; default_start_time?: string; default_end_time?: string; }; }",
                     "references": {
                         "ExtraServiceDefinition": {
                             "location": "import",
@@ -150,7 +150,7 @@ export class IrExtraServicesTable {
                 },
                 "complexType": {
                     "original": "ExtraServiceDefinition",
-                    "resolved": "{ name?: string; id?: number; property_id?: number; code?: string; is_active?: boolean; section?: \"accommodation\" | \"addon\"; default_price?: number; vat_mode?: \"001\" | \"000\"; allow_price_override?: boolean; day_use_config?: { block_night?: boolean; default_start_time?: string; default_end_time?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; code?: string; property_id?: number; is_active?: boolean; section?: \"accommodation\" | \"addon\"; default_price?: number; vat_mode?: \"001\" | \"000\"; allow_price_override?: boolean; day_use_config?: { block_night?: boolean; default_start_time?: string; default_end_time?: string; }; }",
                     "references": {
                         "ExtraServiceDefinition": {
                             "location": "import",

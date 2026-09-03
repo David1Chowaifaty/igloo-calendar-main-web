@@ -1,6 +1,7 @@
 import { BookingService } from "../../../services/booking-service/booking.service";
+import { SetupService, getEntryValue } from "../../../services/setup/index";
 import { buildSplitIndex } from "../../../utils/booking";
-import { formatAmount, getEntryValue } from "../../../utils/utils";
+import { formatAmount } from "../../../utils/utils";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
@@ -86,6 +87,7 @@ export class IrInvoiceForm {
     room;
     confirmButtonRef;
     bookingService = new BookingService();
+    setupService = new SetupService();
     invoiceTarget;
     apiDisabledItemKeys = new Set();
     alreadyInvoicedItemKeys = new Set();
@@ -255,9 +257,9 @@ export class IrInvoiceForm {
             });
         }
         else {
-            const { data } = await axios.post(`Get_ShortLiving_Token`);
+            const { data } = await axios.post(`Get_ShortLiving_ApiClient`);
             if (!data.ExceptionMsg) {
-                url += `&token=${encodeURIComponent(data.My_Result)}`;
+                url += `&ApiClient=${encodeURIComponent(data.My_Result)}`;
             }
             window.open(url, '_blank');
         }
@@ -343,7 +345,7 @@ export class IrInvoiceForm {
             const [booking, invoiceInfo, svcCategories] = await Promise.all([
                 this.bookingService.getExposedBooking({ booking_nbr: this.booking.booking_nbr, language: 'en', withExtras: true }),
                 this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
-                this.bookingService.getSetupEntriesByTableName('_SVC_CATEGORY'),
+                this.setupService.getSetupEntriesByTableName('_SVC_CATEGORY'),
             ]);
             this.booking = { ...booking };
             this.svcCategories = svcCategories;
@@ -355,7 +357,7 @@ export class IrInvoiceForm {
                     this.room = this.booking.rooms.find(r => r.identifier === this.roomIdentifier);
                 }
             }
-            this.invoiceTarget = await this.bookingService.getSetupEntriesByTableName('_INVOICE_TARGET');
+            this.invoiceTarget = await this.setupService.getSetupEntriesByTableName('_INVOICE_TARGET');
         }
         catch (error) {
             console.error(error);
@@ -1007,7 +1009,7 @@ export class IrInvoiceForm {
                 "mutable": false,
                 "complexType": {
                     "original": "BookingInvoiceInfo",
-                    "resolved": "{ invoiceable_items?: { key?: number; type?: InvoiceableItemType; status?: any; system_id?: any; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; invoice_nbr?: string; reason?: { code?: InvoiceableItemReasonCode; description?: string; }; is_invoiceable?: boolean; }[]; invoices?: { user?: string; status?: { code?: string; description?: any; }; date?: string; system_id?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; total_amount?: any; target?: any; nbr?: string; remark?: string; billed_to_name?: any; billed_to_tax?: any; items?: { key?: number; type?: string; status?: { code?: string; description?: any; }; description?: any; system_id?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; }[]; credit_note?: { user?: string; date?: string; system_id?: string; reason?: string; nbr?: string; }; pdf_url?: any; }[]; }",
+                    "resolved": "{ invoiceable_items?: { key?: number; type?: InvoiceableItemType; status?: any; system_id?: any; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; reason?: { code?: InvoiceableItemReasonCode; description?: string; }; }[]; invoices?: { user?: string; status?: { code?: string; description?: any; }; date?: string; system_id?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; nbr?: string; billed_to_name?: any; billed_to_tax?: any; credit_note?: { user?: string; date?: string; system_id?: string; nbr?: string; reason?: string; }; items?: { key?: number; type?: string; status?: { code?: string; description?: any; }; description?: any; system_id?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; }[]; pdf_url?: any; remark?: string; target?: any; total_amount?: any; }[]; }",
                     "references": {
                         "BookingInvoiceInfo": {
                             "location": "import",
@@ -1082,7 +1084,7 @@ export class IrInvoiceForm {
                 },
                 "complexType": {
                     "original": "BookingInvoiceInfo",
-                    "resolved": "{ invoiceable_items?: { key?: number; type?: InvoiceableItemType; status?: any; system_id?: any; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; invoice_nbr?: string; reason?: { code?: InvoiceableItemReasonCode; description?: string; }; is_invoiceable?: boolean; }[]; invoices?: { user?: string; status?: { code?: string; description?: any; }; date?: string; system_id?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; total_amount?: any; target?: any; nbr?: string; remark?: string; billed_to_name?: any; billed_to_tax?: any; items?: { key?: number; type?: string; status?: { code?: string; description?: any; }; description?: any; system_id?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; }[]; credit_note?: { user?: string; date?: string; system_id?: string; reason?: string; nbr?: string; }; pdf_url?: any; }[]; }",
+                    "resolved": "{ invoiceable_items?: { key?: number; type?: InvoiceableItemType; status?: any; system_id?: any; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; reason?: { code?: InvoiceableItemReasonCode; description?: string; }; }[]; invoices?: { user?: string; status?: { code?: string; description?: any; }; date?: string; system_id?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; nbr?: string; billed_to_name?: any; billed_to_tax?: any; credit_note?: { user?: string; date?: string; system_id?: string; nbr?: string; reason?: string; }; items?: { key?: number; type?: string; status?: { code?: string; description?: any; }; description?: any; system_id?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; }[]; pdf_url?: any; remark?: string; target?: any; total_amount?: any; }[]; }",
                     "references": {
                         "BookingInvoiceInfo": {
                             "location": "import",
@@ -1104,7 +1106,7 @@ export class IrInvoiceForm {
                 },
                 "complexType": {
                     "original": "IssueInvoiceProps",
-                    "resolved": "{ property_id?: number; invoice?: { currency?: { id?: number; }; booking_nbr?: string; target?: { code?: string; description?: string; }; Date?: string; nbr?: string; remark?: string; billed_to_name?: string; billed_to_tax?: string; items?: { key?: string | number; type?: string; description?: string; amount?: number; }[]; }; is_proforma?: boolean; }",
+                    "resolved": "{ property_id?: number; invoice?: { currency?: { id?: number; }; booking_nbr?: string; nbr?: string; billed_to_name?: string; billed_to_tax?: string; items?: { key?: string | number; type?: string; description?: string; amount?: number; }[]; remark?: string; target?: { code?: string; description?: string; }; Date?: string; }; is_proforma?: boolean; }",
                     "references": {
                         "IssueInvoiceProps": {
                             "location": "import",

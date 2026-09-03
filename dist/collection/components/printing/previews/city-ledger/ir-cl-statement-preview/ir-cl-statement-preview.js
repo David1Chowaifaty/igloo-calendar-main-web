@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 import { CityLedgerService } from "../../../../../services/city-ledger/index";
 import { PropertyService } from "../../../../../services/property.service";
 import { formatAmount } from "../../../../../utils/utils";
-import Token from "../../../../../models/Token";
+import ApiClient from "../../../../../models/ApiClient";
 import moment from "moment";
 import { FdTypes } from "../../../../../types/enums";
 const DATE_DISPLAY = 'MMM DD, YYYY';
@@ -21,7 +21,7 @@ export class IrClStatementPreview {
     statement = null;
     fiscalDocuments = [];
     clPreviewReady;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     propertyService = new PropertyService();
     cityLedgerService = new CityLedgerService();
     hasEmitted = false;
@@ -32,7 +32,7 @@ export class IrClStatementPreview {
         }
         if (this.baseurl)
             this.tokenService.setBaseUrl(this.baseurl);
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         return this.fetchData();
     }
     componentDidRender() {

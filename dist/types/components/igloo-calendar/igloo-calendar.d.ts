@@ -58,6 +58,7 @@ export declare class IglooCalendar {
     openCalendarSidebar: EventEmitter<CalendarSidebarState>;
     showRoomNightsDialog: EventEmitter<IRoomNightsData>;
     private bookingService;
+    private setupService;
     private roomService;
     private propertyService;
     private eventsService;
@@ -74,7 +75,7 @@ export declare class IglooCalendar {
     private today;
     private reachedEndOfCalendar;
     private unsubscribeRealtime;
-    private token;
+    private ApiClient;
     private calendarModalEl;
     private salesQueue;
     private availabilityQueue;

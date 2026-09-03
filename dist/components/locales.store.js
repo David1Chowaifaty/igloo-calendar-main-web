@@ -1,1 +1,1 @@
-import{c as e}from"./index4.js";const{state:t}=e({entries:null,direction:"ltr",language:"en"});export{t as l}
+import{c as e}from"./index5.js";const{state:t}=e({entries:null,direction:"ltr",language:"en"});export{t as l}

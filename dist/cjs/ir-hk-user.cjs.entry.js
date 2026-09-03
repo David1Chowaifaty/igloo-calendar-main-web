@@ -2,19 +2,19 @@
 
 var index = require('./index-P5Mginch.js');
 var housekeeping_service = require('./housekeeping.service-CXKCfWFZ.js');
-var user_service = require('./user.service-CJrDaOYT.js');
-var calendarData = require('./calendar-data-PetnikUI.js');
+var user_service = require('./user.service-jZj227cu.js');
+var calendarData = require('./calendar-data-BjlxOXi1.js');
 var locales_store = require('./locales.store-v9LoZcAK.js');
 var constants = require('./constants-BLID23LD.js');
 var index$1 = require('./index-CLqkDPTC.js');
 require('./index-BLJXadKe.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./utils-CwIiTro6.js');
+require('./utils-5rzlNNGQ.js');
 require('./moment-CdViwxPQ.js');
 require('./booking.dto-kenLHU-o.js');
 require('./type-Dy9pVS4V.js');
-require('./ir-date-BH2JQpbC.js');
+require('./ir-date-CUot5M4p.js');
 
 const irHkUserCss = () => `.sc-ir-hk-user-h{display:block}`;
 
@@ -47,7 +47,7 @@ const IrHkUser = class {
     closeSideBar;
     housekeepingService = new housekeeping_service.HouseKeepingService();
     default_properties = {
-        token: '',
+        ApiClient: '',
         language: '',
     };
     housekeeperSchema = index$1.libExports.z.object({
@@ -77,8 +77,8 @@ const IrHkUser = class {
         }, { message: 'Username already exists.' }),
     });
     async componentWillLoad() {
-        const { token, language, property_id } = housekeeping_service.getDefaultProperties();
-        this.default_properties = { token, language };
+        const { ApiClient, language, property_id } = housekeeping_service.getDefaultProperties();
+        this.default_properties = { ApiClient, language };
         if (!this.user) {
             this.userInfo['property_id'] = property_id;
             // this.showPasswordValidation = true;
@@ -131,12 +131,12 @@ const IrHkUser = class {
         this.updateUserField('username', usermame);
     }
     render() {
-        return (index.h("div", { key: '1a981b47751e566817d74c325f6e347f2c9e752c', class: "sheet-container" }, index.h("ir-title", { key: 'ba7d53182aa2f081fea2ede418030d0d17129c19', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? locales_store.locales.entries.Lcz_EditHousekeeperProfile : locales_store.locales.entries.Lcz_CreateHousekeeperProfile }), index.h("section", { key: 'a468d6c8a7b9dd64e3f60333b8daf51f6c02606d', class: "px-1 sheet-body" }, index.h("ir-input-text", { key: '1530ea19cabc05d79c5863c782c4db37b846a480', testId: "name", zod: this.housekeeperSchema.pick({ name: true }), wrapKey: "name", autoValidate: this.autoValidate, error: this.errors?.name, label: locales_store.locales.entries.Lcz_Name, placeholder: locales_store.locales.entries.Lcz_Name, onTextChange: e => this.updateUserField('name', e.detail), value: this.userInfo.name, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), index.h("ir-phone-input", { key: '122fca8b7abed460c528e96cddc3c1bc608c1dde', testId: "phone", placeholder: locales_store.locales.entries.Lcz_Mobile, error: this.errors?.mobile && !this.userInfo?.mobile, language: this.default_properties.language, token: this.default_properties.token, default_country: calendarData.calendar_data.country.id, phone_prefix: this.user?.phone_prefix, label: locales_store.locales.entries.Lcz_Mobile, value: this.userInfo.mobile, onTextChange: e => {
+        return (index.h("div", { key: '0383fce634737df7cb7927c77e00dac426f8b615', class: "sheet-container" }, index.h("ir-title", { key: '7c502a8c85434668746b2917a5e14eddb19b6179', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? locales_store.locales.entries.Lcz_EditHousekeeperProfile : locales_store.locales.entries.Lcz_CreateHousekeeperProfile }), index.h("section", { key: 'ef40f94ded26cf05bf32a77b9e4fad0f9582b32b', class: "px-1 sheet-body" }, index.h("ir-input-text", { key: '5691eaa58a0b23e56e1125fca2f552f0236a4861', testId: "name", zod: this.housekeeperSchema.pick({ name: true }), wrapKey: "name", autoValidate: this.autoValidate, error: this.errors?.name, label: locales_store.locales.entries.Lcz_Name, placeholder: locales_store.locales.entries.Lcz_Name, onTextChange: e => this.updateUserField('name', e.detail), value: this.userInfo.name, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), index.h("ir-phone-input", { key: 'cb2e44c057b3030182993d7a7b08aadc13005fc6', testId: "phone", placeholder: locales_store.locales.entries.Lcz_Mobile, error: this.errors?.mobile && !this.userInfo?.mobile, language: this.default_properties.language, ApiClient: this.default_properties.ApiClient, default_country: calendarData.calendar_data.country.id, phone_prefix: this.user?.phone_prefix, label: locales_store.locales.entries.Lcz_Mobile, value: this.userInfo.mobile, onTextChange: e => {
                 this.updateUserField('phone_prefix', e.detail.phone_prefix);
                 this.updateUserField('mobile', e.detail.mobile);
-            } }), index.h("div", { key: 'e77aafec62cb1b04b54655c48a38286e351d8254', class: "mb-1" }, index.h("ir-textarea", { key: 'b15ea4b0d4683c00bb1adb314cae6800b70f89ca', testId: "note", variant: "prepend", maxLength: 250, label: locales_store.locales.entries.Lcz_Note, placeholder: locales_store.locales.entries.Lcz_Note, value: this.userInfo.note, onTextChange: e => this.updateUserField('note', e.detail) })), index.h("ir-input-text", { key: '6e72006fac1c84408db8138977cd7a6ea76e6082', testId: "username", zod: this.housekeeperSchema.pick({ username: true }), wrapKey: "username", error: this.errors?.username, asyncParse: true, autoValidate: this.user ? (this.userInfo?.username !== this.user.username ? true : false) : this.autoValidate, errorMessage: this.errors?.username && this.userInfo?.username?.length >= 3 ? locales_store.locales.entries.Lcz_UsernameAlreadyExists : undefined, label: locales_store.locales.entries.Lcz_Username, placeholder: locales_store.locales.entries.Lcz_Username, value: this.userInfo.username, onTextChange: e => this.updateUserField('username', e.detail) }), index.h("ir-input-text", { key: '178ead048d31ca3b107159ba598569fc278a505c', testId: "password", autoValidate: this.user ? (!this.userInfo?.password ? false : true) : this.autoValidate, label: locales_store.locales.entries.Lcz_Password, value: this.userInfo.password, type: "password", maxLength: 16, zod: this.housekeeperSchema.pick({ password: true }), wrapKey: "password", error: this.errors?.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
+            } }), index.h("div", { key: '837ba842e31c92fcf8bb48bc57efd63c11c7f4f5', class: "mb-1" }, index.h("ir-textarea", { key: 'eda2df3b15ff782a937ed1e5c69c259b9de5c80f', testId: "note", variant: "prepend", maxLength: 250, label: locales_store.locales.entries.Lcz_Note, placeholder: locales_store.locales.entries.Lcz_Note, value: this.userInfo.note, onTextChange: e => this.updateUserField('note', e.detail) })), index.h("ir-input-text", { key: '7b33c793bc70dda167df9dcfec2ecc602cf28a8f', testId: "username", zod: this.housekeeperSchema.pick({ username: true }), wrapKey: "username", error: this.errors?.username, asyncParse: true, autoValidate: this.user ? (this.userInfo?.username !== this.user.username ? true : false) : this.autoValidate, errorMessage: this.errors?.username && this.userInfo?.username?.length >= 3 ? locales_store.locales.entries.Lcz_UsernameAlreadyExists : undefined, label: locales_store.locales.entries.Lcz_Username, placeholder: locales_store.locales.entries.Lcz_Username, value: this.userInfo.username, onTextChange: e => this.updateUserField('username', e.detail) }), index.h("ir-input-text", { key: 'f46db122911cca2158961b3dade4032e137284f1', testId: "password", autoValidate: this.user ? (!this.userInfo?.password ? false : true) : this.autoValidate, label: locales_store.locales.entries.Lcz_Password, value: this.userInfo.password, type: "password", maxLength: 16, zod: this.housekeeperSchema.pick({ password: true }), wrapKey: "password", error: this.errors?.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
                 // if (this.user) this.showPasswordValidation = false;
-            }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && index.h("ir-password-validator", { key: 'f0a4312b6a9f8aec0cc088bab2377eb624005125', password: this.userInfo.password })), index.h("div", { key: 'dde12a822e2d25bf9244d2a01bf0f536fe43102a', class: "sheet-footer" }, index.h("ir-button", { key: 'fef3b54af7aefff7b311d5480131181d927e4c19', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales_store.locales.entries.Lcz_Cancel }), index.h("ir-button", { key: '14781016538d60ac6e24743e02f11d8bc2afc9ab', "data-testid": "save", isLoading: this.isLoading, onClickHandler: this.addUser.bind(this), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", text: locales_store.locales.entries.Lcz_Save }))));
+            }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && index.h("ir-password-validator", { key: '232a00b6daba3e270c321910d9f81eed2fff350e', password: this.userInfo.password })), index.h("div", { key: 'ee6be20f5fc0c33933ef245d9e84755b9c189622', class: "sheet-footer" }, index.h("ir-button", { key: '52f4a82953cd7a2064978ed9efd0313ce4f27588', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales_store.locales.entries.Lcz_Cancel }), index.h("ir-button", { key: 'bb13c9eb526d4c45c6a6eceb32cf8787e20a3c2e', "data-testid": "save", isLoading: this.isLoading, onClickHandler: this.addUser.bind(this), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", text: locales_store.locales.entries.Lcz_Save }))));
     }
 };
 IrHkUser.style = irHkUserCss() + sheetCss();

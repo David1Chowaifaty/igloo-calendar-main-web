@@ -10,7 +10,7 @@ import { formatAmount } from "../../utils/utils";
 import { formatDate } from "../../utils/date/index";
 import { formatBookingNumber } from "../../utils/number";
 export class IrBookingPrinting {
-    token = '';
+    ApiClient = '';
     bookingNumber = '';
     language = 'en';
     propertyid;
@@ -20,7 +20,7 @@ export class IrBookingPrinting {
     property;
     guestCountryName;
     isLoading;
-    // @State() token: string;
+    // @State() ApiClient: string;
     bookingService = new BookingService();
     roomService = new RoomService();
     currency;
@@ -28,7 +28,7 @@ export class IrBookingPrinting {
     totalPersons;
     componentWillLoad() {
         document.body.style.background = 'white';
-        if (this.token) {
+        if (this.ApiClient) {
             this.init();
         }
     }
@@ -149,7 +149,7 @@ export class IrBookingPrinting {
     }
     static get properties() {
         return {
-            "token": {
+            "ApiClient": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -166,7 +166,7 @@ export class IrBookingPrinting {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "token",
+                "attribute": "api-client",
                 "defaultValue": "''"
             },
             "bookingNumber": {
@@ -279,7 +279,7 @@ export class IrBookingPrinting {
     }
     static get watchers() {
         return [{
-                "propName": "token",
+                "propName": "ApiClient",
                 "methodName": "ticketChanged"
             }];
     }

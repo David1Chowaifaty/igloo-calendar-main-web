@@ -56,6 +56,7 @@ export declare class IrRoomGuestsForm {
     }>;
     loadingChange: EventEmitter<string>;
     private bookingService;
+    private setupService;
     componentWillLoad(): void;
     private init;
     private initializeGuests;

@@ -1,7 +1,7 @@
 /**
  * Translates a Gregorian moment format string into its moment-hijri equivalent, so that call
  * sites can keep passing one plain format string (`'ddd, DD MMM YYYY'`) and get Hijri output
- * when the Hijri calendar is active — without knowing moment-hijri's `i`-prefixed token set.
+ * when the Hijri calendar is active — without knowing moment-hijri's `i`-prefixed ApiClient set.
  *
  * Only the tokens that actually name a *calendar* field are rewritten. Day-of-week and
  * clock-time are calendar-independent — Thursday is Thursday in both systems — so `dddd`, `ddd`,

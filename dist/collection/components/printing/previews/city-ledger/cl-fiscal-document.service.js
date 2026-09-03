@@ -1,14 +1,14 @@
-import Token from "../../../../models/Token";
+import ApiClient from "../../../../models/ApiClient";
 import { CityLedgerService } from "../../../../services/city-ledger/index";
 import { PropertyService } from "../../../../services/property.service";
 export class ClFiscalDocumentService {
-    tokenService = new Token();
+    tokenService = new ApiClient();
     propertyService = new PropertyService();
     cityLedgerService = new CityLedgerService();
     init(baseurl, ticket) {
         if (baseurl)
             this.tokenService.setBaseUrl(baseurl);
-        this.tokenService.setToken(ticket);
+        this.tokenService.setApiClient(ticket);
     }
     async fetchData(propertyId, agentId, documentNumber) {
         const [propertyData, clResult] = await Promise.all([

@@ -1,7 +1,8 @@
 import { Fragment, h } from "@stencil/core";
 import { BookingService } from "../../../services/booking-service/booking.service";
+import { SetupService, getEntryValue } from "../../../services/setup/index";
 import { PropertyService } from "../../../services/property.service";
-import { formatAmount, getEntryValue } from "../../../utils/utils";
+import { formatAmount } from "../../../utils/utils";
 import moment from "moment";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
 import { v4 } from "uuid";
@@ -23,6 +24,7 @@ export class IrGuestBilling {
     /** Refreshes the wider booking-details tree. Emit with a Booking payload to skip ir-booking-details' full-page loading spinner. */
     resetBookingEvt;
     bookingService = new BookingService();
+    setupService = new SetupService();
     propertyService = new PropertyService();
     _id = `issue_invoice__btn_${v4()}`;
     voidDialogRef;
@@ -58,7 +60,7 @@ export class IrGuestBilling {
     async init() {
         try {
             this.isLoading = 'page';
-            const [, fdTypes] = await Promise.all([this.refreshInvoiceAndFolio(), this.bookingService.getSetupEntriesByTableName('_FD_TYPE')]);
+            const [, fdTypes] = await Promise.all([this.refreshInvoiceAndFolio(), this.setupService.getSetupEntriesByTableName('_FD_TYPE')]);
             this.fdTypes = fdTypes ?? [];
             let voidedReceipts = new Set();
             this.booking.financial.payments?.forEach(payment => {

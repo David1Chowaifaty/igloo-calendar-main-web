@@ -6,14 +6,14 @@
  * touches, so this is a hand-maintained snapshot — **update it when call sites
  * change**. To re-derive it, collect the string literals passed to:
  *
- *   - `BookingService.getSetupEntriesByTableName(...)`
- *   - `BookingService.getSetupEntriesByTableNameMulti([...])`
+ *   - `SetupService.getSetupEntriesByTableName(...)`
+ *   - `SetupService.getSetupEntriesByTableNameMulti([...])`
  *   - `RoomService.fetchLanguage(code, [...sections])` — including its
  *     `_PMS_FRONT` default when the second argument is omitted
  *
  * plus the members of the `TableEntries` union in
- * `src/services/booking-service/booking.service.ts`, which is the declared
- * contract for those same getters.
+ * `src/services/setup/types.ts`, which is the declared contract for those
+ * same getters.
  *
  *   grep -rnE "getSetupEntriesByTable(Name|NameMulti)|fetchLanguage" src
  */

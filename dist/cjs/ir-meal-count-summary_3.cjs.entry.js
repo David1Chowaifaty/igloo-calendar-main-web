@@ -2,7 +2,7 @@
 
 var index = require('./index-P5Mginch.js');
 var useTable = require('./useTable-BN32DOaV.js');
-var irDate = require('./ir-date-BH2JQpbC.js');
+var irDate = require('./ir-date-CUot5M4p.js');
 var moment = require('./moment-CdViwxPQ.js');
 require('./index-BLJXadKe.js');
 require('./locales.store-v9LoZcAK.js');

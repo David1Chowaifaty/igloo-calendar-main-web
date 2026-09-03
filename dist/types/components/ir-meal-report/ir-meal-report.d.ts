@@ -19,6 +19,7 @@ export declare class IrMealReport {
         hb_preference: IEntries[];
     };
     private mealReportService;
+    private setupService;
     private tokenService;
     ticketChanged(newValue: string): void;
     componentWillLoad(): void;

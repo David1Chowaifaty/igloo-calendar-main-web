@@ -37,6 +37,7 @@ export declare class IrBookingEditor {
     preventPageLoad: EventEmitter<string>;
     private roomService;
     private bookingService;
+    private setupService;
     private propertyService;
     private bookingEditorService;
     private room;

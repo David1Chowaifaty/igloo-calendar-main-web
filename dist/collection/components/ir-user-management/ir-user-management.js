@@ -1,11 +1,11 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService, getEntryValue } from "../../services/setup/index";
 import { RoomService } from "../../services/room.service";
 import { UserService } from "../../services/user.service";
 import { Host, h } from "@stencil/core";
 import { realtimeService } from "../../services/realtime/realtime.service";
 import locales from "../../stores/locales.store";
-import { getEntryValue } from "../../utils/utils";
 export class IrUserManagement {
     language = '';
     baseUrl;
@@ -22,19 +22,20 @@ export class IrUserManagement {
     users = [];
     property_id;
     allowedUsersTypes = [];
-    token = new Token();
+    ApiClient = new ApiClient();
     roomService = new RoomService();
     userService = new UserService();
     bookingService = new BookingService();
+    setupService = new SetupService();
     userTypes = new Map();
     unsubscribeRealtime = null;
     superAdminId = '5';
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -42,7 +43,7 @@ export class IrUserManagement {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     async handleResetData(e) {
@@ -53,7 +54,7 @@ export class IrUserManagement {
     async initializeApp() {
         try {
             if (this.baseUrl) {
-                this.token.setBaseUrl(this.baseUrl);
+                this.ApiClient.setBaseUrl(this.baseUrl);
             }
             this.isLoading = true;
             let propertyId = this.propertyid;
@@ -146,7 +147,7 @@ export class IrUserManagement {
         });
     }
     async fetchUserTypes() {
-        const res = await Promise.all([this.bookingService.getSetupEntriesByTableName('_USER_TYPE'), this.bookingService.getLov()]);
+        const res = await Promise.all([this.setupService.getSetupEntriesByTableName('_USER_TYPE'), this.bookingService.getLov()]);
         const allowedUsers = res[1]?.My_Result?.allowed_user_types;
         for (const e of res[0]) {
             const value = getEntryValue({ entry: e, language: this.language });

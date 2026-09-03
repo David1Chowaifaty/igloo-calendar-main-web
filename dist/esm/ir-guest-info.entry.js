@@ -1,20 +1,20 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-BYqrdgY9.js';
-import { B as BookingService } from './booking.store-CAX7ugRB.js';
-import { R as RoomService } from './room.service-BC62uNSi.js';
+import { B as BookingService } from './booking.store-gBD68At4.js';
+import { R as RoomService } from './room.service-CNYsIJKu.js';
 import { l as locales } from './locales.store-C9qsbKR0.js';
-import { T as Token } from './Token-CkxFIO_J.js';
+import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { i as isRequestPending } from './ir-interceptor.store-CyWfUv6a.js';
-import { d as showToast } from './utils-COglgzDo.js';
+import { d as showToast } from './utils-Ct-kEjIU.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './IBooking-xt_aVEnI.js';
 import './index-DeW5X45W.js';
-import './booking-B3XQbHrM.js';
+import './booking-BWlyZcY6.js';
 import './moment-Mki5YqAR.js';
 import './index-CimhgHoX.js';
-import './calendar-data-BebdClG4.js';
-import './functions-CtmxIeXe.js';
-import './ir-date-_0rd4VZd.js';
+import './calendar-data-DT3jrP3G.js';
+import './functions-DdLUcNoJ.js';
+import './ir-date-BT3QqYg6.js';
 import './commonSchemas-ByEkDTMV.js';
 import './booking.dto-DpE31yhG.js';
 import './type-D7rOPtKA.js';
@@ -44,19 +44,19 @@ const GuestInfo = class {
     resetBookingEvt;
     bookingService = new BookingService();
     roomService = new RoomService();
-    token = new Token();
+    ApiClient = new ApiClient();
     async componentWillLoad() {
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
         }
-        if (!!this.token.getToken())
+        if (!!this.ApiClient.getToken())
             this.init();
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.init();
     }
     async init() {

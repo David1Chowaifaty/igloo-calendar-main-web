@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-P5Mginch.js');
-var Token = require('./Token-mN7PQKGF.js');
+var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var irInterceptor_store = require('./ir-interceptor.store-BGTJSCIh.js');
 var axios = require('./axios-EresIryl.js');
 require('./index-BLJXadKe.js');
@@ -16,17 +16,17 @@ const IrQueueManager = class {
     get el() { return index.getElement(this); }
     ticket = '';
     isLoading = true;
-    tokenService = new Token.Token();
+    tokenService = new ApiClient.ApiClient();
     data;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue && newValue) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }

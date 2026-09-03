@@ -1,19 +1,21 @@
 'use strict';
 
 var index = require('./index-P5Mginch.js');
-var setupMapping = require('./setup-mapping-CoXQ9gyf.js');
-var utils = require('./utils-CwIiTro6.js');
+var index$1 = require('./index-B6tr59-v.js');
+var utils = require('./utils-5rzlNNGQ.js');
+var setupMapping = require('./setup-mapping-D72fId4a.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
+require('./utils-CXqwALIi.js');
 require('./IBooking-BtFRLVyo.js');
-require('./moment-CdViwxPQ.js');
-require('./calendar-data-PetnikUI.js');
-require('./index-BLJXadKe.js');
 require('./locales.store-v9LoZcAK.js');
+require('./index-BLJXadKe.js');
+require('./moment-CdViwxPQ.js');
+require('./calendar-data-BjlxOXi1.js');
 require('./booking.dto-kenLHU-o.js');
 require('./type-Dy9pVS4V.js');
-require('./ir-date-BH2JQpbC.js');
+require('./ir-date-CUot5M4p.js');
 
 const irTranslationsTableFormCss = () => `.sc-ir-translations-table-form-h{display:block}.table-form__body.sc-ir-translations-table-form{display:flex;flex-direction:column;gap:1rem}.table-form__error.sc-ir-translations-table-form{margin:-0.75rem 0 0;font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-danger-on-quiet, #991b1b)}`;
 
@@ -39,7 +41,7 @@ const IrTranslationsTableForm = class {
     name = '';
     isSubmitting = false;
     nameInputRef;
-    setupService = new setupMapping.SetupService();
+    setupService = new index$1.SetupService();
     componentWillLoad() {
         this.name = this.table?.name ?? '';
         this.submitDisabledChange.emit(!this.isValid);

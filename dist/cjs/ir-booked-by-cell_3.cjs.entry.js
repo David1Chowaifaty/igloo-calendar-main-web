@@ -2,8 +2,8 @@
 
 var index = require('./index-P5Mginch.js');
 var locales_store = require('./locales.store-v9LoZcAK.js');
-var number = require('./number-BU1_BuJC.js');
-var irDate = require('./ir-date-BH2JQpbC.js');
+var number = require('./number-3J_Nkle1.js');
+var irDate = require('./ir-date-CUot5M4p.js');
 require('./moment-CdViwxPQ.js');
 require('./index-BLJXadKe.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

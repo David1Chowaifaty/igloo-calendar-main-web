@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-BYqrdgY9.js';
 import { l as locales } from './locales.store-C9qsbKR0.js';
-import { a as formatBookingNumber } from './number-DuxNax9Y.js';
-import { f as formatDate } from './ir-date-_0rd4VZd.js';
+import { a as formatBookingNumber } from './number-CF5xh0GV.js';
+import { f as formatDate } from './ir-date-BT3QqYg6.js';
 import './moment-Mki5YqAR.js';
 import './index-CimhgHoX.js';
 import './_commonjsHelpers-BFTU3MAI.js';

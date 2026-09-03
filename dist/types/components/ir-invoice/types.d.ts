@@ -104,14 +104,14 @@ export declare const CreditNoteSchema: z.ZodObject<{
     user?: string;
     date?: string;
     system_id?: string;
-    reason?: string;
     nbr?: string;
+    reason?: string;
 }, {
     user?: string;
     date?: string;
     system_id?: string;
-    reason?: string;
     nbr?: string;
+    reason?: string;
 }>;
 export declare const InvoiceSchema: z.ZodObject<{
     billed_to_name: z.ZodAny;
@@ -127,14 +127,14 @@ export declare const InvoiceSchema: z.ZodObject<{
         user?: string;
         date?: string;
         system_id?: string;
-        reason?: string;
         nbr?: string;
+        reason?: string;
     }, {
         user?: string;
         date?: string;
         system_id?: string;
-        reason?: string;
         nbr?: string;
+        reason?: string;
     }>>;
     currency: z.ZodObject<{
         code: z.ZodString;
@@ -250,12 +250,16 @@ export declare const InvoiceSchema: z.ZodObject<{
         code?: string;
     };
     booking_nbr?: string;
-    total_amount?: any;
-    target?: any;
     nbr?: string;
-    remark?: string;
     billed_to_name?: any;
     billed_to_tax?: any;
+    credit_note?: {
+        user?: string;
+        date?: string;
+        system_id?: string;
+        nbr?: string;
+        reason?: string;
+    };
     items?: {
         key?: number;
         type?: string;
@@ -275,14 +279,10 @@ export declare const InvoiceSchema: z.ZodObject<{
         invoice_nbr?: string;
         is_invoiceable?: boolean;
     }[];
-    credit_note?: {
-        user?: string;
-        date?: string;
-        system_id?: string;
-        reason?: string;
-        nbr?: string;
-    };
     pdf_url?: any;
+    remark?: string;
+    target?: any;
+    total_amount?: any;
 }, {
     user?: string;
     status?: {
@@ -297,12 +297,16 @@ export declare const InvoiceSchema: z.ZodObject<{
         code?: string;
     };
     booking_nbr?: string;
-    total_amount?: any;
-    target?: any;
     nbr?: string;
-    remark?: string;
     billed_to_name?: any;
     billed_to_tax?: any;
+    credit_note?: {
+        user?: string;
+        date?: string;
+        system_id?: string;
+        nbr?: string;
+        reason?: string;
+    };
     items?: {
         key?: number;
         type?: string;
@@ -322,14 +326,10 @@ export declare const InvoiceSchema: z.ZodObject<{
         invoice_nbr?: string;
         is_invoiceable?: boolean;
     }[];
-    credit_note?: {
-        user?: string;
-        date?: string;
-        system_id?: string;
-        reason?: string;
-        nbr?: string;
-    };
     pdf_url?: any;
+    remark?: string;
+    target?: any;
+    total_amount?: any;
 }>;
 export type Invoice = z.infer<typeof InvoiceSchema>;
 /**
@@ -400,11 +400,11 @@ export declare const InvoiceableItemSchema: z.ZodObject<{
     };
     booking_nbr?: string;
     invoice_nbr?: string;
+    is_invoiceable?: boolean;
     reason?: {
         code?: InvoiceableItemReasonCode;
         description?: string;
     };
-    is_invoiceable?: boolean;
 }, {
     key?: number;
     type?: InvoiceableItemType;
@@ -418,11 +418,11 @@ export declare const InvoiceableItemSchema: z.ZodObject<{
     };
     booking_nbr?: string;
     invoice_nbr?: string;
+    is_invoiceable?: boolean;
     reason?: {
         code?: InvoiceableItemReasonCode;
         description?: string;
     };
-    is_invoiceable?: boolean;
 }>;
 export type InvoiceableItem = z.infer<typeof InvoiceableItemSchema>;
 export declare const BookingInvoiceInfoSchema: z.ZodObject<{
@@ -471,11 +471,11 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
         };
         booking_nbr?: string;
         invoice_nbr?: string;
+        is_invoiceable?: boolean;
         reason?: {
             code?: InvoiceableItemReasonCode;
             description?: string;
         };
-        is_invoiceable?: boolean;
     }, {
         key?: number;
         type?: InvoiceableItemType;
@@ -489,11 +489,11 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
         };
         booking_nbr?: string;
         invoice_nbr?: string;
+        is_invoiceable?: boolean;
         reason?: {
             code?: InvoiceableItemReasonCode;
             description?: string;
         };
-        is_invoiceable?: boolean;
     }>, "many">;
     invoices: z.ZodNullable<z.ZodArray<z.ZodObject<{
         billed_to_name: z.ZodAny;
@@ -509,14 +509,14 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             user?: string;
             date?: string;
             system_id?: string;
-            reason?: string;
             nbr?: string;
+            reason?: string;
         }, {
             user?: string;
             date?: string;
             system_id?: string;
-            reason?: string;
             nbr?: string;
+            reason?: string;
         }>>;
         currency: z.ZodObject<{
             code: z.ZodString;
@@ -632,12 +632,16 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             code?: string;
         };
         booking_nbr?: string;
-        total_amount?: any;
-        target?: any;
         nbr?: string;
-        remark?: string;
         billed_to_name?: any;
         billed_to_tax?: any;
+        credit_note?: {
+            user?: string;
+            date?: string;
+            system_id?: string;
+            nbr?: string;
+            reason?: string;
+        };
         items?: {
             key?: number;
             type?: string;
@@ -657,14 +661,10 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             invoice_nbr?: string;
             is_invoiceable?: boolean;
         }[];
-        credit_note?: {
-            user?: string;
-            date?: string;
-            system_id?: string;
-            reason?: string;
-            nbr?: string;
-        };
         pdf_url?: any;
+        remark?: string;
+        target?: any;
+        total_amount?: any;
     }, {
         user?: string;
         status?: {
@@ -679,12 +679,16 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             code?: string;
         };
         booking_nbr?: string;
-        total_amount?: any;
-        target?: any;
         nbr?: string;
-        remark?: string;
         billed_to_name?: any;
         billed_to_tax?: any;
+        credit_note?: {
+            user?: string;
+            date?: string;
+            system_id?: string;
+            nbr?: string;
+            reason?: string;
+        };
         items?: {
             key?: number;
             type?: string;
@@ -704,14 +708,10 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             invoice_nbr?: string;
             is_invoiceable?: boolean;
         }[];
-        credit_note?: {
-            user?: string;
-            date?: string;
-            system_id?: string;
-            reason?: string;
-            nbr?: string;
-        };
         pdf_url?: any;
+        remark?: string;
+        target?: any;
+        total_amount?: any;
     }>, "many">>;
 }, "strip", z.ZodTypeAny, {
     invoiceable_items?: {
@@ -727,11 +727,11 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
         };
         booking_nbr?: string;
         invoice_nbr?: string;
+        is_invoiceable?: boolean;
         reason?: {
             code?: InvoiceableItemReasonCode;
             description?: string;
         };
-        is_invoiceable?: boolean;
     }[];
     invoices?: {
         user?: string;
@@ -747,12 +747,16 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             code?: string;
         };
         booking_nbr?: string;
-        total_amount?: any;
-        target?: any;
         nbr?: string;
-        remark?: string;
         billed_to_name?: any;
         billed_to_tax?: any;
+        credit_note?: {
+            user?: string;
+            date?: string;
+            system_id?: string;
+            nbr?: string;
+            reason?: string;
+        };
         items?: {
             key?: number;
             type?: string;
@@ -772,14 +776,10 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             invoice_nbr?: string;
             is_invoiceable?: boolean;
         }[];
-        credit_note?: {
-            user?: string;
-            date?: string;
-            system_id?: string;
-            reason?: string;
-            nbr?: string;
-        };
         pdf_url?: any;
+        remark?: string;
+        target?: any;
+        total_amount?: any;
     }[];
 }, {
     invoiceable_items?: {
@@ -795,11 +795,11 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
         };
         booking_nbr?: string;
         invoice_nbr?: string;
+        is_invoiceable?: boolean;
         reason?: {
             code?: InvoiceableItemReasonCode;
             description?: string;
         };
-        is_invoiceable?: boolean;
     }[];
     invoices?: {
         user?: string;
@@ -815,12 +815,16 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             code?: string;
         };
         booking_nbr?: string;
-        total_amount?: any;
-        target?: any;
         nbr?: string;
-        remark?: string;
         billed_to_name?: any;
         billed_to_tax?: any;
+        credit_note?: {
+            user?: string;
+            date?: string;
+            system_id?: string;
+            nbr?: string;
+            reason?: string;
+        };
         items?: {
             key?: number;
             type?: string;
@@ -840,14 +844,10 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             invoice_nbr?: string;
             is_invoiceable?: boolean;
         }[];
-        credit_note?: {
-            user?: string;
-            date?: string;
-            system_id?: string;
-            reason?: string;
-            nbr?: string;
-        };
         pdf_url?: any;
+        remark?: string;
+        target?: any;
+        total_amount?: any;
     }[];
 }>;
 export type BookingInvoiceInfo = z.infer<typeof BookingInvoiceInfoSchema>;

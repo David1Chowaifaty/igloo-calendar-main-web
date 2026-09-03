@@ -1,5 +1,5 @@
 import { h } from "@stencil/core";
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { PropertyService } from "../../services/property.service";
 export class IrUnbookableRooms {
     ticket = '';
@@ -17,7 +17,7 @@ export class IrUnbookableRooms {
     progressFilters = { period_to_check: 2, consecutive_period: 14 };
     lastUpdatedLabel = '';
     isPageLoading = true;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     propertyService = new PropertyService();
     componentWillLoad() {
         this.filters = {
@@ -26,7 +26,7 @@ export class IrUnbookableRooms {
             consecutive_period: this.normalizePositiveNumber(this.consecutive_period, 14),
         };
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -34,7 +34,7 @@ export class IrUnbookableRooms {
         if (newValue === oldValue) {
             return;
         }
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.initializeApp();
     }
     modeChanged(newValue, oldValue) {

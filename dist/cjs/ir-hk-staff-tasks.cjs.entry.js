@@ -1,10 +1,10 @@
 'use strict';
 
 var index = require('./index-P5Mginch.js');
-var Token = require('./Token-mN7PQKGF.js');
+var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var housekeeping_service = require('./housekeeping.service-CXKCfWFZ.js');
 var moment = require('./moment-CdViwxPQ.js');
-var irDate = require('./ir-date-BH2JQpbC.js');
+var irDate = require('./ir-date-CUot5M4p.js');
 var direction = require('./direction-BKlLiim_.js');
 var realtime_service = require('./realtime.service-COdIt6Z-.js');
 var v4 = require('./v4-_2BfiRUa.js');
@@ -50,7 +50,7 @@ const IrHkStaffTasks = class {
     ticket;
     baseurl;
     language = 'en';
-    tokenService = new Token.Token();
+    tokenService = new ApiClient.ApiClient();
     houseKeepingService = new housekeeping_service.HouseKeepingService();
     // Always use English locale for date keys to avoid Arabic-Indic numerals
     fromDate = moment.hooks().locale('en').format('YYYY-MM-DD');
@@ -74,7 +74,7 @@ const IrHkStaffTasks = class {
             this.tokenService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.loadTasks();
         }
     }
@@ -112,7 +112,7 @@ const IrHkStaffTasks = class {
             return;
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.loadTasks();
         }
     }

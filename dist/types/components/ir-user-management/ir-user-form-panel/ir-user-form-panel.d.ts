@@ -28,7 +28,7 @@ export declare class IrUserFormPanel {
     private userService;
     private disableFields;
     private isPropertyAdmin;
-    private token;
+    private ApiClient;
     private mobileMask;
     private userSchema;
     componentWillLoad(): Promise<void>;

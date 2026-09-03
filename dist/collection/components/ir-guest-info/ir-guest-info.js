@@ -2,7 +2,7 @@ import { h, Fragment } from "@stencil/core";
 import { BookingService } from "../../services/booking-service/booking.service";
 import { RoomService } from "../../services/room.service";
 import locales from "../../stores/locales.store";
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { showToast } from "../../utils/utils";
 export class GuestInfo {
@@ -21,19 +21,19 @@ export class GuestInfo {
     resetBookingEvt;
     bookingService = new BookingService();
     roomService = new RoomService();
-    token = new Token();
+    ApiClient = new ApiClient();
     async componentWillLoad() {
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
         }
-        if (!!this.token.getToken())
+        if (!!this.ApiClient.getToken())
             this.init();
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.init();
     }
     async init() {

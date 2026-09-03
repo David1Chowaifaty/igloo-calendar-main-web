@@ -21,10 +21,10 @@ export declare class IrBookingListing {
     payment: Payment;
     booking: Booking;
     private bookingListingService;
-    private bookingService;
+    private setupService;
     private roomService;
     private propertyService;
-    private token;
+    private ApiClient;
     private listingModal;
     private listingModalTimeout;
     private allowedProperties;

@@ -1,22 +1,22 @@
 'use strict';
 
 var index = require('./index-P5Mginch.js');
-var booking_store = require('./booking.store-Bi052xjW.js');
-var room_service = require('./room.service-DQBAC40E.js');
+var booking_store = require('./booking.store-SmjvQvnY.js');
+var room_service = require('./room.service-Dv4u9Qiq.js');
 var locales_store = require('./locales.store-v9LoZcAK.js');
-var Token = require('./Token-mN7PQKGF.js');
+var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var irInterceptor_store = require('./ir-interceptor.store-BGTJSCIh.js');
-var utils = require('./utils-CwIiTro6.js');
+var utils = require('./utils-5rzlNNGQ.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-BtFRLVyo.js');
 require('./index-CLqkDPTC.js');
-require('./booking-51dS0UQD.js');
+require('./booking-DAw6VPzA.js');
 require('./moment-CdViwxPQ.js');
 require('./index-BLJXadKe.js');
-require('./calendar-data-PetnikUI.js');
-require('./functions-DgKYncGa.js');
-require('./ir-date-BH2JQpbC.js');
+require('./calendar-data-BjlxOXi1.js');
+require('./functions-CVUndUSp.js');
+require('./ir-date-CUot5M4p.js');
 require('./commonSchemas-hgXVqmtC.js');
 require('./booking.dto-kenLHU-o.js');
 require('./type-Dy9pVS4V.js');
@@ -46,19 +46,19 @@ const GuestInfo = class {
     resetBookingEvt;
     bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
-    token = new Token.Token();
+    ApiClient = new ApiClient.ApiClient();
     async componentWillLoad() {
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
         }
-        if (!!this.token.getToken())
+        if (!!this.ApiClient.getToken())
             this.init();
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.init();
     }
     async init() {

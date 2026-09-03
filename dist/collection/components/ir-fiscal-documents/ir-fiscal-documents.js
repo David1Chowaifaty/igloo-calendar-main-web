@@ -1,9 +1,9 @@
 import { h } from "@stencil/core";
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import moment from "moment";
 import { PropertyService } from "../../services/property/index";
 import { RoomService } from "../../services/room.service";
-import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService } from "../../services/setup/index";
 import { FdTypes } from "../../types/enums";
 /** Selectable page sizes for the fiscal-documents list. */
 const PAGE_SIZES = [20, 50, 100];
@@ -39,16 +39,16 @@ export class IrFiscalDocuments {
     totalRows = 0;
     /** Booking number whose details drawer is currently open. */
     selectedBookingNumber = null;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     propertyService = new PropertyService();
     roomService = new RoomService();
-    bookingService = new BookingService();
+    setupService = new SetupService();
     componentWillLoad() {
         if (this.baseurl) {
             this.tokenService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.tokenService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -58,7 +58,7 @@ export class IrFiscalDocuments {
         if (this.baseurl) {
             this.tokenService.setBaseUrl(this.baseurl);
         }
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         this.init();
     }
     /**
@@ -87,7 +87,7 @@ export class IrFiscalDocuments {
             this.property_id = propertyId;
             // Remaining setup — all in parallel. The property is only fetched here
             // when we didn't already load it through the aname lookup above.
-            const requests = [this.bookingService.getSetupEntriesByTableName('_FD_TYPE'), this.roomService.fetchLanguage(this.language)];
+            const requests = [this.setupService.getSetupEntriesByTableName('_FD_TYPE'), this.roomService.fetchLanguage(this.language)];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,

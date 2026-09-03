@@ -1,18 +1,18 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-BYqrdgY9.js';
-import { C as CityLedgerService } from './index-BTiwtg05.js';
-import { P as PropertyService } from './index-CbjeKhiT.js';
+import { C as CityLedgerService } from './index-CZpp4toz.js';
+import { P as PropertyService } from './index-B4QXVOb6.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import './calendar-data-BebdClG4.js';
+import './calendar-data-DT3jrP3G.js';
 import './locales.store-C9qsbKR0.js';
 import './booking.dto-DpE31yhG.js';
-import './ir-date-_0rd4VZd.js';
-import { f as formatAmount } from './number-DuxNax9Y.js';
-import { T as Token } from './Token-CkxFIO_J.js';
+import './ir-date-BT3QqYg6.js';
+import { f as formatAmount } from './number-CF5xh0GV.js';
+import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { F as FdTypes } from './enums-CSCQSgBu.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './index-DeW5X45W.js';
-import './utils-COglgzDo.js';
+import './utils-Ct-kEjIU.js';
 import './commonSchemas-ByEkDTMV.js';
 import './index-CimhgHoX.js';
 import './type-D7rOPtKA.js';
@@ -39,7 +39,7 @@ const IrClStatementPreview = class {
     statement = null;
     fiscalDocuments = [];
     clPreviewReady;
-    tokenService = new Token();
+    tokenService = new ApiClient();
     propertyService = new PropertyService();
     cityLedgerService = new CityLedgerService();
     hasEmitted = false;
@@ -50,7 +50,7 @@ const IrClStatementPreview = class {
         }
         if (this.baseurl)
             this.tokenService.setBaseUrl(this.baseurl);
-        this.tokenService.setToken(this.ticket);
+        this.tokenService.setApiClient(this.ticket);
         return this.fetchData();
     }
     componentDidRender() {

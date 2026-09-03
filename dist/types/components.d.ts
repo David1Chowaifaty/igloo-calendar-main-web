@@ -807,7 +807,7 @@ export namespace Components {
          */
         "propertyid": number;
         /**
-          * Authentication token issued by the PMS backend. Required for initializing the component and making API calls.
+          * Authentication ApiClient issued by the PMS backend. Required for initializing the component and making API calls.
          */
         "ticket": string;
     }
@@ -1020,7 +1020,7 @@ export namespace Components {
          */
         "propertyid": number;
         /**
-          * Authentication token issued by the PMS backend. Required for initializing the component and making API calls.
+          * Authentication ApiClient issued by the PMS backend. Required for initializing the component and making API calls.
          */
         "ticket": string;
     }
@@ -1488,7 +1488,7 @@ export namespace Components {
          */
         "propertyid": number;
         /**
-          * Authentication token used to initialize the component. Triggers re-initialization when changed.
+          * Authentication ApiClient used to initialize the component. Triggers re-initialization when changed.
           * @default ''
          */
         "ticket": string;
@@ -1613,7 +1613,7 @@ export namespace Components {
          */
         "roomTypeIds": (string | number)[];
         /**
-          * Auth token used for API requests.
+          * Auth ApiClient used for API requests.
          */
         "ticket": string;
         /**
@@ -1778,6 +1778,10 @@ export namespace Components {
         /**
           * @default ''
          */
+        "ApiClient": string;
+        /**
+          * @default ''
+         */
         "bookingNumber": string;
         "countries": any;
         /**
@@ -1789,10 +1793,6 @@ export namespace Components {
          */
         "mode": 'invoice' | 'default';
         "propertyid": number;
-        /**
-          * @default ''
-         */
-        "token": string;
     }
     interface IrBookingRooms {
         "agent": Agent;
@@ -5370,6 +5370,10 @@ export namespace Components {
     }
     interface IrPhoneInput {
         /**
+          * Auth ApiClient used by the booking service (if needed).
+         */
+        "ApiClient": string;
+        /**
           * Country list, used to populate prefix and dropdown. If not provided, fetched from the booking service.
           * @default []
          */
@@ -5418,10 +5422,6 @@ export namespace Components {
           * Identifier for test automation.
          */
         "testId": string;
-        /**
-          * Auth token used by the booking service (if needed).
-         */
-        "token": string;
         /**
           * Initial phone number value.
           * @default ''
@@ -11958,7 +11958,7 @@ declare global {
     };
     interface HTMLIrLoginElementEventMap {
         "authFinish": {
-    token: string;
+    ApiClient: string;
     code: 'succsess' | 'error';
   };
     }
@@ -14978,7 +14978,7 @@ declare namespace LocalJSX {
          */
         "propertyid"?: number;
         /**
-          * Authentication token issued by the PMS backend. Required for initializing the component and making API calls.
+          * Authentication ApiClient issued by the PMS backend. Required for initializing the component and making API calls.
          */
         "ticket"?: string;
     }
@@ -15207,7 +15207,7 @@ declare namespace LocalJSX {
          */
         "propertyid"?: number;
         /**
-          * Authentication token issued by the PMS backend. Required for initializing the component and making API calls.
+          * Authentication ApiClient issued by the PMS backend. Required for initializing the component and making API calls.
          */
         "ticket"?: string;
     }
@@ -15701,7 +15701,7 @@ declare namespace LocalJSX {
          */
         "propertyid"?: number;
         /**
-          * Authentication token used to initialize the component. Triggers re-initialization when changed.
+          * Authentication ApiClient used to initialize the component. Triggers re-initialization when changed.
           * @default ''
          */
         "ticket"?: string;
@@ -15839,7 +15839,7 @@ declare namespace LocalJSX {
          */
         "roomTypeIds"?: (string | number)[];
         /**
-          * Auth token used for API requests.
+          * Auth ApiClient used for API requests.
          */
         "ticket"?: string;
         /**
@@ -16020,6 +16020,10 @@ declare namespace LocalJSX {
         /**
           * @default ''
          */
+        "ApiClient"?: string;
+        /**
+          * @default ''
+         */
         "bookingNumber"?: string;
         "countries"?: any;
         /**
@@ -16031,10 +16035,6 @@ declare namespace LocalJSX {
          */
         "mode"?: 'invoice' | 'default';
         "propertyid"?: number;
-        /**
-          * @default ''
-         */
-        "token"?: string;
     }
     interface IrBookingRooms {
         "agent"?: Agent;
@@ -19182,7 +19182,7 @@ declare namespace LocalJSX {
     }
     interface IrLogin {
         "onAuthFinish"?: (event: IrLoginCustomEvent<{
-    token: string;
+    ApiClient: string;
     code: 'succsess' | 'error';
   }>) => void;
     }
@@ -19939,6 +19939,10 @@ declare namespace LocalJSX {
     }
     interface IrPhoneInput {
         /**
+          * Auth ApiClient used by the booking service (if needed).
+         */
+        "ApiClient"?: string;
+        /**
           * Country list, used to populate prefix and dropdown. If not provided, fetched from the booking service.
           * @default []
          */
@@ -19991,10 +19995,6 @@ declare namespace LocalJSX {
           * Identifier for test automation.
          */
         "testId"?: string;
-        /**
-          * Auth token used by the booking service (if needed).
-         */
-        "token"?: string;
         /**
           * Initial phone number value.
           * @default ''
@@ -22585,7 +22585,7 @@ declare namespace LocalJSX {
         "currencySymbol": string;
     }
     interface IrBookingPrintingAttributes {
-        "token": string;
+        "ApiClient": string;
         "bookingNumber": string;
         "language": string;
         "propertyid": number;
@@ -23626,7 +23626,7 @@ declare namespace LocalJSX {
         "value": string;
         "disabled": boolean;
         "error": boolean;
-        "token": string;
+        "ApiClient": string;
         "language": string;
         "default_country": number;
         "phone_prefix": string | null;

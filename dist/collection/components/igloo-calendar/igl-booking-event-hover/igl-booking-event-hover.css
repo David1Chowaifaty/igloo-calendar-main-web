@@ -1,5 +1,5 @@
 :host {
-  /* Public theming API — every value resolves to a Web Awesome token */
+  /* Public theming API — every value resolves to a Web Awesome ApiClient */
   --eh-gap: var(--wa-space-2xs, 0.25rem);
   --eh-row-gap: var(--wa-space-3xs, 0.125rem);
   --eh-pad: var(--wa-space-s, 0.5rem);
