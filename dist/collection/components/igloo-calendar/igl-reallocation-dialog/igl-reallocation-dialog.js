@@ -99,7 +99,7 @@ export class IglReallocationDialog {
     };
     render() {
         const hasRateplans = this.hasRateplanRequirement();
-        return (h("ir-dialog", { key: '7bbef0255f0cee400653e26f5555f1c48c8743ef', label: 'Alert', ref: el => (this.dialogEl = el), onIrDialogHide: this.handleDialogVisibilityChange }, this.data && (h(Fragment, { key: '0a8bafd80b005f93b7555da4810f8a467e1a5eef' }, h("div", { key: '4b2a7917689556466dd31892ee288eccb6102a04', class: "dialog-body" }, h("p", { key: 'ea015cc80c33e31c7bb40d53c0b298c11f8a8d3d', class: "ir-text-start dialog-body__description m-0 p-0" }, this.data.description), hasRateplans && (
+        return (h("ir-dialog", { key: '32d35c101b028ecb1e536dede5a3c37fc92bb0a0', label: 'Alert', ref: el => (this.dialogEl = el), onIrDialogHide: this.handleDialogVisibilityChange }, this.data && (h(Fragment, { key: 'ceec8222cc9441cb510cd4e9a5aed6f23590e86a' }, h("div", { key: '2d5f05da431869c51453cddd5f7fd26bb70e1e7c', class: "dialog-body" }, h("p", { key: '808e9f43b40388361691a4d590c4d02510b8ae9a', class: "ir-text-start dialog-body__description m-0 p-0" }, this.data.description), hasRateplans && (
         // <ir-select
         //   ref={el => (this.rateplanSelectEl = el)}
         //   required
@@ -108,13 +108,13 @@ export class IglReallocationDialog {
         //   error={this.showRateplanError}
         //   onSelectChange={this.handleRateplanChange}
         // ></ir-select>
-        h("wa-select", { key: '82317fc7a239607dcb9f7cb24d2017594a1de7ea', "onwa-hide": e => {
+        h("wa-select", { key: '035ae89db4eb5aaa0a8432b4a7a1eed050dd8db3', "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, defaultValue: '', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, size: "s", "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, h("wa-option", { key: '623f68b793d6e4857410f3484f7cdcd2ef2ca13b', value: "" }, "Select rate plan..."), this.rateplanOptions.map(option => (h("wa-option", { key: option.value, value: option.value }, option.text)))))), h("div", { key: 'beda920cb80228e56370697d5ccb312caad9839f', class: "dialog-footer", slot: "footer" }, h("ir-custom-button", { key: 'e294ff24b49cd3b02adb17f770679d28dbd18d56', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "m" }, "Cancel"), h("ir-custom-button", { key: 'a183840eb0ee82dcc7e7a5639e57356a24859572', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "m", loading: isRequestPending('/ReAllocate_Exposed_Room') }, "Confirm"))))));
+            }, size: "s", "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, h("wa-option", { key: 'e2c3055f32cf539ce00b996199ce1cb9455977a6', value: "" }, "Select rate plan..."), this.rateplanOptions.map(option => (h("wa-option", { key: option.value, value: option.value }, option.text)))))), h("div", { key: '8a7b2d196ab27c972f1dd1ad5910f5b3a5ccbe2f', class: "dialog-footer", slot: "footer" }, h("ir-custom-button", { key: 'cc54ff18bf28db3db977e9502c7f950102f26f48', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "m" }, "Cancel"), h("ir-custom-button", { key: '51765a1ba4d426d7b36d71931f3ee53f2d1e71ad', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "m", loading: isRequestPending('/ReAllocate_Exposed_Room') }, "Confirm"))))));
     }
     static get is() { return "igl-reallocation-dialog"; }
     static get encapsulation() { return "scoped"; }

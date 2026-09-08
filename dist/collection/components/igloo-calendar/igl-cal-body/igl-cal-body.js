@@ -8,6 +8,7 @@ import { isRtlDirection } from "../../../utils/calendar-grid";
 import { _formatTime } from "../../ir-booking-details/functions";
 import { isBlockUnit, showToast } from "../../../utils/utils";
 import { formatNumber } from "../../../utils/number";
+import { t } from "../../../services/locale/t";
 export class IglCalBody {
     isScrollViewDragging;
     propertyId;
@@ -227,7 +228,7 @@ export class IglCalBody {
             TOTAL_PRICE: '',
             RATE_PLAN: '',
             ARRIVAL_TIME: '',
-            TITLE: locales.entries.Lcz_NewBookingFor,
+            TITLE: t('Lcz_NewBookingFor'),
             roomsInfo: [roomCategory],
             CATEGORY: roomCategory.name,
             event_type: 'BAR_BOOKING',
@@ -243,7 +244,7 @@ export class IglCalBody {
             },
         };
         let popupTitle = roomCategory.name + ' ' + this.getRoomName(this.getRoomById(this.getRoomtypeUnits(roomCategory), this.selectedRooms[keys[0]].roomId));
-        this.newEvent.BLOCK_DATES_TITLE = `${locales.entries.Lcz_BlockDatesFor} ${popupTitle}`;
+        this.newEvent.BLOCK_DATES_TITLE = `${t('Lcz_BlockDatesFor')} ${popupTitle}`;
         this.newEvent.TITLE += popupTitle;
         this.newEvent.defaultDateRange.toDate = new Date(this.newEvent.TO_DATE + 'T00:00:00');
         this.newEvent.defaultDateRange.fromDate = new Date(this.newEvent.FROM_DATE + 'T00:00:00');
@@ -296,19 +297,19 @@ export class IglCalBody {
                 const endValue = selectedDay.value;
                 // Cheapest checks first (indexed O(bookings-in-room)), day-loop checks last — each short-circuits the selection.
                 if (this.hasBookingConflictBetween(roomId, startValue, endValue)) {
-                    this.cancelSelectionWithConflictToast(locales.entries.Lcz_BookingBetweenSelectedDates ?? 'Selection cancelled. A booking already exists within the selected dates.');
+                    this.cancelSelectionWithConflictToast(t('Lcz_BookingBetweenSelectedDates', { fallback: 'Selection cancelled. A booking already exists within the selected dates.' }));
                     return;
                 }
                 if (this.hasBlockedConflictBetween(roomId, startValue, endValue)) {
-                    this.cancelSelectionWithConflictToast(locales.entries.Lcz_BlockedDatesBetweenSelectedDates ?? 'Selection cancelled. These dates are blocked.');
+                    this.cancelSelectionWithConflictToast(t('Lcz_BlockedDatesBetweenSelectedDates', { fallback: 'Selection cancelled. These dates are blocked.' }));
                     return;
                 }
                 if (this.hasUnavailableCellBetween(roomId, startValue, endValue)) {
-                    this.cancelSelectionWithConflictToast(locales.entries.Lcz_UnavailableDatesBetweenSelectedDates ?? 'Selection cancelled. These dates are not available.');
+                    this.cancelSelectionWithConflictToast(t('Lcz_UnavailableDatesBetweenSelectedDates', { fallback: 'Selection cancelled. These dates are not available.' }));
                     return;
                 }
                 if (this.hasDayUseBookingBetween(roomId, startValue, endValue)) {
-                    this.cancelSelectionWithConflictToast(locales.entries.Lcz_DayUseBookingBetweenSelectedDates ?? 'Selection cancelled. A day-use booking already exists within the selected dates.');
+                    this.cancelSelectionWithConflictToast(t('Lcz_DayUseBookingBetweenSelectedDates', { fallback: 'Selection cancelled. A day-use booking already exists within the selected dates.' }));
                     return;
                 }
                 this.selectedRooms[refKey] = { ...selectedDay, roomId };
@@ -441,7 +442,7 @@ export class IglCalBody {
             data: {
                 BOOKING_NUMBER: dayUseBooking.book_nbr,
                 event_type: 'EDIT_BOOKING',
-                TITLE: `${locales.entries.Lcz_EditBookingFor ?? 'Edit Booking For'} ${''}`,
+                TITLE: `${t('Lcz_EditBookingFor', { fallback: 'Edit Booking For' })} ${''}`,
             },
         });
     }
@@ -694,13 +695,13 @@ export class IglCalBody {
     render() {
         const roomTopOffsets = this.getRoomTopOffsets();
         this.lastRenderedRoomTops = roomTopOffsets;
-        return (h(Host, { key: '5e06a35536e902ee79b959ea258b5e26669c9f7a', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: '086181d5d886be1e9054b62fadfe6d0eaed12fe6', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '0348a988cca55d7a750b9f456d56c195d4860521', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: 'e93c710804191f0c6cb237d7a0b63fb00457f024', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: 'c255e9cf8316cd76e2ea9eff20a1912e7e9bf431', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'c6a9e661eb747d22d072b8447fc6a178a33bc49e', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData(), roomTop: roomTopOffsets.get(Number(bookingEvent.PR_ID)) }));
-        }))), h("igl-housekeeping-dialog", { key: 'd152ea880ecc6950072d7468cef7d23a355e2796', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: 'a1c4ed6af31fa5d704b12827a8ae5d46876677dc', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '892573eb39cfb7f6acef044ed2aaf087c65a6af0', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: 'b8e485d1c9417eb374e59c4e89ea016d41f70cdb', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issues = null;

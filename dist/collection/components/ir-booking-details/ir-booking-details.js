@@ -3,7 +3,6 @@ import axios from "axios";
 import { BookingService } from "../../services/booking-service/booking.service";
 import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
 import { RoomService } from "../../services/room.service";
-import locales from "../../stores/locales.store";
 import { PaymentService } from "../../services/payment.service";
 import ApiClient from "../../models/ApiClient";
 import calendar_data from "../../stores/calendar-data";
@@ -18,6 +17,10 @@ import { extras } from "../../utils/utils";
 import moment from "moment";
 import { SvcCategory } from "../../types/enums";
 import { formatBookingNumber } from "../../utils/number";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrBookingDetails {
     bookingService = new BookingService();
     setupService = new SetupService();
@@ -78,6 +81,12 @@ export class IrBookingDetails {
      * Enables the check-out action in room components.
      */
     hasCheckOut = false;
+    /**
+     * When set, the room matching this identifier auto-opens its check-out dialog once the
+     * booking has loaded. Used to route early check-outs triggered from other screens
+     * (departures list, calendar) through the full booking details.
+     */
+    checkoutRoomIdentifier;
     /**
      * Displays the close button in the booking header.
      */
@@ -150,11 +159,16 @@ export class IrBookingDetails {
      * Typically triggered by header actions (e.g., close button).
      */
     closeSidebar;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.bookingDetails, () => this.initializeApp());
     componentWillLoad() {
         if (this.ticket !== '') {
             this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
     }
     disconnectedCallback() {
         this.unsubscribeRealtime?.();
@@ -163,6 +177,10 @@ export class IrBookingDetails {
             clearTimeout(this.clLockingTimer);
             this.clLockingTimer = null;
         }
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     handleSideBarEvents(e) {
         this.sidebarState = e.detail.type;
@@ -183,7 +201,7 @@ export class IrBookingDetails {
             case 'email':
                 this.modalState = {
                     type: 'email',
-                    message: locales.entries.Lcz_EmailBookingto.replace('%1', this.booking.guest.email),
+                    message: t('Lcz_EmailBookingto', { params: [this.booking.guest.email] }),
                     loading: isRequestPending('/Send_Booking_Confirmation_Email'),
                 };
                 this.modalRef.openModal();
@@ -211,7 +229,7 @@ export class IrBookingDetails {
                     FROM_DATE: this.booking.from_date,
                     ARRIVAL: this.booking.arrival,
                     TO_DATE: this.booking.is_room_less ? moment(this.booking.to_date, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD') : this.booking.to_date,
-                    TITLE: `${locales.entries.Lcz_AddingUnitToBooking}# ${formatBookingNumber(this.booking.booking_nbr)}`,
+                    TITLE: `${t('Lcz_AddingUnitToBooking')}# ${formatBookingNumber(this.booking.booking_nbr)}`,
                     defaultDateRange: {
                         fromDate: new Date(this.booking.from_date),
                         fromDateStr: '',
@@ -409,13 +427,13 @@ export class IrBookingDetails {
     async initializeApp() {
         try {
             this.isLoading = true;
-            const [roomResponse, languageTexts, countriesList, bookingDetails, setupEntries, agents] = await Promise.all([
-                this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
-                this.roomService.fetchLanguage(this.language),
-                this.bookingService.getCountries(this.language),
+            const [roomResponse, , countriesList, bookingDetails, setupEntries, agents] = await Promise.all([
+                this.roomService.getExposedProperty({ id: this.propertyid || 0, language: LocaleController.language, aname: this.p }),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.bookingDetails }),
+                this.bookingService.getCountries(LocaleController.language),
                 this.bookingService.getExposedBooking({
                     booking_nbr: this.bookingNumber,
-                    language: this.language,
+                    language: LocaleController.language,
                     include_dp_pricing: true,
                     withExtras: true,
                     extras: [
@@ -447,10 +465,6 @@ export class IrBookingDetails {
             this.departureTime = departure_time;
             this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
             this.arrivalTime = arrival_time;
-            if (!locales?.entries) {
-                locales.entries = languageTexts.entries;
-                locales.direction = languageTexts.direction;
-            }
             this.countries = countriesList;
             const myResult = roomResponse?.My_Result;
             if (myResult) {
@@ -523,7 +537,7 @@ export class IrBookingDetails {
     async resetBooking() {
         try {
             this.isLoading = true;
-            const booking = await this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: this.language, include_dp_pricing: true });
+            const booking = await this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: LocaleController.language, include_dp_pricing: true });
             this.splitIndex = buildSplitIndex(booking.rooms);
             await this.loadAgentAndFolio(booking);
             this.booking = { ...booking };
@@ -556,16 +570,16 @@ export class IrBookingDetails {
             return (h("div", { class: 'loading-container' }, h("ir-spinner", null)));
         }
         const isAllServicesAgentOwned = this.isAllServicesAgentOwned();
-        return (h(Host, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } }))), h("ir-booking-header", { agents: this.agents, booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, agent: this.agent, folioRows: this.folioRows, hasReceipt: calendar_data.property.is_frontdesk_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }), h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { countries: this.countries, booking: this.booking }), !this.booking.is_room_less && (h("ir-booking-rooms", { booking: this.booking, agent: this.agent, propertyId: this.property_id, language: this.language, departureTime: this.departureTime, arrivalTime: this.arrivalTime, bedPreference: this.bedPreference, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, hasRoomAdd: this.hasRoomAdd, hasRoomEdit: this.hasRoomEdit, hasRoomDelete: this.hasRoomDelete, splitIndex: this.splitIndex, clTransactions: this.rawTransactions, svcCategories: this.svcCategories, onRoomDeleteFinished: this.handleDeleteFinish })), (this.booking?.rooms?.length > 1 || this.booking.rooms.length === 0) && (h("section", null, h("ir-extra-services", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, agent: this.agent, clTransactions: this.rawTransactions }))), h("ir-pickup-view", { booking: this.booking, agent: this.agent, clTransactions: this.rawTransactions })), h("ir-payment-details", { clTransactions: this.rawTransactions, class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking, agent: this.agent, svcCategories: this.svcCategories, isAllServicesAgentOwned: isAllServicesAgentOwned, folioRows: this.folioRows, clLoading: this.clLoading, clError: this.clError })), h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
+        return (h(Host, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } }))), h("ir-booking-header", { agents: this.agents, booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, agent: this.agent, folioRows: this.folioRows, hasReceipt: calendar_data.property.is_frontdesk_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }), h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { countries: this.countries, booking: this.booking }), !this.booking.is_room_less && (h("ir-booking-rooms", { booking: this.booking, agent: this.agent, propertyId: this.property_id, language: this.language, departureTime: this.departureTime, arrivalTime: this.arrivalTime, bedPreference: this.bedPreference, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, hasRoomAdd: this.hasRoomAdd, hasRoomEdit: this.hasRoomEdit, hasRoomDelete: this.hasRoomDelete, splitIndex: this.splitIndex, clTransactions: this.rawTransactions, svcCategories: this.svcCategories, checkoutRoomIdentifier: this.checkoutRoomIdentifier, onRoomDeleteFinished: this.handleDeleteFinish })), (this.booking?.rooms?.length > 1 || this.booking.rooms.length === 0) && (h("section", null, h("ir-extra-services", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, agent: this.agent, clTransactions: this.rawTransactions }))), h("ir-pickup-view", { booking: this.booking, agent: this.agent, clTransactions: this.rawTransactions })), h("ir-payment-details", { clTransactions: this.rawTransactions, class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking, agent: this.agent, svcCategories: this.svcCategories, isAllServicesAgentOwned: isAllServicesAgentOwned, folioRows: this.folioRows, clLoading: this.clLoading, clError: this.clError })), h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.modalRef.closeModal();
                 this.modalState = null;
-            }, ref: el => (this.modalRef = el) }, h("p", null, this.modalState?.message), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { loading: isRequestPending('/Send_Booking_Confirmation_Email'), onClickHandler: e => {
+            }, ref: el => (this.modalRef = el) }, h("p", null, this.modalState?.message), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel')), h("ir-custom-button", { loading: isRequestPending('/Send_Booking_Confirmation_Email'), onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleModalConfirm();
-            }, size: "m", variant: "brand" }, locales.entries.Lcz_Confirm))), h("ir-room-guests", { open: this.sidebarState === 'room-guest', countries: this.countries, language: this.language, identifier: this.sidebarPayload?.identifier, bookingNumber: this.booking.booking_nbr, roomName: this.sidebarPayload?.roomName, totalGuests: this.sidebarPayload?.totalGuests, sharedPersons: this.sidebarPayload?.sharing_persons, slot: "sidebar-body", checkIn: this.sidebarPayload?.checkin, onCloseModal: () => (this.sidebarState = null) }), h("ir-extra-service-config", { open: this.sidebarState === 'extra_service', service: this.selectedService, defaultPrId: this.extraServiceDefaultPrId, svcCategories: this.svcCategories, language: this.language, booking: this.booking, agent: this.agent, slot: "sidebar-body", onCloseModal: e => {
+            }, size: "m", variant: "brand" }, t('Lcz_Confirm')))), h("ir-room-guests", { open: this.sidebarState === 'room-guest', countries: this.countries, language: this.language, identifier: this.sidebarPayload?.identifier, bookingNumber: this.booking.booking_nbr, roomName: this.sidebarPayload?.roomName, roomType: this.sidebarPayload?.roomType, totalGuests: this.sidebarPayload?.totalGuests, sharedPersons: this.sidebarPayload?.sharing_persons, slot: "sidebar-body", checkIn: this.sidebarPayload?.checkin, onCloseModal: () => (this.sidebarState = null) }), h("ir-extra-service-config", { open: this.sidebarState === 'extra_service', service: this.selectedService, defaultPrId: this.extraServiceDefaultPrId, svcCategories: this.svcCategories, language: this.language, booking: this.booking, agent: this.agent, slot: "sidebar-body", onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.sidebarState = null;
@@ -656,6 +670,25 @@ export class IrBookingDetails {
                 "reflect": false,
                 "attribute": "has-check-out",
                 "defaultValue": "false"
+            },
+            "checkoutRoomIdentifier": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "When set, the room matching this identifier auto-opens its check-out dialog once the\nbooking has loaded. Used to route early check-outs triggered from other screens\n(departures list, calendar) through the full booking details."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "checkout-room-identifier"
             },
             "hasCloseButton": {
                 "type": "boolean",
@@ -996,6 +1029,9 @@ export class IrBookingDetails {
         return [{
                 "propName": "ticket",
                 "methodName": "ticketChanged"
+            }, {
+                "propName": "language",
+                "methodName": "languageChanged"
             }];
     }
     static get listeners() {

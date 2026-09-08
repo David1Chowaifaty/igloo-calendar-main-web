@@ -8,7 +8,7 @@ export class IrNotifications {
     // Make notifications reactive;
     notifications = [];
     notificationCleared;
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     propertyService = new PropertyService();
     buttonRef;
     animationRef;
@@ -23,7 +23,7 @@ export class IrNotifications {
     ];
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.fetchNotifications();
         }
     }
@@ -42,7 +42,7 @@ export class IrNotifications {
         if (newValue === oldValue || !newValue) {
             return;
         }
-        this.tokenService.setApiClient(newValue);
+        this.apiClientService.setApiClient(newValue);
         this.fetchNotifications();
     }
     handlePropertyChange(newValue, oldValue) {
@@ -102,11 +102,11 @@ export class IrNotifications {
     //   this.notifications = this.notifications.filter(n => n.id !== notification.id);
     // }
     render() {
-        return (h(Host, { key: '5546bdd86ccba583f7c1ce611e76b81aa0692349' }, h("div", { key: '69292ae7a0aacbd4cbe241e3de5747b3a19e1714', style: { position: 'relative' } }, h("wa-tooltip", { key: '2b55cf632c8e13db70635b09f4fff9f4f93d407b', for: "notifications-button" }, "Notifications"), this.notifications?.length > 0 && (h("wa-badge", { key: '121994d0448a8f56016cd8cd10afd137e959af80', pill: true, class: "header-notification-badge" }, this.notifications.length)), h("wa-animation", { key: 'a30b243aedcfbe9fee0decda80caa70318f240b3', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, h("ir-custom-button", { key: '4f6c3a5dd5a70f1c7a587da5c6b3892f223b5892', id: "notifications-button", size: "s", appearance: "plain", ref: el => (this.buttonRef = el) }, h("wa-icon", { key: '0811d47726ccb21011112d511ae3ca41f69d5ea7', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.4rem' } })))), h("wa-popover", { key: '3240d6ee3d35f40aef616d026b9dcc2d0304614e', distance: 15, class: "notification__popover", for: "notifications-button" }, h("p", { key: '9653b4470267753633233605d03caf2f1b7e7390', class: "notification__popover-title" }, "Notifications"), this.notifications.map(notification => {
+        return (h(Host, { key: '893c76c5b49bb7b9e9e2bca51c79f07d1aaa4f57' }, h("div", { key: '17e9d0f284e90ba8cf7fe67476da5f3c749cee57', style: { position: 'relative' } }, h("wa-tooltip", { key: 'bdf321c630cfda24bc228b6e7c6f0c6b715fcea3', for: "notifications-button" }, "Notifications"), this.notifications?.length > 0 && (h("wa-badge", { key: 'bef90da519f83be7532737105190303ac82f1308', pill: true, class: "header-notification-badge" }, this.notifications.length)), h("wa-animation", { key: '7f44be9a0ef54cc7242c61c75cf448846904cba3', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, h("ir-custom-button", { key: '961e831ca20ad31f740dd28a8e0dd9816ea675a4', id: "notifications-button", size: "s", appearance: "plain", ref: el => (this.buttonRef = el) }, h("wa-icon", { key: '979827aa1e10da2710a5364128d7d87b98eb1b95', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.4rem' } })))), h("wa-popover", { key: '94d2bea85e84ef6018799d819370619ebc22204c', distance: 15, class: "notification__popover", for: "notifications-button" }, h("p", { key: '44c21abcdb0d703b675c63399a423f9dbcbd8b65', class: "notification__popover-title" }, "Notifications"), this.notifications.map(notification => {
             if (notification.type === 'availability_alert') {
                 return (h("a", { href: "AcAvailabilityAlert.aspx", class: "notification-item" }, h("div", { class: "notification-item__content" }, h("p", { class: "notification-item__title" }, notification.message, " rooms types are not bookable for 14 consecutive nights within the next 2 months. More..."), h("wa-icon", { class: "ir-flip-rtl", name: "angle-right" }))));
             }
-        }), this.notifications?.length === 0 && (h("ir-empty-state", { key: 'ddf3fa8feff2eb02cade4c6cbc5a15e50ae69c9d', message: "All caught up!", style: { width: '250px', height: '150px' } }, h("wa-icon", { key: 'fcbca73a4f551f8fb8133148f434c2899b4f5b65', slot: "icon", name: "inbox" }))))));
+        }), this.notifications?.length === 0 && (h("ir-empty-state", { key: '00360c64c6784b01a1052c68bb24d0c3aaae476f', message: "All caught up!", style: { width: '250px', height: '150px' } }, h("wa-icon", { key: '61497364760cbd6c64a79763f7a2eafb0a881a35', slot: "icon", name: "inbox" }))))));
     }
     static get is() { return "ir-notifications"; }
     static get encapsulation() { return "scoped"; }

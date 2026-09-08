@@ -1,1 +1,0 @@
-import{c as t}from"./p-NaLO3GnB.js";const{state:e}=t({entries:null,direction:"ltr",language:"en"});export{e as l}

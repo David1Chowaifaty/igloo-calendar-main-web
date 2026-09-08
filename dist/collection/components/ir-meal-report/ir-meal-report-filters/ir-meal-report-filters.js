@@ -1,4 +1,5 @@
 import { h } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 import moment from "moment";
 export class IrMealReportFilters {
     reportType = 'GUEST_LIST';
@@ -7,7 +8,6 @@ export class IrMealReportFilters {
     mealType = null;
     setupEntries;
     isLoading = false;
-    lcz = {};
     reportTypeChange;
     dateChange;
     mealTypeChange;
@@ -20,9 +20,9 @@ export class IrMealReportFilters {
         const tomorrowDate = moment().add(1, 'day').format('YYYY-MM-DD');
         // Reflect which preset (Today/Tomorrow) is currently active based on the selected fromDate.
         const selectedPreset = this.fromDate === todayDate ? 'today' : this.fromDate === tomorrowDate ? 'tomorrow' : '';
-        return (h("ir-filter-card", { key: 'a042e7c97d1ef42210c1953342f9feabac6401a4' }, h("wa-radio-group", { key: '3093177bccf648ac83a11d75dbc9296710fb275a', label: "Report type", size: "s", orientation: "horizontal", value: this.reportType, onchange: e => {
+        return (h("ir-filter-card", { key: '32461d8a08f2ef45d8c7ed05f6951413dbfebccb' }, h("wa-radio-group", { key: 'eee0d46751ca612f47c4749fc024abbedc964ed5', label: "Report type", size: "s", orientation: "horizontal", value: this.reportType, onchange: e => {
                 this.reportTypeChange.emit(e.target.value);
-            } }, h("wa-radio", { key: '5d0005f5c2dafd2d87370f8837709afaf589a5fa', style: { flex: '1' }, appearance: "button", value: "GUEST_LIST" }, "Guest list"), h("wa-radio", { key: 'bbd7913879de1197adc08445506a031cc2e8e815', style: { flex: '1' }, appearance: "button", value: "MEAL_COUNT" }, "Meal count")), this.reportType === 'GUEST_LIST' ? (h("wa-radio-group", { label: "Stay date", size: "s", orientation: "horizontal", value: selectedPreset, onchange: e => {
+            } }, h("wa-radio", { key: '34c52d174cf67a7636dd52668b51c72fe2edd919', style: { flex: '1' }, appearance: "button", value: "GUEST_LIST" }, "Guest list"), h("wa-radio", { key: 'd9f4e366003702e0875dcaa820365639e3f11671', style: { flex: '1' }, appearance: "button", value: "MEAL_COUNT" }, "Meal count")), this.reportType === 'GUEST_LIST' ? (h("wa-radio-group", { label: "Stay date", size: "s", orientation: "horizontal", value: selectedPreset, onchange: e => {
                 this.presetDate.emit(e.target.value);
             } }, h("wa-radio", { style: { flex: '1' }, appearance: "button", value: "today" }, "Today"), h("wa-radio", { style: { flex: '1' }, appearance: "button", value: "tomorrow" }, "Tomorrow"))) : (h("div", null, h("ir-date-range-filter", { label: "Stay date", fromDate: this.fromDate, showQuickActions: false, toDate: this.toDate, minDate: moment().format('YYYY-MM-DD'), maxDate: moment().add(14, 'days').format('YYYY-MM-DD'), onDatesChanged: e => {
                 const { from, to } = e.detail;
@@ -33,21 +33,21 @@ export class IrMealReportFilters {
             }, withClear: false, selectionMode: "auto" }))), this.reportType === 'GUEST_LIST' &&
             (mealTypes.length > 0 ? (h("wa-radio-group", { defaultValue: this.mealType, label: "Meal type", size: "s", orientation: "horizontal", value: this.mealType, style: { width: '100%' }, onchange: e => {
                     this.mealTypeChange.emit(e.target.value);
-                } }, mealTypes.map(type => (h("wa-radio", { style: { flex: '1' }, appearance: "button", value: type.CODE_NAME }, type.CODE_VALUE_EN))))) : (h("div", { class: "ir-meal-report-filters__warning" }, "No meal types found."))), h("div", { key: '7a421f250a79efdda8af0d80f5c595ed79800608', slot: "footer" }, h("ir-custom-button", { key: '902489eff4e154d33be25168fc8b0bce818fcc3a', type: "button", size: "s", variant: "neutral", appearance: "filled", onClickHandler: (e) => {
+                } }, mealTypes.map(type => (h("wa-radio", { style: { flex: '1' }, appearance: "button", value: type.CODE_NAME }, type.CODE_VALUE_EN))))) : (h("div", { class: "ir-meal-report-filters__warning" }, "No meal types found."))), h("div", { key: '4f4f8b6dcf25a453135f4a618921f0ae8696a5dc', slot: "footer" }, h("ir-custom-button", { key: '43fc330706a14e6108f0524c088906856b9668a0', type: "button", size: "s", variant: "neutral", appearance: "filled", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.filterReset.emit();
-            } }, this.lcz.Lcz_Reset || 'Reset'), h("ir-custom-button", { key: 'b8eb1ec2dfaae07939a1546231a7c7155897d845', type: "button", size: "s", variant: "brand", loading: this.isLoading, onClickHandler: (e) => {
+            } }, t('Lcz_Reset', { fallback: 'Reset' })), h("ir-custom-button", { key: '7d11361a9028cc45461d757825115bc0e9047255', type: "button", size: "s", variant: "brand", loading: this.isLoading, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.filterApply.emit();
-            } }, this.lcz.Lcz_Apply || 'Apply'))));
+            } }, t('Lcz_Apply', { fallback: 'Apply' })))));
     }
     static get is() { return "ir-meal-report-filters"; }
     static get encapsulation() { return "scoped"; }
@@ -145,14 +145,14 @@ export class IrMealReportFilters {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "{ meal_type: IEntries[]; hb_preference: IEntries[] }",
-                    "resolved": "{ meal_type: IEntries[]; hb_preference: IEntries[]; }",
+                    "original": "{ meal_type: SetupEntries[]; hb_preference: SetupEntries[] }",
+                    "resolved": "{ meal_type: SetupEntries[]; hb_preference: SetupEntries[]; }",
                     "references": {
-                        "IEntries": {
+                        "SetupEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries",
-                            "referenceLocation": "IEntries"
+                            "id": "src/models/IBooking.ts::SetupEntries",
+                            "referenceLocation": "SetupEntries"
                         }
                     }
                 },
@@ -184,26 +184,6 @@ export class IrMealReportFilters {
                 "reflect": false,
                 "attribute": "is-loading",
                 "defaultValue": "false"
-            },
-            "lcz": {
-                "type": "any",
-                "mutable": false,
-                "complexType": {
-                    "original": "any",
-                    "resolved": "any",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "lcz",
-                "defaultValue": "{}"
             }
         };
     }

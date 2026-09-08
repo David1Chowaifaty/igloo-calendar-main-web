@@ -2,10 +2,12 @@ import { h } from "@stencil/core";
 import ApiClient from "../../models/ApiClient";
 import { RoomService } from "../../services/room.service";
 import { PropertyService } from "../../services/property.service";
-import locales from "../../stores/locales.store";
 import uninvoiced_bookings, { setUninvoicedBookingsCriteria } from "../../stores/uninvoiced_bookings.store";
 import { mapBookingToUninvoicedRow } from "./types";
 import { BookingListingService } from "../../services/booking_listing.service";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 export class IrUninvoicedBookings {
     el;
     language = '';
@@ -21,6 +23,8 @@ export class IrUninvoicedBookings {
     propertyService = new PropertyService();
     bookingListingService = new BookingListingService();
     propertyId;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.uninvoicedBookings, () => this.initializeApp());
     componentWillLoad() {
         if (this.baseUrl) {
             this.ApiClient.setBaseUrl(this.baseUrl);
@@ -29,6 +33,15 @@ export class IrUninvoicedBookings {
             this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -69,22 +82,18 @@ export class IrUninvoicedBookings {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
             this.propertyId = propertyId;
             // Bookings don't depend on language/criteria, so fetch all three concurrently.
-            const [languageTexts, criteria] = await Promise.all([
-                this.roomService.fetchLanguage(this.language),
+            const [, criteria] = await Promise.all([
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.uninvoicedBookings }),
                 this.bookingListingService.getExposedBookingsCriteria(propertyId),
                 this.fetchUninvoicedBookings(),
             ]);
-            if (!locales.entries) {
-                locales.entries = languageTexts.entries;
-                locales.direction = languageTexts.direction;
-            }
             setUninvoicedBookingsCriteria(criteria);
         }
         catch (error) {
@@ -254,6 +263,9 @@ export class IrUninvoicedBookings {
     static get elementRef() { return "el"; }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

@@ -6,6 +6,7 @@ import { Host, h } from "@stencil/core";
 import calendar_data from "../../stores/calendar-data";
 import { PropertyService } from "../../services/property.service";
 import { showToast } from "../../utils/utils";
+import { LocaleController } from "../../services/locale/locale.controller";
 export class IrAgents {
     /**
      * Authentication ApiClient issued by the PMS backend.
@@ -38,15 +39,15 @@ export class IrAgents {
     propertyService = new PropertyService();
     bookingService = new BookingService();
     setupService = new SetupService();
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
     handleTicketChange() {
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.init();
     }
     handleUpsertAgentListener(e) {
@@ -65,18 +66,18 @@ export class IrAgents {
                 await this.propertyService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                 });
             }
             const [countries, setupEntries] = await Promise.all([
-                this.bookingService.getCountries(this.language),
+                this.bookingService.getCountries(LocaleController.language),
                 this.setupService.getSetupEntriesByTableNameMulti(['_AGENT_RATE_TYPE', '_AGENT_TYPE', '_TA_PAYMENT_METHOD', '_CL_POST_TIMING']),
                 calendar_data?.property
                     ? Promise.resolve(null)
                     : this.propertyService.getExposedProperty({
                         id: this.propertyid || 0,
-                        language: this.language,
+                        language: LocaleController.language,
                         aname: this.p,
                     }),
                 this.fetchAgents(),

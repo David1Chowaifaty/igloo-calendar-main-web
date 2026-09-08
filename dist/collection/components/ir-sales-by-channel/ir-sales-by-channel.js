@@ -1,9 +1,11 @@
 import { Host, h } from "@stencil/core";
 import ApiClient from "../../models/ApiClient";
 import { PropertyService } from "../../services/property.service";
-import { RoomService } from "../../services/room.service";
-import locales from "../../stores/locales.store";
 import moment from "moment";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrSalesByChannel {
     language = '';
     ticket = '';
@@ -17,7 +19,6 @@ export class IrSalesByChannel {
     allowedProperties = [];
     propertyID;
     ApiClient = new ApiClient();
-    roomService = new RoomService();
     propertyService = new PropertyService();
     baseFilters = {
         FROM_DATE: moment().add(-7, 'days').format('YYYY-MM-DD'),
@@ -27,12 +28,23 @@ export class IrSalesByChannel {
         include_previous_year: false,
         is_export_to_excel: false,
     };
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.salesByChannel, () => this.initializeApp());
     componentWillLoad() {
         this.channelSalesFilters = this.baseFilters;
         if (this.ticket) {
             this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -54,12 +66,12 @@ export class IrSalesByChannel {
                 const property = await this.propertyService.getExposedProperty({
                     id: Number(this.propertyid ?? 0),
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                 });
                 this.propertyID = property.My_Result.id;
             }
-            const requests = [, this.roomService.fetchLanguage(this.language)];
+            const requests = [LocaleController.load({ language: this.language, tables: SCREEN_TABLES.salesByChannel })];
             if (this.mode === 'mpo') {
                 requests.unshift(this.propertyService.getExposedAllowedProperties());
                 const [properties] = await Promise.all(requests);
@@ -206,7 +218,7 @@ export class IrSalesByChannel {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getChannelSales(true);
-            } }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("ir-sales-by-channel-summary", { filters: this.channelSalesFilters, records: this.salesData }), h("div", { class: "channel-content-row" }, h("ir-sales-by-channel-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+            } }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export')), h("ir-sales-by-channel-summary", { filters: this.channelSalesFilters, records: this.salesData }), h("div", { class: "channel-content-row" }, h("ir-sales-by-channel-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.channelSalesFilters = { ...e.detail };
@@ -345,6 +357,9 @@ export class IrSalesByChannel {
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

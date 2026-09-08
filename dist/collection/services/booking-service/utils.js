@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ZIEntrySchema } from "../../models/IBooking";
+import { SetupEntrySchema } from "../../models/IBooking";
 /**
  * Builds a grouped payment types record from raw entries and groups.
  *
@@ -19,9 +19,9 @@ export function buildPaymentTypes(paymentEntries) {
     try {
         const { groups, types } = z
             .object({
-            types: ZIEntrySchema.array().min(1),
-            groups: ZIEntrySchema.array().min(1),
-            methods: ZIEntrySchema.array().min(1),
+            types: SetupEntrySchema.array().min(1),
+            groups: SetupEntrySchema.array().min(1),
+            methods: SetupEntrySchema.array().min(1),
         })
             .parse(paymentEntries);
         const items = [...types];
@@ -36,12 +36,12 @@ export function buildPaymentTypes(paymentEntries) {
             //   rec[group.CODE_NAME] = methods.map(entry => ({
             //     ...entry,
             //     CODE_VALUE_EN: `Payment: ${entry.CODE_VALUE_EN}`,
-            //   })) as IEntries[];
+            //   })) as SetupEntries[];
             // } else if (group.CODE_NAME === 'REFUND') {
             //   rec[group.CODE_NAME] = methods.map(entry => ({
             //     ...entry,
             //     CODE_VALUE_EN: `Refund: ${entry.CODE_VALUE_EN}`,
-            //   })) as IEntries[];
+            //   })) as SetupEntries[];
             rec[group.CODE_NAME] = byCodes(extractGroupCodes(group.CODE_NAME));
         });
         return rec;

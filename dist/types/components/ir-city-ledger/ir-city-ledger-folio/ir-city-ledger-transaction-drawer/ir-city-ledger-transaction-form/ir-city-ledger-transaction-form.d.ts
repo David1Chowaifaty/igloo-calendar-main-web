@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../../../stencil-public-runtime';
 import type { ZodIssue } from 'zod';
-import type { IEntries } from "../../../../../models/IBooking";
+import type { SetupEntries } from "../../../../../models/IBooking";
 import type { PaymentEntries } from "../../../../ir-booking-details/types";
 import type { FiscalDocuments } from "../../../../../services/city-ledger/types";
 import type { ClFiscalDocumentPreviewRequest } from '../../../ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types';
@@ -20,7 +20,7 @@ export declare class IrCityLedgerTransactionForm {
     transaction: ClTx | null;
     formData: CityLedgerTransactionFormDraft;
     paymentEntries: PaymentEntries;
-    paymentTypeGroups: Record<string, IEntries[]>;
+    paymentTypeGroups: Record<string, SetupEntries[]>;
     isLoading: boolean;
     isSubmitting: boolean;
     fiscalDocuments: FiscalDocuments;

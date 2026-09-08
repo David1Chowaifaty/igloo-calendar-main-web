@@ -5,6 +5,9 @@ import { SetupService, groupEntryTablesResult } from "../../services/setup/index
 import { PropertyService } from "../../services/property.service";
 import calendar_data from "../../stores/calendar-data";
 import { SystemService } from "../../services/system.service";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 export class IrCityLedger {
     el;
     ticket;
@@ -34,7 +37,7 @@ export class IrCityLedger {
         { id: 'fiscal-documents', label: 'Fiscal Documents' },
         { id: 'create-statement', label: 'Create Statement' },
     ];
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     agentsService = new AgentsService();
     propertyService = new PropertyService();
     setupService = new SetupService();
@@ -48,6 +51,8 @@ export class IrCityLedger {
             return this.agents;
         return this.agents.filter(a => a.name.toLowerCase().includes(q));
     }
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.cityLedger, () => this.init());
     componentWillLoad() {
         const agentId = this.getAgentIdFromSearchParams();
         if (agentId && !this.agentId) {
@@ -55,18 +60,27 @@ export class IrCityLedger {
         }
         if (this.ticket) {
             if (this.baseurl) {
-                this.tokenService.setBaseUrl(this.baseurl);
+                this.apiClientService.setBaseUrl(this.baseurl);
             }
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue === oldValue)
             return;
         if (this.baseurl)
-            this.tokenService.setBaseUrl(this.baseurl);
-        this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setBaseUrl(this.baseurl);
+        this.apiClientService.setApiClient(this.ticket);
         this.init();
     }
     handlePropertyIdChange(newValue, oldValue) {
@@ -105,16 +119,17 @@ export class IrCityLedger {
             // If a property name was supplied but no numeric id, resolve the id first.
             let propertyId = this.propertyid;
             if (!propertyId && this.p) {
-                await this.propertyService.getExposedProperty({ id: null, language: this.language, aname: this.p });
+                await this.propertyService.getExposedProperty({ id: null, language: LocaleController.language, aname: this.p });
                 propertyId = calendar_data.id;
             }
             this.resolvedPropertyId = propertyId;
             const resolvedByName = !this.propertyid && !!this.p;
             const [, setupEntries, agents, currencies] = await Promise.all([
-                resolvedByName ? Promise.resolve() : this.propertyService.getExposedProperty({ id: propertyId, language: this.language }),
+                resolvedByName ? Promise.resolve() : this.propertyService.getExposedProperty({ id: propertyId, language: LocaleController.language }),
                 this.setupService.getSetupEntriesByTableNameMulti(['_SVC_CATEGORY']),
                 this.agentsService.getExposedAgents({ property_id: propertyId }),
                 this.systemService.getExposedCurrencies(),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.cityLedger }),
             ]);
             this.currencies = currencies;
             this.agents = agents ?? [];
@@ -325,6 +340,9 @@ export class IrCityLedger {
     static get elementRef() { return "el"; }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "handleTicketChange"
             }, {

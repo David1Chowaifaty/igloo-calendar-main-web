@@ -10,6 +10,7 @@ import calendar_data from "../../../stores/calendar-data";
 import { FdTypes, PayStatus, PayTypes } from "../../../types/enums";
 import { _formatTime } from "../../ir-booking-details/functions";
 import { formatDate } from "../../../utils/date/index";
+import { LocaleController } from "../../../services/locale/locale.controller";
 export class IrGuestBilling {
     booking;
     isOpen = null;
@@ -103,14 +104,14 @@ export class IrGuestBilling {
             // Voiding a receipt changes booking.financial.payments, which this component doesn't own.
             // Pass the freshly fetched booking so ir-booking-details updates in place instead of
             // taking the resetBookingEvt(null) branch, which shows its full-page loading spinner.
-            const freshBooking = await this.bookingService.getExposedBooking({ booking_nbr: this.booking.booking_nbr, language: 'en' });
+            const freshBooking = await this.bookingService.getExposedBooking({ booking_nbr: this.booking.booking_nbr, language: LocaleController.language });
             this.resetBookingEvt.emit(freshBooking);
         }
     }
     get fdTypeLabels() {
         const map = {};
         for (const entry of this.fdTypes) {
-            map[entry.CODE_NAME] = getEntryValue({ entry, language: 'en' });
+            map[entry.CODE_NAME] = getEntryValue({ entry, language: LocaleController.language });
         }
         return map;
     }

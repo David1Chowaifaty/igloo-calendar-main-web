@@ -10,7 +10,7 @@ export declare class IrHkStaffTasks {
     ticket: string;
     baseurl: string;
     language: string;
-    private tokenService;
+    private apiClientService;
     private houseKeepingService;
     private fromDate;
     private toDate;

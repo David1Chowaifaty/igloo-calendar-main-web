@@ -1,10 +1,13 @@
 import { RoomService } from "../../services/room.service";
 import channels_data, { resetStore, selectChannel, setChannelIdAndActiveState, testConnection, updateChannelSettings } from "../../stores/channel.store";
-import locales from "../../stores/locales.store";
 import { Host, h, Fragment } from "@stencil/core";
 import { actions } from "./data";
 import { ChannelService } from "../../services/channel.service";
 import ApiClient from "../../models/ApiClient";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrChannel {
     el;
     ticket = '';
@@ -20,12 +23,23 @@ export class IrChannel {
     ApiClient = new ApiClient();
     irModalRef;
     propertyId;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.channel, () => this.initializeApp());
     componentWillLoad() {
         this.isLoading = true;
         if (this.ticket !== '') {
             this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     async handleConfirmClicked(e) {
         e.stopImmediatePropagation();
@@ -56,7 +70,7 @@ export class IrChannel {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                 });
                 propertyId = propertyData.My_Result.id;
@@ -64,23 +78,18 @@ export class IrChannel {
             const requests = [
                 this.channelService.getExposedChannels(propertyId),
                 this.channelService.getExposedConnectedChannels(propertyId),
-                this.roomService.fetchLanguage(this.language, ['_CHANNEL_FRONT']),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.channel }),
             ];
             if (this.propertyid) {
                 requests.unshift(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                 }));
             }
             this.propertyId = propertyId;
-            const results = await Promise.all(requests);
-            const languageTexts = results[results.length - 1];
+            await Promise.all(requests);
             channels_data.property_id = this.propertyid;
-            if (!locales.entries) {
-                locales.entries = languageTexts.entries;
-                locales.direction = languageTexts.direction;
-            }
         }
         catch (error) {
             console.error(error);
@@ -114,7 +123,7 @@ export class IrChannel {
                 },
                 cause: 'channel',
                 main_color: 'primary',
-                message: locales.entries?.Lcz_UnSavedChangesWillBeLost,
+                message: t('Lcz_UnSavedChangesWillBeLost'),
                 title: '',
             };
             this.openModal();
@@ -148,7 +157,7 @@ export class IrChannel {
         if (this.isLoading) {
             return (h("div", { class: "h-screen bg-white d-flex flex-column align-items-center justify-content-center" }, h("ir-loading-screen", null)));
         }
-        return (h(Host, { class: "h-100 " }, h("ir-toast", null), h("section", { class: "p-2 px-lg-5 py-0 h-100 d-flex flex-column" }, h("div", { class: "d-flex w-100 justify-content-between mb-2 align-items-center" }, h("h3", { class: "font-weight-bold m-0 p-0" }, locales.entries?.Lcz_iSWITCH), h("ir-button", { iconPosition: "left", icon_name: "circle_plus", text: locales.entries?.Lcz_CreateChannel, size: "sm", onClickHandler: () => (this.channel_status = 'create') })), h("div", { class: "card p-1 flex-fill m-0" }, h("table", { class: "table table-striped table-bordered no-footer dataTable" }, h("thead", null, h("tr", null, h("th", { scope: "col", class: "ir-text-start" }, locales.entries?.Lcz_Channel), h("th", { scope: "col" }, locales.entries?.Lcz_Status), h("th", { scope: "col", class: "actions-theader" }, locales.entries?.Lcz_Actions))), h("tbody", { class: "" }, channels_data.connected_channels?.map(channel => (h("tr", { key: channel.channel.id }, h("td", { class: "ir-text-start" }, channel.channel.name, " ", channel.title ? `(${channel.title})` : ''), h("td", null, h("ir-switch", { checked: channel.is_active, onCheckChange: e => this.handleCheckChange(e.detail, channel) })), h("th", null, h("div", { class: "d-flex justify-content-end" }, h("div", { class: "btn-group" }, h("button", { type: "button", class: "btn  dropdown-toggle px-0", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, h("span", { class: "ir-me-1" }, " ", locales.entries?.Lcz_Actions), h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "var(--blue)", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("div", { class: "dropdown-menu dropdown-menu-right" }, actions(locales.entries).map((a, index) => (h(Fragment, null, h("button", { onClick: () => {
+        return (h(Host, { class: "h-100 " }, h("ir-toast", null), h("section", { class: "p-2 px-lg-5 py-0 h-100 d-flex flex-column" }, h("div", { class: "d-flex w-100 justify-content-between mb-2 align-items-center" }, h("h3", { class: "font-weight-bold m-0 p-0" }, t('Lcz_iSWITCH')), h("ir-button", { iconPosition: "left", icon_name: "circle_plus", text: t('Lcz_CreateChannel'), size: "sm", onClickHandler: () => (this.channel_status = 'create') })), h("div", { class: "card p-1 flex-fill m-0" }, h("table", { class: "table table-striped table-bordered no-footer dataTable" }, h("thead", null, h("tr", null, h("th", { scope: "col", class: "ir-text-start" }, t('Lcz_Channel')), h("th", { scope: "col" }, t('Lcz_Status')), h("th", { scope: "col", class: "actions-theader" }, t('Lcz_Actions')))), h("tbody", { class: "" }, channels_data.connected_channels?.map(channel => (h("tr", { key: channel.channel.id }, h("td", { class: "ir-text-start" }, channel.channel.name, " ", channel.title ? `(${channel.title})` : ''), h("td", null, h("ir-switch", { checked: channel.is_active, onCheckChange: e => this.handleCheckChange(e.detail, channel) })), h("th", null, h("div", { class: "d-flex justify-content-end" }, h("div", { class: "btn-group" }, h("button", { type: "button", class: "btn  dropdown-toggle px-0", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, h("span", { class: "ir-me-1" }, " ", t('Lcz_Actions')), h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "var(--blue)", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("div", { class: "dropdown-menu dropdown-menu-right" }, actions().map((a, index) => (h(Fragment, null, h("button", { onClick: () => {
                 if (a.id === 'pull_future_reservation' || a.id === 'view_logs') {
                     return;
                 }
@@ -162,10 +171,10 @@ export class IrChannel {
                     this.modal_cause = a.action(channel);
                     this.openModal();
                 }
-            }, key: a.id + '_item', class: `dropdown-item my-0 ${a.id === 'remove' ? 'danger' : ''}`, type: "button" }, a.icon(), a.name), index < actions(locales.entries).length - 1 && h("div", { key: a.id + '_divider', class: "dropdown-divider my-0" }))))))))))))), channels_data.connected_channels.length === 0 && h("p", { class: "text-center" }, locales.entries?.Lcz_NoChannelsAreConnected))), h("ir-sidebar", { sidebarStyles: {
+            }, key: a.id + '_item', class: `dropdown-item my-0 ${a.id === 'remove' ? 'danger' : ''}`, type: "button" }, a.icon(), a.name), index < actions().length - 1 && h("div", { key: a.id + '_divider', class: "dropdown-divider my-0" }))))))))))))), channels_data.connected_channels.length === 0 && h("p", { class: "text-center" }, t('Lcz_NoChannelsAreConnected')))), h("ir-sidebar", { sidebarStyles: {
                 // width: '60rem',
                 padding: '0',
-            }, showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose.bind(this), open: this.channel_status !== null }, this.channel_status && (h("ir-channel-editor", { slot: "sidebar-body", ticket: this.ticket, channel_status: this.channel_status, onCloseSideBar: this.handleSidebarClose.bind(this) }))), h("ir-modal", { modalTitle: this.modal_cause?.title, modalBody: this.modal_cause?.message, ref: el => (this.irModalRef = el), rightBtnText: locales.entries?.Lcz_Confirm, leftBtnText: locales.entries?.Lcz_Cancel, onCancelModal: this.handleCancelModal.bind(this), rightBtnColor: this.modal_cause?.main_color ?? 'primary', onConfirmModal: this.handleConfirmClicked.bind(this) })));
+            }, showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose.bind(this), open: this.channel_status !== null }, this.channel_status && (h("ir-channel-editor", { slot: "sidebar-body", ticket: this.ticket, channel_status: this.channel_status, onCloseSideBar: this.handleSidebarClose.bind(this) }))), h("ir-modal", { modalTitle: this.modal_cause?.title, modalBody: this.modal_cause?.message, ref: el => (this.irModalRef = el), rightBtnText: t('Lcz_Confirm'), leftBtnText: t('Lcz_Cancel'), onCancelModal: this.handleCancelModal.bind(this), rightBtnColor: this.modal_cause?.main_color ?? 'primary', onConfirmModal: this.handleConfirmClicked.bind(this) })));
     }
     static get is() { return "ir-channel"; }
     static get encapsulation() { return "scoped"; }
@@ -289,6 +298,9 @@ export class IrChannel {
     static get elementRef() { return "el"; }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

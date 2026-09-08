@@ -8,7 +8,7 @@ import { HTMLStencilElement, JSXBase } from "./stencil-public-runtime";
 import { ACPages } from "./components/ac-pages-menu/ac-pages-menu";
 import { IRatePlanSelection, RatePlanGuest } from "./stores/booking.store";
 import { ICurrency } from "./models/calendarData";
-import { ICountry, IEntries, RoomBlockDetails } from "./models/IBooking";
+import { ICountry, RoomBlockDetails, SetupEntries } from "./models/IBooking";
 import { TAdultChildConstraints, TIglBookPropertyPayload } from "./models/igl-book-property.d";
 import { IToast, TPositions as TPositions1 } from "./components/ui/ir-toast/toast";
 import { IglBookPropertyPayloadEditBooking, TAdultChildConstraints as TAdultChildConstraints1, TPropertyButtonsTypes } from "./models/igl-book-property";
@@ -20,7 +20,7 @@ import { AllowedProperties, DayUseBookings, FetchedProperty, FetchUnBookableRoom
 import { DayUseBookings as DayUseBookings1, FolioPayment as FolioPayment1, GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
 import { DayInfo, MonthInfo, RoomListItem } from "./components/igloo-calendar/igl-cal-header/types";
 import { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
-import { Currency, ICurrency as ICurrency1, IEntries as IEntries1, IProperty, PhysicalRoom, RatePlan, RoomType } from "./models/property";
+import { Currency, ICurrency as ICurrency1, IProperty, PhysicalRoom, RatePlan, RoomType, SetupEntries as SetupEntries1 } from "./models/property";
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, PhysicalRoom as PhysicalRoom1, Property, Room, SharedPerson } from "./models/booking.dto";
 import { CleanTaskEvent, HKIssue, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
 import { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
@@ -114,7 +114,7 @@ import { VoidDocumentRequest } from "./components/ir-booking-details/ir-void-doc
 export { ACPages } from "./components/ac-pages-menu/ac-pages-menu";
 export { IRatePlanSelection, RatePlanGuest } from "./stores/booking.store";
 export { ICurrency } from "./models/calendarData";
-export { ICountry, IEntries, RoomBlockDetails } from "./models/IBooking";
+export { ICountry, RoomBlockDetails, SetupEntries } from "./models/IBooking";
 export { TAdultChildConstraints, TIglBookPropertyPayload } from "./models/igl-book-property.d";
 export { IToast, TPositions as TPositions1 } from "./components/ui/ir-toast/toast";
 export { IglBookPropertyPayloadEditBooking, TAdultChildConstraints as TAdultChildConstraints1, TPropertyButtonsTypes } from "./models/igl-book-property";
@@ -126,7 +126,7 @@ export { AllowedProperties, DayUseBookings, FetchedProperty, FetchUnBookableRoom
 export { DayUseBookings as DayUseBookings1, FolioPayment as FolioPayment1, GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
 export { DayInfo, MonthInfo, RoomListItem } from "./components/igloo-calendar/igl-cal-header/types";
 export { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
-export { Currency, ICurrency as ICurrency1, IEntries as IEntries1, IProperty, PhysicalRoom, RatePlan, RoomType } from "./models/property";
+export { Currency, ICurrency as ICurrency1, IProperty, PhysicalRoom, RatePlan, RoomType, SetupEntries as SetupEntries1 } from "./models/property";
 export { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, PhysicalRoom as PhysicalRoom1, Property, Room, SharedPerson } from "./models/booking.dto";
 export { CleanTaskEvent, HKIssue, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
 export { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
@@ -975,7 +975,7 @@ export namespace Components {
         /**
           * @default []
          */
-        "arrivalTime": IEntries[];
+        "arrivalTime": SetupEntries[];
         /**
           * Needed to look up whether this room already has an early-check-in extra service charge.
          */
@@ -1402,7 +1402,7 @@ export namespace Components {
           * Service-category entries used to populate the transaction form.
           * @default []
          */
-        "svcCategories": IEntries[];
+        "svcCategories": SetupEntries[];
     }
     interface IrBookingCompanyDialog {
         "booking": Booking;
@@ -1419,6 +1419,10 @@ export namespace Components {
           * @default ''
          */
         "bookingNumber": string;
+        /**
+          * When set, the room matching this identifier auto-opens its check-out dialog once the booking has loaded. Used to route early check-outs triggered from other screens (departures list, calendar) through the full booking details.
+         */
+        "checkoutRoomIdentifier": string;
         /**
           * Enables the check-in action in room components.
           * @default false
@@ -1504,6 +1508,10 @@ export namespace Components {
           * Booking reference number.
          */
         "bookingNumber": string;
+        /**
+          * When set, the booking-details view auto-opens the check-out dialog for the room with this identifier once the booking loads. Used to route early check-outs triggered from other screens (departures list, calendar) through the full booking details.
+         */
+        "checkoutRoomIdentifier": string;
         /**
           * Language code used for localization. Defaults to English (`en`).
           * @default 'en'
@@ -1800,16 +1808,20 @@ export namespace Components {
           * Available arrival time options for the booking. Passed down to each room when applicable.
           * @default []
          */
-        "arrivalTime": IEntries[];
+        "arrivalTime": SetupEntries[];
         /**
           * Available bed preference options for the booking rooms. Used to populate bed selection inside each room component.
           * @default []
          */
-        "bedPreference": IEntries[];
+        "bedPreference": SetupEntries[];
         /**
           * The booking object containing reservation details, including rooms, status, currency, and edit permissions.
          */
         "booking": Booking;
+        /**
+          * When set, the room whose identifier matches auto-opens its check-out dialog. Used to route early check-outs triggered from other screens through the full booking details.
+         */
+        "checkoutRoomIdentifier": string;
         /**
           * @default []
          */
@@ -1818,7 +1830,7 @@ export namespace Components {
           * Available departure time options for the booking. Passed down to each room when applicable.
           * @default []
          */
-        "departureTime": IEntries[];
+        "departureTime": SetupEntries[];
         /**
           * Enables the ability to add a new room/unit to the booking.
           * @default false
@@ -1858,7 +1870,7 @@ export namespace Components {
           * `_SVC_CATEGORY` setup entries, threaded down to each room's extra-services section for category labels.
           * @default []
          */
-        "svcCategories": IEntries[];
+        "svcCategories": SetupEntries[];
     }
     interface IrBookingSourceEditorDialog {
         "booking": Booking;
@@ -2581,7 +2593,7 @@ export namespace Components {
         /**
           * @default []
          */
-        "paymentMethods": IEntries[];
+        "paymentMethods": SetupEntries[];
         /**
           * @default []
          */
@@ -3265,7 +3277,7 @@ export namespace Components {
         /**
           * @default []
          */
-        "departureTime": IEntries[];
+        "departureTime": SetupEntries[];
         /**
           * @default 'en'
          */
@@ -3424,7 +3436,7 @@ export namespace Components {
          */
         "language": string;
         "service": ExtraService;
-        "svcCategories": IEntries[];
+        "svcCategories": SetupEntries[];
     }
     interface IrExtraServiceConfig {
         "agent": Agent;
@@ -3439,7 +3451,7 @@ export namespace Components {
         /**
           * @default []
          */
-        "svcCategories": IEntries[];
+        "svcCategories": SetupEntries[];
     }
     interface IrExtraServiceConfigForm {
         "agent": Agent;
@@ -3454,7 +3466,7 @@ export namespace Components {
         /**
           * @default []
          */
-        "svcCategories": IEntries[];
+        "svcCategories": SetupEntries[];
     }
     interface IrExtraServiceEditorDrawer {
         /**
@@ -3484,7 +3496,7 @@ export namespace Components {
          */
         "clTransactions": ClTx[];
         "language": string;
-        "svcCategories": IEntries[];
+        "svcCategories": SetupEntries[];
     }
     interface IrExtraServicesSettings {
         /**
@@ -3626,7 +3638,7 @@ export namespace Components {
         "actionsAlign": 'start' | 'center' | 'end' | 'space-between' | 'space-around';
         /**
           * Apply button copy
-          * @default locales.entries.Lcz_Apply
+          * @default t('Lcz_Apply')
          */
         "applyLabel": string;
         /**
@@ -3678,7 +3690,7 @@ export namespace Components {
         "disableReset": boolean;
         /**
           * Panel headline text
-          * @default locales.entries.Lcz_Filters
+          * @default t('Lcz_Filters')
          */
         "filterTitle": string;
         /**
@@ -3706,7 +3718,7 @@ export namespace Components {
         "persistentOnDesktop": boolean;
         /**
           * Reset button copy
-          * @default locales.entries.Lcz_Reset
+          * @default t('Lcz_Reset')
          */
         "resetLabel": string;
         /**
@@ -3790,7 +3802,7 @@ export namespace Components {
           * `_FD_TYPE` setup entries used to display the document type.
           * @default []
          */
-        "fdTypes": IEntries[];
+        "fdTypes": SetupEntries[];
         /**
           * Folio scope driving which identity columns are shown.
           * @default 'all'
@@ -4005,7 +4017,7 @@ export namespace Components {
         /**
           * @default []
          */
-        "frequencies": IEntries[];
+        "frequencies": SetupEntries[];
     }
     interface IrHkStaffTask {
         /**
@@ -4792,10 +4804,6 @@ export namespace Components {
          */
         "isLoading": boolean;
         /**
-          * @default {}
-         */
-        "lcz": any;
-        /**
           * @default null
          */
         "mealType": string | null;
@@ -4803,7 +4811,7 @@ export namespace Components {
           * @default 'GUEST_LIST'
          */
         "reportType": 'GUEST_LIST' | 'MEAL_COUNT';
-        "setupEntries": { meal_type: IEntries[]; hb_preference: IEntries[] };
+        "setupEntries": { meal_type: SetupEntries[]; hb_preference: SetupEntries[] };
         "toDate": string;
     }
     interface IrMenu {
@@ -5269,7 +5277,7 @@ export namespace Components {
         "paymentActions": IPaymentAction[];
         "paymentEntries": PaymentEntries1;
         "propertyId": number;
-        "svcCategories": IEntries[];
+        "svcCategories": SetupEntries[];
     }
     interface IrPaymentFolio {
         /**
@@ -5987,8 +5995,13 @@ export namespace Components {
     }
     interface IrRoom {
         "agent": Agent;
-        "arrivalTime": IEntries[];
-        "bedPreferences": IEntries[];
+        "arrivalTime": SetupEntries[];
+        /**
+          * When true, this room opens its check-out dialog automatically once mounted. Set by the booking-details screen when an early check-out was initiated from another screen (departures list, calendar) and redirected here.
+          * @default false
+         */
+        "autoOpenCheckout": boolean;
+        "bedPreferences": SetupEntries[];
         "booking": Booking;
         "bookingIndex": number;
         /**
@@ -5999,7 +6012,7 @@ export namespace Components {
           * @default 'USD'
          */
         "currency": string;
-        "departureTime": IEntries[];
+        "departureTime": SetupEntries[];
         /**
           * @default false
          */
@@ -6036,7 +6049,7 @@ export namespace Components {
           * `_SVC_CATEGORY` setup entries, used to label extra services in the room's extra-services section.
           * @default []
          */
-        "svcCategories": IEntries[];
+        "svcCategories": SetupEntries[];
     }
     interface IrRoomBreakdown {
         "booking": Booking;
@@ -6051,7 +6064,7 @@ export namespace Components {
         "room": Room;
     }
     interface IrRoomDetails {
-        "bedPreferences": IEntries[];
+        "bedPreferences": SetupEntries[];
         "booking": Booking;
         /**
           * @default false
@@ -6089,7 +6102,7 @@ export namespace Components {
         /**
           * @default []
          */
-        "svcCategories": IEntries[];
+        "svcCategories": SetupEntries[];
     }
     interface IrRoomGuests {
         /**
@@ -6101,7 +6114,7 @@ export namespace Components {
          */
         "checkIn": boolean;
         /**
-          * A list of available countries. Used to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests.
+          * A list of available countries. Used to populate dropdowns for selecting the {t('Lcz_Nationality')} of guests.
          */
         "countries": ICountry[];
         /**
@@ -6115,11 +6128,15 @@ export namespace Components {
         "language": string;
         "open": boolean;
         /**
-          * The name of the room currently being displayed. Used to label the room in the user interface for clarity.
+          * The name of the unit (physical room) currently assigned. Used to label the room in the user interface for clarity. When empty, the room has no assigned unit and {@link roomType} is displayed instead.
          */
         "roomName": string;
         /**
-          * An array of people sharing the room. Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+          * The room type name. Displayed as a fallback label when the room has no assigned unit ({@link roomName} is empty).
+         */
+        "roomType": string;
+        /**
+          * An array of people sharing the room. Contains information about the {t('Lcz_MainGuest')} and additional guests, such as their name, date of birth, {t('Lcz_Nationality')}, and ID details.
           * @default []
          */
         "sharedPersons": SharedPerson[];
@@ -6139,7 +6156,7 @@ export namespace Components {
          */
         "checkIn": boolean;
         /**
-          * A list of available countries. Used to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests.
+          * A list of available countries. Used to populate dropdowns for selecting the {t('Lcz_Nationality')} of guests.
          */
         "countries": ICountry[];
         /**
@@ -6156,7 +6173,7 @@ export namespace Components {
          */
         "roomName": string;
         /**
-          * An array of people sharing the room. Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+          * An array of people sharing the room. Contains information about the {t('Lcz_MainGuest')} and additional guests, such as their name, date of birth, {t('Lcz_Nationality')}, and ID details.
           * @default []
          */
         "sharedPersons": SharedPerson[];
@@ -6523,7 +6540,7 @@ export namespace Components {
           * List of setup entries used to populate the tax mode select.  Each entry represents a tax application option (e.g. Not Applicable, Inclusive, Exclusive).
           * @default []
          */
-        "setupEntries": IEntries[];
+        "setupEntries": SetupEntries[];
     }
     interface IrTaxServiceCategories {
         /**
@@ -15158,7 +15175,7 @@ declare namespace LocalJSX {
         /**
           * @default []
          */
-        "arrivalTime"?: IEntries[];
+        "arrivalTime"?: SetupEntries[];
         /**
           * Needed to look up whether this room already has an early-check-in extra service charge.
          */
@@ -15606,7 +15623,7 @@ declare namespace LocalJSX {
           * Service-category entries used to populate the transaction form.
           * @default []
          */
-        "svcCategories"?: IEntries[];
+        "svcCategories"?: SetupEntries[];
     }
     interface IrBookingCompanyDialog {
         "booking"?: Booking;
@@ -15624,6 +15641,10 @@ declare namespace LocalJSX {
           * @default ''
          */
         "bookingNumber"?: string;
+        /**
+          * When set, the room matching this identifier auto-opens its check-out dialog once the booking has loaded. Used to route early check-outs triggered from other screens (departures list, calendar) through the full booking details.
+         */
+        "checkoutRoomIdentifier"?: string;
         /**
           * Enables the check-in action in room components.
           * @default false
@@ -15717,6 +15738,10 @@ declare namespace LocalJSX {
           * Booking reference number.
          */
         "bookingNumber"?: string;
+        /**
+          * When set, the booking-details view auto-opens the check-out dialog for the room with this identifier once the booking loads. Used to route early check-outs triggered from other screens (departures list, calendar) through the full booking details.
+         */
+        "checkoutRoomIdentifier"?: string;
         /**
           * Language code used for localization. Defaults to English (`en`).
           * @default 'en'
@@ -16042,16 +16067,20 @@ declare namespace LocalJSX {
           * Available arrival time options for the booking. Passed down to each room when applicable.
           * @default []
          */
-        "arrivalTime"?: IEntries[];
+        "arrivalTime"?: SetupEntries[];
         /**
           * Available bed preference options for the booking rooms. Used to populate bed selection inside each room component.
           * @default []
          */
-        "bedPreference"?: IEntries[];
+        "bedPreference"?: SetupEntries[];
         /**
           * The booking object containing reservation details, including rooms, status, currency, and edit permissions.
          */
         "booking"?: Booking;
+        /**
+          * When set, the room whose identifier matches auto-opens its check-out dialog. Used to route early check-outs triggered from other screens through the full booking details.
+         */
+        "checkoutRoomIdentifier"?: string;
         /**
           * @default []
          */
@@ -16060,7 +16089,7 @@ declare namespace LocalJSX {
           * Available departure time options for the booking. Passed down to each room when applicable.
           * @default []
          */
-        "departureTime"?: IEntries[];
+        "departureTime"?: SetupEntries[];
         /**
           * Enables the ability to add a new room/unit to the booking.
           * @default false
@@ -16101,7 +16130,7 @@ declare namespace LocalJSX {
           * `_SVC_CATEGORY` setup entries, threaded down to each room's extra-services section for category labels.
           * @default []
          */
-        "svcCategories"?: IEntries[];
+        "svcCategories"?: SetupEntries[];
     }
     interface IrBookingSourceEditorDialog {
         "booking"?: Booking;
@@ -16871,7 +16900,7 @@ declare namespace LocalJSX {
         /**
           * @default []
          */
-        "paymentMethods"?: IEntries[];
+        "paymentMethods"?: SetupEntries[];
         /**
           * @default []
          */
@@ -17603,7 +17632,7 @@ declare namespace LocalJSX {
         /**
           * @default []
          */
-        "departureTime"?: IEntries[];
+        "departureTime"?: SetupEntries[];
         /**
           * @default 'en'
          */
@@ -17811,7 +17840,7 @@ declare namespace LocalJSX {
         "onEditExtraService"?: (event: IrExtraServiceCustomEvent<ExtraService>) => void;
         "onResetBookingEvt"?: (event: IrExtraServiceCustomEvent<null>) => void;
         "service"?: ExtraService;
-        "svcCategories"?: IEntries[];
+        "svcCategories"?: SetupEntries[];
     }
     interface IrExtraServiceConfig {
         "agent"?: Agent;
@@ -17827,7 +17856,7 @@ declare namespace LocalJSX {
         /**
           * @default []
          */
-        "svcCategories"?: IEntries[];
+        "svcCategories"?: SetupEntries[];
     }
     interface IrExtraServiceConfigForm {
         "agent"?: Agent;
@@ -17844,7 +17873,7 @@ declare namespace LocalJSX {
         /**
           * @default []
          */
-        "svcCategories"?: IEntries[];
+        "svcCategories"?: SetupEntries[];
     }
     interface IrExtraServiceEditorDrawer {
         "onExtraServiceEditorClose"?: (event: IrExtraServiceEditorDrawerCustomEvent<void>) => void;
@@ -17879,7 +17908,7 @@ declare namespace LocalJSX {
          */
         "clTransactions"?: ClTx[];
         "language"?: string;
-        "svcCategories"?: IEntries[];
+        "svcCategories"?: SetupEntries[];
     }
     interface IrExtraServicesSettings {
         /**
@@ -18020,7 +18049,7 @@ declare namespace LocalJSX {
         "actionsAlign"?: 'start' | 'center' | 'end' | 'space-between' | 'space-around';
         /**
           * Apply button copy
-          * @default locales.entries.Lcz_Apply
+          * @default t('Lcz_Apply')
          */
         "applyLabel"?: string;
         /**
@@ -18072,7 +18101,7 @@ declare namespace LocalJSX {
         "disableReset"?: boolean;
         /**
           * Panel headline text
-          * @default locales.entries.Lcz_Filters
+          * @default t('Lcz_Filters')
          */
         "filterTitle"?: string;
         /**
@@ -18103,7 +18132,7 @@ declare namespace LocalJSX {
         "persistentOnDesktop"?: boolean;
         /**
           * Reset button copy
-          * @default locales.entries.Lcz_Reset
+          * @default t('Lcz_Reset')
          */
         "resetLabel"?: string;
         /**
@@ -18195,7 +18224,7 @@ declare namespace LocalJSX {
           * `_FD_TYPE` setup entries used to display the document type.
           * @default []
          */
-        "fdTypes"?: IEntries[];
+        "fdTypes"?: SetupEntries[];
         /**
           * Folio scope driving which identity columns are shown.
           * @default 'all'
@@ -18452,7 +18481,7 @@ declare namespace LocalJSX {
         /**
           * @default []
          */
-        "frequencies"?: IEntries[];
+        "frequencies"?: SetupEntries[];
     }
     interface IrHkStaffTask {
         /**
@@ -19291,10 +19320,6 @@ declare namespace LocalJSX {
          */
         "isLoading"?: boolean;
         /**
-          * @default {}
-         */
-        "lcz"?: any;
-        /**
           * @default null
          */
         "mealType"?: string | null;
@@ -19308,7 +19333,7 @@ declare namespace LocalJSX {
           * @default 'GUEST_LIST'
          */
         "reportType"?: 'GUEST_LIST' | 'MEAL_COUNT';
-        "setupEntries"?: { meal_type: IEntries[]; hb_preference: IEntries[] };
+        "setupEntries"?: { meal_type: SetupEntries[]; hb_preference: SetupEntries[] };
         "toDate"?: string;
     }
     interface IrMenu {
@@ -19829,7 +19854,7 @@ declare namespace LocalJSX {
         "paymentActions"?: IPaymentAction[];
         "paymentEntries"?: PaymentEntries1;
         "propertyId"?: number;
-        "svcCategories"?: IEntries[];
+        "svcCategories"?: SetupEntries[];
     }
     interface IrPaymentFolio {
         /**
@@ -20608,8 +20633,13 @@ declare namespace LocalJSX {
     }
     interface IrRoom {
         "agent"?: Agent;
-        "arrivalTime"?: IEntries[];
-        "bedPreferences"?: IEntries[];
+        "arrivalTime"?: SetupEntries[];
+        /**
+          * When true, this room opens its check-out dialog automatically once mounted. Set by the booking-details screen when an early check-out was initiated from another screen (departures list, calendar) and redirected here.
+          * @default false
+         */
+        "autoOpenCheckout"?: boolean;
+        "bedPreferences"?: SetupEntries[];
         "booking"?: Booking;
         "bookingIndex"?: number;
         /**
@@ -20620,7 +20650,7 @@ declare namespace LocalJSX {
           * @default 'USD'
          */
         "currency"?: string;
-        "departureTime"?: IEntries[];
+        "departureTime"?: SetupEntries[];
         /**
           * @default false
          */
@@ -20665,7 +20695,7 @@ declare namespace LocalJSX {
           * `_SVC_CATEGORY` setup entries, used to label extra services in the room's extra-services section.
           * @default []
          */
-        "svcCategories"?: IEntries[];
+        "svcCategories"?: SetupEntries[];
     }
     interface IrRoomBreakdown {
         "booking"?: Booking;
@@ -20680,7 +20710,7 @@ declare namespace LocalJSX {
         "room"?: Room;
     }
     interface IrRoomDetails {
-        "bedPreferences"?: IEntries[];
+        "bedPreferences"?: SetupEntries[];
         "booking"?: Booking;
         /**
           * @default false
@@ -20724,7 +20754,7 @@ declare namespace LocalJSX {
         /**
           * @default []
          */
-        "svcCategories"?: IEntries[];
+        "svcCategories"?: SetupEntries[];
     }
     interface IrRoomGuests {
         /**
@@ -20736,7 +20766,7 @@ declare namespace LocalJSX {
          */
         "checkIn"?: boolean;
         /**
-          * A list of available countries. Used to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests.
+          * A list of available countries. Used to populate dropdowns for selecting the {t('Lcz_Nationality')} of guests.
          */
         "countries"?: ICountry[];
         /**
@@ -20751,11 +20781,15 @@ declare namespace LocalJSX {
         "onCloseModal"?: (event: IrRoomGuestsCustomEvent<null>) => void;
         "open"?: boolean;
         /**
-          * The name of the room currently being displayed. Used to label the room in the user interface for clarity.
+          * The name of the unit (physical room) currently assigned. Used to label the room in the user interface for clarity. When empty, the room has no assigned unit and {@link roomType} is displayed instead.
          */
         "roomName"?: string;
         /**
-          * An array of people sharing the room. Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+          * The room type name. Displayed as a fallback label when the room has no assigned unit ({@link roomName} is empty).
+         */
+        "roomType"?: string;
+        /**
+          * An array of people sharing the room. Contains information about the {t('Lcz_MainGuest')} and additional guests, such as their name, date of birth, {t('Lcz_Nationality')}, and ID details.
           * @default []
          */
         "sharedPersons"?: SharedPerson[];
@@ -20775,7 +20809,7 @@ declare namespace LocalJSX {
          */
         "checkIn"?: boolean;
         /**
-          * A list of available countries. Used to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests.
+          * A list of available countries. Used to populate dropdowns for selecting the {t('Lcz_Nationality')} of guests.
          */
         "countries"?: ICountry[];
         /**
@@ -20796,7 +20830,7 @@ declare namespace LocalJSX {
          */
         "roomName"?: string;
         /**
-          * An array of people sharing the room. Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+          * An array of people sharing the room. Contains information about the {t('Lcz_MainGuest')} and additional guests, such as their name, date of birth, {t('Lcz_Nationality')}, and ID details.
           * @default []
          */
         "sharedPersons"?: SharedPerson[];
@@ -21205,7 +21239,7 @@ declare namespace LocalJSX {
           * List of setup entries used to populate the tax mode select.  Each entry represents a tax application option (e.g. Not Applicable, Inclusive, Exclusive).
           * @default []
          */
-        "setupEntries"?: IEntries[];
+        "setupEntries"?: SetupEntries[];
     }
     interface IrTaxServiceCategories {
         /**
@@ -22485,6 +22519,7 @@ declare namespace LocalJSX {
         "bookingNumber": string;
         "hasCheckIn": boolean;
         "hasCheckOut": boolean;
+        "checkoutRoomIdentifier": string;
         "hasCloseButton": boolean;
         "hasDelete": boolean;
         "hasMenu": boolean;
@@ -22505,6 +22540,7 @@ declare namespace LocalJSX {
         "ticket": string;
         "language": string;
         "bookingNumber": string;
+        "checkoutRoomIdentifier": string;
     }
     interface IrBookingEditorAttributes {
         "propertyId": string;
@@ -22598,6 +22634,7 @@ declare namespace LocalJSX {
         "hasRoomEdit": boolean;
         "language": string;
         "propertyId": number;
+        "checkoutRoomIdentifier": string;
     }
     interface IrBookingStatusTagAttributes {
         "isRequestToCancel": Booking['is_requested_to_cancel'];
@@ -23465,7 +23502,6 @@ declare namespace LocalJSX {
         "toDate": string;
         "mealType": string | null;
         "isLoading": boolean;
-        "lcz": string;
     }
     interface IrMenuAttributes {
         "selectedHref": string;
@@ -23807,6 +23843,7 @@ declare namespace LocalJSX {
         "hasRoomAdd": boolean;
         "hasCheckIn": boolean;
         "hasCheckOut": boolean;
+        "autoOpenCheckout": boolean;
     }
     interface IrRoomBreakdownAttributes {
         "currency": string;
@@ -23825,6 +23862,7 @@ declare namespace LocalJSX {
     interface IrRoomGuestsAttributes {
         "open": boolean;
         "roomName": string;
+        "roomType": string;
         "identifier": string;
         "totalGuests": number;
         "checkIn": boolean;

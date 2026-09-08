@@ -52,7 +52,7 @@ export interface ICountry {
     flag: string;
     code?: string;
 }
-export declare const ZIEntrySchema: z.ZodObject<{
+export declare const SetupEntrySchema: z.ZodObject<{
     CODE_NAME: z.ZodString;
     CODE_VALUE_AR: z.ZodNullable<z.ZodString>;
     CODE_VALUE_DE: z.ZodNullable<z.ZodString>;
@@ -122,7 +122,7 @@ export declare const ZIEntrySchema: z.ZodObject<{
     OWNER_ID: z.ZodNullable<z.ZodNumber>;
     TBL_NAME: z.ZodString;
 }, z.ZodTypeAny, "passthrough">>;
-export type IEntries = {
+export type SetupEntries = {
     CODE_NAME: string;
     CODE_VALUE_AR: string;
     CODE_VALUE_DE: string;
@@ -147,9 +147,9 @@ export type IEntries = {
     TBL_NAME: string;
 };
 export interface ISetupEntries {
-    arrivalTime: IEntries[];
-    ratePricingMode: IEntries[];
-    bedPreferenceType: IEntries[];
+    arrivalTime: SetupEntries[];
+    ratePricingMode: SetupEntries[];
+    bedPreferenceType: SetupEntries[];
 }
 export interface CalendarData {
     months: MonthType[];

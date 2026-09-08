@@ -15,7 +15,7 @@ export declare class IrGhsOnboarding {
     propertyToActivate: GHS_Candidate_Property | null;
     private ghsService;
     private bookingService;
-    private tokenService;
+    private apiClientService;
     private removeAllModal;
     private activateModal;
     ticketChanged(newValue: string): void;

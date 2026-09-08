@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as z from "zod";
-import { DistinctSetupTablesResponseSchema, EditSetupParamsSchema, EditSetupManyParamsSchema, GetSetupEntryByCodeParamsSchema, ZIEntrySchema, ZExposedLanguagesSchema, MoveSetupEntryParamsSchema, MissingSetupEntriesParamsSchema, ZSearchSetupByDescriptionParamsSchema, } from "./types";
+import { DistinctSetupTablesResponseSchema, EditSetupParamsSchema, EditSetupManyParamsSchema, GetSetupEntryByCodeParamsSchema, SetupEntrySchema, ZExposedLanguagesSchema, MoveSetupEntryParamsSchema, MissingSetupEntriesParamsSchema, ZSearchSetupByDescriptionParamsSchema, } from "./types";
 import { groupEntryTablesResult, toSetupEntries } from "./utils";
 export * from './types';
 export * from './utils';
@@ -64,7 +64,7 @@ export class SetupService {
      */
     async getSetupEntryByCode(params) {
         const result = await this.request('/Get_SetupEntry_By_Code', GetSetupEntryByCodeParamsSchema.parse(params));
-        return result ? ZIEntrySchema.parse(result) : null;
+        return result ? SetupEntrySchema.parse(result) : null;
     }
     /**
      * Creates or updates a setup entry. There is no separate delete endpoint —
@@ -103,7 +103,7 @@ export class SetupService {
      */
     async getMissingSetupEntries(params) {
         const result = await this.request('/Get_Missing_Setup_Entries', MissingSetupEntriesParamsSchema.parse(params));
-        return z.array(ZIEntrySchema).parse(result ?? []);
+        return z.array(SetupEntrySchema).parse(result ?? []);
     }
     /**
      * Moves a setup entry from one setup table to another.
@@ -126,7 +126,7 @@ export class SetupService {
      */
     async searchSetupByDescription(params) {
         const result = await this.request('/Search_Setup_By_Description', ZSearchSetupByDescriptionParamsSchema.parse(params));
-        return z.array(ZIEntrySchema).parse(result ?? []);
+        return z.array(SetupEntrySchema).parse(result ?? []);
     }
     /**
      * Fetches duplicated setup entries that exist across multiple setup tables.

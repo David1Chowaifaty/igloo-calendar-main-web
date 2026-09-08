@@ -2,13 +2,16 @@ import ApiClient from "../../../models/ApiClient";
 import { HouseKeepingService } from "../../../services/housekeeping.service";
 import { RoomService } from "../../../services/room.service";
 import housekeeping_store from "../../../stores/housekeeping.store";
-import locales from "../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { v4 } from "uuid";
 import { downloadFile } from "../../../utils/utils";
 import { updateTasks as updateTasksStore, updateSelectedTasks, clearSelectedTasks, hkTasksStore, setLoading } from "../../../stores/hk-tasks.store";
 import calendar_data from "../../../stores/calendar-data";
+import { LocaleController } from "../../../services/locale/locale.controller";
+import { LanguageSync } from "../../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../../services/locale/screen-tables";
+import { t } from "../../../services/locale/t";
 export class IrHkTasks {
     el;
     language = '';
@@ -34,6 +37,8 @@ export class IrHkTasks {
     ApiClient = new ApiClient();
     table_sorting = new Map();
     modal;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.hkTasks, () => this.init());
     componentWillLoad() {
         if (this.baseUrl) {
             this.ApiClient.setBaseUrl(this.baseUrl);
@@ -42,6 +47,15 @@ export class IrHkTasks {
             this.ApiClient.setApiClient(this.ticket);
             this.init();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -85,7 +99,7 @@ export class IrHkTasks {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
@@ -93,11 +107,11 @@ export class IrHkTasks {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.houseKeepingService.getExposedHKSetup(this.property_id), this.roomService.fetchLanguage(this.language)];
+            const requests = [this.houseKeepingService.getExposedHKSetup(this.property_id), LocaleController.load({ language: this.language, tables: SCREEN_TABLES.hkTasks })];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -298,7 +312,7 @@ export class IrHkTasks {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 updateSelectedTasks(e.detail);
-            } })))), h("ir-dialog", { ref: el => (this.modal = el), label: locales.entries.Lcz_Confirmation, lightDismiss: false }, h("span", null, this.modalCauses
+            } })))), h("ir-dialog", { ref: el => (this.modal = el), label: t('Lcz_Confirmation'), lightDismiss: false }, h("span", null, this.modalCauses
             ? this.modalCauses?.cause === 'clean'
                 ? this.modalCauses.task
                     ? `Update ${this.modalCauses?.task?.unit?.name} to Clean`
@@ -310,7 +324,7 @@ export class IrHkTasks {
                     this.modalCauses = null;
                 }
                 this.modal.closeModal();
-            } }, locales.entries.Lcz_Cancel), h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales.entries.Lcz_Confirm))), h("ir-hk-archive-drawer", { open: this.isSidebarOpen, ticket: this.ApiClient.getToken(), propertyId: this.property_id, onDrawerClosed: () => (this.isSidebarOpen = false) })));
+            } }, t('Lcz_Cancel')), h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, t('Lcz_Confirm')))), h("ir-hk-archive-drawer", { open: this.isSidebarOpen, ticket: this.ApiClient.getToken(), propertyId: this.property_id, onDrawerClosed: () => (this.isSidebarOpen = false) })));
     }
     static get is() { return "ir-hk-tasks"; }
     static get encapsulation() { return "scoped"; }
@@ -461,6 +475,9 @@ export class IrHkTasks {
     static get elementRef() { return "el"; }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

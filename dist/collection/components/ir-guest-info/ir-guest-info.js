@@ -1,10 +1,12 @@
 import { h, Fragment } from "@stencil/core";
 import { BookingService } from "../../services/booking-service/booking.service";
-import { RoomService } from "../../services/room.service";
-import locales from "../../stores/locales.store";
 import ApiClient from "../../models/ApiClient";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { showToast } from "../../utils/utils";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class GuestInfo {
     language;
     headerShown;
@@ -20,14 +22,24 @@ export class GuestInfo {
     closeSideBar;
     resetBookingEvt;
     bookingService = new BookingService();
-    roomService = new RoomService();
     ApiClient = new ApiClient();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.guestInfo, () => this.init());
     async componentWillLoad() {
         if (this.ticket) {
             this.ApiClient.setApiClient(this.ticket);
         }
         if (!!this.ApiClient.getToken())
             this.init();
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -40,16 +52,11 @@ export class GuestInfo {
         try {
             console.log('first');
             this.isLoading = true;
-            const [guest, countries, fetchedLocales] = await Promise.all([
+            const [guest, countries] = await Promise.all([
                 this.bookingService.fetchGuest(this.email),
-                this.bookingService.getCountries(this.language),
-                !locales || !locales.entries || Object.keys(locales.entries).length === 0 ? this.roomService.fetchLanguage(this.language) : Promise.resolve(null), // Skip fetching if locales are already set
+                this.bookingService.getCountries(LocaleController.language),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.guestInfo }),
             ]);
-            // Set the fetched locales if they were fetched
-            if (fetchedLocales) {
-                locales.entries = fetchedLocales.entries;
-                locales.direction = fetchedLocales.direction;
-            }
             // Assign the fetched guest and countries
             this.countries = countries;
             this.guest = { ...guest, mobile: guest.mobile_without_prefix };
@@ -91,15 +98,15 @@ export class GuestInfo {
         return (h("form", { class: 'p-0 sheet-container', onSubmit: async (e) => {
                 e.preventDefault();
                 await this.editGuest();
-            } }, !this.isInSideBar && [h("ir-toast", null), h("ir-interceptor", null)], this.headerShown && h("ir-title", { class: "px-1 sheet-header", displayContext: "sidebar", label: locales.entries.Lcz_GuestDetails }), h("div", { class: this.isInSideBar ? 'sheet-body' : 'card-content collapse show ' }, h("div", { class: this.headerShown ? 'card-body px-1 pt-0' : 'pt-0' }, h("ir-input-text", { autoValidate: this.autoValidate, label: locales.entries?.Lcz_FirstName, name: "firstName",
+            } }, !this.isInSideBar && [h("ir-toast", null), h("ir-interceptor", null)], this.headerShown && h("ir-title", { class: "px-1 sheet-header", displayContext: "sidebar", label: t('Lcz_GuestDetails') }), h("div", { class: this.isInSideBar ? 'sheet-body' : 'card-content collapse show ' }, h("div", { class: this.headerShown ? 'card-body px-1 pt-0' : 'pt-0' }, h("ir-input-text", { autoValidate: this.autoValidate, label: t('Lcz_FirstName'), name: "firstName",
             // submitted={this.submit}
-            value: this.guest?.first_name, required: true, onTextChange: e => this.handleInputChange({ first_name: e.detail }) }), h("ir-input-text", { autoValidate: this.autoValidate, label: locales.entries?.Lcz_LastName, name: "lastName",
+            value: this.guest?.first_name, required: true, onTextChange: e => this.handleInputChange({ first_name: e.detail }) }), h("ir-input-text", { autoValidate: this.autoValidate, label: t('Lcz_LastName'), name: "lastName",
             // submitted={this.submit}
-            value: this.guest?.last_name, required: true, onTextChange: e => this.handleInputChange({ last_name: e.detail }) }), h("ir-input-text", { label: locales.entries?.Lcz_Email, name: "email",
+            value: this.guest?.last_name, required: true, onTextChange: e => this.handleInputChange({ last_name: e.detail }) }), h("ir-input-text", { label: t('Lcz_Email'), name: "email",
             // submitted={this.submit}
-            value: this.guest?.email, required: true, onTextChange: e => this.handleInputChange({ email: e.detail }) }), h("ir-input-text", { label: locales.entries?.Lcz_AlternativeEmail, name: "altEmail", value: this.guest?.alternative_email, onTextChange: e => this.handleInputChange({ alternative_email: e.detail }) }), h("ir-country-picker", {
+            value: this.guest?.email, required: true, onTextChange: e => this.handleInputChange({ email: e.detail }) }), h("ir-input-text", { label: t('Lcz_AlternativeEmail'), name: "altEmail", value: this.guest?.alternative_email, onTextChange: e => this.handleInputChange({ alternative_email: e.detail }) }), h("ir-country-picker", {
             // error={this.submit && !this.guest.country_id}
-            country: this.countries.find(c => c.id === this.guest.country_id), label: locales.entries?.Lcz_Country, onCountryChange: e => this.handleInputChange({ country_id: e.detail.id }), countries: this.countries
+            country: this.countries.find(c => c.id === this.guest.country_id), label: t('Lcz_Country'), onCountryChange: e => this.handleInputChange({ country_id: e.detail.id }), countries: this.countries
         }), h("ir-phone-input", { onTextChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
@@ -109,7 +116,7 @@ export class GuestInfo {
                 }
                 if (phone_prefix !== this.guest.country_phone_prefix)
                     this.handleInputChange({ country_phone_prefix: phone_prefix });
-            }, phone_prefix: this.guest.country_phone_prefix, value: this.guest.mobile, language: this.language, label: locales.entries?.Lcz_MobilePhone, countries: this.countries }), h("div", { class: "mb-2" }, h("ir-textarea", { variant: "prepend", onTextChange: e => this.handleInputChange({ notes: e.detail }), value: this.guest?.notes, label: locales.entries?.Lcz_PrivateNote })), h("div", { class: 'p-0 m-0' }, h("label", { class: `check-container m-0 p-0` }, h("input", { class: 'm-0 p-0', type: "checkbox", name: "newsletter", checked: this.guest.subscribe_to_news_letter, onInput: e => this.handleInputChange({ subscribe_to_news_letter: e.target.checked }) }), h("span", { class: "checkmark m-0 p-0" }), h("span", { class: 'm-0 p-0  check-label' }, locales.entries.Lcz_Newsletter)), !this.isInSideBar && (h(Fragment, null, h("hr", null), h("ir-button", { btn_styles: "d-flex align-items-center justify-content-center", text: locales.entries.Lcz_Save, onClickHandler: this.editGuest.bind(this), isLoading: isRequestPending('/Edit_Exposed_Guest'), color: "btn-primary" })))))), this.isInSideBar && (h("div", { class: 'sheet-footer' }, h("ir-button", { "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill m-0 p-0", btn_styles: "w-100 m-0  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { "data-testid": "save", isLoading: isRequestPending('/Edit_Exposed_Guest'), btn_disabled: this.isLoading, class: "flex-fill m-0", btn_type: "submit", btn_styles: "w-100 m-0  justify-content-center align-items-center", text: locales.entries.Lcz_Save })))));
+            }, phone_prefix: this.guest.country_phone_prefix, value: this.guest.mobile, language: this.language, label: t('Lcz_MobilePhone'), countries: this.countries }), h("div", { class: "mb-2" }, h("ir-textarea", { variant: "prepend", onTextChange: e => this.handleInputChange({ notes: e.detail }), value: this.guest?.notes, label: t('Lcz_PrivateNote') })), h("div", { class: 'p-0 m-0' }, h("label", { class: `check-container m-0 p-0` }, h("input", { class: 'm-0 p-0', type: "checkbox", name: "newsletter", checked: this.guest.subscribe_to_news_letter, onInput: e => this.handleInputChange({ subscribe_to_news_letter: e.target.checked }) }), h("span", { class: "checkmark m-0 p-0" }), h("span", { class: 'm-0 p-0  check-label' }, t('Lcz_Newsletter'))), !this.isInSideBar && (h(Fragment, null, h("hr", null), h("ir-button", { btn_styles: "d-flex align-items-center justify-content-center", text: t('Lcz_Save'), onClickHandler: this.editGuest.bind(this), isLoading: isRequestPending('/Edit_Exposed_Guest'), color: "btn-primary" })))))), this.isInSideBar && (h("div", { class: 'sheet-footer' }, h("ir-button", { "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill m-0 p-0", btn_styles: "w-100 m-0  justify-content-center align-items-center", btn_color: "secondary", text: t('Lcz_Cancel') }), h("ir-button", { "data-testid": "save", isLoading: isRequestPending('/Edit_Exposed_Guest'), btn_disabled: this.isLoading, class: "flex-fill m-0", btn_type: "submit", btn_styles: "w-100 m-0  justify-content-center align-items-center", text: t('Lcz_Save') })))));
     }
     static get is() { return "ir-guest-info"; }
     static get encapsulation() { return "scoped"; }
@@ -284,6 +291,9 @@ export class GuestInfo {
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

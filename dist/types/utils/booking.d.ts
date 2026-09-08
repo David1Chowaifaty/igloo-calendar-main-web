@@ -43,6 +43,14 @@ export declare function formatName(firstName: string | null, lastName: string | 
 export declare function getRoomStatus(params: Pick<Room, 'in_out' | 'from_date' | 'to_date'> & {
     status_code: string;
 }): STATUS;
+/**
+ * True when checking this room out today would fall *before* its scheduled departure date —
+ * an early check-out. Early check-outs carry penalty / reclaimed-night / invoicing
+ * implications, so callers outside the booking-details screen route them through the full
+ * booking details (where `ir-checkout-dialog` runs with complete context) instead of
+ * opening the dialog inline.
+ */
+export declare function isEarlyCheckout(room: Pick<Room, 'to_date'> | null | undefined): boolean;
 /** A unit's same-day movement, derived from which half-day cells are occupied. `null` means neither — fully free or fully booked by one stay. */
 export type DayUseUnitDayStatus = 'checkin' | 'checkout' | 'turnover' | null;
 export interface DayUseUnitAvailability {

@@ -4,6 +4,7 @@ import calendar_data from "../../stores/calendar-data";
 import { checkUserAuthState, manageAnchorSession } from "../../utils/utils";
 import { inlineSign } from "../../utils/direction";
 import { Fragment, Host, h } from "@stencil/core";
+import { LocaleController } from "../../services/locale/locale.controller";
 export class IrSecureTasks {
     el;
     propertyid;
@@ -161,7 +162,7 @@ export class IrSecureTasks {
         }
         else if (this.p) {
             const propertyService = new PropertyService();
-            await propertyService.getExposedProperty({ aname: this.p, id: 42, language: 'en' });
+            await propertyService.getExposedProperty({ aname: this.p, id: 42, language: LocaleController.language });
             this.propertyid = calendar_data?.property?.id;
             this.isLoading = false;
         }

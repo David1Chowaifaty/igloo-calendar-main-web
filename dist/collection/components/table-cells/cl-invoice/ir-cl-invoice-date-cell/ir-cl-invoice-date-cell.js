@@ -3,7 +3,7 @@ import { formatDate } from "../../../../utils/date/index";
 export class IrClInvoiceDateCell {
     date;
     render() {
-        return h(Host, { key: '04cd4741af46f67f7f47473c814f48e1cfc24075' }, formatDate(this.date, { style: 'medium' }));
+        return h(Host, { key: 'f930d3483275ac37f040a37e8d2a06cae6e8b8fa' }, formatDate(this.date, { style: 'medium' }));
     }
     static get is() { return "ir-cl-invoice-date-cell"; }
     static get encapsulation() { return "scoped"; }

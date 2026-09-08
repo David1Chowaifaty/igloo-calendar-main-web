@@ -13,12 +13,19 @@ export declare class IrDepartures {
     payment: Payment;
     checkoutState: CheckoutRoomEvent;
     invoiceState: CheckoutRoomEvent;
-    private tokenService;
+    /** Room identifier whose check-out dialog should auto-open inside the booking-details drawer (early check-out redirect). */
+    checkoutRoomIdentifier: string;
+    private apiClientService;
     private roomService;
     private bookingService;
     private setupService;
     private paymentFolioRef;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     handleOpen(e: CustomEvent): void;
     handleBookingPayment(e: CustomEvent): void;

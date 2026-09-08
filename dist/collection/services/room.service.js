@@ -1,5 +1,6 @@
 import calendar_data from "../stores/calendar-data";
 import { locales } from "../stores/locales.store";
+import { LocaleController } from "./locale/locale.controller";
 import axios from "axios";
 const DEFAULT_BOOKING_COLORS = [
     { color: '#F9A9FE', design: 'skew', name: '' },
@@ -128,46 +129,14 @@ export class RoomService {
             booking_colors: colors.map(color => ({ ...color })),
         };
     }
-    async fetchLanguage(code, sections = ['_PMS_FRONT']) {
-        try {
-            const { data } = await axios.post(`https://gateway.igloorooms.com/IRBE/Get_Exposed_Language`, { code, sections });
-            if (data.ExceptionMsg !== '') {
-                throw new Error(data.ExceptionMsg);
-            }
-            let entries = this.transformArrayToObject(data.My_Result.entries);
-            locales.entries = { ...locales.entries, ...entries };
-            locales.direction = String(data.My_Result.direction).toLowerCase() === 'rtl' ? 'rtl' : 'ltr';
-            // The date layer resolves its language from here and from `<html lang>` — see
-            // `resolveLocale` in `src/utils/date/ir-date.ts`. Without this, every component's
-            // `@Prop() language` stopped at the locale strings and dates stayed English.
-            const language = String(code ?? '').toLowerCase();
-            locales.language = language;
-            document.documentElement.lang = language;
-            //copy entries
-            // this.copyEntries(entries);
-            return { entries, direction: data.My_Result.direction };
-        }
-        catch (error) {
-            console.log(error);
-            throw new Error(error);
-        }
-    }
-    // private copyEntries(data: Record<string, string>) {
-    //   const typedObject: Record<string, string> = {};
-    //   Object.keys(data).forEach(key => {
-    //     typedObject[key] = 'string' as unknown as string;
-    //   });
-    //   const output = Object.keys(typedObject).reduce((acc, key) => {
-    //     acc[key] = 'string';
-    //     return acc;
-    //   }, {} as Record<string, string>);
-    //   navigator.clipboard.writeText(JSON.stringify(output, null, 2).replace(/"string"/g, 'string'));
-    // }
-    transformArrayToObject(data) {
-        let object = {};
-        for (const d of data) {
-            object[d.code] = d.description;
-        }
-        return object;
+    /**
+     * @deprecated Use `LocaleController.load({ language, tables })` directly.
+     *
+     * Kept as a delegate so the existing call sites keep working while gaining the
+     * controller's caching, request de-duplication and guaranteed base tables.
+     */
+    async fetchLanguage(code, sections = []) {
+        await LocaleController.load({ language: code, tables: sections });
+        return { entries: locales.entries, direction: locales.direction };
     }
 }

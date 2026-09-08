@@ -16,7 +16,12 @@ export declare class IrBookingPrinting {
     private currency;
     private totalNights;
     private totalPersons;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     ticketChanged(newValue: string, oldValue: string): Promise<void>;
     private init;
     initializeRequests(): Promise<void>;

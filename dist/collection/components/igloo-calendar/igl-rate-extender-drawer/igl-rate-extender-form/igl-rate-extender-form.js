@@ -1,13 +1,14 @@
 import { BookingService } from "../../../../services/booking-service/booking.service";
 import booking_store from "../../../../stores/booking.store";
 import calendar_data from "../../../../stores/calendar-data";
-import locales from "../../../../stores/locales.store";
 import { getDaysArray } from "../../../../utils/utils";
 import { formatDate } from "../../../../utils/date/index";
 import { h } from "@stencil/core";
 import moment from "moment";
 import { z } from "zod";
 import { formatBookingNumber } from "../../../../utils/number";
+import { LocaleController } from "../../../../services/locale/locale.controller";
+import { t } from "../../../../services/locale/t";
 export class IglRateExtenderForm {
     bookingNumber;
     propertyId;
@@ -67,7 +68,7 @@ export class IglRateExtenderForm {
                 this.dates.from_date = new Date(this.fromDate);
             }
             this.dates.to_date = new Date(this.toDate);
-            this.booking = await this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: this.language });
+            this.booking = await this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: LocaleController.language });
             if (this.booking) {
                 const filteredRooms = this.booking.rooms.filter(room => room.identifier === this.identifier);
                 this.selectedRoom = filteredRooms[0];
@@ -140,7 +141,7 @@ export class IglRateExtenderForm {
                     adult: this.selectedRoom.rateplan.selected_variation.adult_nbr,
                     child: this.selectedRoom.rateplan.selected_variation.child_nbr,
                 },
-                language: this.language,
+                language: LocaleController.language,
                 currency: this.booking.currency,
                 room_type_ids: [this.selectedRoom.roomtype.id],
                 rate_plan_ids: [rate_plan_id],
@@ -232,7 +233,7 @@ export class IglRateExtenderForm {
         return (h("form", { id: "rate-extender-form", class: "rate-extender-form", onSubmit: e => {
                 e.preventDefault();
                 this.handleRoomConfirmation();
-            } }, h("section", { class: "rate-form__body" }, h("p", { class: "rate-form__booking-number" }, `${locales.entries.Lcz_Booking}#`, " ", formatBookingNumber(this.bookingNumber)), h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && h("span", { class: 'irfontgreen' }, locales.entries.Lcz_NonRefundable)), this.inventory !== 0 && this.inventory !== null && booking_store.roomTypes?.length > 0 && (h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendar_data.tax_statement))), h("p", { class: "rate-form__date-range" }, formatDate(this.dates.from_date, 'ddd, DD MMM YYYY'), " ", h("wa-icon", { class: "ir-flip-rtl", name: "arrow-right" }), " ", formatDate(this.dates.to_date, 'ddd, DD MMM YYYY')), (this.inventory === 0 || this.inventory === null) && (h("wa-callout", { size: "s", variant: "danger", class: "rate-form__availability-callout" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), locales.entries.Lcz_NoAvailabilityForAdditionalNights)), this.rates?.map((day, index) => {
+            } }, h("section", { class: "rate-form__body" }, h("p", { class: "rate-form__booking-number" }, `${t('Lcz_Booking')}#`, " ", formatBookingNumber(this.bookingNumber)), h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && h("span", { class: 'irfontgreen' }, t('Lcz_NonRefundable'))), this.inventory !== 0 && this.inventory !== null && booking_store.roomTypes?.length > 0 && (h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendar_data.tax_statement))), h("p", { class: "rate-form__date-range" }, formatDate(this.dates.from_date, 'ddd, DD MMM YYYY'), " ", h("wa-icon", { class: "ir-flip-rtl", name: "arrow-right" }), " ", formatDate(this.dates.to_date, 'ddd, DD MMM YYYY')), (this.inventory === 0 || this.inventory === null) && (h("wa-callout", { size: "s", variant: "danger", class: "rate-form__availability-callout" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), t('Lcz_NoAvailabilityForAdditionalNights'))), this.rates?.map((day, index) => {
             return [
                 h("ir-validator", { key: day.date, value: day.amount, schema: z.number().min(0) }, h("ir-input", { ref: el => (this.inputRefs[index] = el), disabled: this.disabled(index), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: formatDate(day.date, 'ddd, MMM D') }, h("span", { slot: "start" }, currency_symbol))),
                 this.showArrow(index) && h("wa-icon", { class: "rate-extender-arrow", name: this.isEndDateBeforeFromDate ? 'arrow-up' : 'arrow-down' }),

@@ -2,7 +2,7 @@ export declare class IrQueueManager {
     el: HTMLElement;
     ticket: string;
     isLoading: boolean;
-    private tokenService;
+    private apiClientService;
     data: {
         pendingRequests: number[];
         properties: string[];

@@ -46,6 +46,11 @@ export declare class IglooCalendar {
     isAuthenticated: boolean;
     calendarSidebarState: CalendarSidebarState;
     invoiceState: CheckoutRoomEvent;
+    /** Early check-out redirected from a calendar event popover into the full booking-details drawer. */
+    checkoutRedirect: {
+        bookingNumber: string;
+        identifier: string;
+    } | null;
     dayUseBookings: DayUseBookings[];
     dragOverHighlightElement: EventEmitter;
     moveBookingTo: EventEmitter;
@@ -83,9 +88,12 @@ export declare class IglooCalendar {
     private tasksEndDate;
     dialogEl: HTMLIrDialogElement;
     private departureTimes;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     handleDeleteEvent(ev: CustomEvent): Promise<void>;
     handleCalendarSidebarEvents(ev: CustomEvent): Promise<void>;
     scrollPageToRoom(event: CustomEvent): void;

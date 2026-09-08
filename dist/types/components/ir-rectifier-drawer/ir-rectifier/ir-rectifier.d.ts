@@ -17,6 +17,8 @@ export declare class IrRectifier {
     componentWillLoad(): void;
     private updateForm;
     private normalizeDateRange;
+    private getValidRoomTypeIds;
+    private toggleSelectAllRoomTypes;
     private updateRoomTypeSelection;
     private handleSubmit;
     render(): any;

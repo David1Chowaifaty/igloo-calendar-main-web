@@ -1,9 +1,9 @@
 import { ExtraServiceSchema } from "../../../../models/booking.dto";
 import { BookingService } from "../../../../services/booking-service/booking.service";
-import locales from "../../../../stores/locales.store";
 import calendar_data, { getExtraServiceDefaultPrice } from "../../../../stores/calendar-data";
 import { createDateWithOffsetAndHour } from "../../../../utils/booking";
 import { h } from "@stencil/core";
+import { t } from "../../../../services/locale/t";
 /** Service category code for a late-checkout extra service charge. */
 const LATE_CHECKOUT_CATEGORY_CODE = 'LCO';
 /**
@@ -124,7 +124,7 @@ export class IrDepartureTimeDialog {
         }
     }
     render() {
-        return (h("ir-dialog", { key: 'b39901e2eb31dd87b005a5090533477b5937ea57', open: this.open, label: "Expected Departure Time", ref: el => (this.dialogRef = el), onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '3f8893ce7de643985f701832ae17d03c60f3a625', open: this.open, label: "Expected Departure Time", ref: el => (this.dialogRef = el), onIrDialogHide: e => {
                 e.preventDefault();
                 const saved = this.closedBySave;
                 this.departureTimeClose.emit({ saved });
@@ -135,10 +135,10 @@ export class IrDepartureTimeDialog {
                 this.selectedValue = null;
                 this.createExtraService = true;
                 this.extraServicePrice = null;
-            } }, h("div", { key: '9a927357a6cad5e0d86b1dce22daa48ee601f70a', class: "ir-time-dialog__body" }, h("div", { key: '9c3f2fc8c48f1a001da6c36045eb3e6daf9bafb9', class: 'ir-time-dialog__current-unit' }, h("span", { key: '2db976d191aeb145082ab18f4103336df9e9f4f0' }, this.room?.roomtype?.name), " ", h("span", { key: '69a1c8fe51e90fa62a4d5527dfcfc7f69b2f64b5' }, this.room?.rateplan?.short_name), " ", h("ir-unit-tag", { key: '3a5553c4eee9858cfc118408de693128de17cc1e', unit: this.room?.unit?.name })), h("wa-select", { key: '5feae05c0939ae6b9a1d4a5b09e46f2eb4c4d581', size: "s", placeholder: "Not provided", "onwa-after-hide": e => {
+            } }, h("div", { key: 'b0888fa82302b87b742ae046b7aabbf884b6538e', class: "ir-time-dialog__body" }, h("div", { key: 'bf440da8cb3f445e453b8c20c69dace84021e5d1', class: 'ir-time-dialog__current-unit' }, h("span", { key: 'bbdeabcb6ab073912e62d0efc3e90cfea01f6c1d' }, this.room?.roomtype?.name), " ", h("span", { key: '2a7d1e43d97d3eee83dac669f870cb83d04082ea' }, this.room?.rateplan?.short_name), " ", h("ir-unit-tag", { key: '3fdaaecb76a537576d6d8568ffa27cdcc6df354e', unit: this.room?.unit?.name })), h("wa-select", { key: '547ffb86eb9801be83aeb44819342c63e13ba75f', size: "s", placeholder: "Not provided", "onwa-after-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, value: this.selectedValue ?? '', defaultValue: this.selectedValue ?? '', onchange: e => (this.selectedValue = e.target.value) }, this.departureTime?.map(dt => (h("wa-option", { key: dt.CODE_NAME, value: dt.CODE_NAME }, dt[`CODE_VALUE_${this.language?.toUpperCase()}`] ?? dt[`CODE_VALUE_EN`], this.isLateCheckout(dt) ? ' (Late check-out)' : '')))), this.selectedIsLateCheckout && (h("div", { key: '6b7f9c48ab24f9f9ca312264bbef27f8ca6e0cb2', class: "ir-time-dialog__insight" }, h("div", { key: '1ce1b6cc6420a7a3df3c3149f9466e9262016667', class: "ir-time-dialog__insight-row" }, h("wa-icon", { key: '4375a50c24649c8b657cbefe24697ff61c55cf53', class: "ir-time-dialog__insight-icon", name: "clock" }), h("div", { key: '85405d86e506dbf166d87d1762a7fb8e4112d488', class: "ir-time-dialog__insight-copy" }, h("p", { key: '26020e8969016153c4df95e65195a23fb2484b1d', class: "ir-time-dialog__insight-title" }, "Would you like to charge it as an ", h("b", { key: 'ed9a719f61a293f49cc45049855a2262aea6fcb5' }, "Late Check-out"), "?"), h("p", { key: '845bf5ef131331b83a7dabf2d56038ffd283b152', class: "ir-time-dialog__insight-subtitle" }, "This will be added as an accommodation extra service"))), this.createExtraService && (h("div", { key: '552b9ea799d80770d2d7b028d3e2263d97e9388c', class: "ir-time-dialog__insight-price" }, h("ir-validator", { key: 'd1902aca22cb1b30701986e200b407077c66ff2a', value: this.extraServicePrice, schema: ExtraServiceSchema.shape.price }, h("ir-input", { key: '259e8d4f3f0e5492e9c1986b24dc8ea9d840da18', "onText-change": e => (this.extraServicePrice = Number(e.detail)), defaultValue: this.extraServicePrice?.toString(), value: this.extraServicePrice?.toString(), mask: 'price', type: "text", withClear: true }, h("span", { key: '51330e1e315d6759164da9e9fae6905180109d5a', slot: "start" }, this.currencySymbol)))))))), h("div", { key: '9475a76d2bfb609732aa87964f3acc81b2c4c68f', slot: "footer", class: 'ir-dialog__footer' }, h("ir-custom-button", { key: '91c03c7bcae78b544bdff6ed62874a519b904296', size: "m", variant: "neutral", appearance: "filled", "data-dialog": "close" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '1ab6e2de5898d40abe913358faddbd138bfbaf37', size: "m", variant: "brand", loading: this.isLoading, disabled: !this.selectedValue, onClickHandler: e => this.handleConfirm(e), appearance: "accent" }, locales.entries.Lcz_Save))));
+            }, value: this.selectedValue ?? '', defaultValue: this.selectedValue ?? '', onchange: e => (this.selectedValue = e.target.value) }, this.departureTime?.map(dt => (h("wa-option", { key: dt.CODE_NAME, value: dt.CODE_NAME }, dt[`CODE_VALUE_${this.language?.toUpperCase()}`] ?? dt[`CODE_VALUE_EN`], this.isLateCheckout(dt) ? ' (Late check-out)' : '')))), this.selectedIsLateCheckout && (h("div", { key: '6187488c7dc00bdafc65872e80fc086c9baeab54', class: "ir-time-dialog__insight" }, h("div", { key: 'e1ee574605edb257c82ee2b497815c144eb73d9f', class: "ir-time-dialog__insight-row" }, h("wa-icon", { key: '611f98bfe5d4d5a4a68e7b954eff4cb8f214e00d', class: "ir-time-dialog__insight-icon", name: "clock" }), h("div", { key: '6a3ad5149f5464983462dcb241991298bc9a452f', class: "ir-time-dialog__insight-copy" }, h("p", { key: '253b0a939b7742ad6f963a63ae0f37ada22cd674', class: "ir-time-dialog__insight-title" }, "Would you like to charge it as an ", h("b", { key: '7be23e8babf7c843f6699f61a8d0d0d55ffb9fe2' }, "Late Check-out"), "?"), h("p", { key: 'd0e233cc07c82c83c6c569a919a96a84582252cd', class: "ir-time-dialog__insight-subtitle" }, "This will be added as an accommodation extra service"))), this.createExtraService && (h("div", { key: 'c4a92885b35399874e5db9204ddb497053a9b983', class: "ir-time-dialog__insight-price" }, h("ir-validator", { key: '4b09f27a05129d49e45f90c61eb8715b637eb551', value: this.extraServicePrice, schema: ExtraServiceSchema.shape.price }, h("ir-input", { key: 'bd373a00630c8ba315b0c1d5b9138e2db1e67218', "onText-change": e => (this.extraServicePrice = Number(e.detail)), defaultValue: this.extraServicePrice?.toString(), value: this.extraServicePrice?.toString(), mask: 'price', type: "text", withClear: true }, h("span", { key: '266829669afd219ff273033f5c57a0b27946c1d8', slot: "start" }, this.currencySymbol)))))))), h("div", { key: '2ae4fd0d2de43fb27c70580918665437fdc64dbe', slot: "footer", class: 'ir-dialog__footer' }, h("ir-custom-button", { key: '6325f72c75b7a41839846213830d113939db540d', size: "m", variant: "neutral", appearance: "filled", "data-dialog": "close" }, t('Lcz_Cancel')), h("ir-custom-button", { key: '55ac1ab05fd920346792c923b3f1ce676ba86ce9', size: "m", variant: "brand", loading: this.isLoading, disabled: !this.selectedValue, onClickHandler: e => this.handleConfirm(e), appearance: "accent" }, t('Lcz_Save')))));
     }
     static get is() { return "ir-departure-time-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -244,14 +244,14 @@ export class IrDepartureTimeDialog {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "IEntries[]",
-                    "resolved": "IEntries[]",
+                    "original": "SetupEntries[]",
+                    "resolved": "SetupEntries[]",
                     "references": {
-                        "IEntries": {
+                        "SetupEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries",
-                            "referenceLocation": "IEntries"
+                            "id": "src/models/IBooking.ts::SetupEntries",
+                            "referenceLocation": "SetupEntries"
                         }
                     }
                 },

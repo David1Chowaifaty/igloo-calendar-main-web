@@ -29,6 +29,12 @@ export declare class IrBookingDetailsDrawer {
      */
     bookingNumber: string;
     /**
+     * When set, the booking-details view auto-opens the check-out dialog for the room with
+     * this identifier once the booking loads. Used to route early check-outs triggered from
+     * other screens (departures list, calendar) through the full booking details.
+     */
+    checkoutRoomIdentifier: string;
+    /**
      * Emitted when the booking details drawer is closed.
      */
     bookingDetailsDrawerClosed: EventEmitter<void>;

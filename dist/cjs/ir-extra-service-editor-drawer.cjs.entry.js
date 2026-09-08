@@ -29,7 +29,7 @@ const IrExtraServiceEditorDrawer = class {
     render() {
         const isAddon = this.service?.section === types.ExtraServiceSection.BookingEngineAddon;
         const isNewAddon = isAddon && this.service?.id === -1;
-        return (index.h(index.Host, { key: 'e92ffd322f999400df9dc3208602e561f12d4bad', "data-testid": "extra-service-editor-drawer" }, index.h("ir-drawer", { key: '25089b751f7d48fa91a395065674a3f276e89435', class: "extra-service__drawer", style: { '--ir-drawer-width': '32rem' }, label: isNewAddon ? 'New Add-On' : `Edit ${this.service?.name ?? 'Extra Service'}`, open: this.open, "data-testid": "extra-service-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (index.h("ir-extra-service-editor-form", { key: '5dd7f2fe842268d0ac44d97e63ec943fb7a13d44', onCloseDrawer: e => {
+        return (index.h(index.Host, { key: '5b75ad855129b877f9e2169b592a7017425031bf', "data-testid": "extra-service-editor-drawer" }, index.h("ir-drawer", { key: '80c602fe814ade55cbf947bfa251d88a7d2f705f', class: "extra-service__drawer", style: { '--ir-drawer-width': '32rem' }, label: isNewAddon ? 'New Add-On' : `Edit ${this.service?.name ?? 'Extra Service'}`, open: this.open, "data-testid": "extra-service-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (index.h("ir-extra-service-editor-form", { key: '995507c2f3b8eb5af0fe4767d5b77fdb9336ec9f', onCloseDrawer: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.extraServiceEditorClose.emit();
@@ -37,7 +37,7 @@ const IrExtraServiceEditorDrawer = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.loading = e.detail;
-            }, service: this.service, formId: this.baseId, "data-testid": "extra-service-editor-form" })), index.h("div", { key: 'cc3f4d3b1b1716e53a8341aab2901c409f058dd3', slot: "footer", class: "ir__drawer-footer", "data-testid": "extra-service-editor-drawer-footer" }, index.h("ir-custom-button", { key: 'd9056b19487dacb72febf134a1c1161d63b2cfdd', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "extra-service-editor-cancel-button" }, "Cancel"), index.h("ir-custom-button", { key: '98756b1a18d0d09a8f3be7c42cdee8047fc7853a', loading: this.loading, type: "submit", form: this.baseId, size: "m", appearance: "accent", variant: "brand", "data-testid": "extra-service-editor-save-button" }, "Save")))));
+            }, service: this.service, formId: this.baseId, "data-testid": "extra-service-editor-form" })), index.h("div", { key: 'a4337035b7719bdc5c42c71b9b402ee7a43f7985', slot: "footer", class: "ir__drawer-footer", "data-testid": "extra-service-editor-drawer-footer" }, index.h("ir-custom-button", { key: '6fba49f36d0ab9360375986e964f29d0e167bce7', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "extra-service-editor-cancel-button" }, "Cancel"), index.h("ir-custom-button", { key: '6508d0bd9ec847a0920e8b21a375103a3fdb8034', loading: this.loading, type: "submit", form: this.baseId, size: "m", appearance: "accent", variant: "brand", "data-testid": "extra-service-editor-save-button" }, "Save")))));
     }
 };
 IrExtraServiceEditorDrawer.style = irExtraServiceEditorDrawerCss();

@@ -109,7 +109,13 @@ function matchesSearchTerm(booking, term) {
 function splitBookingsByStatus(bookings) {
     return bookings.reduce((acc, booking) => {
         const rooms = booking.rooms ?? [];
-        const needsCheckInRooms = rooms.filter(room => isNeedsCheckIn(room));
+        let needsCheckInRooms = [];
+        try {
+            needsCheckInRooms = rooms.filter(room => isNeedsCheckIn(room));
+        }
+        catch (error) {
+            console.error(error);
+        }
         if (needsCheckInRooms.length) {
             acc.needsCheckIn.push({ ...booking, rooms: needsCheckInRooms });
         }

@@ -9,6 +9,7 @@ import axios from "axios";
 import { FdTypes, InOut } from "../../../types/enums";
 import { _formatTime } from "../../ir-booking-details/functions";
 import { formatDate } from "../../../utils/date/index";
+import { LocaleController } from "../../../services/locale/locale.controller";
 export class IrInvoiceForm {
     /**
      * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
@@ -343,7 +344,7 @@ export class IrInvoiceForm {
             // let invoiceInfo = this.invoiceInfo;
             // if (!this.invoiceInfo) {
             const [booking, invoiceInfo, svcCategories] = await Promise.all([
-                this.bookingService.getExposedBooking({ booking_nbr: this.booking.booking_nbr, language: 'en', withExtras: true }),
+                this.bookingService.getExposedBooking({ booking_nbr: this.booking.booking_nbr, language: LocaleController.language, withExtras: true }),
                 this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
                 this.setupService.getSetupEntriesByTableName('_SVC_CATEGORY'),
             ]);
@@ -799,7 +800,7 @@ export class IrInvoiceForm {
     }
     categoryLabel(service) {
         const category = this.category(service);
-        return category ? getEntryValue({ entry: category, language: 'en' }) : null;
+        return category ? getEntryValue({ entry: category, language: LocaleController.language }) : null;
     }
     description(service) {
         const categoryLabel = this.categoryLabel(service);

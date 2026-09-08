@@ -1,10 +1,10 @@
 import booking_listing from "../../../stores/booking_listing.store";
 import { h } from "@stencil/core";
-import locales from "../../../stores/locales.store";
 import { BookingListingService } from "../../../services/booking_listing.service";
 import { PaymentService } from "../../../services/payment.service";
 import moment from "moment";
 import { formatBookingNumber } from "../../../utils/number";
+import { t } from "../../../services/locale/t";
 export class IrListingModal {
     modalTitle = 'Modal Title';
     editBooking;
@@ -97,27 +97,27 @@ export class IrListingModal {
     }
     renderTitle() {
         if (this.editBooking.cause === 'payment') {
-            return locales.entries?.Lcz_MarkBookingAsPaid.replace('%1', this.editBooking.booking.booking_nbr);
+            return t('Lcz_MarkBookingAsPaid', { params: [this.editBooking.booking.booking_nbr] });
         }
         else {
             // if (this.deletionStage === 1) {
-            //   return locales.entries.Lcz_SureYouWantToDeleteBookingNbr + this.editBooking?.booking.booking_nbr;
+            //   return t('Lcz_SureYouWantToDeleteBookingNbr') + this.editBooking?.booking.booking_nbr;
             // }
-            // return locales.entries.Lcz_WantToRecoverAllotment;
-            return locales.entries.Lcz_SureYouWantToDeleteBookingNbr + formatBookingNumber(this.editBooking?.booking.booking_nbr);
+            // return t('Lcz_WantToRecoverAllotment');
+            return t('Lcz_SureYouWantToDeleteBookingNbr') + formatBookingNumber(this.editBooking?.booking.booking_nbr);
         }
     }
     renderConfirmationTitle() {
         // if (this.deletionStage === 2) {
-        //   return locales.entries.Lcz_RecoverAndDelete;
+        //   return t('Lcz_RecoverAndDelete');
         // }
-        return locales.entries.Lcz_Confirm;
+        return t('Lcz_Confirm');
     }
     renderCancellationTitle() {
         // if (this.deletionStage === 2) {
-        //   return locales.entries.Lcz_JustDelete;
+        //   return t('Lcz_JustDelete');
         // }
-        return locales.entries.Lcz_Cancel;
+        return t('Lcz_Cancel');
     }
     handleDropdownChange(e) {
         e.stopImmediatePropagation();
@@ -215,7 +215,7 @@ export class IrListingModal {
                 "mutable": false,
                 "complexType": {
                     "original": "PaymentEntries",
-                    "resolved": "{ types: IEntries[]; groups: IEntries[]; methods: IEntries[]; }",
+                    "resolved": "{ types: SetupEntries[]; groups: SetupEntries[]; methods: SetupEntries[]; }",
                     "references": {
                         "PaymentEntries": {
                             "location": "import",

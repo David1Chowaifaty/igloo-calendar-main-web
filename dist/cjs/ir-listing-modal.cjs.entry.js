@@ -1,18 +1,20 @@
 'use strict';
 
 var index = require('./index-P5Mginch.js');
-var booking_listing_service = require('./booking_listing.service-Cce82j79.js');
-var locales_store = require('./locales.store-v9LoZcAK.js');
+var booking_listing_service = require('./booking_listing.service-DEF8KJmx.js');
 var payment_service = require('./payment.service-CGBWAElK.js');
 var moment = require('./moment-CdViwxPQ.js');
-var number = require('./number-3J_Nkle1.js');
+var number = require('./number-CTy3I_TP.js');
+var t = require('./t-BpMDZfdy.js');
 require('./index-BLJXadKe.js');
 require('./index-CLqkDPTC.js');
-require('./utils-5rzlNNGQ.js');
+require('./utils-ENyYs-bV.js');
 require('./calendar-data-BjlxOXi1.js');
 require('./booking.dto-kenLHU-o.js');
 require('./type-Dy9pVS4V.js');
-require('./ir-date-CUot5M4p.js');
+require('./ir-date-DUrZBFOV.js');
+require('./locales.store-DIYxw5lk.js');
+require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./axios-EresIryl.js');
 
@@ -115,27 +117,27 @@ const IrListingModal = class {
     }
     renderTitle() {
         if (this.editBooking.cause === 'payment') {
-            return locales_store.locales.entries?.Lcz_MarkBookingAsPaid.replace('%1', this.editBooking.booking.booking_nbr);
+            return t.t('Lcz_MarkBookingAsPaid', { params: [this.editBooking.booking.booking_nbr] });
         }
         else {
             // if (this.deletionStage === 1) {
-            //   return locales.entries.Lcz_SureYouWantToDeleteBookingNbr + this.editBooking?.booking.booking_nbr;
+            //   return t('Lcz_SureYouWantToDeleteBookingNbr') + this.editBooking?.booking.booking_nbr;
             // }
-            // return locales.entries.Lcz_WantToRecoverAllotment;
-            return locales_store.locales.entries.Lcz_SureYouWantToDeleteBookingNbr + number.formatBookingNumber(this.editBooking?.booking.booking_nbr);
+            // return t('Lcz_WantToRecoverAllotment');
+            return t.t('Lcz_SureYouWantToDeleteBookingNbr') + number.formatBookingNumber(this.editBooking?.booking.booking_nbr);
         }
     }
     renderConfirmationTitle() {
         // if (this.deletionStage === 2) {
-        //   return locales.entries.Lcz_RecoverAndDelete;
+        //   return t('Lcz_RecoverAndDelete');
         // }
-        return locales_store.locales.entries.Lcz_Confirm;
+        return t.t('Lcz_Confirm');
     }
     renderCancellationTitle() {
         // if (this.deletionStage === 2) {
-        //   return locales.entries.Lcz_JustDelete;
+        //   return t('Lcz_JustDelete');
         // }
-        return locales_store.locales.entries.Lcz_Cancel;
+        return t.t('Lcz_Cancel');
     }
     handleDropdownChange(e) {
         e.stopImmediatePropagation();

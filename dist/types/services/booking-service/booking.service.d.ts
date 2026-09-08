@@ -1,5 +1,5 @@
 import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRequest } from '../../models/booking.dto';
-import { BookingDetails, IBlockUnit, ICountry, IEntries } from '../../models/IBooking';
+import { BookingDetails, IBlockUnit, ICountry, SetupEntries } from '../../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../../models/booking.dto';
 import { PaymentEntries } from "../../components/ir-booking-details/types";
 import { SimulateDirectBookingParams, type CalculateOptimBaseGrossAmountParams, type DoDayUseParams, type SetHbPreferenceProps, type SetDepartureTimeProps, type VoidPaymentProps, type RoomsToProcessResult, type CalculateExclusiveTaxProps, type AckExposedRevisionProps, type ExposedGuests, type GetBookingInvoiceInfoProps, type GetRoomsToCheckInProps, type GetRoomsToCheckOutProps, type IssueInvoiceProps, type PrintInvoiceProps, type VoidInvoiceProps, type SetArrivalTimeProps } from './types';
@@ -47,7 +47,7 @@ export interface IBookingParams {
  * //   ...
  * // }
  */
-export declare function buildPaymentTypes(paymentEntries: PaymentEntries): Record<string, IEntries[]>;
+export declare function buildPaymentTypes(paymentEntries: PaymentEntries): Record<string, SetupEntries[]>;
 export declare class BookingService {
     unBlockUnitByPeriod(props: {
         unit_id: number;
@@ -153,6 +153,7 @@ export declare class BookingService {
     setDepartureTime(props: SetDepartureTimeProps): Promise<any>;
     getUserInfo(email: string): Promise<any>;
     getExposedBooking({ booking_nbr, language, withExtras, include_dp_pricing, extras: _extras, }: {
+        is_calculate_totals?: boolean;
         extras?: {
             key: string;
             value: unknown;

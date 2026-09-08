@@ -1,6 +1,5 @@
 import { BookingService } from "../../services/booking-service/booking.service";
 import { SetupService } from "../../services/setup/index";
-import locales from "../../stores/locales.store";
 import { Fragment, h } from "@stencil/core";
 import { InvoiceableItemReason } from "../../types/enums";
 import moment from "moment";
@@ -8,7 +7,9 @@ import { AgentsService } from "../../services/agents/agents.service";
 import { isAgentMode } from "../ir-booking-details/functions";
 import { CityLedgerService } from "../../services/city-ledger/index";
 import calendar_data from "../../stores/calendar-data";
+import { isEarlyCheckout } from "../../utils/booking";
 import { formatDate } from "../../utils/date/index";
+import { t } from "../../services/locale/t";
 export class IrCheckoutDialog {
     open;
     booking;
@@ -20,6 +21,8 @@ export class IrCheckoutDialog {
     isEarlyCheckout = false;
     remainingDays = [];
     penaltyAmount = 0;
+    /** Upper bound + pre-fill for the cancellation penalty. Kept in sync with `detectEarlyCheckout` so the masked input isn't clamped below its own pre-filled value. */
+    penaltyMax = 0;
     agent;
     paymentEntries;
     includeInvoice = false;
@@ -65,6 +68,13 @@ export class IrCheckoutDialog {
     }
     handleOpenChange(newValue, oldValue) {
         if (newValue !== oldValue) {
+            this.init();
+        }
+    }
+    componentDidLoad() {
+        // `@Watch('open')` only fires on a change — if the dialog is mounted already open
+        // (e.g. auto-opened right after render), run the initial load here.
+        if (this.open) {
             this.init();
         }
     }
@@ -123,13 +133,15 @@ export class IrCheckoutDialog {
     }
     detectEarlyCheckout() {
         const today = moment().startOf('day');
-        const toDate = moment(this.room.to_date, 'YYYY-MM-DD');
-        this.isEarlyCheckout = today.isBefore(toDate, 'date');
+        this.isEarlyCheckout = isEarlyCheckout(this.room);
         if (this.isEarlyCheckout) {
             const todayStr = today.format('YYYY-MM-DD');
             this.remainingDays = (this.room.days ?? []).filter(d => d.date >= todayStr);
-            const total = this.remainingTotal;
+            const dueAmount = this.booking?.guest_financial?.due_amount ?? 0;
+            const rawTotal = this.booking.rooms.length === 1 ? (dueAmount >= 0 ? dueAmount : this.remainingTotal) : Math.min(this.remainingTotal, dueAmount);
+            const total = Math.max(0, rawTotal);
             this.penaltyAmount = total;
+            this.penaltyMax = total;
             this.initialPenaltyStr = total.toFixed(2);
         }
     }
@@ -169,10 +181,10 @@ export class IrCheckoutDialog {
         const unitName = this.room?.unit?.name ?? this.room?.identifier;
         const remainingCount = this.remainingDays.length;
         const total = this.remainingTotal;
-        return (h("div", { class: "early-checkout" }, h("wa-callout", { class: "ec-summary", size: "s", appearance: "filled", variant: "neutral" }, h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Unit"), h("span", { class: "ec-summary__value" }, unitName)), h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Original check-out"), h("span", { class: "ec-summary__value" }, formatDate(this.room.to_date, 'ddd, MMM D, YYYY'))), h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Actual check-out"), h("span", { class: "ec-summary__value" }, formatDate(moment(), 'ddd, MMM D, YYYY')))), h("div", { class: "ec-section" }, h("p", { class: "ec-section__title" }, "Reclaimed Nights ", h("wa-badge", { pill: true }, remainingCount)), h("div", { class: "ec-nights" }, this.remainingDays.map(day => (h("div", { key: day.date, class: "ec-nights__row" }, h("span", { class: "ec-nights__date" }, formatDate(day.date, 'ddd, MMM D')), h("span", { class: "ec-nights__amount" }, this.formatAmount(day.charges.total_amount))))), h("div", { class: "ec-nights__subtotal" }, h("span", null, "Subtotal (Including taxes and fees)"), h("span", null, this.formatAmount(total))))), h("div", { class: "ec-section" }, h("ir-input", { label: "Apply cancellation penalty?", mask: "price", value: this.initialPenaltyStr, defaultValue: this.initialPenaltyStr, min: 0, max: total, hint: "Pre-filled from reclaimed nights. Modify or waive entirely.", "onText-change": (e) => {
+        return (h("div", { class: "early-checkout" }, h("wa-callout", { class: "ec-summary", size: "s", appearance: "filled", variant: "neutral" }, h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Unit"), h("span", { class: "ec-summary__value" }, unitName)), h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Original check-out"), h("span", { class: "ec-summary__value" }, formatDate(this.room.to_date, 'ddd, MMM D, YYYY'))), h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Actual check-out"), h("span", { class: "ec-summary__value" }, formatDate(moment(), 'ddd, MMM D, YYYY')))), h("div", { class: "ec-section" }, h("p", { class: "ec-section__title" }, "Reclaimed Nights ", h("wa-badge", { pill: true }, remainingCount)), h("div", { class: "ec-nights" }, this.remainingDays.map(day => (h("div", { key: day.date, class: "ec-nights__row" }, h("span", { class: "ec-nights__date" }, formatDate(day.date, 'ddd, MMM D')), h("span", { class: "ec-nights__amount" }, this.formatAmount(day.charges.total_amount))))), h("div", { class: "ec-nights__subtotal" }, h("span", null, "Subtotal (Including taxes and fees)"), h("span", null, this.formatAmount(total))))), h("div", { class: "ec-section" }, this.penaltyMax > 0 ? (h("ir-input", { label: "Apply the full cancellation penalty?", mask: "price", value: this.initialPenaltyStr, defaultValue: this.initialPenaltyStr, min: 0, max: this.penaltyMax, hint: "Pre-filled from reclaimed nights or due amount. Modify or waive entirely.", "onText-change": (e) => {
                 const val = parseFloat(e.detail);
                 this.penaltyAmount = isNaN(val) ? 0 : val;
-            } }, h("span", { slot: "start" }, this.currencySymbol)))));
+            } }, h("span", { slot: "start" }, this.currencySymbol))) : (h("wa-callout", { size: "s", variant: "success" }, h("wa-icon", { slot: "icon", name: "circle-check" }), "This booking is fully paid \u2014 no cancellation penalty or outstanding balance is due.")))));
     }
     get duePayment() {
         const p = this.paymentEntries.types.find(t => t.CODE_NAME === '001');
@@ -187,12 +199,12 @@ export class IrCheckoutDialog {
             reference: '',
         };
     }
-    renderDueAmountWarning() {
+    renderDueAmountWarning({ canCollect = true }) {
         const balance = this.booking?.guest_financial?.due_amount ?? 0;
         if (!balance || balance <= 0)
             return null;
         const amount = this.formatAmount(balance);
-        return (h("button", { type: "button", class: "due-amount-btn", onClick: () => this.paymentFolioRef?.openFolio() }, h("wa-callout", { size: "s", variant: "danger" }, h("wa-icon", { slot: "icon", name: "money-bill-wave" }), h("div", { class: 'd-flex align-items-center justify-content-between' }, h("span", null, "Outstanding guest balance: ", amount), h("wa-icon", { class: "ir-flip-rtl", name: "chevron-right", style: { marginInlineStart: 'auto' } })))));
+        return (h("div", { class: "due-amount-btn" }, h("wa-callout", { size: "s", variant: "danger" }, h("wa-icon", { slot: "icon", name: "money-bill-wave" }), h("div", { class: 'd-flex align-items-center justify-content-between' }, h("span", null, "Outstanding guest balance: ", amount), canCollect && (h("ir-custom-button", { variant: "danger", appearance: "outlined", size: "xs", style: { marginLeft: 'auto' }, onClick: () => this.paymentFolioRef?.openFolio() }, "Collect"))))));
     }
     renderSameDayWarning() {
         if (moment().isSame(moment(this.room?.from_date, 'YYYY-MM-DD'), 'date')) {
@@ -213,14 +225,14 @@ export class IrCheckoutDialog {
     render() {
         const isEarly = this.isEarlyCheckout && this.isLoading !== 'page';
         const hasDue = (this.booking?.guest_financial?.due_amount ?? 0) > 0;
-        return (h(Fragment, { key: '6efc0a2973b44961366a2293658210a38f6cd2af' }, h("ir-dialog", { key: '7a2ab411d82769be0e906196b81483138642b9c9', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
+        return (h(Fragment, { key: '60f2f3b28d1c36b7cc04f4711f849ba89218280b' }, h("ir-dialog", { key: '07b0f958539f17b2079acd0164c2a7d8c66e4b25', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.buttons.clear();
                 this.checkoutDialogClosed.emit({ reason: 'cancel' });
-            } }, this.open && (h(Fragment, { key: '98a31eb3520b5752b0c3ac0af1f9e9f97a051dde' }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, h("div", { class: "checkout-dialog__callouts" }, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.renderSameDayWarning()), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")), this.buttons.has('invoice_checkout') && (h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' } }, h("wa-checkbox", { style: { marginTop: '1rem', color: 'var(--wa-color-text-quiet)', marginInlineStart: 'auto' }, value: String(this.includeInvoice), defaultChecked: this.includeInvoice, onchange: () => {
+            } }, this.open && (h(Fragment, { key: '99aaec664acbc562e1173a9ad232c3175575094e' }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, h("div", { class: "checkout-dialog__callouts" }, this.renderDueAmountWarning({ canCollect: !isEarly }), this.renderMissingClWarning(), this.renderSameDayWarning()), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")), this.buttons.has('invoice_checkout') && (h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' } }, h("wa-checkbox", { style: { marginTop: '1rem', color: 'var(--wa-color-text-quiet)', marginInlineStart: 'auto' }, value: String(this.includeInvoice), defaultChecked: this.includeInvoice, onchange: () => {
                 this.includeInvoice = !this.includeInvoice;
-            } }, "Prepare guest invoice after checkout"))))))), h("div", { key: 'e63b6db25b616792a932ea9ce7d215d002c36684', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: '96cc13774563203ac8e86b46005e9cdb27a9bd2c' }, h("ir-custom-button", { key: 'bdc3c66d77ee156fec0f369ce8deece34e0e77ae', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), h("ir-custom-button", { key: '0ed8b77e0b3ce81ed3523a7c8221c8b1a054ad0f', size: "m", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm early check-out' : 'Check out')))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: '4b887e2cea2f90bf891c3ed437285634cc2ec312', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
+            } }, "Prepare guest invoice after checkout"))))))), h("div", { key: 'aceb44a27af1ddbbf9665e69729a844473ec626e', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: 'b29f022b64081b5bb1b840d76015a79028586bf9' }, h("ir-custom-button", { key: '7a69f3a70a5fdaa6ef7fb40c56b45cb05c82da2a', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '31bf999cc69348a2bd6834dd27d0777881369389', size: "m", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm early check-out' : 'Check out')))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: '7a87d26f912f0a0bd4e735e3de4b6d69bb95ffad', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
     }
     static get is() { return "ir-checkout-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -309,6 +321,7 @@ export class IrCheckoutDialog {
             "isEarlyCheckout": {},
             "remainingDays": {},
             "penaltyAmount": {},
+            "penaltyMax": {},
             "agent": {},
             "paymentEntries": {},
             "includeInvoice": {}

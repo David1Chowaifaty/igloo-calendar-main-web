@@ -2,16 +2,20 @@
 
 var index = require('./index-P5Mginch.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var locales_store = require('./locales.store-v9LoZcAK.js');
-var room_service = require('./room.service-Dv4u9Qiq.js');
-var index$1 = require('./index-B6tr59-v.js');
+var room_service = require('./room.service-Uyv8upYq.js');
+var index$1 = require('./index-D2LyeB2I.js');
+var locale_controller = require('./locale.controller-CKBsRfx_.js');
+var languageSync = require('./language-sync-gAmPX9Gh.js');
+var t = require('./t-BpMDZfdy.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./index-BLJXadKe.js');
 require('./calendar-data-BjlxOXi1.js');
+require('./index-BLJXadKe.js');
+require('./locales.store-DIYxw5lk.js');
 require('./index-CLqkDPTC.js');
-require('./utils-CXqwALIi.js');
-require('./IBooking-BtFRLVyo.js');
+require('./utils-y7Xvx_7s.js');
+require('./IBooking-BT0vyd3Z.js');
+require('./language-observer-DKp37LIu.js');
 
 const irFinancialActionsCss = () => `.sc-ir-financial-actions-h{display:block}.financial-actions__meta.sc-ir-financial-actions{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-financial-actions{flex:1 1 0%}@media (min-width: 768px){.financial-actions__meta.sc-ir-financial-actions{flex-direction:row}}`;
 
@@ -27,21 +31,32 @@ const IrFinancialActions = class {
     isPageLoading = true;
     property_id;
     sideBarEvent;
-    tokenService = new ApiClient.ApiClient();
+    apiClientService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     setupService = new index$1.SetupService();
     paymentEntries;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.financialActions, () => this.initializeApp());
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.initializeApp();
     }
     handleSidebarClose = (e) => {
@@ -81,18 +96,22 @@ const IrFinancialActions = class {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.setupService.getPaymentEntries(), this.getFinancialAction(), this.roomService.fetchLanguage(this.language)];
+            const requests = [
+                this.setupService.getPaymentEntries(),
+                this.getFinancialAction(),
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.financialActions }),
+            ];
             if (propertyId) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -111,7 +130,7 @@ const IrFinancialActions = class {
         if (this.isPageLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, index.h("div", { class: "d-flex align-items-center justify-content-between" }, index.h("h3", { class: "mb-1 mb-md-0" }, "Payment Actions"), index.h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: locales_store.locales.entries?.Lcz_Export, onClickHandler: async (e) => {
+        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, index.h("div", { class: "d-flex align-items-center justify-content-between" }, index.h("h3", { class: "mb-1 mb-md-0" }, "Payment Actions"), index.h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: t.t('Lcz_Export'), onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getFinancialAction(true);
@@ -121,6 +140,9 @@ const IrFinancialActions = class {
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "ticketChanged": 0
             }]

@@ -3,7 +3,6 @@ import { BookedByGuestSchema, DayUseHoursSchema, RoomsGuestsSchema } from "./typ
 import { RoomService } from "../../../services/room.service";
 import { BookingService } from "../../../services/booking-service/booking.service";
 import { SetupService } from "../../../services/setup/index";
-import locales from "../../../stores/locales.store";
 import booking_store, { fillMissingReservedGuestNames, getReservedRooms, resetBookingStore, setBookingDraft, setBookingSelectOptions, setDayUseSelection, updateBookedByGuest, } from "../../../stores/booking.store";
 import calendar_data, { getExtraServiceDefaultPrice } from "../../../stores/calendar-data";
 import { PropertyService } from "../../../services/property.service";
@@ -11,6 +10,9 @@ import { showToast } from "../../../utils/utils";
 import moment from "moment";
 import { IRBookingEditorService } from "./ir-booking-editor.service";
 import { SvcCategory } from "../../../types/enums";
+import { LocaleController } from "../../../services/locale/locale.controller";
+import { LanguageSync } from "../../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../../services/locale/screen-tables";
 /** bookingStatus['002'] in @/utils/booking — CONFIRMED. */
 const CONFIRMED_STATUS_CODE = '002';
 export class IrBookingEditor {
@@ -118,8 +120,13 @@ export class IrBookingEditor {
         }
         return this.checkOut;
     }
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.bookingEditor, () => this.initializeApp());
     componentWillLoad() {
         this.initializeApp();
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
     }
     handleModeChange(newMode, oldMode) {
         if (newMode !== oldMode) {
@@ -141,21 +148,17 @@ export class IrBookingEditor {
         try {
             this.isLoading = true;
             this.bookingEditorService.setMode(this.mode);
-            const [languageTexts, countriesList] = await Promise.all([
-                this.roomService.fetchLanguage(this.language),
-                this.bookingService.getCountries(this.language),
+            const [, countriesList] = await Promise.all([
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.bookingEditor }),
+                this.bookingService.getCountries(LocaleController.language),
                 this.roomService.getExposedProperty({
                     id: Number(this.propertyId),
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                     include_sales_rate_plans: true,
                 }),
             ]);
-            if (!locales.entries) {
-                locales.entries = languageTexts.entries;
-                locales.direction = languageTexts.direction;
-            }
             await Promise.all([this.fetchSetupEntriesAndInitialize(), this.resolveDayUseNetPrice()]);
             setBookingSelectOptions({
                 countries: countriesList,
@@ -174,6 +177,10 @@ export class IrBookingEditor {
     }
     disconnectedCallback() {
         resetBookingStore(true);
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     handleCheckAvailability(e) {
         e.stopImmediatePropagation();
@@ -253,7 +260,7 @@ export class IrBookingEditor {
                         adult: occupancy.adults,
                         child: occupancy.children,
                     },
-                    language: this.language,
+                    language: LocaleController.language,
                     room_type_ids,
                     currency: calendar_data.property.currency,
                     agent_id: is_in_agent_mode ? source?.tag : null,
@@ -407,7 +414,7 @@ export class IrBookingEditor {
             return;
         }
         const payload = {
-            language: this.language,
+            language: LocaleController.language,
             is_to_block: block,
             booking: {
                 property: { id: Number(this.propertyId) },
@@ -912,6 +919,9 @@ export class IrBookingEditor {
         return [{
                 "propName": "mode",
                 "methodName": "handleModeChange"
+            }, {
+                "propName": "language",
+                "methodName": "languageChanged"
             }];
     }
     static get listeners() {

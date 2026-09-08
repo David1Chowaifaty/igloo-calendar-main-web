@@ -37,7 +37,7 @@ export class IrHkStaffTasks {
     ticket;
     baseurl;
     language = 'en';
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     houseKeepingService = new HouseKeepingService();
     // Always use English locale for date keys to avoid Arabic-Indic numerals
     fromDate = moment().locale('en').format('YYYY-MM-DD');
@@ -58,10 +58,10 @@ export class IrHkStaffTasks {
         this.activeLanguage = localStorage.getItem(LANGUAGE_KEY) || this.language;
         this.publishLanguage(this.activeLanguage);
         if (this.baseurl) {
-            this.tokenService.setBaseUrl(this.baseurl);
+            this.apiClientService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.loadTasks();
         }
     }
@@ -99,7 +99,7 @@ export class IrHkStaffTasks {
             return;
         }
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.loadTasks();
         }
     }

@@ -11,11 +11,11 @@ export class IglSplitBookingDrawer {
         return this.booking?.rooms?.find(r => r.identifier === this.identifier);
     }
     render() {
-        return (h("ir-drawer", { key: 'c46435c49cd6d7b522f4d1e95c97378154760e21', open: this.open, class: 'split-booking__drawer', label: `Split unit ${this.room?.unit?.['name'] ?? ''}`, onDrawerHide: e => {
+        return (h("ir-drawer", { key: '0ed39eb9367b5f054382f8f35e3b2765f198d0b8', open: this.open, class: 'split-booking__drawer', label: `Split unit ${this.room?.unit?.['name'] ?? ''}`, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit(null);
-            } }, this.open && h("igl-split-booking-form", { key: '70565f9b42d5b745f6d099b0bd5e9cd3274d39d9', booking: this.booking, identifier: this.identifier, formId: this._id }), h("div", { key: '4a8193f4896ea6d9f285083d7e13ae1bf5c4e286', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '3ae91b988d0c3a7a45cf799763f2032a969fdb5d', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, "Cancel"), h("ir-custom-button", { key: 'f1b5f90c387243c858e45ce806100bd04af1089c', form: this._id, type: "submit", size: "m", appearance: "accent", variant: "brand", loading: isRequestPending('/DoReservation') }, "Confirm"))));
+            } }, this.open && h("igl-split-booking-form", { key: '5e7c869e23772165e63a645c26b4d762dd835597', booking: this.booking, identifier: this.identifier, formId: this._id }), h("div", { key: 'ae3abc6903a10ec40f0564f3f73ac70891670c56', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '4e35f5b9b0f6e669ae95b103c130c17e1ddb5eaa', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, "Cancel"), h("ir-custom-button", { key: 'ffce515c25832458bf43aa76cc02f22c8566d6cf', form: this._id, type: "submit", size: "m", appearance: "accent", variant: "brand", loading: isRequestPending('/DoReservation') }, "Confirm"))));
     }
     static get is() { return "igl-split-booking-drawer"; }
     static get encapsulation() { return "scoped"; }

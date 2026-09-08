@@ -1,7 +1,7 @@
 import { Fragment, Host, h } from "@stencil/core";
-import locales from "../../../../stores/locales.store";
 import calendar_data from "../../../../stores/calendar-data";
 import moment from "moment";
+import { t } from "../../../../services/locale/t";
 export class IglBookPropertyFooter {
     eventType;
     page;
@@ -35,22 +35,21 @@ export class IglBookPropertyFooter {
     }
     render() {
         if (this.page === 'page_one') {
-            return (h(Host, null, this.isEventType('EDIT_BOOKING') ? (h(Fragment, null, this.renderButton({ value: 'cancel', label: locales.entries.Lcz_Cancel, appearance: 'filled', variant: 'neutral' }), this.shouldRenderTwoButtons() &&
+            return (h(Host, null, this.isEventType('EDIT_BOOKING') ? (h(Fragment, null, this.renderButton({ value: 'cancel', label: t('Lcz_Cancel'), appearance: 'filled', variant: 'neutral' }), this.shouldRenderTwoButtons() &&
                 this.renderButton({
                     value: 'next',
-                    label: `${locales.entries.Lcz_Next}`,
+                    label: `${t('Lcz_Next')}`,
                     icon_name: 'angles_right',
                     variant: 'brand',
                     appearance: 'accent',
-                }))) : (h(Fragment, null, this.renderButton({ value: 'cancel', label: locales.entries.Lcz_Cancel, appearance: 'filled', variant: 'neutral' }), this.shouldRenderTwoButtons() &&
-                this.renderButton({ value: 'next', label: `${locales.entries.Lcz_Next}`, icon_name: 'angles_right', variant: 'brand', appearance: 'accent' })))));
+                }))) : (h(Fragment, null, this.renderButton({ value: 'cancel', label: t('Lcz_Cancel'), appearance: 'filled', variant: 'neutral' }), this.shouldRenderTwoButtons() && this.renderButton({ value: 'next', label: `${t('Lcz_Next')}`, icon_name: 'angles_right', variant: 'brand', appearance: 'accent' })))));
         }
         const showBookAndCheckin = calendar_data.checkin_enabled && moment(new Date(this.dateRangeData?.fromDate)).isSame(new Date(), 'day');
-        return (h(Fragment, null, this.isEditOrAddRoomEvent ? (h(Fragment, null, this.renderButton({ value: 'back', icon_position: 'left', label: locales.entries.Lcz_Back, icon_name: 'angles_left', appearance: 'filled', variant: 'neutral' }), this.renderButton({ value: 'save', label: locales.entries.Lcz_Save, isLoading: this.isLoading === 'save', variant: 'brand', appearance: 'accent' }))) : (h(Fragment, null, this.renderButton({ value: 'back', icon_position: 'left', label: locales.entries.Lcz_Back, icon_name: 'angles_left', appearance: 'filled', variant: 'neutral' }), this.renderButton({
+        return (h(Fragment, null, this.isEditOrAddRoomEvent ? (h(Fragment, null, this.renderButton({ value: 'back', icon_position: 'left', label: t('Lcz_Back'), icon_name: 'angles_left', appearance: 'filled', variant: 'neutral' }), this.renderButton({ value: 'save', label: t('Lcz_Save'), isLoading: this.isLoading === 'save', variant: 'brand', appearance: 'accent' }))) : (h(Fragment, null, this.renderButton({ value: 'back', icon_position: 'left', label: t('Lcz_Back'), icon_name: 'angles_left', appearance: 'filled', variant: 'neutral' }), this.renderButton({
             value: 'book',
             type: 'submit',
             form: 'new_booking_form',
-            label: locales.entries.Lcz_Book,
+            label: t('Lcz_Book'),
             isLoading: this.isLoading === 'book',
             variant: 'brand',
             appearance: showBookAndCheckin ? 'outlined' : 'accent',
@@ -59,7 +58,7 @@ export class IglBookPropertyFooter {
                 type: 'submit',
                 form: 'new_booking_form',
                 value: 'bookAndCheckIn',
-                label: locales.entries.Lcz_BookAndChekcIn,
+                label: t('Lcz_BookAndChekcIn'),
                 isLoading: this.isLoading === 'bookAndCheckIn',
                 variant: 'brand',
                 appearance: 'accent',

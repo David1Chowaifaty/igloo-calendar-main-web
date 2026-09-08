@@ -1,4 +1,4 @@
-import { IEntries } from "../../../models/IBooking";
+import { SetupEntries } from "../../../models/IBooking";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { ChargeRule } from '../types';
 export declare class IrTaxInput {
@@ -8,7 +8,7 @@ export declare class IrTaxInput {
      * Each entry represents a tax application option
      * (e.g. Not Applicable, Inclusive, Exclusive).
      */
-    setupEntries: IEntries[];
+    setupEntries: SetupEntries[];
     /**
      * Label displayed above the percentage input.
      */

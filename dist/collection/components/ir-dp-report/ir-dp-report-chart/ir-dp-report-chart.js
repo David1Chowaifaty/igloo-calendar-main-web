@@ -48,15 +48,43 @@ export class IrDpReportChart {
         const m = moment(date, 'YYYY-MM-DD', true);
         return m.isValid() ? formatDate(m, 'MMM DD') : date;
     }
+    /** Negative values (price reductions) are never plotted — the chart only shows gains. */
+    clampProfit(value) {
+        return value > 0 ? value : 0;
+    }
+    /**
+     * Runs after the x-axis is laid out (so tick pixel positions are final). Shows a date
+     * label only on the first bar of each date, and then only if it clears the previously
+     * shown label by `MIN_LABEL_GAP_PX` — a pixel-based check that can't collide no matter
+     * how the rows are distributed across the date range.
+     */
+    thinXAxisLabels = (scale) => {
+        const MIN_LABEL_GAP_PX = 64;
+        let lastShownPx = -Infinity;
+        scale.ticks.forEach((tick, i) => {
+            const rowIndex = tick.value;
+            const row = this.rows[rowIndex];
+            const isFirstOfDate = !!row && (rowIndex === 0 || this.rows[rowIndex - 1]?.date !== row.date);
+            if (!isFirstOfDate) {
+                tick.label = '';
+                return;
+            }
+            const px = scale.getPixelForTick(i);
+            if (px - lastShownPx < MIN_LABEL_GAP_PX) {
+                tick.label = '';
+                return;
+            }
+            lastShownPx = px;
+            tick.label = this.formatDateLabel(row.date);
+        });
+    };
     buildDataset(rows) {
         const successColor = this.getCssVar('--wa-color-success-fill-loud');
-        const dangerColor = this.getCssVar('--wa-color-danger-fill-loud');
-        const colors = rows.map(r => (r.profit >= 0 ? successColor : dangerColor));
         return {
             label: 'Gain / Reduction',
-            data: rows.map(r => r.profit),
-            backgroundColor: colors,
-            hoverBackgroundColor: colors,
+            data: rows.map(r => this.clampProfit(r.profit)),
+            backgroundColor: successColor,
+            hoverBackgroundColor: successColor,
             borderRadius: 3,
             barPercentage: 0.7,
         };
@@ -69,7 +97,7 @@ export class IrDpReportChart {
             id: 'dpMinBarLength',
             beforeDatasetDraw: (_chart, args) => {
                 for (let i = 0; i < args.meta.data.length; i++) {
-                    const value = this.rows[i]?.profit;
+                    const value = this.clampProfit(this.rows[i]?.profit ?? 0);
                     if (!value) {
                         continue;
                     }
@@ -78,7 +106,7 @@ export class IrDpReportChart {
                     if (height >= minPx) {
                         continue;
                     }
-                    bar.y = bar.base + (value >= 0 ? -minPx : minPx);
+                    bar.y = bar.base - minPx;
                 }
             },
         };
@@ -117,14 +145,13 @@ export class IrDpReportChart {
         const date = document.createElement('span');
         date.textContent = formatDate(row.date, 'MMM DD, YYYY');
         header.appendChild(date);
-        // const tone = row.profit >= 0 ? 'Gain' : 'Reduction';
-        const sign = row.profit >= 0 ? '+' : '-';
+        const profit = this.clampProfit(row.profit);
         const effectRow = document.createElement('div');
         effectRow.className = 'dp-chart-tooltip__row';
         effectRow.append(`Dynamic pricing effect: `);
         const effectValue = document.createElement('span');
-        effectValue.className = `dp-chart-tooltip__value dp-chart-tooltip__value--${row.profit >= 0 ? 'gain' : 'loss'}`;
-        effectValue.textContent = `${sign}${formatAmount(row.currencySymbol, Math.abs(row.profit))}`;
+        effectValue.className = 'dp-chart-tooltip__value dp-chart-tooltip__value--gain';
+        effectValue.textContent = `+${formatAmount(row.currencySymbol, profit)}`;
         effectRow.appendChild(effectValue);
         const valueRow = document.createElement('div');
         valueRow.className = 'dp-chart-tooltip__row';
@@ -194,21 +221,17 @@ export class IrDpReportChart {
                 scales: {
                     x: {
                         grid: { display: false },
+                        afterFit: this.thinXAxisLabels,
                         ticks: {
                             color: textColor,
                             autoSkip: false,
                             maxRotation: 0,
-                            callback: (_value, index) => {
-                                const row = this.rows[index];
-                                if (!row) {
-                                    return '';
-                                }
-                                const isFirstOfDate = index === 0 || this.rows[index - 1].date !== row.date;
-                                return isFirstOfDate ? this.formatDateLabel(row.date) : '';
-                            },
+                            minRotation: 0,
                         },
                     },
                     y: {
+                        beginAtZero: true,
+                        min: 0,
                         grid: { color: borderColor },
                         ticks: { color: textColor },
                     },

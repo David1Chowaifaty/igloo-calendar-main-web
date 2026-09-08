@@ -3,41 +3,45 @@
 var index = require('./index-P5Mginch.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var agents_service = require('./agents.service-DWaVZIds.js');
-var booking_store = require('./booking.store-SmjvQvnY.js');
-var index$2 = require('./index-B6tr59-v.js');
+var booking_store = require('./booking.store-CblXsXc-.js');
+var index$2 = require('./index-D2LyeB2I.js');
 var calendarData = require('./calendar-data-BjlxOXi1.js');
-var index$1 = require('./index-BWx5TYc1.js');
-var utils$1 = require('./utils-5rzlNNGQ.js');
-var utils = require('./utils-CXqwALIi.js');
-var room_service = require('./room.service-Dv4u9Qiq.js');
-var arrivals_store = require('./arrivals.store-Cb-YAwl4.js');
+var index$1 = require('./index-BJ4XtLYE.js');
+var utils$1 = require('./utils-ENyYs-bV.js');
+var locale_controller = require('./locale.controller-CKBsRfx_.js');
+var utils = require('./utils-y7Xvx_7s.js');
+var room_service = require('./room.service-Uyv8upYq.js');
+var arrivals_store = require('./arrivals.store-DJwVhzc9.js');
+var languageSync = require('./language-sync-gAmPX9Gh.js');
 var axios = require('./axios-EresIryl.js');
-var booking_listing_service = require('./booking_listing.service-Cce82j79.js');
-var locales_store = require('./locales.store-v9LoZcAK.js');
+var booking_listing_service = require('./booking_listing.service-DEF8KJmx.js');
+var t = require('./t-BpMDZfdy.js');
 var channel_service = require('./channel.service-CureyNaj.js');
 var system_service = require('./system.service-q3G6_5Tb.js');
 var moment = require('./moment-CdViwxPQ.js');
 var v4 = require('./v4-_2BfiRUa.js');
-var departures_store = require('./departures.store-BZdrx_rE.js');
-var svcCategory_utils = require('./svc-category.utils-cBxz2Skd.js');
+var departures_store = require('./departures.store-JGk42lb0.js');
+var booking = require('./booking-BrmwKLh-.js');
+var svcCategory_utils = require('./svc-category.utils-C3iFqfdl.js');
 var enums = require('./enums-BSCnMYlE.js');
 var index$3 = require('./index-CLqkDPTC.js');
 var housekeeping_service = require('./housekeeping.service-CXKCfWFZ.js');
 var hkTasks_store = require('./hk-tasks.store-KZiARyxb.js');
-var irDate = require('./ir-date-CUot5M4p.js');
+var irDate = require('./ir-date-DUrZBFOV.js');
 var paymentOption_store = require('./payment-option.store-BE1JJuf9.js');
 var index$4 = require('./index-B1i80_nI.js');
 var uninvoiced_bookings_store = require('./uninvoiced_bookings.store-m_fmUkYI.js');
-var user_service = require('./user.service-jZj227cu.js');
+var user_service = require('./user.service-Cp-WLt6D.js');
 var realtime_service = require('./realtime.service-COdIt6Z-.js');
 require('./type-Dy9pVS4V.js');
-require('./IBooking-BtFRLVyo.js');
-require('./booking-DAw6VPzA.js');
+require('./IBooking-BT0vyd3Z.js');
 require('./index-BLJXadKe.js');
-require('./functions-CVUndUSp.js');
 require('./commonSchemas-hgXVqmtC.js');
 require('./booking.dto-kenLHU-o.js');
+require('./locales.store-DIYxw5lk.js');
+require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
+require('./functions-YMou4oXJ.js');
 require('./types-ClUdQ5q-.js');
 
 const irAgentsCss = () => `.sc-ir-agents-h{display:block}.page-header__container.sc-ir-agents{display:flex;align-items:center;justify-content:space-between}`;
@@ -77,15 +81,15 @@ const IrAgents = class {
     propertyService = new index$1.PropertyService();
     bookingService = new booking_store.BookingService();
     setupService = new index$2.SetupService();
-    tokenService = new ApiClient.ApiClient();
+    apiClientService = new ApiClient.ApiClient();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
     handleTicketChange() {
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.init();
     }
     handleUpsertAgentListener(e) {
@@ -104,18 +108,18 @@ const IrAgents = class {
                 await this.propertyService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                 });
             }
             const [countries, setupEntries] = await Promise.all([
-                this.bookingService.getCountries(this.language),
+                this.bookingService.getCountries(locale_controller.LocaleController.language),
                 this.setupService.getSetupEntriesByTableNameMulti(['_AGENT_RATE_TYPE', '_AGENT_TYPE', '_TA_PAYMENT_METHOD', '_CL_POST_TIMING']),
                 calendarData.calendar_data?.property
                     ? Promise.resolve(null)
                     : this.propertyService.getExposedProperty({
                         id: this.propertyid || 0,
-                        language: this.language,
+                        language: locale_controller.LocaleController.language,
                         aname: this.p,
                     }),
                 this.fetchAgents(),
@@ -233,14 +237,16 @@ const IrArrivals = class {
     payment;
     roomGuestState = null;
     countries;
-    tokenService = new ApiClient.ApiClient();
+    apiClientService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     bookingService = new booking_store.BookingService();
     setupService = new index$2.SetupService();
     paymentFolioRef;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.arrivals, () => this.init());
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
         arrivals_store.setArrivalsPageSize(this.pageSize);
@@ -248,13 +254,22 @@ const IrArrivals = class {
             this.getBookings();
         });
     }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
+    }
     handlePageSizeChange(newValue, oldValue) {
         if (newValue !== oldValue)
             arrivals_store.setArrivalsPageSize(newValue);
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue && newValue) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -293,19 +308,24 @@ const IrArrivals = class {
                 await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                 });
             }
             const [_, __, countries, paymentEntries] = await Promise.all([
-                calendarData.calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
-                this.roomService.fetchLanguage(this.language),
-                this.bookingService.getCountries(this.language),
+                calendarData.calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: locale_controller.LocaleController.language, aname: this.p }),
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.arrivals }),
+                this.bookingService.getCountries(locale_controller.LocaleController.language),
                 this.setupService.getPaymentEntries(),
                 this.getBookings(),
             ]);
             this.countries = countries;
             this.paymentEntries = paymentEntries;
+            this.countries = countries;
+            // Fetch bookings only after the property/calendar data is loaded — the arrivals
+            // pipeline (canCheckIn) reads `calendar_data.property`, which is null until the
+            // getExposedProperty calls above resolve.
+            await this.getBookings();
         }
         catch (error) {
         }
@@ -373,6 +393,9 @@ const IrArrivals = class {
             } }), index.h("ir-room-guests", { open: this.roomGuestState !== null, countries: this.countries, language: this.language, identifier: this.roomGuestState?.identifier, bookingNumber: this.roomGuestState?.booking_nbr?.toString(), roomName: this.roomGuestState?.roomName, totalGuests: this.roomGuestState?.totalGuests, sharedPersons: this.roomGuestState?.sharing_persons, checkIn: this.roomGuestState?.checkin, onCloseModal: () => (this.roomGuestState = null) }))));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "pageSize": [{
                 "handlePageSizeChange": 0
             }],
@@ -404,7 +427,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '539979d4587e4b28a52f7d1201b9d1d9d65f3a19', class: "p-1" }, index.h("ir-interceptor", { key: '59298a40b31aaf0ed022bb64d11f49c02f2574b8', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: 'e09445543b639efa5a84f4943b6396bbdf421447' }), index.h("div", { key: '869a55a4f525ce6d5e06d2b6a2ba71d0de753c8c', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: 'eadd72ff1773c6a2ac56f51a36bf73aa39e6aec3', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: '2d138e330281a7b382924f9909f94b46d879fb19', size: "sm", text: "search", onClickHandler: async () => {
+        return (index.h(index.Host, { key: '6f0829c9a1ac5a388d9c70e532c87588ab9ca7de', class: "p-1" }, index.h("ir-interceptor", { key: 'f1f97acd74d44bf6ae1285a759367f01b416efd7', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: '7a01ac2f13ddf35dea9e277d4e0c7adc464e6380' }), index.h("div", { key: '1fb97c8e56320e9e0321293e11ac17a91369bf29', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: 'ebd992fb69d4576af3053a388fbdf021668143d0', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: '0c932780a35cdc859d2837f7d6da7c854e0cde65', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -412,7 +435,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), index.h("p", { key: '24eb789b659b124e071e384ee21a93261ee6c967' }, JSON.stringify(this.data, null, 2))));
+            } })), index.h("p", { key: 'c38324f65a551d835d88729b0896a5b32623ba49' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": [{
@@ -466,6 +489,8 @@ const IrBookingListing = class {
     allowedProperties;
     havePrivilege;
     paymentFolioRef;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.bookingListing, () => this.initializeApp());
     componentWillLoad() {
         if (this.baseUrl) {
             this.ApiClient.setBaseUrl(this.baseUrl);
@@ -484,6 +509,9 @@ const IrBookingListing = class {
         booking_listing_service.onBookingListingChange('bookings', newValue => {
             this.showCost = newValue.some(booking => booking.financial.gross_cost !== null && booking.financial.gross_cost > 0);
         });
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -512,7 +540,7 @@ const IrBookingListing = class {
                     const propertyData = await this.roomService.getExposedProperty({
                         id: 0,
                         aname: this.p,
-                        language: this.language,
+                        language: locale_controller.LocaleController.language,
                         is_backend: true,
                     });
                     propertyId = propertyData.My_Result.id;
@@ -521,7 +549,7 @@ const IrBookingListing = class {
             const parallelRequests = [
                 this.setupService.getPaymentEntries(),
                 this.bookingListingService.getExposedBookingsCriteria(this.havePrivilege ? null : propertyId),
-                this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT', '_PMS_FRONT']),
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.bookingListing }),
             ];
             // let propertyDataIndex: number | null = null;
             let allowedPropertiesIndex = null;
@@ -529,7 +557,7 @@ const IrBookingListing = class {
                 // propertyDataIndex = parallelRequests.length;
                 parallelRequests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                 }));
             }
@@ -597,6 +625,10 @@ const IrBookingListing = class {
     }
     disconnectedCallback() {
         clearTimeout(this.listingModalTimeout);
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     async handlePaginationChange(event) {
         event.stopImmediatePropagation();
@@ -696,7 +728,7 @@ const IrBookingListing = class {
         if (this.isLoading || this.ticket === '') {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h("ir-page", { label: locales_store.locales?.entries?.Lcz_Bookings }, index.h("div", { class: "main-container" }, index.h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), index.h("section", { class: "mt-2" }, index.h("ir-booking-listing-table", null))), index.h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.editBookingItem?.booking?.property?.id, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), index.h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
+        return (index.h("ir-page", { label: t.t('Lcz_Bookings') }, index.h("div", { class: "main-container" }, index.h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), index.h("section", { class: "mt-2" }, index.h("ir-booking-listing-table", null))), index.h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.editBookingItem?.booking?.property?.id, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), index.h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
                 this.editBookingItem = null;
             }, booking_nbr: this.editBookingItem?.booking?.booking_nbr, email: this.editBookingItem?.booking?.guest.email, language: this.language, open: this.editBookingItem?.cause === 'guest' }), index.h("ir-payment-folio", { style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
                 this.booking = null;
@@ -706,15 +738,18 @@ const IrBookingListing = class {
     static get watchers() { return {
         "ticket": [{
                 "ticketChanged": 0
+            }],
+        "language": [{
+                "languageChanged": 0
             }]
     }; }
 };
 IrBookingListing.style = irBookingListingCss();
 
-const actions = (entries) => [
+const actions = () => [
     {
         id: 'edit',
-        name: entries.Lcz_Edit,
+        name: t.t('Lcz_Edit'),
         icon: () => (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "14", viewBox: "0 0 512 512" }, index.h("path", { d: "M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" }))),
         action: (params) => {
             const selectedProperty = params.map.find(m => m.type === 'property');
@@ -783,7 +818,7 @@ const actions = (entries) => [
     // },
     {
         id: 'remove',
-        name: entries?.Lcz_Delete,
+        name: t.t('Lcz_Delete'),
         icon: () => (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" }))),
         action: (params) => {
             return {
@@ -793,7 +828,7 @@ const actions = (entries) => [
                     await channel_service$1.saveConnectedChannel(params.id, true);
                 },
                 title: '',
-                message: entries?.Lcz_ThisActionWillDelete,
+                message: t.t('Lcz_ThisActionWillDelete'),
                 main_color: 'danger',
             };
         },
@@ -820,12 +855,23 @@ const IrChannel = class {
     ApiClient = new ApiClient.ApiClient();
     irModalRef;
     propertyId;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.channel, () => this.initializeApp());
     componentWillLoad() {
         this.isLoading = true;
         if (this.ticket !== '') {
             this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     async handleConfirmClicked(e) {
         e.stopImmediatePropagation();
@@ -856,7 +902,7 @@ const IrChannel = class {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                 });
                 propertyId = propertyData.My_Result.id;
@@ -864,23 +910,18 @@ const IrChannel = class {
             const requests = [
                 this.channelService.getExposedChannels(propertyId),
                 this.channelService.getExposedConnectedChannels(propertyId),
-                this.roomService.fetchLanguage(this.language, ['_CHANNEL_FRONT']),
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.channel }),
             ];
             if (this.propertyid) {
                 requests.unshift(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                 }));
             }
             this.propertyId = propertyId;
-            const results = await Promise.all(requests);
-            const languageTexts = results[results.length - 1];
+            await Promise.all(requests);
             channel_service.channels_data.property_id = this.propertyid;
-            if (!locales_store.locales.entries) {
-                locales_store.locales.entries = languageTexts.entries;
-                locales_store.locales.direction = languageTexts.direction;
-            }
         }
         catch (error) {
             console.error(error);
@@ -914,7 +955,7 @@ const IrChannel = class {
                 },
                 cause: 'channel',
                 main_color: 'primary',
-                message: locales_store.locales.entries?.Lcz_UnSavedChangesWillBeLost,
+                message: t.t('Lcz_UnSavedChangesWillBeLost'),
                 title: '',
             };
             this.openModal();
@@ -948,7 +989,7 @@ const IrChannel = class {
         if (this.isLoading) {
             return (index.h("div", { class: "h-screen bg-white d-flex flex-column align-items-center justify-content-center" }, index.h("ir-loading-screen", null)));
         }
-        return (index.h(index.Host, { class: "h-100 " }, index.h("ir-toast", null), index.h("section", { class: "p-2 px-lg-5 py-0 h-100 d-flex flex-column" }, index.h("div", { class: "d-flex w-100 justify-content-between mb-2 align-items-center" }, index.h("h3", { class: "font-weight-bold m-0 p-0" }, locales_store.locales.entries?.Lcz_iSWITCH), index.h("ir-button", { iconPosition: "left", icon_name: "circle_plus", text: locales_store.locales.entries?.Lcz_CreateChannel, size: "sm", onClickHandler: () => (this.channel_status = 'create') })), index.h("div", { class: "card p-1 flex-fill m-0" }, index.h("table", { class: "table table-striped table-bordered no-footer dataTable" }, index.h("thead", null, index.h("tr", null, index.h("th", { scope: "col", class: "ir-text-start" }, locales_store.locales.entries?.Lcz_Channel), index.h("th", { scope: "col" }, locales_store.locales.entries?.Lcz_Status), index.h("th", { scope: "col", class: "actions-theader" }, locales_store.locales.entries?.Lcz_Actions))), index.h("tbody", { class: "" }, channel_service.channels_data.connected_channels?.map(channel => (index.h("tr", { key: channel.channel.id }, index.h("td", { class: "ir-text-start" }, channel.channel.name, " ", channel.title ? `(${channel.title})` : ''), index.h("td", null, index.h("ir-switch", { checked: channel.is_active, onCheckChange: e => this.handleCheckChange(e.detail, channel) })), index.h("th", null, index.h("div", { class: "d-flex justify-content-end" }, index.h("div", { class: "btn-group" }, index.h("button", { type: "button", class: "btn  dropdown-toggle px-0", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, index.h("span", { class: "ir-me-1" }, " ", locales_store.locales.entries?.Lcz_Actions), index.h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, index.h("path", { fill: "var(--blue)", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), index.h("div", { class: "dropdown-menu dropdown-menu-right" }, actions(locales_store.locales.entries).map((a, index$1) => (index.h(index.Fragment, null, index.h("button", { onClick: () => {
+        return (index.h(index.Host, { class: "h-100 " }, index.h("ir-toast", null), index.h("section", { class: "p-2 px-lg-5 py-0 h-100 d-flex flex-column" }, index.h("div", { class: "d-flex w-100 justify-content-between mb-2 align-items-center" }, index.h("h3", { class: "font-weight-bold m-0 p-0" }, t.t('Lcz_iSWITCH')), index.h("ir-button", { iconPosition: "left", icon_name: "circle_plus", text: t.t('Lcz_CreateChannel'), size: "sm", onClickHandler: () => (this.channel_status = 'create') })), index.h("div", { class: "card p-1 flex-fill m-0" }, index.h("table", { class: "table table-striped table-bordered no-footer dataTable" }, index.h("thead", null, index.h("tr", null, index.h("th", { scope: "col", class: "ir-text-start" }, t.t('Lcz_Channel')), index.h("th", { scope: "col" }, t.t('Lcz_Status')), index.h("th", { scope: "col", class: "actions-theader" }, t.t('Lcz_Actions')))), index.h("tbody", { class: "" }, channel_service.channels_data.connected_channels?.map(channel => (index.h("tr", { key: channel.channel.id }, index.h("td", { class: "ir-text-start" }, channel.channel.name, " ", channel.title ? `(${channel.title})` : ''), index.h("td", null, index.h("ir-switch", { checked: channel.is_active, onCheckChange: e => this.handleCheckChange(e.detail, channel) })), index.h("th", null, index.h("div", { class: "d-flex justify-content-end" }, index.h("div", { class: "btn-group" }, index.h("button", { type: "button", class: "btn  dropdown-toggle px-0", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, index.h("span", { class: "ir-me-1" }, " ", t.t('Lcz_Actions')), index.h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, index.h("path", { fill: "var(--blue)", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), index.h("div", { class: "dropdown-menu dropdown-menu-right" }, actions().map((a, index$1) => (index.h(index.Fragment, null, index.h("button", { onClick: () => {
                 if (a.id === 'pull_future_reservation' || a.id === 'view_logs') {
                     return;
                 }
@@ -962,12 +1003,15 @@ const IrChannel = class {
                     this.modal_cause = a.action(channel);
                     this.openModal();
                 }
-            }, key: a.id + '_item', class: `dropdown-item my-0 ${a.id === 'remove' ? 'danger' : ''}`, type: "button" }, a.icon(), a.name), index$1 < actions(locales_store.locales.entries).length - 1 && index.h("div", { key: a.id + '_divider', class: "dropdown-divider my-0" }))))))))))))), channel_service.channels_data.connected_channels.length === 0 && index.h("p", { class: "text-center" }, locales_store.locales.entries?.Lcz_NoChannelsAreConnected))), index.h("ir-sidebar", { sidebarStyles: {
+            }, key: a.id + '_item', class: `dropdown-item my-0 ${a.id === 'remove' ? 'danger' : ''}`, type: "button" }, a.icon(), a.name), index$1 < actions().length - 1 && index.h("div", { key: a.id + '_divider', class: "dropdown-divider my-0" }))))))))))))), channel_service.channels_data.connected_channels.length === 0 && index.h("p", { class: "text-center" }, t.t('Lcz_NoChannelsAreConnected')))), index.h("ir-sidebar", { sidebarStyles: {
                 // width: '60rem',
                 padding: '0',
-            }, showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose.bind(this), open: this.channel_status !== null }, this.channel_status && (index.h("ir-channel-editor", { slot: "sidebar-body", ticket: this.ticket, channel_status: this.channel_status, onCloseSideBar: this.handleSidebarClose.bind(this) }))), index.h("ir-modal", { modalTitle: this.modal_cause?.title, modalBody: this.modal_cause?.message, ref: el => (this.irModalRef = el), rightBtnText: locales_store.locales.entries?.Lcz_Confirm, leftBtnText: locales_store.locales.entries?.Lcz_Cancel, onCancelModal: this.handleCancelModal.bind(this), rightBtnColor: this.modal_cause?.main_color ?? 'primary', onConfirmModal: this.handleConfirmClicked.bind(this) })));
+            }, showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose.bind(this), open: this.channel_status !== null }, this.channel_status && (index.h("ir-channel-editor", { slot: "sidebar-body", ticket: this.ticket, channel_status: this.channel_status, onCloseSideBar: this.handleSidebarClose.bind(this) }))), index.h("ir-modal", { modalTitle: this.modal_cause?.title, modalBody: this.modal_cause?.message, ref: el => (this.irModalRef = el), rightBtnText: t.t('Lcz_Confirm'), leftBtnText: t.t('Lcz_Cancel'), onCancelModal: this.handleCancelModal.bind(this), rightBtnColor: this.modal_cause?.main_color ?? 'primary', onConfirmModal: this.handleConfirmClicked.bind(this) })));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "ticketChanged": 0
             }]
@@ -1009,7 +1053,7 @@ const IrCityLedger = class {
         { id: 'fiscal-documents', label: 'Fiscal Documents' },
         { id: 'create-statement', label: 'Create Statement' },
     ];
-    tokenService = new ApiClient.ApiClient();
+    apiClientService = new ApiClient.ApiClient();
     agentsService = new agents_service.AgentsService();
     propertyService = new index$1.PropertyService();
     setupService = new index$2.SetupService();
@@ -1023,6 +1067,8 @@ const IrCityLedger = class {
             return this.agents;
         return this.agents.filter(a => a.name.toLowerCase().includes(q));
     }
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.cityLedger, () => this.init());
     componentWillLoad() {
         const agentId = this.getAgentIdFromSearchParams();
         if (agentId && !this.agentId) {
@@ -1030,18 +1076,27 @@ const IrCityLedger = class {
         }
         if (this.ticket) {
             if (this.baseurl) {
-                this.tokenService.setBaseUrl(this.baseurl);
+                this.apiClientService.setBaseUrl(this.baseurl);
             }
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue === oldValue)
             return;
         if (this.baseurl)
-            this.tokenService.setBaseUrl(this.baseurl);
-        this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setBaseUrl(this.baseurl);
+        this.apiClientService.setApiClient(this.ticket);
         this.init();
     }
     handlePropertyIdChange(newValue, oldValue) {
@@ -1080,16 +1135,17 @@ const IrCityLedger = class {
             // If a property name was supplied but no numeric id, resolve the id first.
             let propertyId = this.propertyid;
             if (!propertyId && this.p) {
-                await this.propertyService.getExposedProperty({ id: null, language: this.language, aname: this.p });
+                await this.propertyService.getExposedProperty({ id: null, language: locale_controller.LocaleController.language, aname: this.p });
                 propertyId = calendarData.calendar_data.id;
             }
             this.resolvedPropertyId = propertyId;
             const resolvedByName = !this.propertyid && !!this.p;
             const [, setupEntries, agents, currencies] = await Promise.all([
-                resolvedByName ? Promise.resolve() : this.propertyService.getExposedProperty({ id: propertyId, language: this.language }),
+                resolvedByName ? Promise.resolve() : this.propertyService.getExposedProperty({ id: propertyId, language: locale_controller.LocaleController.language }),
                 this.setupService.getSetupEntriesByTableNameMulti(['_SVC_CATEGORY']),
                 this.agentsService.getExposedAgents({ property_id: propertyId }),
                 this.systemService.getExposedCurrencies(),
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.cityLedger }),
             ]);
             this.currencies = currencies;
             this.agents = agents ?? [];
@@ -1147,6 +1203,9 @@ const IrCityLedger = class {
             } }), index.h("ir-cl-fiscal-document-preview", { ticket: this.ticket, propertyId: calendarData.calendar_data?.property?.id, onDocumentConverted: () => this.toolbarRef?.refresh() })));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "handleTicketChange": 0
             }],
@@ -1183,23 +1242,34 @@ const IrDailyRevenue = class {
         users: null,
     };
     sideBarEvent;
-    tokenService = new ApiClient.ApiClient();
+    apiClientService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
     setupService = new index$2.SetupService();
     paymentEntries;
     preventPageLoad;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.dailyRevenue, () => this.initializeApp());
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.initializeApp();
     }
     handleOpenSidebar(e) {
@@ -1234,18 +1304,22 @@ const IrDailyRevenue = class {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.setupService.getPaymentEntries(), this.getPaymentReports(), this.roomService.fetchLanguage(this.language)];
+            const requests = [
+                this.setupService.getPaymentEntries(),
+                this.getPaymentReports(),
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.dailyRevenue }),
+            ];
             if (propertyId) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -1337,9 +1411,12 @@ const IrDailyRevenue = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getPaymentReports(true);
-            } }, index.h("wa-icon", { name: "download", slot: "start" }), locales_store.locales.entries?.Lcz_Export), index.h("ir-revenue-summary", { filters: this.filters, previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), index.h("div", { class: "revenue-content-row" }, index.h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), index.h("ir-revenue-table", { filters: this.filters, class: "revenue-table-card", paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), index.h("ir-booking-details-drawer", { open: Boolean(this.sideBarEvent), propertyId: this.property_id, bookingNumber: this.sideBarEvent?.payload?.bookingNumber?.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: e => this.handleSidebarClose(e) })));
+            } }, index.h("wa-icon", { name: "download", slot: "start" }), t.t('Lcz_Export')), index.h("ir-revenue-summary", { filters: this.filters, previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), index.h("div", { class: "revenue-content-row" }, index.h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), index.h("ir-revenue-table", { filters: this.filters, class: "revenue-table-card", paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), index.h("ir-booking-details-drawer", { open: Boolean(this.sideBarEvent), propertyId: this.property_id, bookingNumber: this.sideBarEvent?.payload?.bookingNumber?.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: e => this.handleSidebarClose(e) })));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "ticketChanged": 0
             }]
@@ -1364,23 +1441,36 @@ const IrDepartures = class {
     payment;
     checkoutState = null;
     invoiceState = null;
-    tokenService = new ApiClient.ApiClient();
+    /** Room identifier whose check-out dialog should auto-open inside the booking-details drawer (early check-out redirect). */
+    checkoutRoomIdentifier = null;
+    apiClientService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     bookingService = new booking_store.BookingService();
     setupService = new index$2.SetupService();
     paymentFolioRef;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.departures, () => this.init());
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
         departures_store.onDeparturesStoreChange('today', _ => {
             this.getBookings();
         });
     }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
+    }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -1419,17 +1509,21 @@ const IrDepartures = class {
                 await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                 });
             }
             const [_, __, paymentEntries] = await Promise.all([
-                calendarData.calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
-                this.roomService.fetchLanguage(this.language),
+                calendarData.calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: locale_controller.LocaleController.language, aname: this.p }),
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.departures }),
                 this.setupService.getPaymentEntries(),
                 this.getBookings(),
             ]);
             this.paymentEntries = paymentEntries;
+            // Fetch bookings only after the property/calendar data is loaded — the departures
+            // pipeline (canCheckout) reads the calendar data store, which is empty until the
+            // getExposedProperty calls above resolve.
+            await this.getBookings();
         }
         catch (error) {
         }
@@ -1450,6 +1544,15 @@ const IrDepartures = class {
     handleCheckoutRoom(event) {
         event.stopImmediatePropagation();
         event.stopPropagation();
+        const { booking: booking$1, identifier } = event.detail;
+        const room = booking$1?.rooms?.find(r => r.identifier === identifier);
+        // Early check-outs carry penalty / invoicing implications — handle them inside the full
+        // booking details rather than the bare inline dialog.
+        if (booking.isEarlyCheckout(room)) {
+            this.checkoutRoomIdentifier = identifier;
+            this.bookingNumber = Number(booking$1.booking_nbr);
+            return;
+        }
         this.checkoutState = event.detail;
     }
     async handlePaginationChange(event) {
@@ -1500,12 +1603,19 @@ const IrDepartures = class {
         if (this.isPageLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_Out'] }), index.h("div", { class: 'ir-page__container' }, index.h("h3", { class: "page-title" }, "Check-outs"), index.h("ir-departures-table", { onCheckoutRoom: event => this.handleCheckoutRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) })), index.h("ir-booking-details-drawer", { open: !!this.bookingNumber, propertyId: this.propertyid, bookingNumber: this.bookingNumber?.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.bookingNumber = null) }), index.h("ir-payment-folio", { style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
+        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_Out'] }), index.h("div", { class: 'ir-page__container' }, index.h("h3", { class: "page-title" }, "Check-outs"), index.h("ir-departures-table", { onCheckoutRoom: event => this.handleCheckoutRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) })), index.h("ir-booking-details-drawer", { open: !!this.bookingNumber, propertyId: this.propertyid, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
+                this.bookingNumber = null;
+                this.checkoutRoomIdentifier = null;
+                this.getBookings();
+            } }), index.h("ir-payment-folio", { style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
                 this.booking = null;
                 this.payment = null;
             } }), index.h("ir-checkout-dialog", { booking: this.checkoutState?.booking, identifier: this.checkoutState?.identifier, open: this.checkoutState !== null, onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), index.h("ir-invoice", { onInvoiceClose: event => this.handleInvoiceClose(event), booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null })));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "handleTicketChange": 0
             }]
@@ -1534,12 +1644,12 @@ const IrExtraServicesSettings = class {
     autoValidate;
     dayUseBlockNight = false;
     babyCotPricingModel = 'Stay';
-    tokenService = new ApiClient.ApiClient();
+    apiClientService = new ApiClient.ApiClient();
     setupService = new index$2.SetupService();
     propertyService = new index$1.PropertyService();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -1556,14 +1666,14 @@ const IrExtraServicesSettings = class {
             this.reinit();
     }
     reinit() {
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.init();
     }
     async init() {
         this.isLoading = true;
         try {
             const [, tableEntries] = await Promise.all([
-                this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
+                this.propertyService.getExposedProperty({ id: this.propertyid, language: locale_controller.LocaleController.language }),
                 this.setupService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY']),
             ]);
             this.setupEntries = utils.groupEntryTablesResult(tableEntries);
@@ -1672,7 +1782,7 @@ const IrExtraServicesSettings = class {
             const isExtraBed = category.CODE_NAME === 'EXB';
             return [
                 idx > 0 && (index.h("div", { class: "extra-services-grid__divider", key: category.CODE_NAME + 'divider' + idx }, index.h("wa-divider", null))),
-                index.h("div", { class: "extra-services-grid__row", id: category.CODE_NAME, key: category.CODE_NAME + 'row' + idx }, index.h("div", { class: "extra-services-grid__name" }, index.h("p", { class: "extra-services-grid__title" }, utils.getEntryValue({ entry: category, language: this.language }))), index.h("div", { class: "extra-services-grid__controls" }, index.h("div", { class: "extra-services-grid__cell" }, isBabyCot ? (index.h("div", { class: 'ir__field-group' }, index.h("ir-extra-service-price-input", {
+                index.h("div", { class: "extra-services-grid__row", id: category.CODE_NAME, key: category.CODE_NAME + 'row' + idx }, index.h("div", { class: "extra-services-grid__name" }, index.h("p", { class: "extra-services-grid__title" }, utils.getEntryValue({ entry: category, language: locale_controller.LocaleController.language }))), index.h("div", { class: "extra-services-grid__controls" }, index.h("div", { class: "extra-services-grid__cell" }, isBabyCot ? (index.h("div", { class: 'ir__field-group' }, index.h("ir-extra-service-price-input", {
                     // class={'--grow'}
                     autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule
                 }), index.h("wa-select", { value: this.babyCotPricingModel, defaultValue: this.babyCotPricingModel, size: "s", style: { width: 'min-content', minWidth: '100px' }, onchange: e => (this.babyCotPricingModel = e.target.value) }, index.h("wa-option", { value: "Stay" }, "Stay"), index.h("wa-option", { value: "Night" }, "Night")))) : (index.h("ir-extra-service-price-input", { autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule }, isExtraBed && index.h("span", { slot: "end" }, "/night")))))),
@@ -1732,26 +1842,37 @@ const IrFiscalDocuments = class {
     totalRows = 0;
     /** Booking number whose details drawer is currently open. */
     selectedBookingNumber = null;
-    tokenService = new ApiClient.ApiClient();
+    apiClientService = new ApiClient.ApiClient();
     propertyService = new index$1.PropertyService();
     roomService = new room_service.RoomService();
     setupService = new index$2.SetupService();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.fiscalDocuments, () => this.init());
     componentWillLoad() {
         if (this.baseurl) {
-            this.tokenService.setBaseUrl(this.baseurl);
+            this.apiClientService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue === oldValue)
             return;
         if (this.baseurl) {
-            this.tokenService.setBaseUrl(this.baseurl);
+            this.apiClientService.setBaseUrl(this.baseurl);
         }
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.init();
     }
     /**
@@ -1772,7 +1893,7 @@ const IrFiscalDocuments = class {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                 });
                 propertyId = propertyData.My_Result.id;
@@ -1780,11 +1901,14 @@ const IrFiscalDocuments = class {
             this.property_id = propertyId;
             // Remaining setup — all in parallel. The property is only fetched here
             // when we didn't already load it through the aname lookup above.
-            const requests = [this.setupService.getSetupEntriesByTableName('_FD_TYPE'), this.roomService.fetchLanguage(this.language)];
+            const requests = [
+                this.setupService.getSetupEntriesByTableName('_FD_TYPE'),
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.fiscalDocuments }),
+            ];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                 }));
             }
@@ -1874,6 +1998,9 @@ const IrFiscalDocuments = class {
         return (index.h("ir-page", { label: "Fiscal Documents" }, index.h("ir-fiscal-documents-filters", { propertyId: this.property_id, loading: this.isLoading, filters: this.filters, onFilterChanged: e => (this.filters = { ...this.filters, ...e.detail }), onApplyFilters: e => this.handleApplyFilters(e.detail) }), index.h("ir-fiscal-documents-table", { rows: this.rows, taxableOnly: this.filters?.taxableOnly, isLoading: this.isLoading === 'search', hasFetched: this.hasFetched, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.property_id, language: this.language, fdTypes: this.fdTypes, currentPage: this.currentPage, pageSize: this.pageSize, totalRecords: this.totalRows, pageSizes: PAGE_SIZES, onFetchRequested: () => this.fetchFiscalDocuments(this.filters), onRequestPageChange: (e) => this.handlePageChange(e.detail.currentPage), onRequestPageSizeChange: (e) => this.handlePageSizeChange(e.detail.pageSize), onOpenBookingDetails: (e) => (this.selectedBookingNumber = e.detail) }), index.h("ir-booking-details-drawer", { open: !!this.selectedBookingNumber, propertyId: this.property_id, bookingNumber: this.selectedBookingNumber, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.selectedBookingNumber = null) }), index.h("ir-fiscal-document-preview", { mode: "all", ticket: this.ticket, propertyId: this.property_id, onDocumentConverted: () => this.fetchFiscalDocuments(this.filters) })));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "handleTicketChange": 0
             }]
@@ -1945,21 +2072,21 @@ const IrGhsOnboarding = class {
     propertyToActivate = null;
     ghsService = new GHSService();
     bookingService = new booking_store.BookingService();
-    tokenService = new ApiClient.ApiClient();
+    apiClientService = new ApiClient.ApiClient();
     removeAllModal;
     activateModal;
     ticketChanged(newValue) {
         if (newValue) {
-            this.tokenService.setApiClient(newValue);
+            this.apiClientService.setApiClient(newValue);
             this.init();
         }
     }
     async componentWillLoad() {
         if (this.baseurl) {
-            this.tokenService.setBaseUrl(this.baseurl);
+            this.apiClientService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             await this.init();
         }
     }
@@ -2180,6 +2307,8 @@ const IrHkTasks = class {
     ApiClient = new ApiClient.ApiClient();
     table_sorting = new Map();
     modal;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.hkTasks, () => this.init());
     componentWillLoad() {
         if (this.baseUrl) {
             this.ApiClient.setBaseUrl(this.baseUrl);
@@ -2188,6 +2317,15 @@ const IrHkTasks = class {
             this.ApiClient.setApiClient(this.ticket);
             this.init();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -2231,7 +2369,7 @@ const IrHkTasks = class {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
@@ -2239,11 +2377,11 @@ const IrHkTasks = class {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.houseKeepingService.getExposedHKSetup(this.property_id), this.roomService.fetchLanguage(this.language)];
+            const requests = [this.houseKeepingService.getExposedHKSetup(this.property_id), locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.hkTasks })];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -2444,7 +2582,7 @@ const IrHkTasks = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 hkTasks_store.updateSelectedTasks(e.detail);
-            } })))), index.h("ir-dialog", { ref: el => (this.modal = el), label: locales_store.locales.entries.Lcz_Confirmation, lightDismiss: false }, index.h("span", null, this.modalCauses
+            } })))), index.h("ir-dialog", { ref: el => (this.modal = el), label: t.t('Lcz_Confirmation'), lightDismiss: false }, index.h("span", null, this.modalCauses
             ? this.modalCauses?.cause === 'clean'
                 ? this.modalCauses.task
                     ? `Update ${this.modalCauses?.task?.unit?.name} to Clean`
@@ -2456,9 +2594,12 @@ const IrHkTasks = class {
                     this.modalCauses = null;
                 }
                 this.modal.closeModal();
-            } }, locales_store.locales.entries.Lcz_Cancel), index.h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales_store.locales.entries.Lcz_Confirm))), index.h("ir-hk-archive-drawer", { open: this.isSidebarOpen, ticket: this.ApiClient.getToken(), propertyId: this.property_id, onDrawerClosed: () => (this.isSidebarOpen = false) })));
+            } }, t.t('Lcz_Cancel')), index.h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, t.t('Lcz_Confirm')))), index.h("ir-hk-archive-drawer", { open: this.isSidebarOpen, ticket: this.ApiClient.getToken(), propertyId: this.property_id, onDrawerClosed: () => (this.isSidebarOpen = false) })));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "ticketChanged": 0
             }]
@@ -2483,6 +2624,8 @@ const IrHousekeeping = class {
     houseKeepingService = new housekeeping_service.HouseKeepingService();
     setupService = new index$2.SetupService();
     ApiClient = new ApiClient.ApiClient();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.housekeeping, () => this.initializeApp());
     componentWillLoad() {
         if (this.baseUrl) {
             this.ApiClient.setBaseUrl(this.baseUrl);
@@ -2491,6 +2634,15 @@ const IrHousekeeping = class {
             this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     async handleResetData(e) {
         e.stopImmediatePropagation();
@@ -2512,20 +2664,20 @@ const IrHousekeeping = class {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_sales_rate_plans: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
-            housekeeping_service.updateHKStore('default_properties', { ApiClient: this.ticket, property_id: propertyId, language: this.language });
+            housekeeping_service.updateHKStore('default_properties', { ApiClient: this.ticket, property_id: propertyId, language: locale_controller.LocaleController.language });
             const [frequencies] = await Promise.all([
                 this.setupService.getSetupEntriesByTableName('_HK_FREQUENCY'),
-                this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT']),
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.housekeeping }),
                 this.propertyid &&
                     this.roomService.getExposedProperty({
                         id: propertyId,
-                        language: this.language,
+                        language: locale_controller.LocaleController.language,
                         is_backend: true,
                         include_sales_rate_plans: true,
                     }),
@@ -2544,9 +2696,12 @@ const IrHousekeeping = class {
         if (this.isLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h("ir-page", { label: locales_store.locales.entries.Lcz_HouseKeepingAndCheckInSetup }, index.h("ir-hk-operations-card", { frequencies: this.frequencies }), calendarData.calendar_data.housekeeping_enabled && index.h("ir-hk-team", null)));
+        return (index.h("ir-page", { label: t.t('Lcz_HouseKeepingAndCheckInSetup') }, index.h("ir-hk-operations-card", { frequencies: this.frequencies }), calendarData.calendar_data.housekeeping_enabled && index.h("ir-hk-team", null)));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "ticketChanged": 0
             }]
@@ -2611,19 +2766,19 @@ const IrMealReport = class {
     };
     mealReportService = new MealReportService();
     setupService = new index$2.SetupService();
-    tokenService = new ApiClient.ApiClient();
+    apiClientService = new ApiClient.ApiClient();
     ticketChanged(newValue) {
         if (newValue) {
-            this.tokenService.setApiClient(newValue);
+            this.apiClientService.setApiClient(newValue);
             this.init();
         }
     }
     componentWillLoad() {
         if (this.baseurl) {
-            this.tokenService.setBaseUrl(this.baseurl);
+            this.apiClientService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -2738,7 +2893,6 @@ const IrMealReport = class {
         if (this.isPageLoading) {
             return index.h("ir-loading-screen", null);
         }
-        const lcz = locales_store.locales.entries || {};
         // const summary = this.mealCountSummary || [];
         // const sum = (key: keyof MealCountDaySummary) => summary.reduce((acc, day) => acc + (Number(day[key]) || 0), 0);
         // const mealMetrics = [
@@ -2753,7 +2907,7 @@ const IrMealReport = class {
                     ev.stopPropagation();
                 }
                 this.handleExport();
-            }, class: "ir-meal-report__export-btn" }, index.h("wa-icon", { name: "download", slot: "start", style: { fontSize: '14px' } }), lcz.Lcz_Export || 'Export'), index.h("div", { class: "ir-meal-report__layout" }, index.h("ir-meal-report-filters", { reportType: this.localReportType, fromDate: this.localFrom, toDate: this.localTo, mealType: this.localMealType, setupEntries: this.setupEntries, isLoading: this.isDataLoading, lcz: lcz, onReportTypeChange: e => {
+            }, class: "ir-meal-report__export-btn" }, index.h("wa-icon", { name: "download", slot: "start", style: { fontSize: '14px' } }), t.t('Lcz_Export', { fallback: 'Export' })), index.h("div", { class: "ir-meal-report__layout" }, index.h("ir-meal-report-filters", { reportType: this.localReportType, fromDate: this.localFrom, toDate: this.localTo, mealType: this.localMealType, setupEntries: this.setupEntries, isLoading: this.isDataLoading, onReportTypeChange: e => {
                 this.localReportType = e.detail;
                 this.applyFilters();
                 if (e.detail === 'GUEST_LIST') {
@@ -2794,9 +2948,11 @@ const IrMonthlyBookingsReport = class {
     property_id;
     stats;
     baseFilters;
-    tokenService = new ApiClient.ApiClient();
+    apiClientService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.monthlyBookingsReport, () => this.init());
     componentWillLoad() {
         this.baseFilters = {
             date: {
@@ -2808,13 +2964,22 @@ const IrMonthlyBookingsReport = class {
         };
         this.filters = this.baseFilters;
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
+    }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -2836,7 +3001,7 @@ const IrMonthlyBookingsReport = class {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
@@ -2844,11 +3009,11 @@ const IrMonthlyBookingsReport = class {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.roomService.fetchLanguage(this.language), this.getReports()];
+            const requests = [locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.monthlyBookingsReport }), this.getReports()];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -2929,11 +3094,14 @@ const IrMonthlyBookingsReport = class {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 await this.getReports(true);
-            }, appearance: "outlined", slot: "page-header", loading: this.isLoading === 'export' }, index.h("wa-icon", { name: "download", slot: "start" }), locales_store.locales.entries?.Lcz_Export), index.h("section", { class: "report-layout" }, index.h("section", null, index.h("div", { class: "report-stats-row" }, index.h("ir-metric-card", { class: "report-metric", icon: this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? 'arrow-trend-down' : 'arrow-trend-up', label: "Average Occupancy", value: this.stats.AverageOccupancy ? this.stats?.AverageOccupancy.toFixed(2) : null, unit: "%", trend: this.stats?.Occupancy_Difference_From_Previous_Month, trendLabel: "from last month", caption: this.stats?.Occupancy_Difference_From_Previous_Month != null && this.stats?.AverageOccupancy != null
+            }, appearance: "outlined", slot: "page-header", loading: this.isLoading === 'export' }, index.h("wa-icon", { name: "download", slot: "start" }), t.t('Lcz_Export')), index.h("section", { class: "report-layout" }, index.h("section", null, index.h("div", { class: "report-stats-row" }, index.h("ir-metric-card", { class: "report-metric", icon: this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? 'arrow-trend-down' : 'arrow-trend-up', label: "Average Occupancy", value: this.stats.AverageOccupancy ? this.stats?.AverageOccupancy.toFixed(2) : null, unit: "%", trend: this.stats?.Occupancy_Difference_From_Previous_Month, trendLabel: "from last month", caption: this.stats?.Occupancy_Difference_From_Previous_Month != null && this.stats?.AverageOccupancy != null
                 ? `Last month: ${(this.stats.AverageOccupancy - this.stats.Occupancy_Difference_From_Previous_Month).toFixed(2)}%`
                 : undefined }), index.h("ir-metric-card", { class: "report-metric", icon: "hotel", label: "Total Units", value: this.stats?.TotalUnitsBooked ? this.stats?.TotalUnitsBooked.toString() : null, caption: "Booked" }), index.h("ir-metric-card", { class: "report-metric", icon: "user-group", label: "Total Guests", value: this.stats?.Total_Guests ? this.stats?.Total_Guests?.toString() : null, caption: "Stayed" }), index.h("ir-metric-card", { class: "report-metric", icon: "calendar", label: "Peak Days", value: this.stats?.PeakDays.length === 0 ? null : this.stats?.PeakDays?.map(pd => irDate.formatDate(pd.Date, 'D').concat('th')).join(' - '), caption: `${Math.max(...(this.stats.PeakDays?.map(pd => pd.OccupancyPercent) || []))}% occupancy` })), index.h("div", { class: "report-content-row" }, index.h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), index.h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "handleTicketChange": 0
             }]
@@ -2961,11 +3129,22 @@ const IrPaymentOption = class {
     ApiClient = new ApiClient.ApiClient();
     propertyOptionsById;
     propertyOptionsByCode;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.paymentOption, () => this.init());
     componentWillLoad() {
         if (!!this.ticket) {
             this.ApiClient.setApiClient(this.ticket);
             this.init();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -3013,17 +3192,15 @@ const IrPaymentOption = class {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                 });
                 propertyId = propertyData.My_Result.id;
             }
-            const [paymentOptions, propertyOptions, languageTexts] = await Promise.all([
+            const [paymentOptions, propertyOptions] = await Promise.all([
                 this.paymentOptionService.GetExposedPaymentMethods(),
                 this.paymentOptionService.GetPropertyPaymentMethods(propertyId),
-                this.roomService.fetchLanguage(this.language, ['_PAYMENT_BACK']),
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.paymentOption }),
             ]);
-            locales_store.locales.entries = languageTexts.entries;
-            locales_store.locales.direction = languageTexts.direction;
             this.propertyOptionsById = new Map(propertyOptions?.map(o => [o.id, o]));
             this.propertyOptionsByCode = new Map(propertyOptions?.map(o => [o.code, o]));
             this.paymentOptions = paymentOptions?.map(option => {
@@ -3065,7 +3242,7 @@ const IrPaymentOption = class {
                 utils$1.showToast({
                     type: 'success',
                     description: '',
-                    title: locales_store.locales.entries['Lcz_YouNeedToSelect'],
+                    title: t.tRaw('Lcz_YouNeedToSelect'),
                     position: 'top-right',
                 });
             }
@@ -3108,21 +3285,24 @@ const IrPaymentOption = class {
         if (this.isLoading === true || (this.paymentOptions && this.paymentOptions.length === 0)) {
             return (index.h(index.Host, { class: this.defaultStyles ? 'p-2' : '' }, index.h("div", { class: `loading-container ${this.defaultStyles ? 'default' : ''}` }, index.h("span", { class: "payment-option-loader" }))));
         }
-        return (index.h(index.Host, { class: this.defaultStyles ? 'p-2' : '' }, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("div", { class: `${this.defaultStyles ? 'card ' : ''} p-1 flex-fill m-0` }, index.h("div", { class: "d-flex align-items-center mb-2" }, index.h("div", { class: "p-0 m-0 ir-me-1" }, index.h("ir-icons", { name: "credit_card" })), index.h("h3", { class: 'm-0 p-0' }, locales_store.locales?.entries?.Lcz_PaymentOptions)), index.h("div", { class: "payment-table-container" }, index.h("table", { class: "table table-striped table-bordered no-footer dataTable" }, index.h("thead", null, index.h("tr", null, index.h("th", { scope: "col", class: "ir-text-start" }, locales_store.locales?.entries?.Lcz_PaymentMethod), index.h("th", { scope: "col" }, locales_store.locales?.entries?.Lcz_Status), index.h("th", { scope: "col", class: "actions-header" }, locales_store.locales?.entries?.Lcz_Action))), index.h("tbody", { class: "" }, this.paymentOptions?.map(po => {
+        return (index.h(index.Host, { class: this.defaultStyles ? 'p-2' : '' }, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("div", { class: `${this.defaultStyles ? 'card ' : ''} p-1 flex-fill m-0` }, index.h("div", { class: "d-flex align-items-center mb-2" }, index.h("div", { class: "p-0 m-0 ir-me-1" }, index.h("ir-icons", { name: "credit_card" })), index.h("h3", { class: 'm-0 p-0' }, t.t('Lcz_PaymentOptions'))), index.h("div", { class: "payment-table-container" }, index.h("table", { class: "table table-striped table-bordered no-footer dataTable" }, index.h("thead", null, index.h("tr", null, index.h("th", { scope: "col", class: "ir-text-start" }, t.t('Lcz_PaymentMethod')), index.h("th", { scope: "col" }, t.t('Lcz_Status')), index.h("th", { scope: "col", class: "actions-header" }, t.t('Lcz_Action')))), index.h("tbody", { class: "" }, this.paymentOptions?.map(po => {
             if (po.code === '004') {
                 return null;
             }
-            return (index.h("tr", { key: po.id }, index.h("td", { class: 'ir-text-start po-description' }, index.h("div", { class: "po-view" }, index.h("span", { class: 'p-0 m-0' }, po?.description))), index.h("td", null, index.h("ir-switch", { checked: po.is_active, onCheckChange: e => this.handleCheckChange(e, po) })), index.h("td", { class: "payment-action" }, this.showEditButton(po) && (index.h("ir-button", { title: locales_store.locales?.entries?.Lcz_Edit, variant: "icon", icon_name: "edit", onClickHandler: () => {
+            return (index.h("tr", { key: po.id }, index.h("td", { class: 'ir-text-start po-description' }, index.h("div", { class: "po-view" }, index.h("span", { class: 'p-0 m-0' }, po?.description))), index.h("td", null, index.h("ir-switch", { checked: po.is_active, onCheckChange: e => this.handleCheckChange(e, po) })), index.h("td", { class: "payment-action" }, this.showEditButton(po) && (index.h("ir-button", { title: t.t('Lcz_Edit'), variant: "icon", icon_name: "edit", onClickHandler: () => {
                     paymentOption_store.payment_option_store.selectedOption = po;
                     paymentOption_store.payment_option_store.mode = 'edit';
                 } })))));
         }))))), index.h("ir-sidebar", { onIrSidebarToggle: () => {
                 this.closeModal(null);
             }, side: 'right', showCloseButton: false,
-            // label={locales?.entries.Lcz_Information?.replace('%1', payment_option_store.selectedOption?.description)}
+            // label={t('Lcz_Information', { params: [payment_option_store.selectedOption?.description] })}
             open: paymentOption_store.payment_option_store?.selectedOption !== null }, paymentOption_store.payment_option_store?.selectedOption && index.h("ir-option-details", { propertyId: this.propertyid, slot: "sidebar-body" }))));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "ticketChanged": 0
             }]
@@ -3148,7 +3328,6 @@ const IrSalesByChannel = class {
     allowedProperties = [];
     propertyID;
     ApiClient = new ApiClient.ApiClient();
-    roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
     baseFilters = {
         FROM_DATE: moment.hooks().add(-7, 'days').format('YYYY-MM-DD'),
@@ -3158,12 +3337,23 @@ const IrSalesByChannel = class {
         include_previous_year: false,
         is_export_to_excel: false,
     };
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.salesByChannel, () => this.initializeApp());
     componentWillLoad() {
         this.channelSalesFilters = this.baseFilters;
         if (this.ticket) {
             this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -3185,12 +3375,12 @@ const IrSalesByChannel = class {
                 const property = await this.propertyService.getExposedProperty({
                     id: Number(this.propertyid ?? 0),
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                 });
                 this.propertyID = property.My_Result.id;
             }
-            const requests = [, this.roomService.fetchLanguage(this.language)];
+            const requests = [locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.salesByChannel })];
             if (this.mode === 'mpo') {
                 requests.unshift(this.propertyService.getExposedAllowedProperties());
                 const [properties] = await Promise.all(requests);
@@ -3337,7 +3527,7 @@ const IrSalesByChannel = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getChannelSales(true);
-            } }, index.h("wa-icon", { name: "download", slot: "start" }), locales_store.locales.entries?.Lcz_Export), index.h("ir-sales-by-channel-summary", { filters: this.channelSalesFilters, records: this.salesData }), index.h("div", { class: "channel-content-row" }, index.h("ir-sales-by-channel-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+            } }, index.h("wa-icon", { name: "download", slot: "start" }), t.t('Lcz_Export')), index.h("ir-sales-by-channel-summary", { filters: this.channelSalesFilters, records: this.salesData }), index.h("div", { class: "channel-content-row" }, index.h("ir-sales-by-channel-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.channelSalesFilters = { ...e.detail };
@@ -3345,6 +3535,9 @@ const IrSalesByChannel = class {
             }, allowedProperties: this.allowedProperties, baseFilters: this.baseFilters }), index.h("ir-sales-by-channel-table", { mode: this.mode, allowedProperties: this.allowedProperties, class: "channel-table-card", records: this.salesData })))));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "ticketChanged": 0
             }]
@@ -3379,12 +3572,23 @@ const IrSalesByCountry = class {
         WINDOW: 7,
         include_previous_year: false,
     };
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.salesByCountry, () => this.initializeApp());
     componentWillLoad() {
         this.salesFilters = this.baseFilters;
         if (this.ticket) {
             this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -3403,18 +3607,22 @@ const IrSalesByCountry = class {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.bookingService.getCountries(this.language), this.roomService.fetchLanguage(this.language), this.getCountrySales()];
+            const requests = [
+                this.bookingService.getCountries(locale_controller.LocaleController.language),
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.salesByCountry }),
+                this.getCountrySales(),
+            ];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -3498,7 +3706,7 @@ const IrSalesByCountry = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getCountrySales(true);
-            } }, index.h("wa-icon", { name: "download", slot: "start" }), locales_store.locales.entries?.Lcz_Export), index.h("ir-sales-by-country-summary", { salesReports: this.salesData }), index.h("div", { class: "sales-content-row" }, index.h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+            } }, index.h("wa-icon", { name: "download", slot: "start" }), t.t('Lcz_Export')), index.h("ir-sales-by-country-summary", { salesReports: this.salesData }), index.h("div", { class: "sales-content-row" }, index.h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.salesFilters = e.detail;
@@ -3506,6 +3714,9 @@ const IrSalesByCountry = class {
             }, baseFilters: this.baseFilters }), index.h("ir-sales-table", { mappedCountries: this.countries, class: "sales-table-card", records: this.salesData })))));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "ticketChanged": 0
             }]
@@ -3550,12 +3761,12 @@ const IrTaxServiceCategories = class {
     chargeCategoryRules = new Map();
     setupEntries;
     autoValidate;
-    tokenService = new ApiClient.ApiClient();
+    apiClientService = new ApiClient.ApiClient();
     setupService = new index$2.SetupService();
     propertyService = new index$1.PropertyService();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -3573,7 +3784,7 @@ const IrTaxServiceCategories = class {
     }
     /** Re-authenticates and re-fetches configuration when a watched prop changes. */
     reinit() {
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.init();
     }
     /** Fetches setup entries and property data, then builds the initial charge rules map. */
@@ -3581,7 +3792,7 @@ const IrTaxServiceCategories = class {
         this.isLoading = true;
         try {
             const [, tableEntries] = await Promise.all([
-                this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
+                this.propertyService.getExposedProperty({ id: this.propertyid, language: locale_controller.LocaleController.language }),
                 this.setupService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY', '_CITY_TAX_INCLUDED', '_SERVICE_CHARGE_INCLUDED']),
             ]);
             this.setupEntries = utils.groupEntryTablesResult(tableEntries);
@@ -3799,6 +4010,8 @@ const IrUninvoicedBookings = class {
     propertyService = new index$1.PropertyService();
     bookingListingService = new booking_listing_service.BookingListingService();
     propertyId;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.uninvoicedBookings, () => this.initializeApp());
     componentWillLoad() {
         if (this.baseUrl) {
             this.ApiClient.setBaseUrl(this.baseUrl);
@@ -3807,6 +4020,15 @@ const IrUninvoicedBookings = class {
             this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -3847,22 +4069,18 @@ const IrUninvoicedBookings = class {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
             this.propertyId = propertyId;
             // Bookings don't depend on language/criteria, so fetch all three concurrently.
-            const [languageTexts, criteria] = await Promise.all([
-                this.roomService.fetchLanguage(this.language),
+            const [, criteria] = await Promise.all([
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.uninvoicedBookings }),
                 this.bookingListingService.getExposedBookingsCriteria(propertyId),
                 this.fetchUninvoicedBookings(),
             ]);
-            if (!locales_store.locales.entries) {
-                locales_store.locales.entries = languageTexts.entries;
-                locales_store.locales.direction = languageTexts.direction;
-            }
             uninvoiced_bookings_store.setUninvoicedBookingsCriteria(criteria);
         }
         catch (error) {
@@ -3910,6 +4128,9 @@ const IrUninvoicedBookings = class {
         return (index.h("ir-page", { description: "List of ended bookings with some services that have not been invoiced yet.", label: "Uninvoiced Past Bookings", class: "uninvoiced-bookings__page" }, index.h("ir-unvoiced-bookings-filters", null), index.h("ir-unvoiced-bookings-table", null), index.h("ir-booking-details-drawer", { open: !!this.activeBookingNbr, propertyId: this.propertyId, bookingNumber: this.activeBookingNbr, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.activeBookingNbr = null) }), index.h("ir-guest-info-drawer", { open: !!this.activeGuestBookingNbr, booking_nbr: this.activeGuestBookingNbr, email: this.findRow(this.activeGuestBookingNbr)?.raw.guest.email, language: this.language, onGuestInfoDrawerClosed: () => (this.activeGuestBookingNbr = null) })));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "ticketChanged": 0
             }]
@@ -3946,6 +4167,8 @@ const IrUserManagement = class {
     userTypes = new Map();
     unsubscribeRealtime = null;
     superAdminId = '5';
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.userManagement, () => this.initializeApp());
     componentWillLoad() {
         if (this.baseUrl) {
             this.ApiClient.setBaseUrl(this.baseUrl);
@@ -3954,6 +4177,9 @@ const IrUserManagement = class {
             this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -3983,7 +4209,7 @@ const IrUserManagement = class {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
@@ -3991,11 +4217,11 @@ const IrUserManagement = class {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.fetchUserTypes(), this.fetchUsers(), this.roomService.fetchLanguage(this.language, ['_USER_MGT'])];
+            const requests = [this.fetchUserTypes(), this.fetchUsers(), locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.userManagement })];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: locale_controller.LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -4066,7 +4292,7 @@ const IrUserManagement = class {
         const res = await Promise.all([this.setupService.getSetupEntriesByTableName('_USER_TYPE'), this.bookingService.getLov()]);
         const allowedUsers = res[1]?.My_Result?.allowed_user_types;
         for (const e of res[0]) {
-            const value = utils.getEntryValue({ entry: e, language: this.language });
+            const value = utils.getEntryValue({ entry: e, language: locale_controller.LocaleController.language });
             if (allowedUsers.find(f => f.code === e.CODE_NAME)) {
                 this.allowedUsersTypes.push({ code: e.CODE_NAME, value });
             }
@@ -4076,16 +4302,23 @@ const IrUserManagement = class {
     disconnectedCallback() {
         this.unsubscribeRealtime?.();
         this.unsubscribeRealtime = null;
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     render() {
         if (this.isLoading) {
             return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("ir-loading-screen", null)));
         }
-        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", { suppressToastEndpoints: ['/Change_User_Pwd', '/Handle_Exposed_User'] }), index.h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, index.h("h3", { class: "page-title" }, locales_store.locales.entries.Lcz_ExtranetUsers), index.h("div", { class: "", style: { gap: '1rem' } }, index.h("ir-user-management-table", { property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: [this.superAdminId, '17'].includes(this.userTypeCode?.toString()), userTypes: this.userTypes, isSuperAdmin: this.userTypeCode?.toString() === this.superAdminId, users: this.users })))));
+        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", { suppressToastEndpoints: ['/Change_User_Pwd', '/Handle_Exposed_User'] }), index.h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, index.h("h3", { class: "page-title" }, t.t('Lcz_ExtranetUsers')), index.h("div", { class: "", style: { gap: '1rem' } }, index.h("ir-user-management-table", { property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: [this.superAdminId, '17'].includes(this.userTypeCode?.toString()), userTypes: this.userTypes, isSuperAdmin: this.userTypeCode?.toString() === this.superAdminId, users: this.users })))));
     }
     static get watchers() { return {
         "ticket": [{
                 "ticketChanged": 0
+            }],
+        "language": [{
+                "languageChanged": 0
             }]
     }; }
 };

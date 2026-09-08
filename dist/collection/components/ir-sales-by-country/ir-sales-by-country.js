@@ -1,11 +1,14 @@
 import ApiClient from "../../models/ApiClient";
 import { PropertyService } from "../../services/property.service";
 import { RoomService } from "../../services/room.service";
-import locales from "../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { v4 } from "uuid";
 import { BookingService } from "../../services/booking-service/booking.service";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrSalesByCountry {
     language = '';
     ticket = '';
@@ -28,12 +31,23 @@ export class IrSalesByCountry {
         WINDOW: 7,
         include_previous_year: false,
     };
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.salesByCountry, () => this.initializeApp());
     componentWillLoad() {
         this.salesFilters = this.baseFilters;
         if (this.ticket) {
             this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -52,18 +66,22 @@ export class IrSalesByCountry {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.bookingService.getCountries(this.language), this.roomService.fetchLanguage(this.language), this.getCountrySales()];
+            const requests = [
+                this.bookingService.getCountries(LocaleController.language),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.salesByCountry }),
+                this.getCountrySales(),
+            ];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -147,7 +165,7 @@ export class IrSalesByCountry {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getCountrySales(true);
-            } }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("ir-sales-by-country-summary", { salesReports: this.salesData }), h("div", { class: "sales-content-row" }, h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+            } }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export')), h("ir-sales-by-country-summary", { salesReports: this.salesData }), h("div", { class: "sales-content-row" }, h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.salesFilters = e.detail;
@@ -260,6 +278,9 @@ export class IrSalesByCountry {
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

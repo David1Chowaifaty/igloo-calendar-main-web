@@ -5,6 +5,9 @@ import { PropertyService } from "../../services/property/index";
 import { RoomService } from "../../services/room.service";
 import { SetupService } from "../../services/setup/index";
 import { FdTypes } from "../../types/enums";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 /** Selectable page sizes for the fiscal-documents list. */
 const PAGE_SIZES = [20, 50, 100];
 export class IrFiscalDocuments {
@@ -39,26 +42,37 @@ export class IrFiscalDocuments {
     totalRows = 0;
     /** Booking number whose details drawer is currently open. */
     selectedBookingNumber = null;
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     propertyService = new PropertyService();
     roomService = new RoomService();
     setupService = new SetupService();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.fiscalDocuments, () => this.init());
     componentWillLoad() {
         if (this.baseurl) {
-            this.tokenService.setBaseUrl(this.baseurl);
+            this.apiClientService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue === oldValue)
             return;
         if (this.baseurl) {
-            this.tokenService.setBaseUrl(this.baseurl);
+            this.apiClientService.setBaseUrl(this.baseurl);
         }
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.init();
     }
     /**
@@ -79,7 +93,7 @@ export class IrFiscalDocuments {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                 });
                 propertyId = propertyData.My_Result.id;
@@ -87,11 +101,14 @@ export class IrFiscalDocuments {
             this.property_id = propertyId;
             // Remaining setup — all in parallel. The property is only fetched here
             // when we didn't already load it through the aname lookup above.
-            const requests = [this.setupService.getSetupEntriesByTableName('_FD_TYPE'), this.roomService.fetchLanguage(this.language)];
+            const requests = [
+                this.setupService.getSetupEntriesByTableName('_FD_TYPE'),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.fiscalDocuments }),
+            ];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                 }));
             }
@@ -309,6 +326,9 @@ export class IrFiscalDocuments {
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "handleTicketChange"
             }];

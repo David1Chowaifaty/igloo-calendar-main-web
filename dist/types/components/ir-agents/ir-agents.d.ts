@@ -33,7 +33,7 @@ export declare class IrAgents {
     private propertyService;
     private bookingService;
     private setupService;
-    private tokenService;
+    private apiClientService;
     componentWillLoad(): void;
     handleTicketChange(): void;
     handleUpsertAgentListener(e: CustomEvent<Agent>): void;

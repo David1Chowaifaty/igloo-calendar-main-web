@@ -29,7 +29,7 @@ export declare class IrCityLedger {
     fiscalFilters: ClFiscalDocumentFilters;
     stmtFilters: StatementFilters;
     private panels;
-    private tokenService;
+    private apiClientService;
     private agentsService;
     private propertyService;
     private setupService;
@@ -38,7 +38,12 @@ export declare class IrCityLedger {
     private createInvoiceDialogRef;
     private currencies;
     private get filteredAgents();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     handlePropertyIdChange(newValue: number, oldValue: number): void;
     handleAgentIdChange(newId: number | null, oldId: number | null): void;

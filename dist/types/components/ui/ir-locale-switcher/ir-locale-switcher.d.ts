@@ -49,9 +49,13 @@ export declare class IrLocaleSwitcher {
     private isValidDirection;
     componentWillLoad(): void;
     /**
-     * Publishes the language the same way RoomService.fetchLanguage does,
-     * then pushes it onto every mounted component exposing a `language`
-     * prop so their @Watch('language') handlers can update localized text.
+     * Switches the app's language, then pushes it onto every mounted component
+     * exposing a `language` prop so date pickers and `ir-hk-staff-tasks` — which
+     * resolve their own locale rather than reading the store — follow along.
+     *
+     * `persist` doubles as "this was a user action": on the initial restore we
+     * only publish the value, because page roots load their own tables on mount
+     * and no ticket is set yet.
      */
     private applyLanguage;
     /**

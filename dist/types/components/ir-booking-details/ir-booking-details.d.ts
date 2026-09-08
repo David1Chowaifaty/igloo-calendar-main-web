@@ -1,7 +1,7 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 import { Booking, ExtraService, Guest, IPmsLog, SharedPerson } from "../../models/booking.dto";
 import { TIglBookPropertyPayload } from "../../models/igl-book-property";
-import { ICountry, IEntries } from "../../models/IBooking";
+import { ICountry, SetupEntries } from "../../models/IBooking";
 import { IPaymentAction } from "../../services/payment.service";
 import { BookingDetailsSidebarEvents, OpenSidebarEvent, PaymentEntries, PrintScreenOptions } from './types';
 import { SplitIndex } from "../../utils/booking";
@@ -25,12 +25,12 @@ export declare class IrBookingDetails {
     private modalRef;
     private paymentFolioRef;
     element: HTMLElement;
-    bedPreference: IEntries[];
+    bedPreference: SetupEntries[];
     booking: Booking;
     bookingItem: TIglBookPropertyPayload | null;
     calendarData: any;
     countries: ICountry[];
-    departureTime: IEntries[];
+    departureTime: SetupEntries[];
     guestData: Guest;
     isPMSLogLoading: boolean;
     isUpdateClicked: boolean;
@@ -71,6 +71,12 @@ export declare class IrBookingDetails {
      * Enables the check-out action in room components.
      */
     hasCheckOut: boolean;
+    /**
+     * When set, the room matching this identifier auto-opens its check-out dialog once the
+     * booking has loaded. Used to route early check-outs triggered from other screens
+     * (departures list, calendar) through the full booking details.
+     */
+    checkoutRoomIdentifier: string;
     /**
      * Displays the close button in the booking header.
      */
@@ -137,8 +143,12 @@ export declare class IrBookingDetails {
      * Typically triggered by header actions (e.g., close button).
      */
     closeSidebar: EventEmitter<null>;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
     disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     handleSideBarEvents(e: CustomEvent<OpenSidebarEvent<unknown>>): void;
     handleIconClick(e: CustomEvent): void;
     handleResetExposedCancellationDueAmount(e: CustomEvent): Promise<void>;

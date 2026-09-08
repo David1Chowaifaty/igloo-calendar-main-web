@@ -24,8 +24,7 @@ export declare class IrOtpModal {
     private dialogRef;
     private timerInterval;
     private systemService;
-    private roomService;
-    private tokenService;
+    private apiClientService;
     private otpVerificationSchema;
     /** Emits the final OTP (or empty on cancel) */
     otpFinished: EventEmitter<{

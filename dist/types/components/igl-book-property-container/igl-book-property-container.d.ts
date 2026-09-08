@@ -19,7 +19,12 @@ export declare class IglBookPropertyContainer {
     private ApiClient;
     setRoomsData(roomServiceResp: any): void;
     initializeApp(): Promise<void>;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     ticketChanged(newValue: string, oldValue: string): void;
     handleCloseBookingWindow(): void;
     handleTriggerClicked(): void;

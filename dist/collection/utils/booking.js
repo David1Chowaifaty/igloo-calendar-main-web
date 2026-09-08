@@ -1,11 +1,11 @@
 import moment from "moment";
 import { dateDifference, isBlockUnit } from "./utils";
 import axios from "axios";
-import locales from "../stores/locales.store";
 import calendar_dates from "../stores/calendar-dates.store";
 import calendar_data from "../stores/calendar-data";
 import { _formatTime } from "../components/ir-booking-details/functions";
 import { formatDate } from "./date/index";
+import { t } from "../services/locale/t";
 /**
  * Builds an index of split chains for a booking's rooms.
  * @param rooms - The booking's rooms array.
@@ -182,7 +182,7 @@ function renderBlock003Date(date, hour, minute) {
     const dt = new Date(date);
     dt.setHours(hour);
     dt.setMinutes(minute);
-    return `${locales.entries.Lcz_BlockedTill} ${formatDate(dt, 'MMM DD, HH:mm')}`;
+    return `${t('Lcz_BlockedTill')} ${formatDate(dt, 'MMM DD, HH:mm')}`;
 }
 function getDefaultData(cell, stayStatusLookup) {
     if (isBlockUnit(cell.STAY_STATUS_CODE)) {
@@ -372,6 +372,19 @@ export function getRoomStatus(params) {
             }
         }
     }
+}
+/**
+ * True when checking this room out today would fall *before* its scheduled departure date —
+ * an early check-out. Early check-outs carry penalty / reclaimed-night / invoicing
+ * implications, so callers outside the booking-details screen route them through the full
+ * booking details (where `ir-checkout-dialog` runs with complete context) instead of
+ * opening the dialog inline.
+ */
+export function isEarlyCheckout(room) {
+    if (!room?.to_date) {
+        return false;
+    }
+    return moment().startOf('day').isBefore(moment(room.to_date, 'YYYY-MM-DD'), 'day');
 }
 function addOrUpdateBooking(cell, bookingsByPool, stayStatusLookup) {
     if (!cell?.POOL || bookingsByPool.has(cell.POOL)) {

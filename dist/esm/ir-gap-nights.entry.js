@@ -1,23 +1,27 @@
 import { r as registerInstance, h, H as Host } from './index-BYqrdgY9.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { S as SetupService } from './index-C7bnvJN3.js';
-import { P as PropertyService } from './index-B4QXVOb6.js';
-import { R as RoomService } from './room.service-CNYsIJKu.js';
+import { S as SetupService } from './index-Cn37-DfF.js';
+import { P as PropertyService } from './index-3RLQQcxw.js';
+import { R as RoomService } from './room.service-BSB0UzN0.js';
 import { i as isRequestPending } from './ir-interceptor.store-CyWfUv6a.js';
-import { d as showToast } from './utils-Ct-kEjIU.js';
-import { g as groupEntryTablesResult } from './utils-DbzivNBs.js';
+import { d as showToast } from './utils-BShicg8f.js';
+import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-T2RUHTRA.js';
+import { L as LanguageSync } from './language-sync-8F05kG-w.js';
+import { g as groupEntryTablesResult } from './utils-B8rKUEZL.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './index-DeW5X45W.js';
-import './IBooking-xt_aVEnI.js';
+import './IBooking-CTtD1rpE.js';
 import './calendar-data-DT3jrP3G.js';
 import './index-CimhgHoX.js';
 import './moment-Mki5YqAR.js';
 import './commonSchemas-ByEkDTMV.js';
-import './locales.store-C9qsbKR0.js';
+import './locales.store-BfROgg7a.js';
 import './booking.dto-DpE31yhG.js';
 import './type-D7rOPtKA.js';
-import './ir-date-BT3QqYg6.js';
+import './ir-date-CLlijQNQ.js';
+import './language-observer-CHgzsZkY.js';
+import './t-CHttQIVe.js';
 
 const irGapNightsCss = () => `.sc-ir-gap-nights-h{display:block}.gap-nights__card.sc-ir-gap-nights{min-height:70vh}@media (min-width: 768px){.gap-nights__day-options.sc-ir-gap-nights{max-width:300px}}.gap-nights__card.sc-ir-gap-nights{background-color:var(--wa-color-surface-default, white)}.gap-nights__card-header.sc-ir-gap-nights{display:flex;flex-direction:row;justify-content:space-between;align-items:center;width:100%;gap:var(--wa-space-l)}.gap-nights__card-header.sc-ir-gap-nights p.sc-ir-gap-nights{margin:0;padding:0}.gap-nights__card.sc-ir-gap-nights::part(body),.gap-nights__card.sc-ir-gap-nights [part~="body"]{display:flex;flex-direction:column;gap:var(--wa-space-l)}.gap-nights__period.sc-ir-gap-nights{display:flex;align-items:center;gap:var(--wa-space-m)}.gap-nights__period-label.sc-ir-gap-nights{font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold);color:var(--wa-color-neutral-800);white-space:nowrap}.gap-nights__period--disabled.sc-ir-gap-nights .gap-nights__period-label.sc-ir-gap-nights{color:var(--wa-color-neutral-400)}`;
 
@@ -38,19 +42,30 @@ const IrGapNights = class {
     gapRules = [];
     gapRanges = [];
     propertyId;
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     roomService = new RoomService();
     propertyService = new PropertyService();
     setupService = new SetupService();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.gapNights, () => this.init());
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
+    }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.tokenService.setApiClient(newValue);
+            this.apiClientService.setApiClient(newValue);
             this.init();
         }
     }
@@ -69,10 +84,10 @@ const IrGapNights = class {
                 this.roomService.getExposedProperty({
                     id: this.propertyid ?? 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                 }),
-                this.roomService.fetchLanguage(this.language),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.gapNights }),
                 this.setupService.getSetupEntriesByTableNameMulti(['_GAP_RANGE', '_GAP_RULE']),
             ]);
             this.propertyId = propertyRes.My_Result.id;
@@ -123,6 +138,9 @@ const IrGapNights = class {
             } }, this.gapRanges.map(r => (h("wa-option", { key: r.CODE_NAME, value: Number(r.CODE_NAME).toString() }, r.CODE_VALUE_EN))))))));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "handleTicketChange": 0
             }],

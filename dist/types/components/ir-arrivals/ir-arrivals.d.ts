@@ -35,12 +35,17 @@ export declare class IrArrivals {
     payment: Payment;
     roomGuestState: RoomGuestsPayload;
     countries: ICountry[];
-    private tokenService;
+    private apiClientService;
     private roomService;
     private bookingService;
     private setupService;
     private paymentFolioRef;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     handlePageSizeChange(newValue: number, oldValue: number): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     handleBookingPayment(e: CustomEvent): void;

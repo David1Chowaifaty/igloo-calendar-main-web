@@ -43,6 +43,12 @@ export declare class IrBookingEditorDrawer {
     private didAdjustBlockedUnit;
     private originalBlockPayload?;
     componentWillLoad(): void;
+    /**
+     * BAR_BOOKING day-use bookings start "now" — seed the day-use arrival hour to one hour
+     * from the current time so the front-desk agent isn't picking it from scratch. Only fills
+     * an empty value, so it never clobbers a manual edit or an existing booking's hours.
+     */
+    private seedBarBookingDayUseFromHour;
     handleTicketChange(): void;
     handleBlockedUnitChange(newValue?: BlockedDatePayload): void;
     handleCheckInChange(): void;

@@ -1,22 +1,24 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-BYqrdgY9.js';
 import { H as HouseKeepingService, h as housekeeping_store, g as getDefaultProperties } from './housekeeping.service-C7mt9QTJ.js';
 import { c as calendar_data } from './calendar-data-DT3jrP3G.js';
-import { l as locales } from './locales.store-C9qsbKR0.js';
-import { B as BookingService } from './booking.store-gBD68At4.js';
-import { U as UserService } from './user.service-CpmMGjx4.js';
+import { t } from './t-CHttQIVe.js';
+import { B as BookingService } from './booking.store-COUFbkki.js';
+import { U as UserService } from './user.service-D5VLhpeK.js';
 import { C as CONSTANTS } from './constants-DI4DZmiQ.js';
 import { l as libExports } from './index-DeW5X45W.js';
 import './index-CimhgHoX.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-xt_aVEnI.js';
-import './utils-Ct-kEjIU.js';
+import './locales.store-BfROgg7a.js';
+import './IBooking-CTtD1rpE.js';
+import './utils-BShicg8f.js';
 import './moment-Mki5YqAR.js';
 import './booking.dto-DpE31yhG.js';
 import './type-D7rOPtKA.js';
-import './ir-date-BT3QqYg6.js';
-import './booking-BWlyZcY6.js';
-import './functions-DdLUcNoJ.js';
+import './ir-date-CLlijQNQ.js';
+import './language-observer-CHgzsZkY.js';
+import './booking-T-yPHlXj.js';
+import './functions-BMgKBA1N.js';
 import './commonSchemas-ByEkDTMV.js';
 
 const irHkUnassignedUnitsDrawerFormCss = () => `.sc-ir-hk-unassigned-units-drawer-form-h{display:block;min-width:20rem;--ir-root-active-color:#1e9ff2;--ir-root-inactive-color:#d2d2d2;text-align:start !important}table.sc-ir-hk-unassigned-units-drawer-form{width:100%}td.sc-ir-hk-unassigned-units-drawer-form{padding-top:3px;padding-bottom:3px}td.sc-ir-hk-unassigned-units-drawer-form:last-child{text-align:end}.title.sc-ir-hk-unassigned-units-drawer-form{min-width:230px !important}.ir-ps-1.sc-ir-hk-unassigned-units-drawer-form{padding-inline-start:0.25rem}`;
@@ -121,10 +123,10 @@ const IrHkUnassignedUnitsDrawerForm = class {
         });
     }
     render() {
-        return (h("form", { key: 'ed25407cbe9758a28c0629f9d28259739b8b4d83', id: this.formId, onSubmit: e => {
+        return (h("form", { key: 'e747f7f715662bb2c452cae91107694c02394882', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.assignUnits();
-            } }, h("table", { key: '4ede7ac9491ca3666c270ca02463b3c75ba4bcba' }, h("thead", { key: 'd0c46b78a45b4cb637d4e467bd0b063126cf4a9e' }, h("th", { key: '46db6d689bd45c8d6b9d5c6b49239e0ea8b1b2c5', class: "sr-only" }, locales.entries.Lcz_RoomName), h("th", { key: '41735792f475c4810b449ab6d0af452e31c3d614', class: "sr-only" }, locales.entries.Lcz_HousekeeperName), h("th", { key: '42c84f0cc48fdfe82c197e80e1ef10a09f73dec2', class: "sr-only" }, locales.entries.Lcz_Actions)), h("tbody", { key: 'e1ae26740c80b7b9a24cf3a8ba02937e66867465' }, this.renderRooms()))));
+            } }, h("table", { key: 'e04d03d87d991e0da976cf11893bdd9b35749938' }, h("thead", { key: 'de7f2a5638203b817039629b1a7dc4046d160a3d' }, h("th", { key: '6222119b98e072e128f7234b1258d1045fc4a541', class: "sr-only" }, t('Lcz_RoomName')), h("th", { key: '236fe46b894ca07701d46374b761fae2d43984ef', class: "sr-only" }, t('Lcz_HousekeeperName')), h("th", { key: 'bbbdd3aef496dcce86502f453910f5bc6a8f8065', class: "sr-only" }, t('Lcz_Actions'))), h("tbody", { key: 'd48b908c8872f83972f935ff9870184a2c7eb233' }, this.renderRooms()))));
     }
 };
 IrHkUnassignedUnitsDrawerForm.style = irHkUnassignedUnitsDrawerFormCss();
@@ -212,7 +214,7 @@ const IrHkUserDrawerForm = class {
                 return !(await new UserService().checkUserExistence({ UserName: name }));
             }
             return true;
-        }, { message: locales.entries.Lcz_UsernameAlreadyExists ?? 'Username already exists.' });
+        }, { message: t('Lcz_UsernameAlreadyExists', { fallback: 'Username already exists.' }) });
         this.passwordSchema = libExports.z
             .string()
             .nullable()
@@ -287,10 +289,10 @@ const IrHkUserDrawerForm = class {
         return (h("form", { id: this.formId, class: "hk-user-form", onSubmit: e => {
                 e.preventDefault();
                 this.addUser();
-            } }, h("ir-validator", { schema: nameSchema, value: this.userInfo.name, valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { label: locales.entries.Lcz_Name, value: this.userInfo.name, maxlength: 40, "onText-change": (e) => this.updateUserField('name', e.detail), "onInput-blur": this.handleNameBlur.bind(this) })), h("ir-validator", { schema: mobileSchema, value: this.userInfo.mobile, valueEvent: "mobile-input-change", showErrorMessage: true }, h("ir-mobile-input", { label: locales.entries.Lcz_Mobile, value: this.userInfo.mobile, countryCode: this.countryCode, countries: this.countries, "onMobile-input-change": e => {
+            } }, h("ir-validator", { schema: nameSchema, value: this.userInfo.name, valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { label: t('Lcz_Name'), value: this.userInfo.name, maxlength: 40, "onText-change": (e) => this.updateUserField('name', e.detail), "onInput-blur": this.handleNameBlur.bind(this) })), h("ir-validator", { schema: mobileSchema, value: this.userInfo.mobile, valueEvent: "mobile-input-change", showErrorMessage: true }, h("ir-mobile-input", { label: t('Lcz_Mobile'), value: this.userInfo.mobile, countryCode: this.countryCode, countries: this.countries, "onMobile-input-change": e => {
                 this.updateUserField('phone_prefix', e.detail.country.phone_prefix);
                 this.updateUserField('mobile', e.detail.value);
-            } })), h("wa-textarea", { "data-testid": "note", maxlength: 250, size: "s", label: locales.entries.Lcz_Note, value: this.userInfo.note, defaultValue: this.userInfo.note, onchange: e => this.updateUserField('note', e.target.value) }), h("ir-validator", { schema: this.usernameSchema, value: this.userInfo.username, valueEvent: "text-change", asyncValidation: true, showErrorMessage: true }, h("ir-input", { label: locales.entries.Lcz_Username, value: this.userInfo.username, "onText-change": (e) => this.updateUserField('username', e.detail) })), !this.user ? (h(Fragment, null, h("ir-validator", { schema: this.passwordSchema, value: this.userInfo.password, valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { label: locales.entries.Lcz_Password, value: this.userInfo.password, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => this.updateUserField('password', e.detail), onInputFocus: () => (this.showPasswordValidation = true) })), this.showPasswordValidation && h("ir-password-validator", { password: this.userInfo.password }))) : (h("wa-button", { size: "s", appearance: "plain", variant: "brand", type: "button", class: "hk-user-form__change-password-btn", onClick: () => (this.isChangingPassword = true) }, "Change Password"))));
+            } })), h("wa-textarea", { "data-testid": "note", maxlength: 250, size: "s", label: t('Lcz_Note'), value: this.userInfo.note, defaultValue: this.userInfo.note, onchange: e => this.updateUserField('note', e.target.value) }), h("ir-validator", { schema: this.usernameSchema, value: this.userInfo.username, valueEvent: "text-change", asyncValidation: true, showErrorMessage: true }, h("ir-input", { label: t('Lcz_Username'), value: this.userInfo.username, "onText-change": (e) => this.updateUserField('username', e.detail) })), !this.user ? (h(Fragment, null, h("ir-validator", { schema: this.passwordSchema, value: this.userInfo.password, valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { label: t('Lcz_Password'), value: this.userInfo.password, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => this.updateUserField('password', e.detail), onInputFocus: () => (this.showPasswordValidation = true) })), this.showPasswordValidation && h("ir-password-validator", { password: this.userInfo.password }))) : (h("wa-button", { size: "s", appearance: "plain", variant: "brand", type: "button", class: "hk-user-form__change-password-btn", onClick: () => (this.isChangingPassword = true) }, "Change Password"))));
     }
 };
 IrHkUserDrawerForm.style = irHkUserDrawerFormCss();

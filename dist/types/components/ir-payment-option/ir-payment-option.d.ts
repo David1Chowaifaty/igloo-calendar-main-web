@@ -14,7 +14,12 @@ export declare class IrPaymentOption {
     private ApiClient;
     private propertyOptionsById;
     private propertyOptionsByCode;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     ticketChanged(newValue: string, oldValue: string): void;
     init(): void;
     handleCloseModal(e: CustomEvent): void;

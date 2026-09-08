@@ -1,16 +1,18 @@
 import { r as registerInstance, c as createEvent, h } from './index-BYqrdgY9.js';
-import { B as BookingListingService, b as booking_listing } from './booking_listing.service-D-5wBYMM.js';
-import { l as locales } from './locales.store-C9qsbKR0.js';
+import { B as BookingListingService, b as booking_listing } from './booking_listing.service-B2QKcsGS.js';
 import { P as PaymentService } from './payment.service-D2gbn5FN.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { a as formatBookingNumber } from './number-CF5xh0GV.js';
+import { a as formatBookingNumber } from './number-5RTWeFsH.js';
+import { t } from './t-CHttQIVe.js';
 import './index-CimhgHoX.js';
 import './index-DeW5X45W.js';
-import './utils-Ct-kEjIU.js';
+import './utils-BShicg8f.js';
 import './calendar-data-DT3jrP3G.js';
 import './booking.dto-DpE31yhG.js';
 import './type-D7rOPtKA.js';
-import './ir-date-BT3QqYg6.js';
+import './ir-date-CLlijQNQ.js';
+import './locales.store-BfROgg7a.js';
+import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './axios-B50ozOIF.js';
 
@@ -113,27 +115,27 @@ const IrListingModal = class {
     }
     renderTitle() {
         if (this.editBooking.cause === 'payment') {
-            return locales.entries?.Lcz_MarkBookingAsPaid.replace('%1', this.editBooking.booking.booking_nbr);
+            return t('Lcz_MarkBookingAsPaid', { params: [this.editBooking.booking.booking_nbr] });
         }
         else {
             // if (this.deletionStage === 1) {
-            //   return locales.entries.Lcz_SureYouWantToDeleteBookingNbr + this.editBooking?.booking.booking_nbr;
+            //   return t('Lcz_SureYouWantToDeleteBookingNbr') + this.editBooking?.booking.booking_nbr;
             // }
-            // return locales.entries.Lcz_WantToRecoverAllotment;
-            return locales.entries.Lcz_SureYouWantToDeleteBookingNbr + formatBookingNumber(this.editBooking?.booking.booking_nbr);
+            // return t('Lcz_WantToRecoverAllotment');
+            return t('Lcz_SureYouWantToDeleteBookingNbr') + formatBookingNumber(this.editBooking?.booking.booking_nbr);
         }
     }
     renderConfirmationTitle() {
         // if (this.deletionStage === 2) {
-        //   return locales.entries.Lcz_RecoverAndDelete;
+        //   return t('Lcz_RecoverAndDelete');
         // }
-        return locales.entries.Lcz_Confirm;
+        return t('Lcz_Confirm');
     }
     renderCancellationTitle() {
         // if (this.deletionStage === 2) {
-        //   return locales.entries.Lcz_JustDelete;
+        //   return t('Lcz_JustDelete');
         // }
-        return locales.entries.Lcz_Cancel;
+        return t('Lcz_Cancel');
     }
     handleDropdownChange(e) {
         e.stopImmediatePropagation();

@@ -2,10 +2,13 @@ import ApiClient from "../../models/ApiClient";
 import { SetupService } from "../../services/setup/index";
 import { PropertyService } from "../../services/property.service";
 import { RoomService } from "../../services/room.service";
-import locales from "../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 import { v4 } from "uuid";
 import moment from "moment";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrDailyRevenue {
     language = '';
     ticket = '';
@@ -23,23 +26,34 @@ export class IrDailyRevenue {
         users: null,
     };
     sideBarEvent;
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     roomService = new RoomService();
     propertyService = new PropertyService();
     setupService = new SetupService();
     paymentEntries;
     preventPageLoad;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.dailyRevenue, () => this.initializeApp());
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.initializeApp();
     }
     handleOpenSidebar(e) {
@@ -74,18 +88,22 @@ export class IrDailyRevenue {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.setupService.getPaymentEntries(), this.getPaymentReports(), this.roomService.fetchLanguage(this.language)];
+            const requests = [
+                this.setupService.getPaymentEntries(),
+                this.getPaymentReports(),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.dailyRevenue }),
+            ];
             if (propertyId) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -177,7 +195,7 @@ export class IrDailyRevenue {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getPaymentReports(true);
-            } }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("ir-revenue-summary", { filters: this.filters, previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "revenue-content-row" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), h("ir-revenue-table", { filters: this.filters, class: "revenue-table-card", paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-booking-details-drawer", { open: Boolean(this.sideBarEvent), propertyId: this.property_id, bookingNumber: this.sideBarEvent?.payload?.bookingNumber?.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: e => this.handleSidebarClose(e) })));
+            } }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export')), h("ir-revenue-summary", { filters: this.filters, previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "revenue-content-row" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), h("ir-revenue-table", { filters: this.filters, class: "revenue-table-card", paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-booking-details-drawer", { open: Boolean(this.sideBarEvent), propertyId: this.property_id, bookingNumber: this.sideBarEvent?.payload?.bookingNumber?.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: e => this.handleSidebarClose(e) })));
     }
     static get is() { return "ir-daily-revenue"; }
     static get encapsulation() { return "scoped"; }
@@ -304,6 +322,9 @@ export class IrDailyRevenue {
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

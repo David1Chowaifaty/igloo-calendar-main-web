@@ -19,11 +19,16 @@ export declare class IrFiscalDocuments {
     private totalRows;
     /** Booking number whose details drawer is currently open. */
     private selectedBookingNumber;
-    private tokenService;
+    private apiClientService;
     private propertyService;
     private roomService;
     private setupService;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     /**
      * Page bootstrap: resolves the property id (from `propertyid`, or from the

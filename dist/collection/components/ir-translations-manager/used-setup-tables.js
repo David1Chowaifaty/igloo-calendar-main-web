@@ -8,14 +8,13 @@
  *
  *   - `SetupService.getSetupEntriesByTableName(...)`
  *   - `SetupService.getSetupEntriesByTableNameMulti([...])`
- *   - `RoomService.fetchLanguage(code, [...sections])` — including its
- *     `_PMS_FRONT` default when the second argument is omitted
  *
- * plus the members of the `TableEntries` union in
- * `src/services/setup/types.ts`, which is the declared contract for those
- * same getters.
+ * plus every locale table in `SCREEN_TABLES` and `BASE_TABLES`
+ * (`src/services/locale/screen-tables.ts`), which is where the `Get_Exposed_Language`
+ * sections now live, and the members of the `TableEntries` union in
+ * `src/services/setup/types.ts`, the declared contract for those same getters.
  *
- *   grep -rnE "getSetupEntriesByTable(Name|NameMulti)|fetchLanguage" src
+ *   grep -rnE "getSetupEntriesByTable(Name|NameMulti)" src
  */
 export const USED_SETUP_TABLES = [
     '_AGENT_RATE_TYPE',

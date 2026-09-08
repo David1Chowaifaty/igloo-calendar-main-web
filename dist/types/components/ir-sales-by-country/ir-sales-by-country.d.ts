@@ -15,7 +15,12 @@ export declare class IrSalesByCountry {
     private propertyService;
     private bookingService;
     private baseFilters;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     ticketChanged(newValue: string, oldValue: string): void;
     private initializeApp;
     private getCountrySales;

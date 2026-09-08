@@ -21,7 +21,6 @@ export declare class IrResetPassword {
     private ApiClient;
     private authService;
     private systemService;
-    private roomService;
     private initialized;
     componentWillLoad(): void;
     componentDidLoad(): void;

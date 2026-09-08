@@ -29,6 +29,12 @@ export class IrBookingDetailsDrawer {
      */
     bookingNumber;
     /**
+     * When set, the booking-details view auto-opens the check-out dialog for the room with
+     * this identifier once the booking loads. Used to route early check-outs triggered from
+     * other screens (departures list, calendar) through the full booking details.
+     */
+    checkoutRoomIdentifier;
+    /**
      * Emitted when the booking details drawer is closed.
      */
     bookingDetailsDrawerClosed;
@@ -47,14 +53,14 @@ export class IrBookingDetailsDrawer {
         this.bookingDetailsDrawerClosed.emit();
     };
     render() {
-        return (h("ir-drawer", { key: '501200a7e274c5f8079b6a872207c9b471dd5f13', onDrawerHide: this.handleClose, withoutHeader: true, open: this.open, style: {
+        return (h("ir-drawer", { key: '7dc99210dac0395e57eb833decee8373c0caf05e', onDrawerHide: this.handleClose, withoutHeader: true, open: this.open, style: {
                 '--ir-drawer-width': '100rem',
                 '--ir-drawer-background-color': 'var(--ir-color-muted-background,#f2f3f8)',
                 '--ir-drawer-padding-left': '0',
                 '--ir-drawer-padding-right': '0',
                 '--ir-drawer-padding-top': '0',
                 '--ir-drawer-padding-bottom': '0',
-            } }, this.open && (h("ir-booking-details", { key: '2fc95393db4754fab180a80cc81f096fc23a2943', hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: this.handleClose, is_from_front_desk: true, propertyid: this.propertyId, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }))));
+            } }, this.open && (h("ir-booking-details", { key: '7f22fa69102f4a327dab177deaf6d94aeefe228f', hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: this.handleClose, is_from_front_desk: true, propertyid: this.propertyId, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.bookingNumber.toString(), ticket: this.ticket, language: this.language, checkoutRoomIdentifier: this.checkoutRoomIdentifier, hasRoomAdd: true }))));
     }
     static get is() { return "ir-booking-details-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -165,6 +171,25 @@ export class IrBookingDetailsDrawer {
                 "setter": false,
                 "reflect": false,
                 "attribute": "booking-number"
+            },
+            "checkoutRoomIdentifier": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "When set, the booking-details view auto-opens the check-out dialog for the room with\nthis identifier once the booking loads. Used to route early check-outs triggered from\nother screens (departures list, calendar) through the full booking details."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "checkout-room-identifier"
             }
         };
     }

@@ -19,21 +19,21 @@ export class IrGhsOnboarding {
     propertyToActivate = null;
     ghsService = new GHSService();
     bookingService = new BookingService();
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     removeAllModal;
     activateModal;
     ticketChanged(newValue) {
         if (newValue) {
-            this.tokenService.setApiClient(newValue);
+            this.apiClientService.setApiClient(newValue);
             this.init();
         }
     }
     async componentWillLoad() {
         if (this.baseurl) {
-            this.tokenService.setBaseUrl(this.baseurl);
+            this.apiClientService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             await this.init();
         }
     }

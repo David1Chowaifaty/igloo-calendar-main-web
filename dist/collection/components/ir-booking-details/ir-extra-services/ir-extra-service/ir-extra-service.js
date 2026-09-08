@@ -1,7 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { formatAmount } from "../../../../utils/utils";
 import { getEntryValue } from "../../../../services/setup/index";
-import locales from "../../../../stores/locales.store";
 import { BookingService } from "../../../../services/booking-service/booking.service";
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import { _formatTime, isAgentMode } from "../../functions";
@@ -9,6 +8,8 @@ import calendar_data from "../../../../stores/calendar-data";
 import { mapClTxToFolioRow } from "../../../ir-city-ledger/ir-city-ledger-folio/types";
 import { SvcCategory } from "../../../../types/enums";
 import { formatDate } from "../../../../utils/date/index";
+import { LocaleController } from "../../../../services/locale/locale.controller";
+import { t } from "../../../../services/locale/t";
 export class IrExtraService {
     service;
     booking;
@@ -61,7 +62,7 @@ export class IrExtraService {
     }
     get categoryLabel() {
         const category = this.category;
-        return category ? getEntryValue({ entry: category, language: this.language }) : null;
+        return category ? getEntryValue({ entry: category, language: LocaleController.language }) : null;
     }
     get description() {
         const categoryLabel = this.categoryLabel;
@@ -100,8 +101,8 @@ export class IrExtraService {
         const statusTag = tx ? h("ir-cl-status-tag", { transaction: { _rowId: '', ...mapClTxToFolioRow(tx), balance: 0 }, size: "extra-small" }) : null;
         const unitName = this.linkedUnitName;
         const hasMeta = !!(this.service.start_date || unitName || statusTag);
-        return (h(Host, { key: '2495b89e4d13aa9324646aa8f4a639b12b29957b' }, h("div", { key: '0dc74497f928e3db28702bb70b458e2560a5bac8', class: "es-row" }, h("div", { key: '9a21925ec764650b1aa86d6d24e0aa61439fc84d', class: "es-content" }, h("p", { key: 'f9f354fcdd115fe2383f5cad8af42e5f599be2b2', class: "es-description" }, this.description, this.service.category.code === SvcCategory.DayUse && (h("span", { key: 'c198e5fc259c40522d2da454ccd0d060406e55fb' }, ": ", this.formatDayUseTime(this.service.from_time), " \u2013 ", this.formatDayUseTime(this.service.to_time)))), hasMeta && (h("div", { key: '91cd86694055150060509fa0bf9e121b3cf17271', class: "es-meta" }, this.service.start_date &&
-            (this.service.end_date && this.service?.category?.code !== SvcCategory.DayUse ? (h("ir-date-view", { class: "es-meta-date", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (h("span", { class: "es-meta-date" }, formatDate(new Date(this.service.start_date), 'MMM DD, YYYY'), " "))), unitName && h("ir-unit-tag", { key: '267a8a1362aa1ecbb59647f1041f837418d3d9a1', unit: unitName }), statusTag))), h("div", { key: 'b9ae6e706835d54988742ab39842304c4f34f3b3', class: "es-aside" }, !!this.service.price && this.service.price > 0 && (h("div", { key: '2d09b92bbde28b645e5fcdae5534d4aa68ab5488', class: "es-pricing" }, h("p", { key: 'cdc9d8518d3d3b6ff4d323e877b332b72c20da54', class: "es-price" }, formatAmount(this.currencySymbol, this.service.price)), !!this.service.charges?.vat_percent && h("p", { key: 'fd624bd6b999f18042bb57367100baf01d5ad21c', class: "es-vat" }, "incl. ", this.service.charges.vat_percent, "% VAT"))), h("wa-dropdown", { key: 'f1584a7bb3bd6591868a1d77b3845fb0c6423331', "onwa-show": e => {
+        return (h(Host, { key: '9a81836da955b09632cc4ec6a3c92d4367c667ea' }, h("div", { key: '66c8271b0a1447fe5ff6d53ee4ad64eb8ef4bd06', class: "es-row" }, h("div", { key: 'a2a4e09e43dece257a1fa014fd774c23c59bba56', class: "es-content" }, h("p", { key: '490caf5e4219545798581a998544e765533c3e12', class: "es-description" }, this.description, this.service.category.code === SvcCategory.DayUse && (h("span", { key: '8ace01b77e318ce01cdd5bcab943735ce07cece2' }, ": ", this.formatDayUseTime(this.service.from_time), " \u2013 ", this.formatDayUseTime(this.service.to_time)))), hasMeta && (h("div", { key: '8a89fb3d5ae4fb9a7fc5918dfbeb39d2a7b9a213', class: "es-meta" }, this.service.start_date &&
+            (this.service.end_date && this.service?.category?.code !== SvcCategory.DayUse ? (h("ir-date-view", { class: "es-meta-date", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (h("span", { class: "es-meta-date" }, formatDate(new Date(this.service.start_date), 'MMM DD, YYYY'), " "))), unitName && h("ir-unit-tag", { key: '4186de4da42d5459601cfef17a6e2a8d9979369e', unit: unitName }), statusTag))), h("div", { key: '8cdfd95923792f116c6ae5f00a6925bbbbd83d17', class: "es-aside" }, !!this.service.price && this.service.price > 0 && (h("div", { key: '8a7ff774e4084242ddff386222cbc74141501b07', class: "es-pricing" }, h("p", { key: '7ebd555820edec89513d2ef79f8af156d1578dc0', class: "es-price" }, formatAmount(this.currencySymbol, this.service.price)), !!this.service.charges?.vat_percent && h("p", { key: '1c8cd7aee9f1cac0f847f164dfc52319f5ccb429', class: "es-vat" }, "incl. ", this.service.charges.vat_percent, "% VAT"))), h("wa-dropdown", { key: '213e18065f3a9f7c2cb71c334fce067c7032c20b', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-hide": e => {
@@ -119,10 +120,10 @@ export class IrExtraService {
                         this.toggleDialogRef.openModal();
                         break;
                 }
-            } }, h("wa-button", { key: '8e5f9b6d5e650bff18fba5f539ecac35eb893a6e', class: "es-action-trigger", slot: "trigger", size: "s", appearance: "plain", id: `extra-service-actions-${this.service.system_id}`, variant: "neutral", "aria-label": "Service actions" }, h("wa-icon", { key: '771a3aab2cfab9730e06711a4dd914dac186871a', class: "es-action-trigger-icon", name: "ellipsis-vertical" })), h("wa-dropdown-item", { key: '335124d7a96dd861d65e681b03a6af992fcb764a', value: "edit" }, "Edit"), agentMode && h("wa-dropdown-item", { key: '90a2f244b72b5519a41e7c3be7dded302fc6cf9d', value: "toggle" }, "Re-assign to ", this.service.agent ? 'guest' : 'agent', " folio"), h("wa-dropdown-item", { key: '5e91a0e920771b17d6da27b8766651ad278035b3', value: "delete", variant: "danger" }, "Delete")))), h("ir-assignment-toggle-dialog", { key: '4f0c75df5c2dc791af9f292d41e0f0bd65102015', ref: el => (this.toggleDialogRef = el), loading: this.isToggling, message: `Switch "${this.service.description}" to ${this.service.agent ? 'guest' : (this.booking?.agent?.name ?? 'agent')}?`, onConfirmToggle: () => this.toggleServiceAgent() }, h("span", { key: 'eda9cc48f9f815384d343f0c4cdd795afde701da', slot: "message" }, "Re-assign ", this.description, " ", h("br", { key: '63f1fdeedfc23236604ba27d1f789f5455db07e5' }), " from ", this.service.agent ? 'Agent' : 'Guest', " folio to ", h("b", { key: '5dfba7dbc24ce850dfee0ab8600963db26c006ec' }, this.service.agent ? 'Guest' : 'Agent', " folio"), ".")), h("ir-dialog", { key: 'f21dc31e20afb209eb0c020bbe6867bb509ff90c', onIrDialogHide: e => {
+            } }, h("wa-button", { key: 'a18adcc6bbbf9c657b81725da99c30d19316b175', class: "es-action-trigger", slot: "trigger", size: "s", appearance: "plain", id: `extra-service-actions-${this.service.system_id}`, variant: "neutral", "aria-label": "Service actions" }, h("wa-icon", { key: '403617a31ad521c53d938187062e46f01ffe9c25', class: "es-action-trigger-icon", name: "ellipsis-vertical" })), h("wa-dropdown-item", { key: '173e79eee3be8895306393ac35f0fb954c6234b1', value: "edit" }, "Edit"), agentMode && h("wa-dropdown-item", { key: '3896492342f1f8b4caa09efba2d370c1e327753d', value: "toggle" }, "Re-assign to ", this.service.agent ? 'guest' : 'agent', " folio"), h("wa-dropdown-item", { key: '7306360e1786a9af64de497a1c9b769e902d73af', value: "delete", variant: "danger" }, "Delete")))), h("ir-assignment-toggle-dialog", { key: '689c5ce9be00271bee87fae906136814df7449f9', ref: el => (this.toggleDialogRef = el), loading: this.isToggling, message: `Switch "${this.service.description}" to ${this.service.agent ? 'guest' : (this.booking?.agent?.name ?? 'agent')}?`, onConfirmToggle: () => this.toggleServiceAgent() }, h("span", { key: '3710ee541d53a5e5da5f54b8059f34439147f949', slot: "message" }, "Re-assign ", this.description, " ", h("br", { key: '050a4d46acfef6de90c17f3cd291bb306d273272' }), " from ", this.service.agent ? 'Agent' : 'Guest', " folio to ", h("b", { key: 'bfd7ef0dc79100e6a0794840211eac33cc7df3b1' }, this.service.agent ? 'Guest' : 'Agent', " folio"), ".")), h("ir-dialog", { key: 'fba6dc50f945e8859c9e2794120f2eadf783bc66', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, label: "Alert", ref: el => (this.irModalRef = el), lightDismiss: false }, `${locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales.entries.Lcz_ThisService} ${locales.entries.Lcz_FromThisBooking}`, h("div", { key: '25be12065ec1ea22bc52144abb9258ab35111ae8', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'ccb1baea0cc0c93fbc3b97d05dc939b7f44d85cd', appearance: "filled", variant: "neutral", size: "m", "data-dialog": "close" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '475dab7c159b0dc19842477dc7a4ac8312ac7524', onClickHandler: () => this.deleteService(), loading: isRequestPending('/Do_Booking_Extra_Service'), variant: "danger", size: "m" }, locales.entries.Lcz_Delete)))));
+            }, label: "Alert", ref: el => (this.irModalRef = el), lightDismiss: false }, `${t('Lcz_AreYouSureDoYouWantToRemove ')} ${t('Lcz_ThisService')} ${t('Lcz_FromThisBooking')}`, h("div", { key: '22f6714440ebc7f85987babec4db4567f4e2fbc6', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '7951d8823deed72bfdd77dc3486695913267ebdc', appearance: "filled", variant: "neutral", size: "m", "data-dialog": "close" }, t('Lcz_Cancel')), h("ir-custom-button", { key: '3a52a0d9a1db0535cc63552ed211617c6026bfe4', onClickHandler: () => this.deleteService(), loading: isRequestPending('/Do_Booking_Extra_Service'), variant: "danger", size: "m" }, t('Lcz_Delete'))))));
     }
     static get is() { return "ir-extra-service"; }
     static get encapsulation() { return "scoped"; }
@@ -272,14 +273,14 @@ export class IrExtraService {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "IEntries[]",
-                    "resolved": "IEntries[]",
+                    "original": "SetupEntries[]",
+                    "resolved": "SetupEntries[]",
                     "references": {
-                        "IEntries": {
+                        "SetupEntries": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::IEntries",
-                            "referenceLocation": "IEntries"
+                            "id": "src/models/property.ts::SetupEntries",
+                            "referenceLocation": "SetupEntries"
                         }
                     }
                 },

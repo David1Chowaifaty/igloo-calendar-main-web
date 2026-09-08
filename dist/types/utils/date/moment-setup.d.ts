@@ -1,4 +1,3 @@
-import momentHijri from 'moment-hijri';
 import 'moment/locale/ar';
 import 'moment/locale/ar-dz';
 import 'moment/locale/ar-kw';
@@ -14,6 +13,7 @@ import 'moment/locale/he';
 import 'moment/locale/pl';
 import 'moment/locale/ru';
 import 'moment/locale/uk';
+import momentHijri from 'moment-hijri';
 /**
  * Idempotently applies the Arabic Hijri month tables to every Arabic variant and pins moment's
  * global locale to `'en'`.

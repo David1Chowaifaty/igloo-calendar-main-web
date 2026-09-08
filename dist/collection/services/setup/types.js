@@ -1,9 +1,9 @@
-import { ZIEntrySchema } from "../../models/IBooking";
+import { SetupEntrySchema } from "../../models/IBooking";
 import * as z from "zod";
 // ---------------------------------------------------------------------------
 // Shared entry shape
 // ---------------------------------------------------------------------------
-export { ZIEntrySchema };
+export { SetupEntrySchema };
 // ---------------------------------------------------------------------------
 // Get_Distinct_Setup_Tables
 // ---------------------------------------------------------------------------

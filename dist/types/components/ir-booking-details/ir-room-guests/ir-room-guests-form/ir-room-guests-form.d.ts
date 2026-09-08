@@ -1,6 +1,6 @@
 import { SharedPerson } from "../../../../models/booking.dto";
 import { EventEmitter } from '../../../../stencil-public-runtime';
-import { ICountry, IEntries } from "../../../../models/IBooking";
+import { ICountry, SetupEntries } from "../../../../models/IBooking";
 export declare class IrRoomGuestsForm {
     /**
      * The name of the room currently being displayed.
@@ -14,7 +14,7 @@ export declare class IrRoomGuestsForm {
     identifier: string;
     /**
      * An array of people sharing the room.
-     * Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+     * Contains information about the {t('Lcz_MainGuest')} and additional guests, such as their name, date of birth, {t('Lcz_Nationality')}, and ID details.
      */
     sharedPersons: SharedPerson[];
     /**
@@ -24,7 +24,7 @@ export declare class IrRoomGuestsForm {
     totalGuests: number;
     /**
      * A list of available countries.
-     * Used to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests.
+     * Used to populate dropdowns for selecting the {t('Lcz_Nationality')} of guests.
      */
     countries: ICountry[];
     /**
@@ -43,7 +43,7 @@ export declare class IrRoomGuestsForm {
      */
     bookingNumber: string;
     guests: SharedPerson[];
-    idTypes: IEntries[];
+    idTypes: SetupEntries[];
     error: Record<string, boolean>;
     isLoading: boolean;
     propertyCountry: ICountry;

@@ -1,22 +1,25 @@
 'use strict';
 
 var index = require('./index-P5Mginch.js');
-var booking_store = require('./booking.store-SmjvQvnY.js');
-var room_service = require('./room.service-Dv4u9Qiq.js');
-var locales_store = require('./locales.store-v9LoZcAK.js');
+var booking_store = require('./booking.store-CblXsXc-.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var irInterceptor_store = require('./ir-interceptor.store-BGTJSCIh.js');
-var utils = require('./utils-5rzlNNGQ.js');
+var utils = require('./utils-ENyYs-bV.js');
+var locale_controller = require('./locale.controller-CKBsRfx_.js');
+var languageSync = require('./language-sync-gAmPX9Gh.js');
+var t = require('./t-BpMDZfdy.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./IBooking-BtFRLVyo.js');
+require('./IBooking-BT0vyd3Z.js');
 require('./index-CLqkDPTC.js');
-require('./booking-DAw6VPzA.js');
+require('./booking-BrmwKLh-.js');
 require('./moment-CdViwxPQ.js');
 require('./index-BLJXadKe.js');
 require('./calendar-data-BjlxOXi1.js');
-require('./functions-CVUndUSp.js');
-require('./ir-date-CUot5M4p.js');
+require('./functions-YMou4oXJ.js');
+require('./ir-date-DUrZBFOV.js');
+require('./locales.store-DIYxw5lk.js');
+require('./language-observer-DKp37LIu.js');
 require('./commonSchemas-hgXVqmtC.js');
 require('./booking.dto-kenLHU-o.js');
 require('./type-Dy9pVS4V.js');
@@ -45,14 +48,24 @@ const GuestInfo = class {
     closeSideBar;
     resetBookingEvt;
     bookingService = new booking_store.BookingService();
-    roomService = new room_service.RoomService();
     ApiClient = new ApiClient.ApiClient();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.guestInfo, () => this.init());
     async componentWillLoad() {
         if (this.ticket) {
             this.ApiClient.setApiClient(this.ticket);
         }
         if (!!this.ApiClient.getToken())
             this.init();
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -65,16 +78,11 @@ const GuestInfo = class {
         try {
             console.log('first');
             this.isLoading = true;
-            const [guest, countries, fetchedLocales] = await Promise.all([
+            const [guest, countries] = await Promise.all([
                 this.bookingService.fetchGuest(this.email),
-                this.bookingService.getCountries(this.language),
-                !locales_store.locales || !locales_store.locales.entries || Object.keys(locales_store.locales.entries).length === 0 ? this.roomService.fetchLanguage(this.language) : Promise.resolve(null), // Skip fetching if locales are already set
+                this.bookingService.getCountries(locale_controller.LocaleController.language),
+                locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.guestInfo }),
             ]);
-            // Set the fetched locales if they were fetched
-            if (fetchedLocales) {
-                locales_store.locales.entries = fetchedLocales.entries;
-                locales_store.locales.direction = fetchedLocales.direction;
-            }
             // Assign the fetched guest and countries
             this.countries = countries;
             this.guest = { ...guest, mobile: guest.mobile_without_prefix };
@@ -116,15 +124,15 @@ const GuestInfo = class {
         return (index.h("form", { class: 'p-0 sheet-container', onSubmit: async (e) => {
                 e.preventDefault();
                 await this.editGuest();
-            } }, !this.isInSideBar && [index.h("ir-toast", null), index.h("ir-interceptor", null)], this.headerShown && index.h("ir-title", { class: "px-1 sheet-header", displayContext: "sidebar", label: locales_store.locales.entries.Lcz_GuestDetails }), index.h("div", { class: this.isInSideBar ? 'sheet-body' : 'card-content collapse show ' }, index.h("div", { class: this.headerShown ? 'card-body px-1 pt-0' : 'pt-0' }, index.h("ir-input-text", { autoValidate: this.autoValidate, label: locales_store.locales.entries?.Lcz_FirstName, name: "firstName",
+            } }, !this.isInSideBar && [index.h("ir-toast", null), index.h("ir-interceptor", null)], this.headerShown && index.h("ir-title", { class: "px-1 sheet-header", displayContext: "sidebar", label: t.t('Lcz_GuestDetails') }), index.h("div", { class: this.isInSideBar ? 'sheet-body' : 'card-content collapse show ' }, index.h("div", { class: this.headerShown ? 'card-body px-1 pt-0' : 'pt-0' }, index.h("ir-input-text", { autoValidate: this.autoValidate, label: t.t('Lcz_FirstName'), name: "firstName",
             // submitted={this.submit}
-            value: this.guest?.first_name, required: true, onTextChange: e => this.handleInputChange({ first_name: e.detail }) }), index.h("ir-input-text", { autoValidate: this.autoValidate, label: locales_store.locales.entries?.Lcz_LastName, name: "lastName",
+            value: this.guest?.first_name, required: true, onTextChange: e => this.handleInputChange({ first_name: e.detail }) }), index.h("ir-input-text", { autoValidate: this.autoValidate, label: t.t('Lcz_LastName'), name: "lastName",
             // submitted={this.submit}
-            value: this.guest?.last_name, required: true, onTextChange: e => this.handleInputChange({ last_name: e.detail }) }), index.h("ir-input-text", { label: locales_store.locales.entries?.Lcz_Email, name: "email",
+            value: this.guest?.last_name, required: true, onTextChange: e => this.handleInputChange({ last_name: e.detail }) }), index.h("ir-input-text", { label: t.t('Lcz_Email'), name: "email",
             // submitted={this.submit}
-            value: this.guest?.email, required: true, onTextChange: e => this.handleInputChange({ email: e.detail }) }), index.h("ir-input-text", { label: locales_store.locales.entries?.Lcz_AlternativeEmail, name: "altEmail", value: this.guest?.alternative_email, onTextChange: e => this.handleInputChange({ alternative_email: e.detail }) }), index.h("ir-country-picker", {
+            value: this.guest?.email, required: true, onTextChange: e => this.handleInputChange({ email: e.detail }) }), index.h("ir-input-text", { label: t.t('Lcz_AlternativeEmail'), name: "altEmail", value: this.guest?.alternative_email, onTextChange: e => this.handleInputChange({ alternative_email: e.detail }) }), index.h("ir-country-picker", {
             // error={this.submit && !this.guest.country_id}
-            country: this.countries.find(c => c.id === this.guest.country_id), label: locales_store.locales.entries?.Lcz_Country, onCountryChange: e => this.handleInputChange({ country_id: e.detail.id }), countries: this.countries
+            country: this.countries.find(c => c.id === this.guest.country_id), label: t.t('Lcz_Country'), onCountryChange: e => this.handleInputChange({ country_id: e.detail.id }), countries: this.countries
         }), index.h("ir-phone-input", { onTextChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
@@ -134,9 +142,12 @@ const GuestInfo = class {
                 }
                 if (phone_prefix !== this.guest.country_phone_prefix)
                     this.handleInputChange({ country_phone_prefix: phone_prefix });
-            }, phone_prefix: this.guest.country_phone_prefix, value: this.guest.mobile, language: this.language, label: locales_store.locales.entries?.Lcz_MobilePhone, countries: this.countries }), index.h("div", { class: "mb-2" }, index.h("ir-textarea", { variant: "prepend", onTextChange: e => this.handleInputChange({ notes: e.detail }), value: this.guest?.notes, label: locales_store.locales.entries?.Lcz_PrivateNote })), index.h("div", { class: 'p-0 m-0' }, index.h("label", { class: `check-container m-0 p-0` }, index.h("input", { class: 'm-0 p-0', type: "checkbox", name: "newsletter", checked: this.guest.subscribe_to_news_letter, onInput: e => this.handleInputChange({ subscribe_to_news_letter: e.target.checked }) }), index.h("span", { class: "checkmark m-0 p-0" }), index.h("span", { class: 'm-0 p-0  check-label' }, locales_store.locales.entries.Lcz_Newsletter)), !this.isInSideBar && (index.h(index.Fragment, null, index.h("hr", null), index.h("ir-button", { btn_styles: "d-flex align-items-center justify-content-center", text: locales_store.locales.entries.Lcz_Save, onClickHandler: this.editGuest.bind(this), isLoading: irInterceptor_store.isRequestPending('/Edit_Exposed_Guest'), color: "btn-primary" })))))), this.isInSideBar && (index.h("div", { class: 'sheet-footer' }, index.h("ir-button", { "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill m-0 p-0", btn_styles: "w-100 m-0  justify-content-center align-items-center", btn_color: "secondary", text: locales_store.locales.entries.Lcz_Cancel }), index.h("ir-button", { "data-testid": "save", isLoading: irInterceptor_store.isRequestPending('/Edit_Exposed_Guest'), btn_disabled: this.isLoading, class: "flex-fill m-0", btn_type: "submit", btn_styles: "w-100 m-0  justify-content-center align-items-center", text: locales_store.locales.entries.Lcz_Save })))));
+            }, phone_prefix: this.guest.country_phone_prefix, value: this.guest.mobile, language: this.language, label: t.t('Lcz_MobilePhone'), countries: this.countries }), index.h("div", { class: "mb-2" }, index.h("ir-textarea", { variant: "prepend", onTextChange: e => this.handleInputChange({ notes: e.detail }), value: this.guest?.notes, label: t.t('Lcz_PrivateNote') })), index.h("div", { class: 'p-0 m-0' }, index.h("label", { class: `check-container m-0 p-0` }, index.h("input", { class: 'm-0 p-0', type: "checkbox", name: "newsletter", checked: this.guest.subscribe_to_news_letter, onInput: e => this.handleInputChange({ subscribe_to_news_letter: e.target.checked }) }), index.h("span", { class: "checkmark m-0 p-0" }), index.h("span", { class: 'm-0 p-0  check-label' }, t.t('Lcz_Newsletter'))), !this.isInSideBar && (index.h(index.Fragment, null, index.h("hr", null), index.h("ir-button", { btn_styles: "d-flex align-items-center justify-content-center", text: t.t('Lcz_Save'), onClickHandler: this.editGuest.bind(this), isLoading: irInterceptor_store.isRequestPending('/Edit_Exposed_Guest'), color: "btn-primary" })))))), this.isInSideBar && (index.h("div", { class: 'sheet-footer' }, index.h("ir-button", { "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill m-0 p-0", btn_styles: "w-100 m-0  justify-content-center align-items-center", btn_color: "secondary", text: t.t('Lcz_Cancel') }), index.h("ir-button", { "data-testid": "save", isLoading: irInterceptor_store.isRequestPending('/Edit_Exposed_Guest'), btn_disabled: this.isLoading, class: "flex-fill m-0", btn_type: "submit", btn_styles: "w-100 m-0  justify-content-center align-items-center", text: t.t('Lcz_Save') })))));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "ticketChanged": 0
             }]

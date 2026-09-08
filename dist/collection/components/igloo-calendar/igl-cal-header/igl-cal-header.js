@@ -5,6 +5,7 @@ import moment from "moment";
 import locales from "../../../stores/locales.store";
 import { handleUnAssignedDatesChange } from "../../../stores/unassigned_dates.store";
 import { isRtlDirection } from "../../../utils/calendar-grid";
+import { t } from "../../../services/locale/t";
 export class IglCalHeader {
     optionEvent;
     gotoRoomEvent;
@@ -107,7 +108,7 @@ export class IglCalHeader {
             FROM_DATE: from_date, // "2023-07-09",
             TO_DATE: to_date, // "2023-07-11",
             roomsInfo: this.calendarData.roomsInfo,
-            TITLE: locales.entries.Lcz_NewBooking,
+            TITLE: t('Lcz_NewBooking'),
             event_type: 'PLUS_BOOKING',
             legendData: this.calendarData.formattedLegendData,
             defaultDateRange: {
@@ -146,7 +147,7 @@ export class IglCalHeader {
         }, 100);
     };
     render() {
-        return (h(Host, { key: '79470177e74e9faf393399b21670857652d95036', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("igl-cal-header-toolbar", { key: 'f26d21bf80c5fdce2891f6b907551f8e512eb992', isVacationRental: this.calendarData.is_vacation_rental, showDayUseButton: !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0, minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), roomsList: this.roomsList, onActionSelected: this.handleToolbarAction, onRoomSelected: this.handleRoomSelected }), h("igl-cal-header-days", { key: 'f87f1cd22fc5e367153fc493bb758cc95d70d15d', isVacationRental: this.calendarData.is_vacation_rental, today: this.today, highlightedDate: this.highlightedDate, monthsInfo: this.calendarData.monthsInfo, days: this.calendarData.days, unassignedRoomsNumber: { ...this.unassignedRoomsNumber }, onDayBadgeClicked: this.handleDayBadgeClicked })));
+        return (h(Host, { key: 'e0b4d8ffe6a6cd191ba95f74aa2433be2af73932', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("igl-cal-header-toolbar", { key: 'e2be7fcaa8a6e6492c5778ab092aef8199b9719d', isVacationRental: this.calendarData.is_vacation_rental, showDayUseButton: !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0, minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), roomsList: this.roomsList, onActionSelected: this.handleToolbarAction, onRoomSelected: this.handleRoomSelected }), h("igl-cal-header-days", { key: 'e99500050eb08c4db3b475195e4bf9266664ba40', isVacationRental: this.calendarData.is_vacation_rental, today: this.today, highlightedDate: this.highlightedDate, monthsInfo: this.calendarData.monthsInfo, days: this.calendarData.days, unassignedRoomsNumber: { ...this.unassignedRoomsNumber }, onDayBadgeClicked: this.handleDayBadgeClicked })));
     }
     static get is() { return "igl-cal-header"; }
     static get encapsulation() { return "scoped"; }

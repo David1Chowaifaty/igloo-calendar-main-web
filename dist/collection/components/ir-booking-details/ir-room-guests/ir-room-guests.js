@@ -1,12 +1,18 @@
 import { h } from "@stencil/core";
-import locales from "../../../stores/locales.store";
+import { t } from "../../../services/locale/t";
 export class IrRoomGuests {
     open;
     /**
-     * The name of the room currently being displayed.
-     * Used to label the room in the user interface for clarity.
+     * The name of the unit (physical room) currently assigned.
+     * Used to label the room in the user interface for clarity. When empty, the room has no
+     * assigned unit and {@link roomType} is displayed instead.
      */
     roomName;
+    /**
+     * The room type name.
+     * Displayed as a fallback label when the room has no assigned unit ({@link roomName} is empty).
+     */
+    roomType;
     /**
      * A unique identifier for the room.
      * This is used to distinguish between rooms, especially when performing operations like saving or checking in guests.
@@ -14,7 +20,7 @@ export class IrRoomGuests {
     identifier;
     /**
      * An array of people sharing the room.
-     * Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+     * Contains information about the {t('Lcz_MainGuest')} and additional guests, such as their name, date of birth, {t('Lcz_Nationality')}, and ID details.
      */
     sharedPersons = [];
     /**
@@ -24,7 +30,7 @@ export class IrRoomGuests {
     totalGuests = 0;
     /**
      * A list of available countries.
-     * Used to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests.
+     * Used to populate dropdowns for selecting the {t('Lcz_Nationality')} of guests.
      */
     countries;
     /**
@@ -45,22 +51,22 @@ export class IrRoomGuests {
     closeModal;
     isLoading;
     render() {
-        return (h("ir-drawer", { key: '7ea2f676e32bf0705df6b5492deb666d3305738d', style: {
+        return (h("ir-drawer", { key: '7ea49a3d69807ac69c4d64e1386a319233cd7f3c', style: {
                 '--ir-drawer-width': '60rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, label: this.roomName ? `Room ${this.roomName}` : 'Guest Details', open: this.open, onDrawerHide: e => {
+            }, label: this.roomName ? `Room ${this.roomName}` : this.roomType || 'Guest Details', open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-room-guests-form", { key: 'e1af0a5424f1bdab1d86cfcecb33027623a35bbc', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language, onLoadingChange: e => {
+            } }, this.open && (h("ir-room-guests-form", { key: 'e80f6d166e0b681eecc61c0405fb133370a87735', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language, onLoadingChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail;
-            } })), h("div", { key: '99bf1d380ece49b37ca817869a84c975bcd0e174', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '351a68b068b4f2b8f84abc8b8de2c69a1608b0ec', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Save'), h("ir-custom-button", { key: 'eba9b88a9d7cc2861925c8992fcbb7cb78af030a', value: "save", loading: this.isLoading === 'save', size: "m", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, locales?.entries?.Lcz_Save ?? 'Save'), this.checkIn && (h("ir-custom-button", { key: '8b9e1e8749e42461f030f9971ef13d38bc2cc321', value: "save_checkin", loading: this.isLoading === 'save_checkin', size: "m", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, locales.entries?.Lcz_CheckIn ?? 'Check in')))));
+            } })), h("div", { key: 'c5032cbf39835f8ecff34a0717af72d2fb90029f', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '535256cd26e642c4c9c5b3a516fd9251571b0686', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Save' })), h("ir-custom-button", { key: '107461da704b1a126afcac7bb63a380d39b45358', value: "save", loading: this.isLoading === 'save', size: "m", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })), this.checkIn && this.roomName && (h("ir-custom-button", { key: 'cc68485564116d5a1113a89ca65d64df8d8bb518', value: "save_checkin", loading: this.isLoading === 'save_checkin', size: "m", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, t('Lcz_CheckIn', { fallback: 'Check in' }))))));
     }
     static get is() { return "ir-room-guests"; }
     static get encapsulation() { return "scoped"; }
@@ -107,12 +113,31 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The name of the room currently being displayed.\nUsed to label the room in the user interface for clarity."
+                    "text": "The name of the unit (physical room) currently assigned.\nUsed to label the room in the user interface for clarity. When empty, the room has no\nassigned unit and {@link roomType} is displayed instead."
                 },
                 "getter": false,
                 "setter": false,
                 "reflect": false,
                 "attribute": "room-name"
+            },
+            "roomType": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "The room type name.\nDisplayed as a fallback label when the room has no assigned unit ({@link roomName} is empty)."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "room-type"
             },
             "identifier": {
                 "type": "string",
@@ -152,7 +177,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "An array of people sharing the room.\nContains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details."
+                    "text": "An array of people sharing the room.\nContains information about the {t('Lcz_MainGuest')} and additional guests, such as their name, date of birth, {t('Lcz_Nationality')}, and ID details."
                 },
                 "getter": false,
                 "setter": false,
@@ -197,7 +222,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A list of available countries.\nUsed to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests."
+                    "text": "A list of available countries.\nUsed to populate dropdowns for selecting the {t('Lcz_Nationality')} of guests."
                 },
                 "getter": false,
                 "setter": false

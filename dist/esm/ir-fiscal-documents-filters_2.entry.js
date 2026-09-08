@@ -3,24 +3,27 @@ import { F as FdTypes } from './enums-CSCQSgBu.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { l as libExports } from './index-DeW5X45W.js';
 import { A as AgentsService } from './agents.service-CfKXQqnt.js';
-import { B as BookingService } from './booking.store-gBD68At4.js';
+import { B as BookingService } from './booking.store-COUFbkki.js';
 import { i as isRequestPending } from './ir-interceptor.store-CyWfUv6a.js';
 import { c as calendar_data } from './calendar-data-DT3jrP3G.js';
-import './locales.store-C9qsbKR0.js';
 import './booking.dto-DpE31yhG.js';
-import { f as formatDate } from './ir-date-BT3QqYg6.js';
-import { f as formatAmount } from './number-CF5xh0GV.js';
-import { d as getEntryValue } from './utils-DbzivNBs.js';
+import { f as formatDate } from './ir-date-CLlijQNQ.js';
+import './locales.store-BfROgg7a.js';
+import { f as formatAmount } from './number-5RTWeFsH.js';
+import { d as getEntryValue } from './utils-B8rKUEZL.js';
 import { c as createColumnHelper, u as useTable, f as flexRender, a as getSortedRowModel, g as getCoreRowModel } from './useTable-CXkYMQoa.js';
-import { _ as _formatTime } from './functions-DdLUcNoJ.js';
+import { _ as _formatTime } from './functions-BMgKBA1N.js';
+import { L as LocaleController } from './locale.controller-T2RUHTRA.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './type-D7rOPtKA.js';
-import './IBooking-xt_aVEnI.js';
-import './utils-Ct-kEjIU.js';
-import './booking-BWlyZcY6.js';
+import './IBooking-CTtD1rpE.js';
+import './utils-BShicg8f.js';
+import './t-CHttQIVe.js';
+import './booking-T-yPHlXj.js';
 import './index-CimhgHoX.js';
 import './commonSchemas-ByEkDTMV.js';
+import './language-observer-CHgzsZkY.js';
 
 const irFiscalDocumentsFiltersCss = () => `.sc-ir-fiscal-documents-filters-h{display:block}.filters-bar.sc-ir-fiscal-documents-filters{display:flex;flex-direction:column;align-items:stretch;gap:0.75rem}.filters-bar__dates.sc-ir-fiscal-documents-filters{display:flex;align-items:center;width:100%}.filters-bar__date_picker.sc-ir-fiscal-documents-filters{width:100%}.filters-bar__search-group.sc-ir-fiscal-documents-filters{display:flex;flex-direction:column;gap:0.75rem;width:100%}.filters-bar__type-group.sc-ir-fiscal-documents-filters{display:flex;flex-wrap:wrap;align-items:center;gap:0.75rem;width:100%}.filters-bar__status-select.sc-ir-fiscal-documents-filters{flex:1 1 140px;min-width:0}.filters-bar__tax-switch.sc-ir-fiscal-documents-filters{flex:0 0 auto;white-space:nowrap}.filters-bar__proforma-switch.sc-ir-fiscal-documents-filters{flex:0 0 auto;white-space:nowrap}.filters-bar__folio-select.sc-ir-fiscal-documents-filters{width:100%}.filters-bar__search-actions.sc-ir-fiscal-documents-filters{display:flex;align-items:center;gap:0.5rem;width:100%}.filters-bar__search-input.sc-ir-fiscal-documents-filters{flex:1 1 auto;min-width:0}.filters-bar__search-submit.sc-ir-fiscal-documents-filters{flex:0 0 auto}.filters-bar__search-icon.sc-ir-fiscal-documents-filters{font-size:0.875rem;color:var(--wa-color-text-quiet, #9ca3af);flex-shrink:0}.filters-bar__search-combo.sc-ir-fiscal-documents-filters{display:flex;align-items:stretch;flex:1 1 auto;min-width:0}.filters-bar__combo-input.sc-ir-fiscal-documents-filters{flex:1 1 auto;min-width:0;position:relative;z-index:0;--wa-form-control-border-radius:var(--wa-border-radius-m, 0.375rem) 0 0 var(--wa-border-radius-m, 0.375rem)}.filters-bar__combo-input.sc-ir-fiscal-documents-filters:focus-within{z-index:2}.filters-bar__combo-select.sc-ir-fiscal-documents-filters{flex:0 0 auto;width:12rem;--wa-form-control-border-radius:0 var(--wa-border-radius-m, 0.375rem) var(--wa-border-radius-m, 0.375rem) 0;margin-inline-start:-1px}.sc-ir-fiscal-documents-filters:dir(rtl) .filters-bar__combo-input.sc-ir-fiscal-documents-filters,[dir='rtl'].sc-ir-fiscal-documents-filters .filters-bar__combo-input.sc-ir-fiscal-documents-filters{--wa-form-control-border-radius:0 var(--wa-border-radius-m, 0.375rem) var(--wa-border-radius-m, 0.375rem) 0}.sc-ir-fiscal-documents-filters:dir(rtl) .filters-bar__combo-select.sc-ir-fiscal-documents-filters,[dir='rtl'].sc-ir-fiscal-documents-filters .filters-bar__combo-select.sc-ir-fiscal-documents-filters{--wa-form-control-border-radius:var(--wa-border-radius-m, 0.375rem) 0 0 var(--wa-border-radius-m, 0.375rem)}@media (min-width: 640px){.filters-bar__search-group.sc-ir-fiscal-documents-filters{flex-direction:row;flex-wrap:wrap;align-items:center}.filters-bar__type-group.sc-ir-fiscal-documents-filters{width:auto}.filters-bar__status-select.sc-ir-fiscal-documents-filters{flex:0 1 180px;min-width:160px}.filters-bar__folio-select.sc-ir-fiscal-documents-filters{flex:1 1 220px;width:auto}.filters-bar__search-actions.sc-ir-fiscal-documents-filters{flex:1 1 260px;width:auto}.filters-bar__search-actions--wide.sc-ir-fiscal-documents-filters{flex-basis:400px}}@media (min-width: 1024px){.filters-bar__search-group.sc-ir-fiscal-documents-filters{flex-wrap:nowrap}.filters-bar__type-group.sc-ir-fiscal-documents-filters{width:auto;flex:1 1 auto}.filters-bar__type-group.sc-ir-fiscal-documents-filters{flex:0 0 auto;flex-wrap:nowrap}.filters-bar__folio-select.sc-ir-fiscal-documents-filters{flex:0 1 220px}.filters-bar__search-actions.sc-ir-fiscal-documents-filters{flex:1 1 auto;max-width:320px}.filters-bar__search-actions--wide.sc-ir-fiscal-documents-filters{max-width:480px}}@media (min-width: 1280px){.filters-bar.sc-ir-fiscal-documents-filters{flex-direction:row;flex-wrap:wrap;align-items:center}.filters-bar__search-combo.sc-ir-fiscal-documents-filters{flex:auto}.filters-bar__dates.sc-ir-fiscal-documents-filters{width:auto;flex:0 0 auto;min-width:280px}.filters-bar__search-group.sc-ir-fiscal-documents-filters{flex:1;width:auto}}`;
 
@@ -135,26 +138,26 @@ const IrFiscalDocumentsFilters = class {
         this.updateDraft({ guestId: guest.id });
     }
     render() {
-        return (h("form", { key: '6da36c4a8bb05425da733d9a9cbec75d94eb1d9f', onSubmit: e => {
+        return (h("form", { key: '2dc16554795e1ebca46a871231c7952c6ea63938', onSubmit: e => {
                 e.preventDefault();
                 const submitter = e.submitter;
                 this.applyFilters.emit({ ...this.draft, export: submitter?.value === 'export' });
-            } }, h("div", { key: 'e4dc51850de0f7206df9d18e918da57a35673699', class: "filters-bar" }, h("ir-validator", { key: '2481753c43df8bfe4269520d687403e454a6791f', value: this.draft?.fromDate || this.draft?.toDate, schema: libExports.z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: 'b9d3ce805f1a1775f9837227fd35bb4d9a7c9a63', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.draft.fromDate, toDate: this.draft.toDate, onDatesChanged: e => {
+            } }, h("div", { key: '15d7fba581a1db39716ca64848c1cb6ef18a1e90', class: "filters-bar" }, h("ir-validator", { key: '278cd9c6c8e3eb501e929b2ed76b25dfff6b8357', value: this.draft?.fromDate || this.draft?.toDate, schema: libExports.z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: 'd45980f0e9b50d1d29ba3de7f2fd9685f078a4fa', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.draft.fromDate, toDate: this.draft.toDate, onDatesChanged: e => {
                 this.updateDraft({ fromDate: e.detail.from, toDate: e.detail.to });
                 this.filterChanged.emit({ ...this.draft, fromDate: e.detail.from, toDate: e.detail.to });
-            } })), h("div", { key: '5fd8098be02fd527a778d130e8a17a0271f7d3aa', class: "filters-bar__search-group" }, h("div", { key: '20042e71f92533e8a3f2c010cebb929a4307e93a', class: "filters-bar__type-group" }, h("wa-select", { key: 'bb9541f8968286ce2f8a4013f8bb225b15efcb92', class: "filters-bar__status-select", value: this.draft.type, defaultValue: this.draft.type, onchange: e => this.updateDraft({ type: e.target.value }), size: "s", placeholder: "Document Type" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-select", { key: '61f23ff32b608dba064a5f5b85cd4324828daa6c', class: "filters-bar__status-select", value: this.draft.folioType, defaultValue: this.draft.folioType, onchange: e => this.handleFolioTypeChange(e.target.value), size: "s", placeholder: "Folios" }, this.folioOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label))))), this.draft.folioType === 'agent' && (h("ir-autocomplete", { key: 'f507fc815f4495a407bc281f4b58308c27b6469e', class: "filters-bar__folio-select", size: "s", placeholder: "Select agent", withExpandIcon: true, value: this.draft.agentId ? (this.agents.find(a => a.id === this.draft.agentId)?.name ?? '') : ALL_AGENTS_LABEL, "onText-change": (e) => {
+            } })), h("div", { key: '30ca8d78f6b9854eb01f55b7d411f85a6f6e18b0', class: "filters-bar__search-group" }, h("div", { key: '95a6334806ecd982c670227f62eeccefbcf94bc7', class: "filters-bar__type-group" }, h("wa-select", { key: 'ef495503b31231959bc06b666dce67aa2c4f22a7', class: "filters-bar__status-select", value: this.draft.type, defaultValue: this.draft.type, onchange: e => this.updateDraft({ type: e.target.value }), size: "s", placeholder: "Document Type" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-select", { key: '8379492035a6921ff45976fe33f1e6b647c27b2d', class: "filters-bar__status-select", value: this.draft.folioType, defaultValue: this.draft.folioType, onchange: e => this.handleFolioTypeChange(e.target.value), size: "s", placeholder: "Folios" }, this.folioOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label))))), this.draft.folioType === 'agent' && (h("ir-autocomplete", { key: 'cc4726b9b3fd22f6d3493f20f580a7831a787c3e', class: "filters-bar__folio-select", size: "s", placeholder: "Select agent", withExpandIcon: true, value: this.draft.agentId ? (this.agents.find(a => a.id === this.draft.agentId)?.name ?? '') : ALL_AGENTS_LABEL, "onText-change": (e) => {
                 this.agentSearch = e.detail ?? '';
             }, "onCombobox-change": (e) => {
                 this.agentSearch = '';
                 const value = e.detail;
                 this.updateDraft({ agentId: value && value !== ALL_AGENTS_VALUE ? Number(value) : null });
-            } }, h("ir-autocomplete-option", { key: 'a4f770984176b4fd721c7b23524000567088dde5', label: ALL_AGENTS_LABEL, value: ALL_AGENTS_VALUE }, ALL_AGENTS_LABEL), this.filteredAgents.map(agent => (h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name))))), this.draft.folioType === 'guest' && (h("ir-picker", { key: '8f368bd9a57816023d74e17c4574dbb01e943a68', class: "filters-bar__folio-select", size: "s", placeholder: "Customer email or name", withClear: true, mode: "select-async", debounce: 500, loading: isRequestPending('/Fetch_Exposed_Guests'), "onText-change": event => this.fetchGuests(event.detail), "onCombobox-select": this.handleGuestSelect.bind(this), "onCombobox-clear": () => {
+            } }, h("ir-autocomplete-option", { key: 'f8dc5ea6c79b058063485b72251ba06e72198a66', label: ALL_AGENTS_LABEL, value: ALL_AGENTS_VALUE }, ALL_AGENTS_LABEL), this.filteredAgents.map(agent => (h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name))))), this.draft.folioType === 'guest' && (h("ir-picker", { key: 'e49cff0898f7522a3f30baa1a09c9d0ba0c3bb5d', class: "filters-bar__folio-select", size: "s", placeholder: "Customer email or name", withClear: true, mode: "select-async", debounce: 500, loading: isRequestPending('/Fetch_Exposed_Guests'), "onText-change": event => this.fetchGuests(event.detail), "onCombobox-select": this.handleGuestSelect.bind(this), "onCombobox-clear": () => {
                 this.updateDraft({ guestId: null });
                 this.applyFilters.emit(this.draft);
             } }, this.guests?.map(guest => {
             const label = `${guest.email} - ${guest.first_name} ${guest.last_name}`;
             return (h("ir-picker-item", { label: label, value: guest.id?.toString(), key: guest.id }, label));
-        }))), h("div", { key: '56c17a466efaf8aac1dfed56fd2fc05430644a82', class: `filters-bar__search-actions${this.draft.folioType === 'guest' ? ' filters-bar__search-actions--wide' : ''}` }, h("div", { key: 'bd2d1df8e2248c55bfb3a2c4450cf51fb32dfce3', class: "filters-bar__search-combo" }, h("ir-input", { key: '824e5054bc222dd20c981632f5d3935db2e9c6e3', class: `filters-bar__search-input${this.draft.folioType === 'guest' ? ' filters-bar__combo-input' : ''}`, placeholder: this.searchPlaceholder, value: this.draft.docNumber, "onText-change": e => {
+        }))), h("div", { key: '9ed32e8f51b2f01998eb265ac73d5dd9a0653c0d', class: `filters-bar__search-actions${this.draft.folioType === 'guest' ? ' filters-bar__search-actions--wide' : ''}` }, h("div", { key: '375e6c1fb6bc1b8649148baa947062569a8e9a20', class: "filters-bar__search-combo" }, h("ir-input", { key: 'ed081c9f649b35f0440a13824dcdfc6ba06b816c', class: `filters-bar__search-input${this.draft.folioType === 'guest' ? ' filters-bar__combo-input' : ''}`, placeholder: this.searchPlaceholder, value: this.draft.docNumber, "onText-change": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateDraft({ docNumber: e.detail });
@@ -162,7 +165,7 @@ const IrFiscalDocumentsFilters = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.applyFilters.emit({ ...this.draft, docNumber: '' });
-            } }, h("wa-icon", { key: '5baaa25def31fcac3c9c65999b90f8ab6f72b29b', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), this.draft.folioType === 'guest' && (h("wa-select", { key: '587d9afe96499df3164ae066b4d46f831d85da3b', class: "filters-bar__combo-select", size: "s", value: this.draft.searchBy, defaultValue: this.draft.searchBy, onchange: e => this.updateDraft({ searchBy: e.target.value }) }, h("wa-option", { key: 'c9b2656f391c8750ef688be0b5ac4386d11d4ff6', value: "doc_nbr" }, "Document number"), h("wa-option", { key: '24e46d8cb612d3a5dd9532789818a80b6f1dc343', value: "booking_nbr" }, "Booking number")))), h("wa-tooltip", { key: 'b81f1466397ff45ab9d3cea65bda69fae346a0a9', for: "search-btn" }, "Search"), h("ir-custom-button", { key: '61c7596c23f4756f76d01243e877d4bc40aa12e4', id: "search-btn", loading: this.loading === 'search', class: "filters-bar__search-submit", value: "search", variant: "neutral", appearance: "outlined", type: "submit" }, h("wa-icon", { key: '9f130e6b0efe5e48761be878d5513bde8eeff29e', name: "magnifying-glass" })), h("wa-tooltip", { key: '472c6eb40eab72c97983e4d2cf7ebb6545e6cae1', for: "excel-btn" }, 'Export to excel'), h("ir-custom-button", { key: '4db3fda632466aa46f236828621d102bccdab390', disabled: !(this.draft?.fromDate || this.draft?.toDate), id: "excel-btn", variant: "neutral", loading: this.loading === 'export', appearance: "outlined", type: "submit", value: "export" }, h("wa-icon", { key: 'b77412b4b47bc7bad477f997dd05b628daf95d09', name: "file-excel", variant: "regular" })))))));
+            } }, h("wa-icon", { key: '339037f64a14bb8bdb51f2521ba34e03b941a393', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), this.draft.folioType === 'guest' && (h("wa-select", { key: '0443b4ad37ce68d4b7161db557bc02320a0b221e', class: "filters-bar__combo-select", size: "s", value: this.draft.searchBy, defaultValue: this.draft.searchBy, onchange: e => this.updateDraft({ searchBy: e.target.value }) }, h("wa-option", { key: '5d26a994be727820085fdf876bdbb8d034b0b219', value: "doc_nbr" }, "Document number"), h("wa-option", { key: '39233b4f585876dd359c563cb3a16848d3cad292', value: "booking_nbr" }, "Booking number")))), h("wa-tooltip", { key: 'ce2073921019e4c9b56ddc796d0a8727f0ad4867', for: "search-btn" }, "Search"), h("ir-custom-button", { key: '32235ed14fa9f8c6eeb06bfe0e10f5843fa5d72d', id: "search-btn", loading: this.loading === 'search', class: "filters-bar__search-submit", value: "search", variant: "neutral", appearance: "outlined", type: "submit" }, h("wa-icon", { key: '057092485e5bd7abf799ace1af4ae081b4a6aa3a', name: "magnifying-glass" })), h("wa-tooltip", { key: '0f39fa665fc372293a5bc5894eba3ee7247cd701', for: "excel-btn" }, 'Export to excel'), h("ir-custom-button", { key: 'c092afee278d004a0bd5f40211d81628b957d507', disabled: !(this.draft?.fromDate || this.draft?.toDate), id: "excel-btn", variant: "neutral", loading: this.loading === 'export', appearance: "outlined", type: "submit", value: "export" }, h("wa-icon", { key: 'd5a2526b2a46d8a21a417e403e9308b792bf2c2b', name: "file-excel", variant: "regular" })))))));
     }
     static get watchers() { return {
         "filters": [{
@@ -250,7 +253,7 @@ const IrFiscalDocumentsTable = class {
     get fdTypeLabels() {
         const map = {};
         for (const entry of this.fdTypes ?? []) {
-            map[entry.CODE_NAME] = getEntryValue({ entry, language: this.language });
+            map[entry.CODE_NAME] = getEntryValue({ entry, language: LocaleController.language });
         }
         return map;
     }

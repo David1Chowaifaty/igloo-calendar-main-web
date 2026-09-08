@@ -17,6 +17,8 @@ export declare class IrCheckoutDialog {
     isEarlyCheckout: boolean;
     remainingDays: Day[];
     penaltyAmount: number;
+    /** Upper bound + pre-fill for the cancellation penalty. Kept in sync with `detectEarlyCheckout` so the masked input isn't clamped below its own pre-filled value. */
+    penaltyMax: number;
     agent: Agent;
     paymentEntries: PaymentEntries;
     includeInvoice: boolean;
@@ -33,6 +35,7 @@ export declare class IrCheckoutDialog {
     private formatAmount;
     private checkoutRoom;
     handleOpenChange(newValue: boolean, oldValue: boolean): void;
+    componentDidLoad(): void;
     private get missingClSummary();
     private init;
     private detectEarlyCheckout;

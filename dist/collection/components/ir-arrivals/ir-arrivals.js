@@ -5,6 +5,9 @@ import { RoomService } from "../../services/room.service";
 import { Host, h } from "@stencil/core";
 import { arrivalsStore, initializeArrivalsStore, onArrivalsStoreChange, setArrivalsPage, setArrivalsPageSize, setArrivalsTotal } from "../../stores/arrivals.store";
 import calendar_data from "../../stores/calendar-data";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 export class IrArrivals {
     /**
      * Authentication ApiClient issued by the PMS backend.
@@ -39,14 +42,16 @@ export class IrArrivals {
     payment;
     roomGuestState = null;
     countries;
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     roomService = new RoomService();
     bookingService = new BookingService();
     setupService = new SetupService();
     paymentFolioRef;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.arrivals, () => this.init());
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
         setArrivalsPageSize(this.pageSize);
@@ -54,13 +59,22 @@ export class IrArrivals {
             this.getBookings();
         });
     }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
+    }
     handlePageSizeChange(newValue, oldValue) {
         if (newValue !== oldValue)
             setArrivalsPageSize(newValue);
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue && newValue) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -99,19 +113,24 @@ export class IrArrivals {
                 await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                 });
             }
             const [_, __, countries, paymentEntries] = await Promise.all([
-                calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
-                this.roomService.fetchLanguage(this.language),
-                this.bookingService.getCountries(this.language),
+                calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: LocaleController.language, aname: this.p }),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.arrivals }),
+                this.bookingService.getCountries(LocaleController.language),
                 this.setupService.getPaymentEntries(),
                 this.getBookings(),
             ]);
             this.countries = countries;
             this.paymentEntries = paymentEntries;
+            this.countries = countries;
+            // Fetch bookings only after the property/calendar data is loaded — the arrivals
+            // pipeline (canCheckIn) reads `calendar_data.property`, which is null until the
+            // getExposedProperty calls above resolve.
+            await this.getBookings();
         }
         catch (error) {
         }
@@ -304,6 +323,9 @@ export class IrArrivals {
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "pageSize",
                 "methodName": "handlePageSizeChange"
             }, {

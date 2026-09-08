@@ -1,4 +1,4 @@
-import type { IEntries, ISetupEntries } from "../../models/IBooking";
+import type { SetupEntries, ISetupEntries } from "../../models/IBooking";
 import type { EntryLanguage, GroupedTableEntries } from './types';
 /**
  * Normalises any raw language string — a `@Prop() language`, `<html lang>`, the
@@ -14,7 +14,7 @@ export declare function toEntryLanguage(language?: string | null): EntryLanguage
  * 2. `CODE_VALUE_EN` — English fallback.
  * 3. `CODE_NAME` — last-resort fallback when both are absent.
  *
- * @param entry - The `IEntries` object to translate.
+ * @param entry - The `SetupEntries` object to translate.
  * @param language - Language code, any case (e.g. `"fr"`, `"AR"`). Defaults to `"en"`.
  *
  * @example
@@ -22,7 +22,7 @@ export declare function toEntryLanguage(language?: string | null): EntryLanguage
  * // → "Petit-déjeuner" (falls back to "Breakfast" if French is null)
  */
 export declare function getEntryValue({ entry, language }: {
-    entry: IEntries;
+    entry: SetupEntries;
     language?: string;
 }): string;
 /**
@@ -33,14 +33,14 @@ export declare function getEntryValue({ entry, language }: {
  * reads a store-proxied value, calling this in a component `render()` makes the
  * component re-render automatically when the user switches language.
  */
-export declare function getSetupEntryLabel(entry: IEntries, language?: string): string;
+export declare function getSetupEntryLabel(entry: SetupEntries, language?: string): string;
 /**
  * Groups a flat setup-entry list by table. The key is the lower-cased `TBL_NAME`
  * with its leading underscore stripped (`_PAY_TYPE` -> `pay_type`). Null-safe:
  * entries without a `TBL_NAME` are skipped, and names without a leading `_` are
  * tolerated.
  */
-export declare function groupEntryTablesResult(entries: IEntries[]): GroupedTableEntries;
+export declare function groupEntryTablesResult(entries: SetupEntries[]): GroupedTableEntries;
 /**
  * Maps the arrival-time / rate-pricing-mode / bed-preference groups of a
  * {@link groupEntryTablesResult} output to the {@link ISetupEntries} shape the

@@ -15,7 +15,12 @@ export declare class IrChannel {
     private ApiClient;
     private irModalRef;
     propertyId: number;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     handleConfirmClicked(e: CustomEvent): Promise<void>;
     openModal(): void;
     refreshChannels(): Promise<void>;

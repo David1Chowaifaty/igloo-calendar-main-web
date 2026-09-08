@@ -1,21 +1,24 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-BYqrdgY9.js';
-import { C as CityLedgerService } from './index-CZpp4toz.js';
-import { P as PropertyService } from './index-B4QXVOb6.js';
+import { C as CityLedgerService } from './index-CGZ54oy0.js';
+import { P as PropertyService } from './index-3RLQQcxw.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import './calendar-data-DT3jrP3G.js';
-import './locales.store-C9qsbKR0.js';
 import './booking.dto-DpE31yhG.js';
-import './ir-date-BT3QqYg6.js';
-import { f as formatAmount } from './number-CF5xh0GV.js';
+import './ir-date-CLlijQNQ.js';
+import './locales.store-BfROgg7a.js';
+import { f as formatAmount } from './number-5RTWeFsH.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { F as FdTypes } from './enums-CSCQSgBu.js';
+import { L as LocaleController } from './locale.controller-T2RUHTRA.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './index-DeW5X45W.js';
-import './utils-Ct-kEjIU.js';
+import './utils-BShicg8f.js';
+import './t-CHttQIVe.js';
 import './commonSchemas-ByEkDTMV.js';
 import './index-CimhgHoX.js';
 import './type-D7rOPtKA.js';
+import './language-observer-CHgzsZkY.js';
 
 const irClStatementPreviewCss = () => `.cl-table{width:100%;border-collapse:collapse;font-size:0.8125rem;table-layout:auto}.cl-th{padding:0.5rem 0.75rem;text-align:start;font-size:0.75rem;font-weight:600;text-transform:capitalize;color:#374151;border-top:2px solid #111827;border-bottom:1px solid #111827;white-space:nowrap}.cl-th--num{text-align:end}.cl-td{padding:0.45rem 0.75rem;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:middle}.cl-td--num{text-align:end;font-variant-numeric:tabular-nums;white-space:nowrap}.cl-td--muted{color:#6b7280}.cl-td--bold{font-weight:700;color:#111827}.cl-td--nowrap{white-space:nowrap}.cl-td--empty{text-align:center;color:#6b7280;padding:1.5rem 0.75rem;font-style:italic}.cl-balance-row td{background:#f3f4f6;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-weight:600;color:#111827;padding-top:0.5rem;padding-bottom:0.5rem}@media print{.cl-table{font-size:0.75rem}.cl-th,.cl-td{padding:0.35rem 0.5rem}.cl-td--muted,.cl-td--empty{color:#374151}.cl-balance-row td{-webkit-print-color-adjust:exact;print-color-adjust:exact}.cl-balance-row{page-break-inside:avoid}}:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:960px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.statement-period{display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;padding:0.5rem 0.75rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:4px;font-size:0.8125rem}.statement-period__label{font-weight:600;color:#374151}.statement-period__value{color:#374151}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}`;
 
@@ -39,7 +42,7 @@ const IrClStatementPreview = class {
     statement = null;
     fiscalDocuments = [];
     clPreviewReady;
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     propertyService = new PropertyService();
     cityLedgerService = new CityLedgerService();
     hasEmitted = false;
@@ -49,8 +52,8 @@ const IrClStatementPreview = class {
             return;
         }
         if (this.baseurl)
-            this.tokenService.setBaseUrl(this.baseurl);
-        this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setBaseUrl(this.baseurl);
+        this.apiClientService.setApiClient(this.ticket);
         return this.fetchData();
     }
     componentDidRender() {
@@ -66,7 +69,7 @@ const IrClStatementPreview = class {
         this.error = null;
         try {
             const [propertyData, statement, fiscalDocuments] = await Promise.all([
-                this.propertyService.getExposedProperty({ id: this.propertyId, language: 'en' }),
+                this.propertyService.getExposedProperty({ id: this.propertyId, language: LocaleController.language }),
                 this.cityLedgerService.getCLStatement({
                     AGENCY_ID: this.agentId,
                     CURRENCY_ID: this.currencyId,

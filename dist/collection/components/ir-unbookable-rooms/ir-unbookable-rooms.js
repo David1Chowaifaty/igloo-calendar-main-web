@@ -17,7 +17,7 @@ export class IrUnbookableRooms {
     progressFilters = { period_to_check: 2, consecutive_period: 14 };
     lastUpdatedLabel = '';
     isPageLoading = true;
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     propertyService = new PropertyService();
     componentWillLoad() {
         this.filters = {
@@ -26,7 +26,7 @@ export class IrUnbookableRooms {
             consecutive_period: this.normalizePositiveNumber(this.consecutive_period, 14),
         };
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -34,7 +34,7 @@ export class IrUnbookableRooms {
         if (newValue === oldValue) {
             return;
         }
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.initializeApp();
     }
     modeChanged(newValue, oldValue) {

@@ -5,6 +5,9 @@ import { RoomService } from "../../services/room.service";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { showToast } from "../../utils/utils";
 import { Host, h } from "@stencil/core";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 const DEFAULT_RULE_CODE = '000';
 const DEFAULT_LOOKAHEAD_DAYS = 30;
 export class IrGapNights {
@@ -19,19 +22,30 @@ export class IrGapNights {
     gapRules = [];
     gapRanges = [];
     propertyId;
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     roomService = new RoomService();
     propertyService = new PropertyService();
     setupService = new SetupService();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.gapNights, () => this.init());
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
+    }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.tokenService.setApiClient(newValue);
+            this.apiClientService.setApiClient(newValue);
             this.init();
         }
     }
@@ -50,10 +64,10 @@ export class IrGapNights {
                 this.roomService.getExposedProperty({
                     id: this.propertyid ?? 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                 }),
-                this.roomService.fetchLanguage(this.language),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.gapNights }),
                 this.setupService.getSetupEntriesByTableNameMulti(['_GAP_RANGE', '_GAP_RULE']),
             ]);
             this.propertyId = propertyRes.My_Result.id;
@@ -208,6 +222,9 @@ export class IrGapNights {
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "handleTicketChange"
             }, {

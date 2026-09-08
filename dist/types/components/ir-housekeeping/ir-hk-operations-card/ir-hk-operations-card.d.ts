@@ -1,6 +1,6 @@
-import { IEntries } from "../../../models/IBooking";
+import { SetupEntries } from "../../../models/IBooking";
 export declare class IrHkOperationsCard {
-    frequencies: IEntries[];
+    frequencies: SetupEntries[];
     hkTasks: Array<{
         name: string;
         frequency: string;

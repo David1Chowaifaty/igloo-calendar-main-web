@@ -3,7 +3,7 @@ import { MealReportService } from "../../services/meal-report/meal-report.servic
 import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
 import ApiClient from "../../models/ApiClient";
 import moment from "moment";
-import locales from "../../stores/locales.store";
+import { t } from "../../services/locale/t";
 import axios from "axios";
 export class IrMealReport {
     ticket;
@@ -25,19 +25,19 @@ export class IrMealReport {
     };
     mealReportService = new MealReportService();
     setupService = new SetupService();
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     ticketChanged(newValue) {
         if (newValue) {
-            this.tokenService.setApiClient(newValue);
+            this.apiClientService.setApiClient(newValue);
             this.init();
         }
     }
     componentWillLoad() {
         if (this.baseurl) {
-            this.tokenService.setBaseUrl(this.baseurl);
+            this.apiClientService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -152,7 +152,6 @@ export class IrMealReport {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        const lcz = locales.entries || {};
         // const summary = this.mealCountSummary || [];
         // const sum = (key: keyof MealCountDaySummary) => summary.reduce((acc, day) => acc + (Number(day[key]) || 0), 0);
         // const mealMetrics = [
@@ -167,7 +166,7 @@ export class IrMealReport {
                     ev.stopPropagation();
                 }
                 this.handleExport();
-            }, class: "ir-meal-report__export-btn" }, h("wa-icon", { name: "download", slot: "start", style: { fontSize: '14px' } }), lcz.Lcz_Export || 'Export'), h("div", { class: "ir-meal-report__layout" }, h("ir-meal-report-filters", { reportType: this.localReportType, fromDate: this.localFrom, toDate: this.localTo, mealType: this.localMealType, setupEntries: this.setupEntries, isLoading: this.isDataLoading, lcz: lcz, onReportTypeChange: e => {
+            }, class: "ir-meal-report__export-btn" }, h("wa-icon", { name: "download", slot: "start", style: { fontSize: '14px' } }), t('Lcz_Export', { fallback: 'Export' })), h("div", { class: "ir-meal-report__layout" }, h("ir-meal-report-filters", { reportType: this.localReportType, fromDate: this.localFrom, toDate: this.localTo, mealType: this.localMealType, setupEntries: this.setupEntries, isLoading: this.isDataLoading, onReportTypeChange: e => {
                 this.localReportType = e.detail;
                 this.applyFilters();
                 if (e.detail === 'GUEST_LIST') {

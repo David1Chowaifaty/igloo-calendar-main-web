@@ -11,7 +11,7 @@ export const validReasons = new Set([
     'CHANGE_IN_BOOK_STATUS',
     'NON_TECHNICAL_CHANGE_IN_BOOKING',
 ]);
-export const ZIEntrySchema = z
+export const SetupEntrySchema = z
     .object({
     CODE_NAME: z.string(),
     CODE_VALUE_AR: z.string().nullable(),

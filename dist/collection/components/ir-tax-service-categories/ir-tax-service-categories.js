@@ -8,6 +8,7 @@ import { showToast } from "../../utils/utils";
 import { extraServicesCategories } from "../../services/extra-services/index";
 import { toAccChargeRule, findAccTax } from "../../services/property/acc-tax.helpers";
 import { getTopLevelSvcCategories } from "../../utils/svc-category.utils";
+import { LocaleController } from "../../services/locale/locale.controller";
 export class IrTaxServiceCategories {
     ticket;
     p;
@@ -18,12 +19,12 @@ export class IrTaxServiceCategories {
     chargeCategoryRules = new Map();
     setupEntries;
     autoValidate;
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     setupService = new SetupService();
     propertyService = new PropertyService();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -41,7 +42,7 @@ export class IrTaxServiceCategories {
     }
     /** Re-authenticates and re-fetches configuration when a watched prop changes. */
     reinit() {
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.init();
     }
     /** Fetches setup entries and property data, then builds the initial charge rules map. */
@@ -49,7 +50,7 @@ export class IrTaxServiceCategories {
         this.isLoading = true;
         try {
             const [, tableEntries] = await Promise.all([
-                this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
+                this.propertyService.getExposedProperty({ id: this.propertyid, language: LocaleController.language }),
                 this.setupService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY', '_CITY_TAX_INCLUDED', '_SERVICE_CHARGE_INCLUDED']),
             ]);
             this.setupEntries = groupEntryTablesResult(tableEntries);

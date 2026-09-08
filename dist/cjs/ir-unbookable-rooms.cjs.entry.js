@@ -2,18 +2,20 @@
 
 var index = require('./index-P5Mginch.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var index$1 = require('./index-BWx5TYc1.js');
+var index$1 = require('./index-BJ4XtLYE.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
 require('./calendar-data-BjlxOXi1.js');
 require('./index-BLJXadKe.js');
-require('./utils-5rzlNNGQ.js');
+require('./utils-ENyYs-bV.js');
 require('./moment-CdViwxPQ.js');
-require('./locales.store-v9LoZcAK.js');
 require('./booking.dto-kenLHU-o.js');
 require('./type-Dy9pVS4V.js');
-require('./ir-date-CUot5M4p.js');
+require('./ir-date-DUrZBFOV.js');
+require('./locales.store-DIYxw5lk.js');
+require('./language-observer-DKp37LIu.js');
+require('./t-BpMDZfdy.js');
 require('./commonSchemas-hgXVqmtC.js');
 
 const irUnbookableRoomsCss = () => `.sc-ir-unbookable-rooms-h{height:100% !important;overflow-y:auto !important}.ir-page__container.sc-ir-unbookable-rooms{height:100%;overflow-y:auto}.unbookable-rooms__content.sc-ir-unbookable-rooms{display:flex;flex-direction:column;gap:1rem}.summary.sc-ir-unbookable-rooms{display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:12px}.summary__value.sc-ir-unbookable-rooms{display:block;font-size:1.3rem;font-weight:600}.summary__label.sc-ir-unbookable-rooms{font-size:0.82rem;color:#6a6256}@media (min-width: 1024px){.unbookable-rooms__content.sc-ir-unbookable-rooms{flex-direction:row;align-items:flex-start}}`;
@@ -37,7 +39,7 @@ const IrUnbookableRooms = class {
     progressFilters = { period_to_check: 2, consecutive_period: 14 };
     lastUpdatedLabel = '';
     isPageLoading = true;
-    tokenService = new ApiClient.ApiClient();
+    apiClientService = new ApiClient.ApiClient();
     propertyService = new index$1.PropertyService();
     componentWillLoad() {
         this.filters = {
@@ -46,7 +48,7 @@ const IrUnbookableRooms = class {
             consecutive_period: this.normalizePositiveNumber(this.consecutive_period, 14),
         };
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.initializeApp();
         }
     }
@@ -54,7 +56,7 @@ const IrUnbookableRooms = class {
         if (newValue === oldValue) {
             return;
         }
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.initializeApp();
     }
     modeChanged(newValue, oldValue) {

@@ -1,21 +1,23 @@
 'use strict';
 
 var index = require('./index-P5Mginch.js');
-var index$1 = require('./index-B6tr59-v.js');
-var utils = require('./utils-5rzlNNGQ.js');
+var index$1 = require('./index-D2LyeB2I.js');
+var utils = require('./utils-ENyYs-bV.js');
 var setupMapping = require('./setup-mapping-D72fId4a.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./index-CLqkDPTC.js');
-require('./utils-CXqwALIi.js');
-require('./IBooking-BtFRLVyo.js');
-require('./locales.store-v9LoZcAK.js');
+require('./utils-y7Xvx_7s.js');
+require('./IBooking-BT0vyd3Z.js');
+require('./locales.store-DIYxw5lk.js');
 require('./index-BLJXadKe.js');
 require('./moment-CdViwxPQ.js');
 require('./calendar-data-BjlxOXi1.js');
 require('./booking.dto-kenLHU-o.js');
 require('./type-Dy9pVS4V.js');
-require('./ir-date-CUot5M4p.js');
+require('./ir-date-DUrZBFOV.js');
+require('./language-observer-DKp37LIu.js');
+require('./t-BpMDZfdy.js');
 
 const irTranslationsTableFormCss = () => `.sc-ir-translations-table-form-h{display:block}.table-form__body.sc-ir-translations-table-form{display:flex;flex-direction:column;gap:1rem}.table-form__error.sc-ir-translations-table-form{margin:-0.75rem 0 0;font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-danger-on-quiet, #991b1b)}`;
 
@@ -99,7 +101,7 @@ const IrTranslationsTableForm = class {
         }
     };
     render() {
-        return (index.h("form", { key: '86ac72d818c889c6abdf16a50ee90a8014e4a38a', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, index.h("ir-input", { key: 'a12337f5dc3400b3fa43e97e02ec2eabdb23e86e', label: "Name", autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (index.h("p", { key: 'fa7991666125850ee5239ac474aa232de6e6e1da', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
+        return (index.h("form", { key: 'c5dd9801af702d26ebea024efe8990be2cf39532', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, index.h("ir-input", { key: '112051d4db6a04bd7f86e095439019aeaaadb6e0', label: "Name", autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (index.h("p", { key: '8099ed0a2a1ecef4af0034310e498dc31a9efa63', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
     }
 };
 IrTranslationsTableForm.style = irTranslationsTableFormCss();

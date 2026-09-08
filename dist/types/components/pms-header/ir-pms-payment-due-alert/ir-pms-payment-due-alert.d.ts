@@ -4,7 +4,7 @@ export declare class IrPmsPaymentDueAlert {
     ticket: string;
     baseUrl: string;
     notifications: Notifications;
-    private tokenService;
+    private apiClientService;
     private propertyService;
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;

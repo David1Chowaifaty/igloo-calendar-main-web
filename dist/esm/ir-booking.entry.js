@@ -1,16 +1,18 @@
 import { r as registerInstance, h, H as Host } from './index-BYqrdgY9.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { b as checkUserAuthState, m as manageAnchorSession } from './utils-Ct-kEjIU.js';
+import { b as checkUserAuthState, m as manageAnchorSession } from './utils-BShicg8f.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './moment-Mki5YqAR.js';
 import './index-DeW5X45W.js';
 import './calendar-data-DT3jrP3G.js';
 import './index-CimhgHoX.js';
-import './locales.store-C9qsbKR0.js';
 import './booking.dto-DpE31yhG.js';
 import './type-D7rOPtKA.js';
-import './ir-date-BT3QqYg6.js';
+import './ir-date-CLlijQNQ.js';
+import './locales.store-BfROgg7a.js';
+import './language-observer-CHgzsZkY.js';
+import './t-CHttQIVe.js';
 
 const irBookingCss = () => `.sc-ir-booking-h{display:block}`;
 

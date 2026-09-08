@@ -1,5 +1,6 @@
 import { BookingListingService } from "../../services/booking_listing.service";
 import { RoomService } from "../../services/room.service";
+import { t } from "../../services/locale/t";
 import booking_listing, { updateUserSelection, onBookingListingChange, updateUserSelections, setPaginationPage, setPaginationPageSize, updatePaginationFromSelection, } from "../../stores/booking_listing.store";
 import { isPrivilegedUser } from "../../utils/utils";
 import { h } from "@stencil/core";
@@ -7,7 +8,9 @@ import ApiClient from "../../models/ApiClient";
 import { getAllParams } from "../../utils/browserHistory";
 import { SetupService } from "../../services/setup/index";
 import { PropertyService } from "../../services/property.service";
-import locales from "../../stores/locales.store";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 export class IrBookingListing {
     el;
     language = '';
@@ -33,6 +36,8 @@ export class IrBookingListing {
     allowedProperties;
     havePrivilege;
     paymentFolioRef;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.bookingListing, () => this.initializeApp());
     componentWillLoad() {
         if (this.baseUrl) {
             this.ApiClient.setBaseUrl(this.baseUrl);
@@ -51,6 +56,9 @@ export class IrBookingListing {
         onBookingListingChange('bookings', newValue => {
             this.showCost = newValue.some(booking => booking.financial.gross_cost !== null && booking.financial.gross_cost > 0);
         });
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -79,7 +87,7 @@ export class IrBookingListing {
                     const propertyData = await this.roomService.getExposedProperty({
                         id: 0,
                         aname: this.p,
-                        language: this.language,
+                        language: LocaleController.language,
                         is_backend: true,
                     });
                     propertyId = propertyData.My_Result.id;
@@ -88,7 +96,7 @@ export class IrBookingListing {
             const parallelRequests = [
                 this.setupService.getPaymentEntries(),
                 this.bookingListingService.getExposedBookingsCriteria(this.havePrivilege ? null : propertyId),
-                this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT', '_PMS_FRONT']),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.bookingListing }),
             ];
             // let propertyDataIndex: number | null = null;
             let allowedPropertiesIndex = null;
@@ -96,7 +104,7 @@ export class IrBookingListing {
                 // propertyDataIndex = parallelRequests.length;
                 parallelRequests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                 }));
             }
@@ -164,6 +172,10 @@ export class IrBookingListing {
     }
     disconnectedCallback() {
         clearTimeout(this.listingModalTimeout);
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     async handlePaginationChange(event) {
         event.stopImmediatePropagation();
@@ -264,7 +276,7 @@ export class IrBookingListing {
         if (this.isLoading || this.ticket === '') {
             return h("ir-loading-screen", null);
         }
-        return (h("ir-page", { label: locales?.entries?.Lcz_Bookings }, h("div", { class: "main-container" }, h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), h("section", { class: "mt-2" }, h("ir-booking-listing-table", null))), h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.editBookingItem?.booking?.property?.id, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
+        return (h("ir-page", { label: t('Lcz_Bookings') }, h("div", { class: "main-container" }, h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), h("section", { class: "mt-2" }, h("ir-booking-listing-table", null))), h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.editBookingItem?.booking?.property?.id, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
                 this.editBookingItem = null;
             }, booking_nbr: this.editBookingItem?.booking?.booking_nbr, email: this.editBookingItem?.booking?.guest.email, language: this.language, open: this.editBookingItem?.cause === 'guest' }), h("ir-payment-folio", { style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
                 this.booking = null;
@@ -438,6 +450,9 @@ export class IrBookingListing {
         return [{
                 "propName": "ticket",
                 "methodName": "ticketChanged"
+            }, {
+                "propName": "language",
+                "methodName": "languageChanged"
             }];
     }
     static get listeners() {

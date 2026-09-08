@@ -1,8 +1,8 @@
 import { HouseKeepingService } from "../../../../../services/housekeeping.service";
 import calendar_data from "../../../../../stores/calendar-data";
 import housekeeping_store from "../../../../../stores/housekeeping.store";
-import locales from "../../../../../stores/locales.store";
 import { h } from "@stencil/core";
+import { t } from "../../../../../services/locale/t";
 export class IrHkUnassignedUnitsDrawerForm {
     formId;
     user = null;
@@ -98,10 +98,10 @@ export class IrHkUnassignedUnitsDrawerForm {
         });
     }
     render() {
-        return (h("form", { key: 'ed25407cbe9758a28c0629f9d28259739b8b4d83', id: this.formId, onSubmit: e => {
+        return (h("form", { key: 'e747f7f715662bb2c452cae91107694c02394882', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.assignUnits();
-            } }, h("table", { key: '4ede7ac9491ca3666c270ca02463b3c75ba4bcba' }, h("thead", { key: 'd0c46b78a45b4cb637d4e467bd0b063126cf4a9e' }, h("th", { key: '46db6d689bd45c8d6b9d5c6b49239e0ea8b1b2c5', class: "sr-only" }, locales.entries.Lcz_RoomName), h("th", { key: '41735792f475c4810b449ab6d0af452e31c3d614', class: "sr-only" }, locales.entries.Lcz_HousekeeperName), h("th", { key: '42c84f0cc48fdfe82c197e80e1ef10a09f73dec2', class: "sr-only" }, locales.entries.Lcz_Actions)), h("tbody", { key: 'e1ae26740c80b7b9a24cf3a8ba02937e66867465' }, this.renderRooms()))));
+            } }, h("table", { key: 'e04d03d87d991e0da976cf11893bdd9b35749938' }, h("thead", { key: 'de7f2a5638203b817039629b1a7dc4046d160a3d' }, h("th", { key: '6222119b98e072e128f7234b1258d1045fc4a541', class: "sr-only" }, t('Lcz_RoomName')), h("th", { key: '236fe46b894ca07701d46374b761fae2d43984ef', class: "sr-only" }, t('Lcz_HousekeeperName')), h("th", { key: 'bbbdd3aef496dcce86502f453910f5bc6a8f8065', class: "sr-only" }, t('Lcz_Actions'))), h("tbody", { key: 'd48b908c8872f83972f935ff9870184a2c7eb233' }, this.renderRooms()))));
     }
     static get is() { return "ir-hk-unassigned-units-drawer-form"; }
     static get encapsulation() { return "scoped"; }

@@ -2,6 +2,13 @@ export interface ILocale {
     entries: TLocaleEntries;
     direction: 'ltr' | 'rtl';
     language?: string;
+    /**
+     * Setup tables whose strings are currently in `entries`. Written by
+     * `LocaleController`; typed as plain strings to keep this store free of a
+     * `stores -> services` import.
+     */
+    loadedTables: string[];
+    status: 'idle' | 'loading' | 'ready' | 'error';
 }
 export type TLocaleEntries = (LocalizationStrings & LocalizationChannelFrontEntries & BookingListingCodes & HousekeepingLocalizedWords & LocalizationPAYMENTBACK & UserManagementWords) | null;
 export type UserManagementWords = {

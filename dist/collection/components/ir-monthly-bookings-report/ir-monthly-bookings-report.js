@@ -1,10 +1,13 @@
 import ApiClient from "../../models/ApiClient";
 import { h } from "@stencil/core";
 import moment from "moment";
-import locales from "../../stores/locales.store";
 import { RoomService } from "../../services/room.service";
 import { PropertyService } from "../../services/property.service";
 import { formatDate } from "../../utils/date/index";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrMonthlyBookingsReport {
     language = '';
     ticket = '';
@@ -17,9 +20,11 @@ export class IrMonthlyBookingsReport {
     property_id;
     stats;
     baseFilters;
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     roomService = new RoomService();
     propertyService = new PropertyService();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.monthlyBookingsReport, () => this.init());
     componentWillLoad() {
         this.baseFilters = {
             date: {
@@ -31,13 +36,22 @@ export class IrMonthlyBookingsReport {
         };
         this.filters = this.baseFilters;
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
+    }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -59,7 +73,7 @@ export class IrMonthlyBookingsReport {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
@@ -67,11 +81,11 @@ export class IrMonthlyBookingsReport {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.roomService.fetchLanguage(this.language), this.getReports()];
+            const requests = [LocaleController.load({ language: this.language, tables: SCREEN_TABLES.monthlyBookingsReport }), this.getReports()];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -152,7 +166,7 @@ export class IrMonthlyBookingsReport {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 await this.getReports(true);
-            }, appearance: "outlined", slot: "page-header", loading: this.isLoading === 'export' }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("section", { class: "report-layout" }, h("section", null, h("div", { class: "report-stats-row" }, h("ir-metric-card", { class: "report-metric", icon: this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? 'arrow-trend-down' : 'arrow-trend-up', label: "Average Occupancy", value: this.stats.AverageOccupancy ? this.stats?.AverageOccupancy.toFixed(2) : null, unit: "%", trend: this.stats?.Occupancy_Difference_From_Previous_Month, trendLabel: "from last month", caption: this.stats?.Occupancy_Difference_From_Previous_Month != null && this.stats?.AverageOccupancy != null
+            }, appearance: "outlined", slot: "page-header", loading: this.isLoading === 'export' }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export')), h("section", { class: "report-layout" }, h("section", null, h("div", { class: "report-stats-row" }, h("ir-metric-card", { class: "report-metric", icon: this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? 'arrow-trend-down' : 'arrow-trend-up', label: "Average Occupancy", value: this.stats.AverageOccupancy ? this.stats?.AverageOccupancy.toFixed(2) : null, unit: "%", trend: this.stats?.Occupancy_Difference_From_Previous_Month, trendLabel: "from last month", caption: this.stats?.Occupancy_Difference_From_Previous_Month != null && this.stats?.AverageOccupancy != null
                 ? `Last month: ${(this.stats.AverageOccupancy - this.stats.Occupancy_Difference_From_Previous_Month).toFixed(2)}%`
                 : undefined }), h("ir-metric-card", { class: "report-metric", icon: "hotel", label: "Total Units", value: this.stats?.TotalUnitsBooked ? this.stats?.TotalUnitsBooked.toString() : null, caption: "Booked" }), h("ir-metric-card", { class: "report-metric", icon: "user-group", label: "Total Guests", value: this.stats?.Total_Guests ? this.stats?.Total_Guests?.toString() : null, caption: "Stayed" }), h("ir-metric-card", { class: "report-metric", icon: "calendar", label: "Peak Days", value: this.stats?.PeakDays.length === 0 ? null : this.stats?.PeakDays?.map(pd => formatDate(pd.Date, 'D').concat('th')).join(' - '), caption: `${Math.max(...(this.stats.PeakDays?.map(pd => pd.OccupancyPercent) || []))}% occupancy` })), h("div", { class: "report-content-row" }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
     }
@@ -262,6 +276,9 @@ export class IrMonthlyBookingsReport {
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "handleTicketChange"
             }];

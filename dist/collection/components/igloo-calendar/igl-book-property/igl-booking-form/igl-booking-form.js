@@ -1,7 +1,7 @@
 import { h } from "@stencil/core";
 import { formatAmount } from "../../../../utils/utils";
-import locales from "../../../../stores/locales.store";
 import booking_store from "../../../../stores/booking.store";
+import { t } from "../../../../services/locale/t";
 export class IglBookingForm {
     showPaymentDetails;
     currency;
@@ -120,9 +120,9 @@ export class IglBookingForm {
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        return (h("form", { key: '203137c3cac2f4b24dea75a436103d04d24de5ae', class: "d-flex flex-column h-100", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
+        return (h("form", { key: '5430ae4cf3ecef5f55c84f8f810646349a77b637', class: "d-flex flex-column h-100", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
                 e.preventDefault();
-            } }, h("div", { key: 'f5f0588325bf35cdae03a32c3d55e7998028cd39', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '5b7efe9b5f55006dd0663731a218f540c4a319a4', class: "ir-me-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate) }), this.guestData.length > 1 && (h("div", { key: 'f8d3323985816b0fa5d6203b70bcb214cec9ea65', class: "mt-1 mt-md-0 ir-text-end" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '1e7f2af2d5d3b103d98e1b781c6ee221d1537b19', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+            } }, h("div", { key: '4bce9ae5476fa749f01bad7905b32ab55be748de', class: "d-flex flex-wrap" }, h("ir-date-view", { key: 'f3b80b66b1064dd8e47c27ec460d9d529ef96030', class: "ir-me-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate) }), this.guestData.length > 1 && (h("div", { key: '618441c5f544bcf5d5277cf515f98fb6da7ec284', class: "mt-1 mt-md-0 ir-text-end" }, t('Lcz_TotalPrice'), " ", h("span", { key: '11872338f910453d9fb8932d4dea4533b938df83', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
                 return null;

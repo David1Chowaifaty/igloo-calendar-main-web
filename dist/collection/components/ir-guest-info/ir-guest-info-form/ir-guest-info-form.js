@@ -1,10 +1,12 @@
 import { h } from "@stencil/core";
-import locales from "../../../stores/locales.store";
 import { guestInfoFormSchema } from "./types";
 import ApiClient from "../../../models/ApiClient";
 import { BookingService } from "../../../services/booking-service/booking.service";
-import { RoomService } from "../../../services/room.service";
 import { z } from "zod";
+import { LocaleController } from "../../../services/locale/locale.controller";
+import { LanguageSync } from "../../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../../services/locale/screen-tables";
+import { t } from "../../../services/locale/t";
 export class IrGuestInfoForm {
     fromId;
     language;
@@ -20,8 +22,9 @@ export class IrGuestInfoForm {
     toast;
     guestChanged;
     bookingService = new BookingService();
-    roomService = new RoomService();
     ApiClient = new ApiClient();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.guestInfo, () => this.init());
     componentWillLoad() {
         if (this.ticket) {
             this.ApiClient.setApiClient(this.ticket);
@@ -29,6 +32,15 @@ export class IrGuestInfoForm {
         if (!!this.ApiClient.getToken()) {
             this.init();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -42,15 +54,11 @@ export class IrGuestInfoForm {
     async init() {
         try {
             this.isLoading = true;
-            const [guest, countries, fetchedLocales] = await Promise.all([
+            const [guest, countries] = await Promise.all([
                 this.bookingService.fetchGuest(this.email),
-                this.bookingService.getCountries(this.language),
-                !locales || !locales.entries || Object.keys(locales.entries).length === 0 ? this.roomService.fetchLanguage(this.language) : Promise.resolve(null),
+                this.bookingService.getCountries(LocaleController.language),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.guestInfo }),
             ]);
-            if (fetchedLocales) {
-                locales.entries = fetchedLocales.entries;
-                locales.direction = fetchedLocales.direction;
-            }
             this.countries = countries;
             let _g = {
                 ...guest,
@@ -104,11 +112,11 @@ export class IrGuestInfoForm {
         return (h("form", { id: this.fromId, onSubmit: e => {
                 e.preventDefault();
                 this.editGuest();
-            }, class: "guest-form__container" }, h("ir-validator", { schema: guestInfoFormSchema.shape.first_name, value: this.guest?.first_name ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { id: 'firstName', value: this.guest?.first_name, defaultValue: this.guest?.first_name, required: true, "onText-change": e => this.handleInputChange({ first_name: e.detail.trim() }), label: locales.entries?.Lcz_FirstName })), h("ir-validator", { schema: guestInfoFormSchema.shape.last_name, value: this.guest?.last_name ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { value: this.guest?.last_name, required: true, defaultValue: this.guest?.last_name, id: "lastName", "onText-change": e => this.handleInputChange({ last_name: e.detail.trim() }), label: locales.entries?.Lcz_LastName })), h("ir-validator", { schema: guestInfoFormSchema.shape.email, value: this.guest?.email ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { label: locales.entries?.Lcz_Email, id: "email", defaultValue: this.guest?.email, value: this.guest?.email, required: true, mask: "email", "onText-change": e => {
+            }, class: "guest-form__container" }, h("ir-validator", { schema: guestInfoFormSchema.shape.first_name, value: this.guest?.first_name ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { id: 'firstName', value: this.guest?.first_name, defaultValue: this.guest?.first_name, required: true, "onText-change": e => this.handleInputChange({ first_name: e.detail.trim() }), label: t('Lcz_FirstName') })), h("ir-validator", { schema: guestInfoFormSchema.shape.last_name, value: this.guest?.last_name ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { value: this.guest?.last_name, required: true, defaultValue: this.guest?.last_name, id: "lastName", "onText-change": e => this.handleInputChange({ last_name: e.detail.trim() }), label: t('Lcz_LastName') })), h("ir-validator", { schema: guestInfoFormSchema.shape.email, value: this.guest?.email ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { label: t('Lcz_Email'), id: "email", defaultValue: this.guest?.email, value: this.guest?.email, required: true, mask: "email", "onText-change": e => {
                 this.handleInputChange({ email: e.detail });
-            } })), h("ir-validator", { schema: guestInfoFormSchema.shape.alternative_email, value: this.guest?.alternative_email ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { label: locales.entries?.Lcz_AlternativeEmail, id: "altEmail", value: this.guest?.alternative_email, mask: "email", "onText-change": e => {
+            } })), h("ir-validator", { schema: guestInfoFormSchema.shape.alternative_email, value: this.guest?.alternative_email ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { label: t('Lcz_AlternativeEmail'), id: "altEmail", value: this.guest?.alternative_email, mask: "email", "onText-change": e => {
                 this.handleInputChange({ alternative_email: e.detail });
-            } })), h("ir-validator", { schema: guestInfoFormSchema.shape.country_id, value: this.guest?.country_id ?? undefined, autovalidate: this.autoValidate, valueEvent: "countryChange" }, h("ir-country-picker", { size: "s", variant: "modern", country: this.countries.find(c => c.id === this.guest?.country_id), label: locales.entries?.Lcz_Country, onCountryChange: e => {
+            } })), h("ir-validator", { schema: guestInfoFormSchema.shape.country_id, value: this.guest?.country_id ?? undefined, autovalidate: this.autoValidate, valueEvent: "countryChange" }, h("ir-country-picker", { size: "s", variant: "modern", country: this.countries.find(c => c.id === this.guest?.country_id), label: t('Lcz_Country'), onCountryChange: e => {
                 const country = e.detail;
                 let params = { country_id: country.id };
                 if (!this.guest?.mobile) {
@@ -117,7 +125,7 @@ export class IrGuestInfoForm {
                 this.handleInputChange(params);
             }, countries: this.countries })), h("ir-validator", { schema: z.object({ mobile: guestInfoFormSchema.shape.mobile, phone_prefix: guestInfoFormSchema.shape.country_phone_prefix }), value: { mobile: this.guest?.mobile ?? '', phone_prefix: this.guest?.country_phone_prefix }, autovalidate: this.autoValidate, valueEvent: "mobile-input-change" }, h("ir-mobile-input", { size: "s", "onMobile-input-change": e => {
                 this.handleInputChange({ mobile: e.detail.formattedValue.trim() });
-            }, "aria-invalid": 'true', "onMobile-input-country-change": e => this.handleInputChange({ country_phone_prefix: e.detail.phone_prefix }), value: this.guest?.mobile ?? '', required: true, countryCode: this.countries.find(c => c.phone_prefix?.toString() === this.guest?.country_phone_prefix?.toString())?.code, countries: this.countries })), h("ir-validator", { schema: guestInfoFormSchema.shape.notes, value: this.guest?.notes ?? '', autovalidate: this.autoValidate, valueEvent: "wa-change change input", blurEvent: "wa-blur blur" }, h("wa-textarea", { size: "s", onchange: e => this.handleInputChange({ notes: e.target.value }), value: this.guest?.notes ?? '', label: locales.entries?.Lcz_PrivateNote }))));
+            }, "aria-invalid": 'true', "onMobile-input-country-change": e => this.handleInputChange({ country_phone_prefix: e.detail.phone_prefix }), value: this.guest?.mobile ?? '', required: true, countryCode: this.countries.find(c => c.phone_prefix?.toString() === this.guest?.country_phone_prefix?.toString())?.code, countries: this.countries })), h("ir-validator", { schema: guestInfoFormSchema.shape.notes, value: this.guest?.notes ?? '', autovalidate: this.autoValidate, valueEvent: "wa-change change input", blurEvent: "wa-blur blur" }, h("wa-textarea", { size: "s", onchange: e => this.handleInputChange({ notes: e.target.value }), value: this.guest?.notes ?? '', label: t('Lcz_PrivateNote') }))));
     }
     static get is() { return "ir-guest-info-form"; }
     static get encapsulation() { return "scoped"; }
@@ -321,6 +329,9 @@ export class IrGuestInfoForm {
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

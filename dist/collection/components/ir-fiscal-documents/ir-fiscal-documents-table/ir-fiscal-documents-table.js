@@ -7,6 +7,7 @@ import calendar_data from "../../../stores/calendar-data";
 import { FdTypes } from "../../../types/enums";
 import { _formatTime } from "../../ir-booking-details/functions";
 import { formatDate } from "../../../utils/date/index";
+import { LocaleController } from "../../../services/locale/locale.controller";
 const PAGE_SIZES = [20, 50, 100];
 export class IrFiscalDocumentsTable {
     rows = [];
@@ -71,7 +72,7 @@ export class IrFiscalDocumentsTable {
     get fdTypeLabels() {
         const map = {};
         for (const entry of this.fdTypes ?? []) {
-            map[entry.CODE_NAME] = getEntryValue({ entry, language: this.language });
+            map[entry.CODE_NAME] = getEntryValue({ entry, language: LocaleController.language });
         }
         return map;
     }
@@ -406,14 +407,14 @@ export class IrFiscalDocumentsTable {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "IEntries[]",
-                    "resolved": "IEntries[]",
+                    "original": "SetupEntries[]",
+                    "resolved": "SetupEntries[]",
                     "references": {
-                        "IEntries": {
+                        "SetupEntries": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::IEntries",
-                            "referenceLocation": "IEntries"
+                            "id": "src/models/property.ts::SetupEntries",
+                            "referenceLocation": "SetupEntries"
                         }
                     }
                 },

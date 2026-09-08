@@ -13,9 +13,9 @@ export class IglHkIssuesDialog {
     selectedIds = new Set();
     dialogRef;
     houseKeepingService = new HouseKeepingService();
-    async handleOpenChange(isOpen) {
+    handleOpenChange(isOpen) {
+        this.error = null;
         if (isOpen) {
-            this.error = null;
             this.dialogRef?.openModal();
         }
         else {
@@ -23,10 +23,14 @@ export class IglHkIssuesDialog {
         }
     }
     handleIssuesChange(newIssues) {
-        this.selectedIds = new Set();
-        if (newIssues?.length === 1) {
-            this.selectedIds = new Set([newIssues[0].id]);
-        }
+        // A single issue is the only thing to act on — pre-select it.
+        this.selectedIds = newIssues?.length === 1 ? new Set([newIssues[0].id]) : new Set();
+    }
+    get isMultiple() {
+        return (this.issues?.length ?? 0) > 1;
+    }
+    get allSelected() {
+        return !!this.issues?.length && this.selectedIds.size === this.issues.length;
     }
     toggleIssue(id) {
         const next = new Set(this.selectedIds);
@@ -38,49 +42,60 @@ export class IglHkIssuesDialog {
         }
         this.selectedIds = next;
     }
+    toggleSelectAll = () => {
+        this.selectedIds = this.allSelected ? new Set() : new Set(this.issues.map(issue => issue.id));
+    };
+    handleRowKeyDown = (event, id) => {
+        if (event.key === ' ' || event.key === 'Enter') {
+            event.preventDefault();
+            this.toggleIssue(id);
+        }
+    };
     handleResolve = async () => {
-        if (!this.selectedIds.size || this.isResolving)
+        if (!this.selectedIds.size || this.isResolving) {
             return;
+        }
         this.isResolving = true;
         this.error = null;
         try {
-            const payload = Array.from(this.selectedIds);
-            await this.houseKeepingService.resolveHKIssue({ issue_ids: payload });
+            await this.houseKeepingService.resolveHKIssue({ issue_ids: Array.from(this.selectedIds) });
             this.dialogRef?.closeModal();
         }
         catch (e) {
-            this.error = e instanceof Error ? e.message : 'Failed to resolve issue. Please try again.';
+            this.error = e instanceof Error ? e.message : 'Failed to resolve. Please try again.';
         }
         finally {
             this.isResolving = false;
         }
     };
-    // private getInitials(name: string): string {
-    //   return (name ?? '')
-    //     .split(' ')
-    //     .map(n => n[0])
-    //     .join('')
-    //     .toUpperCase()
-    //     .slice(0, 2);
-    // }
-    renderTicket(issue) {
-        const isMultiple = this.issues.length > 1;
-        const isSelected = this.selectedIds.has(issue.id);
-        // const initials = this.getInitials(issue.housekeeper_name);
-        return (h("div", { class: `ticket ${isSelected ? 'ticket--selected' : ''}`, key: issue.id, onClick: () => isMultiple && this.toggleIssue(issue.id) }, h("p", { class: "ticket-description" }, issue.description || 'No description provided.'), h("div", { class: "ticket-footer-row" }, h("div", { class: "ticket-reporter" }, h("span", { class: "ticket-reporter-name" }, issue.housekeeper_name)), h("div", { class: 'ticket-meta' }, h("span", { class: "ticket-date" }, formatDate(issue.date, 'MMM D, YYYY'), issue.hour != null && issue.minute != null && (h("span", { class: "ticket-time" }, String(issue.hour).padStart(2, '0'), ":", String(issue.minute).padStart(2, '0')))), isMultiple && (h("wa-checkbox", { checked: isSelected, defaultChecked: isSelected, onchange: (e) => {
-                e.stopPropagation();
-                this.toggleIssue(issue.id);
-            } }))))));
+    formatReportedAt(issue) {
+        const date = formatDate(issue.date, 'MMM D, YYYY');
+        if (issue.hour == null || issue.minute == null) {
+            return date;
+        }
+        const time = `${String(issue.hour).padStart(2, '0')}:${String(issue.minute).padStart(2, '0')}`;
+        return `${date} · ${time}`;
     }
-    renderContent() {
-        if (!this.issues?.length || !this.open)
+    renderIssue(issue) {
+        const selectable = this.isMultiple;
+        const isSelected = this.selectedIds.has(issue.id);
+        const description = issue.description?.trim();
+        return (h("div", { key: issue.id, class: { 'issue': true, 'issue--selectable': selectable, 'issue--selected': isSelected }, role: selectable ? 'checkbox' : undefined, "aria-checked": selectable ? String(isSelected) : undefined, tabindex: selectable ? 0 : undefined, onClick: selectable ? () => this.toggleIssue(issue.id) : undefined, onKeyDown: selectable ? (event) => this.handleRowKeyDown(event, issue.id) : undefined }, selectable && h("wa-checkbox", { class: "issue__check", checked: isSelected, tabIndex: -1 }), h("div", { class: "issue__body" }, h("p", { class: { 'issue__description': true, 'issue__description--empty': !description } }, description || 'No description provided'), h("p", { class: "issue__meta" }, h("span", { class: "issue__reporter" }, issue.housekeeper_name || 'Unknown housekeeper'), h("span", { class: "issue__sep", "aria-hidden": "true" }, "\u00B7"), h("span", { class: "issue__date" }, this.formatReportedAt(issue))))));
+    }
+    renderBody() {
+        if (!this.open) {
             return null;
-        return (h("div", { class: "dialog-body" }, h("div", { class: "tickets-list" }, this.issues.map(issue => this.renderTicket(issue))), this.error && (h("div", { class: "error-banner", role: "alert" }, h("wa-icon", { name: "circle-exclamation" }), this.error))));
+        }
+        if (!this.issues?.length) {
+            return h("ir-empty-state", { message: "No issues reported for this unit." });
+        }
+        return (h("div", { class: "issues" }, this.isMultiple && (h("div", { class: "issues__toolbar" }, h("span", { class: "issues__count" }, this.issues.length, " issues reported"), h("button", { type: "button", class: "issues__select-all", onClick: this.toggleSelectAll }, this.allSelected ? 'Clear' : 'Select all'))), h("div", { class: "issues__list", role: this.isMultiple ? 'group' : undefined, "aria-label": this.isMultiple ? 'Reported issues' : undefined }, this.issues.map(issue => this.renderIssue(issue))), this.error && (h("div", { class: "issues__error", role: "alert" }, h("wa-callout", { variant: "danger" }, h("wa-icon", { slot: "icon", name: "circle-exclamation" }), this.error)))));
     }
     render() {
-        const count = this.issues?.length ?? 0;
+        const multiple = (this.issues?.length ?? 0) > 1;
         const selectedCount = this.selectedIds.size;
-        return (h("ir-dialog", { key: 'f67cd354e56969958d1d516c273de025eaf8d7ca', ref: el => (this.dialogRef = el), label: `Reported ${count > 1 ? 'Issues' : 'Issue'}: ${this.unitName}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderContent(), h("div", { key: '2f64b487f9ed7406ba3c27648cf9b569d9a5d90c', slot: "footer", class: "dialog-footer" }, h("ir-custom-button", { key: '9153f7a02d0a52bd673a8d3d9dd61dcd53403d71', variant: "neutral", size: "m", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, "Close"), h("ir-custom-button", { key: '00ea013da244056084a477b0525c2a14e3d4a6c0', variant: "brand", size: "m", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, "Mark as Resolved"))));
+        const unitSuffix = this.unitName ? ` · ${this.unitName}` : '';
+        return (h("ir-dialog", { key: 'c553e9bcba8054b20941698f11615af1b40eeaab', ref: el => (this.dialogRef = el), label: `${multiple ? 'Reported issues' : 'Reported issue'}${unitSuffix}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderBody(), h("div", { key: '3ccb2e5270910e671ec2f5416ecac57058d449dd', slot: "footer", class: "footer" }, multiple && selectedCount > 0 && h("span", { key: '29b3b51db452fdb186588ac45a93f0ad5dbc83d2', class: "footer__hint" }, selectedCount, " selected"), h("ir-custom-button", { key: '77eec2b6d8120ca3f7b7ac7da5f5a73c20450fab', variant: "neutral", size: "m", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, "Close"), h("ir-custom-button", { key: 'bc4007398d82f96d1a6aeccb83a8f689f4572be8', variant: "brand", size: "m", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, multiple ? `Resolve${selectedCount ? ` ${selectedCount}` : ''}` : 'Mark as resolved'))));
     }
     static get is() { return "igl-hk-issues-dialog"; }
     static get encapsulation() { return "scoped"; }

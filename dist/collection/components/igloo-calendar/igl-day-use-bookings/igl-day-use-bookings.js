@@ -1,10 +1,10 @@
 import { Fragment, Host, h } from "@stencil/core";
 import moment from "moment";
-import locales from "../../../stores/locales.store";
 import calendar_data from "../../../stores/calendar-data";
 import { _formatTime } from "../../ir-booking-details/functions";
 import { formatDate } from "../../../utils/date/index";
 import { formatBookingNumber } from "../../../utils/number";
+import { t } from "../../../services/locale/t";
 const STATUS_LABEL = {
     'scheduled': 'Scheduled',
     'upcoming': 'Upcoming',
@@ -98,7 +98,7 @@ export class IglDayUseBookings {
             data: {
                 BOOKING_NUMBER: booking.book_nbr,
                 event_type: 'EDIT_BOOKING',
-                TITLE: `${locales.entries.Lcz_EditBookingFor ?? 'Edit Booking For'} ${this.getGuestName(booking)}`,
+                TITLE: `${t('Lcz_EditBookingFor', { fallback: 'Edit Booking For' })} ${this.getGuestName(booking)}`,
             },
         });
     }
@@ -186,7 +186,7 @@ export class IglDayUseBookings {
         const grouped = this.groupByRoomType(bookings);
         const hasDates = this.orderedDates.length > 0;
         const isEmpty = bookings.length === 0;
-        return (h(Host, { key: 'ccb75e63dc4d7dca1987ba269a8935f276424d82' }, h("div", { key: '26a1586e13672e275a727073c0f78600d188271e', class: "dub-panel" }, h("div", { key: '3bbb208482dd1e62d05114b3890f5cfd9c354dd1', class: "dub-panel__head" }, h("header", { key: '7c2d98245f560bcdec109733bba87ccc172402c9', class: "dub-panel__header" }, h("h2", { key: '3714853fb9c6992bc897dafe4b0f301d4f9f9fcf', class: "dub-panel__title", id: "day-use-bookings-title" }, "Day Use Bookings"), h("ir-custom-button", { key: '73aab22db8a11334a069dc8e8094de9ed938dae2', size: "m", appearance: "plain", variant: "neutral", onClickHandler: () => this.handleOptionEvent('closeSideMenu') }, h("wa-icon", { key: '43f7fca99de97126a8868824323727310c4dc11c', name: "xmark", variant: "solid", label: "Close", "aria-label": "Close", role: "img" }))), hasDates && (h("div", { key: '34d513dee60091854b01f83f1520937aab2bd6a5', class: "dub-panel__toolbar" }, h("wa-select", { key: 'd2f43315f7f00994bc4863bc4510caf6db61eaab', size: "s", "aria-label": "Date", value: this.selectedDate, defaultValue: this.selectedDate, onchange: evt => (this.selectedDate = evt.target.value) }, this.orderedDates.map(date => (h("wa-option", { value: date }, formatDate(date, 'ddd, DD MMM YYYY')))))))), h("div", { key: '971ea94f35c690d132142137c39d3e2b81237537', class: "dub-panel__body" }, isEmpty ? (h("ir-empty-state", { message: "No day-use bookings for this date." })) : (Array.from(grouped.entries()).map(([roomTypeId, roomTypeBookings]) => this.renderCategory(roomTypeId, roomTypeBookings)))))));
+        return (h(Host, { key: '0b72ae2525f9efc6845fc5589d31a82e3f8ea4d7' }, h("div", { key: '130fdb171790d22268670ba8fcf9d1e8c4b7c2e1', class: "dub-panel" }, h("div", { key: '0c7f77dcc8ed559137dba830a7def9bb46b0fc45', class: "dub-panel__head" }, h("header", { key: '391e060b9484136a1e193c989ce52b2e147e3e61', class: "dub-panel__header" }, h("h2", { key: '1dde86496fbd7a34b166563e1e9fe0e6e8f54eb1', class: "dub-panel__title", id: "day-use-bookings-title" }, "Day Use Bookings"), h("ir-custom-button", { key: 'e09dde7187a6f3cf673ef61657e98211000c370f', size: "m", appearance: "plain", variant: "neutral", onClickHandler: () => this.handleOptionEvent('closeSideMenu') }, h("wa-icon", { key: 'b7eb94ccff8860f895a11b9bc2a8fd33ef70f500', name: "xmark", variant: "solid", label: "Close", "aria-label": "Close", role: "img" }))), hasDates && (h("div", { key: 'd4bb1fff0dc60abb5395e276d9a909cb89350f56', class: "dub-panel__toolbar" }, h("wa-select", { key: 'f69b7480df3e3fe8d8137bcf5c136fcc7213543c', size: "s", "aria-label": "Date", value: this.selectedDate, defaultValue: this.selectedDate, onchange: evt => (this.selectedDate = evt.target.value) }, this.orderedDates.map(date => (h("wa-option", { value: date }, formatDate(date, 'ddd, DD MMM YYYY')))))))), h("div", { key: '0e83b1dae185edab1e54e0f3dd15dfc28550904b', class: "dub-panel__body" }, isEmpty ? (h("ir-empty-state", { message: "No day-use bookings for this date." })) : (Array.from(grouped.entries()).map(([roomTypeId, roomTypeBookings]) => this.renderCategory(roomTypeId, roomTypeBookings)))))));
     }
     static get is() { return "igl-day-use-bookings"; }
     static get encapsulation() { return "scoped"; }

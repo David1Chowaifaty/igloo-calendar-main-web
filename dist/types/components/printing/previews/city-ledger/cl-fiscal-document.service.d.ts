@@ -5,7 +5,7 @@ export interface ClFiscalDocumentData {
     transactions: ClTx[];
 }
 export declare class ClFiscalDocumentService {
-    private tokenService;
+    private apiClientService;
     private propertyService;
     private cityLedgerService;
     init(baseurl: string | undefined, ticket: string): void;

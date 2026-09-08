@@ -5,6 +5,7 @@ import { formatAmount } from "../../../../../utils/utils";
 import ApiClient from "../../../../../models/ApiClient";
 import moment from "moment";
 import { FdTypes } from "../../../../../types/enums";
+import { LocaleController } from "../../../../../services/locale/locale.controller";
 const DATE_DISPLAY = 'MMM DD, YYYY';
 export class IrClStatementPreview {
     propertyId;
@@ -21,7 +22,7 @@ export class IrClStatementPreview {
     statement = null;
     fiscalDocuments = [];
     clPreviewReady;
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     propertyService = new PropertyService();
     cityLedgerService = new CityLedgerService();
     hasEmitted = false;
@@ -31,8 +32,8 @@ export class IrClStatementPreview {
             return;
         }
         if (this.baseurl)
-            this.tokenService.setBaseUrl(this.baseurl);
-        this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setBaseUrl(this.baseurl);
+        this.apiClientService.setApiClient(this.ticket);
         return this.fetchData();
     }
     componentDidRender() {
@@ -48,7 +49,7 @@ export class IrClStatementPreview {
         this.error = null;
         try {
             const [propertyData, statement, fiscalDocuments] = await Promise.all([
-                this.propertyService.getExposedProperty({ id: this.propertyId, language: 'en' }),
+                this.propertyService.getExposedProperty({ id: this.propertyId, language: LocaleController.language }),
                 this.cityLedgerService.getCLStatement({
                     AGENCY_ID: this.agentId,
                     CURRENCY_ID: this.currencyId,

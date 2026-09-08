@@ -5,10 +5,12 @@ import { calculateDaysBetweenDates } from "../../utils/booking";
 import BeLogoFooter from "../../assets/be_logo_footer";
 import { BookingService } from "../../services/booking-service/booking.service";
 import { RoomService } from "../../services/room.service";
-import locales from "../../stores/locales.store";
 import { formatAmount } from "../../utils/utils";
 import { formatDate } from "../../utils/date/index";
 import { formatBookingNumber } from "../../utils/number";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 export class IrBookingPrinting {
     ApiClient = '';
     bookingNumber = '';
@@ -26,11 +28,22 @@ export class IrBookingPrinting {
     currency;
     totalNights;
     totalPersons;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.bookingPrinting, () => this.init());
     componentWillLoad() {
         document.body.style.background = 'white';
         if (this.ApiClient) {
             this.init();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     async ticketChanged(newValue, oldValue) {
         if (newValue !== oldValue) {
@@ -47,16 +60,12 @@ export class IrBookingPrinting {
             //   throw new Error('Missing booking number');
             // }
             let countries;
-            const [property, languageTexts, booking, fetchedCountries] = await Promise.all([
-                this.roomService.getExposedProperty({ id: this.propertyid, language: this.language, is_backend: true }),
-                this.roomService.fetchLanguage(this.language),
-                this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: this.language }),
-                this.bookingService.getCountries(this.language),
+            const [property, , booking, fetchedCountries] = await Promise.all([
+                this.roomService.getExposedProperty({ id: this.propertyid, language: LocaleController.language, is_backend: true }),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.bookingPrinting }),
+                this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: LocaleController.language }),
+                this.bookingService.getCountries(LocaleController.language),
             ]);
-            if (!locales.entries) {
-                locales.entries = languageTexts.entries;
-                locales.direction = languageTexts.direction;
-            }
             this.property = property['My_Result'];
             // this.booking = booking;
             countries = fetchedCountries;
@@ -279,6 +288,9 @@ export class IrBookingPrinting {
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ApiClient",
                 "methodName": "ticketChanged"
             }];

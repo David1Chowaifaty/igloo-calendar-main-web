@@ -2,8 +2,8 @@ import { Host, h } from "@stencil/core";
 import { ToBeAssignedService } from "../../../services/toBeAssigned.service";
 import { dateToFormattedString } from "../../../utils/utils";
 import moment from "moment";
-import locales from "../../../stores/locales.store";
 import { getUnassignedDates } from "../../../stores/unassigned_dates.store";
+import { t } from "../../../services/locale/t";
 //import { updateCategories } from '@/utils/events.utils';
 export class IglToBeAssigned {
     unassignedDatesProp;
@@ -32,7 +32,7 @@ export class IglToBeAssigned {
     unassignedDates;
     componentWillLoad() {
         this.reArrangeData();
-        this.loadingMessage = locales.entries.Lcz_FetchingUnAssignedUnits;
+        this.loadingMessage = t('Lcz_FetchingUnAssignedUnits');
     }
     handleUnassignedDatesToBeAssignedChange(newValue) {
         const { fromDate, toDate, data } = newValue;
@@ -244,7 +244,7 @@ export class IglToBeAssigned {
         const selectedDateData = this.selectedDate ? this.data[this.selectedDate] : null;
         const isEmpty = Object.keys(this.data).length === 0;
         const hasDates = this.orderedDatesList.length > 0;
-        return (h(Host, { key: '4290263b5a607c1a3b303cd5cc53e2c4937fc316' }, h("div", { key: '0528b734833604d68c0c13161586c7d585a6ac60', class: "tba-panel" }, h("div", { key: '79243e03cd830d2cea571e6f16bc89767e40f4c8', class: "tba-panel__head" }, h("header", { key: '7e46aa02475b3b5980d06be43bbb8afc0f9bd764', class: "tba-panel__header" }, h("h2", { key: '67eb91a6ef5754577f455ca9cb43812e8a8c72d3', class: "tba-panel__title", id: "to-be-assigned-title" }, locales.entries.Lcz_Assignments), h("ir-custom-button", { key: 'cce79fe9dd265a3baad094e4cf914f9e2b5cdfde', size: "m", appearance: "plain", variant: "neutral", onClickHandler: () => this.handleOptionEvent('closeSideMenu') }, h("wa-icon", { key: 'afde5221d11d7bb8640dcb667d49222c96637fe3', name: "xmark", variant: "solid", label: "Close", "aria-label": "Close", role: "img" }))), hasDates && (h("div", { key: 'e00cd10a01b4a26e9e6e9566d8c63d3a25e92a35', class: "tba-panel__toolbar" }, h("wa-select", { key: '8a5f8bdfea7a7d157c6468579c1cdae0571aa74e', size: "s", "aria-label": locales.entries.Lcz_Assignments, value: this.selectedDate ? this.selectedDate.toString() : '', defaultValue: this.selectedDate ? this.selectedDate.toString() : '', onchange: evt => this.showForDate(evt.target.value) }, this.orderedDatesList.map(ordDate => (h("wa-option", { value: ordDate.toString() }, this.data[ordDate].dateStr))))))), h("div", { key: 'fb38dabfe034e14293dd027efebe9047eb42a346', class: "tba-panel__body" }, isEmpty ? (h("p", { class: "tba-panel__empty" }, locales.entries.Lcz_AllBookingsAreAssigned)) : this.isLoading ? (h("div", { class: "tba-panel__loading" }, h("ir-spinner", null))) : selectedDateData && Object.keys(selectedDateData.categories).length ? (this.getCategoryView()) : (h("p", { class: "tba-panel__empty" }, locales.entries.Lcz_AllAssignForThisDay))))));
+        return (h(Host, { key: '80d6f13d6658a3678c2711ed9d47b808d0d0afdc' }, h("div", { key: 'e5c7300b7bdac6768fcda0ff7ecfad948d0963c9', class: "tba-panel" }, h("div", { key: '393da5e2e57f07e75980a84eace6a45832fd7cf0', class: "tba-panel__head" }, h("header", { key: '424de9a9c568f36359793ee6e6125842aa44abbd', class: "tba-panel__header" }, h("h2", { key: '89eba8f46effe9e4c799913aa23fddab6d5a3c34', class: "tba-panel__title", id: "to-be-assigned-title" }, t('Lcz_Assignments')), h("ir-custom-button", { key: 'baf2f00465c6997ab184ddcc19a2b7952f4ba4ad', size: "m", appearance: "plain", variant: "neutral", onClickHandler: () => this.handleOptionEvent('closeSideMenu') }, h("wa-icon", { key: '29de696bb81f52b1dc81245174304ab8fbd3522a', name: "xmark", variant: "solid", label: "Close", "aria-label": "Close", role: "img" }))), hasDates && (h("div", { key: '01f5cf84de3ada35ac8bf3b199308542808a9219', class: "tba-panel__toolbar" }, h("wa-select", { key: 'b76f36a316b38614b82dda21938ac045bf4887bf', size: "s", "aria-label": t('Lcz_Assignments'), value: this.selectedDate ? this.selectedDate.toString() : '', defaultValue: this.selectedDate ? this.selectedDate.toString() : '', onchange: evt => this.showForDate(evt.target.value) }, this.orderedDatesList.map(ordDate => (h("wa-option", { value: ordDate.toString() }, this.data[ordDate].dateStr))))))), h("div", { key: 'af2b99895ef570eb4e0d5863a6a1d9f27a7f4896', class: "tba-panel__body" }, isEmpty ? (h("p", { class: "tba-panel__empty" }, t('Lcz_AllBookingsAreAssigned'))) : this.isLoading ? (h("div", { class: "tba-panel__loading" }, h("ir-spinner", null))) : selectedDateData && Object.keys(selectedDateData.categories).length ? (this.getCategoryView()) : (h("p", { class: "tba-panel__empty" }, t('Lcz_AllAssignForThisDay')))))));
     }
     static get is() { return "igl-to-be-assigned"; }
     static get encapsulation() { return "scoped"; }

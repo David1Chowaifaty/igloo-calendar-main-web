@@ -1,5 +1,5 @@
 import locales from "../../stores/locales.store";
-/** Maps a supported language code to its `CODE_VALUE_*` column on {@link IEntries}. */
+/** Maps a supported language code to its `CODE_VALUE_*` column on {@link SetupEntries}. */
 const LANGUAGE_KEY_MAP = {
     en: 'CODE_VALUE_EN',
     ar: 'CODE_VALUE_AR',
@@ -28,7 +28,7 @@ export function toEntryLanguage(language) {
  * 2. `CODE_VALUE_EN` — English fallback.
  * 3. `CODE_NAME` — last-resort fallback when both are absent.
  *
- * @param entry - The `IEntries` object to translate.
+ * @param entry - The `SetupEntries` object to translate.
  * @param language - Language code, any case (e.g. `"fr"`, `"AR"`). Defaults to `"en"`.
  *
  * @example

@@ -1,6 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { v4 } from "uuid";
-import locales from "../../../stores/locales.store";
+import { t } from "../../../services/locale/t";
 export class OtaLabel {
     /**
      * Label displayed as the section title.
@@ -34,7 +34,7 @@ export class OtaLabel {
             return null;
         }
         const displayedRemarks = this.showAll ? this.remarks : this.remarks.slice(0, this.maxVisibleItems);
-        return (h(Host, null, h("p", { class: 'label_title' }, this.label), h("ul", { class: "ota-message-list" }, displayedRemarks.map((remark, index) => (h("li", { key: v4(), class: "ota-message-item" }, remark.statement, ' ', this.remarks.length > this.maxVisibleItems && index === displayedRemarks.length - 1 && (h("button", { class: "ota-visibility-toggle", onClick: this.toggleShowAll }, this.showAll ? locales.entries.Lcz_ShowLess : locales.entries.Lcz_ShowMore))))))));
+        return (h(Host, null, h("p", { class: 'label_title' }, this.label), h("ul", { class: "ota-message-list" }, displayedRemarks.map((remark, index) => (h("li", { key: v4(), class: "ota-message-item" }, remark.statement, ' ', this.remarks.length > this.maxVisibleItems && index === displayedRemarks.length - 1 && (h("button", { class: "ota-visibility-toggle", onClick: this.toggleShowAll }, this.showAll ? t('Lcz_ShowLess') : t('Lcz_ShowMore')))))))));
     }
     static get is() { return "ota-label"; }
     static get encapsulation() { return "scoped"; }

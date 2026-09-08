@@ -2,11 +2,12 @@ import { SelectedUnitSchema } from "../../../../models/room-selection";
 import { BookingService } from "../../../../services/booking-service/booking.service";
 import { resetBookingStore } from "../../../../stores/booking.store";
 import calendar_data from "../../../../stores/calendar-data";
-import locales from "../../../../stores/locales.store";
 import { checkMealPlan } from "../../../../utils/utils";
 import { Fragment, h } from "@stencil/core";
 import moment from "moment";
 import { ZodError } from "zod";
+import { LocaleController } from "../../../../services/locale/locale.controller";
+import { t } from "../../../../services/locale/t";
 export class IglSplitBookingForm {
     booking;
     identifier;
@@ -71,7 +72,7 @@ export class IglSplitBookingForm {
                     adult: 1,
                     child: 0,
                 },
-                language: locales.language,
+                language: LocaleController.language,
                 room_type_ids: [],
                 currency: this.booking.currency,
                 agent_id: is_in_agent_mode ? this.booking.agent.id : null,
@@ -217,14 +218,14 @@ export class IglSplitBookingForm {
     }
     render() {
         const eligibleRoomTypes = this.eligibleRoomTypes;
-        return (h("form", { key: '7db0e468a5ea0914933a09fcff38fd6ef681098b', id: this.formId, onSubmit: e => {
+        return (h("form", { key: '824dd9a20bc99f6928479fdc24f7d341cba23ed7', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.doReservation();
-            } }, h("div", { key: '5c2d45000cb9154251d2c13bb5ead4765b63b749', class: "split-header" }, h("div", { key: 'a261b10d31d007e692b4d332d61076761da5236e', class: "split-header__summary" }, h("span", { key: 'b04b378a0a3d7ba788cf910c490ef01323979397', class: "split-header__room" }, this.room.unit?.['name'] ?? this.room.roomtype?.name), h("span", { key: 'edfa8006678349014b26fa02205c1fdea46df6e3', class: "split-header__rateplan" }, this.room.rateplan.short_name, this.room.rateplan.is_non_refundable && (h("wa-tag", { key: '3f3def39289b4601ef97a4fd5462e143355ca764', size: "s", variant: "warning" }, locales.entries.Lcz_NonRefundable)))), h("div", { key: '7dad97f88dc6def729e1698a7252f00392dc424b', class: "split-search-row" }, h("ir-date-select", { key: '13e4bdf405c9c96799a94be06239c804397b6a06',
+            } }, h("div", { key: '27da4af4fd94f112aaa3f74384b0986db7410ae8', class: "split-header" }, h("div", { key: 'a7c3f87a8c20fc2536c8a88a4c9c64867aa8edb4', class: "split-header__summary" }, h("span", { key: '6afa8065fd98baea5b65ecb1c0f798d63883f1ff', class: "split-header__room" }, this.room.unit?.['name'] ?? this.room.roomtype?.name), h("span", { key: 'e627eabecae4abf078ab48c8949b870f5f383a3e', class: "split-header__rateplan" }, this.room.rateplan.short_name, this.room.rateplan.is_non_refundable && (h("wa-tag", { key: '2c380aa283d7fa18b3697af6ded199a67410a4a2', size: "s", variant: "warning" }, t('Lcz_NonRefundable'))))), h("div", { key: 'a43ea7530afa7e998c4ec050fe3b1434a110865c', class: "split-search-row" }, h("ir-date-select", { key: '470f391e6cc964eed2196aac04058b06f04ce1d6',
             // customPicker
             class: "split-search__date", "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true, onDateChanged: evt => {
                 this.selectedDates = { ...this.selectedDates, from_date: evt.detail.start };
-            } }, h("wa-icon", { key: '1ef47cd5357c9369230945a5183e2636d719fe98', slot: "start", name: "calendar" })), h("ir-custom-button", { key: 'b441e5e6287de2bf670a99b7716652562e659f56', class: "split-search__submit", appearance: "accent", variant: "brand", size: "s", loading: this.isSearching, onClickHandler: () => this.checkBookingAvailability() }, "Check availability"))), this.errors?.roomtype_id && (h("p", { key: 'c18e8807f57bee881a418cb4bb23175529b596da', class: "error-message" }, h("wa-icon", { key: '26f09de041af5a428d31793d52e5a1b6417595ec', name: "circle-exclamation" }), "Please select a room")), this.isSearching ? (h("div", { class: "split-loading" })) : !this.hasSearched ? (h("div", { class: "split-empty" }, h("ir-empty-state", { message: "Pick a date and search to see available units" }), h("ir-custom-button", { class: "split-empty__action", loading: this.isSearching, onClickHandler: () => this.checkBookingAvailability(), variant: "brand", size: "s" }, "Check availability"))) : eligibleRoomTypes.length === 0 ? (h("div", { class: "split-empty" }, h("ir-empty-state", { message: "No available units for these dates" }))) : (h("wa-radio-group", { class: "room-type-list", name: "unit", onchange: e => {
+            } }, h("wa-icon", { key: 'dd84618d3da32cca84f7b091fd629250de6938a5', slot: "start", name: "calendar" })), h("ir-custom-button", { key: '21a3795f8fbd8e2cd1385ba4915840586d94a93b', class: "split-search__submit", appearance: "accent", variant: "brand", size: "s", loading: this.isSearching, onClickHandler: () => this.checkBookingAvailability() }, "Check availability"))), this.errors?.roomtype_id && (h("p", { key: 'd2049c3357312290c19731a20e7d7e955fc6021f', class: "error-message" }, h("wa-icon", { key: '4bbc1eaa8a3e27e69fb86444d209d70a8e6d8e99', name: "circle-exclamation" }), "Please select a room")), this.isSearching ? (h("div", { class: "split-loading" })) : !this.hasSearched ? (h("div", { class: "split-empty" }, h("ir-empty-state", { message: "Pick a date and search to see available units" }), h("ir-custom-button", { class: "split-empty__action", loading: this.isSearching, onClickHandler: () => this.checkBookingAvailability(), variant: "brand", size: "s" }, "Check availability"))) : eligibleRoomTypes.length === 0 ? (h("div", { class: "split-empty" }, h("ir-empty-state", { message: "No available units for these dates" }))) : (h("wa-radio-group", { class: "room-type-list", name: "unit", onchange: e => {
                 const [roomtype_id, unit_id] = e.target.value.split('_');
                 this.updateSelectedUnit({
                     roomtype_id: Number(roomtype_id),

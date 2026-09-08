@@ -3,11 +3,13 @@ import moment from "moment";
 import ApiClient from "../../models/ApiClient";
 import { RoomService } from "../../services/room.service";
 import { DpReportService } from "../../services/dp-report.service";
-import locales from "../../stores/locales.store";
 import dp_report, { updateDpReportFilters } from "../../stores/dp_report.store";
 import { mapBookingToDpRow } from "./types";
 import { isOptimReadOnly } from "../../stores/calendar-data";
 import { PropertyService } from "../../services/property/index";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 export class IrDpReport {
     el;
     language = '';
@@ -27,6 +29,8 @@ export class IrDpReport {
     roomService = new RoomService();
     propertyService = new PropertyService();
     dpReportService = new DpReportService();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.dpReport, () => this.initializeApp());
     componentWillLoad() {
         if (this.baseUrl) {
             this.ApiClient.setBaseUrl(this.baseUrl);
@@ -35,6 +39,15 @@ export class IrDpReport {
             this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -69,29 +82,25 @@ export class IrDpReport {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
             this.propertyId = propertyId;
-            const [languageTexts, allowedProperties] = await Promise.all([
-                this.roomService.fetchLanguage(this.language),
+            const [, allowedProperties] = await Promise.all([
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.dpReport }),
                 this.propertyService.getActiveOptimExposedProperties(),
                 !this.propertyid
                     ? Promise.resolve(null)
                     : this.roomService.getExposedProperty({
                         id: this.propertyId,
                         aname: this.p,
-                        language: this.language,
+                        language: LocaleController.language,
                         is_backend: true,
                     }),
                 await this.fetchInitialDpReport(),
             ]);
-            if (!locales.entries) {
-                locales.entries = languageTexts.entries;
-                locales.direction = languageTexts.direction;
-            }
             this.allowedProperties = allowedProperties && allowedProperties.length > 1 ? allowedProperties : null;
         }
         catch (error) {
@@ -321,6 +330,9 @@ export class IrDpReport {
     static get elementRef() { return "el"; }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

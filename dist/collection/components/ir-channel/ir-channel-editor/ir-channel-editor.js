@@ -1,7 +1,7 @@
 import { ChannelService } from "../../../services/channel.service";
 import channels_data, { onChannelChange } from "../../../stores/channel.store";
-import locales from "../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 export class IrChannelEditor {
     channel_status = null;
     ticket;
@@ -11,11 +11,11 @@ export class IrChannelEditor {
     headerTitles = [
         {
             id: 'general_settings',
-            name: locales.entries?.Lcz_GeneralSettings,
+            name: t('Lcz_GeneralSettings'),
             disabled: false,
         },
-        { id: 'mapping', name: locales.entries?.Lcz_Mapping, disabled: true },
-        { id: 'channel_booking', name: locales.entries?.Lcz_ChannelBooking, disabled: true },
+        { id: 'mapping', name: t('Lcz_Mapping'), disabled: true },
+        { id: 'channel_booking', name: t('Lcz_ChannelBooking'), disabled: true },
     ];
     selectedRoomType = [];
     saveChannelFinished;
@@ -73,19 +73,19 @@ export class IrChannelEditor {
         }
     }
     render() {
-        return (h(Host, { key: 'b2be5287e999b2fa0b280b9006fc14c34ec4aac4', class: " d-flex flex-column h-100" }, h("nav", { key: '4128f8ec3c2372150c136119972cd760ead80cd3', class: "position-sticky sticky-top pb-1 top-0 bg-white " }, h("div", { key: '0680119117fca6ed559351b4ec8dbb0c22ab6a59', class: "d-flex align-items-center px-1 py-1  justify-content-between" }, h("h3", { key: '8464f09de181b2a00f0a3512e8551357538e3d74', class: "ir-text-start font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? locales.entries?.Lcz_CreateChannel : locales.entries?.Lcz_EditChannel), h("ir-icon", { key: '6c70efa1a8f370cc8b5f2c2c6c868ef647b6e927', class: 'm-0 p-0 close', onIconClickHandler: () => {
+        return (h(Host, { key: 'befb0b5fc89b72dc2e31e1405d05cddc6136cc99', class: " d-flex flex-column h-100" }, h("nav", { key: 'b686f435cc0e1e0bdb37f988be56be2b7b60d1db', class: "position-sticky sticky-top pb-1 top-0 bg-white " }, h("div", { key: '0947667d93e0315b562eb0933e9399b2b43f77e2', class: "d-flex align-items-center px-1 py-1  justify-content-between" }, h("h3", { key: '7b9ef45189011182d7b8312e1ba2a78fe35cbc6f', class: "ir-text-start font-medium-2  py-0 my-0" }, this.channel_status === 'create' ? t('Lcz_CreateChannel') : t('Lcz_EditChannel')), h("ir-icon", { key: 'b9e097fb85ab561e731210b0f9dcac38c5777a0e', class: 'm-0 p-0 close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, h("svg", { key: 'e78003bb6eaa3c8f46a161723813666eba402cd7', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'aedb20e6bd55dd42c5b4a6679430d3a14fa94049', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("ir-channel-header", { key: '31c08625c56c6df19dd9baba65f1d9ac0ba9270b', class: "mt-1 px-0", headerTitles: this.headerTitles })), h("section", { key: 'fb58c2d383257ef4659b363081e4ef60afce9081', class: "flex-fill tab-container px-1" }, this.renderTabScreen()), h("ir-button", { key: '2b54d1c67157a3bb9fbca62d1f9cd4faae36e2a1', isLoading: this.isLoading, onClickHandler: () => {
+            } }, h("svg", { key: 'b6f560984aa1204835a9b6f00959b439c9f6ac8e', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '077214a57213ab1f9e89399a1a64331e68a150b1', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("ir-channel-header", { key: '1f598c08c0ea9a1922c79c67d329d4479ebf32cb', class: "mt-1 px-0", headerTitles: this.headerTitles })), h("section", { key: 'cb6e73655f1586933d248cf0dff8bda53cfbfe45', class: "flex-fill tab-container px-1" }, this.renderTabScreen()), h("ir-button", { key: '080097a5f734decc42a1bd3eb0c7915b647fdea9', isLoading: this.isLoading, onClickHandler: () => {
                 if (!channels_data.isConnectedToChannel) {
                     this.toast.emit({
                         type: 'error',
-                        description: locales.entries.Lcz_InvalidCredentials,
-                        title: locales.entries.Lcz_InvalidCredentials,
+                        description: t('Lcz_InvalidCredentials'),
+                        title: t('Lcz_InvalidCredentials'),
                     });
                     return;
                 }
                 this.saveConnectedChannel();
-            }, class: "px-1 py-1 top-border", btn_styles: "w-100  justify-content-center align-items-center", text: locales.entries.Lcz_Save })));
+            }, class: "px-1 py-1 top-border", btn_styles: "w-100  justify-content-center align-items-center", text: t('Lcz_Save') })));
     }
     static get is() { return "ir-channel-editor"; }
     static get encapsulation() { return "scoped"; }

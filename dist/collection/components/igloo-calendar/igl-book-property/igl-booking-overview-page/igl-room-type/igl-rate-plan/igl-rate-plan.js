@@ -1,7 +1,7 @@
 import { Host, h, Fragment } from "@stencil/core";
 import { v4 as uuidv4 } from "uuid";
-import locales from "../../../../../../stores/locales.store";
 import booking_store, { reserveRooms, resetReserved, updateRoomParams } from "../../../../../../stores/booking.store";
+import { t, tRaw } from "../../../../../../services/locale/t";
 export class IglRatePlan {
     // Used Props with type annotations
     ratePlan;
@@ -97,10 +97,8 @@ export class IglRatePlan {
     formatVariation(variation) {
         if (!variation)
             return '';
-        const adults = `${variation.adult_nbr} ${variation.adult_nbr === 1 ? locales.entries['Lcz_Adult']?.toLowerCase() : locales.entries['Lcz_Adults']?.toLowerCase()}`;
-        const children = variation.child_nbr > 0
-            ? `${variation.child_nbr} ${variation.child_nbr > 1 ? locales.entries['Lcz_Children']?.toLowerCase() : locales.entries['Lcz_Child']?.toLowerCase()}`
-            : '';
+        const adults = `${variation.adult_nbr} ${variation.adult_nbr === 1 ? t('Lcz_Adult')?.toLowerCase() : t('Lcz_Adults')?.toLowerCase()}`;
+        const children = variation.child_nbr > 0 ? `${variation.child_nbr} ${variation.child_nbr > 1 ? t('Lcz_Children')?.toLowerCase() : t('Lcz_Child')?.toLowerCase()}` : '';
         return children ? `${adults} ${children}` : adults;
     }
     // Get tooltip messages for the rate plan
@@ -146,13 +144,13 @@ export class IglRatePlan {
         // if (!this.visibleInventory) {
         //   return null;
         // }
-        return (h(Host, { key: '9d93006aa13b3bab5c602216a36ba3d069b92f7d', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: '019fb78f62946be5d6841312d754f58bbc0d82dc', class: `rate-plan ${visibleInventory?.reserved === 1 && bookingType === 'EDIT_BOOKING' ? '--current' : ''} ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: '895df1447d05e1ce26ec6d5a6b56d19efdd0205e', "data-testid": 'rp_name', class: "rateplan-name-container" }, h("div", { key: 'd706dc095fd300ee9206bb058c0ac5f2644d828f' }, bookingType === 'BAR_BOOKING' ? (h(Fragment, null, h("span", { class: 'rateplan-name' }, ratePlan.short_name, " "), ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))) : (h(Fragment, null, h("span", { class: 'rateplan-name' }, ratePlan.short_name, " "), ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), ratePlan.custom_text && h("span", { key: '9be94a9891afe12ee448d55774c76d5b9651822f', class: "custom-text-span" }, ratePlan.custom_text)), isAvailableToBook && (h(Fragment, { key: 'bf94c851c5ca41fa67e3dc3e7973008368aef72e' }, h("wa-tooltip", { key: 'ef3aadf4ce8c99fc7fc2f8d0d0f3bae91e5b412f', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: 'ae1d50e4967195dc582ee2b73dc8f02c8489f24b', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '75c3c36974b98ac5da355524cde9c4af4799a174', name: "circle-info", id: `rateplan-${this.ratePlan.id}` }))), this.unavailableRatePlanIds.has(this.ratePlan.id) && (h(Fragment, { key: '442afd6414aa2f31e81b38bba57cba25b69f3598' }, h("wa-tooltip", { key: '96085c4d90feda67b1056609e13bdca039b54da3', for: `rateplan-warning-${this.ratePlan.id}` }, "You are forcing a stop-sale restriction."), h("wa-icon", { key: 'f471471a2e719f3d83ea6accbfae24f7585a7bbe', name: "triangle-exclamation", style: { color: 'var(--wa-color-warning-fill-loud)' }, id: `rateplan-warning-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "s", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
+        return (h(Host, { key: '95e3ca9ed2a4db0e1ecc3125261b46a28b9099e5', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: 'f187fae421a18b95d8abc868cb125c1fea28b24c', class: `rate-plan ${visibleInventory?.reserved === 1 && bookingType === 'EDIT_BOOKING' ? '--current' : ''} ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: 'a50be72ee535a7230dee9b374c8d17dcda7117ed', "data-testid": 'rp_name', class: "rateplan-name-container" }, h("div", { key: '77b62fd5a57bcd70a8842dc38c820c2943449865' }, bookingType === 'BAR_BOOKING' ? (h(Fragment, null, h("span", { class: 'rateplan-name' }, ratePlan.short_name, " "), ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))) : (h(Fragment, null, h("span", { class: 'rateplan-name' }, ratePlan.short_name, " "), ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), ratePlan.custom_text && h("span", { key: '1f00ca4d878ac4857dace59f1c74c738af05c4cb', class: "custom-text-span" }, ratePlan.custom_text)), isAvailableToBook && (h(Fragment, { key: '7ab4811570e8e8c163ea5564211ede7c160abb08' }, h("wa-tooltip", { key: 'fcb8b5dc1e69ef7fbb60640c18869c2f6cf9a094', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: '31e9a2e2f9da464e6122387133874354d0ec9248', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '1eaaee482264254d3f5ebd5ce978289359b594e3', name: "circle-info", id: `rateplan-${this.ratePlan.id}` }))), this.unavailableRatePlanIds.has(this.ratePlan.id) && (h(Fragment, { key: '537fec923ca7e0b773eb23a017401e266dcc0359' }, h("wa-tooltip", { key: '60b2217e6474892217a56066e75abacfabbeab91', for: `rateplan-warning-${this.ratePlan.id}` }, "You are forcing a stop-sale restriction."), h("wa-icon", { key: '30481d68e18dcc18bbb81ccc28a95cdab458f265', name: "triangle-exclamation", style: { color: 'var(--wa-color-warning-fill-loud)' }, id: `rateplan-warning-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "s", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, value: this.formatVariation(selectedVariation), defaultValue: this.formatVariation(selectedVariation) }, formattedVariations?.map(variation => (h("wa-option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))), h("div", { class: "rateplan-config" }, h("div", { class: "rate-total-night-view" }, h("ir-input", { disabled: disableForm, class: "fd-rateplan__price-input", "onText-change": e => this.updateRateplanSelection({
                 is_amount_modified: true,
                 rp_amount: Number(e.detail),
-            }), id: `rate-input-${this.ratePlan.id}`, "aria-label": `${this.visibleInventory?.roomtype?.name} ${this.ratePlan.short_name}'s rate`, "aria-describedby": `${this.ratePlan.short_name}'s rate`, value: this.rate, defaultValue: this.rate, placeholder: locales.entries.Lcz_Rate || 'Rate', mask: "price" }, h("span", { slot: "start" }, currency.symbol)), h("wa-select", { "data-testid": 'nigh_stay_select', disabled: disableForm, "onwa-hide": e => {
+            }), id: `rate-input-${this.ratePlan.id}`, "aria-label": `${this.visibleInventory?.roomtype?.name} ${this.ratePlan.short_name}'s rate`, "aria-describedby": `${this.ratePlan.short_name}'s rate`, value: this.rate, defaultValue: this.rate, placeholder: t('Lcz_Rate', { fallback: 'Rate' }), mask: "price" }, h("span", { slot: "start" }, currency.symbol)), h("wa-select", { "data-testid": 'nigh_stay_select', disabled: disableForm, "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, size: "s", class: "fd-rateplan__nights-select", id: uuidv4(), onchange: evt => this.updateRateplanSelection({
@@ -164,7 +162,7 @@ export class IglRatePlan {
                 resetReserved();
                 this.reserveRoom();
                 this.bookProperty();
-            } }, locales.entries.Lcz_Select))), (bookingType === 'BAR_BOOKING' || bookingType === 'SPLIT_BOOKING') && (h("ir-custom-button", { "data-testid": "book", disabled: disableForm || (bookingType === 'SPLIT_BOOKING' && this.isBookDisabled), type: "button", class: "booking-btn", variant: "brand", onClickHandler: () => this.bookProperty() }, locales.entries.Lcz_Book)))) : (h("p", { class: "rate-plan-unavailable-text" }, locales.entries['Lcz_NotAvailable'] || 'Not available')))));
+            } }, t('Lcz_Select')))), (bookingType === 'BAR_BOOKING' || bookingType === 'SPLIT_BOOKING') && (h("ir-custom-button", { "data-testid": "book", disabled: disableForm || (bookingType === 'SPLIT_BOOKING' && this.isBookDisabled), type: "button", class: "booking-btn", variant: "brand", onClickHandler: () => this.bookProperty() }, t('Lcz_Book'))))) : (h("p", { class: "rate-plan-unavailable-text" }, tRaw('Lcz_NotAvailable', { fallback: 'Not available' }))))));
     }
     static get is() { return "igl-rate-plan"; }
     static get encapsulation() { return "scoped"; }

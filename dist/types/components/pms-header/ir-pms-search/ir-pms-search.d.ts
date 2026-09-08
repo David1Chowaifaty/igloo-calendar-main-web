@@ -7,7 +7,7 @@ export declare class IrPmsSearch {
     shortcutHint: string | null;
     bookings: Booking[];
     isLoading: boolean;
-    private tokenService;
+    private apiClientService;
     private bookingListingService;
     private search$;
     private subscription;

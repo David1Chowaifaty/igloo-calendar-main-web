@@ -6,17 +6,17 @@ export class IrQueueManager {
     el;
     ticket = '';
     isLoading = true;
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     data;
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue && newValue) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }

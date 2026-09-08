@@ -8,6 +8,7 @@ import { getExtraServiceDefaultPrice, getDayUseBlockState, getBabyCotPricingMode
 import { showToast } from "../../utils/utils";
 import { groupSvcCategoriesByParent } from "../../utils/svc-category.utils";
 import { SvcCategory } from "../../types/enums";
+import { LocaleController } from "../../services/locale/locale.controller";
 /** Hidden `_SVC_CATEGORY` — only used for categories that doesn't require a default price. */
 const HIDDEN_SUB_CATEGORIES = new Set([SvcCategory.Minibar]);
 /** Valid `BABY_COT_PRICING_MODEL` values — the baby cot's default price is either a flat per-stay charge or a per-night charge. */
@@ -24,12 +25,12 @@ export class IrExtraServicesSettings {
     autoValidate;
     dayUseBlockNight = false;
     babyCotPricingModel = 'Stay';
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     setupService = new SetupService();
     propertyService = new PropertyService();
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -46,14 +47,14 @@ export class IrExtraServicesSettings {
             this.reinit();
     }
     reinit() {
-        this.tokenService.setApiClient(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.init();
     }
     async init() {
         this.isLoading = true;
         try {
             const [, tableEntries] = await Promise.all([
-                this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
+                this.propertyService.getExposedProperty({ id: this.propertyid, language: LocaleController.language }),
                 this.setupService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY']),
             ]);
             this.setupEntries = groupEntryTablesResult(tableEntries);
@@ -162,7 +163,7 @@ export class IrExtraServicesSettings {
             const isExtraBed = category.CODE_NAME === 'EXB';
             return [
                 idx > 0 && (h("div", { class: "extra-services-grid__divider", key: category.CODE_NAME + 'divider' + idx }, h("wa-divider", null))),
-                h("div", { class: "extra-services-grid__row", id: category.CODE_NAME, key: category.CODE_NAME + 'row' + idx }, h("div", { class: "extra-services-grid__name" }, h("p", { class: "extra-services-grid__title" }, getEntryValue({ entry: category, language: this.language }))), h("div", { class: "extra-services-grid__controls" }, h("div", { class: "extra-services-grid__cell" }, isBabyCot ? (h("div", { class: 'ir__field-group' }, h("ir-extra-service-price-input", {
+                h("div", { class: "extra-services-grid__row", id: category.CODE_NAME, key: category.CODE_NAME + 'row' + idx }, h("div", { class: "extra-services-grid__name" }, h("p", { class: "extra-services-grid__title" }, getEntryValue({ entry: category, language: LocaleController.language }))), h("div", { class: "extra-services-grid__controls" }, h("div", { class: "extra-services-grid__cell" }, isBabyCot ? (h("div", { class: 'ir__field-group' }, h("ir-extra-service-price-input", {
                     // class={'--grow'}
                     autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule
                 }), h("wa-select", { value: this.babyCotPricingModel, defaultValue: this.babyCotPricingModel, size: "s", style: { width: 'min-content', minWidth: '100px' }, onchange: e => (this.babyCotPricingModel = e.target.value) }, h("wa-option", { value: "Stay" }, "Stay"), h("wa-option", { value: "Night" }, "Night")))) : (h("ir-extra-service-price-input", { autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule }, isExtraBed && h("span", { slot: "end" }, "/night")))))),

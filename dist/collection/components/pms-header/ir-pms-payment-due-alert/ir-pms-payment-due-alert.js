@@ -6,14 +6,14 @@ export class IrPmsPaymentDueAlert {
     ticket;
     baseUrl;
     notifications = [];
-    tokenService = new ApiClient();
+    apiClientService = new ApiClient();
     propertyService = new PropertyService();
     componentWillLoad() {
         if (this.baseUrl) {
-            this.tokenService.setBaseUrl(this.baseUrl);
+            this.apiClientService.setBaseUrl(this.baseUrl);
         }
         if (this.ticket) {
-            this.tokenService.setApiClient(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.fetchNotifications();
         }
     }
@@ -21,7 +21,7 @@ export class IrPmsPaymentDueAlert {
         if (newValue === oldValue || !newValue) {
             return;
         }
-        this.tokenService.setApiClient(newValue);
+        this.apiClientService.setApiClient(newValue);
         this.fetchNotifications();
     }
     async fetchNotifications() {

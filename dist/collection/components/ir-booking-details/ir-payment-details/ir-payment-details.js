@@ -1,12 +1,12 @@
 import { h } from "@stencil/core";
 import { BookingService } from "../../../services/booking-service/booking.service";
 import { PaymentService } from "../../../services/payment.service";
-import locales from "../../../stores/locales.store";
 import moment from "moment";
 import { formatAmount } from "../../../utils/utils";
 import calendar_data from "../../../stores/calendar-data";
 import { isAgentMode } from "../functions";
 import { FdTypes, PayTypes } from "../../../types/enums";
+import { t } from "../../../services/locale/t";
 export class IrPaymentDetails {
     booking;
     paymentActions;
@@ -245,7 +245,7 @@ export class IrPaymentDetails {
                     e.stopPropagation();
                 }, onIrDialogAfterHide: e => {
                     this.handleCancelModal(e);
-                }, ref: el => (this.dialogRef = el), label: "Alert", lightDismiss: this.modalMode !== 'delete' }, h("p", null, this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "m", "data-dialog": "close", variant: "neutral", appearance: "filled" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { loading: this.isLoading, size: "m", onClickHandler: e => this.handleConfirmModal(e), variant: this.modalMode === 'delete' ? 'danger' : 'brand' }, this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm))),
+                }, ref: el => (this.dialogRef = el), label: "Alert", lightDismiss: this.modalMode !== 'delete' }, h("p", null, this.modalMode === 'delete' ? t('Lcz_IfDeletedPermantlyLost') : t('Lcz_EnteringAmountGreaterThanDue')), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "m", "data-dialog": "close", variant: "neutral", appearance: "filled" }, t('Lcz_Cancel')), h("ir-custom-button", { loading: this.isLoading, size: "m", onClickHandler: e => this.handleConfirmModal(e), variant: this.modalMode === 'delete' ? 'danger' : 'brand' }, this.modalMode === 'delete' ? t('Lcz_Delete') : t('Lcz_Confirm')))),
         ];
     }
     static get is() { return "ir-payment-details"; }
@@ -334,7 +334,7 @@ export class IrPaymentDetails {
                 "mutable": false,
                 "complexType": {
                     "original": "PaymentEntries",
-                    "resolved": "{ types: IEntries[]; groups: IEntries[]; methods: IEntries[]; }",
+                    "resolved": "{ types: SetupEntries[]; groups: SetupEntries[]; methods: SetupEntries[]; }",
                     "references": {
                         "PaymentEntries": {
                             "location": "import",
@@ -377,14 +377,14 @@ export class IrPaymentDetails {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "IEntries[]",
-                    "resolved": "IEntries[]",
+                    "original": "SetupEntries[]",
+                    "resolved": "SetupEntries[]",
                     "references": {
-                        "IEntries": {
+                        "SetupEntries": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::IEntries",
-                            "referenceLocation": "IEntries"
+                            "id": "src/models/property.ts::SetupEntries",
+                            "referenceLocation": "SetupEntries"
                         }
                     }
                 },

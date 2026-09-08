@@ -1,4 +1,4 @@
-import { IEntries } from "../../models/IBooking";
+import { SetupEntries } from "../../models/IBooking";
 import { MealCountDaySummary, MealGuestEntry } from "../../services/meal-report/types";
 export declare class IrMealReport {
     ticket: string;
@@ -15,12 +15,12 @@ export declare class IrMealReport {
     guestList: MealGuestEntry[];
     mealCountSummary: MealCountDaySummary[];
     setupEntries: {
-        meal_type: IEntries[];
-        hb_preference: IEntries[];
+        meal_type: SetupEntries[];
+        hb_preference: SetupEntries[];
     };
     private mealReportService;
     private setupService;
-    private tokenService;
+    private apiClientService;
     ticketChanged(newValue: string): void;
     componentWillLoad(): void;
     handlePropertyChange(): Promise<void>;

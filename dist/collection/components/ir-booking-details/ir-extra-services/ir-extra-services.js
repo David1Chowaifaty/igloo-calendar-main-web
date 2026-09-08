@@ -1,6 +1,6 @@
 import { Fragment, Host, h } from "@stencil/core";
-import locales from "../../../stores/locales.store";
 import { isAgentMode } from "../functions";
+import { t } from "../../../services/locale/t";
 export class IrExtraServices {
     booking;
     agent;
@@ -24,9 +24,9 @@ export class IrExtraServices {
             const guestServices = services.filter(s => s.agent === null || s.agent === undefined);
             const agentServices = services.filter(s => s.agent !== null && s.agent !== undefined);
             const agentName = this.booking.agent?.name ?? 'Agent';
-            return (h(Host, null, h("wa-card", { appearance: "plain", class: "extra-service__card" }, h("p", { slot: "header", class: 'font-size-large p-0 m-0' }, locales.entries.Lcz_ExtraServices), this.extraServicesHeaderActions(), services.length === 0 ? (h("ir-empty-state", { showIcon: false })) : (h(Fragment, null, h("p", { class: "service-group__label --agent" }, agentName, h("span", null, "Folio")), h("div", { class: "service-group service-group--agent" }, h("div", { class: "service-group__body" }, agentServices.length === 0 ? h("p", { class: "service-group__empty" }, "No agent services added") : this.renderServiceList(agentServices))), h("wa-divider", null), h("p", { class: "service-group__label" }, "Guest", h("span", null, "Folio")), h("div", { class: "service-group service-group--guest" }, h("div", { class: "service-group__body" }, guestServices.length === 0 ? h("p", { class: "service-group__empty" }, "No guest services added") : this.renderServiceList(guestServices))))))));
+            return (h(Host, null, h("wa-card", { appearance: "plain", class: "extra-service__card" }, h("p", { slot: "header", class: 'font-size-large p-0 m-0' }, t('Lcz_ExtraServices')), this.extraServicesHeaderActions(), services.length === 0 ? (h("ir-empty-state", { showIcon: false })) : (h(Fragment, null, h("p", { class: "service-group__label --agent" }, agentName, h("span", null, "Folio")), h("div", { class: "service-group service-group--agent" }, h("div", { class: "service-group__body" }, agentServices.length === 0 ? h("p", { class: "service-group__empty" }, "No agent services added") : this.renderServiceList(agentServices))), h("wa-divider", null), h("p", { class: "service-group__label" }, "Guest", h("span", null, "Folio")), h("div", { class: "service-group service-group--guest" }, h("div", { class: "service-group__body" }, guestServices.length === 0 ? h("p", { class: "service-group__empty" }, "No guest services added") : this.renderServiceList(guestServices))))))));
         }
-        return (h(Host, null, h("wa-card", { appearance: "plain", class: "extra-service__card" }, h("p", { slot: "header", class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_ExtraServices), this.extraServicesHeaderActions(), services.length === 0 && h("ir-empty-state", { showIcon: false }), this.renderServiceList(services))));
+        return (h(Host, null, h("wa-card", { appearance: "plain", class: "extra-service__card" }, h("p", { slot: "header", class: 'font-size-large p-0 m-0 ' }, t('Lcz_ExtraServices')), this.extraServicesHeaderActions(), services.length === 0 && h("ir-empty-state", { showIcon: false }), this.renderServiceList(services))));
     }
     static get is() { return "ir-extra-services"; }
     static get encapsulation() { return "scoped"; }
@@ -113,14 +113,14 @@ export class IrExtraServices {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "IEntries[]",
-                    "resolved": "IEntries[]",
+                    "original": "SetupEntries[]",
+                    "resolved": "SetupEntries[]",
                     "references": {
-                        "IEntries": {
+                        "SetupEntries": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::IEntries",
-                            "referenceLocation": "IEntries"
+                            "id": "src/models/property.ts::SetupEntries",
+                            "referenceLocation": "SetupEntries"
                         }
                     }
                 },

@@ -7,7 +7,7 @@ export declare class IrNotifications {
     propertyid: number;
     notifications: Notifications;
     notificationCleared: EventEmitter<Notification>;
-    private tokenService;
+    private apiClientService;
     private propertyService;
     private buttonRef;
     private animationRef;

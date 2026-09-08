@@ -1,4 +1,4 @@
-import type { IEntries, ISetupEntries } from "../../models/IBooking";
+import type { SetupEntries, ISetupEntries } from "../../models/IBooking";
 import { type EditSetupParams, type EditSetupManyParams, type GetSetupEntryByCodeParams, type SetupEntry, type ExposedLanguages, type TableEntries, type PaymentEntries, MoveSetupEntryParams, MissingSetupEntriesParams, SearchSetupByDescriptionParams, DuplicatedSetupEntriesAcrossTables } from './types';
 export * from './types';
 export * from './utils';
@@ -9,21 +9,21 @@ export declare class SetupService {
      */
     private request;
     /** All entries belonging to a single setup table. */
-    getSetupEntriesByTableName(TBL_NAME: TableEntries): Promise<IEntries[]>;
+    getSetupEntriesByTableName(TBL_NAME: TableEntries): Promise<SetupEntries[]>;
     /**
      * Entries across several setup tables in one round trip.
      *
      * NOTE: the endpoint string is ALL CAPS (`..._MULTI`); `igl-book-property.tsx`
      * calls `isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI')` — keep in sync.
      */
-    getSetupEntriesByTableNameMulti(entries: TableEntries[]): Promise<IEntries[]>;
+    getSetupEntriesByTableNameMulti(entries: TableEntries[]): Promise<SetupEntries[]>;
     /**
      * Arrival-time, rate-pricing-mode and bed-preference tables, shaped as
      * {@link ISetupEntries} for the booking editors.
      */
     fetchSetupEntries(): Promise<ISetupEntries>;
     /** Calendar "blocked till" entries (`_CALENDAR_BLOCKED_TILL`). */
-    getBlockedInfo(): Promise<IEntries[]>;
+    getBlockedInfo(): Promise<SetupEntries[]>;
     /**
      * The `_PAY_TYPE` / `_PAY_TYPE_GROUP` / `_PAY_METHOD` tables in one round trip,
      * grouped into the {@link PaymentEntries} shape the payment folio consumes.

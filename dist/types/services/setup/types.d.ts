@@ -1,9 +1,9 @@
-import { ZIEntrySchema } from "../../models/IBooking";
-import type { IEntries } from "../../models/IBooking";
+import { SetupEntrySchema } from "../../models/IBooking";
+import type { SetupEntries } from "../../models/IBooking";
 import * as z from 'zod';
-export { ZIEntrySchema };
+export { SetupEntrySchema };
 /** A single labeled setup row (one translated string across all supported languages). */
-export type SetupEntry = z.infer<typeof ZIEntrySchema>;
+export type SetupEntry = z.infer<typeof SetupEntrySchema>;
 /**
  * Every setup `TBL_NAME` the app reads at runtime, as string literals, plus an
  * open `(string & {})` member so ad-hoc names still type-check while keeping
@@ -20,16 +20,16 @@ export type TableEntries = '_CALENDAR_BLOCKED_TILL' | '_DEPARTURE_TIME' | '_ARRI
  * leading underscore stripped (`_PAY_TYPE` -> `pay_type`).
  */
 export type GroupedTableEntries = {
-    [K in TableEntries as K extends `_${infer Rest}` ? Lowercase<Rest> : never]: IEntries[];
+    [K in TableEntries as K extends `_${infer Rest}` ? Lowercase<Rest> : never]: SetupEntries[];
 };
 /**
  * The `_PAY_TYPE` / `_PAY_TYPE_GROUP` / `_PAY_METHOD` setup tables, grouped for
  * the payment folio. Produced by {@link SetupService.getPaymentEntries}.
  */
 export type PaymentEntries = {
-    types: IEntries[];
-    groups: IEntries[];
-    methods: IEntries[];
+    types: SetupEntries[];
+    groups: SetupEntries[];
+    methods: SetupEntries[];
 };
 /** Language codes that map to the `CODE_VALUE_*` columns on a setup entry. */
 export type EntryLanguage = 'en' | 'ar' | 'de' | 'el' | 'fr' | 'he' | 'pl' | 'ru' | 'ua';

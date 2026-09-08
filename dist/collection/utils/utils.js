@@ -1,9 +1,9 @@
 import moment from "moment";
 import { z } from "zod";
-import calendarData from "../stores/calendar-data";
-import locales from "../stores/locales.store";
+import calendarData, { calendar_data } from "../stores/calendar-data";
 import { ROOM_IN_OUT } from "../models/booking.dto";
 import { formatDate } from "./date/index";
+import { t } from "../services/locale/t";
 export function convertDateToCustomFormat(dayWithWeekday, monthWithYear, format = 'D_M_YYYY') {
     const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
     // Parses the backend's English `day.description`/`month.description` and produces an internal
@@ -89,7 +89,7 @@ export function checkMealPlan({ rateplan_id, roomTypes, roomTypeId }) {
             value: rp.id.toString(),
         };
     }
-    const nonRefundableLabel = locales?.entries?.Lcz_NonRefundable ?? 'Non-Refundable';
+    const nonRefundableLabel = t('Lcz_NonRefundable', { fallback: 'Non-Refundable' });
     const seen = new Set();
     const options = [];
     for (const rp of roomtype.rateplans) {
@@ -364,15 +364,15 @@ export function checkUserAuthState() {
  * @returns True if check-in is allowed; otherwise, false.
  */
 export function canCheckIn({ from_date, to_date, isCheckedIn }) {
-    if (!calendarData.checkin_enabled || calendarData.is_automatic_check_in_out || !calendarData.property.is_frontdesk_enabled) {
+    if (!calendarData.checkin_enabled || calendar_data.property.is_automatic_check_in_out || !calendar_data.property.is_frontdesk_enabled) {
         return false;
     }
     if (isCheckedIn) {
         return false;
     }
     const now = moment();
-    if ((now.isSameOrAfter(new Date(from_date), 'days') && now.isBefore(new Date(to_date), 'days')) ||
-        now.isSame(new Date(to_date), 'days')
+    if ((now.isSameOrAfter(moment(from_date, 'YYYY-MM-DD'), 'date') && now.isBefore(moment(to_date, 'YYYY-MM-DD'), 'date')) ||
+        now.isSame(moment(to_date, 'YYYY-MM-DD'), 'date')
     // && !compareTime(now.toDate(), createDateWithOffsetAndHour(calendarData.checkin_checkout_hours?.offset, calendarData.checkin_checkout_hours?.hour))
     ) {
         return true;
