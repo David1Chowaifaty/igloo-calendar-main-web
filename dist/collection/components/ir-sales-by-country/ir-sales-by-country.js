@@ -58,6 +58,9 @@ export class IrSalesByCountry {
     }
     async initializeApp() {
         try {
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.salesByCountry });
             let propertyId = this.propertyid;
             if (!this.propertyid && !this.p) {
                 throw new Error('Property ID or username is required');
@@ -73,11 +76,7 @@ export class IrSalesByCountry {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [
-                this.bookingService.getCountries(LocaleController.language),
-                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.salesByCountry }),
-                this.getCountrySales(),
-            ];
+            const requests = [this.bookingService.getCountries(LocaleController.language), localeReady, this.getCountrySales()];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
@@ -161,11 +160,11 @@ export class IrSalesByCountry {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-page", { label: "Sales by Country" }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-page", { label: t('Lcz_SalesByCountry', { fallback: 'Sales by Country' }) }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getCountrySales(true);
-            } }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export')), h("ir-sales-by-country-summary", { salesReports: this.salesData }), h("div", { class: "sales-content-row" }, h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+            } }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export', { fallback: 'Export' })), h("ir-sales-by-country-summary", { salesReports: this.salesData }), h("div", { class: "sales-content-row" }, h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.salesFilters = e.detail;

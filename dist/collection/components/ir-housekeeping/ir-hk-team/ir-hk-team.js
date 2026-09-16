@@ -1,15 +1,16 @@
 import housekeeping_store from "../../../stores/housekeeping.store";
 import { h, Fragment } from "@stencil/core";
 import { t } from "../../../services/locale/t";
+import { formatCount } from "../../../utils/number";
 export class IrHkTeam {
     el;
     currentTrigger = null;
     deletionTimout;
     renderAssignedUnits(hk) {
         if (hk.assigned_units.length === 0) {
-            return (h("span", null, "0 -", ' ', h("wa-button", { size: "s", variant: "brand", appearance: "outlined", class: "hk-team-header__unassigned-btn", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: hk }) }, t('Lcz_Assign'))));
+            return (h("span", null, "0 -", ' ', h("wa-button", { size: "s", variant: "brand", appearance: "outlined", class: "hk-team-header__unassigned-btn", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: hk }) }, t('Lcz_Assign', { fallback: 'Assign' }))));
         }
-        return (h("span", null, hk.assigned_units.length, " -", ' ', h("wa-button", { class: "hk-team-header__unassigned-btn", size: "s", variant: "brand", appearance: "outlined", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: hk }) }, 'Edit')));
+        return (h("span", null, formatCount(hk.assigned_units.length), " -", ' ', h("wa-button", { class: "hk-team-header__unassigned-btn", size: "s", variant: "brand", appearance: "outlined", onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: hk }) }, t('Lcz_Edit', { fallback: 'Edit' }))));
     }
     renderCurrentTrigger() {
         switch (this.currentTrigger?.type) {
@@ -43,7 +44,7 @@ export class IrHkTeam {
             return null;
         }
         const { assigned, total, un_assigned } = housekeeping_store.hk_criteria.units_assignments;
-        return (h("wa-card", { appearance: "plain", class: "hk-team__card" }, h("section", { slot: "header", class: "hk-team-header" }, h("div", { class: "hk-team-header__top" }, h("p", { class: "hk-team-header__title" }, t('Lcz_HousekeepingTeam')), h("div", { class: "hk-team-header__stats" }, h("p", { class: "hk-team-header__stat hk-team-header__stat--bold" }, total, " ", t('Lcz_TotalUnits')), h("p", { class: "hk-team-header__stat" }, assigned, " ", h("span", null, t('Lcz_Assigned'))), un_assigned > 0 && (h("wa-button", { onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: null }), size: "s", class: "hk-team-header__unassigned-btn", variant: "brand", appearance: "outlined" }, un_assigned, " ", t('Lcz_Unassigned'))))), h("p", { class: "hk-team-header__hint" }, t('Lcz_AsAnOption'))), h("section", { class: "table-responsive" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", { class: "ir-text-start" }, t('Lcz_Name')), h("th", null, t('Lcz_Mobile')), h("th", null, t('Lcz_Username')), h("th", null, t('Lcz_UnitsAssigned')), h("th", { class: 'ir-text-start' }, h("div", { class: "d-flex justify-content-center" }, h("ir-custom-button", { onClickHandler: () => {
+        return (h("wa-card", { appearance: "plain", class: "hk-team__card" }, h("section", { slot: "header", class: "hk-team-header" }, h("div", { class: "hk-team-header__top" }, h("p", { class: "hk-team-header__title" }, t('Lcz_HousekeepingTeam', { fallback: 'Housekeeping team' })), h("div", { class: "hk-team-header__stats" }, h("p", { class: "hk-team-header__stat hk-team-header__stat--bold" }, formatCount(total), " ", t('Lcz_TotalUnits', { fallback: 'Total units' })), h("p", { class: "hk-team-header__stat" }, assigned, " ", h("span", null, t('Lcz_Assigned', { fallback: 'Assigned' }))), un_assigned > 0 && (h("wa-button", { onClick: () => (this.currentTrigger = { type: 'unassigned_units', user: null }), size: "s", class: "hk-team-header__unassigned-btn", variant: "brand", appearance: "outlined" }, un_assigned, " ", t('Lcz_Unassigned', { fallback: 'Unassigned' }))))), h("p", { class: "hk-team-header__hint" }, t('Lcz_AsAnOption', { fallback: 'As an option, create housekeepers (as individuals or teams) and assign units to them to notify them separately.' }))), h("section", { class: "table-responsive" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", { class: "ir-text-start" }, t('Lcz_Name', { fallback: 'Name' })), h("th", null, t('Lcz_Mobile', { fallback: 'Mobile' })), h("th", null, t('Lcz_Username', { fallback: 'Username' })), h("th", null, t('Lcz_UnitsAssigned', { fallback: 'Units assigned' })), h("th", { class: 'ir-text-start' }, h("div", { class: "d-flex justify-content-center" }, h("ir-custom-button", { onClickHandler: () => {
                 this.currentTrigger = {
                     type: 'user',
                     isEdit: false,
@@ -51,7 +52,7 @@ export class IrHkTeam {
                 };
             }, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "plus", style: { fontSize: '1.2rem' } })))))), h("tbody", null, housekeeping_store.hk_criteria.housekeepers.map(hk => (h("tr", { key: hk.id, class: "ir-table-row" }, h("td", { class: "ir-text-start" }, h("div", { class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, hk.name?.length > 25 ? (h(Fragment, null, h("wa-tooltip", { for: hk.id + '_name' }, hk.name), h("span", { id: hk.id + '_name' }, hk.name.slice(0, 25), "..."))) : (hk.name), hk.note && (
         // <ir-popover content={hk.note}>
-        //   <ir-button variant="icon" icon_name="note" data-toggle="tooltip" data-placement="bottom" title="Click to view note"></ir-button>
+        //   <ir-button variant="icon" icon_name="note" data-toggle="tooltip" data-placement="bottom" title={t('Lcz_ClickToViewNote', { fallback: 'Click to view note' })}></ir-button>
         // </ir-popover>
         h(Fragment, null, h("wa-tooltip", { for: hk.id + '_note' }, hk.note), h("wa-icon", { id: hk.id + '_note', name: "note-sticky", variant: "regular" }))))), h("td", { class: "" }, hk.phone_prefix, " ", hk.mobile), h("td", null, hk.username), h("td", null, this.renderAssignedUnits(hk)), h("td", { class: "" }, h("div", { class: "icons-container" }, h("ir-custom-button", { onClickHandler: () => {
                 const { assigned_units, is_soft_deleted, is_active, ...user } = hk;

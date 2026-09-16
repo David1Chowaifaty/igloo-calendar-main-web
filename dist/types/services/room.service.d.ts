@@ -22,7 +22,7 @@ export declare class RoomService {
      * controller's caching, request de-duplication and guaranteed base tables.
      */
     fetchLanguage(code: string, sections?: string[]): Promise<{
-        entries: import("@/stores/locales.store").LocalizationStrings & import("@/stores/locales.store").LocalizationChannelFrontEntries & import("@/stores/locales.store").BookingListingCodes & import("@/stores/locales.store").HousekeepingLocalizedWords & import("@/stores/locales.store").LocalizationPAYMENTBACK & import("@/stores/locales.store").UserManagementWords;
+        entries: import("@/stores/locales.store").TLocaleEntries;
         direction: "ltr" | "rtl";
     }>;
 }

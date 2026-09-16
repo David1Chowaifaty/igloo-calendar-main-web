@@ -1,5 +1,7 @@
 import { h } from "@stencil/core";
 import { calculateTrend, formatAmount } from "../../../utils/utils";
+import { t } from "../../../services/locale/t";
+import { formatCount } from "../../../utils/number";
 export class IrSalesByChannelSummary {
     records = [];
     filters;
@@ -16,7 +18,7 @@ export class IrSalesByChannelSummary {
         const lastYearRevenue = this.sum('REVENUE', true);
         const currency = this.records?.[0]?.currency;
         const hasLastYear = Boolean(this.records?.length && this.filters?.include_previous_year);
-        return (h("div", { key: '6181fa8622866d52cdc85230dc25aead1958d9f6', class: "summary-row" }, h("ir-metric-card", { key: '3ff2508f8b9582781339ee3dbb2a0ee77af4f2ec', class: "summary-metric", icon: "moon", label: "Total Room Nights", value: totalNights.toString(), trend: hasLastYear ? calculateTrend(totalNights, lastYearNights) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${lastYearNights}` : undefined }), h("ir-metric-card", { key: 'ebbe898c2ed590ef50c3904ccff81bff6ad8561c', class: "summary-metric", icon: "money-bill", label: "Total Revenue", value: formatAmount(currency, totalRevenue), trend: hasLastYear ? calculateTrend(totalRevenue, lastYearRevenue) : undefined, trendLabel: "vs last year", caption: hasLastYear ? `Last year: ${formatAmount(currency, lastYearRevenue)}` : undefined }), h("ir-metric-card", { key: 'e4cad9dfa42a929d012a035c1cec9a084dc09151', class: "summary-metric", icon: "chart-bar", label: "Sources", value: (this.records?.length ?? 0).toString() })));
+        return (h("div", { key: '9fd00358a278626a7886d49763875d76aa7704a7', class: "summary-row" }, h("ir-metric-card", { key: '759091329ed481f6111ece05483ea9c959b33fd7', class: "summary-metric", icon: "moon", label: t('Lcz_TotalRoomNights', { fallback: 'Total Room Nights' }), value: formatCount(totalNights), trend: hasLastYear ? calculateTrend(totalNights, lastYearNights) : undefined, trendLabel: t('Lcz_VsLastYear', { fallback: 'vs last year' }), caption: hasLastYear ? `Last year: ${lastYearNights}` : undefined }), h("ir-metric-card", { key: '0bd10969b92866788f0157f1b728b011e2f4c260', class: "summary-metric", icon: "money-bill", label: t('Lcz_TotalRevenue', { fallback: 'Total Revenue' }), value: formatAmount(currency, totalRevenue), trend: hasLastYear ? calculateTrend(totalRevenue, lastYearRevenue) : undefined, trendLabel: t('Lcz_VsLastYear', { fallback: 'vs last year' }), caption: hasLastYear ? `${t('Lcz_LastYear', { fallback: 'Last year:' })} ${formatAmount(currency, lastYearRevenue)}` : undefined }), h("ir-metric-card", { key: 'b477dc3e333e49b4add59540363a2be1a774f22d', class: "summary-metric", icon: "chart-bar", label: t('Lcz_Sources', { fallback: 'Sources' }), value: formatCount(this.records?.length ?? 0) })));
     }
     static get is() { return "ir-sales-by-channel-summary"; }
     static get encapsulation() { return "scoped"; }

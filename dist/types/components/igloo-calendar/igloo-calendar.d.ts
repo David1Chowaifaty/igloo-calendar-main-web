@@ -84,6 +84,11 @@ export declare class IglooCalendar {
     private calendarModalEl;
     private salesQueue;
     private availabilityQueue;
+    /** Periods from `GET_UNASSIGNED_DATES` notifications waiting to be fetched as one batch. */
+    private pendingUnassignedRanges;
+    private unassignedDatesQuietTimer;
+    private unassignedDatesMaxWaitTimer;
+    private isFlushingUnassignedDates;
     private roomTypeIdsCache;
     private tasksEndDate;
     dialogEl: HTMLIrDialogElement;
@@ -158,7 +163,23 @@ export declare class IglooCalendar {
     private handleAssignExposedRoom;
     private handleReallocateExposedRoomBlock;
     private handleDeleteCalendarPool;
+    /**
+     * Assigning a multi-room booking fires one `GET_UNASSIGNED_DATES` per unit, all within a second or
+     * two and all for overlapping periods. Answering each one with its own request is what made these
+     * bursts expensive, so notifications are collected rather than followed:
+     *
+     * - the quiet timer restarts on every notification, so a burst is fetched once it settles;
+     * - the max-wait timer does not restart, so a sustained stream still flushes on a fixed cadence
+     *   instead of being starved by the quiet timer;
+     * - {@link isFlushingUnassignedDates} keeps exactly one request in flight; notifications arriving
+     *   meanwhile stay in `pendingUnassignedRanges` and are picked up by the trailing run, so a busy
+     *   period adds items to the next batch rather than adding requests.
+     */
+    private scheduleUnassignedDatesFlush;
+    private runUnassignedDatesFlush;
+    private clearUnassignedDatesTimers;
     private handleGetUnassignedDates;
+    private flushUnassignedDates;
     private parseDateRange;
     private handleChangeInDueAmount;
     private handleChangeInBookStatus;

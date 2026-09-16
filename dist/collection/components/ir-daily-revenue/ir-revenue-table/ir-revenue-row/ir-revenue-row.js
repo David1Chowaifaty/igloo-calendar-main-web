@@ -1,5 +1,6 @@
 import { Host, h } from "@stencil/core";
-import { formatAmount } from "../../../../utils/utils";
+import { formatAmount, formatCount } from "../../../../utils/number";
+import { t } from "../../../../services/locale/t";
 import calendar_data from "../../../../stores/calendar-data";
 let accId = 0;
 export class IrRevenueRow {
@@ -11,7 +12,7 @@ export class IrRevenueRow {
     contentId = `ir-rr-content-${++accId}`;
     render() {
         const total = this.payments.reduce((prev, curr) => prev + curr.amount, 0);
-        return (h(Host, { key: '196c65670ce335dea0b885d82949165160ddd740' }, h("ir-accordion", { key: 'd3dfe05e76869f325f819a28fddc80ecad880488', class: "ir-revenue-row__accordion" }, h("div", { key: '1af9b80b3d64e595b43b4d11be989ae58a8089b1', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: '2a43cb4c8a5f76febd3a5cfc4a85da9a0d191040', class: "ir-revenue-row__header-left" }, h("p", { key: '84371fa594a948d7eb7166976a11c9b0d4cce2b2', class: "ir-revenue-row__group" }, this.groupName, ' ', h("wa-badge", { key: '317f38c277f07993ac61f36988addda792679476', variant: "brand", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), h("p", { key: '770d295e6106bbf2e0df6fc5086636ef1f62ef9f', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: '3e6e4945da23ed374d38897bf6187e898ca9e485', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: '3abfd8ebf0faae92631791e807484cc8125be618', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
+        return (h(Host, { key: 'f564a356e36252c5c04e7c73a2a92b1dd5cb85f5' }, h("ir-accordion", { key: '818fc6a89507f853a10cc7237f18f250dfc730a5', class: "ir-revenue-row__accordion" }, h("div", { key: 'ec652be16bf416b998cb301285efbe05792dd8aa', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: '48f1499b7f539f6effff68b81b2a524918bf8fa2', class: "ir-revenue-row__header-left" }, h("p", { key: 'f65d5ae3f346b261712aa004de77915ab2257990', class: "ir-revenue-row__group" }, this.groupName, ' ', h("wa-badge", { key: '69c06207b26ebd62cb476a71546a0223dca06817', variant: "brand", "aria-label": t('Lcz_TransactionsCountAriaLabel', { fallback: '%1 transactions', params: [formatCount(this.payments.length)] }) }, formatCount(this.payments.length)))), h("p", { key: '9f2bc66289d725ecaee03041fba7632ecdc6080d', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: 'ac650dbde7d926d154921eae252635804b9e820e', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: 'a52bef399169a47a6481340d344c901dba44f0fc', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
     }
     static get is() { return "ir-revenue-row"; }
     static get encapsulation() { return "scoped"; }

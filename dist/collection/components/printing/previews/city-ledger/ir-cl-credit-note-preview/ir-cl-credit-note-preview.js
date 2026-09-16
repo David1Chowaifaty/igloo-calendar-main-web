@@ -1,5 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { ClFiscalDocumentService } from "../cl-fiscal-document.service";
+import { t } from "../../../../../services/locale/t";
 export class IrClCreditNotePreview {
     propertyId;
     ticket;
@@ -40,7 +41,7 @@ export class IrClCreditNotePreview {
             this.transactions = transactions;
         }
         catch (e) {
-            this.error = e?.message ?? 'Failed to load credit note data.';
+            this.error = e?.message ?? t('Lcz_FailedToLoadCreditNoteData', { fallback: 'Failed to load credit note data.' });
         }
         finally {
             this.isLoading = false;
@@ -48,7 +49,7 @@ export class IrClCreditNotePreview {
     }
     render() {
         if (!this.ticket) {
-            return (h(Host, null, h("div", { class: "document-state document-state--error" }, "Authentication ticket is required.")));
+            return (h(Host, null, h("div", { class: "document-state document-state--error" }, t('Lcz_AuthTicketRequired', { fallback: 'Authentication ticket is required.' }))));
         }
         if (this.isLoading) {
             return (h(Host, null, h("div", { class: "document-state" }, h("ir-spinner", null))));

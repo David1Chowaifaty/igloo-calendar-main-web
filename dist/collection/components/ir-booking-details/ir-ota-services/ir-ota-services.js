@@ -1,11 +1,12 @@
 import { Fragment, Host, h } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 export class IrOtaServices {
     services = [];
     render() {
         if (!this.services || this.services?.length === 0) {
             return null;
         }
-        return (h(Host, null, h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("p", { class: 'font-size-large p-0 m-0 ' }, "Channel Services")), h("div", { class: "card" }, this.services?.map((service, idx) => (h(Fragment, null, h("ir-ota-service", { service: service }), idx !== this.services.length - 1 && h("hr", { class: "ir-me-2 ir-ms-2 my-0 p-0" })))))));
+        return (h(Host, null, h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("p", { class: 'font-size-large p-0 m-0 ' }, t('Lcz_ChannelServices', { fallback: 'Channel Services' }))), h("div", { class: "card" }, this.services?.map((service, idx) => (h(Fragment, null, h("ir-ota-service", { service: service }), idx !== this.services.length - 1 && h("hr", { class: "ir-me-2 ir-ms-2 my-0 p-0" })))))));
     }
     static get is() { return "ir-ota-services"; }
     static get encapsulation() { return "scoped"; }

@@ -1,5 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { inlineOffset, inlineSign } from "../../../utils/direction";
+import { t } from "../../../services/locale/t";
 export class IrTabs {
     el;
     /**
@@ -25,7 +26,7 @@ export class IrTabs {
      * @type {string}
      * @default 'Tabs'
      */
-    ariaLabel = 'Tabs';
+    ariaLabel;
     _selectedTab;
     /**
      * Emitted when a tab is selected
@@ -136,7 +137,7 @@ export class IrTabs {
         }
     }
     render() {
-        return (h(Host, { key: 'cf7057c4b5dab69d68876a73f6b2dc9cab392549', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: 'd966c3b2860f1df37b97cd2a92b4f2e6cdc67b31', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+        return (h(Host, { key: '73e7cdb4d0ec6337b23f8f0fde71253ea367818b', role: "tablist", "aria-label": this.ariaLabel || t('Lcz_Tabs', { fallback: 'Tabs' }), "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: 'c51e2a3490b5d72712288e39e83599408bdd9f40', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
     static get is() { return "ir-tabs"; }
     static get encapsulation() { return "scoped"; }
@@ -256,8 +257,7 @@ export class IrTabs {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "aria-label",
-                "defaultValue": "'Tabs'"
+                "attribute": "aria-label"
             }
         };
     }

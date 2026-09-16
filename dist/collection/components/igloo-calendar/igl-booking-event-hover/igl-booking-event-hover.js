@@ -75,9 +75,9 @@ export class IglBookingEventHover {
     getTotalOccupants() {
         const { CHILDREN_COUNT, ADULTS_COUNT } = this.bookingEvent;
         if (CHILDREN_COUNT === 0) {
-            return `${ADULTS_COUNT} ${ADULTS_COUNT > 1 ? t('Lcz_AdultsCaption').toLowerCase() : t('Lcz_Single_Adult')?.toLowerCase()}`;
+            return `${ADULTS_COUNT} ${ADULTS_COUNT > 1 ? t('Lcz_Adults', { fallback: 'adults' }) : t('Lcz_Single_Adult')?.toLowerCase()}`;
         }
-        return `${ADULTS_COUNT} ${ADULTS_COUNT > 1 ? t('Lcz_AdultsCaption').toLowerCase() : t('Lcz_Single_Adult')?.toLowerCase()}, ${CHILDREN_COUNT} ${CHILDREN_COUNT > 1 ? t('Lcz_ChildCaption').toLowerCase() : t('Lcz_Single_Child')?.toLowerCase()}`;
+        return `${ADULTS_COUNT} ${ADULTS_COUNT > 1 ? t('Lcz_Adults', { fallback: 'adults' }) : t('Lcz_Single_Adult')?.toLowerCase()}, ${CHILDREN_COUNT} ${CHILDREN_COUNT > 1 ? t('Lcz_ChildCaption', { fallback: 'Child.' }).toLowerCase() : t('Lcz_Single_Child')?.toLowerCase()}`;
     }
     getPhoneNumber() {
         return this.bookingEvent.PHONE;
@@ -119,7 +119,7 @@ export class IglBookingEventHover {
         let str = '';
         str += currentRoom.rateplan['short_name'];
         if (currentRoom.rateplan['is_non_refundable']) {
-            str += ` - ${t('Lcz_NonRefundable')}`;
+            str += ` - ${t('Lcz_NonRefundable', { fallback: 'Non-refundable' })}`;
         }
         return str;
     }
@@ -190,7 +190,7 @@ export class IglBookingEventHover {
             roomsInfo: this.bookingEvent.roomsInfo,
             ARRIVAL: this.bookingEvent.ARRIVAL,
             ADD_ROOM_TO_BOOKING: this.bookingEvent.ID,
-            TITLE: 'Add Room to #' + this.bookingEvent.BOOKING_NUMBER,
+            TITLE: t('Lcz_AddRoomToBookingHash', { fallback: 'Add Room to #' }) + this.bookingEvent.BOOKING_NUMBER,
             event_type: 'ADD_ROOM',
             ROOMS: this.bookingEvent.ROOMS,
             GUEST: this.bookingEvent.GUEST,
@@ -204,7 +204,7 @@ export class IglBookingEventHover {
                 toDateStr: '',
                 dateDifference: 0,
                 editabled: true,
-                message: 'Including 5.00% City Tax - Excluding 11.00% VAT',
+                message: t('Lcz_IncludingCityTaxExcludingVatMock', { fallback: 'Including 5.00% City Tax - Excluding 11.00% VAT' }),
             },
         };
         this.handleBookingOption('ADD_ROOM', eventData);
@@ -279,7 +279,7 @@ export class IglBookingEventHover {
             case 'EDIT_BOOKING':
                 return `${t('Lcz_EditBookingFor')} ${roomInfo.CATEGORY} ${roomInfo.ROOM_NAME}`;
             case 'ADD_ROOM':
-                return `${t('Lcz_AddingUnitToBooking')}# ${this.bookingEvent.BOOKING_NUMBER}`;
+                return `${t('Lcz_AddingUnitToBooking')}# ${formatBookingNumber(this.bookingEvent.BOOKING_NUMBER)}`;
             case 'SPLIT_BOOKING':
                 return t('Lcz_Adding') + ` ${roomInfo.CATEGORY} ${roomInfo.ROOM_NAME}`;
             default:
@@ -329,7 +329,7 @@ export class IglBookingEventHover {
         const channel_notes = [...this.bookingEvent.ota_notes];
         const separator = '<br>- ';
         if (channel_notes.length > maxVisible) {
-            channel_notes[maxVisible - 1] = { statement: `${channel_notes[maxVisible - 1].statement} <span>more...</span>` };
+            channel_notes[maxVisible - 1] = { statement: `${channel_notes[maxVisible - 1].statement} <span>${t('Lcz_More', { fallback: 'more...' })}</span>` };
         }
         return channel_notes
             .slice(0, maxVisible)
@@ -394,10 +394,14 @@ export class IglBookingEventHover {
                     }),
                 });
                 this.bookingColor = newBookingColor;
-            } }, h("button", { type: "button", class: "event-hover__color-trigger", slot: "trigger", "aria-label": "Booking color" }, this.bookingColor ? (h("span", { class: "event-hover__swatch", style: { background: this.bookingColor?.color } })) : (h("wa-icon", { class: "event-hover__swatch --none", style: { fontSize: '0.75rem', background: this.baseColor }, name: "ban" }))), h("wa-dropdown-item", { value: "none" }, h("wa-icon", { style: { fontSize: '0.875rem' }, name: "ban" })), calendar_data.property.calendar_extra?.booking_colors.map(s => (h("wa-dropdown-item", { value: s.color }, h("span", { class: "event-hover__swatch", style: { background: s.color } }))))));
+            } }, h("button", { type: "button", class: "event-hover__color-trigger", slot: "trigger", "aria-label": t('Lcz_BookingColor', { fallback: 'Booking color' }) }, this.bookingColor ? (h("span", { class: "event-hover__swatch", style: { background: this.bookingColor?.color } })) : (h("wa-icon", { class: "event-hover__swatch --none", style: { fontSize: '0.75rem', background: this.baseColor }, name: "ban" }))), h("wa-dropdown-item", { value: "none" }, h("wa-icon", { style: { fontSize: '0.875rem' }, name: "ban" })), calendar_data.property.calendar_extra?.booking_colors.map(s => (h("wa-dropdown-item", { value: s.color }, h("span", { class: "event-hover__swatch", style: { background: s.color } }))))));
     }
     getInfoElement() {
-        return (h("div", { class: `iglPopOver infoBubble ${this.bubbleInfoTop ? 'bubbleInfoAbove' : ''}` }, this.renderPointer(), h("div", { class: "event-hover__header" }, h("div", { class: "event-hover__identity" }, h("img", { src: this.bookingEvent?.origin?.Icon, alt: this.bookingEvent?.origin?.Label, class: "event-hover__channel-icon" }), h("span", { class: "event-hover__booking-no" }, !this.bookingEvent.is_direct ? this.bookingEvent.channel_booking_nbr : formatBookingNumber(this.bookingEvent.BOOKING_NUMBER))), h("div", { class: "event-hover__price" }, this.renderColorPicker(), h("span", null, formatAmount(calendar_data.currency.symbol, this.getTotalPrice())))), h("div", { class: "event-hover__origin-row" }, h("span", { class: "event-hover__origin-label" }, this.bookingEvent.booking?.agent ? (h("span", null, "Agent:", ' ', h("span", { class: "event-hover__agent" }, this.bookingEvent?.booking?.agent?.name, " ", this.bookingEvent?.booking?.agent?.reference))) : (this.bookingEvent.origin.Label)), this.bookingEvent.BALANCE > 1 && (h("span", { class: "event-hover__balance" }, t('Lcz_Balance'), ": ", formatAmount(calendar_data.currency.symbol, this.bookingEvent.BALANCE)))), h("ir-date-view", { class: "event-hover__dates", format: 'weekday-medium', from_date: this.bookingEvent.defaultDates.from_date, to_date: this.bookingEvent.defaultDates.to_date, showDateDifference: false }), h("div", { class: "event-hover__details" }, this.bookingEvent.NAME && h("ir-label", { labelText: `Guest name:`, content: this.bookingEvent.NAME }), this.getArrivalTime() && h("ir-label", { labelText: `${t('Lcz_ArrivalTime')}:`, content: this.getArrivalTime() }), this.getTotalOccupants() && h("ir-label", { labelText: `${t('Lcz_Occupancy')}:`, content: this.getTotalOccupants() }), this.getPhoneNumber() && h("ir-label", { labelText: `${t('Lcz_Phone')}:`, content: this.renderPhone() }), this.getRatePlan() && (h("ir-label", { labelText: `${t('Lcz_RatePlan')}:`, content: this.getRatePlan() }, this.isHalfBoard && (h("wa-badge", { appearance: "filled", variant: this.room?.hb_preference ? 'brand' : 'warning' }, this.room?.hb_preference === HbPreference.Lunch ? 'With lunch' : this.room?.hb_preference === HbPreference.Dinner ? 'With dinner' : 'Choose lunch or dinner')))), this.bookingEvent.DEPARTURE_TIME?.code !== '000' && h("ir-label", { labelText: `Departure time:`, content: this.bookingEvent.DEPARTURE_TIME?.description }), this.bookingEvent.PRIVATE_NOTE && h("ir-label", { labelText: `${t('Lcz_BookingPrivateNote')}:`, display: "inline", content: this.bookingEvent.PRIVATE_NOTE }), this.bookingEvent.is_direct && h("ir-label", { labelText: `${t('Lcz_GuestRemark')}:`, display: "inline", content: this.bookingEvent.NOTES }), h("ir-label", { labelText: `${t('Lcz_ChannelNotes')}:`, display: "inline", content: this.getOTANotes(), renderContentAsHtml: true }), this.getInternalNote() && h("ir-label", { labelText: `${t('Lcz_InternalRemark')}:`, content: this.getInternalNote() })), h("div", { class: "event-hover__actions", style: { paddingTop: '1.5rem' }, role: "group" }, h("ir-custom-button", { size: "xs", variant: "brand", onClickHandler: () => this.handleEditBooking() }, t('Lcz_Edit', { fallback: 'Edit' })), h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleReallocationBooking() }, "Reassign"), this.bookingEvent.is_direct && this.bookingEvent.IS_EDITABLE && !this.hideButtons && (h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleAddRoom() }, t('Lcz_AddRoom'))), this.canSplitBooking() && (h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleSplitBooking() }, "Split")), this.canCheckIn() && (h("ir-custom-button", { size: "xs", onClickHandler: () => this.handleCustomerCheckIn(), variant: "brand", appearance: "outlined" }, t('Lcz_CheckIn'))), this.canCheckOut() && (h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleCustomerCheckOut() }, t('Lcz_CheckOut'))), this.hideButtons
+        return (h("div", { class: `iglPopOver infoBubble ${this.bubbleInfoTop ? 'bubbleInfoAbove' : ''}` }, this.renderPointer(), h("div", { class: "event-hover__header" }, h("div", { class: "event-hover__identity" }, h("img", { src: this.bookingEvent?.origin?.Icon, alt: this.bookingEvent?.origin?.Label, class: "event-hover__channel-icon" }), h("span", { class: "event-hover__booking-no" }, !this.bookingEvent.is_direct ? this.bookingEvent.channel_booking_nbr : formatBookingNumber(this.bookingEvent.BOOKING_NUMBER))), h("div", { class: "event-hover__price" }, this.renderColorPicker(), h("span", null, formatAmount(calendar_data.currency.symbol, this.getTotalPrice())))), h("div", { class: "event-hover__origin-row" }, h("span", { class: "event-hover__origin-label" }, this.bookingEvent.booking?.agent ? (h("span", null, t('Lcz_Agent', { fallback: 'Agent' }), ': ', h("span", { class: "event-hover__agent" }, this.bookingEvent?.booking?.agent?.name, " ", this.bookingEvent?.booking?.agent?.reference))) : (this.bookingEvent.origin.Label)), this.bookingEvent.BALANCE > 1 && (h("span", { class: "event-hover__balance" }, t('Lcz_Balance'), ": ", formatAmount(calendar_data.currency.symbol, this.bookingEvent.BALANCE)))), h("ir-date-view", { class: "event-hover__dates", format: 'weekday-medium', from_date: this.bookingEvent.defaultDates.from_date, to_date: this.bookingEvent.defaultDates.to_date, showDateDifference: false }), h("div", { class: "event-hover__details" }, this.bookingEvent.NAME && h("ir-label", { class: "label--capitalize", labelText: `${t('Lcz_GuestName', { fallback: 'Guest name' })}:`, content: this.bookingEvent.NAME }), this.getArrivalTime() && h("ir-label", { labelText: `${t('Lcz_ArrivalTime', { fallback: 'Arrival time' })}:`, content: this.getArrivalTime() }), this.getTotalOccupants() && h("ir-label", { labelText: `${t('Lcz_Occupancy')}:`, content: this.getTotalOccupants() }), this.getPhoneNumber() && h("ir-label", { labelText: `${t('Lcz_Phone', { fallback: 'Phone' })}:`, content: this.renderPhone() }), this.getRatePlan() && (h("ir-label", { labelText: `${t('Lcz_RatePlan', { fallback: 'Rate plan' })}:`, content: this.getRatePlan() }, this.isHalfBoard && (h("wa-badge", { appearance: "filled", variant: this.room?.hb_preference ? 'brand' : 'warning' }, this.room?.hb_preference === HbPreference.Lunch
+            ? t('Lcz_WithLunch', { fallback: 'With lunch' })
+            : this.room?.hb_preference === HbPreference.Dinner
+                ? t('Lcz_WithDinner', { fallback: 'With dinner' })
+                : t('Lcz_ChooseLunchOrDinner', { fallback: 'Choose lunch or dinner' }))))), this.bookingEvent.DEPARTURE_TIME?.code !== '000' && (h("ir-label", { labelText: `${t('Lcz_DepartureTime', { fallback: 'Departure time:' })}`, content: this.bookingEvent.DEPARTURE_TIME?.description })), this.bookingEvent.PRIVATE_NOTE && h("ir-label", { labelText: `${t('Lcz_BookingPrivateNote')}:`, display: "inline", content: this.bookingEvent.PRIVATE_NOTE }), this.bookingEvent.is_direct && h("ir-label", { labelText: `${t('Lcz_GuestRemark')}:`, display: "inline", content: this.bookingEvent.NOTES }), h("ir-label", { labelText: `${t('Lcz_ChannelNotes')}:`, display: "inline", content: this.getOTANotes(), renderContentAsHtml: true }), this.getInternalNote() && h("ir-label", { labelText: `${t('Lcz_InternalRemark')}:`, content: this.getInternalNote() })), h("div", { class: "event-hover__actions", style: { paddingTop: '1.5rem' }, role: "group" }, h("ir-custom-button", { size: "xs", variant: "brand", onClickHandler: () => this.handleEditBooking() }, t('Lcz_Edit', { fallback: 'Edit' })), h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleReallocationBooking() }, t('Lcz_Reassign', { fallback: 'Reassign' })), this.bookingEvent.is_direct && this.bookingEvent.IS_EDITABLE && !this.hideButtons && (h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleAddRoom() }, t('Lcz_AddRoom'))), this.canSplitBooking() && (h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleSplitBooking() }, t('Lcz_Split', { fallback: 'Split' }))), this.canCheckIn() && (h("ir-custom-button", { size: "xs", onClickHandler: () => this.handleCustomerCheckIn(), variant: "brand", appearance: "outlined" }, t('Lcz_CheckIn', { fallback: 'Check in' }))), this.canCheckOut() && (h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleCustomerCheckOut() }, t('Lcz_CheckOut', { fallback: 'Check out' }))), this.hideButtons
             ? null
             : !this.shouldHideUnassignUnit && (h("ir-custom-button", { size: "xs", variant: "danger", appearance: "outlined", onClickHandler: _ => {
                     this.handleDeleteEvent();
@@ -422,7 +426,7 @@ export class IglBookingEventHover {
                 this.handleBookingOption('SPLIT_BOOKING');
             } }, h("wa-icon", { slot: "start", name: "link" }), t('Lcz_AssignUnitToExistingBooking'))))) : (h("p", { class: "event-hover__error" }, t('Lcz_NoRatePlanDefined'))), h("ir-custom-button", { size: "xs", class: "--full", appearance: "accent", variant: "danger", onClickHandler: _ => {
                 this.handleBookingOption('BLOCK_DATES');
-            } }, h("wa-icon", { slot: "start", name: "ban" }), t('Lcz_Blockdates')))));
+            } }, h("wa-icon", { slot: "start", name: "ban" }), t('Lcz_Blockdates', { fallback: 'Block dates' })))));
     }
     getBlockedView() {
         return (h("div", { class: `iglPopOver blockedView ${this.bubbleInfoTop ? 'bubbleInfoAbove' : ''}` }, this.renderPointer(), h("igl-block-dates-view", { style: { marginBottom: '1.5rem' }, isEventHover: true, entryHour: this.bookingEvent.ENTRY_HOUR, entryMinute: this.bookingEvent.ENTRY_MINUTE, defaultData: this.bookingEvent, fromDate: this.bookingEvent.defaultDates.from_date, toDate: this.bookingEvent.defaultDates.to_date, entryDate: this.getEntryDate(), onDataUpdateEvent: event => this.handleBlockDateUpdate(event) }), h("div", { class: "event-hover__actions", role: "group" }, h("ir-custom-button", { size: "xs", disabled: this.isLoading === 'update', onClickHandler: _ => {
@@ -431,13 +435,13 @@ export class IglBookingEventHover {
                 this.handleConvertBlockedDateToBooking();
             } }, t('Lcz_ConvertSplitBooking')), h("ir-custom-button", { variant: "danger", size: "xs", appearance: "outlined", onClickHandler: _ => {
                 this.handleDeleteEvent();
-            } }, t('Lcz_Delete')))));
+            } }, t('Lcz_Delete', { fallback: 'Delete' })))));
     }
     renderPointer() {
         return h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (h(Host, { key: 'd69b8d4c013a54bdabca5479e426e0a54ed950c7', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'c4bcb0beec6d42effe21c716f9087a0087d3cec6', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }

@@ -1,9 +1,11 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
+var index = require('./index-CQkpA5n3.js');
 var axios = require('./axios-EresIryl.js');
 var debounce = require('./debounce-Be8tSGtB.js');
+var t = require('./t-CyRK1btk.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
+require('./locales.store-BMTss6fG.js');
 
 const irPropertySwitcherDialogContentCss = () => `.sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__search-input.sc-ir-property-switcher-dialog-content::part(base),.property-switcher__search-input.sc-ir-property-switcher-dialog-content [part~="base"]{font-size:16px;height:32px}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}@media (min-width: 640px){.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}}`;
 
@@ -159,13 +161,13 @@ const IrPropertySwitcherDialogContent = class {
         return index.h("div", { class: "property-switcher__status" }, text);
     }
     render() {
-        return (index.h(index.Host, { key: '413e53eb17a35d3eb62a24aa00a89aefcbd16168' }, index.h("ir-input", { key: '6bad8d0045e3a6f0c9775dab4a4ca211d6929331', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Property name or A number", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), index.h("div", { key: '57b3029d5f692df35f369b4abb075eb4429e3443', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (index.h("div", { key: '3bd6126ff90e2d34688f7f74c61a828d4e330ade' }, index.h("p", { key: 'c84dfa268ea69ab76fac1f8ca9b9cbced14dc1c5', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, "Linked Properties"), this.properties.map(property => {
+        return (index.h(index.Host, { key: 'd427fb08db770f5cbaf02c5fa6edc754aa29430c' }, index.h("ir-input", { key: '805ee8a53a84db665663e14813c4333311b634a5', autofocus: true, ref: el => (this.inputRef = el), placeholder: t.t('Lcz_PropertyNameOrANumberPlaceholder', { fallback: 'Property name or A number' }), class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), index.h("div", { key: 'fe2745d47a3a260c7d2a872eb6472716344da125', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (index.h("div", { key: 'e4c4e0ab1a8f0f9a24ac5b0dfc4e643238b63a0c' }, index.h("p", { key: '5eb671d46c516541fc66d867e14e56060d2ff6b7', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, t.t('Lcz_LinkedProperties', { fallback: 'Linked Properties' })), this.properties.map(property => {
             const label = `${property.name}`;
             return (index.h("wa-option", { onClick: () => {
                     // this.selectProperty(property as any);
                     this.linkedPropertyChange.emit(property);
                 }, selected: this.selectedPropertyId === property.property_id, value: property.property_id?.toString(), label: label }, label));
-        }))), this.searchTerm && this.filteredProperties.length === 0 && this.renderStatus('No properties found'), this.filteredProperties.map((property, index$1) => {
+        }))), this.searchTerm && this.filteredProperties.length === 0 && this.renderStatus(t.t('Lcz_NoPropertiesFound', { fallback: 'No properties found' })), this.filteredProperties.map((property, index$1) => {
             const label = `${property.COUNTRY_CODE}: ${property.PROPERTY_NAME} - ${property.A_NAME}`;
             return (index.h("wa-option", { onClick: () => this.selectProperty(property), selected: this.selectedPropertyId === property.PROPERTY_ID, current: this.highlightedIndex === index$1, value: property.PROPERTY_ID?.toString(), label: label }, label));
         }))));

@@ -17,7 +17,7 @@ export class IrBookingEmailLogs {
         }
     }
     render() {
-        return (h(Host, { key: '6f0829c9a1ac5a388d9c70e532c87588ab9ca7de', class: "p-1" }, h("ir-interceptor", { key: 'f1f97acd74d44bf6ae1285a759367f01b416efd7', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '7a01ac2f13ddf35dea9e277d4e0c7adc464e6380' }), h("div", { key: '1fb97c8e56320e9e0321293e11ac17a91369bf29', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: 'ebd992fb69d4576af3053a388fbdf021668143d0', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '0c932780a35cdc859d2837f7d6da7c854e0cde65', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: 'ed602a1924449cbee284244bbfb64ae8e87c653d', class: "p-1" }, h("ir-interceptor", { key: '42bbeb1b35bef5839103cc3a126485be2251b1a9', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '76abedd7b80e0c531653c10a0452100bc60aad43' }), h("div", { key: '04a331c6239afebe2862651154dbc453b0e08361', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: 'b3ea73c0557827339235fd4d090ca2e4ec5db209', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: 'af3d5bf3989863958cf55ba6019f5ac93f686dff', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -25,7 +25,7 @@ export class IrBookingEmailLogs {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: 'c38324f65a551d835d88729b0896a5b32623ba49' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: '95b6b16af806e661d9aab0c8e3cf98b637d831a3' }, JSON.stringify(this.data, null, 2))));
     }
     static get is() { return "ir-booking-email-logs"; }
     static get encapsulation() { return "scoped"; }

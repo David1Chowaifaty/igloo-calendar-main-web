@@ -25,6 +25,12 @@ export declare class IrTranslationsManager {
     tableDialogOpen: boolean;
     tableDialogMode: 'create' | 'edit';
     tableDialogTable: TranslationTable | null;
+    moveDialogOpen: boolean;
+    moveDialogEntry: TranslationEntry | null;
+    settingsDialogOpen: boolean;
+    /** Non-source language codes pinned as columns. `null` means "not customized yet" — everything is pinned. */
+    pinnedLanguageCodes: string[] | null;
+    showNotesColumn: boolean;
     deleteTarget: DeleteTarget | null;
     /** True while the distinct table list is loading. */
     isLoading: boolean;
@@ -50,7 +56,7 @@ export declare class IrTranslationsManager {
     crossTableEntries: TranslationEntry[];
     /** True while a cross-table query is in flight. */
     isLoadingCrossTable: boolean;
-    /** Entry id (`TBL_NAME::CODE_NAME`) → the tables sharing that row's description. Empty until the duplicate scan lands. */
+    /** Entry id (`TBL_NAME::CODE_NAME`) → the rows in other used tables sharing that row's description. Empty until the duplicate scan lands. */
     duplicates: Map<string, DuplicateInfo>;
     private deleteDialogRef;
     private unsavedOrderDialogRef;
@@ -72,10 +78,10 @@ export declare class IrTranslationsManager {
     private loadLanguages;
     /**
      * One scan of every description shared by more than one setup table, flattened
-     * from the API's per-description grouping into a per-row lookup keyed by the same
-     * `TBL_NAME::CODE_NAME` id the entries carry. Loaded once — it describes the whole
-     * setup, not the table currently on screen. Purely decorative, so a failure leaves
-     * the badges off rather than taking the page down with it.
+     * into a per-row lookup (see `buildDuplicateMap`). Loaded once — it describes the
+     * whole setup, not the table currently on screen — and refreshed after a drawer
+     * save, since a key rename changes the id a row is filed under. A failure leaves
+     * the badges off and edits un-propagated rather than taking the page down with it.
      */
     private loadDuplicatedSetupEntriesAcrossTables;
     /**
@@ -109,12 +115,14 @@ export declare class IrTranslationsManager {
      * question either filter should offer.
      */
     private get auditableLanguages();
-    /** True when a table survives the "used in this codebase" switch. */
+    /** True when a table survives the "used in this codebase" filter. */
     private isTableAllowed;
     /** The tables the picker offers — every one Setup reports, or only those the app reads. */
     private get visibleTables();
-    /** Cross-table results narrowed by the same switch, so search and audits can't surface a table the picker hides. */
+    /** Cross-table results narrowed by the same filter, so search and audits can't surface a table the picker hides. */
     private get allowedCrossTableEntries();
+    /** Non-source language codes currently shown as columns. Defaults to every one until the user unpins something. */
+    private get effectivePinnedLanguageCodes();
     /** True once either header control is engaged — the grid then shows rows from every table. */
     private get isCrossTableMode();
     /** Whatever the entries panel is currently showing: the cross-table missing set, or the active table's keys. */
@@ -167,7 +175,11 @@ export declare class IrTranslationsManager {
     private saveOrderAndSwitchTable;
     private openCreateEntry;
     private openEditEntry;
-    /** The entry form saved (and possibly soft-deleted/recreated) directly against Setup — refetch to pick up the result. */
+    /**
+     * The entry form saved (and possibly soft-deleted/recreated) directly against Setup,
+     * with the row's duplicates in the same batch — refetch to pick up the result. The
+     * duplicate map is reloaded too: a key rename changes the id a row is filed under.
+     */
     private handleEntrySaved;
     private handleEntryChange;
     /** Flips ISVISIBLE for one entry — a deliberate settings change, so it stamps a fresh ENTRY_DATE like any other content edit. */
@@ -179,6 +191,9 @@ export declare class IrTranslationsManager {
     /** Drops the local reorder and refetches — the same "fresh fetch is authoritative" path `loadTableEntries` already resets order state through. */
     private handleDiscardOrder;
     private requestDeleteEntry;
+    private openMoveEntry;
+    /** Move_Setup_Entry already re-homed the row — drop it from whatever is on screen and let the destination refetch when it's next selected. */
+    private handleEntryMoved;
     private openCreateTable;
     /** The table form saved (create, empty-table rename, or bulk rename) directly against Setup — reconcile local state with what it reports. */
     private handleTableSaved;
@@ -191,8 +206,8 @@ export declare class IrTranslationsManager {
      */
     private handleMissingLanguagesChange;
     private handleSearchQueryChange;
-    /** Narrowing the list can strand the active table off it — fall back to the first one still on offer. */
-    private handleUsedTablesOnlyChange;
+    /** The settings dialog only ever reports its state on Save — apply the used-tables filter, pins, and notes visibility together. */
+    private handleSaveSettings;
     private renderPageActions;
     render(): any;
 }

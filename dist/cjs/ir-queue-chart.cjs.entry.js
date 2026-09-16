@@ -1,7 +1,9 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
+var index = require('./index-CQkpA5n3.js');
 var chart = require('./chart-CMmD0hzI.js');
+var t = require('./t-CyRK1btk.js');
+require('./locales.store-BMTss6fG.js');
 
 const irQueueChartCss = () => `:host{display:block}`;
 
@@ -16,7 +18,7 @@ const IrQueueChart = class {
     /** Values for bars */
     values = [];
     /** Chart title */
-    label = 'Queue Status';
+    label = t.t('Lcz_QueueStatus', { fallback: 'Queue Status' });
     chart;
     canvas;
     componentDidLoad() {
@@ -106,7 +108,7 @@ const IrQueueChart = class {
         this.chart.update();
     }
     render() {
-        return (index.h(index.Host, { key: 'da5417ae6d6fc725a3ead780e16f4dc9d66dff71' }, index.h("div", { key: '23e57d72f05f3c0530dd5c79dc280e42c4cb48c6', class: "chart-container" }, index.h("canvas", { key: '36b1f598fbb15262e4ef777ba03448778e4f2fe5', ref: el => (this.canvas = el) }))));
+        return (index.h(index.Host, { key: '3a8b77248efbd5beb8cde5f6cc54760e17102c4d' }, index.h("div", { key: '3594b4fbc11284d01e0eb49e045fbf098b0a5b89', class: "chart-container" }, index.h("canvas", { key: 'aa56dcc18177bc826bbb0390fce9f7a19bad7720', ref: el => (this.canvas = el) }))));
     }
     static get watchers() { return {
         "values": [{

@@ -56,6 +56,9 @@ export class IrSalesByChannel {
     async initializeApp() {
         try {
             this.isPageLoading = true;
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.salesByChannel });
             if (!this.mode) {
                 throw new Error("Missing required 'mode'. Please set it to either 'property' or 'mpo'.");
             }
@@ -71,7 +74,7 @@ export class IrSalesByChannel {
                 });
                 this.propertyID = property.My_Result.id;
             }
-            const requests = [LocaleController.load({ language: this.language, tables: SCREEN_TABLES.salesByChannel })];
+            const requests = [localeReady];
             if (this.mode === 'mpo') {
                 requests.unshift(this.propertyService.getExposedAllowedProperties());
                 const [properties] = await Promise.all(requests);
@@ -214,11 +217,11 @@ export class IrSalesByChannel {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-page", { label: "Sales by Source" }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-page", { label: t('Lcz_SalesBySource', { fallback: 'Sales by Source' }) }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getChannelSales(true);
-            } }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export')), h("ir-sales-by-channel-summary", { filters: this.channelSalesFilters, records: this.salesData }), h("div", { class: "channel-content-row" }, h("ir-sales-by-channel-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+            } }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export', { fallback: 'Export' })), h("ir-sales-by-channel-summary", { filters: this.channelSalesFilters, records: this.salesData }), h("div", { class: "channel-content-row" }, h("ir-sales-by-channel-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.channelSalesFilters = { ...e.detail };

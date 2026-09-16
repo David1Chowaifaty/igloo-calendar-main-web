@@ -100,6 +100,11 @@ export declare class IrModal {
     cancelModal: EventEmitter<any>;
     /** Fired when the middle (tertiary) button is clicked. Emits the current `item` value. */
     middleModal: EventEmitter<any>;
+    private get resolvedModalTitle();
+    private get resolvedModalBody();
+    private get resolvedRightBtnText();
+    private get resolvedLeftBtnText();
+    private get resolvedMiddleBtnText();
     btnClickHandler(event: CustomEvent): void;
     render(): any[];
 }

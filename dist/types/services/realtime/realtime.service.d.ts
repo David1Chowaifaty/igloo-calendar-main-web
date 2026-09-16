@@ -5,7 +5,9 @@ export type MessageHandler = (msg: RealtimeMessage) => void | Promise<void>;
 declare class RealtimeService {
     private static _instance;
     private socket;
+    /** Handlers bucketed by propertyId, so dispatching a message never walks subscribers it can't match. */
     private subscribers;
+    private subscriberCount;
     private constructor();
     static getInstance(): RealtimeService;
     /**

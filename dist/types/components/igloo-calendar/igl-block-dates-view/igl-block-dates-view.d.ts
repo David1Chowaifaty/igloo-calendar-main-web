@@ -27,7 +27,6 @@ export declare class IglBlockDatesView {
     private handleModeChange;
     private emitData;
     private getReleaseHoursString;
-    private formatNumber;
     private renderPage;
     render(): any;
 }

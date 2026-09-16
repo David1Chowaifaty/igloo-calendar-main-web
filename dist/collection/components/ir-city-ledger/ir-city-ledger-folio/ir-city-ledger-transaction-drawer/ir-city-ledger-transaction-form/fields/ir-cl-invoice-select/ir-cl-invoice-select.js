@@ -3,20 +3,22 @@ import { formatAmount } from "../../../../../../../utils/utils";
 import calendar_data from "../../../../../../../stores/calendar-data";
 import { invoiceIdRequiredFieldSchema } from "../../ir-city-ledger-transaction-form.schema";
 import { formatDate } from "../../../../../../../utils/date/index";
+import { t } from "../../../../../../../services/locale/t";
+import { formatBookingNumber } from "../../../../../../../utils/number";
 export class IrClInvoiceSelect {
     value = '';
     fiscalDocuments = [];
-    label = 'Invoice';
+    label;
     hint = '';
     invoiceChange;
     render() {
-        return (h("ir-validator", { key: '335abe4145728aa4c15a79698e79bfb7e17fdab9', schema: invoiceIdRequiredFieldSchema, value: this.value, valueEvent: "change" }, h("wa-select", { key: '3d77b52e7ccad09ceeae82a9ee3dd793058b6615', label: this.label, size: "s", required: true, hint: this.hint || undefined, placeholder: "Select invoice", value: this.value, onchange: event => {
+        return (h("ir-validator", { key: 'e3d3a1fd553edf3eaa1d35c0a66e58a8ac09b2fc', schema: invoiceIdRequiredFieldSchema, value: this.value, valueEvent: "change" }, h("wa-select", { key: 'b1601e12f49438a00e097b008f2dc877cbaa647f', label: this.label || t('Lcz_DocumentTypeInvoice', { fallback: 'Invoice' }), size: "s", required: true, hint: this.hint || undefined, placeholder: t('Lcz_SelectInvoicePlaceholder', { fallback: 'Select invoice' }), value: this.value, onchange: event => {
                 this.invoiceChange.emit(event.target.value || '');
             } }, this.fiscalDocuments.map(doc => {
             const date = doc.ISSUE_DATE_DISPLAY ?? (doc.ISSUE_DATE ? formatDate(doc.ISSUE_DATE, 'MMM D, YYYY') : '');
             const amount = doc.TOTAL_AMOUNT != null ? formatAmount(calendar_data.property?.currency?.symbol, doc.TOTAL_AMOUNT) : '';
             const docNumber = doc.DOC_NUMBER ?? '';
-            return (h("wa-option", { key: doc.FD_ID, value: String(doc.FD_ID), label: docNumber }, h("div", { class: "invoice-option" }, h("div", { class: "invoice-option__left" }, h("span", { class: "invoice-option__number" }, docNumber), date && h("span", { class: "invoice-option__date" }, date), doc.EXTERNAL_REF && h("span", { class: "invoice-option__ref" }, "Ref: ", doc.EXTERNAL_REF)), amount && h("span", { class: "invoice-option__amount" }, amount))));
+            return (h("wa-option", { key: doc.FD_ID, value: String(doc.FD_ID), label: docNumber }, h("div", { class: "invoice-option" }, h("div", { class: "invoice-option__left" }, h("span", { class: "invoice-option__number" }, formatBookingNumber(docNumber)), date && h("span", { class: "invoice-option__date" }, date), doc.EXTERNAL_REF && (h("span", { class: "invoice-option__ref" }, t('Lcz_Ref', { fallback: 'Ref:' }), " ", doc.EXTERNAL_REF))), amount && h("span", { class: "invoice-option__amount" }, amount))));
         }))));
     }
     static get is() { return "ir-cl-invoice-select"; }
@@ -95,8 +97,7 @@ export class IrClInvoiceSelect {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "label",
-                "defaultValue": "'Invoice'"
+                "attribute": "label"
             },
             "hint": {
                 "type": "string",

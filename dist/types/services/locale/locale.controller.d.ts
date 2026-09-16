@@ -19,20 +19,32 @@ import type { LoadLocaleParams, LocaleTable } from './types';
  */
 export declare class LocaleController {
     /** @see {@link BASE_TABLES} — kept as a static so call sites read one name. */
-    static readonly BASE_TABLES: readonly ["_PMS_FRONT"];
+    static readonly BASE_TABLES: readonly ["_COMMON"];
     private static service;
     private static loadedTables;
     private static inFlight;
+    /** What is in `locales.entries` right now — null until the first fetch lands. */
     private static loadedLanguage;
+    /**
+     * What the app has chosen, set synchronously by {@link load} before its fetch
+     * goes out. Distinct from {@link loadedLanguage} so a screen can read the right
+     * value while the strings are still on the wire.
+     */
+    private static selectedLanguage;
     private static listeners;
     /**
      * The currently selected language — the value every `language:` API parameter
      * should use, rather than a `@Prop() language` captured at mount (which is
      * `''` or `undefined` on 32 components until the host sets it).
      *
-     * Reads `locales.language` FIRST, not the private `loadedLanguage` field: going
-     * through the `@stencil/store` proxy means a call inside `render()` subscribes
-     * the component, so labels resolved through it re-render on a language switch.
+     * Correct as soon as a screen has *called* `load` with the host's prop — it does
+     * not wait for the fetch — so sibling requests built in the same `Promise.all`
+     * get the right language on first mount, provided `load` is started first.
+     *
+     * Reads `locales.language` FIRST, not the private `selectedLanguage` field:
+     * going through the `@stencil/store` proxy means a call inside `render()`
+     * subscribes the component, so labels resolved through it re-render on a
+     * language switch.
      */
     static get language(): string;
     /**
@@ -66,8 +78,9 @@ export declare class LocaleController {
     static reset(): void;
     private static fetch;
     /**
-     * The single write path into the `locales` store. Assigns top-level keys
-     * whole — `@stencil/store` only reacts to top-level assignment.
+     * The write path for fetched data into the `locales` store (`language` alone
+     * is also seeded early by {@link load}). Assigns top-level keys whole —
+     * `@stencil/store` only reacts to top-level assignment.
      */
     private static publish;
     /** Base tables first, then the caller's, deduped and sorted for a stable cache key. */
@@ -75,12 +88,13 @@ export declare class LocaleController {
     /**
      * A `language` argument is a *request*, not an override.
      *
-     * It wins on the first load — that is how a host's `language` prop seeds the
-     * app — and whenever `force` is set, which is what an actual switch uses
+     * It wins on the first selection — that is how a host's `language` prop seeds
+     * the app — and whenever `force` is set, which is what an actual switch uses
      * (`setLanguage`, or a root's `@Watch('language')`). Once a language is
      * selected, an ordinary `load` cannot move it: screens pass their own
      * `@Prop() language` there, and that prop is stale on any screen the switcher
-     * has not re-broadcast to yet. Honouring it would let a screen re-running its
+     * has not re-broadcast to yet (or still `''` on a screen mounting while the
+     * first load is in flight). Honouring it would let a screen re-running its
      * init after a switch drag the whole app back to the previous language.
      */
     private static resolveLanguage;

@@ -4,10 +4,14 @@ import { GHSService } from "../../services/ghs/ghs.service";
 import { BookingService } from "../../services/booking-service/booking.service";
 import ApiClient from "../../models/ApiClient";
 import { showToast } from "../../utils/utils";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrGhsOnboarding {
     el;
     ticket;
     baseurl;
+    language = 'en';
     properties = [];
     countries = [];
     selectedCountryId = null;
@@ -40,13 +44,17 @@ export class IrGhsOnboarding {
     async init() {
         this.isPageLoading = true;
         try {
-            const [allCountries, allProperties] = await Promise.all([this.bookingService.getCountries('EN'), this.ghsService.Get_GHS_Candidate_Properties({ COUNTRY_ID: null })]);
+            const [allCountries, allProperties] = await Promise.all([
+                this.bookingService.getCountries('EN'),
+                this.ghsService.Get_GHS_Candidate_Properties({ COUNTRY_ID: null }),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.ghsOnboarding }),
+            ]);
             const validCountryIds = new Set(allProperties.map(p => p.COUNTRY_ID));
             this.countries = allCountries.filter(c => validCountryIds.has(c.id)).sort((a, b) => a.name.localeCompare(b.name));
             this.properties = allProperties;
         }
         catch (error) {
-            this.showToast('error', 'Initialization Error', error.message || 'Failed to load properties');
+            this.showToast('error', t('Lcz_InitializationError', { fallback: 'Initialization Error' }), error.message || t('Lcz_FailedToLoadProperties', { fallback: 'Failed to load properties' }));
         }
         finally {
             this.isPageLoading = false;
@@ -62,7 +70,7 @@ export class IrGhsOnboarding {
             this.properties = props;
         }
         catch (error) {
-            this.showToast('error', 'Error', error.message || 'Failed to fetch properties');
+            this.showToast('error', t('Lcz_Error', { fallback: 'Error' }), error.message || t('Lcz_FailedToFetchProperties', { fallback: 'Failed to fetch properties' }));
         }
         finally {
             this.isDataLoading = false;
@@ -113,13 +121,13 @@ export class IrGhsOnboarding {
                 AC_ID: this.propertyToActivate.AC_ID,
                 IS_ENABLED: true,
             });
-            this.showToast('success', 'Success', `${this.propertyToActivate.NAME} GHS has been activated.`);
+            this.showToast('success', t('Lcz_Success', { fallback: 'Success' }), t('Lcz_GhsActivatedSuccessfully', { fallback: `${this.propertyToActivate.NAME} GHS has been activated.`, params: [this.propertyToActivate.NAME] }));
             const activatedId = this.propertyToActivate.AC_ID;
             this.properties = this.properties.filter(p => p.AC_ID !== activatedId);
             this.selectedProperties = this.selectedProperties.filter(p => p.AC_ID !== activatedId);
         }
         catch (error) {
-            this.showToast('error', 'Activation Error', error.message || 'Failed to activate property');
+            this.showToast('error', t('Lcz_ActivationError', { fallback: 'Activation Error' }), error.message || t('Lcz_FailedToActivateProperty', { fallback: 'Failed to activate property' }));
         }
         finally {
             this.isActivating = false;
@@ -129,7 +137,7 @@ export class IrGhsOnboarding {
     }
     async handleGenerateRequest() {
         if (this.selectedProperties.length === 0) {
-            this.showToast('error', 'Selection Required', 'Please select at least one property.');
+            this.showToast('error', t('Lcz_SelectionRequired', { fallback: 'Selection Required' }), t('Lcz_PleaseSelectAtLeastOneProperty', { fallback: 'Please select at least one property.' }));
             return;
         }
         this.isGenerating = true;
@@ -156,11 +164,11 @@ export class IrGhsOnboarding {
                 window.URL.revokeObjectURL(localUrl);
                 this.selectedProperties = [];
                 await this.fetchProperties();
-                this.showToast('success', 'Success', 'GHS onboarding request downloaded.');
+                this.showToast('success', t('Lcz_Success', { fallback: 'Success' }), t('Lcz_GhsOnboardingRequestDownloaded', { fallback: 'GHS onboarding request downloaded.' }));
             }
         }
         catch (error) {
-            this.showToast('error', 'Generation Error', error.message || 'An error occurred while generating the request.');
+            this.showToast('error', t('Lcz_GenerationError', { fallback: 'Generation Error' }), error.message || t('Lcz_ErrorOccurredGeneratingRequest', { fallback: 'An error occurred while generating the request.' }));
         }
         finally {
             this.isGenerating = false;
@@ -178,10 +186,13 @@ export class IrGhsOnboarding {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("ir-dialog", { ref: el => (this.activateModal = el), label: "Activation Confirmation", onIrDialogHide: () => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("ir-dialog", { ref: el => (this.activateModal = el), label: t('Lcz_ActivationConfirmation', { fallback: 'Activation Confirmation' }), onIrDialogHide: () => {
                 this.propertyToActivate = null;
                 this.activateModal.closeModal();
-            } }, h("div", { class: "ir-ghs-onboarding__dialog-body" }, h("p", { class: "m-0 text-center" }, "Are you sure you want to ", h("strong", null, "activate"), " GHS for ", h("span", { class: "text-primary" }, this.propertyToActivate?.NAME), "?"), h("p", { class: "small text-muted mt-2 mb-0" }, "This will enable real-time synchronization with Google.")), h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "m", onClickHandler: (e) => {
+            } }, h("div", { class: "ir-ghs-onboarding__dialog-body" }, h("p", { class: "m-0 text-center" }, t('Lcz_AreYouSureActivateGhs', {
+            fallback: `Are you sure you want to activate GHS for ${this.propertyToActivate?.NAME}?`,
+            params: [this.propertyToActivate?.NAME],
+        })), h("p", { class: "small text-muted mt-2 mb-0" }, t('Lcz_EnableRealTimeSyncWithGoogle', { fallback: 'This will enable real-time synchronization with Google.' }))), h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "m", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
@@ -189,28 +200,28 @@ export class IrGhsOnboarding {
                 }
                 this.propertyToActivate = null;
                 this.activateModal.closeModal();
-            } }, "Cancel"), h("ir-custom-button", { type: "button", variant: "success", appearance: "accent", size: "m", loading: this.isActivating, onClickHandler: (e) => {
+            } }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { type: "button", variant: "success", appearance: "accent", size: "m", loading: this.isActivating, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.handleConfirmActivate();
-            } }, "Activate"))), h("ir-dialog", { ref: el => (this.removeAllModal = el), label: "Confirmation", onIrDialogHide: () => this.removeAllModal.closeModal() }, h("div", { class: "ir-ghs-onboarding__dialog-body" }, h("p", { class: "m-0 text-center" }, "Are you sure you want to remove all selected properties from the list?")), h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "m", onClickHandler: (e) => {
+            } }, t('Lcz_Activate', { fallback: 'Activate' })))), h("ir-dialog", { ref: el => (this.removeAllModal = el), label: t('Lcz_Confirmation', { fallback: 'Confirmation' }), onIrDialogHide: () => this.removeAllModal.closeModal() }, h("div", { class: "ir-ghs-onboarding__dialog-body" }, h("p", { class: "m-0 text-center" }, t('Lcz_AreYouSureRemoveAllSelectedProperties', { fallback: 'Are you sure you want to remove all selected properties from the list?' }))), h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "m", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.removeAllModal.closeModal();
-            } }, "Cancel"), h("ir-custom-button", { type: "button", variant: "danger", appearance: "accent", size: "m", onClickHandler: (e) => {
+            } }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { type: "button", variant: "danger", appearance: "accent", size: "m", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.handleConfirmRemoveAll();
-            } }, "Confirm"))), h("section", { class: "ir-ghs-onboarding__container" }, h("div", { class: "ir-ghs-onboarding__header" }, h("h3", { class: "ir-ghs-onboarding__title" }, "Google hotels request")), h("div", { class: "ir-ghs-onboarding__content" }, h("div", { class: "ir-ghs-onboarding__main-row" }, h("ir-ghs-candidate-table", { class: "ir-ghs-onboarding__candidate-table", properties: this.properties, countries: this.countries, selectedCountryId: this.selectedCountryId, selectedProperties: this.selectedProperties, propertyToActivate: this.propertyToActivate, isLoading: this.isDataLoading, baseUrl: this.baseurl, onToggleSelection: e => this.togglePropertySelection(e.detail), onToggleAll: e => this.handleToggleAll(e.detail), onActivateProperty: e => this.handleActivateProperty(e.detail), onCountryChange: e => {
+            } }, t('Lcz_Confirm', { fallback: 'Confirm' })))), h("section", { class: "ir-ghs-onboarding__container" }, h("div", { class: "ir-ghs-onboarding__header" }, h("h3", { class: "ir-ghs-onboarding__title" }, t('Lcz_GoogleHotelsRequest', { fallback: 'Google hotels request' }))), h("div", { class: "ir-ghs-onboarding__content" }, h("div", { class: "ir-ghs-onboarding__main-row" }, h("ir-ghs-candidate-table", { class: "ir-ghs-onboarding__candidate-table", properties: this.properties, countries: this.countries, selectedCountryId: this.selectedCountryId, selectedProperties: this.selectedProperties, propertyToActivate: this.propertyToActivate, isLoading: this.isDataLoading, baseUrl: this.baseurl, onToggleSelection: e => this.togglePropertySelection(e.detail), onToggleAll: e => this.handleToggleAll(e.detail), onActivateProperty: e => this.handleActivateProperty(e.detail), onCountryChange: e => {
                 this.selectedCountryId = e.detail;
                 this.fetchProperties();
             } }), h("ir-ghs-selection-bucket", { class: "ir-ghs-onboarding__selection-bucket", selectedProperties: this.selectedProperties, isGenerating: this.isGenerating, onGenerateRequest: () => this.handleGenerateRequest(), onRemoveAll: () => this.handleRemoveAll(), onRemoveProperty: e => this.removePropertySelection(e.detail) }))))));
@@ -266,6 +277,26 @@ export class IrGhsOnboarding {
                 "setter": false,
                 "reflect": false,
                 "attribute": "baseurl"
+            },
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "language",
+                "defaultValue": "'en'"
             }
         };
     }

@@ -1,25 +1,24 @@
-import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-BYqrdgY9.js';
-import { H as HouseKeepingService, h as housekeeping_store, g as getDefaultProperties } from './housekeeping.service-C7mt9QTJ.js';
-import { c as calendar_data } from './calendar-data-DT3jrP3G.js';
-import { t } from './t-CHttQIVe.js';
-import { B as BookingService } from './booking.store-COUFbkki.js';
-import { U as UserService } from './user.service-D5VLhpeK.js';
+import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-CeHdrJeH.js';
+import { H as HouseKeepingService, h as housekeeping_store, g as getDefaultProperties } from './housekeeping.service-X6dZ6dBt.js';
+import { c as calendar_data } from './calendar-data-BZeaTRgj.js';
+import { t } from './t-Bk78Wumj.js';
+import { B as BookingService } from './booking.service-CMmse-Np.js';
+import { U as UserService } from './user.service-xurse39u.js';
 import { C as CONSTANTS } from './constants-DI4DZmiQ.js';
-import { l as libExports } from './index-DeW5X45W.js';
-import './index-CimhgHoX.js';
+import { s as stringType, o as objectType } from './types-BG9uwIsj.js';
+import './locales.store-CXJn6ls-.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './locales.store-BfROgg7a.js';
-import './IBooking-CTtD1rpE.js';
-import './utils-BShicg8f.js';
+import './IBooking-B-QQODPH.js';
+import './utils-BtgW0txG.js';
 import './moment-Mki5YqAR.js';
-import './booking.dto-DpE31yhG.js';
-import './type-D7rOPtKA.js';
-import './ir-date-CLlijQNQ.js';
+import './booking.dto-FOZcMojD.js';
+import './type-DUaIPoJQ.js';
+import './ir-date-DFR8GVLZ.js';
 import './language-observer-CHgzsZkY.js';
-import './booking-T-yPHlXj.js';
-import './functions-BMgKBA1N.js';
-import './commonSchemas-ByEkDTMV.js';
+import './booking-DuWdYels.js';
+import './functions-D_076Gzf.js';
+import './commonSchemas-DZl_Ygcg.js';
 
 const irHkUnassignedUnitsDrawerFormCss = () => `.sc-ir-hk-unassigned-units-drawer-form-h{display:block;min-width:20rem;--ir-root-active-color:#1e9ff2;--ir-root-inactive-color:#d2d2d2;text-align:start !important}table.sc-ir-hk-unassigned-units-drawer-form{width:100%}td.sc-ir-hk-unassigned-units-drawer-form{padding-top:3px;padding-bottom:3px}td.sc-ir-hk-unassigned-units-drawer-form:last-child{text-align:end}.title.sc-ir-hk-unassigned-units-drawer-form{min-width:230px !important}.ir-ps-1.sc-ir-hk-unassigned-units-drawer-form{padding-inline-start:0.25rem}`;
 
@@ -83,7 +82,7 @@ const IrHkUnassignedUnitsDrawerForm = class {
     }
     renderRooms() {
         if (!this.user) {
-            return housekeeping_store.hk_criteria.units_assignments.unassigned_units?.map(unit => (h("tr", { key: unit.id }, h("td", { class: "" }, unit.name), h("td", { class: "sr-only" }), h("td", { class: "ir-ps-1" }, h("wa-select", { size: "s", style: { textAlign: 'start' }, placeholder: "Select", onchange: e => {
+            return housekeeping_store.hk_criteria.units_assignments.unassigned_units?.map(unit => (h("tr", { key: unit.id }, h("td", { class: "" }, unit.name), h("td", { class: "sr-only" }), h("td", { class: "ir-ps-1" }, h("wa-select", { size: "s", style: { textAlign: 'start' }, placeholder: t('Lcz_Select', { fallback: 'Select' }), onchange: e => {
                     let hk_id = e.target.value;
                     if (hk_id === '') {
                         hk_id = null;
@@ -123,19 +122,21 @@ const IrHkUnassignedUnitsDrawerForm = class {
         });
     }
     render() {
-        return (h("form", { key: 'e747f7f715662bb2c452cae91107694c02394882', id: this.formId, onSubmit: e => {
+        return (h("form", { key: '00429912cdf12f0fa80a1791a5dc4fcc63931987', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.assignUnits();
-            } }, h("table", { key: 'e04d03d87d991e0da976cf11893bdd9b35749938' }, h("thead", { key: 'de7f2a5638203b817039629b1a7dc4046d160a3d' }, h("th", { key: '6222119b98e072e128f7234b1258d1045fc4a541', class: "sr-only" }, t('Lcz_RoomName')), h("th", { key: '236fe46b894ca07701d46374b761fae2d43984ef', class: "sr-only" }, t('Lcz_HousekeeperName')), h("th", { key: 'bbbdd3aef496dcce86502f453910f5bc6a8f8065', class: "sr-only" }, t('Lcz_Actions'))), h("tbody", { key: 'd48b908c8872f83972f935ff9870184a2c7eb233' }, this.renderRooms()))));
+            } }, h("table", { key: '7f8687b80974a45d91c64cba1be4de14d5f15f99' }, h("thead", { key: '82a98b42bb23d5d5cf623d2e33b8727d10af9a21' }, h("th", { key: '6acfeb71e547121154b3a8d014fe85402e362559', class: "sr-only" }, t('Lcz_RoomName', { fallback: 'room name' })), h("th", { key: '47e473e2f411ea78fd2de13303b3dc601fbd0964', class: "sr-only" }, t('Lcz_HousekeeperName', { fallback: 'housekeeper name' })), h("th", { key: '91e8a5fe2a32336d58848de878318e07409839b5', class: "sr-only" }, t('Lcz_Actions', { fallback: 'Actions' }))), h("tbody", { key: 'b679684342462557894faf0106e0256fab0f0fbf' }, this.renderRooms()))));
     }
 };
 IrHkUnassignedUnitsDrawerForm.style = irHkUnassignedUnitsDrawerFormCss();
 
 const irHkUserDrawerFormCss = () => `.sc-ir-hk-user-drawer-form-h{display:block;height:100%}.hk-user-form.sc-ir-hk-user-drawer-form{display:flex;flex-direction:column;gap:1rem}.hk-user-form--password-change.sc-ir-hk-user-drawer-form{position:relative;height:100%;justify-content:center;align-items:center}.hk-user-form__back-btn.sc-ir-hk-user-drawer-form{position:absolute;top:0;inset-inline-start:0}.hk-user-form__password-fields.sc-ir-hk-user-drawer-form{display:flex;flex-direction:column;gap:1rem;width:100%;max-width:26rem}.hk-user-form__password-header.sc-ir-hk-user-drawer-form{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0.5rem;margin-bottom:0.5rem}.hk-user-form__password-icon.sc-ir-hk-user-drawer-form{font-size:2.25rem;color:var(--wa-color-text-normal)}.hk-user-form__password-title.sc-ir-hk-user-drawer-form{margin:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-l)}.hk-user-form__password-hint.sc-ir-hk-user-drawer-form{margin:0;font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold);color:var(--wa-color-text-normal);max-width:22rem}.hk-user-form__change-password-btn.sc-ir-hk-user-drawer-form{align-self:flex-end}.hk-user-form__change-password-btn.sc-ir-hk-user-drawer-form::part(base),.hk-user-form__change-password-btn.sc-ir-hk-user-drawer-form [part~="base"]{padding:0;height:auto;width:fit-content}.ir-flip-rtl.sc-ir-hk-user-drawer-form:dir(rtl){scale:-1 1}`;
 
-const nameSchema = libExports.z.string().min(2, 'Name must be at least 2 characters.');
-const mobileSchema = libExports.z.string().min(1, 'Mobile is required.').max(14, 'Mobile must be at most 14 characters.');
-const usernameBaseSchema = libExports.z.string().min(3, 'Username must be at least 3 characters.');
+const nameSchema = stringType().min(2, t('Lcz_NameMinLength', { fallback: 'Name must be at least 2 characters.' }));
+const mobileSchema = stringType()
+    .min(1, t('Lcz_MobileRequired', { fallback: 'Mobile is required.' }))
+    .max(14, t('Lcz_MobileMaxLength', { fallback: 'Mobile must be at most 14 characters.' }));
+const usernameBaseSchema = stringType().min(3, t('Lcz_UsernameMinLength', { fallback: 'Username must be at least 3 characters.' }));
 const IrHkUserDrawerForm = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
@@ -215,15 +216,14 @@ const IrHkUserDrawerForm = class {
             }
             return true;
         }, { message: t('Lcz_UsernameAlreadyExists', { fallback: 'Username already exists.' }) });
-        this.passwordSchema = libExports.z
-            .string()
+        this.passwordSchema = stringType()
             .nullable()
             .refine(password => {
             if (this.user && !this.userInfo?.password)
                 return true;
             return CONSTANTS.PASSWORD.test(password);
-        }, { message: 'Password must be at least 8 characters long.' });
-        this.fullSchema = libExports.z.object({
+        }, { message: t('Lcz_PasswordMinLength', { fallback: 'Password must be at least 8 characters long.' }) });
+        this.fullSchema = objectType({
             name: nameSchema,
             mobile: mobileSchema,
             password: this.passwordSchema,
@@ -277,7 +277,7 @@ const IrHkUserDrawerForm = class {
         return (h("form", { id: this.formId, class: "hk-user-form hk-user-form--password-change", onSubmit: e => {
                 e.preventDefault();
                 this.addUser();
-            } }, h("ir-custom-button", { type: "button", class: "hk-user-form__back-btn", appearance: "plain", variant: "neutral", size: "s", onClickHandler: () => this.cancelPasswordChange() }, h("wa-icon", { class: "ir-flip-rtl", name: "arrow-left", "aria-hidden": "true", style: { fontSize: '1rem' } })), h("div", { class: "hk-user-form__password-fields" }, h("div", { class: "hk-user-form__password-header" }, h("wa-icon", { name: "lock", class: "hk-user-form__password-icon" }), h("h4", { class: "hk-user-form__password-title" }, "Set New Password"), h("p", { class: "hk-user-form__password-hint" }, "Your new password must be different to previously used password")), h("ir-validator", { schema: this.passwordSchema, value: this.userInfo.password, valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { placeholder: "New password", value: this.userInfo.password, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => this.updateUserField('password', e.detail), onInputFocus: () => (this.showPasswordValidation = true) })), this.showPasswordValidation && h("ir-password-validator", { password: this.userInfo.password }), h("ir-validator", { schema: libExports.z.string().refine(v => v === this.userInfo.password, { message: 'Passwords do not match.' }), value: this.confirmPassword, valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { placeholder: "Confirm password", value: this.confirmPassword, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => (this.confirmPassword = e.detail) })))));
+            } }, h("ir-custom-button", { type: "button", class: "hk-user-form__back-btn", appearance: "plain", variant: "neutral", size: "s", onClickHandler: () => this.cancelPasswordChange() }, h("wa-icon", { class: "ir-flip-rtl", name: "arrow-left", "aria-hidden": "true", style: { fontSize: '1rem' } })), h("div", { class: "hk-user-form__password-fields" }, h("div", { class: "hk-user-form__password-header" }, h("wa-icon", { name: "lock", class: "hk-user-form__password-icon" }), h("h4", { class: "hk-user-form__password-title" }, "Set New Password"), h("p", { class: "hk-user-form__password-hint" }, t('Lcz_NewPasswordMustBeDifferent', { fallback: 'Your new password must be different to previously used password' }))), h("ir-validator", { schema: this.passwordSchema, value: this.userInfo.password, valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { placeholder: t('Lcz_NewPassword', { fallback: 'New password' }), value: this.userInfo.password, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => this.updateUserField('password', e.detail), onInputFocus: () => (this.showPasswordValidation = true) })), this.showPasswordValidation && h("ir-password-validator", { password: this.userInfo.password }), h("ir-validator", { schema: stringType().refine(v => v === this.userInfo.password, { message: t('Lcz_PasswordsDoNotMatch', { fallback: 'Passwords do not match.' }) }), value: this.confirmPassword, valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { placeholder: t('Lcz_ConfirmPassword', { fallback: 'Confirm password' }), value: this.confirmPassword, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => (this.confirmPassword = e.detail) })))));
     }
     render() {
         if (this.isPageLoading) {
@@ -289,10 +289,10 @@ const IrHkUserDrawerForm = class {
         return (h("form", { id: this.formId, class: "hk-user-form", onSubmit: e => {
                 e.preventDefault();
                 this.addUser();
-            } }, h("ir-validator", { schema: nameSchema, value: this.userInfo.name, valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { label: t('Lcz_Name'), value: this.userInfo.name, maxlength: 40, "onText-change": (e) => this.updateUserField('name', e.detail), "onInput-blur": this.handleNameBlur.bind(this) })), h("ir-validator", { schema: mobileSchema, value: this.userInfo.mobile, valueEvent: "mobile-input-change", showErrorMessage: true }, h("ir-mobile-input", { label: t('Lcz_Mobile'), value: this.userInfo.mobile, countryCode: this.countryCode, countries: this.countries, "onMobile-input-change": e => {
+            } }, h("ir-validator", { schema: nameSchema, value: this.userInfo.name, valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { label: t('Lcz_Name', { fallback: 'Name' }), value: this.userInfo.name, maxlength: 40, "onText-change": (e) => this.updateUserField('name', e.detail), "onInput-blur": this.handleNameBlur.bind(this) })), h("ir-validator", { schema: mobileSchema, value: this.userInfo.mobile, valueEvent: "mobile-input-change", showErrorMessage: true }, h("ir-mobile-input", { label: t('Lcz_Mobile', { fallback: 'Mobile' }), value: this.userInfo.mobile, countryCode: this.countryCode, countries: this.countries, "onMobile-input-change": e => {
                 this.updateUserField('phone_prefix', e.detail.country.phone_prefix);
                 this.updateUserField('mobile', e.detail.value);
-            } })), h("wa-textarea", { "data-testid": "note", maxlength: 250, size: "s", label: t('Lcz_Note'), value: this.userInfo.note, defaultValue: this.userInfo.note, onchange: e => this.updateUserField('note', e.target.value) }), h("ir-validator", { schema: this.usernameSchema, value: this.userInfo.username, valueEvent: "text-change", asyncValidation: true, showErrorMessage: true }, h("ir-input", { label: t('Lcz_Username'), value: this.userInfo.username, "onText-change": (e) => this.updateUserField('username', e.detail) })), !this.user ? (h(Fragment, null, h("ir-validator", { schema: this.passwordSchema, value: this.userInfo.password, valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { label: t('Lcz_Password'), value: this.userInfo.password, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => this.updateUserField('password', e.detail), onInputFocus: () => (this.showPasswordValidation = true) })), this.showPasswordValidation && h("ir-password-validator", { password: this.userInfo.password }))) : (h("wa-button", { size: "s", appearance: "plain", variant: "brand", type: "button", class: "hk-user-form__change-password-btn", onClick: () => (this.isChangingPassword = true) }, "Change Password"))));
+            } })), h("wa-textarea", { "data-testid": "note", maxlength: 250, size: "s", label: t('Lcz_Note', { fallback: 'Note' }), value: this.userInfo.note, defaultValue: this.userInfo.note, onchange: e => this.updateUserField('note', e.target.value) }), h("ir-validator", { schema: this.usernameSchema, value: this.userInfo.username, valueEvent: "text-change", asyncValidation: true, showErrorMessage: true }, h("ir-input", { label: t('Lcz_Username', { fallback: 'Username' }), value: this.userInfo.username, "onText-change": (e) => this.updateUserField('username', e.detail) })), !this.user ? (h(Fragment, null, h("ir-validator", { schema: this.passwordSchema, value: this.userInfo.password, valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { label: t('Lcz_Password', { fallback: 'Password' }), value: this.userInfo.password, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => this.updateUserField('password', e.detail), onInputFocus: () => (this.showPasswordValidation = true) })), this.showPasswordValidation && h("ir-password-validator", { password: this.userInfo.password }))) : (h("wa-button", { size: "s", appearance: "plain", variant: "brand", type: "button", class: "hk-user-form__change-password-btn", onClick: () => (this.isChangingPassword = true) }, t('Lcz_ChangePassword', { fallback: 'Change Password' })))));
     }
 };
 IrHkUserDrawerForm.style = irHkUserDrawerFormCss();

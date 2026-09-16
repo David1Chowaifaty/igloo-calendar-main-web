@@ -4,6 +4,7 @@ import { Host, h } from "@stencil/core";
 import { Subject } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, filter, from, of, switchMap, tap } from "rxjs";
 import { formatBookingNumber } from "../../../utils/number";
+import { t } from "../../../services/locale/t";
 export class IrPmsSearch {
     propertyid;
     ticket;
@@ -109,7 +110,7 @@ export class IrPmsSearch {
         });
     }
     render() {
-        return (h(Host, { key: 'ee547b9b725fc981863667bb254b01681c2b12a8' }, h("ir-autocomplete", { key: '42fbbe0d5c62ebc419ae44bb05ffa14b47ad2e1e', class: "pms-search__autocomplete", placeholder: "Booking# or guest name", ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: '3ebf8c3b3cbc46ce4e29639d3e715f522a3fd14d', name: "magnifying-glass", slot: "start" }), h("div", { key: 'e1da5ac7acce23268b5b1e5eabcbf8dc01ccb70b', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: '00544c02190d908481b07a7f1c8565000bcec982' }), this.shortcutHint && h("span", { key: '5ddce7e1811615f3b91654aba47fea6e0bb20bf7' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (h("div", { key: '40d182758ee7f907f28056e0b7590efaa2bbe8ed', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: '3dc23d6c68210866ebb423df90e9bcceedd23f6d', name: "circle-info", "aria-hidden": "true" }), h("div", { key: '5070df1eb64bb74cce368433b4735ee5b6f65ff8', class: "pms-search__empty-content" }, h("div", { key: '4bc16df553a154f69ab2a391cff0030154bbbcc4', class: "pms-search__empty-title" }, "No results found")))), (this.bookings ?? [])?.map(b => {
+        return (h(Host, { key: '0b09b765ffb884946f9b5e279b133b429f57d118' }, h("ir-autocomplete", { key: '571147469b2b4841e7f5cabbccdd0a869cdc5f7f', class: "pms-search__autocomplete", placeholder: t('Lcz_BookingOrGuestNamePlaceholder', { fallback: 'Booking# or guest name' }), ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: 'a035631870deff5b3c60355a8e5a852fb73be3a6', name: "magnifying-glass", slot: "start" }), h("div", { key: 'd55aafc124a7602999273a2d825c792312155db6', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: 'ac9b64d8b3db61f5668c50678d14042374eb9cd5' }), this.shortcutHint && h("span", { key: '363c19bae0363869b55f0632af88b9e3fb8a4a48' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (h("div", { key: '28e70d49ad9d40f8e9ed6d1de262078d1587dbfe', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: 'fb45da174862fb51854fc86f789d601e822b59a8', name: "circle-info", "aria-hidden": "true" }), h("div", { key: 'd240463fd0b48693532de77d7cce323f4be81a3d', class: "pms-search__empty-content" }, h("div", { key: 'b383441eb069370f9fed753879202df84f576e33', class: "pms-search__empty-title" }, t('Lcz_NoResultsFound', { fallback: 'No results found' }))))), (this.bookings ?? [])?.map(b => {
             if (!b) {
                 return null;
             }

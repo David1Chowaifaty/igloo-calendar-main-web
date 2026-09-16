@@ -29,6 +29,12 @@ export declare class IrHkStaffTasks {
     handleLanguageChange(newLang: string): void;
     private applyLanguage;
     /**
+     * Standalone page, so it fetches its own strings — after `setApiClient`, since the request
+     * needs the ticket. Nothing awaits this: `t()` renders the inline fallback until the store
+     * fills, then the component re-renders through the store.
+     */
+    private loadLocale;
+    /**
      * This component is mounted standalone (staff open it directly), so nothing else has run
      * `fetchLanguage` to publish the active language. Setting `<html lang>` is what routes it to
      * the date layer — see `resolveLocale` in `src/utils/date/ir-date.ts`. Deliberately no

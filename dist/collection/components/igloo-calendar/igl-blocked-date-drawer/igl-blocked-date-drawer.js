@@ -1,6 +1,7 @@
 import { BookingService } from "../../../services/booking-service/booking.service";
 import { getReleaseHoursString } from "../../../utils/utils";
 import { h } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 export class IglBlockedDateDrawer {
     /**
      * Controls whether the blocked date drawer is open or closed.
@@ -80,13 +81,13 @@ export class IglBlockedDateDrawer {
         };
     }
     render() {
-        return (h("ir-drawer", { key: '934ebee4d12551f0665956d1bd2320eeab2f40c7', label: this.label, onDrawerHide: e => {
+        return (h("ir-drawer", { key: '272efb2dbb063965b1d74604a329af907862d575', label: this.label, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDrawer();
-            }, open: this.open }, this.open && (h("igl-block-dates-view", { key: '67e5b2b1638c3107c8c030bacfd89aa208c9120b', onDataUpdateEvent: e => (this.blockDatesData = { ...e.detail.data }), fromDate: this.fromDate, toDate: this.toDate })), h("div", { key: 'dd3d3c3ae1ca5089eb7112bfcb1b2a1c802efb92', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '0794fc0e7ec1ac933cca793e3f2f435377f8d5ff', "data-drawer": "close", size: "m", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { key: 'b41de35fdb28db9b4ce80514c1fe89b07a33f87e', loading: this.isLoading, onClickHandler: () => {
+            }, open: this.open }, this.open && (h("igl-block-dates-view", { key: '5ec2a99acdf7f573664da3709a08af0811ea756a', onDataUpdateEvent: e => (this.blockDatesData = { ...e.detail.data }), fromDate: this.fromDate, toDate: this.toDate })), h("div", { key: 'b61654cd2183a03568f213ca595e1072b4abdd76', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '666b358e80bc536957bf982f89171862cb0edbe6', "data-drawer": "close", size: "m", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '6d74d5bbb5a04a1895eb836f2f974ed5dedaaa47', loading: this.isLoading, onClickHandler: () => {
                 this.handleBlockDate();
-            }, size: "m", appearance: "accent", variant: "brand" }, "Save"))));
+            }, size: "m", appearance: "accent", variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get is() { return "igl-blocked-date-drawer"; }
     static get encapsulation() { return "scoped"; }

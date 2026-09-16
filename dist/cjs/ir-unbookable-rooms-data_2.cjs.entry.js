@@ -1,11 +1,11 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
+var index = require('./index-CQkpA5n3.js');
 var debounce = require('./debounce-Be8tSGtB.js');
 var moment = require('./moment-CdViwxPQ.js');
-var irDate = require('./ir-date-DUrZBFOV.js');
-require('./index-BLJXadKe.js');
-require('./locales.store-DIYxw5lk.js');
+var irDate = require('./ir-date-BZLsqCOc.js');
+var t = require('./t-CyRK1btk.js');
+require('./locales.store-BMTss6fG.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 
@@ -79,7 +79,7 @@ const IrUnbookableRoomsData = class {
         const sortedEntries = groupedEntries.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }) || a.propertyId - b.propertyId);
         const filteredEntries = this.mode === 'mpo' && this.propertyNameFilter ? sortedEntries.filter(item => item.name.toLowerCase().includes(this.propertyNameFilter)) : sortedEntries;
         console.log(filteredEntries);
-        return (index.h(index.Host, null, !this.isLoading && !this.errorMessage && totalIssues === 0 && (index.h("wa-card", { class: "unbookable-rooms__empty-state" }, index.h("wa-icon", { name: "check-circle", class: "unbookable-rooms__empty-state--icon" }), index.h("p", null, "Hooray! Nothing to report."))), totalIssues > 0 && (index.h("wa-card", { class: "unbookable-rooms__card-container" }, this.mode === 'mpo' && (index.h("ir-input", { withClear: true, class: "mb-2", "onText-change": e => this.filterProperties(e.detail), style: { maxWidth: '400px' }, placeholder: "Search properties", appearance: "filled" }, index.h("wa-icon", { slot: "start", name: "magnifying-glass" }))), filteredEntries.map(({ propertyId, entries }, i) => [
+        return (index.h(index.Host, null, !this.isLoading && !this.errorMessage && totalIssues === 0 && (index.h("wa-card", { class: "unbookable-rooms__empty-state" }, index.h("wa-icon", { name: "check-circle", class: "unbookable-rooms__empty-state--icon" }), index.h("p", null, t.t('Lcz_NothingToReport', { fallback: 'Hooray! Nothing to report.' })))), totalIssues > 0 && (index.h("wa-card", { class: "unbookable-rooms__card-container" }, this.mode === 'mpo' && (index.h("ir-input", { withClear: true, class: "mb-2", "onText-change": e => this.filterProperties(e.detail), style: { maxWidth: '400px' }, placeholder: t.t('Lcz_SearchProperties', { fallback: 'Search properties' }), appearance: "filled" }, index.h("wa-icon", { slot: "start", name: "magnifying-glass" }))), filteredEntries.map(({ propertyId, entries }, i) => [
             index.h("article", { class: "property-card" }, index.h("wa-details", { name: "issue-card", "onwa-hide": e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
@@ -87,12 +87,12 @@ const IrUnbookableRoomsData = class {
                         e.preventDefault();
                     }
                 }, open: this.mode === 'default', appearance: "plain", class: "issue__detail" }, this.mode === 'mpo' && (index.h("header", { slot: "summary", class: "property-card__header" }, index.h("span", null, entries[0].aname), index.h("span", null, this.getPropertyName(propertyId)), index.h("b", null, "(", entries.length, "/", entries[0].total_room_types_nbr, ")"))), index.h("div", { class: "property-card__body" }, entries.map(entry => [
-                index.h("div", { class: "issue" }, index.h("div", { class: "issue__info" }, index.h("span", { class: "issue__room" }, entry.room_type_name)), index.h("div", { class: "period-chart" }, index.h("span", { class: "period-chart__start" }, this.todayFormatted), index.h("div", { class: "period-chart__track" }, index.h("div", { title: "available", class: "period-chart__fill", style: {
+                index.h("div", { class: "issue" }, index.h("div", { class: "issue__info" }, index.h("span", { class: "issue__room" }, entry.room_type_name)), index.h("div", { class: "period-chart" }, index.h("span", { class: "period-chart__start" }, this.todayFormatted), index.h("div", { class: "period-chart__track" }, index.h("div", { title: t.t('Lcz_Available', { fallback: 'available' }), class: "period-chart__fill", style: {
                         width: `${this.getPeriodOffset(entry.first_night_not_bookable)}%`,
                     } }), index.h("div", { class: "period-chart__marker", style: {
                         left: `${this.getPeriodOffset(entry.first_night_not_bookable)}%`,
                     } }, index.h("span", { class: "period-chart__label" }, irDate.formatDate(entry.first_night_not_bookable, 'MMM DD')))), index.h("span", { class: "period-chart__end" }, this.getEndDateFormatted()))),
-            ])), index.h("section", { class: "period-chart__legend" }, index.h("div", { class: "period-chart__legend-item" }, index.h("span", { class: "period-chart__legend-swatch period-chart__legend-swatch--bookable" }), index.h("span", null, "Bookable period")), index.h("div", { class: "period-chart__legend-item" }, index.h("span", { class: "period-chart__legend-swatch period-chart__legend-swatch--blocked" }), index.h("span", null, "Not bookable period"))))),
+            ])), index.h("section", { class: "period-chart__legend" }, index.h("div", { class: "period-chart__legend-item" }, index.h("span", { class: "period-chart__legend-swatch period-chart__legend-swatch--bookable" }), index.h("span", null, t.t('Lcz_BookablePeriod', { fallback: 'Bookable period' }))), index.h("div", { class: "period-chart__legend-item" }, index.h("span", { class: "period-chart__legend-swatch period-chart__legend-swatch--blocked" }), index.h("span", null, t.t('Lcz_NotBookablePeriod', { fallback: 'Not bookable period' })))))),
             i !== filteredEntries.length - 1 && index.h("wa-divider", null),
         ])))));
     }
@@ -146,13 +146,13 @@ const IrUnbookableRoomsFilters = class {
             }
         });
         const sortedCountries = [...countries.entries()].sort((a, b) => a[1].localeCompare(b[1], undefined, { sensitivity: 'base' }) || a[0] - b[0]);
-        return (index.h("ir-filter-card", { key: '8f067362db06f533d1d90234ae9632c36a7dc62e' }, index.h("wa-select", { key: 'a19e39a2958c5c5c6b6d27f5903ff9b8ac428690', label: "Look ahead", size: "s", value: this.filters.period_to_check?.toString(), defaultValue: this.filters.period_to_check?.toString(), onchange: e => {
+        return (index.h("ir-filter-card", { key: '7f8b7b59808ba29cad2254ee39e5d704742186a2' }, index.h("wa-select", { key: 'b6e0215d6a3395a1286ed9c6eda17e2da751b756', label: t.t('Lcz_LookAhead', { fallback: 'Look ahead' }), size: "s", value: this.filters.period_to_check?.toString(), defaultValue: this.filters.period_to_check?.toString(), onchange: e => {
                 this.handlePeriodChange(e.target.value);
-            } }, Array.from({ length: 5 }, (_, i) => i + 2).map(value => (index.h("wa-option", { value: value.toString() }, value, " month", value > 1 ? 's' : '')))), index.h("ir-input", { key: '7360d45b359f24b86d39717db2c984f9b767eadd', type: "number", label: "Minimum consecutive nights", min: "7", hint: "Period where room types are closed for booking.", max: "60", value: this.filters.consecutive_period?.toString(), "onText-change": e => {
+            } }, Array.from({ length: 5 }, (_, i) => i + 2).map(value => (index.h("wa-option", { value: value.toString() }, value, " ", t.t('Lcz_Month', { fallback: 'month' }), value > 1 ? 's' : '')))), index.h("ir-input", { key: '80864a17e2b00e79bcee088a24b1cdca74f84f48', type: "number", label: t.t('Lcz_MinimumConsecutiveNights', { fallback: 'Minimum consecutive nights' }), min: "7", hint: t.t('Lcz_PeriodRoomTypesClosedForBooking', { fallback: 'Period where room types are closed for booking.' }), max: "60", value: this.filters.consecutive_period?.toString(), "onText-change": e => {
                 this.handleConsecutiveChange(e.detail);
-            } }), this.mode === 'mpo' && sortedCountries.length > 1 && (index.h("wa-select", { key: 'b73fc9f7a25caefbc41302d210a56f257b7015bf', label: "Country", size: "s", value: this.filters.country?.toString(), defaultValue: "all", onchange: e => {
+            } }), this.mode === 'mpo' && sortedCountries.length > 1 && (index.h("wa-select", { key: 'c941040d50b312c7ffb739dba1eb7ce65838ac60', label: t.t('Lcz_Country', { fallback: 'Country' }), size: "s", value: this.filters.country?.toString(), defaultValue: "all", onchange: e => {
                 this.handleCountryChange(e.target.value);
-            } }, index.h("wa-option", { key: '81a593dc3be7b817bf36207859338ad350d6b89a', value: "all" }, "Show all"), sortedCountries.map(([id, name]) => (index.h("wa-option", { value: id.toString() }, name))))), index.h("div", { key: '7a49d1ab0d0c680fbac8f161a658da3679a5ba4b', slot: "footer" }, index.h("ir-custom-button", { key: 'eca6cb739c5ff7aa4dfa4614af4f4e59a1e73fdd', onClickHandler: () => this.filtersReset.emit(), variant: "neutral", appearance: "filled" }, "Reset"), index.h("ir-custom-button", { key: 'b8e3feda9aa6d29d0f9199e3ac11dbe27551e2d8', loading: this.isLoading, onClickHandler: () => this.filtersSave.emit(), variant: "brand" }, "Save"))));
+            } }, index.h("wa-option", { key: '7a2ec7f2e0a91dec5bd5353f660925d627d463cf', value: "all" }, t.t('Lcz_ShowAll', { fallback: 'Show all' })), sortedCountries.map(([id, name]) => (index.h("wa-option", { value: id.toString() }, name))))), index.h("div", { key: '79b0e9a2377a16a8401b9929e7d63cc5fcfd30ed', slot: "footer" }, index.h("ir-custom-button", { key: '20d4d4c983188ab7988b8b0b16c9597bcf1afe17', onClickHandler: () => this.filtersReset.emit(), variant: "neutral", appearance: "filled" }, t.t('Lcz_Reset', { fallback: 'Reset' })), index.h("ir-custom-button", { key: '45b9ccd013b5397e2a4986cd8e2fac92c3dc7f0c', loading: this.isLoading, onClickHandler: () => this.filtersSave.emit(), variant: "brand" }, t.t('Lcz_Save', { fallback: 'Save' })))));
     }
 };
 IrUnbookableRoomsFilters.style = irUnbookableRoomsFiltersCss();

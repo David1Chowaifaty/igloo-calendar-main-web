@@ -76,6 +76,9 @@ export class IrPaymentOption {
     }
     async fetchData() {
         try {
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.paymentOption });
             if (!this.propertyid && !this.p) {
                 throw new Error('Property ID or username is required');
             }
@@ -93,7 +96,7 @@ export class IrPaymentOption {
             const [paymentOptions, propertyOptions] = await Promise.all([
                 this.paymentOptionService.GetExposedPaymentMethods(),
                 this.paymentOptionService.GetPropertyPaymentMethods(propertyId),
-                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.paymentOption }),
+                localeReady,
             ]);
             this.propertyOptionsById = new Map(propertyOptions?.map(o => [o.id, o]));
             this.propertyOptionsByCode = new Map(propertyOptions?.map(o => [o.code, o]));
@@ -160,7 +163,7 @@ export class IrPaymentOption {
             await this.paymentOptionService.HandlePaymentMethod(newOption);
             showToast({
                 position: 'top-right',
-                title: 'Saved Successfully',
+                title: t('Lcz_SavedSuccessfully', { fallback: 'Saved Successfully' }),
                 description: '',
                 type: 'success',
             });
@@ -179,11 +182,11 @@ export class IrPaymentOption {
         if (this.isLoading === true || (this.paymentOptions && this.paymentOptions.length === 0)) {
             return (h(Host, { class: this.defaultStyles ? 'p-2' : '' }, h("div", { class: `loading-container ${this.defaultStyles ? 'default' : ''}` }, h("span", { class: "payment-option-loader" }))));
         }
-        return (h(Host, { class: this.defaultStyles ? 'p-2' : '' }, h("ir-toast", null), h("ir-interceptor", null), h("div", { class: `${this.defaultStyles ? 'card ' : ''} p-1 flex-fill m-0` }, h("div", { class: "d-flex align-items-center mb-2" }, h("div", { class: "p-0 m-0 ir-me-1" }, h("ir-icons", { name: "credit_card" })), h("h3", { class: 'm-0 p-0' }, t('Lcz_PaymentOptions'))), h("div", { class: "payment-table-container" }, h("table", { class: "table table-striped table-bordered no-footer dataTable" }, h("thead", null, h("tr", null, h("th", { scope: "col", class: "ir-text-start" }, t('Lcz_PaymentMethod')), h("th", { scope: "col" }, t('Lcz_Status')), h("th", { scope: "col", class: "actions-header" }, t('Lcz_Action')))), h("tbody", { class: "" }, this.paymentOptions?.map(po => {
+        return (h(Host, { class: this.defaultStyles ? 'p-2' : '' }, h("ir-toast", null), h("ir-interceptor", null), h("div", { class: `${this.defaultStyles ? 'card ' : ''} p-1 flex-fill m-0` }, h("div", { class: "d-flex align-items-center mb-2" }, h("div", { class: "p-0 m-0 ir-me-1" }, h("ir-icons", { name: "credit_card" })), h("h3", { class: 'm-0 p-0' }, t('Lcz_PaymentOptions', { fallback: 'Payment Options' }))), h("div", { class: "payment-table-container" }, h("table", { class: "table table-striped table-bordered no-footer dataTable" }, h("thead", null, h("tr", null, h("th", { scope: "col", class: "ir-text-start" }, t('Lcz_PaymentMethod', { fallback: 'Payment Method' })), h("th", { scope: "col" }, t('Lcz_Status', { fallback: 'Status' })), h("th", { scope: "col", class: "actions-header" }, t('Lcz_Action', { fallback: 'Action' })))), h("tbody", { class: "" }, this.paymentOptions?.map(po => {
             if (po.code === '004') {
                 return null;
             }
-            return (h("tr", { key: po.id }, h("td", { class: 'ir-text-start po-description' }, h("div", { class: "po-view" }, h("span", { class: 'p-0 m-0' }, po?.description))), h("td", null, h("ir-switch", { checked: po.is_active, onCheckChange: e => this.handleCheckChange(e, po) })), h("td", { class: "payment-action" }, this.showEditButton(po) && (h("ir-button", { title: t('Lcz_Edit'), variant: "icon", icon_name: "edit", onClickHandler: () => {
+            return (h("tr", { key: po.id }, h("td", { class: 'ir-text-start po-description' }, h("div", { class: "po-view" }, h("span", { class: 'p-0 m-0' }, po?.description))), h("td", null, h("ir-switch", { checked: po.is_active, onCheckChange: e => this.handleCheckChange(e, po) })), h("td", { class: "payment-action" }, this.showEditButton(po) && (h("ir-button", { title: t('Lcz_Edit', { fallback: 'Edit' }), variant: "icon", icon_name: "edit", onClickHandler: () => {
                     payment_option_store.selectedOption = po;
                     payment_option_store.mode = 'edit';
                 } })))));

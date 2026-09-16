@@ -7,7 +7,7 @@ import booking_store, { resetAvailability, setBookingDraft } from "../../../../s
 import { z } from "zod";
 import { IRBookingEditorService } from "../ir-booking-editor.service";
 import { formatDate } from "../../../../utils/date/index";
-import { formatBookingNumber } from "../../../../utils/number";
+import { formatBookingNumber, formatCount } from "../../../../utils/number";
 import { LocaleController } from "../../../../services/locale/locale.controller";
 import { t } from "../../../../services/locale/t";
 export class IrBookingEditorHeader {
@@ -39,14 +39,14 @@ export class IrBookingEditorHeader {
             ctx.addIssue({
                 path: ['firstName'],
                 code: z.ZodIssueCode.custom,
-                message: t('Lcz_ChooseBookingNumber'),
+                message: t('Lcz_ChooseBookingNumber', { fallback: 'Choose a booking number' }),
             });
         }
         // if (!data.lastName) {
         //   ctx.addIssue({
         //     path: ['lastName'],
         //     code: z.ZodIssueCode.custom,
-        //     message: t('Lcz_ChooseBookingNumber'),
+        //     message: t('Lcz_ChooseBookingNumber', { fallback: 'Choose a booking number' }),
         //   });
         // }
     });
@@ -97,14 +97,14 @@ export class IrBookingEditorHeader {
                 ctx.addIssue({
                     path: ['checkIn'],
                     code: z.ZodIssueCode.custom,
-                    message: 'Check-in date is required',
+                    message: t('Lcz_CheckInDateRequired', { fallback: 'Check-in date is required' }),
                 });
             }
             if (moment.isMoment(data.checkIn) && this.bookingEditorService.isEventType(['SPLIT_BOOKING', 'ADD_ROOM']) && !data.checkIn.isSameOrBefore(this.booking.to_date, 'date')) {
                 ctx.addIssue({
                     path: ['checkIn'],
                     code: z.ZodIssueCode.custom,
-                    message: `${t('Lcz_CheckInDateShouldBeMAx', { params: [formatDate(this.booking.from_date, 'ddd, DD MMM YYYY'), formatDate(this.booking.to_date, 'ddd, DD MMM YYYY')] })}  `,
+                    message: `${t('Lcz_CheckInDateShouldBeMAx', { fallback: 'The check-in or check-out must fall within %1 and %2.', params: [formatDate(this.booking.from_date, 'ddd, DD MMM YYYY'), formatDate(this.booking.to_date, 'ddd, DD MMM YYYY')] })}  `,
                 });
             }
             // ─────────────────────────────
@@ -114,7 +114,7 @@ export class IrBookingEditorHeader {
                 ctx.addIssue({
                     path: ['checkOut'],
                     code: z.ZodIssueCode.custom,
-                    message: 'Check-out date is required',
+                    message: t('Lcz_CheckOutDateRequired', { fallback: 'Check-out date is required' }),
                 });
             }
         });
@@ -210,7 +210,7 @@ export class IrBookingEditorHeader {
             default:
                 if (this.checkIn && this.isBlockConversion)
                     return this.checkIn;
-                return today.format('YYYY-MM-DD');
+                return today.add(-1, 'days').format('YYYY-MM-DD');
         }
     }
     get maxDate() {
@@ -230,8 +230,8 @@ export class IrBookingEditorHeader {
     }
     get childrenSelectPlaceholder() {
         const { child_max_age } = calendar_data.property.adult_child_constraints;
-        const years = child_max_age === 1 ? t('Lcz_Year') : t('Lcz_Years');
-        return `${t('Lcz_ChildCaption')} 0 - ${child_max_age} ${years}`;
+        const years = child_max_age === 1 ? t('Lcz_Year', { fallback: 'year' }) : t('Lcz_Years', { fallback: 'years' });
+        return `${t('Lcz_ChildCaption', { fallback: 'Child.' })} ${formatCount(0)} - ${formatCount(child_max_age)} ${years}`;
     }
     async selectGuest(e) {
         this.stopEvent(e);
@@ -244,20 +244,20 @@ export class IrBookingEditorHeader {
         const { adults, children } = booking_store.bookingDraft.occupancy;
         const { checkIn, checkOut } = booking_store.bookingDraft.dates;
         const { dayUse } = booking_store.bookingDraft;
-        return (h(Host, { key: '7d521da45c2f536fdd3f2949cccde9dd931323d0' }, h("form", { key: 'f73228f8ca5e971efaafceda834bf036c14471aa', onSubmit: this.handleSubmit.bind(this) }, this.bookingEditorService.isEventType('SPLIT_BOOKING') && (h("ir-validator", { key: '2845910c858b66b513bcf15959343cc1564b56fd', value: booking_store.bookedByGuest, class: "booking-editor-header__booking-picker-validator", showErrorMessage: true, schema: this.BookedByGuestPickerSchema }, h("ir-picker", { key: 'c8d9d73ddd9679d4f40dbde3970757aa22b0657a', withClear: true, mode: "select-async", class: "booking-editor-header__booking-picker", debounce: 300, ref: el => (this.pickerRef = el), label: `${t('Lcz_Tobooking')}#`,
+        return (h(Host, { key: '2f9b01cc0fc4d34c58e5d51f749310ccb046eeec' }, h("form", { key: 'a8de82b8dfd433a22616bf308e6e7487905b2b89', onSubmit: this.handleSubmit.bind(this) }, this.bookingEditorService.isEventType('SPLIT_BOOKING') && (h("ir-validator", { key: 'f21e1d07aa933609b98e4f2dbf7203629fb8a976', value: booking_store.bookedByGuest, class: "booking-editor-header__booking-picker-validator", showErrorMessage: true, schema: this.BookedByGuestPickerSchema }, h("ir-picker", { key: '61bb06ef171d02b42a95f211aa2777749a61cf72', withClear: true, mode: "select-async", class: "booking-editor-header__booking-picker", debounce: 300, ref: el => (this.pickerRef = el), label: `${t('Lcz_Tobooking', { fallback: 'To booking' })}#`,
             // defaultValue={Object.keys(this.bookedByInfoData).length > 1 ? this.bookedByInfoData.bookingNumber?.toString() : ''}
             // value={Object.keys(this.bookedByInfoData).length > 1 ? this.bookedByInfoData.bookingNumber?.toString() : ''}
-            placeholder: t('Lcz_BookingNumber'), loading: this._isLoading, "onText-change": e => this.handleBookingSearch(e.detail), "onCombobox-select": this.selectGuest.bind(this) }, this.bookings.map(b => {
+            placeholder: t('Lcz_BookingNumber', { fallback: 'Booking number' }), loading: this._isLoading, "onText-change": e => this.handleBookingSearch(e.detail), "onCombobox-select": this.selectGuest.bind(this) }, this.bookings.map(b => {
             const label = `${b.booking_nbr} ${b.guest.first_name} ${b.guest.last_name}`;
             return (h("ir-picker-item", { value: b.booking_nbr?.toString(), label: label }, `${formatBookingNumber(b.booking_nbr)} ${b.guest.first_name} ${b.guest.last_name}`));
-        })))), h("div", { key: '809ad4ed1da57ac8e8d3444e93e2aed400d1fa68', class: "booking-editor-header__container" }, !this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM', 'SPLIT_BOOKING']) && !dayUse && (h("wa-select", { key: '3772976b294bac6f143325a084629d4698b65627', size: "s", placeholder: t('Lcz_Source'), value: booking_store.bookingDraft.source?.id?.toString(), defaultValue: booking_store.bookingDraft.source?.id, "onwa-hide": this.stopEvent.bind(this), onchange: this.handleSourceChange.bind(this) }, sources.map(option => (option.type === 'LABEL' ? h("small", null, option.description) : h("wa-option", { value: option.id?.toString() }, option.description))))), dayUse ? (h("ir-validator", { class: "booking-editor__date-validator", showErrorMessage: true, value: checkIn?.format('YYYY-MM-DD'), schema: z.string().min(1, 'Date is required') }, h("ir-date-select", { date: checkIn?.format('YYYY-MM-DD'), minDate: moment().format('YYYY-MM-DD'), emitEmptyDate: true, onDateChanged: e => this.handleDayUseDateChange(e.detail.start) }, h("wa-icon", { part: "calendar-icon", slot: "start", variant: "regular", name: "calendar" })))) : (h("ir-validator", { class: "booking-editor__date-validator", showErrorMessage: true, value: booking_store.bookingDraft.dates, schema: this.datesSchema, style: { position: 'relative' } }, h("ir-date-range", { class: "booking-editor__date-range", defaultData: {
+        })))), h("div", { key: '059c58ba6e3919761ec1b08356af9f6f037cf4be', class: "booking-editor-header__container" }, !this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM', 'SPLIT_BOOKING']) && !dayUse && (h("wa-select", { key: '5121a06e2506c599d1eae5f9fca8a1faa17028df', size: "s", placeholder: t('Lcz_Source', { fallback: 'Source' }), value: booking_store.bookingDraft.source?.id?.toString(), defaultValue: booking_store.bookingDraft.source?.id, "onwa-hide": this.stopEvent.bind(this), onchange: this.handleSourceChange.bind(this) }, sources.map(option => (option.type === 'LABEL' ? h("small", null, option.description) : h("wa-option", { value: option.id?.toString() }, option.description))))), dayUse ? (h("ir-validator", { class: "booking-editor__date-validator", showErrorMessage: true, value: checkIn?.format('YYYY-MM-DD'), schema: z.string().min(1, t('Lcz_DateIsRequired', { fallback: 'Date is required' })) }, h("ir-date-select", { date: checkIn?.format('YYYY-MM-DD'), minDate: moment().format('YYYY-MM-DD'), emitEmptyDate: true, onDateChanged: e => this.handleDayUseDateChange(e.detail.start) }, h("wa-icon", { part: "calendar-icon", slot: "start", variant: "regular", name: "calendar" })))) : (h("ir-validator", { class: "booking-editor__date-validator", showErrorMessage: true, value: booking_store.bookingDraft.dates, schema: this.datesSchema, style: { position: 'relative' } }, h("ir-date-range", { class: "booking-editor__date-range", defaultData: {
                 fromDate: checkIn?.format('YYYY-MM-DD') ?? '',
                 toDate: checkOut?.format('YYYY-MM-DD') ?? '',
-            }, variant: "booking", withDateDifference: true, minDate: this.minDate, maxDate: this.maxDate, onDateRangeChange: this.handleDateRangeChange.bind(this) }))), !this.bookingEditorService.isEventType(['EDIT_BOOKING', 'EDIT_DAY_USE']) && (h(Fragment, { key: '84c3b09b2b90835c339559b582253db15325dfab' }, h("ir-validator", { key: '2395d29e5894636a8c9048331ba9b395c0aca86a', value: adults, schema: this.adultsSchema }, h("wa-select", { key: '247717f51da78c35ab04ac165b6369afdddcd32a', class: "booking-editor-header__adults-select", size: "s", placeholder: t('Lcz_AdultsCaption'), value: adults?.toString(), defaultValue: adults?.toString(),
+            }, variant: "booking", withDateDifference: true, minDate: this.minDate, maxDate: this.maxDate, onDateRangeChange: this.handleDateRangeChange.bind(this) }))), !this.bookingEditorService.isEventType(['EDIT_BOOKING', 'EDIT_DAY_USE']) && (h(Fragment, { key: '45b0eb9a6f7d5609a522c52758ec053837fae54a' }, h("ir-validator", { key: '46f9eb61360e6c161f0c970296dfb9eb64e2011d', value: adults, schema: this.adultsSchema }, h("wa-select", { key: '0f6eb38003b5b892330ff8506930c7d4d6d08633', class: "booking-editor-header__adults-select", size: "s", placeholder: t('Lcz_Adults', { fallback: 'adults' }), value: adults?.toString(), defaultValue: adults?.toString(),
             // onwa-hide={this.stopEvent.bind(this)}
-            onchange: this.handleAdultsChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.adult_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))), calendar_data.property.adult_child_constraints.child_max_nbr > 0 && (h("wa-select", { key: 'eaf77285d54a2ced5026638b4c2eb71a390b460c', class: "booking-editor-header__children-select", size: "s", placeholder: this.childrenSelectPlaceholder, value: children?.toString(), defaultValue: children?.toString(),
+            onchange: this.handleAdultsChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.adult_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, formatCount(option)))))), calendar_data.property.adult_child_constraints.child_max_nbr > 0 && (h("wa-select", { key: '2b6d784a1722daf5bb4e683d880bfa574435eb48', class: "booking-editor-header__children-select", size: "s", placeholder: this.childrenSelectPlaceholder, value: children?.toString(), defaultValue: children?.toString(),
             // onwa-hide={this.stopEvent.bind(this)}
-            onchange: this.handleChildrenChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.child_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))))), h("ir-custom-button", { key: '97a1457a7e222c9c1749ee1d7b97576679deaa52', loading: this.isLoading, type: "submit", variant: "brand" }, "Check")), booking_store.roomTypes?.length > 0 && !this.isLoading && calendar_data.tax_statement && (h("wa-callout", { key: '6d2a7333f702d36d64536632370b3dd37d754006', size: "s", variant: "neutral", appearance: "filled", class: "booking-editor-header__tax_statement" }, calendar_data.tax_statement)))));
+            onchange: this.handleChildrenChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.child_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, formatCount(option)))))))), h("ir-custom-button", { key: '629cf6dfd4e7020311ea17e12067b603d0a818a7', loading: this.isLoading, type: "submit", variant: "brand" }, t('Lcz_Check', { fallback: 'Check' }))), booking_store.roomTypes?.length > 0 && !this.isLoading && calendar_data.tax_statement && (h("wa-callout", { key: '660d41e5458fd405c52388deef7f5eb45e66e831', size: "s", variant: "neutral", appearance: "filled", class: "booking-editor-header__tax_statement" }, calendar_data.tax_statement)))));
     }
     static get is() { return "ir-booking-editor-header"; }
     static get encapsulation() { return "scoped"; }

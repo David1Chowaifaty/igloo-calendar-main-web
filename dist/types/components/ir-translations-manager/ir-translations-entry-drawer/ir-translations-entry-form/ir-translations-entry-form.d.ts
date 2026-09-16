@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
-import { TranslationEntry, TranslationLanguage } from '../../types';
+import { DuplicateSibling, EntrySavedDetail, TranslationEntry, TranslationLanguage } from '../../types';
 /**
  * Owns the create/edit draft for a single translation key and saves it directly —
  * the drawer around this form is a dumb open/close shell.
@@ -16,7 +16,10 @@ export declare class IrTranslationsEntryForm {
     tableName: string;
     ownerId: number;
     entryUserId: number;
-    entrySaved: EventEmitter<void>;
+    /** Rows in other used tables sharing `entry`'s description — language changes are written to them in the same batch. */
+    duplicateSiblings: DuplicateSibling[];
+    /** Fired after the write lands, with what was saved — the manager propagates language changes to the row's duplicates from it. */
+    entrySaved: EventEmitter<EntrySavedDetail>;
     submitDisabledChange: EventEmitter<boolean>;
     isSubmittingChange: EventEmitter<boolean>;
     key: string;
@@ -24,6 +27,8 @@ export declare class IrTranslationsEntryForm {
     isSubmitting: boolean;
     private keyInputRef?;
     private setupService;
+    /** Key the copied row was last applied for — so backspacing and retyping it doesn't re-fill and re-toast. */
+    private filledFromCopiedKey;
     componentWillLoad(): void;
     componentDidLoad(): void;
     private get isEditing();
@@ -40,6 +45,12 @@ export declare class IrTranslationsEntryForm {
     private handleCopyPrompt;
     private handlePasteTranslations;
     private handleKeyChange;
+    /**
+     * The other half of the table's "Copy row": a new entry given the copied row's
+     * key inherits its translations. Only blanks are filled, so anything already
+     * typed into a language field stays.
+     */
+    private fillFromCopiedEntry;
     private handleSubmit;
     render(): any;
 }

@@ -318,72 +318,23 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     /** Physical room (unit) id this service is linked to, when the booking has multiple units. */
     pr_id: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodNumber>>>;
     room_identifier: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
-    agent: z.ZodNullable<z.ZodObject<z.objectUtil.extendShape<{
-        address: z.ZodString;
-        agent_rate_type_code: z.ZodObject<{
-            code: z.ZodString;
-            description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-        }, "strip", z.ZodTypeAny, {
-            code?: string;
-            description?: string;
-        }, {
-            code?: string;
-            description?: string;
-        }>;
-        agent_type_code: z.ZodObject<{
-            code: z.ZodString;
-            description: z.ZodNullable<z.ZodString>;
-        }, "strip", z.ZodTypeAny, {
-            code?: string;
-            description?: string;
-        }, {
-            code?: string;
-            description?: string;
-        }>;
-        city: z.ZodString;
+    agent: z.ZodNullable<z.ZodObject<{
         code: z.ZodNullable<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
-        contact_name: z.ZodString;
         contract_nbr: z.ZodAny;
         country_id: z.ZodNullable<z.ZodNumber>;
         currency_id: z.ZodAny;
         due_balance: z.ZodAny;
-        email: z.ZodString;
         email_copied_upon_booking: z.ZodNullable<z.ZodString>;
         id: z.ZodDefault<z.ZodNumber>;
-        is_active: z.ZodBoolean;
-        is_send_guest_confirmation_email: z.ZodBoolean;
         name: z.ZodString;
-        notes: z.ZodString;
-        payment_mode: z.ZodObject<{
-            code: z.ZodString;
-            description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-        }, "strip", z.ZodTypeAny, {
-            code?: string;
-            description?: string;
-        }, {
-            code?: string;
-            description?: string;
-        }>;
-        phone: z.ZodString;
         property_id: z.ZodAny;
         provided_discount: z.ZodDefault<z.ZodAny>;
         question: z.ZodNullable<z.ZodString>;
         sort_order: z.ZodAny;
-        tax_nbr: z.ZodString;
         reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
         has_opening_balance: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
-        cl_post_timing: z.ZodOptional<z.ZodObject<{
-            code: z.ZodString;
-            description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-        }, "strip", z.ZodTypeAny, {
-            code?: string;
-            description?: string;
-        }, {
-            code?: string;
-            description?: string;
-        }>>;
-    }, {
+    } & {
         address: z.ZodNullable<z.ZodString>;
         agent_rate_type_code: z.ZodNullable<z.ZodObject<{
             code: z.ZodString;
@@ -434,11 +385,11 @@ export declare const ExtraServiceSchema: z.ZodObject<{
             code?: string;
             description?: string;
         }>>>;
-    }>, "strip", z.ZodTypeAny, {
+    }, "strip", z.ZodTypeAny, {
+        code?: string;
         name?: string;
         id?: number;
         email?: string;
-        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {
@@ -477,10 +428,10 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         };
         pr_id?: number;
     }, {
+        code?: string;
         name?: string;
         id?: number;
         email?: string;
-        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {
@@ -556,10 +507,10 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     description?: string;
     currency_id?: number;
     agent?: {
+        code?: string;
         name?: string;
         id?: number;
         email?: string;
-        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {
@@ -626,10 +577,10 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     description?: string;
     currency_id?: number;
     agent?: {
+        code?: string;
         name?: string;
         id?: number;
         email?: string;
-        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {

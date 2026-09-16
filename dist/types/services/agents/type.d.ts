@@ -136,10 +136,10 @@ export declare const AgentBaseSchema: z.ZodObject<{
         description?: string;
     }>>;
 }, "strip", z.ZodTypeAny, {
+    code?: string;
     name?: string;
     id?: number;
     email?: string;
-    code?: string;
     property_id?: any;
     address?: string;
     agent_rate_type_code?: {
@@ -177,10 +177,10 @@ export declare const AgentBaseSchema: z.ZodObject<{
         description?: string;
     };
 }, {
+    code?: string;
     name?: string;
     id?: number;
     email?: string;
-    code?: string;
     property_id?: any;
     address?: string;
     agent_rate_type_code?: {
@@ -284,10 +284,10 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         description?: string;
     }>>;
 }, "strip", z.ZodTypeAny, {
+    code?: string;
     name?: string;
     id?: number;
     email?: string;
-    code?: string;
     property_id?: any;
     address?: string;
     agent_rate_type_code?: {
@@ -325,10 +325,10 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         description?: string;
     };
 }, {
+    code?: string;
     name?: string;
     id?: number;
     email?: string;
-    code?: string;
     property_id?: any;
     address?: string;
     agent_rate_type_code?: {
@@ -366,10 +366,10 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         description?: string;
     };
 }>, {
+    code?: string;
     name?: string;
     id?: number;
     email?: string;
-    code?: string;
     property_id?: any;
     address?: string;
     agent_rate_type_code?: {
@@ -407,10 +407,10 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         description?: string;
     };
 }, {
+    code?: string;
     name?: string;
     id?: number;
     email?: string;
-    code?: string;
     property_id?: any;
     address?: string;
     agent_rate_type_code?: {
@@ -515,10 +515,10 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         description?: string;
     }>>;
 }, "strip", z.ZodTypeAny, {
+    code?: string;
     name?: string;
     id?: number;
     email?: string;
-    code?: string;
     property_id?: any;
     address?: string;
     agent_rate_type_code?: {
@@ -556,10 +556,10 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         description?: string;
     };
 }, {
+    code?: string;
     name?: string;
     id?: number;
     email?: string;
-    code?: string;
     property_id?: any;
     address?: string;
     agent_rate_type_code?: {
@@ -597,10 +597,10 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         description?: string;
     };
 }>, {
+    code?: string;
     name?: string;
     id?: number;
     email?: string;
-    code?: string;
     property_id?: any;
     address?: string;
     agent_rate_type_code?: {
@@ -638,10 +638,10 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         description?: string;
     };
 }, {
+    code?: string;
     name?: string;
     id?: number;
     email?: string;
-    code?: string;
     property_id?: any;
     address?: string;
     agent_rate_type_code?: {
@@ -747,10 +747,10 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             description?: string;
         }>>;
     }, "strip", z.ZodTypeAny, {
+        code?: string;
         name?: string;
         id?: number;
         email?: string;
-        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {
@@ -788,10 +788,10 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             description?: string;
         };
     }, {
+        code?: string;
         name?: string;
         id?: number;
         email?: string;
-        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {
@@ -829,10 +829,10 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             description?: string;
         };
     }>, {
+        code?: string;
         name?: string;
         id?: number;
         email?: string;
-        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {
@@ -870,10 +870,10 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             description?: string;
         };
     }, {
+        code?: string;
         name?: string;
         id?: number;
         email?: string;
-        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {
@@ -913,10 +913,10 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
     }>;
 }, "strip", z.ZodTypeAny, {
     agent?: {
+        code?: string;
         name?: string;
         id?: number;
         email?: string;
-        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {
@@ -956,10 +956,10 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
     };
 }, {
     agent?: {
+        code?: string;
         name?: string;
         id?: number;
         email?: string;
-        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {

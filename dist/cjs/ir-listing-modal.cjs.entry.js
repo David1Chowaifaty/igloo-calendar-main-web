@@ -1,19 +1,18 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
-var booking_listing_service = require('./booking_listing.service-DEF8KJmx.js');
+var index = require('./index-CQkpA5n3.js');
+var booking_listing_service = require('./booking_listing.service-BhMslGyh.js');
 var payment_service = require('./payment.service-CGBWAElK.js');
 var moment = require('./moment-CdViwxPQ.js');
-var number = require('./number-CTy3I_TP.js');
-var t = require('./t-BpMDZfdy.js');
-require('./index-BLJXadKe.js');
-require('./index-CLqkDPTC.js');
-require('./utils-ENyYs-bV.js');
-require('./calendar-data-BjlxOXi1.js');
-require('./booking.dto-kenLHU-o.js');
-require('./type-Dy9pVS4V.js');
-require('./ir-date-DUrZBFOV.js');
-require('./locales.store-DIYxw5lk.js');
+var number = require('./number-D7i5wAQq.js');
+var t = require('./t-CyRK1btk.js');
+require('./locales.store-BMTss6fG.js');
+require('./types-BVJQZ50e.js');
+require('./utils-oNe0zJBw.js');
+require('./calendar-data-UPPAEVR_.js');
+require('./booking.dto-CUSvGTvD.js');
+require('./type-Bj2x9EWc.js');
+require('./ir-date-BZLsqCOc.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./axios-EresIryl.js');
@@ -26,7 +25,7 @@ const IrListingModal = class {
         this.modalClosed = index.createEvent(this, "modalClosed");
         this.resetData = index.createEvent(this, "resetData");
     }
-    modalTitle = 'Modal Title';
+    modalTitle;
     editBooking;
     paymentEntries;
     isOpen = false;
@@ -131,13 +130,13 @@ const IrListingModal = class {
         // if (this.deletionStage === 2) {
         //   return t('Lcz_RecoverAndDelete');
         // }
-        return t.t('Lcz_Confirm');
+        return t.t('Lcz_Confirm', { fallback: 'Confirm' });
     }
     renderCancellationTitle() {
         // if (this.deletionStage === 2) {
         //   return t('Lcz_JustDelete');
         // }
-        return t.t('Lcz_Cancel');
+        return t.t('Lcz_Cancel', { fallback: 'Cancel' });
     }
     handleDropdownChange(e) {
         e.stopImmediatePropagation();

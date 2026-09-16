@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
+var index = require('./index-CQkpA5n3.js');
 
 const irAgentAssignmentDialogCss = () => `.sc-ir-agent-assignment-dialog-h{display:block}`;
 
@@ -9,7 +9,7 @@ const IrAgentAssignmentDialog = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: 'dd763c16808f4df1c2aa687ca38e91ba3468b501' }, index.h("slot", { key: '52c380e3ad8dd253f5b337b983bf510015754183' })));
+        return (index.h(index.Host, { key: 'dbf655d832efb1cf1279420c1c48863c988dd674' }, index.h("slot", { key: '74236b1e8b75f490d3156c7a342c36240e003760' })));
     }
 };
 IrAgentAssignmentDialog.style = irAgentAssignmentDialogCss();

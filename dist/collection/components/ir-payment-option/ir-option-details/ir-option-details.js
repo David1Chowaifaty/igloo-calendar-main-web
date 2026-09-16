@@ -68,7 +68,7 @@ export class IrOptionDetails {
         showToast({
             type: 'success',
             description: '',
-            title: t('Lcz_Saved'),
+            title: t('Lcz_Saved', { fallback: 'Saved' }),
             position: 'top-right',
         });
         this.closeModal.emit(selectedOption);
@@ -138,7 +138,7 @@ export class IrOptionDetails {
             maxLength: 450, placeholder: "", style: { '--ir-editor-height': '250px' }, error: this.invalid, value: this.localizationIdx !== null ? (payment_option_store.selectedOption?.localizables[this.localizationIdx]?.description ?? '') : '', onTextChange: this.handleTextAreaChange.bind(this)
         })))) : (h("div", null, payment_option_store.selectedOption.data?.map((d, idx) => {
             return (h("fieldset", { key: d.key }, h("ir-input-text", { value: d.value, onTextChange: e => this.handlePaymentGatewayInfoChange(e, idx), id: `input_${d.key}`, label: d.key.replace(/_/g, ' '), placeholder: "", labelWidth: 4, "aria-invalid": this.invalid && (d.value === null || (d.value ?? '')?.trim() === '') ? 'true' : 'false' })));
-        })))), h("div", { class: 'sheet-footer' }, h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: t('Lcz_Cancel'), btn_color: "secondary", btn_type: "button" }), h("ir-button", { btn_type: "submit", btn_styles: "justify-content-center align-items-center", class: 'flex-fill', isLoading: isRequestPending('/Handle_Payment_Method'), text: t('Lcz_Save'), btn_color: "primary" })))));
+        })))), h("div", { class: 'sheet-footer' }, h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: t('Lcz_Cancel', { fallback: 'Cancel' }), btn_color: "secondary", btn_type: "button" }), h("ir-button", { btn_type: "submit", btn_styles: "justify-content-center align-items-center", class: 'flex-fill', isLoading: isRequestPending('/Handle_Payment_Method'), text: t('Lcz_Save', { fallback: 'Save' }), btn_color: "primary" })))));
     }
     static get is() { return "ir-option-details"; }
     static get encapsulation() { return "scoped"; }

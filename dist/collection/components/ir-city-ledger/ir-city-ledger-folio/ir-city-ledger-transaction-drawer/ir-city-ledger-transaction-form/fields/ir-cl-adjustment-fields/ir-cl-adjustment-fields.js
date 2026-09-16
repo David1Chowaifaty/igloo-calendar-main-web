@@ -1,5 +1,6 @@
 import { Fragment, h } from "@stencil/core";
 import { entryTypeFieldSchema } from "../../ir-city-ledger-transaction-form.schema";
+import { t } from "../../../../../../../services/locale/t";
 export class IrClAdjustmentFields {
     entryType = '';
     linkType = 'NONE';
@@ -13,9 +14,9 @@ export class IrClAdjustmentFields {
     //   return [];
     // }
     render() {
-        return (h(Fragment, { key: '4d34cb9bb1f206161b8293e19dc8e4cd39a2197d' }, h("div", { key: '0c4a613800512a13e83601d644d2a5530c8593dc', class: "field field--full-width" }, h("ir-validator", { key: '20fce0e3738ccf350d4fd64cf2515bc2f18e6dc0', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: 'ff69ff8022631f0a47042e18a4b60ddd6e4ede91', label: "Entry Type", orientation: "horizontal", size: "s", value: this.entryType, onchange: event => {
+        return (h(Fragment, { key: '4887ac36383561c964723b5291076eca171d18d3' }, h("div", { key: '5e03a04b9aa78c60f9bb06df6761bc1b9047f827', class: "field field--full-width" }, h("ir-validator", { key: '2cc288da09000e0e30810f33d24f6d9bbbad1dfe', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: '6028c8a58b3e0a95b7fdd4499ab64aac3ca8cf7f', label: t('Lcz_EntryType', { fallback: 'Entry Type' }), orientation: "horizontal", size: "s", value: this.entryType, onchange: event => {
                 this.fieldChange.emit({ entryType: event.target.value });
-            } }, h("wa-radio", { key: '8f38a095b60ba95d190979de76ab26d835a39d8c', value: "CR", appearance: "button", class: "entry-type --credit" }, "Credit"), h("wa-radio", { key: 'c076632d087c8b1161ad124fe88745fd83f860eb', value: "DB", appearance: "button", class: "entry-type --debit" }, "Debit"))))));
+            } }, h("wa-radio", { key: 'cc73e61bcc8c094489ceeb14353a064aa362ede7', value: "CR", appearance: "button", class: "entry-type --credit" }, t('Lcz_CreditColumn', { fallback: 'Credit' })), h("wa-radio", { key: '1c5b7503b8f9c1bc317b74d199475e196c08fa2b', value: "DB", appearance: "button", class: "entry-type --debit" }, t('Lcz_DebitColumn', { fallback: 'Debit' })))))));
     }
     static get is() { return "ir-cl-adjustment-fields"; }
     static get encapsulation() { return "scoped"; }

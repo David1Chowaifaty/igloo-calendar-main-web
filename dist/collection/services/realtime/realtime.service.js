@@ -3,7 +3,9 @@ const REALTIME_URL = 'https://realtime.igloorooms.com/';
 class RealtimeService {
     static _instance;
     socket = null;
+    /** Handlers bucketed by propertyId, so dispatching a message never walks subscribers it can't match. */
     subscribers = new Map();
+    subscriberCount = 0;
     constructor() { }
     static getInstance() {
         if (!RealtimeService._instance) {
@@ -22,13 +24,23 @@ class RealtimeService {
      */
     subscribe(propertyId, handler) {
         const key = Symbol();
-        this.subscribers.set(key, { propertyId: String(propertyId), handler });
+        const id = String(propertyId);
+        const handlers = this.subscribers.get(id) ?? new Map();
+        handlers.set(key, handler);
+        this.subscribers.set(id, handlers);
+        this.subscriberCount++;
         if (!this.socket) {
             this.connect();
         }
         return () => {
-            this.subscribers.delete(key);
-            if (this.subscribers.size === 0) {
+            if (!handlers.delete(key)) {
+                return;
+            }
+            this.subscriberCount--;
+            if (handlers.size === 0) {
+                this.subscribers.delete(id);
+            }
+            if (this.subscriberCount === 0) {
                 this.disconnect();
             }
         };
@@ -46,6 +58,13 @@ class RealtimeService {
             if (!envelope)
                 return;
             const { REASON, KEY, PAYLOAD } = envelope;
+            // Messages for other properties are the common case on a busy socket — drop them before
+            // paying for the payload parse.
+            const propertyId = KEY?.toString() ?? '';
+            const handlers = this.subscribers.get(propertyId);
+            if (!handlers?.size) {
+                return;
+            }
             let payload;
             try {
                 payload = typeof PAYLOAD === 'string' ? JSON.parse(PAYLOAD) : PAYLOAD;
@@ -57,12 +76,11 @@ class RealtimeService {
             // Cast to the discriminated union. The REASON key governs which payload type
             // is expected; unknown reasons fall through harmlessly in handler switch/if blocks.
             const message = { reason: REASON, payload };
-            const keyStr = KEY?.toString() ?? '';
-            for (const sub of this.subscribers.values()) {
-                if (keyStr === sub.propertyId.toString()) {
-                    console.log(message, keyStr, sub.propertyId);
-                    sub.handler(message);
-                }
+            // Once per delivered message — after the property filter, so the log is this property's
+            // traffic only, and not repeated per subscriber.
+            console.log('[realtime]', REASON, { propertyId, payload, subscribers: handlers.size });
+            for (const handler of handlers.values()) {
+                handler(message);
             }
         });
     }

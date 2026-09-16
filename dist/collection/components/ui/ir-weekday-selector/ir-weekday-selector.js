@@ -1,4 +1,5 @@
 import { h, Host } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 export class IrWeekdaySelector {
     /**
      * Initial list of selected weekdays (numeric values).
@@ -17,15 +18,18 @@ export class IrWeekdaySelector {
      * ```
      */
     weekdayChange;
-    _weekdays = [
-        { value: 1, label: 'M' },
-        { value: 2, label: 'T' },
-        { value: 3, label: 'W' },
-        { value: 4, label: 'Th' },
-        { value: 5, label: 'Fr' },
-        { value: 6, label: 'Sa' },
-        { value: 0, label: 'Su' },
-    ];
+    /** Monday-first day values; labels come from `Lcz_WeekdayAbbreviations` so they localise. */
+    static WEEKDAY_VALUES = [1, 2, 3, 4, 5, 6, 0];
+    static WEEKDAY_FALLBACK = 'M, T, W, Th, Fr, Sa, Su';
+    get _weekdays() {
+        const labels = t('Lcz_WeekdayAbbreviations', { fallback: IrWeekdaySelector.WEEKDAY_FALLBACK })
+            .split(',')
+            .map(s => s.trim());
+        return IrWeekdaySelector.WEEKDAY_VALUES.map((value, i) => ({
+            value,
+            label: labels[i] ?? IrWeekdaySelector.WEEKDAY_FALLBACK.split(', ')[i],
+        }));
+    }
     componentWillLoad() {
         if (this.weekdays) {
             this.selectedWeekdays = new Set(this.weekdays);
@@ -58,7 +62,7 @@ export class IrWeekdaySelector {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (h(Host, { key: '4f4b21b59b84338a662761d4a32dfd694d3c9d6b', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (h(Host, { key: 'f795362d4e22005803e55dcd4dac876bc4f75975', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get is() { return "ir-weekday-selector"; }
     static get encapsulation() { return "scoped"; }

@@ -55,7 +55,7 @@ export declare class IrRoom {
     pressCheckIn: EventEmitter;
     pressCheckOut: EventEmitter;
     editInitiated: EventEmitter<TIglBookPropertyPayload>;
-    resetBookingEvt: EventEmitter<null>;
+    resetBookingEvt: EventEmitter<Booking | null>;
     openSidebar: EventEmitter<OpenSidebarEvent<RoomGuestsPayload>>;
     addExtraServiceToUnit: EventEmitter<{
         pr_id: number;
@@ -74,6 +74,14 @@ export declare class IrRoom {
      * false → true change, and it also lets the booking-details drawer finish opening first.
      */
     private scheduleAutoCheckout;
+    /**
+     * Refresh the booking after an early check-out without letting the booking-details screen drop
+     * into its full-page loading state. `resetBookingEvt.emit()` (no detail) takes the `resetBooking()`
+     * path which toggles `isLoading` and unmounts the room list — that would tear down the invoice
+     * drawer we just opened. Emitting the freshly fetched booking as the event detail takes the
+     * no-spinner branch of `handleResetBooking`, so the screen updates and the invoice stays open.
+     */
+    private refreshBookingSilently;
     handleClick(e: any): void;
     /**
      * Early-check-in / late-checkout are managed exclusively through the arrival/departure time

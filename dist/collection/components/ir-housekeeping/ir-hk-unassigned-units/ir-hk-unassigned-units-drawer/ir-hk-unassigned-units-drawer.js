@@ -1,16 +1,19 @@
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import { h } from "@stencil/core";
+import { t } from "../../../../services/locale/t";
 export class IrHkUnassignedUnitsDrawer {
     open = false;
     user = null;
     closeSideBar;
     formId = 'hk-unassigned-units-drawer-form';
     render() {
-        return (h("ir-drawer", { key: 'c6802e2264cb42d9fb3e9006580b1b1424ba32e9', label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}`, onDrawerHide: e => {
+        return (h("ir-drawer", { key: 'e55d1013a0199f8c363b9f5642886dab805d850c', label: !this.user
+                ? t('Lcz_AssingnUnitsTypo', { fallback: 'Assingn Units' })
+                : `${t('Lcz_AssignmentForUser', { fallback: 'Assignment for' })} ${this.user.name}`, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeSideBar.emit(null);
-            }, style: { '--ir-drawer-width': 'max-content' }, open: this.open }, this.open && h("ir-hk-unassigned-units-drawer-form", { key: '6220383247cef02df87184076fc0ee601f01483b', formId: this.formId, user: this.user }), h("div", { key: '0b75a325e9c321faf1727b5f3a3b8ac9f2dae7c7', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '803d6a5db2d62931c742990af1be2a835791a84f', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '08f1a87f2568f36c56e0120d8285d8b04e1e7cfb', loading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, "Save"))));
+            }, style: { '--ir-drawer-width': 'max-content' }, open: this.open }, this.open && h("ir-hk-unassigned-units-drawer-form", { key: 'a232a2262e2ed9cfa7b84448da1aefe2d7d8a413', formId: this.formId, user: this.user }), h("div", { key: '23e8c56a93f76f5d1c7a2cefa3b7f217e7daf126', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '2c1a9f9b3552cbc7cb980994c390d464b530df0f', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '5e9b7d8fd807775004dd4c1e9f0f78c4a8a4e4fb', loading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get is() { return "ir-hk-unassigned-units-drawer"; }
     static get encapsulation() { return "scoped"; }

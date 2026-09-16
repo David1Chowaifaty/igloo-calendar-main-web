@@ -13,6 +13,7 @@ import { SvcCategory } from "../../../types/enums";
 import { LocaleController } from "../../../services/locale/locale.controller";
 import { LanguageSync } from "../../../services/locale/language-sync";
 import { SCREEN_TABLES } from "../../../services/locale/screen-tables";
+import { t } from "../../../services/locale/t";
 /** bookingStatus['002'] in @/utils/booking — CONFIRMED. */
 const CONFIRMED_STATUS_CODE = '002';
 export class IrBookingEditor {
@@ -409,7 +410,7 @@ export class IrBookingEditor {
                 is_remove: false,
                 booking_nbr: this.booking?.booking_nbr,
             });
-            showToast({ title: 'Day Use Booking Updated', type: 'success' });
+            showToast({ title: t('Lcz_DayUseBookingUpdated', { fallback: 'Day Use Booking Updated' }), type: 'success' });
             this.resetBookingEvt.emit(null);
             return;
         }
@@ -452,7 +453,7 @@ export class IrBookingEditor {
             },
         };
         await this.bookingService.doDayUse(payload);
-        showToast({ title: 'Day Use Booking Created', type: 'success' });
+        showToast({ title: t('Lcz_DayUseBookingCreated', { fallback: 'Day Use Booking Created' }), type: 'success' });
         this.resetBookingEvt.emit(null);
     }
     async assignCountryCode() {
@@ -797,7 +798,7 @@ export class IrBookingEditor {
                 "mutable": false,
                 "complexType": {
                     "original": "ExtraService",
-                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; charges?: { total_amount?: number; city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; vat_amount?: number; vat_percent?: number; }; cost?: number; room_identifier?: string; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; pr_id?: number; from_time?: string; to_time?: string; }",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; charges?: { total_amount?: number; city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; vat_amount?: number; vat_percent?: number; }; cost?: number; room_identifier?: string; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; pr_id?: number; from_time?: string; to_time?: string; }",
                     "references": {
                         "ExtraService": {
                             "location": "import",

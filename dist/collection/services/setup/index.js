@@ -17,7 +17,7 @@ export class SetupService {
         return data.My_Result;
     }
     /** All entries belonging to a single setup table. */
-    getSetupEntriesByTableName(TBL_NAME) {
+    async getSetupEntriesByTableName(TBL_NAME) {
         return this.request('/Get_Setup_Entries_By_TBL_NAME', { TBL_NAME }).then(res => res ?? []);
     }
     /**
@@ -26,7 +26,7 @@ export class SetupService {
      * NOTE: the endpoint string is ALL CAPS (`..._MULTI`); `igl-book-property.tsx`
      * calls `isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI')` — keep in sync.
      */
-    getSetupEntriesByTableNameMulti(entries) {
+    async getSetupEntriesByTableNameMulti(entries) {
         return this.request('/Get_Setup_Entries_By_TBL_NAME_MULTI', { TBL_NAMES: entries }).then(res => res ?? []);
     }
     /**

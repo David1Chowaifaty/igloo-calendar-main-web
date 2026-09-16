@@ -8,6 +8,7 @@ import { LocaleController } from "../../services/locale/locale.controller";
 import { LanguageSync } from "../../services/locale/language-sync";
 import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 import { t } from "../../services/locale/t";
+import { formatCount, formatNumber, formatPercent } from "../../utils/number";
 export class IrMonthlyBookingsReport {
     language = '';
     ticket = '';
@@ -63,6 +64,9 @@ export class IrMonthlyBookingsReport {
     }
     async init() {
         try {
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.monthlyBookingsReport });
             let propertyId = this.propertyid;
             if (!this.propertyid && !this.p) {
                 throw new Error('Property ID or username is required');
@@ -81,7 +85,7 @@ export class IrMonthlyBookingsReport {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [LocaleController.load({ language: this.language, tables: SCREEN_TABLES.monthlyBookingsReport }), this.getReports()];
+            const requests = [localeReady, this.getReports()];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
@@ -162,13 +166,13 @@ export class IrMonthlyBookingsReport {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("ir-page", { label: "Daily Occupancy" }, h("ir-custom-button", { variant: "neutral", onClickHandler: async (e) => {
+        return (h("ir-page", { label: t('Lcz_DailyOccupancy', { fallback: 'Daily Occupancy' }) }, h("ir-custom-button", { variant: "neutral", onClickHandler: async (e) => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 await this.getReports(true);
-            }, appearance: "outlined", slot: "page-header", loading: this.isLoading === 'export' }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export')), h("section", { class: "report-layout" }, h("section", null, h("div", { class: "report-stats-row" }, h("ir-metric-card", { class: "report-metric", icon: this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? 'arrow-trend-down' : 'arrow-trend-up', label: "Average Occupancy", value: this.stats.AverageOccupancy ? this.stats?.AverageOccupancy.toFixed(2) : null, unit: "%", trend: this.stats?.Occupancy_Difference_From_Previous_Month, trendLabel: "from last month", caption: this.stats?.Occupancy_Difference_From_Previous_Month != null && this.stats?.AverageOccupancy != null
-                ? `Last month: ${(this.stats.AverageOccupancy - this.stats.Occupancy_Difference_From_Previous_Month).toFixed(2)}%`
-                : undefined }), h("ir-metric-card", { class: "report-metric", icon: "hotel", label: "Total Units", value: this.stats?.TotalUnitsBooked ? this.stats?.TotalUnitsBooked.toString() : null, caption: "Booked" }), h("ir-metric-card", { class: "report-metric", icon: "user-group", label: "Total Guests", value: this.stats?.Total_Guests ? this.stats?.Total_Guests?.toString() : null, caption: "Stayed" }), h("ir-metric-card", { class: "report-metric", icon: "calendar", label: "Peak Days", value: this.stats?.PeakDays.length === 0 ? null : this.stats?.PeakDays?.map(pd => formatDate(pd.Date, 'D').concat('th')).join(' - '), caption: `${Math.max(...(this.stats.PeakDays?.map(pd => pd.OccupancyPercent) || []))}% occupancy` })), h("div", { class: "report-content-row" }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
+            }, appearance: "outlined", slot: "page-header", loading: this.isLoading === 'export' }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export', { fallback: 'Export' })), h("section", { class: "report-layout" }, h("section", null, h("div", { class: "report-stats-row" }, h("ir-metric-card", { class: "report-metric", icon: this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? 'arrow-trend-down' : 'arrow-trend-up', label: t('Lcz_AverageOccupancy', { fallback: 'Average Occupancy' }), value: this.stats.AverageOccupancy ? formatNumber(this.stats.AverageOccupancy, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : null, unit: "%", trend: this.stats?.Occupancy_Difference_From_Previous_Month, trendLabel: t('Lcz_FromLastMonth', { fallback: 'from last month' }), caption: this.stats?.Occupancy_Difference_From_Previous_Month != null && this.stats?.AverageOccupancy != null
+                ? `${t('Lcz_LastMonth', { fallback: 'Last month:' })} ${formatPercent(this.stats.AverageOccupancy - this.stats.Occupancy_Difference_From_Previous_Month, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                : undefined }), h("ir-metric-card", { class: "report-metric", icon: "hotel", label: t('Lcz_TotalUnits', { fallback: 'Total Units' }), value: this.stats?.TotalUnitsBooked ? formatCount(this.stats.TotalUnitsBooked) : null, caption: t('Lcz_Booked', { fallback: 'Booked' }) }), h("ir-metric-card", { class: "report-metric", icon: "user-group", label: t('Lcz_TotalGuests', { fallback: 'Total Guests' }), value: this.stats?.Total_Guests ? formatCount(this.stats.Total_Guests) : null, caption: t('Lcz_Stayed', { fallback: 'Stayed' }) }), h("ir-metric-card", { class: "report-metric", icon: "calendar", label: t('Lcz_PeakDays', { fallback: 'Peak Days' }), value: this.stats?.PeakDays.length === 0 ? null : this.stats?.PeakDays?.map(pd => formatDate(pd.Date, 'Do')).join(' - '), caption: t('Lcz_PercentOccupancy', { fallback: '%1% occupancy', params: [formatNumber(Math.max(...(this.stats.PeakDays?.map(pd => pd.OccupancyPercent) || [])))] }) })), h("div", { class: "report-content-row" }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
     }
     static get is() { return "ir-monthly-bookings-report"; }
     static get encapsulation() { return "scoped"; }

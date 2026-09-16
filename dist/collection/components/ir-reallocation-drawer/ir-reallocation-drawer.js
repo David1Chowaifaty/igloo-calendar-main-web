@@ -1,6 +1,7 @@
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { h } from "@stencil/core";
 import { v4 } from "uuid";
+import { t } from "../../services/locale/t";
 export class IrReallocationDrawer {
     open;
     booking;
@@ -9,11 +10,11 @@ export class IrReallocationDrawer {
     closeModal;
     _id = `reallocation-form_${v4()}`;
     render() {
-        return (h("ir-drawer", { key: 'ae7e774ce6b786d12ca24f204895cb19519e596d', label: "Reassign Unit", open: this.open, onDrawerHide: e => {
+        return (h("ir-drawer", { key: '4f7b26d2152ee3335507fa244a3e8019aa3e2887', label: t('Lcz_ReassignUnit', { fallback: 'Reassign Unit' }), open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && h("ir-reallocation-form", { key: '6d0dd08b6b6d4b0038ebf246198746b6bb7a1bee', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: 'eaac99e2b706d340b4b701c7a387304d362f5150', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '240c06575169a686628a2eaad193a4d1cc2e2dd5', size: "m", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'de2e0463584e06ca5da292f729dc29c4a9c3eaee', form: this._id, size: "m", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
+            } }, this.open && h("ir-reallocation-form", { key: '8ce4de82bd8e2c011fab60123ef6fb6c05f507f0', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: '13647386e3fc1c20891518d21254426225f3d06d', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '40bb7fd6f65cd6024ad50ec7ac1c78bd028f6439', size: "m", "data-drawer": "close", variant: "neutral", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '500dc2c830e0f69ecd3cf5944f9d20f86ea7aac4', form: this._id, size: "m", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
     }
     static get is() { return "ir-reallocation-drawer"; }
     static get encapsulation() { return "scoped"; }

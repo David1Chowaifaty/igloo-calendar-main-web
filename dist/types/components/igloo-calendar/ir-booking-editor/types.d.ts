@@ -70,8 +70,8 @@ export declare const BookedByGuestSchema: z.ZodObject<{
     lastName?: string;
 }>;
 export declare const DayUseHoursSchema: z.ZodObject<{
-    from: z.ZodString;
-    to: z.ZodString;
+    from: z.ZodEffects<z.ZodString, string, string>;
+    to: z.ZodEffects<z.ZodString, string, string>;
 }, "strip", z.ZodTypeAny, {
     from?: string;
     to?: string;

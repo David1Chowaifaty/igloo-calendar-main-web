@@ -6,8 +6,17 @@ import { formatDate } from "../../../utils/date/index";
 import { isRtlLanguage } from "../../../utils/direction";
 import { realtimeService } from "../../../services/realtime/realtime.service";
 import { v4 } from "uuid";
+import { t } from "../../../services/locale/t";
+import { formatCount } from "../../../utils/number";
+import { LocaleController } from "../../../services/locale/locale.controller";
+import { SCREEN_TABLES } from "../../../services/locale/screen-tables";
 const LANGUAGE_KEY = 'ir_language';
-const translations = {
+/**
+ * Fallbacks for `t()`. This page is opened by housekeeping staff on their own devices, in
+ * their own language, so it cannot wait for Setup's `_HOUSEKEEPING` table to be translated —
+ * the strings a translated table would carry are inlined here until it is.
+ */
+const INLINE_LABELS = {
     en: {
         noTasks: 'No tasks for this day.',
         markAsCleaned: 'Mark as Cleaned',
@@ -30,8 +39,8 @@ const translations = {
         cancel: 'Ακύρωση',
     },
 };
-function t(lang) {
-    return translations[lang?.toLowerCase()] ?? translations.en;
+function inlineLabels(lang) {
+    return INLINE_LABELS[lang?.toLowerCase()] ?? INLINE_LABELS.en;
 }
 export class IrHkStaffTasks {
     ticket;
@@ -62,6 +71,7 @@ export class IrHkStaffTasks {
         }
         if (this.ticket) {
             this.apiClientService.setApiClient(this.ticket);
+            this.loadLocale(this.activeLanguage);
             this.loadTasks();
         }
     }
@@ -75,10 +85,21 @@ export class IrHkStaffTasks {
         this.activeLanguage = lang;
         localStorage.setItem(LANGUAGE_KEY, lang);
         this.publishLanguage(lang);
+        if (this.ticket) {
+            this.loadLocale(lang, true);
+        }
         this.tasksByDate = this.tasksByDate.map(group => ({
             ...group,
             formattedDate: formatDate(group.date, 'ddd, DD MMM'),
         }));
+    }
+    /**
+     * Standalone page, so it fetches its own strings — after `setApiClient`, since the request
+     * needs the ticket. Nothing awaits this: `t()` renders the inline fallback until the store
+     * fills, then the component re-renders through the store.
+     */
+    loadLocale(language, force = false) {
+        LocaleController.load({ language, tables: SCREEN_TABLES.hkStaffTasks, force }).catch(() => { });
     }
     /**
      * This component is mounted standalone (staff open it directly), so nothing else has run
@@ -100,6 +121,7 @@ export class IrHkStaffTasks {
         }
         if (this.ticket) {
             this.apiClientService.setApiClient(this.ticket);
+            this.loadLocale(this.activeLanguage);
             this.loadTasks();
         }
     }
@@ -230,7 +252,7 @@ export class IrHkStaffTasks {
             const allTasks = [this.selectedTask, ...(this.selectedTask.extra_task ?? [])];
             await this.houseKeepingService.executeHKAction({
                 actions: allTasks.map((task, i) => ({
-                    description: comment || 'Cleaned',
+                    description: comment || t('Lcz_Cleaned', { fallback: 'Cleaned' }),
                     hkm_id: task.hkm_id === 0 ? null : task.hkm_id,
                     unit_id: task.unit.id,
                     booking_nbr: task.booking_nbr,
@@ -268,16 +290,16 @@ export class IrHkStaffTasks {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        const i18n = t(this.activeLanguage);
-        return (h(Host, null, h("ir-hk-staff-tasks-header", { connectedHK: this.connectedHk, language: this.activeLanguage, onLanguageChanged: e => this.applyLanguage(e.detail) }), h("div", { class: "tasks__container" }, this.tasksByDate.map(group => (h("section", { key: group.date, class: `tasks__section${group.isFuture ? ' tasks__section--future' : ''}`, "aria-label": `Tasks for ${group.formattedDate}` }, h("header", { class: "tasks__header" }, h("h3", { class: "tasks__date" }, group.formattedDate), h("wa-badge", { pill: true, style: { fontSize: '0.875rem', fontWeight: 'bold' }, variant: group.isFuture ? 'neutral' : 'brand', appearance: group.isFuture ? 'filled' : 'accent' }, group.tasks.length)), group.tasks.length > 0 ? (h("div", { class: "tasks-grid", role: "list" }, group.tasks.map(task => (h("ir-hk-staff-task", { class: "task-card", onTaskClick: e => {
+        const i18n = inlineLabels(this.activeLanguage);
+        return (h(Host, null, h("ir-hk-staff-tasks-header", { connectedHK: this.connectedHk, language: this.activeLanguage, onLanguageChanged: e => this.applyLanguage(e.detail) }), h("div", { class: "tasks__container" }, this.tasksByDate.map(group => (h("section", { key: group.date, class: `tasks__section${group.isFuture ? ' tasks__section--future' : ''}`, "aria-label": `${t('Lcz_TasksFor', { fallback: 'Tasks for' })} ${group.formattedDate}` }, h("header", { class: "tasks__header" }, h("h3", { class: "tasks__date" }, group.formattedDate), h("wa-badge", { pill: true, style: { fontSize: '0.875rem', fontWeight: 'bold' }, variant: group.isFuture ? 'neutral' : 'brand', appearance: group.isFuture ? 'filled' : 'accent' }, formatCount(group.tasks.length))), group.tasks.length > 0 ? (h("div", { class: "tasks-grid", role: "list" }, group.tasks.map(task => (h("ir-hk-staff-task", { class: "task-card", onTaskClick: e => {
                 this.selectedTask = e.detail;
                 this.confirmDialog.openModal();
-            }, future: group.isFuture, task: task, key: task.id, role: "listitem" }))))) : (h("p", { class: "tasks__empty" }, i18n.noTasks)))))), h("ir-dialog", { class: "hk-staff-tasks__dialog", ref: el => (this.confirmDialog = el), label: this.selectedTask ? `${this.selectedTask.unit.name} — ${i18n.markAsCleaned}` : i18n.confirm, onIrDialogAfterHide: () => {
+            }, future: group.isFuture, task: task, key: task.id, role: "listitem" }))))) : (h("p", { class: "tasks__empty" }, t('Lcz_NoTasksForThisDay', { fallback: i18n.noTasks }))))))), h("ir-dialog", { class: "hk-staff-tasks__dialog", ref: el => (this.confirmDialog = el), label: this.selectedTask ? `${this.selectedTask.unit.name} — ${t('Lcz_MarkAsCleaned', { fallback: i18n.markAsCleaned })}` : t('Lcz_Confirm', { fallback: i18n.confirm }), onIrDialogAfterHide: () => {
                 this.selectedTask = null;
                 if (this.anythingToReportString) {
                     this.anythingToReportString = null;
                 }
-            } }, h("wa-textarea", { value: this.anythingToReportString, onchange: e => (this.anythingToReportString = e.target.value), defaultValue: this.anythingToReportString, placeholder: i18n.anythingToReport, maxlength: 500 }), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { variant: "neutral", appearance: "filled", onClickHandler: () => this.confirmDialog.closeModal() }, i18n.cancel), h("ir-custom-button", { variant: "brand", appearance: "accent", loading: this.isConfirmLoading, onClickHandler: this.handleConfirm.bind(this) }, i18n.confirm)))));
+            } }, h("wa-textarea", { value: this.anythingToReportString, onchange: e => (this.anythingToReportString = e.target.value), defaultValue: this.anythingToReportString, placeholder: t('Lcz_AnythingToReport', { fallback: i18n.anythingToReport }), maxlength: 500 }), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { variant: "neutral", appearance: "filled", onClickHandler: () => this.confirmDialog.closeModal() }, t('Lcz_Cancel', { fallback: i18n.cancel })), h("ir-custom-button", { variant: "brand", appearance: "accent", loading: this.isConfirmLoading, onClickHandler: this.handleConfirm.bind(this) }, t('Lcz_Confirm', { fallback: i18n.confirm }))))));
     }
     static get is() { return "ir-hk-staff-tasks"; }
     static get encapsulation() { return "scoped"; }

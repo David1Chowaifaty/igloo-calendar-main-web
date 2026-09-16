@@ -37,6 +37,9 @@
   color: var(--wa-color-text-quiet, #6b7280);
   margin-inline-end: 0.25rem;
 }
+.ir-revenue-row-detail__label--capitalize {
+  text-transform: capitalize;
+}
 
 .ir-revenue-row-detail__amount {
   font-weight: 600;

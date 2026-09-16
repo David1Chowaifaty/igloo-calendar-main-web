@@ -21,8 +21,8 @@ export class IrDateView {
         const fromISO = toDate(this.from_date);
         const toISO = toDate(this.to_date);
         const diff = fromISO && toISO ? calculateDaysBetweenDates(moment(fromISO).format('YYYY-MM-DD'), moment(toISO).format('YYYY-MM-DD')) : 0;
-        const nightLabel = diff === 1 ? t('Lcz_Night') : t('Lcz_Nights');
-        return (h(Host, { key: 'f34675c03a6d59264e6c569874865fb44c2deb04' }, h("span", { key: '93692eaf7cc9b520d1842250f5860fe0e7df9d76', part: "base" }, h("span", { key: '0529c70a4dc10d5b5363032a480d46f75c13becb', part: "from-date" }, fromStr), h("span", { key: '52335ba73e9213631da6bb2a57a19d112cb7e0d8', part: "separator", "aria-hidden": "true" }, h("wa-icon", { key: '81e3512e15b06acc8f5725c85062e98e7cb876a0', class: "ir-flip-rtl", name: "arrow-right", part: "separator-icon", "aria-hidden": "true" })), h("span", { key: 'fb274976545153b8caf86eeb080bdf8e4f5646a7', part: "to-date" }, toStr), this.showDateDifference && diff > 0 && (h("span", { key: '2c9a5a7046f5790af635e161369d5b017305c874', part: "night-count" }, diff, "\u00A0", nightLabel)))));
+        const nightLabel = diff === 1 ? t('Lcz_Night', { fallback: 'night' }) : t('Lcz_Nights', { fallback: 'nights' });
+        return (h(Host, { key: '55a2b4defc013e75f29689b4f3edfcabf8fe810d' }, h("span", { key: 'd862bdc14e23faf3f26c4c3759bdab387a6bd663', part: "base" }, h("span", { key: '3431254454287d7295616b9d03cf061461ecbf61', part: "from-date" }, fromStr), h("span", { key: 'd3b1f9b1854c23cdbb37e69788cf384b70ea8803', part: "separator", "aria-hidden": "true" }, h("wa-icon", { key: '825fc28e8152fad8d54ae8022185b953cc61ac7d', class: "ir-flip-rtl", name: "arrow-right", part: "separator-icon", "aria-hidden": "true" })), h("span", { key: 'fbcc688b1e10dc5bb8ff9391eb85fbb9b5d65895', part: "to-date" }, toStr), this.showDateDifference && diff > 0 && (h("span", { key: '4e529ba86c961f9544a0bbe0e8ddfc49dcf42770', part: "night-count" }, diff, "\u00A0", nightLabel)))));
     }
     static get is() { return "ir-date-view"; }
     static get encapsulation() { return "shadow"; }

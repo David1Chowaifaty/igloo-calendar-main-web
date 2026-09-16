@@ -1,12 +1,13 @@
 import { h } from "@stencil/core";
 import { entryTypeFieldSchema } from "../../ir-city-ledger-transaction-form.schema";
+import { t } from "../../../../../../../services/locale/t";
 export class IrClOpeningBalanceFields {
     entryType = '';
     fieldChange;
     render() {
-        return (h("div", { key: 'f41f5fff69e5879b58815211dab85fd1e3f6f32c', class: "field field--full-width" }, h("ir-validator", { key: 'a7f91654a486d688850e3eefd54ee313f75589f0', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: '98dcf924d7f6b5e8a825895a74d9d2bb3db5455b', label: "Entry Type", orientation: "horizontal", size: "s", value: this.entryType, onchange: event => {
+        return (h("div", { key: '57de05025b71b24b5d0a62d6bb46f9bd154d7ddc', class: "field field--full-width" }, h("ir-validator", { key: '3f0d65dedfdfb6551e7c8ab8e7be04f3ef56b949', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: 'c7f6ba79519ca8c53fbaee346690e2326c501645', label: t('Lcz_EntryType', { fallback: 'Entry Type' }), orientation: "horizontal", size: "s", value: this.entryType, onchange: event => {
                 this.fieldChange.emit({ entryType: event.target.value });
-            } }, h("wa-radio", { key: '58e36ced4896ca158bcf6fb97d4a8a3116b01295', value: "CR", appearance: "button", class: "entry-type --credit" }, "Credit"), h("wa-radio", { key: '0de11faf351abe3ba02e8df349d259e9b2015935', value: "DB", appearance: "button", class: "entry-type --debit" }, "Debit")))));
+            } }, h("wa-radio", { key: 'ffe90cbd2a05f0d7fff6908b615cf5cbf2469ac3', value: "CR", appearance: "button", class: "entry-type --credit" }, t('Lcz_CreditColumn', { fallback: 'Credit' })), h("wa-radio", { key: '4f726937b15ec0f0734d14fc1b9d870fb1a82539', value: "DB", appearance: "button", class: "entry-type --debit" }, t('Lcz_DebitColumn', { fallback: 'Debit' }))))));
     }
     static get is() { return "ir-cl-opening-balance-fields"; }
     static get encapsulation() { return "scoped"; }

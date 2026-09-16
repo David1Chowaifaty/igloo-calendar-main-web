@@ -1,4 +1,5 @@
 import { h } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 /**
  * Dumb open/close shell — the nested ir-translations-entry-form owns the
  * draft, validation, and the actual save call.
@@ -16,18 +17,20 @@ export class IrTranslationsEntryDrawer {
     tableName;
     ownerId;
     entryUserId;
+    /** Passed through to the form — rows in other tables that share `entry`'s description. */
+    duplicateSiblings = [];
     closeDrawer;
     entrySaved;
     saveDisabled = true;
     isSubmitting = false;
     render() {
         const isEditing = !!this.entry;
-        return (h("ir-drawer", { key: '872aae233289cbd9e6f007115faed0a33a88d7f4', label: isEditing ? 'Edit key' : 'New key', open: this.open, onDrawerHide: () => this.closeDrawer.emit() }, this.open && (h("ir-translations-entry-form", { key: '2abd406bf57d6522300af7a154097979855afd6a', formId: this.formId, languages: this.languages, entry: this.entry, existingKeys: this.existingKeys, nextDisplayOrder: this.nextDisplayOrder, tableName: this.tableName, ownerId: this.ownerId, entryUserId: this.entryUserId, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onEntrySaved: (e) => {
+        return (h("ir-drawer", { key: 'c4051b7d1b2f6c1c238d7c3ce2d4c559b44295a2', label: isEditing ? 'Edit key' : 'New key', open: this.open, onDrawerHide: () => this.closeDrawer.emit() }, this.open && (h("ir-translations-entry-form", { key: '3122e5cb430ccc5b8bd01aa45831d3314e4626ed', formId: this.formId, languages: this.languages, entry: this.entry, existingKeys: this.existingKeys, nextDisplayOrder: this.nextDisplayOrder, tableName: this.tableName, ownerId: this.ownerId, entryUserId: this.entryUserId, duplicateSiblings: this.duplicateSiblings, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onEntrySaved: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-                this.entrySaved.emit();
+                this.entrySaved.emit(e.detail);
                 this.closeDrawer.emit();
-            } })), h("div", { key: 'c9cf0a8557d5567d6b429bda707eaf38dc8e2bcb', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'c12e538299908ecf38dfaca936a49e11d773fdf4', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: '0bc53eb4d648e2eb070efbeb236640949d4212a3', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, "Save"))));
+            } })), h("div", { key: '9e350f1fce18f47bdebb5ab47c8ffedffd91129d', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '50f0b66431a51a2019b3da3bf6895b6dec96dcdb', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDrawer.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '6be77204f60bd60aafed040e01d3e404fc299a1f', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get is() { return "ir-translations-entry-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -227,6 +230,31 @@ export class IrTranslationsEntryDrawer {
                 "setter": false,
                 "reflect": false,
                 "attribute": "entry-user-id"
+            },
+            "duplicateSiblings": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "DuplicateSibling[]",
+                    "resolved": "DuplicateSibling[]",
+                    "references": {
+                        "DuplicateSibling": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/ir-translations-manager/types.ts::DuplicateSibling",
+                            "referenceLocation": "DuplicateSibling"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Passed through to the form \u2014 rows in other tables that share `entry`'s description."
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[]"
             }
         };
     }
@@ -263,9 +291,16 @@ export class IrTranslationsEntryDrawer {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "void",
-                    "resolved": "void",
-                    "references": {}
+                    "original": "EntrySavedDetail",
+                    "resolved": "EntrySavedDetail",
+                    "references": {
+                        "EntrySavedDetail": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/ir-translations-manager/types.ts::EntrySavedDetail",
+                            "referenceLocation": "EntrySavedDetail"
+                        }
+                    }
                 }
             }];
     }

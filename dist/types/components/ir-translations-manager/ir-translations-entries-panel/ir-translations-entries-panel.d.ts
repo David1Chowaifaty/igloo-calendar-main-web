@@ -26,9 +26,12 @@ export declare class IrTranslationsEntriesPanel {
     disableCreate: boolean;
     /** Entry id → the tables sharing that row's description; rows present here get a duplicate badge. */
     duplicates: Map<string, DuplicateInfo>;
+    /** Whether the notes column is included at all. */
+    showNotes: boolean;
     createEntry: EventEmitter<void>;
     editEntry: EventEmitter<TranslationEntry>;
     duplicateEntry: EventEmitter<TranslationEntry>;
+    moveEntry: EventEmitter<TranslationEntry>;
     deleteEntry: EventEmitter<TranslationEntry>;
     entryChange: EventEmitter<TranslationEntry>;
     reorderEntries: EventEmitter<TranslationEntry[]>;

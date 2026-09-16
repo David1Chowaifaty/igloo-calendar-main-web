@@ -3,6 +3,8 @@ import { MealReportService } from "../../services/meal-report/meal-report.servic
 import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
 import ApiClient from "../../models/ApiClient";
 import moment from "moment";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 import { t } from "../../services/locale/t";
 import axios from "axios";
 export class IrMealReport {
@@ -48,7 +50,10 @@ export class IrMealReport {
         try {
             this.isPageLoading = true;
             this.isDataLoading = true;
-            const setupEntries = await this.setupService.getSetupEntriesByTableNameMulti(['_MEAL_TYPE', '_HB_PREFERENCE']);
+            const [setupEntries] = await Promise.all([
+                this.setupService.getSetupEntriesByTableNameMulti(['_MEAL_TYPE', '_HB_PREFERENCE']),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.mealReport }),
+            ]);
             const grouped = groupEntryTablesResult(setupEntries);
             const meal_type = grouped.meal_type || [];
             const hb_preference = grouped.hb_preference || [];
@@ -159,7 +164,7 @@ export class IrMealReport {
         //   { label: 'Lunch', icon: 'utensils', intent: 'success' as const, adults: sum('Lunch_Ad'), children: sum('Lunch_Ch') },
         //   { label: 'Dinner', icon: 'moon', intent: 'warning' as const, adults: sum('Dinner_Ad'), children: sum('Dinner_Ch') },
         // ];
-        return (h("ir-page", { label: "Meal Report", description: this.localReportType === 'GUEST_LIST' ? 'Guest List' : 'Meal Count', class: 'page' }, h("ir-custom-button", { slot: "page-header", type: "button", size: "s", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
+        return (h("ir-page", { label: t('Lcz_MealReport', { fallback: 'Meal Report' }), description: this.localReportType === 'GUEST_LIST' ? 'Guest List' : 'Meal Count', class: 'page' }, h("ir-custom-button", { slot: "page-header", type: "button", size: "s", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();

@@ -2,6 +2,7 @@ import { Fragment, h } from "@stencil/core";
 import { PAYMENT_TYPES_WITH_METHOD } from "../../ir-booking-details/ir-payment-details/global.variables";
 import { formatAmount } from "../../../utils/utils";
 import calendar_data from "../../../stores/calendar-data";
+import { t } from "../../../services/locale/t";
 export class IrRevenueTable {
     payments = new Map();
     paymentEntries;
@@ -75,23 +76,23 @@ export class IrRevenueTable {
     }
     render() {
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("wa-card", { key: '59eb93d5f2ac66dd8a6ef6a042f553fb583bc7c4', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
+        return (h("wa-card", { key: '0a84ff4a701c5c1c1ce16f8d7351dcd67184e36c', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, t('Lcz_Method', { fallback: 'Method' })), h("p", null, t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 list = this.sortByDateTime(list);
                 const [paymentType, paymentMethod] = key.split('_');
                 const groupName = PAYMENT_TYPES_WITH_METHOD.includes(paymentType)
                     ? `${this.payTypesObj[paymentType] ?? paymentType}: ${this.payMethodObj[paymentMethod] ?? paymentMethod}`
-                    : this.payTypesObj[paymentType] ?? paymentType;
+                    : (this.payTypesObj[paymentType] ?? paymentType);
                 return h("ir-revenue-row", { key: key, payments: list, groupName: groupName });
             }), this.groupType === 'method' &&
             Array.from(this.regroupPaymentsByMethod().entries()).flatMap(([methodKey, byType]) => {
                 const total = Array.from(byType.entries()).reduce((prev, [_, list]) => prev + list.reduce((p, c) => p + c.amount, 0), 0);
                 return (h("div", { key: `method_${methodKey}` }, h("div", { class: "revenue-table__method_header" }, h("p", null, this.payMethodObj[methodKey] ?? methodKey), h("p", null, formatAmount(calendar_data.currency.symbol, total))), Array.from(byType.entries()).map(([typeKey, list]) => {
                     list = this.sortByDateTime(list);
-                    const groupName = PAYMENT_TYPES_WITH_METHOD.includes(typeKey) ? `${this.payTypesObj[typeKey] ?? typeKey}` : this.payTypesObj[typeKey] ?? typeKey;
+                    const groupName = PAYMENT_TYPES_WITH_METHOD.includes(typeKey) ? `${this.payTypesObj[typeKey] ?? typeKey}` : (this.payTypesObj[typeKey] ?? typeKey);
                     return (h("div", { key: `type_${typeKey}`, class: "revenue-table__type-group" }, h("ir-revenue-row", { payments: list, groupName: groupName })));
                 })));
-            }))) : (h("div", { class: "revenue-table__empty-wrapper" }, h("ir-empty-state", { message: "There are no payment transactions recorded for the selected date." })))));
+            }))) : (h("div", { class: "revenue-table__empty-wrapper" }, h("ir-empty-state", { message: t('Lcz_NoPaymentTransactionsForDate', { fallback: 'There are no payment transactions recorded for the selected date.' }) })))));
     }
     static get is() { return "ir-revenue-table"; }
     static get encapsulation() { return "scoped"; }

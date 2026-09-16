@@ -1,6 +1,7 @@
 import { h } from "@stencil/core";
 import ApiClient from "../../models/ApiClient";
 import { PropertyService } from "../../services/property.service";
+import { t } from "../../services/locale/t";
 export class IrUnbookableRooms {
     ticket = '';
     propertyid;
@@ -85,7 +86,7 @@ export class IrUnbookableRooms {
         }
         catch (error) {
             console.error('Failed to load unbookable rooms', error);
-            this.errorMessage = 'Unable to load unbookable rooms right now. Please try again.';
+            this.errorMessage = t('Lcz_UnableToLoadUnbookableRooms', { fallback: 'Unable to load unbookable rooms right now. Please try again.' });
         }
         finally {
             this.isLoading = false;
@@ -98,7 +99,10 @@ export class IrUnbookableRooms {
         const propertyIds = this.getPropertyIds();
         if (!propertyIds.length) {
             this.unbookableRooms = [];
-            this.errorMessage = this.resolveMode() === 'mpo' ? 'No properties available to check.' : 'Property ID is required to load unbookable rooms.';
+            this.errorMessage =
+                this.resolveMode() === 'mpo'
+                    ? t('Lcz_NoPropertiesAvailableToCheck', { fallback: 'No properties available to check.' })
+                    : t('Lcz_PropertyIdRequiredToLoadUnbookableRooms', { fallback: 'Property ID is required to load unbookable rooms.' });
             return;
         }
         const results = await this.propertyService.fetchUnBookableRooms({
@@ -134,7 +138,7 @@ export class IrUnbookableRooms {
         }
         catch (error) {
             console.error('Failed to refresh unbookable rooms', error);
-            this.errorMessage = 'Unable to refresh unbookable rooms right now.';
+            this.errorMessage = t('Lcz_UnableToRefreshUnbookableRooms', { fallback: 'Unable to refresh unbookable rooms right now.' });
         }
         finally {
             this.isLoading = false;
@@ -154,7 +158,7 @@ export class IrUnbookableRooms {
         }
         const totalIssues = this.unbookableRooms?.length ?? 0;
         const propertiesWithIssues = new Set(this.unbookableRooms?.map(entry => entry.property_id)).size;
-        return (h("ir-page", { label: "Availability Alert" }, this.mode === 'mpo' && (h("section", { class: "summary", "aria-live": "polite" }, h("ir-metric-card", { icon: 'bed', value: totalIssues, label: "Affected room types" }), h("ir-metric-card", { icon: 'hotel', value: propertiesWithIssues, label: "Properties impacted" }))), h("section", { class: "unbookable-rooms__content" }, h("ir-unbookable-rooms-filters", { mode: this.mode, filters: this.filters, unbookableRooms: this.unbookableRooms, isLoading: this.isLoading, onFiltersChange: this.handleFiltersChange, onFiltersReset: this.handleFiltersReset, onFiltersSave: this.handleRefresh }), h("ir-unbookable-rooms-data", { mode: this.mode, isLoading: this.isLoading, errorMessage: this.errorMessage, unbookableRooms: this.unbookableRooms, allowedProperties: this.allowedProperties, filters: this.filters, progressFilters: this.progressFilters }))));
+        return (h("ir-page", { label: t('Lcz_AvailabilityAlert', { fallback: 'Availability Alert' }) }, this.mode === 'mpo' && (h("section", { class: "summary", "aria-live": "polite" }, h("ir-metric-card", { icon: 'bed', value: totalIssues, label: t('Lcz_AffectedRoomTypes', { fallback: 'Affected room types' }) }), h("ir-metric-card", { icon: 'hotel', value: propertiesWithIssues, label: t('Lcz_PropertiesImpacted', { fallback: 'Properties impacted' }) }))), h("section", { class: "unbookable-rooms__content" }, h("ir-unbookable-rooms-filters", { mode: this.mode, filters: this.filters, unbookableRooms: this.unbookableRooms, isLoading: this.isLoading, onFiltersChange: this.handleFiltersChange, onFiltersReset: this.handleFiltersReset, onFiltersSave: this.handleRefresh }), h("ir-unbookable-rooms-data", { mode: this.mode, isLoading: this.isLoading, errorMessage: this.errorMessage, unbookableRooms: this.unbookableRooms, allowedProperties: this.allowedProperties, filters: this.filters, progressFilters: this.progressFilters }))));
     }
     static get is() { return "ir-unbookable-rooms"; }
     static get encapsulation() { return "scoped"; }

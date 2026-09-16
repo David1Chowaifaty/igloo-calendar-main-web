@@ -14,7 +14,7 @@ export declare class IrRoomGuestsForm {
     identifier: string;
     /**
      * An array of people sharing the room.
-     * Contains information about the {t('Lcz_MainGuest')} and additional guests, such as their name, date of birth, {t('Lcz_Nationality')}, and ID details.
+     * Contains information about the {t('Lcz_MainGuest', { fallback: 'Main guest' })} and additional guests, such as their name, date of birth, {t('Lcz_Nationality', { fallback: 'Nationality' })}, and ID details.
      */
     sharedPersons: SharedPerson[];
     /**
@@ -24,7 +24,7 @@ export declare class IrRoomGuestsForm {
     totalGuests: number;
     /**
      * A list of available countries.
-     * Used to populate dropdowns for selecting the {t('Lcz_Nationality')} of guests.
+     * Used to populate dropdowns for selecting the {t('Lcz_Nationality', { fallback: 'Nationality' })} of guests.
      */
     countries: ICountry[];
     /**

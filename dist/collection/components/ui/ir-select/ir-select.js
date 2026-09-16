@@ -1,5 +1,6 @@
 import { h } from "@stencil/core";
 import { v4 } from "uuid";
+import { t } from "../../../services/locale/t";
 export class IrSelect {
     // Name of the select input
     name;
@@ -18,7 +19,7 @@ export class IrSelect {
     // Marks the select as required
     required;
     // Placeholder text for the first option
-    firstOption = 'Select';
+    firstOption;
     // Whether to show the first placeholder option
     showFirstOption = true;
     // Size of the select: 'sm' | 'md' | 'lg'
@@ -108,7 +109,7 @@ export class IrSelect {
             className.push('border-danger');
         }
         let label = this.label ? (this.floatingLabel ? (h("label", { id: this.labelId, class: `floating-label active`, htmlFor: this.selectId }, this.label, this.required ? '*' : '')) : (h("div", { class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { htmlFor: this.selectId, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')))) : null;
-        return (h("div", { key: '420e14bb0d8a7dbbd9776947b8a664b4235368ba', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: 'bad7095bb22f6a705a0903fcfe40aab87c65b192', class: "input-group row m-0" }, label, h("select", { key: '3273c1f1167c4d4d10d465672cc9531aacdc0eab', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.selectId, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className.join(' ')} form-control-${this.size} text-${this.textSize} `, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '9b5d48c5ef801cd2b0a7613319ce0c45a988ea70', value: '' }, this.firstOption), this.data.map(item => {
+        return (h("div", { key: 'c5c918ef7d03df90801edbdb12af130c30947990', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: 'd4fb0ef528cf8f60a268cc5e6481feb69d4b8043', class: "input-group row m-0" }, label, h("select", { key: '3eb6982dccd79811aba37a490e736cc94ad76441', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.selectId, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className.join(' ')} form-control-${this.size} text-${this.textSize} `, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '2ee910b044b6705eb8feb5e93af9333391ebbbed', value: '' }, this.firstOption || t('Lcz_Select', { fallback: 'Select' })), this.data.map(item => {
             return (h("option", { selected: this.selectedValue === item.value, value: item.value }, item.text));
         })))));
     }
@@ -299,8 +300,7 @@ export class IrSelect {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "first-option",
-                "defaultValue": "'Select'"
+                "attribute": "first-option"
             },
             "showFirstOption": {
                 "type": "boolean",

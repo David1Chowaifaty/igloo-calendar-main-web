@@ -1,6 +1,7 @@
 import { Host, h } from "@stencil/core";
 import { SetupService } from "../../../services/setup/index";
 import { t } from "../../../services/locale/t";
+import { formatDate } from "../../../utils/date/index";
 export class IglBlockDatesView {
     defaultData;
     fromDate;
@@ -77,10 +78,7 @@ export class IglBlockDatesView {
         else {
             dt.setHours(dt.getHours() + this.blockDatesData.RELEASE_AFTER_HOURS, dt.getMinutes(), 0, 0);
         }
-        return dt.toLocaleString('default', { month: 'short' }) + ' ' + dt.getDate() + ', ' + this.formatNumber(dt.getHours()) + ':' + this.formatNumber(dt.getMinutes());
-    }
-    formatNumber(value) {
-        return value < 10 ? `0${value}` : value;
+        return formatDate(dt, 'MMM D, HH:mm');
     }
     renderPage() {
         this.renderAgain = !this.renderAgain;
@@ -89,7 +87,7 @@ export class IglBlockDatesView {
         const { OUT_OF_SERVICE, OPTIONAL_REASON, RELEASE_AFTER_HOURS } = this.blockDatesData;
         const releaseValue = String(Number(RELEASE_AFTER_HOURS) || 0);
         const releaseHours = Number(RELEASE_AFTER_HOURS) || 0;
-        return (h(Host, { key: '8efecb48c99932c1b2b57d534316e4084acd5b3c' }, h("div", { key: '1b864624aae3f1008b47c6d284d4b14612652246', class: "block-dates" }, h("ir-date-view", { key: 'f99f174e5ebf0a568c8c43f026497ef885b57750', format: 'weekday-medium', from_date: this.fromDate, to_date: this.toDate, showDateDifference: false }), h("wa-radio-group", { key: '63cdb1bc5ba0e231c5648062bbb010323d085d02', class: "block-dates__mode", size: "m", orientation: "vertical", value: OUT_OF_SERVICE ? 'oos' : 'auto', onchange: evt => this.handleModeChange(evt) }, h("span", { key: '48d247cb2b486e5731fcac8f3a080611b5d821ad', slot: "label", class: "block-dates__label" }, t('Lcz_Reason')), h("wa-radio", { key: '7867c3e9f0c3b93d0e20dbbc2854017338b43d32', value: "auto" }, t('Lcz_AutomaticReleaseIn')), !OUT_OF_SERVICE && (h("div", { key: 'a19b6543ec1d34acbbbf4256ea7d0a0f55074a3a', class: "block-dates__fields" }, h("wa-select", { key: 'df2f226961b0ff78865d6c491fed99796a7e4b47', class: "block-dates__select", size: "s", value: releaseValue, defaultValue: releaseValue, onchange: evt => this.handleReleaseAfterChange(evt) }, h("wa-icon", { key: '0165afb484ea9df71ef66a00cbc3be8c9dc6f8e8', slot: "start", name: "clock", label: t('Lcz_AutomaticReleaseIn') }), releaseHours > 0 && (h("span", { key: 'd71e1942cbdfee3f0df84d705d1eb334ebd27d90', slot: "end", class: "block-dates__release-on" }, t('Lcz_On'), " ", this.getReleaseHoursString())), this.releaseList.map(releaseItem => (h("wa-option", { value: String(Number(releaseItem.CODE_NAME) || 0) }, releaseItem.CODE_VALUE_EN)))), h("wa-input", { key: '953a2119b9e8a15eb90dfa38a92f3ebacff9cebd', class: "block-dates__reason", size: "s", placeholder: t('Lcz_OptionalReason'), value: OPTIONAL_REASON, oninput: event => this.handleOptionalReason(event) }, h("wa-icon", { key: 'b6c36f1954a37ead2f9109c391d09358e47245ec', slot: "start", name: "comment", label: t('Lcz_OptionalReason') })))), h("wa-radio", { key: 'fc82ee3db82ca15dd3d6a98e6740091feb9b402b', value: "oos" }, t('Lcz_OutOfservice'))))));
+        return (h(Host, { key: 'd0da791f6aa7186257cb8875cc9ca03a53fe57de' }, h("div", { key: 'b84eb886fd81331e9304e611c90fbfb23057ed51', class: "block-dates" }, h("ir-date-view", { key: '4501c6ffb9eed20d58bd3d26374b34e6677e78c6', format: 'weekday-medium', from_date: this.fromDate, to_date: this.toDate, showDateDifference: false }), h("wa-radio-group", { key: '65d5da6d076419a0bad9830429ef5ddc8299249d', class: "block-dates__mode", size: "m", orientation: "vertical", value: OUT_OF_SERVICE ? 'oos' : 'auto', onchange: evt => this.handleModeChange(evt) }, h("span", { key: '4c60821d86b2f2eab9befb4b8124338ea87ac855', slot: "label", class: "block-dates__label" }, t('Lcz_Reason', { fallback: 'Reason' })), h("wa-radio", { key: '87ede2e7a0e163234e0c2810dcf6c12a40c2b632', value: "auto" }, t('Lcz_AutomaticReleaseIn', { fallback: 'Automatic release in' })), !OUT_OF_SERVICE && (h("div", { key: 'ae7bb0cd1dc38b9be225759b26077658c88ae220', class: "block-dates__fields" }, h("wa-select", { key: 'bce4b91e897701a9e77344dc1352a3e90c6a1f25', class: "block-dates__select", size: "s", value: releaseValue, defaultValue: releaseValue, onchange: evt => this.handleReleaseAfterChange(evt) }, h("wa-icon", { key: 'f6906f5ead6f9d3f4fdd5bba8ccae4c5f403e81e', slot: "start", name: "clock", label: t('Lcz_AutomaticReleaseIn', { fallback: 'Automatic release in' }) }), releaseHours > 0 && (h("span", { key: '0110873d4aec73a9890c4f0b50db81af2d19673c', slot: "end", class: "block-dates__release-on" }, t('Lcz_On', { fallback: 'On' }), " ", this.getReleaseHoursString())), this.releaseList.map(releaseItem => (h("wa-option", { value: String(Number(releaseItem.CODE_NAME) || 0) }, releaseItem.CODE_VALUE_EN)))), h("wa-input", { key: '352e8935067a1693403536785f303638f4fbf2c5', class: "block-dates__reason", size: "s", placeholder: t('Lcz_OptionalReason', { fallback: 'Optional reason' }), value: OPTIONAL_REASON, oninput: event => this.handleOptionalReason(event) }, h("wa-icon", { key: '739fa883e5616963d860b0fe646dd22eb27ef75b', slot: "start", name: "comment", label: t('Lcz_OptionalReason', { fallback: 'Optional reason' }) })))), h("wa-radio", { key: 'f1a90e20559b441e1db7985a711d972d42075cd7', value: "oos" }, t('Lcz_OutOfservice', { fallback: 'Out of service' }))))));
     }
     static get is() { return "igl-block-dates-view"; }
     static get encapsulation() { return "scoped"; }

@@ -63,9 +63,9 @@ export declare const ExtraServiceDefinitionSchema: z.ZodObject<{
         default_end_time?: string;
     }>>>>;
 }, "strip", z.ZodTypeAny, {
+    code?: string;
     name?: string;
     id?: number;
-    code?: string;
     property_id?: number;
     is_active?: boolean;
     section?: "accommodation" | "addon";
@@ -78,9 +78,9 @@ export declare const ExtraServiceDefinitionSchema: z.ZodObject<{
         default_end_time?: string;
     };
 }, {
+    code?: string;
     name?: string;
     id?: number;
-    code?: string;
     property_id?: number;
     is_active?: boolean;
     section?: "accommodation" | "addon";
@@ -127,9 +127,9 @@ export declare const HandleExposedExtraServicePropsSchema: z.ZodObject<{
             default_end_time?: string;
         }>>>>;
     }, "strip", z.ZodTypeAny, {
+        code?: string;
         name?: string;
         id?: number;
-        code?: string;
         property_id?: number;
         is_active?: boolean;
         section?: "accommodation" | "addon";
@@ -142,9 +142,9 @@ export declare const HandleExposedExtraServicePropsSchema: z.ZodObject<{
             default_end_time?: string;
         };
     }, {
+        code?: string;
         name?: string;
         id?: number;
-        code?: string;
         property_id?: number;
         is_active?: boolean;
         section?: "accommodation" | "addon";
@@ -159,9 +159,9 @@ export declare const HandleExposedExtraServicePropsSchema: z.ZodObject<{
     }>;
 }, "strip", z.ZodTypeAny, {
     extra_service?: {
+        code?: string;
         name?: string;
         id?: number;
-        code?: string;
         property_id?: number;
         is_active?: boolean;
         section?: "accommodation" | "addon";
@@ -176,9 +176,9 @@ export declare const HandleExposedExtraServicePropsSchema: z.ZodObject<{
     };
 }, {
     extra_service?: {
+        code?: string;
         name?: string;
         id?: number;
-        code?: string;
         property_id?: number;
         is_active?: boolean;
         section?: "accommodation" | "addon";

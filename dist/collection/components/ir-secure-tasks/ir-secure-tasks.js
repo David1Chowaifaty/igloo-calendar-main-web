@@ -8,6 +8,7 @@ import { LocaleController } from "../../services/locale/locale.controller";
 export class IrSecureTasks {
     el;
     propertyid;
+    language;
     p;
     bookingNumber;
     ticket;
@@ -184,7 +185,7 @@ export class IrSecureTasks {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("div", { class: "main__container" }, h("header", { class: "secure-header" }, h("div", { class: "secure-header__topbar" }, h("div", { class: "secure-header__brand" }, h("div", { class: "secure-header__brand-icon" }, h("img", { src: "https://x.igloorooms.com/app-assets/images/portrait/small/avatar-s-19.png", alt: "" })), h("span", { class: "secure-header__brand-name" }, "IglooRooms")), h("div", { class: "secure-header__controls" }, calendar_data?.property && (h(Fragment, null, h("ir-booking-new-form", { ticket: this.ApiClient.getToken(), propertyid: calendar_data?.property?.id?.toString(), language: "en" }, h("ir-custom-button", { slot: "trigger", id: "add-booking-btn", size: "s", appearance: "plain", variant: "brand" }, h("wa-icon", { name: "plus", style: { fontSize: '1.2rem' } }))), h("div", { class: "secure-header__sep", role: "separator" }))), h("form", { class: "secure-header__aname-form", onSubmit: e => {
+        return (h("div", { class: "main__container" }, h("header", { class: "secure-header" }, h("div", { class: "secure-header__topbar" }, h("div", { class: "secure-header__brand" }, h("div", { class: "secure-header__brand-icon" }, h("img", { src: "https://x.igloorooms.com/app-assets/images/portrait/small/avatar-s-19.png", alt: "" })), h("span", { class: "secure-header__brand-name" }, "IglooRooms")), h("div", { class: "secure-header__controls" }, calendar_data?.property && (h(Fragment, null, h("ir-booking-new-form", { ticket: this.ApiClient.getToken(), propertyid: calendar_data?.property?.id?.toString(), language: this.language }, h("ir-custom-button", { slot: "trigger", id: "add-booking-btn", size: "s", appearance: "plain", variant: "brand" }, h("wa-icon", { name: "plus", style: { fontSize: '1.2rem' } }))), h("div", { class: "secure-header__sep", role: "separator" }))), h("form", { class: "secure-header__aname-form", onSubmit: e => {
                 e.preventDefault();
                 if (this.inputValue) {
                     const url = new URL(window.location.href);
@@ -202,49 +203,49 @@ export class IrSecureTasks {
     renderPage() {
         switch (this.currentPage) {
             case 'front':
-                return (h("div", { style: { flex: '1 1 0%', display: 'block' } }, h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.ApiClient.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" })));
+                return (h("div", { style: { flex: '1 1 0%', display: 'block' } }, h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.ApiClient.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: this.language })));
             case 'arrivals':
-                return h("ir-arrivals", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
+                return h("ir-arrivals", { p: this.p, language: this.language, propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
             case 'departures':
-                return h("ir-departures", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
+                return h("ir-departures", { p: this.p, language: this.language, propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
             case 'tasks':
-                return h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             case 'hk':
-                return h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             case 'daily-revenue':
-                return h("ir-daily-revenue", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-daily-revenue", { p: this.p, propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             case 'daily-occupancy':
-                return h("ir-monthly-bookings-report", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-monthly-bookings-report", { p: this.p, propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             case 'country-sales':
-                return h("ir-sales-by-country", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-sales-by-country", { p: this.p, propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             case 'channel-sales':
-                return h("ir-sales-by-channel", { mode: "property", language: "en", propertyid: this.propertyid.toString(), ticket: this.ApiClient.getToken() });
+                return h("ir-sales-by-channel", { mode: "property", language: this.language, propertyid: this.propertyid.toString(), ticket: this.ApiClient.getToken() });
             case 'booking-listing':
-                return h("ir-booking-listing", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
+                return h("ir-booking-listing", { p: this.p, language: this.language, propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
             case 'email-logs':
                 return h("ir-booking-email-logs", { ticket: this.ApiClient.getToken() });
             case 'users':
-                return h("ir-user-management", { userTypeCode: 5, p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-user-management", { userTypeCode: 5, p: this.p, propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             case 'agents':
-                return h("ir-agents", { style: { gap: '1.5rem' }, p: this.p, language: "en", propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
+                return h("ir-agents", { style: { gap: '1.5rem' }, p: this.p, language: this.language, propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
             case 'city-ledger':
-                return h("ir-city-ledger", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
+                return h("ir-city-ledger", { p: this.p, language: this.language, propertyid: this.propertyid, ticket: this.ApiClient.getToken() });
             case 'channels':
-                return h("ir-channel", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-channel", { p: this.p, propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             case 'tax-services':
-                return h("ir-tax-service-categories", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-tax-service-categories", { p: this.p, propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             case 'extra-services':
-                return h("ir-extra-services-settings", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-extra-services-settings", { p: this.p, propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             case 'payment-options':
-                return h("ir-payment-option", { p: this.p, propertyid: this.propertyid.toString(), language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-payment-option", { p: this.p, propertyid: this.propertyid.toString(), language: this.language, ticket: this.ApiClient.getToken() });
             case 'ghs':
                 return h("ir-ghs-onboarding", { ticket: this.ApiClient.getToken() });
             case 'meal-report':
-                return h("ir-meal-report", { propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-meal-report", { propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             case 'fiscal-documents':
-                return h("ir-fiscal-documents", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-fiscal-documents", { p: this.p, propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             case 'uninvoiced-bookings':
-                return h("ir-uninvoiced-bookings", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.ApiClient.getToken() });
+                return h("ir-uninvoiced-bookings", { p: this.p, propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             default:
                 return null;
         }
@@ -280,6 +281,25 @@ export class IrSecureTasks {
                 "setter": false,
                 "reflect": false,
                 "attribute": "propertyid"
+            },
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "language"
             },
             "p": {
                 "type": "string",

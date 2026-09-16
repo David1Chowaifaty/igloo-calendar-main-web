@@ -1,6 +1,7 @@
 import { Host, h } from "@stencil/core";
 import { FdTypes } from "../../../types/enums";
 import { PropertyService } from "../../../services/property/index";
+import { t } from "../../../services/locale/t";
 /**
  * Guest Fiscal Document Preview
  *
@@ -66,28 +67,28 @@ export class IrGuestDocumentPreview {
     }
     getDialogLabel() {
         if (!this.request)
-            return 'Preview';
+            return t('Lcz_Preview', { fallback: 'Preview' });
         const typeLabel = this.getTypeLabel(this.request.fdTypeCode);
         return this.request.documentNumber ? `${typeLabel} #${this.request.creditNoteDocNumber ?? this.request.documentNumber}` : typeLabel;
     }
     getTypeLabel(fdTypeCode) {
         switch (fdTypeCode) {
             case FdTypes.Invoice:
-                return 'Invoice';
+                return t('Lcz_DocumentTypeInvoice', { fallback: 'Invoice' });
             case FdTypes.Draft:
-                return 'Draft Invoice';
+                return t('Lcz_DraftInvoice', { fallback: 'Draft Invoice' });
             case FdTypes.CreditNote:
-                return 'Credit Note';
+                return t('Lcz_DocumentTypeCreditNote', { fallback: 'Credit Note' });
             case FdTypes.DebitNote:
-                return 'Debit Note';
+                return t('Lcz_DocumentTypeDebitNote', { fallback: 'Debit Note' });
             case FdTypes.Receipt:
-                return 'Receipt';
+                return t('Lcz_DocumentTypeReceipt', { fallback: 'Receipt' });
             case FdTypes.Refund:
-                return 'Refund';
+                return t('Lcz_Refund', { fallback: 'Refund' });
             case FdTypes.Proforma:
-                return 'Proforma Invoice';
+                return t('Lcz_ProformaInvoice', { fallback: 'Proforma Invoice' });
             default:
-                return 'Document';
+                return t('Lcz_Document', { fallback: 'Document' });
         }
     }
     async handleDownload() {
@@ -105,13 +106,13 @@ export class IrGuestDocumentPreview {
     }
     render() {
         const isOpen = this.pdfUrl !== null || this.isLoading;
-        return (h(Host, { key: '0c1b88f25051a9d00506a8adaa85708594a6bbc8' }, h("ir-preview-screen-dialog", { key: '023a283f5b2271c15e520332582b95144a52204f', open: isOpen, label: this.getDialogLabel(), action: "print", hideDefaultAction: true, onOpenChanged: e => {
+        return (h(Host, { key: '5635b9cb976c2f8043386cd55c98bacff04f6a93' }, h("ir-preview-screen-dialog", { key: '06e9f44d7f93b285fe116bfcc16424ac2b98f1a1', open: isOpen, label: this.getDialogLabel(), action: "print", hideDefaultAction: true, onOpenChanged: e => {
                 if (!e.detail) {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.resetPreview();
                 }
-            } }, this.pdfUrl && (h("ir-custom-button", { key: 'b99bd1f3027d5dc88d9fc7da017f4b3c3e136d9a', slot: "header-actions", size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '3ce5f4401386d3ac5b6aa2079b871aee964a9096', name: "download", style: { fontSize: '1.2rem' }, label: "Download PDF" }))), this.renderBody())));
+            } }, this.pdfUrl && (h("ir-custom-button", { key: '52e226c6c6f9ff31338bef64c950a35012aa545d', slot: "header-actions", size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: 'd5df819b4a3ca41b939e83d60960454fefd9dec8', name: "download", style: { fontSize: '1.2rem' }, label: t('Lcz_DownloadPdfTooltip', { fallback: 'Download PDF' }) }))), this.renderBody())));
     }
     static get is() { return "ir-guest-document-preview"; }
     static get encapsulation() { return "scoped"; }

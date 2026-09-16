@@ -1,18 +1,18 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
+var index = require('./index-CQkpA5n3.js');
 var chart = require('./chart-CMmD0hzI.js');
 var moment = require('./moment-CdViwxPQ.js');
-var dp_report_store = require('./dp_report.store-CPDI7r2E.js');
-require('./calendar-data-BjlxOXi1.js');
-require('./booking.dto-kenLHU-o.js');
-var irDate = require('./ir-date-DUrZBFOV.js');
-require('./locales.store-DIYxw5lk.js');
-var number = require('./number-CTy3I_TP.js');
+var dp_report_store = require('./dp_report.store-C_823WV7.js');
+require('./calendar-data-UPPAEVR_.js');
+require('./booking.dto-CUSvGTvD.js');
+var irDate = require('./ir-date-BZLsqCOc.js');
+var t = require('./t-CyRK1btk.js');
+var number = require('./number-D7i5wAQq.js');
 var useTable = require('./useTable-BN32DOaV.js');
-require('./index-BLJXadKe.js');
-require('./index-CLqkDPTC.js');
-require('./type-Dy9pVS4V.js');
+require('./locales.store-BMTss6fG.js');
+require('./type-Bj2x9EWc.js');
+require('./types-BVJQZ50e.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 
@@ -98,7 +98,7 @@ const IrDpReportChart = class {
     buildDataset(rows) {
         const successColor = this.getCssVar('--wa-color-success-fill-loud');
         return {
-            label: 'Gain / Reduction',
+            label: t.t('Lcz_GainReduction', { fallback: 'Gain / Reduction' }),
             data: rows.map(r => this.clampProfit(r.profit)),
             backgroundColor: successColor,
             hoverBackgroundColor: successColor,
@@ -165,14 +165,14 @@ const IrDpReportChart = class {
         const profit = this.clampProfit(row.profit);
         const effectRow = document.createElement('div');
         effectRow.className = 'dp-chart-tooltip__row';
-        effectRow.append(`Dynamic pricing effect: `);
+        effectRow.append(`${t.t('Lcz_DynamicPricingEffect', { fallback: 'Dynamic Pricing Effect' })}: `);
         const effectValue = document.createElement('span');
         effectValue.className = 'dp-chart-tooltip__value dp-chart-tooltip__value--gain';
         effectValue.textContent = `+${number.formatAmount(row.currencySymbol, profit)}`;
         effectRow.appendChild(effectValue);
         const valueRow = document.createElement('div');
         valueRow.className = 'dp-chart-tooltip__row';
-        valueRow.textContent = `Total stay value: ${number.formatAmount(row.currencySymbol, row.accommodationGross)}`;
+        valueRow.textContent = `${t.t('Lcz_TotalStayValue', { fallback: 'Total stay value:' })} ${number.formatAmount(row.currencySymbol, row.accommodationGross)}`;
         container.append(header, effectRow, valueRow);
     }
     handleTooltip = (context) => {
@@ -273,7 +273,7 @@ const IrDpReportChart = class {
             return (index.h(index.Host, null, index.h("div", { class: "dp-chart__loading" }, index.h("ir-spinner", null))));
         }
         if (dp_report_store.dp_report.rows.length === 0) {
-            return (index.h(index.Host, null, index.h("div", { class: "dp-chart-container dp-chart-container--empty" }, index.h("ir-empty-state", { message: "No dynamic pricing data for this date range." }))));
+            return (index.h(index.Host, null, index.h("div", { class: "dp-chart-container dp-chart-container--empty" }, index.h("ir-empty-state", { message: t.t('Lcz_NoDynamicPricingData', { fallback: 'No dynamic pricing data for this date range.' }) }))));
         }
         return (index.h(index.Host, null, index.h("div", { class: "dp-chart-container" }, index.h("canvas", { ref: this.handleCanvasRef }))));
     }
@@ -303,12 +303,12 @@ const IrDpReportFilters = class {
      * (see `quickDatesMode="range"` on ir-date-range-filter); picked from the to-side it sets
      * from-date to this anchor *and* to-date to today, producing a complete last-N-days range.
      */
-    quickDates = [
-        { label: '7 Days Ago', getDate: () => moment.hooks().subtract(7, 'days') },
-        { label: '14 Days Ago', getDate: () => moment.hooks().subtract(14, 'days') },
-        { label: '30 Days Ago', getDate: () => moment.hooks().subtract(30, 'days') },
-        { label: '90 Days Ago', getDate: () => moment.hooks().subtract(90, 'days') },
-    ];
+    get quickDates() {
+        return [7, 14, 30, 90].map(days => ({
+            label: t.t('Lcz_DaysAgo', { fallback: '%1 Days Ago', params: [number.formatCount(days)] }),
+            getDate: () => moment.hooks().subtract(days, 'days'),
+        }));
+    }
     handleDatesChanged = (e) => {
         e.stopImmediatePropagation();
         e.stopPropagation();
@@ -322,7 +322,7 @@ const IrDpReportFilters = class {
         this.dpFiltersChange.emit({ from: dp_report_store.dp_report.filters.from, to: dp_report_store.dp_report.filters.to });
     };
     render() {
-        return (index.h("div", { key: 'd3d5d062b6a0ba9feb629098b2593016408529bd', class: "dp-report-filters" }, index.h("ir-date-range-filter", { key: 'af5f037815dcd7f15dbb65fce5fc57852da95ee7', class: "dp-report-filters__date-picker", fromDate: dp_report_store.dp_report.filters.from, toDate: dp_report_store.dp_report.filters.to, minDate: this.minDate, maxDate: moment.hooks().format('YYYY-MM-DD'), showQuickActions: true, quickDates: this.quickDates, quickDatesMode: "range", withClear: false, selectionMode: "auto", onDatesChanged: this.handleDatesChanged }), index.h("wa-tooltip", { key: '8883bd11899c0ddc453db2de0d6fb69c39580f43', for: "search-btn" }, "Search"), index.h("ir-custom-button", { key: '88b7b2fc803ec8ae22d3ce00dab08ee87a9cf8c2', id: "search-btn", loading: dp_report_store.dp_report.isLoading, disabled: dp_report_store.dp_report.isLoading, onClickHandler: this.handleSearch, variant: "neutral", appearance: "outlined" }, index.h("wa-icon", { key: '52ba1d0e54d2153ae4c7152187a03a36ea865b11', name: "magnifying-glass" }))));
+        return (index.h("div", { key: '834899d79e53ee97e69cac52369a3f887b1f96fd', class: "dp-report-filters" }, index.h("ir-date-range-filter", { key: '274a131fbbdeec19d1725e1308ba0ff9db972acf', class: "dp-report-filters__date-picker", fromDate: dp_report_store.dp_report.filters.from, toDate: dp_report_store.dp_report.filters.to, minDate: this.minDate, maxDate: moment.hooks().format('YYYY-MM-DD'), showQuickActions: true, quickDates: this.quickDates, quickDatesMode: "range", withClear: false, selectionMode: "auto", onDatesChanged: this.handleDatesChanged }), index.h("wa-tooltip", { key: '7a6cb0e881308fb8e9a869016f6d1b59f3dd20d4', for: "search-btn" }, t.t('Lcz_Search', { fallback: 'Search' })), index.h("ir-custom-button", { key: '48a34fe3629890258303fd0198615e485c31d1dc', id: "search-btn", loading: dp_report_store.dp_report.isLoading, disabled: dp_report_store.dp_report.isLoading, onClickHandler: this.handleSearch, variant: "neutral", appearance: "outlined" }, index.h("wa-icon", { key: '9b1ad0828dcc8004dd22f252bfda56aa9b0a657c', name: "magnifying-glass" }))));
     }
 };
 IrDpReportFilters.style = irDpReportFiltersCss();
@@ -341,11 +341,11 @@ const IrDpReportSummary = class {
         const totalNbOfProfitableBooking = dp_report_store.dp_report.rows.filter(row => row.profit > 0).length;
         // const totalRevenue = dp_report.rows.reduce((sum, row) => sum + row.accommodationGross, 0);
         // const dpContributionPct = totalRevenue !== 0 ? Number(((summary.total_profit / totalRevenue) * 100).toFixed(1)) : 0;
-        return (index.h(index.Host, { key: 'd484fa0acc3439ed2fa7b415e7f4af064e11e035' }, index.h("div", { key: '74828795ee7ad0fd3fe037541f87ebc03e40c99f', class: "dp-summary__row" }, index.h("ir-metric-card", { key: '162a6c900a5cc366d3336438e0ad91fd2a64170b', class: "dp-summary__metric", icon: "sack-dollar", label: "Extra Profit Generated", loading: loading, value: number.formatAmount(currencySymbol, summary.total_profit),
+        return (index.h(index.Host, { key: '291c1729c0129506724a2d730a88def2ac6d2678' }, index.h("div", { key: 'f2e308929d8557d07c8f5e197a973c34ccb7df32', class: "dp-summary__row" }, index.h("ir-metric-card", { key: 'ad0cc0c452dd70ba52227c5c8cb2e29f13bfc488', class: "dp-summary__metric", icon: "sack-dollar", label: t.t('Lcz_ExtraProfitGenerated', { fallback: 'Extra Profit Generated' }), loading: loading, value: number.formatAmount(currencySymbol, summary.total_profit),
             // trend={dpContributionPct}
-            caption: `from ${totalNbOfProfitableBooking} / ${totalBookings} booking${totalBookings === 1 ? '' : 's'}` }), index.h("ir-metric-card", { key: '1173db97c5aa33a8b1dd26ad156f87503102a822', class: "dp-summary__metric --gain", icon: "arrow-trend-up", label: "Avg Gain", loading: loading, value: number.formatAmount(currencySymbol, summary.avg_gain),
+            caption: t.t('Lcz_FromNOfMBookings', { fallback: 'from %1 / %2 booking(s)', params: [number.formatCount(totalNbOfProfitableBooking), number.formatCount(totalBookings)] }) }), index.h("ir-metric-card", { key: '4d32d825f906fd76984ce6ab1f9e8b283724cfea', class: "dp-summary__metric --gain", icon: "arrow-trend-up", label: t.t('Lcz_AvgGain', { fallback: 'Avg Gain' }), loading: loading, value: number.formatAmount(currencySymbol, summary.avg_gain),
             // caption={`from ${summary.bookings_above_base} booking${summary.bookings_above_base === 1 ? '' : 's'}`}
-            caption: `per booking` }), index.h("ir-metric-card", { key: '6c79092361d8fe255483fb6a49b9e51149e37a47', class: "dp-summary__metric --loss", icon: "arrow-trend-down", label: "Extra Bookings from Applied Incentives", loading: loading, value: summary.bookings_below_base, caption: `${number.formatAmount(currencySymbol, summary.avg_loss)}/booking${summary.bookings_below_base === 1 ? '' : 's'} average reduction` }))));
+            caption: t.t('Lcz_PerBooking', { fallback: 'per booking' }) }), index.h("ir-metric-card", { key: '4238dc9a116e3e8ba585ef067797f9ed6404cf03', class: "dp-summary__metric --loss", icon: "arrow-trend-down", label: t.t('Lcz_ExtraBookingsFromAppliedIncentives', { fallback: 'Extra Bookings from Applied Incentives' }), loading: loading, value: summary.bookings_below_base, caption: t.t('Lcz_AmountPerBookingAverageReduction', { fallback: '%1/booking(s) average reduction', params: [number.formatAmount(currencySymbol, summary.avg_loss)] }) }))));
     }
 };
 IrDpReportSummary.style = irDpReportSummaryCss();
@@ -363,7 +363,7 @@ const IrDpReportTable = class {
     columns = [
         this.columnHelper.display({
             id: 'booking_nbr',
-            header: 'Booking #',
+            header: t.t('Lcz_BookingNumberColumn', { fallback: 'Booking #' }),
             cell: info => {
                 const row = info.row.original;
                 return index.h("ir-booking-number-cell", { class: "dp-report__booking-nbr-cell", bookingNumber: row.booking_nbr, origin: row.raw.origin });
@@ -371,12 +371,12 @@ const IrDpReportTable = class {
         }),
         this.columnHelper.display({
             id: 'booked_on',
-            header: 'Booked on',
+            header: t.t('Lcz_BookedOn', { fallback: 'Booked on' }),
             cell: info => index.h("ir-booked-on-cell", { showTime: false, bookedOn: info.row.original.raw.booked_on }),
         }),
         this.columnHelper.display({
             id: 'booked_by',
-            header: 'Booked by',
+            header: t.t('Lcz_BookedBy', { fallback: 'Booked by' }),
             cell: info => {
                 const row = info.row.original;
                 return index.h("ir-booked-by-cell", { guest: row.raw.guest, identifier: row.booking_nbr, clickableGuest: true });
@@ -384,17 +384,17 @@ const IrDpReportTable = class {
         }),
         this.columnHelper.display({
             id: 'dates',
-            header: 'Dates',
+            header: t.t('Lcz_Dates', { fallback: 'Dates' }),
             cell: info => index.h("ir-dates-cell", { display: "inline", showArrow: true, checkIn: info.row.original.raw.from_date, checkOut: info.row.original.raw.to_date }),
         }),
         this.columnHelper.display({
             id: 'units',
-            header: 'Units booked',
-            cell: info => index.h("span", null, info.row.original.raw.rooms_length),
+            header: t.t('Lcz_UnitsBooked', { fallback: 'Units booked' }),
+            cell: info => index.h("span", null, number.formatCount(info.row.original.raw.rooms_length)),
         }),
         this.columnHelper.accessor('profit', {
             id: 'effect',
-            header: 'Effect',
+            header: t.t('Lcz_Effect', { fallback: 'Effect' }),
             cell: info => this.renderEffect(info.row.original),
         }),
     ];
@@ -429,7 +429,7 @@ const IrDpReportTable = class {
             columns: this.columns,
             getCoreRowModel: useTable.getCoreRowModel(),
         });
-        return (index.h("div", { key: 'ee0e69c59a9ad455b3e011be383116d70e1a6519', class: "dp-report-table" }, index.h("div", { key: 'b4542f22a8d5aa10ac9a7b65aee116fbbb3a5604', class: "table--container" }, index.h("table", { key: '94dea88f3b448c9615e7b1540c24693374602505', class: "table data-table" }, index.h("thead", { key: '50977e1be038fa8c491d89465b5152549a382db9' }, table.getHeaderGroups().map(headerGroup => (index.h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (index.h("th", { key: header.id, class: { 'cell--align-end': header.column.id === 'effect', 'cell--align-center': header.column.id === 'units' } }, useTable.flexRender(header.column.columnDef.header, header.getContext())))))))), index.h("tbody", { key: 'a9838d22c7582b76bbfaad5f28430e2da0463f4d' }, dp_report_store.dp_report.isLoading ? (index.h("tr", null, index.h("td", { colSpan: this.columns.length, class: "empty-row" }, index.h("ir-spinner", null)))) : table.getRowModel().rows.length === 0 ? (index.h("tr", null, index.h("td", { colSpan: this.columns.length, class: "empty-row" }, index.h("ir-empty-state", { message: "No dynamic pricing data for this date range." })))) : (table.getRowModel().rows.map(row => (index.h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (index.h("td", { key: cell.id, class: { 'cell--align-end': cell.column.id === 'effect', 'cell--align-center': cell.column.id === 'units' } }, useTable.flexRender(cell.column.columnDef.cell, cell.getContext()))))))))))), index.h("ir-pagination", { key: 'ba86486fa265abb46aa4022393846a5fc07f06e5', class: "dp-report-table__pagination", total: total, pages: pageCount, pageSize: pageSize, currentPage: currentPage, allowPageSizeChange: true, pageSizes: this.pageSizes, showing: { from: total ? startIndex + 1 : 0, to: Math.min(startIndex + pageSize, total) }, recordLabel: "bookings", onPageChange: this.handlePageChange, onPageSizeChange: this.handlePageSizeChange })));
+        return (index.h("div", { key: 'd889b544f6f029d1c4aea7ef904d629ed86ff694', class: "dp-report-table" }, index.h("div", { key: '116829a36303011b61173628ea85fc98da7eec4e', class: "table--container" }, index.h("table", { key: '34183f3b34c2c781c0965e6cf4545acc22b6aa4c', class: "table data-table" }, index.h("thead", { key: 'd3d512c678570fd30f19b9c443a0f10967dd5b16' }, table.getHeaderGroups().map(headerGroup => (index.h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (index.h("th", { key: header.id, class: { 'cell--align-end': header.column.id === 'effect', 'cell--align-center': header.column.id === 'units' } }, useTable.flexRender(header.column.columnDef.header, header.getContext())))))))), index.h("tbody", { key: '0590e597d2ddef207a0a66e9c188679a95f42e45' }, dp_report_store.dp_report.isLoading ? (index.h("tr", null, index.h("td", { colSpan: this.columns.length, class: "empty-row" }, index.h("ir-spinner", null)))) : table.getRowModel().rows.length === 0 ? (index.h("tr", null, index.h("td", { colSpan: this.columns.length, class: "empty-row" }, index.h("ir-empty-state", { message: t.t('Lcz_NoDynamicPricingData', { fallback: 'No dynamic pricing data for this date range.' }) })))) : (table.getRowModel().rows.map(row => (index.h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (index.h("td", { key: cell.id, class: { 'cell--align-end': cell.column.id === 'effect', 'cell--align-center': cell.column.id === 'units' } }, useTable.flexRender(cell.column.columnDef.cell, cell.getContext()))))))))))), index.h("ir-pagination", { key: 'f6ce1d38c1ff27f4b6a0e0414c5a59d76bed230b', class: "dp-report-table__pagination", total: total, pages: pageCount, pageSize: pageSize, currentPage: currentPage, allowPageSizeChange: true, pageSizes: this.pageSizes, showing: { from: total ? startIndex + 1 : 0, to: Math.min(startIndex + pageSize, total) }, recordLabel: "bookings", onPageChange: this.handlePageChange, onPageSizeChange: this.handlePageSizeChange })));
     }
 };
 IrDpReportTable.style = irDpReportTableCss() + tableCss();

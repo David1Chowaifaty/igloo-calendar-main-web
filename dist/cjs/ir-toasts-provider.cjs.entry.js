@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
+var index = require('./index-CQkpA5n3.js');
 
 const irToastsProviderCss = () => `:host{display:none}`;
 

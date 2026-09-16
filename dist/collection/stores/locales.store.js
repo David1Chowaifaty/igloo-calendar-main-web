@@ -2,7 +2,7 @@ import { createStore } from "@stencil/store";
 const initialState = {
     entries: null,
     direction: 'ltr',
-    language: 'en',
+    language: null,
     loadedTables: [],
     status: 'idle',
 };

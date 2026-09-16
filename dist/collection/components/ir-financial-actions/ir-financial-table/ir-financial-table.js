@@ -1,17 +1,18 @@
 import { h } from "@stencil/core";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
+import { t } from "../../../services/locale/t";
 export class IrFinancialTable {
     financialActionsOpenSidebar;
     render() {
-        return (h("div", { key: '461e64a6262ed15573c1c3f69baf63abd0bc7b39', class: "table-container h-100 p-1 m-0 mb-2 table-responsive" }, h("table", { key: 'bb5c6413d219eaec06cfa1806f08df7468dbc128', class: "table", "data-testid": "hk_tasks_table" }, h("thead", { key: '4eb385fe6fc2b2ae170385c5930de7fe8c632714', class: "table-header" }, h("tr", { key: '394da3b43a6db9dbf839bf86c58686c3474f3acb' }, h("th", { key: 'cc476c1fd290bf536153280ac768b453fffe0bce', class: "text-center" }, "Date"), h("th", { key: 'de228f4b021c5511cd58503f5d82448af130de8a', class: "text-center" }, "Booking"), h("th", { key: 'bc3d4683262b5904264f4373a3d524707ae3d001', class: "text-center" }, "By direct"), h("th", { key: '9a8a84805b7b702cf0dcd7861f66d301775a5d4f', class: "ir-text-end" }, "Amount"), h("th", { key: '22d5eed487f23812c79112255cc6e2c5b244ae2d', class: "text-center" }))), h("tbody", { key: 'af7f2d5bc2d7ca5312a08f4a95fbbbc2352c3f82' }, h("tr", { key: 'e59945d2534bf959f7e855a6540dbe427c565161', class: "ir-table-row" }, h("td", { key: 'b9ca0ebed162446b5116d63d9ebd04a302538a4f', class: "text-center" }, "1"), h("td", { key: 'a2e04f7e6519d46a95d64a9e7f3665f3a1a92bfe', class: "text-center" }, h("ir-button", { key: '56b8a7feb687e4504f45ab4ba943b8e9f1190c2c', btn_color: "link", size: "sm", text: "31203720277", onClickHandler: () => {
+        return (h("div", { key: '151820ea41b9410199ff8030720a77c2fa72449e', class: "table-container h-100 p-1 m-0 mb-2 table-responsive" }, h("table", { key: '312ce4e69009fc52a24aaa72665fd00c69c4c4d0', class: "table", "data-testid": "hk_tasks_table" }, h("thead", { key: '6ab6b4e95f3a8d4cf1d3ebda680559d802d9baae', class: "table-header" }, h("tr", { key: '495e2611a59f4e456688e33d8d7914222ce2159e' }, h("th", { key: '98f165aafabdfb8d8a04669aef0ebae3cc206617', class: "text-center" }, t('Lcz_DateLabel', { fallback: 'Date' })), h("th", { key: 'd0c2daec2a471b258eb9ac0c65f4b04f0a518433', class: "text-center" }, "Booking"), h("th", { key: 'f397e35ee298e7cbb5fc20dbe2ab44bc0ff83ce9', class: "text-center" }, t('Lcz_ByDirect', { fallback: 'By direct' })), h("th", { key: '789ef85268d78a9384876b4404c6fc8c8617c211', class: "ir-text-end" }, t('Lcz_Amount', { fallback: 'Amount' })), h("th", { key: '66cf0590c34a8463741f2d609d6cec051c26698a', class: "text-center" }))), h("tbody", { key: 'd0a915423178e7248a721fe5b5beb7ac2ff54adc' }, h("tr", { key: 'b80e78d780d43a7d22040040269f616bc8eb3ccb', class: "ir-table-row" }, h("td", { key: '756a7e3a6cf3cc102c74c1a7d194ca3e9b137f57', class: "text-center" }, "1"), h("td", { key: '7d13eb5776f652b36dd119af2242ab4a7f30ebbe', class: "text-center" }, h("ir-button", { key: 'bf6e2c55f6c386930c9eca8ec4792143ac863479', btn_color: "link", size: "sm", text: "31203720277", onClickHandler: () => {
                 this.financialActionsOpenSidebar.emit({
                     type: 'booking',
                     payload: {
                         bookingNumber: 31203720277,
                     },
                 });
-            } })), h("td", { key: 'b44e926d1b5540932e556686578bc2e4e126e280', class: "text-center" }, "1"), h("td", { key: '49fd6d88b20aedfc024e18ab273bb8fb499e35bc', class: "ir-text-end" }, "1"), h("td", { key: 'f2bd03549324d5f22796526fd3c48d7682a66325' }, h("ir-button", { key: '47f046f3e4dd8eef1206d074cd57a6080e9f4930', size: "sm", text: "Pay", onClickHandler: () => {
+            } })), h("td", { key: '4b834f5d3a892b441f775d6b868698fb2979f8bf', class: "text-center" }, "1"), h("td", { key: 'a4790bae7e9eb9dc1bac4a2294d42ebc093267bc', class: "ir-text-end" }, "1"), h("td", { key: '5a86031b4bcb95876322214058d888d92c80d6a0' }, h("ir-button", { key: '301dd52f515618304afead461aa2c47a91e67d55', size: "sm", text: t('Lcz_Pay', { fallback: 'Pay' }), onClickHandler: () => {
                 this.financialActionsOpenSidebar.emit({
                     type: 'payment',
                     payload: {

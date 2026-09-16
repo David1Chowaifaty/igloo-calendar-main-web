@@ -1,15 +1,16 @@
 import { departuresStore, setDeparturesReferenceDate, setDeparturesSearchTerm } from "../../../stores/departures.store";
 import { h } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 export class IrDeparturesFilter {
     handleSearchChange = (event) => {
         setDeparturesSearchTerm(event.detail ?? '');
     };
     render() {
-        return (h("div", { key: '8dd537ddd8add893cee88882dbf25bcb07ca1b68', class: "departures-filters__container" }, h("ir-date-select", { key: 'd3e412ff7d74e5431e600c8839c3ad315a88f53e', onDateChanged: e => {
+        return (h("div", { key: '2879be9303157c333341c55c03a01707cf42d320', class: "departures-filters__container" }, h("ir-date-select", { key: '0be7ee86f9dbf2e42c223ca8e0b8cdb37a49caa3', onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 setDeparturesReferenceDate(e.detail.start.format('YYYY-MM-DD'));
-            }, date: departuresStore.today, class: "departures-filters__date-picker" }, h("wa-icon", { key: 'f4b6555862c09d6424e64c77db1dc522106d6e72', name: "calendar", slot: "start" })), h("ir-input", { key: '1588868fe65d278a1d0a7e4785af01fd7d9b5d28', withClear: true, class: "departures-filters__search-bar", placeholder: "Search guests or bookings", value: departuresStore.searchTerm, "onText-change": this.handleSearchChange }, h("wa-icon", { key: 'ca3dbaad334f4cb34b2ca9c20f62ece51f5483a8', name: "magnifying-glass", slot: "start" }))));
+            }, date: departuresStore.today, class: "departures-filters__date-picker" }, h("wa-icon", { key: 'ad7e1356d8dc1cc36b9c55200e60386912ee94ed', name: "calendar", slot: "start" })), h("ir-input", { key: 'eac8b6809d55e50977d82ebe4233abf14a964833', withClear: true, class: "departures-filters__search-bar", placeholder: t('Lcz_SearchGuestsOrBookings', { fallback: 'Search guests or bookings' }), value: departuresStore.searchTerm, "onText-change": this.handleSearchChange }, h("wa-icon", { key: 'b3778e0d19ed0299bc5dcd01c99fcc859abadd99', name: "magnifying-glass", slot: "start" }))));
     }
     static get is() { return "ir-departures-filter"; }
     static get encapsulation() { return "scoped"; }

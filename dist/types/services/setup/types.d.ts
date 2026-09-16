@@ -200,20 +200,20 @@ export declare const ZExposedLanguageSchema: z.ZodObject<{
     flag: z.ZodString;
     id: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    id?: number;
     code?: string;
-    entries?: null;
-    culture?: string;
     description?: string;
+    entries?: null;
     direction?: string;
+    id?: number;
+    culture?: string;
     flag?: string;
 }, {
-    id?: number;
     code?: string;
-    entries?: null;
-    culture?: string;
     description?: string;
+    entries?: null;
     direction?: string;
+    id?: number;
+    culture?: string;
     flag?: string;
 }>;
 export type ExposedLanguage = z.infer<typeof ZExposedLanguageSchema>;
@@ -226,20 +226,20 @@ export declare const ZExposedLanguagesSchema: z.ZodArray<z.ZodObject<{
     flag: z.ZodString;
     id: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    id?: number;
     code?: string;
-    entries?: null;
-    culture?: string;
     description?: string;
+    entries?: null;
     direction?: string;
+    id?: number;
+    culture?: string;
     flag?: string;
 }, {
-    id?: number;
     code?: string;
-    entries?: null;
-    culture?: string;
     description?: string;
+    entries?: null;
     direction?: string;
+    id?: number;
+    culture?: string;
     flag?: string;
 }>, "many">;
 export type ExposedLanguages = z.infer<typeof ZExposedLanguagesSchema>;

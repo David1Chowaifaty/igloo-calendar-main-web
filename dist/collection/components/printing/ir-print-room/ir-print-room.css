@@ -341,3 +341,12 @@ body {
     display: block;
   }
 }
+
+/* `Lcz_GuestName` is sentence case; the print shows it as "Guest Name:". */
+.ir-print-room__label--capitalize::part(label) {
+  text-transform: capitalize;
+}
+/* `Lcz_Child` / `Lcz_Children` are capitalised; the occupancy line reads "2 adults  1 child". */
+.ir-print-room__label--lowercase::part(content) {
+  text-transform: lowercase;
+}

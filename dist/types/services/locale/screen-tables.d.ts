@@ -1,13 +1,14 @@
 /**
- * Merged into every request. `_PMS_FRONT` is the shared vocabulary — the words
- * every screen renders — so no entry below has to list it.
+ * Merged into every request. `_PMS_FRONT` is the backend's shared vocabulary and
+ * `_COMMON` is the hardcoded-label migration catalog's shared module — the words
+ * every screen renders — so no entry below has to list either.
  *
  * Nothing else belongs here. `_USER_MGT` looks like a candidate because
  * `ir-interceptor` can raise the OTP dialog over any page, but that dialog mounts
  * lazily and loads the table itself, so putting it in the base set would charge
  * every screen 47 keys it usually never shows.
  */
-export declare const BASE_TABLES: readonly ["_PMS_FRONT"];
+export declare const BASE_TABLES: readonly ["_COMMON"];
 /**
  * The setup tables each screen needs, on top of {@link LocaleController.BASE_TABLES}.
  *
@@ -41,31 +42,40 @@ export declare const BASE_TABLES: readonly ["_PMS_FRONT"];
  * `_PMS_FRONT` never appears below — it is a base table, merged into every request.
  */
 export declare const SCREEN_TABLES: {
-    readonly arrivals: readonly ["_BOOKING_LIST_FRONT"];
-    readonly bookingDetails: readonly [];
-    readonly bookingEditor: readonly [];
-    readonly bookingListing: readonly ["_BOOKING_LIST_FRONT"];
-    readonly bookingPrinting: readonly [];
-    readonly bookProperty: readonly [];
-    readonly calendar: readonly ["_USER_MGT"];
-    readonly channel: readonly ["_CHANNEL_FRONT"];
-    readonly cityLedger: readonly [];
-    readonly dailyRevenue: readonly [];
-    readonly departures: readonly ["_BOOKING_LIST_FRONT"];
-    readonly dpReport: readonly ["_BOOKING_LIST_FRONT"];
-    readonly financialActions: readonly [];
-    readonly fiscalDocuments: readonly [];
-    readonly gapNights: readonly [];
+    readonly agents: readonly ["_AGENTS"];
+    readonly arrivals: readonly ["_BOOKING_LIST_FRONT", "_FRONTDESK", "_BOOKING"];
+    readonly bookingDetails: readonly ["_PMS_FRONT", "_FINANCIALS", "_BOOKING", "_CALENDAR"];
+    readonly bookingEditor: readonly ["_CALENDAR"];
+    readonly bookingListing: readonly ["_BOOKING_LIST_FRONT", "_BOOKING"];
+    readonly bookingPrinting: readonly ["_BOOKING"];
+    readonly bookProperty: readonly ["_CALENDAR"];
+    readonly calendar: readonly ["_USER_MGT", "_CALENDAR", "_HOUSEKEEPING", "_PMS_FRONT", "_BOOKING"];
+    readonly channel: readonly ["_CHANNEL_FRONT", "_SETTINGS"];
+    readonly cityLedger: readonly ["_FINANCIALS"];
+    readonly dailyRevenue: readonly ["_REPORTS"];
+    readonly departures: readonly ["_BOOKING_LIST_FRONT", "_BOOKING"];
+    readonly dpReport: readonly ["_BOOKING_LIST_FRONT", "_REPORTS"];
+    readonly extraServicesSettings: readonly ["_SETTINGS"];
+    readonly financialActions: readonly ["_FINANCIALS", "_BOOKING"];
+    readonly fiscalDocuments: readonly ["_FINANCIALS"];
+    readonly gapNights: readonly ["_CALENDAR"];
+    readonly ghsOnboarding: readonly ["_GUESTS"];
     readonly guestInfo: readonly [];
-    readonly housekeeping: readonly ["_CHANNEL_FRONT", "_HK_FRONT"];
-    readonly hkTasks: readonly ["_BOOKING_LIST_FRONT"];
-    readonly monthlyBookingsReport: readonly [];
+    readonly housekeeping: readonly ["_HK_FRONT", "_HOUSEKEEPING"];
+    readonly invoice: readonly ["_FINANCIALS", "_BOOKING"];
+    readonly hkStaffTasks: readonly ["_HOUSEKEEPING"];
+    readonly hkTasks: readonly ["_HOUSEKEEPING"];
+    readonly login: readonly ["_AUTH"];
+    readonly mealReport: readonly ["_REPORTS"];
+    readonly monthlyBookingsReport: readonly ["_REPORTS"];
     readonly otpModal: readonly ["_USER_MGT"];
     readonly paymentOption: readonly ["_PAYMENT_BACK"];
-    readonly resetPassword: readonly ["_USER_MGT"];
-    readonly salesByChannel: readonly [];
-    readonly salesByCountry: readonly [];
-    readonly uninvoicedBookings: readonly ["_BOOKING_LIST_FRONT"];
-    readonly userManagement: readonly ["_USER_MGT"];
+    readonly pmsPage: readonly ["_PMS", "_CALENDAR"];
+    readonly queueManager: readonly ["_FRONTDESK"];
+    readonly resetPassword: readonly ["_USER_MGT", "_AUTH"];
+    readonly salesByChannel: readonly ["_REPORTS"];
+    readonly salesByCountry: readonly ["_REPORTS"];
+    readonly uninvoicedBookings: readonly ["_BOOKING_LIST_FRONT", "_BOOKING"];
+    readonly userManagement: readonly ["_USER_MGT", "_AUTH"];
 };
 export type ScreenName = keyof typeof SCREEN_TABLES;

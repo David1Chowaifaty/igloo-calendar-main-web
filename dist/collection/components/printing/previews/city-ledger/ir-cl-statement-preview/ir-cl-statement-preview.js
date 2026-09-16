@@ -3,9 +3,11 @@ import { CityLedgerService } from "../../../../../services/city-ledger/index";
 import { PropertyService } from "../../../../../services/property.service";
 import { formatAmount } from "../../../../../utils/utils";
 import ApiClient from "../../../../../models/ApiClient";
-import moment from "moment";
 import { FdTypes } from "../../../../../types/enums";
 import { LocaleController } from "../../../../../services/locale/locale.controller";
+import { t } from "../../../../../services/locale/t";
+import { formatBookingNumber } from "../../../../../utils/number";
+import { formatDate } from "../../../../../utils/date/index";
 const DATE_DISPLAY = 'MMM DD, YYYY';
 export class IrClStatementPreview {
     propertyId;
@@ -68,7 +70,7 @@ export class IrClStatementPreview {
             this.fiscalDocuments = fiscalDocuments ?? [];
         }
         catch (e) {
-            this.error = e?.message ?? 'Failed to load statement data.';
+            this.error = e?.message ?? t('Lcz_FailedToLoadStatementData', { fallback: 'Failed to load statement data.' });
         }
         finally {
             this.isLoading = false;
@@ -76,7 +78,7 @@ export class IrClStatementPreview {
     }
     render() {
         if (!this.ticket) {
-            return (h(Host, null, h("div", { class: "document-state document-state--error" }, "Authentication ticket is required.")));
+            return (h(Host, null, h("div", { class: "document-state document-state--error" }, t('Lcz_AuthTicketRequired', { fallback: 'Authentication ticket is required.' }))));
         }
         if (this.isLoading) {
             return (h(Host, null, h("div", { class: "document-state" }, h("ir-spinner", null))));
@@ -85,18 +87,18 @@ export class IrClStatementPreview {
             return (h(Host, null, h("div", { class: "document-state document-state--error" }, this.error)));
         }
         if (!this.statement) {
-            return (h(Host, null, h("div", { class: "document-state document-state--error" }, "No statement data found.")));
+            return (h(Host, null, h("div", { class: "document-state document-state--error" }, t('Lcz_NoStatementDataFound', { fallback: 'No statement data found.' }))));
         }
         const { STARTING_BALANCE, ENDING_BALANCE } = this.statement;
         const currency = this.property?.currency?.symbol ?? '$';
         const fmt = (v) => (v != null ? formatAmount(currency, v) : '—');
-        return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '1.75rem' }, property: this.property, agentName: this.agentName, documentType: "statement" }), h("table", { class: "cl-table" }, h("thead", null, h("tr", null, h("th", { class: "cl-th" }, "Date"), h("th", { class: "cl-th" }, "Document #"), h("th", { class: "cl-th" }, "Type"), h("th", { class: "cl-th cl-th--num" }, "Debit"), h("th", { class: "cl-th cl-th--num" }, "Credit"), h("th", { class: "cl-th cl-th--num" }, "Balance"))), h("tbody", null, h("tr", { class: "cl-balance-row" }, h("td", { class: "cl-td", colSpan: 3 }, "Opening Balance \u2014 ", moment(this.fromDate).format(DATE_DISPLAY)), h("td", { class: "cl-td" }), h("td", { class: "cl-td" }), h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(STARTING_BALANCE))), (() => {
+        return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '1.75rem' }, property: this.property, agentName: this.agentName, documentType: "statement" }), h("table", { class: "cl-table" }, h("thead", null, h("tr", null, h("th", { class: "cl-th" }, t('Lcz_DateLabel', { fallback: 'Date' })), h("th", { class: "cl-th" }, t('Lcz_DocumentNumberLabel', { fallback: 'Document #' })), h("th", { class: "cl-th" }, t('Lcz_Type', { fallback: 'Type' })), h("th", { class: "cl-th cl-th--num" }, t('Lcz_DebitColumn', { fallback: 'Debit' })), h("th", { class: "cl-th cl-th--num" }, t('Lcz_CreditColumn', { fallback: 'Credit' })), h("th", { class: "cl-th cl-th--num" }, t('Lcz_Balance', { fallback: 'Balance' })))), h("tbody", null, h("tr", { class: "cl-balance-row" }, h("td", { class: "cl-td", colSpan: 3 }, t('Lcz_OpeningBalanceRow', { fallback: 'Opening Balance — %1', params: [formatDate(this.fromDate, DATE_DISPLAY)] })), h("td", { class: "cl-td" }), h("td", { class: "cl-td" }), h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(STARTING_BALANCE))), (() => {
             let running = STARTING_BALANCE;
             return this.fiscalDocuments.map(doc => {
                 running += (doc.DEBIT ?? 0) - (doc.CREDIT ?? 0);
-                return (h("tr", null, h("td", { class: "cl-td cl-td--nowrap" }, doc.ISSUE_DATE_DISPLAY || (doc.ISSUE_DATE ? moment(doc.ISSUE_DATE).format(DATE_DISPLAY) : '—')), h("td", { class: "cl-td" }, doc.DOC_NUMBER || '—'), h("td", { class: "cl-td" }, doc.FD_TYPE_NAME || '—'), h("td", { class: "cl-td cl-td--num cl-td--muted" }, doc.DEBIT ? fmt(doc.DEBIT) : '—'), h("td", { class: "cl-td cl-td--num cl-td--muted" }, doc.CREDIT ? fmt(doc.CREDIT) : '—'), h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(running))));
+                return (h("tr", null, h("td", { class: "cl-td cl-td--nowrap" }, doc.ISSUE_DATE_DISPLAY || (doc.ISSUE_DATE ? formatDate(doc.ISSUE_DATE, DATE_DISPLAY) : '—')), h("td", { class: "cl-td" }, doc.DOC_NUMBER ? formatBookingNumber(doc.DOC_NUMBER) : '—'), h("td", { class: "cl-td" }, doc.FD_TYPE_NAME || '—'), h("td", { class: "cl-td cl-td--num cl-td--muted" }, doc.DEBIT ? fmt(doc.DEBIT) : '—'), h("td", { class: "cl-td cl-td--num cl-td--muted" }, doc.CREDIT ? fmt(doc.CREDIT) : '—'), h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(running))));
             });
-        })(), this.fiscalDocuments.length === 0 && (h("tr", null, h("td", { class: "cl-td cl-td--empty", colSpan: 6 }, "No fiscal documents found for this period."))), h("tr", { class: "cl-balance-row" }, h("td", { class: "cl-td", colSpan: 3 }, "Closing Balance \u2014 ", moment(this.toDate).format(DATE_DISPLAY)), h("td", { class: "cl-td" }), h("td", { class: "cl-td" }), h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(ENDING_BALANCE))))))));
+        })(), this.fiscalDocuments.length === 0 && (h("tr", null, h("td", { class: "cl-td cl-td--empty", colSpan: 6 }, t('Lcz_NoFiscalDocumentsForPeriod', { fallback: 'No fiscal documents found for this period.' })))), h("tr", { class: "cl-balance-row" }, h("td", { class: "cl-td", colSpan: 3 }, t('Lcz_ClosingBalanceRow', { fallback: 'Closing Balance — %1', params: [formatDate(this.toDate, DATE_DISPLAY)] })), h("td", { class: "cl-td" }), h("td", { class: "cl-td" }), h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(ENDING_BALANCE))))))));
     }
     static get is() { return "ir-cl-statement-preview"; }
     static get encapsulation() { return "shadow"; }

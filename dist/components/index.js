@@ -5145,73 +5145,6 @@ var Ra=u`
     `}};ja.css=[Ra,To,At,Pa],s([wt()],ja.prototype,"announcedCountText",2),s([gt(".control")],ja.prototype,"input",2),s([gt('[part~="base"]')],ja.prototype,"base",2),s([gt(".size-adjuster")],ja.prototype,"sizeAdjuster",2),s([bt()],ja.prototype,"title",2),s([bt({reflect:!0})],ja.prototype,"name",2),s([wt()],ja.prototype,"value",1),s([bt({attribute:"value",reflect:!0})],ja.prototype,"defaultValue",2),s([bt({reflect:!0})],ja.prototype,"size",2),s([Bt("size")],ja.prototype,"handleSizeChange",1),s([bt({reflect:!0})],ja.prototype,"appearance",2),s([bt()],ja.prototype,"label",2),s([bt({attribute:"hint"})],ja.prototype,"hint",2),s([bt()],ja.prototype,"placeholder",2),s([bt({type:Number})],ja.prototype,"rows",2),s([bt({reflect:!0})],ja.prototype,"resize",2),s([bt({type:Boolean})],ja.prototype,"disabled",2),s([bt({type:Boolean,reflect:!0})],ja.prototype,"readonly",2),s([bt({type:Boolean,reflect:!0})],ja.prototype,"required",2),s([bt({type:Number})],ja.prototype,"minlength",2),s([bt({type:Number})],ja.prototype,"maxlength",2),s([bt()],ja.prototype,"autocapitalize",2),s([bt({type:Boolean,converter:{fromAttribute:t=>!(!t||"off"===t),toAttribute:t=>t?"on":"off"}})],ja.prototype,"autocorrect",2),s([bt()],ja.prototype,"autocomplete",2),s([bt({type:Boolean})],ja.prototype,"autofocus",2),s([bt()],ja.prototype,"enterkeyhint",2),s([bt({type:Boolean,converter:{fromAttribute:t=>!(!t||"false"===t),toAttribute:t=>t?"true":"false"}})],ja.prototype,"spellcheck",2),s([bt()],ja.prototype,"inputmode",2),s([bt({attribute:"with-label",type:Boolean})],ja.prototype,"withLabel",2),s([bt({attribute:"with-hint",type:Boolean})],ja.prototype,"withHint",2),s([bt({attribute:"with-count",type:Boolean,reflect:!0})],ja.prototype,"withCount",2),s([Bt("rows",{waitUntilFirstUpdate:!0})],ja.prototype,"handleRowsChange",1),s([Bt("value",{waitUntilFirstUpdate:!0})],ja.prototype,"handleValueChange",1),ja=s([ft("wa-textarea")],ja),ja.disableWarning?.("change-in-update");
 /*! Copyright 2026 Fonticons, Inc. - https://webawesome.com/license */
 var Na=u`
-  .form-control {
-    position: relative;
-    border: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .label {
-    padding: 0;
-  }
-
-  .radio-group-required .label::after {
-    content: var(--wa-form-control-required-content);
-    margin-inline-start: var(--wa-form-control-required-content-offset);
-  }
-
-  [part~='form-control-input'] {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 0; /* Radios handle their own spacing */
-  }
-
-  /* Horizontal */
-  :host([orientation='horizontal']) [part~='form-control-input'] {
-    flex-direction: row;
-  }
-
-  /* Help text */
-  [part~='hint'] {
-    margin-block-start: 0.5em;
-  }
-`
-/*! Copyright 2026 Fonticons, Inc. - https://webawesome.com/license */,Va=class extends Ct{constructor(){super(),this.hasSlotController=new St(this,"hint","label"),this.label="",this.hint="",this.name=null,this.disabled=!1,this.orientation="vertical",this._value=null,this.defaultValue=this.getAttribute("value")||null,this.required=!1,this.withLabel=!1,this.withHint=!1,this.handleRadioClick=t=>{const e=t.target.closest("wa-radio");if(!e||e.disabled||e.forceDisabled||this.disabled)return;const i=this.value;this.value=e.value,e.checked=!0;const o=this.getAllRadios();for(const t of o)e!==t&&(t.checked=!1,t.setAttribute("tabindex","-1"));this.value!==i&&this.updateComplete.then((()=>{this.dispatchEvent(new InputEvent("input",{bubbles:!0,composed:!0})),this.dispatchEvent(new Event("change",{bubbles:!0,composed:!0}))}))},this.addEventListener("keydown",this.handleKeyDown),this.addEventListener("click",this.handleRadioClick)}static get validators(){const t=[Vo({validationElement:Object.assign(document.createElement("input"),{required:!0,type:"radio",name:He("__wa-radio")})})];return[...super.validators,...t]}get value(){return this.valueHasChanged?this._value:this._value??this.defaultValue}set value(t){"number"==typeof t&&(t+=""),this.valueHasChanged=!0,this._value=t}handleSizeChange(){$t(this.localName,this.size)}get validationTarget(){const t=this.querySelector(":is(wa-radio):not([disabled])");if(t)return t}updated(t){(t.has("disabled")||t.has("size")||t.has("value")||t.has("defaultValue"))&&this.syncRadioElements()}formResetCallback(...t){this._value=null,super.formResetCallback(...t),this.syncRadioElements()}getAllRadios(){return[...this.querySelectorAll("wa-radio")]}handleLabelClick(){this.focus()}async syncRadioElements(){const t=this.getAllRadios();if(t.forEach(((e,i)=>{this.size&&e.setAttribute("size",this.size),e.toggleAttribute("data-wa-radio-horizontal","vertical"!==this.orientation),e.toggleAttribute("data-wa-radio-vertical","vertical"===this.orientation),e.toggleAttribute("data-wa-radio-first",0===i),e.toggleAttribute("data-wa-radio-inner",0!==i&&i!==t.length-1),e.toggleAttribute("data-wa-radio-last",i===t.length-1),e.forceDisabled=this.disabled})),await Promise.all(t.map((async t=>{await t.updateComplete,t.checked=!t.disabled&&t.value===this.value}))),this.disabled)t.forEach((t=>{t.tabIndex=-1}));else{const e=t.filter((t=>!t.disabled)),i=e.find((t=>t.checked));e.length>0&&e.forEach(i?t=>{t.tabIndex=t.checked?0:-1}:(t,e)=>{t.tabIndex=0===e?0:-1}),t.filter((t=>t.disabled)).forEach((t=>{t.tabIndex=-1}))}}handleKeyDown(t){if(!["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(t.key)||this.disabled)return;const e=this.getAllRadios().filter((t=>!t.disabled));if(e.length<=0)return;t.preventDefault();const i=this.value,o=e.find((t=>t.checked))??e[0],a=" "===t.key?0:["ArrowUp","ArrowLeft"].includes(t.key)?-1:1;let s=e.indexOf(o)+a;s||(s=0),s<0&&(s=e.length-1),s>e.length-1&&(s=0);const r=e.some((t=>"wa-radio-button"===t.tagName.toLowerCase()));this.getAllRadios().forEach((t=>{t.checked=!1,r||t.setAttribute("tabindex","-1")})),this.value=e[s].value,e[s].checked=!0,r?e[s].shadowRoot.querySelector("button").focus():(e[s].setAttribute("tabindex","0"),e[s].focus()),this.value!==i&&this.updateComplete.then((()=>{this.dispatchEvent(new InputEvent("input",{bubbles:!0,composed:!0})),this.dispatchEvent(new Event("change",{bubbles:!0,composed:!0}))})),t.preventDefault()}focus(t){if(this.disabled)return;const e=this.getAllRadios(),i=e.find((t=>t.checked)),o=e.find((t=>!t.disabled)),a=i||o;a&&a.focus(t)}render(){const t=this.hasSlotController.test("label","withLabel"),e=this.hasSlotController.test("hint","withHint"),i=!!this.label||!!t,o=!!this.hint||!!e;return X`
-      <fieldset
-        part="form-control"
-        class=${Yt({"form-control":!0,"form-control-radio-group":!0,"form-control-has-label":i})}
-        role="radiogroup"
-        aria-labelledby="label"
-        aria-describedby="hint"
-        aria-errormessage="error-message"
-        aria-orientation=${this.orientation}
-      >
-        <label
-          part="form-control-label"
-          id="label"
-          class=${Yt({label:!0,"has-label":i})}
-          aria-hidden=${i?"false":"true"}
-          @click=${this.handleLabelClick}
-        >
-          <slot name="label">${this.label}</slot>
-        </label>
-
-        <slot part="form-control-input" @slotchange=${this.syncRadioElements}></slot>
-
-        <slot
-          id="hint"
-          name="hint"
-          part="hint"
-          class=${Yt({"has-slotted":o})}
-          aria-hidden=${o?"false":"true"}
-          >${this.hint}</slot
-        >
-      </fieldset>
-    `}};Va.css=[At,To,Na],Va.shadowRootOptions={...Ct.shadowRootOptions,delegatesFocus:!0},s([gt("slot:not([name])")],Va.prototype,"defaultSlot",2),s([bt()],Va.prototype,"label",2),s([bt({attribute:"hint"})],Va.prototype,"hint",2),s([bt({reflect:!0})],Va.prototype,"name",2),s([bt({type:Boolean,reflect:!0})],Va.prototype,"disabled",2),s([bt({reflect:!0})],Va.prototype,"orientation",2),s([wt()],Va.prototype,"value",1),s([bt({attribute:"value",reflect:!0})],Va.prototype,"defaultValue",2),s([bt({reflect:!0})],Va.prototype,"size",2),s([Bt("size")],Va.prototype,"handleSizeChange",1),s([bt({type:Boolean,reflect:!0})],Va.prototype,"required",2),s([bt({type:Boolean,attribute:"with-label"})],Va.prototype,"withLabel",2),s([bt({type:Boolean,attribute:"with-hint"})],Va.prototype,"withHint",2),Va=s([ft("wa-radio-group")],Va),Va.disableWarning?.("change-in-update");
-/*! Copyright 2026 Fonticons, Inc. - https://webawesome.com/license */
-var Ha=u`
   :host {
     --checked-icon-color: var(--wa-form-control-activated-color);
     --checked-icon-scale: 0.7;
@@ -5412,7 +5345,7 @@ var Ha=u`
     z-index: 2;
   }
 `
-/*! Copyright 2026 Fonticons, Inc. - https://webawesome.com/license */,Ya=class extends Ct{constructor(){super(),this.checked=!1,this.forceDisabled=!1,this.appearance="default",this.disabled=!1,this.handleClick=()=>{this.disabled||this.forceDisabled||(this.checked=!0)},this.addEventListener("click",this.handleClick)}handleSizeChange(){$t(this.localName,this.size)}connectedCallback(){super.connectedCallback(),this.setInitialAttributes()}setInitialAttributes(){this.setAttribute("role","radio"),this.tabIndex=0,this.setAttribute("aria-disabled",this.disabled||this.forceDisabled?"true":"false")}updated(t){if(super.updated(t),t.has("checked")&&(this.customStates.set("checked",this.checked),this.setAttribute("aria-checked",this.checked?"true":"false"),this.disabled||this.forceDisabled||(this.tabIndex=this.checked?0:-1)),t.has("disabled")||t.has("forceDisabled")){const t=this.disabled||this.forceDisabled;this.customStates.set("disabled",t),this.setAttribute("aria-disabled",t?"true":"false"),this.tabIndex=t?-1:this.checked?0:-1}}setValue(){}render(){return X`
+/*! Copyright 2026 Fonticons, Inc. - https://webawesome.com/license */,Va=class extends Ct{constructor(){super(),this.checked=!1,this.forceDisabled=!1,this.appearance="default",this.disabled=!1,this.handleClick=()=>{this.disabled||this.forceDisabled||(this.checked=!0)},this.addEventListener("click",this.handleClick)}handleSizeChange(){$t(this.localName,this.size)}connectedCallback(){super.connectedCallback(),this.setInitialAttributes()}setInitialAttributes(){this.setAttribute("role","radio"),this.tabIndex=0,this.setAttribute("aria-disabled",this.disabled||this.forceDisabled?"true":"false")}updated(t){if(super.updated(t),t.has("checked")&&(this.customStates.set("checked",this.checked),this.setAttribute("aria-checked",this.checked?"true":"false"),this.disabled||this.forceDisabled||(this.tabIndex=this.checked?0:-1)),t.has("disabled")||t.has("forceDisabled")){const t=this.disabled||this.forceDisabled;this.customStates.set("disabled",t),this.setAttribute("aria-disabled",t?"true":"false"),this.tabIndex=t?-1:this.checked?0:-1}}setValue(){}render(){return X`
       <span part="control" class="control">
         ${this.checked?X`
               <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" part="checked-icon" class="checked-icon">
@@ -5422,7 +5355,74 @@ var Ha=u`
       </span>
 
       <slot part="label" class="label"></slot>
-    `}};Ya.css=[To,At,Ha],s([wt()],Ya.prototype,"checked",2),s([wt()],Ya.prototype,"forceDisabled",2),s([bt({reflect:!0})],Ya.prototype,"value",2),s([bt({reflect:!0})],Ya.prototype,"appearance",2),s([bt({reflect:!0})],Ya.prototype,"size",2),s([Bt("size")],Ya.prototype,"handleSizeChange",1),s([bt({type:Boolean})],Ya.prototype,"disabled",2),Ya=s([ft("wa-radio")],Ya),Ya.disableWarning?.("change-in-update");
+    `}};Va.css=[To,At,Na],s([wt()],Va.prototype,"checked",2),s([wt()],Va.prototype,"forceDisabled",2),s([bt({reflect:!0})],Va.prototype,"value",2),s([bt({reflect:!0})],Va.prototype,"appearance",2),s([bt({reflect:!0})],Va.prototype,"size",2),s([Bt("size")],Va.prototype,"handleSizeChange",1),s([bt({type:Boolean})],Va.prototype,"disabled",2),Va=s([ft("wa-radio")],Va),Va.disableWarning?.("change-in-update");
+/*! Copyright 2026 Fonticons, Inc. - https://webawesome.com/license */
+var Ha=u`
+  .form-control {
+    position: relative;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .label {
+    padding: 0;
+  }
+
+  .radio-group-required .label::after {
+    content: var(--wa-form-control-required-content);
+    margin-inline-start: var(--wa-form-control-required-content-offset);
+  }
+
+  [part~='form-control-input'] {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0; /* Radios handle their own spacing */
+  }
+
+  /* Horizontal */
+  :host([orientation='horizontal']) [part~='form-control-input'] {
+    flex-direction: row;
+  }
+
+  /* Help text */
+  [part~='hint'] {
+    margin-block-start: 0.5em;
+  }
+`
+/*! Copyright 2026 Fonticons, Inc. - https://webawesome.com/license */,Ya=class extends Ct{constructor(){super(),this.hasSlotController=new St(this,"hint","label"),this.label="",this.hint="",this.name=null,this.disabled=!1,this.orientation="vertical",this._value=null,this.defaultValue=this.getAttribute("value")||null,this.required=!1,this.withLabel=!1,this.withHint=!1,this.handleRadioClick=t=>{const e=t.target.closest("wa-radio");if(!e||e.disabled||e.forceDisabled||this.disabled)return;const i=this.value;this.value=e.value,e.checked=!0;const o=this.getAllRadios();for(const t of o)e!==t&&(t.checked=!1,t.setAttribute("tabindex","-1"));this.value!==i&&this.updateComplete.then((()=>{this.dispatchEvent(new InputEvent("input",{bubbles:!0,composed:!0})),this.dispatchEvent(new Event("change",{bubbles:!0,composed:!0}))}))},this.addEventListener("keydown",this.handleKeyDown),this.addEventListener("click",this.handleRadioClick)}static get validators(){const t=[Vo({validationElement:Object.assign(document.createElement("input"),{required:!0,type:"radio",name:He("__wa-radio")})})];return[...super.validators,...t]}get value(){return this.valueHasChanged?this._value:this._value??this.defaultValue}set value(t){"number"==typeof t&&(t+=""),this.valueHasChanged=!0,this._value=t}handleSizeChange(){$t(this.localName,this.size)}get validationTarget(){const t=this.querySelector(":is(wa-radio):not([disabled])");if(t)return t}updated(t){(t.has("disabled")||t.has("size")||t.has("value")||t.has("defaultValue"))&&this.syncRadioElements()}formResetCallback(...t){this._value=null,super.formResetCallback(...t),this.syncRadioElements()}getAllRadios(){return[...this.querySelectorAll("wa-radio")]}handleLabelClick(){this.focus()}async syncRadioElements(){const t=this.getAllRadios();if(t.forEach(((e,i)=>{this.size&&e.setAttribute("size",this.size),e.toggleAttribute("data-wa-radio-horizontal","vertical"!==this.orientation),e.toggleAttribute("data-wa-radio-vertical","vertical"===this.orientation),e.toggleAttribute("data-wa-radio-first",0===i),e.toggleAttribute("data-wa-radio-inner",0!==i&&i!==t.length-1),e.toggleAttribute("data-wa-radio-last",i===t.length-1),e.forceDisabled=this.disabled})),await Promise.all(t.map((async t=>{await t.updateComplete,t.checked=!t.disabled&&t.value===this.value}))),this.disabled)t.forEach((t=>{t.tabIndex=-1}));else{const e=t.filter((t=>!t.disabled)),i=e.find((t=>t.checked));e.length>0&&e.forEach(i?t=>{t.tabIndex=t.checked?0:-1}:(t,e)=>{t.tabIndex=0===e?0:-1}),t.filter((t=>t.disabled)).forEach((t=>{t.tabIndex=-1}))}}handleKeyDown(t){if(!["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(t.key)||this.disabled)return;const e=this.getAllRadios().filter((t=>!t.disabled));if(e.length<=0)return;t.preventDefault();const i=this.value,o=e.find((t=>t.checked))??e[0],a=" "===t.key?0:["ArrowUp","ArrowLeft"].includes(t.key)?-1:1;let s=e.indexOf(o)+a;s||(s=0),s<0&&(s=e.length-1),s>e.length-1&&(s=0);const r=e.some((t=>"wa-radio-button"===t.tagName.toLowerCase()));this.getAllRadios().forEach((t=>{t.checked=!1,r||t.setAttribute("tabindex","-1")})),this.value=e[s].value,e[s].checked=!0,r?e[s].shadowRoot.querySelector("button").focus():(e[s].setAttribute("tabindex","0"),e[s].focus()),this.value!==i&&this.updateComplete.then((()=>{this.dispatchEvent(new InputEvent("input",{bubbles:!0,composed:!0})),this.dispatchEvent(new Event("change",{bubbles:!0,composed:!0}))})),t.preventDefault()}focus(t){if(this.disabled)return;const e=this.getAllRadios(),i=e.find((t=>t.checked)),o=e.find((t=>!t.disabled)),a=i||o;a&&a.focus(t)}render(){const t=this.hasSlotController.test("label","withLabel"),e=this.hasSlotController.test("hint","withHint"),i=!!this.label||!!t,o=!!this.hint||!!e;return X`
+      <fieldset
+        part="form-control"
+        class=${Yt({"form-control":!0,"form-control-radio-group":!0,"form-control-has-label":i})}
+        role="radiogroup"
+        aria-labelledby="label"
+        aria-describedby="hint"
+        aria-errormessage="error-message"
+        aria-orientation=${this.orientation}
+      >
+        <label
+          part="form-control-label"
+          id="label"
+          class=${Yt({label:!0,"has-label":i})}
+          aria-hidden=${i?"false":"true"}
+          @click=${this.handleLabelClick}
+        >
+          <slot name="label">${this.label}</slot>
+        </label>
+
+        <slot part="form-control-input" @slotchange=${this.syncRadioElements}></slot>
+
+        <slot
+          id="hint"
+          name="hint"
+          part="hint"
+          class=${Yt({"has-slotted":o})}
+          aria-hidden=${o?"false":"true"}
+          >${this.hint}</slot
+        >
+      </fieldset>
+    `}};Ya.css=[At,To,Ha],Ya.shadowRootOptions={...Ct.shadowRootOptions,delegatesFocus:!0},s([gt("slot:not([name])")],Ya.prototype,"defaultSlot",2),s([bt()],Ya.prototype,"label",2),s([bt({attribute:"hint"})],Ya.prototype,"hint",2),s([bt({reflect:!0})],Ya.prototype,"name",2),s([bt({type:Boolean,reflect:!0})],Ya.prototype,"disabled",2),s([bt({reflect:!0})],Ya.prototype,"orientation",2),s([wt()],Ya.prototype,"value",1),s([bt({attribute:"value",reflect:!0})],Ya.prototype,"defaultValue",2),s([bt({reflect:!0})],Ya.prototype,"size",2),s([Bt("size")],Ya.prototype,"handleSizeChange",1),s([bt({type:Boolean,reflect:!0})],Ya.prototype,"required",2),s([bt({type:Boolean,attribute:"with-label"})],Ya.prototype,"withLabel",2),s([bt({type:Boolean,attribute:"with-hint"})],Ya.prototype,"withHint",2),Ya=s([ft("wa-radio-group")],Ya),Ya.disableWarning?.("change-in-update");
 /*! Copyright 2026 Fonticons, Inc. - https://webawesome.com/license */
 var Xa=u`
   :host {

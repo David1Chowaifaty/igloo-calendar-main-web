@@ -1,5 +1,6 @@
 import calendar_data, { isOptimReadOnly } from "../../../../stores/calendar-data";
 import { formatAmount } from "../../../../utils/utils";
+import { t } from "../../../../services/locale/t";
 import { Host, h } from "@stencil/core";
 const COUNT_UP_DURATION_MS = 700;
 /** Cubic ease-out — starts fast, settles gently instead of stopping abruptly. */
@@ -49,7 +50,11 @@ export class IrPaymentAnalytics {
         const tone = this.getTone();
         const calloutVariant = tone === 'gain' ? 'success' : tone === 'loss' ? 'danger' : 'neutral';
         const trendIcon = tone === 'gain' ? 'arrow-trend-up' : tone === 'loss' ? 'arrow-trend-down' : 'minus';
-        return (h(Host, { key: '5a9861d7d0d508d0e54d7f53d44618d775a176f4' }, h("wa-tooltip", { key: '6b1c8c6f86ad4ce5303b904a70ab4296d266108e', for: `dp-effect-callout-${this.booking?.booking_nbr}` }, "The dynamic pricing effect is calculated at the time the booking is created and remains fixed thereafter, serving as an indicator of the additional profit generated or of the incentive price reduction."), h("wa-callout", { key: 'f2b9a4a8c2ee69b0d17c6079caef8274160c1df3', id: `dp-effect-callout-${this.booking?.booking_nbr}`, class: `dp-effect-callout --${tone}`, variant: calloutVariant, size: "small" }, h("wa-icon", { key: '5b83dd0eec328cdb748fc0a13bc2e104fd7891cc', class: "dp-effect-icon", slot: "icon", name: "wand-magic-sparkles" }), h("div", { key: 'c697877ad13e97b04658b081b67d538bd049d668', class: "booking-dp-effect" }, h("p", { key: '33b02f466b28e49cc1448a5a755758af8f2e17a2', class: "booking-dp-effect__label" }, "Dynamic pricing ", isOptimReadOnly() ? 'lost profit' : 'effect'), h("p", { key: '4407caa91c4b2f4ca3576b432961d7914434eccd', class: `booking-dp-effect__value --${tone}` }, h("span", { key: '3b864dc062b52a9c31cf2cb48fcc156c38ac43b0' }, formatAmount(calendar_data.property.currency.symbol, this.displayedValue)), h("wa-icon", { key: '9531e5cdf0e6f1e1d4a2a637cce5eb45e1684fd4', class: "booking-dp-effect__trend-icon", name: trendIcon }))))));
+        return (h(Host, { key: '307808fcac3fa462ec6437e3e41fb7425e19e7ee' }, h("wa-tooltip", { key: '104b2600f00b85982a622b4157d5e64ba8934cbe', for: `dp-effect-callout-${this.booking?.booking_nbr}` }, t('Lcz_DynamicPricingEffectTooltip', {
+            fallback: 'The dynamic pricing effect is calculated at the time the booking is created and remains fixed thereafter, serving as an indicator of the additional profit generated or of the incentive price reduction.',
+        })), h("wa-callout", { key: 'a21f3cf610550f31c60c92e6afba61b0cf428297', id: `dp-effect-callout-${this.booking?.booking_nbr}`, class: `dp-effect-callout --${tone}`, variant: calloutVariant, size: "small" }, h("wa-icon", { key: '82817bf9e998493a98f8ec09428fd6ce9c3dd041', class: "dp-effect-icon", slot: "icon", name: "wand-magic-sparkles" }), h("div", { key: '231862f5ea2ca0ec35f4139e9f5ef0fdfd502bd2', class: "booking-dp-effect" }, h("p", { key: '03ae468cf0642132259fa91bd3b93084a50f4070', class: "booking-dp-effect__label" }, isOptimReadOnly()
+            ? t('Lcz_DynamicPricingLostProfit', { fallback: 'Dynamic pricing lost profit' })
+            : t('Lcz_DynamicPricingEffect', { fallback: 'Dynamic pricing effect' })), h("p", { key: 'bb9620f3b1553d33075d2509fa3cf5ac4f687bb6', class: `booking-dp-effect__value --${tone}` }, h("span", { key: 'fe48ffb0f25f437adcfcc066f0b492144112b260' }, formatAmount(calendar_data.property.currency.symbol, this.displayedValue)), h("wa-icon", { key: 'f16b9ed00e7a61d9b59934a28ea05a7840c19f18', class: "booking-dp-effect__trend-icon", name: trendIcon }))))));
     }
     static get is() { return "ir-payment-analytics"; }
     static get encapsulation() { return "scoped"; }

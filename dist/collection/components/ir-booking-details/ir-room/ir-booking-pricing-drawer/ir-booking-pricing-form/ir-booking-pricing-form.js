@@ -5,7 +5,9 @@ import { isAgentMode } from "../../../functions";
 import calendar_data from "../../../../../stores/calendar-data";
 import { InvoiceableItemReason, SvcCategory } from "../../../../../types/enums";
 import { formatDate } from "../../../../../utils/date/index";
-const nightAmountSchema = z.coerce.number({ invalid_type_error: 'Required' }).min(0, 'Minimum is 0');
+import { t } from "../../../../../services/locale/t";
+// Built per call: zod fixes messages at construction, and the locale is not loaded when this module is.
+const nightAmountSchema = () => z.coerce.number({ invalid_type_error: t('Lcz_Required', { fallback: 'Required' }) }).min(0, t('Lcz_MinimumIsZero', { fallback: 'Minimum is 0' }));
 export class IrBookingPricingForm {
     formId = 'booking-pricing-form';
     booking;
@@ -75,7 +77,7 @@ export class IrBookingPricingForm {
         return this.nights.every(n => {
             if (n.isLocked)
                 return true;
-            return nightAmountSchema.safeParse(n.amount).success;
+            return nightAmountSchema().safeParse(n.amount).success;
         });
     }
     get acmTxByDate() {
@@ -127,7 +129,9 @@ export class IrBookingPricingForm {
         }
         const allDisabled = this.invoiceLocked;
         const hasDisabledInput = this.nights.some(night => night.isLocked || allDisabled);
-        return (h("form", { id: this.formId, class: "pricing-form", onSubmit: this.handleSubmit.bind(this), novalidate: true }, hasDisabledInput && (h("wa-callout", { variant: "warning", size: "s" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), "Locked nightly rates cannot be edited in case they have been invoiced. You can void the invoice with a credit note to update the rates and recreate a new one")), calendar_data.property.tax_statement && (h("wa-callout", { size: "s", variant: "neutral" }, calendar_data.property.tax_statement)), h("div", { style: { marginBottom: '0.5rem' } }), this.nights.map(night => (h("ir-validator", { key: night.date, class: "pricing-form__input-validator", schema: nightAmountSchema, value: night.amount }, h("ir-input", { class: "pricing-form__input", label: formatDate(night.date, 'ddd, MMM D'), value: night.amount, mask: "price", disabled: night.isLocked || allDisabled || this.isSubmitting, "onText-change": (e) => this.updateNight(night.date, e.detail) }, h("span", { slot: "start" }, calendar_data.property.currency.symbol), (night.isLocked || this.invoiceLocked) && h("wa-icon", { slot: "end", name: "lock", style: { fontSize: '0.875rem' } })))))));
+        return (h("form", { id: this.formId, class: "pricing-form", onSubmit: this.handleSubmit.bind(this), novalidate: true }, hasDisabledInput && (h("wa-callout", { variant: "warning", size: "s" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), t('Lcz_LockedNightlyRatesWarning', {
+            fallback: 'Locked nightly rates cannot be edited in case they have been invoiced. You can void the invoice with a credit note to update the rates and recreate a new one',
+        }))), calendar_data.property.tax_statement && (h("wa-callout", { size: "s", variant: "neutral" }, calendar_data.property.tax_statement)), h("div", { style: { marginBottom: '0.5rem' } }), this.nights.map(night => (h("ir-validator", { key: night.date, class: "pricing-form__input-validator", schema: nightAmountSchema(), value: night.amount }, h("ir-input", { class: "pricing-form__input", label: formatDate(night.date, 'ddd, MMM D'), value: night.amount, mask: "price", disabled: night.isLocked || allDisabled || this.isSubmitting, "onText-change": (e) => this.updateNight(night.date, e.detail) }, h("span", { slot: "start" }, calendar_data.property.currency.symbol), (night.isLocked || this.invoiceLocked) && h("wa-icon", { slot: "end", name: "lock", style: { fontSize: '0.875rem' } })))))));
     }
     static get is() { return "ir-booking-pricing-form"; }
     static get encapsulation() { return "scoped"; }
@@ -216,7 +220,7 @@ export class IrBookingPricingForm {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent | null",
-                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",

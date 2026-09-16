@@ -56,6 +56,9 @@ export class IrHousekeeping {
     async initializeApp() {
         try {
             this.isLoading = true;
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.housekeeping });
             let propertyId = this.propertyid;
             if (!propertyId) {
                 const propertyData = await this.roomService.getExposedProperty({
@@ -70,7 +73,7 @@ export class IrHousekeeping {
             updateHKStore('default_properties', { ApiClient: this.ticket, property_id: propertyId, language: LocaleController.language });
             const [frequencies] = await Promise.all([
                 this.setupService.getSetupEntriesByTableName('_HK_FREQUENCY'),
-                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.housekeeping }),
+                localeReady,
                 this.propertyid &&
                     this.roomService.getExposedProperty({
                         id: propertyId,
@@ -93,7 +96,7 @@ export class IrHousekeeping {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("ir-page", { label: t('Lcz_HouseKeepingAndCheckInSetup') }, h("ir-hk-operations-card", { frequencies: this.frequencies }), calendar_data.housekeeping_enabled && h("ir-hk-team", null)));
+        return (h("ir-page", { label: t('Lcz_HouseKeepingAndCheckInSetup', { fallback: 'Housekeeping & Check-In Setup' }) }, h("ir-hk-operations-card", { frequencies: this.frequencies }), calendar_data.housekeeping_enabled && h("ir-hk-team", null)));
     }
     static get is() { return "ir-housekeeping"; }
     static get encapsulation() { return "scoped"; }

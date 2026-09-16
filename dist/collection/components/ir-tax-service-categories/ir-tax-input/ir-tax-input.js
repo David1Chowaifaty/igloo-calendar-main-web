@@ -2,7 +2,9 @@ import { Host, h } from "@stencil/core";
 import { z } from "zod";
 import { getEntryValue } from "../../../services/setup/index";
 import { LocaleController } from "../../../services/locale/locale.controller";
-const taxSetupSchema = z.string().min(1, 'Select a setup entry');
+import { t } from "../../../services/locale/t";
+// Lazy message: built at module load, before any locale is fetched.
+const taxSetupSchema = z.string({ errorMap: () => ({ message: t('Lcz_SelectASetupEntry', { fallback: 'Select a setup entry' }) }) }).min(1);
 export class IrTaxInput {
     /**
      * List of setup entries used to populate the tax mode select.
@@ -74,7 +76,7 @@ export class IrTaxInput {
         this.tax = { ...(this.tax || {}), ...params };
     }
     render() {
-        return (h(Host, { key: '72660426421c24be839e43af8e4620291f4324a8', class: "ir-tax-input" }, h("ir-validator", { key: '04d303296abc8b4610ec0939e83fcbfd984b0ad3', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? z.number().nullable() : z.coerce.number().min(0).max(30) }, h("ir-input", { key: '0f4858146260b8673dff0a3419c4fb0f32896bbe', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
+        return (h(Host, { key: '7573faead93d05f33ab8bb347dfc7e3210a9a368', class: "ir-tax-input" }, h("ir-validator", { key: 'a3ca4d994dfe95553f569d007e5dbb1604647571', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? z.number().nullable() : z.coerce.number().min(0).max(30) }, h("ir-input", { key: 'd4f12a6419bdfcc7569066c7b372c7343470de16', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
                 min: 0,
                 max: 30,
                 mask: Number,
@@ -84,11 +86,11 @@ export class IrTaxInput {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updateTaxField({ value });
-            } }, h("span", { key: '871e64e8036079adffda0c02bd4236ebf3b14bf8', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), h("ir-validator", { key: '33153a470de3fbd19748784a5a505c6a392bc6b7', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, h("wa-select", { key: '04dc2a7e846aa37eeaee1a7329c5c3a8d9447bcb', part: "select", class: "ir-tax-input__select", size: "s", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
+            } }, h("span", { key: 'fb7b68381a362db95e4be704f3423b62124ad7cf', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), h("ir-validator", { key: 'e141bc0c2d8e9578a8ce6ca7bff1fc74f4facefb', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, h("wa-select", { key: 'c2cc00e322b2d935f1983b5c19782be2056c6660', part: "select", class: "ir-tax-input__select", size: "s", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
                 const mode = e.target.value.toString();
                 this.updateTaxField({ mode });
                 this.taxChange.emit({ value: this.tax?.value ?? this.chargeRule?.value ?? null, mode });
-            }, placeholder: "Select..." }, this.setupEntries.map(entry => (h("wa-option", { key: entry.CODE_NAME, value: entry.CODE_NAME }, getEntryValue({ entry, language: LocaleController.language }))))))));
+            }, placeholder: t('Lcz_SelectPlaceholder', { fallback: 'Select...' }) }, this.setupEntries.map(entry => (h("wa-option", { key: entry.CODE_NAME, value: entry.CODE_NAME }, getEntryValue({ entry, language: LocaleController.language }))))))));
     }
     static get is() { return "ir-tax-input"; }
     static get encapsulation() { return "shadow"; }

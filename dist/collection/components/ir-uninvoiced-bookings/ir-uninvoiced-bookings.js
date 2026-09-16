@@ -8,6 +8,7 @@ import { BookingListingService } from "../../services/booking_listing.service";
 import { LocaleController } from "../../services/locale/locale.controller";
 import { LanguageSync } from "../../services/locale/language-sync";
 import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrUninvoicedBookings {
     el;
     language = '';
@@ -74,6 +75,9 @@ export class IrUninvoicedBookings {
     async initializeApp() {
         this.isPageLoading = true;
         try {
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.uninvoicedBookings });
             if (!this.propertyid && !this.p) {
                 throw new Error('Property ID or username is required');
             }
@@ -89,11 +93,7 @@ export class IrUninvoicedBookings {
             }
             this.propertyId = propertyId;
             // Bookings don't depend on language/criteria, so fetch all three concurrently.
-            const [, criteria] = await Promise.all([
-                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.uninvoicedBookings }),
-                this.bookingListingService.getExposedBookingsCriteria(propertyId),
-                this.fetchUninvoicedBookings(),
-            ]);
+            const [, criteria] = await Promise.all([localeReady, this.bookingListingService.getExposedBookingsCriteria(propertyId), this.fetchUninvoicedBookings()]);
             setUninvoicedBookingsCriteria(criteria);
         }
         catch (error) {
@@ -138,7 +138,7 @@ export class IrUninvoicedBookings {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("ir-page", { description: "List of ended bookings with some services that have not been invoiced yet.", label: "Uninvoiced Past Bookings", class: "uninvoiced-bookings__page" }, h("ir-unvoiced-bookings-filters", null), h("ir-unvoiced-bookings-table", null), h("ir-booking-details-drawer", { open: !!this.activeBookingNbr, propertyId: this.propertyId, bookingNumber: this.activeBookingNbr, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.activeBookingNbr = null) }), h("ir-guest-info-drawer", { open: !!this.activeGuestBookingNbr, booking_nbr: this.activeGuestBookingNbr, email: this.findRow(this.activeGuestBookingNbr)?.raw.guest.email, language: this.language, onGuestInfoDrawerClosed: () => (this.activeGuestBookingNbr = null) })));
+        return (h("ir-page", { description: t('Lcz_UninvoicedBookingsDescription', { fallback: 'List of ended bookings with some services that have not been invoiced yet.' }), label: t('Lcz_UninvoicedPastBookings', { fallback: 'Uninvoiced Past Bookings' }), class: "uninvoiced-bookings__page" }, h("ir-unvoiced-bookings-filters", null), h("ir-unvoiced-bookings-table", null), h("ir-booking-details-drawer", { open: !!this.activeBookingNbr, propertyId: this.propertyId, bookingNumber: this.activeBookingNbr, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.activeBookingNbr = null) }), h("ir-guest-info-drawer", { open: !!this.activeGuestBookingNbr, booking_nbr: this.activeGuestBookingNbr, email: this.findRow(this.activeGuestBookingNbr)?.raw.guest.email, language: this.language, onGuestInfoDrawerClosed: () => (this.activeGuestBookingNbr = null) })));
     }
     static get is() { return "ir-uninvoiced-bookings"; }
     static get encapsulation() { return "scoped"; }

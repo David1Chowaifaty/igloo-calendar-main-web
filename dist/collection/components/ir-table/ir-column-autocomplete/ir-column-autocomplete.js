@@ -1,10 +1,11 @@
 import { Host, h } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 export class IrColumnAutocomplete {
     options = [];
     selectedValues = [];
-    placeholder = 'Search...';
-    selectAllLabel = 'Select all';
-    emptyLabel = 'No results found';
+    placeholder;
+    selectAllLabel;
+    emptyLabel;
     showSelectAll = true;
     triggerId;
     query = '';
@@ -93,7 +94,7 @@ export class IrColumnAutocomplete {
     };
     render() {
         const filteredOptions = this.filteredOptions;
-        return (h(Host, { key: 'c3295fb880ac18c8bdb53921478f2cb001c01258' }, h("wa-popover", { key: '31dc9ebdba76887e8334c5e495f5bfbabbf92a60', placement: "bottom", for: this.generatedTriggerId, class: "column-autocomplete__popover" }, h("div", { key: '75ebfaba66e3016842b747b653b4e032771ee588', class: "column-autocomplete__input-container" }, h("wa-input", { key: '604164d82791c0a33920c84f1cbfa15233a3d10f', size: "s", value: this.query, placeholder: this.placeholder, oninput: this.onQueryInput })), h("div", { key: '07de0636a48f82699802b80a08bff1843e4b15c7', class: "column-autocomplete__list" }, this.showSelectAll && (h("wa-checkbox", { key: 'bb24dec2a75ace7b5c426c4fff258acabe6db8f2', checked: this.areAllFilteredSelected, indeterminate: this.areSomeFilteredSelected, onchange: this.onToggleAll }, this.selectAllLabel)), filteredOptions.length > 0 ? (filteredOptions.map(option => (h("wa-checkbox", { checked: this.selected.includes(option), onchange: event => this.onToggleOption(event, option) }, option)))) : (h("div", { class: "column-autocomplete__empty" }, this.emptyLabel)))), h("div", { key: '10c7ce5acb6d88aaedf40eca8ff89d6fa3eb181c', id: this.generatedTriggerId }, h("slot", { key: '4236bb62093ba0c46322b90cb89fedfb2bd07e8d', name: "trigger" }, h("wa-button", { key: 'e71446f10a237bf2739246249fe367a6326618d4', size: "s", variant: "neutral", appearance: "plain", class: "header-button" }, h("wa-icon", { key: '7448238009e49727f5a9c8be40bf038f72e4ec76', name: "filter" }))))));
+        return (h(Host, { key: '5c056bc5ab3b81aaf84c2d5106cd484d1b29aa0b' }, h("wa-popover", { key: 'cba461bab930144ad174d0e7ce3cfe7057098892', placement: "bottom", for: this.generatedTriggerId, class: "column-autocomplete__popover" }, h("div", { key: '0464194d0297a4ce532c5c892641f2026c9cf620', class: "column-autocomplete__input-container" }, h("wa-input", { key: 'e0709046563188db67c06448fa4ecd159ab463db', size: "s", value: this.query, placeholder: this.placeholder || t('Lcz_SearchEllipsis', { fallback: 'Search...' }), oninput: this.onQueryInput })), h("div", { key: '22fbea2fd651b6600a927315de890b9e94f6c4ec', class: "column-autocomplete__list" }, this.showSelectAll && (h("wa-checkbox", { key: '3ec150b842cee21d1c05cfca2bc2519438b73c68', checked: this.areAllFilteredSelected, indeterminate: this.areSomeFilteredSelected, onchange: this.onToggleAll }, this.selectAllLabel || t('Lcz_SelectAll', { fallback: 'Select all' }))), filteredOptions.length > 0 ? (filteredOptions.map(option => (h("wa-checkbox", { checked: this.selected.includes(option), onchange: event => this.onToggleOption(event, option) }, option)))) : (h("div", { class: "column-autocomplete__empty" }, this.emptyLabel || t('Lcz_NoResultsFound', { fallback: 'No results found' }))))), h("div", { key: '18eeb499cf565c580f488adbced67747b3a9aba6', id: this.generatedTriggerId }, h("slot", { key: 'c6ca023b639126de0f6273401b54ce5cfa0e8cf7', name: "trigger" }, h("wa-button", { key: '4b6b7898591b0877d7d6aacfcfcb4b811c76acf8', size: "s", variant: "neutral", appearance: "plain", class: "header-button" }, h("wa-icon", { key: '5f3d60c56f5e42fb88d5b38e32a393574aa42fd0', name: "filter" }))))));
     }
     static get is() { return "ir-column-autocomplete"; }
     static get encapsulation() { return "scoped"; }
@@ -162,8 +163,7 @@ export class IrColumnAutocomplete {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "placeholder",
-                "defaultValue": "'Search...'"
+                "attribute": "placeholder"
             },
             "selectAllLabel": {
                 "type": "string",
@@ -182,8 +182,7 @@ export class IrColumnAutocomplete {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "select-all-label",
-                "defaultValue": "'Select all'"
+                "attribute": "select-all-label"
             },
             "emptyLabel": {
                 "type": "string",
@@ -202,8 +201,7 @@ export class IrColumnAutocomplete {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "empty-label",
-                "defaultValue": "'No results found'"
+                "attribute": "empty-label"
             },
             "showSelectAll": {
                 "type": "boolean",

@@ -6,6 +6,7 @@ import { CityLedgerService } from "../../../../../services/city-ledger/index";
 import calendar_data from "../../../../../stores/calendar-data";
 import { DATE_INPUT_FORMAT, TRANSACTION_TYPE_RATES, amountFieldSchema, createInitialTransactionFormDraft, dateFieldSchema, hydrateFormDraftFromTx, resetDraftForTransactionType, taxIdFieldSchema, transactionTypeFieldSchema, validateCityLedgerTransaction, } from "./ir-city-ledger-transaction-form.schema";
 import { ClTxTypeCode, FdStatus, FdTypes, VatIncludedCodes } from "../../../../../types/enums";
+import { t } from "../../../../../services/locale/t";
 export class IrCityLedgerTransactionForm {
     formId = 'city-ledger-transaction-form';
     agent = null;
@@ -210,7 +211,7 @@ export class IrCityLedgerTransactionForm {
         }
     };
     renderTransactionTypeField() {
-        return (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: transactionTypeFieldSchema, value: this.formData.transactionType, valueEvent: "change" }, h("wa-select", { label: "Transaction Type", size: "s", defaultValue: this.formData.transactionType, value: this.formData.transactionType, required: true, disabled: this.transaction !== null, onchange: event => {
+        return (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: transactionTypeFieldSchema, value: this.formData.transactionType, valueEvent: "change" }, h("wa-select", { label: t('Lcz_TransactionType', { fallback: 'Transaction Type' }), size: "s", defaultValue: this.formData.transactionType, value: this.formData.transactionType, required: true, disabled: this.transaction !== null, onchange: event => {
                 const value = event.target.value;
                 this.handleTransactionTypeChange(value);
             } }, this.clTxTypes.map(type => {
@@ -226,22 +227,22 @@ export class IrCityLedgerTransactionForm {
                 this.transaction?.CL_TX_TYPE_CODE !== type.CODE_NAME) {
                 return null;
             }
-            return (h("wa-option", { key: type.CODE_NAME, value: type.CODE_NAME, label: label }, h("div", { class: "tx-option" }, h("span", { class: "tx-option__label" }, label), h("span", { class: "tx-option__badges" }, (rate === 'CR' || rate === 'CR|DB') && h("wa-badge", { variant: "success" }, "Credit"), (rate === 'DB' || rate === 'CR|DB') && h("wa-badge", { variant: "danger" }, "Debit")))));
+            return (h("wa-option", { key: type.CODE_NAME, value: type.CODE_NAME, label: label }, h("div", { class: "tx-option" }, h("span", { class: "tx-option__label" }, label), h("span", { class: "tx-option__badges" }, (rate === 'CR' || rate === 'CR|DB') && h("wa-badge", { variant: "success" }, t('Lcz_CreditColumn', { fallback: 'Credit' })), (rate === 'DB' || rate === 'CR|DB') && h("wa-badge", { variant: "danger" }, t('Lcz_DebitColumn', { fallback: 'Debit' }))))));
         })))));
     }
     renderCommonFields(withTaxes = true) {
         const minAllowedDate = moment().subtract(12, 'months').format(DATE_INPUT_FORMAT);
-        return (h(Fragment, null, this.renderTransactionTypeField(), h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: dateFieldSchema, value: this.formData.date, valueEvent: "DateChanged" }, h("ir-date-select", { label: "Date", date: this.formData.date, minDate: minAllowedDate, maxDate: moment().format('YYYY-MM-DD'), emitEmptyDate: true, onDateChanged: event => {
+        return (h(Fragment, null, this.renderTransactionTypeField(), h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: dateFieldSchema, value: this.formData.date, valueEvent: "DateChanged" }, h("ir-date-select", { label: t('Lcz_DateLabel', { fallback: 'Date' }), date: this.formData.date, minDate: minAllowedDate, maxDate: moment().format('YYYY-MM-DD'), emitEmptyDate: true, onDateChanged: event => {
                 this.updateFormData({
                     date: event.detail.start ? event.detail.start.format(DATE_INPUT_FORMAT) : '',
                 });
-            } }))), this.formData.transactionType !== ClTxTypeCode.CreditNote && (h(Fragment, null, withTaxes ? (h("div", { class: "amount-tax-group" }, h("span", { class: "amount-tax-group__label" }, "Amount (including taxes)"), h("div", { class: "amount-tax-group__row" }, h("ir-validator", { class: "amount-tax-group__amount", schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: "Amount (including taxes)", mask: "price", value: this.formData.amount, "onText-change": (event) => {
+            } }))), this.formData.transactionType !== ClTxTypeCode.CreditNote && (h(Fragment, null, withTaxes ? (h("div", { class: "amount-tax-group" }, h("span", { class: "amount-tax-group__label" }, t('Lcz_AmountIncludingTaxes', { fallback: 'Amount (including taxes)' })), h("div", { class: "amount-tax-group__row" }, h("ir-validator", { class: "amount-tax-group__amount", schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: t('Lcz_AmountIncludingTaxes', { fallback: 'Amount (including taxes)' }), mask: "price", value: this.formData.amount, "onText-change": (event) => {
                 this.updateFormData({ amount: event.detail ?? '' });
-            } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol))), h("ir-validator", { schema: taxIdFieldSchema, value: this.formData.taxId, valueEvent: "change" }, h("wa-select", { size: "s", placeholder: "Tax", value: this.formData.taxId, defaultValue: this.formData.taxId, onchange: event => {
+            } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol))), h("ir-validator", { schema: taxIdFieldSchema, value: this.formData.taxId, valueEvent: "change" }, h("wa-select", { size: "s", placeholder: t('Lcz_TaxPlaceholder', { fallback: 'Tax' }), value: this.formData.taxId, defaultValue: this.formData.taxId, onchange: event => {
                 this.updateFormData({ taxId: event.target.value });
             } }, this.taxOptions
             .filter(tx => tx.id !== ClTxTypeCode.DebitNote)
-            .map(tax => (h("wa-option", { key: tax.id, label: tax.label, value: tax.id }, tax.label))), h("wa-option", { value: "N/A", label: "Not Applicable" }, "Not Applicable")))))) : (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: "Amount", mask: "price", value: this.formData.amount, required: true, "onText-change": (event) => {
+            .map(tax => (h("wa-option", { key: tax.id, label: tax.label, value: tax.id }, tax.label))), h("wa-option", { value: "N/A", label: t('Lcz_NotApplicable', { fallback: 'Not Applicable' }) }, "Not Applicable")))))) : (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: t('Lcz_Amount', { fallback: 'Amount' }), mask: "price", value: this.formData.amount, required: true, "onText-change": (event) => {
                 this.updateFormData({ amount: event.detail ?? '' });
             } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol)))))))));
     }
@@ -270,7 +271,7 @@ export class IrCityLedgerTransactionForm {
             return (h("form", { id: this.formId, class: "transaction-form", onSubmit: this.handleSubmit, novalidate: true }, this.renderTransactionTypeField(), this.renderTypeFields()));
         }
         return (h("form", { id: this.formId, class: "transaction-form", onSubmit: this.handleSubmit, novalidate: true }, this.renderCommonFields(this.formData.transactionType !== ClTxTypeCode.OpeningBalance &&
-            ![ClTxTypeCode.Payment, ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(this.formData.transactionType)), this.renderTypeFields(), this.formData.transactionType !== ClTxTypeCode.CreditNote && (h("ir-input", { label: "Reference", value: this.formData.reference, defaultValue: this.formData.reference, "onText-change": (event) => {
+            ![ClTxTypeCode.Payment, ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(this.formData.transactionType)), this.renderTypeFields(), this.formData.transactionType !== ClTxTypeCode.CreditNote && (h("ir-input", { label: t('Lcz_Reference', { fallback: 'Reference' }), value: this.formData.reference, defaultValue: this.formData.reference, "onText-change": (event) => {
                 this.updateFormData({ reference: event.detail ?? '' });
             } }))));
     }
@@ -313,7 +314,7 @@ export class IrCityLedgerTransactionForm {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent | null",
-                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",

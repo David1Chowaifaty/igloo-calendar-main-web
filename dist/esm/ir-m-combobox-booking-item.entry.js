@@ -1,8 +1,7 @@
-import { r as registerInstance, h, H as Host } from './index-BYqrdgY9.js';
-import { a as formatBookingNumber } from './number-5RTWeFsH.js';
-import './ir-date-CLlijQNQ.js';
-import './index-CimhgHoX.js';
-import './locales.store-BfROgg7a.js';
+import { r as registerInstance, h, H as Host } from './index-CeHdrJeH.js';
+import { a as formatBookingNumber } from './number-DegV2dS7.js';
+import './ir-date-DFR8GVLZ.js';
+import './locales.store-CXJn6ls-.js';
 import './language-observer-CHgzsZkY.js';
 import './moment-Mki5YqAR.js';
 import './_commonjsHelpers-BFTU3MAI.js';
@@ -15,7 +14,7 @@ const IrMComboboxBookingItem = class {
     }
     booking;
     render() {
-        return (h(Host, { key: 'ff8c263c884278cc08d3d4a16ecaacfce6591dfd', class: "pe-1" }, h("img", { key: 'e727e9342ba8c7aeb5c3fd5caa00e060be7bd1be', src: this.booking.origin.Icon, alt: this.booking.origin.Label, class: "origin-icon" }), h("div", { key: '00657d95cc131fe1bab3fc0818e048d37cb8efd7' }, h("p", { key: 'bc7d00c172ec7f2bf062ddb48e328cea181a4092', class: "p-0 m-0" }, formatBookingNumber(this.booking.booking_nbr)), !this.booking.is_direct && h("p", { key: 'febce33d3a3ca0d2f94e1eb0eec5e0fe48a989b0', class: "small p-0 m-0" }, formatBookingNumber(this.booking.channel_booking_nbr))), h("p", { key: '96081b1ea2d3f4ba8f3b64b47d628d883f93cad0', class: "p-0 m-0" }, this.booking.guest.first_name, " ", this.booking.guest.last_name)));
+        return (h(Host, { key: 'f496c2289a6fe8698c46d7bef33fd038920ae688', class: "pe-1" }, h("img", { key: '707dbba64873c05276de4e3b505009771acc1e4f', src: this.booking.origin.Icon, alt: this.booking.origin.Label, class: "origin-icon" }), h("div", { key: 'e08ef46be98851d7bb968ab226bfefd0a1a0e56f' }, h("p", { key: 'bc69b09a8a64e3e0ef73c7527cdbef0312ce9c9e', class: "p-0 m-0" }, formatBookingNumber(this.booking.booking_nbr)), !this.booking.is_direct && h("p", { key: '59be157b55b2e707f10c639774a55f042a64020a', class: "small p-0 m-0" }, formatBookingNumber(this.booking.channel_booking_nbr))), h("p", { key: 'e4dd7edb83e57ebcdc35d44704ac02e049ed21f8', class: "p-0 m-0" }, this.booking.guest.first_name, " ", this.booking.guest.last_name)));
     }
 };
 IrMComboboxBookingItem.style = irMComboboxBookingItemCss();

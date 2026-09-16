@@ -20,7 +20,6 @@ export declare class IrCityLedger {
     selectedAgent: Agent | null;
     taxOptions: TaxOption[];
     serviceCategoryOptions: ServiceCategoryOption[];
-    currencySymbol: string;
     statementFrom: Moment | null;
     statementTo: Moment | null;
     showStatementPreview: boolean;
@@ -28,7 +27,6 @@ export declare class IrCityLedger {
     agentSearch: string;
     fiscalFilters: ClFiscalDocumentFilters;
     stmtFilters: StatementFilters;
-    private panels;
     private apiClientService;
     private agentsService;
     private propertyService;

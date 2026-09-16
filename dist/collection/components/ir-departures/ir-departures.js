@@ -9,6 +9,7 @@ import { LocaleController } from "../../services/locale/locale.controller";
 import { LanguageSync } from "../../services/locale/language-sync";
 import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 import { isEarlyCheckout } from "../../utils/booking";
+import { t } from "../../services/locale/t";
 export class IrDepartures {
     ticket;
     propertyid;
@@ -81,6 +82,9 @@ export class IrDepartures {
     async init() {
         try {
             this.isPageLoading = true;
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.departures });
             if (!this.propertyid && !this.p) {
                 throw new Error('Missing credentials');
             }
@@ -95,7 +99,7 @@ export class IrDepartures {
             }
             const [_, __, paymentEntries] = await Promise.all([
                 calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: LocaleController.language, aname: this.p }),
-                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.departures }),
+                localeReady,
                 this.setupService.getPaymentEntries(),
                 this.getBookings(),
             ]);
@@ -183,7 +187,7 @@ export class IrDepartures {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_Out'] }), h("div", { class: 'ir-page__container' }, h("h3", { class: "page-title" }, "Check-outs"), h("ir-departures-table", { onCheckoutRoom: event => this.handleCheckoutRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) })), h("ir-booking-details-drawer", { open: !!this.bookingNumber, propertyId: this.propertyid, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_Out'] }), h("div", { class: 'ir-page__container' }, h("h3", { class: "page-title" }, t('Lcz_CheckOuts', { fallback: 'Check-outs' })), h("ir-departures-table", { onCheckoutRoom: event => this.handleCheckoutRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) })), h("ir-booking-details-drawer", { open: !!this.bookingNumber, propertyId: this.propertyid, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
                 this.bookingNumber = null;
                 this.checkoutRoomIdentifier = null;
                 this.getBookings();

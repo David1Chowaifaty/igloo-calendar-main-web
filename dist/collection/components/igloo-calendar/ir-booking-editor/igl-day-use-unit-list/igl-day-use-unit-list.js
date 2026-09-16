@@ -3,6 +3,7 @@ import calendar_data, { getExtraServiceDefaultPrice } from "../../../../stores/c
 import booking_store from "../../../../stores/booking.store";
 import { DAY_USE_STATUS_ICON, formatDayUseStatusText, getDayUseUnitAvailability } from "../../../../utils/booking";
 import { SvcCategory } from "../../../../types/enums";
+import { t } from "../../../../services/locale/t";
 export class IglDayUseUnitList {
     mode;
     /** Room types returned by the day-use availability check. */
@@ -78,9 +79,11 @@ export class IglDayUseUnitList {
         });
         const hasBookableUnit = availableRoomTypes.some(roomType => this.getAvailableUnits(roomType).length > 0);
         if (this.hasSearched && !hasBookableUnit) {
-            return (h("div", { class: "day-use-unit-list__empty-container" }, h("ir-empty-state", { message: "No units available for the selected date." })));
+            return (h("div", { class: "day-use-unit-list__empty-container" }, h("ir-empty-state", { message: t('Lcz_NoUnitsAvailableForSelectedDate', { fallback: 'No units available for the selected date.' }) })));
         }
-        return (h(Host, null, availableRoomTypes.length > 0 && (h("div", { class: "day-use-unit-list__infos" }, this.mode !== 'BAR_BOOKING' && (h("p", { class: 'm-0 p-0' }, this.currentExtraService ? 'Edit the existing unit or switch the booking to another one.' : 'Pick a unit for day-use.')), calendar_data.property.tax_statement && (h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "booking-editor-header__tax_statement" }, calendar_data.property.tax_statement)))), h("div", { class: "day-use-unit-list__grid" }, availableRoomTypes.map(roomType => {
+        return (h(Host, null, availableRoomTypes.length > 0 && (h("div", { class: "day-use-unit-list__infos" }, this.mode !== 'BAR_BOOKING' && (h("p", { class: 'm-0 p-0' }, this.currentExtraService
+            ? t('Lcz_EditExistingUnitOrSwitchBooking', { fallback: 'Edit the existing unit or switch the booking to another one.' })
+            : t('Lcz_PickUnitForDayUse', { fallback: 'Pick a unit for day-use.' }))), calendar_data.property.tax_statement && (h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "booking-editor-header__tax_statement" }, calendar_data.property.tax_statement)))), h("div", { class: "day-use-unit-list__grid" }, availableRoomTypes.map(roomType => {
             const units = this.getAvailableUnits(roomType);
             if (units.length === 0) {
                 return null;
@@ -302,7 +305,7 @@ export class IglDayUseUnitList {
                 "mutable": false,
                 "complexType": {
                     "original": "ExtraService",
-                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; charges?: { total_amount?: number; city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; vat_amount?: number; vat_percent?: number; }; cost?: number; room_identifier?: string; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; pr_id?: number; from_time?: string; to_time?: string; }",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; charges?: { total_amount?: number; city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; vat_amount?: number; vat_percent?: number; }; cost?: number; room_identifier?: string; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; pr_id?: number; from_time?: string; to_time?: string; }",
                     "references": {
                         "ExtraService": {
                             "location": "import",

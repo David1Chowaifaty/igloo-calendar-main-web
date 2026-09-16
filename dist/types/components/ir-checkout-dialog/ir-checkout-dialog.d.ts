@@ -5,6 +5,7 @@ import { Agent } from "../../services/agents/type";
 import { PaymentEntries } from '../ir-booking-details/types';
 export type CheckoutDialogCloseEvent = {
     reason: 'cancel' | 'checkout' | 'openInvoice';
+    isEarlyCheckout?: boolean;
 };
 export declare class IrCheckoutDialog {
     open: boolean;

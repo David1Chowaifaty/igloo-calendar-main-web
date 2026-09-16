@@ -1,6 +1,8 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
+var index = require('./index-CQkpA5n3.js');
+var t = require('./t-CyRK1btk.js');
+require('./locales.store-BMTss6fG.js');
 
 const irBookingNewFormCss = () => `.sc-ir-booking-new-form-h{display:block}`;
 
@@ -32,13 +34,13 @@ const IrBookingNewForm = class {
             NAME: '',
             PHONE: '',
             REFERENCE_TYPE: '',
-            TITLE: 'New Booking',
+            TITLE: t.t('Lcz_NewBooking', { fallback: 'New Booking' }),
         };
     }
     render() {
-        return (index.h(index.Host, { key: 'd4446c12b7e2583d662d88e252331b4501450428' }, index.h("div", { key: 'eae7bb319ebdc69b72a28fc589820238e11e08a7', onClick: () => {
+        return (index.h(index.Host, { key: '3b6dc81186fa7217416d2171edf4825eae281ebb' }, index.h("div", { key: 'ffaa0d26f9320441b96408fb8623af072f3e7f27', onClick: () => {
                 this.handleTriggerClicked();
-            } }, index.h("slot", { key: '5e12ac47d9f92ebba93d223040485101424208ef', name: "trigger" }, index.h("ir-custom-button", { key: '8bbedd3cabf1cd64c019790e59da63a5b14c12c8', appearance: "plain", variant: "brand" }, index.h("wa-icon", { key: 'a69390d93ca23787c8b1024e90b97ac02c80be59', name: "circle-plus", style: { fontSize: '1.2rem' } })))), index.h("ir-booking-editor-drawer", { key: 'c6051cbd00f77cc94a61db3d77d958126158554e', onBookingEditorClosed: e => {
+            } }, index.h("slot", { key: '7781e468aece48e55893b8f92c047efe132f35e8', name: "trigger" }, index.h("ir-custom-button", { key: 'b1136811e692f2075f2b35ba28325797179e129a', appearance: "plain", variant: "brand" }, index.h("wa-icon", { key: '0e1da5b6886307fae661d253bd380eb9766cf48a', name: "circle-plus", style: { fontSize: '1.2rem' } })))), index.h("ir-booking-editor-drawer", { key: '9fa38268bf73dc4b5545966e6f9a7ce65459ae09', onBookingEditorClosed: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingItem = null;

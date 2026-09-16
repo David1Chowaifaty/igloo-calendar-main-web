@@ -26,19 +26,31 @@ export class LocaleController {
     static service = new LocaleService();
     static loadedTables = new Set();
     static inFlight = new Map();
+    /** What is in `locales.entries` right now — null until the first fetch lands. */
     static loadedLanguage = null;
+    /**
+     * What the app has chosen, set synchronously by {@link load} before its fetch
+     * goes out. Distinct from {@link loadedLanguage} so a screen can read the right
+     * value while the strings are still on the wire.
+     */
+    static selectedLanguage = null;
     static listeners = new Set();
     /**
      * The currently selected language — the value every `language:` API parameter
      * should use, rather than a `@Prop() language` captured at mount (which is
      * `''` or `undefined` on 32 components until the host sets it).
      *
-     * Reads `locales.language` FIRST, not the private `loadedLanguage` field: going
-     * through the `@stencil/store` proxy means a call inside `render()` subscribes
-     * the component, so labels resolved through it re-render on a language switch.
+     * Correct as soon as a screen has *called* `load` with the host's prop — it does
+     * not wait for the fetch — so sibling requests built in the same `Promise.all`
+     * get the right language on first mount, provided `load` is started first.
+     *
+     * Reads `locales.language` FIRST, not the private `selectedLanguage` field:
+     * going through the `@stencil/store` proxy means a call inside `render()`
+     * subscribes the component, so labels resolved through it re-render on a
+     * language switch.
      */
     static get language() {
-        return String(locales.language || this.loadedLanguage || LanguageObserver.getLang() || 'en').toLowerCase();
+        return String(locales.language || this.selectedLanguage || LanguageObserver.getLang() || 'en').toLowerCase();
     }
     /**
      * Notifies when the selected language actually changes — the signal to refetch
@@ -69,6 +81,15 @@ export class LocaleController {
     static async load({ language, tables = [], force = false } = {}) {
         const nextLanguage = this.resolveLanguage(language, force);
         const languageChanged = this.loadedLanguage !== null && this.loadedLanguage !== nextLanguage;
+        /*
+         * Seed the selection now, before anything is awaited: callers read
+         * `LocaleController.language` for the requests they fire alongside this one,
+         * and those must not go out with the store's stale or default value.
+         */
+        this.selectedLanguage = nextLanguage;
+        if (locales.language !== nextLanguage) {
+            locales.language = nextLanguage;
+        }
         /*
          * A language switch invalidates everything already in the store, but the
          * caller only knows about its own tables. Carry the previously loaded ones
@@ -114,6 +135,7 @@ export class LocaleController {
         this.inFlight.clear();
         this.listeners.clear();
         this.loadedLanguage = null;
+        this.selectedLanguage = null;
     }
     static async fetch(language, sections) {
         locales.status = 'loading';
@@ -127,8 +149,9 @@ export class LocaleController {
         }
     }
     /**
-     * The single write path into the `locales` store. Assigns top-level keys
-     * whole — `@stencil/store` only reacts to top-level assignment.
+     * The write path for fetched data into the `locales` store (`language` alone
+     * is also seeded early by {@link load}). Assigns top-level keys whole —
+     * `@stencil/store` only reacts to top-level assignment.
      */
     static publish({ language, direction, entries, sections, }) {
         const changed = this.loadedLanguage !== null && this.loadedLanguage !== language;
@@ -159,17 +182,18 @@ export class LocaleController {
     /**
      * A `language` argument is a *request*, not an override.
      *
-     * It wins on the first load — that is how a host's `language` prop seeds the
-     * app — and whenever `force` is set, which is what an actual switch uses
+     * It wins on the first selection — that is how a host's `language` prop seeds
+     * the app — and whenever `force` is set, which is what an actual switch uses
      * (`setLanguage`, or a root's `@Watch('language')`). Once a language is
      * selected, an ordinary `load` cannot move it: screens pass their own
      * `@Prop() language` there, and that prop is stale on any screen the switcher
-     * has not re-broadcast to yet. Honouring it would let a screen re-running its
+     * has not re-broadcast to yet (or still `''` on a screen mounting while the
+     * first load is in flight). Honouring it would let a screen re-running its
      * init after a switch drag the whole app back to the previous language.
      */
     static resolveLanguage(language, force = false) {
-        const authoritative = force || this.loadedLanguage === null;
-        const candidate = (authoritative && language) || this.loadedLanguage || locales.language || LanguageObserver.getLang() || 'en';
+        const authoritative = force || this.selectedLanguage === null;
+        const candidate = (authoritative && language) || this.selectedLanguage || locales.language || LanguageObserver.getLang() || 'en';
         return String(candidate).toLowerCase();
     }
     static clear() {

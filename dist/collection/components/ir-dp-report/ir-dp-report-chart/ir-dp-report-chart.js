@@ -4,6 +4,7 @@ import moment from "moment";
 import dp_report, { onDpReportChange } from "../../../stores/dp_report.store";
 import { formatAmount } from "../../../utils/utils";
 import { formatDate } from "../../../utils/date/index";
+import { t } from "../../../services/locale/t";
 Chart.register(...registerables);
 export class IrDpReportChart {
     el;
@@ -81,7 +82,7 @@ export class IrDpReportChart {
     buildDataset(rows) {
         const successColor = this.getCssVar('--wa-color-success-fill-loud');
         return {
-            label: 'Gain / Reduction',
+            label: t('Lcz_GainReduction', { fallback: 'Gain / Reduction' }),
             data: rows.map(r => this.clampProfit(r.profit)),
             backgroundColor: successColor,
             hoverBackgroundColor: successColor,
@@ -148,14 +149,14 @@ export class IrDpReportChart {
         const profit = this.clampProfit(row.profit);
         const effectRow = document.createElement('div');
         effectRow.className = 'dp-chart-tooltip__row';
-        effectRow.append(`Dynamic pricing effect: `);
+        effectRow.append(`${t('Lcz_DynamicPricingEffect', { fallback: 'Dynamic Pricing Effect' })}: `);
         const effectValue = document.createElement('span');
         effectValue.className = 'dp-chart-tooltip__value dp-chart-tooltip__value--gain';
         effectValue.textContent = `+${formatAmount(row.currencySymbol, profit)}`;
         effectRow.appendChild(effectValue);
         const valueRow = document.createElement('div');
         valueRow.className = 'dp-chart-tooltip__row';
-        valueRow.textContent = `Total stay value: ${formatAmount(row.currencySymbol, row.accommodationGross)}`;
+        valueRow.textContent = `${t('Lcz_TotalStayValue', { fallback: 'Total stay value:' })} ${formatAmount(row.currencySymbol, row.accommodationGross)}`;
         container.append(header, effectRow, valueRow);
     }
     handleTooltip = (context) => {
@@ -256,7 +257,7 @@ export class IrDpReportChart {
             return (h(Host, null, h("div", { class: "dp-chart__loading" }, h("ir-spinner", null))));
         }
         if (dp_report.rows.length === 0) {
-            return (h(Host, null, h("div", { class: "dp-chart-container dp-chart-container--empty" }, h("ir-empty-state", { message: "No dynamic pricing data for this date range." }))));
+            return (h(Host, null, h("div", { class: "dp-chart-container dp-chart-container--empty" }, h("ir-empty-state", { message: t('Lcz_NoDynamicPricingData', { fallback: 'No dynamic pricing data for this date range.' }) }))));
         }
         return (h(Host, null, h("div", { class: "dp-chart-container" }, h("canvas", { ref: this.handleCanvasRef }))));
     }

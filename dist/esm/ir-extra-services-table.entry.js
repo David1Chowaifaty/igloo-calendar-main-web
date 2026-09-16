@@ -1,7 +1,14 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-BYqrdgY9.js';
-import { E as ExtraServiceSection, A as AccommodationExtraCode, c as createBlankAddon } from './types-DeEQXDgI.js';
-import { V as VatIncludedCodes } from './enums-CSCQSgBu.js';
-import './index-DeW5X45W.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
+import { E as ExtraServiceSection, A as AccommodationExtraCode, c as createBlankAddon } from './types-Ca6x9VUH.js';
+import { V as VatIncludedCodes } from './enums-CcLtXwvz.js';
+import { t } from './t-Bk78Wumj.js';
+import { c as formatNumber } from './number-DegV2dS7.js';
+import './types-BG9uwIsj.js';
+import './locales.store-CXJn6ls-.js';
+import './ir-date-DFR8GVLZ.js';
+import './language-observer-CHgzsZkY.js';
+import './moment-Mki5YqAR.js';
+import './_commonjsHelpers-BFTU3MAI.js';
 
 const irExtraServicesTableCss = () => `.sc-ir-extra-services-table-h{display:block}.extra-services-table__action.sc-ir-extra-services-table{display:flex;min-width:60px;justify-content:flex-end}.extra-services-table__muted.sc-ir-extra-services-table{font-size:0.8125rem;color:var(--wa-color-text-quiet, var(--wa-color-neutral-on-quiet));white-space:normal !important}`;
 
@@ -22,23 +29,26 @@ const IrExtraServicesTable = class {
         return this.section === ExtraServiceSection.BookingEngineAddon;
     }
     getVatLabel(service) {
-        return service.vat_mode === VatIncludedCodes.Inclusive ? 'Inclusive' : 'Exclusive';
+        return service.vat_mode === VatIncludedCodes.Inclusive ? t('Lcz_Inclusive', { fallback: 'Inclusive' }) : t('Lcz_Exclusive', { fallback: 'Exclusive' });
     }
     getDetails(service) {
         if (service.code !== AccommodationExtraCode.DayUse || !service.day_use_config) {
             return null;
         }
         const { block_night, default_start_time, default_end_time } = service.day_use_config;
-        return `Block Night: ${block_night ? 'Yes' : 'No'} (${default_start_time}–${default_end_time})`;
+        return t('Lcz_BlockNightDetailFormat', {
+            fallback: `Block Night: ${block_night ? 'Yes' : 'No'} (${default_start_time}–${default_end_time})`,
+            params: [block_night ? t('Lcz_YES', { fallback: 'Yes' }) : t('Lcz_NO', { fallback: 'No' }), default_start_time, default_end_time],
+        });
     }
     createAddon = () => {
         this.upsertExtraService.emit(createBlankAddon(this.propertyId));
     };
     render() {
-        return (h(Host, { key: '8e557e2dbbdae9dcfa29695e9dbad8d0eef0a89d' }, h("div", { key: 'e024a0d9cc252b4231b1f0a0359cd55d4bc0e5f4', class: "table--container" }, h("table", { key: '61820fa23f8fbc45e97891b3f2a470c5c2f5e7d8', class: "table" }, h("thead", { key: 'd108cc0d764ef227846012ea302fe10def8f31a5' }, h("tr", { key: 'f4454d0d1d4419b8207eaa367d835de245601fb3' }, h("th", { key: '011eb38c222873861e82f72011adb91b21d8eca8', class: "extra-services-table__header" }, "Name"), h("th", { key: '4800df0ae4d465ea64aa7ee075ba6cf6829c0029', class: "extra-services-table__header" }, "Default Price (USD)"), h("th", { key: 'be6b8ad4a83c43fb54c60cfbd25b33f7e9cf6b05', class: "extra-services-table__header" }, "VAT"), h("th", { key: '99d72820179f417cd00699794fca58f04ee149ec', class: "extra-services-table__header" }, "Allow Override"), h("th", { key: 'd2ff5d2e53bec1b760f44ae331156eba835a234d', class: "extra-services-table__header" }, "Details"), h("th", { key: '065904c1b055cd469032d5ac9e6c86cbdc9fef73', class: "extra-services-table__header" }, "Active"), h("th", { key: '7184d8c18566586c56be155af7928ac75e6bb069', class: "extra-services-table__header" }, this.isAddonSection() && (h("div", { key: '649252267b18de6ebbdf4d60fea09b29f73f8c84', class: "extra-services-table__action" }, h("wa-tooltip", { key: '7690c90f8785bf4b818ce00315438d4c32e245b3', for: "create-addon-button" }, "New Add-On"), h("ir-custom-button", { key: '5f40f662e060c8a674b355a4beb7ca40fcc922b6', onClickHandler: this.createAddon, variant: "neutral", appearance: "plain", id: "create-addon-button", "data-testid": "create-addon-button" }, h("wa-icon", { key: '55942a88509e5c143cfa7d7258e513ed914f98c2', name: "plus", style: { fontSize: '1.2rem' }, label: "New Add-On" }))))))), h("tbody", { key: '03478cac4a3842d6a80a8cc7ef37ce60f12d4ec3' }, this.services.map(service => {
+        return (h(Host, { key: 'eb9250c226388b456d2596c2f5e8d108d4678d9b' }, h("div", { key: '2780c89edf7a83279ddb6c076f30b58bcf7b5be9', class: "table--container" }, h("table", { key: 'dcb1f0ca58ccb0f45274ae9a335d2d964eff2ef5', class: "table" }, h("thead", { key: '332283e3ef2781ddaa0b091c1516ce3bbe1a5ea3' }, h("tr", { key: '1c069285e73f6b5d41c85808047de94e1c4a7cd1' }, h("th", { key: 'd52f58440e77aacdb3534f8c9e2ea7b83f9d6144', class: "extra-services-table__header" }, t('Lcz_Name', { fallback: 'Name' })), h("th", { key: 'e47074f6cd6d769b37db9cfb5096d01f032c2a1e', class: "extra-services-table__header" }, t('Lcz_DefaultPriceUsd', { fallback: 'Default Price (USD)' })), h("th", { key: '6dfc595d8ffc25ef98ccfc5dde83d64244cc9781', class: "extra-services-table__header" }, t('Lcz_Vat', { fallback: 'VAT' })), h("th", { key: '92c0f2c0974fb8a8f09998d5edc041e776d9869b', class: "extra-services-table__header" }, t('Lcz_AllowOverrideHeader', { fallback: 'Allow Override' })), h("th", { key: '0d523280737a564164fedb2df0231877f52a154a', class: "extra-services-table__header" }, t('Lcz_DetailsHeader', { fallback: 'Details' })), h("th", { key: '88114ca1220b5843c7f1a8e8f2cd0529db644c9f', class: "extra-services-table__header" }, t('Lcz_Active', { fallback: 'Active' })), h("th", { key: 'b5adf8ecaabfd9c098e66c740b3f23f040b842c5', class: "extra-services-table__header" }, this.isAddonSection() && (h("div", { key: 'ac602a24ed858587b0e5b18f1aef1c2a80769e42', class: "extra-services-table__action" }, h("wa-tooltip", { key: 'fa6265e9fb3e8b1cd88b44429426c43d9bda0874', for: "create-addon-button" }, t('Lcz_NewAddOn', { fallback: 'New Add-On' })), h("ir-custom-button", { key: '9e89a09025f49d4ca3038195d147b79b4b4f40b5', onClickHandler: this.createAddon, variant: "neutral", appearance: "plain", id: "create-addon-button", "data-testid": "create-addon-button" }, h("wa-icon", { key: '98bce020a043b274bba58754f8dacde822e36dc7', name: "plus", style: { fontSize: '1.2rem' }, label: t('Lcz_NewAddOn', { fallback: 'New Add-On' }) }))))))), h("tbody", { key: 'a38578d13b36e7d22f6f744e49166dfdcd01dd14' }, this.services.map(service => {
             const details = this.getDetails(service);
-            return (h("tr", { class: "ir-table-row", key: service.code ?? service.id }, h("td", null, service.name), h("td", null, service.default_price.toFixed(2)), h("td", null, this.getVatLabel(service)), h("td", null, service.allow_price_override ? 'Yes' : 'No'), h("td", { class: "extra-services-table__muted" }, details ?? '—'), h("td", null, h("wa-switch", { onchange: e => this.toggleExtraServiceActive.emit({ ...service, is_active: e.target.checked }), defaultChecked: service.is_active, checked: service.is_active })), h("td", null, h("div", { class: "extra-services-table__action" }, h("ir-custom-button", { appearance: "plain", variant: "neutral", onClickHandler: () => this.upsertExtraService.emit(service) }, h("wa-icon", { name: "edit", "aria-hidden": "true", style: { fontSize: '1.2rem' } }))))));
-        }), this.services?.length === 0 && (h("tr", { key: '3bfb3d97f6b26889eca13e73fcf36ef50fd53519', class: "empty-row" }, h("td", { key: '57eeab168ca16214d5d30103bfbb592cfa0c2eab', colSpan: 7 }, h("ir-empty-state", { key: 'b252b7fa8aed49ba9cd9ed09dc75c13291c7e3b2', message: "No add-ons yet" })))))))));
+            return (h("tr", { class: "ir-table-row", key: service.code ?? service.id }, h("td", null, service.name), h("td", null, formatNumber(service.default_price, { minimumFractionDigits: 2, maximumFractionDigits: 2 })), h("td", null, this.getVatLabel(service)), h("td", null, service.allow_price_override ? t('Lcz_YES', { fallback: 'Yes' }) : t('Lcz_NO', { fallback: 'No' })), h("td", { class: "extra-services-table__muted" }, details ?? '—'), h("td", null, h("wa-switch", { onchange: e => this.toggleExtraServiceActive.emit({ ...service, is_active: e.target.checked }), defaultChecked: service.is_active, checked: service.is_active })), h("td", null, h("div", { class: "extra-services-table__action" }, h("ir-custom-button", { appearance: "plain", variant: "neutral", onClickHandler: () => this.upsertExtraService.emit(service) }, h("wa-icon", { name: "edit", "aria-hidden": "true", style: { fontSize: '1.2rem' } }))))));
+        }), this.services?.length === 0 && (h("tr", { key: 'd61fe176c733738ca7a9123cd76d46bc4682af25', class: "empty-row" }, h("td", { key: '799787ce3785a3eff2e3cd2bd21ca8831c2856c7', colSpan: 7 }, h("ir-empty-state", { key: 'c14b99508afe19a02448153c3eede87f9fced12e', message: t('Lcz_NoAddOnsYet', { fallback: 'No add-ons yet' }) })))))))));
     }
 };
 IrExtraServicesTable.style = irExtraServicesTableCss() + tableCss();

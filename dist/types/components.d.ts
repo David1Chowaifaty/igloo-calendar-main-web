@@ -107,7 +107,9 @@ import { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 import { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
 import { Toast } from "./components/ir-toast-provider/ir-toast-provider";
 import { ToastOptions } from "./components/ui/ir-toasts-provider/ir-toasts-provider";
-import { DuplicateInfo, TranslationEntry, TranslationLanguage, TranslationTable } from "./components/ir-translations-manager/types";
+import { DuplicateInfo, DuplicateSibling, EntrySavedDetail, TranslationEntry, TranslationLanguage, TranslationTable } from "./components/ir-translations-manager/types";
+import { TranslationEntryMoved } from "./components/ir-translations-manager/ir-translations-move-dialog/ir-translations-move-dialog";
+import { TranslationsSettingsSaved } from "./components/ir-translations-manager/ir-translations-settings-dialog/ir-translations-settings-dialog";
 import { User } from "./models/Users";
 import { AllowedUser } from "./components/ir-user-management/types";
 import { VoidDocumentRequest } from "./components/ir-booking-details/ir-void-document-dialog/ir-void-document-dialog";
@@ -213,7 +215,9 @@ export { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 export { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
 export { Toast } from "./components/ir-toast-provider/ir-toast-provider";
 export { ToastOptions } from "./components/ui/ir-toasts-provider/ir-toasts-provider";
-export { DuplicateInfo, TranslationEntry, TranslationLanguage, TranslationTable } from "./components/ir-translations-manager/types";
+export { DuplicateInfo, DuplicateSibling, EntrySavedDetail, TranslationEntry, TranslationLanguage, TranslationTable } from "./components/ir-translations-manager/types";
+export { TranslationEntryMoved } from "./components/ir-translations-manager/ir-translations-move-dialog/ir-translations-move-dialog";
+export { TranslationsSettingsSaved } from "./components/ir-translations-manager/ir-translations-settings-dialog/ir-translations-settings-dialog";
 export { User } from "./models/Users";
 export { AllowedUser } from "./components/ir-user-management/types";
 export { VoidDocumentRequest } from "./components/ir-booking-details/ir-void-document-dialog/ir-void-document-dialog";
@@ -1031,18 +1035,16 @@ export namespace Components {
     interface IrAssignmentToggleDialog {
         /**
           * Cancel button label
-          * @default 'Cancel'
          */
         "cancelLabel": string;
         "closeModal": () => Promise<void>;
         /**
           * Confirm button label
-          * @default 'Confirm'
          */
         "confirmLabel": string;
         /**
           * Dialog header title
-          * @default 'Are you sure?'
+          * @default t('Lcz_AreYouSure', { fallback: 'Are you sure?' })
          */
         "label": string;
         /**
@@ -2301,10 +2303,6 @@ export namespace Components {
           * @default null
          */
         "agentId": number | null;
-        /**
-          * @default '$'
-         */
-        "currencySymbol": string;
         "refresh": () => Promise<void>;
     }
     interface IrCityLedgerTransactionDrawer {
@@ -2321,7 +2319,7 @@ export namespace Components {
          */
         "bookingOptions": LinkedOption[];
         /**
-          * @default 'New Entry'
+          * @default t('Lcz_NewEntryTitle', { fallback: 'New Entry' })
          */
         "drawerLabel": string;
         /**
@@ -2546,9 +2544,6 @@ export namespace Components {
           * @default ''
          */
         "hint": string;
-        /**
-          * @default 'Invoice'
-         */
         "label": string;
         /**
           * @default ''
@@ -2628,21 +2623,12 @@ export namespace Components {
         "row": Row<any>;
     }
     interface IrColumnAutocomplete {
-        /**
-          * @default 'No results found'
-         */
         "emptyLabel": string;
         /**
           * @default []
          */
         "options": string[];
-        /**
-          * @default 'Search...'
-         */
         "placeholder": string;
-        /**
-          * @default 'Select all'
-         */
         "selectAllLabel": string;
         /**
           * @default []
@@ -3089,9 +3075,8 @@ export namespace Components {
         "minDate"?: string;
         /**
           * Configurable quick-date preset buttons shown alongside each calendar.
-          * @default [     { label: 'Today', getDate: () => moment() },     { label: '30 Days Ago', getDate: () => moment().subtract(30, 'days') },     { label: '60 Days Ago', getDate: () => moment().subtract(60, 'days') },     { label: '90 Days Ago', getDate: () => moment().subtract(90, 'days') },     { label: '1 Year Ago', getDate: () => moment().subtract(1, 'year') },   ]
          */
-        "quickDates": QuickDatePreset[];
+        "quickDates"?: QuickDatePreset[];
         /**
           * How a quick-date preset behaves when picked from the *to* side: - `'absolute'` (default): sets only the to-date to `preset.getDate()`, same as the from side. - `'range'`: treats `preset.getDate()` as a "N units ago" anchor — sets from-date to   `preset.getDate()` and to-date to today, so e.g. "7 Days Ago" becomes a "last 7 days" range.   The from side is unaffected by this prop; it always sets only the from-date.
           * @default 'absolute'
@@ -3409,9 +3394,6 @@ export namespace Components {
         "value": string;
     }
     interface IrEmptyState {
-        /**
-          * @default 'No records found'
-         */
         "message": string;
         /**
           * @default true
@@ -3522,7 +3504,7 @@ export namespace Components {
         "action": FdConfirmAction | null;
         "amount": number;
         /**
-          * @default 'this document'
+          * @default t('Lcz_ThisDocumentFallback', { fallback: 'this document' })
          */
         "docNumber": string;
         "fdType": string;
@@ -3638,7 +3620,7 @@ export namespace Components {
         "actionsAlign": 'start' | 'center' | 'end' | 'space-between' | 'space-around';
         /**
           * Apply button copy
-          * @default t('Lcz_Apply')
+          * @default t('Lcz_Apply', { fallback: 'Apply' })
          */
         "applyLabel": string;
         /**
@@ -3690,7 +3672,7 @@ export namespace Components {
         "disableReset": boolean;
         /**
           * Panel headline text
-          * @default t('Lcz_Filters')
+          * @default t('Lcz_Filters', { fallback: 'Filters' })
          */
         "filterTitle": string;
         /**
@@ -3718,7 +3700,7 @@ export namespace Components {
         "persistentOnDesktop": boolean;
         /**
           * Reset button copy
-          * @default t('Lcz_Reset')
+          * @default t('Lcz_Reset', { fallback: 'Reset' })
          */
         "resetLabel": string;
         /**
@@ -3912,6 +3894,10 @@ export namespace Components {
     }
     interface IrGhsOnboarding {
         "baseurl": string;
+        /**
+          * @default 'en'
+         */
+        "language": string;
         "ticket": string;
     }
     interface IrGhsSelectionBucket {
@@ -4676,9 +4662,6 @@ export namespace Components {
     interface IrListingModal {
         "closeModal": () => Promise<void>;
         "editBooking": { booking: Booking; cause: 'edit' | 'payment' | 'delete' | 'guest' };
-        /**
-          * @default 'Modal Title'
-         */
         "modalTitle": string;
         "openModal": () => Promise<void>;
         "paymentEntries": PaymentEntries;
@@ -4712,6 +4695,10 @@ export namespace Components {
         "sampleDate": string;
     }
     interface IrLogin {
+        /**
+          * @default 'en'
+         */
+        "language": string;
     }
     interface IrMCombobox {
         /**
@@ -4915,7 +4902,6 @@ export namespace Components {
         "error"?: string;
         /**
           * Visible label for the phone input
-          * @default 'Phone number'
          */
         "label": string;
         /**
@@ -4925,7 +4911,6 @@ export namespace Components {
         "name": string;
         /**
           * Placeholder shown when the input is empty
-          * @default 'Enter phone number'
          */
         "placeholder": string;
         /**
@@ -4997,7 +4982,6 @@ export namespace Components {
         "leftBtnColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
           * Text displayed on the left (cancel/close) button.
-          * @default 'Close'
          */
         "leftBtnText": string;
         /**
@@ -5012,17 +4996,14 @@ export namespace Components {
         "middleBtnColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
           * Text displayed on the middle (tertiary) button.
-          * @default 'More'
          */
         "middleBtnText": string;
         /**
           * The main content text shown in the modal body.
-          * @default 'Modal Body'
          */
         "modalBody": string;
         /**
           * The title text displayed in the modal header.
-          * @default 'Modal Title'
          */
         "modalTitle": string;
         /**
@@ -5041,7 +5022,6 @@ export namespace Components {
         "rightBtnColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
           * Text displayed on the right (confirm) button.
-          * @default 'Confirm'
          */
         "rightBtnText": string;
         /**
@@ -5556,6 +5536,10 @@ export namespace Components {
         "bookingNumber": string;
     }
     interface IrPmsPage {
+        /**
+          * @default 'en'
+         */
+        "language": string;
         "propertyid": string;
         "ticket": string;
     }
@@ -5623,7 +5607,6 @@ export namespace Components {
         "hideDefaultAction": boolean;
         /**
           * The dialog's label as displayed in the header. Required for accessibility and announced by assistive technologies.
-          * @default 'Preview'
          */
         "label": string;
         /**
@@ -5847,7 +5830,7 @@ export namespace Components {
     interface IrQueueChart {
         /**
           * Chart title
-          * @default 'Queue Status'
+          * @default t('Lcz_QueueStatus', { fallback: 'Queue Status' })
          */
         "label": string;
         /**
@@ -5862,6 +5845,10 @@ export namespace Components {
         "values": number[];
     }
     interface IrQueueManager {
+        /**
+          * @default 'en'
+         */
+        "language": string;
         /**
           * @default ''
          */
@@ -6114,7 +6101,7 @@ export namespace Components {
          */
         "checkIn": boolean;
         /**
-          * A list of available countries. Used to populate dropdowns for selecting the {t('Lcz_Nationality')} of guests.
+          * A list of available countries. Used to populate dropdowns for selecting the {t('Lcz_Nationality', { fallback: 'Nationality' })} of guests.
          */
         "countries": ICountry[];
         /**
@@ -6136,7 +6123,7 @@ export namespace Components {
          */
         "roomType": string;
         /**
-          * An array of people sharing the room. Contains information about the {t('Lcz_MainGuest')} and additional guests, such as their name, date of birth, {t('Lcz_Nationality')}, and ID details.
+          * An array of people sharing the room. Contains information about the {t('Lcz_MainGuest', { fallback: 'Main guest' })} and additional guests, such as their name, date of birth, {t('Lcz_Nationality', { fallback: 'Nationality' })}, and ID details.
           * @default []
          */
         "sharedPersons": SharedPerson[];
@@ -6156,7 +6143,7 @@ export namespace Components {
          */
         "checkIn": boolean;
         /**
-          * A list of available countries. Used to populate dropdowns for selecting the {t('Lcz_Nationality')} of guests.
+          * A list of available countries. Used to populate dropdowns for selecting the {t('Lcz_Nationality', { fallback: 'Nationality' })} of guests.
          */
         "countries": ICountry[];
         /**
@@ -6173,7 +6160,7 @@ export namespace Components {
          */
         "roomName": string;
         /**
-          * An array of people sharing the room. Contains information about the {t('Lcz_MainGuest')} and additional guests, such as their name, date of birth, {t('Lcz_Nationality')}, and ID details.
+          * An array of people sharing the room. Contains information about the {t('Lcz_MainGuest', { fallback: 'Main guest' })} and additional guests, such as their name, date of birth, {t('Lcz_Nationality', { fallback: 'Nationality' })}, and ID details.
           * @default []
          */
         "sharedPersons": SharedPerson[];
@@ -6272,6 +6259,7 @@ export namespace Components {
     }
     interface IrSecureTasks {
         "bookingNumber": string;
+        "language": string;
         "p": string;
         "propertyid": number;
         "ticket": string;
@@ -6283,9 +6271,6 @@ export namespace Components {
           * @default false
          */
         "error": boolean;
-        /**
-          * @default 'Select'
-         */
         "firstOption": string;
         /**
           * Floating label text that appears inside the input and “floats” above when the field is focused or has a value.  - If provided, a floating label will be rendered inside the input container. - If you omit this prop but set `label`, the old left-side static label is used. - If you provide both `label` and `floatingLabel`, only the floating label is shown.   Examples: ```tsx <ir-select floating-label label="Phone" /> ```
@@ -6351,7 +6336,6 @@ export namespace Components {
         "assigneeType": 'agent' | 'guest';
         /**
           * Label displayed above the assignment selector.
-          * @default 'Assign to folio'
          */
         "label": string;
     }
@@ -6881,6 +6865,11 @@ export namespace Components {
           * @default []
          */
         "languages": TranslationLanguage[];
+        /**
+          * Whether the notes column is included at all.
+          * @default true
+         */
+        "showNotes": boolean;
         "sourceCode"?: string;
         /**
           * Distinct table names present in `entries`, in display order — the table filter's options.
@@ -6929,6 +6918,11 @@ export namespace Components {
          */
         "reorderEnabled": boolean;
         /**
+          * Whether the notes column is included at all.
+          * @default true
+         */
+        "showNotes": boolean;
+        /**
           * Code of the reference language, marked in the header.
          */
         "sourceCode"?: string;
@@ -6938,6 +6932,11 @@ export namespace Components {
      * draft, validation, and the actual save call.
      */
     interface IrTranslationsEntryDrawer {
+        /**
+          * Passed through to the form — rows in other tables that share `entry`'s description.
+          * @default []
+         */
+        "duplicateSiblings": DuplicateSibling[];
         /**
           * The entry being edited. Null puts the drawer in create mode.
           * @default null
@@ -6974,6 +6973,11 @@ export namespace Components {
      * the drawer around this form is a dumb open/close shell.
      */
     interface IrTranslationsEntryForm {
+        /**
+          * Rows in other used tables sharing `entry`'s description — language changes are written to them in the same batch.
+          * @default []
+         */
+        "duplicateSiblings": DuplicateSibling[];
         /**
           * The entry being edited. Null puts the form in create mode.
           * @default null
@@ -7031,6 +7035,67 @@ export namespace Components {
           * Acting user id, sent as ENTRY_USER_ID on every write.
          */
         "userId": number;
+    }
+    /**
+     * Moves one setup entry to another table through Move_Setup_Entry — the
+     * backend re-homes the row, so nothing is re-created or soft-deleted here.
+     * The destination list is whatever the parent passes as `tables`: the manager
+     * hands over the same set its header picker offers, so the "only used tables"
+     * setting narrows both the same way. The search box is a local filter over
+     * that list, and the source table is never offered as a destination.
+     */
+    interface IrTranslationsMoveDialog {
+        /**
+          * The row being moved. Its `tableName` is the source table.
+          * @default null
+         */
+        "entry": TranslationEntry | null;
+        /**
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Language whose value is shown next to the key, so the user can tell rows with similar keys apart.
+         */
+        "sourceCode"?: string;
+        /**
+          * Candidate destinations — the tables the header picker shows.
+          * @default []
+         */
+        "tables": TranslationTable[];
+    }
+    /**
+     * Settings for the entries grid — which tables the pickers offer, which
+     * non-source languages show up as columns, and whether the notes column is
+     * shown. Every control here edits a local draft only; nothing reaches the
+     * parent (and nothing is persisted) until Save is clicked. Cancel — or
+     * dismissing the dialog any other way — drops the draft entirely.
+     */
+    interface IrTranslationsSettingsDialog {
+        /**
+          * Every language this property exposes; the pin list only ever applies to the non-source ones.
+          * @default []
+         */
+        "languages": TranslationLanguage[];
+        /**
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Non-source language codes currently shown as columns.
+          * @default []
+         */
+        "pinnedCodes": string[];
+        /**
+          * @default true
+         */
+        "showNotes": boolean;
+        "sourceCode"?: string;
+        /**
+          * Hides setup tables nothing in this codebase reads — the same filter the table pickers apply.
+          * @default true
+         */
+        "usedTablesOnly": boolean;
     }
     /**
      * Dumb open/close shell — the nested ir-translations-table-form owns the
@@ -8307,6 +8372,14 @@ export interface IrTranslationsEntryFormCustomEvent<T> extends CustomEvent<T> {
 export interface IrTranslationsLanguageDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrTranslationsLanguageDialogElement;
+}
+export interface IrTranslationsMoveDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrTranslationsMoveDialogElement;
+}
+export interface IrTranslationsSettingsDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrTranslationsSettingsDialogElement;
 }
 export interface IrTranslationsTableDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -12925,7 +12998,7 @@ declare global {
         "pressCheckIn": any;
         "pressCheckOut": any;
         "editInitiated": TIglBookPropertyPayload;
-        "resetBookingEvt": null;
+        "resetBookingEvt": Booking | null;
         "openSidebar": OpenSidebarEvent<RoomGuestsPayload1>;
         "addExtraServiceToUnit": { pr_id: number };
     }
@@ -13503,6 +13576,7 @@ declare global {
         "createEntry": void;
         "editEntry": TranslationEntry;
         "duplicateEntry": TranslationEntry;
+        "moveEntry": TranslationEntry;
         "deleteEntry": TranslationEntry;
         "entryChange": TranslationEntry;
         "reorderEntries": TranslationEntry[];
@@ -13533,6 +13607,7 @@ declare global {
         "entryChange": TranslationEntry;
         "editEntry": TranslationEntry;
         "duplicateEntry": TranslationEntry;
+        "moveEntry": TranslationEntry;
         "deleteEntry": TranslationEntry;
         "clearFilters": void;
         "reorderEntries": TranslationEntry[];
@@ -13554,7 +13629,7 @@ declare global {
     };
     interface HTMLIrTranslationsEntryDrawerElementEventMap {
         "closeDrawer": void;
-        "entrySaved": void;
+        "entrySaved": EntrySavedDetail;
     }
     /**
      * Dumb open/close shell — the nested ir-translations-entry-form owns the
@@ -13575,7 +13650,7 @@ declare global {
         new (): HTMLIrTranslationsEntryDrawerElement;
     };
     interface HTMLIrTranslationsEntryFormElementEventMap {
-        "entrySaved": void;
+        "entrySaved": EntrySavedDetail;
         "submitDisabledChange": boolean;
         "isSubmittingChange": boolean;
     }
@@ -13622,6 +13697,57 @@ declare global {
     var HTMLIrTranslationsManagerElement: {
         prototype: HTMLIrTranslationsManagerElement;
         new (): HTMLIrTranslationsManagerElement;
+    };
+    interface HTMLIrTranslationsMoveDialogElementEventMap {
+        "closeDialog": void;
+        "entryMoved": TranslationEntryMoved;
+    }
+    /**
+     * Moves one setup entry to another table through Move_Setup_Entry — the
+     * backend re-homes the row, so nothing is re-created or soft-deleted here.
+     * The destination list is whatever the parent passes as `tables`: the manager
+     * hands over the same set its header picker offers, so the "only used tables"
+     * setting narrows both the same way. The search box is a local filter over
+     * that list, and the source table is never offered as a destination.
+     */
+    interface HTMLIrTranslationsMoveDialogElement extends Components.IrTranslationsMoveDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrTranslationsMoveDialogElementEventMap>(type: K, listener: (this: HTMLIrTranslationsMoveDialogElement, ev: IrTranslationsMoveDialogCustomEvent<HTMLIrTranslationsMoveDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrTranslationsMoveDialogElementEventMap>(type: K, listener: (this: HTMLIrTranslationsMoveDialogElement, ev: IrTranslationsMoveDialogCustomEvent<HTMLIrTranslationsMoveDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrTranslationsMoveDialogElement: {
+        prototype: HTMLIrTranslationsMoveDialogElement;
+        new (): HTMLIrTranslationsMoveDialogElement;
+    };
+    interface HTMLIrTranslationsSettingsDialogElementEventMap {
+        "saveSettings": TranslationsSettingsSaved;
+        "closeDialog": void;
+    }
+    /**
+     * Settings for the entries grid — which tables the pickers offer, which
+     * non-source languages show up as columns, and whether the notes column is
+     * shown. Every control here edits a local draft only; nothing reaches the
+     * parent (and nothing is persisted) until Save is clicked. Cancel — or
+     * dismissing the dialog any other way — drops the draft entirely.
+     */
+    interface HTMLIrTranslationsSettingsDialogElement extends Components.IrTranslationsSettingsDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrTranslationsSettingsDialogElementEventMap>(type: K, listener: (this: HTMLIrTranslationsSettingsDialogElement, ev: IrTranslationsSettingsDialogCustomEvent<HTMLIrTranslationsSettingsDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrTranslationsSettingsDialogElementEventMap>(type: K, listener: (this: HTMLIrTranslationsSettingsDialogElement, ev: IrTranslationsSettingsDialogCustomEvent<HTMLIrTranslationsSettingsDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrTranslationsSettingsDialogElement: {
+        prototype: HTMLIrTranslationsSettingsDialogElement;
+        new (): HTMLIrTranslationsSettingsDialogElement;
     };
     interface HTMLIrTranslationsTableDialogElementEventMap {
         "closeDialog": void;
@@ -14265,6 +14391,8 @@ declare global {
         "ir-translations-entry-form": HTMLIrTranslationsEntryFormElement;
         "ir-translations-language-dialog": HTMLIrTranslationsLanguageDialogElement;
         "ir-translations-manager": HTMLIrTranslationsManagerElement;
+        "ir-translations-move-dialog": HTMLIrTranslationsMoveDialogElement;
+        "ir-translations-settings-dialog": HTMLIrTranslationsSettingsDialogElement;
         "ir-translations-table-dialog": HTMLIrTranslationsTableDialogElement;
         "ir-translations-table-form": HTMLIrTranslationsTableFormElement;
         "ir-unbookable-rooms": HTMLIrUnbookableRoomsElement;
@@ -15238,17 +15366,15 @@ declare namespace LocalJSX {
     interface IrAssignmentToggleDialog {
         /**
           * Cancel button label
-          * @default 'Cancel'
          */
         "cancelLabel"?: string;
         /**
           * Confirm button label
-          * @default 'Confirm'
          */
         "confirmLabel"?: string;
         /**
           * Dialog header title
-          * @default 'Are you sure?'
+          * @default t('Lcz_AreYouSure', { fallback: 'Are you sure?' })
          */
         "label"?: string;
         /**
@@ -16593,10 +16719,6 @@ declare namespace LocalJSX {
           * @default null
          */
         "agentId"?: number | null;
-        /**
-          * @default '$'
-         */
-        "currencySymbol"?: string;
         "onCreateInvoice"?: (event: IrCityLedgerToolbarCustomEvent<void>) => void;
     }
     interface IrCityLedgerTransactionDrawer {
@@ -16613,7 +16735,7 @@ declare namespace LocalJSX {
          */
         "bookingOptions"?: LinkedOption[];
         /**
-          * @default 'New Entry'
+          * @default t('Lcz_NewEntryTitle', { fallback: 'New Entry' })
          */
         "drawerLabel"?: string;
         /**
@@ -16850,9 +16972,6 @@ declare namespace LocalJSX {
           * @default ''
          */
         "hint"?: string;
-        /**
-          * @default 'Invoice'
-         */
         "label"?: string;
         "onInvoiceChange"?: (event: IrClInvoiceSelectCustomEvent<string>) => void;
         /**
@@ -16937,9 +17056,6 @@ declare namespace LocalJSX {
         "row"?: Row<any>;
     }
     interface IrColumnAutocomplete {
-        /**
-          * @default 'No results found'
-         */
         "emptyLabel"?: string;
         "onAutocompleteSelectionChange"?: (event: IrColumnAutocompleteCustomEvent<ColumnAutocompleteSelectionChange>) => void;
         "onQueryChange"?: (event: IrColumnAutocompleteCustomEvent<string>) => void;
@@ -16947,13 +17063,7 @@ declare namespace LocalJSX {
           * @default []
          */
         "options"?: string[];
-        /**
-          * @default 'Search...'
-         */
         "placeholder"?: string;
-        /**
-          * @default 'Select all'
-         */
         "selectAllLabel"?: string;
         /**
           * @default []
@@ -17444,7 +17554,6 @@ declare namespace LocalJSX {
         "onDatesChanged"?: (event: IrDateRangeFilterCustomEvent<{ from: string | null; to: string | null }>) => void;
         /**
           * Configurable quick-date preset buttons shown alongside each calendar.
-          * @default [     { label: 'Today', getDate: () => moment() },     { label: '30 Days Ago', getDate: () => moment().subtract(30, 'days') },     { label: '60 Days Ago', getDate: () => moment().subtract(60, 'days') },     { label: '90 Days Ago', getDate: () => moment().subtract(90, 'days') },     { label: '1 Year Ago', getDate: () => moment().subtract(1, 'year') },   ]
          */
         "quickDates"?: QuickDatePreset[];
         /**
@@ -17811,9 +17920,6 @@ declare namespace LocalJSX {
         "value": string;
     }
     interface IrEmptyState {
-        /**
-          * @default 'No records found'
-         */
         "message"?: string;
         /**
           * @default true
@@ -17936,7 +18042,7 @@ declare namespace LocalJSX {
         "action"?: FdConfirmAction | null;
         "amount"?: number;
         /**
-          * @default 'this document'
+          * @default t('Lcz_ThisDocumentFallback', { fallback: 'this document' })
          */
         "docNumber"?: string;
         "fdType"?: string;
@@ -18049,7 +18155,7 @@ declare namespace LocalJSX {
         "actionsAlign"?: 'start' | 'center' | 'end' | 'space-between' | 'space-around';
         /**
           * Apply button copy
-          * @default t('Lcz_Apply')
+          * @default t('Lcz_Apply', { fallback: 'Apply' })
          */
         "applyLabel"?: string;
         /**
@@ -18101,7 +18207,7 @@ declare namespace LocalJSX {
         "disableReset"?: boolean;
         /**
           * Panel headline text
-          * @default t('Lcz_Filters')
+          * @default t('Lcz_Filters', { fallback: 'Filters' })
          */
         "filterTitle"?: string;
         /**
@@ -18132,7 +18238,7 @@ declare namespace LocalJSX {
         "persistentOnDesktop"?: boolean;
         /**
           * Reset button copy
-          * @default t('Lcz_Reset')
+          * @default t('Lcz_Reset', { fallback: 'Reset' })
          */
         "resetLabel"?: string;
         /**
@@ -18353,6 +18459,10 @@ declare namespace LocalJSX {
     }
     interface IrGhsOnboarding {
         "baseurl"?: string;
+        /**
+          * @default 'en'
+         */
+        "language"?: string;
         "ticket"?: string;
     }
     interface IrGhsSelectionBucket {
@@ -19173,9 +19283,6 @@ declare namespace LocalJSX {
     }
     interface IrListingModal {
         "editBooking"?: { booking: Booking; cause: 'edit' | 'payment' | 'delete' | 'guest' };
-        /**
-          * @default 'Modal Title'
-         */
         "modalTitle"?: string;
         "onModalClosed"?: (event: IrListingModalCustomEvent<null>) => void;
         "onResetData"?: (event: IrListingModalCustomEvent<string>) => void;
@@ -19210,6 +19317,10 @@ declare namespace LocalJSX {
         "sampleDate"?: string;
     }
     interface IrLogin {
+        /**
+          * @default 'en'
+         */
+        "language"?: string;
         "onAuthFinish"?: (event: IrLoginCustomEvent<{
     ApiClient: string;
     code: 'succsess' | 'error';
@@ -19441,7 +19552,6 @@ declare namespace LocalJSX {
         "error"?: string;
         /**
           * Visible label for the phone input
-          * @default 'Phone number'
          */
         "label"?: string;
         /**
@@ -19453,7 +19563,6 @@ declare namespace LocalJSX {
         "onMobile-input-country-change"?: (event: IrMobileInputCustomEvent<ICountry>) => void;
         /**
           * Placeholder shown when the input is empty
-          * @default 'Enter phone number'
          */
         "placeholder"?: string;
         /**
@@ -19521,7 +19630,6 @@ declare namespace LocalJSX {
         "leftBtnColor"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
           * Text displayed on the left (cancel/close) button.
-          * @default 'Close'
          */
         "leftBtnText"?: string;
         /**
@@ -19536,17 +19644,14 @@ declare namespace LocalJSX {
         "middleBtnColor"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
           * Text displayed on the middle (tertiary) button.
-          * @default 'More'
          */
         "middleBtnText"?: string;
         /**
           * The main content text shown in the modal body.
-          * @default 'Modal Body'
          */
         "modalBody"?: string;
         /**
           * The title text displayed in the modal header.
-          * @default 'Modal Title'
          */
         "modalTitle"?: string;
         /**
@@ -19573,7 +19678,6 @@ declare namespace LocalJSX {
         "rightBtnColor"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
           * Text displayed on the right (confirm) button.
-          * @default 'Confirm'
          */
         "rightBtnText"?: string;
         /**
@@ -20166,6 +20270,10 @@ declare namespace LocalJSX {
         "bookingNumber"?: string;
     }
     interface IrPmsPage {
+        /**
+          * @default 'en'
+         */
+        "language"?: string;
         "propertyid"?: string;
         "ticket"?: string;
     }
@@ -20230,7 +20338,6 @@ declare namespace LocalJSX {
         "hideDefaultAction"?: boolean;
         /**
           * The dialog's label as displayed in the header. Required for accessibility and announced by assistive technologies.
-          * @default 'Preview'
          */
         "label"?: string;
         "onOpenChanged"?: (event: IrPreviewScreenDialogCustomEvent<boolean>) => void;
@@ -20472,7 +20579,7 @@ declare namespace LocalJSX {
     interface IrQueueChart {
         /**
           * Chart title
-          * @default 'Queue Status'
+          * @default t('Lcz_QueueStatus', { fallback: 'Queue Status' })
          */
         "label"?: string;
         /**
@@ -20487,6 +20594,10 @@ declare namespace LocalJSX {
         "values"?: number[];
     }
     interface IrQueueManager {
+        /**
+          * @default 'en'
+         */
+        "language"?: string;
         /**
           * @default ''
          */
@@ -20686,7 +20797,7 @@ declare namespace LocalJSX {
         "onOpenSidebar"?: (event: IrRoomCustomEvent<OpenSidebarEvent<RoomGuestsPayload1>>) => void;
         "onPressCheckIn"?: (event: IrRoomCustomEvent<any>) => void;
         "onPressCheckOut"?: (event: IrRoomCustomEvent<any>) => void;
-        "onResetBookingEvt"?: (event: IrRoomCustomEvent<null>) => void;
+        "onResetBookingEvt"?: (event: IrRoomCustomEvent<Booking | null>) => void;
         "onToast"?: (event: IrRoomCustomEvent<IToast>) => void;
         "property_id"?: number;
         "room"?: Room;
@@ -20766,7 +20877,7 @@ declare namespace LocalJSX {
          */
         "checkIn"?: boolean;
         /**
-          * A list of available countries. Used to populate dropdowns for selecting the {t('Lcz_Nationality')} of guests.
+          * A list of available countries. Used to populate dropdowns for selecting the {t('Lcz_Nationality', { fallback: 'Nationality' })} of guests.
          */
         "countries"?: ICountry[];
         /**
@@ -20789,7 +20900,7 @@ declare namespace LocalJSX {
          */
         "roomType"?: string;
         /**
-          * An array of people sharing the room. Contains information about the {t('Lcz_MainGuest')} and additional guests, such as their name, date of birth, {t('Lcz_Nationality')}, and ID details.
+          * An array of people sharing the room. Contains information about the {t('Lcz_MainGuest', { fallback: 'Main guest' })} and additional guests, such as their name, date of birth, {t('Lcz_Nationality', { fallback: 'Nationality' })}, and ID details.
           * @default []
          */
         "sharedPersons"?: SharedPerson[];
@@ -20809,7 +20920,7 @@ declare namespace LocalJSX {
          */
         "checkIn"?: boolean;
         /**
-          * A list of available countries. Used to populate dropdowns for selecting the {t('Lcz_Nationality')} of guests.
+          * A list of available countries. Used to populate dropdowns for selecting the {t('Lcz_Nationality', { fallback: 'Nationality' })} of guests.
          */
         "countries"?: ICountry[];
         /**
@@ -20830,7 +20941,7 @@ declare namespace LocalJSX {
          */
         "roomName"?: string;
         /**
-          * An array of people sharing the room. Contains information about the {t('Lcz_MainGuest')} and additional guests, such as their name, date of birth, {t('Lcz_Nationality')}, and ID details.
+          * An array of people sharing the room. Contains information about the {t('Lcz_MainGuest', { fallback: 'Main guest' })} and additional guests, such as their name, date of birth, {t('Lcz_Nationality', { fallback: 'Nationality' })}, and ID details.
           * @default []
          */
         "sharedPersons"?: SharedPerson[];
@@ -20934,6 +21045,7 @@ declare namespace LocalJSX {
     }
     interface IrSecureTasks {
         "bookingNumber"?: string;
+        "language"?: string;
         "p"?: string;
         "propertyid"?: number;
         "ticket"?: string;
@@ -20945,9 +21057,6 @@ declare namespace LocalJSX {
           * @default false
          */
         "error"?: boolean;
-        /**
-          * @default 'Select'
-         */
         "firstOption"?: string;
         /**
           * Floating label text that appears inside the input and “floats” above when the field is focused or has a value.  - If provided, a floating label will be rendered inside the input container. - If you omit this prop but set `label`, the old left-side static label is used. - If you provide both `label` and `floatingLabel`, only the floating label is shown.   Examples: ```tsx <ir-select floating-label label="Phone" /> ```
@@ -21014,7 +21123,6 @@ declare namespace LocalJSX {
         "assigneeType"?: 'agent' | 'guest';
         /**
           * Label displayed above the assignment selector.
-          * @default 'Assign to folio'
          */
         "label"?: string;
         /**
@@ -21591,9 +21699,15 @@ declare namespace LocalJSX {
         "onDuplicateEntry"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry>) => void;
         "onEditEntry"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry>) => void;
         "onEntryChange"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry>) => void;
+        "onMoveEntry"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry>) => void;
         "onReorderEntries"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry[]>) => void;
         "onSaveOrder"?: (event: IrTranslationsEntriesPanelCustomEvent<void>) => void;
         "onToggleVisibility"?: (event: IrTranslationsEntriesPanelCustomEvent<TranslationEntry>) => void;
+        /**
+          * Whether the notes column is included at all.
+          * @default true
+         */
+        "showNotes"?: boolean;
         "sourceCode"?: string;
         /**
           * Distinct table names present in `entries`, in display order — the table filter's options.
@@ -21641,6 +21755,10 @@ declare namespace LocalJSX {
         "onDuplicateEntry"?: (event: IrTranslationsEntriesTableCustomEvent<TranslationEntry>) => void;
         "onEditEntry"?: (event: IrTranslationsEntriesTableCustomEvent<TranslationEntry>) => void;
         "onEntryChange"?: (event: IrTranslationsEntriesTableCustomEvent<TranslationEntry>) => void;
+        /**
+          * "Move to table…" — the parent opens the move dialog for this row.
+         */
+        "onMoveEntry"?: (event: IrTranslationsEntriesTableCustomEvent<TranslationEntry>) => void;
         "onReorderEntries"?: (event: IrTranslationsEntriesTableCustomEvent<TranslationEntry[]>) => void;
         "onToggleVisibility"?: (event: IrTranslationsEntriesTableCustomEvent<TranslationEntry>) => void;
         /**
@@ -21648,6 +21766,11 @@ declare namespace LocalJSX {
           * @default true
          */
         "reorderEnabled"?: boolean;
+        /**
+          * Whether the notes column is included at all.
+          * @default true
+         */
+        "showNotes"?: boolean;
         /**
           * Code of the reference language, marked in the header.
          */
@@ -21658,6 +21781,11 @@ declare namespace LocalJSX {
      * draft, validation, and the actual save call.
      */
     interface IrTranslationsEntryDrawer {
+        /**
+          * Passed through to the form — rows in other tables that share `entry`'s description.
+          * @default []
+         */
+        "duplicateSiblings"?: DuplicateSibling[];
         /**
           * The entry being edited. Null puts the drawer in create mode.
           * @default null
@@ -21683,7 +21811,7 @@ declare namespace LocalJSX {
          */
         "nextDisplayOrder"?: number;
         "onCloseDrawer"?: (event: IrTranslationsEntryDrawerCustomEvent<void>) => void;
-        "onEntrySaved"?: (event: IrTranslationsEntryDrawerCustomEvent<void>) => void;
+        "onEntrySaved"?: (event: IrTranslationsEntryDrawerCustomEvent<EntrySavedDetail>) => void;
         /**
           * @default false
          */
@@ -21696,6 +21824,11 @@ declare namespace LocalJSX {
      * the drawer around this form is a dumb open/close shell.
      */
     interface IrTranslationsEntryForm {
+        /**
+          * Rows in other used tables sharing `entry`'s description — language changes are written to them in the same batch.
+          * @default []
+         */
+        "duplicateSiblings"?: DuplicateSibling[];
         /**
           * The entry being edited. Null puts the form in create mode.
           * @default null
@@ -21717,7 +21850,10 @@ declare namespace LocalJSX {
           * @default 0
          */
         "nextDisplayOrder"?: number;
-        "onEntrySaved"?: (event: IrTranslationsEntryFormCustomEvent<void>) => void;
+        /**
+          * Fired after the write lands, with what was saved — the manager propagates language changes to the row's duplicates from it.
+         */
+        "onEntrySaved"?: (event: IrTranslationsEntryFormCustomEvent<EntrySavedDetail>) => void;
         "onIsSubmittingChange"?: (event: IrTranslationsEntryFormCustomEvent<boolean>) => void;
         "onSubmitDisabledChange"?: (event: IrTranslationsEntryFormCustomEvent<boolean>) => void;
         "ownerId"?: number;
@@ -21763,6 +21899,77 @@ declare namespace LocalJSX {
           * Acting user id, sent as ENTRY_USER_ID on every write.
          */
         "userId"?: number;
+    }
+    /**
+     * Moves one setup entry to another table through Move_Setup_Entry — the
+     * backend re-homes the row, so nothing is re-created or soft-deleted here.
+     * The destination list is whatever the parent passes as `tables`: the manager
+     * hands over the same set its header picker offers, so the "only used tables"
+     * setting narrows both the same way. The search box is a local filter over
+     * that list, and the source table is never offered as a destination.
+     */
+    interface IrTranslationsMoveDialog {
+        /**
+          * The row being moved. Its `tableName` is the source table.
+          * @default null
+         */
+        "entry"?: TranslationEntry | null;
+        "onCloseDialog"?: (event: IrTranslationsMoveDialogCustomEvent<void>) => void;
+        /**
+          * Emitted once the API confirmed the move. The parent owns closing the dialog and updating its rows.
+         */
+        "onEntryMoved"?: (event: IrTranslationsMoveDialogCustomEvent<TranslationEntryMoved>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Language whose value is shown next to the key, so the user can tell rows with similar keys apart.
+         */
+        "sourceCode"?: string;
+        /**
+          * Candidate destinations — the tables the header picker shows.
+          * @default []
+         */
+        "tables"?: TranslationTable[];
+    }
+    /**
+     * Settings for the entries grid — which tables the pickers offer, which
+     * non-source languages show up as columns, and whether the notes column is
+     * shown. Every control here edits a local draft only; nothing reaches the
+     * parent (and nothing is persisted) until Save is clicked. Cancel — or
+     * dismissing the dialog any other way — drops the draft entirely.
+     */
+    interface IrTranslationsSettingsDialog {
+        /**
+          * Every language this property exposes; the pin list only ever applies to the non-source ones.
+          * @default []
+         */
+        "languages"?: TranslationLanguage[];
+        "onCloseDialog"?: (event: IrTranslationsSettingsDialogCustomEvent<void>) => void;
+        /**
+          * Emitted once, only when Save is clicked.
+         */
+        "onSaveSettings"?: (event: IrTranslationsSettingsDialogCustomEvent<TranslationsSettingsSaved>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Non-source language codes currently shown as columns.
+          * @default []
+         */
+        "pinnedCodes"?: string[];
+        /**
+          * @default true
+         */
+        "showNotes"?: boolean;
+        "sourceCode"?: string;
+        /**
+          * Hides setup tables nothing in this codebase reads — the same filter the table pickers apply.
+          * @default true
+         */
+        "usedTablesOnly"?: boolean;
     }
     /**
      * Dumb open/close shell — the nested ir-translations-table-form owns the
@@ -22759,7 +22966,6 @@ declare namespace LocalJSX {
     }
     interface IrCityLedgerToolbarAttributes {
         "agentId": number | null;
-        "currencySymbol": string;
     }
     interface IrCityLedgerTransactionDrawerAttributes {
         "open": boolean;
@@ -23238,6 +23444,7 @@ declare namespace LocalJSX {
     interface IrGhsOnboardingAttributes {
         "ticket": string;
         "baseurl": string;
+        "language": string;
     }
     interface IrGhsSelectionBucketAttributes {
         "isGenerating": boolean;
@@ -23476,6 +23683,9 @@ declare namespace LocalJSX {
         "collapsed": boolean;
         "sampleDate": string;
     }
+    interface IrLoginAttributes {
+        "language": string;
+    }
     interface IrMComboboxAttributes {
         "placeholder": string;
         "defaultOption": ComboboxOption['value'];
@@ -23706,6 +23916,7 @@ declare namespace LocalJSX {
     interface IrPmsPageAttributes {
         "propertyid": string;
         "ticket": string;
+        "language": string;
     }
     interface IrPmsPaymentDueAlertAttributes {
         "propertyid": number;
@@ -23785,6 +23996,7 @@ declare namespace LocalJSX {
     }
     interface IrQueueManagerAttributes {
         "ticket": string;
+        "language": string;
     }
     interface IrRadioAttributes {
         "checked": boolean;
@@ -23919,6 +24131,7 @@ declare namespace LocalJSX {
     }
     interface IrSecureTasksAttributes {
         "propertyid": number;
+        "language": string;
         "p": string;
         "bookingNumber": string;
         "ticket": string;
@@ -24100,6 +24313,7 @@ declare namespace LocalJSX {
         "hasPendingOrder": boolean;
         "groupByTable": boolean;
         "disableCreate": boolean;
+        "showNotes": boolean;
     }
     interface IrTranslationsEntriesTableAttributes {
         "sourceCode": string;
@@ -24107,6 +24321,7 @@ declare namespace LocalJSX {
         "filtered": boolean;
         "reorderEnabled": boolean;
         "groupByTable": boolean;
+        "showNotes": boolean;
     }
     interface IrTranslationsEntryDrawerAttributes {
         "open": boolean;
@@ -24130,6 +24345,16 @@ declare namespace LocalJSX {
         "ticket": string;
         "propertyid": number;
         "userId": number;
+    }
+    interface IrTranslationsMoveDialogAttributes {
+        "open": boolean;
+        "sourceCode": string;
+    }
+    interface IrTranslationsSettingsDialogAttributes {
+        "open": boolean;
+        "usedTablesOnly": boolean;
+        "sourceCode": string;
+        "showNotes": boolean;
     }
     interface IrTranslationsTableDialogAttributes {
         "open": boolean;
@@ -24468,7 +24693,7 @@ declare namespace LocalJSX {
         "ir-listing-modal": Omit<IrListingModal, keyof IrListingModalAttributes> & { [K in keyof IrListingModal & keyof IrListingModalAttributes]?: IrListingModal[K] } & { [K in keyof IrListingModal & keyof IrListingModalAttributes as `attr:${K}`]?: IrListingModalAttributes[K] } & { [K in keyof IrListingModal & keyof IrListingModalAttributes as `prop:${K}`]?: IrListingModal[K] };
         "ir-loading-screen": Omit<IrLoadingScreen, keyof IrLoadingScreenAttributes> & { [K in keyof IrLoadingScreen & keyof IrLoadingScreenAttributes]?: IrLoadingScreen[K] } & { [K in keyof IrLoadingScreen & keyof IrLoadingScreenAttributes as `attr:${K}`]?: IrLoadingScreenAttributes[K] } & { [K in keyof IrLoadingScreen & keyof IrLoadingScreenAttributes as `prop:${K}`]?: IrLoadingScreen[K] };
         "ir-locale-switcher": Omit<IrLocaleSwitcher, keyof IrLocaleSwitcherAttributes> & { [K in keyof IrLocaleSwitcher & keyof IrLocaleSwitcherAttributes]?: IrLocaleSwitcher[K] } & { [K in keyof IrLocaleSwitcher & keyof IrLocaleSwitcherAttributes as `attr:${K}`]?: IrLocaleSwitcherAttributes[K] } & { [K in keyof IrLocaleSwitcher & keyof IrLocaleSwitcherAttributes as `prop:${K}`]?: IrLocaleSwitcher[K] };
-        "ir-login": IrLogin;
+        "ir-login": Omit<IrLogin, keyof IrLoginAttributes> & { [K in keyof IrLogin & keyof IrLoginAttributes]?: IrLogin[K] } & { [K in keyof IrLogin & keyof IrLoginAttributes as `attr:${K}`]?: IrLoginAttributes[K] } & { [K in keyof IrLogin & keyof IrLoginAttributes as `prop:${K}`]?: IrLogin[K] };
         "ir-m-combobox": Omit<IrMCombobox, keyof IrMComboboxAttributes> & { [K in keyof IrMCombobox & keyof IrMComboboxAttributes]?: IrMCombobox[K] } & { [K in keyof IrMCombobox & keyof IrMComboboxAttributes as `attr:${K}`]?: IrMComboboxAttributes[K] } & { [K in keyof IrMCombobox & keyof IrMComboboxAttributes as `prop:${K}`]?: IrMCombobox[K] };
         "ir-m-combobox-booking-item": IrMComboboxBookingItem;
         "ir-m-combobox-item": Omit<IrMComboboxItem, keyof IrMComboboxItemAttributes> & { [K in keyof IrMComboboxItem & keyof IrMComboboxItemAttributes]?: IrMComboboxItem[K] } & { [K in keyof IrMComboboxItem & keyof IrMComboboxItemAttributes as `attr:${K}`]?: IrMComboboxItemAttributes[K] } & { [K in keyof IrMComboboxItem & keyof IrMComboboxItemAttributes as `prop:${K}`]?: IrMComboboxItem[K] } & OneOf<"value", IrMComboboxItem["value"], IrMComboboxItemAttributes["value"]>;
@@ -24593,6 +24818,8 @@ declare namespace LocalJSX {
         "ir-translations-entry-form": Omit<IrTranslationsEntryForm, keyof IrTranslationsEntryFormAttributes> & { [K in keyof IrTranslationsEntryForm & keyof IrTranslationsEntryFormAttributes]?: IrTranslationsEntryForm[K] } & { [K in keyof IrTranslationsEntryForm & keyof IrTranslationsEntryFormAttributes as `attr:${K}`]?: IrTranslationsEntryFormAttributes[K] } & { [K in keyof IrTranslationsEntryForm & keyof IrTranslationsEntryFormAttributes as `prop:${K}`]?: IrTranslationsEntryForm[K] };
         "ir-translations-language-dialog": Omit<IrTranslationsLanguageDialog, keyof IrTranslationsLanguageDialogAttributes> & { [K in keyof IrTranslationsLanguageDialog & keyof IrTranslationsLanguageDialogAttributes]?: IrTranslationsLanguageDialog[K] } & { [K in keyof IrTranslationsLanguageDialog & keyof IrTranslationsLanguageDialogAttributes as `attr:${K}`]?: IrTranslationsLanguageDialogAttributes[K] } & { [K in keyof IrTranslationsLanguageDialog & keyof IrTranslationsLanguageDialogAttributes as `prop:${K}`]?: IrTranslationsLanguageDialog[K] };
         "ir-translations-manager": Omit<IrTranslationsManager, keyof IrTranslationsManagerAttributes> & { [K in keyof IrTranslationsManager & keyof IrTranslationsManagerAttributes]?: IrTranslationsManager[K] } & { [K in keyof IrTranslationsManager & keyof IrTranslationsManagerAttributes as `attr:${K}`]?: IrTranslationsManagerAttributes[K] } & { [K in keyof IrTranslationsManager & keyof IrTranslationsManagerAttributes as `prop:${K}`]?: IrTranslationsManager[K] };
+        "ir-translations-move-dialog": Omit<IrTranslationsMoveDialog, keyof IrTranslationsMoveDialogAttributes> & { [K in keyof IrTranslationsMoveDialog & keyof IrTranslationsMoveDialogAttributes]?: IrTranslationsMoveDialog[K] } & { [K in keyof IrTranslationsMoveDialog & keyof IrTranslationsMoveDialogAttributes as `attr:${K}`]?: IrTranslationsMoveDialogAttributes[K] } & { [K in keyof IrTranslationsMoveDialog & keyof IrTranslationsMoveDialogAttributes as `prop:${K}`]?: IrTranslationsMoveDialog[K] };
+        "ir-translations-settings-dialog": Omit<IrTranslationsSettingsDialog, keyof IrTranslationsSettingsDialogAttributes> & { [K in keyof IrTranslationsSettingsDialog & keyof IrTranslationsSettingsDialogAttributes]?: IrTranslationsSettingsDialog[K] } & { [K in keyof IrTranslationsSettingsDialog & keyof IrTranslationsSettingsDialogAttributes as `attr:${K}`]?: IrTranslationsSettingsDialogAttributes[K] } & { [K in keyof IrTranslationsSettingsDialog & keyof IrTranslationsSettingsDialogAttributes as `prop:${K}`]?: IrTranslationsSettingsDialog[K] };
         "ir-translations-table-dialog": Omit<IrTranslationsTableDialog, keyof IrTranslationsTableDialogAttributes> & { [K in keyof IrTranslationsTableDialog & keyof IrTranslationsTableDialogAttributes]?: IrTranslationsTableDialog[K] } & { [K in keyof IrTranslationsTableDialog & keyof IrTranslationsTableDialogAttributes as `attr:${K}`]?: IrTranslationsTableDialogAttributes[K] } & { [K in keyof IrTranslationsTableDialog & keyof IrTranslationsTableDialogAttributes as `prop:${K}`]?: IrTranslationsTableDialog[K] };
         "ir-translations-table-form": Omit<IrTranslationsTableForm, keyof IrTranslationsTableFormAttributes> & { [K in keyof IrTranslationsTableForm & keyof IrTranslationsTableFormAttributes]?: IrTranslationsTableForm[K] } & { [K in keyof IrTranslationsTableForm & keyof IrTranslationsTableFormAttributes as `attr:${K}`]?: IrTranslationsTableFormAttributes[K] } & { [K in keyof IrTranslationsTableForm & keyof IrTranslationsTableFormAttributes as `prop:${K}`]?: IrTranslationsTableForm[K] };
         "ir-unbookable-rooms": Omit<IrUnbookableRooms, keyof IrUnbookableRoomsAttributes> & { [K in keyof IrUnbookableRooms & keyof IrUnbookableRoomsAttributes]?: IrUnbookableRooms[K] } & { [K in keyof IrUnbookableRooms & keyof IrUnbookableRoomsAttributes as `attr:${K}`]?: IrUnbookableRoomsAttributes[K] } & { [K in keyof IrUnbookableRooms & keyof IrUnbookableRoomsAttributes as `prop:${K}`]?: IrUnbookableRooms[K] };
@@ -25178,6 +25405,23 @@ declare module "@stencil/core" {
             "ir-translations-entry-form": LocalJSX.IntrinsicElements["ir-translations-entry-form"] & JSXBase.HTMLAttributes<HTMLIrTranslationsEntryFormElement>;
             "ir-translations-language-dialog": LocalJSX.IntrinsicElements["ir-translations-language-dialog"] & JSXBase.HTMLAttributes<HTMLIrTranslationsLanguageDialogElement>;
             "ir-translations-manager": LocalJSX.IntrinsicElements["ir-translations-manager"] & JSXBase.HTMLAttributes<HTMLIrTranslationsManagerElement>;
+            /**
+             * Moves one setup entry to another table through Move_Setup_Entry — the
+             * backend re-homes the row, so nothing is re-created or soft-deleted here.
+             * The destination list is whatever the parent passes as `tables`: the manager
+             * hands over the same set its header picker offers, so the "only used tables"
+             * setting narrows both the same way. The search box is a local filter over
+             * that list, and the source table is never offered as a destination.
+             */
+            "ir-translations-move-dialog": LocalJSX.IntrinsicElements["ir-translations-move-dialog"] & JSXBase.HTMLAttributes<HTMLIrTranslationsMoveDialogElement>;
+            /**
+             * Settings for the entries grid — which tables the pickers offer, which
+             * non-source languages show up as columns, and whether the notes column is
+             * shown. Every control here edits a local draft only; nothing reaches the
+             * parent (and nothing is persisted) until Save is clicked. Cancel — or
+             * dismissing the dialog any other way — drops the draft entirely.
+             */
+            "ir-translations-settings-dialog": LocalJSX.IntrinsicElements["ir-translations-settings-dialog"] & JSXBase.HTMLAttributes<HTMLIrTranslationsSettingsDialogElement>;
             /**
              * Dumb open/close shell — the nested ir-translations-table-form owns the
              * draft, validation, and the actual save call.

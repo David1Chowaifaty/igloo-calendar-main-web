@@ -34,12 +34,15 @@ export class IglBookPropertyContainer {
     }
     async initializeApp() {
         try {
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.bookProperty });
             if (!this.propertyid && !this.p) {
                 throw new Error('Property ID or username is required');
             }
             const [roomResponse, , countriesList] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid, language: LocaleController.language, aname: this.p }),
-                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.bookProperty }),
+                localeReady,
                 this.bookingService.getCountries(LocaleController.language),
             ]);
             this.countries = countriesList;
@@ -100,11 +103,11 @@ export class IglBookPropertyContainer {
             NAME: '',
             PHONE: '',
             REFERENCE_TYPE: '',
-            TITLE: t('Lcz_NewBooking'),
+            TITLE: t('Lcz_NewBooking', { fallback: 'New Booking' }),
         };
     }
     render() {
-        return (h(Host, { key: '134255adb4cc88974c410ea187d502a630fe15c8' }, this.withIrToastAndInterceptor && (h(Fragment, { key: 'd6095221d2e3a5be98aadcd462d000e9aafe2cd8' }, h("ir-toast", { key: 'b50e8c50d192220b778bbe2b470ead8a5c3a4345' }), h("ir-interceptor", { key: '1c052f9683d514802701c38c930412d31602fe83' }))), h("div", { key: 'f3676169f330ac3de03b1ac089fc9d2e3e12e727', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: '38a462a7946728d1165fa590f120aeeebf475ea6', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: 'a76957849730e80903097b9273220ab8eee07e10', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
+        return (h(Host, { key: 'a069f8efb45efe2779904f67cc0e0c319e793ea7' }, this.withIrToastAndInterceptor && (h(Fragment, { key: '1cc37067ed3b8ac1df21e57867ceb080df2348e5' }, h("ir-toast", { key: 'd7d9fd5f820a84be3775be4077d2a29013b2eeac' }), h("ir-interceptor", { key: '2cc08f7f3b349bc9d0862c98c8be3f3eb6592c70' }))), h("div", { key: 'a1ea013638287b383d50e9c7840fcfd86f76895c', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: '606a08dcc2dd0638f5e39f4a40631660d8287d53', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: '48ccaf7b360f136ce0136884ed48b7831ef85d04', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingData.emit(null);

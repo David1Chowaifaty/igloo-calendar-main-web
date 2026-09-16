@@ -1,17 +1,16 @@
-import { r as registerInstance, c as createEvent, h } from './index-BYqrdgY9.js';
-import { B as BookingListingService, b as booking_listing } from './booking_listing.service-B2QKcsGS.js';
+import { r as registerInstance, c as createEvent, h } from './index-CeHdrJeH.js';
+import { B as BookingListingService, b as booking_listing } from './booking_listing.service-CXCZWwpY.js';
 import { P as PaymentService } from './payment.service-D2gbn5FN.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { a as formatBookingNumber } from './number-5RTWeFsH.js';
-import { t } from './t-CHttQIVe.js';
-import './index-CimhgHoX.js';
-import './index-DeW5X45W.js';
-import './utils-BShicg8f.js';
-import './calendar-data-DT3jrP3G.js';
-import './booking.dto-DpE31yhG.js';
-import './type-D7rOPtKA.js';
-import './ir-date-CLlijQNQ.js';
-import './locales.store-BfROgg7a.js';
+import { a as formatBookingNumber } from './number-DegV2dS7.js';
+import { t } from './t-Bk78Wumj.js';
+import './locales.store-CXJn6ls-.js';
+import './types-BG9uwIsj.js';
+import './utils-BtgW0txG.js';
+import './calendar-data-BZeaTRgj.js';
+import './booking.dto-FOZcMojD.js';
+import './type-DUaIPoJQ.js';
+import './ir-date-DFR8GVLZ.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './axios-B50ozOIF.js';
@@ -24,7 +23,7 @@ const IrListingModal = class {
         this.modalClosed = createEvent(this, "modalClosed");
         this.resetData = createEvent(this, "resetData");
     }
-    modalTitle = 'Modal Title';
+    modalTitle;
     editBooking;
     paymentEntries;
     isOpen = false;
@@ -129,13 +128,13 @@ const IrListingModal = class {
         // if (this.deletionStage === 2) {
         //   return t('Lcz_RecoverAndDelete');
         // }
-        return t('Lcz_Confirm');
+        return t('Lcz_Confirm', { fallback: 'Confirm' });
     }
     renderCancellationTitle() {
         // if (this.deletionStage === 2) {
         //   return t('Lcz_JustDelete');
         // }
-        return t('Lcz_Cancel');
+        return t('Lcz_Cancel', { fallback: 'Cancel' });
     }
     handleDropdownChange(e) {
         e.stopImmediatePropagation();

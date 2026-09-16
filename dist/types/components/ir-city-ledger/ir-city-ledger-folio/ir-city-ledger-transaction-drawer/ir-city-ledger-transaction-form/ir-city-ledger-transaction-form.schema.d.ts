@@ -54,17 +54,17 @@ export interface CityLedgerTransactionFormDraft {
     generatesFiscalDocument?: boolean;
     creditNoteMode?: CreditNoteMode;
 }
-export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminatedUnion<"transactionType", [z.ZodObject<z.objectUtil.extendShape<{
+export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminatedUnion<"transactionType", [z.ZodObject<{
     date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
     amount: z.ZodNumber;
     taxId: z.ZodString;
     reference: z.ZodOptional<z.ZodString>;
     notes: z.ZodOptional<z.ZodString>;
-}, {
+} & {
     transactionType: z.ZodLiteral<"OB">;
     entryType: z.ZodEnum<["CR", "DB"]>;
     isCutover: z.ZodBoolean;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     date?: string;
     notes?: string;
     reference?: string;
@@ -82,13 +82,13 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     transactionType?: "OB";
     entryType?: "DB" | "CR";
     isCutover?: boolean;
-}>, z.ZodObject<z.objectUtil.extendShape<{
+}>, z.ZodObject<{
     date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
     amount: z.ZodNumber;
     taxId: z.ZodString;
     reference: z.ZodOptional<z.ZodString>;
     notes: z.ZodOptional<z.ZodString>;
-}, {
+} & {
     transactionType: z.ZodLiteral<"PAY">;
     payment_type: z.ZodOptional<z.ZodNullable<z.ZodObject<{
         code: z.ZodString;
@@ -119,7 +119,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     designation: z.ZodOptional<z.ZodString>;
     invoiceId: z.ZodOptional<z.ZodString>;
     onAccount: z.ZodBoolean;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     date?: string;
     notes?: string;
     reference?: string;
@@ -159,16 +159,16 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     transactionType?: "PAY";
     invoiceId?: string;
     onAccount?: boolean;
-}>, z.ZodObject<z.objectUtil.extendShape<{
+}>, z.ZodObject<{
     date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
     amount: z.ZodNumber;
     taxId: z.ZodString;
     reference: z.ZodOptional<z.ZodString>;
     notes: z.ZodOptional<z.ZodString>;
-}, {
+} & {
     transactionType: z.ZodLiteral<"DB">;
     serviceCategoryId: z.ZodOptional<z.ZodString>;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     date?: string;
     notes?: string;
     reference?: string;
@@ -184,19 +184,19 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     taxId?: string;
     transactionType?: "DB";
     serviceCategoryId?: string;
-}>, z.ZodObject<z.objectUtil.extendShape<{
+}>, z.ZodObject<{
     date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
     amount: z.ZodNumber;
     taxId: z.ZodString;
     reference: z.ZodOptional<z.ZodString>;
     notes: z.ZodOptional<z.ZodString>;
-}, {
+} & {
     transactionType: z.ZodLiteral<"ADJ">;
     entryType: z.ZodEnum<["CR", "DB"]>;
     linkType: z.ZodEnum<["INVOICE", "BOOKING", "NONE"]>;
     linkedId: z.ZodOptional<z.ZodString>;
     reason: z.ZodOptional<z.ZodEnum<["ROUNDING_DIFFERENCE", "GOODWILL_CREDIT", "PRICE_MATCH", "COMMISSION_CORRECTION", "DISCOUNT_CORRECTION"]>>;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     date?: string;
     notes?: string;
     reference?: string;
@@ -218,20 +218,18 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     entryType?: "DB" | "CR";
     linkType?: "NONE" | "INVOICE" | "BOOKING";
     linkedId?: string;
-}>, z.ZodObject<z.objectUtil.extendShape<{
+}>, z.ZodObject<{
     date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
-    amount: z.ZodNumber;
-    taxId: z.ZodString;
     reference: z.ZodOptional<z.ZodString>;
     notes: z.ZodOptional<z.ZodString>;
-}, {
+} & {
     transactionType: z.ZodLiteral<"CN">;
     creditNoteMode: z.ZodEnum<["cancel-invoice", "goodwill"]>;
     invoiceId: z.ZodOptional<z.ZodString>;
     generatesFiscalDocument: z.ZodLiteral<true>;
     amount: z.ZodOptional<z.ZodNumber>;
     taxId: z.ZodOptional<z.ZodString>;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     date?: string;
     notes?: string;
     reference?: string;
@@ -251,17 +249,17 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     invoiceId?: string;
     creditNoteMode?: "cancel-invoice" | "goodwill";
     generatesFiscalDocument?: true;
-}>, z.ZodObject<z.objectUtil.extendShape<{
+}>, z.ZodObject<{
     date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
     amount: z.ZodNumber;
     taxId: z.ZodString;
     reference: z.ZodOptional<z.ZodString>;
     notes: z.ZodOptional<z.ZodString>;
-}, {
+} & {
     transactionType: z.ZodLiteral<"DN">;
     invoiceId: z.ZodString;
     generatesFiscalDocument: z.ZodLiteral<true>;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     date?: string;
     notes?: string;
     reference?: string;
@@ -279,15 +277,15 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     transactionType?: "DN";
     invoiceId?: string;
     generatesFiscalDocument?: true;
-}>, z.ZodObject<z.objectUtil.extendShape<{
+}>, z.ZodObject<{
     date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
     amount: z.ZodNumber;
     taxId: z.ZodString;
     reference: z.ZodOptional<z.ZodString>;
     notes: z.ZodOptional<z.ZodString>;
-}, {
+} & {
     transactionType: z.ZodLiteral<"DSC">;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     date?: string;
     notes?: string;
     reference?: string;
@@ -301,15 +299,15 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     amount?: number;
     taxId?: string;
     transactionType?: "DSC";
-}>, z.ZodObject<z.objectUtil.extendShape<{
+}>, z.ZodObject<{
     date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
     amount: z.ZodNumber;
     taxId: z.ZodString;
     reference: z.ZodOptional<z.ZodString>;
     notes: z.ZodOptional<z.ZodString>;
-}, {
+} & {
     transactionType: z.ZodLiteral<"CPN">;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     date?: string;
     notes?: string;
     reference?: string;

@@ -1,4 +1,5 @@
 import { Host, h } from "@stencil/core";
+import { t } from "../../services/locale/t";
 // In current Chrome, anything outside a modal dialog (`showModal()`) is inert —
 // including popovers shown *after* the dialog, even though they paint above it.
 // The only place a toast stays clickable while an ir-drawer/wa-dialog is open is
@@ -86,7 +87,7 @@ export class IrToastProvider {
         const detail = event?.detail || {};
         // Legacy IToast emitters (ir-interceptor, booking details, …) often send an
         // empty description and put the message in `title`, or vice versa.
-        const title = detail.title || detail.description || 'Notification';
+        const title = detail.title || detail.description || t('Lcz_Notification', { fallback: 'Notification' });
         const payload = {
             ...detail,
             title,
@@ -432,7 +433,7 @@ export class IrToastProvider {
         }
     }
     render() {
-        return h(Host, { key: '464bf4ad997e57aeebe8f080d864ece72f85c0f4' });
+        return h(Host, { key: '6f78d4cfdaaddbbbd6f76deca7cfde90bd69e016' });
     }
     static get is() { return "ir-toast-provider"; }
     static get encapsulation() { return "shadow"; }

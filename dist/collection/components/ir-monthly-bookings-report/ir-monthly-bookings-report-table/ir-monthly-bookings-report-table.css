@@ -221,6 +221,10 @@
 .text-center {
   text-align: center;
 }
+/* `Lcz_Adults` is lower case; the column header shows it as "Adults". */
+.text-capitalize {
+  text-transform: capitalize;
+}
 /* Future-date rows */
 .future-report td {
   background-color: var(--wa-color-neutral-fill-quiet) !important;

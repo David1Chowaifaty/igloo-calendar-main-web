@@ -1,5 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { CityLedgerService } from "../../../../../services/city-ledger/index";
+import { t } from "../../../../../services/locale/t";
 export class IrHoldTransactionDialog {
     row = null;
     currencySymbol = '$';
@@ -34,8 +35,8 @@ export class IrHoldTransactionDialog {
         }
     }
     render() {
-        const isHeld = this.row?.status?.label === 'Held';
-        return (h(Host, { key: '112592016f9b2a0bdbf4241928c53f6801bc27a2' }, h("ir-dialog", { key: '1646d0aa6d318d22ee90b0aa9ebc7ddadcaf1db8', label: isHeld ? 'Revert Transaction' : 'Hold Transaction', ref: el => (this.dialogRef = el) }, h("div", { key: 'abbe71e315abe10c966331e5c77fb08f109a74fa', class: "hold-dialog__body" }, isHeld ? (h("p", null, "Revert this transaction back to ", h("strong", null, "Unbilled"), " status? It will re-enter the billing queue.")) : (h("p", null, "Place this transaction on ", h("strong", null, "Hold"), "? It will be excluded from invoicing until released."))), h("div", { key: '92588909d71b6b8f7fa490188ee5bc091bddbf68', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '875f45fb06fd55c7603bd5414028ba845a85466c', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '0ce9470045448fc8708c17092d2e8c9cf9d03c5d', size: "m", loading: this.isLoading, onClickHandler: () => this.handleConfirm(), appearance: "accent", variant: "brand" }, "Confirm")))));
+        const isHeld = this.row?.status?.id === 'held';
+        return (h(Host, { key: 'df8df65d723b7984d012933ec19fdc1ec06ec77d' }, h("ir-dialog", { key: 'ce6ccdf7cec2a41517189c771b382a0985e34b92', label: isHeld ? t('Lcz_RevertTransactionTitle', { fallback: 'Revert Transaction' }) : t('Lcz_HoldTransactionTitle', { fallback: 'Hold Transaction' }), ref: el => (this.dialogRef = el) }, h("div", { key: '2b0a01ec4aac4ffaf0e5520810e13bb626c1c366', class: "hold-dialog__body" }, isHeld ? (h("p", null, t('Lcz_RevertToUnbilledConfirmMessage', { fallback: 'Revert this transaction back to Unbilled status? It will re-enter the billing queue.' }))) : (h("p", null, t('Lcz_HoldConfirmMessage', { fallback: 'Place this transaction on Hold? It will be excluded from invoicing until released.' })))), h("div", { key: '1086a98ab5dee51504a76039772362f51b054a72', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'eccefdc602e332887affdb1f65db432de86b45e8', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '794145f3b57e4a5efed511048133fcf5097fd2f0', size: "m", loading: this.isLoading, onClickHandler: () => this.handleConfirm(), appearance: "accent", variant: "brand" }, t('Lcz_Confirm', { fallback: 'Confirm' }))))));
     }
     static get is() { return "ir-hold-transaction-dialog"; }
     static get encapsulation() { return "scoped"; }

@@ -241,6 +241,10 @@
 .property-overview {
   margin-top: 0.875rem;
 }
+/* `Lcz_For` is capitalised; here it is a connector mid-sentence ("for John Doe"). */
+.bill-to__connector {
+  text-transform: lowercase;
+}
 .property-logo {
   height: 2.5rem;
 }

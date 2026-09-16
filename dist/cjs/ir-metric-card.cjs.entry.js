@@ -1,10 +1,10 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
-var number = require('./number-CTy3I_TP.js');
-require('./ir-date-DUrZBFOV.js');
-require('./index-BLJXadKe.js');
-require('./locales.store-DIYxw5lk.js');
+var index = require('./index-CQkpA5n3.js');
+var number = require('./number-D7i5wAQq.js');
+var t = require('./t-CyRK1btk.js');
+require('./ir-date-BZLsqCOc.js');
+require('./locales.store-BMTss6fG.js');
 require('./language-observer-DKp37LIu.js');
 require('./moment-CdViwxPQ.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
@@ -75,7 +75,7 @@ const IrMetricCard = class {
         const iconName = direction === 'up' ? 'arrow-trend-up' : direction === 'down' ? 'arrow-trend-down' : 'minus';
         const magnitude = Math.abs(this.trend);
         const displayValue = this.trendValue ?? number.formatPercent(magnitude);
-        const ariaLabel = `${direction === 'flat' ? 'no change' : direction} ${this.trendValue ?? `${magnitude} percent`}`;
+        const ariaLabel = `${direction === 'flat' ? t.t('Lcz_NoChange', { fallback: 'no change' }) : direction} ${this.trendValue ?? `${number.formatNumber(magnitude)} ${t.t('Lcz_Percent', { fallback: 'percent' })}`}`;
         return (index.h("span", { part: "trend", class: `metric__trend metric__trend--${tone}`, "aria-label": ariaLabel }, index.h("wa-icon", { name: iconName, "aria-hidden": "true" }), index.h("span", null, displayValue), this.trendLabel && index.h("span", { class: "metric__trend-label" }, this.trendLabel)));
     }
     renderIcon() {
@@ -85,7 +85,7 @@ const IrMetricCard = class {
         const hasIcon = !!this.icon;
         const interactive = this.clickable && !this.loading;
         const ariaLabel = [this.label, this.value, this.unit].filter(Boolean).join(' ') || undefined;
-        return (index.h(index.Host, { key: 'bcca37910bbfe82cfcbbfb1db5669b48cd5c38f4', role: this.clickable ? 'button' : null, tabindex: interactive ? '0' : null, "aria-label": this.clickable ? ariaLabel : null, "aria-busy": this.loading ? 'true' : null, onClick: interactive ? this.handleActivate : undefined, onKeyDown: interactive ? this.handleKeyDown : undefined }, index.h("div", { key: '9b31fd9da6fdc40b0d9b810f3801a98e56d45df8', part: "base", class: "metric" }, (hasIcon || this.label) && (index.h("div", { key: '7e1a9a1cead7090e52cb3d18c75ada87b7bd73a7', part: "header", class: "metric__header" }, hasIcon && this.renderIcon(), index.h("span", { key: '878814f8ccd6b9676070beee636598bc1c7aa42c', part: "label", class: "metric__label" }, index.h("slot", { key: 'cb2a89997bad5608120037631935d4eaa48fca4f', name: "label" }, this.label)))), this.loading ? (index.h("div", { class: "metric__skeleton" }, index.h("span", { class: "metric__skeleton-bar metric__skeleton-bar--value" }), index.h("span", { class: "metric__skeleton-bar metric__skeleton-bar--caption" }))) : (index.h("div", { class: "metric__main" }, index.h("div", { part: "value", class: "metric__value" }, index.h("slot", { name: "value" }, this.value !== undefined && this.value !== null && (index.h("span", { class: "metric__value-number" }, typeof this.value === 'number' ? number.formatNumber(this.value) : this.value)), this.unit && (index.h("span", { part: "unit", class: "metric__unit" }, this.unit))), this.renderTrend()), this.caption && (index.h("p", { part: "caption", class: "metric__caption" }, this.caption)))), index.h("div", { key: '504029cb1fb649eb391856fe58c13ffbb6f542bf', part: "body", class: "metric__body" }, index.h("slot", { key: '0600a25b04b38acb331a9463f8fa86997279fdec' })), index.h("div", { key: 'd18ec8072ecf8f3cf8f9d2bf6a70d239d5df75e5', part: "footer", class: "metric__footer" }, index.h("slot", { key: 'd3d813f5ce401877f947d23390205d373108c425', name: "footer" })))));
+        return (index.h(index.Host, { key: 'a7e41799bf362b6de6eb9b121e027054d75d4091', role: this.clickable ? 'button' : null, tabindex: interactive ? '0' : null, "aria-label": this.clickable ? ariaLabel : null, "aria-busy": this.loading ? 'true' : null, onClick: interactive ? this.handleActivate : undefined, onKeyDown: interactive ? this.handleKeyDown : undefined }, index.h("div", { key: '57e208cfc92581e8e61fa4c54085ca8a8b637c7c', part: "base", class: "metric" }, (hasIcon || this.label) && (index.h("div", { key: 'a19a00edad025649b8d15dd4b68c7f5443a97815', part: "header", class: "metric__header" }, hasIcon && this.renderIcon(), index.h("span", { key: 'b05af0a31314340e637dcd5e11b304c0b7b9ff66', part: "label", class: "metric__label" }, index.h("slot", { key: '0b0e1ef5ea04d4d7746d567154aa39e1678a30c9', name: "label" }, this.label)))), this.loading ? (index.h("div", { class: "metric__skeleton" }, index.h("span", { class: "metric__skeleton-bar metric__skeleton-bar--value" }), index.h("span", { class: "metric__skeleton-bar metric__skeleton-bar--caption" }))) : (index.h("div", { class: "metric__main" }, index.h("div", { part: "value", class: "metric__value" }, index.h("slot", { name: "value" }, this.value !== undefined && this.value !== null && (index.h("span", { class: "metric__value-number" }, typeof this.value === 'number' ? number.formatNumber(this.value) : this.value)), this.unit && (index.h("span", { part: "unit", class: "metric__unit" }, this.unit))), this.renderTrend()), this.caption && (index.h("p", { part: "caption", class: "metric__caption" }, this.caption)))), index.h("div", { key: '3c460038003e52ad539ee003d7d668ea8ea929c6', part: "body", class: "metric__body" }, index.h("slot", { key: '774047124f5f77ffc034688a5f1ace60092c7245' })), index.h("div", { key: '0f157cf3a1b86d95650bce6a6663b3eedcc669dd', part: "footer", class: "metric__footer" }, index.h("slot", { key: '066f03398d15f98edbef5647dc19229472d171ac', name: "footer" })))));
     }
 };
 IrMetricCard.style = irMetricCardCss();

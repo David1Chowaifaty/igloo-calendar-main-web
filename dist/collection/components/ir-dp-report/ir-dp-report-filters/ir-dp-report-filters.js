@@ -1,6 +1,8 @@
 import { h } from "@stencil/core";
 import moment from "moment";
 import dp_report, { updateDpReportFilters } from "../../../stores/dp_report.store";
+import { t } from "../../../services/locale/t";
+import { formatCount } from "../../../utils/number";
 export class IrDpReportFilters {
     /**
      * Earliest selectable date. Set by the parent once it discovers that the property's
@@ -18,12 +20,12 @@ export class IrDpReportFilters {
      * (see `quickDatesMode="range"` on ir-date-range-filter); picked from the to-side it sets
      * from-date to this anchor *and* to-date to today, producing a complete last-N-days range.
      */
-    quickDates = [
-        { label: '7 Days Ago', getDate: () => moment().subtract(7, 'days') },
-        { label: '14 Days Ago', getDate: () => moment().subtract(14, 'days') },
-        { label: '30 Days Ago', getDate: () => moment().subtract(30, 'days') },
-        { label: '90 Days Ago', getDate: () => moment().subtract(90, 'days') },
-    ];
+    get quickDates() {
+        return [7, 14, 30, 90].map(days => ({
+            label: t('Lcz_DaysAgo', { fallback: '%1 Days Ago', params: [formatCount(days)] }),
+            getDate: () => moment().subtract(days, 'days'),
+        }));
+    }
     handleDatesChanged = (e) => {
         e.stopImmediatePropagation();
         e.stopPropagation();
@@ -37,7 +39,7 @@ export class IrDpReportFilters {
         this.dpFiltersChange.emit({ from: dp_report.filters.from, to: dp_report.filters.to });
     };
     render() {
-        return (h("div", { key: 'd3d5d062b6a0ba9feb629098b2593016408529bd', class: "dp-report-filters" }, h("ir-date-range-filter", { key: 'af5f037815dcd7f15dbb65fce5fc57852da95ee7', class: "dp-report-filters__date-picker", fromDate: dp_report.filters.from, toDate: dp_report.filters.to, minDate: this.minDate, maxDate: moment().format('YYYY-MM-DD'), showQuickActions: true, quickDates: this.quickDates, quickDatesMode: "range", withClear: false, selectionMode: "auto", onDatesChanged: this.handleDatesChanged }), h("wa-tooltip", { key: '8883bd11899c0ddc453db2de0d6fb69c39580f43', for: "search-btn" }, "Search"), h("ir-custom-button", { key: '88b7b2fc803ec8ae22d3ce00dab08ee87a9cf8c2', id: "search-btn", loading: dp_report.isLoading, disabled: dp_report.isLoading, onClickHandler: this.handleSearch, variant: "neutral", appearance: "outlined" }, h("wa-icon", { key: '52ba1d0e54d2153ae4c7152187a03a36ea865b11', name: "magnifying-glass" }))));
+        return (h("div", { key: '834899d79e53ee97e69cac52369a3f887b1f96fd', class: "dp-report-filters" }, h("ir-date-range-filter", { key: '274a131fbbdeec19d1725e1308ba0ff9db972acf', class: "dp-report-filters__date-picker", fromDate: dp_report.filters.from, toDate: dp_report.filters.to, minDate: this.minDate, maxDate: moment().format('YYYY-MM-DD'), showQuickActions: true, quickDates: this.quickDates, quickDatesMode: "range", withClear: false, selectionMode: "auto", onDatesChanged: this.handleDatesChanged }), h("wa-tooltip", { key: '7a6cb0e881308fb8e9a869016f6d1b59f3dd20d4', for: "search-btn" }, t('Lcz_Search', { fallback: 'Search' })), h("ir-custom-button", { key: '48a34fe3629890258303fd0198615e485c31d1dc', id: "search-btn", loading: dp_report.isLoading, disabled: dp_report.isLoading, onClickHandler: this.handleSearch, variant: "neutral", appearance: "outlined" }, h("wa-icon", { key: '9b1ad0828dcc8004dd22f252bfda56aa9b0a657c', name: "magnifying-glass" }))));
     }
     static get is() { return "ir-dp-report-filters"; }
     static get encapsulation() { return "scoped"; }

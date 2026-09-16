@@ -1,17 +1,18 @@
 import { Host, h } from "@stencil/core";
+import { t } from "../../../../services/locale/t";
 export class IrActionsCell {
     buttons = [];
     irAction;
     getLabel(type) {
         switch (type) {
             case 'check_in':
-                return 'Check in';
+                return t('Lcz_CheckIn', { fallback: 'Check in' });
             case 'check_out':
-                return 'Check out';
+                return t('Lcz_CheckOut', { fallback: 'Check out' });
             case 'overdue_check_in':
-                return 'Overdue check-in';
+                return t('Lcz_OverdueCheckIn', { fallback: 'Overdue check-in' });
             case 'overdue_check_out':
-                return 'Overdue check-out';
+                return t('Lcz_OverdueCheckOut', { fallback: 'Overdue check-out' });
             case 'edit':
                 return 'icon';
             case 'delete':
@@ -54,7 +55,7 @@ export class IrActionsCell {
         return (h("ir-custom-button", { variant: variant, appearance: appearance, "data-action": type, onClick: () => this.onClick(type) }, label !== 'icon' && label, type === 'edit' && h("wa-icon", { name: "edit", style: { fontSize: '1.2rem' } }), type === 'delete' && h("wa-icon", { name: "trash-can", style: { fontSize: '1.2rem' } })));
     }
     render() {
-        return h(Host, { key: 'd1c4e09be320e280932ee965f97dea9b966eb068' }, this.buttons.map(button => this.renderButton(button)));
+        return h(Host, { key: '73a7f5cbdb8e7e01ab244cf1c03f9ceb4f4f1078' }, this.buttons.map(button => this.renderButton(button)));
     }
     static get is() { return "ir-actions-cell"; }
     static get encapsulation() { return "scoped"; }

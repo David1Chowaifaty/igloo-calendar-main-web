@@ -2,6 +2,7 @@ export type SecureScreens = 'hk' | 'tasks' | 'daily-revenue' | 'arrivals' | 'dep
 export declare class IrSecureTasks {
     el: HTMLElement;
     propertyid: number;
+    language: string;
     p: string;
     bookingNumber: string;
     ticket: string;

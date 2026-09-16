@@ -1,5 +1,6 @@
 import { h } from "@stencil/core";
 import { v4 } from "uuid";
+import { t } from "../../services/locale/t";
 export class AcPagesMenu {
     pages = [];
     location = 'nav';
@@ -14,18 +15,18 @@ export class AcPagesMenu {
                 const id = page.id ?? v4();
                 if (page.subMenus) {
                     const _collapseId = `collapse-${page.label.toLowerCase()}`;
-                    return (h("li", { key: id, id: id, class: `mobile-nav-item ${page.className}` }, h("button", { class: "btn mobile-nav-link menu-icon-container justify-content-between", style: { width: '100%' }, "data-toggle": "collapse", "data-parent": "#mainMenuNavigation", "aria-expanded": "false", "data-target": `#${_collapseId}`, "aria-controls": _collapseId }, h("div", { class: 'menu-icon-container' }, page.icon && this.Icon({ name: page.icon }), h("span", null, page.label), page.isNew && (h("span", { class: "new-badge", id: page.badgeId }, "new"))), h("div", { class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("ir-icons", { name: "angle-down" }))), h("ul", { class: "collapse ", id: _collapseId }, page.subMenus.map(submenu => {
+                    return (h("li", { key: id, id: id, class: `mobile-nav-item ${page.className}` }, h("button", { class: "btn mobile-nav-link menu-icon-container justify-content-between", style: { width: '100%' }, "data-toggle": "collapse", "data-parent": "#mainMenuNavigation", "aria-expanded": "false", "data-target": `#${_collapseId}`, "aria-controls": _collapseId }, h("div", { class: 'menu-icon-container' }, page.icon && this.Icon({ name: page.icon }), h("span", null, page.label), page.isNew && (h("span", { class: "new-badge", id: page.badgeId }, t('Lcz_New', { fallback: 'new' })))), h("div", { class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("ir-icons", { name: "angle-down" }))), h("ul", { class: "collapse ", id: _collapseId }, page.subMenus.map(submenu => {
                         const menuId = submenu.id ?? v4();
                         return (h("li", { key: menuId, id: menuId, class: `mobile-nav-item menu-icon-container ${submenu.className ?? ''}`, style: { width: '100%' } }, h("a", { onClick: e => {
                                 e.preventDefault();
                                 this.linkClicked.emit(e);
-                            }, class: "mobile-nav-link w-100", href: submenu.href }, h("div", { class: "menu-icon-container" }, submenu.icon && this.Icon({ name: submenu.icon }), h("span", null, submenu.label), submenu.isNew && (h("span", { id: submenu.badgeId, class: "new-badge" }, "new"))))));
+                            }, class: "mobile-nav-link w-100", href: submenu.href }, h("div", { class: "menu-icon-container" }, submenu.icon && this.Icon({ name: submenu.icon }), h("span", null, submenu.label), submenu.isNew && (h("span", { id: submenu.badgeId, class: "new-badge" }, t('Lcz_New', { fallback: 'new' })))))));
                     }))));
                 }
                 return (h("li", { key: id, id: id, class: `${page.className ?? ''}  mobile-nav-item` }, h("a", { href: page.href, onClick: e => {
                         e.preventDefault();
                         this.linkClicked.emit(e);
-                    }, class: "mobile-nav-link" }, h("div", { class: "menu-icon-container" }, page.icon && this.Icon({ name: page.icon }), h("span", null, page.label), page.isNew && (h("span", { id: page.badgeId, class: "new-badge" }, "new"))))));
+                    }, class: "mobile-nav-link" }, h("div", { class: "menu-icon-container" }, page.icon && this.Icon({ name: page.icon }), h("span", null, page.label), page.isNew && (h("span", { id: page.badgeId, class: "new-badge" }, t('Lcz_New', { fallback: 'new' })))))));
             })));
         }
         return (h("ul", { class: "navigation-items" }, this.pages.map(page => {
@@ -41,14 +42,14 @@ export class AcPagesMenu {
                             return;
                         }
                         e.target.classList.remove('show');
-                    }, "data-menu": "dropdown", class: `dropdown  navigation-item ac-menu-dropdown ${isSheet ? 'mobile-nav-item' : ''} ${page.className}` }, h("button", { class: "btn dropdown-toggle menu-icon-container navigation-link ", "data-toggle": "dropdown" }, h("div", { class: "menu-icon-container" }, page.icon && this.Icon({ name: page.icon }), h("span", null, page.label)), page.isNew && (h("span", { id: page.badgeId, class: "new-badge" }, "new"))), h("ul", { class: "dropdown-menu dropdown-menu-right dropdown-menu-lg-left" }, page.subMenus.map(submenu => {
+                    }, "data-menu": "dropdown", class: `dropdown  navigation-item ac-menu-dropdown ${isSheet ? 'mobile-nav-item' : ''} ${page.className}` }, h("button", { class: "btn dropdown-toggle menu-icon-container navigation-link ", "data-toggle": "dropdown" }, h("div", { class: "menu-icon-container" }, page.icon && this.Icon({ name: page.icon }), h("span", null, page.label)), page.isNew && (h("span", { id: page.badgeId, class: "new-badge" }, t('Lcz_New', { fallback: 'new' })))), h("ul", { class: "dropdown-menu dropdown-menu-right dropdown-menu-lg-left" }, page.subMenus.map(submenu => {
                     const menuId = submenu.id ?? v4();
                     return (h("li", { key: menuId, id: menuId, class: `navigation-item ${submenu.className ?? ''}` }, h("a", { onClick: e => {
                             this.linkClicked.emit(e);
-                        }, class: "dropdown-item menu-icon-container", href: submenu.href }, h("div", { class: "menu-icon-container ir-me-auto" }, submenu.icon && this.Icon({ name: submenu.icon }), h("span", null, submenu.label)), submenu.isNew && (h("span", { id: submenu.badgeId, class: "new-badge" }, "new")))));
+                        }, class: "dropdown-item menu-icon-container", href: submenu.href }, h("div", { class: "menu-icon-container ir-me-auto" }, submenu.icon && this.Icon({ name: submenu.icon }), h("span", null, submenu.label)), submenu.isNew && (h("span", { id: submenu.badgeId, class: "new-badge" }, t('Lcz_New', { fallback: 'new' }))))));
                 }))));
             }
-            return (h("li", { key: id, id: id, class: `${page.className ?? ''}  navigation-item` }, h("a", { href: page.href, onClick: e => this.linkClicked.emit(e), class: `navigation-link` }, h("div", { class: "menu-icon-container" }, page.icon && this.Icon({ name: page.icon }), h("span", null, page.label), page.isNew && (h("span", { id: page.badgeId, class: "new-badge" }, "new"))))));
+            return (h("li", { key: id, id: id, class: `${page.className ?? ''}  navigation-item` }, h("a", { href: page.href, onClick: e => this.linkClicked.emit(e), class: `navigation-link` }, h("div", { class: "menu-icon-container" }, page.icon && this.Icon({ name: page.icon }), h("span", null, page.label), page.isNew && (h("span", { id: page.badgeId, class: "new-badge" }, t('Lcz_New', { fallback: 'new' })))))));
         })));
     }
     static get is() { return "ac-pages-menu"; }

@@ -108,7 +108,7 @@ export class IglCalHeader {
             FROM_DATE: from_date, // "2023-07-09",
             TO_DATE: to_date, // "2023-07-11",
             roomsInfo: this.calendarData.roomsInfo,
-            TITLE: t('Lcz_NewBooking'),
+            TITLE: t('Lcz_NewBooking', { fallback: 'New Booking' }),
             event_type: 'PLUS_BOOKING',
             legendData: this.calendarData.formattedLegendData,
             defaultDateRange: {
@@ -147,7 +147,7 @@ export class IglCalHeader {
         }, 100);
     };
     render() {
-        return (h(Host, { key: 'e0b4d8ffe6a6cd191ba95f74aa2433be2af73932', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("igl-cal-header-toolbar", { key: 'e2be7fcaa8a6e6492c5778ab092aef8199b9719d', isVacationRental: this.calendarData.is_vacation_rental, showDayUseButton: !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0, minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), roomsList: this.roomsList, onActionSelected: this.handleToolbarAction, onRoomSelected: this.handleRoomSelected }), h("igl-cal-header-days", { key: 'e99500050eb08c4db3b475195e4bf9266664ba40', isVacationRental: this.calendarData.is_vacation_rental, today: this.today, highlightedDate: this.highlightedDate, monthsInfo: this.calendarData.monthsInfo, days: this.calendarData.days, unassignedRoomsNumber: { ...this.unassignedRoomsNumber }, onDayBadgeClicked: this.handleDayBadgeClicked })));
+        return (h(Host, { key: 'afa8a4c44fcd4ac830c9591e86b412371b3dbc0e', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("igl-cal-header-toolbar", { key: '045ed6cf4286ecb893a01d896abd5faca02a29cf', isVacationRental: this.calendarData.is_vacation_rental, showDayUseButton: !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0, minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), roomsList: this.roomsList, onActionSelected: this.handleToolbarAction, onRoomSelected: this.handleRoomSelected }), h("igl-cal-header-days", { key: 'b23e4430dc6a70f3cf211be6fd27071ce72a1e78', isVacationRental: this.calendarData.is_vacation_rental, today: this.today, highlightedDate: this.highlightedDate, monthsInfo: this.calendarData.monthsInfo, days: this.calendarData.days, unassignedRoomsNumber: { ...this.unassignedRoomsNumber }, onDayBadgeClicked: this.handleDayBadgeClicked })));
     }
     static get is() { return "igl-cal-header"; }
     static get encapsulation() { return "scoped"; }

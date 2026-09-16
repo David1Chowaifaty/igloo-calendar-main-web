@@ -1,12 +1,12 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
+var index = require('./index-CQkpA5n3.js');
 var useTable = require('./useTable-BN32DOaV.js');
-var irDate = require('./ir-date-DUrZBFOV.js');
+var irDate = require('./ir-date-BZLsqCOc.js');
 var moment = require('./moment-CdViwxPQ.js');
-var t = require('./t-BpMDZfdy.js');
-require('./index-BLJXadKe.js');
-require('./locales.store-DIYxw5lk.js');
+var t = require('./t-CyRK1btk.js');
+var number = require('./number-D7i5wAQq.js');
+require('./locales.store-BMTss6fG.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 
@@ -19,9 +19,9 @@ const IrMealCountSummary = class {
     mealCountSummary = [];
     columnHelper = useTable.createColumnHelper();
     mealMeta = {
-        breakfast: { label: 'Breakfast', icon: 'mug-saucer', color: 'var(--wa-color-brand-fill-loud)' },
-        lunch: { label: 'Lunch', icon: 'utensils', color: 'var(--wa-color-success-fill-loud)' },
-        dinner: { label: 'Dinner', icon: 'moon', color: 'var(--wa-color-warning-fill-loud)' },
+        breakfast: { label: t.t('Lcz_Breakfast', { fallback: 'Breakfast' }), icon: 'mug-saucer', color: 'var(--wa-color-brand-fill-loud)' },
+        lunch: { label: t.t('Lcz_Lunch', { fallback: 'Lunch' }), icon: 'utensils', color: 'var(--wa-color-success-fill-loud)' },
+        dinner: { label: t.t('Lcz_Dinner', { fallback: 'Dinner' }), icon: 'moon', color: 'var(--wa-color-warning-fill-loud)' },
     };
     renderMealHeader = (key) => {
         const m = this.mealMeta[key];
@@ -29,23 +29,32 @@ const IrMealCountSummary = class {
     };
     columns = [
         this.columnHelper.accessor('Date', {
-            header: 'Date',
+            header: t.t('Lcz_DateLabel', { fallback: 'Date' }),
             cell: info => index.h("span", { class: "meal-count__date" }, irDate.formatDate(info.getValue(), 'ddd, MMM DD')),
         }),
         this.columnHelper.group({
             id: 'breakfast',
             header: () => this.renderMealHeader('breakfast'),
-            columns: [this.columnHelper.accessor('Breakfast_Ad', { header: 'Ad' }), this.columnHelper.accessor('Breakfast_Ch', { header: 'Ch' })],
+            columns: [
+                this.columnHelper.accessor('Breakfast_Ad', { header: t.t('Lcz_Ad', { fallback: 'Ad' }), cell: info => number.formatCount(info.getValue()) }),
+                this.columnHelper.accessor('Breakfast_Ch', { header: t.t('Lcz_Ch', { fallback: 'Ch' }), cell: info => number.formatCount(info.getValue()) }),
+            ],
         }),
         this.columnHelper.group({
             id: 'lunch',
             header: () => this.renderMealHeader('lunch'),
-            columns: [this.columnHelper.accessor('Lunch_Ad', { header: 'Ad' }), this.columnHelper.accessor('Lunch_Ch', { header: 'Ch' })],
+            columns: [
+                this.columnHelper.accessor('Lunch_Ad', { header: t.t('Lcz_Ad', { fallback: 'Ad' }), cell: info => number.formatCount(info.getValue()) }),
+                this.columnHelper.accessor('Lunch_Ch', { header: t.t('Lcz_Ch', { fallback: 'Ch' }), cell: info => number.formatCount(info.getValue()) }),
+            ],
         }),
         this.columnHelper.group({
             id: 'dinner',
             header: () => this.renderMealHeader('dinner'),
-            columns: [this.columnHelper.accessor('Dinner_Ad', { header: 'Ad' }), this.columnHelper.accessor('Dinner_Ch', { header: 'Ch' })],
+            columns: [
+                this.columnHelper.accessor('Dinner_Ad', { header: t.t('Lcz_Ad', { fallback: 'Ad' }), cell: info => number.formatCount(info.getValue()) }),
+                this.columnHelper.accessor('Dinner_Ch', { header: t.t('Lcz_Ch', { fallback: 'Ch' }), cell: info => number.formatCount(info.getValue()) }),
+            ],
         }),
     ];
     isAdultCol = (id) => id.endsWith('_Ad');
@@ -53,7 +62,7 @@ const IrMealCountSummary = class {
     render() {
         const list = this.mealCountSummary ?? [];
         if (list.length === 0) {
-            return (index.h(index.Host, null, index.h("div", { class: "meal-count__empty" }, index.h("ir-empty-state", { message: "No summary data available for the current filters." }))));
+            return (index.h(index.Host, null, index.h("div", { class: "meal-count__empty" }, index.h("ir-empty-state", { message: t.t('Lcz_NoSummaryDataAvailable', { fallback: 'No summary data available for the current filters.' }) }))));
         }
         const table = useTable.useTable({
             data: list,
@@ -91,7 +100,7 @@ const IrMealCountSummary = class {
                     'meal-count__subhead--ad': this.isAdultCol(id),
                     'meal-count__subhead--ch': this.isChildCol(id),
                 } }, useTable.flexRender(header.column.columnDef.header, header.getContext())));
-        }))))), index.h("tbody", null, table.getRowModel().rows.map(row => (index.h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (index.h("td", { key: cell.id, class: cell.column.id === 'Date' ? { 'cell--align-start': true, 'meal-count__cell': true } : dataCellClass(cell.column.id) }, useTable.flexRender(cell.column.columnDef.cell, cell.getContext())))))))), index.h("tfoot", null, index.h("tr", { class: "meal-count__total-row" }, index.h("td", { class: "cell--align-start meal-count__total-label" }, "Total"), index.h("td", { class: "meal-count__cell--ad meal-count__total-value" }, totals.Breakfast_Ad), index.h("td", { class: "meal-count__cell--ch meal-count__total-muted" }, totals.Breakfast_Ch), index.h("td", { class: "meal-count__cell--ad meal-count__total-value" }, totals.Lunch_Ad), index.h("td", { class: "meal-count__cell--ch meal-count__total-muted" }, totals.Lunch_Ch), index.h("td", { class: "meal-count__cell--ad meal-count__total-value" }, totals.Dinner_Ad), index.h("td", { class: "meal-count__cell--ch meal-count__total-muted" }, totals.Dinner_Ch)))))));
+        }))))), index.h("tbody", null, table.getRowModel().rows.map(row => (index.h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (index.h("td", { key: cell.id, class: cell.column.id === 'Date' ? { 'cell--align-start': true, 'meal-count__cell': true } : dataCellClass(cell.column.id) }, useTable.flexRender(cell.column.columnDef.cell, cell.getContext())))))))), index.h("tfoot", null, index.h("tr", { class: "meal-count__total-row" }, index.h("td", { class: "cell--align-start meal-count__total-label" }, t.t('Lcz_Total', { fallback: 'Total' })), index.h("td", { class: "meal-count__cell--ad meal-count__total-value" }, number.formatCount(totals.Breakfast_Ad)), index.h("td", { class: "meal-count__cell--ch meal-count__total-muted" }, number.formatCount(totals.Breakfast_Ch)), index.h("td", { class: "meal-count__cell--ad meal-count__total-value" }, number.formatCount(totals.Lunch_Ad)), index.h("td", { class: "meal-count__cell--ch meal-count__total-muted" }, number.formatCount(totals.Lunch_Ch)), index.h("td", { class: "meal-count__cell--ad meal-count__total-value" }, number.formatCount(totals.Dinner_Ad)), index.h("td", { class: "meal-count__cell--ch meal-count__total-muted" }, number.formatCount(totals.Dinner_Ch))))))));
     }
 };
 IrMealCountSummary.style = irMealCountSummaryCss();
@@ -108,34 +117,34 @@ const IrMealGuestList = class {
     columns = [
         this.columnHelper.accessor(row => row.unit.name, {
             id: 'unit',
-            header: 'Unit',
+            header: t.t('Lcz_Unit', { fallback: 'Unit' }),
             enableSorting: false,
             cell: info => index.h("span", { class: "meal-guest-list__unit" }, info.getValue()),
         }),
         this.columnHelper.accessor(row => `${row.guest.first_name} ${row.guest.last_name}`.trim(), {
             id: 'guest',
-            header: 'Guest name',
+            header: t.t('Lcz_GuestName', { fallback: 'Guest name' }),
             enableSorting: false,
-            cell: info => (index.h("div", { class: "meal-guest-list__guest" }, index.h("span", null, info.getValue()), info.row.original.is_arriving_today && (index.h("wa-badge", { variant: "brand", appearance: "filled", pill: true }, "Arriving today")))),
+            cell: info => (index.h("div", { class: "meal-guest-list__guest" }, index.h("span", null, info.getValue()), info.row.original.is_arriving_today && (index.h("wa-badge", { variant: "brand", appearance: "filled", pill: true }, t.t('Lcz_ArrivingToday', { fallback: 'Arriving today' }))))),
         }),
         this.columnHelper.accessor(row => `${row.occupancy.adult_nbr} - ${row.occupancy.children_nbr}`, {
             id: 'occupancy',
-            header: () => (index.h("span", null, index.h("span", { class: "meal-guest-list__cell--ad" }, "Ad"), index.h("span", { class: "meal-guest-list__cell--ch" }, "Ch"))),
+            header: () => (index.h("span", null, index.h("span", { class: "meal-guest-list__cell--ad" }, t.t('Lcz_Ad', { fallback: 'Ad' })), index.h("span", { class: "meal-guest-list__cell--ch" }, t.t('Lcz_Ch', { fallback: 'Ch' })))),
             enableSorting: false,
             cell: info => {
                 const [ad, ch] = info.getValue().split(' - ');
-                return (index.h("span", null, index.h("span", { class: "meal-guest-list__cell--ad" }, ad), index.h("span", { class: "meal-guest-list__cell--ch" }, ch)));
+                return (index.h("span", null, index.h("span", { class: "meal-guest-list__cell--ad" }, number.formatCount(Number(ad))), index.h("span", { class: "meal-guest-list__cell--ch" }, number.formatCount(Number(ch)))));
             },
         }),
         this.columnHelper.accessor(row => row.source?.Label ?? '', {
             id: 'source',
-            header: 'Source',
+            header: t.t('Lcz_Source', { fallback: 'Source' }),
             enableSorting: false,
             cell: info => index.h("span", { class: "meal-guest-list__muted" }, info.getValue()),
         }),
         this.columnHelper.accessor(row => row.rate_plan?.short_name ?? '', {
             id: 'ratePlan',
-            header: 'Rate plan',
+            header: t.t('Lcz_RatePlan', { fallback: 'Rate plan' }),
             enableSorting: false,
             cell: info => index.h("span", { class: "meal-guest-list__muted" }, info.getValue()),
         }),
@@ -149,7 +158,7 @@ const IrMealGuestList = class {
     render() {
         const list = this.guestList ?? [];
         if (list.length === 0) {
-            return (index.h(index.Host, null, index.h("div", { class: "meal-guest-list__empty" }, index.h("ir-empty-state", { message: "No guests found for the current filters." }))));
+            return (index.h(index.Host, null, index.h("div", { class: "meal-guest-list__empty" }, index.h("ir-empty-state", { message: t.t('Lcz_NoGuestsFoundForCurrentFilters', { fallback: 'No guests found for the current filters.' }) }))));
         }
         const table = useTable.useTable({
             data: list,
@@ -165,7 +174,7 @@ const IrMealGuestList = class {
         return (index.h(index.Host, null, index.h("div", { class: "table--container" }, index.h("table", { class: "table data-table  mb-0" }, index.h("thead", null, table.getHeaderGroups().map(headerGroup => (index.h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => {
             const canSort = header.column.getCanSort();
             return (index.h("th", { key: header.id, class: { 'sortable': canSort, 'cell__rate-plan': header.id === 'ratePlan', 'cell--align-center': isCentered(header.column.id) }, onClick: canSort ? header.column.getToggleSortingHandler() : undefined }, index.h("div", { class: { 'meal-guest-list__th': false, 'meal-guest-list__th--center': isCentered(header.column.id) } }, index.h("span", null, useTable.flexRender(header.column.columnDef.header, header.getContext())))));
-        }))))), index.h("tbody", null, table.getRowModel().rows.map(row => (index.h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (index.h("td", { key: cell.id, class: { 'cell--align-center': isCentered(cell.column.id) } }, useTable.flexRender(cell.column.columnDef.cell, cell.getContext())))))))), index.h("tfoot", null, index.h("tr", { class: "meal-guest-list__total-row" }, index.h("td", null), index.h("td", { class: "meal-guest-list__total-label" }, "Total"), index.h("td", { class: "meal-guest-list__total-value " }, index.h("span", null, index.h("span", { class: "meal-guest-list__cell--ad --total" }, totalAdults), index.h("span", { class: "meal-guest-list__cell--ch --total" }, totalChildren))), index.h("td", { colSpan: 2, class: "meal-guest-list__total-meta" })))))));
+        }))))), index.h("tbody", null, table.getRowModel().rows.map(row => (index.h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (index.h("td", { key: cell.id, class: { 'cell--align-center': isCentered(cell.column.id) } }, useTable.flexRender(cell.column.columnDef.cell, cell.getContext())))))))), index.h("tfoot", null, index.h("tr", { class: "meal-guest-list__total-row" }, index.h("td", null), index.h("td", { class: "meal-guest-list__total-label" }, t.t('Lcz_Total', { fallback: 'Total' })), index.h("td", { class: "meal-guest-list__total-value " }, index.h("span", null, index.h("span", { class: "meal-guest-list__cell--ad --total" }, number.formatCount(totalAdults)), index.h("span", { class: "meal-guest-list__cell--ch --total" }, number.formatCount(totalChildren)))), index.h("td", { colSpan: 2, class: "meal-guest-list__total-meta" })))))));
     }
 };
 IrMealGuestList.style = irMealGuestListCss();
@@ -200,27 +209,27 @@ const IrMealReportFilters = class {
         const tomorrowDate = moment.hooks().add(1, 'day').format('YYYY-MM-DD');
         // Reflect which preset (Today/Tomorrow) is currently active based on the selected fromDate.
         const selectedPreset = this.fromDate === todayDate ? 'today' : this.fromDate === tomorrowDate ? 'tomorrow' : '';
-        return (index.h("ir-filter-card", { key: '32461d8a08f2ef45d8c7ed05f6951413dbfebccb' }, index.h("wa-radio-group", { key: 'eee0d46751ca612f47c4749fc024abbedc964ed5', label: "Report type", size: "s", orientation: "horizontal", value: this.reportType, onchange: e => {
+        return (index.h("ir-filter-card", { key: '46bd55679350408f4b63a63785d8a2d3534917bd' }, index.h("wa-radio-group", { key: 'f13b457d9a07f389c110726c8144261e728f5da2', label: t.t('Lcz_ReportType', { fallback: 'Report type' }), size: "s", orientation: "horizontal", value: this.reportType, onchange: e => {
                 this.reportTypeChange.emit(e.target.value);
-            } }, index.h("wa-radio", { key: '34c52d174cf67a7636dd52668b51c72fe2edd919', style: { flex: '1' }, appearance: "button", value: "GUEST_LIST" }, "Guest list"), index.h("wa-radio", { key: 'd9f4e366003702e0875dcaa820365639e3f11671', style: { flex: '1' }, appearance: "button", value: "MEAL_COUNT" }, "Meal count")), this.reportType === 'GUEST_LIST' ? (index.h("wa-radio-group", { label: "Stay date", size: "s", orientation: "horizontal", value: selectedPreset, onchange: e => {
+            } }, index.h("wa-radio", { key: '98f548b0ea4bf200f3d0a9c01147155414e196b5', style: { flex: '1' }, appearance: "button", value: "GUEST_LIST" }, t.t('Lcz_GuestList', { fallback: 'Guest list' })), index.h("wa-radio", { key: '2ced502b25d6b5ff4c80f3a34482ee71bc6e5ca3', style: { flex: '1' }, appearance: "button", value: "MEAL_COUNT" }, t.t('Lcz_MealCount', { fallback: 'Meal count' }))), this.reportType === 'GUEST_LIST' ? (index.h("wa-radio-group", { label: t.t('Lcz_StayDate', { fallback: 'Stay date' }), size: "s", orientation: "horizontal", value: selectedPreset, onchange: e => {
                 this.presetDate.emit(e.target.value);
-            } }, index.h("wa-radio", { style: { flex: '1' }, appearance: "button", value: "today" }, "Today"), index.h("wa-radio", { style: { flex: '1' }, appearance: "button", value: "tomorrow" }, "Tomorrow"))) : (index.h("div", null, index.h("ir-date-range-filter", { label: "Stay date", fromDate: this.fromDate, showQuickActions: false, toDate: this.toDate, minDate: moment.hooks().format('YYYY-MM-DD'), maxDate: moment.hooks().add(14, 'days').format('YYYY-MM-DD'), onDatesChanged: e => {
+            } }, index.h("wa-radio", { style: { flex: '1' }, appearance: "button", value: "today" }, t.t('Lcz_Today', { fallback: 'Today' })), index.h("wa-radio", { style: { flex: '1' }, appearance: "button", value: "tomorrow" }, t.t('Lcz_Tomorrow', { fallback: 'Tomorrow' })))) : (index.h("div", null, index.h("ir-date-range-filter", { label: t.t('Lcz_StayDate', { fallback: 'Stay date' }), fromDate: this.fromDate, showQuickActions: false, toDate: this.toDate, minDate: moment.hooks().format('YYYY-MM-DD'), maxDate: moment.hooks().add(14, 'days').format('YYYY-MM-DD'), onDatesChanged: e => {
                 const { from, to } = e.detail;
                 this.dateChange.emit({
                     from,
                     to,
                 });
             }, withClear: false, selectionMode: "auto" }))), this.reportType === 'GUEST_LIST' &&
-            (mealTypes.length > 0 ? (index.h("wa-radio-group", { defaultValue: this.mealType, label: "Meal type", size: "s", orientation: "horizontal", value: this.mealType, style: { width: '100%' }, onchange: e => {
+            (mealTypes.length > 0 ? (index.h("wa-radio-group", { defaultValue: this.mealType, label: t.t('Lcz_MealType', { fallback: 'Meal type' }), size: "s", orientation: "horizontal", value: this.mealType, style: { width: '100%' }, onchange: e => {
                     this.mealTypeChange.emit(e.target.value);
-                } }, mealTypes.map(type => (index.h("wa-radio", { style: { flex: '1' }, appearance: "button", value: type.CODE_NAME }, type.CODE_VALUE_EN))))) : (index.h("div", { class: "ir-meal-report-filters__warning" }, "No meal types found."))), index.h("div", { key: '4f4f8b6dcf25a453135f4a618921f0ae8696a5dc', slot: "footer" }, index.h("ir-custom-button", { key: '43fc330706a14e6108f0524c088906856b9668a0', type: "button", size: "s", variant: "neutral", appearance: "filled", onClickHandler: (e) => {
+                } }, mealTypes.map(type => (index.h("wa-radio", { style: { flex: '1' }, appearance: "button", value: type.CODE_NAME }, type.CODE_VALUE_EN))))) : (index.h("div", { class: "ir-meal-report-filters__warning" }, t.t('Lcz_NoMealTypesFound', { fallback: 'No meal types found.' })))), index.h("div", { key: '638b4f2c49661f70237d13ff936e376c0930db36', slot: "footer" }, index.h("ir-custom-button", { key: '5949cfcaf5cb3a4dd57cb003de86d57b7876b805', type: "button", size: "s", variant: "neutral", appearance: "filled", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.filterReset.emit();
-            } }, t.t('Lcz_Reset', { fallback: 'Reset' })), index.h("ir-custom-button", { key: '7d11361a9028cc45461d757825115bc0e9047255', type: "button", size: "s", variant: "brand", loading: this.isLoading, onClickHandler: (e) => {
+            } }, t.t('Lcz_Reset', { fallback: 'Reset' })), index.h("ir-custom-button", { key: 'd3e890cf6173b097d7c033526c96c0c1f9ff3cd4', type: "button", size: "s", variant: "brand", loading: this.isLoading, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();

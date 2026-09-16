@@ -2,7 +2,8 @@ import { h } from "@stencil/core";
 import { createColumnHelper, getCoreRowModel } from "@tanstack/table-core";
 import { flexRender, useTable } from "../../../utils/useTable";
 import uninvoiced_bookings, { setUninvoicedBookingsTablePage, setUninvoicedBookingsTablePageSize } from "../../../stores/uninvoiced_bookings.store";
-import { formatAmount } from "../../../utils/utils";
+import { formatAmount, formatCount } from "../../../utils/number";
+import { t } from "../../../services/locale/t";
 export class IrUnvoicedBookingsTable {
     uninvoicedBookingsPageChange;
     pageSizes = [20, 50, 100];
@@ -10,7 +11,7 @@ export class IrUnvoicedBookingsTable {
     columns = [
         this.columnHelper.display({
             id: 'booking',
-            header: 'Booking#',
+            header: t('Lcz_BookingHash', { fallback: 'Booking#' }),
             cell: info => {
                 const booking = info.row.original.raw;
                 return (h("ir-booking-number-cell", { class: "uninvoiced-bookings-table__booking-nbr-cell", origin: booking.origin, source: booking.source, channelBookingNumber: booking.channel_booking_nbr, bookingNumber: booking.booking_nbr }));
@@ -18,7 +19,7 @@ export class IrUnvoicedBookingsTable {
         }),
         this.columnHelper.display({
             id: 'booked_by',
-            header: 'Booked by',
+            header: t('Lcz_BookedBy', { fallback: 'Booked by' }),
             cell: info => {
                 const row = info.row.original;
                 const booking = row.raw;
@@ -27,7 +28,7 @@ export class IrUnvoicedBookingsTable {
         }),
         this.columnHelper.display({
             id: 'dates',
-            header: 'End date',
+            header: t('Lcz_EndDate', { fallback: 'End date' }),
             cell: info => {
                 const booking = info.row.original.raw;
                 return h("ir-dates-cell", { class: "uninvoiced-bookings__dates-cell", checkIn: booking.from_date, checkOut: booking.to_date });
@@ -35,19 +36,19 @@ export class IrUnvoicedBookingsTable {
         }),
         this.columnHelper.display({
             id: 'services',
-            header: 'Services',
+            header: t('Lcz_Services', { fallback: 'Services' }),
             cell: info => {
                 const booking = info.row.original.raw;
                 const invoicableUnits = booking.invoice_info?.invoiceable_items?.filter(item => item.is_invoiceable && item.type === 'BSA')?.length;
                 const invoicableServices = booking.invoice_info?.invoiceable_items?.filter(item => item.is_invoiceable && ['BSP', 'BSE'].includes(item.type))?.length;
                 const invoicableCancellation = booking.invoice_info?.invoiceable_items?.filter(item => item.is_invoiceable && item.type === 'PAYMENT')?.length;
                 // const roomsLength = row.raw.rooms?.length;
-                return (h("div", null, !!invoicableUnits && (h("p", { class: "uninvoiced-bookings__services" }, invoicableUnits, " unit", invoicableUnits > 1 ? 's' : '')), !!invoicableServices && (h("p", { class: "uninvoiced-bookings__services" }, invoicableServices, " extra service", invoicableServices > 1 ? 's' : '')), !!invoicableCancellation && h("p", { class: "uninvoiced-bookings__services" }, "Cancellation fee")));
+                return (h("div", null, !!invoicableUnits && h("p", { class: "uninvoiced-bookings__services" }, t('Lcz_UnitCount', { fallback: '%1 unit(s)', params: [formatCount(invoicableUnits)] })), !!invoicableServices && (h("p", { class: "uninvoiced-bookings__services" }, t('Lcz_ExtraServiceCount', { fallback: '%1 extra service(s)', params: [formatCount(invoicableServices)] }))), !!invoicableCancellation && h("p", { class: "uninvoiced-bookings__services" }, t('Lcz_CancellationFee', { fallback: 'Cancellation fee' }))));
             },
         }),
         this.columnHelper.display({
             id: 'status',
-            header: 'Status',
+            header: t('Lcz_Status', { fallback: 'Status' }),
             cell: info => {
                 const booking = info.row.original.raw;
                 const lastManipulation = booking.ota_manipulations ? booking.ota_manipulations[booking.ota_manipulations.length - 1] : null;
@@ -61,7 +62,7 @@ export class IrUnvoicedBookingsTable {
         // }),
         this.columnHelper.accessor('uninvoicedGuestAmount', {
             id: 'uninvoicedGuestAmount',
-            header: 'Uninvoiced guest amount',
+            header: t('Lcz_UninvoicedGuestAmount', { fallback: 'Uninvoiced guest amount' }),
             cell: info => (h("span", null, h("b", null, formatAmount(info.row.original.currencySymbol, info.getValue()), " / "), formatAmount(info.row.original.currencySymbol, info.getValue()))),
         }),
     ];
@@ -91,19 +92,19 @@ export class IrUnvoicedBookingsTable {
             getCoreRowModel: getCoreRowModel(),
         });
         const amountColumnIds = ['totalGuestAmount', 'uninvoicedGuestAmount'];
-        return (h("div", { key: 'c67cc272d23e568bcb8e715d7ae2bc50297c349b', class: "uninvoiced-bookings-table" }, h("div", { key: 'bebbe769ad3d88c11dde6abce3e2532bf6d88e1d', class: "table--container" }, h("table", { key: '26c55eee376b9dab155dcb31ee4a7a7deb6d24eb', class: "table data-table" }, h("thead", { key: 'c5924aea701fd32abec8b1c3c9105161f92c570f' }, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, class: {
+        return (h("div", { key: 'fcda77be743dd87770cd0bcaae19760eb5e1cd1d', class: "uninvoiced-bookings-table" }, h("div", { key: 'c9af90cb3217dfb83726aa39f5f182ed1427d0d2', class: "table--container" }, h("table", { key: '1a625906515e325527e84846ae8489ae03a98dfc', class: "table data-table" }, h("thead", { key: '39506cc58385333c6af8b6931d7b821f90399c9f' }, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, class: {
                 'cell--align-end': amountColumnIds.includes(header.column.id),
                 'cell--booking': header.column.id === 'booking',
                 'cell--booked-by': header.column.id === 'booked_by',
                 'cell--amount': amountColumnIds.includes(header.column.id),
                 'cell--align-center': ['status', 'units_booked'].includes(header.column.id),
-            } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", { key: 'cc7836dc6df87450b2772df3f59085269f080805' }, uninvoiced_bookings.isLoading ? (h("tr", null, h("td", { colSpan: this.columns.length, class: "empty-row" }, h("ir-spinner", null)))) : table.getRowModel().rows.length === 0 ? (h("tr", null, h("td", { colSpan: this.columns.length, class: "empty-row" }, h("ir-empty-state", { message: "No uninvoiced guest-paid bookings for this date range." })))) : (table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
+            } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", { key: '927b17d670e49d6553d14cb2e97c57500090ab45' }, uninvoiced_bookings.isLoading ? (h("tr", null, h("td", { colSpan: this.columns.length, class: "empty-row" }, h("ir-spinner", null)))) : table.getRowModel().rows.length === 0 ? (h("tr", null, h("td", { colSpan: this.columns.length, class: "empty-row" }, h("ir-empty-state", { message: t('Lcz_NoUninvoicedGuestPaidBookings', { fallback: 'No uninvoiced guest-paid bookings for this date range.' }) })))) : (table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
                 'cell--align-end': amountColumnIds.includes(cell.column.id),
                 'cell--align-center': ['status', 'units_booked'].includes(cell.column.id),
                 'cell--booking': cell.column.id === 'booking',
                 'cell--booked-by': cell.column.id === 'booked_by',
                 'cell--amount': amountColumnIds.includes(cell.column.id),
-            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))))))), h("ir-pagination", { key: '8bdc213f04630dce67179f7637a8c330f37a7040', class: "uninvoiced-bookings-table__pagination", total: total, pages: pageCount, pageSize: pageSize, currentPage: currentPage, allowPageSizeChange: true, pageSizes: this.pageSizes, showing: { from: total ? startIndex + 1 : 0, to: startIndex + pageRows.length }, recordLabel: "bookings", onPageChange: this.handlePageChange, onPageSizeChange: this.handlePageSizeChange })));
+            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))))))), h("ir-pagination", { key: '5cdea3e73d2dab23303be4b6413e9623f7b11167', class: "uninvoiced-bookings-table__pagination", total: total, pages: pageCount, pageSize: pageSize, currentPage: currentPage, allowPageSizeChange: true, pageSizes: this.pageSizes, showing: { from: total ? startIndex + 1 : 0, to: startIndex + pageRows.length }, recordLabel: "bookings", onPageChange: this.handlePageChange, onPageSizeChange: this.handlePageSizeChange })));
     }
     static get is() { return "ir-unvoiced-bookings-table"; }
     static get encapsulation() { return "scoped"; }

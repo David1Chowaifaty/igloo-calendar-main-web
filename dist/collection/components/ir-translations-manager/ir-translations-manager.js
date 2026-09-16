@@ -3,9 +3,11 @@ import { SetupService } from "../../services/setup/index";
 import { showToast } from "../../utils/utils";
 import { Host, h } from "@stencil/core";
 import { Subject, catchError, debounceTime, distinctUntilChanged, from, map, merge, of, switchMap, tap } from "rxjs";
+import { planDuplicateSync } from "./duplicate-sync";
 import { buildEditSetupParams, exposedLanguagesToTranslationLanguages, setupEntryToTranslationEntry } from "./setup-mapping";
-import { USED_SETUP_TABLE_SET } from "./used-setup-tables";
-import { getSourceLanguage, orderLanguages, sortByDisplayOrder } from "./utils";
+import { PINNED_LANG_LOCAL_STORAGE_NAME, SESSION_CURRENT_TABLE, SHOW_NOTES_LOCAL_STORAGE_NAME, USED_SETUP_TABLE_SET, USED_TABLES_LOCAL_STORAGE_NAME } from "./used-setup-tables";
+import { buildDuplicateMap, diffValues, getSourceLanguage, orderLanguages, sortByDisplayOrder } from "./utils";
+import { t } from "../../services/locale/t";
 export class IrTranslationsManager {
     /** Auth ticket for the Setup API, following the same pattern as other feature roots. */
     ticket;
@@ -26,6 +28,12 @@ export class IrTranslationsManager {
     tableDialogOpen = false;
     tableDialogMode = 'create';
     tableDialogTable = null;
+    moveDialogOpen = false;
+    moveDialogEntry = null;
+    settingsDialogOpen = false;
+    /** Non-source language codes pinned as columns. `null` means "not customized yet" — everything is pinned. */
+    pinnedLanguageCodes = null;
+    showNotesColumn = true;
     deleteTarget = null;
     /** True while the distinct table list is loading. */
     isLoading = false;
@@ -51,7 +59,7 @@ export class IrTranslationsManager {
     crossTableEntries = [];
     /** True while a cross-table query is in flight. */
     isLoadingCrossTable = false;
-    /** Entry id (`TBL_NAME::CODE_NAME`) → the tables sharing that row's description. Empty until the duplicate scan lands. */
+    /** Entry id (`TBL_NAME::CODE_NAME`) → the rows in other used tables sharing that row's description. Empty until the duplicate scan lands. */
     duplicates = new Map();
     deleteDialogRef;
     unsavedOrderDialogRef;
@@ -80,6 +88,10 @@ export class IrTranslationsManager {
             this.loadTables();
             this.loadDuplicatedSetupEntriesAcrossTables();
         }
+        this.usedTablesOnly = JSON.parse(localStorage.getItem(USED_TABLES_LOCAL_STORAGE_NAME)) ?? true;
+        const storedPinnedCodes = localStorage.getItem(PINNED_LANG_LOCAL_STORAGE_NAME);
+        this.pinnedLanguageCodes = storedPinnedCodes ? JSON.parse(storedPinnedCodes) : null;
+        this.showNotesColumn = JSON.parse(localStorage.getItem(SHOW_NOTES_LOCAL_STORAGE_NAME)) ?? true;
     }
     disconnectedCallback() {
         this.subscription?.unsubscribe();
@@ -107,23 +119,14 @@ export class IrTranslationsManager {
     }
     /**
      * One scan of every description shared by more than one setup table, flattened
-     * from the API's per-description grouping into a per-row lookup keyed by the same
-     * `TBL_NAME::CODE_NAME` id the entries carry. Loaded once — it describes the whole
-     * setup, not the table currently on screen. Purely decorative, so a failure leaves
-     * the badges off rather than taking the page down with it.
+     * into a per-row lookup (see `buildDuplicateMap`). Loaded once — it describes the
+     * whole setup, not the table currently on screen — and refreshed after a drawer
+     * save, since a key rename changes the id a row is filed under. A failure leaves
+     * the badges off and edits un-propagated rather than taking the page down with it.
      */
     async loadDuplicatedSetupEntriesAcrossTables() {
         try {
-            const groups = await this.setupService.getDuplicatedSetupEntriesAcrossTables();
-            const byEntry = new Map();
-            for (const group of groups ?? []) {
-                // A description can repeat inside one table, so the tooltip lists distinct tables.
-                const tables = [...new Set(group.ENTRIES.map(entry => entry.TBL_NAME))].sort();
-                for (const entry of group.ENTRIES) {
-                    byEntry.set(`${entry.TBL_NAME}::${entry.CODE_NAME}`, { occurrences: group.OCCURRENCES, tables });
-                }
-            }
-            this.duplicates = byEntry;
+            this.duplicates = buildDuplicateMap(await this.setupService.getDuplicatedSetupEntriesAcrossTables());
         }
         catch (error) {
             console.error(error);
@@ -138,7 +141,7 @@ export class IrTranslationsManager {
         try {
             const tableNames = await this.setupService.getDistinctSetupTables();
             this.tables = tableNames.map(name => ({ id: name, name, entries: [] }));
-            this.setActiveTable(this.visibleTables[0]?.id ?? null);
+            this.setActiveTable(sessionStorage.getItem(SESSION_CURRENT_TABLE) ?? this.visibleTables[0]?.id ?? null);
             // this.setActiveTable(this.tables.find(t => t.name === 'BLAbLA')?.id ?? null);
         }
         finally {
@@ -220,7 +223,7 @@ export class IrTranslationsManager {
         const sourceCode = getSourceLanguage(this.languages)?.code;
         return this.languages.filter(language => language.code !== sourceCode);
     }
-    /** True when a table survives the "used in this codebase" switch. */
+    /** True when a table survives the "used in this codebase" filter. */
     isTableAllowed(name) {
         return !this.usedTablesOnly || !name || USED_SETUP_TABLE_SET.has(name);
     }
@@ -228,9 +231,17 @@ export class IrTranslationsManager {
     get visibleTables() {
         return this.usedTablesOnly ? this.tables.filter(table => this.isTableAllowed(table.name)) : this.tables;
     }
-    /** Cross-table results narrowed by the same switch, so search and audits can't surface a table the picker hides. */
+    /** Cross-table results narrowed by the same filter, so search and audits can't surface a table the picker hides. */
     get allowedCrossTableEntries() {
         return this.usedTablesOnly ? this.crossTableEntries.filter(entry => this.isTableAllowed(entry.tableName)) : this.crossTableEntries;
+    }
+    /** Non-source language codes currently shown as columns. Defaults to every one until the user unpins something. */
+    get effectivePinnedLanguageCodes() {
+        if (this.pinnedLanguageCodes) {
+            return this.pinnedLanguageCodes;
+        }
+        const sourceCode = getSourceLanguage(this.languages)?.code;
+        return this.languages.filter(language => language.code !== sourceCode).map(language => language.code);
     }
     /** True once either header control is engaged — the grid then shows rows from every table. */
     get isCrossTableMode() {
@@ -248,7 +259,8 @@ export class IrTranslationsManager {
     get displayedLanguages() {
         // Only a language audit has columns worth narrowing to; a plain search says nothing about which ones matter.
         if (this.missingLanguageCodes.length === 0) {
-            return this.orderedLanguages;
+            const pinned = new Set(this.effectivePinnedLanguageCodes);
+            return this.orderedLanguages.filter(language => language.code === getSourceLanguage(this.languages)?.code || pinned.has(language.code));
         }
         const source = getSourceLanguage(this.languages);
         const audited = this.languages.filter(language => this.missingLanguageCodes.includes(language.code));
@@ -339,6 +351,7 @@ export class IrTranslationsManager {
         this.activeTableId = id;
         this.tableQuery = this.tables.find(table => table.id === id)?.name ?? '';
         this.orderDirty = false;
+        sessionStorage.setItem(SESSION_CURRENT_TABLE, id);
         if (id) {
             this.loadTableEntries(id);
         }
@@ -396,15 +409,23 @@ export class IrTranslationsManager {
         this.entryDrawerEntry = entry;
         this.entryDrawerOpen = true;
     }
-    /** The entry form saved (and possibly soft-deleted/recreated) directly against Setup — refetch to pick up the result. */
-    handleEntrySaved = () => {
+    /**
+     * The entry form saved (and possibly soft-deleted/recreated) directly against Setup,
+     * with the row's duplicates in the same batch — refetch to pick up the result. The
+     * duplicate map is reloaded too: a key rename changes the id a row is filed under.
+     */
+    handleEntrySaved = (event) => {
+        const { syncedCount } = event.detail;
+        if (syncedCount > 0) {
+            showToast({ type: 'success', title: `Also updated ${syncedCount} duplicate ${syncedCount === 1 ? 'row' : 'rows'}` });
+        }
         if (this.isCrossTableMode) {
             this.refresh$.next();
-            return;
         }
-        if (this.activeTableId) {
+        else if (this.activeTableId) {
             this.loadTableEntries(this.activeTableId);
         }
+        this.loadDuplicatedSetupEntriesAcrossTables();
     };
     async handleEntryChange(updatedEntry) {
         const tableName = this.tableNameFor(updatedEntry);
@@ -417,7 +438,7 @@ export class IrTranslationsManager {
         this.patchEntries(entries => entries.map(entry => (entry.id === updatedEntry.id ? updatedEntry : entry)), tableId);
         this.isMutating = true;
         try {
-            const saved = await this.setupService.editSetup(buildEditSetupParams({
+            const primary = buildEditSetupParams({
                 ownerId: this.propertyid,
                 entryUserId: this.userId,
                 tableName,
@@ -425,10 +446,47 @@ export class IrTranslationsManager {
                 values: updatedEntry.values,
                 meta: updatedEntry.meta,
                 touch: false,
-            }));
-            const savedEntry = setupEntryToTranslationEntry(saved);
+            });
+            // A duplicated row's twins ride in the same Edit_Setup_Many as the row itself —
+            // one write however many tables it touches. Only when the row has none, or its
+            // twins can't be read, does it fall back to a plain Edit_Setup: the user's own
+            // change must not be held hostage by a sibling lookup.
+            const previous = previousEntries.find(entry => entry.id === updatedEntry.id);
+            let syncFailed = false;
+            const sync = await planDuplicateSync(this.setupService, {
+                siblings: this.duplicates.get(updatedEntry.id)?.siblings ?? [],
+                changedValues: diffValues(previous?.values, updatedEntry.values),
+                ownerId: this.propertyid,
+                entryUserId: this.userId,
+                touch: false,
+            }).catch((error) => {
+                console.error(error);
+                syncFailed = true;
+                return { params: [], entries: [] };
+            });
+            if (sync.params.length > 0) {
+                await this.setupService.editSetupMany([primary, ...sync.params]);
+            }
+            else {
+                await this.setupService.editSetup(primary);
+            }
+            const savedEntry = setupEntryToTranslationEntry(primary);
             this.patchEntries(entries => entries.map(entry => (entry.id === savedEntry.id ? savedEntry : entry)), tableId);
-            showToast({ type: 'success', title: 'Saved Successfully' });
+            // The cross-table view may have some of the synced rows on screen.
+            const syncedById = new Map(sync.entries.map(entry => [entry.id, entry]));
+            if (this.crossTableEntries.some(entry => syncedById.has(entry.id))) {
+                this.crossTableEntries = this.crossTableEntries.map(entry => syncedById.get(entry.id) ?? entry);
+            }
+            const synced = sync.entries.length;
+            if (syncFailed) {
+                showToast({ type: 'error', title: 'Saved, but its duplicate rows could not be updated' });
+            }
+            else {
+                showToast({
+                    type: 'success',
+                    title: synced > 0 ? `Saved — also updated ${synced} duplicate ${synced === 1 ? 'row' : 'rows'}` : t('Lcz_SavedSuccessfully', { fallback: 'Saved Successfully' }),
+                });
+            }
         }
         catch (error) {
             this.patchEntries(() => previousEntries, tableId);
@@ -538,6 +596,27 @@ export class IrTranslationsManager {
     requestDeleteEntry(entry) {
         this.deleteTarget = { type: 'entry', id: entry.id, label: entry.key || 'this key' };
         this.deleteDialogRef?.openModal();
+    }
+    openMoveEntry(entry) {
+        // Same guard as the header search — a move refetches rows, which would silently drop an unsaved reorder.
+        if (this.orderDirty) {
+            showToast({ type: 'error', title: 'Save or discard the pending order first' });
+            return;
+        }
+        this.moveDialogEntry = { ...entry, tableName: this.tableNameFor(entry) };
+        this.moveDialogOpen = true;
+    }
+    /** Move_Setup_Entry already re-homed the row — drop it from whatever is on screen and let the destination refetch when it's next selected. */
+    handleEntryMoved({ entry }) {
+        this.moveDialogOpen = false;
+        this.moveDialogEntry = null;
+        this.patchEntries(entries => entries.filter(item => item.id !== entry.id));
+        if (this.isCrossTableMode) {
+            // The row still matches the query — refetch so it reappears under its new table's header.
+            this.refresh$.next();
+        }
+        // Duplicate badges are keyed by `TBL_NAME::CODE_NAME`, so the moved row's id just changed.
+        this.loadDuplicatedSetupEntriesAcrossTables();
     }
     // #endregion
     // #region Table CRUD
@@ -673,16 +752,23 @@ export class IrTranslationsManager {
     handleSearchQueryChange(query) {
         this.search$.next(query);
     }
-    /** Narrowing the list can strand the active table off it — fall back to the first one still on offer. */
-    handleUsedTablesOnlyChange(enabled) {
-        this.usedTablesOnly = enabled;
-        if (enabled && this.activeTable && !this.isTableAllowed(this.activeTable.name)) {
+    /** The settings dialog only ever reports its state on Save — apply the used-tables filter, pins, and notes visibility together. */
+    handleSaveSettings(payload) {
+        this.usedTablesOnly = payload.usedTablesOnly;
+        localStorage.setItem(USED_TABLES_LOCAL_STORAGE_NAME, String(payload.usedTablesOnly));
+        this.pinnedLanguageCodes = payload.pinnedCodes;
+        localStorage.setItem(PINNED_LANG_LOCAL_STORAGE_NAME, JSON.stringify(payload.pinnedCodes));
+        this.showNotesColumn = payload.showNotes;
+        localStorage.setItem(SHOW_NOTES_LOCAL_STORAGE_NAME, String(payload.showNotes));
+        this.settingsDialogOpen = false;
+        // Narrowing the list can strand the active table off it — fall back to the first one still on offer.
+        if (this.usedTablesOnly && this.activeTable && !this.isTableAllowed(this.activeTable.name)) {
             this.setActiveTable(this.visibleTables[0]?.id ?? null);
         }
     }
     renderPageActions() {
         // const activeTable = this.activeTable;
-        return (h("div", { slot: "page-header", class: "tm__page-actions" }, h("div", { class: "tm__table-picker" }, h("ir-autocomplete", { class: "tm__table-select", size: "s", label: "Table", placeholder: "Select table", value: this.isCrossTableMode ? 'All tables' : this.tableQuery, disabled: this.isCrossTableMode, emitOnSameValue: false, withClear: true, "onText-change": (e) => (this.tableQuery = e.detail ?? ''), "onCombobox-change": (e) => this.requestActiveTableChange(e.detail), onFocusout: () => this.restoreTableQuery() }, h("wa-icon", { name: "table", slot: "start" }), this.filteredTables.map(table => (h("ir-autocomplete-option", { key: table.id, label: table.name, value: table.id }, table.name))))), h("wa-input", { class: "tm__search", size: "s", "with-clear": true, label: "Search eng in all tables", placeholder: "Search eng in all tables\u2026", autocomplete: "off", spellcheck: false, disabled: this.orderDirty, title: this.orderDirty ? 'Save or discard the pending order first' : undefined, oninput: (e) => this.handleSearchQueryChange(e.target.value) }, h("wa-icon", { name: "magnifying-glass", slot: "start", "aria-hidden": "true" })), h("wa-select", { class: "tm__missing-select", size: "s", multiple: true, "with-clear": true, "max-options-visible": 1, label: "Missing language in all tables\u2026", placeholder: "Missing language in all tables\u2026", value: this.missingLanguageCodes, disabled: this.orderDirty, title: this.orderDirty ? 'Save or discard the pending order first' : undefined, onchange: (e) => this.handleMissingLanguagesChange([...(e.target.value ?? [])]) }, this.auditableLanguages.map(language => (h("wa-option", { key: language.code, value: language.code }, language.name)))), h("wa-switch", { class: "tm__used-only", size: "s", checked: this.usedTablesOnly, defaultChecked: this.usedTablesOnly, onchange: (e) => this.handleUsedTablesOnlyChange(e.target.checked) }, "Used in app")));
+        return (h("div", { slot: "page-header", class: "tm__page-actions" }, h("div", { class: "tm__table-picker" }, h("ir-autocomplete", { class: "tm__table-select", size: "s", label: "Table", placeholder: "Select table", value: this.isCrossTableMode ? 'All tables' : this.tableQuery, disabled: this.isCrossTableMode, emitOnSameValue: false, withClear: true, "onText-change": (e) => (this.tableQuery = e.detail ?? ''), "onCombobox-change": (e) => this.requestActiveTableChange(e.detail), onFocusout: () => this.restoreTableQuery() }, h("wa-icon", { name: "table", slot: "start" }), this.filteredTables.map(table => (h("ir-autocomplete-option", { key: table.id, label: table.name, value: table.id }, table.name))))), h("wa-input", { class: "tm__search", size: "s", "with-clear": true, label: "Search eng in all tables", placeholder: "Search eng in all tables\u2026", autocomplete: "off", spellcheck: false, disabled: this.orderDirty, title: this.orderDirty ? 'Save or discard the pending order first' : undefined, oninput: (e) => this.handleSearchQueryChange(e.target.value) }, h("wa-icon", { name: "magnifying-glass", slot: "start", "aria-hidden": "true" })), h("wa-select", { class: "tm__missing-select", size: "s", multiple: true, "with-clear": true, "max-options-visible": 1, label: "Missing language in all tables\u2026", placeholder: "Missing language in all tables\u2026", value: this.missingLanguageCodes, disabled: this.orderDirty, title: this.orderDirty ? 'Save or discard the pending order first' : undefined, onchange: (e) => this.handleMissingLanguagesChange([...(e.target.value ?? [])]) }, this.auditableLanguages.map(language => (h("wa-option", { key: language.code, value: language.code }, language.name)))), h("ir-custom-button", { class: "tm__icon-btn", appearance: "outlined", variant: "neutral", onClickHandler: () => (this.settingsDialogOpen = true) }, h("wa-icon", { name: "gear", label: "Table settings" }))));
     }
     render() {
         const activeTable = this.activeTable;
@@ -690,12 +776,15 @@ export class IrTranslationsManager {
         const sourceCode = getSourceLanguage(this.languages)?.code;
         // In the cross-table view the drawer follows the row being edited, not the picker.
         const drawerTableName = this.entryDrawerEntry?.tableName ?? activeTable?.name;
-        return (h(Host, { key: '43adc5cd76488dcd10ff46d6a9d26449afcda5aa' }, h("ir-page", { key: 'eee87623f87c89b59eee60ef2eaad467a9f81639', class: 'translation-manager__page', label: "Setup Entries" }, this.renderPageActions(), this.isLoading ? (h("div", { class: "tm__loader-container" }, h("ir-spinner", null), h("p", null, "Loading translation tables\u2026"))) : !activeTable && !this.isCrossTableMode ? (h("ir-empty-state", { message: "No translation tables yet \u2014 create one to start translating strings." }, h("ir-custom-button", { variant: "brand", appearance: "filled", onClickHandler: () => this.openCreateTable() }, "New table"))) : this.isCrossTableMode && !this.isLoadingCrossTable && this.allowedCrossTableEntries.length === 0 ? (h("ir-empty-state", { message: this.crossTableEmptyMessage })) : (h("ir-translations-entries-panel", { entries: this.displayedEntries, languages: this.displayedLanguages, sourceCode: sourceCode, isLoading: this.isLoadingEntries || this.isLoadingCrossTable, disableActions: this.isMutating, groupByTable: this.isCrossTableMode, tableNames: this.crossTableNames, disableCreate: this.isCrossTableMode, hasPendingOrder: this.orderDirty, changedEntryIds: this.changedEntryIds, duplicates: this.duplicates, onCreateEntry: () => this.openCreateEntry(), onEditEntry: (e) => this.openEditEntry(e.detail),
+        return (h(Host, { key: '91cf249d79ad309c2fb48ef0c845ea41a56e65be' }, h("ir-page", { key: 'fbdab22220ff8331f0d52b005cce1e639ea7d4be', class: 'translation-manager__page', label: "Setup Entries" }, this.renderPageActions(), this.isLoading ? (h("div", { class: "tm__loader-container" }, h("ir-spinner", null), h("p", null, "Loading translation tables\u2026"))) : !activeTable && !this.isCrossTableMode ? (h("ir-empty-state", { message: "No translation tables yet \u2014 create one to start translating strings." }, h("ir-custom-button", { variant: "brand", appearance: "filled", onClickHandler: () => this.openCreateTable() }, "New table"))) : this.isCrossTableMode && !this.isLoadingCrossTable && this.allowedCrossTableEntries.length === 0 ? (h("ir-empty-state", { message: this.crossTableEmptyMessage })) : (h("ir-translations-entries-panel", { entries: this.displayedEntries, languages: this.displayedLanguages, sourceCode: sourceCode, isLoading: this.isLoadingEntries || this.isLoadingCrossTable, disableActions: this.isMutating, groupByTable: this.isCrossTableMode, tableNames: this.crossTableNames, disableCreate: this.isCrossTableMode, hasPendingOrder: this.orderDirty, changedEntryIds: this.changedEntryIds, duplicates: this.duplicates, showNotes: this.showNotesColumn, onCreateEntry: () => this.openCreateEntry(), onEditEntry: (e) => this.openEditEntry(e.detail),
             // onDuplicateEntry={(e: CustomEvent<TranslationEntry>) => this.handleDuplicateEntry(e.detail)}
-            onDeleteEntry: (e) => this.requestDeleteEntry(e.detail), onEntryChange: (e) => this.handleEntryChange(e.detail), onToggleVisibility: (e) => this.handleToggleVisibility(e.detail), onReorderEntries: (e) => this.handleReorderEntries(e.detail), onSaveOrder: () => this.handleSaveOrder(), onDiscardOrder: () => this.handleDiscardOrder() }))), h("ir-translations-entry-drawer", { key: '9c9401b5273096ad32b2e2bb602df3bca00b83c2', open: this.entryDrawerOpen, languages: languages, entry: this.entryDrawerEntry, existingKeys: this.displayedEntries.filter(entry => entry.tableName === drawerTableName).map(entry => entry.key), nextDisplayOrder: this.nextDisplayOrder, tableName: drawerTableName, ownerId: this.propertyid, entryUserId: this.userId, onEntrySaved: this.handleEntrySaved, onCloseDrawer: () => {
+            onMoveEntry: (e) => this.openMoveEntry(e.detail), onDeleteEntry: (e) => this.requestDeleteEntry(e.detail), onEntryChange: (e) => this.handleEntryChange(e.detail), onToggleVisibility: (e) => this.handleToggleVisibility(e.detail), onReorderEntries: (e) => this.handleReorderEntries(e.detail), onSaveOrder: () => this.handleSaveOrder(), onDiscardOrder: () => this.handleDiscardOrder() }))), h("ir-translations-entry-drawer", { key: '01250c953ed70e48c6c1df78172c45c3eea020d4', open: this.entryDrawerOpen, languages: languages, entry: this.entryDrawerEntry, duplicateSiblings: this.entryDrawerEntry ? (this.duplicates.get(this.entryDrawerEntry.id)?.siblings ?? []) : [], existingKeys: this.displayedEntries.filter(entry => entry.tableName === drawerTableName).map(entry => entry.key), nextDisplayOrder: this.nextDisplayOrder, tableName: drawerTableName, ownerId: this.propertyid, entryUserId: this.userId, onEntrySaved: this.handleEntrySaved, onCloseDrawer: () => {
                 this.entryDrawerOpen = false;
                 this.entryDrawerEntry = null;
-            } }), h("ir-translations-table-dialog", { key: 'eb43538109f064721eac8f22c73496bd1f2cfea6', open: this.tableDialogOpen, mode: this.tableDialogMode, table: this.tableDialogTable, existingNames: this.tables.map(table => table.name), ownerId: this.propertyid, entryUserId: this.userId, onTableSaved: (e) => this.handleTableSaved(e.detail), onTableSaveFailed: this.handleTableSaveFailed, onCloseDialog: () => (this.tableDialogOpen = false) }), h("ir-dialog", { key: 'b2f5c92b238ea2a4ba2dc56628c2835f97018d53', label: this.deleteTarget?.type === 'table' ? 'Delete table' : 'Delete key', ref: el => (this.deleteDialogRef = el), onIrDialogAfterHide: () => (this.deleteTarget = null) }, h("p", { key: 'e63cf8fffc33d00540865d171f6372f83b3a41a2', class: "tm__confirm-text" }, "Delete ", h("strong", { key: 'aba81942edfd9856151e5cffbaf5da2e4e70f20e' }, this.deleteTarget?.label), "? ", this.deleteTarget?.detail, " This cannot be undone."), h("div", { key: '65cc27e1faff452ad9a85b0688e5bf9b0801631c', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'fc259707a44a138a7e867a7c069d1c6b06eb1a6a', size: "m", appearance: "outlined", variant: "neutral", onClickHandler: () => this.deleteDialogRef?.closeModal() }, "Cancel"), h("ir-custom-button", { key: '27cda3bad3c895e9d1135af630ba0f78e7dbd7d5', size: "m", appearance: "accent", variant: "danger", loading: this.isMutating, onClickHandler: () => this.confirmDelete() }, "Delete"))), h("ir-dialog", { key: 'e16d5402dc43fcda336bfcdd13706738334a6dc6', label: "Unsaved order", ref: el => (this.unsavedOrderDialogRef = el), onIrDialogAfterHide: () => {
+            } }), h("ir-translations-move-dialog", { key: '5c69feba5af6ead58f4e2a47fb83169abc021c80', open: this.moveDialogOpen, entry: this.moveDialogEntry, tables: this.visibleTables, sourceCode: sourceCode, onEntryMoved: (e) => this.handleEntryMoved(e.detail), onCloseDialog: () => {
+                this.moveDialogOpen = false;
+                this.moveDialogEntry = null;
+            } }), h("ir-translations-settings-dialog", { key: '6bb78b1f297eaaae9bc30be909d9fa9627e1cdd4', open: this.settingsDialogOpen, usedTablesOnly: this.usedTablesOnly, languages: this.languages, sourceCode: sourceCode, pinnedCodes: this.effectivePinnedLanguageCodes, showNotes: this.showNotesColumn, onSaveSettings: (e) => this.handleSaveSettings(e.detail), onCloseDialog: () => (this.settingsDialogOpen = false) }), h("ir-translations-table-dialog", { key: 'd4edd8271c8ccaddb55253666d929f3cd0be03d5', open: this.tableDialogOpen, mode: this.tableDialogMode, table: this.tableDialogTable, existingNames: this.tables.map(table => table.name), ownerId: this.propertyid, entryUserId: this.userId, onTableSaved: (e) => this.handleTableSaved(e.detail), onTableSaveFailed: this.handleTableSaveFailed, onCloseDialog: () => (this.tableDialogOpen = false) }), h("ir-dialog", { key: '663acc065729570355fef3a8e7fc8530bf47337a', label: this.deleteTarget?.type === 'table' ? 'Delete table' : 'Delete key', ref: el => (this.deleteDialogRef = el), onIrDialogAfterHide: () => (this.deleteTarget = null) }, h("p", { key: 'ed2c9fd2998f8623b9a4c3de5f4cac9117e2002c', class: "tm__confirm-text" }, t('Lcz_Delete', { fallback: 'Delete' }), h("strong", { key: '1dfa6a81fb3372e494dbfc7585ffe4c5b810a8b0' }, this.deleteTarget?.label), "? ", this.deleteTarget?.detail, " This cannot be undone."), h("div", { key: '4c1e7bb8e3764e075e7aeebca10febda6722d8c8', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '005cfb79390d0be8095f75429261a8fa493ec2fc', size: "m", appearance: "outlined", variant: "neutral", onClickHandler: () => this.deleteDialogRef?.closeModal() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '6149a7eab5643ef93b218b4f949b8e89b75f2086', size: "m", appearance: "accent", variant: "danger", loading: this.isMutating, onClickHandler: () => this.confirmDelete() }, t('Lcz_Delete', { fallback: 'Delete' })))), h("ir-dialog", { key: '47911609570f5cfe07a67e9cb7ec25294374b330', label: "Unsaved order", ref: el => (this.unsavedOrderDialogRef = el), onIrDialogAfterHide: () => {
                 // Only true if neither Save nor Discard resolved it — i.e. the picker already
                 // optimistically wrote the newly-clicked option's label straight into its own
                 // input DOM node, bypassing our `value` prop. Since `tableQuery` itself never
@@ -706,7 +795,7 @@ export class IrTranslationsManager {
                     requestAnimationFrame(() => (this.tableQuery = this.activeTable?.name ?? ''));
                 }
                 this.pendingTableSwitchId = null;
-            } }, h("p", { key: '4297a6e16e62eab8dfa57936262620af14378d64', class: "tm__confirm-text" }, "You reordered keys in this table but haven't saved it yet. Save the new order, or discard it and switch tables?"), h("div", { key: 'd68db5b7ac48cae27836224c6aa2b6a6b98a6bcb', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '8cf5037cbcc458c1e6020b9555d8b7e4b7ab763b', size: "m", appearance: "outlined", variant: "neutral", onClickHandler: () => this.unsavedOrderDialogRef?.closeModal() }, "Cancel"), h("ir-custom-button", { key: '5c6d85ddf854fb09f713e80d7bf5786f833c2dfc', size: "m", appearance: "outlined", variant: "danger", disabled: this.isMutating, onClickHandler: () => this.discardOrderAndSwitchTable() }, "Discard"), h("ir-custom-button", { key: '30dc4504540306188414a260647139a2728fd600', size: "m", appearance: "accent", variant: "brand", loading: this.isMutating, onClickHandler: () => this.saveOrderAndSwitchTable() }, "Save")))));
+            } }, h("p", { key: '50fdc6f0bc34d5a804394531e687224b9ab469fe', class: "tm__confirm-text" }, "You reordered keys in this table but haven't saved it yet. Save the new order, or discard it and switch tables?"), h("div", { key: '2834d618f75fe714ec6813e6dcc41ac90a068471', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '9c94655ed24396f7635764d3952c1df9c5ecdbbb', size: "m", appearance: "outlined", variant: "neutral", onClickHandler: () => this.unsavedOrderDialogRef?.closeModal() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'b691617ff07febe2bec2264e291320cf80de5d17', size: "m", appearance: "outlined", variant: "danger", disabled: this.isMutating, onClickHandler: () => this.discardOrderAndSwitchTable() }, "Discard"), h("ir-custom-button", { key: 'd3c3774b99961c2941a876c598063da688bc723b', size: "m", appearance: "accent", variant: "brand", loading: this.isMutating, onClickHandler: () => this.saveOrderAndSwitchTable() }, t('Lcz_Save', { fallback: 'Save' }))))));
     }
     static get is() { return "ir-translations-manager"; }
     static get encapsulation() { return "scoped"; }
@@ -793,6 +882,11 @@ export class IrTranslationsManager {
             "tableDialogOpen": {},
             "tableDialogMode": {},
             "tableDialogTable": {},
+            "moveDialogOpen": {},
+            "moveDialogEntry": {},
+            "settingsDialogOpen": {},
+            "pinnedLanguageCodes": {},
+            "showNotesColumn": {},
             "deleteTarget": {},
             "isLoading": {},
             "isLoadingEntries": {},

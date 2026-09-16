@@ -1,8 +1,12 @@
 import { SetupService } from "../../../../services/setup/index";
 import { showToast } from "../../../../utils/utils";
 import { h } from "@stencil/core";
+import { planDuplicateSync } from "../../duplicate-sync";
 import { buildEditSetupParams } from "../../setup-mapping";
-import { getSourceLanguage, hasValue } from "../../utils";
+import { diffValues, getCopiedEntry, getSourceLanguage, hasValue } from "../../utils";
+import { t } from "../../../../services/locale/t";
+/** Every key the form creates starts with this — the Key field's mask prepends it. */
+const KEY_PREFIX = 'Lcz_';
 /** Pulls a `{ "code": "translation" }` object out of an AI reply, tolerating markdown fences and surrounding prose. */
 function extractTranslationObject(text) {
     const trimmed = text?.trim();
@@ -40,6 +44,9 @@ export class IrTranslationsEntryForm {
     tableName;
     ownerId;
     entryUserId;
+    /** Rows in other used tables sharing `entry`'s description — language changes are written to them in the same batch. */
+    duplicateSiblings = [];
+    /** Fired after the write lands, with what was saved — the manager propagates language changes to the row's duplicates from it. */
     entrySaved;
     submitDisabledChange;
     isSubmittingChange;
@@ -48,6 +55,8 @@ export class IrTranslationsEntryForm {
     isSubmitting = false;
     keyInputRef;
     setupService = new SetupService();
+    /** Key the copied row was last applied for — so backspacing and retyping it doesn't re-fill and re-toast. */
+    filledFromCopiedKey = null;
     componentWillLoad() {
         this.key = this.entry?.key ?? '';
         this.values = { ...(this.entry?.values ?? {}) };
@@ -162,6 +171,37 @@ export class IrTranslationsEntryForm {
     handleKeyChange(value) {
         this.key = value ?? '';
         this.submitDisabledChange.emit(!this.isValid);
+        this.fillFromCopiedEntry();
+    }
+    /**
+     * The other half of the table's "Copy row": a new entry given the copied row's
+     * key inherits its translations. Only blanks are filled, so anything already
+     * typed into a language field stays.
+     */
+    fillFromCopiedEntry() {
+        const copied = getCopiedEntry();
+        const key = this.trimmedKey;
+        // The mask prepends KEY_PREFIX to whatever is pasted, so a row copied from a
+        // table whose keys lack it ("001") arrives here as "Lcz_001" — still a match.
+        const matches = !!copied && (key === copied.key || key === KEY_PREFIX + copied.key);
+        if (this.isEditing || !key || !matches || this.filledFromCopiedKey === key) {
+            return;
+        }
+        const next = { ...this.values };
+        let filled = 0;
+        for (const language of this.languages) {
+            const value = copied.values[language.code];
+            if (hasValue(value) && !hasValue(next[language.code])) {
+                next[language.code] = value;
+                filled++;
+            }
+        }
+        this.filledFromCopiedKey = key;
+        if (filled === 0) {
+            return;
+        }
+        this.values = next;
+        showToast({ type: 'success', title: `Filled ${filled} translation${filled === 1 ? '' : 's'} from the copied row.` });
     }
     handleSubmit = async (event) => {
         event.preventDefault();
@@ -180,8 +220,12 @@ export class IrTranslationsEntryForm {
         this.isSubmitting = true;
         this.isSubmittingChange.emit(true);
         try {
+            // Everything this save needs goes out as one Edit_Setup_Many: the soft-delete of
+            // a renamed key, the row itself, and its duplicates in other tables. A plain
+            // Edit_Setup is only used when there's nothing else to send.
+            const writes = [];
             if (keyChanged) {
-                await this.setupService.editSetup(buildEditSetupParams({
+                writes.push(buildEditSetupParams({
                     ownerId: this.ownerId,
                     entryUserId: this.entryUserId,
                     tableName: this.tableName,
@@ -192,7 +236,7 @@ export class IrTranslationsEntryForm {
                     touch: true,
                 }));
             }
-            await this.setupService.editSetup(buildEditSetupParams({
+            writes.push(buildEditSetupParams({
                 ownerId: this.ownerId,
                 entryUserId: this.entryUserId,
                 tableName: this.tableName,
@@ -202,8 +246,31 @@ export class IrTranslationsEntryForm {
                 touch: true,
                 displayOrder: isNewRow ? this.nextDisplayOrder : undefined,
             }));
-            showToast({ type: 'success', title: previous ? 'Key updated' : 'Key created' });
-            this.entrySaved.emit();
+            // Duplicates are keyed by the row as it was, so a rename still finds them. If they
+            // can't be read the user's own save still goes out, just without them.
+            let syncFailed = false;
+            const sync = previous
+                ? await planDuplicateSync(this.setupService, {
+                    siblings: this.duplicateSiblings,
+                    changedValues: diffValues(previous.values, this.values),
+                    ownerId: this.ownerId,
+                    entryUserId: this.entryUserId,
+                    touch: true,
+                }).catch((error) => {
+                    console.error(error);
+                    syncFailed = true;
+                    return { params: [], entries: [] };
+                })
+                : { params: [], entries: [] };
+            writes.push(...sync.params);
+            if (writes.length > 1) {
+                await this.setupService.editSetupMany(writes);
+            }
+            else {
+                await this.setupService.editSetup(writes[0]);
+            }
+            showToast(syncFailed ? { type: 'error', title: 'Saved, but its duplicate rows could not be updated' } : { type: 'success', title: previous ? 'Key updated' : 'Key created' });
+            this.entrySaved.emit({ tableName: this.tableName, key: this.trimmedKey, syncedCount: sync.entries.length });
         }
         finally {
             this.isSubmitting = false;
@@ -213,8 +280,8 @@ export class IrTranslationsEntryForm {
     render() {
         const total = this.languages.length;
         const translated = this.translatedCount;
-        return (h("form", { key: '50bda771bcbe1383d7b21e1d52b4810a6a867fb5', id: this.formId, class: "entry-form__body", onSubmit: this.handleSubmit, novalidate: true }, h("ir-input", { key: '82d34da23a0ad4beadaef41f018bcf3d29918caa', label: "Key", readonly: this.isEditing, autocomplete: "off", mask: {
-                mask: '{Lcz_}TEXT',
+        return (h("form", { key: '24a48d172a1bc5bd801bb77f5926a1f08a60342b', id: this.formId, class: "entry-form__body", onSubmit: this.handleSubmit, novalidate: true }, h("ir-input", { key: 'ab39e10263d8dff8f1d804bba1f25a44e95d3b43', label: "Key", readonly: this.isEditing, autocomplete: "off", mask: {
+                mask: `{${KEY_PREFIX}}TEXT`,
                 eager: true,
                 blocks: {
                     TEXT: {
@@ -222,7 +289,7 @@ export class IrTranslationsEntryForm {
                         repeat: Infinity, // Unlimited characters
                     },
                 },
-            }, spellcheck: false, class: "entry-form__key-input", value: this.key, placeholder: "e.g. Lcz_BookingConfirmed", "onText-change": e => this.handleKeyChange(e.detail), ref: el => (this.keyInputRef = el) }, h("wa-copy-button", { key: '264cb8f4bae7ac169c7ff146156f61043b3daeb5', value: this.key ?? '', slot: "end" })), this.isDuplicateKey && (h("p", { key: 'ee95f708b2912e8c2774ddbf4a7a6b8882869df4', class: "entry-form__error", role: "alert" }, "This key already exists in this table.")), h("div", { key: '94e5b7e0d82405724265837b985697d10a474f83', class: "entry-form__section" }, h("div", { key: '8842771167952f53b170842397c2dceb5d46cab0', class: "entry-form__section-header" }, h("h3", { key: 'd5c45b7262b31ac4ef8500d23b2163f8879832db', class: "entry-form__section-title" }, "Translations"), h("span", { key: '78c04c1c9dcd4994b3508d56de210db166aa94a8', class: "entry-form__section-meta" }, translated, " of ", total, " filled")), this.targetLanguages.length > 0 && (h("div", { key: 'd3aa2f882aeb381319fb1f27861660cb9e740cb8', class: "entry-form__ai-actions" }, h("ir-custom-button", { key: 'ab8b9d25110e95819d73ab164f2c526c88f45e4c', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canCopyPrompt, onClickHandler: this.handleCopyPrompt }, h("wa-icon", { key: 'a1ec7beed239e9beb0906e1f17a40063ef065d6f', name: "copy", slot: "start", "aria-hidden": "true" }), "Copy AI prompt"), h("ir-custom-button", { key: '06b46db0ed92aef3763c81e8abab50984d504eed', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canPasteTranslations, onClickHandler: this.handlePasteTranslations }, h("wa-icon", { key: '4764e8e5bd7b20f1dc1b2378b25f677271ab5354', name: "clipboard", slot: "start", "aria-hidden": "true" }), "Paste AI translations"))), total === 0 ? (h("ir-empty-state", { message: "No languages configured yet. Add one from Manage languages first." })) : (h("div", { class: "entry-form__fields" }, this.languages.map(language => (h("div", { class: "entry-form__field", key: language.code, dir: language.code === 'ar' ? 'rtl' : 'ltr' }, h("wa-textarea", { class: "entry-form__value-input", id: language.code, size: "s", rows: 2, resize: "auto", value: this.values[language.code] ?? '', placeholder: "Enter translation\u2026", oninput: (e) => (this.values = { ...this.values, [language.code]: e.target.value }) }, h("span", { slot: "label", class: "entry-form__field-label" }, language.name, h("span", { class: "entry-form__field-code" }, language.code.toUpperCase()), language.isSource && h("span", { class: "entry-form__field-source" }, "Source"))), h("wa-copy-button", { class: "entry-form__value-copy", value: this.values[language.code] ?? '' })))))))));
+            }, spellcheck: false, class: "entry-form__key-input", value: this.key, placeholder: "e.g. Lcz_BookingConfirmed", "onText-change": e => this.handleKeyChange(e.detail), ref: el => (this.keyInputRef = el) }, h("wa-copy-button", { key: 'd0bb81755ef1c85f0338f15794c3a085697851d9', value: this.key ?? '', slot: "end" })), this.isDuplicateKey && (h("p", { key: '406019186c3aa6ce6a250e042c081f2cef9d3e4b', class: "entry-form__error", role: "alert" }, "This key already exists in this table.")), h("div", { key: '08a2371443da89441bb832d3002190948ff4edcb', class: "entry-form__section" }, h("div", { key: 'ac9634dcd46d00c269ffa2276b97d080f59eff9a', class: "entry-form__section-header" }, h("h3", { key: '4e0709b6777b67b80d8838c529dc4b1b180d8a99', class: "entry-form__section-title" }, "Translations"), h("span", { key: 'a66eb19d734d72bbe5cc74f250c30ae9a48aa2bb', class: "entry-form__section-meta" }, translated, " of ", total, " filled")), this.targetLanguages.length > 0 && (h("div", { key: '2aa63f784cd43b9b229e35f661122b32fc2789a4', class: "entry-form__ai-actions" }, h("ir-custom-button", { key: '6e1ced0b694e7cd8a13328dcb6a93a434060ac08', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canCopyPrompt, onClickHandler: this.handleCopyPrompt }, h("wa-icon", { key: '8238c5d8ac3ecd92ed37c4e5628d80288f9dd58c', name: "copy", slot: "start", "aria-hidden": "true" }), "Copy AI prompt"), h("ir-custom-button", { key: '29730d0acd5ee14f3a93e7a3a1a8a4911439e357', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canPasteTranslations, onClickHandler: this.handlePasteTranslations }, h("wa-icon", { key: 'b1657bce74a47c6ea632c128c919d7a8098472a4', name: "clipboard", slot: "start", "aria-hidden": "true" }), "Paste AI translations"))), total === 0 ? (h("ir-empty-state", { message: "No languages configured yet. Add one from Manage languages first." })) : (h("div", { class: "entry-form__fields" }, this.languages.map(language => (h("div", { class: "entry-form__field", key: language.code, dir: language.code === 'ar' ? 'rtl' : 'ltr' }, h("wa-textarea", { class: "entry-form__value-input", id: language.code, size: "s", rows: 2, resize: "auto", value: this.values[language.code] ?? '', placeholder: "Enter translation\u2026", oninput: (e) => (this.values = { ...this.values, [language.code]: e.target.value }) }, h("span", { slot: "label", class: "entry-form__field-label" }, language.name, h("span", { class: "entry-form__field-code" }, language.code.toUpperCase()), language.isSource && h("span", { class: "entry-form__field-source" }, t('Lcz_Source', { fallback: 'Source' })))), h("wa-copy-button", { class: "entry-form__value-copy", value: this.values[language.code] ?? '' })))))))));
     }
     static get is() { return "ir-translations-entry-form"; }
     static get encapsulation() { return "scoped"; }
@@ -401,6 +468,31 @@ export class IrTranslationsEntryForm {
                 "setter": false,
                 "reflect": false,
                 "attribute": "entry-user-id"
+            },
+            "duplicateSiblings": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "DuplicateSibling[]",
+                    "resolved": "DuplicateSibling[]",
+                    "references": {
+                        "DuplicateSibling": {
+                            "location": "import",
+                            "path": "../../types",
+                            "id": "src/components/ir-translations-manager/types.ts::DuplicateSibling",
+                            "referenceLocation": "DuplicateSibling"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Rows in other used tables sharing `entry`'s description \u2014 language changes are written to them in the same batch."
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[]"
             }
         };
     }
@@ -420,12 +512,19 @@ export class IrTranslationsEntryForm {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Fired after the write lands, with what was saved \u2014 the manager propagates language changes to the row's duplicates from it."
                 },
                 "complexType": {
-                    "original": "void",
-                    "resolved": "void",
-                    "references": {}
+                    "original": "EntrySavedDetail",
+                    "resolved": "EntrySavedDetail",
+                    "references": {
+                        "EntrySavedDetail": {
+                            "location": "import",
+                            "path": "../../types",
+                            "id": "src/components/ir-translations-manager/types.ts::EntrySavedDetail",
+                            "referenceLocation": "EntrySavedDetail"
+                        }
+                    }
                 }
             }, {
                 "method": "submitDisabledChange",

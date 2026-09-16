@@ -1,5 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { getDocument, GlobalWorkerOptions, RenderingCancelledException } from "pdfjs-dist/build/pdf.mjs";
+import { t } from "../../services/locale/t";
 const RENDER_QUALITY = 2;
 const PDF_WORKER_URL = 'https://unpkg.com/pdfjs-dist@6.0.227/build/pdf.worker.min.mjs';
 let workerInitialized = false;
@@ -81,7 +82,7 @@ export class IrPdfViewer {
             if (ApiClient !== this.loadApiClient || isCancelled(err))
                 return;
             const msg = err instanceof Error ? err.message : String(err);
-            this.error = `Could not load PDF: ${msg}`;
+            this.error = `${t('Lcz_CouldNotLoadPdf', { fallback: 'Could not load PDF:' })} ${msg}`;
         }
         finally {
             if (ApiClient === this.loadApiClient)
@@ -146,7 +147,7 @@ export class IrPdfViewer {
             if (ApiClient !== this.loadApiClient || isCancelled(err))
                 return;
             const msg = err instanceof Error ? err.message : String(err);
-            this.error = `Could not render page: ${msg}`;
+            this.error = `${t('Lcz_CouldNotRenderPage', { fallback: 'Could not render page:' })} ${msg}`;
         }
         finally {
             if (ApiClient === this.loadApiClient)
@@ -162,7 +163,7 @@ export class IrPdfViewer {
         const { isLoading, error, totalPages, currentPage } = this;
         const atFirstPage = currentPage <= 1 || isLoading;
         const atLastPage = currentPage >= totalPages || isLoading;
-        return (h(Host, { key: 'f7d5c842e7ca0f3f5935d12b380534f197f87e7c' }, h("canvas", { key: '7de95f21b3a6e6ed7b934c50c6bf3c54e81bc1bf', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: '715723c807b63247cead4a6e0b0b9eaef2a3d450', class: "overlay" }, h("wa-spinner", { key: '90dc467594d8ef933aab55d142f8b0ea089e4d24' }))), error && !isLoading && (h("div", { key: 'c599ad874a154947edc7143cf2516db29c697337', class: "error-state", role: "alert" }, h("wa-icon", { key: '0b9c61e758d3cff6ba292f24f92fb32fbbf5f39e', name: "triangle-exclamation" }), h("span", { key: 'a4183faabb91a8099c9f735ee8079447946d8574' }, error))), totalPages > 1 && (h("div", { key: '4c35300b6bed66a2f47466397406289f5cf0892e', class: "pagination" }, h("button", { key: 'bd5593235fa89ae1ea59ebd76b6154b3784b436c', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '716faed8e8d7b6cbbe96efe82b485ae3df68881d', class: "ir-flip-rtl", name: "chevron-left" })), h("span", { key: '9cb4101ec1279daa1944f3cc984e0c08d542d015', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: '3088507df8f501ca428d16cfb93fc55e5325ca04', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: '7217440083b70187c163f4f29b253c14a0fe7438', class: "ir-flip-rtl", name: "chevron-right" }))))));
+        return (h(Host, { key: '313c0c0456dfc9fe5f9c5b98a27d91ff6eff4de2' }, h("canvas", { key: 'c363b268447d7ffafaa587eb2e47a63ff71a3089', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: '88d4b613211358a28735e35db40336bfd5de847a', class: "overlay" }, h("wa-spinner", { key: '28372e253e7a7945486b578193cb8fe1e89107da' }))), error && !isLoading && (h("div", { key: '7faa0b209e6cd7fb8cfb73a680ae4c38ad3c5306', class: "error-state", role: "alert" }, h("wa-icon", { key: '1da68b1bfa0990b5afdf144f3b421e8c4513e88e', name: "triangle-exclamation" }), h("span", { key: 'bd42d62c02207e2b2a5e5d4d80e70f4dd1713586' }, error))), totalPages > 1 && (h("div", { key: 'aa45dd1b34dcda686673ac143c3004a2ea1cb30b', class: "pagination" }, h("button", { key: 'bf01444ee3978333bd6fda3b7c6fa2fd8b035fc1', type: "button", class: "page-btn", "aria-label": t('Lcz_PreviousPage', { fallback: 'Previous page' }), disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: 'ce4b8aa282eec6cb28822ddb9d0e87049a8a5a1b', class: "ir-flip-rtl", name: "chevron-left" })), h("span", { key: '817984d428b467ed9a668561f140e5bce20266cd', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: 'd52ef2639d92643c6a01ae14553cc368aecce728', type: "button", class: "page-btn", "aria-label": t('Lcz_NextPage', { fallback: 'Next page' }), disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: '09209568885a9e6bf0a30111040649b136e1281c', class: "ir-flip-rtl", name: "chevron-right" }))))));
     }
     static get is() { return "ir-pdf-viewer"; }
     static get encapsulation() { return "shadow"; }

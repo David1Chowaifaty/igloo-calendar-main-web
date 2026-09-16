@@ -71,3 +71,8 @@ svg {
   white-space: normal; /* Allows wrapping of the message text */
   word-break: break-word; /* Breaks long words/URLs to prevent overflow */
 }
+
+/* Opt-in for consumers whose label key is sentence case but should read Title Case. */
+:host(.label--capitalize) .label_title {
+  text-transform: capitalize;
+}

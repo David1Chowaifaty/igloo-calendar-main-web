@@ -3,11 +3,11 @@ import type { TLocaleEntries } from "../../stores/locales.store";
 /**
  * The setup tables `Get_Exposed_Language` can be asked for.
  *
- * These are exactly the six types intersected into {@link TLocaleEntries} in
+ * These are exactly the types intersected into {@link TLocaleEntries} in
  * `src/stores/locales.store.ts` — keep the two lists in sync, otherwise a table
  * can be fetched whose keys are not declared on {@link LocaleKey}.
  */
-export declare const LOCALE_TABLES: readonly ["_PMS_FRONT", "_USER_MGT", "_BOOKING_LIST_FRONT", "_HK_FRONT", "_CHANNEL_FRONT", "_PAYMENT_BACK"];
+export declare const LOCALE_TABLES: readonly ["_PMS_FRONT", "_USER_MGT", "_BOOKING_LIST_FRONT", "_HK_FRONT", "_CHANNEL_FRONT", "_PAYMENT_BACK", "_COMMON", "_FINANCIALS", "_BOOKING", "_CALENDAR", "_FRONTDESK", "_HOUSEKEEPING", "_AGENTS", "_REPORTS", "_SETTINGS", "_GUESTS", "_AUTH", "_PMS"];
 export type LocaleTable = (typeof LOCALE_TABLES)[number];
 /**
  * The `sections` payload. `LocaleController` builds it by merging its base set

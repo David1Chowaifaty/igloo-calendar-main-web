@@ -5,6 +5,7 @@ import { z, ZodError } from "zod";
 import { PaymentService } from "../../../../../services/payment.service";
 import { buildPaymentTypes } from "../../../../../services/booking-service/utils";
 import { PAYMENT_TYPES_WITH_METHOD } from "../../global.variables";
+import { t } from "../../../../../services/locale/t";
 const DATE_FORMAT = 'YYYY-MM-DD';
 const requiresPaymentMethodCode = (code) => {
     if (!code) {
@@ -31,7 +32,9 @@ const folioBaseSchema = z.object({
         .refine(dateStr => {
         const date = moment(dateStr, DATE_FORMAT, true);
         return date.isValid();
-    }, { message: `Invalid date` }),
+    }, 
+    // Lazy: this schema is built at module load, before any locale is fetched.
+    () => ({ message: t('Lcz_InvalidDate', { fallback: 'Invalid date' }) })),
     amount: z.coerce.number().min(0),
     reference: z.string().optional().nullable(),
     payment_type: paymentTypeSchema,
@@ -42,7 +45,7 @@ const folioValidationSchema = folioBaseSchema.superRefine((data, ctx) => {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
             path: ['payment_method'],
-            message: 'Payment method is required for this transaction type.',
+            message: t('Lcz_PaymentMethodRequired', { fallback: 'Payment method is required for this transaction type.' }),
         });
     }
 });
@@ -226,7 +229,7 @@ export class IrPaymentFolioForm {
     }
     render() {
         // const isNewPayment = this.folioData?.payment_type?.code === '001' && this.folioData.id === -1;
-        return (h("form", { key: 'cbf9cc3daaca1012fac5858b74bda395a1d2fb3c', onSubmit: e => {
+        return (h("form", { key: '310a40613f135ced19c84f15b09c964d5c1bfd69', onSubmit: e => {
                 e.preventDefault();
                 const submitter = e.submitter;
                 if (submitter?.value === 'save') {
@@ -235,17 +238,17 @@ export class IrPaymentFolioForm {
                 else if (submitter?.value === 'saveAndPrint') {
                     // this.savePayment(true);
                 }
-            }, class: "payment-folio__form", id: this.formId }, h("ir-date-select", { key: 'c642bb3a3c7f5bfc35a82bc4ead3ee5fdc8e077a', id: this.controlIds.date, label: "Date", "aria-invalid": this.errors?.date && !this.folioData?.date ? 'true' : 'false', "data-testid": "pickup_date", onDateChanged: evt => {
+            }, class: "payment-folio__form", id: this.formId }, h("ir-date-select", { key: 'bac6312df186c1851989fc2a267f15a3ba18120c', id: this.controlIds.date, label: t('Lcz_DateLabel', { fallback: 'Date' }), "aria-invalid": this.errors?.date && !this.folioData?.date ? 'true' : 'false', "data-testid": "pickup_date", onDateChanged: evt => {
                 this.updateFolioData({ date: evt.detail.start?.format(DATE_FORMAT) });
-            }, minDate: moment().add(-2, 'months').format('YYYY-MM-DD'), emitEmptyDate: true, maxDate: this.today, date: this.folioData?.date }), h("ir-validator", { key: 'db8facbbf46074efc68689dcdcb162f27bf3cd38', value: this.folioData?.payment_type?.code, autovalidate: this.autoValidate, schema: paymentTypeSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: '0c5f85c11ca5ffa7ab2655f19338b6722083c6c8', id: this.controlIds.transactionType, size: "s", "onwa-hide": event => this.stopEventPropagation(event), "onwa-show": event => this.stopEventPropagation(event), placeholder: "Select...", label: "Transaction type", defaultValue: this.folioData?.payment_type?.code, value: this.folioData?.payment_type?.code, disabled: this.mode === 'payment-action', onchange: event => {
+            }, minDate: moment().add(-2, 'months').format('YYYY-MM-DD'), emitEmptyDate: true, maxDate: this.today, date: this.folioData?.date }), h("ir-validator", { key: 'd92187d846a7f2d5c9c730357fca5b884bdad626', value: this.folioData?.payment_type?.code, autovalidate: this.autoValidate, schema: paymentTypeSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: 'ad1c8216c2a3e5843466e44cee751bcb475efc8d', id: this.controlIds.transactionType, size: "s", "onwa-hide": event => this.stopEventPropagation(event), "onwa-show": event => this.stopEventPropagation(event), placeholder: t('Lcz_SelectPlaceholder', { fallback: 'Select...' }), label: t('Lcz_TransactionType', { fallback: 'Transaction Type' }), defaultValue: this.folioData?.payment_type?.code, value: this.folioData?.payment_type?.code, disabled: this.mode === 'payment-action', onchange: event => {
                 this.stopEventPropagation(event);
                 this.handleDropdownChange(event.target.value);
-            } }, h("wa-option", { key: '32d7fe24f3d588a881c3b1c2ad3dbdabde10edb4', value: "" }, "Select..."), this.renderDropdownItems())), this.requiresPaymentMethod(this.folioData?.payment_type?.code) && (h("ir-validator", { key: '51c3338d9eb095c309a6e5ec0efe4b3a190210f8', value: this.folioData?.payment_method?.code ?? '', autovalidate: this.autoValidate, schema: paymentMethodSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: 'ef32bc1e8c43743f7db81c32afccfb9ef84da7e2', id: this.controlIds.paymentMethod, size: "s", label: `${this.folioData.payment_type?.code === '001' ? 'Payment' : 'Refund'} method`, "onwa-show": event => this.stopEventPropagation(event), "onwa-hide": event => this.stopEventPropagation(event), defaultValue: this.folioData?.payment_method?.code, value: this.folioData?.payment_method?.code ?? '', onchange: event => {
+            } }, h("wa-option", { key: 'f22cd821e05eaaf5a6885a3094cabdb5d41c38a8', value: "" }, t('Lcz_SelectPlaceholder', { fallback: 'Select...' })), this.renderDropdownItems())), this.requiresPaymentMethod(this.folioData?.payment_type?.code) && (h("ir-validator", { key: 'cde6de07625fb8304632b43cd029741061ba0b24', value: this.folioData?.payment_method?.code ?? '', autovalidate: this.autoValidate, schema: paymentMethodSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: 'c6a5ad2c35e15d92ba06c53f0010217130ff97fb', id: this.controlIds.paymentMethod, size: "s", label: this.folioData.payment_type?.code === '001' ? t('Lcz_PaymentMethod', { fallback: 'Payment Method' }) : t('Lcz_RefundMethodLabel', { fallback: 'Refund method' }), "onwa-show": event => this.stopEventPropagation(event), "onwa-hide": event => this.stopEventPropagation(event), defaultValue: this.folioData?.payment_method?.code, value: this.folioData?.payment_method?.code ?? '', onchange: event => {
                 this.stopEventPropagation(event);
                 this.handlePaymentMethodDropdownChange(event.target.value);
-            } }, h("wa-option", { key: 'e9af696293abfd15ffe1c24b3df0f7383e874107', value: "" }, "Select..."), this.paymentEntries?.methods?.map(pt => {
+            } }, h("wa-option", { key: '43997fccd12da11aacc47cb616fcdc8e9c41e89c', value: "" }, t('Lcz_SelectPlaceholder', { fallback: 'Select...' })), this.paymentEntries?.methods?.map(pt => {
             return (h("wa-option", { key: pt.CODE_NAME, label: pt.CODE_VALUE_EN, value: pt.CODE_NAME }, pt.CODE_VALUE_EN));
-        })))), h("ir-validator", { key: 'd4824690514ac193a4f1af2704a4510e0d7e86f2', value: this.folioData?.amount?.toString() ?? undefined, autovalidate: this.autoValidate, schema: folioBaseSchema.shape.amount, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: '116c56fbdc09bdf505d2a3dfe63f2980cd17fd8d', id: this.controlIds.amount, "aria-invalid": String(!!this.errors?.amount), value: this.folioData?.amount?.toString() ?? '', label: "Amount", mask: "price", min: 0, "onText-change": e => this.updateFolioData({ amount: !e.detail ? undefined : Number(e.detail) }) }, h("span", { key: '1d2a98c67a7e3d5afdb8ce8f2fcb74da4932be80', slot: "start" }, calendar_data.currency.symbol))), h("ir-validator", { key: 'e7428728230ff0b72b2d59e81eae6915e6b80b6f', value: this.folioData?.reference ?? '', autovalidate: this.autoValidate, schema: folioBaseSchema.shape.reference, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: '6742aaee9045f4f633e2b974407de1cdd6859cef', id: this.controlIds.reference, value: this.folioData?.reference ?? '', label: "Reference", maxlength: 50, "onText-change": e => this.updateFolioData({ reference: e.detail ?? '' }) }))));
+        })))), h("ir-validator", { key: '796c64b659d777c7bc2dce828f5ce9d71c5adb2f', value: this.folioData?.amount?.toString() ?? undefined, autovalidate: this.autoValidate, schema: folioBaseSchema.shape.amount, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: 'f11f85fc961e09157dd5fd663cf7e34fa1f98420', id: this.controlIds.amount, "aria-invalid": String(!!this.errors?.amount), value: this.folioData?.amount?.toString() ?? '', label: t('Lcz_Amount', { fallback: 'Amount' }), mask: "price", min: 0, "onText-change": e => this.updateFolioData({ amount: !e.detail ? undefined : Number(e.detail) }) }, h("span", { key: 'be825d7ff9022bb97c6410a02b5e98bc1a7d4a67', slot: "start" }, calendar_data.currency.symbol))), h("ir-validator", { key: 'a33cf89474007c3ac392805883cbc4c0b601c100', value: this.folioData?.reference ?? '', autovalidate: this.autoValidate, schema: folioBaseSchema.shape.reference, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: '18512996bbc483dccfdd0363c92df417eb367611', id: this.controlIds.reference, value: this.folioData?.reference ?? '', label: t('Lcz_Reference', { fallback: 'Reference' }), maxlength: 50, "onText-change": e => this.updateFolioData({ reference: e.detail ?? '' }) }))));
     }
     static get is() { return "ir-payment-folio-form"; }
     static get encapsulation() { return "scoped"; }

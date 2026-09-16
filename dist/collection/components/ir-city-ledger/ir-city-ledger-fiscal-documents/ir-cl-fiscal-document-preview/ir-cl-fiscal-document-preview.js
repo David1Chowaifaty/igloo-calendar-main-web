@@ -1,6 +1,7 @@
 import { Host, h } from "@stencil/core";
 import { FdTypes } from "../../../../types/enums";
 import { CityLedgerService } from "../../../../services/city-ledger/index";
+import { t } from "../../../../services/locale/t";
 export class IrClFiscalDocumentPreview {
     ticket;
     propertyId;
@@ -42,26 +43,26 @@ export class IrClFiscalDocumentPreview {
     }
     getDialogLabel() {
         if (!this.request)
-            return 'Preview';
+            return t('Lcz_Preview', { fallback: 'Preview' });
         const typeLabel = this.getTypeLabel(this.request.fdTypeCode);
         return this.request.documentNumber ? `${typeLabel} #${this.request.documentNumber}` : typeLabel;
     }
     getTypeLabel(fdTypeCode) {
         switch (fdTypeCode) {
             case FdTypes.Invoice:
-                return 'Invoice';
+                return t('Lcz_DocumentTypeInvoice', { fallback: 'Invoice' });
             case FdTypes.Draft:
-                return 'Draft Invoice';
+                return t('Lcz_DraftInvoice', { fallback: 'Draft Invoice' });
             case FdTypes.CreditNote:
-                return 'Credit Note';
+                return t('Lcz_DocumentTypeCreditNote', { fallback: 'Credit Note' });
             case FdTypes.DebitNote:
-                return 'Debit Note';
+                return t('Lcz_DocumentTypeDebitNote', { fallback: 'Debit Note' });
             case FdTypes.Receipt:
-                return 'Receipt';
+                return t('Lcz_DocumentTypeReceipt', { fallback: 'Receipt' });
             case FdTypes.Proforma:
-                return 'Proforma Invoice';
+                return t('Lcz_ProformaInvoice', { fallback: 'Proforma Invoice' });
             default:
-                return 'Document';
+                return t('Lcz_Document', { fallback: 'Document' });
         }
     }
     handleClPreviewReady(event) {
@@ -128,10 +129,10 @@ export class IrClFiscalDocumentPreview {
         return (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.request?.url })));
     }
     render() {
-        return (h(Host, { key: '2c1bc738171ab7831b1709097c106a98215e7455' }, h("ir-preview-screen-dialog", { key: '8781a65becf54f5bd27a0356a8a3287d1f8ceb70', hideDefaultAction: true, open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
+        return (h(Host, { key: 'a1453f6244fb91c1c01dfc3e6f568975c6cd5ac9' }, h("ir-preview-screen-dialog", { key: '414c42ed70b11a90dff500c983c91bb9b302ebe4', hideDefaultAction: true, open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
                 if (!e.detail)
                     this.request = null;
-            } }, h("div", { key: '5880619e2f07927ceea91055ceb2944d668d9410', slot: "header-actions", class: "header-actions" }, this.request?.fdTypeCode === FdTypes.Draft && (h("ir-custom-button", { key: '4d567e7e4a46c64a41dff5345542c8734eb348f5', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent" }, "Convert to invoice")), this.request?.url && (h("ir-custom-button", { key: '1c600de1992cbc3fe73485de4fe06e122ff284d8', size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '44f0e8edf3284c0d201585c7b6373c7fb6bf5cdd', name: "download", style: { fontSize: '1.2rem' }, label: "Download PDF" })))), this.renderPreview()), h("ir-fd-confirm-dialog", { key: '3e61c320f4c3f7f3e8c319f9a4b92049277c2b64', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
+            } }, h("div", { key: '093dd2d051e6374a67d3535fda464ba9693ad957', slot: "header-actions", class: "header-actions" }, this.request?.fdTypeCode === FdTypes.Draft && (h("ir-custom-button", { key: '99e1c822796d08fc77d824754df262220839b7c9', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent" }, t('Lcz_ConvertToInvoice', { fallback: 'Convert to Invoice' }))), this.request?.url && (h("ir-custom-button", { key: '5259540afceaee4be2a728c9c153210c7e2cd694', size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: 'd29aaedf2b151eeb88f91e17eef53eb37c63c246', name: "download", style: { fontSize: '1.2rem' }, label: t('Lcz_DownloadPdfTooltip', { fallback: 'Download PDF' }) })))), this.renderPreview()), h("ir-fd-confirm-dialog", { key: '00ac814d4dd3b5907d476cb276cdc6b0c549212e', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? t('Lcz_ThisDocumentFallback', { fallback: 'this document' }), isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
     }
     static get is() { return "ir-cl-fiscal-document-preview"; }
     static get originalStyleUrls() {

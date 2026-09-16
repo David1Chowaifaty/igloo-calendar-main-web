@@ -1,11 +1,15 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
+var index = require('./index-CQkpA5n3.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var irInterceptor_store = require('./ir-interceptor.store-BGTJSCIh.js');
+var irInterceptor_store = require('./ir-interceptor.store-moMB-JCs.js');
 var axios = require('./axios-EresIryl.js');
-require('./index-BLJXadKe.js');
+var locale_controller = require('./locale.controller-C5iGrwyB.js');
+var t = require('./t-CyRK1btk.js');
+require('./locales.store-BMTss6fG.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
+require('./language-observer-DKp37LIu.js');
+require('./types-BVJQZ50e.js');
 
 const irQueueManagerCss = () => `.sc-ir-queue-manager-h{display:flex;flex-direction:column;height:100%}.queue-page.sc-ir-queue-manager{display:flex;flex-direction:column;gap:1rem}.queue-grid.sc-ir-queue-manager{display:flex;flex-direction:column;gap:1rem}.queue-grid.sc-ir-queue-manager wa-card.sc-ir-queue-manager{width:100%}.queue-item.sc-ir-queue-manager{display:grid;align-items:center;gap:0.75rem;margin-bottom:0.5rem}.queue-page__header.sc-ir-queue-manager{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}.page-title.sc-ir-queue-manager{margin-bottom:0}.queue-item__property.sc-ir-queue-manager{font-size:0.9rem;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.queue-item__status.sc-ir-queue-manager{display:grid;grid-template-columns:repeat(4, 1fr);align-items:center}.queue-item__progress.sc-ir-queue-manager{grid-column:span 3}.queue-item__count.sc-ir-queue-manager{text-align:end;font-size:0.85rem}@media (min-width: 768px){.queue-grid.sc-ir-queue-manager{display:grid;grid-template-columns:repeat(2, 1fr)}}@media (min-width: 1024px){.queue-item.sc-ir-queue-manager{grid-template-columns:300px 1fr}}`;
 
@@ -15,6 +19,7 @@ const IrQueueManager = class {
     }
     get el() { return index.getElement(this); }
     ticket = '';
+    language = 'en';
     isLoading = true;
     apiClientService = new ApiClient.ApiClient();
     data;
@@ -31,7 +36,7 @@ const IrQueueManager = class {
         }
     }
     async init() {
-        await this.fetchData();
+        await Promise.all([this.fetchData(), locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.queueManager })]);
         this.isLoading = false;
     }
     async fetchData() {
@@ -78,9 +83,9 @@ const IrQueueManager = class {
         if (this.isLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("div", { class: "ir-page__container" }, index.h("div", { class: "queue-page__header" }, index.h("h3", { class: "page-title" }, "Pending Queues"), index.h("ir-custom-button", { onClickHandler: () => {
+        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("div", { class: "ir-page__container" }, index.h("div", { class: "queue-page__header" }, index.h("h3", { class: "page-title" }, t.t('Lcz_PendingQueues', { fallback: 'Pending Queues' })), index.h("ir-custom-button", { onClickHandler: () => {
                 this.fetchData();
-            }, appearance: "filled", loading: irInterceptor_store.isRequestPending('/Get_Q_Summary') }, index.h("wa-icon", { name: "refresh" }))), this.data.length === 0 && index.h("ir-empty-state", { style: { marginTop: '20vh' } }), index.h("div", { class: "queue-grid" }, this.data.map(d => (index.h("wa-card", null, index.h("p", { slot: "header" }, d.q_name, " (", d.total_pending, " total pending)"), d.properties.map((property, index$1) => {
+            }, appearance: "filled", loading: irInterceptor_store.isRequestPending('/Get_Q_Summary') }, index.h("wa-icon", { name: "refresh" }))), this.data.length === 0 && index.h("ir-empty-state", { style: { marginTop: '20vh' } }), index.h("div", { class: "queue-grid" }, this.data.map(d => (index.h("wa-card", null, index.h("p", { slot: "header" }, d.q_name, " (", d.total_pending, " ", t.t('Lcz_TotalPending', { fallback: 'total pending' }), ")"), d.properties.map((property, index$1) => {
             const pending = d.pendingRequests[index$1];
             const percentage = d.total_pending > 0 ? (pending / d.total_pending) * 100 : 0;
             return (index.h("div", { class: "queue-item" }, index.h("span", { class: "queue-item__property" }, property), index.h("div", { class: "queue-item__status" }, index.h("wa-progress-bar", { class: "queue-item__progress", value: percentage }), index.h("span", { class: "queue-item__count" }, pending, " (", percentage.toFixed(2), "%)"))));

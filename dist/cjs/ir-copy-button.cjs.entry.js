@@ -1,6 +1,8 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
+var index = require('./index-CQkpA5n3.js');
+var t = require('./t-CyRK1btk.js');
+require('./locales.store-BMTss6fG.js');
 
 const irCopyButtonCss = () => `.sc-ir-copy-button-h{display:inline-block}.copy-tooltip.sc-ir-copy-button{position:relative;display:inline-flex}.copy-button.sc-ir-copy-button{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:0.35rem;cursor:pointer;transition:background-color 160ms ease, color 160ms ease, transform 120ms ease;min-width:2rem;min-height:2rem;border:none}.copy-button[disabled].sc-ir-copy-button{cursor:wait}.icon-container.sc-ir-copy-button{position:relative;width:1.2rem;height:1.2rem}.icon-container.sc-ir-copy-button .icon.sc-ir-copy-button{position:absolute;inset:0;display:inline-flex;align-items:center;justify-content:center;opacity:0;transform:scale(0.92);transition:opacity 180ms ease, transform 200ms ease;color:inherit}.icon-container.sc-ir-copy-button svg.sc-ir-copy-button{width:100%;height:100%;fill:currentColor}.icon-container[data-state='idle'].sc-ir-copy-button .icon--idle.sc-ir-copy-button,.icon-container[data-state='loading'].sc-ir-copy-button .icon--loading.sc-ir-copy-button,.icon-container[data-state='success'].sc-ir-copy-button .icon--success.sc-ir-copy-button,.icon-container[data-state='failed'].sc-ir-copy-button .icon--failed.sc-ir-copy-button{opacity:1;transform:scale(1)}.spinner_P7sC.sc-ir-copy-button{transform-origin:center;animation:spinner_svv2 0.75s infinite linear}@keyframes spinner_svv2{100%{transform:rotate(360deg)}}.copy-button[data-state='success'].sc-ir-copy-button{color:#166534}.copy-button[data-state='failed'].sc-ir-copy-button{color:#991b1b}.copy-button[data-state='loading'].sc-ir-copy-button{cursor:wait}@keyframes ir-copy-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}`;
 
@@ -18,13 +20,13 @@ const IrCopyButton = class {
     get tooltipMessage() {
         switch (this.currentState) {
             case 'loading':
-                return 'Copying...';
+                return t.t('Lcz_Copying', { fallback: 'Copying...' });
             case 'success':
-                return 'Copied to clipboard';
+                return t.t('Lcz_CopiedToClipboard', { fallback: 'Copied to clipboard' });
             case 'failed':
-                return 'Copy failed';
+                return t.t('Lcz_CopyFailed', { fallback: 'Copy failed' });
             default:
-                return 'Copy to clipboard';
+                return t.t('Lcz_CopyToClipboard', { fallback: 'Copy to clipboard' });
         }
     }
     disconnectedCallback() {
@@ -77,7 +79,7 @@ const IrCopyButton = class {
     }
     render() {
         const state = this.currentState;
-        return (index.h("button", { key: 'd0932c052ab9bfb71857f9d64725872f4a9349cc', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
+        return (index.h("button", { key: 'f77205c564d4943c12d25d8949a1166974024c7a', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
     }
 };
 IrCopyButton.style = irCopyButtonCss();

@@ -1,12 +1,14 @@
 import { Host, h } from "@stencil/core";
-import { formatAmount } from "../../../../../utils/utils";
+import { formatAmount, formatBookingNumber } from "../../../../../utils/number";
+import { formatDate } from "../../../../../utils/date/index";
 import calendar_data from "../../../../../stores/calendar-data";
 import { _formatTime } from "../../../../ir-booking-details/functions";
+import { t } from "../../../../../services/locale/t";
 export class IrRevenueRowDetails {
     payment;
     revenueOpenSidebar;
     render() {
-        return (h(Host, { key: '835c819cc41f4e2ea4a8c31157c86332bb74baea' }, h("div", { key: '0d57fa6d9b59af92506100b70537cf4cc07eeaa1', class: "ir-revenue-row-detail" }, h("div", { key: 'e85855a78dcbff4873b2a288221ab793ea789128', class: "ir-revenue-row-detail__info" }, h("div", { key: '3b6526449f4451f3bb0a21491bfa931c4ca11413', class: "ir-revenue-row-detail__time" }, h("span", { key: '874d6e14c8732d6d7a5039441385dd641032547f', class: "ir-revenue-row-detail__label" }, this.payment.date), h("span", { key: '8f34dc6f74912d2370b29f184e0188750e385006', class: "ir-revenue-row-detail__value" }, _formatTime(this.payment.hour.toString(), this.payment.minute.toString())), h("div", { key: '514b83432d24dffdfc63215655917efe7a47f97b', class: "ir-revenue-row-detail__amount" }, formatAmount(calendar_data.currency.symbol, this.payment.amount))), h("div", { key: 'e914f27bab9e5f07ff5a8b0289fa46fd5bc3c2fb', class: "ir-revenue-row-detail__meta" }, h("div", { key: 'ec12bdf5dbabe9498f756252f094aa1711e0817a', class: "ir-revenue-row-detail__user" }, h("span", { key: 'c31773e3a85eb601409c47ba83fc044e250e6170', class: "ir-revenue-row-detail__label" }, "User:"), h("span", { key: '37e302b5281e88ade0820cffe1b6c4a933789f83', class: "ir-revenue-row-detail__value" }, this.payment.user)), h("div", { key: '994f592017f2361d52b08b91ef454d41e0f117b2', class: "ir-revenue-row-detail__booking" }, h("ir-custom-button", { key: '1e2586feb0f59ac7e637e0d65d59f42827aa1609', link: true, style: { marginInlineStart: '1rem' }, onClickHandler: e => {
+        return (h(Host, { key: '04fd8b3b86c6659ad0b90c62e459825d3b6f2fa7' }, h("div", { key: '841e3695c428a0594f760603d171e79c31b6bf63', class: "ir-revenue-row-detail" }, h("div", { key: '93627421956e2454c2dc72b05fab8cb289a799b5', class: "ir-revenue-row-detail__info" }, h("div", { key: '18c774c35824156fe3001a5715a7364f21df1c0c', class: "ir-revenue-row-detail__time" }, h("span", { key: 'bcd1034c3d99db99237bbf46b7e32cf4f92a93f7', class: "ir-revenue-row-detail__label" }, formatDate(this.payment.date, 'MMM DD, YYYY')), h("span", { key: '59ad6c052f829d82d48e9f51d428e3b7fd301b17', class: "ir-revenue-row-detail__value" }, _formatTime(this.payment.hour.toString(), this.payment.minute.toString())), h("div", { key: '275fc33717ce327671486b1f664d8fd5a1358092', class: "ir-revenue-row-detail__amount" }, formatAmount(calendar_data.currency.symbol, this.payment.amount))), h("div", { key: 'c90dbffc31e692546af0663eaff9374ec2f29077', class: "ir-revenue-row-detail__meta" }, h("div", { key: '5975eea46515b4de4834882b8a8f3463141eab51', class: "ir-revenue-row-detail__user" }, h("span", { key: 'b1dfe23c3dbdf4cf3666c767f4a46a7a10bfeb2c', class: "ir-revenue-row-detail__label ir-revenue-row-detail__label--capitalize" }, t('Lcz_User', { fallback: 'user' }), ":"), h("span", { key: '443947d5ce0a69b631e5e71c7534cf7c9a247124', class: "ir-revenue-row-detail__value" }, this.payment.user)), h("div", { key: '8a5801340245b0cf2f7160484eb2b68a4c394bed', class: "ir-revenue-row-detail__booking" }, h("ir-custom-button", { key: '6defb4bad0224d35d85d9698eb2c361b969722f5', link: true, style: { marginInlineStart: '1rem' }, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.revenueOpenSidebar.emit({
@@ -15,7 +17,7 @@ export class IrRevenueRowDetails {
                     },
                     type: 'booking',
                 });
-            } }, this.payment.bookingNbr)))), h("div", { key: 'e992901fa13e709efe5462823aa7e30d4b7063a0', class: "ir-revenue-row-detail__amount" }, formatAmount(calendar_data.currency.symbol, this.payment.amount)))));
+            } }, formatBookingNumber(this.payment.bookingNbr))))), h("div", { key: '5451e3f283aa820d6d55414c852782711ae8afa4', class: "ir-revenue-row-detail__amount" }, formatAmount(calendar_data.currency.symbol, this.payment.amount)))));
     }
     static get is() { return "ir-revenue-row-details"; }
     static get encapsulation() { return "scoped"; }

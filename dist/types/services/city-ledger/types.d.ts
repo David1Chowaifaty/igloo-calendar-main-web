@@ -1109,12 +1109,12 @@ export type CLAccountOverview = {
     TOTAL_DUE_INVOICED: number;
     TOTAL_UNINVOICED: number;
 };
-export declare const GetCLAgingReportParamsSchema: z.ZodObject<z.objectUtil.extendShape<{
+export declare const GetCLAgingReportParamsSchema: z.ZodObject<{
     AGENCY_ID: z.ZodNumber;
     CURRENCY_ID: z.ZodNumber;
-}, {
+} & {
     AS_OF_DATE: z.ZodString;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     CURRENCY_ID?: number;
     AGENCY_ID?: number;
     AS_OF_DATE?: string;
@@ -1125,13 +1125,13 @@ export declare const GetCLAgingReportParamsSchema: z.ZodObject<z.objectUtil.exte
 }>;
 /** Params for generating an aging report snapshot. */
 export type GetCLAgingReportParams = z.infer<typeof GetCLAgingReportParamsSchema>;
-export declare const GetCLStatementParamsSchema: z.ZodObject<z.objectUtil.extendShape<{
+export declare const GetCLStatementParamsSchema: z.ZodObject<{
     AGENCY_ID: z.ZodNumber;
     CURRENCY_ID: z.ZodNumber;
-}, {
+} & {
     START_DATE: z.ZodString;
     END_DATE: z.ZodString;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     CURRENCY_ID?: number;
     AGENCY_ID?: number;
     START_DATE?: string;
@@ -1154,17 +1154,17 @@ export type CLStatements = {
     }[];
     STARTING_BALANCE: number;
 };
-export declare const IssueFiscalDocumentParamsSchema: z.ZodObject<z.objectUtil.extendShape<{
+export declare const IssueFiscalDocumentParamsSchema: z.ZodObject<{
     AGENCY_ID: z.ZodNumber;
     CURRENCY_ID: z.ZodNumber;
-}, {
+} & {
     START_DATE: z.ZodString;
     END_DATE: z.ZodString;
     LIST_CL_TX_ID: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodNumber, "many">>>;
     BOOKING_NBR: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
     FD_TYPE_CODE: z.ZodString;
     FD_STATUS_CODE: z.ZodDefault<z.ZodOptional<z.ZodString>>;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     FD_TYPE_CODE?: string;
     CURRENCY_ID?: number;
     AGENCY_ID?: number;

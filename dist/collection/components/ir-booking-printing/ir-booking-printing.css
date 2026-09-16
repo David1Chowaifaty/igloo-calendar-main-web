@@ -27,6 +27,9 @@ span {
   color: rgb(51, 51, 51);
   font-weight: 700;
 }
+.label-title__text--capitalize {
+  text-transform: capitalize;
+}
 .label-value {
   padding-inline-start: 4px;
   color: rgb(102, 102, 102);

@@ -1,4 +1,5 @@
 import { Host, h } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 export class IrServiceAssigneeSelect {
     /**
      * The agent to assign the service to.
@@ -11,13 +12,13 @@ export class IrServiceAssigneeSelect {
     /**
      * Label displayed above the assignment selector.
      */
-    label = 'Assign to folio';
+    label;
     /**
      * Emits when the service assignee changes.
      */
     assignmentChange;
     render() {
-        return (h(Host, { key: '04f7549d508cb42f5a67b4cd92dd1253335cdeef' }, h("wa-radio-group", { key: 'e6104f86104a4d0118779441bee2bd372d497a74', onchange: e => this.assignmentChange.emit(e.target.value), defaultValue: this.assigneeType, value: this.assigneeType, size: "s", label: this.label, orientation: "vertical" }, h("wa-radio", { key: 'd090a20023183e644f98e4fd46303852e5a3a9cf', value: "agent", appearance: "button" }, "Agent: ", this.agent?.name), h("wa-radio", { key: 'd4c2cc13eda3103a8f8bbc76aa59e0d957eea2a3', value: "guest", appearance: "button" }, "Guest"))));
+        return (h(Host, { key: '617eeef55f115ea0f40558d835380a3821313381' }, h("wa-radio-group", { key: 'fa6cfbf703c90a5888f4f989fba48ac454371403', onchange: e => this.assignmentChange.emit(e.target.value), defaultValue: this.assigneeType, value: this.assigneeType, size: "s", label: this.label || t('Lcz_AssignToFolio', { fallback: 'Assign to folio' }), orientation: "vertical" }, h("wa-radio", { key: '1a9ea2cd675e279e7c9f7740795dbe308952ac01', value: "agent", appearance: "button" }, t('Lcz_Agent', { fallback: 'Agent' }), ": ", this.agent?.name), h("wa-radio", { key: '04295472b5c51a3acea83726acdbb916e606e6ec', value: "guest", appearance: "button" }, t('Lcz_Guest', { fallback: 'Guest' })))));
     }
     static get is() { return "ir-service-assignee-select"; }
     static get encapsulation() { return "scoped"; }
@@ -87,8 +88,7 @@ export class IrServiceAssigneeSelect {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "label",
-                "defaultValue": "'Assign to folio'"
+                "attribute": "label"
             }
         };
     }

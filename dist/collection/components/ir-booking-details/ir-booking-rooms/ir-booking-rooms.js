@@ -5,6 +5,7 @@ import { buildSplitIndex } from "../../../utils/booking";
 import { Fragment, h } from "@stencil/core";
 import { isAgentMode } from "../functions";
 import { canCheckIn, canCheckout } from "../../../utils/utils";
+import { t } from "../../../services/locale/t";
 export class IrBookingRooms {
     /**
      * The booking object containing reservation details,
@@ -172,7 +173,7 @@ export class IrBookingRooms {
     }
     renderRoomPool(rooms) {
         if (!rooms.length) {
-            return h("p", { class: "room-group__empty" }, "No rooms in this group");
+            return h("p", { class: "room-group__empty" }, t('Lcz_NoRoomsInGroup', { fallback: 'No rooms in this group' }));
         }
         const { groups, indexById, hasSplitGroups } = this.computeRoomGroups(rooms);
         if (!hasSplitGroups) {
@@ -194,14 +195,14 @@ export class IrBookingRooms {
         }
         const guestRooms = rooms.filter(r => r.agent === null || r.agent === undefined);
         const agentRooms = rooms.filter(r => r.agent !== null && r.agent !== undefined);
-        const agentName = this.booking.agent?.name ?? 'Agent';
-        return (h(Fragment, null, h("p", { class: "service-group__label --agent" }, agentName, h("span", null, "Folio")), h("div", { class: "service-group service-group--agent" }, h("div", { class: "service-group__body" }, agentRooms.length === 0 ? h("p", { class: "service-group__empty" }, "No agent rooms") : this.renderRoomPool(agentRooms))), h("wa-divider", null), h("p", { class: "service-group__label" }, "Guest", h("span", null, "Folio")), h("div", { class: "service-group service-group--guest" }, h("div", { class: "service-group__body" }, guestRooms.length === 0 ? h("p", { class: "service-group__empty" }, "No guest rooms") : this.renderRoomPool(guestRooms)))));
+        const agentName = this.booking.agent?.name ?? t('Lcz_Agent', { fallback: 'Agent' });
+        return (h(Fragment, null, h("p", { class: "service-group__label --agent" }, agentName, h("span", null, t('Lcz_Folio', { fallback: 'Folio' }))), h("div", { class: "service-group service-group--agent" }, h("div", { class: "service-group__body" }, agentRooms.length === 0 ? h("p", { class: "service-group__empty" }, t('Lcz_NoAgentRooms', { fallback: 'No agent rooms' })) : this.renderRoomPool(agentRooms))), h("wa-divider", null), h("p", { class: "service-group__label" }, t('Lcz_Guest', { fallback: 'Guest' }), h("span", null, t('Lcz_Folio', { fallback: 'Folio' }))), h("div", { class: "service-group service-group--guest" }, h("div", { class: "service-group__body" }, guestRooms.length === 0 ? h("p", { class: "service-group__empty" }, t('Lcz_NoGuestRooms', { fallback: 'No guest rooms' })) : this.renderRoomPool(guestRooms)))));
     }
     render() {
         if (!this.booking) {
             return null;
         }
-        return (h("wa-card", { appearance: "plain", class: "booking-rooms__card" }, h("ir-date-view", { class: "booking-details__date-view-header", slot: "header", from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_editable && (h(Fragment, null, h("wa-tooltip", { for: "room-add" }, "Add unit"), h("ir-custom-button", { slot: "header-actions", id: "room-add", appearance: 'plain', size: 's', variant: 'neutral' }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' }, label: "Add unit" })))), this.renderRooms()));
+        return (h("wa-card", { appearance: "plain", class: "booking-rooms__card" }, h("ir-date-view", { class: "booking-details__date-view-header", slot: "header", from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_editable && (h(Fragment, null, h("wa-tooltip", { for: "room-add" }, t('Lcz_AddUnit', { fallback: 'Add unit' })), h("ir-custom-button", { slot: "header-actions", id: "room-add", appearance: 'plain', size: 's', variant: 'neutral' }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' }, label: t('Lcz_AddUnit', { fallback: 'Add unit' }) })))), this.renderRooms()));
     }
     static get is() { return "ir-booking-rooms"; }
     static get encapsulation() { return "scoped"; }
@@ -246,7 +247,7 @@ export class IrBookingRooms {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",

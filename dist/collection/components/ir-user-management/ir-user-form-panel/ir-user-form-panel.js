@@ -60,7 +60,7 @@ export class IrUserFormPanel {
                 UserName: '',
             });
             return !exists;
-        }, { message: 'Email already exists.' }),
+        }, { message: t('Lcz_EmailAlreadyExists', { fallback: 'Email already exists.' }) }),
         password: z
             .string()
             .nullable()
@@ -70,7 +70,7 @@ export class IrUserFormPanel {
                 return true;
             }
             return CONSTANTS.PASSWORD.test(password);
-        }, { message: 'Password must be at least 8 characters long.' }),
+        }, { message: t('Lcz_PasswordMinLength', { fallback: 'Password must be at least 8 characters long.' }) }),
         type: z.union([z.literal(1), z.literal(Number(this.superAdminId?.toString() ?? '5')), z.coerce.string().nonempty().min(2)]),
         username: z
             .string()
@@ -86,7 +86,7 @@ export class IrUserFormPanel {
                 return !exists;
             }
             return true;
-        }, { message: 'Username already exists.' }),
+        }, { message: t('Lcz_UsernameAlreadyExists', { fallback: 'Username already exists.' }) }),
     });
     //make user active by default
     async componentWillLoad() {
@@ -135,31 +135,31 @@ export class IrUserFormPanel {
         }
     }
     render() {
-        return (h("form", { key: '06c3938476ca22be158a71a34083a6043f1d4ce2', id: this.formId,
+        return (h("form", { key: 'c99c984179e26e3eac9ffb879b82d70e335e9628', id: this.formId,
             // class="sheet-container"
             onSubmit: async (e) => {
                 e.preventDefault();
                 await this.createOrUpdateUser();
-            } }, h("div", { key: 'aef439bcd4fd9bd0bec3982f620c2cfb28f27d8a', class: "d-flex flex-column", style: { gap: '1rem' } }, h("ir-validator", { key: '2a440b682b9e051d2f101589c6fbb32d9bf966e3', asyncValidation: true, showErrorMessage: true, value: this.userInfo.email, schema: this.userSchema.shape.email }, h("ir-input", { key: 'b56bc0659a7d012cabec070a148b68bbd7b010c2', maxlength: 40, "onText-change": e => this.updateUserField('email', e.detail), value: this.userInfo.email, label: t('Lcz_Email'), "data-testid": "email", id: "user-email" })), h("ir-validator", { key: 'b333e786c4f2c91820831afd01bdc0fe2dd859ab', showErrorMessage: true, value: this.userInfo.mobile, schema: this.userSchema.shape.mobile }, h("ir-input", { key: '73696c7ba3479edec65eb7e6f35b3edd32f0662b', "onText-change": e => this.updateUserField('mobile', e.detail), value: this.userInfo.mobile, label: t('Lcz_Mobile'), "data-testid": "mobile", mask: this.mobileMask })), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("ir-validator", { value: this.userInfo.type?.toString(), schema: this.userSchema.shape.type }, h("wa-select", { "data-testId": "user_type",
+            } }, h("div", { key: 'e0bcf73e03ad7f94ff857e4e0e9c3de58cb30f22', class: "d-flex flex-column", style: { gap: '1rem' } }, h("ir-validator", { key: 'dc03ea45d18fcbb0da901e89b9cfaf7189fff0c8', asyncValidation: true, showErrorMessage: true, value: this.userInfo.email, schema: this.userSchema.shape.email }, h("ir-input", { key: '4534cdf07d7208bcd6711d9e2c65ebc649e4b857', maxlength: 40, "onText-change": e => this.updateUserField('email', e.detail), value: this.userInfo.email, label: t('Lcz_Email', { fallback: 'Email' }), "data-testid": "email", id: "user-email" })), h("ir-validator", { key: 'c7be835c4a2b8a8ff1870b836167f60b0473a2f4', showErrorMessage: true, value: this.userInfo.mobile, schema: this.userSchema.shape.mobile }, h("ir-input", { key: 'c377c02332346d7e14498854cf171a81c9f2a9d9', "onText-change": e => this.updateUserField('mobile', e.detail), value: this.userInfo.mobile, label: t('Lcz_Mobile'), "data-testid": "mobile", mask: this.mobileMask })), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("ir-validator", { value: this.userInfo.type?.toString(), schema: this.userSchema.shape.type }, h("wa-select", { "data-testId": "user_type",
             // error={this.errors?.type && !this.userInfo.type}
-            disabled: this.disableFields, label: "Role", value: this.userInfo.type?.toString(), size: "s", defaultValue: this.userInfo.type?.toString(), placeholder: t('Lcz_Select'), onchange: e => this.updateUserField('type', e.target.value) }, this.allowedUsersTypes.map(t => (h("wa-option", { value: t.code }, t.value)))))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: '74a7d8323f8106836aa53cd63471ec2e5c209417' }, h("input", { key: '4199eff21d44c46eca1bec283e2ec2324d2b1fc4', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { key: 'fdd9861c290f518d28db74de28c5182aefe7c862', asyncValidation: true, schema: this.userSchema.shape.username, value: this.userInfo.username }, h("ir-input", { key: '05ad5c117e49bddb904b4f0568669c51f3f91342', "onText-change": e => this.updateUserField('username', e.detail), autocomplete: "off", maxlength: 40, value: this.userInfo.username, disabled: this.disableFields, label: t('Lcz_Username') })))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { value: this.userInfo.password, schema: this.userSchema.shape.password }, h("ir-input", { "data-testId": "password", label: t('Lcz_Password'), value: this.userInfo.password, autocomplete: "off", passwordToggle: true, type: "password", id: "password", maxlength: 16, onInputFocus: () => (this.showPasswordValidation = true), "onInput-blur": () => {
+            disabled: this.disableFields, label: t('Lcz_Role', { fallback: 'Role' }), value: this.userInfo.type?.toString(), size: "s", defaultValue: this.userInfo.type?.toString(), placeholder: t('Lcz_Select', { fallback: 'Select' }), onchange: e => this.updateUserField('type', e.target.value) }, this.allowedUsersTypes.map(t => (h("wa-option", { value: t.code }, t.value)))))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: '38899b0d3c877411abbfbb51633402ec747b357f' }, h("input", { key: '46f4ece395e3313f46d2aa68f00464a15bcf8cee', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { key: 'a43dfdc916372b3b9af7a4081703bb5dec38850e', asyncValidation: true, schema: this.userSchema.shape.username, value: this.userInfo.username }, h("ir-input", { key: '94c3a266afce48b6702e168166c83afaa473a000', "onText-change": e => this.updateUserField('username', e.detail), autocomplete: "off", maxlength: 40, value: this.userInfo.username, disabled: this.disableFields, label: t('Lcz_Username', { fallback: 'Username' }) })))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { value: this.userInfo.password, schema: this.userSchema.shape.password }, h("ir-input", { "data-testId": "password", label: t('Lcz_Password', { fallback: 'Password' }), value: this.userInfo.password, autocomplete: "off", passwordToggle: true, type: "password", id: "password", maxlength: 16, onInputFocus: () => (this.showPasswordValidation = true), "onInput-blur": () => {
                 // if (this.user) this.showPasswordValidation = false;
             }, "onText-change": e => this.updateUserField('password', e.detail) })), this.showPasswordValidation && h("ir-password-validator", { class: "mb-1", password: this.userInfo.password }))) : (
         // this.haveAdminPrivileges &&
         // this.user.type.toString() !== this.superAdminId &&
         // (this.user?.type.toString() === '17' && this.userTypeCode?.toString() === '17' ? null : (
-        h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0 logins-history-title" }, t('Lcz_Password')), h("ir-button", { size: "sm", btn_styles: 'ir-pe-0', onClickHandler: () => (this.isOpen = true), text: t('Lcz_ChangePassword'), btn_color: "link" }))
+        h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0 logins-history-title" }, t('Lcz_Password', { fallback: 'Password' })), h("ir-button", { size: "sm", btn_styles: 'ir-pe-0', onClickHandler: () => (this.isOpen = true), text: t('Lcz_ChangePassword', { fallback: 'Change Password' }), btn_color: "link" }))
         // ))
-        )), this.user?.sign_ins?.length > 0 && (h("section", { key: '366f9e821523fc02ef65ebed72fca31dda808a46', class: "logins-history-section mt-2" }, h("div", { key: '209210b69ab9b7c9d51d47f04946dce7761a25ad', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: 'ee43c14a8c5dfc845e3115efa6ad337e315ba8d0', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: 'ad7ecdeb12eea3a5389b35cc407e3f7be47505e7', btn_styles: 'ir-pe-0', text: !this.showFullHistory ? t('Lcz_ViewAll') : t('Lcz_ViewLess'), btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: '5e1c4731476199c29c9078eb9a2a16e752b50161', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
+        )), this.user?.sign_ins?.length > 0 && (h("section", { key: 'a17d0f62f674c53d9571b59f894e28d774e1df81', class: "logins-history-section mt-2" }, h("div", { key: 'c6d01360182dd6cb443eb01789a1ea54656aa98d', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '4bcd113ca028454852c1e1a88048d5654d1d608a', class: "logins-history-title m-0 p-0" }, t('Lcz_RecentSignins', { fallback: 'Recent sign-ins' })), this.user.sign_ins.length > 5 && (h("ir-button", { key: '5d06f3c382c7205645d507899747b7e5f69d4742', btn_styles: 'ir-pe-0', text: !this.showFullHistory ? t('Lcz_ViewAll') : t('Lcz_ViewLess'), btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: '284a09da560ccf75969b294c3b92603b3a78e505', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
             const ua = UAParser(s.user_agent);
-            return (h("li", { class: "login-entry", key: s.date + '_' + i }, h("div", { class: "login-meta" }, h("p", { class: "login-datetime" }, formatDate(s.date, 'DD-MMM-YYYY'), " ", _formatTime(s.hour?.toString(), s.minute?.toString()), " |"), h("p", { class: "login-location" }, h("span", { class: "login-ip" }, t('Lcz_IP'), ": ", s.ip), ' ', "\u00A0|\u00A0", h("span", { class: "login-country" }, t('Lcz_Location'), ": ", s.country), ' ', "\u00A0|\u00A0", h("span", { class: "login-os" }, "OS: ", ua.os.name ?? 'N/A', " ", ua.os.version)))));
-        })))), h("ir-sidebar", { key: '4cd88a51d8ffa249b9746dbd44edb433c0cc59db', open: this.isOpen, showCloseButton: false, style: {
+            return (h("li", { class: "login-entry", key: s.date + '_' + i }, h("div", { class: "login-meta" }, h("p", { class: "login-datetime" }, formatDate(s.date, 'DD-MMM-YYYY'), " ", _formatTime(s.hour?.toString(), s.minute?.toString()), " |"), h("p", { class: "login-location" }, h("span", { class: "login-ip" }, t('Lcz_IP'), ": ", s.ip), ' ', "\u00A0|\u00A0", h("span", { class: "login-country" }, t('Lcz_Location'), ": ", s.country), ' ', "\u00A0|\u00A0", h("span", { class: "login-os" }, "OS: ", ua.os.name ?? t('Lcz_NotAvailable', { fallback: 'N/A' }), " ", ua.os.version)))));
+        })))), h("ir-sidebar", { key: '89832a284c39df4db2d7ef58b667ec7ce9d5b6ef', open: this.isOpen, showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
             }, onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            } }, this.isOpen && (h("ir-reset-password", { key: '351c9db2d84e15356a409017fc8b3131dc1ab733', ticket: this.ApiClient.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
+            } }, this.isOpen && (h("ir-reset-password", { key: 'abb01c3e8ec501597b208c816b17d5aa40cf37a6', ticket: this.ApiClient.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;

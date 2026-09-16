@@ -1,5 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { formatAmount } from "../../../../utils/utils";
+import { t } from "../../../../services/locale/t";
 export class IrBookingAssignItems {
     items = [];
     checkedItems = new Set();
@@ -21,7 +22,7 @@ export class IrBookingAssignItems {
                 if (!e.target.closest('wa-checkbox')) {
                     this.toggleItem(item.key);
                 }
-            } }, h("wa-checkbox", { checked: checked, onchange: () => this.toggleItem(item.key) }), h("div", { class: "assign-item__text" }, h("div", { class: "assign-item__room-header" }, h("span", { class: "assign-item__label" }, item.label), item.ratePlanShortName && h("span", { class: "assign-item__rateplan" }, item.ratePlanShortName), item.unitName && h("ir-unit-tag", { unit: item.unitName }), item.isNonRefundable && h("span", { class: "assign-item__badge assign-item__badge--nr" }, "Non-refundable")), item.fromDate && item.toDate && (h("ir-date-view", { class: "assign-item__date", format: "weekday-medium", from_date: item.fromDate, to_date: item.toDate, showDateDifference: false })))));
+            } }, h("wa-checkbox", { checked: checked, onchange: () => this.toggleItem(item.key) }), h("div", { class: "assign-item__text" }, h("div", { class: "assign-item__room-header" }, h("span", { class: "assign-item__label" }, item.label), item.ratePlanShortName && h("span", { class: "assign-item__rateplan" }, item.ratePlanShortName), item.unitName && h("ir-unit-tag", { unit: item.unitName }), item.isNonRefundable && h("span", { class: "assign-item__badge assign-item__badge--nr" }, t('Lcz_NonRefundable', { fallback: 'Non-refundable' }))), item.fromDate && item.toDate && (h("ir-date-view", { class: "assign-item__date", format: "weekday-medium", from_date: item.fromDate, to_date: item.toDate, showDateDifference: false })))));
     }
     renderCheckItem(item) {
         const checked = this.checkedItems.has(item.key);
@@ -45,7 +46,7 @@ export class IrBookingAssignItems {
         const rooms = this.items.filter(i => i.type === 'room');
         const pickups = this.items.filter(i => i.type === 'pickup');
         const extras = this.items.filter(i => i.type === 'extra');
-        return (h(Host, { key: 'c3553ad0e7888b3e9cb17f9cfafb26eade582d55', size: "s" }, h("div", { key: '7e78a6c717b798119ab9b38b4b71ed21236a0bbc', class: "assign-container" }, h("p", { key: '3db6bf25a2e454009ce1526ecb420d80311e9614', class: "assign-intro" }, "Select services for the Agent folio; others remain on the Guest folio."), rooms.length > 0 && (h("div", { key: '8fe7efeca51f7631655c3c871064de2ee001f6c2', class: "assign-section" }, h("p", { key: '1b12a84684091dd7c533790e848dfb5fe661bd42', class: "assign-section__label" }, "Accommodation"), rooms.map(item => this.renderRoomItem(item)))), pickups.length > 0 && (h("div", { key: '1a0f0880a7e6aa79301be576c22298d36f5a46de', class: "assign-section" }, h("p", { key: '41a0dfa84ec7cefaa0a058767199b654950ab75f', class: "assign-section__label" }, "Pickup"), pickups.map(item => this.renderCheckItem(item)))), extras.length > 0 && (h("div", { key: '2a0c2bd0d41e5996ef678872dd806b08a6e7f937', class: "assign-section" }, h("p", { key: '3dd4450ed35612da628c79290dad6c12e44528e5', class: "assign-section__label" }, "Extra Services"), extras.map(item => this.renderExtraItem(item)))))));
+        return (h(Host, { key: '9e0ae1c253d110efa2410fa70aeccd6a74fbe6c7', size: "s" }, h("div", { key: '01e5150863121f78de52eead70e8ca9ea7705a34', class: "assign-container" }, h("p", { key: 'fe7d230c28c6d29621475f529aca71921779f4a2', class: "assign-intro" }, t('Lcz_AssignItemsIntro', { fallback: 'Select services for the Agent folio; others remain on the Guest folio.' })), rooms.length > 0 && (h("div", { key: '02c526b2f112a0f82ad20cc5200617e821b625c4', class: "assign-section" }, h("p", { key: 'a209fd3e7e0dbb06bc2bf679f381ef9400afec1c', class: "assign-section__label" }, t('Lcz_Accommodation', { fallback: 'Accommodation' })), rooms.map(item => this.renderRoomItem(item)))), pickups.length > 0 && (h("div", { key: '5054e2fb6e50048fdbdeb0fec1fbe84b011012fd', class: "assign-section" }, h("p", { key: '09cfd61ccd85dd13951fa191fa1ab57de803ddc6', class: "assign-section__label" }, t('Lcz_Pickup', { fallback: 'Pickup' })), pickups.map(item => this.renderCheckItem(item)))), extras.length > 0 && (h("div", { key: '1e7ff463c22ec64211c190f02d49d7768b9d0edc', class: "assign-section" }, h("p", { key: 'a13ec98eac10e797273f608a2053a038f3c8a4c3', class: "assign-section__label" }, t('Lcz_ExtraServicesTitle', { fallback: 'Extra Services' })), extras.map(item => this.renderExtraItem(item)))))));
     }
     static get is() { return "ir-booking-assign-items"; }
     static get encapsulation() { return "scoped"; }

@@ -5,19 +5,19 @@ export declare const CurrencySchema: z.ZodObject<{
     symbol: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     symbol?: string;
-    id?: number;
     code?: string;
+    id?: number;
 }, {
     symbol?: string;
-    id?: number;
     code?: string;
+    id?: number;
 }>;
 export type SalesByChannelMode = 'property' | 'mpo';
 /**
  * Transforms UPPER_SNAKE_CASE keys to lowercase at parse time.
  * Output type is exactly the lowercased version of the base schema.
  */
-declare const ExtendedChanelReportBaseSchema: z.ZodObject<z.objectUtil.extendShape<{
+declare const ExtendedChanelReportBaseSchema: z.ZodObject<{
     NIGHTS: z.ZodNumber;
     PCT: z.ZodNumber;
     REVENUE: z.ZodNumber;
@@ -26,7 +26,7 @@ declare const ExtendedChanelReportBaseSchema: z.ZodObject<z.objectUtil.extendSha
     PROPERTY_NAME: z.ZodString;
     currency: z.ZodString;
     SOURCE_ICON: z.ZodString;
-}, {
+} & {
     last_year: z.ZodOptional<z.ZodObject<{
         NIGHTS: z.ZodNumber;
         PCT: z.ZodNumber;
@@ -55,7 +55,7 @@ declare const ExtendedChanelReportBaseSchema: z.ZodObject<z.objectUtil.extendSha
         PROPERTY_NAME?: string;
         SOURCE_ICON?: string;
     }>>;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     currency?: string;
     NIGHTS?: number;
     PCT?: number;
@@ -94,7 +94,7 @@ declare const ExtendedChanelReportBaseSchema: z.ZodObject<z.objectUtil.extendSha
         SOURCE_ICON?: string;
     };
 }>;
-export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
+export declare const ChannelReportSchema: z.ZodObject<{
     NIGHTS: z.ZodNumber;
     PCT: z.ZodNumber;
     REVENUE: z.ZodNumber;
@@ -103,7 +103,7 @@ export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
     PROPERTY_NAME: z.ZodString;
     currency: z.ZodString;
     SOURCE_ICON: z.ZodString;
-}, {
+} & {
     last_year: z.ZodOptional<z.ZodObject<{
         NIGHTS: z.ZodNumber;
         PCT: z.ZodNumber;
@@ -132,7 +132,7 @@ export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
         PROPERTY_NAME?: string;
         SOURCE_ICON?: string;
     }>>;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     currency?: string;
     NIGHTS?: number;
     PCT?: number;
@@ -172,7 +172,7 @@ export declare const ChannelReportSchema: z.ZodObject<z.objectUtil.extendShape<{
     };
 }>;
 export type ChannelReport = z.infer<typeof ExtendedChanelReportBaseSchema>;
-export declare const ChannelReportResultSchema: z.ZodNullable<z.ZodArray<z.ZodObject<z.objectUtil.extendShape<{
+export declare const ChannelReportResultSchema: z.ZodNullable<z.ZodArray<z.ZodObject<{
     NIGHTS: z.ZodNumber;
     PCT: z.ZodNumber;
     REVENUE: z.ZodNumber;
@@ -181,7 +181,7 @@ export declare const ChannelReportResultSchema: z.ZodNullable<z.ZodArray<z.ZodOb
     PROPERTY_NAME: z.ZodString;
     currency: z.ZodString;
     SOURCE_ICON: z.ZodString;
-}, {
+} & {
     last_year: z.ZodOptional<z.ZodObject<{
         NIGHTS: z.ZodNumber;
         PCT: z.ZodNumber;
@@ -210,7 +210,7 @@ export declare const ChannelReportResultSchema: z.ZodNullable<z.ZodArray<z.ZodOb
         PROPERTY_NAME?: string;
         SOURCE_ICON?: string;
     }>>;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     currency?: string;
     NIGHTS?: number;
     PCT?: number;
@@ -276,7 +276,7 @@ export declare const ChannelSalesParamsSchema: z.ZodObject<{
     LIST_AC_ID?: number[];
 }>;
 export type ChannelSalesParams = z.infer<typeof ChannelSalesParamsSchema>;
-export declare const ChannelSalesFilterSchema: z.ZodObject<z.objectUtil.extendShape<{
+export declare const ChannelSalesFilterSchema: z.ZodObject<{
     AC_ID: z.ZodOptional<z.ZodString>;
     BOOK_CASE: z.ZodString;
     FROM_DATE: z.ZodString;
@@ -284,9 +284,9 @@ export declare const ChannelSalesFilterSchema: z.ZodObject<z.objectUtil.extendSh
     WINDOW: z.ZodNumber;
     is_export_to_excel: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
     LIST_AC_ID: z.ZodNullable<z.ZodArray<z.ZodNumber, "many">>;
-}, {
+} & {
     include_previous_year: z.ZodBoolean;
-}>, "strip", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     is_export_to_excel?: boolean;
     FROM_DATE?: string;
     TO_DATE?: string;

@@ -1,18 +1,17 @@
-import { r as registerInstance, h, H as Host } from './index-BYqrdgY9.js';
+import { r as registerInstance, h, H as Host } from './index-CeHdrJeH.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { R as RoomService } from './room.service-BSB0UzN0.js';
-import { S as SetupService } from './index-Cn37-DfF.js';
-import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-T2RUHTRA.js';
-import { L as LanguageSync } from './language-sync-8F05kG-w.js';
-import { t } from './t-CHttQIVe.js';
+import { R as RoomService } from './room.service-DVOcfBMZ.js';
+import { S as SetupService } from './index-DK1lF62Q.js';
+import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-DKzzcKD9.js';
+import { L as LanguageSync } from './language-sync-CpSkGmxu.js';
+import { t } from './t-Bk78Wumj.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './calendar-data-DT3jrP3G.js';
-import './index-CimhgHoX.js';
-import './locales.store-BfROgg7a.js';
-import './index-DeW5X45W.js';
-import './utils-B8rKUEZL.js';
-import './IBooking-CTtD1rpE.js';
+import './calendar-data-BZeaTRgj.js';
+import './locales.store-CXJn6ls-.js';
+import './utils-Jf3si-tr.js';
+import './IBooking-B-QQODPH.js';
+import './types-BG9uwIsj.js';
 import './language-observer-CHgzsZkY.js';
 
 const irFinancialActionsCss = () => `.sc-ir-financial-actions-h{display:block}.financial-actions__meta.sc-ir-financial-actions{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-financial-actions{flex:1 1 0%}@media (min-width: 768px){.financial-actions__meta.sc-ir-financial-actions{flex-direction:row}}`;
@@ -86,6 +85,9 @@ const IrFinancialActions = class {
     async initializeApp() {
         this.isPageLoading = true;
         try {
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.financialActions });
             let propertyId = this.propertyid;
             if (!propertyId && !this.p) {
                 throw new Error('Property ID or username is required');
@@ -101,11 +103,7 @@ const IrFinancialActions = class {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [
-                this.setupService.getPaymentEntries(),
-                this.getFinancialAction(),
-                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.financialActions }),
-            ];
+            const requests = [this.setupService.getPaymentEntries(), this.getFinancialAction(), localeReady];
             if (propertyId) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
@@ -128,7 +126,7 @@ const IrFinancialActions = class {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Payment Actions"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: t('Lcz_Export'), onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, t('Lcz_PaymentActions', { fallback: 'Payment Actions' })), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: t('Lcz_Export', { fallback: 'Export' }), onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getFinancialAction(true);

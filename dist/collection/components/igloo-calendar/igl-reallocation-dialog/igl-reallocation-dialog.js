@@ -1,6 +1,7 @@
 import { EventsService } from "../../../services/events.service";
 import { Fragment, h } from "@stencil/core";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
+import { t } from "../../../services/locale/t";
 export class IglReallocationDialog {
     hostEl;
     data;
@@ -99,7 +100,7 @@ export class IglReallocationDialog {
     };
     render() {
         const hasRateplans = this.hasRateplanRequirement();
-        return (h("ir-dialog", { key: '32d35c101b028ecb1e536dede5a3c37fc92bb0a0', label: 'Alert', ref: el => (this.dialogEl = el), onIrDialogHide: this.handleDialogVisibilityChange }, this.data && (h(Fragment, { key: 'ceec8222cc9441cb510cd4e9a5aed6f23590e86a' }, h("div", { key: '2d5f05da431869c51453cddd5f7fd26bb70e1e7c', class: "dialog-body" }, h("p", { key: '808e9f43b40388361691a4d590c4d02510b8ae9a', class: "ir-text-start dialog-body__description m-0 p-0" }, this.data.description), hasRateplans && (
+        return (h("ir-dialog", { key: 'ae66e0f81b999541999adddb6bc9c5d0b95a131c', label: t('Lcz_Alert', { fallback: 'Alert' }), ref: el => (this.dialogEl = el), onIrDialogHide: this.handleDialogVisibilityChange }, this.data && (h(Fragment, { key: '33d54424d34f6c1ea94f815d9be60c9eb8d58507' }, h("div", { key: 'f3beb0df5a20998e66ce7156cc6b0ccc931a2ff2', class: "dialog-body" }, h("p", { key: '4782dc2d49f37d6662681ebf19f33153ec72237e', class: "ir-text-start dialog-body__description m-0 p-0" }, this.data.description), hasRateplans && (
         // <ir-select
         //   ref={el => (this.rateplanSelectEl = el)}
         //   required
@@ -108,13 +109,13 @@ export class IglReallocationDialog {
         //   error={this.showRateplanError}
         //   onSelectChange={this.handleRateplanChange}
         // ></ir-select>
-        h("wa-select", { key: '035ae89db4eb5aaa0a8432b4a7a1eed050dd8db3', "onwa-hide": e => {
+        h("wa-select", { key: '364e60dc79f919ce553f56270d40aed56c44d320', "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, defaultValue: '', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, size: "s", "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, h("wa-option", { key: 'e2c3055f32cf539ce00b996199ce1cb9455977a6', value: "" }, "Select rate plan..."), this.rateplanOptions.map(option => (h("wa-option", { key: option.value, value: option.value }, option.text)))))), h("div", { key: '8a7b2d196ab27c972f1dd1ad5910f5b3a5ccbe2f', class: "dialog-footer", slot: "footer" }, h("ir-custom-button", { key: 'cc54ff18bf28db3db977e9502c7f950102f26f48', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "m" }, "Cancel"), h("ir-custom-button", { key: '51765a1ba4d426d7b36d71931f3ee53f2d1e71ad', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "m", loading: isRequestPending('/ReAllocate_Exposed_Room') }, "Confirm"))))));
+            }, size: "s", "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, h("wa-option", { key: 'dbc5e782ef5e2af8a5a5bf7c273d4d55a9e96455', value: "" }, t('Lcz_SelectRatePlan', { fallback: 'Select rate plan...' })), this.rateplanOptions.map(option => (h("wa-option", { key: option.value, value: option.value }, option.text)))))), h("div", { key: '3c001f246a8a628523ff61804f7f577b95e737dc', class: "dialog-footer", slot: "footer" }, h("ir-custom-button", { key: '60a08f9534690553fd3a8954fdc3b60b16fd4f40', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "m" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'e0502420f51e16bf05b6cb005134c8adf9dc7b35', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "m", loading: isRequestPending('/ReAllocate_Exposed_Room') }, t('Lcz_Confirm', { fallback: 'Confirm' })))))));
     }
     static get is() { return "igl-reallocation-dialog"; }
     static get encapsulation() { return "scoped"; }

@@ -1,5 +1,6 @@
 import hkTasksStore, { loadMoreTasks, shouldLoadMore, updateCurrentPage, updatePageSize } from "../../../../../stores/hk-tasks.store";
 import { h, Host } from "@stencil/core";
+import { t } from "../../../../../services/locale/t";
 export class IrTasksTablePagination {
     render() {
         const { currentPage, pageSize, totalPages, mobileCurrentPage } = hkTasksStore.pagination;
@@ -7,7 +8,7 @@ export class IrTasksTablePagination {
         const start = totalTasks === 0 ? 0 : (currentPage - 1) * pageSize + 1;
         const end = Math.min(currentPage * pageSize, totalTasks);
         const pageSizes = hkTasksStore.pagination.tasksList[0] > totalTasks ? hkTasksStore.pagination.tasksList.slice(0, 1) : hkTasksStore.pagination.tasksList;
-        return (h(Host, { key: 'b06716a39c05287ca493c005bc5d6f222687e7a8' }, shouldLoadMore() && h("ir-button", { key: '3da686162e8e1203b2f5540afb32fbfc06de63a7', size: "sm", class: "tasks-load-more", text: "Load more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }), h("ir-pagination", { key: '7bb2dc80876afdde586ef1982efb07b946b8d18b', showing: {
+        return (h(Host, { key: '3d73bcf5ca1a61299387029d8c27ee9e52d0c4f0' }, shouldLoadMore() && (h("ir-button", { key: '52f0a72f764e1e94cbd2f092ce1bb08639bcd659', size: "sm", class: "tasks-load-more", text: t('Lcz_LoadMore', { fallback: 'Load more' }), onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) })), h("ir-pagination", { key: '3b45767dd168bcfab8c021a5b3a1ee75b1161ae3', showing: {
                 from: start,
                 to: end,
             }, allowPageSizeChange: true,

@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { TranslationEntry, TranslationLanguage } from '../types';
+import { DuplicateSibling, EntrySavedDetail, TranslationEntry, TranslationLanguage } from '../types';
 /**
  * Dumb open/close shell — the nested ir-translations-entry-form owns the
  * draft, validation, and the actual save call.
@@ -17,8 +17,10 @@ export declare class IrTranslationsEntryDrawer {
     tableName: string;
     ownerId: number;
     entryUserId: number;
+    /** Passed through to the form — rows in other tables that share `entry`'s description. */
+    duplicateSiblings: DuplicateSibling[];
     closeDrawer: EventEmitter<void>;
-    entrySaved: EventEmitter<void>;
+    entrySaved: EventEmitter<EntrySavedDetail>;
     saveDisabled: boolean;
     isSubmitting: boolean;
     render(): any;

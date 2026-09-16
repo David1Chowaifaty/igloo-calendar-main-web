@@ -1,6 +1,7 @@
 import { Host, h } from "@stencil/core";
 import { z } from "zod";
 import calendar_data from "../../../stores/calendar-data";
+import { t } from "../../../services/locale/t";
 export class IrExtraServicePriceInput {
     label;
     placeholder;
@@ -25,16 +26,16 @@ export class IrExtraServicePriceInput {
         this.price = { ...(this.price || {}), ...params };
     }
     render() {
-        return (h(Host, { key: '6af5e665c871eb49f95e0294ee5ab8e2b712c2c2', class: "ir-extra-service-price-input" }, h("ir-validator", { key: 'bbde887ee5eed64140faae3b50bbdf7f457a2a17', form: "extra-services-settings__form", class: "ir-extra-service-price-input__price-wrapper", value: this.price?.value ?? null, schema: z
+        return (h(Host, { key: '0952bd7abd3444aabd0c771c92425d255d61767e', class: "ir-extra-service-price-input" }, h("ir-validator", { key: '6187de193b2f24d1b0bc1de1dcaa09a9dfc7d239', form: "extra-services-settings__form", class: "ir-extra-service-price-input__price-wrapper", value: this.price?.value ?? null, schema: z
                 .number()
                 .nullable()
-                .refine(value => value === null || value >= 0.01, { message: 'Price must be greater than 0' }) }, h("ir-input", { key: '3fc9dbad763263e3aeab6fa8121d9c4d9f679f3f', value: this.price?.value?.toString() ?? '', mask: 'price', onChange: () => {
+                .refine(value => value === null || value >= 0.01, { message: t('Lcz_PriceMustBeGreaterThanZero', { fallback: 'Price must be greater than 0' }) }) }, h("ir-input", { key: '5472e8e6612970d880f540345153dfd208487dfb', value: this.price?.value?.toString() ?? '', mask: 'price', onChange: () => {
                 this.priceChange.emit({ value: this.price?.value ?? this.chargeRule?.value ?? null, mode: this.price?.mode ?? this.chargeRule?.mode ?? '' });
             }, part: "input", label: this.label, class: "ir-extra-service-price-input__price", exportparts: "base", size: "s", placeholder: this.placeholder, "onText-change": e => {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updatePriceField({ value });
-            } }, h("span", { key: 'd4b33c92f9f29feb261da3504553b1322d0fc77f', slot: "start", class: "ir-extra-service-price-input__price-symbol" }, calendar_data.property.currency.symbol), h("slot", { key: '5239a7da3e302f2d16107ad6fe65556ed2730744', name: "end", slot: "end" })))));
+            } }, h("span", { key: '0c604e86634bfd9e91417c93ce2d436230bd2111', slot: "start", class: "ir-extra-service-price-input__price-symbol" }, calendar_data.property.currency.symbol), h("slot", { key: '1e02a6d255c748559b20f1e7cc57ccfc8000c3f2', name: "end", slot: "end" })))));
     }
     static get is() { return "ir-extra-service-price-input"; }
     static get encapsulation() { return "shadow"; }

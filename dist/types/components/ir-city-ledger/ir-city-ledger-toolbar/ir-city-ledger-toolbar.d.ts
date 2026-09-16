@@ -2,7 +2,6 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { type CLAccountOverview } from "../../../services/city-ledger/index";
 export declare class IrCityLedgerToolbar {
     agentId: number | null;
-    currencySymbol: string;
     accountOverview: CLAccountOverview | null;
     createInvoice: EventEmitter<void>;
     private cityLedgerService;

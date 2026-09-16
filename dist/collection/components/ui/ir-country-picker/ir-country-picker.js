@@ -1,3 +1,4 @@
+import { t } from "../../../services/locale/t";
 import { Fragment, h } from "@stencil/core";
 export class IrCountryPicker {
     placeholder;
@@ -130,7 +131,7 @@ export class IrCountryPicker {
                 this.selectCountry(this.propertyCountry);
             } }, h("img", { src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "ir-ps-1 m-0" }, this.propertyCountry.name)), h("div", { class: "dropdown-divider" }))), this.filteredCountries?.map(c => (h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${this.selectedCountry?.id === c.id ? 'active' : ''}`, onClick: () => {
                 this.selectCountry(c);
-            } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "ir-ps-1 m-0" }, c.name)))), this.filteredCountries?.length === 0 && h("p", { class: "dropdown-item-text" }, "Invalid Country"))));
+            } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "ir-ps-1 m-0" }, c.name)))), this.filteredCountries?.length === 0 && h("p", { class: "dropdown-item-text" }, t('Lcz_InvalidCountry', { fallback: 'Invalid Country' })))));
     }
     static get is() { return "ir-country-picker"; }
     static get encapsulation() { return "scoped"; }

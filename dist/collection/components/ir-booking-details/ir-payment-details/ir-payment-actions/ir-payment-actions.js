@@ -1,4 +1,5 @@
 import { Host, h } from "@stencil/core";
+import { t } from "../../../../services/locale/t";
 export class IrPaymentActions {
     booking;
     paymentAction;
@@ -6,7 +7,7 @@ export class IrPaymentActions {
         if (this.paymentAction?.filter(pa => pa.amount !== 0).length == 0) {
             return null;
         }
-        return (h(Host, null, h("div", { class: 'my-1 d-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { class: 'font-size-large p-0 m-0 ' }, "Payment Actions"), h("span", { class: "beta" }, "Beta")), h("div", { class: "payment-actions-container" }, this.paymentAction?.map((pa, index) => (h("ir-payment-action", { key: pa.due_on + index, paymentAction: pa }))))));
+        return (h(Host, null, h("div", { class: 'my-1 d-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { class: 'font-size-large p-0 m-0 ' }, t('Lcz_PaymentActions', { fallback: 'Payment Actions' })), h("span", { class: "beta" }, t('Lcz_BetaTag', { fallback: 'Beta' }))), h("div", { class: "payment-actions-container" }, this.paymentAction?.map((pa, index) => (h("ir-payment-action", { key: pa.due_on + index, paymentAction: pa }))))));
     }
     static get is() { return "ir-payment-actions"; }
     static get encapsulation() { return "scoped"; }

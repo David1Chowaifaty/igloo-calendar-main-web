@@ -3,7 +3,7 @@ import { t } from "../../../services/locale/t";
 let panelId = 0;
 export class IrFiltersPanel {
     /** Panel headline text */
-    filterTitle = t('Lcz_Filters');
+    filterTitle = t('Lcz_Filters', { fallback: 'Filters' });
     /** Optional custom collapse target id (useful for legacy CSS hooks) */
     collapseId;
     /** Show collapse toggle button */
@@ -33,9 +33,9 @@ export class IrFiltersPanel {
     /** Collapse icon when collapsed */
     collapseIconClosed = 'closed_eye';
     /** Apply button copy */
-    applyLabel = t('Lcz_Apply');
+    applyLabel = t('Lcz_Apply', { fallback: 'Apply' });
     /** Reset button copy */
-    resetLabel = t('Lcz_Reset');
+    resetLabel = t('Lcz_Reset', { fallback: 'Reset' });
     /** Disable apply action */
     disableApply = false;
     /** Disable reset action */
@@ -113,11 +113,11 @@ export class IrFiltersPanel {
             [`filters-panel__footer--${this.actionsAlign}`]: true,
         };
         const cardClass = `card mb-0 p-1 d-flex flex-column ${this.cardClass || ''}`.trim();
-        return (h("div", { key: '63ad984ec798d407d3bbc74085c2f99f190ea44b', class: panelClasses }, h("div", { key: 'fb25cd80be884ec22ff6bc208441eb71c38e2cd2', class: cardClass }, h("div", { key: '58ed06d5a7041594c4e59264edffe7b3f31a29d0', class: headerClasses }, h("div", { key: 'a3dbffe9405a8aca961a9d4f07b5de4f2ccf5cc1', class: "filters-panel__title-group" }, h("slot", { key: '742d187e30ce025675707e285d630f8af7e6c5d0', name: "header-icon" }, this.renderDefaultIcon()), this.filterTitle && h("h4", { key: '2a041a6b6d87768557663e8398c4ee852ff96959', class: "filters-panel__title m-0 p-0 flex-grow-1" }, this.filterTitle), h("slot", { key: '7370cf741b0a081a119130e29e414c02e11b51ba', name: "header-title-extra" })), h("div", { key: 'c43c0b6b0e3c800f2a12305f4e4a4d57790a44a7', class: "filters-panel__header-actions" }, h("slot", { key: '6a1e0a1209c1b5170a8655051055d4e34fa8b268', name: "header-actions" }), this.renderCollapseButton(collapsed))), h("div", { key: '1b69d4f80d6c2a2baa6885a1c624f24d659eb384', id: this.targetId, class: {
+        return (h("div", { key: '52086b667a2fe3022e1fadd6435887540c73d5c3', class: panelClasses }, h("div", { key: '84c263514b07b866180c821168f28064f522a4d9', class: cardClass }, h("div", { key: 'fa901039155cbf53b552b099db59911981742784', class: headerClasses }, h("div", { key: '9818a1c7ebda52e0a4cafee18456e9aa7ee4a3bc', class: "filters-panel__title-group" }, h("slot", { key: 'e413193f5548990347c2ae11019a0d25f404e57b', name: "header-icon" }, this.renderDefaultIcon()), this.filterTitle && h("h4", { key: '5ae799bf8efdcfd75c3ced545932020438494562', class: "filters-panel__title m-0 p-0 flex-grow-1" }, this.filterTitle), h("slot", { key: 'c4137e541b91f7a5dbe6f9d84dee7a790d80b2fd', name: "header-title-extra" })), h("div", { key: 'b6c9a8bea8c9988498ff18921e9991e668a21536', class: "filters-panel__header-actions" }, h("slot", { key: '151e60c06d501e7fda53723b7ce46572dff1cdd8', name: "header-actions" }), this.renderCollapseButton(collapsed))), h("div", { key: '446d0d06685f4a447a008622da360f55c768bf35', id: this.targetId, class: {
                 'filters-panel__content': true,
                 'collapse': true,
                 'show': !collapsed,
-            }, "aria-hidden": collapsed ? 'true' : 'false' }, h("div", { key: '3b0ba4280239c6f3b5427a99c581ecbe1515a701', class: contentWrapperClasses, style: { gap: this.contentGap } }, h("slot", { key: 'cd7203ead2d539b13c89d53126798bc5f876e1ef' }), !this.hideDefaultActions && (h("div", { key: '877aa29f0483f68aafc7510eaf9967b88b39aa56', class: footerClasses }, h("slot", { key: '73228f1474fc06e76749d81af34e61e2d754d14e', name: "actions" }, h("ir-button", { key: 'a352df3578cedc51b8597bd6bb0369df0274b5a0', btn_type: "button", "data-testid": `${this.actionTestId}-reset`, text: this.resetLabel, size: "sm", btn_color: "secondary", btn_disabled: this.disableReset, onClickHandler: this.handleReset.bind(this) }), h("ir-button", { key: 'a5dc583bc081f0b0d72f087ef351a2e5f3c860d9', btn_type: "button", "data-testid": `${this.actionTestId}-apply`, isLoading: this.isApplyLoading, text: this.applyLabel, size: "sm", btn_disabled: this.disableApply, onClickHandler: this.handleApply.bind(this) })))))))));
+            }, "aria-hidden": collapsed ? 'true' : 'false' }, h("div", { key: 'd0d88d20bf4f7b8e146d3d216da2875c7db63c46', class: contentWrapperClasses, style: { gap: this.contentGap } }, h("slot", { key: 'c3d136c9e9d1d3d165b56b26b1998dffced0cdfe' }), !this.hideDefaultActions && (h("div", { key: 'cd78fa760961c37e277bd145f523aa03117cb1c9', class: footerClasses }, h("slot", { key: 'ad902cfa785700046b8d5b35ac47d90a6b57cc12', name: "actions" }, h("ir-button", { key: '48ec12ad98cac7240a6ac4ae3aae6aaa689e5460', btn_type: "button", "data-testid": `${this.actionTestId}-reset`, text: this.resetLabel, size: "sm", btn_color: "secondary", btn_disabled: this.disableReset, onClickHandler: this.handleReset.bind(this) }), h("ir-button", { key: '05c2724a0016b0f9320704257ca1cc2e8212a376', btn_type: "button", "data-testid": `${this.actionTestId}-apply`, isLoading: this.isApplyLoading, text: this.applyLabel, size: "sm", btn_disabled: this.disableApply, onClickHandler: this.handleApply.bind(this) })))))))));
     }
     static get is() { return "ir-filters-panel"; }
     static get encapsulation() { return "scoped"; }
@@ -151,7 +151,7 @@ export class IrFiltersPanel {
                 "setter": false,
                 "reflect": false,
                 "attribute": "filter-title",
-                "defaultValue": "t('Lcz_Filters')"
+                "defaultValue": "t('Lcz_Filters', { fallback: 'Filters' })"
             },
             "collapseId": {
                 "type": "string",
@@ -460,7 +460,7 @@ export class IrFiltersPanel {
                 "setter": false,
                 "reflect": false,
                 "attribute": "apply-label",
-                "defaultValue": "t('Lcz_Apply')"
+                "defaultValue": "t('Lcz_Apply', { fallback: 'Apply' })"
             },
             "resetLabel": {
                 "type": "string",
@@ -480,7 +480,7 @@ export class IrFiltersPanel {
                 "setter": false,
                 "reflect": false,
                 "attribute": "reset-label",
-                "defaultValue": "t('Lcz_Reset')"
+                "defaultValue": "t('Lcz_Reset', { fallback: 'Reset' })"
             },
             "disableApply": {
                 "type": "boolean",

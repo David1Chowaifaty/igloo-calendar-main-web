@@ -130,7 +130,13 @@ export class BookingService {
     }
     async getCalendarData(propertyid, from_date, to_date) {
         try {
-            const { data } = await axios.post(`/Get_Exposed_Calendar`, {
+            const v4Candidates = new Set([373, 1221, 42, 26]);
+            let route = 'Get_Exposed_Calendar';
+            const isCandidate = v4Candidates.has(Number(propertyid));
+            if (isCandidate) {
+                route += '_V4';
+            }
+            const { data } = await axios.post(`https://gateway.igloorooms.com/IR/${route}`, {
                 propertyid,
                 from_date,
                 to_date,
@@ -140,8 +146,11 @@ export class BookingService {
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
-            const months = data.My_Result.months;
+            // const months: MonthType[] = data.My_Result.months;
             const customMonths = [];
+            const res = isCandidate ? JSON.parse(data.My_Result) : data.My_Result;
+            const months = res.months;
+            // const customMonths: { daysCount: number; monthName: string }[] = [];
             const myBooking = await getMyBookings(months);
             const days = months
                 .map(month => {
@@ -151,9 +160,6 @@ export class BookingService {
                     firstDayValue: month.days[0]?.value,
                 });
                 return month.days.map(day => {
-                    if (day['value'] === '2025-05-30') {
-                        console.log(day);
-                    }
                     return {
                         day: convertDateToCustomFormat(day.description, month.description),
                         value: day.value,
@@ -171,8 +177,8 @@ export class BookingService {
                 ExceptionMsg: '',
                 My_Params_Get_Rooming_Data: {
                     AC_ID: propertyid,
-                    FROM: data.My_Params_Get_Exposed_Calendar.from_date,
-                    TO: data.My_Params_Get_Exposed_Calendar.to_date,
+                    FROM: data[`My_Params_${route}`].from_date,
+                    TO: data[`My_Params_${route}`].to_date,
                 },
                 days,
                 months: customMonths,

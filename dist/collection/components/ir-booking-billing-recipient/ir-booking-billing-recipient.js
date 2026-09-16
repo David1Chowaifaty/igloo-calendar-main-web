@@ -1,4 +1,5 @@
 import { Host, h } from "@stencil/core";
+import { t } from "../../services/locale/t";
 export class IrBookingBillingRecipient {
     booking;
     selectedRecipient;
@@ -55,7 +56,7 @@ export class IrBookingBillingRecipient {
         this.rooms = rooms;
     }
     render() {
-        return (h(Host, { key: '008673a6861aa3ac5a7cd3bb8e01b6149ca9ad84' }, h("wa-radio-group", { key: '2548dcfba00b16e59a28adc7568322ffa34ffdd4', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "s" }, h("wa-radio", { key: 'a26d93968cbe790d438e4fec56684c5dfa8e0ed4', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), !this.booking.agent && (h("wa-radio", { key: '5c14ede1ac4856c3967e252832e3854a1e34558a', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Use company name'))), h("ir-booking-company-dialog", { key: 'ac48029307eab64ac2bdff1d52b2f6d06ac7d219', onCompanyFormClosed: () => {
+        return (h(Host, { key: '5925122248389c9fe123faafeab34be6dcc78cf9' }, h("wa-radio-group", { key: 'ea2bb21c68dd829b6ec86e22e45bb986b376f23d', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: t('Lcz_BillTo', { fallback: 'Bill to' }), orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "s" }, h("wa-radio", { key: '564a085e3f373636eb4dca36e50d3357cb4c9a8a', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), !this.booking.agent && (h("wa-radio", { key: 'f30cb54d74471eba2fd3cc3759f0adb0cf1ba7c4', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : t('Lcz_UseCompanyName', { fallback: 'Use company name' })))), h("ir-booking-company-dialog", { key: 'd5a1e61ee25242cc4a54179f121632b21b5b9048', onCompanyFormClosed: () => {
                 if (this.selectedRecipient === 'company' && !this.booking.company_name) {
                     this.handleRecipientChange(this.initialValue);
                 }

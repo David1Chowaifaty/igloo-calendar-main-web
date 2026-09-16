@@ -1,5 +1,6 @@
 import { Host, h } from "@stencil/core";
 import moment from "moment";
+import { t } from "../../../../../services/locale/t";
 export class IrRangePicker {
     /**
      * The earliest date that can be selected.
@@ -85,16 +86,16 @@ export class IrRangePicker {
             }, emitEmptyDate: this.allowNullDates, ...additionalProps }, h("p", { class: "range-picker__date-picker-button", slot: "trigger" }, date?.format('YYYY-MM-DD') ?? '2025-03-02')));
     }
     render() {
-        return (h(Host, { key: '34b152a163938e624c27d514582aa636f9297dc9', size: "s" }, h("div", { key: 'f5bfc05eb92904e3f05aa9aef3049a01004481d2', class: "range-picker__container", ref: el => (this.date_container = el) }, this.withOverlay && (h("div", { key: '904c8ed3e479cbd30bc78161d91a52332670e218', class: {
+        return (h(Host, { key: 'aa9721a309084f86e0cc0bd957d03b330975bda6', size: "s" }, h("div", { key: 'c16c53478c12fbc9a594698087d9433fc856f895', class: "range-picker__container", ref: el => (this.date_container = el) }, this.withOverlay && (h("div", { key: 'd155a2281351680d9f576dc80eb4f90381ea6c6d', class: {
                 'range-picker__overlay': true,
                 'range-picker__overlay--active': !this.fromDate,
-            }, onClick: () => this.fromDatePicker.openDatePicker() }, h("wa-icon", { key: '177bb69cdef64b7be37d0bf359858e4d94e1f19a', name: "calendar" }), h("p", { key: '3ae1921db529e2c7e527e3c7aba6589af9b10caf', class: "m-0" }, h("slot", { key: '5c6a26bbdb68cc9481ff6c6e9c1546715a54ea74', name: "message" }, "Cleaned on")))), h("svg", { key: '8f5fc6352675329f2af085ef7dfaae361493118f', class: {
+            }, onClick: () => this.fromDatePicker.openDatePicker() }, h("wa-icon", { key: 'f8801683b03980703af57357f63ef2390fcb5c7d', name: "calendar" }), h("p", { key: '5fd15df5a28027cc0c4a04cdae9318d1a77d8bd3', class: "m-0" }, h("slot", { key: '7f984eb6cd0eb5c724fe86b76f05a6c95ac0c63d', name: "message" }, t('Lcz_CleanedOn', { fallback: 'Cleaned on' }))))), h("svg", { key: '5b31f394aa64e551eee8c8e5f7240597bcae9b6f', class: {
                 'range-picker__calendar-icon': true,
                 'range-picker__icon--hidden': this.withOverlay && !this.fromDate,
-            }, xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", style: { height: '14px', width: '14px' } }, h("path", { key: '5090779e96e5f49288859cc89563e17d2d7fa69d', fill: "currentColor", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), this.renderDatePicker('fromDate', this.fromDate, this.minDate, el => (this.fromDatePicker = el)), h("svg", { key: '11e1e28927dad9beb1aa033a5269c9f83973bbea', class: {
+            }, xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", style: { height: '14px', width: '14px' } }, h("path", { key: '32003cbaa288cde2c1fdee01a45fac0b71a050db', fill: "currentColor", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), this.renderDatePicker('fromDate', this.fromDate, this.minDate, el => (this.fromDatePicker = el)), h("svg", { key: '58fb3e4a8cf885c0a5ed876dff41f9387830789b', class: {
                 'range-picker__arrow-icon': true,
                 'range-picker__icon--hidden': this.withOverlay && !this.fromDate,
-            }, xmlns: "http://www.w3.org/2000/svg", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '82ab7280a3697ef87b10fef3b40fcc8aff8f11f6', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), this.renderDatePicker('toDate', this.toDate, this.fromDate?.toDate() || this.minSelectableDate, el => (this.toDatePicker = el), {
+            }, xmlns: "http://www.w3.org/2000/svg", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '2e3e68af24bc9a5d7082b96ffe3d24834cef8131', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), this.renderDatePicker('toDate', this.toDate, this.fromDate?.toDate() || this.minSelectableDate, el => (this.toDatePicker = el), {
             forceDestroyOnUpdate: false,
         }))));
     }

@@ -1,6 +1,7 @@
 import { h } from "@stencil/core";
 import moment from "moment";
 import { z } from "zod";
+import { t } from "../../../../services/locale/t";
 export class IrCityLedgerStatementsFilter {
     initialFromDate = null;
     initialToDate = null;
@@ -15,25 +16,25 @@ export class IrCityLedgerStatementsFilter {
     printStatement;
     render() {
         const canCreate = !!(this.fromDate && this.toDate);
-        return (h("form", { key: '8a69b5eb3ca80cd052688ce5ad6fac1b0b536f4b', onSubmit: e => {
+        return (h("form", { key: 'b1f940cbaf43e77a3d40b8c2cea5c70e49ef572f', onSubmit: e => {
                 e.preventDefault();
                 if (canCreate)
                     this.createStatement.emit({ fromDate: this.fromDate, toDate: this.toDate });
-            } }, h("div", { key: '33050a3874493d909d9f5d4e1df1ecade97a34a5', class: "stmt-filters" }, h("ir-validator", { key: '7d125d6541c59a77318a30894f88332e2bbe5762', schema: z.object({
+            } }, h("div", { key: '85c3f7f2f159d4fb55d66678b1ee0505a6481ce1', class: "stmt-filters" }, h("ir-validator", { key: '24c260e6851b34d2c08dab7b1ca7c6f0fcd6205a', schema: z.object({
                 fromDate: z.string().nonempty(),
                 toDate: z.string().nonempty(),
             }), value: {
                 fromDate: this.fromDate,
                 toDate: this.toDate,
-            }, class: "stmt-filters__left" }, h("ir-date-range-filter", { key: 'eae74dc4126d89fd1846c6010cc6bce3015a2ce2', selectionMode: "auto", class: "stmt-filters__date-picker", maxDate: moment().format('YYYY-MM-DD'), fromDate: this.fromDate, toDate: this.toDate, onDatesChanged: e => {
+            }, class: "stmt-filters__left" }, h("ir-date-range-filter", { key: '68519a7c1d6ea4e9bd87cce88d4d67ae51e54a9f', selectionMode: "auto", class: "stmt-filters__date-picker", maxDate: moment().format('YYYY-MM-DD'), fromDate: this.fromDate, toDate: this.toDate, onDatesChanged: e => {
                 this.fromDate = e.detail.from ?? null;
                 this.toDate = e.detail.to ?? null;
                 this.filtersChange.emit({ fromDate: this.fromDate, toDate: this.toDate });
-            } })), h("div", { key: '59f02f886a014ceb970df2a481ce5c3474e681b5', class: "stmt-filters__right" }, h("ir-custom-button", { key: '3442214a7c71a4e9657947c0aba6390e8256dfaa', variant: "brand", type: "submit" }, "Create Statement"), h("ir-custom-button", { key: '2f62ba2f57580f64c3c56f6583a46a72e32d09c9', variant: "brand", appearance: "outlined", disabled: !canCreate, onClickHandler: () => {
+            } })), h("div", { key: '045295c4bdba89fcd0a5293f488251ef40d9898e', class: "stmt-filters__right" }, h("ir-custom-button", { key: '80485c6057d22b9c5cb2a0e4c5a2b6f791559889', variant: "brand", type: "submit" }, t('Lcz_CreateStatement', { fallback: 'Create Statement' })), h("ir-custom-button", { key: '5efa08e88591f2ca5354df6c33639b1d4b13a40c', variant: "brand", appearance: "outlined", disabled: !canCreate, onClickHandler: () => {
                 if (canCreate) {
                     this.printStatement.emit({ fromDate: this.fromDate, toDate: this.toDate });
                 }
-            } }, "Print")))));
+            } }, t('Lcz_Print', { fallback: 'Print' }))))));
     }
     static get is() { return "ir-city-ledger-statements-filter"; }
     static get encapsulation() { return "scoped"; }

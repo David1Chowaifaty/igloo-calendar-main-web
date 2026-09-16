@@ -1,22 +1,21 @@
 'use strict';
 
-var index = require('./index-P5Mginch.js');
-var index$1 = require('./index-B1i80_nI.js');
-var types = require('./types-ClUdQ5q-.js');
+var index = require('./index-CQkpA5n3.js');
+var index$1 = require('./index-BgFNePQr.js');
+var types = require('./types-BPmU04ib.js');
 var enums = require('./enums-BSCnMYlE.js');
-var utils = require('./utils-ENyYs-bV.js');
+var utils = require('./utils-oNe0zJBw.js');
+var t = require('./t-CyRK1btk.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./index-CLqkDPTC.js');
+require('./types-BVJQZ50e.js');
 require('./moment-CdViwxPQ.js');
-require('./calendar-data-BjlxOXi1.js');
-require('./index-BLJXadKe.js');
-require('./booking.dto-kenLHU-o.js');
-require('./type-Dy9pVS4V.js');
-require('./ir-date-DUrZBFOV.js');
-require('./locales.store-DIYxw5lk.js');
+require('./calendar-data-UPPAEVR_.js');
+require('./locales.store-BMTss6fG.js');
+require('./booking.dto-CUSvGTvD.js');
+require('./type-Bj2x9EWc.js');
+require('./ir-date-BZLsqCOc.js');
 require('./language-observer-DKp37LIu.js');
-require('./t-BpMDZfdy.js');
 
 const irExtraServiceEditorFormCss = () => `.extra-service-form.sc-ir-extra-service-editor-form{display:flex;flex-direction:column;gap:1rem}.extra-service-form__field.sc-ir-extra-service-editor-form{display:flex;flex-direction:column;gap:0.375rem}.extra-service-form__label.sc-ir-extra-service-editor-form{font-size:0.8125rem;font-weight:600;margin:0}.extra-service-form__day-use.sc-ir-extra-service-editor-form{display:flex;flex-direction:column;gap:1rem;padding:1rem;border:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);border-radius:0.5rem}.extra-service-form__day-use-times.sc-ir-extra-service-editor-form{display:flex;flex-wrap:wrap;gap:1rem}.extra-service-form__day-use-times.sc-ir-extra-service-editor-form>*.sc-ir-extra-service-editor-form{flex:1 1 10rem}`;
 
@@ -49,12 +48,12 @@ const IrExtraServiceEditorForm = class {
             const parsed = types.ExtraServiceDefinitionSchema.parse(this.service);
             const saved = await this.extraServicesService.handleExposedExtraService({ extra_service: parsed });
             this.upsertExtraService.emit(saved);
-            utils.showToast({ title: 'Saved Successfully', type: 'success' });
+            utils.showToast({ title: t.t('Lcz_SavedSuccessfully', { fallback: 'Saved Successfully' }), type: 'success' });
             this.closeDrawer.emit();
         }
         catch (error) {
             console.error(error);
-            utils.showToast({ title: 'Something went wrong', type: 'error' });
+            utils.showToast({ title: t.t('Lcz_SomethingWentWrong', { fallback: 'Something went wrong' }), type: 'error' });
         }
         finally {
             this.loadingChanged.emit(false);
@@ -63,7 +62,7 @@ const IrExtraServiceEditorForm = class {
     render() {
         const service = this.service;
         const dayUseConfig = service?.day_use_config ?? types.defaultDayUseConfig();
-        return (index.h("form", { key: 'b72859e81ac2f04814ec33e7be5f10fa14ec5c1e', id: this.formId, onSubmit: e => this.handleSubmit(e), class: "extra-service-form" }, index.h("ir-validator", { key: 'e9b5b9b9de2bdaa19defe4d19f3737db1b3e1975', schema: types.ExtraServiceDefinitionSchema.shape.name, value: service?.name, valueEvent: "text-change input input-change", showErrorMessage: true }, index.h("ir-input", { key: '7ec0ab59fd974688b436530af89ef055b8d55be4', label: "Name", placeholder: "Service name", value: service?.name, readonly: this.isAccommodation(), "onText-change": (e) => this.updateField({ name: e.detail }) })), index.h("ir-validator", { key: '0bf33fa6669e993114516897ae8f6d2391f9ae80', schema: types.ExtraServiceDefinitionSchema.shape.default_price, value: service?.default_price, valueEvent: "text-change input input-change", showErrorMessage: true }, index.h("ir-input", { key: 'f5dc8b7d9488d8b10c249a258579719baad30fc3', label: "Default Price (USD)", mask: 'price', value: service?.default_price?.toString(), "onText-change": (e) => this.updateField({ default_price: Number(e.detail) }) }, index.h("span", { key: 'ca9dfd67e1c3b6640b6c88c4732fc66d2eeffc29', slot: "start" }, "$"))), index.h("div", { key: 'd67be1d96062a6273e98a2988ee552dc26fde46f', class: "extra-service-form__field" }, index.h("p", { key: '33f075e48c234e9547d95bcba3051239b371089d', class: "extra-service-form__label" }, "VAT"), index.h("wa-radio-group", { key: 'c2b98f4eb8ba841c49883cd8b701374d31cc9251', size: "s", orientation: "horizontal", value: service?.vat_mode, "onwa-change": (e) => this.updateField({ vat_mode: e.detail.value }) }, index.h("wa-radio", { key: 'b3ea4f4f1d69f7aa031a4f0ee4949ca7f1b57c5f', appearance: "button", value: enums.VatIncludedCodes.Inclusive }, "Inclusive"), index.h("wa-radio", { key: '8445caa3823fb77c722df4d808a10f07fac3c4b6', appearance: "button", value: enums.VatIncludedCodes.Exclusive }, "Exclusive"))), index.h("wa-switch", { key: 'd7b101bdd4d64230a78c5947d9a6d6990477efbe', checked: service?.allow_price_override, defaultChecked: service?.allow_price_override, onchange: e => this.updateField({ allow_price_override: e.target.checked }) }, "Allow price override"), index.h("wa-switch", { key: 'cfa419faa37c12e0ac42aa63ba6d274fa06d9329', checked: service?.is_active, defaultChecked: service?.is_active, onchange: e => this.updateField({ is_active: e.target.checked }) }, "Active"), this.isDayUse() && (index.h("div", { key: '18afe78f90a9f02a4f98857b9fdf483e3993badb', class: "extra-service-form__day-use" }, index.h("wa-switch", { key: '901b96668aadbf3698c9bd94304390d92ece4c67', checked: dayUseConfig.block_night, defaultChecked: dayUseConfig.block_night, onchange: e => this.updateField({ day_use_config: { ...dayUseConfig, block_night: e.target.checked } }) }, "Block Night"), dayUseConfig.block_night && (index.h("div", { key: 'abaeb1c1b6f26f967aefec1b2b784d6ec5917a30', class: "extra-service-form__day-use-times" }, index.h("ir-input", { key: 'ce27224e3166fdc8b255a700de986af8d4fe7c33', label: "Default Start Time", mask: 'time', value: dayUseConfig.default_start_time, "onText-change": (e) => this.updateField({ day_use_config: { ...dayUseConfig, default_start_time: e.detail } }) }), index.h("ir-input", { key: 'f1f6df3dcf74739d30599b188323f4c1ba8270d2', label: "Default End Time", mask: 'time', value: dayUseConfig.default_end_time, "onText-change": (e) => this.updateField({ day_use_config: { ...dayUseConfig, default_end_time: e.detail } }) })))))));
+        return (index.h("form", { key: '7b66fcebf7e0f34f5440eeb29dccd9f5468ecd65', id: this.formId, onSubmit: e => this.handleSubmit(e), class: "extra-service-form" }, index.h("ir-validator", { key: 'c173da5bd4a4bcb19d9595350a59b67d9ae0da37', schema: types.ExtraServiceDefinitionSchema.shape.name, value: service?.name, valueEvent: "text-change input input-change", showErrorMessage: true }, index.h("ir-input", { key: '4bf9998d28ab2415ca23e803451517f562cf1219', label: t.t('Lcz_Name', { fallback: 'Name' }), placeholder: t.t('Lcz_ServiceNamePlaceholder', { fallback: 'Service name' }), value: service?.name, readonly: this.isAccommodation(), "onText-change": (e) => this.updateField({ name: e.detail }) })), index.h("ir-validator", { key: '3f941b461846c5df5ab8f48c37d840be3aff6af3', schema: types.ExtraServiceDefinitionSchema.shape.default_price, value: service?.default_price, valueEvent: "text-change input input-change", showErrorMessage: true }, index.h("ir-input", { key: '84afca1b948d4cdfe53af11eb74c9cc9247f8852', label: t.t('Lcz_DefaultPriceUsd', { fallback: 'Default Price (USD)' }), mask: 'price', value: service?.default_price?.toString(), "onText-change": (e) => this.updateField({ default_price: Number(e.detail) }) }, index.h("span", { key: 'd7eee1c5475480d4933b2eed45952250b42cf2dc', slot: "start" }, "$"))), index.h("div", { key: '3990ef88a2328b9ea8d5b345b142921823829c8c', class: "extra-service-form__field" }, index.h("p", { key: 'd13e315fb32f48257814a6c6173edd35a8706f92', class: "extra-service-form__label" }, t.t('Lcz_Vat', { fallback: 'VAT' })), index.h("wa-radio-group", { key: 'df9e38c96702b7d85fe446411dd50ce7a06545bd', size: "s", orientation: "horizontal", value: service?.vat_mode, "onwa-change": (e) => this.updateField({ vat_mode: e.detail.value }) }, index.h("wa-radio", { key: 'c972f5794bc5472129e1b5b17078a5dee2b41682', appearance: "button", value: enums.VatIncludedCodes.Inclusive }, t.t('Lcz_Inclusive', { fallback: 'Inclusive' })), index.h("wa-radio", { key: 'e22cd6dab7646582a9228303b230937a617ed4a0', appearance: "button", value: enums.VatIncludedCodes.Exclusive }, t.t('Lcz_Exclusive', { fallback: 'Exclusive' })))), index.h("wa-switch", { key: 'ec2e368094be3f1ee47809bef2f99ca29f50bb88', checked: service?.allow_price_override, defaultChecked: service?.allow_price_override, onchange: e => this.updateField({ allow_price_override: e.target.checked }) }, t.t('Lcz_AllowPriceOverride', { fallback: 'Allow price override' })), index.h("wa-switch", { key: 'b7f013a47e803bfad207b6d179b2dead7deb7fef', checked: service?.is_active, defaultChecked: service?.is_active, onchange: e => this.updateField({ is_active: e.target.checked }) }, t.t('Lcz_Active', { fallback: 'Active' })), this.isDayUse() && (index.h("div", { key: 'ae740f7c18e1990486c188cc78e9c6e562745458', class: "extra-service-form__day-use" }, index.h("wa-switch", { key: '7077e4b3381132166b96c67a4f80b4e26d5fbd3f', checked: dayUseConfig.block_night, defaultChecked: dayUseConfig.block_night, onchange: e => this.updateField({ day_use_config: { ...dayUseConfig, block_night: e.target.checked } }) }, t.t('Lcz_BlockNightSwitch', { fallback: 'Block Night' })), dayUseConfig.block_night && (index.h("div", { key: '3a65cd6cf0aa90ab7dbf4718035a5ce8c25e24b1', class: "extra-service-form__day-use-times" }, index.h("ir-input", { key: '5a454bbbf3e31dea239881ac8c67258e24d655d3', label: t.t('Lcz_DefaultStartTime', { fallback: 'Default Start Time' }), mask: 'time', value: dayUseConfig.default_start_time, "onText-change": (e) => this.updateField({ day_use_config: { ...dayUseConfig, default_start_time: e.detail } }) }), index.h("ir-input", { key: '7122ce5148a650c5d0789c93ff7696efd31db39a', label: t.t('Lcz_DefaultEndTime', { fallback: 'Default End Time' }), mask: 'time', value: dayUseConfig.default_end_time, "onText-change": (e) => this.updateField({ day_use_config: { ...dayUseConfig, default_end_time: e.detail } }) })))))));
     }
 };
 IrExtraServiceEditorForm.style = irExtraServiceEditorFormCss();

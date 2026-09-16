@@ -1,13 +1,14 @@
 /**
- * Merged into every request. `_PMS_FRONT` is the shared vocabulary — the words
- * every screen renders — so no entry below has to list it.
+ * Merged into every request. `_PMS_FRONT` is the backend's shared vocabulary and
+ * `_COMMON` is the hardcoded-label migration catalog's shared module — the words
+ * every screen renders — so no entry below has to list either.
  *
  * Nothing else belongs here. `_USER_MGT` looks like a candidate because
  * `ir-interceptor` can raise the OTP dialog over any page, but that dialog mounts
  * lazily and loads the table itself, so putting it in the base set would charge
  * every screen 47 keys it usually never shows.
  */
-export const BASE_TABLES = ['_PMS_FRONT'];
+export const BASE_TABLES = ['_COMMON'];
 /**
  * The setup tables each screen needs, on top of {@link LocaleController.BASE_TABLES}.
  *
@@ -41,30 +42,39 @@ export const BASE_TABLES = ['_PMS_FRONT'];
  * `_PMS_FRONT` never appears below — it is a base table, merged into every request.
  */
 export const SCREEN_TABLES = {
-    arrivals: ['_BOOKING_LIST_FRONT'],
-    bookingDetails: [],
-    bookingEditor: [],
-    bookingListing: ['_BOOKING_LIST_FRONT'],
-    bookingPrinting: [],
-    bookProperty: [],
-    calendar: ['_USER_MGT'],
-    channel: ['_CHANNEL_FRONT'],
-    cityLedger: [],
-    dailyRevenue: [],
-    departures: ['_BOOKING_LIST_FRONT'],
-    dpReport: ['_BOOKING_LIST_FRONT'],
-    financialActions: [],
-    fiscalDocuments: [],
-    gapNights: [],
+    agents: ['_AGENTS'],
+    arrivals: ['_BOOKING_LIST_FRONT', '_FRONTDESK', '_BOOKING'],
+    bookingDetails: ['_PMS_FRONT', '_FINANCIALS', '_BOOKING', '_CALENDAR'],
+    bookingEditor: ['_CALENDAR'],
+    bookingListing: ['_BOOKING_LIST_FRONT', '_BOOKING'],
+    bookingPrinting: ['_BOOKING'],
+    bookProperty: ['_CALENDAR'],
+    calendar: ['_USER_MGT', '_CALENDAR', '_HOUSEKEEPING', '_PMS_FRONT', '_BOOKING'],
+    channel: ['_CHANNEL_FRONT', '_SETTINGS'],
+    cityLedger: ['_FINANCIALS'],
+    dailyRevenue: ['_REPORTS'],
+    departures: ['_BOOKING_LIST_FRONT', '_BOOKING'],
+    dpReport: ['_BOOKING_LIST_FRONT', '_REPORTS'],
+    extraServicesSettings: ['_SETTINGS'],
+    financialActions: ['_FINANCIALS', '_BOOKING'],
+    fiscalDocuments: ['_FINANCIALS'],
+    gapNights: ['_CALENDAR'],
+    ghsOnboarding: ['_GUESTS'],
     guestInfo: [],
-    housekeeping: ['_CHANNEL_FRONT', '_HK_FRONT'],
-    hkTasks: ['_BOOKING_LIST_FRONT'],
-    monthlyBookingsReport: [],
+    housekeeping: ['_HK_FRONT', '_HOUSEKEEPING'],
+    invoice: ['_FINANCIALS', '_BOOKING'],
+    hkStaffTasks: ['_HOUSEKEEPING'],
+    hkTasks: ['_HOUSEKEEPING'],
+    login: ['_AUTH'],
+    mealReport: ['_REPORTS'],
+    monthlyBookingsReport: ['_REPORTS'],
     otpModal: ['_USER_MGT'],
     paymentOption: ['_PAYMENT_BACK'],
-    resetPassword: ['_USER_MGT'],
-    salesByChannel: [],
-    salesByCountry: [],
-    uninvoicedBookings: ['_BOOKING_LIST_FRONT'],
-    userManagement: ['_USER_MGT'],
+    pmsPage: ['_PMS', '_CALENDAR'],
+    queueManager: ['_FRONTDESK'],
+    resetPassword: ['_USER_MGT', '_AUTH'],
+    salesByChannel: ['_REPORTS'],
+    salesByCountry: ['_REPORTS'],
+    uninvoicedBookings: ['_BOOKING_LIST_FRONT', '_BOOKING'],
+    userManagement: ['_USER_MGT', '_AUTH'],
 };

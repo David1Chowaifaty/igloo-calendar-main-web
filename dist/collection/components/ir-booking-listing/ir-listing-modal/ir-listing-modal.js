@@ -6,7 +6,7 @@ import moment from "moment";
 import { formatBookingNumber } from "../../../utils/number";
 import { t } from "../../../services/locale/t";
 export class IrListingModal {
-    modalTitle = 'Modal Title';
+    modalTitle;
     editBooking;
     paymentEntries;
     isOpen = false;
@@ -111,13 +111,13 @@ export class IrListingModal {
         // if (this.deletionStage === 2) {
         //   return t('Lcz_RecoverAndDelete');
         // }
-        return t('Lcz_Confirm');
+        return t('Lcz_Confirm', { fallback: 'Confirm' });
     }
     renderCancellationTitle() {
         // if (this.deletionStage === 2) {
         //   return t('Lcz_JustDelete');
         // }
-        return t('Lcz_Cancel');
+        return t('Lcz_Cancel', { fallback: 'Cancel' });
     }
     handleDropdownChange(e) {
         e.stopImmediatePropagation();
@@ -183,8 +183,7 @@ export class IrListingModal {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "modal-title",
-                "defaultValue": "'Modal Title'"
+                "attribute": "modal-title"
             },
             "editBooking": {
                 "type": "unknown",

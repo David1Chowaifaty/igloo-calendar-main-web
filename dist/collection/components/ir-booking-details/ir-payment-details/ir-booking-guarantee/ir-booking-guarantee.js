@@ -45,7 +45,7 @@ export class IrBookingGuarantee {
             }
         }
         else if (payment_code) {
-            paymentMethod = payment_code.value === '000' ? 'No card info required upon booking' : this.checkPaymentCode(payment_code.value);
+            paymentMethod = payment_code.value === '000' ? t('Lcz_NoCardInfoRequired', { fallback: 'No card info required upon booking' }) : this.checkPaymentCode(payment_code.value);
         }
         return paymentMethod;
     }
@@ -67,8 +67,8 @@ export class IrBookingGuarantee {
         if (!cci)
             return null;
         return [
-            h("div", null, cci && 'Card:', " ", h("span", null, cci.nbr || ''), cci.expiry_month && ' Expiry: ', h("span", null, cci.expiry_month || '', cci.expiry_year && '/' + cci.expiry_year)),
-            h("div", null, cci.holder_name && 'Name:', " ", h("span", null, cci.holder_name || ''), cci.cvc && ' - CVC:', " ", h("span", null, cci.cvc || '')),
+            h("div", null, cci && t('Lcz_CardLabel', { fallback: 'Card:' }), " ", h("span", null, cci.nbr || ''), cci.expiry_month && t('Lcz_ExpiryLabel', { fallback: ' Expiry: ' }), h("span", null, cci.expiry_month || '', cci.expiry_year && '/' + cci.expiry_year)),
+            h("div", null, cci.holder_name && `${t('Lcz_Name', { fallback: 'Name' })}:`, " ", h("span", null, cci.holder_name || ''), cci.cvc && t('Lcz_CvcLabel', { fallback: ' - CVC:' }), " ", h("span", null, cci.cvc || '')),
         ];
     }
     renderCollapsedContent() {
@@ -84,7 +84,7 @@ export class IrBookingGuarantee {
         const { ota_guarante } = this.booking;
         if (!ota_guarante || this.booking.is_direct)
             return null;
-        return (h("div", null, h("ir-label", { content: ota_guarante.card_type + `${ota_guarante.is_virtual ? ' (virtual)' : ''}`, labelText: `${t('Lcz_CardType')}:` }), h("ir-label", { content: ota_guarante.cardholder_name, labelText: `${t('Lcz_CardHolderName')}:` }), h("ir-label", { content: ota_guarante.card_number, labelText: `${t('Lcz_CardNumber')}:` }), h("ir-label", { content: this.formatCurrency(toFloat(Number(ota_guarante.meta?.virtual_card_current_balance), Number(ota_guarante.meta?.virtual_card_decimal_places)), ota_guarante.meta?.virtual_card_currency_code), labelText: `${t('Lcz_CardBalance')}:` })));
+        return (h("div", null, h("ir-label", { content: ota_guarante.card_type + `${ota_guarante.is_virtual ? t('Lcz_VirtualCardSuffix', { fallback: ' (virtual)' }) : ''}`, labelText: `${t('Lcz_CardType')}:` }), h("ir-label", { content: ota_guarante.cardholder_name, labelText: `${t('Lcz_CardHolderName', { fallback: 'Card holder name' })}:` }), h("ir-label", { content: ota_guarante.card_number, labelText: `${t('Lcz_CardNumber', { fallback: 'Card number' })}:` }), h("ir-label", { content: this.formatCurrency(toFloat(Number(ota_guarante.meta?.virtual_card_current_balance), Number(ota_guarante.meta?.virtual_card_decimal_places)), ota_guarante.meta?.virtual_card_currency_code), labelText: `${t('Lcz_CardBalance')}:` })));
     }
     render() {
         if (!this.shouldShowGuarantee()) {

@@ -34,7 +34,11 @@ export declare class IrAgents {
     private bookingService;
     private setupService;
     private apiClientService;
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     handleTicketChange(): void;
     handleUpsertAgentListener(e: CustomEvent<Agent>): void;
     private init;

@@ -1,30 +1,34 @@
 import calendar_data from "../../../../../stores/calendar-data";
 import { FdTypes } from "../../../../../types/enums";
 import { h } from "@stencil/core";
+import { t } from "../../../../../services/locale/t";
 const CONFIGS = {
     'void': (doc, fdType) => ({
-        title: fdType === FdTypes.Invoice ? 'Credit Note' : 'Void Document',
-        message: `Are you sure you want to void ${doc}? This will issue a credit ${fdType === FdTypes.Invoice ? 'note' : 'receipt'} and cannot be undone.`,
-        confirmLabel: 'Confirm',
+        title: fdType === FdTypes.Invoice ? t('Lcz_DocumentTypeCreditNote', { fallback: 'Credit Note' }) : t('Lcz_VoidDocumentTitle', { fallback: 'Void Document' }),
+        message: t('Lcz_ConfirmVoidDocumentMessage', {
+            fallback: 'Are you sure you want to void %1? This will issue a credit %2 and cannot be undone.',
+            params: [doc, fdType === FdTypes.Invoice ? 'note' : 'receipt'],
+        }),
+        confirmLabel: t('Lcz_Confirm', { fallback: 'Confirm' }),
         confirmVariant: 'danger',
     }),
     'delete-draft': doc => ({
-        title: 'Delete Draft',
-        message: `Are you sure you want to permanently delete draft ${doc}? This action cannot be undone.`,
-        confirmLabel: 'Delete',
+        title: t('Lcz_DeleteDraftTitle', { fallback: 'Delete Draft' }),
+        message: t('Lcz_ConfirmDeleteDraftMessage', { fallback: 'Are you sure you want to permanently delete draft %1? This action cannot be undone.', params: [doc] }),
+        confirmLabel: t('Lcz_Delete', { fallback: 'Delete' }),
         confirmVariant: 'danger',
     }),
     'convert-to-invoice': doc => ({
-        title: 'Convert to Invoice',
-        message: `Are you sure you want to convert ${doc} to an invoice? This action cannot be undone.`,
-        confirmLabel: 'Convert',
+        title: t('Lcz_ConvertToInvoice', { fallback: 'Convert to Invoice' }),
+        message: t('Lcz_ConfirmConvertToInvoiceMessage', { fallback: 'Are you sure you want to convert %1 to an invoice? This action cannot be undone.', params: [doc] }),
+        confirmLabel: t('Lcz_Convert', { fallback: 'Convert' }),
         confirmVariant: 'brand',
     }),
 };
 export class IrFdConfirmDialog {
     open = false;
     action = null;
-    docNumber = 'this document';
+    docNumber = t('Lcz_ThisDocumentFallback', { fallback: 'this document' });
     isConfirming = false;
     amount;
     fdType;
@@ -35,15 +39,15 @@ export class IrFdConfirmDialog {
     render() {
         const config = this.action ? CONFIGS[this.action]?.(this.docNumber, this.fdType) : null;
         const showVoidOptions = this.action === 'void' && this.fdType !== FdTypes.Receipt;
-        return (h("ir-dialog", { key: 'c438958e9a5ad5d4d91524f9c0da5a9f8a57fd09', open: this.open, label: config?.title ?? '', lightDismiss: false, onIrDialogHide: () => {
+        return (h("ir-dialog", { key: '271706214c3cddb7addf8930b9892a9afb3e3d14', open: this.open, label: config?.title ?? '', lightDismiss: false, onIrDialogHide: () => {
                 this.cancelled.emit();
             }, onIrDialogAfterHide: () => {
                 this.voidType = FdTypes.CreditNote;
                 this.goodwillAmount = null;
-            } }, !showVoidOptions && h("p", { key: '2a5d73847ecd2e81623d02ffd3af62825edafc82', class: "confirm-dialog__message" }, config?.message ?? ''), showVoidOptions && (h("div", { key: '5a88e1d37264ec02a6248181156c5b2ccfc10631', class: "void-options" }, h("wa-radio-group", { key: '2bb3a046672002570b6bfea4d01313291ec03e1e', defaultValue: this.voidType, value: this.voidType, onchange: (e) => (this.voidType = e.target.value) }, h("wa-radio", { key: 'aa417e0a665e740ca4b8f5418c4016ea749f6b00', value: FdTypes.CreditNote }, h("p", { key: '3f395785c4df138f151d61c94f1fbbb06f8bf868', class: "confirm-dialog__radio-title" }, "Credit Note to reverse Invoice ", h("b", { key: 'ee1b8d1305cc91d3f167c9fe89acdb30222f1b60' }, this.docNumber)), h("p", { key: 'a3eb3a0d23f4652af7d99a08e0a31d6e5733be98', class: "confirm-dialog__radio-hint" }, "Issue a Credit Note to reverse the invoice and unlock all invoiced entries for future invoicing.")), h("wa-radio", { key: '144932ad410a4e63e4c7d8f00a76568366fc348f', value: FdTypes.AdjustmentCredit }, h("p", { key: '725d7b111a31f97ec7a587b54ae643cbc65a9d41', class: "confirm-dialog__radio-title" }, "Adjustment Credit"), h("p", { key: '02de2da8907101ec28a89ad7fde35b4285de2bfa', class: "confirm-dialog__radio-hint" }, "Add a folio credit adjustment to create a fiscal credit note document related to ", h("b", { key: 'b762e7391988ba067c4e7627c3cb5e789373c40f' }, this.docNumber)))), this.voidType === FdTypes.AdjustmentCredit && (h("ir-input", { key: 'a938e03628cf495eedb0d12a162f64b474abfded', style: { marginInlineStart: '1.5rem' }, max: this.amount, min: "0", mask: 'price', value: this.goodwillAmount, defaultValue: this.goodwillAmount, "onText-change": e => (this.goodwillAmount = e.detail) }, h("span", { key: '902baca6e421b6b6f1f345f120d34699ea10d639', slot: "start" }, calendar_data.property.currency.symbol))))), h("div", { key: 'db63ed1bc42fc520bf5c8eafe4c720b082324ce2', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '7974d6454d155ffebeea615878ff7b4b4553a04c', size: "m", variant: "neutral", appearance: "filled", onClickHandler: () => this.cancelled.emit(), disabled: this.isConfirming }, "Cancel"), h("ir-custom-button", { key: '2084c334a9b4949a5e1f7231043c16c9ec268969', size: "m", variant: config?.confirmVariant ?? 'neutral', onClickHandler: () => this.confirmed.emit({
+            } }, !showVoidOptions && h("p", { key: '5734f89969e39b10bfb8b6f143725bd9b0db5680', class: "confirm-dialog__message" }, config?.message ?? ''), showVoidOptions && (h("div", { key: '5bc4937c2c7590fcb588a057694afc6e302eb496', class: "void-options" }, h("wa-radio-group", { key: '08dd04aa08f82957bf2f10858723e38a634d0f77', defaultValue: this.voidType, value: this.voidType, onchange: (e) => (this.voidType = e.target.value) }, h("wa-radio", { key: '43c9dfc0db8e5350a0cdec31cb75c70a42a657e4', value: FdTypes.CreditNote }, h("p", { key: '644320d903db70ca07a586082aee0337d34f973b', class: "confirm-dialog__radio-title" }, t('Lcz_CreditNoteToReverseInvoice', { fallback: 'Credit Note to reverse Invoice' }), " ", h("b", { key: '9e7eae5a9be3306ce454b0514867ef8caadd4529' }, this.docNumber)), h("p", { key: 'a8eea0185c6a1e30b50628680e2d55b793c1a88b', class: "confirm-dialog__radio-hint" }, t('Lcz_CreditNoteReverseHint', { fallback: 'Issue a Credit Note to reverse the invoice and unlock all invoiced entries for future invoicing.' }))), h("wa-radio", { key: '1f3d2c98ad7f74dd2bb64ebefd451552d4129f74', value: FdTypes.AdjustmentCredit }, h("p", { key: 'bc3b2b64e26f10d1f16ed9ee972d04844f5685da', class: "confirm-dialog__radio-title" }, t('Lcz_AdjustmentCredit', { fallback: 'Adjustment Credit' })), h("p", { key: '95ce2ad23455c945b0ebca6f713e69c9aead49d9', class: "confirm-dialog__radio-hint" }, t('Lcz_AdjustmentCreditHint', { fallback: 'Add a folio credit adjustment to create a fiscal credit note document related to' }), " ", h("b", { key: 'f2fcedcc8f27eba66955856214f59dd44e803810' }, this.docNumber)))), this.voidType === FdTypes.AdjustmentCredit && (h("ir-input", { key: '3f47d46d9e438050862fb5bfcf893915534f80d9', style: { marginInlineStart: '1.5rem' }, max: this.amount, min: "0", mask: 'price', value: this.goodwillAmount, defaultValue: this.goodwillAmount, "onText-change": e => (this.goodwillAmount = e.detail) }, h("span", { key: 'c3292512487343b9bc194ad97cadf25524b0efec', slot: "start" }, calendar_data.property.currency.symbol))))), h("div", { key: '691407a613ab26f033859fc7e9ff8780935f667a', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'bd301b60539890baa1f5072adbe65fa5a9eff120', size: "m", variant: "neutral", appearance: "filled", onClickHandler: () => this.cancelled.emit(), disabled: this.isConfirming }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '963f90b4c60e8ae818d119b22804d20a1f2e77d6', size: "m", variant: config?.confirmVariant ?? 'neutral', onClickHandler: () => this.confirmed.emit({
                 amount: Number(this.goodwillAmount),
                 voidType: this.voidType,
-            }), loading: this.isConfirming }, config?.confirmLabel ?? 'Confirm'))));
+            }), loading: this.isConfirming }, config?.confirmLabel ?? t('Lcz_Confirm', { fallback: 'Confirm' })))));
     }
     static get is() { return "ir-fd-confirm-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -123,7 +127,7 @@ export class IrFdConfirmDialog {
                 "setter": false,
                 "reflect": false,
                 "attribute": "doc-number",
-                "defaultValue": "'this document'"
+                "defaultValue": "t('Lcz_ThisDocumentFallback', { fallback: 'this document' })"
             },
             "isConfirming": {
                 "type": "boolean",

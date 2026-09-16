@@ -3,6 +3,7 @@ import { ClFiscalDocumentService } from "../cl-fiscal-document.service";
 import { formatAmount } from "../../../../../utils/utils";
 import { CityLedgerService } from "../../../../../services/city-ledger/index";
 import { SetupService } from "../../../../../services/setup/index";
+import { t } from "../../../../../services/locale/t";
 export class IrClReceiptPreview {
     propertyId;
     ticket;
@@ -47,7 +48,7 @@ export class IrClReceiptPreview {
             this.paymentMethods = paymentMethods;
         }
         catch (e) {
-            this.error = e?.message ?? 'Failed to load receipt data.';
+            this.error = e?.message ?? t('Lcz_FailedToLoadReceiptData', { fallback: 'Failed to load receipt data.' });
         }
         finally {
             this.isLoading = false;
@@ -69,7 +70,7 @@ export class IrClReceiptPreview {
     }
     render() {
         if (!this.ticket) {
-            return (h(Host, null, h("div", { class: "document-state document-state--error" }, "Authentication ticket is required.")));
+            return (h(Host, null, h("div", { class: "document-state document-state--error" }, t('Lcz_AuthTicketRequired', { fallback: 'Authentication ticket is required.' }))));
         }
         if (this.isLoading) {
             return (h(Host, null, h("div", { class: "document-state" }, h("ir-spinner", null))));
@@ -79,11 +80,11 @@ export class IrClReceiptPreview {
         }
         const tx = this.ClEntry;
         if (!tx) {
-            return (h(Host, null, h("div", { class: "document-state document-state--error" }, "No receipt data found.")));
+            return (h(Host, null, h("div", { class: "document-state document-state--error" }, t('Lcz_NoReceiptDataFound', { fallback: 'No receipt data found.' }))));
         }
         const currency = this.property?.currency?.symbol ?? '$';
         const fmt = (v) => (v != null ? formatAmount(currency, v) : '—');
-        return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '2.5rem' }, property: this.property, documentNumber: this.documentNumber, agentName: this.agentName, documentType: "receipt" }), h("div", { class: "receipt-body" }, h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, "Payment Details"), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Amount Received"), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Payment Method"), h("span", { class: "receipt-row__value" }, this.getPaymentMethodLabel(tx.PAY_METHOD_CODE))), tx.DESCRIPTION && (h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Reference"), h("span", { class: "receipt-row__value" }, tx.DESCRIPTION))))), h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, "Balance Summary (Account)"), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Balance Before Payment"), h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_BEFORE_TX))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Payment Received"), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Balance After Payment"), h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_AFTER_TX)))))))));
+        return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '2.5rem' }, property: this.property, documentNumber: this.documentNumber, agentName: this.agentName, documentType: "receipt" }), h("div", { class: "receipt-body" }, h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, t('Lcz_PaymentDetailsTitle', { fallback: 'Payment Details' })), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, t('Lcz_AmountReceived', { fallback: 'Amount Received' })), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, t('Lcz_PaymentMethod', { fallback: 'Payment Method' })), h("span", { class: "receipt-row__value" }, this.getPaymentMethodLabel(tx.PAY_METHOD_CODE))), tx.DESCRIPTION && (h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, t('Lcz_Reference', { fallback: 'Reference' })), h("span", { class: "receipt-row__value" }, tx.DESCRIPTION))))), h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, t('Lcz_BalanceSummaryAccountTitle', { fallback: 'Balance Summary (Account)' })), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, t('Lcz_BalanceBeforePayment', { fallback: 'Balance Before Payment' })), h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_BEFORE_TX))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, t('Lcz_PaymentReceived', { fallback: 'Payment Received' })), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, t('Lcz_BalanceAfterPayment', { fallback: 'Balance After Payment' })), h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_AFTER_TX)))))))));
     }
     static get is() { return "ir-cl-receipt-preview"; }
     static get encapsulation() { return "shadow"; }

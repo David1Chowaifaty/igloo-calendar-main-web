@@ -1,1 +1,0 @@
-import{c as e}from"./p-NaLO3GnB.js";const{state:t}=e({entries:null,direction:"ltr",language:"en",loadedTables:[],status:"idle"});export{t as l}

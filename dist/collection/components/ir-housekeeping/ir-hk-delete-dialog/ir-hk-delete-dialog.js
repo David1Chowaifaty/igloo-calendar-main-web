@@ -43,12 +43,12 @@ export class IrHkDeleteDialog {
         if (!this.user)
             return;
         const hasAssignedUnits = this.user.assigned_units.length > 0;
-        const label = hasAssignedUnits ? t('Lcz_AssignUnitsTo') : t('Lcz_ConfirmDeletion');
-        return (h("ir-dialog", { lightDismiss: false, label: label, open: this.isOpen, onIrDialogHide: () => this.closeModal() }, !hasAssignedUnits && (h("p", { class: "delete-modal__description" }, "Are you sure you want to permanently delete ", h("strong", null, this.user.name), "? This action cannot be undone.")), hasAssignedUnits && (h("wa-select", { size: "s", defaultValue: this.selectedId, value: this.selectedId, onchange: e => (this.selectedId = e.target.value) }, h("wa-option", { value: "" }, t('Lcz_nobody')), housekeeping_store.hk_criteria.housekeepers
+        const label = hasAssignedUnits ? t('Lcz_AssignUnitsTo', { fallback: 'Assign units to' }) : t('Lcz_ConfirmDeletion', { fallback: 'Confirm deletion!' });
+        return (h("ir-dialog", { lightDismiss: false, label: label, open: this.isOpen, onIrDialogHide: () => this.closeModal() }, !hasAssignedUnits && (h("p", { class: "delete-modal__description" }, t('Lcz_ConfirmPermanentDeleteUser', { fallback: 'Are you sure you want to permanently delete' }), " ", h("strong", null, this.user.name), "? This action cannot be undone.")), hasAssignedUnits && (h("wa-select", { size: "s", defaultValue: this.selectedId, value: this.selectedId, onchange: e => (this.selectedId = e.target.value) }, h("wa-option", { value: "" }, t('Lcz_nobody', { fallback: 'nobody' })), housekeeping_store.hk_criteria.housekeepers
             .filter(hk => hk.id !== this.user.id)
             .map(m => ({ value: m.id.toString(), text: m.name }))
             .sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase()))
-            .map(m => (h("wa-option", { key: m.value, value: m.value }, m.text))))), h("div", { slot: "footer", class: "delete-modal__footer" }, h("ir-custom-button", { variant: "neutral", appearance: "filled", size: "m", onClickHandler: () => this.closeModal() }, t('Lcz_Cancel')), h("ir-custom-button", { variant: "danger", appearance: "accent", size: "m", loading: this.isConfirming, onClickHandler: () => this.handleConfirm() }, t('Lcz_Confirm')))));
+            .map(m => (h("wa-option", { key: m.value, value: m.value }, m.text))))), h("div", { slot: "footer", class: "delete-modal__footer" }, h("ir-custom-button", { variant: "neutral", appearance: "filled", size: "m", onClickHandler: () => this.closeModal() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { variant: "danger", appearance: "accent", size: "m", loading: this.isConfirming, onClickHandler: () => this.handleConfirm() }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
     }
     static get is() { return "ir-hk-delete-dialog"; }
     static get originalStyleUrls() {

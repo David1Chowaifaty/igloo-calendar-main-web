@@ -4,6 +4,7 @@ export declare class IrGhsOnboarding {
     el: HTMLElement;
     ticket: string;
     baseurl: string;
+    language: string;
     properties: GHS_Candidate_Property[];
     countries: ICountry[];
     selectedCountryId: number | null;

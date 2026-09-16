@@ -1,7 +1,13 @@
 import { flexRender, useTable } from "../../../utils/useTable";
 import { Host, h } from "@stencil/core";
 import { createColumnHelper, getCoreRowModel } from "@tanstack/table-core";
-import { hasValue } from "../utils";
+import { hasValue, setCopiedEntry } from "../utils";
+import { t } from "../../../services/locale/index";
+import { inlineSign, isRtlLanguage } from "../../../utils/direction";
+import { showToast } from "../../../utils/utils";
+/** Rows a PageUp/PageDown jumps. */
+const PAGE_ROWS = 10;
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 export class IrTranslationsEntriesTable {
     /** Rows to render, already filtered by the parent. */
     entries = [];
@@ -20,14 +26,19 @@ export class IrTranslationsEntriesTable {
     groupByTable = false;
     /** Entry id → the tables sharing that row's description; rows present here get a duplicate badge beside their key. */
     duplicates = new Map();
+    /** Whether the notes column is included at all. */
+    showNotes = true;
     entryChange;
     editEntry;
     duplicateEntry;
+    /** "Move to table…" — the parent opens the move dialog for this row. */
+    moveEntry;
     deleteEntry;
     clearFilters;
     reorderEntries;
     toggleVisibility;
-    editingCell = null;
+    /** `${entryId}|${columnId}` of the open editor, or null. The only edit state that needs a re-render. */
+    editingKey = null;
     /** Working copy of `entries`, live-reordered while a drag is in progress. */
     dragEntries = [];
     draggingId = null;
@@ -35,10 +46,26 @@ export class IrTranslationsEntriesTable {
     containerWidth = 0;
     /** Table names whose group is currently folded shut. Only meaningful while `groupByTable` is on. */
     collapsedTables = new Set();
-    cellInputRef;
-    lastFocusKey = null;
-    /** Live text of the cell being edited. Deliberately not @State — keystrokes must not re-render the grid. */
-    draft = '';
+    /**
+     * The live edit. Deliberately not @State — keystrokes must not re-render the grid,
+     * and the object identity is what makes a commit idempotent (see `EditSession`).
+     */
+    editSession = null;
+    /**
+     * The grid's single tab stop, as {visible row, navigable column} indices. Also not
+     * @State: arrow keys move it by swapping `tabindex` on two `<td>`s directly, so
+     * walking a 2,300-cell grid costs no re-renders at all.
+     */
+    activeCell = { row: 0, col: 0 };
+    /** What to focus after the next render — set by anything that opens or closes an editor. */
+    pendingFocus = null;
+    /**
+     * The session a pending 'input' focus was scheduled for. Typing faster than the
+     * screen refreshes can queue two of these in one frame, and the first must not
+     * declare the second one's editor focused — that would hand the keys back to an
+     * input that doesn't have them yet, and they'd be lost.
+     */
+    pendingFocusSession = null;
     containerRef;
     containerResizeObserver;
     /** Latest pointer Y during a drag, read by the auto-scroll loop — not @State, it'd re-render on every dragover. */
@@ -73,11 +100,15 @@ export class IrTranslationsEntriesTable {
     // #region Shared tooltip
     /** Re-points the shared tooltip at whatever `[data-tooltip]` element the pointer is over. */
     handleTooltipOver = (event) => {
+        const target = event.target?.closest?.('[data-tooltip]');
+        this.showTooltipFor(target);
+    };
+    /** Shared by hover and by keyboard focus, so truncated cell text is readable either way. */
+    showTooltipFor(target) {
         const tooltip = this.tooltipRef;
         if (!tooltip) {
             return;
         }
-        const target = event.target?.closest?.('[data-tooltip]');
         const text = target?.dataset.tooltip;
         if (!target || !text) {
             this.hideTooltip();
@@ -95,7 +126,7 @@ export class IrTranslationsEntriesTable {
             tooltip.anchor = target;
             tooltip.open = true;
         }, 250);
-    };
+    }
     hideTooltip = () => {
         clearTimeout(this.tooltipTimer);
         if (this.tooltipRef) {
@@ -110,83 +141,411 @@ export class IrTranslationsEntriesTable {
         }
     }
     componentDidRender() {
-        const focusKey = this.editingCell ? `${this.editingCell.entryId}:${this.editingCell.languageCode}` : null;
-        if (focusKey && focusKey !== this.lastFocusKey) {
-            // wa-input's shadow DOM hasn't necessarily finished its first Lit
-            // render synchronously after insertion, so focus() can run before the
-            // internal <input> exists — defer past that render.
-            requestAnimationFrame(() => this.cellInputRef?.focus());
-        }
-        this.lastFocusKey = focusKey;
-    }
-    startEditing(entry, code) {
-        this.draft = entry.values[code] ?? '';
-        this.editingCell = { entryId: entry.id, languageCode: code };
-    }
-    commitDraft(entry, code) {
-        // Idempotent per edit session — Enter/Tab commits and moves on, then the
-        // outgoing input's native blur fires too (async, once it's actually
-        // removed from the DOM); without this guard that blur would re-commit
-        // using whatever cell's draft happens to be live by then.
-        if ((entry.values[code] ?? '') === this.draft) {
+        this.syncActionTabStops();
+        const pending = this.pendingFocus;
+        if (!pending) {
             return;
         }
-        this.entryChange.emit({ ...entry, values: { ...entry.values, [code]: this.draft } });
+        this.pendingFocus = null;
+        // wa-input's shadow DOM hasn't necessarily finished its first Lit render
+        // synchronously after insertion, so focus() can run before the internal
+        // <input> exists — defer past that render.
+        requestAnimationFrame(() => {
+            if (pending === 'cell') {
+                this.cellElement(this.activeCell.row, this.activeCell.col)?.focus();
+                return;
+            }
+            const session = this.pendingFocusSession;
+            // Superseded by a later edit, or already handled by a pass queued alongside this one.
+            if (!session || session !== this.editSession) {
+                return;
+            }
+            const input = this.cellElement(this.activeCell.row, this.activeCell.col)?.querySelector('wa-input');
+            if (!input) {
+                // This frame ran ahead of the render that creates the input; the pass queued
+                // by that render finds it. Leave the session pending for it.
+                return;
+            }
+            this.pendingFocusSession = null;
+            input.focus();
+            session.focused = true;
+            if (session.seeded) {
+                // Editing began by typing over the cell: that first character is the value now.
+                session.seeded = false;
+                input.value = session.draft;
+                input.input?.setSelectionRange(session.draft.length, session.draft.length);
+                return;
+            }
+            // focus() alone leaves the caret at position 0, so typing would prepend.
+            if (session.select === 'all') {
+                input.input?.select();
+            }
+            else {
+                input.input?.setSelectionRange(session.draft.length, session.draft.length);
+            }
+        });
     }
     /**
-     * Moves the edit caret through the grid, wrapping across row ends so Tab
-     * walks the whole table the way a spreadsheet does.
+     * `ir-custom-button` renders a `wa-button` of its own, which would put a tab stop
+     * in every single row — and the grid is meant to be one tab stop, entered with Tab
+     * and walked with arrows. The trigger stays reachable through its own cell (Enter
+     * opens the menu) and by mouse; it just isn't tabbable any more.
+     *
+     * Deferred a frame because child components render after this one, so the
+     * `wa-button` doesn't exist yet on a first paint. `:not([tabindex])` keeps the
+     * sweep idempotent across re-renders.
      */
-    moveEditing(entryId, code, rowDelta, colDelta) {
-        const rowIndex = this.dragEntries.findIndex(entry => entry.id === entryId);
-        const colIndex = this.languages.findIndex(language => language.code === code);
-        if (rowIndex === -1 || colIndex === -1) {
-            this.editingCell = null;
-            return;
-        }
-        let nextRow = rowIndex + rowDelta;
-        let nextCol = colIndex + colDelta;
-        if (nextCol >= this.languages.length) {
-            nextCol = 0;
-            nextRow += 1;
-        }
-        else if (nextCol < 0) {
-            nextCol = this.languages.length - 1;
-            nextRow -= 1;
-        }
-        const nextEntry = this.dragEntries[nextRow];
-        if (!nextEntry) {
-            this.editingCell = null;
-            return;
-        }
-        this.startEditing(nextEntry, this.languages[nextCol].code);
+    syncActionTabStops() {
+        requestAnimationFrame(() => {
+            this.containerRef?.querySelectorAll('td.entries-table__actions wa-button:not([tabindex])').forEach(button => button.setAttribute('tabindex', '-1'));
+        });
     }
-    handleCellKeyDown(event, entry, code, originalValue) {
+    // #region Grid geometry
+    /** Every column arrow keys can land on, in visual order. */
+    get navColumns() {
+        return [
+            { id: 'key', kind: 'key' },
+            ...(this.showNotes ? [{ id: 'notes', kind: 'note' }] : []),
+            ...this.languages.map(language => ({ id: language.code, kind: 'lang', code: language.code })),
+            { id: 'actions', kind: 'actions' },
+        ];
+    }
+    /**
+     * Rows actually on screen. Grouped mode drops the rows of folded tables, and
+     * navigation indices have to agree with what's rendered or arrow keys would
+     * step into cells that don't exist.
+     */
+    get visibleEntries() {
+        if (!this.groupByTable || this.collapsedTables.size === 0) {
+            return this.dragEntries;
+        }
+        return this.dragEntries.filter(entry => !this.collapsedTables.has(entry.tableName ?? ''));
+    }
+    cellValue(entry, column) {
+        return column.kind === 'note' ? (entry.meta?.notes ?? '') : (entry.values[column.code] ?? '');
+    }
+    /** Key and Actions are navigable but never editable; system-protected rows lock their values. */
+    isCellEditable(entry, column) {
+        return (column.kind === 'note' || column.kind === 'lang') && entry.meta?.isUpdateable !== false;
+    }
+    cellElement(row, col) {
+        return this.containerRef?.querySelector(`td[data-row="${row}"][data-col="${col}"]`) ?? null;
+    }
+    /** Rows and columns come and go with filters — without this the single tab stop could end up on a cell that no longer exists. */
+    clampActiveCell() {
+        this.activeCell = {
+            row: clamp(this.activeCell.row, 0, Math.max(0, this.visibleEntries.length - 1)),
+            col: clamp(this.activeCell.col, 0, Math.max(0, this.navColumns.length - 1)),
+        };
+    }
+    // #endregion
+    // #region Editing
+    /**
+     * `select` follows the spreadsheet convention: arriving on a cell from the keyboard
+     * selects its whole value so typing replaces it, while clicking into one puts the
+     * caret after the text so a typo can be fixed without retyping the cell.
+     */
+    startEditing(entry, column, options = {}) {
+        if (!this.isCellEditable(entry, column)) {
+            return;
+        }
+        const { initial, select = 'all' } = options;
+        const original = this.cellValue(entry, column);
+        this.editSession = {
+            key: `${entry.id}|${column.id}`,
+            entryId: entry.id,
+            columnId: column.id,
+            field: column.kind === 'note' ? 'note' : 'lang',
+            code: column.code,
+            original,
+            draft: initial ?? original,
+            committed: false,
+            seeded: initial !== undefined,
+            select,
+            focused: false,
+        };
+        this.editingKey = this.editSession.key;
+        this.pendingFocus = 'input';
+        this.pendingFocusSession = this.editSession;
+        // Park focus on the cell right now, before the render that creates the input.
+        // Otherwise focus sits on the outgoing input (about to be removed) or falls to
+        // <body> when it is, and anything typed in that gap lands where this component
+        // can't hear it. On the cell, the grid handler buffers it into this session.
+        this.cellElement(this.activeCell.row, this.activeCell.col)?.focus({ preventScroll: true });
+    }
+    /**
+     * Saves a session at most once, and only when its value actually moved. Each
+     * emit is a live `Edit_Setup` write plus a toast in the manager, so flagging
+     * `committed` *before* emitting matters: the trailing `change`/`blur` from the
+     * input this commit is about to replace lands right back here.
+     */
+    commitSession(session) {
+        if (!session || session.committed) {
+            return;
+        }
+        session.committed = true;
+        if (session.draft === session.original) {
+            return;
+        }
+        // Read the row back out rather than closing over it — the parent patches
+        // `entries` optimistically on every commit, so a cell edited twice in a row
+        // must build on the patched version, not the one this editor opened over.
+        const entry = this.dragEntries.find(item => item.id === session.entryId);
+        if (!entry) {
+            return;
+        }
+        const newEntry = session.field === 'note' ? { ...entry, meta: { ...entry.meta, notes: session.draft } } : { ...entry, values: { ...entry.values, [session.code]: session.draft } };
+        this.entryChange.emit(newEntry);
+    }
+    closeEditor(focusCell = true) {
+        this.editSession = null;
+        this.editingKey = null;
+        this.pendingFocusSession = null;
+        if (focusCell) {
+            this.pendingFocus = 'cell';
+        }
+    }
+    /** Escape: discard the draft, and make sure the trailing blur can't resurrect it. */
+    cancelEditing(session) {
+        session.committed = true;
+        this.closeEditor();
+    }
+    handleEditorBlur(session) {
+        this.commitSession(session);
+        // Keyboard navigation has already pointed `editingKey` at the next cell by the
+        // time this fires, so only a genuine focus-out should close the editor.
+        if (this.editingKey === session.key) {
+            this.editSession = null;
+            this.editingKey = null;
+        }
+    }
+    /**
+     * The three keys that end an edit. Shared with the cell handler, because a fast
+     * Enter-Enter or Tab-Tab can land before the next editor's input has taken focus
+     * and those keystrokes have to keep working rather than falling on the floor.
+     * Returns whether the key was one of them.
+     */
+    handleEditKey(event, session) {
         if (event.key === 'Escape') {
             event.preventDefault();
-            this.draft = originalValue;
-            this.editingCell = null;
-            return;
+            this.cancelEditing(session);
+            return true;
         }
         if (event.key === 'Enter') {
             event.preventDefault();
-            this.commitDraft(entry, code);
-            this.moveEditing(entry.id, code, event.shiftKey ? -1 : 1, 0);
-            return;
+            this.commitSession(session);
+            this.moveEditing(session, event.shiftKey ? -1 : 1, 0);
+            return true;
         }
         if (event.key === 'Tab') {
             event.preventDefault();
-            this.commitDraft(entry, code);
-            this.moveEditing(entry.id, code, 0, event.shiftKey ? -1 : 1);
+            this.commitSession(session);
+            this.moveEditing(session, 0, event.shiftKey ? -1 : 1);
+            return true;
+        }
+        return false;
+    }
+    handleEditorKeyDown(event, session) {
+        if (this.handleEditKey(event, session)) {
+            // The cell below must not handle this a second time.
+            event.stopPropagation();
         }
     }
-    handleCellBlur(entry, code) {
-        // Keyboard navigation has already pointed editingCell at the next cell by
-        // the time this fires, so only a genuine focus-out should close the editor.
-        if (this.editingCell?.entryId === entry.id && this.editingCell?.languageCode === code) {
-            this.editingCell = null;
+    /**
+     * Moves the open editor through the grid, wrapping across row ends so Tab walks
+     * the whole table the way a spreadsheet does. Key/Actions columns and locked
+     * rows are stepped over rather than stopped on, and running off either end
+     * leaves focus parked on the cell it started from instead of on nothing.
+     */
+    moveEditing(session, rowDelta, colDelta) {
+        const rows = this.visibleEntries;
+        const columns = this.navColumns;
+        const fromRow = rows.findIndex(entry => entry.id === session.entryId);
+        const fromCol = columns.findIndex(column => column.id === session.columnId);
+        if (fromRow === -1 || fromCol === -1) {
+            this.closeEditor(false);
+            return;
         }
+        let row = fromRow;
+        let col = fromCol;
+        const stop = () => {
+            this.activeCell = { row: fromRow, col: fromCol };
+            this.closeEditor();
+        };
+        // Bounded by the grid size — a table where every cell is locked must not spin.
+        for (let step = 0; step <= rows.length * columns.length; step++) {
+            if (colDelta !== 0) {
+                col += colDelta;
+                if (col >= columns.length) {
+                    col = 0;
+                    row += 1;
+                }
+                else if (col < 0) {
+                    col = columns.length - 1;
+                    row -= 1;
+                }
+            }
+            else {
+                row += rowDelta;
+            }
+            if (row < 0 || row >= rows.length) {
+                stop();
+                return;
+            }
+            if (this.isCellEditable(rows[row], columns[col])) {
+                this.activeCell = { row, col };
+                this.startEditing(rows[row], columns[col]);
+                return;
+            }
+        }
+        stop();
     }
+    // #endregion
+    // #region Keyboard navigation
+    /** Moves the grid's single tab stop, swapping `tabindex` on the DOM directly so no re-render is needed. */
+    focusCell(row, col) {
+        const target = this.cellElement(row, col);
+        if (!target) {
+            return;
+        }
+        const previous = this.cellElement(this.activeCell.row, this.activeCell.col);
+        if (previous && previous !== target) {
+            previous.tabIndex = -1;
+        }
+        this.activeCell = { row, col };
+        target.tabIndex = 0;
+        // focus() would scroll the cell to the middle of the container; `nearest` keeps
+        // the grid still unless the cell is genuinely off-screen.
+        target.focus({ preventScroll: true });
+        target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        this.showTooltipFor(target.querySelector('[data-tooltip]'));
+    }
+    /** Click, or Shift+Tab back into the grid — whatever the browser focused becomes the tab stop. */
+    handleCellFocus(row, col, td) {
+        if (this.activeCell.row === row && this.activeCell.col === col) {
+            return;
+        }
+        const previous = this.cellElement(this.activeCell.row, this.activeCell.col);
+        if (previous && previous !== td) {
+            previous.tabIndex = -1;
+        }
+        this.activeCell = { row, col };
+        td.tabIndex = 0;
+    }
+    activateCell(entry, column, row, col) {
+        this.activeCell = { row, col };
+        if (column.kind === 'key') {
+            this.editEntry.emit(entry);
+            return;
+        }
+        if (column.kind === 'actions') {
+            const dropdown = this.cellElement(row, col)?.querySelector('wa-dropdown');
+            if (dropdown) {
+                dropdown.open = true;
+            }
+            return;
+        }
+        this.startEditing(entry, column);
+    }
+    /** A key that should open a cell and become its first character, rather than being a command. */
+    isPrintable(event) {
+        return event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey;
+    }
+    handleGridKeyDown(event, row, col) {
+        // While an editor is open it owns every key it cares about and stops those from
+        // bubbling; anything that reaches here is meant for the text field.
+        if (this.editingKey) {
+            const pending = this.editSession;
+            if (!pending || pending.focused) {
+                return;
+            }
+            // The editor exists but its input is still a frame away from focus. Everything
+            // typed in that gap belongs to it: without this, "Zed" would open the cell on
+            // "Z" alone, and a fast Enter-Enter down a column would swallow the second one.
+            if (this.handleEditKey(event, pending)) {
+                return;
+            }
+            if (this.isPrintable(event)) {
+                if (!pending.seeded) {
+                    // Arriving on a cell from the keyboard selects its whole value, so the first
+                    // character replaces it — exactly as it would with the input already focused.
+                    pending.draft = pending.select === 'all' ? '' : pending.draft;
+                    pending.seeded = true;
+                }
+                pending.draft += event.key;
+                event.preventDefault();
+            }
+            return;
+        }
+        const rows = this.visibleEntries;
+        const columns = this.navColumns;
+        const entry = rows[row];
+        const column = columns[col];
+        if (!entry || !column) {
+            return;
+        }
+        const lastRow = rows.length - 1;
+        const lastCol = columns.length - 1;
+        // Arrow keys are physical; the grid can be laid out either way (RTL languages,
+        // RTL document), so the inline direction decides which one means "next column".
+        const sign = inlineSign();
+        const jumpsToEdge = event.ctrlKey || event.metaKey;
+        switch (event.key) {
+            case 'ArrowRight':
+                this.focusCell(row, clamp(col + sign, 0, lastCol));
+                break;
+            case 'ArrowLeft':
+                this.focusCell(row, clamp(col - sign, 0, lastCol));
+                break;
+            case 'ArrowDown':
+                this.focusCell(clamp(row + 1, 0, lastRow), col);
+                break;
+            case 'ArrowUp':
+                this.focusCell(clamp(row - 1, 0, lastRow), col);
+                break;
+            case 'Home':
+                this.focusCell(jumpsToEdge ? 0 : row, 0);
+                break;
+            case 'End':
+                this.focusCell(jumpsToEdge ? lastRow : row, lastCol);
+                break;
+            case 'PageDown':
+                this.focusCell(clamp(row + PAGE_ROWS, 0, lastRow), col);
+                break;
+            case 'PageUp':
+                this.focusCell(clamp(row - PAGE_ROWS, 0, lastRow), col);
+                break;
+            case 'Enter':
+            case 'F2':
+            case ' ':
+                this.activateCell(entry, column, row, col);
+                break;
+            default:
+                // Typing over a cell opens it on that character, as a spreadsheet would.
+                if (this.isPrintable(event) && this.isCellEditable(entry, column)) {
+                    this.activeCell = { row, col };
+                    this.startEditing(entry, column, { initial: event.key });
+                    break;
+                }
+                // Tab is deliberately not handled: the grid is one tab stop, so Tab leaves it.
+                return;
+        }
+        event.preventDefault();
+    }
+    handleCellClick(entry, column, row, col) {
+        this.activeCell = { row, col };
+        if (column.kind === 'key') {
+            this.editEntry.emit(entry);
+            return;
+        }
+        // The dropdown's own trigger handles this; a click inside the open editor must
+        // not tear down the session it lands in.
+        if (column.kind === 'actions' || this.editingKey === `${entry.id}|${column.id}`) {
+            return;
+        }
+        this.startEditing(entry, column, { select: 'end' });
+    }
+    // #endregion
     handleRowAction(action, entry) {
         switch (action) {
             case 'edit':
@@ -197,6 +556,16 @@ export class IrTranslationsEntriesTable {
                 break;
             case 'copy':
                 navigator.clipboard?.writeText(entry.key);
+                break;
+            case 'copy-row':
+                // The clipboard gets only the key so it pastes cleanly into the Key
+                // field; the translations wait in memory for the form to pick up.
+                setCopiedEntry(entry);
+                navigator.clipboard?.writeText(entry.key);
+                showToast({ type: 'success', title: 'Row copied — paste its key into a new entry to reuse its translations.' });
+                break;
+            case 'move':
+                this.moveEntry.emit(entry);
                 break;
             case 'delete':
                 this.deleteEntry.emit(entry);
@@ -299,19 +668,30 @@ export class IrTranslationsEntriesTable {
         return (h("span", { class: `entries-table__drag-handle ${this.reorderEnabled ? '' : '--disabled'}`, draggable: this.reorderEnabled, "data-tooltip": label, "aria-label": label, onDragStart: (e) => this.handleDragStart(e, entry), onDragEnd: this.handleDragEnd }, h("wa-icon", { name: "grip-vertical", "aria-hidden": "true" })));
     }
     // #endregion
-    renderValueCell(entry, language) {
-        const value = entry.values[language.code] ?? '';
-        const isEditing = this.editingCell?.entryId === entry.id && this.editingCell?.languageCode === language.code;
-        const ariaLabel = `${language.name} translation for ${entry.key || 'new entry'}`;
+    renderValueCell(entry, column) {
+        const isNote = column.kind === 'note';
+        const language = isNote ? undefined : this.languages.find(item => item.code === column.code);
+        const value = this.cellValue(entry, column);
+        const session = this.editSession;
+        const isEditing = !!session && session.key === `${entry.id}|${column.id}`;
+        const ariaLabel = isNote ? `${entry.key} note` : `${language?.name} translation for ${entry.key || 'new entry'}`;
+        const dir = !isNote && isRtlLanguage(column.code) ? 'rtl' : 'ltr';
         if (entry.meta?.isUpdateable === false) {
-            return (h("span", { class: "entries-table__cell-display --readonly", "aria-label": `${ariaLabel} (read-only)` }, hasValue(value) ? (h("span", { class: "entries-table__cell-text", "data-tooltip": value }, value)) : (h("span", { class: "entries-table__cell-missing" }, "Missing")), h("wa-icon", { name: "lock", class: "entries-table__cell-lock", "aria-hidden": "true" })));
+            return (h("span", { class: "entries-table__cell-display --readonly" }, hasValue(value) ? (h("span", { class: "entries-table__cell-text", "data-tooltip": value }, value)) : (h("span", { class: "entries-table__cell-missing" }, "Missing")), h("wa-icon", { name: "lock", class: "entries-table__cell-lock", "aria-hidden": "true" })));
         }
         if (isEditing) {
-            return (h("wa-input", { size: "s", value: value, class: "entries-table__cell-input", label: ariaLabel, autocomplete: "off", spellcheck: false, ref: el => (this.cellInputRef = el), oninput: (e) => (this.draft = e.target.value), onKeyDown: (e) => this.handleCellKeyDown(e, entry, language.code, value), onblur: () => this.handleCellBlur(entry, language.code), onchange: () => {
-                    this.commitDraft(entry, language.code);
-                } }));
+            return (h("wa-input", { size: "s", value: value, class: "entries-table__cell-input", label: ariaLabel, autocomplete: "off", spellcheck: false, ref: el => {
+                    // Not a JSX `dir` prop: every wa-* element declares `dir` as a
+                    // non-reflecting Lit property, so Stencil would assign the property
+                    // and the attribute directionality reads from would never be set.
+                    el?.setAttribute('dir', dir);
+                }, oninput: (e) => (session.draft = e.target.value), onKeyDown: (e) => this.handleEditorKeyDown(e, session), onblur: () => this.handleEditorBlur(session),
+                // `change` fires on Enter *and* on blur, and neither is guaranteed once
+                // the input is torn down mid-render — committing is idempotent per
+                // session, so wiring both simply means the save can't be missed.
+                onchange: () => this.commitSession(session) }));
         }
-        return (h("button", { type: "button", class: `entries-table__cell-display ${hasValue(value) ? '' : '--empty'}`, "aria-label": hasValue(value) ? `Edit ${ariaLabel}` : `Add ${ariaLabel}`, onClick: () => this.startEditing(entry, language.code) }, hasValue(value) ? (h("span", { class: "entries-table__cell-text", "data-tooltip": value }, value)) : (h("span", { class: "entries-table__cell-missing" }, "Missing"))));
+        return (h("span", { class: `entries-table__cell-display ${hasValue(value) ? '' : '--empty'}` }, hasValue(value) ? (h("span", { class: "entries-table__cell-text", "data-tooltip": value }, value)) : (h("span", { class: "entries-table__cell-missing" }, "Missing"))));
     }
     /** The duplicate badge. Its tooltip rides the shared instance like every other hover target here. */
     renderDuplicateBadge(entry) {
@@ -319,12 +699,15 @@ export class IrTranslationsEntriesTable {
         if (!duplicate) {
             return null;
         }
+        // Other used tables only — the row's own table is never counted (see buildDuplicateMap).
         const tableCount = duplicate.tables.length;
-        // OCCURRENCES counts rows, not tables — they diverge when a description repeats
-        // inside one table, which is worth calling out rather than hiding behind a table count.
-        const label = duplicate.occurrences > tableCount
-            ? `${duplicate.occurrences} entries across ${tableCount} tables: ${duplicate.tables.join(', ')}`
-            : `Appears in ${tableCount} tables: ${duplicate.tables.join(', ')}`;
+        const rowCount = duplicate.siblings.length;
+        const tables = duplicate.tables.join(', ');
+        // Rows and tables diverge when a description repeats inside one table, which is
+        // worth calling out rather than hiding behind a table count.
+        const label = rowCount > tableCount
+            ? `${rowCount} matching entries in ${tableCount} other ${tableCount === 1 ? 'table' : 'tables'} (${tables}) — language edits sync there`
+            : `Also in ${tableCount} other ${tableCount === 1 ? 'table' : 'tables'} (${tables}) — language edits sync there`;
         return (h("span", { class: "entries-table__dup-badge", "data-tooltip": label, "aria-label": label,
             // The whole key cell opens the entry drawer — the badge is a hover target, not a way in.
             onClick: (event) => event.stopPropagation() }, h("wa-icon", { name: "clone", "aria-hidden": "true" }), tableCount));
@@ -337,7 +720,7 @@ export class IrTranslationsEntriesTable {
         return (h("span", { class: "entries-table__lang-head" }, h("abbr", { class: "entries-table__lang-code", "data-tooltip": language.name, "aria-label": language.name }, language.code.toUpperCase()), language.code === this.sourceCode && h("span", { class: "entries-table__lang-source" }, "source")));
     }
     renderActionsCell(entry) {
-        return (h("wa-dropdown", { "onwa-select": (e) => this.handleRowAction(e.detail.item.value, entry) }, h("ir-custom-button", { slot: "trigger", appearance: "plain", variant: "neutral", iconBtn: true }, h("wa-icon", { name: "ellipsis", label: `Actions for ${entry.key || 'entry'}` })), h("wa-dropdown-item", { value: "edit", disabled: entry.meta?.isUpdateable === false }, h("wa-icon", { slot: "icon", name: "pen" }), "Edit all languages"), h("wa-dropdown-item", { value: "copy" }, h("wa-icon", { slot: "icon", name: "clipboard" }), "Copy key"), h("wa-dropdown-item", { value: "toggle-visibility" }, h("wa-icon", { slot: "icon", name: entry.meta?.isVisible === false ? 'eye' : 'eye-slash' }), entry.meta?.isVisible === false ? 'Show in app' : 'Hide from app'), h("wa-dropdown-item", { value: "delete", variant: "danger", disabled: entry.meta?.isDeleteable === false }, h("wa-icon", { slot: "icon", name: "trash-can" }), "Delete")));
+        return (h("wa-dropdown", { "onwa-select": (e) => this.handleRowAction(e.detail.item.value, entry) }, h("ir-custom-button", { slot: "trigger", appearance: "plain", variant: "neutral", iconBtn: true }, h("wa-icon", { name: "ellipsis", label: `Actions for ${entry.key || 'entry'}` })), h("wa-dropdown-item", { value: "edit", disabled: entry.meta?.isUpdateable === false }, h("wa-icon", { slot: "icon", name: "pen" }), "Edit all languages"), h("wa-dropdown-item", { value: "copy" }, h("wa-icon", { slot: "icon", name: "clipboard" }), "Copy key"), h("wa-dropdown-item", { value: "copy-row" }, h("wa-icon", { slot: "icon", name: "clone" }), "Copy row"), h("wa-dropdown-item", { value: "move", disabled: entry.meta?.isUpdateable === false }, h("wa-icon", { slot: "icon", name: "arrow-right-arrow-left" }), "Move to table\u2026"), h("wa-dropdown-item", { value: "toggle-visibility" }, h("wa-icon", { slot: "icon", name: entry.meta?.isVisible === false ? 'eye' : 'eye-slash' }), entry.meta?.isVisible === false ? 'Show in app' : 'Hide from app'), h("wa-dropdown-item", { value: "delete", variant: "danger" }, h("wa-icon", { slot: "icon", name: "trash-can" }), t('Lcz_Delete', { fallback: 'Delete' }))));
     }
     buildColumns() {
         const helper = createColumnHelper();
@@ -352,14 +735,23 @@ export class IrTranslationsEntriesTable {
                 header: () => 'Key',
                 cell: info => this.renderKeyCell(info.row.original),
             }),
+            ...(this.showNotes
+                ? [
+                    helper.display({
+                        id: 'notes',
+                        header: 'Notes',
+                        cell: info => this.renderValueCell(info.row.original, { id: 'notes', kind: 'note' }),
+                    }),
+                ]
+                : []),
             ...this.languages.map(language => helper.accessor(row => row.values[language.code] ?? '', {
                 id: language.code,
                 header: () => this.renderLangHead(language),
-                cell: info => this.renderValueCell(info.row.original, language),
+                cell: info => this.renderValueCell(info.row.original, { id: language.code, kind: 'lang', code: language.code }),
             })),
             helper.display({
                 id: 'actions',
-                header: () => h("span", { class: "entries-table__sr-only" }, "Actions"),
+                header: () => h("span", { class: "entries-table__sr-only" }, t('Lcz_Actions', { fallback: 'Actions' })),
                 cell: info => this.renderActionsCell(info.row.original),
             }),
         ];
@@ -372,18 +764,28 @@ export class IrTranslationsEntriesTable {
     get pinnedLanguageCode() {
         return this.languages[0]?.code;
     }
-    renderCell(cell) {
+    renderCell(cell, rowIndex) {
         const columnId = cell.column.id;
         const isLangColumn = this.languages.some(language => language.code === columnId);
+        const columns = this.navColumns;
+        const colIndex = columns.findIndex(column => column.id === columnId);
+        const column = colIndex === -1 ? null : columns[colIndex];
+        const entry = cell.row.original;
+        const isActive = !!column && this.activeCell.row === rowIndex && this.activeCell.col === colIndex;
+        const isLocked = entry.meta?.isUpdateable === false;
         return (h("td", { key: cell.id, class: {
                 'entries-table__key': columnId === 'key',
                 'entries-table__source-cell': isLangColumn && columnId === this.pinnedLanguageCode,
-                'entries-table__value-cell': isLangColumn,
+                'entries-table__value-cell': isLangColumn || columnId === 'notes',
                 'entries-table__actions': columnId === 'actions',
                 'entries-table__drag-cell': columnId === 'drag',
-            }, onClick: columnId === 'key' ? () => this.editEntry.emit(cell.row.original) : undefined }, flexRender(cell.column.columnDef.cell, cell.getContext())));
+            },
+            // The cell itself is the focus target, not the content inside it: one uniform
+            // roving tab stop for Key, Notes, language and Actions cells, and no focusable
+            // button nested inside a focusable gridcell.
+            tabindex: column ? (isActive ? '0' : '-1') : undefined, "data-row": column ? rowIndex : undefined, "data-col": column ? colIndex : undefined, "aria-readonly": column && (column.kind === 'note' || column.kind === 'lang') && isLocked ? 'true' : undefined, onKeyDown: column ? (e) => this.handleGridKeyDown(e, rowIndex, colIndex) : undefined, onFocus: column ? (e) => this.handleCellFocus(rowIndex, colIndex, e.currentTarget) : undefined, onClick: column ? () => this.handleCellClick(entry, column, rowIndex, colIndex) : undefined }, flexRender(cell.column.columnDef.cell, cell.getContext())));
     }
-    renderRow(row) {
+    renderRow(row, rowIndex) {
         const entry = row.original;
         return (h("tr", { key: row.id, class: {
                 'ir-table-row': true,
@@ -391,7 +793,7 @@ export class IrTranslationsEntriesTable {
                 'entries-table__row--reordered': this.changedEntryIds.has(entry.id),
                 'entries-table__row--hidden': entry.meta?.isVisible === false,
                 'entries-table__row--deleted': entry.meta?.isDeleted === true,
-            }, onDragOver: (e) => this.handleDragOver(e, entry), onDrop: (e) => e.preventDefault() }, row.getVisibleCells().map(cell => this.renderCell(cell))));
+            }, onDragOver: (e) => this.handleDragOver(e, entry), onDrop: (e) => e.preventDefault() }, row.getVisibleCells().map(cell => this.renderCell(cell, rowIndex))));
     }
     // #region Table grouping
     toggleGroup(name) {
@@ -406,7 +808,7 @@ export class IrTranslationsEntriesTable {
     }
     renderGroupHeader(name, count) {
         const collapsed = this.collapsedTables.has(name);
-        return (h("tr", { key: `group:${name}`, class: "entries-table__group-row" }, h("td", { class: "entries-table__group-cell", colSpan: 3 + this.languages.length }, h("button", { type: "button", class: "entries-table__group-toggle", "aria-expanded": collapsed ? 'false' : 'true', onClick: () => this.toggleGroup(name) }, h("wa-icon", { class: "entries-table__group-chevron", name: "chevron-down", "aria-hidden": "true" }), h("span", { class: "entries-table__group-name" }, name), h("span", { class: "entries-table__group-count" }, count, " key", count === 1 ? '' : 's')))));
+        return (h("tr", { key: `group:${name}`, class: "entries-table__group-row" }, h("td", { class: "entries-table__group-cell", colSpan: (this.showNotes ? 4 : 3) + this.languages.length }, h("button", { type: "button", class: "entries-table__group-toggle", "aria-expanded": collapsed ? 'false' : 'true', onClick: () => this.toggleGroup(name) }, h("wa-icon", { class: "entries-table__group-chevron", name: "chevron-down", "aria-hidden": "true" }), h("span", { class: "entries-table__group-name" }, name), h("span", { class: "entries-table__group-count" }, count, " key", count === 1 ? '' : 's')))));
     }
     /**
      * Opens a group header row each time the table name changes and drops the rows
@@ -421,6 +823,9 @@ export class IrTranslationsEntriesTable {
         });
         const nodes = [];
         let currentGroup = null;
+        // Counts only the rows that actually render, so `data-row` lines up with
+        // `visibleEntries` — the list arrow keys walk.
+        let visibleIndex = 0;
         rows.forEach(row => {
             const name = row.original.tableName ?? '';
             if (name !== currentGroup) {
@@ -428,7 +833,8 @@ export class IrTranslationsEntriesTable {
                 nodes.push(this.renderGroupHeader(name, counts.get(name) ?? 0));
             }
             if (!this.collapsedTables.has(name)) {
-                nodes.push(this.renderRow(row));
+                nodes.push(this.renderRow(row, visibleIndex));
+                visibleIndex += 1;
             }
         });
         return nodes;
@@ -447,24 +853,26 @@ export class IrTranslationsEntriesTable {
         if (this.dragEntries.length === 0 || this.languages.length === 0) {
             return h(Host, { class: "--empty" }, this.renderEmptyState());
         }
+        this.clampActiveCell();
         const columns = this.buildColumns();
         const table = useTable({
             data: this.dragEntries,
             columns,
             getCoreRowModel: getCoreRowModel(),
         });
-        // Fixed columns (drag handle, key, actions) stay a constant width; language
-        // columns split whatever's left in the container equally, with a 200px
-        // floor below which the table falls back to its own horizontal scroll
-        // instead of squeezing columns further.
-        const fixedColsWidth = 32 + 220 + 44;
+        // Fixed columns (drag handle, key, notes, actions) stay a constant width;
+        // language columns split whatever's left in the container equally, with a
+        // 200px floor below which the table falls back to its own horizontal
+        // scroll instead of squeezing columns further.
+        const notesColWidth = 180;
+        const fixedColsWidth = 32 + 220 + 44 + (this.showNotes ? notesColWidth : 0);
         const minLangColWidth = 200;
         const langColWidth = Math.max(minLangColWidth, Math.floor((this.containerWidth - fixedColsWidth) / this.languages.length));
         const minWidth = fixedColsWidth + langColWidth * this.languages.length;
-        return (h(Host, { class: this.compact ? '--compact' : '' }, h("div", { class: "table--container", ref: el => (this.containerRef = el), onDragOver: this.handleContainerDragOver, onMouseOver: this.handleTooltipOver, onMouseLeave: this.hideTooltip, onScroll: this.hideTooltip }, h("table", { class: "table data-table entries-table__table", style: { minWidth: `${minWidth}px` } }, h("colgroup", null, h("col", { class: "entries-table__col--drag" }), h("col", { class: "entries-table__col--key" }), h("col", { class: "entries-table__col--lang", span: this.languages.length, style: { width: `${langColWidth}px` } }), h("col", { class: "entries-table__col--actions" })), h("thead", null, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, scope: "col", class: {
+        return (h(Host, { class: this.compact ? '--compact' : '' }, h("div", { class: "table--container", ref: el => (this.containerRef = el), onDragOver: this.handleContainerDragOver, onMouseOver: this.handleTooltipOver, onMouseLeave: this.hideTooltip, onScroll: this.hideTooltip }, h("table", { role: "grid", class: "table data-table entries-table__table", style: { minWidth: `${minWidth}px` } }, h("colgroup", null, h("col", { class: "entries-table__col--drag" }), h("col", { class: "entries-table__col--key" }), this.showNotes && h("col", { class: "entries-table__col--notes", style: { width: `${notesColWidth}px` } }), h("col", { class: "entries-table__col--lang", span: this.languages.length, style: { width: `${langColWidth}px` } }), h("col", { class: "entries-table__col--actions" })), h("thead", null, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, scope: "col", class: {
                 'entries-table__key-head': header.column.id === 'key',
                 'entries-table__source-head': header.column.id === this.pinnedLanguageCode,
-            } }, !header.isPlaceholder && flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", null, this.groupByTable ? this.renderGroupedRows(table.getRowModel().rows) : table.getRowModel().rows.map(row => this.renderRow(row)), h("tr", { class: 'last__row' }, h("td", { colSpan: 10 }))))), h("wa-tooltip", { class: "entries-table__tooltip", ref: el => (this.tooltipRef = el), trigger: "manual", placement: "top" })));
+            } }, !header.isPlaceholder && flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", null, this.groupByTable ? this.renderGroupedRows(table.getRowModel().rows) : table.getRowModel().rows.map((row, index) => this.renderRow(row, index)), h("tr", { class: 'last__row' }, h("td", { colSpan: 10 }))))), h("wa-tooltip", { class: "entries-table__tooltip", ref: el => (this.tooltipRef = el), trigger: "manual", placement: "top" })));
     }
     static get is() { return "ir-translations-entries-table"; }
     static get encapsulation() { return "scoped"; }
@@ -680,12 +1088,32 @@ export class IrTranslationsEntriesTable {
                 "getter": false,
                 "setter": false,
                 "defaultValue": "new Map()"
+            },
+            "showNotes": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Whether the notes column is included at all."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "show-notes",
+                "defaultValue": "true"
             }
         };
     }
     static get states() {
         return {
-            "editingCell": {},
+            "editingKey": {},
             "dragEntries": {},
             "draggingId": {},
             "containerWidth": {},
@@ -746,6 +1174,28 @@ export class IrTranslationsEntriesTable {
                 "docs": {
                     "tags": [],
                     "text": ""
+                },
+                "complexType": {
+                    "original": "TranslationEntry",
+                    "resolved": "TranslationEntry",
+                    "references": {
+                        "TranslationEntry": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/ir-translations-manager/types.ts::TranslationEntry",
+                            "referenceLocation": "TranslationEntry"
+                        }
+                    }
+                }
+            }, {
+                "method": "moveEntry",
+                "name": "moveEntry",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "\"Move to table\u2026\" \u2014 the parent opens the move dialog for this row."
                 },
                 "complexType": {
                     "original": "TranslationEntry",

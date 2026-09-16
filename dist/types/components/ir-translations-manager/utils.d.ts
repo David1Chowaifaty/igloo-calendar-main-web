@@ -1,4 +1,5 @@
-import { TranslationEntry, TranslationLanguage } from './types';
+import type { DuplicatedSetupEntriesAcrossTables } from "../../services/setup/index";
+import { DuplicateInfo, TranslationEntry, TranslationLanguage } from './types';
 /** A translation counts as present only when it holds non-whitespace text. */
 export declare function hasValue(value: string | undefined): boolean;
 /** How many of `languages` are still untranslated for a single entry. */
@@ -13,3 +14,17 @@ export declare function orderLanguages(languages: TranslationLanguage[]): Transl
 export declare function hasExplicitOrder(entries: TranslationEntry[]): boolean;
 /** Leaves fetch order alone until a display order has actually been set. */
 export declare function sortByDisplayOrder(entries: TranslationEntry[]): TranslationEntry[];
+/** What "Copy row" keeps: the key plus every translation, but none of the row's Setup bookkeeping. */
+export type CopiedEntry = Pick<TranslationEntry, 'key' | 'values'>;
+export declare function setCopiedEntry(entry: TranslationEntry): void;
+export declare function getCopiedEntry(): CopiedEntry | null;
+/** The language codes whose value differs between two versions of a row, with the new values. */
+export declare function diffValues(before: Record<string, string> | undefined, after: Record<string, string>): Record<string, string>;
+/**
+ * Flattens the API's per-description groups into a per-row lookup keyed by the same
+ * `TBL_NAME::CODE_NAME` id the entries carry. Only tables the codebase actually reads
+ * count, and a row's own table never does — so a description that also lives in one
+ * unused table gets no badge and no propagation, while one repeated twice inside a
+ * single other table yields two siblings in one table.
+ */
+export declare function buildDuplicateMap(groups: DuplicatedSetupEntriesAcrossTables[] | null | undefined): Map<string, DuplicateInfo>;

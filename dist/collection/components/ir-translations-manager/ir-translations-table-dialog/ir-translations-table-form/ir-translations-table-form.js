@@ -2,6 +2,7 @@ import { SetupService } from "../../../../services/setup/index";
 import { showToast } from "../../../../utils/utils";
 import { h } from "@stencil/core";
 import { buildEditSetupParams } from "../../setup-mapping";
+import { t } from "../../../../services/locale/t";
 /**
  * Owns the table name draft and saves it directly — the dialog around this
  * form is a dumb open/close shell.
@@ -86,7 +87,7 @@ export class IrTranslationsTableForm {
         }
     };
     render() {
-        return (h("form", { key: 'c5dd9801af702d26ebea024efe8990be2cf39532', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, h("ir-input", { key: '112051d4db6a04bd7f86e095439019aeaaadb6e0', label: "Name", autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (h("p", { key: '8099ed0a2a1ecef4af0034310e498dc31a9efa63', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
+        return (h("form", { key: 'c0c9b7f1a41f95c069c97776fd379000ffad9c53', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, h("ir-input", { key: '5a2bc3dc4769925ba7acc114fd65085e8a0f7048', label: t('Lcz_Name', { fallback: 'Name' }), autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (h("p", { key: '1f2ada860a27a78e01a93d9d5d46fd0c9b7faa35', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
     }
     static get is() { return "ir-translations-table-form"; }
     static get encapsulation() { return "scoped"; }

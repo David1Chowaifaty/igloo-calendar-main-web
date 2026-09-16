@@ -8,6 +8,8 @@ import { FdTypes } from "../../../types/enums";
 import { _formatTime } from "../../ir-booking-details/functions";
 import { formatDate } from "../../../utils/date/index";
 import { LocaleController } from "../../../services/locale/locale.controller";
+import { t } from "../../../services/locale/t";
+import { formatBookingNumber } from "../../../utils/number";
 const PAGE_SIZES = [20, 50, 100];
 export class IrFiscalDocumentsTable {
     rows = [];
@@ -105,7 +107,7 @@ export class IrFiscalDocumentsTable {
     get columns() {
         const base = [
             this.columnHelper.accessor('DOC_DATE', {
-                header: 'Date',
+                header: t('Lcz_DateLabel', { fallback: 'Date' }),
                 cell: info => {
                     const row = info.row.original;
                     const date = formatDate(info.getValue(), 'MMM DD, YYYY');
@@ -114,7 +116,7 @@ export class IrFiscalDocumentsTable {
                 enableSorting: true,
             }),
             this.columnHelper.accessor('DOC_NUMBER', {
-                header: 'Doc Number',
+                header: t('Lcz_DocNumber', { fallback: 'Doc Number' }),
                 cell: info => {
                     const row = info.row.original;
                     const value = info.getValue() ?? '';
@@ -123,12 +125,12 @@ export class IrFiscalDocumentsTable {
                     // Agent documents open the city-ledger fiscal-document preview; guest
                     // documents open the invoice/credit-note PDF (ir-guest-billing flow).
                     const onClick = row.TARGET_TYPE === 'GUEST' ? () => this.emitGuestPreview(row) : () => this.emitPreview(row);
-                    return (h("wa-button", { onClick: onClick, variant: "brand", appearance: "plain", class: "fiscal-table__doc-number" }, value));
+                    return (h("wa-button", { onClick: onClick, variant: "brand", appearance: "plain", class: "fiscal-table__doc-number" }, formatBookingNumber(value)));
                 },
             }),
             this.columnHelper.accessor('DOC_TYPE', {
                 id: 'type',
-                header: 'Type',
+                header: t('Lcz_Type', { fallback: 'Type' }),
                 cell: info => {
                     const code = info.row.original.FD_TYPE_CODE;
                     // Display the localized `_FD_TYPE` label, falling back to the raw code.
@@ -142,20 +144,20 @@ export class IrFiscalDocumentsTable {
         if (this.showAgentName && this.rows.some(r => r.TARGET_TYPE === 'AGENT')) {
             identityCols.push(this.columnHelper.accessor('AGENT_NAME', {
                 id: 'agentName',
-                header: 'Agent',
+                header: t('Lcz_Agent', { fallback: 'Agent' }),
                 cell: info => h("span", null, info.getValue() ?? ''),
             }));
         }
         if (this.showGuestName && this.rows.some(r => r.TARGET_TYPE === 'GUEST')) {
             identityCols.push(this.columnHelper.accessor('GUEST_NAME', {
                 id: 'guestName',
-                header: 'Guest',
+                header: t('Lcz_Guest', { fallback: 'Guest' }),
                 cell: info => h("span", null, info.getValue() ?? ''),
             }));
         }
         identityCols.push(this.columnHelper.accessor('BOOKING_NUMBER', {
             id: 'bookingNumber',
-            header: 'Booking #',
+            header: t('Lcz_BookingNumberColumn', { fallback: 'Booking #' }),
             cell: info => {
                 const bookingNbr = info.getValue();
                 if (!bookingNbr)
@@ -165,25 +167,25 @@ export class IrFiscalDocumentsTable {
         }));
         if (!this.taxableOnly) {
             identityCols.push(this.columnHelper.accessor('DEBIT', {
-                header: 'Debit',
+                header: t('Lcz_DebitColumn', { fallback: 'Debit' }),
                 cell: info => h("span", null, this.renderMoney(info.getValue())),
             }));
             identityCols.push(this.columnHelper.accessor('CREDIT', {
-                header: 'Credit',
+                header: t('Lcz_CreditColumn', { fallback: 'Credit' }),
                 cell: info => h("span", null, this.renderMoney(this.getCredit(info))),
             }));
         }
         else {
             identityCols.push(this.columnHelper.accessor('NET_AMOUNT', {
-                header: 'Net amount',
+                header: t('Lcz_NetAmount', { fallback: 'Net amount' }),
                 cell: info => h("span", null, this.renderMoney(info.getValue())),
             }));
             identityCols.push(this.columnHelper.accessor('TAX_AMOUNT', {
-                header: 'Tax amount',
+                header: t('Lcz_TaxAmount', { fallback: 'Tax amount' }),
                 cell: info => h("span", null, this.renderMoney(info.getValue())),
             }));
             identityCols.push(this.columnHelper.accessor('TOTAL_AMOUNT', {
-                header: 'Total',
+                header: t('Lcz_Total', { fallback: 'Total' }),
                 cell: info => this.renderMoney(info.getValue()),
             }));
         }
@@ -192,7 +194,7 @@ export class IrFiscalDocumentsTable {
             ...identityCols,
             this.columnHelper.display({
                 id: 'actions',
-                header: 'Action',
+                header: t('Lcz_Action', { fallback: 'Action' }),
                 cell: info => {
                     const row = info.row.original;
                     return (h("ir-custom-button", { appearance: "plain", onClickHandler: () => {
@@ -216,7 +218,7 @@ export class IrFiscalDocumentsTable {
     render() {
         if (!this.hasFetched) {
             const hasDate = !!(this.fromDate || this.toDate);
-            return (h(Host, null, h("div", { class: "fiscal-table__date-prompt" }, h("div", { class: "fiscal-table__date-prompt-icon" }, h("wa-icon", { name: "calendar-days" })), h("p", { class: "fiscal-table__date-prompt-title" }, "Select a date range to get started"), hasDate && (h("wa-animation", { iterations: 1, play: true, id: "cleanAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { size: "s", variant: "brand", onClickHandler: () => this.fetchRequested.emit() }, h("wa-icon", { slot: "start", name: "magnifying-glass" }), "Load Documents"))))));
+            return (h(Host, null, h("div", { class: "fiscal-table__date-prompt" }, h("div", { class: "fiscal-table__date-prompt-icon" }, h("wa-icon", { name: "calendar-days" })), h("p", { class: "fiscal-table__date-prompt-title" }, t('Lcz_SelectDateRangeToGetStarted', { fallback: 'Select a date range to get started' })), hasDate && (h("wa-animation", { iterations: 1, play: true, id: "cleanAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { size: "s", variant: "brand", onClickHandler: () => this.fetchRequested.emit() }, h("wa-icon", { slot: "start", name: "magnifying-glass" }), t('Lcz_LoadDocuments', { fallback: 'Load Documents' })))))));
         }
         const columns = this.columns;
         const table = useTable({
@@ -239,7 +241,7 @@ export class IrFiscalDocumentsTable {
                 'fiscal-table__cell--numeric': numericColumnIds.includes(cell.column.id),
                 'fiscal-table__cell--actions': cell.column.id === 'actions',
                 'fiscal-table__cell--doc-number': cell.column.id === 'DOC_NUMBER' || cell.column.id === 'bookingNumber',
-            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", null, h("td", { class: "empty-row", colSpan: columns.length }, this.isLoading ? h("ir-spinner", null) : 'No fiscal documents match the current filters.')))))), this.totalRecords > 0 && (h("ir-pagination", { class: "data-table--pagination", showing: showing, total: this.totalRecords, pages: totalPages, pageSize: this.pageSize, currentPage: this.currentPage, allowPageSizeChange: true, pageSizes: PAGE_SIZES, recordLabel: "documents", onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) }))));
+            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", null, h("td", { class: "empty-row", colSpan: columns.length }, this.isLoading ? h("ir-spinner", null) : t('Lcz_NoFiscalDocumentsMatchFilters', { fallback: 'No fiscal documents match the current filters.' }))))))), this.totalRecords > 0 && (h("ir-pagination", { class: "data-table--pagination", showing: showing, total: this.totalRecords, pages: totalPages, pageSize: this.pageSize, currentPage: this.currentPage, allowPageSizeChange: true, pageSizes: PAGE_SIZES, recordLabel: "documents", onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) }))));
     }
     static get is() { return "ir-fiscal-documents-table"; }
     static get encapsulation() { return "scoped"; }

@@ -237,6 +237,10 @@
   padding: 0;
   font-size: var(--wa-font-size-s);
 }
+/* `Lcz_For` is capitalised; here it is a connector mid-sentence ("for INV-123"). */
+.fd_ss__connector {
+  text-transform: lowercase;
+}
 .fiscal-table__date-cell {
   display: flex;
   align-items: baseline;
