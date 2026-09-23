@@ -29,9 +29,9 @@ export class IrBookingNewForm {
         };
     }
     render() {
-        return (h(Host, { key: '3b6dc81186fa7217416d2171edf4825eae281ebb' }, h("div", { key: 'ffaa0d26f9320441b96408fb8623af072f3e7f27', onClick: () => {
+        return (h(Host, { key: 'f6bfacdd5c7efd6ef3723293bff098c3d726d350' }, h("div", { key: '69416446269bb870d4325b06727c47fe79040295', onClick: () => {
                 this.handleTriggerClicked();
-            } }, h("slot", { key: '7781e468aece48e55893b8f92c047efe132f35e8', name: "trigger" }, h("ir-custom-button", { key: 'b1136811e692f2075f2b35ba28325797179e129a', appearance: "plain", variant: "brand" }, h("wa-icon", { key: '0e1da5b6886307fae661d253bd380eb9766cf48a', name: "circle-plus", style: { fontSize: '1.2rem' } })))), h("ir-booking-editor-drawer", { key: '9fa38268bf73dc4b5545966e6f9a7ce65459ae09', onBookingEditorClosed: e => {
+            } }, h("slot", { key: '0007b84426be8804129bb26f63d5ee87d8cab494', name: "trigger" }, h("ir-custom-button", { key: '895f5a30964c0df2ac674384d0dea7335e8325ea', appearance: "plain", variant: "brand" }, h("wa-icon", { key: '6a6a794021b0e857fee2c3d30c27b95a6a0ef5f7', name: "circle-plus", style: { fontSize: '1.2rem' } })))), h("ir-booking-editor-drawer", { key: '49142be4f0bb64c1821fbfe88e46b4f0aa730a59', onBookingEditorClosed: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingItem = null;

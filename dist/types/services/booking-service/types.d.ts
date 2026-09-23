@@ -1052,6 +1052,7 @@ export declare const ExposedGuestSchema: z.ZodObject<{
     notes?: null;
     mobile?: string;
     password?: null;
+    country?: null;
     first_name?: string;
     last_name?: string;
     dob?: null;
@@ -1059,7 +1060,6 @@ export declare const ExposedGuestSchema: z.ZodObject<{
     is_main?: boolean;
     alternative_email?: null;
     cci?: null;
-    country?: null;
     country_phone_prefix?: string;
     mobile_without_prefix?: string;
     nbr_confirmed_bookings?: number;
@@ -1073,6 +1073,7 @@ export declare const ExposedGuestSchema: z.ZodObject<{
     notes?: null;
     mobile?: string;
     password?: null;
+    country?: null;
     first_name?: string;
     last_name?: string;
     dob?: null;
@@ -1080,7 +1081,6 @@ export declare const ExposedGuestSchema: z.ZodObject<{
     is_main?: boolean;
     alternative_email?: null;
     cci?: null;
-    country?: null;
     country_phone_prefix?: string;
     mobile_without_prefix?: string;
     nbr_confirmed_bookings?: number;
@@ -1117,6 +1117,7 @@ export declare const ExposedGuestsSchema: z.ZodArray<z.ZodObject<{
     notes?: null;
     mobile?: string;
     password?: null;
+    country?: null;
     first_name?: string;
     last_name?: string;
     dob?: null;
@@ -1124,7 +1125,6 @@ export declare const ExposedGuestsSchema: z.ZodArray<z.ZodObject<{
     is_main?: boolean;
     alternative_email?: null;
     cci?: null;
-    country?: null;
     country_phone_prefix?: string;
     mobile_without_prefix?: string;
     nbr_confirmed_bookings?: number;
@@ -1138,6 +1138,7 @@ export declare const ExposedGuestsSchema: z.ZodArray<z.ZodObject<{
     notes?: null;
     mobile?: string;
     password?: null;
+    country?: null;
     first_name?: string;
     last_name?: string;
     dob?: null;
@@ -1145,7 +1146,6 @@ export declare const ExposedGuestsSchema: z.ZodArray<z.ZodObject<{
     is_main?: boolean;
     alternative_email?: null;
     cci?: null;
-    country?: null;
     country_phone_prefix?: string;
     mobile_without_prefix?: string;
     nbr_confirmed_bookings?: number;

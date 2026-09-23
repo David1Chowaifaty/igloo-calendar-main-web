@@ -1,4 +1,4 @@
-import { HouseKeepingService } from "../../../../../services/housekeeping.service";
+import { HouseKeepingService } from "../../../../../services/housekeeping/index";
 import calendar_data from "../../../../../stores/calendar-data";
 import housekeeping_store from "../../../../../stores/housekeeping.store";
 import { h } from "@stencil/core";
@@ -98,10 +98,10 @@ export class IrHkUnassignedUnitsDrawerForm {
         });
     }
     render() {
-        return (h("form", { key: '00429912cdf12f0fa80a1791a5dc4fcc63931987', id: this.formId, onSubmit: e => {
+        return (h("form", { key: '3bebf07ac25b581a3731408b04165413033e6ab3', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.assignUnits();
-            } }, h("table", { key: '7f8687b80974a45d91c64cba1be4de14d5f15f99' }, h("thead", { key: '82a98b42bb23d5d5cf623d2e33b8727d10af9a21' }, h("th", { key: '6acfeb71e547121154b3a8d014fe85402e362559', class: "sr-only" }, t('Lcz_RoomName', { fallback: 'room name' })), h("th", { key: '47e473e2f411ea78fd2de13303b3dc601fbd0964', class: "sr-only" }, t('Lcz_HousekeeperName', { fallback: 'housekeeper name' })), h("th", { key: '91e8a5fe2a32336d58848de878318e07409839b5', class: "sr-only" }, t('Lcz_Actions', { fallback: 'Actions' }))), h("tbody", { key: 'b679684342462557894faf0106e0256fab0f0fbf' }, this.renderRooms()))));
+            } }, h("table", { key: 'b55ae4712ed32d61150b0f0333c00d5070d0a269' }, h("thead", { key: 'ed58ff45958275f9373c3d779abaef21af45a7cf' }, h("th", { key: 'f5fcf791807b62d985d9c03aed2add8e9dc86e62', class: "sr-only" }, t('Lcz_RoomName', { fallback: 'room name' })), h("th", { key: 'b8e30217e0196d386903fcd3756caad677873f89', class: "sr-only" }, t('Lcz_HousekeeperName', { fallback: 'housekeeper name' })), h("th", { key: 'bb0499a1ba3c1b017ccfe3311ad0e72bf3f85b1f', class: "sr-only" }, t('Lcz_Actions', { fallback: 'Actions' }))), h("tbody", { key: '186864f8575914bbdcb759baf92a19cf3a455b97' }, this.renderRooms()))));
     }
     static get is() { return "ir-hk-unassigned-units-drawer-form"; }
     static get encapsulation() { return "scoped"; }

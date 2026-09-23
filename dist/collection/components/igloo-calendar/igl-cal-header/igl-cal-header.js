@@ -1,11 +1,10 @@
 import { Host, h } from "@stencil/core";
-import { ToBeAssignedService } from "../../../services/toBeAssigned.service";
-import { dateToFormattedString } from "../../../utils/utils";
+import { convertDMYToISO } from "../../../utils/utils";
 import moment from "moment";
 import locales from "../../../stores/locales.store";
-import { handleUnAssignedDatesChange } from "../../../stores/unassigned_dates.store";
-import { isRtlDirection } from "../../../utils/calendar-grid";
+import { getUnassignedUnitsCountForDate, isUnassignedUnitsDateLoading } from "../../../stores/unassigned-units.store";
 import { t } from "../../../services/locale/t";
+import { isRtlDirection } from "../../../utils/direction";
 export class IglCalHeader {
     optionEvent;
     gotoRoomEvent;
@@ -13,31 +12,18 @@ export class IglCalHeader {
     calendarData;
     today;
     propertyid;
-    unassignedDates;
     to_date;
     highlightedDate;
     dayUseBookings = [];
     renderAgain = false;
-    unassignedRoomsNumber = {};
     roomsList = [];
-    toBeAssignedService = new ToBeAssignedService();
     componentWillLoad() {
         try {
             this.initializeRoomsList();
-            if (!this.calendarData.is_vacation_rental) {
-                handleUnAssignedDatesChange('unassigned_dates', newValue => {
-                    if (Object.keys(newValue).length > 0) {
-                        this.fetchAndAssignUnassignedRooms();
-                    }
-                });
-            }
         }
         catch (error) {
             console.error('Error in componentWillLoad:', error);
         }
-    }
-    handleCalendarDataChanged() {
-        this.fetchAndAssignUnassignedRooms();
     }
     initializeRoomsList() {
         this.roomsList = [];
@@ -45,46 +31,26 @@ export class IglCalHeader {
             this.roomsList = this.roomsList.concat(...category.physicalrooms);
         });
     }
-    async fetchAndAssignUnassignedRooms() {
-        await this.assignRoomsToDate();
-    }
-    async assignRoomsToDate() {
-        try {
-            const { fromDate, toDate, data } = this.unassignedDates;
-            let dt = new Date(fromDate);
-            dt.setHours(0, 0, 0, 0);
-            let endDate = dt.getTime();
-            while (endDate <= new Date(toDate).getTime()) {
-                const selectedDate = moment(endDate).format('D_M_YYYY');
-                if (data[endDate]) {
-                    const result = await this.toBeAssignedService.getUnassignedRooms({ from_date: this.calendarData.from_date, to_date: this.calendarData.to_date }, this.propertyid, dateToFormattedString(new Date(endDate)), this.calendarData.roomsInfo, this.calendarData.formattedLegendData);
-                    this.unassignedRoomsNumber[selectedDate] = result.length;
-                }
-                else if (this.unassignedRoomsNumber[selectedDate]) {
-                    const res = this.unassignedRoomsNumber[selectedDate] - 1;
-                    this.unassignedRoomsNumber[selectedDate] = res < 0 ? 0 : res;
-                }
-                const newEndDate = moment(endDate).add(1, 'days').toDate();
-                newEndDate.setHours(0, 0, 0, 0);
-                endDate = newEndDate.getTime();
-                this.renderView();
+    /** Reads the unassigned-units store live (auto-subscribes on render), keyed by `dayInfo.day` (D_M_YYYY) after conversion to ISO. */
+    getUnassignedRoomsNumberMap() {
+        const map = {};
+        (this.calendarData.days ?? []).forEach((dayInfo) => {
+            const count = getUnassignedUnitsCountForDate(convertDMYToISO(dayInfo.day));
+            if (count > 0) {
+                map[dayInfo.day] = count;
             }
-        }
-        catch (error) {
-            console.error(error);
-        }
+        });
+        return map;
     }
-    handleReduceAvailableUnitEvent(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        const { fromDate, toDate } = event.detail;
-        let endDate = new Date(fromDate).getTime();
-        while (endDate < new Date(toDate).getTime()) {
-            const selectedDate = moment(endDate).format('D_M_YYYY');
-            this.unassignedRoomsNumber[selectedDate] = this.unassignedRoomsNumber[selectedDate] - 1;
-            endDate = moment(endDate).add(1, 'days').toDate().getTime();
-        }
-        this.renderView();
+    /** Days (D_M_YYYY) whose unassigned-units fetch is still in flight — same store subscription as the count map. */
+    getUnassignedLoadingDaysMap() {
+        const map = {};
+        (this.calendarData.days ?? []).forEach((dayInfo) => {
+            if (isUnassignedUnitsDateLoading(convertDMYToISO(dayInfo.day))) {
+                map[dayInfo.day] = true;
+            }
+        });
+        return map;
     }
     handleOptionEvent(key, data = '') {
         this.optionEvent.emit({ key, data });
@@ -147,7 +113,7 @@ export class IglCalHeader {
         }, 100);
     };
     render() {
-        return (h(Host, { key: 'afa8a4c44fcd4ac830c9591e86b412371b3dbc0e', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("igl-cal-header-toolbar", { key: '045ed6cf4286ecb893a01d896abd5faca02a29cf', isVacationRental: this.calendarData.is_vacation_rental, showDayUseButton: !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0, minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), roomsList: this.roomsList, onActionSelected: this.handleToolbarAction, onRoomSelected: this.handleRoomSelected }), h("igl-cal-header-days", { key: 'b23e4430dc6a70f3cf211be6fd27071ce72a1e78', isVacationRental: this.calendarData.is_vacation_rental, today: this.today, highlightedDate: this.highlightedDate, monthsInfo: this.calendarData.monthsInfo, days: this.calendarData.days, unassignedRoomsNumber: { ...this.unassignedRoomsNumber }, onDayBadgeClicked: this.handleDayBadgeClicked })));
+        return (h(Host, { key: 'e7fad38790ea4d799bd1e76dce7a183973c55521', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("igl-cal-header-toolbar", { key: '654353027073f6230388b1290e80e3809979e838', isVacationRental: this.calendarData.is_vacation_rental, showDayUseButton: !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0, minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), roomsList: this.roomsList, onActionSelected: this.handleToolbarAction, onRoomSelected: this.handleRoomSelected }), h("igl-cal-header-days", { key: '0e4fe6b9d4777986bf5f77c7ee215b4226ef2156', isVacationRental: this.calendarData.is_vacation_rental, today: this.today, highlightedDate: this.highlightedDate, monthsInfo: this.calendarData.monthsInfo, days: this.calendarData.days, unassignedRoomsNumber: this.getUnassignedRoomsNumberMap(), loadingDays: this.getUnassignedLoadingDaysMap(), onDayBadgeClicked: this.handleDayBadgeClicked })));
     }
     static get is() { return "igl-cal-header"; }
     static get encapsulation() { return "scoped"; }
@@ -221,25 +187,6 @@ export class IglCalHeader {
                 "reflect": false,
                 "attribute": "propertyid"
             },
-            "unassignedDates": {
-                "type": "any",
-                "mutable": false,
-                "complexType": {
-                    "original": "any",
-                    "resolved": "any",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "unassigned-dates"
-            },
             "to_date": {
                 "type": "string",
                 "mutable": false,
@@ -307,8 +254,7 @@ export class IglCalHeader {
     }
     static get states() {
         return {
-            "renderAgain": {},
-            "unassignedRoomsNumber": {}
+            "renderAgain": {}
         };
     }
     static get events() {
@@ -357,21 +303,6 @@ export class IglCalHeader {
                     "resolved": "{ [key: string]: any; }",
                     "references": {}
                 }
-            }];
-    }
-    static get watchers() {
-        return [{
-                "propName": "unassignedDates",
-                "methodName": "handleCalendarDataChanged"
-            }];
-    }
-    static get listeners() {
-        return [{
-                "name": "reduceAvailableUnitEvent",
-                "method": "handleReduceAvailableUnitEvent",
-                "target": "window",
-                "capture": false,
-                "passive": false
             }];
     }
 }

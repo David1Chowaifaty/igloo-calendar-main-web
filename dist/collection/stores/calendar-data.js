@@ -50,6 +50,21 @@ export function isSingleUnit(id) {
     calendar_data.roomHistory[id] = result;
     return result;
 }
+let roomTypeNames = null;
+// The property is re-fetched on language change, so drop the cached names whenever it is replaced.
+onCalendarDatesChange('property', () => {
+    roomTypeNames = null;
+});
+/** Room-type id → name, built once per property load from `calendar_data.property.roomtypes`. */
+export function getRoomTypeNameMap() {
+    if (!roomTypeNames) {
+        roomTypeNames = new Map((calendar_data.property?.roomtypes ?? []).map(rt => [rt.id, rt.name]));
+    }
+    return roomTypeNames;
+}
+export function getRoomTypeName(id) {
+    return getRoomTypeNameMap().get(id) ?? '';
+}
 export function isOptimReadOnly() {
     const optimIntegration = hasOptim();
     if (!optimIntegration) {

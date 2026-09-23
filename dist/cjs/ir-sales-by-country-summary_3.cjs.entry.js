@@ -1,16 +1,16 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var utils = require('./utils-oNe0zJBw.js');
-var calendarData = require('./calendar-data-UPPAEVR_.js');
+var utils = require('./utils-C5I0LkiV.js');
+var calendarData = require('./calendar-data-HgC39-BR.js');
 var t = require('./t-CyRK1btk.js');
 var number = require('./number-D7i5wAQq.js');
 var moment = require('./moment-CdViwxPQ.js');
-require('./booking.dto-CUSvGTvD.js');
+require('./booking.dto-DxxzsxJC.js');
 require('./ir-date-BZLsqCOc.js');
 require('./locales.store-BMTss6fG.js');
-require('./types-BVJQZ50e.js');
-require('./type-Bj2x9EWc.js');
+require('./types-BlCoz3jZ.js');
+require('./type-BRhg-bzd.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 
@@ -36,7 +36,7 @@ const IrSalesByCountrySummary = class {
         const lastYearTotalGuests = this.calculateTotalValues('number_of_guests', true);
         const lastYearTotalRevenue = this.calculateTotalValues('revenue', true);
         const hasLastYear = Boolean(this.salesReports?.length && this.filters?.include_previous_year);
-        return (index.h("div", { key: 'f28816bbe19915d8c72ce66dd24a50ad2e9c649e', class: "summary-row" }, index.h("ir-metric-card", { key: '390d614f212dbe1fefba6cfca43b827b53af998c', class: "summary-metric", icon: "moon", label: t.t('Lcz_TotalRoomNights', { fallback: 'Total Room Nights' }), value: number.formatCount(totalRoomNights), trend: hasLastYear ? utils.calculateTrend(totalRoomNights, lastYearTotalRoomNights) : undefined, trendLabel: t.t('Lcz_VsLastYear', { fallback: 'vs last year' }), caption: hasLastYear ? `Last year: ${lastYearTotalRoomNights}` : undefined }), index.h("ir-metric-card", { key: '29bc8ca947f17676fd6c23d81c2fd9e033944c45', class: "summary-metric", icon: "user-group", label: t.t('Lcz_TotalGuests', { fallback: 'Total Guests' }), value: number.formatCount(totalGuests), trend: hasLastYear ? utils.calculateTrend(totalGuests, lastYearTotalGuests) : undefined, trendLabel: t.t('Lcz_VsLastYear', { fallback: 'vs last year' }), caption: hasLastYear ? `Last year: ${lastYearTotalGuests}` : undefined }), index.h("ir-metric-card", { key: 'efc40fd2725f21e2b9b4a7201cedf6eed7c35403', class: "summary-metric", icon: "money-bill", label: t.t('Lcz_TotalRevenue', { fallback: 'Total Revenue' }), value: number.formatAmount(calendarData.calendar_data.currency.symbol, totalRevenue), trend: hasLastYear ? utils.calculateTrend(totalRevenue, lastYearTotalRevenue) : undefined, trendLabel: t.t('Lcz_VsLastYear', { fallback: 'vs last year' }), caption: hasLastYear ? `${t.t('Lcz_LastYear', { fallback: 'Last year:' })} ${number.formatAmount(calendarData.calendar_data.currency.symbol, lastYearTotalRevenue)}` : undefined })));
+        return (index.h("div", { key: '30f975d32535e4f6e6c19169b1ce68b403314451', class: "summary-row" }, index.h("ir-metric-card", { key: '2fb0edf058a7e4abff3c85521b2a2f0c970e154a', class: "summary-metric", icon: "moon", label: t.t('Lcz_TotalRoomNights', { fallback: 'Total Room Nights' }), value: number.formatCount(totalRoomNights), trend: hasLastYear ? utils.calculateTrend(totalRoomNights, lastYearTotalRoomNights) : undefined, trendLabel: t.t('Lcz_VsLastYear', { fallback: 'vs last year' }), caption: hasLastYear ? `Last year: ${lastYearTotalRoomNights}` : undefined }), index.h("ir-metric-card", { key: 'e6d7a40c36e86d6866f669b6f68b10bdcaa81273', class: "summary-metric", icon: "user-group", label: t.t('Lcz_TotalGuests', { fallback: 'Total Guests' }), value: number.formatCount(totalGuests), trend: hasLastYear ? utils.calculateTrend(totalGuests, lastYearTotalGuests) : undefined, trendLabel: t.t('Lcz_VsLastYear', { fallback: 'vs last year' }), caption: hasLastYear ? `Last year: ${lastYearTotalGuests}` : undefined }), index.h("ir-metric-card", { key: '4f70390d243dd9124f343d6e2997c7d89b2e9ebf', class: "summary-metric", icon: "money-bill", label: t.t('Lcz_TotalRevenue', { fallback: 'Total Revenue' }), value: number.formatAmount(calendarData.calendar_data.currency.symbol, totalRevenue), trend: hasLastYear ? utils.calculateTrend(totalRevenue, lastYearTotalRevenue) : undefined, trendLabel: t.t('Lcz_VsLastYear', { fallback: 'vs last year' }), caption: hasLastYear ? `${t.t('Lcz_LastYear', { fallback: 'Last year:' })} ${number.formatAmount(calendarData.calendar_data.currency.symbol, lastYearTotalRevenue)}` : undefined })));
     }
 };
 IrSalesByCountrySummary.style = irSalesByCountrySummaryCss();
@@ -73,9 +73,9 @@ const IrSalesFilters = class {
         this.applyFilters.emit(this.filters);
     }
     render() {
-        return (index.h("ir-filter-card", { key: 'b30a5b7deb09c744fdda82bae908502e40329454' }, index.h("wa-radio-group", { key: 'a8452e8396ab08ef1ce724de3b68b4edd7d45753', label: t.t('Lcz_Rooms', { fallback: 'Rooms' }), orientation: "horizontal", size: "s", style: { width: '100%' }, value: this.filters?.BOOK_CASE, onchange: (e) => {
+        return (index.h("ir-filter-card", { key: '4130057b061409e736fffd294554e99cec0d1335' }, index.h("wa-radio-group", { key: '1fdf874236ad800feb8d4002ee1c2a68eb07eefc', label: t.t('Lcz_Rooms', { fallback: 'Rooms' }), orientation: "horizontal", size: "s", style: { width: '100%' }, value: this.filters?.BOOK_CASE, onchange: (e) => {
                 this.updateFilter({ BOOK_CASE: e.target.value });
-            } }, index.h("wa-radio", { key: 'e5987fcde784a7fdedf32b1529e9c7c21858b9cd', style: { flex: '1 1 0%' }, appearance: "button", value: "001" }, t.t('Lcz_Booked', { fallback: 'Booked' })), index.h("wa-radio", { key: 'c691471b6fb3686a8580c841b4a538dbeb0a693c', style: { flex: '1 1 0%' }, appearance: "button", value: "002" }, t.t('Lcz_Stayed', { fallback: 'Stayed' }))), index.h("wa-select", { key: '0adec49dae2aace1ee8c94cb7d7879398766ed5d', label: t.t('Lcz_SelectedPeriod', { fallback: 'Selected period' }), size: "s", value: this.window, defaultValue: this.window, onchange: (e) => {
+            } }, index.h("wa-radio", { key: '8f2609069ec6a0db1e2ca0696efedad3b1b752ff', style: { flex: '1 1 0%' }, appearance: "button", value: "001" }, t.t('Lcz_Booked', { fallback: 'Booked' })), index.h("wa-radio", { key: 'c6f4a9159b83df4e9a4f325c20dd760cf29403b6', style: { flex: '1 1 0%' }, appearance: "button", value: "002" }, t.t('Lcz_Stayed', { fallback: 'Stayed' }))), index.h("wa-select", { key: '115116e8ca9f9c7443ea155c5619c2df0f230cca', label: t.t('Lcz_SelectedPeriod', { fallback: 'Selected period' }), size: "s", value: this.window, defaultValue: this.window, onchange: (e) => {
                 const val = e.target.value;
                 const dateDiff = Number(val);
                 this.updateFilter({
@@ -84,17 +84,17 @@ const IrSalesFilters = class {
                     FROM_DATE: moment.hooks().subtract(dateDiff, 'days').format('YYYY-MM-DD'),
                 });
                 this.window = val;
-            } }, index.h("wa-option", { key: '5eb408d694275ee2dd5a2b8136e02ed3df3cd75e', value: "7" }, t.t('Lcz_ForThePastNDays', { fallback: 'For the past %1 days', params: [number.formatCount(7)] })), index.h("wa-option", { key: 'f22333440eb597a7e0705e0f6e537fe8c419e857', value: "14" }, t.t('Lcz_ForThePastNDays', { fallback: 'For the past %1 days', params: [number.formatCount(14)] })), index.h("wa-option", { key: '6768e4ccb5ad96fdcb489d49d9b377f667bee80d', value: "30" }, t.t('Lcz_ForThePastNDays', { fallback: 'For the past %1 days', params: [number.formatCount(30)] })), index.h("wa-option", { key: 'eca5726d819204e26875a2de141085d65b43e42f', value: "60" }, t.t('Lcz_ForThePastNDays', { fallback: 'For the past %1 days', params: [number.formatCount(60)] })), index.h("wa-option", { key: '34f1940540e8304dcfb98866509ddaa34972bcdb', value: "90" }, t.t('Lcz_ForThePastNDays', { fallback: 'For the past %1 days', params: [number.formatCount(90)] })), index.h("wa-option", { key: '2cb68fca2e84b6584d50db18de2631d1151d7987', value: "365" }, t.t('Lcz_ForThePastNDays', { fallback: 'For the past %1 days', params: [number.formatCount(365)] }))), index.h("div", { key: 'f6f6ca05f4fd0d57db68c6f8bfbd1f3a211c4cfe', class: "or-divider" }, index.h("span", { key: '401eb69e5c2b597a3e58db84f78fab580e5f4d0f', class: "or-divider__line" }), index.h("span", { key: '52f523bf9d8c11def4d360d1a58244c9ad8512e9', class: "or-divider__text" }, t.t('Lcz_Or', { fallback: 'Or' })), index.h("span", { key: '5dd25c5dcf378a3f8cd4f9982f1f5ce9069dd94d', class: "or-divider__line" })), index.h("ir-date-range-filter", { key: 'b04ef803f62a5f76575bee8c8a2e224777971856', label: t.t('Lcz_DateRange', { fallback: 'Date range' }), fromDate: this.filters?.FROM_DATE, toDate: this.filters?.TO_DATE, maxDate: moment.hooks().format('YYYY-MM-DD'), selectionMode: "auto", showQuickActions: false, withClear: false, onDatesChanged: e => {
+            } }, index.h("wa-option", { key: 'ac9254291712ea8ff184af9d1876ee2f8fde52d3', value: "7" }, t.t('Lcz_ForThePastNDays', { fallback: 'For the past %1 days', params: [number.formatCount(7)] })), index.h("wa-option", { key: '4335df8f2fa849e181185411a645b852b24b10bf', value: "14" }, t.t('Lcz_ForThePastNDays', { fallback: 'For the past %1 days', params: [number.formatCount(14)] })), index.h("wa-option", { key: 'c016fdf3f2341a841c3eee64ed80c3977ca9aad2', value: "30" }, t.t('Lcz_ForThePastNDays', { fallback: 'For the past %1 days', params: [number.formatCount(30)] })), index.h("wa-option", { key: '47c786a908e73524ae814a1e9708e4ce6c9c2602', value: "60" }, t.t('Lcz_ForThePastNDays', { fallback: 'For the past %1 days', params: [number.formatCount(60)] })), index.h("wa-option", { key: '16382b294f952de8e78be92c000162ebd6f619b2', value: "90" }, t.t('Lcz_ForThePastNDays', { fallback: 'For the past %1 days', params: [number.formatCount(90)] })), index.h("wa-option", { key: 'cca32678ede2a305d021635486a2d1b471a131f7', value: "365" }, t.t('Lcz_ForThePastNDays', { fallback: 'For the past %1 days', params: [number.formatCount(365)] }))), index.h("div", { key: 'af029ac98a41fac4e8bf7136ddd27bc19e665340', class: "or-divider" }, index.h("span", { key: '64a357726a6bb22356d23d34d86601fcb5e4437d', class: "or-divider__line" }), index.h("span", { key: '70c261e90fc3aa1cf56f25d2d4b5eafe9acefd3b', class: "or-divider__text" }, t.t('Lcz_Or', { fallback: 'Or' })), index.h("span", { key: '25a59827dd34b6783778f1d0bbe83dc60e5be655', class: "or-divider__line" })), index.h("ir-date-range-filter", { key: 'f4009a9a3986bb56992f8ef32d37456e5eff2996', label: t.t('Lcz_DateRange', { fallback: 'Date range' }), fromDate: this.filters?.FROM_DATE, toDate: this.filters?.TO_DATE, maxDate: moment.hooks().format('YYYY-MM-DD'), selectionMode: "auto", showQuickActions: false, withClear: false, onDatesChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { from, to } = e.detail;
                 this.updateFilter({ FROM_DATE: from, TO_DATE: to });
                 this.window = '';
-            } }), index.h("wa-checkbox", { key: '1ca731efb8adcb79ad25f806a811053bde818a3e', checked: this.filters?.include_previous_year, onchange: (e) => {
+            } }), index.h("wa-checkbox", { key: 'a81780b72e05138d59621efda1dcf39b9f405d0a', checked: this.filters?.include_previous_year, onchange: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ include_previous_year: e.target.checked });
-            } }, t.t('Lcz_CompareWithPreviousYear', { fallback: 'Compare with previous year' })), index.h("div", { key: 'f672b7723917d520a5d28debda8f3248f49eea12', slot: "footer" }, index.h("ir-custom-button", { key: '0a037bb2b84598b76138f41bd197d8b499cdb327', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, t.t('Lcz_Reset', { fallback: 'Reset' })), index.h("ir-custom-button", { key: 'ba7fcae488090a8af08cdc8a3ebc49afbf8c27cb', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, t.t('Lcz_Apply', { fallback: 'Apply' })))));
+            } }, t.t('Lcz_CompareWithPreviousYear', { fallback: 'Compare with previous year' })), index.h("div", { key: '3b58a785df527bea5acce219d0396a1b8b693c34', slot: "footer" }, index.h("ir-custom-button", { key: 'b7cafb1d89131c7364f1874a39557ce1a0b1ba84', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, t.t('Lcz_Reset', { fallback: 'Reset' })), index.h("ir-custom-button", { key: 'c06e9aee08d20c59d918e5d58b5c61d5ce9958f5', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, t.t('Lcz_Apply', { fallback: 'Apply' })))));
     }
 };
 IrSalesFilters.style = irSalesFiltersCss();

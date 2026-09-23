@@ -61,6 +61,10 @@ export declare class ApplicablePoliciesService {
      */
     private buildCancellationStatements;
     /**
+     * Builds a synthetic bracket charging 100% of the room's total price from the given date.
+     */
+    private buildFullChargeBracket;
+    /**
      * Aggregates the guarantee commitments across the booking rooms using the
      * freshly retrieved policy data.
      */

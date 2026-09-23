@@ -1,5 +1,5 @@
 import { BookingService } from "../../../../../services/booking-service/booking.service";
-import { HouseKeepingService } from "../../../../../services/housekeeping.service";
+import { HouseKeepingService } from "../../../../../services/housekeeping/index";
 import { UserService } from "../../../../../services/user.service";
 import calendar_data from "../../../../../stores/calendar-data";
 import { getDefaultProperties } from "../../../../../stores/housekeeping.store";

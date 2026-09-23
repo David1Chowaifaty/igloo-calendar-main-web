@@ -1,5 +1,5 @@
 import ApiClient from "../../../models/ApiClient";
-import { HouseKeepingService } from "../../../services/housekeeping.service";
+import { HouseKeepingService } from "../../../services/housekeeping/index";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { formatDate } from "../../../utils/date/index";

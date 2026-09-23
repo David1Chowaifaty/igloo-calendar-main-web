@@ -30,6 +30,7 @@ export const LOCALE_TABLES = [
 export const LocaleEntryRowSchema = z.object({
     code: z.string(),
     description: z.string().nullable().default(''),
+    table_name: z.string().nullable().optional(),
 });
 /** `My_Result` of `Get_Exposed_Language`. */
 export const ExposedLanguageResultSchema = z.object({

@@ -56,7 +56,7 @@ export class IrBookingDetails {
     rerenderFlag = false;
     roomGuest;
     selectedService;
-    extraServiceDefaultPrId = null;
+    extraServiceDefaultIdentifier = null;
     showPaymentDetails;
     sidebarPayload;
     sidebarState = null;
@@ -73,10 +73,6 @@ export class IrBookingDetails {
      * Booking number used to fetch booking details.
      */
     bookingNumber = '';
-    /**
-     * Enables the check-in action in room components.
-     */
-    hasCheckIn = false;
     /**
      * Enables the check-out action in room components.
      */
@@ -249,7 +245,7 @@ export class IrBookingDetails {
                 };
                 return;
             case 'extra_service_btn':
-                this.extraServiceDefaultPrId = null;
+                this.extraServiceDefaultIdentifier = null;
                 this.sidebarState = 'extra_service';
                 return;
             case 'add-payment':
@@ -311,14 +307,14 @@ export class IrBookingDetails {
             return;
         }
         this.selectedService = service;
-        this.extraServiceDefaultPrId = null;
+        this.extraServiceDefaultIdentifier = null;
         this.sidebarState = 'extra_service';
     }
     handleAddExtraServiceToUnit(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.selectedService = null;
-        this.extraServiceDefaultPrId = e.detail.pr_id;
+        this.extraServiceDefaultIdentifier = e.detail.identifier;
         this.sidebarState = 'extra_service';
     }
     handleOpenPrintScreen(e) {
@@ -582,14 +578,14 @@ export class IrBookingDetails {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleModalConfirm();
-            }, size: "m", variant: "brand" }, t('Lcz_Confirm', { fallback: 'Confirm' })))), h("ir-room-guests", { open: this.sidebarState === 'room-guest', countries: this.countries, language: this.language, identifier: this.sidebarPayload?.identifier, bookingNumber: this.booking.booking_nbr, roomName: this.sidebarPayload?.roomName, roomType: this.sidebarPayload?.roomType, totalGuests: this.sidebarPayload?.totalGuests, sharedPersons: this.sidebarPayload?.sharing_persons, slot: "sidebar-body", checkIn: this.sidebarPayload?.checkin, onCloseModal: () => (this.sidebarState = null) }), h("ir-extra-service-config", { open: this.sidebarState === 'extra_service', service: this.selectedService, defaultPrId: this.extraServiceDefaultPrId, svcCategories: this.svcCategories, language: this.language, booking: this.booking, agent: this.agent, slot: "sidebar-body", onCloseModal: e => {
+            }, size: "m", variant: "brand" }, t('Lcz_Confirm', { fallback: 'Confirm' })))), h("ir-room-guests", { open: this.sidebarState === 'room-guest', countries: this.countries, language: this.language, identifier: this.sidebarPayload?.identifier, bookingNumber: this.booking.booking_nbr, roomName: this.sidebarPayload?.roomName, roomType: this.sidebarPayload?.roomType, totalGuests: this.sidebarPayload?.totalGuests, sharedPersons: this.sidebarPayload?.sharing_persons, slot: "sidebar-body", checkIn: this.sidebarPayload?.checkin, onCloseModal: () => (this.sidebarState = null) }), h("ir-extra-service-config", { open: this.sidebarState === 'extra_service', service: this.selectedService, defaultIdentifier: this.extraServiceDefaultIdentifier, svcCategories: this.svcCategories, language: this.language, booking: this.booking, agent: this.agent, slot: "sidebar-body", onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.sidebarState = null;
                 if (this.selectedService) {
                     this.selectedService = null;
                 }
-                this.extraServiceDefaultPrId = null;
+                this.extraServiceDefaultIdentifier = null;
             } }), h("ir-pickup", { booking: this.booking, agent: this.agent, open: this.sidebarState === 'pickup', bookingDates: { from: this.booking.from_date, to: this.booking.to_date }, defaultPickupData: this.booking.pickup_info, bookingNumber: this.booking.booking_nbr, numberOfPersons: this.booking.occupancy.adult_nbr + this.booking.occupancy.children_nbr, onCloseModal: () => {
                 this.sidebarState = null;
             } }), h("ir-billing-drawer", { open: this.sidebarState === 'invoice', onBillingClose: e => {
@@ -633,26 +629,6 @@ export class IrBookingDetails {
                 "reflect": false,
                 "attribute": "booking-number",
                 "defaultValue": "''"
-            },
-            "hasCheckIn": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": "Enables the check-in action in room components."
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "has-check-in",
-                "defaultValue": "false"
             },
             "hasCheckOut": {
                 "type": "boolean",
@@ -972,7 +948,7 @@ export class IrBookingDetails {
             "rerenderFlag": {},
             "roomGuest": {},
             "selectedService": {},
-            "extraServiceDefaultPrId": {},
+            "extraServiceDefaultIdentifier": {},
             "showPaymentDetails": {},
             "sidebarPayload": {},
             "sidebarState": {},

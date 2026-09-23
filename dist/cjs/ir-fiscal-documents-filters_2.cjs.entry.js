@@ -3,28 +3,29 @@
 var index = require('./index-CQkpA5n3.js');
 var enums = require('./enums-BSCnMYlE.js');
 var moment = require('./moment-CdViwxPQ.js');
-var agents_service = require('./agents.service-C9idZypK.js');
-var booking_service = require('./booking.service-Bv48F_fn.js');
+var agents_service = require('./agents.service-ZwZ3mX3j.js');
+var booking_store = require('./booking.store-DDthytEL.js');
 var irInterceptor_store = require('./ir-interceptor.store-moMB-JCs.js');
 var t = require('./t-CyRK1btk.js');
-var types = require('./types-BVJQZ50e.js');
-var calendarData = require('./calendar-data-UPPAEVR_.js');
-require('./booking.dto-CUSvGTvD.js');
+var types = require('./types-BlCoz3jZ.js');
+var calendarData = require('./calendar-data-HgC39-BR.js');
+require('./booking.dto-DxxzsxJC.js');
 var irDate = require('./ir-date-BZLsqCOc.js');
 var number = require('./number-D7i5wAQq.js');
-var utils = require('./utils-DfkM3gGN.js');
+var utils = require('./utils-BiDhI8bI.js');
 var useTable = require('./useTable-BN32DOaV.js');
 var functions = require('./functions-CsGCS8vQ.js');
-var locale_controller = require('./locale.controller-C5iGrwyB.js');
+var locale_controller = require('./locale.controller-C4TH5Eq_.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./type-Bj2x9EWc.js');
-require('./IBooking-hDE_y33g.js');
-require('./utils-oNe0zJBw.js');
-require('./booking-BRIBt8TB.js');
+require('./type-BRhg-bzd.js');
+require('./IBooking-C1lok6Tq.js');
+require('./utils-C5I0LkiV.js');
+require('./booking-CQEjAIov.js');
 require('./locales.store-BMTss6fG.js');
-require('./commonSchemas-rhaJ5cvr.js');
+require('./commonSchemas-BFzTbV-r.js');
 require('./language-observer-DKp37LIu.js');
+require('./types-BzBUVSnE.js');
 
 const irFiscalDocumentsFiltersCss = () => `.sc-ir-fiscal-documents-filters-h{display:block}.filters-bar.sc-ir-fiscal-documents-filters{display:flex;flex-direction:column;align-items:stretch;gap:0.75rem}.filters-bar__dates.sc-ir-fiscal-documents-filters{display:flex;align-items:center;width:100%}.filters-bar__date_picker.sc-ir-fiscal-documents-filters{width:100%}.filters-bar__search-group.sc-ir-fiscal-documents-filters{display:flex;flex-direction:column;gap:0.75rem;width:100%}.filters-bar__type-group.sc-ir-fiscal-documents-filters{display:flex;flex-wrap:wrap;align-items:center;gap:0.75rem;width:100%}.filters-bar__status-select.sc-ir-fiscal-documents-filters{flex:1 1 140px;min-width:0}.filters-bar__tax-switch.sc-ir-fiscal-documents-filters{flex:0 0 auto;white-space:nowrap}.filters-bar__proforma-switch.sc-ir-fiscal-documents-filters{flex:0 0 auto;white-space:nowrap}.filters-bar__folio-select.sc-ir-fiscal-documents-filters{width:100%}.filters-bar__search-actions.sc-ir-fiscal-documents-filters{display:flex;align-items:center;gap:0.5rem;width:100%}.filters-bar__search-input.sc-ir-fiscal-documents-filters{flex:1 1 auto;min-width:0}.filters-bar__search-submit.sc-ir-fiscal-documents-filters{flex:0 0 auto}.filters-bar__search-icon.sc-ir-fiscal-documents-filters{font-size:0.875rem;color:var(--wa-color-text-quiet, #9ca3af);flex-shrink:0}.filters-bar__search-combo.sc-ir-fiscal-documents-filters{display:flex;align-items:stretch;flex:1 1 auto;min-width:0}.filters-bar__combo-input.sc-ir-fiscal-documents-filters{flex:1 1 auto;min-width:0;position:relative;z-index:0;--wa-form-control-border-radius:var(--wa-border-radius-m, 0.375rem) 0 0 var(--wa-border-radius-m, 0.375rem)}.filters-bar__combo-input.sc-ir-fiscal-documents-filters:focus-within{z-index:2}.filters-bar__combo-select.sc-ir-fiscal-documents-filters{flex:0 0 auto;width:12rem;--wa-form-control-border-radius:0 var(--wa-border-radius-m, 0.375rem) var(--wa-border-radius-m, 0.375rem) 0;margin-inline-start:-1px}.sc-ir-fiscal-documents-filters:dir(rtl) .filters-bar__combo-input.sc-ir-fiscal-documents-filters,[dir='rtl'].sc-ir-fiscal-documents-filters .filters-bar__combo-input.sc-ir-fiscal-documents-filters{--wa-form-control-border-radius:0 var(--wa-border-radius-m, 0.375rem) var(--wa-border-radius-m, 0.375rem) 0}.sc-ir-fiscal-documents-filters:dir(rtl) .filters-bar__combo-select.sc-ir-fiscal-documents-filters,[dir='rtl'].sc-ir-fiscal-documents-filters .filters-bar__combo-select.sc-ir-fiscal-documents-filters{--wa-form-control-border-radius:var(--wa-border-radius-m, 0.375rem) 0 0 var(--wa-border-radius-m, 0.375rem)}@media (min-width: 640px){.filters-bar__search-group.sc-ir-fiscal-documents-filters{flex-direction:row;flex-wrap:wrap;align-items:center}.filters-bar__type-group.sc-ir-fiscal-documents-filters{width:auto}.filters-bar__status-select.sc-ir-fiscal-documents-filters{flex:0 1 180px;min-width:160px}.filters-bar__folio-select.sc-ir-fiscal-documents-filters{flex:1 1 220px;width:auto}.filters-bar__search-actions.sc-ir-fiscal-documents-filters{flex:1 1 260px;width:auto}.filters-bar__search-actions--wide.sc-ir-fiscal-documents-filters{flex-basis:400px}}@media (min-width: 1024px){.filters-bar__search-group.sc-ir-fiscal-documents-filters{flex-wrap:nowrap}.filters-bar__type-group.sc-ir-fiscal-documents-filters{width:auto;flex:1 1 auto}.filters-bar__type-group.sc-ir-fiscal-documents-filters{flex:0 0 auto;flex-wrap:nowrap}.filters-bar__folio-select.sc-ir-fiscal-documents-filters{flex:0 1 220px}.filters-bar__search-actions.sc-ir-fiscal-documents-filters{flex:1 1 auto;max-width:320px}.filters-bar__search-actions--wide.sc-ir-fiscal-documents-filters{max-width:480px}}@media (min-width: 1280px){.filters-bar.sc-ir-fiscal-documents-filters{flex-direction:row;flex-wrap:wrap;align-items:center}.filters-bar__search-combo.sc-ir-fiscal-documents-filters{flex:auto}.filters-bar__dates.sc-ir-fiscal-documents-filters{width:auto;flex:0 0 auto;min-width:280px}.filters-bar__search-group.sc-ir-fiscal-documents-filters{flex:1;width:auto}}`;
 
@@ -62,7 +63,7 @@ const IrFiscalDocumentsFilters = class {
     applyFilters;
     filterChanged;
     agentsService = new agents_service.AgentsService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     componentWillLoad() {
         this.draft = { ...DEFAULT_FILTERS, ...this.filters };
         if (this.propertyId) {
@@ -145,26 +146,26 @@ const IrFiscalDocumentsFilters = class {
         this.updateDraft({ guestId: guest.id });
     }
     render() {
-        return (index.h("form", { key: 'f61fe56436be7dc6683eda3515cc952e8a9fb944', onSubmit: e => {
+        return (index.h("form", { key: '2610f4e9454f2c155ab160e704e42a4d1cb332f9', onSubmit: e => {
                 e.preventDefault();
                 const submitter = e.submitter;
                 this.applyFilters.emit({ ...this.draft, export: submitter?.value === 'export' });
-            } }, index.h("div", { key: 'cb6886a30ccab1b3ce3aac35a5c40a0582214606', class: "filters-bar" }, index.h("ir-validator", { key: 'ece99f8765a4dbc0d85dc1ebc7b0a94bab848e0f', value: this.draft?.fromDate || this.draft?.toDate, schema: types.stringType().nonempty(), class: "filters-bar__dates" }, index.h("ir-date-range-filter", { key: 'c807f6b11f096ef57bcb5fe1920f2222177280d0', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.draft.fromDate, toDate: this.draft.toDate, onDatesChanged: e => {
+            } }, index.h("div", { key: '9ed0b4a7225aeef74325768633aa0d71fbd89bba', class: "filters-bar" }, index.h("ir-validator", { key: 'd671a338c875404edccbb238e855851b1f463d6b', value: this.draft?.fromDate || this.draft?.toDate, schema: types.stringType().nonempty(), class: "filters-bar__dates" }, index.h("ir-date-range-filter", { key: 'bc7d359091a0a494a32cb61d4dd3abd847b66d69', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.draft.fromDate, toDate: this.draft.toDate, onDatesChanged: e => {
                 this.updateDraft({ fromDate: e.detail.from, toDate: e.detail.to });
                 this.filterChanged.emit({ ...this.draft, fromDate: e.detail.from, toDate: e.detail.to });
-            } })), index.h("div", { key: '71a024b15dd55b77a3ce6a543410dcfb373afc1f', class: "filters-bar__search-group" }, index.h("div", { key: 'e455489d03ce555a06ffe0def0480f35f06b66f2', class: "filters-bar__type-group" }, index.h("wa-select", { key: '9027f709a1bae2b5e7c6f1cc784dd1f48e7ff258', class: "filters-bar__status-select", value: this.draft.type, defaultValue: this.draft.type, onchange: e => this.updateDraft({ type: e.target.value }), size: "s", placeholder: t.t('Lcz_DocumentTypePlaceholder', { fallback: 'Document Type' }) }, this.typeOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label)))), index.h("wa-select", { key: '8783477c80c93221e3b09bb0ca53c54eec6044ac', class: "filters-bar__status-select", value: this.draft.folioType, defaultValue: this.draft.folioType, onchange: e => this.handleFolioTypeChange(e.target.value), size: "s", placeholder: t.t('Lcz_FoliosPlaceholder', { fallback: 'Folios' }) }, this.folioOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label))))), this.draft.folioType === 'agent' && (index.h("ir-autocomplete", { key: 'bc110f28cecab0b1f0f21d2d738f8761585d3e1a', class: "filters-bar__folio-select", size: "s", placeholder: t.t('Lcz_SelectAgentPlaceholder', { fallback: 'Select agent' }), withExpandIcon: true, value: this.draft.agentId ? (this.agents.find(a => a.id === this.draft.agentId)?.name ?? '') : allAgentsLabel(), "onText-change": (e) => {
+            } })), index.h("div", { key: '136ef9f33010c424db6aba6e2069c6144b306b15', class: "filters-bar__search-group" }, index.h("div", { key: '88152716275d9d7aa0c082148b83c922dafb6d57', class: "filters-bar__type-group" }, index.h("wa-select", { key: 'd551d57365051ca643bc693fd63df1b2f9088b8c', class: "filters-bar__status-select", value: this.draft.type, defaultValue: this.draft.type, onchange: e => this.updateDraft({ type: e.target.value }), size: "s", placeholder: t.t('Lcz_DocumentTypePlaceholder', { fallback: 'Document Type' }) }, this.typeOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label)))), index.h("wa-select", { key: '50ee8066110c37aa4fd334f86119616bd6061d53', class: "filters-bar__status-select", value: this.draft.folioType, defaultValue: this.draft.folioType, onchange: e => this.handleFolioTypeChange(e.target.value), size: "s", placeholder: t.t('Lcz_FoliosPlaceholder', { fallback: 'Folios' }) }, this.folioOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label))))), this.draft.folioType === 'agent' && (index.h("ir-autocomplete", { key: '54329e8d1dbc3b73327c23ea669cf10ad61c203c', class: "filters-bar__folio-select", size: "s", placeholder: t.t('Lcz_SelectAgentPlaceholder', { fallback: 'Select agent' }), withExpandIcon: true, value: this.draft.agentId ? (this.agents.find(a => a.id === this.draft.agentId)?.name ?? '') : allAgentsLabel(), "onText-change": (e) => {
                 this.agentSearch = e.detail ?? '';
             }, "onCombobox-change": (e) => {
                 this.agentSearch = '';
                 const value = e.detail;
                 this.updateDraft({ agentId: value && value !== ALL_AGENTS_VALUE ? Number(value) : null });
-            } }, index.h("ir-autocomplete-option", { key: '78aa214ad75e81f30e67037d411f2c0f51866c54', label: allAgentsLabel(), value: ALL_AGENTS_VALUE }, allAgentsLabel()), this.filteredAgents.map(agent => (index.h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name))))), this.draft.folioType === 'guest' && (index.h("ir-picker", { key: '89d81007c6701429e1d7ff6e05f42dbaf31d7abd', class: "filters-bar__folio-select", size: "s", placeholder: t.t('Lcz_CustomerEmailOrNamePlaceholder', { fallback: 'Customer email or name' }), withClear: true, mode: "select-async", debounce: 500, loading: irInterceptor_store.isRequestPending('/Fetch_Exposed_Guests'), "onText-change": event => this.fetchGuests(event.detail), "onCombobox-select": this.handleGuestSelect.bind(this), "onCombobox-clear": () => {
+            } }, index.h("ir-autocomplete-option", { key: '102a5a3b01e8cd90b366a58fecf5ce1cd3bf91b6', label: allAgentsLabel(), value: ALL_AGENTS_VALUE }, allAgentsLabel()), this.filteredAgents.map(agent => (index.h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name))))), this.draft.folioType === 'guest' && (index.h("ir-picker", { key: 'c003832455f2279d507e05a0e4bb70abf89f25a0', class: "filters-bar__folio-select", size: "s", placeholder: t.t('Lcz_CustomerEmailOrNamePlaceholder', { fallback: 'Customer email or name' }), withClear: true, mode: "select-async", debounce: 500, loading: irInterceptor_store.isRequestPending('/Fetch_Exposed_Guests'), "onText-change": event => this.fetchGuests(event.detail), "onCombobox-select": this.handleGuestSelect.bind(this), "onCombobox-clear": () => {
                 this.updateDraft({ guestId: null });
                 this.applyFilters.emit(this.draft);
             } }, this.guests?.map(guest => {
             const label = `${guest.email} - ${guest.first_name} ${guest.last_name}`;
             return (index.h("ir-picker-item", { label: label, value: guest.id?.toString(), key: guest.id }, label));
-        }))), index.h("div", { key: 'd674a49610ad950585ae078d382d7d57d4a4085b', class: `filters-bar__search-actions${this.draft.folioType === 'guest' ? ' filters-bar__search-actions--wide' : ''}` }, index.h("div", { key: 'c35c95760873cfe001bd77d49f6c1e7b1d35bbcb', class: "filters-bar__search-combo" }, index.h("ir-input", { key: '34d186eac18ac3162e4c576e29a7fa52324f246d', class: `filters-bar__search-input${this.draft.folioType === 'guest' ? ' filters-bar__combo-input' : ''}`, placeholder: this.searchPlaceholder, value: this.draft.docNumber, "onText-change": e => {
+        }))), index.h("div", { key: 'fc340b5c6b6523bc576724ddc8d1cc774715d59a', class: `filters-bar__search-actions${this.draft.folioType === 'guest' ? ' filters-bar__search-actions--wide' : ''}` }, index.h("div", { key: '340a841f9c154cfb74cc8f63ef961a9f54f0ad11', class: "filters-bar__search-combo" }, index.h("ir-input", { key: '2f02324683a473c312bab087edff9610231e96cc', class: `filters-bar__search-input${this.draft.folioType === 'guest' ? ' filters-bar__combo-input' : ''}`, placeholder: this.searchPlaceholder, value: this.draft.docNumber, "onText-change": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateDraft({ docNumber: e.detail });
@@ -172,7 +173,7 @@ const IrFiscalDocumentsFilters = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.applyFilters.emit({ ...this.draft, docNumber: '' });
-            } }, index.h("wa-icon", { key: '2b2e53590e18890cd1ab448e6e2590fc50ce8bca', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), this.draft.folioType === 'guest' && (index.h("wa-select", { key: '0189a99ddd0c86cd8d2d16fb3c727529e71a7d0d', class: "filters-bar__combo-select", size: "s", value: this.draft.searchBy, defaultValue: this.draft.searchBy, onchange: e => this.updateDraft({ searchBy: e.target.value }) }, index.h("wa-option", { key: '00dd398b888cef441276be6f199c64e7e2aed0a8', value: "doc_nbr" }, t.t('Lcz_DocumentNumberOption', { fallback: 'Document number' })), index.h("wa-option", { key: '8f5783492875aa1f456fcdfede1447b687e696ac', value: "booking_nbr" }, t.t('Lcz_BookingNumber', { fallback: 'Booking number' }))))), index.h("wa-tooltip", { key: '3db9c66784cb5dea93005785b5fa47e4cc1549c9', for: "search-btn" }, t.t('Lcz_Search', { fallback: 'Search' })), index.h("ir-custom-button", { key: 'a20b977d1b4fbdbafd7048d5fc7373bc0118cd32', id: "search-btn", loading: this.loading === 'search', class: "filters-bar__search-submit", value: "search", variant: "neutral", appearance: "outlined", type: "submit" }, index.h("wa-icon", { key: '395e17935531fcce5ad4ac68aaa20615a4498e22', name: "magnifying-glass" })), index.h("wa-tooltip", { key: '24f5d7d80c60d42f12298f2329594da700726a18', for: "excel-btn" }, 'Export to excel'), index.h("ir-custom-button", { key: '903f10273cd9c599e3b0bab4886a40bb3d5f16d6', disabled: !(this.draft?.fromDate || this.draft?.toDate), id: "excel-btn", variant: "neutral", loading: this.loading === 'export', appearance: "outlined", type: "submit", value: "export" }, index.h("wa-icon", { key: '5256aee084f9292d88a21aa92682fd74e4d88a69', name: "file-excel", variant: "regular" })))))));
+            } }, index.h("wa-icon", { key: 'a19717bcbf9830df86903978527be92762a3421c', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), this.draft.folioType === 'guest' && (index.h("wa-select", { key: '689731166c80a2e92b7138b211642d8a78c85daa', class: "filters-bar__combo-select", size: "s", value: this.draft.searchBy, defaultValue: this.draft.searchBy, onchange: e => this.updateDraft({ searchBy: e.target.value }) }, index.h("wa-option", { key: '49dbb3d1c220a6bafefbd56f96ec30e610b9023a', value: "doc_nbr" }, t.t('Lcz_DocumentNumberOption', { fallback: 'Document number' })), index.h("wa-option", { key: 'dcd6233a4294e346537d8604a0e0117b2b157ce7', value: "booking_nbr" }, t.t('Lcz_BookingNumber', { fallback: 'Booking number' }))))), index.h("wa-tooltip", { key: 'c44d8ce332ded9b179155b9e387aea0236219ec0', for: "search-btn" }, t.t('Lcz_Search', { fallback: 'Search' })), index.h("ir-custom-button", { key: '69be133aeba145da50b028abd79b7fd071b1e5b3', id: "search-btn", loading: this.loading === 'search', class: "filters-bar__search-submit", value: "search", variant: "neutral", appearance: "outlined", type: "submit" }, index.h("wa-icon", { key: '16b841c6a30611c51b3eceb988bbdf046c15a1c7', name: "magnifying-glass" })), index.h("wa-tooltip", { key: '5836c86e365b08a3eab6cc31892f0a3a17c2d43d', for: "excel-btn" }, 'Export to excel'), index.h("ir-custom-button", { key: 'da4d1b79160f5c14ff88cad23c76dd3d983e5a06', disabled: !(this.draft?.fromDate || this.draft?.toDate), id: "excel-btn", variant: "neutral", loading: this.loading === 'export', appearance: "outlined", type: "submit", value: "export" }, index.h("wa-icon", { key: '1d6a1149469f6feb3a282fe10cdaead5998472fc', name: "file-excel", variant: "regular" })))))));
     }
     static get watchers() { return {
         "filters": [{

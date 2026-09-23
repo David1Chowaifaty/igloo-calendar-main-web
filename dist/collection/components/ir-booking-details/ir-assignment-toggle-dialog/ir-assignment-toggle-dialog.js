@@ -21,10 +21,10 @@ export class IrAssignmentToggleDialog {
         this.dialogRef?.closeModal();
     }
     render() {
-        return (h(Host, { key: '6fa3baff8668901cc2c674b079a30b5f4787cd34' }, h("ir-dialog", { key: '9afdd05a048cd05ac8c9208bae212257931efe5c', label: this.label, lightDismiss: false, ref: el => (this.dialogRef = el), onIrDialogHide: e => {
+        return (h(Host, { key: '7c1d1f9b7118a1a849654a6774dbe8a9f462508f' }, h("ir-dialog", { key: 'f7b6fbc9394e15aa563738869f034d1951cba4da', label: this.label, lightDismiss: false, ref: el => (this.dialogRef = el), onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            } }, h("p", { key: '6ff4f6bba1215135a4b236cda0722bc10914987c', class: "assignment-toggle-dialog__message" }, h("slot", { key: '5b2c7f07b2d3462d58106aed11bd1a115fdcd063', name: "message" }, this.message)), h("div", { key: '59cfd7a8347a9eb0d51c08ae78298bdac140ce1a', slot: "footer", class: "assignment-toggle-dialog__footer" }, h("ir-custom-button", { key: '7e8096d3670dc40eb6d580894d4e115342befac3', appearance: "filled", variant: "neutral", size: "m", "data-dialog": "close", disabled: this.loading }, this.cancelLabel || t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'b660ae24c99b77c0eab536cd47554346a6d0e72f', variant: "brand", size: "m", loading: this.loading, onClickHandler: () => this.confirmToggle.emit() }, this.confirmLabel || t('Lcz_Confirm', { fallback: 'Confirm' }))))));
+            } }, h("p", { key: '99f053f5aaae4118cdefa63a19ab2d7463e39b61', class: "assignment-toggle-dialog__message" }, h("slot", { key: 'e3ecccba4c1ffe046516add52af19ee3366c15ea', name: "message" }, this.message)), h("div", { key: 'acdd5333d6c80bbf92340630153a0854e54032b2', slot: "footer", class: "assignment-toggle-dialog__footer" }, h("ir-custom-button", { key: 'c5bc8e971dfca057f56fc38b2e1d2d0a1327c531', appearance: "filled", variant: "neutral", size: "m", "data-dialog": "close", disabled: this.loading }, this.cancelLabel || t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'e3d30e4e0fba7267c7722d07fd48d907e4abd9e4', variant: "brand", size: "m", loading: this.loading, onClickHandler: () => this.confirmToggle.emit() }, this.confirmLabel || t('Lcz_Confirm', { fallback: 'Confirm' }))))));
     }
     static get is() { return "ir-assignment-toggle-dialog"; }
     static get encapsulation() { return "scoped"; }

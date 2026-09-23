@@ -15,7 +15,6 @@ export declare class IrRoomExtraServices {
     /** Which collapsible groups ('all' | 'agent' | 'guest') are expanded — keyed so agent/guest folios can be toggled independently. */
     expandedGroups: Set<string>;
     requestAddExtraService: EventEmitter<void>;
-    private get unitId();
     /** Extra services linked to this unit via `room_identifier`. */
     private get roomExtraServices();
     /** Services whose category is always surfaced (e.g. Early Check-In / Late Check-Out) — never tucked behind the collapse. */

@@ -1,1 +1,1 @@
-import{o as s,s as o,a as e}from"./types2.js";const t=s({code:o(),description:o().nullable().default("")}),i=s({entries:e(t).nullable().default([]),direction:o().nullable().default("LTR")});export{i as E}
+import{o as s,s as e,a as o}from"./types2.js";const t=s({code:e(),description:e().nullable().default(""),table_name:e().nullable().optional()}),a=s({entries:o(t).nullable().default([]),direction:e().nullable().default("LTR")});export{a as E}

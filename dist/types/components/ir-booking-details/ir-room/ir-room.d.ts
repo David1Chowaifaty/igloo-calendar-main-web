@@ -58,7 +58,7 @@ export declare class IrRoom {
     resetBookingEvt: EventEmitter<Booking | null>;
     openSidebar: EventEmitter<OpenSidebarEvent<RoomGuestsPayload>>;
     addExtraServiceToUnit: EventEmitter<{
-        pr_id: number;
+        identifier: string;
     }>;
     private modal;
     private toggleDialogRef;
@@ -100,7 +100,6 @@ export declare class IrRoom {
     private handleCheckIn;
     private getMainGuest;
     private showGuestModal;
-    private get unitId();
     private handleAddExtraServiceToUnit;
     private handleHeaderAction;
     render(): any;

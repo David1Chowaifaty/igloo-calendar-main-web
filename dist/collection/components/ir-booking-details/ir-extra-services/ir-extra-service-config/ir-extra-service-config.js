@@ -8,13 +8,13 @@ export class IrExtraServiceConfig {
     service;
     language;
     open;
-    defaultPrId = null;
+    defaultIdentifier = null;
     closeModal;
     closeDialog() {
         this.closeModal.emit();
     }
     render() {
-        return (h("ir-drawer", { key: 'c473750442786056fafdadb7de2a5519597c349b', style: {
+        return (h("ir-drawer", { key: 'bf83267f1d41951ed88a8f5d91d60e2c63fd7eab', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -25,11 +25,11 @@ export class IrExtraServiceConfig {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDialog();
-            }, label: t('Lcz_ExtraServices') }, this.open && (h("ir-extra-service-config-form", { key: '5014743e65262d4105ad8674a2eb4c5fac50e9a6', language: this.language ?? 'en', svcCategories: this.svcCategories, onCloseModal: e => {
+            }, label: t('Lcz_ExtraServices') }, this.open && (h("ir-extra-service-config-form", { key: 'b74f4ef5b51dc0926a1ac9777665bf2364e7d85b', language: this.language ?? 'en', svcCategories: this.svcCategories, onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDialog();
-            }, booking: this.booking, agent: this.agent, service: this.service, defaultPrId: this.defaultPrId })), h("div", { key: 'c323ca3a945d145039ecca9448da718b52846038', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '0cb379ae8a1d681a2e9f3ba665702ab4caaadd3a', class: `flex-fill`, size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '424e649b9ef7ad964a887ffb686f70e211fbfff5', type: "submit", loading: isRequestPending('/Do_Booking_Extra_Service'), form: "extra-service-config-form", size: "m", class: `flex-fill`, variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })))));
+            }, booking: this.booking, agent: this.agent, service: this.service, defaultIdentifier: this.defaultIdentifier })), h("div", { key: 'b428df248583382c81762d8b2be9c6e6c7acefe6', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '51bd71e95238ca579f0c73b0f2a7fb7e2cdc404d', class: `flex-fill`, size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'b8e17582168f97d10e1602f2d7af8610b0bcb370', type: "submit", loading: isRequestPending('/Do_Booking_Extra_Service'), form: "extra-service-config-form", size: "m", class: `flex-fill`, variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get is() { return "ir-extra-service-config"; }
     static get encapsulation() { return "scoped"; }
@@ -180,12 +180,12 @@ export class IrExtraServiceConfig {
                 "reflect": true,
                 "attribute": "open"
             },
-            "defaultPrId": {
-                "type": "number",
+            "defaultIdentifier": {
+                "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "number | null",
-                    "resolved": "number",
+                    "original": "string | null",
+                    "resolved": "string",
                     "references": {}
                 },
                 "required": false,
@@ -197,7 +197,7 @@ export class IrExtraServiceConfig {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "default-pr-id",
+                "attribute": "default-identifier",
                 "defaultValue": "null"
             }
         };

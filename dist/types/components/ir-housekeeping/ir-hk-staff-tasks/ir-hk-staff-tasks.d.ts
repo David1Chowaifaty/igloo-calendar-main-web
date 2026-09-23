@@ -1,5 +1,5 @@
 import { Task } from "../../../models/housekeeping";
-import { ConnectedHK } from "../../../services/housekeeping.service";
+import { ConnectedHK } from "../../../services/housekeeping/index";
 type TaskDateGroup = {
     date: string;
     formattedDate: string;

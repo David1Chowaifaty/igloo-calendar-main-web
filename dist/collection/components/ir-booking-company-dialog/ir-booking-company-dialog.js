@@ -16,17 +16,17 @@ export class IrBookingCompanyDialog {
     }
     render() {
         const formId = `${this.booking.booking_nbr}-${v4()}`;
-        return (h("ir-dialog", { key: '05ac26a6ca06e75f5d3ea2aed52943f10a4b46c7', open: this.open, onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '46f307b3d52df6063e79a50bf1878ecee649a544', open: this.open, onIrDialogHide: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.closeCompanyForm();
-            }, label: t('Lcz_Company', { fallback: 'Company' }), id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: '03ba7f1a2c30bce7e86a40c2c5c75175cc853fee', onResetBookingEvt: e => {
+            }, label: t('Lcz_Company', { fallback: 'Company' }), id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: '50405c1a99e8f575dc9c8f8e6a1ee43957df81a1', onResetBookingEvt: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingEvt.emit(e.detail);
                 this.open = false;
                 // this.closeCompanyForm();
-            }, formId: formId, booking: this.booking })), h("div", { key: '0849e59367e248b467c87879d6a29b388b5c7778', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'ebc7dc7645f4ea49f75c68abe47a5dd8ba484b15', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'af2bf2a00e994ee07d9b206dded6f80acc8690ff', type: "submit", form: formId, loading: isRequestPending('/DoReservation'), size: "m", variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })))));
+            }, formId: formId, booking: this.booking })), h("div", { key: 'b8f927ced4d6b49a6333b7a98f891ab47c6c3471', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '71c9718ee73ce533407d18fecfa46da47ad23d39', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '4ad96583d3358f873bb55c0a926c62476991c8c4', type: "submit", form: formId, loading: isRequestPending('/DoReservation'), size: "m", variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get is() { return "ir-booking-company-dialog"; }
     static get encapsulation() { return "scoped"; }

@@ -1,5 +1,5 @@
 import ApiClient from "../../models/ApiClient";
-import { HouseKeepingService } from "../../services/housekeeping.service";
+import { HouseKeepingService } from "../../services/housekeeping/index";
 import { RoomService } from "../../services/room.service";
 import calendar_data from "../../stores/calendar-data";
 import { updateHKStore } from "../../stores/housekeeping.store";
@@ -44,7 +44,7 @@ export class IrHousekeeping {
     async handleResetData(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        await this.houseKeepingService.getExposedHKSetup(this.propertyid);
+        await this.houseKeepingService.getExposedHKSetup({ property_id: this.propertyid });
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -81,7 +81,7 @@ export class IrHousekeeping {
                         is_backend: true,
                         include_sales_rate_plans: true,
                     }),
-                calendar_data.housekeeping_enabled && this.houseKeepingService.getExposedHKSetup(propertyId),
+                calendar_data.housekeeping_enabled && this.houseKeepingService.getExposedHKSetup({ property_id: propertyId }),
             ]);
             this.frequencies = frequencies;
         }

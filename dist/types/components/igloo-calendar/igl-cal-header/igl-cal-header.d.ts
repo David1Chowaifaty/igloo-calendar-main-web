@@ -15,23 +15,17 @@ export declare class IglCalHeader {
     };
     today: String;
     propertyid: number;
-    unassignedDates: any;
     to_date: string;
     highlightedDate: string;
     dayUseBookings: DayUseBookings[];
     renderAgain: boolean;
-    unassignedRoomsNumber: any;
     private roomsList;
-    private toBeAssignedService;
     componentWillLoad(): void;
-    handleCalendarDataChanged(): void;
     private initializeRoomsList;
-    private fetchAndAssignUnassignedRooms;
-    private assignRoomsToDate;
-    handleReduceAvailableUnitEvent(event: CustomEvent<{
-        fromDate: string;
-        toDate: string;
-    }>): void;
+    /** Reads the unassigned-units store live (auto-subscribes on render), keyed by `dayInfo.day` (D_M_YYYY) after conversion to ISO. */
+    private getUnassignedRoomsNumberMap;
+    /** Days (D_M_YYYY) whose unassigned-units fetch is still in flight — same store subscription as the count map. */
+    private getUnassignedLoadingDaysMap;
     handleOptionEvent(key: any, data?: any): void;
     getStringDateFormat(dt: any): string;
     getNewBookingModel(): {

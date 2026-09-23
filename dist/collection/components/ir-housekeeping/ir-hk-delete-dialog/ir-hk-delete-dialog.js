@@ -1,5 +1,5 @@
 import { h } from "@stencil/core";
-import { HouseKeepingService } from "../../../services/housekeeping.service";
+import { HouseKeepingService } from "../../../services/housekeeping/index";
 import housekeeping_store from "../../../stores/housekeeping.store";
 import { t } from "../../../services/locale/t";
 export class IrHkDeleteDialog {

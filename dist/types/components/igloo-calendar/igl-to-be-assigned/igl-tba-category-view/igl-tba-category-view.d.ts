@@ -1,23 +1,15 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
+import { UnassignedCategory } from "../../../../services/unassigned-units/types";
 export declare class IglTbaCategoryView {
     calendarData: {
         [key: string]: any;
     };
-    selectedDate: any;
-    categoriesData: {
-        [key: string]: any;
-    };
-    categoryId: any;
-    eventDatas: any;
-    categoryIndex: any;
-    renderAgain: boolean;
+    category: UnassignedCategory;
+    selectedDate: string;
+    categoryIndex: number;
     assignUnitEvent: EventEmitter<{
-        [key: string]: any;
+        identifier: string;
     }>;
-    handleAssignRoomEvent(event: CustomEvent<{
-        [key: string]: any;
-    }>): void;
-    getEventView(categoryId: any, eventDatas: any): any;
-    renderView(): void;
+    private handleAssignRoom;
     render(): any;
 }

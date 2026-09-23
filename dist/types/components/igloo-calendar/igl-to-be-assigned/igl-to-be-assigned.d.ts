@@ -1,52 +1,59 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IglToBeAssigned {
-    unassignedDatesProp: any;
     propertyid: number;
-    from_date: string;
-    to_date: string;
     calendarData: {
         [key: string]: any;
     };
-    loadingMessage: string;
-    showDatesList: boolean;
-    renderAgain: boolean;
-    orderedDatesList: any[];
-    noScroll: boolean;
-    selectedDateDisplay: string;
+    selectedDate: string | null;
+    isLoading: boolean;
     optionEvent: EventEmitter<{
-        [key: string]: any;
+        key: string;
+        data?: unknown;
     }>;
-    reduceAvailableUnitEvent: EventEmitter<{
-        [key: string]: any;
+    showBookingPopup: EventEmitter<{
+        key: 'calendar';
+        data: number;
+        noScroll: boolean;
     }>;
-    showBookingPopup: EventEmitter;
-    addToBeAssignedEvent: EventEmitter;
-    highlightToBeAssignedBookingEvent: EventEmitter;
-    private isGotoToBeAssignedDate;
-    private isLoading;
-    private selectedDate;
-    private data;
-    private today;
-    private categoriesData;
-    private toBeAssignedService;
-    private unassignedDates;
+    addToBeAssignedEvent: EventEmitter<{
+        key: 'tobeAssignedEvents';
+        data: [];
+    }>;
+    highlightToBeAssignedBookingEvent: EventEmitter<{
+        key: 'highlightBookingId';
+        data: {
+            bookingId: string;
+        };
+    }>;
+    private readonly unassignedUnitsService;
+    private categoriesCache;
+    private refreshToken;
     componentWillLoad(): void;
-    handleUnassignedDatesToBeAssignedChange(newValue: any): void;
-    handleAssignUnit(event: CustomEvent<{
-        [key: string]: any;
+    handleGotoDate(event: CustomEvent<{
+        data: number;
     }>): void;
-    updateCategories(key: any, calendarData: any): Promise<void>;
-    reArrangeData(): Promise<void>;
-    componentDidLoad(): Promise<void>;
-    gotoDate(event: CustomEvent): Promise<void>;
-    handleToBeAssignedDate(e: CustomEvent): void;
-    showForDate(dateStamp: any, withLoading?: boolean): Promise<void>;
-    getDay(dt: any): string;
-    getLocalizedDayOfWeek(date: any, locale: any): any;
-    handleOptionEvent(key: any, data?: string): void;
-    showUnassignedDate(): void;
-    getToBeAssignedEntities(): void;
-    getCategoryView(): any[];
-    renderView(): void;
+    /** A card was highlighted: scroll the calendar to that booking's first night. */
+    handleBookingHighlight(event: CustomEvent<{
+        data?: {
+            fromDate?: string;
+        };
+    }>): void;
+    /** Re-reads one date from the API and makes the store match it, in case a realtime update was missed. Owns the panel's loader, so every caller shows one. */
+    private refreshDate;
+    /** One single-day refresh on open; every later date switch reads the store only. */
+    private verifySelectedDate;
+    private selectDate;
+    /** Memoized on the store entry's identity (and the property's, since names come from it): unrelated re-renders skip the grouping. */
+    private categoriesFor;
+    private handleDateChange;
+    /**
+     * Fired by `igl-tba-category-view` only after `assignUnit` succeeded. The room is dropped right away so the
+     * card disappears without waiting, then the day is re-read — behind the panel's loader — so the panel matches
+     * the server even if the realtime update for this assignment never arrives.
+     */
+    private handleAssignUnit;
+    private handleClose;
+    private renderEmptyState;
+    private renderBody;
     render(): any;
 }

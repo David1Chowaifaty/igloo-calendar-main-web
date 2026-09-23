@@ -1,13 +1,13 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
 import { t } from './t-Bk78Wumj.js';
-import { c as calendar_data } from './calendar-data-BZeaTRgj.js';
+import { c as calendar_data } from './calendar-data-BmpcWihW.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import './booking.dto-FOZcMojD.js';
-import './ir-date-DFR8GVLZ.js';
+import './booking.dto-xX-uaIxb.js';
+import './ir-date-BngUhoPp.js';
 import './locales.store-CXJn6ls-.js';
-import { f as formatAmount } from './number-DegV2dS7.js';
-import './type-DUaIPoJQ.js';
-import './types-BG9uwIsj.js';
+import { f as formatAmount } from './number-DpPJHVo2.js';
+import './type-DahsFfOq.js';
+import './types-BWKgfE54.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 
@@ -99,7 +99,7 @@ const IrBalanceCell = class {
         return value !== null && value !== undefined && value !== 0;
     }
     render() {
-        return (h(Host, { key: '6b0bffc0c583172d1a0c84d9d6075e06967ccb58' }, this.label && h("p", { key: 'f40d651510db98d8ce09952761247a14aa93d7d7', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '4145f81cffc90595924a7699ec8cb94a71131fab', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: 'fd3701107c6b43509791fb19dced1cf8c7d2ea2b' }, this.label && h("p", { key: 'afcce091652f084d274d691a70f7db0187a92866', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '04f7ad7ec2cf48a1777024cc1d4e144b01af9a70', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.hasAmount(this.financial.cancelation_penality_as_if_today) &&
                 this.hasAmount(this.financial.due_amount) && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -177,7 +177,7 @@ const IrGuestNameCell = class {
     }
     name;
     render() {
-        return (h(Host, { key: '4e705b46167cdee4d2b9a59eb92e661943e66295' }, this.name.first_name, " ", this.name.last_name));
+        return (h(Host, { key: '9f4ad64c18fa97846d9f6e28cc56aef50360037c' }, this.name.first_name, " ", this.name.last_name));
     }
 };
 IrGuestNameCell.style = irGuestNameCellCss();
@@ -191,7 +191,7 @@ const IrUnitCell = class {
     room;
     showDeparture = false;
     render() {
-        return (h(Host, { key: '02849576b1ac79bc3d6a1bb5b124923d0950e3c2' }, h("p", { key: 'd60a1031bb245d908eab1447c1b419750dae8dcd' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: 'f80734924c436b94fdb383e057bfbb0629fab17f', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && h("span", { key: '62dba7e158a08e389548866eaa1a22ce5ad469ba' }, this.room?.departure_time?.description)));
+        return (h(Host, { key: '60f50c823ce9582bcc6ad2045331f8f14283fcc7' }, h("p", { key: '02e72e88e4a0c922fb5266b5a23aa492cad47233' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: '41724b4ab6132704bff44284ff619e45abc4c6e1', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && h("span", { key: 'f595ea5a51b834e329c1deef90f65a1a0cc69879' }, this.room?.departure_time?.description)));
     }
 };
 IrUnitCell.style = irUnitCellCss();

@@ -1,40 +1,18 @@
 import { Host, h } from "@stencil/core";
 export class IglTbaCategoryView {
     calendarData;
+    category;
     selectedDate;
-    categoriesData = {};
-    categoryId;
-    eventDatas;
     categoryIndex;
-    renderAgain = false;
     assignUnitEvent;
-    handleAssignRoomEvent(event) {
-        event.stopImmediatePropagation();
+    handleAssignRoom = (event) => {
         event.stopPropagation();
-        const opt = event.detail;
-        this.eventDatas = this.eventDatas.filter(eventData => eventData.ID != opt.data.ID);
-        this.calendarData.bookingEvents.push(opt.data);
-        this.assignUnitEvent.emit({
-            key: 'assignUnit',
-            data: {
-                RT_ID: this.categoryId,
-                selectedDate: this.selectedDate,
-                assignEvent: opt.data,
-                calendarData: this.calendarData,
-            },
-        });
-        // if(this.localEventDatas.length){
-        this.renderView();
-        // }
-    }
-    getEventView(categoryId, eventDatas) {
-        return eventDatas.map((eventData, ind) => (h("igl-tba-booking-view", { calendarData: this.calendarData, selectedDate: this.selectedDate, eventData: eventData, categoriesData: this.categoriesData, categoryId: categoryId, categoryIndex: this.categoryIndex, eventIndex: ind, onAssignRoomEvent: evt => this.handleAssignRoomEvent(evt) })));
-    }
-    renderView() {
-        this.renderAgain = !this.renderAgain;
-    }
+        this.calendarData.bookingEvents.push(event.detail);
+        this.assignUnitEvent.emit({ identifier: event.detail.identifier });
+    };
     render() {
-        return (h(Host, { key: '484522b6ee7f6c586346f05787eef789106abbbf' }, h("div", { key: 'e672c36c5c3fd7e82919fef5e3f838b543956161', class: "tba-category" }, h("h5", { key: '046b8be972fe47e6b8f5961e3ad989faaaeebbe2', class: "tba-category__title" }, this.categoriesData[this.categoryId]?.name), this.getEventView(this.categoryId, this.eventDatas))));
+        const { roomTypeId, roomTypeName, rooms } = this.category;
+        return (h(Host, { key: 'a174f21580e1745dc36916381f5abe1d79d550ea' }, h("div", { key: 'ea6de659e73274f108b75c27dcb7f62c22d3e32d', class: "tba-category" }, h("h5", { key: '4eae98ed408d60d2e5ef278c9c946c8a1f812312', class: "tba-category__title" }, roomTypeName), rooms.map((room, index) => (h("igl-tba-booking-view", { key: room.room_identifier, calendarData: this.calendarData, selectedDate: this.selectedDate, room: room, roomTypeId: roomTypeId, roomTypeName: roomTypeName, categoryIndex: this.categoryIndex, eventIndex: index, onAssignRoomEvent: this.handleAssignRoom }))))));
     }
     static get is() { return "igl-tba-category-view"; }
     static get encapsulation() { return "scoped"; }
@@ -67,12 +45,36 @@ export class IglTbaCategoryView {
                 "getter": false,
                 "setter": false
             },
-            "selectedDate": {
-                "type": "any",
+            "category": {
+                "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "any",
-                    "resolved": "any",
+                    "original": "UnassignedCategory",
+                    "resolved": "UnassignedCategory",
+                    "references": {
+                        "UnassignedCategory": {
+                            "location": "import",
+                            "path": "@/services/unassigned-units/types",
+                            "id": "src/services/unassigned-units/types.ts::UnassignedCategory",
+                            "referenceLocation": "UnassignedCategory"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
+            },
+            "selectedDate": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
                     "references": {}
                 },
                 "required": false,
@@ -86,68 +88,12 @@ export class IglTbaCategoryView {
                 "reflect": false,
                 "attribute": "selected-date"
             },
-            "categoriesData": {
-                "type": "unknown",
-                "mutable": false,
-                "complexType": {
-                    "original": "{ [key: string]: any }",
-                    "resolved": "{ [key: string]: any; }",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "defaultValue": "{}"
-            },
-            "categoryId": {
-                "type": "any",
-                "mutable": false,
-                "complexType": {
-                    "original": "any",
-                    "resolved": "any",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "category-id"
-            },
-            "eventDatas": {
-                "type": "any",
-                "mutable": true,
-                "complexType": {
-                    "original": "any",
-                    "resolved": "any",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "event-datas"
-            },
             "categoryIndex": {
-                "type": "any",
+                "type": "number",
                 "mutable": false,
                 "complexType": {
-                    "original": "any",
-                    "resolved": "any",
+                    "original": "number",
+                    "resolved": "number",
                     "references": {}
                 },
                 "required": false,
@@ -163,11 +109,6 @@ export class IglTbaCategoryView {
             }
         };
     }
-    static get states() {
-        return {
-            "renderAgain": {}
-        };
-    }
     static get events() {
         return [{
                 "method": "assignUnitEvent",
@@ -180,8 +121,8 @@ export class IglTbaCategoryView {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "{ [key: string]: any }",
-                    "resolved": "{ [key: string]: any; }",
+                    "original": "{ identifier: string }",
+                    "resolved": "{ identifier: string; }",
                     "references": {}
                 }
             }];

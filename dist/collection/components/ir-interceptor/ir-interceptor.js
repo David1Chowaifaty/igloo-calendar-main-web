@@ -6,7 +6,7 @@ export class IrInterceptor {
     /**
      * List of endpoint paths that should trigger loader logic and OTP handling.
      */
-    handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit'];
+    handledEndpoints = ['/Get_Exposed_Calendar', '/Get_Exposed_Calendar_V4', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit'];
     /**
      * List of endpoints for which to suppress toast messages.
      */
@@ -95,7 +95,7 @@ export class IrInterceptor {
         //   config.params.Ticket = this.ticket;
         // }
         if (this.isHandledEndpoint(extractedUrl) && this.isPageLoadingStopped !== extractedUrl) {
-            if (extractedUrl !== '/Get_Exposed_Calendar') {
+            if (!extractedUrl.includes('/Get_Exposed_Calendar')) {
                 this.isLoading = true;
             }
             else {
@@ -104,7 +104,7 @@ export class IrInterceptor {
                 }
             }
         }
-        if (extractedUrl === '/Get_Exposed_Calendar') {
+        if (extractedUrl.includes('/Get_Exposed_Calendar')) {
             this.endpointsCount = this.endpointsCount + 1;
         }
         return config;
@@ -240,7 +240,7 @@ export class IrInterceptor {
         this.baseOTPUrl = null;
     }
     render() {
-        return (h(Host, { key: 'ce352bfd02acaee1675be6e72b1648a5875b2ff8' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: 'b7715d9d06d35e47158353453dea9b78ddc61ea1', class: "loadingScreenContainer" }, h("div", { key: 'a92964e3dbccab36f357503c0b1242d03d8f1397', class: "loaderContainer" }, h("wa-spinner", { key: 'ae4ee8074b6c74fe8f5d55cd7be9379d47d9b38a', style: { 'fontSize': '2.5rem', '--track-width': '3.5px' } })))), this.showModal && (h("ir-otp-modal", { key: '2351066e96e8b9bdd9413c5e2f302d1e296f9b23', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: '135761eae57782fbc1bb385b91550201ba3f3df1' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '42699e5a655d2b09692114b7abf5be8277c486cc', class: "loadingScreenContainer" }, h("div", { key: 'be739beaba52e887cc212fb42d79432affd454f5', class: "loaderContainer" }, h("wa-spinner", { key: '526c30c71653c0e23a964558ce8ae16a10be724c', style: { 'fontSize': '2.5rem', '--track-width': '3.5px' } })))), this.showModal && (h("ir-otp-modal", { key: 'edc8fa6ceee37a34a11033d7758ad174162e6dd9', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }
@@ -272,7 +272,7 @@ export class IrInterceptor {
                 },
                 "getter": false,
                 "setter": false,
-                "defaultValue": "['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit']"
+                "defaultValue": "['/Get_Exposed_Calendar', '/Get_Exposed_Calendar_V4', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit']"
             },
             "suppressToastEndpoints": {
                 "type": "unknown",

@@ -14,9 +14,9 @@ export class IrClAdjustmentFields {
     //   return [];
     // }
     render() {
-        return (h(Fragment, { key: '4887ac36383561c964723b5291076eca171d18d3' }, h("div", { key: '5e03a04b9aa78c60f9bb06df6761bc1b9047f827', class: "field field--full-width" }, h("ir-validator", { key: '2cc288da09000e0e30810f33d24f6d9bbbad1dfe', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: '6028c8a58b3e0a95b7fdd4499ab64aac3ca8cf7f', label: t('Lcz_EntryType', { fallback: 'Entry Type' }), orientation: "horizontal", size: "s", value: this.entryType, onchange: event => {
+        return (h(Fragment, { key: 'cee9ba57f11a9ff20439d42b438feca8d7207df4' }, h("div", { key: '4949b0ee450fedec8f399676ad001dba1ba8806f', class: "field field--full-width" }, h("ir-validator", { key: 'a0317bd732bc185ff98e80f0f9e60aae1331b03d', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: 'd5ea61783f22b228fea08fed75c7a1516def743f', label: t('Lcz_EntryType', { fallback: 'Entry Type' }), orientation: "horizontal", size: "s", value: this.entryType, onchange: event => {
                 this.fieldChange.emit({ entryType: event.target.value });
-            } }, h("wa-radio", { key: 'cc73e61bcc8c094489ceeb14353a064aa362ede7', value: "CR", appearance: "button", class: "entry-type --credit" }, t('Lcz_CreditColumn', { fallback: 'Credit' })), h("wa-radio", { key: '1c5b7503b8f9c1bc317b74d199475e196c08fa2b', value: "DB", appearance: "button", class: "entry-type --debit" }, t('Lcz_DebitColumn', { fallback: 'Debit' })))))));
+            } }, h("wa-radio", { key: '6258fcd547b3c87ed9ab6e2187abfedf6b1f329e', value: "CR", appearance: "button", class: "entry-type --credit" }, t('Lcz_CreditColumn', { fallback: 'Credit' })), h("wa-radio", { key: 'afe79357a24eb4c23c27242c07792fa576d3a3da', value: "DB", appearance: "button", class: "entry-type --debit" }, t('Lcz_DebitColumn', { fallback: 'Debit' })))))));
     }
     static get is() { return "ir-cl-adjustment-fields"; }
     static get encapsulation() { return "scoped"; }

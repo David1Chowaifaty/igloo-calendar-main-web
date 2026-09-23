@@ -2,26 +2,27 @@
 
 var index = require('./index-CQkpA5n3.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var booking_service = require('./booking.service-Bv48F_fn.js');
-var room_service = require('./room.service-XTpTtw8N.js');
-var locale_controller = require('./locale.controller-C5iGrwyB.js');
-var languageSync = require('./language-sync-BHspIYHF.js');
+var booking_store = require('./booking.store-DDthytEL.js');
+var room_service = require('./room.service-SRdCt12B.js');
+var locale_controller = require('./locale.controller-C4TH5Eq_.js');
+var languageSync = require('./language-sync-CcxSJ9ci.js');
 var t = require('./t-CyRK1btk.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./IBooking-hDE_y33g.js');
-require('./types-BVJQZ50e.js');
-require('./utils-oNe0zJBw.js');
+require('./IBooking-C1lok6Tq.js');
+require('./types-BlCoz3jZ.js');
+require('./utils-C5I0LkiV.js');
 require('./moment-CdViwxPQ.js');
-require('./calendar-data-UPPAEVR_.js');
+require('./calendar-data-HgC39-BR.js');
 require('./locales.store-BMTss6fG.js');
-require('./booking.dto-CUSvGTvD.js');
-require('./type-Bj2x9EWc.js');
+require('./booking.dto-DxxzsxJC.js');
+require('./type-BRhg-bzd.js');
 require('./ir-date-BZLsqCOc.js');
 require('./language-observer-DKp37LIu.js');
-require('./booking-BRIBt8TB.js');
+require('./booking-CQEjAIov.js');
 require('./functions-CsGCS8vQ.js');
-require('./commonSchemas-rhaJ5cvr.js');
+require('./commonSchemas-BFzTbV-r.js');
+require('./types-BzBUVSnE.js');
 
 const iglBookPropertyContainerCss = () => `.sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans',     -apple-system,     BlinkMacSystemFont,     'Segoe UI',     Roboto,     'Helvetica Neue',     Arial,     sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:start !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}`;
 
@@ -42,7 +43,7 @@ const IglBookPropertyContainer = class {
     countries;
     calendarData = {};
     resetBookingData;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     ApiClient = new ApiClient.ApiClient();
     setRoomsData(roomServiceResp) {

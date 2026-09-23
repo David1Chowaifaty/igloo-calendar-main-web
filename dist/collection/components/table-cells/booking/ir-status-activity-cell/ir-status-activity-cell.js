@@ -10,7 +10,7 @@ export class IrStatusActivityCell {
     lastManipulation;
     bookingNumber;
     render() {
-        return (h(Host, { key: '4c8f6e671d3f9505c27a0f9bd016e17aaab66067' }, h("ir-booking-status-tag", { key: 'd46b2088630ecba082d48c0b76d67a5daf418908', status: this.status, isRequestToCancel: this.isRequestToCancel }), this.showModifiedBadge && h("p", { key: '3c0a7ece5d1209a61ebb9c2f4fc1253dbb0be6f7', class: "status-activity__modified" }, t('Lcz_Modified', { fallback: 'Modified' })), this.showManipulationBadge && (h(Fragment, { key: '0c30868ddd5c1309e9e600609837052dd416af04' }, h("wa-tooltip", { key: 'c03966353dea27502af7dd55829bdbfc77cfade6', for: `manipulation_badge_${this.bookingNumber}` }, t('Lcz_ModifiedByTooltip', {
+        return (h(Host, { key: '47bb67a35667aecf4033cf8b7c0014f9ddf92d86' }, h("ir-booking-status-tag", { key: '6c4d31e491e66dc131af7e7b537e3f8fb719768d', status: this.status, isRequestToCancel: this.isRequestToCancel }), this.showModifiedBadge && h("p", { key: 'da8b5918bfc69ae83e04a7f420df3a8148557c19', class: "status-activity__modified" }, t('Lcz_Modified', { fallback: 'Modified' })), this.showManipulationBadge && (h(Fragment, { key: '7f213beb9059c68da854baf51edad1e27bcbaf0a' }, h("wa-tooltip", { key: '44e1dba241d1a1f0db6730ab391f0fcfa365682e', for: `manipulation_badge_${this.bookingNumber}` }, t('Lcz_ModifiedByTooltip', {
             fallback: 'Modified by %1 at %2 %3:%4',
             params: [
                 this.lastManipulation.user,
@@ -18,7 +18,7 @@ export class IrStatusActivityCell {
                 formatNumber(Number(this.lastManipulation.hour), { minimumIntegerDigits: 2, useGrouping: false }),
                 formatNumber(Number(this.lastManipulation.minute), { minimumIntegerDigits: 2, useGrouping: false }),
             ],
-        })), h("p", { key: '0b71316efd04f7df559eaa963bc0e40198d08f57', class: "status-activity__manipulation", id: `manipulation_badge_${this.bookingNumber}` }, t('Lcz_Modified', { fallback: 'Modified' }))))));
+        })), h("p", { key: 'c319264fd20bed80a7146d2e77d1a798ba5b35f2', class: "status-activity__manipulation", id: `manipulation_badge_${this.bookingNumber}` }, t('Lcz_Modified', { fallback: 'Modified' }))))));
     }
     static get is() { return "ir-status-activity-cell"; }
     static get encapsulation() { return "scoped"; }

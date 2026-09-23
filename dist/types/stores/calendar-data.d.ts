@@ -20,6 +20,9 @@ type CalendarStore = CalendarDataDetails & {
 };
 export declare const calendar_data: CalendarStore, onCalendarDatesChange: import("@stencil/store/dist/types").OnChangeHandler<CalendarStore>;
 export declare function isSingleUnit(id: number): boolean;
+/** Room-type id → name, built once per property load from `calendar_data.property.roomtypes`. */
+export declare function getRoomTypeNameMap(): Map<number, string>;
+export declare function getRoomTypeName(id: number): string;
 export declare function isOptimReadOnly(): boolean;
 export declare function hasOptim(): import("@/models/booking.dto").LinkedPms;
 export declare function getExtraServiceDefaultPrice(serviceKey: string): string;

@@ -8,8 +8,8 @@ export declare class IrExtraServiceConfigForm {
     service: ExtraService;
     svcCategories: SetupEntries[];
     language: string;
-    /** Pre-selected unit (physical room) id to link a new service to, e.g. when added from ir-room's quick-add action. */
-    defaultPrId: number | null;
+    /** Pre-selected room identifier to link a new service to, e.g. when added from ir-room's quick-add action. */
+    defaultIdentifier: string | null;
     s_service: ExtraService;
     error: boolean;
     fromDateClicked: boolean;
@@ -37,9 +37,10 @@ export declare class IrExtraServiceConfigForm {
     private get subCategories();
     /** The unit-link select becomes mandatory once the chosen extra service is an accommodation sub-category (Breakfast, Minibar, ...). */
     private get isUnitRequired();
+    /** One option per booked room, keyed by `room.identifier`. Assigned rooms show their unit name; unassigned ones show the room guest's name instead so they can still be told apart. */
     private get unitOptions();
     private get showUnitLink();
-    /** The room identifier to link a new service to: an explicit default (e.g. from ir-room's quick-add, given as a unit id), or the booking's single unit when there's no choice to make. */
+    /** The room identifier to link a new service to: an explicit default (e.g. from ir-room's quick-add, given as a room identifier), or the booking's single room when there's no choice to make. */
     private get effectiveRoomIdentifier();
     private saveAmenity;
     private closeDialog;

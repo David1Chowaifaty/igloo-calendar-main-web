@@ -1,204 +1,149 @@
 import { Host, h } from "@stencil/core";
-import { ToBeAssignedService } from "../../../../services/toBeAssigned.service";
-import { v4 } from "uuid";
-import { canCheckIn } from "../../../../utils/utils";
+import { UnassignedUnitsService } from "../../../../services/unassigned-units/index";
+import { clampToLoadedRange, guestName, toCalendarAssignedEvent, toCalendarPreviewEvents } from "../../../../services/unassigned-units/utils";
 import { t } from "../../../../services/locale/t";
 import { formatBookingNumber } from "../../../../utils/number";
+import { canCheckIn } from "../../../../utils/utils";
+function formatOccupancy({ adult_nbr, children_nbr, infant_nbr }) {
+    const parts = [
+        [adult_nbr, t('Lcz_AdultAbbreviation', { fallback: 'A' })],
+        [children_nbr, t('Lcz_ChildAbbreviation', { fallback: 'C' })],
+        [infant_nbr, t('Lcz_InfantAbbreviation', { fallback: 'I' })],
+    ];
+    return parts
+        .filter(([count]) => count > 0)
+        .map(([count, label]) => `${count}${label}`)
+        .join('-');
+}
 export class IglTbaBookingView {
     calendarData;
+    room;
+    roomTypeId;
+    roomTypeName;
     selectedDate;
-    eventData = {};
-    categoriesData = {};
-    categoryId;
     categoryIndex;
     eventIndex;
-    renderAgain = false;
-    selectedRoom = -1;
-    isLoading = null;
-    highlightSection = false;
-    allRoomsList = [];
-    toBeAssignedService = new ToBeAssignedService();
+    isHighlighted = false;
+    selectedUnitId = null;
+    pendingAction = null;
     highlightToBeAssignedBookingEvent;
     openCalendarSidebar;
     addToBeAssignedEvent;
     scrollPageToRoom;
     assignRoomEvent;
-    componentShouldUpdate(newValue, oldValue, propName) {
-        if (propName === 'selectedDate' && newValue !== oldValue) {
-            this.highlightSection = false;
-            this.selectedRoom = -1;
-            return true;
-        }
-        else if (propName === 'eventData' && newValue !== oldValue) {
-            this.selectedRoom = -1;
-            return true;
-        }
-        return true;
-    }
-    componentWillLoad() {
+    unassignedUnitsService = new UnassignedUnitsService();
+    componentDidLoad() {
+        // The first card opens highlighted so its unit previews are on the calendar as soon as the panel appears.
         if (this.categoryIndex === 0 && this.eventIndex === 0) {
-            setTimeout(() => {
-                this.handleHighlightAvailability();
-            }, 100);
+            setTimeout(() => this.highlight(), 100);
         }
     }
-    highlightBookingEvent(event) {
-        let data = event.detail.data;
-        if (data.bookingId != this.eventData.ID) {
-            this.highlightSection = false;
-            this.selectedRoom = -1;
-            this.renderView();
+    handleSelectedDateChange() {
+        this.isHighlighted = false;
+        this.selectedUnitId = null;
+    }
+    /** Keep the picked unit only while this card still shows the same room, and while that room still offers the unit. */
+    handleRoomChange(next, prev) {
+        if (next.room_identifier !== prev?.room_identifier) {
+            this.selectedUnitId = null;
+            return;
         }
-        else {
-            this.highlightSection = true;
-            this.renderView();
+        if (this.selectedUnitId !== null && !(next.assignable_units ?? []).some(unit => unit.pr_id === this.selectedUnitId)) {
+            this.selectedUnitId = null;
         }
     }
-    onSelectRoom(evt) {
-        if (evt.stopImmediatePropagation) {
-            evt.stopImmediatePropagation();
-            evt.stopPropagation();
+    handleHighlightChange(event) {
+        const isThisCard = event.detail.data.bookingId === this.room.room_identifier;
+        if (!isThisCard) {
+            this.selectedUnitId = null;
         }
-        this.selectedRoom = parseInt(evt.target.value);
+        this.isHighlighted = isThisCard;
     }
-    async handleAssignUnit(event, check_in = false) {
-        try {
-            event.stopImmediatePropagation();
-            event.stopPropagation();
-            if (this.selectedRoom) {
-                this.isLoading = check_in ? 'checkin' : 'default';
-                const booking = await this.toBeAssignedService.assignUnit({
-                    booking_nbr: this.eventData.BOOKING_NUMBER,
-                    identifier: this.eventData.ID,
-                    pr_id: this.selectedRoom,
-                    check_in,
-                });
-                const room = booking.rooms.find(r => r.identifier === this.eventData.identifier);
-                console.log('room=>', room);
-                if (room && check_in) {
-                    // TODO:enable this when applying the check in module
-                    const { adult_nbr, children_nbr, infant_nbr } = room.occupancy;
-                    window.dispatchEvent(new CustomEvent('openCalendarSidebar', {
-                        detail: {
-                            type: 'room-guests',
-                            payload: {
-                                identifier: this.eventData.ID,
-                                bookingNumber: this.eventData.BOOKING_NUMBER,
-                                checkin: false,
-                                roomName: room.unit?.name ?? '',
-                                sharing_persons: room.sharing_persons,
-                                totalGuests: adult_nbr + children_nbr + infant_nbr,
-                            },
-                        },
-                        bubbles: true,
-                        composed: true,
-                    }));
-                    console.log('event emitted directly to window 🔥');
-                }
-                let assignEvent = { ...this.eventData, PR_ID: this.selectedRoom };
-                this.addToBeAssignedEvent.emit({
-                    key: 'tobeAssignedEvents',
-                    data: [assignEvent],
-                });
-                this.assignRoomEvent.emit({ key: 'assignRoom', data: assignEvent });
-            }
-        }
-        catch (error) {
-            console.log(error);
-        }
-        finally {
-            this.isLoading = null;
-        }
+    get eventContext() {
+        return {
+            roomsInfo: this.calendarData.roomsInfo,
+            legendData: this.calendarData.formattedLegendData,
+            roomTypeId: this.roomTypeId,
+            roomTypeName: this.roomTypeName,
+        };
     }
-    handleHighlightAvailability() {
+    highlight = () => {
         this.highlightToBeAssignedBookingEvent.emit({
             key: 'highlightBookingId',
-            data: { bookingId: this.eventData.ID, fromDate: this.eventData.FROM_DATE },
+            // Scroll to the first drawn night, which may be later than the stay's start if that is before the loaded range.
+            data: { bookingId: this.room.room_identifier, fromDate: clampToLoadedRange(this.room.from_date, this.room.to_date).from },
         });
         if (!this.selectedDate) {
             return;
         }
-        let filteredEvents = [];
-        let allRoomsList = [];
-        filteredEvents = this.eventData.availableRooms.map(room => {
-            allRoomsList.push({
-                calendar_cell: null,
-                id: room.PR_ID,
-                name: room.roomName,
-            });
-            return {
-                ...room,
-                defaultDateRange: this.eventData.defaultDateRange,
-                identifier: this.eventData.identifier,
-            };
-        });
-        this.allRoomsList = allRoomsList;
-        this.addToBeAssignedEvent.emit({
-            key: 'tobeAssignedEvents',
-            data: filteredEvents,
-        });
-        this.scrollPageToRoom.emit({
-            key: 'scrollPageToRoom',
-            id: this.categoryId,
-            refClass: 'category_' + this.categoryId,
-        });
-        this.renderView();
-    }
-    handleCloseAssignment(event) {
-        event.stopImmediatePropagation();
+        this.addToBeAssignedEvent.emit({ key: 'tobeAssignedEvents', data: toCalendarPreviewEvents(this.room, this.eventContext) });
+        this.scrollPageToRoom.emit({ key: 'scrollPageToRoom', id: this.roomTypeId, refClass: `category_${this.roomTypeId}` });
+    };
+    handleClose = (event) => {
         event.stopPropagation();
-        this.highlightSection = false;
-        this.highlightToBeAssignedBookingEvent.emit({
-            key: 'highlightBookingId',
-            data: { bookingId: '----' },
-        });
-        this.onSelectRoom({ target: { value: '' } });
-        this.selectedRoom = -1;
+        this.selectedUnitId = null;
+        this.highlightToBeAssignedBookingEvent.emit({ key: 'highlightBookingId', data: { bookingId: '----' } });
         this.addToBeAssignedEvent.emit({ key: 'tobeAssignedEvents', data: [] });
-        this.renderView();
+    };
+    handleUnitChange = (event) => {
+        event.stopPropagation();
+        const value = event.target.value;
+        this.selectedUnitId = value ? Number(value) : null;
+    };
+    handleAssign = (event) => this.assign(event, false);
+    handleAssignAndCheckIn = (event) => this.assign(event, true);
+    async assign(event, checkIn) {
+        event.stopPropagation();
+        if (this.selectedUnitId === null || this.pendingAction) {
+            return;
+        }
+        this.pendingAction = checkIn ? 'checkin' : 'assign';
+        try {
+            const booking = await this.unassignedUnitsService.assignUnit({
+                booking_nbr: this.room.booking_nbr,
+                identifier: this.room.room_identifier,
+                pr_id: this.selectedUnitId,
+                check_in: checkIn,
+            });
+            if (checkIn) {
+                this.openRoomGuests(booking);
+            }
+            const assigned = toCalendarAssignedEvent(this.room, this.selectedUnitId, this.eventContext);
+            this.addToBeAssignedEvent.emit({ key: 'tobeAssignedEvents', data: [assigned] });
+            this.assignRoomEvent.emit(assigned);
+        }
+        catch (error) {
+            console.error('Assigning unit failed:', error);
+        }
+        finally {
+            this.pendingAction = null;
+        }
     }
-    renderView() {
-        this.renderAgain = !this.renderAgain;
-    }
-    canCheckIn() {
-        // if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
-        //   return false;
-        // }
-        // const now = moment();
-        // if (
-        //   (moment().isSameOrAfter(new Date(this.eventData.FROM_DATE), 'days') && moment().isBefore(new Date(this.eventData.TO_DATE), 'days')) ||
-        //   (moment().isSame(new Date(this.eventData.TO_DATE), 'days') &&
-        //     !compareTime(now.toDate(), createDateWithOffsetAndHour(calendar_data.checkin_checkout_hours?.offset, calendar_data.checkin_checkout_hours?.hour)))
-        // ) {
-        //   return true;
-        // }
-        // return false;
-        return canCheckIn({
-            from_date: this.eventData.FROM_DATE,
-            to_date: this.eventData.TO_DATE,
+    openRoomGuests(booking) {
+        const bookedRoom = booking.rooms.find(r => r.identifier === this.room.room_identifier);
+        if (!bookedRoom) {
+            return;
+        }
+        const { adult_nbr, children_nbr, infant_nbr } = bookedRoom.occupancy;
+        this.openCalendarSidebar.emit({
+            type: 'room-guests',
+            payload: {
+                identifier: this.room.room_identifier,
+                bookingNumber: this.room.booking_nbr,
+                checkin: false,
+                roomName: typeof bookedRoom.unit === 'object' && bookedRoom.unit ? bookedRoom.unit.name : '',
+                sharing_persons: bookedRoom.sharing_persons,
+                totalGuests: adult_nbr + children_nbr + infant_nbr,
+            },
         });
-    }
-    formatVariation({ infant_nbr, adult_nbr, children_nbr }) {
-        const adultCount = adult_nbr > 0 ? adult_nbr : 0;
-        const childCount = children_nbr > 0 ? children_nbr : 0;
-        const infantCount = infant_nbr > 0 ? infant_nbr : 0;
-        const adultLabel = t('Lcz_AdultAbbreviation', { fallback: 'A' });
-        const childLabel = t('Lcz_ChildAbbreviation', { fallback: 'C' });
-        const infantLabel = t('Lcz_InfantAbbreviation', { fallback: 'I' });
-        const parts = [];
-        if (adultCount > 0) {
-            parts.push(`${adultCount}${adultLabel}`);
-        }
-        if (childCount > 0) {
-            parts.push(`${childCount}${childLabel}`);
-        }
-        if (infantCount > 0) {
-            parts.push(`${infantCount}${infantLabel}`);
-        }
-        return parts.join('-');
     }
     render() {
-        return (h(Host, { key: '828e67511ca29298527ab28ef15bfdbe4205eff0' }, h("wa-card", { key: '22eab65d9a5de635f055498629102834bfc0d187', appearance: "filled", class: `tba ${this.highlightSection ? '--active' : ''}`, onClick: () => this.handleHighlightAvailability() }, h("div", { key: '3e6f44f048e7d51777dd6f8b9be1066aadbdc80d', slot: "header", class: `tba__header`, title: t('Lcz_ClickToAssignUnit', { fallback: 'Click to assign unit' }) }, h("p", { key: 'f45963eae1bb32c9510a645df511f8cfcb355ac2', class: "tba__booking-number" }, formatBookingNumber(this.eventData.BOOKING_NUMBER)), h("span", { key: 'cfca24409df807b213bb2f0f284490d34e8651eb', class: "tba__separator" }, "-"), h("p", { key: '204f8f3c8c1127f1fbbd3be2e8b969c04b6535a2', class: "tba__guest-name" }, this.eventData.NAME), this.eventData.occupancy && (h("p", { key: 'ba2740b011585c1e77ad2d7aaf41eeb84a870c09', class: "tba__occupancy" }, h("span", { key: '6f5a6b6c382e3c4c9f41ebb5cf00654054075867', class: "tba__occupancy-paren" }, "( "), h("span", { key: '37ce441a15d322a08895308e484a0d4e71cc43de', class: "tba__occupancy-values", innerHTML: this.formatVariation(this.eventData.occupancy) }), h("span", { key: 'b0ac05f36d24ae00a4d3d74c8c668c8d94184346', class: "tba__occupancy-paren" }, " )")))), h("div", { key: '88ce777ca238d64dae745674300566f3641e3e62', class: "tba__actions" }, h("wa-select", { key: '8f5de80b1c9cc20cf18c42beb965fa8bee194b4a', defaultValue: this.selectedRoom === -1 ? '' : this.selectedRoom.toString(), class: "tba__select", id: v4(), size: "s", value: this.selectedRoom === -1 ? '' : this.selectedRoom.toString(), onchange: evt => this.onSelectRoom(evt) }, h("wa-option", { key: '4452fdc637f9eb21b7c247719a3b7e3b4a5ddb70', value: "" }, t('Lcz_AssignUnit')), this.allRoomsList.map(room => (h("wa-option", { value: room.id.toString() }, room.name)))), this.highlightSection ? (h("div", { class: "tba__close" }, h("wa-button", { type: "button", appearance: "plain", size: "s", class: "tba__close-btn", onClick: evt => this.handleCloseAssignment(evt) }, h("wa-icon", { name: "xmark" })))) : null), h("div", { key: 'f2c176d4cf1f01b5f4a9839f8a657b8b7abfbfc2', class: "tba__assign" }, h("wa-button", { key: '80bb72a7e1f92de558696b2232d3186771fea764', class: "tba__assign-btn", size: "s", variant: "brand", appearance: this.canCheckIn() ? 'outlined' : 'accent', loading: this.isLoading === 'default', disabled: this.selectedRoom === -1, onClick: evt => this.handleAssignUnit(evt) }, t('Lcz_Assign', { fallback: 'Assign' })), this.canCheckIn() && (h("wa-button", { key: '28fcfb6ad43eba1f291c7107780e648cf11cbe3d', class: "tba__assign-btn", size: "s", variant: "brand", loading: this.isLoading === 'checkin', disabled: this.selectedRoom === -1, onClick: evt => this.handleAssignUnit(evt, true) }, t('Lcz_AssignedAndChecIn')))))));
+        const { booking_nbr, occupancy, from_date, to_date } = this.room;
+        const occupancyLabel = occupancy ? formatOccupancy(occupancy) : '';
+        const canCheckInNow = canCheckIn({ from_date: from_date, to_date: to_date });
+        const selectedValue = this.selectedUnitId === null ? '' : String(this.selectedUnitId);
+        const actionsDisabled = this.selectedUnitId === null || this.pendingAction !== null;
+        return (h(Host, { key: 'e4c4d52a110e84ccb9c8331bfbbdc21227f00244' }, h("wa-card", { key: 'e9990d81ad083a14a7a5cec384f9d98099630be2', appearance: "filled", class: this.isHighlighted ? 'tba --active' : 'tba', onClick: this.highlight }, h("div", { key: '5d2ce5daa4d7dcaa9567997e3691b3f9c781fba0', slot: "header", class: "tba__header", title: t('Lcz_ClickToAssignUnit', { fallback: 'Click to assign unit' }) }, h("p", { key: 'f6bd22a39c266d518de14b464c66fc64824064a7', class: "tba__booking-number" }, formatBookingNumber(booking_nbr)), h("span", { key: 'bacdb6d713ee7b9ccfb8194c7797cc1873103618', class: "tba__separator" }, "-"), h("p", { key: 'cf683127de7322b2850c0c76ac3c9bc7e511a5da', class: "tba__guest-name" }, guestName(this.room)), occupancyLabel && (h("p", { key: '2cdafc653e3f5bf9083a9945fa37584dfb89920b', class: "tba__occupancy" }, h("span", { key: '7a6e72736d4de7b9975be73a32a73a061ea95d19', class: "tba__occupancy-paren" }, "( "), h("span", { key: 'b4de3bb96132fb92897bd8d3691f15ce32a5d1ef', class: "tba__occupancy-values" }, occupancyLabel), h("span", { key: '54077eecc39b869fea2a10a7a80c8713f58d1433', class: "tba__occupancy-paren" }, " )")))), h("div", { key: '81e67c685288063db07a579efcd9a50d67343225', class: "tba__actions" }, h("wa-select", { key: '36a885234387a73cbfd8797d91a7070d2ffbbfc2', class: "tba__select", size: "s", value: selectedValue, defaultValue: selectedValue, onchange: this.handleUnitChange }, h("wa-option", { key: '795ea5d90b375594090b92791dcd1fda6d2a833f', value: "" }, t('Lcz_AssignUnit')), (this.room.assignable_units ?? []).map(unit => (h("wa-option", { key: unit.pr_id, value: String(unit.pr_id) }, unit.name)))), this.isHighlighted && (h("div", { key: '3ed612a86667d8b8aa60816b2d37eaf1ad518296', class: "tba__close" }, h("wa-button", { key: '70b642ec0841c9bed728ffbfb92660a9bd8f3091', type: "button", appearance: "plain", size: "s", class: "tba__close-btn", onClick: this.handleClose }, h("wa-icon", { key: '9da944beb64b24764f5c5425f3e1c781fd27c289', name: "xmark" }))))), h("div", { key: '499d7d42999bfdde85de88420af173642fe64a87', class: "tba__assign" }, h("wa-button", { key: 'de34404ff9887b5aaaab7c355f5da9e03affeee4', class: "tba__assign-btn", size: "s", variant: "brand", appearance: canCheckInNow ? 'outlined' : 'accent', loading: this.pendingAction === 'assign', disabled: actionsDisabled, onClick: this.handleAssign }, t('Lcz_Assign', { fallback: 'Assign' })), canCheckInNow && (h("wa-button", { key: '6d10b28adbc56d0d422f9e16e6eeb13356b6aead', class: "tba__assign-btn", size: "s", variant: "brand", loading: this.pendingAction === 'checkin', disabled: actionsDisabled, onClick: this.handleAssignAndCheckIn }, t('Lcz_AssignedAndChecIn')))))));
     }
     static get is() { return "igl-tba-booking-view"; }
     static get encapsulation() { return "scoped"; }
@@ -231,12 +176,74 @@ export class IglTbaBookingView {
                 "getter": false,
                 "setter": false
             },
-            "selectedDate": {
-                "type": "any",
+            "room": {
+                "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "any",
-                    "resolved": "any",
+                    "original": "UnassignedRoomEntry",
+                    "resolved": "UnassignedRoomEntry",
+                    "references": {
+                        "UnassignedRoomEntry": {
+                            "location": "import",
+                            "path": "@/services/unassigned-units/types",
+                            "id": "src/services/unassigned-units/types.ts::UnassignedRoomEntry",
+                            "referenceLocation": "UnassignedRoomEntry"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
+            },
+            "roomTypeId": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "room-type-id"
+            },
+            "roomTypeName": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "room-type-name"
+            },
+            "selectedDate": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
                     "references": {}
                 },
                 "required": false,
@@ -250,67 +257,12 @@ export class IglTbaBookingView {
                 "reflect": false,
                 "attribute": "selected-date"
             },
-            "eventData": {
-                "type": "unknown",
-                "mutable": false,
-                "complexType": {
-                    "original": "{ [key: string]: any }",
-                    "resolved": "{ [key: string]: any; }",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "defaultValue": "{}"
-            },
-            "categoriesData": {
-                "type": "unknown",
-                "mutable": false,
-                "complexType": {
-                    "original": "{ [key: string]: any }",
-                    "resolved": "{ [key: string]: any; }",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "defaultValue": "{}"
-            },
-            "categoryId": {
-                "type": "any",
-                "mutable": false,
-                "complexType": {
-                    "original": "any",
-                    "resolved": "any",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "category-id"
-            },
             "categoryIndex": {
-                "type": "any",
+                "type": "number",
                 "mutable": false,
                 "complexType": {
-                    "original": "any",
-                    "resolved": "any",
+                    "original": "number",
+                    "resolved": "number",
                     "references": {}
                 },
                 "required": false,
@@ -325,11 +277,11 @@ export class IglTbaBookingView {
                 "attribute": "category-index"
             },
             "eventIndex": {
-                "type": "any",
+                "type": "number",
                 "mutable": false,
                 "complexType": {
-                    "original": "any",
-                    "resolved": "any",
+                    "original": "number",
+                    "resolved": "number",
                     "references": {}
                 },
                 "required": false,
@@ -347,9 +299,9 @@ export class IglTbaBookingView {
     }
     static get states() {
         return {
-            "renderAgain": {},
-            "selectedRoom": {},
-            "isLoading": {}
+            "isHighlighted": {},
+            "selectedUnitId": {},
+            "pendingAction": {}
         };
     }
     static get events() {
@@ -364,8 +316,8 @@ export class IglTbaBookingView {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "any",
-                    "resolved": "any",
+                    "original": "{ key: 'highlightBookingId'; data: { bookingId: string; fromDate?: string } }",
+                    "resolved": "{ key: \"highlightBookingId\"; data: { bookingId: string; fromDate?: string; }; }",
                     "references": {}
                 }
             }, {
@@ -401,9 +353,22 @@ export class IglTbaBookingView {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "any",
-                    "resolved": "any",
-                    "references": {}
+                    "original": "{ key: 'tobeAssignedEvents'; data: (CalendarUnitPreviewEvent | CalendarAssignedEvent)[] }",
+                    "resolved": "{ key: \"tobeAssignedEvents\"; data: (CalendarUnitPreviewEvent | CalendarAssignedEvent)[]; }",
+                    "references": {
+                        "CalendarUnitPreviewEvent": {
+                            "location": "import",
+                            "path": "@/services/unassigned-units/types",
+                            "id": "src/services/unassigned-units/types.ts::CalendarUnitPreviewEvent",
+                            "referenceLocation": "CalendarUnitPreviewEvent"
+                        },
+                        "CalendarAssignedEvent": {
+                            "location": "import",
+                            "path": "@/services/unassigned-units/types",
+                            "id": "src/services/unassigned-units/types.ts::CalendarAssignedEvent",
+                            "referenceLocation": "CalendarAssignedEvent"
+                        }
+                    }
                 }
             }, {
                 "method": "scrollPageToRoom",
@@ -416,8 +381,8 @@ export class IglTbaBookingView {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "any",
-                    "resolved": "any",
+                    "original": "{ key: 'scrollPageToRoom'; id: number | null; refClass: string }",
+                    "resolved": "{ key: \"scrollPageToRoom\"; id: number; refClass: string; }",
                     "references": {}
                 }
             }, {
@@ -431,16 +396,32 @@ export class IglTbaBookingView {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "{ [key: string]: any }",
-                    "resolved": "{ [key: string]: any; }",
-                    "references": {}
+                    "original": "CalendarAssignedEvent",
+                    "resolved": "CalendarAssignedEvent",
+                    "references": {
+                        "CalendarAssignedEvent": {
+                            "location": "import",
+                            "path": "@/services/unassigned-units/types",
+                            "id": "src/services/unassigned-units/types.ts::CalendarAssignedEvent",
+                            "referenceLocation": "CalendarAssignedEvent"
+                        }
+                    }
                 }
+            }];
+    }
+    static get watchers() {
+        return [{
+                "propName": "selectedDate",
+                "methodName": "handleSelectedDateChange"
+            }, {
+                "propName": "room",
+                "methodName": "handleRoomChange"
             }];
     }
     static get listeners() {
         return [{
                 "name": "highlightToBeAssignedBookingEvent",
-                "method": "highlightBookingEvent",
+                "method": "handleHighlightChange",
                 "target": "window",
                 "capture": false,
                 "passive": false

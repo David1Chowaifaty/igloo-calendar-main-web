@@ -72,14 +72,14 @@ export class IrCityLedgerFiscalDocuments {
         this.fetchFiscalDocuments(this.filters);
     }
     render() {
-        return (h(Host, { key: '25eed8d8651b4f7106e1382f7297edbee2486237' }, h("section", { key: 'bd6faf074aaf95ae122d1a72b5281a6fdbc4c9c9', class: "fiscal-documents", "aria-label": t('Lcz_CityLedgerFiscalDocumentsAriaLabel', { fallback: 'City ledger fiscal documents' }) }, h("ir-city-ledger-fiscal-documents-filters", { key: '772178dc93323d4d165a8fce7dcd5b02aa410a2f', filters: this.filters, onFiltersChange: event => {
+        return (h(Host, { key: 'd94be07e8bbd9abdebab7cce41162f77b1364da0' }, h("section", { key: 'd68797d10b1326d63d7493c7a1d08e364df61443', class: "fiscal-documents", "aria-label": t('Lcz_CityLedgerFiscalDocumentsAriaLabel', { fallback: 'City ledger fiscal documents' }) }, h("ir-city-ledger-fiscal-documents-filters", { key: 'b59789670736ef9d0e858847b7fc57879609dddc', filters: this.filters, onFiltersChange: event => {
                 this.filters = event.detail;
                 this.clFiscalFiltersChange.emit(event.detail);
             }, onApplyFilters: event => {
                 this.filters = event.detail;
                 this.clFiscalFiltersChange.emit(event.detail);
                 this.fetchFiscalDocuments(event.detail);
-            } }), h("ir-city-ledger-fiscal-documents-table", { key: 'fee1ebdaa5a5bd5bb170ee7a08f2e4e41b8d2642', isLoading: this.isLoading, rows: this.filteredDocuments, currencySymbol: this.currencySymbol, currencies: this.currencies, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), hasFetched: this.hasFetched, ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, fromDate: this.filters.fromDate, toDate: this.filters.toDate, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) }))));
+            } }), h("ir-city-ledger-fiscal-documents-table", { key: '068715ccd8c6151f519c0e625150ce950c2d647c', isLoading: this.isLoading, rows: this.filteredDocuments, currencySymbol: this.currencySymbol, currencies: this.currencies, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), hasFetched: this.hasFetched, ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, fromDate: this.filters.fromDate, toDate: this.filters.toDate, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) }))));
     }
     static get is() { return "ir-city-ledger-fiscal-documents"; }
     static get encapsulation() { return "scoped"; }

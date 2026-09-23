@@ -9,7 +9,7 @@ const IrFinancialSummary = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: '59ad75a0c284b3108f44038abeb559e75105b9e2' }, index.h("slot", { key: '88d79775e1c7000b1766d4b5ee1579958abd08d8' })));
+        return (index.h(index.Host, { key: '78c7adff7928c69f92500a3a2b476bd6f8a6cd90' }, index.h("slot", { key: 'abca508f68f573d246f9fb890687cbf582f57b3a' })));
     }
 };
 IrFinancialSummary.style = irFinancialSummaryCss();

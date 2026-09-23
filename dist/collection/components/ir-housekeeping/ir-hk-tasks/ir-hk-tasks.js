@@ -1,5 +1,5 @@
 import ApiClient from "../../../models/ApiClient";
-import { HouseKeepingService } from "../../../services/housekeeping.service";
+import { HouseKeepingService } from "../../../services/housekeeping/index";
 import { RoomService } from "../../../services/room.service";
 import housekeeping_store from "../../../stores/housekeeping.store";
 import { Host, h } from "@stencil/core";
@@ -110,7 +110,7 @@ export class IrHkTasks {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.houseKeepingService.getExposedHKSetup(this.property_id), localeReady];
+            const requests = [this.houseKeepingService.getExposedHKSetup({ property_id: this.property_id }), localeReady];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,

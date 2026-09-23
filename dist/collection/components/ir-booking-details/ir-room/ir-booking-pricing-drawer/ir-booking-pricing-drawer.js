@@ -26,7 +26,7 @@ export class IrBookingPricingDrawer {
         event.stopImmediatePropagation();
     }
     render() {
-        return (h("ir-drawer", { key: '72a6279c5ce93b93e833bb2156728fc15ce389d1', open: this.open, label: this.drawerLabel, style: {
+        return (h("ir-drawer", { key: '43e95399eb9735494d1aefd21556649bccebe43b', open: this.open, label: this.drawerLabel, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -39,7 +39,7 @@ export class IrBookingPricingDrawer {
                     this.allItemsDisabled = false;
                     this.closeDrawer.emit();
                 }
-            } }, this.open && (h("ir-booking-pricing-form", { key: '07b90e97e443c307309b518eb6a8f4b958bf84cb', formId: this.formId, booking: this.booking, room: this.room, agent: this.agent, folioEntries: this.folioEntries, currencySymbol: this.currencySymbol, onPricingSaved: e => {
+            } }, this.open && (h("ir-booking-pricing-form", { key: '4ea27419c6f42baee1888aea925771365478f430', formId: this.formId, booking: this.booking, room: this.room, agent: this.agent, folioEntries: this.folioEntries, currencySymbol: this.currencySymbol, onPricingSaved: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.pricingSaved.emit();
@@ -50,7 +50,7 @@ export class IrBookingPricingDrawer {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.allItemsDisabled = e.detail;
-            } })), h("div", { key: '350ed2e51a64c84f6e558baa711b15f4389a0459', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '46128be9f2e74521ec42af217182bf29edc5125a', appearance: "filled", size: "m", variant: "neutral", onClickHandler: () => this.closeDrawer.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'fcbe77cf49b6bfba65edb94aeddccff30c265a1f', form: this.formId, size: "m", type: "submit", variant: "brand", loading: this.saveDisabled, disabled: this.allItemsDisabled }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
+            } })), h("div", { key: '66c058c1369987d570b0da99eddec542c96d990c', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '90bd0ac473af47ddc7abf9852b237af1756da783', appearance: "filled", size: "m", variant: "neutral", onClickHandler: () => this.closeDrawer.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '1f007f8c3b3362e8e9dea083c118620bf7c2c417', form: this.formId, size: "m", type: "submit", variant: "brand", loading: this.saveDisabled, disabled: this.allItemsDisabled }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
     }
     static get is() { return "ir-booking-pricing-drawer"; }
     static get encapsulation() { return "scoped"; }

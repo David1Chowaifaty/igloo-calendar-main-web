@@ -1,26 +1,27 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-CeHdrJeH.js';
-import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, a as resetReserved, d as setBookingSelectOptions, e as reserveRooms } from './booking.service-CMmse-Np.js';
-import { S as SetupService } from './index-DK1lF62Q.js';
-import { e as extras, n as handleBodyOverflow, g as getReleaseHoursString, d as dateToFormattedString } from './utils-BtgW0txG.js';
+import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, a as resetReserved, d as setBookingSelectOptions, e as reserveRooms } from './booking.store-q9_GjlKT.js';
+import { S as SetupService } from './index-Er1rf3LB.js';
+import { h as extras, j as handleBodyOverflow, n as getReleaseHoursString, o as dateToFormattedString } from './utils-Ddj2LxLs.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { i as isRequestPending } from './ir-interceptor.store-302gZvQv.js';
 import { t } from './t-Bk78Wumj.js';
-import { R as RoomGuestSchema, B as BookingGuestSchema } from './types-BV-pT2kF.js';
-import { L as LocaleController } from './locale.controller-DKzzcKD9.js';
+import { R as RoomGuestSchema, B as BookingGuestSchema } from './types-e2CujCbR.js';
+import { L as LocaleController } from './locale.controller-CTJvh9SC.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-B-QQODPH.js';
-import './types-BG9uwIsj.js';
-import './booking-DuWdYels.js';
+import './IBooking-BEkHqAPo.js';
+import './types-BWKgfE54.js';
+import './booking-887zeuHr.js';
 import './locales.store-CXJn6ls-.js';
-import './calendar-data-BZeaTRgj.js';
-import './functions-D_076Gzf.js';
-import './ir-date-DFR8GVLZ.js';
+import './calendar-data-BmpcWihW.js';
+import './functions-BkQvqs4p.js';
+import './ir-date-BngUhoPp.js';
 import './language-observer-CHgzsZkY.js';
-import './commonSchemas-DZl_Ygcg.js';
-import './utils-Jf3si-tr.js';
-import './booking.dto-FOZcMojD.js';
-import './type-DUaIPoJQ.js';
+import './commonSchemas-DOpzu-TI.js';
+import './utils-el9-8HZ4.js';
+import './booking.dto-xX-uaIxb.js';
+import './type-DahsFfOq.js';
+import './types-vTVnj3si.js';
 
 class IglBookPropertyService {
     hasUnderscore(str) {

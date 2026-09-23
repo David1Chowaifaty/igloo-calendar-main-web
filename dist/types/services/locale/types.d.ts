@@ -35,12 +35,15 @@ export type LoadLocaleParams = {
 export declare const LocaleEntryRowSchema: z.ZodObject<{
     code: z.ZodString;
     description: z.ZodDefault<z.ZodNullable<z.ZodString>>;
+    table_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
     code?: string;
     description?: string;
+    table_name?: string;
 }, {
     code?: string;
     description?: string;
+    table_name?: string;
 }>;
 export type LocaleEntryRow = z.infer<typeof LocaleEntryRowSchema>;
 /** `My_Result` of `Get_Exposed_Language`. */
@@ -48,24 +51,29 @@ export declare const ExposedLanguageResultSchema: z.ZodObject<{
     entries: z.ZodDefault<z.ZodNullable<z.ZodArray<z.ZodObject<{
         code: z.ZodString;
         description: z.ZodDefault<z.ZodNullable<z.ZodString>>;
+        table_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, "strip", z.ZodTypeAny, {
         code?: string;
         description?: string;
+        table_name?: string;
     }, {
         code?: string;
         description?: string;
+        table_name?: string;
     }>, "many">>>;
     direction: z.ZodDefault<z.ZodNullable<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
     entries?: {
         code?: string;
         description?: string;
+        table_name?: string;
     }[];
     direction?: string;
 }, {
     entries?: {
         code?: string;
         description?: string;
+        table_name?: string;
     }[];
     direction?: string;
 }>;

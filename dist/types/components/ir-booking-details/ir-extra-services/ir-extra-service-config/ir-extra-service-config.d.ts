@@ -9,7 +9,7 @@ export declare class IrExtraServiceConfig {
     service: ExtraService;
     language: string;
     open: boolean;
-    defaultPrId: number | null;
+    defaultIdentifier: string | null;
     closeModal: EventEmitter<null>;
     private closeDialog;
     render(): any;

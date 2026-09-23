@@ -46,7 +46,7 @@ export declare class IrBookingDetails {
     rerenderFlag: boolean;
     roomGuest: any;
     selectedService: ExtraService;
-    extraServiceDefaultPrId: number | null;
+    extraServiceDefaultIdentifier: string | null;
     showPaymentDetails: any;
     sidebarPayload: any;
     sidebarState: BookingDetailsSidebarEvents | null;
@@ -63,10 +63,6 @@ export declare class IrBookingDetails {
      * Booking number used to fetch booking details.
      */
     bookingNumber: string;
-    /**
-     * Enables the check-in action in room components.
-     */
-    hasCheckIn: boolean;
     /**
      * Enables the check-out action in room components.
      */
@@ -167,7 +163,7 @@ export declare class IrBookingDetails {
      */
     handleEditExtraService(e: CustomEvent<ExtraService>): void;
     handleAddExtraServiceToUnit(e: CustomEvent<{
-        pr_id: number;
+        identifier: string;
     }>): void;
     handleOpenPrintScreen(e: CustomEvent<PrintScreenOptions>): void;
     private fetchCityLedger;

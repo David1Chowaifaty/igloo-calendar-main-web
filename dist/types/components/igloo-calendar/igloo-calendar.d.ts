@@ -34,7 +34,6 @@ export declare class IglooCalendar {
     showPaymentDetails: boolean;
     showToBeAssigned: boolean;
     showDayUseBookings: boolean;
-    unassignedDates: {};
     roomNightsData: IRoomNightsData | null;
     renderAgain: boolean;
     showBookProperty: boolean;
@@ -55,10 +54,6 @@ export declare class IglooCalendar {
     dragOverHighlightElement: EventEmitter;
     moveBookingTo: EventEmitter;
     calculateUnassignedDates: EventEmitter;
-    reduceAvailableUnitEvent: EventEmitter<{
-        fromDate: string;
-        toDate: string;
-    }>;
     revertBooking: EventEmitter;
     openCalendarSidebar: EventEmitter<CalendarSidebarState>;
     showRoomNightsDialog: EventEmitter<IRoomNightsData>;
@@ -67,7 +62,7 @@ export declare class IglooCalendar {
     private roomService;
     private propertyService;
     private eventsService;
-    private toBeAssignedService;
+    private unassignedUnitsService;
     private housekeepingService;
     private countries;
     private visibleCalendarCells;
@@ -179,6 +174,8 @@ export declare class IglooCalendar {
     private runUnassignedDatesFlush;
     private clearUnassignedDatesTimers;
     private handleGetUnassignedDates;
+    /** Every unassigned-units read goes through here so the header can show the range as in flight. */
+    private fetchUnassignedUnitsRange;
     private flushUnassignedDates;
     private parseDateRange;
     private handleChangeInDueAmount;
