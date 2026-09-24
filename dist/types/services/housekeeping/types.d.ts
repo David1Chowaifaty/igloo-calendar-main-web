@@ -52,6 +52,7 @@ export type GetHkTasksParams = {
     dusty_window?: string;
     highlight_window?: string;
     is_export_to_excel?: boolean;
+    language: string;
 };
 export type ExecuteHKActionParams = {
     actions: {

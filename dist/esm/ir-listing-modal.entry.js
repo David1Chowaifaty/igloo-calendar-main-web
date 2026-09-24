@@ -1,13 +1,14 @@
 import { r as registerInstance, c as createEvent, h } from './index-CeHdrJeH.js';
-import { B as BookingListingService, b as booking_listing } from './booking_listing.service-D5ZqKX7W.js';
+import { B as BookingListingService, b as booking_listing } from './index-DWCaWagX.js';
 import { P as PaymentService } from './payment.service-D2gbn5FN.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { a as formatBookingNumber } from './number-DpPJHVo2.js';
 import { t } from './t-Bk78Wumj.js';
 import { d as getSetupEntryLabel } from './utils-DZNfUvEs.js';
 import './locales.store-CXJn6ls-.js';
+import './commonSchemas-DOpzu-TI.js';
 import './types-BWKgfE54.js';
-import './utils-CNQuD3ma.js';
+import './utils-B69q7mr1.js';
 import './calendar-data-CiYzaNK0.js';
 import './booking.dto-xX-uaIxb.js';
 import './type-DahsFfOq.js';
@@ -85,7 +86,7 @@ const IrListingModal = class {
                 else {
                     if (this.deletionStage === 2) {
                         // this.loadingBtn = 'recover_and_delete';
-                        await this.bookingListingsService.removeExposedBooking(this.editBooking.booking.booking_nbr, true);
+                        await this.bookingListingsService.removeExposedBooking({ booking_nbr: this.editBooking.booking.booking_nbr, is_to_revover: true });
                         this.filterBookings();
                     }
                     // if (this.deletionStage === 1) {
@@ -96,7 +97,7 @@ const IrListingModal = class {
             if (name === 'cancel') {
                 // if (this.deletionStage === 2) {
                 //   this.loadingBtn = 'just_delete';
-                //   await this.bookingListingsService.removeExposedBooking(this.editBooking.booking.booking_nbr, false);
+                //   await this.bookingListingsService.removeExposedBooking({ booking_nbr: this.editBooking.booking.booking_nbr, is_to_revover: false });
                 //   this.filterBookings();
                 // } else {
                 //   this.closeModal();

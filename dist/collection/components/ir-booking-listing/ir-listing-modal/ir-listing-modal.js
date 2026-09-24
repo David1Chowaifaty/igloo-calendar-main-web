@@ -1,6 +1,6 @@
 import booking_listing from "../../../stores/booking_listing.store";
 import { h } from "@stencil/core";
-import { BookingListingService } from "../../../services/booking_listing.service";
+import { BookingListingService } from "../../../services/booking-listing/index";
 import { PaymentService } from "../../../services/payment.service";
 import moment from "moment";
 import { formatBookingNumber } from "../../../utils/number";
@@ -67,7 +67,7 @@ export class IrListingModal {
                 else {
                     if (this.deletionStage === 2) {
                         // this.loadingBtn = 'recover_and_delete';
-                        await this.bookingListingsService.removeExposedBooking(this.editBooking.booking.booking_nbr, true);
+                        await this.bookingListingsService.removeExposedBooking({ booking_nbr: this.editBooking.booking.booking_nbr, is_to_revover: true });
                         this.filterBookings();
                     }
                     // if (this.deletionStage === 1) {
@@ -78,7 +78,7 @@ export class IrListingModal {
             if (name === 'cancel') {
                 // if (this.deletionStage === 2) {
                 //   this.loadingBtn = 'just_delete';
-                //   await this.bookingListingsService.removeExposedBooking(this.editBooking.booking.booking_nbr, false);
+                //   await this.bookingListingsService.removeExposedBooking({ booking_nbr: this.editBooking.booking.booking_nbr, is_to_revover: false });
                 //   this.filterBookings();
                 // } else {
                 //   this.closeModal();

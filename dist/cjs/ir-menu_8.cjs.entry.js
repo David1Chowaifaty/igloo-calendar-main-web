@@ -5,8 +5,8 @@ var index$1 = require('./index-CQ0teTmL.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var t = require('./t-CyRK1btk.js');
 var number = require('./number-D7i5wAQq.js');
-var booking_listing_service = require('./booking_listing.service-BAfxZXDN.js');
-var index$2 = require('./index-Dssn3hdS.js');
+var index$2 = require('./index-tn0npnth.js');
+var index$3 = require('./index-Dssn3hdS.js');
 var axios = require('./axios-EresIryl.js');
 require('./types-BlCoz3jZ.js');
 require('./calendar-data-HgC39-BR.js');
@@ -447,8 +447,8 @@ const IrPmsSearch = class {
     bookings = [];
     isLoading;
     apiClientService = new ApiClient.ApiClient();
-    bookingListingService = new booking_listing_service.BookingListingService();
-    search$ = new index$2.cjsExports.Subject();
+    bookingListingService = new index$2.BookingListingService();
+    search$ = new index$3.cjsExports.Subject();
     subscription;
     comboboxSelect;
     autoCompleteRef;
@@ -459,15 +459,15 @@ const IrPmsSearch = class {
             this.apiClientService.setApiClient(this.ticket);
         }
         this.subscription = this.search$
-            .pipe(index$2.cjsExports.debounceTime(500), index$2.cjsExports.distinctUntilChanged(), index$2.cjsExports.filter(value => value.length >= 2), index$2.cjsExports.tap(() => {
+            .pipe(index$3.cjsExports.debounceTime(500), index$3.cjsExports.distinctUntilChanged(), index$3.cjsExports.filter(value => value.length >= 2), index$3.cjsExports.tap(() => {
             this.isLoading = true;
             this.autoCompleteRef?.hide();
-        }), index$2.cjsExports.switchMap(value => {
+        }), index$3.cjsExports.switchMap(value => {
             const isNumber = /^(?:-?\d+|.{3}-.*)$/.test(value);
-            return index$2.cjsExports.from(this.bookingListingService.getExposedBookings({
+            return index$3.cjsExports.from(this.bookingListingService.getExposedBookings({
                 book_nbr: isNumber ? value : null,
                 name: isNumber ? null : value,
-                property_id: this.propertyid,
+                property_id: Number(this.propertyid),
                 filter_type: 1,
                 from: null,
                 to: null,
@@ -484,7 +484,7 @@ const IrPmsSearch = class {
                 is_to_export: false,
                 property_ids: null,
                 channel: '',
-            }, { skipStore: true })).pipe(index$2.cjsExports.catchError(() => index$2.cjsExports.of([])));
+            }, { skipStore: true })).pipe(index$3.cjsExports.catchError(() => index$3.cjsExports.of([])));
         }))
             .subscribe(bookings => {
             this.bookings = bookings.filter(Boolean);
@@ -545,7 +545,7 @@ const IrPmsSearch = class {
         });
     }
     render() {
-        return (index.h(index.Host, { key: '872ab11d6d3fa7850796db6fcccfc8840dbf5522' }, index.h("ir-autocomplete", { key: 'a6b33e9df7e1026730a05b4723de9c5ce53b04db', class: "pms-search__autocomplete", placeholder: t.t('Lcz_BookingOrGuestNamePlaceholder', { fallback: 'Booking# or guest name' }), ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, index.h("wa-icon", { key: 'a45aae921f9c4fd73d03fec55a547e5f6593885b', name: "magnifying-glass", slot: "start" }), index.h("div", { key: 'bddcc7eb1a572351a38465e4bc837ba6a9b50564', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && index.h("wa-spinner", { key: 'ae80833890c031f261793ccdb6395043eecaac5e' }), this.shortcutHint && index.h("span", { key: 'a4df6b0fe42526a7427f474850bff8490957eb83' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (index.h("div", { key: '661e03b2b884cc936ba4848edbe7a489aad93ff5', class: "pms-search__empty", role: "status", "aria-live": "polite" }, index.h("wa-icon", { key: 'db3ee9bf9063c6930cd60485837694ffd81a87ab', name: "circle-info", "aria-hidden": "true" }), index.h("div", { key: '233f6d94d30e1026013a32f366d834aad7dfdbcd', class: "pms-search__empty-content" }, index.h("div", { key: '841f00bf6bee262f23aa9c3531761455972a0525', class: "pms-search__empty-title" }, t.t('Lcz_NoResultsFound', { fallback: 'No results found' }))))), (this.bookings ?? [])?.map(b => {
+        return (index.h(index.Host, { key: 'a77ad44e81ba68620a683d3b4f2c1887b35da934' }, index.h("ir-autocomplete", { key: '44764dae05df0449d1a4c7c13dc423a88a0199f0', class: "pms-search__autocomplete", placeholder: t.t('Lcz_BookingOrGuestNamePlaceholder', { fallback: 'Booking# or guest name' }), ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, index.h("wa-icon", { key: '711d7236940aa3a2879f7b32407ca8e8a87f4281', name: "magnifying-glass", slot: "start" }), index.h("div", { key: '709de6f9f3d083dd50bae9f3aecd04c5278ae724', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && index.h("wa-spinner", { key: '860759888dc0fe39ec8bf90ca7f34fa044cb9525' }), this.shortcutHint && index.h("span", { key: '1111adbee99db82251d80b4dba6d20fbd8a68bf1' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (index.h("div", { key: '6a72c028985386af95b08a5c200afaaeee951425', class: "pms-search__empty", role: "status", "aria-live": "polite" }, index.h("wa-icon", { key: 'bc03bfcf0de764f8ce31dd792d879372790a1c19', name: "circle-info", "aria-hidden": "true" }), index.h("div", { key: 'a71c6816fe25c52335fab74287a336ca120d1a9a', class: "pms-search__empty-content" }, index.h("div", { key: '7ee9e44a84792009370e75e36ea187846f888d23', class: "pms-search__empty-title" }, t.t('Lcz_NoResultsFound', { fallback: 'No results found' }))))), (this.bookings ?? [])?.map(b => {
             if (!b) {
                 return null;
             }

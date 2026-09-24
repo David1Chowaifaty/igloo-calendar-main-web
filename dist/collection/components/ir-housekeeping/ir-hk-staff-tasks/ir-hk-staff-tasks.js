@@ -194,6 +194,7 @@ export class IrHkStaffTasks {
                 cleaning_frequency: '001',
                 dusty_window: '000',
                 highlight_window: '000',
+                language: LocaleController.language,
             });
             if (tasks) {
                 const mapped = tasks.filter(i => !i.hkm_id || i.hkm_id === this.connectedHk.HKM_ID).map((task) => ({ ...task, id: v4() }));
@@ -279,6 +280,7 @@ export class IrHkStaffTasks {
             housekeepers: [{ id: this.connectedHk.HKM_ID }],
             cleaning_frequency: '001',
             dusty_window: '000',
+            language: LocaleController.language,
             highlight_window: '000',
         });
         if (tasks) {

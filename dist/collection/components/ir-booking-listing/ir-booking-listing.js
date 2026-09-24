@@ -1,4 +1,4 @@
-import { BookingListingService } from "../../services/booking_listing.service";
+import { BookingListingService } from "../../services/booking-listing/index";
 import { RoomService } from "../../services/room.service";
 import { t } from "../../services/locale/t";
 import booking_listing, { updateUserSelection, onBookingListingChange, updateUserSelections, setPaginationPage, setPaginationPageSize, updatePaginationFromSelection, } from "../../stores/booking_listing.store";
@@ -72,7 +72,7 @@ export class IrBookingListing {
         await this.bookingListingService.getExposedBookings({
             ...booking_listing.userSelection,
             is_to_export: false,
-            language: LocaleController.language
+            language: LocaleController.language,
         });
     }
     async initializeApp() {
@@ -99,7 +99,7 @@ export class IrBookingListing {
             }
             const parallelRequests = [
                 this.setupService.getPaymentEntries(),
-                this.bookingListingService.getExposedBookingsCriteria(this.havePrivilege ? null : propertyId),
+                this.bookingListingService.getExposedBookingsCriteria({ property_id: this.havePrivilege ? null : propertyId, language: LocaleController.language }),
                 localeReady,
             ];
             // let propertyDataIndex: number | null = null;

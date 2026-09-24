@@ -1,13 +1,14 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var booking_listing_service = require('./booking_listing.service-BAfxZXDN.js');
+var index$1 = require('./index-tn0npnth.js');
 var payment_service = require('./payment.service-CGBWAElK.js');
 var moment = require('./moment-CdViwxPQ.js');
 var number = require('./number-D7i5wAQq.js');
 var t = require('./t-CyRK1btk.js');
 var utils = require('./utils-CQGL0l4_.js');
 require('./locales.store-BMTss6fG.js');
+require('./commonSchemas-BFzTbV-r.js');
 require('./types-BlCoz3jZ.js');
 require('./utils-C5I0LkiV.js');
 require('./calendar-data-HgC39-BR.js');
@@ -34,7 +35,7 @@ const IrListingModal = class {
     deletionStage = 2;
     selectedDesignation;
     loadingBtn = null;
-    bookingListingsService = new booking_listing_service.BookingListingService();
+    bookingListingsService = new index$1.BookingListingService();
     paymentService = new payment_service.PaymentService();
     componentWillLoad() {
         this.selectedDesignation = this.paymentEntries.methods[0];
@@ -51,7 +52,7 @@ const IrListingModal = class {
         this.isOpen = true;
     }
     filterBookings() {
-        booking_listing_service.booking_listing.bookings = booking_listing_service.booking_listing.bookings.filter(booking => booking.booking_nbr !== this.editBooking.booking.booking_nbr);
+        index$1.booking_listing.bookings = index$1.booking_listing.bookings.filter(booking => booking.booking_nbr !== this.editBooking.booking.booking_nbr);
     }
     async btnClickHandler(event) {
         let target = event.target;
@@ -87,7 +88,7 @@ const IrListingModal = class {
                 else {
                     if (this.deletionStage === 2) {
                         // this.loadingBtn = 'recover_and_delete';
-                        await this.bookingListingsService.removeExposedBooking(this.editBooking.booking.booking_nbr, true);
+                        await this.bookingListingsService.removeExposedBooking({ booking_nbr: this.editBooking.booking.booking_nbr, is_to_revover: true });
                         this.filterBookings();
                     }
                     // if (this.deletionStage === 1) {
@@ -98,7 +99,7 @@ const IrListingModal = class {
             if (name === 'cancel') {
                 // if (this.deletionStage === 2) {
                 //   this.loadingBtn = 'just_delete';
-                //   await this.bookingListingsService.removeExposedBooking(this.editBooking.booking.booking_nbr, false);
+                //   await this.bookingListingsService.removeExposedBooking({ booking_nbr: this.editBooking.booking.booking_nbr, is_to_revover: false });
                 //   this.filterBookings();
                 // } else {
                 //   this.closeModal();

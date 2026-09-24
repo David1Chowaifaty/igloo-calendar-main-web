@@ -4,7 +4,7 @@ import { RoomService } from "../../services/room.service";
 import { PropertyService } from "../../services/property.service";
 import uninvoiced_bookings, { setUninvoicedBookingsCriteria } from "../../stores/uninvoiced_bookings.store";
 import { mapBookingToUninvoicedRow } from "./types";
-import { BookingListingService } from "../../services/booking_listing.service";
+import { BookingListingService } from "../../services/booking-listing/index";
 import { LocaleController } from "../../services/locale/locale.controller";
 import { LanguageSync } from "../../services/locale/language-sync";
 import { SCREEN_TABLES } from "../../services/locale/screen-tables";
@@ -93,7 +93,11 @@ export class IrUninvoicedBookings {
             }
             this.propertyId = propertyId;
             // Bookings don't depend on language/criteria, so fetch all three concurrently.
-            const [, criteria] = await Promise.all([localeReady, this.bookingListingService.getExposedBookingsCriteria(propertyId), this.fetchUninvoicedBookings()]);
+            const [, criteria] = await Promise.all([
+                localeReady,
+                this.bookingListingService.getExposedBookingsCriteria({ property_id: propertyId, language: LocaleController.language }),
+                this.fetchUninvoicedBookings(),
+            ]);
             setUninvoicedBookingsCriteria(criteria);
         }
         catch (error) {

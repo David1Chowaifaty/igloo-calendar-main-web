@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, a as getElement, h } from './index-CeHdrJeH.js';
-import { n as handleBodyOverflow } from './utils-CNQuD3ma.js';
+import { l as handleBodyOverflow } from './utils-B69q7mr1.js';
 import './moment-Mki5YqAR.js';
 import './calendar-data-CiYzaNK0.js';
 import './locales.store-CXJn6ls-.js';

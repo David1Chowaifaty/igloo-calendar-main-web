@@ -110,7 +110,7 @@ export class IrHkTasks {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.houseKeepingService.getExposedHKSetup({ property_id: this.property_id }), localeReady];
+            const requests = [this.houseKeepingService.getExposedHKSetup({ property_id: this.property_id, language: LocaleController.language }), localeReady];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
@@ -128,6 +128,7 @@ export class IrHkTasks {
                 cleaning_frequency: (calendar_data.cleaning_frequency ?? housekeeping_store?.hk_criteria?.cleaning_frequencies[0])?.code,
                 dusty_window: housekeeping_store?.hk_criteria?.dusty_periods[0]?.code,
                 highlight_window: housekeeping_store?.hk_criteria?.highlight_checkin_options[0]?.code,
+                language: LocaleController.language,
             });
             // updateTaskList();
             if (tasksResult?.tasks) {
@@ -298,6 +299,7 @@ export class IrHkTasks {
             from_date: moment().format('YYYY-MM-DD'),
             to_date: cleaning_periods?.code || moment().format('YYYY-MM-DD'),
             is_export_to_excel: export_to_excel,
+            language: LocaleController.language,
         });
         console.log(tasks);
         if (tasks) {
