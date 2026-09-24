@@ -2,7 +2,7 @@
 
 var index = require('./index-CQkpA5n3.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var index$2 = require('./index-ucnJQqCg.js');
+var index$2 = require('./index-BVhX2bVZ.js');
 var index$1 = require('./index-CQ0teTmL.js');
 var room_service = require('./room.service-SRdCt12B.js');
 var irInterceptor_store = require('./ir-interceptor.store-moMB-JCs.js');
@@ -10,7 +10,7 @@ var utils$1 = require('./utils-C5I0LkiV.js');
 var locale_controller = require('./locale.controller-C4TH5Eq_.js');
 var languageSync = require('./language-sync-CcxSJ9ci.js');
 var t = require('./t-CyRK1btk.js');
-var utils = require('./utils-BiDhI8bI.js');
+var utils = require('./utils-CQGL0l4_.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-C1lok6Tq.js');
@@ -140,9 +140,9 @@ const IrGapNights = class {
             fallback: "Gap nights are nights guests can't book because of your length of stay restriction. For example, if you have 2 consecutive nights left and you've set a restriction of 3 nights minimum stay, guests won't be able to book those 2 nights.",
         })), index.h("wa-radio-group", { label: t.t('Lcz_Rule', { fallback: 'Rule' }), value: this.selectedRule, defaultValue: this.selectedRule, onchange: (e) => {
                 this.selectedRule = e.target.value;
-            } }, this.gapRules.map(r => (index.h("wa-radio", { key: r.CODE_NAME, value: r.CODE_NAME, disabled: ruleDisabled }, r.CODE_VALUE_EN)))), index.h("wa-select", { size: "s", class: "gap-nights__day-options", label: t.t('Lcz_ApplicableOverTheNext', { fallback: 'Applicable over the next' }), value: this.applicableDays.toString(), defaultValue: this.applicableDays.toString(), disabled: periodDisabled, onchange: (e) => {
+            } }, this.gapRules.map(r => (index.h("wa-radio", { key: r.CODE_NAME, value: r.CODE_NAME, disabled: ruleDisabled }, utils.getSetupEntryLabel(r))))), index.h("wa-select", { size: "s", class: "gap-nights__day-options", label: t.t('Lcz_ApplicableOverTheNext', { fallback: 'Applicable over the next' }), value: this.applicableDays.toString(), defaultValue: this.applicableDays.toString(), disabled: periodDisabled, onchange: (e) => {
                 this.applicableDays = Number(e.target.value);
-            } }, this.gapRanges.map(r => (index.h("wa-option", { key: r.CODE_NAME, value: Number(r.CODE_NAME).toString() }, r.CODE_VALUE_EN))))))));
+            } }, this.gapRanges.map(r => (index.h("wa-option", { key: r.CODE_NAME, value: Number(r.CODE_NAME).toString() }, utils.getSetupEntryLabel(r)))))))));
     }
     static get watchers() { return {
         "language": [{

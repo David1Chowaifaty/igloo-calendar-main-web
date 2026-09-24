@@ -72,6 +72,7 @@ export class IrBookingListing {
         await this.bookingListingService.getExposedBookings({
             ...booking_listing.userSelection,
             is_to_export: false,
+            language: LocaleController.language
         });
     }
     async initializeApp() {

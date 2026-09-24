@@ -1,6 +1,6 @@
 import { Fragment, h } from "@stencil/core";
 import moment from "moment";
-import { SetupService, groupEntryTablesResult } from "../../../../../services/setup/index";
+import { SetupService, groupEntryTablesResult, getSetupEntryLabel } from "../../../../../services/setup/index";
 import { buildPaymentTypes } from "../../../../../services/booking-service/utils";
 import { CityLedgerService } from "../../../../../services/city-ledger/index";
 import calendar_data from "../../../../../stores/calendar-data";
@@ -216,7 +216,7 @@ export class IrCityLedgerTransactionForm {
                 this.handleTransactionTypeChange(value);
             } }, this.clTxTypes.map(type => {
             const rate = TRANSACTION_TYPE_RATES[type.CODE_NAME];
-            const label = type.CODE_VALUE_EN;
+            const label = getSetupEntryLabel(type);
             if (ClTxTypeCode.DebitNote === type.CODE_NAME ||
                 ClTxTypeCode.AdjustmentCredit === type.CODE_NAME ||
                 (type.CODE_NAME === ClTxTypeCode.OpeningBalance && (this.agent.has_opening_balance || this.booking !== null))) {

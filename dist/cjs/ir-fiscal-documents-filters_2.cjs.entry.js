@@ -12,7 +12,7 @@ var calendarData = require('./calendar-data-HgC39-BR.js');
 require('./booking.dto-DxxzsxJC.js');
 var irDate = require('./ir-date-BZLsqCOc.js');
 var number = require('./number-D7i5wAQq.js');
-var utils = require('./utils-BiDhI8bI.js');
+var utils = require('./utils-CQGL0l4_.js');
 var useTable = require('./useTable-BN32DOaV.js');
 var functions = require('./functions-CsGCS8vQ.js');
 var locale_controller = require('./locale.controller-C4TH5Eq_.js');

@@ -1,19 +1,21 @@
 import { r as registerInstance, c as createEvent, h } from './index-CeHdrJeH.js';
-import { B as BookingListingService, b as booking_listing } from './booking_listing.service-DqZXATLs.js';
+import { B as BookingListingService, b as booking_listing } from './booking_listing.service-D5ZqKX7W.js';
 import { P as PaymentService } from './payment.service-D2gbn5FN.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { a as formatBookingNumber } from './number-DpPJHVo2.js';
 import { t } from './t-Bk78Wumj.js';
+import { d as getSetupEntryLabel } from './utils-DZNfUvEs.js';
 import './locales.store-CXJn6ls-.js';
 import './types-BWKgfE54.js';
-import './utils-Ddj2LxLs.js';
-import './calendar-data-BmpcWihW.js';
+import './utils-CNQuD3ma.js';
+import './calendar-data-CiYzaNK0.js';
 import './booking.dto-xX-uaIxb.js';
 import './type-DahsFfOq.js';
 import './ir-date-BngUhoPp.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './axios-B50ozOIF.js';
+import './IBooking-BEkHqAPo.js';
 
 const irListingModalCss = () => `.backdropModal.sc-ir-listing-modal{background-color:rgba(0, 0, 0, 0.5);z-index:1000;position:fixed;top:0;inset-inline-start:0;height:100vh;width:100%;opacity:0;transition:opacity 0.3s ease-in-out;pointer-events:none}.backdropModal.active.sc-ir-listing-modal{cursor:pointer;opacity:1 !important;pointer-events:all}.ir-modal[data-state='opened'].sc-ir-listing-modal{opacity:1;visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-alert-content.sc-ir-listing-modal{padding:10px;background:white;border-radius:5px}.modal.sc-ir-listing-modal{z-index:1001 !important}.modal-dialog.sc-ir-listing-modal{height:100vh;display:flex;align-items:center}.ir-alert-footer.sc-ir-listing-modal{gap:10px}.exit-icon.sc-ir-listing-modal{position:absolute;inset-inline-end:10px;top:5px;margin:0}.ir-modal.sc-ir-listing-modal{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);z-index:1050;width:90%;max-width:32rem;overflow:hidden;outline:0;opacity:0;transition:transform 0.3s ease-in-out,     opacity 0.3s ease-in-out,     visibility 0.3s ease-in-out;visibility:hidden;pointer-events:none}.ir-modal.active.sc-ir-listing-modal{opacity:1;transform:translate(-50%, 0);visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-text-start.sc-ir-listing-modal{text-align:start}`;
 
@@ -163,7 +165,7 @@ const IrListingModal = class {
                     this.closeModal();
                 } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "14", width: "10.5", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("div", { class: "modal-body ir-text-start p-0 mb-2" }, this.editBooking.cause === 'payment' ? (h("ir-select", { selectedValue: this.selectedDesignation?.CODE_NAME, onSelectChange: this.handleDropdownChange.bind(this), showFirstOption: false, data: this.paymentEntries.methods?.map(m => ({
                     value: m.CODE_NAME,
-                    text: m.CODE_VALUE_EN,
+                    text: getSetupEntryLabel(m),
                 })) })) : null), h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, h("ir-button", { isLoading: this.loadingBtn === 'just_delete', btn_color: 'secondary', btn_block: true, text: this.renderCancellationTitle(), name: 'cancel' }), h("ir-button", { isLoading: this.loadingBtn === 'confirm',
                 // isLoading={this.loadingBtn === 'recover_and_delete'}
                 btn_color: 'primary', btn_block: true, text: this.renderConfirmationTitle(), name: 'confirm' }))))),

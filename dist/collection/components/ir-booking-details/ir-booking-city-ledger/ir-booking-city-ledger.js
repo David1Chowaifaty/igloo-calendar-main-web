@@ -7,6 +7,7 @@ import { formatAmount } from "../../../utils/utils";
 import { formatDate } from "../../../utils/date/index";
 import { formatBookingNumber } from "../../../utils/number";
 import { t } from "../../../services/locale/t";
+import { getSetupEntryLabel } from "../../../services/setup/index";
 export class IrBookingCityLedger {
     cityLedgerService = new CityLedgerService();
     /** Booking object; component is hidden when booking.agent is null. */
@@ -57,7 +58,7 @@ export class IrBookingCityLedger {
         }
     }
     get serviceCategoryOptions() {
-        return this.svcCategories.map(s => ({ id: s.CODE_NAME, label: s.CODE_VALUE_EN }));
+        return this.svcCategories.map(s => ({ id: s.CODE_NAME, label: getSetupEntryLabel(s) }));
     }
     get bookingOptions() {
         // `id` stays the raw booking number — it is the option's identity; only `label` is displayed.

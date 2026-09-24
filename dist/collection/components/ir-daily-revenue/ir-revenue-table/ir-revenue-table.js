@@ -3,6 +3,7 @@ import { PAYMENT_TYPES_WITH_METHOD } from "../../ir-booking-details/ir-payment-d
 import { formatAmount } from "../../../utils/utils";
 import calendar_data from "../../../stores/calendar-data";
 import { t } from "../../../services/locale/t";
+import { getSetupEntryLabel } from "../../../services/setup/index";
 export class IrRevenueTable {
     payments = new Map();
     paymentEntries;
@@ -10,11 +11,12 @@ export class IrRevenueTable {
     payTypesObj;
     payMethodObj;
     groupType = 'method';
-    componentWillLoad() {
+    // Rebuilt on every render so labels follow the selected language.
+    buildPaymentLookups() {
         const buildPaymentLookup = (key) => {
             let pt = {};
             this.paymentEntries[key].forEach(p => {
-                pt = { ...pt, [p.CODE_NAME]: p.CODE_VALUE_EN };
+                pt = { ...pt, [p.CODE_NAME]: getSetupEntryLabel(p) };
             });
             return pt;
         };
@@ -75,8 +77,9 @@ export class IrRevenueTable {
         return result;
     }
     render() {
+        this.buildPaymentLookups();
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("wa-card", { key: '90ebc0cc2d4e4fbabad66941435ebf0725b26be0', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, t('Lcz_Method', { fallback: 'Method' })), h("p", null, t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
+        return (h("wa-card", { key: 'e49bf2385f9d14952dbd55ead8ead03bc07e6a99', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, t('Lcz_Method', { fallback: 'Method' })), h("p", null, t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 list = this.sortByDateTime(list);
                 const [paymentType, paymentMethod] = key.split('_');

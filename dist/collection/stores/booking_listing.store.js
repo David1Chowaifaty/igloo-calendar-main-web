@@ -25,6 +25,7 @@ export const ExposedBookingsParamsSchema = z.object({
     total_count: z.number().int(),
     is_to_export: z.boolean(),
     property_ids: z.array(z.number().int()).optional(),
+    language: z.string().optional().default('en')
 });
 const initialState = {
     channels: [],

@@ -1,19 +1,19 @@
 import { r as registerInstance, h, H as Host } from './index-CeHdrJeH.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { S as SetupService } from './index-Er1rf3LB.js';
-import { P as PropertyService } from './index-BblX-6sO.js';
-import { R as RoomService } from './room.service-D5mXbCs-.js';
+import { S as SetupService } from './index-DOBP7vGO.js';
+import { P as PropertyService } from './index-CPTATQhU.js';
+import { R as RoomService } from './room.service-BbSNniZH.js';
 import { i as isRequestPending } from './ir-interceptor.store-302gZvQv.js';
-import { d as showToast } from './utils-Ddj2LxLs.js';
+import { h as showToast } from './utils-CNQuD3ma.js';
 import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CTJvh9SC.js';
 import { L as LanguageSync } from './language-sync-Cjba_aDc.js';
 import { t } from './t-Bk78Wumj.js';
-import { g as groupEntryTablesResult } from './utils-el9-8HZ4.js';
+import { g as groupEntryTablesResult, d as getSetupEntryLabel } from './utils-DZNfUvEs.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './IBooking-BEkHqAPo.js';
 import './types-BWKgfE54.js';
-import './calendar-data-BmpcWihW.js';
+import './calendar-data-CiYzaNK0.js';
 import './locales.store-CXJn6ls-.js';
 import './moment-Mki5YqAR.js';
 import './commonSchemas-DOpzu-TI.js';
@@ -138,9 +138,9 @@ const IrGapNights = class {
             fallback: "Gap nights are nights guests can't book because of your length of stay restriction. For example, if you have 2 consecutive nights left and you've set a restriction of 3 nights minimum stay, guests won't be able to book those 2 nights.",
         })), h("wa-radio-group", { label: t('Lcz_Rule', { fallback: 'Rule' }), value: this.selectedRule, defaultValue: this.selectedRule, onchange: (e) => {
                 this.selectedRule = e.target.value;
-            } }, this.gapRules.map(r => (h("wa-radio", { key: r.CODE_NAME, value: r.CODE_NAME, disabled: ruleDisabled }, r.CODE_VALUE_EN)))), h("wa-select", { size: "s", class: "gap-nights__day-options", label: t('Lcz_ApplicableOverTheNext', { fallback: 'Applicable over the next' }), value: this.applicableDays.toString(), defaultValue: this.applicableDays.toString(), disabled: periodDisabled, onchange: (e) => {
+            } }, this.gapRules.map(r => (h("wa-radio", { key: r.CODE_NAME, value: r.CODE_NAME, disabled: ruleDisabled }, getSetupEntryLabel(r))))), h("wa-select", { size: "s", class: "gap-nights__day-options", label: t('Lcz_ApplicableOverTheNext', { fallback: 'Applicable over the next' }), value: this.applicableDays.toString(), defaultValue: this.applicableDays.toString(), disabled: periodDisabled, onchange: (e) => {
                 this.applicableDays = Number(e.target.value);
-            } }, this.gapRanges.map(r => (h("wa-option", { key: r.CODE_NAME, value: Number(r.CODE_NAME).toString() }, r.CODE_VALUE_EN))))))));
+            } }, this.gapRanges.map(r => (h("wa-option", { key: r.CODE_NAME, value: Number(r.CODE_NAME).toString() }, getSetupEntryLabel(r)))))))));
     }
     static get watchers() { return {
         "language": [{

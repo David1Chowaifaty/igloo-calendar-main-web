@@ -2,6 +2,7 @@ import { Host, h, Fragment } from "@stencil/core";
 import { v4 as uuidv4 } from "uuid";
 import booking_store, { reserveRooms, resetReserved, updateRoomParams } from "../../../../../../stores/booking.store";
 import { t, tRaw } from "../../../../../../services/locale/t";
+import { getSetupEntryLabel } from "../../../../../../services/setup/index";
 import { formatCount } from "../../../../../../utils/number";
 export class IglRatePlan {
     // Used Props with type annotations
@@ -147,7 +148,7 @@ export class IglRatePlan {
         // if (!this.visibleInventory) {
         //   return null;
         // }
-        return (h(Host, { key: 'c4f01aeb6c5d1d6814dea823833cdcc56475c71e', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: 'b555933df1d9c94758aa7e81d4157c5de7f645b1', class: `rate-plan ${visibleInventory?.reserved === 1 && bookingType === 'EDIT_BOOKING' ? '--current' : ''} ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: '5e26ccc18644033049dc59a630b9cbdef7dc0bf1', "data-testid": 'rp_name', class: "rateplan-name-container" }, h("div", { key: '871531896e546f1977af0e3ab8bcce0c5bf9eb1c' }, bookingType === 'BAR_BOOKING' ? (h(Fragment, null, h("span", { class: 'rateplan-name' }, ratePlan.short_name, " "), ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, t('Lcz_NonRefundable', { fallback: 'Non Refundable' })))) : (h(Fragment, null, h("span", { class: 'rateplan-name' }, ratePlan.short_name, " "), ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, t('Lcz_NonRefundable', { fallback: 'Non Refundable' })))), ratePlan.custom_text && h("span", { key: 'fd3d67cc66c72ad55cae162799b08ad649e49a90', class: "custom-text-span" }, ratePlan.custom_text)), isAvailableToBook && (h(Fragment, { key: '86730597d0a886225ba3a73563280a71d3a7a07b' }, h("wa-tooltip", { key: 'cf42083c3aeb4d74512baf716345d11d6f9ba701', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: 'fc8ed04ac37c2af103e283a2e03d39021c44c52f', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: 'c42d604c12cc63206506d4fcdbc61f72c7fa519c', name: "circle-info", id: `rateplan-${this.ratePlan.id}` }))), this.unavailableRatePlanIds.has(this.ratePlan.id) && (h(Fragment, { key: 'aeede5abe4291e11be741599a1d806cac54b2a26' }, h("wa-tooltip", { key: 'a172821cf2bbc79c2ec0cd17808c97b7eefe21bc', for: `rateplan-warning-${this.ratePlan.id}` }, t('Lcz_ForcingStopSaleRestriction', { fallback: 'You are forcing a stop-sale restriction.' })), h("wa-icon", { key: 'd15eaea18d7dbf3c09301a231a7787cee6a78ee0', name: "triangle-exclamation", style: { color: 'var(--wa-color-warning-fill-loud)' }, id: `rateplan-warning-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "s", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
+        return (h(Host, { key: '33dc76ef5a831056ad989d07fbc8e6bfe5d248e5', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: '1021e3a8c8871da9e9aab728c2e3b5c64a38507b', class: `rate-plan ${visibleInventory?.reserved === 1 && bookingType === 'EDIT_BOOKING' ? '--current' : ''} ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: '7e62782f8623a0a474718ec015b7d4992356ed1d', "data-testid": 'rp_name', class: "rateplan-name-container" }, h("div", { key: 'd6c7b630ed6aa6170460a0d7ff6f56c8c1ec0989' }, bookingType === 'BAR_BOOKING' ? (h(Fragment, null, h("span", { class: 'rateplan-name' }, ratePlan.short_name, " "), ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, t('Lcz_NonRefundable', { fallback: 'Non Refundable' })))) : (h(Fragment, null, h("span", { class: 'rateplan-name' }, ratePlan.short_name, " "), ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, t('Lcz_NonRefundable', { fallback: 'Non Refundable' })))), ratePlan.custom_text && h("span", { key: '138c0cecd1429932839d370d9489fa073b8f8615', class: "custom-text-span" }, ratePlan.custom_text)), isAvailableToBook && (h(Fragment, { key: '9e347feabcd0857f99eb42599b2d15a534a04ba7' }, h("wa-tooltip", { key: '11ffcac90b7e1e1395181936e681b2238a783cd6', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: '30317dde2454a65fdeeb9972a6e2a1e7f1cafc8c', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '070cbd1ef6168a72ad2a6a83362922bd67cfc847', name: "circle-info", id: `rateplan-${this.ratePlan.id}` }))), this.unavailableRatePlanIds.has(this.ratePlan.id) && (h(Fragment, { key: '6a4ae1ed1d5bd14e2a6027201d14c124d63e80c6' }, h("wa-tooltip", { key: 'a20cde11a88bec73001740fb9eb16dce61c81b1e', for: `rateplan-warning-${this.ratePlan.id}` }, t('Lcz_ForcingStopSaleRestriction', { fallback: 'You are forcing a stop-sale restriction.' })), h("wa-icon", { key: '7f826fb3cd477da36e5e22384409390b90d8bb49', name: "triangle-exclamation", style: { color: 'var(--wa-color-warning-fill-loud)' }, id: `rateplan-warning-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "s", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, value: this.formatVariation(selectedVariation), defaultValue: this.formatVariation(selectedVariation) }, formattedVariations?.map(variation => (h("wa-option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))), h("div", { class: "rateplan-config" }, h("div", { class: "rate-total-night-view" }, h("ir-input", { disabled: disableForm, class: "fd-rateplan__price-input", "onText-change": e => this.updateRateplanSelection({
@@ -158,7 +159,7 @@ export class IglRatePlan {
                 e.stopPropagation();
             }, size: "s", class: "fd-rateplan__nights-select", id: uuidv4(), onchange: evt => this.updateRateplanSelection({
                 view_mode: evt.target.value,
-            }), value: visibleInventory?.view_mode, defaultValue: visibleInventory?.view_mode }, ratePricingMode.map(data => (h("wa-option", { value: data.CODE_NAME, selected: visibleInventory?.view_mode === data.CODE_NAME }, data.CODE_VALUE_EN))))), (bookingType === 'PLUS_BOOKING' || bookingType === 'ADD_ROOM') && (h("wa-select", { "data-testid": 'inventory_select', disabled: visibleInventory.visibleInventory === 0, class: "fd-rateplan__inventory-select", onchange: evt => this.handleDataChange('totalRooms', evt), value: visibleInventory.reserved?.toString(), defaultValue: visibleInventory.reserved?.toString(), size: "s", "onwa-hide": e => {
+            }), value: visibleInventory?.view_mode, defaultValue: visibleInventory?.view_mode }, ratePricingMode.map(data => (h("wa-option", { value: data.CODE_NAME, selected: visibleInventory?.view_mode === data.CODE_NAME }, getSetupEntryLabel(data)))))), (bookingType === 'PLUS_BOOKING' || bookingType === 'ADD_ROOM') && (h("wa-select", { "data-testid": 'inventory_select', disabled: visibleInventory.visibleInventory === 0, class: "fd-rateplan__inventory-select", onchange: evt => this.handleDataChange('totalRooms', evt), value: visibleInventory.reserved?.toString(), defaultValue: visibleInventory.reserved?.toString(), size: "s", "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             } }, Array.from({ length: (visibleInventory.visibleInventory || 0) + 1 }, (_, i) => i).map(i => (h("wa-option", { value: i?.toString(), selected: visibleInventory.reserved === i }, i)))))), bookingType === 'EDIT_BOOKING' && (h(Fragment, null, h("ir-custom-button", { variant: "brand", "data-testid": "book_property", disabled: disableForm, type: "button", appearance: visibleInventory.reserved === 1 ? 'accent' : 'outlined', class: "rateplan__booking-btn", onClickHandler: () => {
@@ -228,12 +229,14 @@ export class IglRatePlan {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "Array<{ CODE_NAME: string; CODE_VALUE_EN: string }>",
-                    "resolved": "{ CODE_NAME: string; CODE_VALUE_EN: string; }[]",
+                    "original": "SetupEntries[]",
+                    "resolved": "SetupEntries[]",
                     "references": {
-                        "Array": {
-                            "location": "global",
-                            "id": "global::Array"
+                        "SetupEntries": {
+                            "location": "import",
+                            "path": "@/models/IBooking",
+                            "id": "src/models/IBooking.ts::SetupEntries",
+                            "referenceLocation": "SetupEntries"
                         }
                     }
                 },

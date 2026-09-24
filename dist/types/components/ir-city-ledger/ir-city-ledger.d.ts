@@ -1,6 +1,7 @@
+import { SetupEntries } from "../../models/IBooking";
 import type { Agent } from "../../services/agents/type";
 import { Moment } from 'moment';
-import type { TaxOption, ServiceCategoryOption } from './ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema';
+import type { TaxOption } from './ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema';
 import type { FolioSummary } from './ir-city-ledger-folio/types';
 import type { ClFiscalDocumentFilters } from './ir-city-ledger-fiscal-documents/types';
 import type { StatementFilters } from './ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter';
@@ -19,7 +20,7 @@ export declare class IrCityLedger {
     agents: Agent[];
     selectedAgent: Agent | null;
     taxOptions: TaxOption[];
-    serviceCategoryOptions: ServiceCategoryOption[];
+    svcCategories: SetupEntries[];
     statementFrom: Moment | null;
     statementTo: Moment | null;
     showStatementPreview: boolean;
@@ -48,5 +49,6 @@ export declare class IrCityLedger {
     private getAgentIdFromSearchParams;
     private applyAgentIdProp;
     private init;
+    private get serviceCategoryOptions();
     render(): any;
 }

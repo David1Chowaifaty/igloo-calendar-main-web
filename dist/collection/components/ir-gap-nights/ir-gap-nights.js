@@ -1,5 +1,5 @@
 import ApiClient from "../../models/ApiClient";
-import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
+import { SetupService, groupEntryTablesResult, getSetupEntryLabel } from "../../services/setup/index";
 import { PropertyService } from "../../services/property.service";
 import { RoomService } from "../../services/room.service";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
@@ -119,9 +119,9 @@ export class IrGapNights {
             fallback: "Gap nights are nights guests can't book because of your length of stay restriction. For example, if you have 2 consecutive nights left and you've set a restriction of 3 nights minimum stay, guests won't be able to book those 2 nights.",
         })), h("wa-radio-group", { label: t('Lcz_Rule', { fallback: 'Rule' }), value: this.selectedRule, defaultValue: this.selectedRule, onchange: (e) => {
                 this.selectedRule = e.target.value;
-            } }, this.gapRules.map(r => (h("wa-radio", { key: r.CODE_NAME, value: r.CODE_NAME, disabled: ruleDisabled }, r.CODE_VALUE_EN)))), h("wa-select", { size: "s", class: "gap-nights__day-options", label: t('Lcz_ApplicableOverTheNext', { fallback: 'Applicable over the next' }), value: this.applicableDays.toString(), defaultValue: this.applicableDays.toString(), disabled: periodDisabled, onchange: (e) => {
+            } }, this.gapRules.map(r => (h("wa-radio", { key: r.CODE_NAME, value: r.CODE_NAME, disabled: ruleDisabled }, getSetupEntryLabel(r))))), h("wa-select", { size: "s", class: "gap-nights__day-options", label: t('Lcz_ApplicableOverTheNext', { fallback: 'Applicable over the next' }), value: this.applicableDays.toString(), defaultValue: this.applicableDays.toString(), disabled: periodDisabled, onchange: (e) => {
                 this.applicableDays = Number(e.target.value);
-            } }, this.gapRanges.map(r => (h("wa-option", { key: r.CODE_NAME, value: Number(r.CODE_NAME).toString() }, r.CODE_VALUE_EN))))))));
+            } }, this.gapRanges.map(r => (h("wa-option", { key: r.CODE_NAME, value: Number(r.CODE_NAME).toString() }, getSetupEntryLabel(r)))))))));
     }
     static get is() { return "ir-gap-nights"; }
     static get encapsulation() { return "scoped"; }

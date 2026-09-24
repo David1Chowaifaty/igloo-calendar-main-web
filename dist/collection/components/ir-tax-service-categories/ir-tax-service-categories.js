@@ -1,7 +1,7 @@
 import ApiClient from "../../models/ApiClient";
 import { h } from "@stencil/core";
 import { TaxationStrategy } from "./types";
-import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
+import { SetupService, groupEntryTablesResult, getSetupEntryLabel } from "../../services/setup/index";
 import { PropertyService } from "../../services/property.service";
 import calendar_data from "../../stores/calendar-data";
 import { showToast } from "../../utils/utils";
@@ -199,7 +199,7 @@ export class IrTaxServiceCategories {
             const categorySetup = this.chargeCategoryRules.get(category.CODE_NAME);
             return [
                 h("div", { class: "tax-grid__divider" }, h("wa-divider", null)),
-                h("div", { class: "tax-grid__row" }, h("div", { class: "tax-grid__name" }, h("p", { class: "tax-grid__title" }, category.CODE_VALUE_EN), category.NOTES && h("p", { class: "tax-grid__hint" }, category.NOTES)), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_Vat', { fallback: 'VAT' }) }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange(category.CODE_NAME, 'vat', e.detail), chargeRule: categorySetup?.vat, setupEntries: filteredVat })), h("div", { class: "tax-grid__cell" }), h("div", { class: "tax-grid__cell" }), h("div", { class: "tax-grid__cell" })),
+                h("div", { class: "tax-grid__row" }, h("div", { class: "tax-grid__name" }, h("p", { class: "tax-grid__title" }, getSetupEntryLabel(category)), category.NOTES && h("p", { class: "tax-grid__hint" }, category.NOTES)), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_Vat', { fallback: 'VAT' }) }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange(category.CODE_NAME, 'vat', e.detail), chargeRule: categorySetup?.vat, setupEntries: filteredVat })), h("div", { class: "tax-grid__cell" }), h("div", { class: "tax-grid__cell" }), h("div", { class: "tax-grid__cell" })),
             ];
         }))))));
     }

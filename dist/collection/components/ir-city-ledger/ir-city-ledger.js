@@ -1,7 +1,7 @@
 import { Host, h } from "@stencil/core";
 import ApiClient from "../../models/ApiClient";
 import { AgentsService } from "../../services/agents/agents.service";
-import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
+import { SetupService, groupEntryTablesResult, getSetupEntryLabel } from "../../services/setup/index";
 import { PropertyService } from "../../services/property.service";
 import calendar_data from "../../stores/calendar-data";
 import { SystemService } from "../../services/system.service";
@@ -23,7 +23,7 @@ export class IrCityLedger {
     agents = [];
     selectedAgent = null;
     taxOptions = [];
-    serviceCategoryOptions = [];
+    svcCategories = [];
     // Statement tab state
     statementFrom = null;
     statementTo = null;
@@ -133,10 +133,7 @@ export class IrCityLedger {
             this.agents = agents ?? [];
             this.applyAgentIdProp();
             const { svc_category } = groupEntryTablesResult(setupEntries);
-            this.serviceCategoryOptions = (svc_category ?? []).map(entry => ({
-                id: entry.CODE_NAME,
-                label: entry.CODE_VALUE_EN,
-            }));
+            this.svcCategories = svc_category ?? [];
         }
         catch (error) {
             console.error('Failed to initialize city ledger', error);
@@ -144,6 +141,9 @@ export class IrCityLedger {
         finally {
             this.isLoading = false;
         }
+    }
+    get serviceCategoryOptions() {
+        return this.svcCategories.map(entry => ({ id: entry.CODE_NAME, label: getSetupEntryLabel(entry) }));
     }
     render() {
         if (this.isLoading) {
@@ -323,7 +323,7 @@ export class IrCityLedger {
             "agents": {},
             "selectedAgent": {},
             "taxOptions": {},
-            "serviceCategoryOptions": {},
+            "svcCategories": {},
             "statementFrom": {},
             "statementTo": {},
             "showStatementPreview": {},

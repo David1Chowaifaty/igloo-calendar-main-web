@@ -10,10 +10,12 @@ var utils = require('./utils-C5I0LkiV.js');
 var global_variables = require('./global.variables-BldIv7Je.js');
 require('./booking.dto-DxxzsxJC.js');
 require('./locales.store-BMTss6fG.js');
+var utils$1 = require('./utils-CQGL0l4_.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./types-BlCoz3jZ.js');
 require('./type-BRhg-bzd.js');
+require('./IBooking-C1lok6Tq.js');
 
 const irDailyRevenueFiltersCss = () => `.sc-ir-daily-revenue-filters-h{display:block}.or-divider.sc-ir-daily-revenue-filters{display:flex;align-items:center;gap:0.5rem}.or-divider__line.sc-ir-daily-revenue-filters{flex:1;height:1px;background-color:var(--wa-color-surface-border, #dee2e6)}.or-divider__text.sc-ir-daily-revenue-filters{font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-text-quiet, #6c757d);white-space:nowrap;text-transform:uppercase;letter-spacing:0.05em}`;
 
@@ -172,11 +174,12 @@ const IrRevenueTable = class {
     payTypesObj;
     payMethodObj;
     groupType = 'method';
-    componentWillLoad() {
+    // Rebuilt on every render so labels follow the selected language.
+    buildPaymentLookups() {
         const buildPaymentLookup = (key) => {
             let pt = {};
             this.paymentEntries[key].forEach(p => {
-                pt = { ...pt, [p.CODE_NAME]: p.CODE_VALUE_EN };
+                pt = { ...pt, [p.CODE_NAME]: utils$1.getSetupEntryLabel(p) };
             });
             return pt;
         };
@@ -237,8 +240,9 @@ const IrRevenueTable = class {
         return result;
     }
     render() {
+        this.buildPaymentLookups();
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (index.h("wa-card", { key: '90ebc0cc2d4e4fbabad66941435ebf0725b26be0', class: "revenue-table__table" }, hasPayments ? (index.h(index.Fragment, null, index.h("div", { class: "revenue-table__header" }, index.h("p", null, t.t('Lcz_Method', { fallback: 'Method' })), index.h("p", null, t.t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
+        return (index.h("wa-card", { key: 'e49bf2385f9d14952dbd55ead8ead03bc07e6a99', class: "revenue-table__table" }, hasPayments ? (index.h(index.Fragment, null, index.h("div", { class: "revenue-table__header" }, index.h("p", null, t.t('Lcz_Method', { fallback: 'Method' })), index.h("p", null, t.t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 list = this.sortByDateTime(list);
                 const [paymentType, paymentMethod] = key.split('_');

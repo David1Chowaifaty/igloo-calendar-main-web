@@ -3,15 +3,17 @@ import { h as hooks } from './moment-Mki5YqAR.js';
 import { f as formatDate } from './ir-date-BngUhoPp.js';
 import { t } from './t-Bk78Wumj.js';
 import { b as formatCount, f as formatAmount } from './number-DpPJHVo2.js';
-import { c as calendar_data } from './calendar-data-BmpcWihW.js';
-import { t as calculateTrend } from './utils-Ddj2LxLs.js';
+import { c as calendar_data } from './calendar-data-CiYzaNK0.js';
+import { u as calculateTrend } from './utils-CNQuD3ma.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-34GsmACS.js';
 import './booking.dto-xX-uaIxb.js';
 import './locales.store-CXJn6ls-.js';
+import { d as getSetupEntryLabel } from './utils-DZNfUvEs.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './types-BWKgfE54.js';
 import './type-DahsFfOq.js';
+import './IBooking-BEkHqAPo.js';
 
 const irDailyRevenueFiltersCss = () => `.sc-ir-daily-revenue-filters-h{display:block}.or-divider.sc-ir-daily-revenue-filters{display:flex;align-items:center;gap:0.5rem}.or-divider__line.sc-ir-daily-revenue-filters{flex:1;height:1px;background-color:var(--wa-color-surface-border, #dee2e6)}.or-divider__text.sc-ir-daily-revenue-filters{font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-text-quiet, #6c757d);white-space:nowrap;text-transform:uppercase;letter-spacing:0.05em}`;
 
@@ -170,11 +172,12 @@ const IrRevenueTable = class {
     payTypesObj;
     payMethodObj;
     groupType = 'method';
-    componentWillLoad() {
+    // Rebuilt on every render so labels follow the selected language.
+    buildPaymentLookups() {
         const buildPaymentLookup = (key) => {
             let pt = {};
             this.paymentEntries[key].forEach(p => {
-                pt = { ...pt, [p.CODE_NAME]: p.CODE_VALUE_EN };
+                pt = { ...pt, [p.CODE_NAME]: getSetupEntryLabel(p) };
             });
             return pt;
         };
@@ -235,8 +238,9 @@ const IrRevenueTable = class {
         return result;
     }
     render() {
+        this.buildPaymentLookups();
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("wa-card", { key: '90ebc0cc2d4e4fbabad66941435ebf0725b26be0', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, t('Lcz_Method', { fallback: 'Method' })), h("p", null, t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
+        return (h("wa-card", { key: 'e49bf2385f9d14952dbd55ead8ead03bc07e6a99', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, t('Lcz_Method', { fallback: 'Method' })), h("p", null, t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 list = this.sortByDateTime(list);
                 const [paymentType, paymentMethod] = key.split('_');

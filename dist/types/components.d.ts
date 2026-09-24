@@ -652,7 +652,7 @@ export namespace Components {
         /**
           * @default []
          */
-        "ratePricingMode": Array<{ CODE_NAME: string; CODE_VALUE_EN: string }>;
+        "ratePricingMode": SetupEntries[];
         "roomTypeId": number;
         "shouldBeDisabled": boolean;
         /**
@@ -14915,7 +14915,7 @@ declare namespace LocalJSX {
         /**
           * @default []
          */
-        "ratePricingMode"?: Array<{ CODE_NAME: string; CODE_VALUE_EN: string }>;
+        "ratePricingMode"?: SetupEntries[];
         "roomTypeId"?: number;
         "shouldBeDisabled": boolean;
         /**

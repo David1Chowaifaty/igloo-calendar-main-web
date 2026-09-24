@@ -10,7 +10,8 @@ require('./locales.store-BMTss6fG.js');
 var t = require('./t-CyRK1btk.js');
 var number = require('./number-D7i5wAQq.js');
 var index$2 = require('./index-B_DsrcJr.js');
-var index$1 = require('./index-ucnJQqCg.js');
+var index$1 = require('./index-BVhX2bVZ.js');
+var utils = require('./utils-CQGL0l4_.js');
 require('./ApiClient-u7fuhiXA.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
@@ -23,7 +24,6 @@ require('./language-observer-DKp37LIu.js');
 require('./types-BzBUVSnE.js');
 require('./type-BRhg-bzd.js');
 require('./enums-BSCnMYlE.js');
-require('./utils-BiDhI8bI.js');
 require('./IBooking-C1lok6Tq.js');
 
 const irClReceiptPreviewCss = () => `:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:900px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.receipt-body{display:flex;flex-direction:column;gap:1.75rem}.receipt-section__title{margin:0 0 0.625rem;padding-bottom:0.375rem;font-size:0.6875rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#9ca3af;border-bottom:1px solid #e5e7eb}.receipt-rows{display:flex;flex-direction:column;gap:0.35rem}.receipt-row{display:flex;align-items:baseline;gap:0.375rem;font-size:0.875rem}.receipt-row__label{color:#6b7280;font-weight:400;flex-shrink:0}.receipt-row__label::after{content:':'}.receipt-row__value{color:#111827;font-weight:500}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}.receipt-section__title{color:#374151}.receipt-row__label{color:#374151}}`;
@@ -94,7 +94,7 @@ const IrClReceiptPreview = class {
         if (!code)
             return '—';
         const entry = this.paymentMethods.find(e => e.CODE_NAME === code);
-        return entry?.CODE_VALUE_EN ?? code;
+        return entry ? utils.getSetupEntryLabel(entry) : code;
     }
     render() {
         if (!this.ticket) {

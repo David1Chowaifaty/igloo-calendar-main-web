@@ -1,13 +1,11 @@
 import { EventEmitter } from '../../../../../../stencil-public-runtime';
+import { SetupEntries } from "../../../../../../models/IBooking";
 import { RatePlan } from "../../../../../../models/property";
 import { IRatePlanSelection } from "../../../../../../stores/booking.store";
 export declare class IglRatePlan {
     ratePlan: RatePlan;
     roomTypeId: number;
-    ratePricingMode: Array<{
-        CODE_NAME: string;
-        CODE_VALUE_EN: string;
-    }>;
+    ratePricingMode: SetupEntries[];
     currency: {
         symbol: string;
     };

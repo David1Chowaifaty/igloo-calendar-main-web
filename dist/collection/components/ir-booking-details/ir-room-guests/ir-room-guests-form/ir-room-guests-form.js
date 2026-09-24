@@ -3,7 +3,7 @@ import { Fragment, h } from "@stencil/core";
 import moment from "moment";
 import { dateMask, defaultGuest } from "../data";
 import { BookingService } from "../../../../services/booking-service/booking.service";
-import { SetupService } from "../../../../services/setup/index";
+import { SetupService, getSetupEntryLabel } from "../../../../services/setup/index";
 import { ZodError } from "zod";
 import { t } from "../../../../services/locale/t";
 export class IrRoomGuestsForm {
@@ -191,7 +191,7 @@ export class IrRoomGuestsForm {
                         },
                     });
                 }, size: "s" }, this.idTypes?.map(t => {
-                const label = t[`CODE_VALUE_${this.language.toUpperCase()}`] ?? t[`CODE_VALUE_EN`];
+                const label = getSetupEntryLabel(t, this.language);
                 return (h("wa-option", { value: t['CODE_NAME'], label: label }, label));
             })), h("wa-input", { size: "s", "aria-invalid": String(!!this.error['number'] && !isRowValid), class: "room-guest__document", defaultValue: guest?.id_info?.number, value: guest?.id_info?.number, maxlength: 18, placeholder: t('Lcz_IdNumberPlaceholder', { fallback: '12345' }), onchange: e => this.updateGuestInfo(idx, {
                     id_info: {

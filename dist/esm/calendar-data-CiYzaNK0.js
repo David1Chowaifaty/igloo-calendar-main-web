@@ -1,0 +1,89 @@
+import { c as createStore } from './locales.store-CXJn6ls-.js';
+
+const initialState = {
+    adultChildConstraints: {
+        adult_max_nbr: 0,
+        child_max_nbr: 0,
+        child_max_age: 0,
+    },
+    unitIssues: null,
+    cleaning_frequency: null,
+    checkin_checkout_hours: null,
+    allowedBookingSources: [],
+    currency: undefined,
+    property: null,
+    colorsForegrounds: null,
+    endingDate: 0,
+    housekeeping_enabled: true, //TODO: revert to true
+    formattedLegendData: undefined,
+    is_vacation_rental: false,
+    legendData: [],
+    roomsInfo: [],
+    startingDate: 0,
+    language: '',
+    toBeAssignedEvents: [],
+    allowed_payment_methods: [],
+    pickup_service: undefined,
+    checkin_enabled: true, //TODO: revert to true
+    max_nights: 0,
+    is_frontdesk_enabled: false,
+    taxes: [],
+    id: null,
+    name: '',
+    ApiClient: '',
+    tax_statement: '',
+    country: undefined,
+    is_pms_enabled: false,
+    roomHistory: {},
+    is_automatic_check_in_out: false,
+};
+const { state: calendar_data, onChange: onCalendarDatesChange } = createStore(initialState);
+function isSingleUnit(id) {
+    if (calendar_data.roomHistory[id]) {
+        return calendar_data.roomHistory[id];
+    }
+    const roomtype = calendar_data.roomsInfo.find(r => r.id === id);
+    if (!roomtype) {
+        console.warn(`Room type not found for ID: ${id}`);
+        return false;
+    }
+    const result = roomtype.physicalrooms?.length <= 1;
+    calendar_data.roomHistory[id] = result;
+    return result;
+}
+let roomTypeNames = null;
+// The property is re-fetched on language change, so drop the cached names whenever it is replaced.
+onCalendarDatesChange('property', () => {
+    roomTypeNames = null;
+});
+/** Room-type id → name, built once per property load from `calendar_data.property.roomtypes`. */
+function getRoomTypeNameMap() {
+    if (!roomTypeNames) {
+        roomTypeNames = new Map((calendar_data.property?.roomtypes ?? []).map(rt => [rt.id, rt.name]));
+    }
+    return roomTypeNames;
+}
+function getRoomTypeName(id) {
+    return getRoomTypeNameMap().get(id) ?? '';
+}
+function isOptimReadOnly() {
+    const optimIntegration = hasOptim();
+    if (!optimIntegration) {
+        return false;
+    }
+    return optimIntegration.is_read_only;
+}
+function hasOptim() {
+    return calendar_data?.property?.linked_pms?.find(p => p.partner.code?.toUpperCase() === 'OPTIM');
+}
+function getExtraServiceDefaultPrice(serviceKey) {
+    return calendar_data?.property?.extra_info.find(ei => ei.key === `SVC_DEFAULT_PRICE_${serviceKey}`)?.value;
+}
+function getDayUseBlockState() {
+    return calendar_data?.property?.extra_info.find(ei => ei.key === 'DAY_USE_BLOCK')?.value;
+}
+function getBabyCotPricingModel() {
+    return calendar_data?.property?.extra_info.find(ei => ei.key === 'BABY_COT_PRICING_MODEL')?.value || 'Night';
+}
+
+export { getDayUseBlockState as a, getBabyCotPricingModel as b, calendar_data as c, getExtraServiceDefaultPrice as d, isSingleUnit as e, getRoomTypeName as g, isOptimReadOnly as i };

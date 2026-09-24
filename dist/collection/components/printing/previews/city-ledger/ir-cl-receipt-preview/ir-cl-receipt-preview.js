@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 import { ClFiscalDocumentService } from "../cl-fiscal-document.service";
 import { formatAmount } from "../../../../../utils/utils";
 import { CityLedgerService } from "../../../../../services/city-ledger/index";
-import { SetupService } from "../../../../../services/setup/index";
+import { SetupService, getSetupEntryLabel } from "../../../../../services/setup/index";
 import { t } from "../../../../../services/locale/t";
 export class IrClReceiptPreview {
     propertyId;
@@ -66,7 +66,7 @@ export class IrClReceiptPreview {
         if (!code)
             return '—';
         const entry = this.paymentMethods.find(e => e.CODE_NAME === code);
-        return entry?.CODE_VALUE_EN ?? code;
+        return entry ? getSetupEntryLabel(entry) : code;
     }
     render() {
         if (!this.ticket) {
