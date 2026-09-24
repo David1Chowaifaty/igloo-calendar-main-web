@@ -4189,6 +4189,11 @@ const irLocaleSwitcherCss = () => `.sc-ir-locale-switcher-h{position:fixed;z-ind
 
 const STORAGE_KEY = 'ir-locale-switcher';
 /**
+ * The page's own `<html lang>`, captured before the switcher or
+ * `LocaleController` overwrite it. Used as the fallback when nothing is saved.
+ */
+const INITIAL_HTML_LANG = typeof document !== 'undefined' ? document.documentElement.lang : '';
+/**
  * The languages the app ships locale strings and moment locale data for,
  * plus every Arabic regional variant.
  */
@@ -4300,6 +4305,25 @@ const IrLocaleSwitcher = class {
         return typeof value === 'string' && LANGUAGES.some(language => language.code === value);
     }
     /**
+     * Map a raw language value onto a supported code: case-insensitive, falling
+     * back to the base subtag (`en-US` → `en`). Returns null when unsupported.
+     */
+    normalizeLanguage(value) {
+        if (typeof value !== 'string') {
+            return null;
+        }
+        const normalized = value.trim().toLowerCase();
+        /*
+         * Derived before the check: `isValidLanguage` is a type guard, so its false
+         * branch narrows `normalized` to `never`.
+         */
+        const base = normalized.split('-')[0];
+        if (this.isValidLanguage(normalized)) {
+            return normalized;
+        }
+        return this.isValidLanguage(base) ? base : null;
+    }
+    /**
      * Validate persisted calendar values before applying them.
      */
     isValidCalendar(value) {
@@ -4337,21 +4361,26 @@ const IrLocaleSwitcher = class {
          * Priority:
          * 1. localStorage
          * 2. <html lang="...">
-         * 3. locales.language
-         * 4. English
+         * 3. English
          */
-        let language = locales_store.locales.language ?? 'en';
-        if (this.isValidLanguage(stored?.language)) {
-            language = stored.language;
+        const language = this.normalizeLanguage(stored?.language) ??
+            this.normalizeLanguage(INITIAL_HTML_LANG) ??
+            this.normalizeLanguage(document.documentElement.lang) ??
+            'en';
+        /*
+         * The switcher mounts inside a screen root that has already started
+         * `LocaleController.load` with its host `language` prop. Only telling the
+         * controller makes our choice stick — otherwise that fetch's publish
+         * overwrites the store and <html lang> with the host language.
+         */
+        if (language !== locale_controller.LocaleController.language) {
+            locale_controller.LocaleController.setLanguage(language).catch(error => console.error('Failed to restore language', error));
         }
         else {
-            const htmlLanguage = document.documentElement.lang;
-            if (this.isValidLanguage(htmlLanguage)) {
-                language = htmlLanguage;
-            }
+            locales_store.locales.language = language;
+            document.documentElement.lang = language;
         }
-        locales_store.locales.language = language;
-        document.documentElement.lang = language;
+        this.broadcastLanguage(language);
         /*
          * Direction.
          *
@@ -4415,14 +4444,20 @@ const IrLocaleSwitcher = class {
          * Re-resolve direction because "auto" depends on language.
          */
         this.applyDirection(this.direction, language, false);
+        this.broadcastLanguage(language);
+        if (persist) {
+            this.saveSettings();
+        }
+    }
+    /**
+     * Pushes `language` onto every mounted component exposing a `language` prop.
+     */
+    broadcastLanguage(language) {
         document.querySelectorAll('*').forEach(node => {
             if (node.tagName.includes('-') && node !== this.el && 'language' in node && node.language !== language) {
                 node.language = language;
             }
         });
-        if (persist) {
-            this.saveSettings();
-        }
     }
     /**
      * Apply calendar preference and persist it.
@@ -4487,10 +4522,9 @@ const IrLocaleSwitcher = class {
                 console.warn(`[ir-locale-switcher] Failed to clear "${STORAGE_KEY}".`, error);
             }
         }
-        const htmlLanguage = document.documentElement.lang;
-        const language = this.isValidLanguage(htmlLanguage) ? htmlLanguage : 'en';
-        locales_store.locales.language = language;
-        document.documentElement.lang = language;
+        const language = this.normalizeLanguage(INITIAL_HTML_LANG) ?? 'en';
+        locale_controller.LocaleController.setLanguage(language).catch(error => console.error('Failed to reset language', error));
+        this.broadcastLanguage(language);
         irDate.CalendarPreferenceController.setOverride(null);
         irDate.CalendarPreferenceController.setNumberingSystem('auto');
         this.direction = 'auto';
@@ -4511,21 +4545,21 @@ const IrLocaleSwitcher = class {
     render() {
         const language = locales_store.locales.language ?? 'en';
         const calendar = irDate.calendarPreference.override ?? 'auto';
-        return (index.h(index.Host, { key: '3db34ed09d7c90410bb8fae66baa3c31fb7cc0fa', class: `ls-host ls-host--${this.placement}` }, !this.open && (index.h("button", { key: '209fe0ad39226d2092e8d50afac351f55a360064', class: "ls-fab", title: "Locale switcher", onClick: () => this.setOpen(true) }, index.h("wa-icon", { key: '6fb0ab55d5efad5453cc7a6b6a28290dbb161048', name: "globe" }), index.h("span", { key: '18fa7b03b9489d244ec6e4ea2756cff810bc6f06', class: "ls-fab__label" }, language.toUpperCase()))), this.open && (index.h("div", { key: '0f2c0aab898d665d5fef0bbdc15ead86002c6859', class: "ls-panel" }, index.h("header", { key: '5ae404e9af2a43559570fd0092c23d96aa633490', class: "ls-panel__header" }, index.h("span", { key: '0a0d8ba7316fd1152ffb61952ef6fcd4f8a79099', class: "ls-panel__title" }, "Locale switcher"), index.h("button", { key: '8687f40ed9ec19611f9052e3739bb094bf161aa7', class: "ls-panel__close", title: "Collapse", onClick: () => this.setOpen(false) }, index.h("wa-icon", { key: '4a4b4dacfb30fd589568c2dd79afb9487eb3126d', name: "xmark" }))), index.h("wa-select", { key: '50ad60831748aa513d472854e29eb25856c01425', label: "Language", size: "s", value: language, onchange: (event) => {
+        return (index.h(index.Host, { key: '8b64413079dd804f53a9663ee2a199059cd6a7aa', class: `ls-host ls-host--${this.placement}` }, !this.open && (index.h("button", { key: 'd5067a361c6e38b4cc8d83b2318170db6e297210', class: "ls-fab", title: "Locale switcher", onClick: () => this.setOpen(true) }, index.h("wa-icon", { key: 'bce733bc4d5189da1f53b982759b7dbef320003a', name: "globe" }), index.h("span", { key: '29e0dd33847d4a7862a7b763a75951a0235375c4', class: "ls-fab__label" }, language.toUpperCase()))), this.open && (index.h("div", { key: 'd0db2750356dd19b1c9e161edd2dcebe867df206', class: "ls-panel" }, index.h("header", { key: 'c3af6e2604699b13b779387255cb82765c1f9e14', class: "ls-panel__header" }, index.h("span", { key: '4167fe8cd0e3e575d6e4c74e301824f4c0e1f02a', class: "ls-panel__title" }, "Locale switcher"), index.h("button", { key: '67be835ecce6f47487336989fc2d0d00930dc2cf', class: "ls-panel__close", title: "Collapse", onClick: () => this.setOpen(false) }, index.h("wa-icon", { key: '838ef4960f79807e43e540eccd80b9c0322d12bb', name: "xmark" }))), index.h("wa-select", { key: '2cbe23b93270055792635a197f8d9b71c4bfadd8', label: "Language", size: "s", value: language, onchange: (event) => {
                 const value = event.target.value?.toString();
                 if (value) {
                     this.applyLanguage(value);
                 }
-            } }, LANGUAGES.map(({ code, label }) => (index.h("wa-option", { key: code, value: code }, label)))), index.h("wa-select", { key: 'dbc7834b80f9a4e559f54fb4a2ea685819d17718', label: "Calendar", size: "s", value: calendar, onchange: (event) => {
+            } }, LANGUAGES.map(({ code, label }) => (index.h("wa-option", { key: code, value: code }, label)))), index.h("wa-select", { key: '2a59bfeaf59fbcf845d15c79b73ba0f50307b1ce', label: "Calendar", size: "s", value: calendar, onchange: (event) => {
                 const value = event.target.value?.toString();
                 this.applyCalendar(value);
-            } }, index.h("wa-option", { key: '97cbf26c2cac5703041e8afcbbc152b3ffcd6a24', value: "auto" }, "Auto \u2014 detect from device"), index.h("wa-option", { key: '93ed63f88b83ebb00c1fc77c9104a4ee4d876351', value: "gregory" }, "Gregorian"), index.h("wa-option", { key: '723fac3ce382042bfa4f968db716e57343b0e95f', value: "islamic-umalqura" }, "Hijri \u2014 Umm al-Qura")), index.h("wa-select", { key: 'c97ad2b7f22044dbb4c32c439f932cf3077ef24f', label: "Numbers", size: "s", value: irDate.calendarPreference.numberingSystem, onchange: (event) => {
+            } }, index.h("wa-option", { key: '5a6c1b55dafe91f5c231659841bfc44c21c9f94b', value: "auto" }, "Auto \u2014 detect from device"), index.h("wa-option", { key: '45988dcfb77b89d6a0d5df98e553bf4987acdcc1', value: "gregory" }, "Gregorian"), index.h("wa-option", { key: '9ffd1864c008055af69ea17b15cdf9ccc8f31220', value: "islamic-umalqura" }, "Hijri \u2014 Umm al-Qura")), index.h("wa-select", { key: 'e15846c060a16ccabfb68ae58184a46829d20b24', label: "Numbers", size: "s", value: irDate.calendarPreference.numberingSystem, onchange: (event) => {
                 const value = event.target.value?.toString();
                 this.applyNumberingSystem(value);
-            } }, NUMBERING_SYSTEMS.map(({ value, label }) => (index.h("wa-option", { key: value, value: value }, label)))), index.h("wa-select", { key: '2c085d1f5fa634382d8c855b715c0aa21eb42096', label: "Direction", size: "s", value: this.direction, onchange: (event) => {
+            } }, NUMBERING_SYSTEMS.map(({ value, label }) => (index.h("wa-option", { key: value, value: value }, label)))), index.h("wa-select", { key: '6b6543a4ab852cc6207d13059ca532bd3aa0871a', label: "Direction", size: "s", value: this.direction, onchange: (event) => {
                 const value = event.target.value?.toString();
                 this.applyDirection(value);
-            } }, index.h("wa-option", { key: 'cdd803e6b483f0ad5ac60d84cc860008b7ad3052', value: "auto" }, "Auto \u2014 from language"), index.h("wa-option", { key: '51bb02fb8f4604199a964c740af79195392bb3c6', value: "ltr" }, "LTR"), index.h("wa-option", { key: '894225d89638e5793060374045caaad08d89b9ef', value: "rtl" }, "RTL")), this.renderPreview(), index.h("footer", { key: 'dd9f9c731dec6a4ff25eca6c8fbe8d3322ebfcf1', class: "ls-panel__footer" }, index.h("span", { key: '0803e964f389c2e7acce1df41814c58cbf52b7b1', class: "ls-panel__resolved" }, "resolved: ", language, " \u00B7 ", irDate.calendarPreference.resolved, " \u00B7 ", irDate.calendarPreference.numberingSystem, " \u00B7 ", document.documentElement.getAttribute('dir') ?? 'ltr'), index.h("button", { key: 'd04a106c64c16200241327bd045f4d96ce215555', class: "ls-panel__reset", onClick: () => this.resetSettings() }, "Reset all"))))));
+            } }, index.h("wa-option", { key: '1f28d88533c498f2dcb99b38090c3de3eb0d399b', value: "auto" }, "Auto \u2014 from language"), index.h("wa-option", { key: '899e838726b7d943073de2b89ac6c87d1de4ef0a', value: "ltr" }, "LTR"), index.h("wa-option", { key: '39c9327bf7385466b97499c274b76f29c0ce52f5', value: "rtl" }, "RTL")), this.renderPreview(), index.h("footer", { key: '974604708e0cbee7ce7376bec8c287b402ccc17a', class: "ls-panel__footer" }, index.h("span", { key: '75bb4559aee1795d9428dfa9e923cb2cadeaac0c', class: "ls-panel__resolved" }, "resolved: ", language, " \u00B7 ", irDate.calendarPreference.resolved, " \u00B7 ", irDate.calendarPreference.numberingSystem, " \u00B7 ", document.documentElement.getAttribute('dir') ?? 'ltr'), index.h("button", { key: '34c28cb5c692b9b1194b827b5c20559937123b39', class: "ls-panel__reset", onClick: () => this.resetSettings() }, "Reset all"))))));
     }
 };
 IrLocaleSwitcher.style = irLocaleSwitcherCss();

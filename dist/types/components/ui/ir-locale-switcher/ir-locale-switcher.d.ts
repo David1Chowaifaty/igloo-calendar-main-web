@@ -36,6 +36,11 @@ export declare class IrLocaleSwitcher {
      */
     private isValidLanguage;
     /**
+     * Map a raw language value onto a supported code: case-insensitive, falling
+     * back to the base subtag (`en-US` → `en`). Returns null when unsupported.
+     */
+    private normalizeLanguage;
+    /**
      * Validate persisted calendar values before applying them.
      */
     private isValidCalendar;
@@ -58,6 +63,10 @@ export declare class IrLocaleSwitcher {
      * and no ticket is set yet.
      */
     private applyLanguage;
+    /**
+     * Pushes `language` onto every mounted component exposing a `language` prop.
+     */
+    private broadcastLanguage;
     /**
      * Apply calendar preference and persist it.
      */
