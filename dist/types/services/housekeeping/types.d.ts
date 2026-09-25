@@ -70,8 +70,9 @@ export type GetHkIssuesParams = {
     property_id: number;
 };
 export declare const GetExposedHKSetupParamsSchema: z.ZodObject<{
-    property_id: z.ZodNumber;
     language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
+    property_id: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     language?: string;
     property_id?: number;

@@ -6,6 +6,7 @@ import calendar_data from "../../../../../stores/calendar-data";
 import { InvoiceableItemReason, SvcCategory } from "../../../../../types/enums";
 import { formatDate } from "../../../../../utils/date/index";
 import { t } from "../../../../../services/locale/t";
+import { LocaleController } from "../../../../../services/locale/locale.controller";
 // Built per call: zod fixes messages at construction, and the locale is not loaded when this module is.
 const nightAmountSchema = () => z.coerce.number({ invalid_type_error: t('Lcz_Required', { fallback: 'Required' }) }).min(0, t('Lcz_MinimumIsZero', { fallback: 'Minimum is 0' }));
 export class IrBookingPricingForm {
@@ -59,7 +60,7 @@ export class IrBookingPricingForm {
     async checkInvoiceStatus() {
         this.isCheckingInvoice = true;
         try {
-            const info = await this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr });
+            const info = await this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr, language: LocaleController.language });
             const accommodationItem = (info.invoiceable_items ?? []).find(item => item.key === this.room.system_id);
             this.invoiceLocked = accommodationItem.reason.code === InvoiceableItemReason.AlreadyInvoiced;
         }

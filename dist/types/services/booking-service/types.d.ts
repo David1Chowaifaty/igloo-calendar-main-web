@@ -71,9 +71,10 @@ export declare const GetNextValuePropsSchema: z.ZodObject<{
 }>;
 export type GetNextValueProps = z.infer<typeof GetNextValuePropsSchema>;
 export declare const GetExposedApplicablePoliciesPropsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     booking_nbr: z.ZodOptional<z.ZodString>;
     currency_id: z.ZodNumber;
-    language: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     rate_plan_id: z.ZodNumber;
     room_type_id: z.ZodNumber;
     property_id: z.ZodNumber;
@@ -116,9 +117,10 @@ export type HandleExposedRoomInOutProps = z.infer<typeof HandleExposedRoomInOutP
     status: RoomInOut['code'];
 };
 export declare const GetPenaltyStatementPropsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     booking_nbr: z.ZodOptional<z.ZodString>;
     currency_id: z.ZodNumber;
-    language: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
     language?: string;
     currency_id?: number;
@@ -170,6 +172,8 @@ export declare const ChangeExposedBookingStatusPropsSchema: z.ZodObject<{
 }>;
 export type ChangeExposedBookingStatusProps = z.infer<typeof ChangeExposedBookingStatusPropsSchema>;
 export declare const GetBookingAvailabilityPropsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     from_date: z.ZodOptional<z.ZodString>;
     to_date: z.ZodOptional<z.ZodString>;
     propertyid: z.ZodNumber;
@@ -183,7 +187,6 @@ export declare const GetBookingAvailabilityPropsSchema: z.ZodObject<{
         adult?: number;
         child?: number;
     }>;
-    language: z.ZodOptional<z.ZodString>;
     room_type_ids: z.ZodArray<z.ZodNumber, "many">;
     room_type_ids_to_update: z.ZodOptional<z.ZodArray<z.ZodNumber, "many">>;
     rate_plan_ids: z.ZodOptional<z.ZodArray<z.ZodNumber, "many">>;
@@ -648,10 +651,14 @@ export interface RoomsToProcessResult {
     total_count: number;
 }
 export declare const GetBookingInvoiceInfoPropsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     booking_nbr: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
+    language?: string;
     booking_nbr?: string;
 }, {
+    language?: string;
     booking_nbr?: string;
 }>;
 export type GetBookingInvoiceInfoProps = z.infer<typeof GetBookingInvoiceInfoPropsSchema>;
@@ -1216,7 +1223,8 @@ export declare const SimulateDirectBookingParamsSchema: z.ZodObject<{
 }>;
 export type SimulateDirectBookingParams = z.infer<typeof SimulateDirectBookingParamsSchema>;
 export declare const DoDayUseParamsSchema: z.ZodObject<{
-    language: z.ZodString;
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     is_to_block: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
     booking: z.ZodObject<{
         property: z.ZodObject<{

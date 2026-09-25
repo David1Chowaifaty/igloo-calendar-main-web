@@ -1,15 +1,16 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
-import { S as SetupService } from './index-DOBP7vGO.js';
+import { S as SetupService } from './index-BZAU6GVz.js';
 import { t } from './t-CHjay2ar.js';
 import { f as formatDate } from './ir-date-tLkbTntq.js';
 import './moment-Mki5YqAR.js';
-import { d as getSetupEntryLabel } from './utils-DZNfUvEs.js';
+import { d as getSetupEntryLabel } from './utils-Cr7j4ZQE.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-BEkHqAPo.js';
-import './types-BWKgfE54.js';
+import './IBooking-B4waZCSK.js';
+import './types-CB66a07H.js';
 import './locales.store-CXJn6ls-.js';
 import './language-observer-CHgzsZkY.js';
+import './commonSchemas-Cx9w9d8l.js';
 
 const iglBlockDatesViewCss = () => `.sc-igl-block-dates-view-h{display:block}.block-dates.sc-igl-block-dates-view{display:flex;flex-direction:column;gap:var(--wa-space-s, 0.5rem);text-align:start;font-size:var(--wa-font-size-s, 0.8125rem);color:var(--wa-color-text-normal, #1e293b)}.block-dates__dates.sc-igl-block-dates-view{--ir-date-view-font-size:var(--wa-font-size-m, 0.8125rem)}.block-dates__label.sc-igl-block-dates-view{font-weight:var(--wa-font-weight-semibold, 600);color:var(--wa-color-text-quiet, #64748b)}.block-dates__mode.sc-igl-block-dates-view::part(form-control-label),.block-dates__mode.sc-igl-block-dates-view [part~="form-control-label"]{margin-block-end:var(--wa-space-xs, 0.375rem)}.block-dates__mode.sc-igl-block-dates-view::part(radios),.block-dates__mode.sc-igl-block-dates-view [part~="radios"]{gap:var(--wa-space-xs, 0.375rem)}.block-dates__fields.sc-igl-block-dates-view{display:flex;flex-direction:column;gap:var(--wa-space-xs, 0.375rem);margin-block:var(--wa-space-3xs, 0.125rem) var(--wa-space-2xs, 0.25rem);margin-inline-start:1.6rem;padding-inline-start:var(--wa-space-s, 0.5rem);border-inline-start:2px solid var(--wa-color-neutral-border-quiet, #e2e8f0)}.block-dates__select.sc-igl-block-dates-view,.block-dates__reason.sc-igl-block-dates-view{width:100%}.block-dates__release-on.sc-igl-block-dates-view{font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-text-quiet, #64748b);white-space:nowrap}`;
 

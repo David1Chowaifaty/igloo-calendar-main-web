@@ -4,14 +4,14 @@ var index = require('./index-CQkpA5n3.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var authenticate_service = require('./authenticate.service-CUEKvxj9.js');
 var irInterceptor_store = require('./ir-interceptor.store-moMB-JCs.js');
-var locale_controller = require('./locale.controller-C4TH5Eq_.js');
+var locale_controller = require('./locale.controller-B-HVDnk7.js');
 var t = require('./t-C54QV4_c.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./locales.store-BMTss6fG.js');
 require('./language-observer-DKp37LIu.js');
-require('./types-BzBUVSnE.js');
-require('./types-BlCoz3jZ.js');
+require('./types-sp5nWPAa.js');
+require('./types-BVJQZ50e.js');
 
 const irLoginCss = () => `.sc-ir-login-h{height:100vh;display:grid;align-content:center;padding:2rem;box-sizing:border-box;background:url(https://x.igloorooms.com/bg.jpg);background-position:center;background-repeat:no-repeat;background-size:cover}p.sc-ir-login,input.sc-ir-login,button.sc-ir-login{margin:0}p.sc-ir-login,input.sc-ir-login,button.sc-ir-login,div.sc-ir-login,section.sc-ir-login,form.sc-ir-login{box-sizing:border-box}.form-container.sc-ir-login{padding:1rem;display:flex;flex-direction:column;height:100%;background:white;border-radius:0.25rem;gap:1rem;width:100%;max-width:38rem;margin-inline-start:auto;margin-inline-end:auto}.separator-container.sc-ir-login{display:flex;align-items:center;gap:0.5rem;padding-top:1.5rem;padding-bottom:1rem}.separator-container.sc-ir-login p.sc-ir-login{color:#6b6f82;font-size:1rem}.separator.sc-ir-login{flex:1 1 0%;height:1px;background:#dadada}.login-btn.sc-ir-login{margin-top:1rem}.logo.sc-ir-login{align-self:center}.app_links.sc-ir-login{display:flex;align-items:center;justify-content:center;gap:1rem;padding-block:0.5rem}.app_links.sc-ir-login a.sc-ir-login img.sc-ir-login{width:70%}.password_toggle.sc-ir-login{all:unset;position:absolute;top:2px;inset-inline-end:1rem}`;
 

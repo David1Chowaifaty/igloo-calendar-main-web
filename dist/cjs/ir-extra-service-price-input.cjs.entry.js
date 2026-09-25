@@ -3,7 +3,7 @@
 var index = require('./index-CQkpA5n3.js');
 var calendarData = require('./calendar-data-HgC39-BR.js');
 var t = require('./t-C54QV4_c.js');
-var types = require('./types-BlCoz3jZ.js');
+var types = require('./types-BVJQZ50e.js');
 require('./locales.store-BMTss6fG.js');
 
 const irExtraServicePriceInputCss = () => `wa-input[aria-invalid='true']::part(base),wa-textarea[aria-invalid='true']::part(base),wa-select[aria-invalid='true']::part(combobox){border-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));outline-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));border-top-width:var(--error-border-width) !important;border-inline-start-width:var(--error-border-width) !important;border-inline-end-width:var(--error-border-width) !important;border-bottom-width:var(--error-border-width) !important}:host{display:flex;flex:1}.ir-extra-service-price-input__price-wrapper{flex:1 1 0%}`;

@@ -346,7 +346,7 @@ export class IrInvoiceForm {
             // if (!this.invoiceInfo) {
             const [booking, invoiceInfo, svcCategories] = await Promise.all([
                 this.bookingService.getExposedBooking({ booking_nbr: this.booking.booking_nbr, language: LocaleController.language, withExtras: true }),
-                this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
+                this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr, language: LocaleController.language }),
                 this.setupService.getSetupEntriesByTableName('_SVC_CATEGORY'),
             ]);
             this.booking = { ...booking };
@@ -458,6 +458,7 @@ export class IrInvoiceForm {
             });
             const invoiceInfo = await this.bookingService.getBookingInvoiceInfo({
                 booking_nbr: this.booking.booking_nbr,
+                language: LocaleController.language,
             });
             if (this.autoPrint) {
                 try {

@@ -4,16 +4,17 @@ import { f as formatDate } from './ir-date-tLkbTntq.js';
 import { t } from './t-CHjay2ar.js';
 import { b as formatCount, f as formatAmount } from './number-DbiGgV_N.js';
 import { c as calendar_data } from './calendar-data-CiYzaNK0.js';
-import { u as calculateTrend } from './utils-LYNfNy1h.js';
+import { u as calculateTrend } from './utils-CKFOUZvS.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-34GsmACS.js';
-import './booking.dto-xX-uaIxb.js';
+import './booking.dto-B554ToUQ.js';
 import './locales.store-CXJn6ls-.js';
-import { d as getSetupEntryLabel } from './utils-DZNfUvEs.js';
+import { d as getSetupEntryLabel } from './utils-Cr7j4ZQE.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './types-BWKgfE54.js';
-import './type-DahsFfOq.js';
-import './IBooking-BEkHqAPo.js';
+import './types-CB66a07H.js';
+import './type-DjfVZqvs.js';
+import './IBooking-B4waZCSK.js';
+import './commonSchemas-Cx9w9d8l.js';
 
 const irDailyRevenueFiltersCss = () => `.sc-ir-daily-revenue-filters-h{display:block}.or-divider.sc-ir-daily-revenue-filters{display:flex;align-items:center;gap:0.5rem}.or-divider__line.sc-ir-daily-revenue-filters{flex:1;height:1px;background-color:var(--wa-color-surface-border, #dee2e6)}.or-divider__text.sc-ir-daily-revenue-filters{font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-text-quiet, #6c757d);white-space:nowrap;text-transform:uppercase;letter-spacing:0.05em}`;
 

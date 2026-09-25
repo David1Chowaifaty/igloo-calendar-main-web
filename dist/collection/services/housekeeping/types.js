@@ -1,6 +1,4 @@
-import z from "zod";
-import { PropertyIdSchema } from "../commonSchemas";
-export const GetExposedHKSetupParamsSchema = z.object({
+import { LanguageSchema, PropertyIdSchema } from "../commonSchemas";
+export const GetExposedHKSetupParamsSchema = LanguageSchema.extend({
     property_id: PropertyIdSchema,
-    language: z.string().optional().default('en'),
 });

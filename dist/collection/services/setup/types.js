@@ -1,5 +1,6 @@
 import { SetupEntrySchema } from "../../models/IBooking";
 import * as z from "zod";
+import { LanguageSchema } from "../commonSchemas";
 // ---------------------------------------------------------------------------
 // Shared entry shape
 // ---------------------------------------------------------------------------
@@ -69,9 +70,7 @@ export const MoveSetupEntryParamsSchema = z.object({
 /* -------------------------------------------------------------------------- */
 /*                              Move Setup Entry                              */
 /* -------------------------------------------------------------------------- */
-export const MissingSetupEntriesParamsSchema = z.object({
-    language: z.string(),
-});
+export const MissingSetupEntriesParamsSchema = LanguageSchema;
 /* -------------------------------------------------------------------------- */
 /*                       Search Setup By Description                          */
 /* -------------------------------------------------------------------------- */

@@ -20,10 +20,11 @@ export declare const AssignUnitParamsSchema: z.ZodObject<{
 }>;
 export type AssignUnitParams = z.infer<typeof AssignUnitParamsSchema>;
 export declare const GetAggregatedUnAssignedRoomsByDateRangeParamsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     propertyid: z.ZodNumber;
     from_date: z.ZodEffects<z.ZodString, string, string>;
     to_date: z.ZodEffects<z.ZodString, string, string>;
-    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
     language?: string;
     from_date?: string;

@@ -258,7 +258,7 @@ export declare const MoveSetupEntryParamsSchema: z.ZodObject<{
 }>;
 export type MoveSetupEntryParams = z.infer<typeof MoveSetupEntryParamsSchema>;
 export declare const MissingSetupEntriesParamsSchema: z.ZodObject<{
-    language: z.ZodString;
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
     language?: string;
 }, {

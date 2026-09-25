@@ -1,12 +1,11 @@
-import { BookingNumberSchema, DateSchema, PropertyIdSchema } from "../commonSchemas";
+import { BookingNumberSchema, DateSchema, LanguageSchema, PropertyIdSchema } from "../commonSchemas";
 import * as z from "zod";
 // ---------------------------------------------------------------------------
 // Exposed bookings criteria (Get_Exposed_Bookings_Criteria)
 // ---------------------------------------------------------------------------
-export const GetExposedBookingsCriteriaParamsSchema = z.object({
+export const GetExposedBookingsCriteriaParamsSchema = LanguageSchema.extend({
     // null for privileged users (criteria across all properties)
     property_id: PropertyIdSchema.nullable(),
-    language: z.string(),
 });
 export const CriteriaChannelSchema = z.object({
     is_direct: z.boolean(),
@@ -37,7 +36,7 @@ export const ExposedBookingsCriteriaSchema = z.object({
 // ---------------------------------------------------------------------------
 // Exposed bookings (Get_Exposed_Bookings)
 // ---------------------------------------------------------------------------
-export const ExposedBookingsParamsSchema = z.object({
+export const ExposedBookingsParamsSchema = LanguageSchema.extend({
     channel: z.string(),
     // These are null in your initialState, so allow nulls
     property_id: PropertyIdSchema.nullable(),
@@ -61,7 +60,6 @@ export const ExposedBookingsParamsSchema = z.object({
     total_count: z.number().int(),
     is_to_export: z.boolean(),
     property_ids: z.array(PropertyIdSchema).nullable().optional(),
-    language: z.string().optional().default('en'),
 });
 export const GetExposedBookingsOptionsSchema = z.object({
     /** Append results to the stored bookings instead of replacing them (infinite scroll). */

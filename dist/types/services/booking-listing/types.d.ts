@@ -1,7 +1,8 @@
 import * as z from 'zod';
 export declare const GetExposedBookingsCriteriaParamsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     property_id: z.ZodNullable<z.ZodNumber>;
-    language: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     language?: string;
     property_id?: number;
@@ -176,6 +177,8 @@ export declare const ExposedBookingsCriteriaSchema: z.ZodObject<{
 /** Filter criteria returned by `Get_Exposed_Bookings_Criteria`. */
 export type IExposedBookingsCriteria = z.infer<typeof ExposedBookingsCriteriaSchema>;
 export declare const ExposedBookingsParamsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     channel: z.ZodString;
     property_id: z.ZodNullable<z.ZodNumber>;
     balance_filter: z.ZodNullable<z.ZodString>;
@@ -196,7 +199,6 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     total_count: z.ZodNumber;
     is_to_export: z.ZodBoolean;
     property_ids: z.ZodOptional<z.ZodNullable<z.ZodArray<z.ZodNumber, "many">>>;
-    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
     name?: string;
     language?: string;

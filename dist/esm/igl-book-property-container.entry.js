@@ -1,26 +1,26 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-CeHdrJeH.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { B as BookingService } from './booking.store--m3aK21i.js';
-import { R as RoomService } from './room.service-BbSNniZH.js';
-import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-CTJvh9SC.js';
-import { L as LanguageSync } from './language-sync-Cjba_aDc.js';
+import { B as BookingService } from './booking.store-AYyn6ifP.js';
+import { R as RoomService } from './room.service-jft1_Mb6.js';
+import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-BQzvhC3Q.js';
+import { L as LanguageSync } from './language-sync-Q4d31yjT.js';
 import { t } from './t-CHjay2ar.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-BEkHqAPo.js';
-import './types-BWKgfE54.js';
-import './utils-LYNfNy1h.js';
+import './IBooking-B4waZCSK.js';
+import './types-CB66a07H.js';
+import './utils-CKFOUZvS.js';
 import './moment-Mki5YqAR.js';
 import './calendar-data-CiYzaNK0.js';
 import './locales.store-CXJn6ls-.js';
-import './booking.dto-xX-uaIxb.js';
-import './type-DahsFfOq.js';
+import './booking.dto-B554ToUQ.js';
+import './type-DjfVZqvs.js';
 import './ir-date-tLkbTntq.js';
 import './language-observer-CHgzsZkY.js';
-import './booking-BCfG9kTk.js';
+import './booking-CwfPgjWM.js';
 import './functions-BI0MgE9h.js';
-import './commonSchemas-DOpzu-TI.js';
-import './types-vTVnj3si.js';
+import './commonSchemas-Cx9w9d8l.js';
+import './types-CyZFzmvF.js';
 
 const iglBookPropertyContainerCss = () => `.sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans',     -apple-system,     BlinkMacSystemFont,     'Segoe UI',     Roboto,     'Helvetica Neue',     Arial,     sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:start !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}`;
 
