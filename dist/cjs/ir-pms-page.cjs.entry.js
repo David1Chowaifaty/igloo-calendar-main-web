@@ -4,7 +4,7 @@ var index = require('./index-CQkpA5n3.js');
 var moment = require('./moment-CdViwxPQ.js');
 var locale_controller = require('./locale.controller-C4TH5Eq_.js');
 var languageSync = require('./language-sync-CcxSJ9ci.js');
-var t = require('./t-CyRK1btk.js');
+var t = require('./t-C54QV4_c.js');
 require('./locales.store-BMTss6fG.js');
 require('./language-observer-DKp37LIu.js');
 require('./axios-EresIryl.js');

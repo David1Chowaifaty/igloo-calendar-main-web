@@ -1,5 +1,6 @@
 import { calculateDaysBetweenDates } from "../../utils/booking";
 import { formatDate, toDate } from "../../utils/date/index";
+import { formatCount } from "../../utils/number";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { t } from "../../services/locale/t";
@@ -22,7 +23,7 @@ export class IrDateView {
         const toISO = toDate(this.to_date);
         const diff = fromISO && toISO ? calculateDaysBetweenDates(moment(fromISO).format('YYYY-MM-DD'), moment(toISO).format('YYYY-MM-DD')) : 0;
         const nightLabel = diff === 1 ? t('Lcz_Night', { fallback: 'night' }) : t('Lcz_Nights', { fallback: 'nights' });
-        return (h(Host, { key: '6132e8cc2c3e40828eb6fe2179e3e5e5a11d3454' }, h("span", { key: '41673446f8351ba3af219bf6280f1e69cab26494', part: "base" }, h("span", { key: '464f1f33c9562f8317c00aa40ad96627a4434964', part: "from-date" }, fromStr), h("span", { key: '08ad3b9c966c17a1d0fe651e0b2a2c24c999d7a5', part: "separator", "aria-hidden": "true" }, h("wa-icon", { key: '367cf35ee06714e1edce26bc0dd5f9010f76bb30', class: "ir-flip-rtl", name: "arrow-right", part: "separator-icon", "aria-hidden": "true" })), h("span", { key: '71099e8893509dbb931bae8d4edb398fcfc62629', part: "to-date" }, toStr), this.showDateDifference && diff > 0 && (h("span", { key: '538cffbac03e9934a4d99e3b2000ab963c638806', part: "night-count" }, diff, "\u00A0", nightLabel)))));
+        return (h(Host, { key: 'e4f07d293a109403374b8275f87e0b583718aba4' }, h("span", { key: 'c2abd22cf5e989a911a1c358201f4fcb14c1beeb', part: "base" }, h("span", { key: 'ae9669cf2747b07211498e971c5ae68593a7667d', part: "from-date" }, fromStr), h("span", { key: '0056e4e0d37d911d814f000176830a53e357b6b9', part: "separator", "aria-hidden": "true" }, h("wa-icon", { key: '7a3d5efde91f750b8e6e7117e0b0d39bd600c97d', class: "ir-flip-rtl", name: "arrow-right", part: "separator-icon", "aria-hidden": "true" })), h("span", { key: '8ba16fd9e3f8419057b9f39654454e86796b82c6', part: "to-date" }, toStr), this.showDateDifference && diff > 0 && (h("span", { key: '740fdbbda1fda8ec7f23df2614334327afb02796', part: "night-count" }, formatCount(diff), "\u00A0", nightLabel)))));
     }
     static get is() { return "ir-date-view"; }
     static get encapsulation() { return "shadow"; }

@@ -4,7 +4,7 @@ export interface ICalendarPreference {
     resolved: CalendarSystem;
     /** Explicit user/QA choice, or `null` when following device auto-detect. */
     override: CalendarSystem | null;
-    /** Digit script dates render in. `'auto'` follows whatever the moment locale produces. */
+    /** Digit script dates and numbers render in. `'auto'` resolves per locale — see `numerals.ts`. */
     numberingSystem: NumberingSystemPreference;
 }
 export declare const calendarPreference: ICalendarPreference, onCalendarPreferenceChange: import("@stencil/store/dist/types").OnChangeHandler<ICalendarPreference>;

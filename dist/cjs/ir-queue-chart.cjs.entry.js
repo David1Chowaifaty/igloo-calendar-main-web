@@ -2,7 +2,7 @@
 
 var index = require('./index-CQkpA5n3.js');
 var chart = require('./chart-CMmD0hzI.js');
-var t = require('./t-CyRK1btk.js');
+var t = require('./t-C54QV4_c.js');
 require('./locales.store-BMTss6fG.js');
 
 const irQueueChartCss = () => `:host{display:block}`;

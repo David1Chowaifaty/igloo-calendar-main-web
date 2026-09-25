@@ -6,7 +6,7 @@ var room_service = require('./room.service-SRdCt12B.js');
 var index$1 = require('./index-BVhX2bVZ.js');
 var locale_controller = require('./locale.controller-C4TH5Eq_.js');
 var languageSync = require('./language-sync-CcxSJ9ci.js');
-var t = require('./t-CyRK1btk.js');
+var t = require('./t-C54QV4_c.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./calendar-data-HgC39-BR.js');

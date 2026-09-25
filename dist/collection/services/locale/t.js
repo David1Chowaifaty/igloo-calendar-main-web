@@ -12,7 +12,7 @@ import { locales } from "../../stores/locales.store";
  * @param key A declared `Lcz_*` key. Unknown keys are a compile error — use
  * {@link tRaw} when the key is only known at runtime.
  * @returns The translation, or `options.fallback` (defaulting to `key` itself,
- * so gaps are visible) when the key has not been loaded.
+ * so gaps are visible) when the key has not been loaded. `params` fill both.
  */
 export function t(key, options) {
     return tRaw(key, options);
@@ -25,7 +25,8 @@ export function tRaw(key, options) {
     const entries = locales.entries;
     const value = entries?.[key];
     if (value === undefined || value === null || value === '') {
-        return options?.fallback ?? key;
+        // Fallbacks carry the same `%1` placeholders as the translation, so they need the same fill.
+        return options?.fallback !== undefined ? interpolate(options.fallback, options.params) : key;
     }
     return interpolate(value, options?.params);
 }

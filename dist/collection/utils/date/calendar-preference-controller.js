@@ -23,7 +23,7 @@ export class CalendarPreferenceController {
             if (e.key === CALENDAR_STORAGE_KEY)
                 this.refresh();
             if (e.key === NUMBERING_STORAGE_KEY) {
-                calendarPreference.numberingSystem = readStoredNumberingSystem() ?? 'latn';
+                calendarPreference.numberingSystem = readStoredNumberingSystem() ?? 'auto';
             }
         });
     }
@@ -34,9 +34,10 @@ export class CalendarPreferenceController {
         this.refresh();
     }
     /**
-     * Sets the digit script dates render in. `'auto'` follows the moment locale's own numerals
-     * (Arabic-Indic under `ar`); anything else forces that script. Never affects `toApiDate` —
-     * the API boundary is Latin by construction.
+     * Sets the digit script dates and numbers render in. `'auto'` resolves per locale through
+     * `LOCALE_DEFAULT_SCRIPT` in `numerals.ts` (Arabic-Indic under `ar`); anything else forces that
+     * script. Persisted, so it outlives the page that set it. Never affects `toApiDate` — the API
+     * boundary is Latin by construction.
      */
     static setNumberingSystem(value) {
         persistNumberingSystem(value);

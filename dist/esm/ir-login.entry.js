@@ -3,7 +3,7 @@ import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { A as AuthService } from './authenticate.service-C4X_z1zf.js';
 import { i as isRequestPending } from './ir-interceptor.store-302gZvQv.js';
 import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-CTJvh9SC.js';
-import { t } from './t-Bk78Wumj.js';
+import { t } from './t-CHjay2ar.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './locales.store-CXJn6ls-.js';

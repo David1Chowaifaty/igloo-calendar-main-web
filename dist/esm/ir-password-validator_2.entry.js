@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h } from './index-CeHdrJeH.js';
-import { t } from './t-Bk78Wumj.js';
+import { t } from './t-CHjay2ar.js';
 import './locales.store-CXJn6ls-.js';
 
 const irPasswordValidatorCss = () => `.sc-ir-password-validator-h{display:block}`;

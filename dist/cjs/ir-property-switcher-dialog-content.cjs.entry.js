@@ -3,7 +3,7 @@
 var index = require('./index-CQkpA5n3.js');
 var axios = require('./axios-EresIryl.js');
 var debounce = require('./debounce-Be8tSGtB.js');
-var t = require('./t-CyRK1btk.js');
+var t = require('./t-C54QV4_c.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./locales.store-BMTss6fG.js');
 

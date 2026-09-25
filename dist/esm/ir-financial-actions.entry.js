@@ -4,7 +4,7 @@ import { R as RoomService } from './room.service-BbSNniZH.js';
 import { S as SetupService } from './index-DOBP7vGO.js';
 import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CTJvh9SC.js';
 import { L as LanguageSync } from './language-sync-Cjba_aDc.js';
-import { t } from './t-Bk78Wumj.js';
+import { t } from './t-CHjay2ar.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './calendar-data-CiYzaNK0.js';

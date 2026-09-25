@@ -2,7 +2,7 @@ import { r as registerInstance, h } from './index-CeHdrJeH.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CTJvh9SC.js';
 import { L as LanguageSync } from './language-sync-Cjba_aDc.js';
-import { t } from './t-Bk78Wumj.js';
+import { t } from './t-CHjay2ar.js';
 import './locales.store-CXJn6ls-.js';
 import './language-observer-CHgzsZkY.js';
 import './axios-B50ozOIF.js';

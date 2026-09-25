@@ -3,8 +3,8 @@
 var index = require('./index-CQkpA5n3.js');
 var debounce = require('./debounce-Be8tSGtB.js');
 var moment = require('./moment-CdViwxPQ.js');
-var irDate = require('./ir-date-BZLsqCOc.js');
-var t = require('./t-CyRK1btk.js');
+var irDate = require('./ir-date-BLb2Vxrk.js');
+var t = require('./t-C54QV4_c.js');
 require('./locales.store-BMTss6fG.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

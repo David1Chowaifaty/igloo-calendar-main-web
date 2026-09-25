@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-CeHdrJeH.js';
 import { A as AgentBaseSchema, b as AgentsTypes } from './type-DahsFfOq.js';
-import { t } from './t-Bk78Wumj.js';
+import { t } from './t-CHjay2ar.js';
 import { s as stringType } from './types-BWKgfE54.js';
 import { d as getSetupEntryLabel } from './utils-DZNfUvEs.js';
 import './locales.store-CXJn6ls-.js';

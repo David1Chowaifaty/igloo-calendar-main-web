@@ -3,7 +3,7 @@
 var index = require('./index-CQkpA5n3.js');
 var utils = require('./utils-CQGL0l4_.js');
 var locale_controller = require('./locale.controller-C4TH5Eq_.js');
-var t = require('./t-CyRK1btk.js');
+var t = require('./t-C54QV4_c.js');
 var types = require('./types-BlCoz3jZ.js');
 require('./IBooking-C1lok6Tq.js');
 require('./locales.store-BMTss6fG.js');

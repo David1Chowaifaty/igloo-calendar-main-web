@@ -5,7 +5,7 @@ var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var irInterceptor_store = require('./ir-interceptor.store-moMB-JCs.js');
 var axios = require('./axios-EresIryl.js');
 var locale_controller = require('./locale.controller-C4TH5Eq_.js');
-var t = require('./t-CyRK1btk.js');
+var t = require('./t-C54QV4_c.js');
 require('./locales.store-BMTss6fG.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./language-observer-DKp37LIu.js');

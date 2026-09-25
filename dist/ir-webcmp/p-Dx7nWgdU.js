@@ -1,0 +1,1 @@
+import{l as n}from"./p-DiEq7mNN.js";function r(n,r){return t(n,r)}function t(r,t){const i=n.entries,u=i?.[r];return null==u||""===u?void 0!==t?.fallback?o(t.fallback,t.params):r:o(u,t?.params)}function o(n,r){return r?.length?r.reduce(((n,r,t)=>n.split(`%${t+1}`).join(String(r))),n):n}export{t as a,r as t}

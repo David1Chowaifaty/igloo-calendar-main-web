@@ -83,8 +83,11 @@ function ensureStyleForTag(tag) {
   }
   .wa-scroll-lock body{
     overflow:hidden !important;
-    margin-inline-end:${scrollbarWidth}px;
+    margin-inline-end:var(--wa-scroll-lock-size);
   }
+ 
+  
+  
   `.trim();
     const style = document.createElement('style');
     style.id = styleId;

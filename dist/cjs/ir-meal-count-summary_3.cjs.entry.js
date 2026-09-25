@@ -2,10 +2,10 @@
 
 var index = require('./index-CQkpA5n3.js');
 var useTable = require('./useTable-BN32DOaV.js');
-var irDate = require('./ir-date-BZLsqCOc.js');
+var irDate = require('./ir-date-BLb2Vxrk.js');
 var moment = require('./moment-CdViwxPQ.js');
-var t = require('./t-CyRK1btk.js');
-var number = require('./number-D7i5wAQq.js');
+var t = require('./t-C54QV4_c.js');
+var number = require('./number-BmMUYhE5.js');
 var utils = require('./utils-CQGL0l4_.js');
 require('./locales.store-BMTss6fG.js');
 require('./language-observer-DKp37LIu.js');

@@ -1,5 +1,5 @@
 import { r as registerInstance, h, H as Host } from './index-CeHdrJeH.js';
-import { t } from './t-Bk78Wumj.js';
+import { t } from './t-CHjay2ar.js';
 import './locales.store-CXJn6ls-.js';
 
 const irBookingNewFormCss = () => `.sc-ir-booking-new-form-h{display:block}`;

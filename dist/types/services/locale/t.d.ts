@@ -12,7 +12,7 @@ import type { LocaleKey, TranslateOptions } from './types';
  * @param key A declared `Lcz_*` key. Unknown keys are a compile error — use
  * {@link tRaw} when the key is only known at runtime.
  * @returns The translation, or `options.fallback` (defaulting to `key` itself,
- * so gaps are visible) when the key has not been loaded.
+ * so gaps are visible) when the key has not been loaded. `params` fill both.
  */
 export declare function t<K extends LocaleKey>(key: K, options?: TranslateOptions): string;
 /**

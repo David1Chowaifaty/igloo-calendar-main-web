@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
 import { H as HouseKeepingService, h as housekeeping_store } from './index-UMBb8rEH.js';
-import { t } from './t-Bk78Wumj.js';
+import { t } from './t-CHjay2ar.js';
 import './types-BWKgfE54.js';
 import './locales.store-CXJn6ls-.js';
 import './axios-B50ozOIF.js';
