@@ -29,6 +29,8 @@ export declare class IglBookingEventHover {
     private propertyService;
     private baseColor;
     componentWillLoad(): void;
+    /** Today falls on one of the booked nights (`FROM_DATE` ≤ today < `TO_DATE`). */
+    private isStayingToday;
     handleBookingEventChange(newValue: any, oldValue: any): void;
     handleListenKeyDown(e: KeyboardEvent): void;
     private getEventLegend;
@@ -53,7 +55,6 @@ export declare class IglBookingEventHover {
     private canCheckOut;
     private handleBlockDateUpdate;
     private handleEditBooking;
-    private getStringDateFormat;
     private handleAddRoom;
     private handleCustomerCheckIn;
     private handleCustomerCheckOut;

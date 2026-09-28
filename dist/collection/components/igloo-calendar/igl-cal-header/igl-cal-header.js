@@ -1,5 +1,5 @@
 import { Host, h } from "@stencil/core";
-import { convertDMYToISO } from "../../../utils/utils";
+import { addDaysISO, todayISO } from "../../../utils/calendar-dates";
 import moment from "moment";
 import locales from "../../../stores/locales.store";
 import { getUnassignedUnitsCountForDate, isUnassignedUnitsDateLoading } from "../../../stores/unassigned-units.store";
@@ -10,6 +10,7 @@ export class IglCalHeader {
     gotoRoomEvent;
     gotoToBeAssignedDate;
     calendarData;
+    /** `YYYY-MM-DD` */
     today;
     propertyid;
     to_date;
@@ -31,23 +32,23 @@ export class IglCalHeader {
             this.roomsList = this.roomsList.concat(...category.physicalrooms);
         });
     }
-    /** Reads the unassigned-units store live (auto-subscribes on render), keyed by `dayInfo.day` (D_M_YYYY) after conversion to ISO. */
+    /** Reads the unassigned-units store live (auto-subscribes on render), keyed by `dayInfo.value` (`YYYY-MM-DD`). */
     getUnassignedRoomsNumberMap() {
         const map = {};
         (this.calendarData.days ?? []).forEach((dayInfo) => {
-            const count = getUnassignedUnitsCountForDate(convertDMYToISO(dayInfo.day));
+            const count = getUnassignedUnitsCountForDate(dayInfo.value);
             if (count > 0) {
-                map[dayInfo.day] = count;
+                map[dayInfo.value] = count;
             }
         });
         return map;
     }
-    /** Days (D_M_YYYY) whose unassigned-units fetch is still in flight — same store subscription as the count map. */
+    /** Days (`YYYY-MM-DD`) whose unassigned-units fetch is still in flight — same store subscription as the count map. */
     getUnassignedLoadingDaysMap() {
         const map = {};
         (this.calendarData.days ?? []).forEach((dayInfo) => {
-            if (isUnassignedUnitsDateLoading(convertDMYToISO(dayInfo.day))) {
-                map[dayInfo.day] = true;
+            if (isUnassignedUnitsDateLoading(dayInfo.value)) {
+                map[dayInfo.value] = true;
             }
         });
         return map;
@@ -55,33 +56,24 @@ export class IglCalHeader {
     handleOptionEvent(key, data = '') {
         this.optionEvent.emit({ key, data });
     }
-    getStringDateFormat(dt) {
-        return dt.getFullYear() + '-' + (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1) + '-' + (dt.getDate() <= 9 ? '0' : '') + dt.getDate();
-    }
     getNewBookingModel() {
-        let today = new Date();
-        today.setHours(0, 0, 0, 0);
-        let from_date = this.getStringDateFormat(today);
-        today.setDate(today.getDate() + 1);
-        today.setHours(0, 0, 0, 0);
-        let to_date = this.getStringDateFormat(today);
+        const from_date = todayISO();
+        const to_date = addDaysISO(from_date, 1);
         return {
             ID: '',
             NAME: '',
             EMAIL: '',
             PHONE: '',
             REFERENCE_TYPE: 'PHONE',
-            FROM_DATE: from_date, // "2023-07-09",
-            TO_DATE: to_date, // "2023-07-11",
+            FROM_DATE: from_date,
+            TO_DATE: to_date,
             roomsInfo: this.calendarData.roomsInfo,
             TITLE: t('Lcz_NewBooking', { fallback: 'New Booking' }),
             event_type: 'PLUS_BOOKING',
             legendData: this.calendarData.formattedLegendData,
             defaultDateRange: {
-                fromDate: new Date(from_date), //new Date("2023-09-10"),
-                fromDateStr: '', //"10 Sep 2023",
-                toDate: new Date(to_date), //new Date("2023-09-15"),
-                toDateStr: '', // "15 Sep 2023",
+                fromDate: from_date,
+                toDate: to_date,
                 dateDifference: 0,
                 editabled: true,
                 message: '',
@@ -108,12 +100,12 @@ export class IglCalHeader {
         setTimeout(() => {
             this.gotoToBeAssignedDate.emit({
                 key: 'gotoToBeAssignedDate',
-                data: e.detail.currentDate,
+                data: e.detail.date,
             });
         }, 100);
     };
     render() {
-        return (h(Host, { key: 'e7fad38790ea4d799bd1e76dce7a183973c55521', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("igl-cal-header-toolbar", { key: '654353027073f6230388b1290e80e3809979e838', isVacationRental: this.calendarData.is_vacation_rental, showDayUseButton: !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0, minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), roomsList: this.roomsList, onActionSelected: this.handleToolbarAction, onRoomSelected: this.handleRoomSelected }), h("igl-cal-header-days", { key: '0e4fe6b9d4777986bf5f77c7ee215b4226ef2156', isVacationRental: this.calendarData.is_vacation_rental, today: this.today, highlightedDate: this.highlightedDate, monthsInfo: this.calendarData.monthsInfo, days: this.calendarData.days, unassignedRoomsNumber: this.getUnassignedRoomsNumberMap(), loadingDays: this.getUnassignedLoadingDaysMap(), onDayBadgeClicked: this.handleDayBadgeClicked })));
+        return (h(Host, { key: '8dd22e082c3e4aa0b2836ee8e533d8dc63452498', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("igl-cal-header-toolbar", { key: '398128f6f3efe196fb9a85ec491ec65dca22b5e3', isVacationRental: this.calendarData.is_vacation_rental, showDayUseButton: !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0, minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), roomsList: this.roomsList, onActionSelected: this.handleToolbarAction, onRoomSelected: this.handleRoomSelected }), h("igl-cal-header-days", { key: '4ea2f2c4ce642d003d8eb32bb7ec33c84d50dac6', isVacationRental: this.calendarData.is_vacation_rental, today: this.today, highlightedDate: this.highlightedDate, monthsInfo: this.calendarData.monthsInfo, days: this.calendarData.days, unassignedRoomsNumber: this.getUnassignedRoomsNumberMap(), loadingDays: this.getUnassignedLoadingDaysMap(), onDayBadgeClicked: this.handleDayBadgeClicked })));
     }
     static get is() { return "igl-cal-header"; }
     static get encapsulation() { return "scoped"; }
@@ -147,26 +139,23 @@ export class IglCalHeader {
                 "setter": false
             },
             "today": {
-                "type": "unknown",
+                "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "String",
-                    "resolved": "String",
-                    "references": {
-                        "String": {
-                            "location": "global",
-                            "id": "global::String"
-                        }
-                    }
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "`YYYY-MM-DD`"
                 },
                 "getter": false,
-                "setter": false
+                "setter": false,
+                "reflect": false,
+                "attribute": "today"
             },
             "propertyid": {
                 "type": "number",

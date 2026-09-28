@@ -1,13 +1,13 @@
 import { r as registerInstance, h, H as Host } from './index-CeHdrJeH.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { R as RoomService } from './room.service-jft1_Mb6.js';
+import { R as RoomService } from './room.service-DuTZ0GXh.js';
 import { S as SetupService } from './index-BZAU6GVz.js';
 import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-BQzvhC3Q.js';
 import { L as LanguageSync } from './language-sync-Q4d31yjT.js';
 import { t } from './t-CHjay2ar.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './calendar-data-CiYzaNK0.js';
+import './calendar-data-CL6uTgDb.js';
 import './locales.store-CXJn6ls-.js';
 import './utils-Cr7j4ZQE.js';
 import './IBooking-B4waZCSK.js';

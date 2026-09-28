@@ -12,7 +12,8 @@ export declare class IglCalBody {
     calendarData: {
         [key: string]: any;
     };
-    today: String;
+    /** `YYYY-MM-DD` */
+    today: string;
     currency: any;
     language: string;
     countries: ICountry[];
@@ -31,7 +32,6 @@ export declare class IglCalBody {
     scrollPageToRoom: EventEmitter;
     private fromRoomId;
     private newEvent;
-    private currentDate;
     private bookingMap;
     private roomEventsIndex;
     private interactiveTitle;
@@ -53,7 +53,7 @@ export declare class IglCalBody {
     addToBeAssignedEvents(event: CustomEvent): void;
     closeWindow(): void;
     private scrollToRoom;
-    private getRoomCategoryByRoomId;
+    private getRoomTypeById;
     private getCategoryName;
     private getCategoryId;
     private getTotalPhysicalRooms;
@@ -73,8 +73,6 @@ export declare class IglCalBody {
     private getSelectedCellRefName;
     private getSplitBookingEvents;
     private addNewEvent;
-    private getTwoDigitNumStr;
-    private getDateStr;
     private removeNewEvent;
     /** Cancels the in-progress range selection and surfaces why, shared by every conflict check in `clickCell`. */
     private cancelSelectionWithConflictToast;

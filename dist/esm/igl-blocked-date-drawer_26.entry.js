@@ -1,12 +1,13 @@
 import { r as registerInstance, c as createEvent, h, a as getElement, F as Fragment, H as Host, f as forceUpdate } from './index-CeHdrJeH.js';
-import { B as BookingService, b as booking_store, r as resetBookingStore } from './booking.store-WDoYTEgI.js';
-import { g as getReleaseHoursString, i as isBlockUnit, h as showToast, w as checkMealPlan, x as isWeekend, y as convertDMYToISO, o as getDaysArray } from './utils-CKFOUZvS.js';
+import { B as BookingService, b as booking_store, r as resetBookingStore } from './booking.store-B2SwPuV6.js';
+import { g as getReleaseHoursString, i as isBlockUnit, d as showToast, r as checkMealPlan, t as isWeekend, n as getDaysArray } from './utils-S6Mv4SON.js';
 import { t } from './t-CHjay2ar.js';
-import { h as buildSplitIndex, i as getSplitRole, a as calculateDaysBetweenDates, t as transformNewBooking, c as calendar_dates, b as compareTime, d as createDateWithOffsetAndHour } from './booking-CwfPgjWM.js';
+import { h as buildSplitIndex, i as getSplitRole, a as calculateDaysBetweenDates, t as transformNewBooking, c as calendar_dates, b as compareTime, d as createDateWithOffsetAndHour } from './booking-Bu0fFgC3.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { E as EventsService } from './events.service-qz0oRBCp.js';
+import { a as addDaysISO, n as nightsBetween, t as todayISO } from './calendar-dates-D3hVfsrC.js';
+import { E as EventsService } from './events.service-CT6pUVtF.js';
 import { l as locales } from './locales.store-CXJn6ls-.js';
-import { c as calendar_data } from './calendar-data-CiYzaNK0.js';
+import { c as calendar_data } from './calendar-data-CL6uTgDb.js';
 import { C as CELL_WIDTH, E as EVENT_HEIGHT, g as getEventTopWithinRow, c as computeEventHorizontalGeometry, t as toPhysicalLeft, R as ROOM_HEADER_WIDTH, s as snapEventLeft, a as getTotalGridWidth, b as getUnassignedUnitsCountForDate, i as isUnassignedUnitsDateLoading, d as getUnassignedUnitsDateKeys, r as replaceUnassignedUnitsRange, e as getUnassignedUnitsForDate, f as removeUnassignedRoom } from './calendar-grid-BQuXzjtr.js';
 import { a as formatBookingNumber, f as formatAmount, c as formatNumber, b as formatCount, d as formatPercent } from './number-DbiGgV_N.js';
 import { L as LocaleController } from './locale.controller-BQzvhC3Q.js';
@@ -14,12 +15,12 @@ import { c as isRtlDirection } from './direction-h66wLQy4.js';
 import { _ as _formatTime } from './functions-BI0MgE9h.js';
 import { f as formatDate } from './ir-date-tLkbTntq.js';
 import { H as HouseKeepingService } from './index-Dj3jk4LQ.js';
-import { P as PropertyService, E as ExposedRectifierParamsSchema } from './index-E60ir1da.js';
+import { P as PropertyService, E as ExposedRectifierParamsSchema } from './index-DC8YmeDR.js';
 import { n as numberType, o as objectType, c as coerce, Z as ZodError } from './types-CB66a07H.js';
 import { i as isRequestPending } from './ir-interceptor.store-302gZvQv.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
-import { U as UnassignedUnitsService } from './index-BSawrLLi.js';
-import { b as groupIntoCategories } from './utils-D4qnrUNR.js';
+import { U as UnassignedUnitsService } from './index-DBJEeIOv.js';
+import { b as groupIntoCategories } from './utils-CAZknjOx.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './IBooking-B4waZCSK.js';
@@ -497,16 +498,12 @@ const IglBookingEvent = class {
                                 let fromDate = oldFromDate;
                                 let toDate = oldToDate;
                                 if (this.isShrinking) {
-                                    if (hooks(from_date, 'YYYY-MM-DD').isAfter(hooks(oldFromDate, 'YYYY-MM-DD')) && hooks(to_date, 'YYYY-MM-DD').isBefore(hooks(oldToDate, 'YYYY-MM-DD'))) {
+                                    if (from_date > oldFromDate && to_date < oldToDate) {
                                         fromDate = oldFromDate;
                                         toDate = to_date;
                                     }
                                     else {
-                                        shrinkingDirection = hooks(from_date, 'YYYY-MM-DD').isAfter(hooks(oldFromDate, 'YYYY-MM-DD'))
-                                            ? 'left'
-                                            : hooks(to_date, 'YYYY-MM-DD').isBefore(hooks(oldToDate, 'YYYY-MM-DD'))
-                                                ? 'right'
-                                                : null;
+                                        shrinkingDirection = from_date > oldFromDate ? 'left' : to_date < oldToDate ? 'right' : null;
                                         if (shrinkingDirection === 'left') {
                                             fromDate = from_date;
                                         }
@@ -517,14 +514,14 @@ const IglBookingEvent = class {
                                 }
                                 else {
                                     console.log('stretching');
-                                    if (hooks(from_date, 'YYYY-MM-DD').isBefore(hooks(oldFromDate, 'YYYY-MM-DD'))) {
+                                    if (from_date < oldFromDate) {
                                         fromDate = from_date;
-                                        const newToDate = hooks(from_date, 'YYYY-MM-DD').add(diffDays, 'days');
-                                        toDate = newToDate.isBefore(hooks(to_date, 'YYYY-MM-DD'), 'days') ? to_date : newToDate.format('YYYY-MM-DD');
+                                        const newToDate = addDaysISO(from_date, diffDays);
+                                        toDate = newToDate < to_date ? to_date : newToDate;
                                     }
-                                    else if (hooks(to_date, 'YYYY-MM-DD').isAfter(hooks(oldToDate, 'YYYY-MM-DD'))) {
+                                    else if (to_date > oldToDate) {
                                         toDate = to_date;
-                                        fromDate = hooks(to_date, 'YYYY-MM-DD').subtract(diffDays, 'days').format('YYYY-MM-DD');
+                                        fromDate = addDaysISO(to_date, -diffDays);
                                     }
                                 }
                                 console.warn({ fromDate, toDate });
@@ -686,8 +683,7 @@ const IglBookingEvent = class {
                 // };
             }
             else {
-                if (hooks(from_date, 'YYYY-MM-DD').isSame(hooks(this.bookingEvent.FROM_DATE, 'YYYY-MM-DD')) &&
-                    hooks(to_date, 'YYYY-MM-DD').isSame(hooks(this.bookingEvent.TO_DATE, 'YYYY-MM-DD'))) {
+                if (from_date === this.bookingEvent.FROM_DATE && to_date === this.bookingEvent.TO_DATE) {
                     const initialRT = this.findRoomType(this.bookingEvent.PR_ID);
                     const targetRT = this.findRoomType(toRoomId);
                     if (initialRT === targetRT) {
@@ -764,19 +760,14 @@ const IglBookingEvent = class {
         }
     }
     checkIfSlotOccupied(toRoomId, from_date, to_date) {
-        const fromTime = hooks(from_date, 'YYYY-MM-DD');
-        const toTime = hooks(to_date, 'YYYY-MM-DD');
-        const isOccupied = this.allBookingEvents
+        return this.allBookingEvents
             .filter(event => event.ID !== 'NEW_TEMP_EVENT')
             .some(event => {
             if (event.POOL === this.bookingEvent.POOL) {
                 return false;
             }
-            const eventFromTime = hooks(event.FROM_DATE, 'YYYY-MM-DD').add(1, 'days');
-            const eventToTime = hooks(event.TO_DATE, 'YYYY-MM-DD');
-            return event.PR_ID === +toRoomId && toTime.isSameOrAfter(eventFromTime) && fromTime.isBefore(eventToTime);
+            return event.PR_ID === +toRoomId && to_date >= addDaysISO(event.FROM_DATE, 1) && from_date < event.TO_DATE;
         });
-        return isOccupied;
     }
     renderAgain() {
         this.renderElement = !this.renderElement;
@@ -804,6 +795,18 @@ const IglBookingEvent = class {
     }
     getBookedRoomId() {
         return this.bookingEvent.PR_ID;
+    }
+    /**
+     * The bar continues in from before the loaded window: its stay began before FROM_DATE (clamped to the window).
+     * Drives both the skewed/continuation visual and the half-cell position adjustment.
+     * Dates are `YYYY-MM-DD`, so string order is date order.
+     */
+    isSkewedStart() {
+        return !this.isNewEvent() && !!this.bookingEvent.defaultDates && this.bookingEvent.defaultDates.from_date < this.bookingEvent.FROM_DATE;
+    }
+    /** The bar continues past the loaded window: its stay ends after TO_DATE (clamped to the window). */
+    isSkewedEnd() {
+        return !this.isNewEvent() && !!this.bookingEvent.defaultDates && this.bookingEvent.defaultDates.to_date > this.bookingEvent.TO_DATE;
     }
     getEventType() {
         return this.bookingEvent.event_type;
@@ -843,15 +846,6 @@ const IglBookingEvent = class {
     getStayDays() {
         return this.bookingEvent.NO_OF_DAYS;
     }
-    /**
-     * True once the booking's actual FROM_DATE lands after the loaded calendar window's nominal
-     * start date - i.e. this is a "normal" booking, not one that continues in from before the
-     * visible range. Drives both the skewed/continuation visual (render()) and the half-cell
-     * position adjustment (getPosition()), computed once so both stay in sync.
-     */
-    startsAfterWindowOpen() {
-        return !this.isNewEvent() && !!this.bookingEvent.defaultDates && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE));
-    }
     getPosition() {
         const pos = { top: '0px', left: '0px', width: '0px', height: `${EVENT_HEIGHT}px` };
         if (typeof this.roomTop !== 'number') {
@@ -863,7 +857,7 @@ const IglBookingEvent = class {
             days,
             fromDate: this.bookingEvent.FROM_DATE,
             stayDays: this.getStayDays(),
-            startsAfterWindowOpen: this.startsAfterWindowOpen(),
+            startsAfterWindowOpen: this.isSkewedStart(),
             eventSpace: this.eventSpace,
         });
         const totalGridWidth = getTotalGridWidth(days.length);
@@ -1076,7 +1070,7 @@ const IglBookingEvent = class {
             width: this.element.offsetWidth,
             isRtl: isRtlDirection(locales.direction),
             totalGridWidth: getTotalGridWidth(calendar_dates.days.length),
-            startsAfterWindowOpen: this.startsAfterWindowOpen(),
+            startsAfterWindowOpen: this.isSkewedStart(),
             eventSpace: this.eventSpace,
         });
     }
@@ -1203,8 +1197,7 @@ const IglBookingEvent = class {
                 });
             }
             else {
-                const finalWidth = this.finalWidth -
-                    (!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? this.dayWidth / 2 : 0);
+                const finalWidth = this.finalWidth - (this.isSkewedStart() ? this.dayWidth / 2 : 0);
                 const numberOfDays = Math.round(finalWidth / this.dayWidth);
                 console.log(finalWidth, this.dayWidth, numberOfDays);
                 let initialStayDays = this.getStayDays();
@@ -1221,7 +1214,7 @@ const IglBookingEvent = class {
                         // set TO_DATE = FROM_DATE + numberOfDays
                     }
                     // const nbrOfDays =
-                    // !this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? numberOfDays - 1 : numberOfDays;
+                    // this.isSkewedStart() ? numberOfDays - 1 : numberOfDays;
                     this.dragOverEventData.emit({
                         id: 'STRETCH_OVER_END',
                         data: {
@@ -1234,7 +1227,7 @@ const IglBookingEvent = class {
                             nbOfDays: numberOfDays,
                         },
                     });
-                    const offset = !this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? +this.dayWidth / 2 : 0;
+                    const offset = this.isSkewedStart() ? +this.dayWidth / 2 : 0;
                     this.element.style.width = `${numberOfDays * this.dayWidth - this.eventSpace + offset}px`;
                 }
                 else {
@@ -1380,9 +1373,9 @@ const IglBookingEvent = class {
         backgroundColor = this.bookingEvent.STATUS === 'CHECKED-OUT' ? legend.color : backgroundColor;
         const splitRole = this.computeSplitRole();
         const pending = this.bookingEvent.STATUS === 'PENDING-CONFIRMATION' && this.bookingEvent.ID !== 'NEW_TEMP_EVENT';
-        const startsAfterWindowOpen = this.startsAfterWindowOpen();
-        const endsBeforeWindowClose = !this.isNewEvent() && !!this.bookingEvent.defaultDates && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE));
-        return (h(Host, { key: '135b282592cee29a65292cbb79ae577a0365fdf6', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: bar, dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: 'fdb5f7f32a60ca926e9427a69e70f9eb5602bf10', "data-identifier": this.bookingEvent?.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
+        const startsAfterWindowOpen = this.isSkewedStart();
+        const endsBeforeWindowClose = this.isSkewedEnd();
+        return (h(Host, { key: 'cbc9b35e59fb934516ac0cfb311f6bb44c355395', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: bar, dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: 'a3a92463d0394da22c19f1d3d3b493a2a6fcdd1a', "data-identifier": this.bookingEvent?.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
                 'bookingEventBase': true,
                 'pending': pending,
                 'skewedLeft': startsAfterWindowOpen,
@@ -1395,7 +1388,7 @@ const IglBookingEvent = class {
                 'backgroundColor': backgroundColor,
                 '--ir-event-bg': backgroundColor,
                 '--ir-event-bg-stripe-color': stripe,
-            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), isDepartureAfterHotelCheckout && (h("wa-tooltip", { key: '1e7eef60f522a56a91d26bbc187c92a9fd1006a4', for: lateCheckout }, t('Lcz_DepartureTime', { fallback: 'Departure time:' }), " ", this.bookingEvent.DEPARTURE_TIME?.description)), balanceNode && (h("wa-tooltip", { key: '4fea2c80105ce284c87db8e49f50d5156e605442', for: balance }, t('Lcz_Balance', { fallback: 'Balance' }) + ":", " ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE))), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, (balanceNode || isDepartureAfterHotelCheckout) && (h("div", { key: '3b4518db2e9963e154aed740ed92e6b3c529fca3', class: "balanceIcon d-flex" }, isDepartureAfterHotelCheckout && h("div", { key: '8bd152fa65d2ff5f8f4cc8d5c3673f3604419b4f', id: lateCheckout, class: "legend_circle", style: { backgroundColor: '#999999' } }), balanceNode ? h("div", { id: balance, class: "legend_circle", style: { backgroundColor: '#f34752' } }) : null)), h("div", { key: 'acd4dc86c3cdd16c0b07ca6393f333b26597cbe9', class: `bookingEventTitle ${pending ? 'pending' : ''}`, style: !pending && { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: 'a4c05ba4c73f79d8b8368a560545bcfebf79b685' }, h("div", { key: '70a7a15764fdf2db8b1c1ab80cb5e54c516934c0', class: `bookingEventDragHandle leftSide ${startsAfterWindowOpen ? 'skewedLeft' : ''} ${endsBeforeWindowClose ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '6c1c9dd0171b8f8793fcd96b4953945583ff7fe8', class: `bookingEventDragHandle rightSide ${startsAfterWindowOpen ? 'skewedLeft' : ''} ${endsBeforeWindowClose ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
+            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), isDepartureAfterHotelCheckout && (h("wa-tooltip", { key: 'd930d87f7ac280e758bb77276ec46346fdd33c37', for: lateCheckout }, t('Lcz_DepartureTime', { fallback: 'Departure time:' }), " ", this.bookingEvent.DEPARTURE_TIME?.description)), balanceNode && (h("wa-tooltip", { key: 'bf1649e48a4e8f3b809a4950d88f972646622e74', for: balance }, t('Lcz_Balance', { fallback: 'Balance' }) + ':', " ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE))), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, (balanceNode || isDepartureAfterHotelCheckout) && (h("div", { key: '0a2790831035ad411d001e664445c514da7822c5', class: "balanceIcon d-flex" }, isDepartureAfterHotelCheckout && h("div", { key: 'e7b13ba67cc5abc4886e3d3340ab4427b73b0994', id: lateCheckout, class: "legend_circle", style: { backgroundColor: '#999999' } }), balanceNode ? h("div", { id: balance, class: "legend_circle", style: { backgroundColor: '#f34752' } }) : null)), h("div", { key: '55aea7ba2d4ccf94bc571c8851e89371694ae4fc', class: `bookingEventTitle ${pending ? 'pending' : ''}`, style: !pending && { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '5aa210dc97a1e6a059383c1d510594471df26098' }, h("div", { key: '0273bf3e1caedc1ae1844f1f376700495c1af7e4', class: `bookingEventDragHandle leftSide ${startsAfterWindowOpen ? 'skewedLeft' : ''} ${endsBeforeWindowClose ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '3955ab2d25ae50f55f7ce194fea48b248d1045d0', class: `bookingEventDragHandle rightSide ${startsAfterWindowOpen ? 'skewedLeft' : ''} ${endsBeforeWindowClose ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
 };
 IglBookingEvent.style = iglBookingEventCss();
@@ -1455,6 +1448,7 @@ const IglCalBody = class {
     isScrollViewDragging;
     propertyId;
     calendarData;
+    /** `YYYY-MM-DD` */
     today;
     currency;
     language;
@@ -1472,7 +1466,6 @@ const IglCalBody = class {
     scrollPageToRoom;
     fromRoomId = -1;
     newEvent;
-    currentDate = new Date();
     bookingMap = new Map();
     roomEventsIndex = new Map();
     interactiveTitle = [];
@@ -1509,12 +1502,11 @@ const IglCalBody = class {
         return true;
     }
     componentWillLoad() {
-        this.currentDate.setHours(0, 0, 0, 0);
         this.bookingMap = this.getBookingMap(this.getBookingData());
         this.updateRoomEventsIndex();
         this.updateTodayCheckinStatus();
         calendar_dates.days.forEach(day => {
-            this.dayRateMap.set(day.day, day.rate);
+            this.dayRateMap.set(day.value, day.rate);
         });
         this.updateDisabledCellsCache();
         this.updateDayUseBookingKeys();
@@ -1542,7 +1534,7 @@ const IglCalBody = class {
     }
     gotoRoom(event) {
         let roomId = event.detail.roomId;
-        let category = this.getRoomCategoryByRoomId(roomId);
+        let category = this.getRoomTypeById(roomId);
         if (!category.expanded) {
             this.toggleCategory(category);
             setTimeout(() => {
@@ -1573,7 +1565,7 @@ const IglCalBody = class {
             refClass: 'room_' + roomId,
         });
     }
-    getRoomCategoryByRoomId(roomId) {
+    getRoomTypeById(roomId) {
         return this.calendarData.roomsInfo.find(roomCategory => {
             return this.getRoomtypeUnits(roomCategory).find(room => this.getRoomId(room) === roomId);
         });
@@ -1587,8 +1579,8 @@ const IglCalBody = class {
     getTotalPhysicalRooms(roomCategory) {
         return this.getRoomtypeUnits(roomCategory).length;
     }
-    getRoomtypeUnits(roomCategory) {
-        return (roomCategory && roomCategory.physicalrooms) || [];
+    getRoomtypeUnits(roomtype) {
+        return (roomtype && roomtype.physicalrooms) || [];
     }
     getRoomName(roomInfo) {
         return roomInfo.name;
@@ -1620,7 +1612,7 @@ const IglCalBody = class {
         this.addBookingDatasEvent.emit(aData);
     }
     getSelectedCellRefName(roomId, selectedDay) {
-        return 'room_' + roomId + '_' + selectedDay.currentDate;
+        return 'room_' + roomId + '_' + selectedDay.value;
     }
     // getSplitBookingEvents(newEvent) {
     //   return this.getBookingData().some(bookingEvent => !['003', '002', '004'].includes(bookingEvent.STATUS_CODE) && newEvent.FROM_DATE === bookingEvent.FROM_DATE);
@@ -1629,8 +1621,7 @@ const IglCalBody = class {
         console.log(newEvent.FROM_DATE);
         return this.getBookingData().some(bookingEvent => {
             if (!['003', '002', '004'].includes(bookingEvent.STATUS_CODE)) {
-                if (new Date(newEvent.FROM_DATE).getTime() >= new Date(bookingEvent.FROM_DATE).getTime() &&
-                    new Date(newEvent.FROM_DATE).getTime() <= new Date(bookingEvent.TO_DATE).getTime()) {
+                if (newEvent.FROM_DATE >= bookingEvent.FROM_DATE && newEvent.FROM_DATE <= bookingEvent.TO_DATE) {
                     return bookingEvent;
                 }
             }
@@ -1638,16 +1629,10 @@ const IglCalBody = class {
     }
     addNewEvent(roomCategory) {
         let keys = Object.keys(this.selectedRooms);
-        let startDate, endDate;
-        if (this.selectedRooms[keys[0]].currentDate < this.selectedRooms[keys[1]].currentDate) {
-            startDate = new Date(this.selectedRooms[keys[0]].currentDate);
-            endDate = new Date(this.selectedRooms[keys[1]].currentDate);
-        }
-        else {
-            startDate = new Date(this.selectedRooms[keys[1]].currentDate);
-            endDate = new Date(this.selectedRooms[keys[0]].currentDate);
-        }
-        const dateDifference = Math.round(Math.abs((endDate.getTime() - startDate.getTime()) / 86_400_000));
+        const first = this.selectedRooms[keys[0]].value;
+        const second = this.selectedRooms[keys[1]].value;
+        const [startDate, endDate] = first < second ? [first, second] : [second, first];
+        const dateDifference = nightsBetween(startDate, endDate);
         this.newEvent = {
             ID: 'NEW_TEMP_EVENT',
             NAME: h("span", null, "\u00A0"),
@@ -1655,8 +1640,8 @@ const IglCalBody = class {
             PHONE: '',
             convertBooking: false,
             REFERENCE_TYPE: 'PHONE',
-            FROM_DATE: startDate.getFullYear() + '-' + this.getTwoDigitNumStr(startDate.getMonth() + 1) + '-' + this.getTwoDigitNumStr(startDate.getDate()),
-            TO_DATE: endDate.getFullYear() + '-' + this.getTwoDigitNumStr(endDate.getMonth() + 1) + '-' + this.getTwoDigitNumStr(endDate.getDate()),
+            FROM_DATE: startDate,
+            TO_DATE: endDate,
             BALANCE: '',
             NOTES: '',
             RELEASE_AFTER_HOURS: 0,
@@ -1676,10 +1661,8 @@ const IglCalBody = class {
             event_type: 'BAR_BOOKING',
             STATUS: 'TEMP-EVENT',
             defaultDateRange: {
-                fromDate: null,
-                fromDateStr: '',
-                toDate: null,
-                toDateStr: '',
+                fromDate: startDate,
+                toDate: endDate,
                 dateDifference,
                 editable: false,
                 message: t('Lcz_IncludingCityTaxExcludingVatMock', { fallback: 'Including 5.00% City Tax - Excluding 11.00% VAT' }),
@@ -1688,10 +1671,6 @@ const IglCalBody = class {
         let popupTitle = roomCategory.name + ' ' + this.getRoomName(this.getRoomById(this.getRoomtypeUnits(roomCategory), this.selectedRooms[keys[0]].roomId));
         this.newEvent.BLOCK_DATES_TITLE = `${t('Lcz_BlockDatesFor')} ${popupTitle}`;
         this.newEvent.TITLE += popupTitle;
-        this.newEvent.defaultDateRange.toDate = new Date(this.newEvent.TO_DATE + 'T00:00:00');
-        this.newEvent.defaultDateRange.fromDate = new Date(this.newEvent.FROM_DATE + 'T00:00:00');
-        this.newEvent.defaultDateRange.fromDateStr = this.getDateStr(this.newEvent.defaultDateRange.fromDate);
-        this.newEvent.defaultDateRange.toDateStr = this.getDateStr(this.newEvent.defaultDateRange.toDate);
         this.newEvent.ENTRY_DATE = new Date().toISOString();
         this.newEvent.legendData = this.calendarData.formattedLegendData;
         let splitBookingEvents = this.getSplitBookingEvents(this.newEvent);
@@ -1700,12 +1679,6 @@ const IglCalBody = class {
         }
         this.getBookingData().push(this.newEvent);
         return this.newEvent;
-    }
-    getTwoDigitNumStr(num) {
-        return num <= 9 ? '0' + num : num;
-    }
-    getDateStr(date) {
-        return formatDate(date, 'DD MMM YYYY');
     }
     removeNewEvent() {
         this.calendarData.bookingEvents = this.calendarData.bookingEvents.filter(events => events.ID !== 'NEW_TEMP_EVENT');
@@ -1719,8 +1692,8 @@ const IglCalBody = class {
         showToast({ type: 'error', title });
     }
     clickCell(roomId, selectedDay, roomCategory) {
-        const earliestSelectableDate = this.currentDate.getTime() - 86_400_000; // allow starting the selection from yesterday
-        if (!this.isScrollViewDragging && selectedDay.currentDate >= earliestSelectableDate) {
+        const earliestSelectableDate = addDaysISO(todayISO(), -1); // allow starting the selection from yesterday
+        if (!this.isScrollViewDragging && selectedDay.value >= earliestSelectableDate) {
             let refKey = this.getSelectedCellRefName(roomId, selectedDay);
             if (this.selectedRooms.hasOwnProperty(refKey)) {
                 this.removeNewEvent();
@@ -1822,7 +1795,7 @@ const IglCalBody = class {
     getRoomtypeDayInventoryCells(addClass, isCategory = false, index) {
         return calendar_dates.days.map(dayInfo => {
             // const isActive = true;
-            return (h("div", { class: `cellData  font-weight-bold categoryPriceColumn ${addClass + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}` }, isCategory ? (h(Fragment, null, h("span", { class: 'categoryName' }, formatNumber(dayInfo.rate[index].exposed_inventory.rts)))) : ('')));
+            return (h("div", { class: `cellData  font-weight-bold categoryPriceColumn ${addClass + '_' + dayInfo.value} ${dayInfo.value === this.today || dayInfo.value === this.highlightedDate ? 'currentDay' : ''}` }, isCategory ? (h(Fragment, null, h("span", { class: 'categoryName' }, formatNumber(dayInfo.rate[index].exposed_inventory.rts)))) : ('')));
         });
     }
     getGeneralUnitsDayCells(roomId, roomCategory, roomName) {
@@ -1831,13 +1804,13 @@ const IglCalBody = class {
             const prevDate = hooks(dayInfo.value, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD');
             const isDisabled = (isCellDisabled && Object.keys(this.selectedRooms).length === 0) || (isCellDisabled && this.isCellDisabled(Number(roomId), prevDate));
             const isSelected = this.selectedRooms.hasOwnProperty(this.getSelectedCellRefName(roomId, dayInfo));
-            const isCurrentDate = dayInfo.day === this.today || dayInfo.day === this.highlightedDate;
+            const isCurrentDate = dayInfo.value === this.today || dayInfo.value === this.highlightedDate;
             const cleaningDates = calendar_dates.cleaningTasks.has(+roomId) ? calendar_dates.cleaningTasks.get(+roomId) : null;
             const shouldBeCleaned = ['001', '003'].includes(calendar_data.cleaning_frequency?.code) ? false : cleaningDates?.has(dayInfo.value);
             const dayUseBooking = this.getDayUseBooking(Number(roomId), dayInfo.value);
             const dayUseStatus = dayUseBooking ? this.getDayUseStatus(dayUseBooking) : null;
             const dayUseCellClass = dayUseBooking ? `dayUseBooked dayUseBooked--${dayUseStatus}` : '';
-            return (h("div", { class: `cellData position-relative roomCell ${isCellDisabled ? 'disabled' : ''} ${'room_' + roomId + '_' + dayInfo.day} ${isCurrentDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${isSelected ? 'selectedDay' : ''} ${dayUseCellClass}`,
+            return (h("div", { class: `cellData position-relative roomCell ${isCellDisabled ? 'disabled' : ''} ${isCurrentDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.value ? 'dragOverHighlight' : ''} ${isSelected ? 'selectedDay' : ''} ${dayUseCellClass}`,
                 // style={!isDisabled && { '--cell-cursor': 'default' }}
                 style: { '--cell-cursor': 'default' }, onClick: () => {
                     // if (isDisabled) {
@@ -2137,13 +2110,13 @@ const IglCalBody = class {
     render() {
         const roomTopOffsets = this.getRoomTopOffsets();
         this.lastRenderedRoomTops = roomTopOffsets;
-        return (h(Host, { key: '9d84c1ed4729cafbf3d0998bee249b52a6a24580', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: '78b1f0e079d0b340e2097cfdd8ff247298bb28bf', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'b22d128aaa082d860ea533ce8bdaa44f884872a3', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: 'f1349c24cb004f5b5dc39fd54171d21372ead32a', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: 'fa858bfe7b427d820fef86e3f80da14da67c025d', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '4110a67f7493edb41db0275787cf258519389d14', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData(), roomTop: roomTopOffsets.get(Number(bookingEvent.PR_ID)) }));
-        }))), h("igl-housekeeping-dialog", { key: '81190ab8a8c6279fddbb2bfae65204b216591c6a', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: '9a623db89cd5ad07d2782732d83c105578cb4331', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: 'b7b49bb3ac463b66b72287e12e336a6b84f9af4b', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '2bd06c02816ef1e844a806ead9b6a03af4ef9e3f', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issues = null;
@@ -2173,6 +2146,7 @@ const IglCalFooter = class {
     optionEvent;
     calendarData;
     isLegendOpen = false;
+    /** `YYYY-MM-DD` */
     today;
     highlightedDate;
     _today = hooks().format('YYYY-MM-DD');
@@ -2181,10 +2155,10 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (h(Host, { key: 'a9285b80a1fc2a166e13264c31dbc238e523b47c', class: "footerContainer" }, h("div", { key: 'ec9d886ac3ad67aa839c9629887420f3cbe44a45', class: "footerCell bottomLeftCell align-items-center preventPageScroll", style: { paddingInlineStart: '10px' } }, h("button", { key: 'a656d36f0011bf359d990bc0f241544a4251fce2', class: "m-0 p-0 btn btn-sm  legendBtn d-flex align-items-center", style: { gap: '0.25rem' }, onClick: () => this.handleOptionEvent('showLegend') }, this.isLegendOpen ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, h("path", { fill: "currentColor", d: "M105.4 297.4C92.9 309.9 92.9 330.2 105.4 342.7L265.4 502.7C277.9 515.2 298.2 515.2 310.7 502.7C323.2 490.2 323.2 469.9 310.7 457.4L173.3 320L310.6 182.6C323.1 170.1 323.1 149.8 310.6 137.3C298.1 124.8 277.8 124.8 265.3 137.3L105.3 297.3zM457.4 137.4L297.4 297.4C284.9 309.9 284.9 330.2 297.4 342.7L457.4 502.7C469.9 515.2 490.2 515.2 502.7 502.7C515.2 490.2 515.2 469.9 502.7 457.4L365.3 320L502.6 182.6C515.1 170.1 515.1 149.8 502.6 137.3C490.1 124.8 469.8 124.8 457.3 137.3z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, h("path", { fill: "currentColor", d: "M535.1 342.6C547.6 330.1 547.6 309.8 535.1 297.3L375.1 137.3C362.6 124.8 342.3 124.8 329.8 137.3C317.3 149.8 317.3 170.1 329.8 182.6L467.2 320L329.9 457.4C317.4 469.9 317.4 490.2 329.9 502.7C342.4 515.2 362.7 515.2 375.2 502.7L535.2 342.7zM183.1 502.6L343.1 342.6C355.6 330.1 355.6 309.8 343.1 297.3L183.1 137.3C170.6 124.8 150.3 124.8 137.8 137.3C125.3 149.8 125.3 170.1 137.8 182.6L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7z" }))), h("span", { key: 'ba3fc3e15dbf6b5d6e67bdda2ab1e60185d35d29' }, t('Lcz_Legend')), h("span", { key: 'e4d5bf644896e3fd4f8fab1627ae55e9b04c3e0b' }, "v1.67"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: {
+        return (h(Host, { key: 'b1826a8b2c5cb8a377c9978b2f1dfc0331aef138', class: "footerContainer" }, h("div", { key: 'd1c9c3d74c5d53e1952ea5cc0e26ea50ee8ad7e7', class: "footerCell bottomLeftCell align-items-center preventPageScroll", style: { paddingInlineStart: '10px' } }, h("button", { key: '2ef505921c73aacbc9e51de1a094bd05393410b9', class: "m-0 p-0 btn btn-sm  legendBtn d-flex align-items-center", style: { gap: '0.25rem' }, onClick: () => this.handleOptionEvent('showLegend') }, this.isLegendOpen ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, h("path", { fill: "currentColor", d: "M105.4 297.4C92.9 309.9 92.9 330.2 105.4 342.7L265.4 502.7C277.9 515.2 298.2 515.2 310.7 502.7C323.2 490.2 323.2 469.9 310.7 457.4L173.3 320L310.6 182.6C323.1 170.1 323.1 149.8 310.6 137.3C298.1 124.8 277.8 124.8 265.3 137.3L105.3 297.3zM457.4 137.4L297.4 297.4C284.9 309.9 284.9 330.2 297.4 342.7L457.4 502.7C469.9 515.2 490.2 515.2 502.7 502.7C515.2 490.2 515.2 469.9 502.7 457.4L365.3 320L502.6 182.6C515.1 170.1 515.1 149.8 502.6 137.3C490.1 124.8 469.8 124.8 457.3 137.3z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, h("path", { fill: "currentColor", d: "M535.1 342.6C547.6 330.1 547.6 309.8 535.1 297.3L375.1 137.3C362.6 124.8 342.3 124.8 329.8 137.3C317.3 149.8 317.3 170.1 329.8 182.6L467.2 320L329.9 457.4C317.4 469.9 317.4 490.2 329.9 502.7C342.4 515.2 362.7 515.2 375.2 502.7L535.2 342.7zM183.1 502.6L343.1 342.6C355.6 330.1 355.6 309.8 343.1 297.3L183.1 137.3C170.6 124.8 150.3 124.8 137.8 137.3C125.3 149.8 125.3 170.1 137.8 182.6L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7z" }))), h("span", { key: '2a57b8ad8e5e95761d20b93c964fd40b0a476e55' }, t('Lcz_Legend')), h("span", { key: '22439b49b471bb7476fe1d0aa9a718f292541d92' }, "v1.67"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: {
                 'dayTitle full-height align-items-center': true,
                 'weekend': isWeekend(dayInfo.value),
-                'currentDay': dayInfo.value === this._today || this.highlightedDate === dayInfo.day,
+                'currentDay': dayInfo.value === this._today || this.highlightedDate === dayInfo.value,
             } }, formatDate(dayInfo.value, 'ddd D')))))));
     }
 };
@@ -2203,6 +2177,7 @@ const IglCalHeader = class {
     gotoRoomEvent;
     gotoToBeAssignedDate;
     calendarData;
+    /** `YYYY-MM-DD` */
     today;
     propertyid;
     to_date;
@@ -2224,23 +2199,23 @@ const IglCalHeader = class {
             this.roomsList = this.roomsList.concat(...category.physicalrooms);
         });
     }
-    /** Reads the unassigned-units store live (auto-subscribes on render), keyed by `dayInfo.day` (D_M_YYYY) after conversion to ISO. */
+    /** Reads the unassigned-units store live (auto-subscribes on render), keyed by `dayInfo.value` (`YYYY-MM-DD`). */
     getUnassignedRoomsNumberMap() {
         const map = {};
         (this.calendarData.days ?? []).forEach((dayInfo) => {
-            const count = getUnassignedUnitsCountForDate(convertDMYToISO(dayInfo.day));
+            const count = getUnassignedUnitsCountForDate(dayInfo.value);
             if (count > 0) {
-                map[dayInfo.day] = count;
+                map[dayInfo.value] = count;
             }
         });
         return map;
     }
-    /** Days (D_M_YYYY) whose unassigned-units fetch is still in flight — same store subscription as the count map. */
+    /** Days (`YYYY-MM-DD`) whose unassigned-units fetch is still in flight — same store subscription as the count map. */
     getUnassignedLoadingDaysMap() {
         const map = {};
         (this.calendarData.days ?? []).forEach((dayInfo) => {
-            if (isUnassignedUnitsDateLoading(convertDMYToISO(dayInfo.day))) {
-                map[dayInfo.day] = true;
+            if (isUnassignedUnitsDateLoading(dayInfo.value)) {
+                map[dayInfo.value] = true;
             }
         });
         return map;
@@ -2248,33 +2223,24 @@ const IglCalHeader = class {
     handleOptionEvent(key, data = '') {
         this.optionEvent.emit({ key, data });
     }
-    getStringDateFormat(dt) {
-        return dt.getFullYear() + '-' + (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1) + '-' + (dt.getDate() <= 9 ? '0' : '') + dt.getDate();
-    }
     getNewBookingModel() {
-        let today = new Date();
-        today.setHours(0, 0, 0, 0);
-        let from_date = this.getStringDateFormat(today);
-        today.setDate(today.getDate() + 1);
-        today.setHours(0, 0, 0, 0);
-        let to_date = this.getStringDateFormat(today);
+        const from_date = todayISO();
+        const to_date = addDaysISO(from_date, 1);
         return {
             ID: '',
             NAME: '',
             EMAIL: '',
             PHONE: '',
             REFERENCE_TYPE: 'PHONE',
-            FROM_DATE: from_date, // "2023-07-09",
-            TO_DATE: to_date, // "2023-07-11",
+            FROM_DATE: from_date,
+            TO_DATE: to_date,
             roomsInfo: this.calendarData.roomsInfo,
             TITLE: t('Lcz_NewBooking', { fallback: 'New Booking' }),
             event_type: 'PLUS_BOOKING',
             legendData: this.calendarData.formattedLegendData,
             defaultDateRange: {
-                fromDate: new Date(from_date), //new Date("2023-09-10"),
-                fromDateStr: '', //"10 Sep 2023",
-                toDate: new Date(to_date), //new Date("2023-09-15"),
-                toDateStr: '', // "15 Sep 2023",
+                fromDate: from_date,
+                toDate: to_date,
                 dateDifference: 0,
                 editabled: true,
                 message: '',
@@ -2301,12 +2267,12 @@ const IglCalHeader = class {
         setTimeout(() => {
             this.gotoToBeAssignedDate.emit({
                 key: 'gotoToBeAssignedDate',
-                data: e.detail.currentDate,
+                data: e.detail.date,
             });
         }, 100);
     };
     render() {
-        return (h(Host, { key: 'e7fad38790ea4d799bd1e76dce7a183973c55521', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("igl-cal-header-toolbar", { key: '654353027073f6230388b1290e80e3809979e838', isVacationRental: this.calendarData.is_vacation_rental, showDayUseButton: !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0, minDate: hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), roomsList: this.roomsList, onActionSelected: this.handleToolbarAction, onRoomSelected: this.handleRoomSelected }), h("igl-cal-header-days", { key: '0e4fe6b9d4777986bf5f77c7ee215b4226ef2156', isVacationRental: this.calendarData.is_vacation_rental, today: this.today, highlightedDate: this.highlightedDate, monthsInfo: this.calendarData.monthsInfo, days: this.calendarData.days, unassignedRoomsNumber: this.getUnassignedRoomsNumberMap(), loadingDays: this.getUnassignedLoadingDaysMap(), onDayBadgeClicked: this.handleDayBadgeClicked })));
+        return (h(Host, { key: '8dd22e082c3e4aa0b2836ee8e533d8dc63452498', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("igl-cal-header-toolbar", { key: '398128f6f3efe196fb9a85ec491ec65dca22b5e3', isVacationRental: this.calendarData.is_vacation_rental, showDayUseButton: !this.calendarData.is_vacation_rental && this.dayUseBookings?.length > 0, minDate: hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'), roomsList: this.roomsList, onActionSelected: this.handleToolbarAction, onRoomSelected: this.handleRoomSelected }), h("igl-cal-header-days", { key: '4ea2f2c4ce642d003d8eb32bb7ec33c84d50dac6', isVacationRental: this.calendarData.is_vacation_rental, today: this.today, highlightedDate: this.highlightedDate, monthsInfo: this.calendarData.monthsInfo, days: this.calendarData.days, unassignedRoomsNumber: this.getUnassignedRoomsNumberMap(), loadingDays: this.getUnassignedLoadingDaysMap(), onDayBadgeClicked: this.handleDayBadgeClicked })));
     }
 };
 IglCalHeader.style = iglCalHeaderCss();
@@ -2328,13 +2294,14 @@ const IglCalHeaderDays = class {
         this.dayBadgeClicked = createEvent(this, "dayBadgeClicked");
     }
     isVacationRental;
+    /** `YYYY-MM-DD` */
     today;
     highlightedDate;
     monthsInfo = [];
     days = [];
-    /** Unassigned-unit counts keyed by `dayInfo.day`, falling back to `dayInfo.unassigned_units_nbr` per cell. */
+    /** Unassigned-unit counts keyed by `dayInfo.value` (`YYYY-MM-DD`), falling back to `dayInfo.unassigned_units_nbr` per cell. */
     unassignedRoomsNumber = {};
-    /** Days (keyed by `dayInfo.day`) whose unassigned-units fetch is still in flight; their badges breathe. */
+    /** Days (keyed by `dayInfo.value`) whose unassigned-units fetch is still in flight; their badges breathe. */
     loadingDays = {};
     /**
      * Gates the badge entrance cascade so it plays once per screen open. Stays open from mount until
@@ -2382,8 +2349,8 @@ const IglCalHeaderDays = class {
         }, REVEAL_TOTAL_MS);
     }
     handleBadgeClick(dayInfo) {
-        if (this.unassignedRoomsNumber[dayInfo.day] || 0) {
-            this.dayBadgeClicked.emit({ day: dayInfo.day, currentDate: dayInfo.currentDate });
+        if (this.unassignedRoomsNumber[dayInfo.value] || 0) {
+            this.dayBadgeClicked.emit({ date: dayInfo.value });
         }
     }
     /** Stagger radiates outward from today's cell, where the user is looking after the initial scroll. */
@@ -2391,15 +2358,15 @@ const IglCalHeaderDays = class {
         return Math.min(Math.abs(index - todayIndex), REVEAL_MAX_STEPS) * REVEAL_STEP_MS;
     }
     render() {
-        const todayIndex = Math.max(this.days.findIndex(dayInfo => dayInfo.day === this.today), 0);
-        return (h(Host, { key: '3524180eee10d70ec81a8ca98343f72243859e62' }, h("div", { key: '632e5c0a341ff93b87b054f55171873621400247', class: { 'stickyCell': true, 'headersContainer': true, 'is-revealing': this.revealing } }, h("div", { key: 'ce4a505c67b01b5cef0af2b88c2d7533553691f4', class: "monthsContainer" }, this.monthsInfo.map(monthInfo => {
+        const todayIndex = Math.max(this.days.findIndex(dayInfo => dayInfo.value === this.today), 0);
+        return (h(Host, { key: '5fb4794098d0bd67429ce7a047713ed3970da927' }, h("div", { key: '31489fa317b2ba72e8c5f079dd496bca11d301fa', class: { 'stickyCell': true, 'headersContainer': true, 'is-revealing': this.revealing } }, h("div", { key: '75dc980774647c9ca4f5ab664b234c3c2ba54bf3', class: "monthsContainer" }, this.monthsInfo.map(monthInfo => {
             return (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, formatDate(monthInfo.firstDayValue, 'MMM YYYY'))));
         })), this.days.map((dayInfo, index) => {
-            const count = this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr;
+            const count = this.unassignedRoomsNumber[dayInfo.value] || dayInfo.unassigned_units_nbr;
             const revealDelay = this.getRevealDelay(index, todayIndex);
-            return (h("div", { class: `headerCell align-items-center ${'day-' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}`, "data-day": dayInfo.day }, !this.isVacationRental && (h("div", { class: { 'preventPageScroll': true, 'is-loading': !!this.loadingDays[dayInfo.day] }, onClick: () => this.handleBadgeClick(dayInfo) }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr !== 0 ? (h("button", { class: 'fd-header__badge-btn', style: this.revealing ? { animationDelay: `${revealDelay}ms` } : undefined }, h("wa-badge", { class: "fd-header__badge", variant: 'brand', appearance: 'accent', pill: true }, this.revealing ? (
+            return (h("div", { class: `headerCell align-items-center ${dayInfo.value === this.today || dayInfo.value === this.highlightedDate ? 'currentDay' : ''}`, "data-date": dayInfo.value }, !this.isVacationRental && (h("div", { class: { 'preventPageScroll': true, 'is-loading': !!this.loadingDays[dayInfo.value] }, onClick: () => this.handleBadgeClick(dayInfo) }, this.unassignedRoomsNumber[dayInfo.value] || dayInfo.unassigned_units_nbr !== 0 ? (h("button", { class: 'fd-header__badge-btn', style: this.revealing ? { animationDelay: `${revealDelay}ms` } : undefined }, h("wa-badge", { class: "fd-header__badge", variant: 'brand', appearance: 'accent', pill: true }, this.revealing ? (
             /* Digits are drawn by CSS (`counter()` over the animated `--fd-count`) until the gate closes. */
-            h("span", { class: "fd-header__badge-count", style: { '--fd-count-target': String(count), 'animationDelay': `${revealDelay + REVEAL_COUNT_DELAY_MS}ms` } })) : (formatCount(count))))) : (h("wa-badge", { variant: 'neutral', appearance: 'filled', pill: true }, ' ', formatCount(this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr))))), h("div", { class: { dayTitle: true, weekend: isWeekend(dayInfo.value) } }, formatDate(dayInfo.value, 'ddd D')), h("div", { class: "dayCapacityPercent" }, formatPercent(dayInfo.occupancy))));
+            h("span", { class: "fd-header__badge-count", style: { '--fd-count-target': String(count), 'animationDelay': `${revealDelay + REVEAL_COUNT_DELAY_MS}ms` } })) : (formatCount(count))))) : (h("wa-badge", { variant: 'neutral', appearance: 'filled', pill: true }, ' ', formatCount(this.unassignedRoomsNumber[dayInfo.value] || dayInfo.unassigned_units_nbr))))), h("div", { class: { dayTitle: true, weekend: isWeekend(dayInfo.value) } }, formatDate(dayInfo.value, 'ddd D')), h("div", { class: "dayCapacityPercent" }, formatPercent(dayInfo.occupancy))));
         }))));
     }
     static get watchers() { return {
@@ -3057,7 +3024,8 @@ const IglRateExtenderForm = class {
     inventory = null;
     isEndDateBeforeFromDate = false;
     defaultTotalNights = 0;
-    dates = { from_date: new Date(), to_date: new Date() };
+    /** `YYYY-MM-DD` */
+    dates = { from_date: '', to_date: '' };
     closeRoomNightsDialog;
     loadingChanged;
     /** Emits whether inventory is available for the additional nights (false when there is none). */
@@ -3066,7 +3034,7 @@ const IglRateExtenderForm = class {
     inputRefs = [];
     shouldScrollToFirstEnabled = false;
     componentWillLoad() {
-        this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
+        this.dates = { from_date: this.fromDate, to_date: this.toDate };
         this.init();
     }
     componentDidRender() {
@@ -3092,13 +3060,7 @@ const IglRateExtenderForm = class {
             this.initialLoading = true;
             this.inputRefs = [];
             const { from_date } = this.defaultDates;
-            if (hooks(from_date, 'YYYY-MM-DD').isBefore(hooks(this.fromDate, 'YYYY-MM-DD'))) {
-                this.dates.from_date = new Date(from_date);
-            }
-            else {
-                this.dates.from_date = new Date(this.fromDate);
-            }
-            this.dates.to_date = new Date(this.toDate);
+            this.dates = { from_date: from_date < this.fromDate ? from_date : this.fromDate, to_date: this.toDate };
             this.booking = await this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: LocaleController.language });
             if (this.booking) {
                 const filteredRooms = this.booking.rooms.filter(room => room.identifier === this.identifier);
@@ -3222,8 +3184,8 @@ const IglRateExtenderForm = class {
             oldRooms[selectedRoomIndex] = {
                 ...oldRooms[selectedRoomIndex],
                 days: this.rates,
-                to_date: hooks(this.dates.to_date).format('YYYY-MM-DD'),
-                from_date: hooks(this.dates.from_date).format('YYYY-MM-DD'),
+                to_date: this.dates.to_date,
+                from_date: this.dates.from_date,
             };
             const body = {
                 assign_units: true,
@@ -3235,8 +3197,8 @@ const IglRateExtenderForm = class {
                 agent: this.booking.agent,
                 booking: {
                     booking_nbr: this.bookingNumber,
-                    from_date: hooks(this.dates.from_date).format('YYYY-MM-DD'),
-                    to_date: hooks(this.dates.to_date).format('YYYY-MM-DD'),
+                    from_date: this.dates.from_date,
+                    to_date: this.dates.to_date,
                     remark: this.booking.remark,
                     property: this.booking.property,
                     source: this.booking.source,
@@ -3706,10 +3668,6 @@ IglTbaCategoryView.style = iglTbaCategoryViewCss();
 
 const iglToBeAssignedCss = () => `.sc-igl-to-be-assigned-h{--spacing:var(--wa-space-l);display:block;height:100%;color:var(--wa-color-text-normal);font-size:var(--wa-font-size-s);text-align:start;background-color:var(--wa-color-surface-default);border-inline-end:2px solid var(--wa-color-surface-border)}.tba-panel.sc-igl-to-be-assigned{display:flex;flex-direction:column;min-height:100%}.tba-panel__head.sc-igl-to-be-assigned{position:sticky;top:0;z-index:1;font-family:var(--wa-font-family-heading);background-color:var(--wa-color-surface-default)}.tba-panel__header.sc-igl-to-be-assigned{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;box-sizing:border-box;padding-inline:var(--spacing);padding-block:calc(var(--spacing) / 2);border-bottom:1px solid var(--wa-color-surface-border);background-color:var(--ir-drawer-background-color, var(--wa-color-surface-default))}.tba-panel__title.sc-igl-to-be-assigned{flex:1 1 auto;margin:0;font-size:var(--wa-font-size-l);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);font-family:var(--wa-font-family-heading);color:var(--wa-color-text-normal)}.tba-panel__toolbar.sc-igl-to-be-assigned{padding:var(--spacing);padding-block-end:0}.tba-panel__body.sc-igl-to-be-assigned{display:flex;flex:1 1 auto;flex-direction:column;gap:1rem;padding:var(--spacing)}.tba-panel__loading.sc-igl-to-be-assigned{display:flex;flex:1 1 auto;align-items:center;justify-content:center}.tba-panel__empty.sc-igl-to-be-assigned{display:flex;flex:1 1 auto;align-items:center;justify-content:center;text-align:center;padding-block:var(--spacing)}.tba-panel__empty.sc-igl-to-be-assigned ir-empty-state.sc-igl-to-be-assigned::part(message),.tba-panel__empty.sc-igl-to-be-assigned ir-empty-state.sc-igl-to-be-assigned [part~="message"]{font-size:var(--wa-font-size-m)}.tba-panel__empty-icon.sc-igl-to-be-assigned{display:flex;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:0.875rem;background:var(--wa-color-success-fill-quiet);color:var(--wa-color-success-fill-loud);font-size:1.5rem;margin-bottom:0.5rem}.tba-panel__empty-subtitle.sc-igl-to-be-assigned{font-size:var(--wa-font-size-s);color:var(--wa-color-text-quiet)}`;
 
-/** `igloo-calendar`'s `calendar` option scrolls to the day *after* the epoch it receives, so hand it the previous local midnight. */
-function calendarScrollTarget(isoDate) {
-    return hooks(isoDate, 'YYYY-MM-DD').subtract(1, 'day').valueOf();
-}
 const IglToBeAssigned = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
@@ -3723,6 +3681,7 @@ const IglToBeAssigned = class {
     selectedDate = null;
     isLoading = true;
     optionEvent;
+    /** `data` is the `YYYY-MM-DD` day to scroll to. */
     showBookingPopup;
     addToBeAssignedEvent;
     highlightToBeAssignedBookingEvent;
@@ -3734,13 +3693,13 @@ const IglToBeAssigned = class {
         this.verifySelectedDate();
     }
     handleGotoDate(event) {
-        this.selectDate(hooks(event.detail.data).format('YYYY-MM-DD'));
+        this.selectDate(event.detail.data);
     }
     /** A card was highlighted: scroll the calendar to that booking's first night. */
     handleBookingHighlight(event) {
         const fromDate = event.detail?.data?.fromDate;
         if (fromDate) {
-            this.showBookingPopup.emit({ key: 'calendar', data: calendarScrollTarget(fromDate), noScroll: false });
+            this.showBookingPopup.emit({ key: 'calendar', data: fromDate, noScroll: false });
         }
     }
     /** Re-reads one date from the API and makes the store match it, in case a realtime update was missed. Owns the panel's loader, so every caller shows one. */
@@ -3783,7 +3742,7 @@ const IglToBeAssigned = class {
         this.selectedDate = date;
         this.addToBeAssignedEvent.emit({ key: 'tobeAssignedEvents', data: [] });
         if (date) {
-            this.showBookingPopup.emit({ key: 'calendar', data: calendarScrollTarget(date), noScroll: false });
+            this.showBookingPopup.emit({ key: 'calendar', data: date, noScroll: false });
         }
     }
     /** Memoized on the store entry's identity (and the property's, since names come from it): unrelated re-renders skip the grouping. */
@@ -3839,7 +3798,7 @@ const IglToBeAssigned = class {
         // dropdown doesn't go blank under the user. It drops off as soon as another date is picked.
         const options = this.selectedDate && !dates.includes(this.selectedDate) ? [...dates, this.selectedDate].sort() : dates;
         const categories = this.selectedDate ? this.categoriesFor(this.selectedDate) : [];
-        return (h(Host, { key: '3ea9e034d680544c5b2d32e12642bae801f52936' }, h("div", { key: 'a6afd47c726ddb4975eed71f6b6db23bdf695fd4', class: "tba-panel" }, h("div", { key: '84071467f5eb33261b08df3c6d55eb17169f45b8', class: "tba-panel__head" }, h("header", { key: '5a3ca42950dfe95f3b3d7e1483d9d54e53c0f7d7', class: "tba-panel__header" }, h("h2", { key: 'bb2fe2aa9d8f5d45ff2995054e6af4b01a0ad54f', class: "tba-panel__title", id: "to-be-assigned-title" }, t('Lcz_Assignments')), h("ir-custom-button", { key: '7e575081f81f396066e37ae06925ddbf801e6d3e', size: "m", appearance: "plain", variant: "neutral", onClickHandler: this.handleClose }, h("wa-icon", { key: 'b55023926f361f123c4420e54377eeee98b97fc4', name: "xmark", variant: "solid", label: t('Lcz_Close', { fallback: 'Close' }), "aria-label": t('Lcz_Close', { fallback: 'Close' }), role: "img" }))), options.length > 0 && (h("div", { key: '6a47d784418a744e78cf63cc447dd6820335a414', class: "tba-panel__toolbar" }, h("wa-select", { key: '270fe5f6dfadcc2fd0f2a7b8a61c4635e30abce6', size: "s", "aria-label": t('Lcz_Assignments'), value: this.selectedDate ?? '', defaultValue: this.selectedDate ?? '', onchange: this.handleDateChange }, options.map(date => (h("wa-option", { key: date, value: date }, formatDate(date, 'ddd, DD MMM YYYY')))))))), h("div", { key: '08418392ff0880d0117621e22415666a320ffa4f', class: "tba-panel__body" }, this.renderBody(dates.length > 0, categories)))));
+        return (h(Host, { key: '3daef307adc00773eceabe8bb12b5248e9d0db1e' }, h("div", { key: '77cf6f241ec998f06e86a8826d24953e54032e17', class: "tba-panel" }, h("div", { key: '3956e2224ebdd5abcea39b06a5db9f4130cd75bc', class: "tba-panel__head" }, h("header", { key: '7b0a60491a4fe3748b513e6bafac796dbb738929', class: "tba-panel__header" }, h("h2", { key: 'cc8a3ff7df9c84ae8f87d5dbbc1be00e2e2b5f99', class: "tba-panel__title", id: "to-be-assigned-title" }, t('Lcz_Assignments')), h("ir-custom-button", { key: '291e816e467702b66d3e47d2a352be8cec3e6839', size: "m", appearance: "plain", variant: "neutral", onClickHandler: this.handleClose }, h("wa-icon", { key: '3b209c7508c3053ed3841bead721db2cbf09ef0e', name: "xmark", variant: "solid", label: t('Lcz_Close', { fallback: 'Close' }), "aria-label": t('Lcz_Close', { fallback: 'Close' }), role: "img" }))), options.length > 0 && (h("div", { key: 'aa3b3e810a4287392aec4921740dec623315b952', class: "tba-panel__toolbar" }, h("wa-select", { key: 'eca92cb50cf2e474e754b93a1ee35d0cd975cdfe', size: "s", "aria-label": t('Lcz_Assignments'), value: this.selectedDate ?? '', defaultValue: this.selectedDate ?? '', onchange: this.handleDateChange }, options.map(date => (h("wa-option", { key: date, value: date }, formatDate(date, 'ddd, DD MMM YYYY')))))))), h("div", { key: '40d654fda14ad4adb3edbe3815be9089a9879974', class: "tba-panel__body" }, this.renderBody(dates.length > 0, categories)))));
     }
 };
 IglToBeAssigned.style = iglToBeAssignedCss();

@@ -1,4 +1,4 @@
-import { dateDifference, dateToFormattedString } from "../../utils/utils";
+import { nightsBetween } from "../../utils/calendar-dates";
 import { formatName } from "../../utils/booking";
 import { getRoomTypeName } from "../../stores/calendar-data";
 import calendar_dates from "../../stores/calendar-dates.store";
@@ -14,17 +14,7 @@ export function guestName(room) {
     return formatName(room.first_name, room.last_name);
 }
 function toDateRange(from, to, nights) {
-    const fromDate = new Date(`${from}T00:00:00`);
-    const toDate = new Date(`${to}T00:00:00`);
-    return {
-        fromDate,
-        toDate,
-        fromDateStr: dateToFormattedString(fromDate),
-        toDateStr: dateToFormattedString(toDate),
-        fromDateTimeStamp: fromDate.getTime(),
-        toDateTimeStamp: toDate.getTime(),
-        dateDifference: nights,
-    };
+    return { fromDate: from, toDate: to, dateDifference: nights };
 }
 /** Trims a stay to the calendar's loaded days — the grid has no cells outside `calendar_dates.fromDate..toDate`. */
 export function clampToLoadedRange(from, to) {
@@ -32,7 +22,7 @@ export function clampToLoadedRange(from, to) {
     // ISO date strings compare correctly as plain strings.
     const start = fromDate && fromDate > from ? fromDate : from;
     const end = toDate && toDate < to ? toDate : to;
-    return { from: start, to: end, nights: dateDifference(start, end) };
+    return { from: start, to: end, nights: nightsBetween(start, end) };
 }
 /** One ghost event per unit the room can be assigned to. Every unit is assumed valid for the room's whole `from`→`to` span — the API carries no per-unit window. */
 export function toCalendarPreviewEvents(room, ctx) {

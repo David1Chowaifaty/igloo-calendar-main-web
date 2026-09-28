@@ -2,7 +2,7 @@ import { r as registerInstance, h, H as Host, F as Fragment } from './index-CeHd
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { t } from './t-CHjay2ar.js';
 import { f as formatDate } from './ir-date-tLkbTntq.js';
-import { c as calendar_data } from './calendar-data-CiYzaNK0.js';
+import { c as calendar_data } from './calendar-data-CL6uTgDb.js';
 import './booking.dto-B554ToUQ.js';
 import { f as formatAmount } from './number-DbiGgV_N.js';
 import './locales.store-CXJn6ls-.js';

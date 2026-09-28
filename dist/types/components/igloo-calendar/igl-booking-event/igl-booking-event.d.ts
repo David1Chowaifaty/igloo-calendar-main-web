@@ -83,7 +83,7 @@ export declare class IglBookingEvent {
     private getModalDescription;
     private resetBookingToInitialPosition;
     handleRevertBooking(event: CustomEvent<string>): void;
-    checkIfSlotOccupied(toRoomId: any, from_date: any, to_date: any): any;
+    checkIfSlotOccupied(toRoomId: any, from_date: string, to_date: string): any;
     renderAgain(): void;
     getUniqueId(): number;
     isSplitBooking(): boolean;
@@ -93,6 +93,14 @@ export declare class IglBookingEvent {
     getBookingStatus(): any;
     getBookedBy(): any;
     getBookedRoomId(): any;
+    /**
+     * The bar continues in from before the loaded window: its stay began before FROM_DATE (clamped to the window).
+     * Drives both the skewed/continuation visual and the half-cell position adjustment.
+     * Dates are `YYYY-MM-DD`, so string order is date order.
+     */
+    private isSkewedStart;
+    /** The bar continues past the loaded window: its stay ends after TO_DATE (clamped to the window). */
+    private isSkewedEnd;
     getEventType(): any;
     getEventLegend(): any;
     getLegendOfStatus(aStatusId: any): any;
@@ -100,13 +108,6 @@ export declare class IglBookingEvent {
     getBalanceNode(): any;
     setStayDays(aStayDays: number): void;
     getStayDays(): any;
-    /**
-     * True once the booking's actual FROM_DATE lands after the loaded calendar window's nominal
-     * start date - i.e. this is a "normal" booking, not one that continues in from before the
-     * visible range. Drives both the skewed/continuation visual (render()) and the half-cell
-     * position adjustment (getPosition()), computed once so both stay in sync.
-     */
-    private startsAfterWindowOpen;
     getPosition(): {
         top: string;
         left: string;

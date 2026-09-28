@@ -26,7 +26,8 @@ export class IglRateExtenderForm {
     inventory = null;
     isEndDateBeforeFromDate = false;
     defaultTotalNights = 0;
-    dates = { from_date: new Date(), to_date: new Date() };
+    /** `YYYY-MM-DD` */
+    dates = { from_date: '', to_date: '' };
     closeRoomNightsDialog;
     loadingChanged;
     /** Emits whether inventory is available for the additional nights (false when there is none). */
@@ -35,7 +36,7 @@ export class IglRateExtenderForm {
     inputRefs = [];
     shouldScrollToFirstEnabled = false;
     componentWillLoad() {
-        this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
+        this.dates = { from_date: this.fromDate, to_date: this.toDate };
         this.init();
     }
     componentDidRender() {
@@ -61,13 +62,7 @@ export class IglRateExtenderForm {
             this.initialLoading = true;
             this.inputRefs = [];
             const { from_date } = this.defaultDates;
-            if (moment(from_date, 'YYYY-MM-DD').isBefore(moment(this.fromDate, 'YYYY-MM-DD'))) {
-                this.dates.from_date = new Date(from_date);
-            }
-            else {
-                this.dates.from_date = new Date(this.fromDate);
-            }
-            this.dates.to_date = new Date(this.toDate);
+            this.dates = { from_date: from_date < this.fromDate ? from_date : this.fromDate, to_date: this.toDate };
             this.booking = await this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: LocaleController.language });
             if (this.booking) {
                 const filteredRooms = this.booking.rooms.filter(room => room.identifier === this.identifier);
@@ -191,8 +186,8 @@ export class IglRateExtenderForm {
             oldRooms[selectedRoomIndex] = {
                 ...oldRooms[selectedRoomIndex],
                 days: this.rates,
-                to_date: moment(this.dates.to_date).format('YYYY-MM-DD'),
-                from_date: moment(this.dates.from_date).format('YYYY-MM-DD'),
+                to_date: this.dates.to_date,
+                from_date: this.dates.from_date,
             };
             const body = {
                 assign_units: true,
@@ -204,8 +199,8 @@ export class IglRateExtenderForm {
                 agent: this.booking.agent,
                 booking: {
                     booking_nbr: this.bookingNumber,
-                    from_date: moment(this.dates.from_date).format('YYYY-MM-DD'),
-                    to_date: moment(this.dates.to_date).format('YYYY-MM-DD'),
+                    from_date: this.dates.from_date,
+                    to_date: this.dates.to_date,
                     remark: this.booking.remark,
                     property: this.booking.property,
                     source: this.booking.source,

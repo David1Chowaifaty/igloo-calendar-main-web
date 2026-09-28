@@ -3,20 +3,21 @@ import { DayInfo, MonthInfo } from '../types';
 /**
  * The `.headersContainer` sticky bar of `igl-cal-header`: the month row plus the per-day header
  * cells (unassigned-units badge, day title, occupancy percent). `.headersContainer`/`.headerCell`
- * and each cell's `data-day` attribute are read directly by `igloo-calendar.tsx`'s drag-bounds
+ * and each cell's `data-date` (`YYYY-MM-DD`) attribute are read directly by `igloo-calendar.tsx`'s drag-bounds
  * calculation (`document.querySelectorAll('.headersContainer .headerCell')`) — do not rename them.
  */
 export declare class IglCalHeaderDays {
     isVacationRental: boolean;
-    today: String;
+    /** `YYYY-MM-DD` */
+    today: string;
     highlightedDate: string;
     monthsInfo: MonthInfo[];
     days: DayInfo[];
-    /** Unassigned-unit counts keyed by `dayInfo.day`, falling back to `dayInfo.unassigned_units_nbr` per cell. */
+    /** Unassigned-unit counts keyed by `dayInfo.value` (`YYYY-MM-DD`), falling back to `dayInfo.unassigned_units_nbr` per cell. */
     unassignedRoomsNumber: {
         [key: string]: number;
     };
-    /** Days (keyed by `dayInfo.day`) whose unassigned-units fetch is still in flight; their badges breathe. */
+    /** Days (keyed by `dayInfo.value`) whose unassigned-units fetch is still in flight; their badges breathe. */
     loadingDays: {
         [key: string]: boolean;
     };
@@ -28,8 +29,7 @@ export declare class IglCalHeaderDays {
     private revealing;
     /** Emitted only when a badge with a non-zero count is clicked — a zero-count badge is inert. */
     dayBadgeClicked: EventEmitter<{
-        day: string;
-        currentDate: any;
+        date: string;
     }>;
     private revealTimer;
     componentDidLoad(): void;

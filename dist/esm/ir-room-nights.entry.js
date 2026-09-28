@@ -1,9 +1,9 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-CeHdrJeH.js';
-import { B as BookingService, b as booking_store } from './booking.store-WDoYTEgI.js';
-import { o as getDaysArray, p as convertDatePrice } from './utils-CKFOUZvS.js';
+import { B as BookingService, b as booking_store } from './booking.store-B2SwPuV6.js';
+import { n as getDaysArray, o as convertDatePrice } from './utils-S6Mv4SON.js';
 import { f as formatDate } from './ir-date-tLkbTntq.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { c as calendar_data } from './calendar-data-CiYzaNK0.js';
+import { c as calendar_data } from './calendar-data-CL6uTgDb.js';
 import { f as formatAmount, a as formatBookingNumber } from './number-DbiGgV_N.js';
 import { L as LocaleController } from './locale.controller-BQzvhC3Q.js';
 import { t } from './t-CHjay2ar.js';
@@ -11,7 +11,8 @@ import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './IBooking-B4waZCSK.js';
 import './types-CB66a07H.js';
-import './booking-CwfPgjWM.js';
+import './calendar-dates-D3hVfsrC.js';
+import './booking-Bu0fFgC3.js';
 import './locales.store-CXJn6ls-.js';
 import './functions-BI0MgE9h.js';
 import './commonSchemas-Cx9w9d8l.js';
@@ -47,11 +48,12 @@ const IrRoomNights = class {
     isEndDateBeforeFromDate = false;
     defaultTotalNights = 0;
     isInputFocused = -1;
-    dates = { from_date: new Date(), to_date: new Date() };
+    /** `YYYY-MM-DD` */
+    dates = { from_date: '', to_date: '' };
     closeRoomNightsDialog;
     bookingService = new BookingService();
     componentWillLoad() {
-        this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
+        this.dates = { from_date: this.fromDate, to_date: this.toDate };
         this.init();
     }
     isButtonDisabled() {
@@ -60,13 +62,7 @@ const IrRoomNights = class {
     async init() {
         try {
             const { from_date } = this.defaultDates;
-            if (hooks(from_date, 'YYYY-MM-DD').isBefore(hooks(this.fromDate, 'YYYY-MM-DD'))) {
-                this.dates.from_date = new Date(from_date);
-            }
-            else {
-                this.dates.from_date = new Date(this.fromDate);
-            }
-            this.dates.to_date = new Date(this.toDate);
+            this.dates = { from_date: from_date < this.fromDate ? from_date : this.fromDate, to_date: this.toDate };
             this.bookingEvent = await this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: LocaleController.language });
             if (this.bookingEvent) {
                 const filteredRooms = this.bookingEvent.rooms.filter(room => room.identifier === this.identifier);
@@ -193,8 +189,8 @@ const IrRoomNights = class {
             oldRooms[selectedRoomIndex] = {
                 ...oldRooms[selectedRoomIndex],
                 days: this.rates,
-                to_date: hooks(this.dates.to_date).format('YYYY-MM-DD'),
-                from_date: hooks(this.dates.from_date).format('YYYY-MM-DD'),
+                to_date: this.dates.to_date,
+                from_date: this.dates.from_date,
             };
             const body = {
                 assign_units: true,
@@ -206,8 +202,8 @@ const IrRoomNights = class {
                 agent: this.bookingEvent.agent,
                 booking: {
                     booking_nbr: this.bookingNumber,
-                    from_date: hooks(this.dates.from_date).format('YYYY-MM-DD'),
-                    to_date: hooks(this.dates.to_date).format('YYYY-MM-DD'),
+                    from_date: this.dates.from_date,
+                    to_date: this.dates.to_date,
                     remark: this.bookingEvent.remark,
                     property: this.bookingEvent.property,
                     source: this.bookingEvent.source,

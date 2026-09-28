@@ -90,7 +90,6 @@ export declare class IrRoom {
      */
     handleEditExtraService(e: CustomEvent<ExtraService>): void;
     handleRoomDataChange(): void;
-    private getDateStr;
     private handleEditClick;
     private openModal;
     private handleModalConfirmation;

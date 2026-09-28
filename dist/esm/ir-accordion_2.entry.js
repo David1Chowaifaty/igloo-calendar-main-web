@@ -2,7 +2,7 @@ import { r as registerInstance, c as createEvent, a as getElement, h, H as Host 
 import { f as formatAmount, a as formatBookingNumber } from './number-DbiGgV_N.js';
 import { f as formatDate } from './ir-date-tLkbTntq.js';
 import './moment-Mki5YqAR.js';
-import { c as calendar_data } from './calendar-data-CiYzaNK0.js';
+import { c as calendar_data } from './calendar-data-CL6uTgDb.js';
 import { _ as _formatTime } from './functions-BI0MgE9h.js';
 import { t } from './t-CHjay2ar.js';
 import './locales.store-CXJn6ls-.js';

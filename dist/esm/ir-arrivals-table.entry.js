@@ -1,9 +1,9 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
-import { a as arrivalsStore } from './arrivals.store-DBh7Gh2X.js';
+import { a as arrivalsStore } from './arrivals.store-DKTv-mlH.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { t } from './t-CHjay2ar.js';
-import './utils-CKFOUZvS.js';
-import './calendar-data-CiYzaNK0.js';
+import './utils-S6Mv4SON.js';
+import './calendar-data-CL6uTgDb.js';
 import './locales.store-CXJn6ls-.js';
 import './booking.dto-B554ToUQ.js';
 import './type-DjfVZqvs.js';
@@ -11,6 +11,7 @@ import './types-CB66a07H.js';
 import './ir-date-tLkbTntq.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
+import './calendar-dates-D3hVfsrC.js';
 
 const irArrivalsTableCss = () => `.sc-ir-arrivals-table-h{display:flex;flex-direction:column;border-radius:0.5rem;overflow-x:auto;min-height:60vh;max-width:1920px;border:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);background-color:white}.sc-ir-arrivals-table-h{box-sizing:border-box !important}.sc-ir-arrivals-table-h *.sc-ir-arrivals-table,.sc-ir-arrivals-table-h *.sc-ir-arrivals-table::before,.sc-ir-arrivals-table-h *.sc-ir-arrivals-table::after{box-sizing:inherit !important;padding:0;margin:0}[hidden].sc-ir-arrivals-table{display:none !important}.arrivals-table__actions-cell.sc-ir-arrivals-table{display:flex;min-width:100px;justify-content:flex-end}@media (min-width: 1024px){.arrivals-table__actions-cell.sc-ir-arrivals-table{min-width:150px}}`;
 

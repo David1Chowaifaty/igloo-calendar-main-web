@@ -74,12 +74,10 @@ export interface CalendarEventContext {
     roomTypeName: string;
 }
 export interface IDefaultDateRange {
-    fromDate: Date;
-    toDate: Date;
-    fromDateTimeStamp: number;
-    toDateTimeStamp: number;
-    fromDateStr: string;
-    toDateStr: string;
+    /** `YYYY-MM-DD` */
+    fromDate: string;
+    /** `YYYY-MM-DD` */
+    toDate: string;
     dateDifference: number;
 }
 /** Legacy grid shape — the fields `igl-cal-body` reads to draw a booking event. Only ever produced at the emit boundary. */

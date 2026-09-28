@@ -1,23 +1,24 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-CeHdrJeH.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { B as BookingService } from './booking.store-WDoYTEgI.js';
-import { R as RoomService } from './room.service-jft1_Mb6.js';
+import { B as BookingService } from './booking.store-B2SwPuV6.js';
+import { R as RoomService } from './room.service-DuTZ0GXh.js';
 import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-BQzvhC3Q.js';
 import { L as LanguageSync } from './language-sync-Q4d31yjT.js';
 import { t } from './t-CHjay2ar.js';
+import { t as todayISO, a as addDaysISO } from './calendar-dates-D3hVfsrC.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './IBooking-B4waZCSK.js';
 import './types-CB66a07H.js';
-import './utils-CKFOUZvS.js';
+import './utils-S6Mv4SON.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-CiYzaNK0.js';
+import './calendar-data-CL6uTgDb.js';
 import './locales.store-CXJn6ls-.js';
 import './booking.dto-B554ToUQ.js';
 import './type-DjfVZqvs.js';
 import './ir-date-tLkbTntq.js';
 import './language-observer-CHgzsZkY.js';
-import './booking-CwfPgjWM.js';
+import './booking-Bu0fFgC3.js';
 import './functions-BI0MgE9h.js';
 import './commonSchemas-Cx9w9d8l.js';
 import './types-CyZFzmvF.js';
@@ -106,15 +107,12 @@ const IglBookPropertyContainer = class {
         this.bookingItem = null;
     }
     handleTriggerClicked() {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
+        const today = todayISO();
         this.bookingItem = {
             FROM_DATE: this.from_date,
             defaultDateRange: {
-                fromDate: new Date(),
-                fromDateStr: '',
-                toDate: tomorrow,
-                toDateStr: '',
+                fromDate: today,
+                toDate: addDaysISO(today, 1),
                 dateDifference: 0,
                 message: '',
             },
@@ -129,7 +127,7 @@ const IglBookPropertyContainer = class {
         };
     }
     render() {
-        return (h(Host, { key: 'a069f8efb45efe2779904f67cc0e0c319e793ea7' }, this.withIrToastAndInterceptor && (h(Fragment, { key: '1cc37067ed3b8ac1df21e57867ceb080df2348e5' }, h("ir-toast", { key: 'd7d9fd5f820a84be3775be4077d2a29013b2eeac' }), h("ir-interceptor", { key: '2cc08f7f3b349bc9d0862c98c8be3f3eb6592c70' }))), h("div", { key: 'a1ea013638287b383d50e9c7840fcfd86f76895c', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: '606a08dcc2dd0638f5e39f4a40631660d8287d53', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: '48ccaf7b360f136ce0136884ed48b7831ef85d04', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
+        return (h(Host, { key: 'd7d5e6e9ce417972335d83128bb07442cbc6c855' }, this.withIrToastAndInterceptor && (h(Fragment, { key: 'cc679f9c20d3b7e7a6699cb78ddd79ed5912360d' }, h("ir-toast", { key: '707978c04c66af426ce6d52b206cc32b043d8cc4' }), h("ir-interceptor", { key: 'd67148853a936772e7be25220ceb0796f7de0522' }))), h("div", { key: '58e8c2d3106b336b341130ae825b3c96545fc154', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: '23f16b8e8936c943fc4ffa0173e8bd92e8292198', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: 'f879f834cf33308b19979864854e8270de0d3241', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingData.emit(null);

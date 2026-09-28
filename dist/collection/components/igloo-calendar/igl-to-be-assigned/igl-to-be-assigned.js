@@ -1,21 +1,17 @@
 import { Host, h } from "@stencil/core";
-import moment from "moment";
 import { UnassignedUnitsService } from "../../../services/unassigned-units/index";
 import { groupIntoCategories } from "../../../services/unassigned-units/utils";
 import calendar_data from "../../../stores/calendar-data";
 import { t } from "../../../services/locale/t";
 import { getUnassignedUnitsDateKeys, getUnassignedUnitsForDate, removeUnassignedRoom, replaceUnassignedUnitsRange } from "../../../stores/unassigned-units.store";
 import { formatDate } from "../../../utils/date/index";
-/** `igloo-calendar`'s `calendar` option scrolls to the day *after* the epoch it receives, so hand it the previous local midnight. */
-function calendarScrollTarget(isoDate) {
-    return moment(isoDate, 'YYYY-MM-DD').subtract(1, 'day').valueOf();
-}
 export class IglToBeAssigned {
     propertyid;
     calendarData;
     selectedDate = null;
     isLoading = true;
     optionEvent;
+    /** `data` is the `YYYY-MM-DD` day to scroll to. */
     showBookingPopup;
     addToBeAssignedEvent;
     highlightToBeAssignedBookingEvent;
@@ -27,13 +23,13 @@ export class IglToBeAssigned {
         this.verifySelectedDate();
     }
     handleGotoDate(event) {
-        this.selectDate(moment(event.detail.data).format('YYYY-MM-DD'));
+        this.selectDate(event.detail.data);
     }
     /** A card was highlighted: scroll the calendar to that booking's first night. */
     handleBookingHighlight(event) {
         const fromDate = event.detail?.data?.fromDate;
         if (fromDate) {
-            this.showBookingPopup.emit({ key: 'calendar', data: calendarScrollTarget(fromDate), noScroll: false });
+            this.showBookingPopup.emit({ key: 'calendar', data: fromDate, noScroll: false });
         }
     }
     /** Re-reads one date from the API and makes the store match it, in case a realtime update was missed. Owns the panel's loader, so every caller shows one. */
@@ -76,7 +72,7 @@ export class IglToBeAssigned {
         this.selectedDate = date;
         this.addToBeAssignedEvent.emit({ key: 'tobeAssignedEvents', data: [] });
         if (date) {
-            this.showBookingPopup.emit({ key: 'calendar', data: calendarScrollTarget(date), noScroll: false });
+            this.showBookingPopup.emit({ key: 'calendar', data: date, noScroll: false });
         }
     }
     /** Memoized on the store entry's identity (and the property's, since names come from it): unrelated re-renders skip the grouping. */
@@ -132,7 +128,7 @@ export class IglToBeAssigned {
         // dropdown doesn't go blank under the user. It drops off as soon as another date is picked.
         const options = this.selectedDate && !dates.includes(this.selectedDate) ? [...dates, this.selectedDate].sort() : dates;
         const categories = this.selectedDate ? this.categoriesFor(this.selectedDate) : [];
-        return (h(Host, { key: '3ea9e034d680544c5b2d32e12642bae801f52936' }, h("div", { key: 'a6afd47c726ddb4975eed71f6b6db23bdf695fd4', class: "tba-panel" }, h("div", { key: '84071467f5eb33261b08df3c6d55eb17169f45b8', class: "tba-panel__head" }, h("header", { key: '5a3ca42950dfe95f3b3d7e1483d9d54e53c0f7d7', class: "tba-panel__header" }, h("h2", { key: 'bb2fe2aa9d8f5d45ff2995054e6af4b01a0ad54f', class: "tba-panel__title", id: "to-be-assigned-title" }, t('Lcz_Assignments')), h("ir-custom-button", { key: '7e575081f81f396066e37ae06925ddbf801e6d3e', size: "m", appearance: "plain", variant: "neutral", onClickHandler: this.handleClose }, h("wa-icon", { key: 'b55023926f361f123c4420e54377eeee98b97fc4', name: "xmark", variant: "solid", label: t('Lcz_Close', { fallback: 'Close' }), "aria-label": t('Lcz_Close', { fallback: 'Close' }), role: "img" }))), options.length > 0 && (h("div", { key: '6a47d784418a744e78cf63cc447dd6820335a414', class: "tba-panel__toolbar" }, h("wa-select", { key: '270fe5f6dfadcc2fd0f2a7b8a61c4635e30abce6', size: "s", "aria-label": t('Lcz_Assignments'), value: this.selectedDate ?? '', defaultValue: this.selectedDate ?? '', onchange: this.handleDateChange }, options.map(date => (h("wa-option", { key: date, value: date }, formatDate(date, 'ddd, DD MMM YYYY')))))))), h("div", { key: '08418392ff0880d0117621e22415666a320ffa4f', class: "tba-panel__body" }, this.renderBody(dates.length > 0, categories)))));
+        return (h(Host, { key: '3daef307adc00773eceabe8bb12b5248e9d0db1e' }, h("div", { key: '77cf6f241ec998f06e86a8826d24953e54032e17', class: "tba-panel" }, h("div", { key: '3956e2224ebdd5abcea39b06a5db9f4130cd75bc', class: "tba-panel__head" }, h("header", { key: '7b0a60491a4fe3748b513e6bafac796dbb738929', class: "tba-panel__header" }, h("h2", { key: 'cc8a3ff7df9c84ae8f87d5dbbc1be00e2e2b5f99', class: "tba-panel__title", id: "to-be-assigned-title" }, t('Lcz_Assignments')), h("ir-custom-button", { key: '291e816e467702b66d3e47d2a352be8cec3e6839', size: "m", appearance: "plain", variant: "neutral", onClickHandler: this.handleClose }, h("wa-icon", { key: '3b209c7508c3053ed3841bead721db2cbf09ef0e', name: "xmark", variant: "solid", label: t('Lcz_Close', { fallback: 'Close' }), "aria-label": t('Lcz_Close', { fallback: 'Close' }), role: "img" }))), options.length > 0 && (h("div", { key: 'aa3b3e810a4287392aec4921740dec623315b952', class: "tba-panel__toolbar" }, h("wa-select", { key: 'eca92cb50cf2e474e754b93a1ee35d0cd975cdfe', size: "s", "aria-label": t('Lcz_Assignments'), value: this.selectedDate ?? '', defaultValue: this.selectedDate ?? '', onchange: this.handleDateChange }, options.map(date => (h("wa-option", { key: date, value: date }, formatDate(date, 'ddd, DD MMM YYYY')))))))), h("div", { key: '40d654fda14ad4adb3edbe3815be9089a9879974', class: "tba-panel__body" }, this.renderBody(dates.length > 0, categories)))));
     }
     static get is() { return "igl-to-be-assigned"; }
     static get encapsulation() { return "scoped"; }
@@ -216,11 +212,11 @@ export class IglToBeAssigned {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "`data` is the `YYYY-MM-DD` day to scroll to."
                 },
                 "complexType": {
-                    "original": "{ key: 'calendar'; data: number; noScroll: boolean }",
-                    "resolved": "{ key: \"calendar\"; data: number; noScroll: boolean; }",
+                    "original": "{ key: 'calendar'; data: string; noScroll: boolean }",
+                    "resolved": "{ key: \"calendar\"; data: string; noScroll: boolean; }",
                     "references": {}
                 }
             }, {

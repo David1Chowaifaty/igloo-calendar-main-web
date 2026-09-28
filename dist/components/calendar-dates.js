@@ -1,0 +1,1 @@
+import{h as s}from"./moment.js";const a="YYYY-MM-DD",o=o=>s(o,a),t=()=>s().format(a),m=(s,t)=>o(s).add(t,"days").format(a),n=(s,t)=>o(s).add(t,"months").format(a),Y=(s,a)=>o(a).diff(o(s),"days");export{a as I,m as a,n as b,Y as n,t}

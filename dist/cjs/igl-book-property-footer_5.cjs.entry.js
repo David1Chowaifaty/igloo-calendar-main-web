@@ -1,12 +1,13 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var calendarData = require('./calendar-data-HgC39-BR.js');
-var moment = require('./moment-CdViwxPQ.js');
+var calendarData = require('./calendar-data-y64tb1w5.js');
+var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 var t = require('./t-C54QV4_c.js');
+var moment = require('./moment-CdViwxPQ.js');
 var irInterceptor_store = require('./ir-interceptor.store-moMB-JCs.js');
-var booking_store = require('./booking.store-BsDoPdtX.js');
-var utils = require('./utils-CVHsag7R.js');
+var booking_store = require('./booking.store-B76Qpi_v.js');
+var utils = require('./utils-2ithg_2A.js');
 var irDate = require('./ir-date-BLb2Vxrk.js');
 var number = require('./number-BmMUYhE5.js');
 var types = require('./types-BVJQZ50e.js');
@@ -19,7 +20,7 @@ var v4 = require('./v4-_2BfiRUa.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
-require('./booking-CTTU8QIq.js');
+require('./booking-CWu4XQMM.js');
 require('./functions-B3fUkdt1.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./language-observer-DKp37LIu.js');
@@ -74,7 +75,7 @@ const IglBookPropertyFooter = class {
                 }))) : (index.h(index.Fragment, null, this.renderButton({ value: 'cancel', label: t.t('Lcz_Cancel', { fallback: 'Cancel' }), appearance: 'filled', variant: 'neutral' }), this.shouldRenderTwoButtons() &&
                 this.renderButton({ value: 'next', label: `${t.t('Lcz_Next', { fallback: 'Next' })}`, icon_name: 'angles_right', variant: 'brand', appearance: 'accent' })))));
         }
-        const showBookAndCheckin = calendarData.calendar_data.checkin_enabled && moment.hooks(new Date(this.dateRangeData?.fromDate)).isSame(new Date(), 'day');
+        const showBookAndCheckin = calendarData.calendar_data.checkin_enabled && this.dateRangeData?.fromDate === calendarDates.todayISO();
         return (index.h(index.Fragment, null, this.isEditOrAddRoomEvent ? (index.h(index.Fragment, null, this.renderButton({
             value: 'back',
             icon_position: 'left',
@@ -214,14 +215,13 @@ const IglBookPropertyHeader = class {
             });
         }
         else if (this.isEventType('ADD_ROOM') || this.isEventType('SPLIT_BOOKING')) {
-            const initialToDate = moment.hooks(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date));
-            const initialFromDate = moment.hooks(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date));
-            const selectedFromDate = moment.hooks(new Date(this.dateRangeData.fromDate));
-            const selectedToDate = moment.hooks(new Date(this.dateRangeData.toDate));
-            if (selectedToDate.isBefore(initialFromDate) || selectedFromDate.isAfter(initialToDate)) {
+            const initialToDate = this.bookedByInfoData.to_date || this.defaultDaterange.to_date;
+            const initialFromDate = this.bookedByInfoData.from_date || this.defaultDaterange.from_date;
+            const { fromDate: selectedFromDate, toDate: selectedToDate } = this.dateRangeData;
+            if (selectedToDate < initialFromDate || selectedFromDate > initialToDate) {
                 utils.showToast({
                     type: 'error',
-                    title: `${t.t('Lcz_CheckInDateShouldBeMAx', { fallback: 'The check-in or check-out must fall within %1 and %2.', params: [irDate.formatDate(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date), 'ddd, DD MMM YYYY'), irDate.formatDate(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date), 'ddd, DD MMM YYYY')] })}  `,
+                    title: `${t.t('Lcz_CheckInDateShouldBeMAx', { fallback: 'The check-in or check-out must fall within %1 and %2.', params: [irDate.formatDate(initialFromDate, 'ddd, DD MMM YYYY'), irDate.formatDate(initialToDate, 'ddd, DD MMM YYYY')] })}  `,
                 });
                 return;
             }
@@ -277,7 +277,7 @@ const IglBookPropertyHeader = class {
     render() {
         console.log(this.bookingData.event_type);
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (index.h(index.Host, { key: 'b47bfbb711c72a0b13c8c2963e221e75b9a03b21' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), index.h("div", { key: 'c86b79a38fcb615395eb7d755d4c396f93c02255', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), index.h("ir-date-range", { key: '3bd944508a8ac4e9a59afc2702769bc18fbcecb9', "data-testid": "date_picker", variant: "booking", dateLabel: t.t('Lcz_Dates', { fallback: 'Dates' }), maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), index.h("ir-custom-button", { key: '1b9dda389313d2058a9ea8cfe74f17d2311f6c1f', loading: irInterceptor_store.isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, t.t('Lcz_Check', { fallback: 'Check' }))), index.h("p", { key: '2e3d45bc1b590e9a1f7ab01e07a6b66c4eccda0b', class: "ir-text-end message-label" }, calendarData.calendar_data.tax_statement)));
+        return (index.h(index.Host, { key: 'd580aedf7877dc50306fa45102f35e9d15650a6b' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), index.h("div", { key: 'e9b3906a6bf470b70239a56c5e015f3dade41c92', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), index.h("ir-date-range", { key: '8b3618b99abc6388465e9690d311f540cb59e5d7', "data-testid": "date_picker", variant: "booking", dateLabel: t.t('Lcz_Dates', { fallback: 'Dates' }), maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), index.h("ir-custom-button", { key: '35c0947462ae862518bcaea7dec7125142bb2fe3', loading: irInterceptor_store.isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, t.t('Lcz_Check', { fallback: 'Check' }))), index.h("p", { key: 'dd252ebefa9c9a2e3a039c8348ffd487a6ff8347', class: "ir-text-end message-label" }, calendarData.calendar_data.tax_statement)));
     }
 };
 IglBookPropertyHeader.style = iglBookPropertyHeaderCss();
@@ -409,7 +409,7 @@ const IglBookingForm = class {
     render() {
         return (index.h("form", { key: '216ca248eb0769949c859d7591b7cd3dc64a6617', class: "d-flex flex-column h-100", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
                 e.preventDefault();
-            } }, index.h("div", { key: '1c4b116e92889edf272d15cd8e096ca805d7e38e', class: "d-flex flex-wrap" }, index.h("ir-date-view", { key: '60c6372ac1d8d129790971b5d17bba36009a8976', class: "ir-me-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate) }), this.guestData.length > 1 && (index.h("div", { key: 'b16104f98b02b271fbecfc6eec51b9e636524c5d', class: "mt-1 mt-md-0 ir-text-end" }, t.t('Lcz_TotalPrice', { fallback: 'Total price' }), ' ', index.h("span", { key: '9b68e7ae6467d7067072d05770daf7b7271d9a72', class: "font-weight-bold font-medium-1" }, number.formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+            } }, index.h("div", { key: '1c4b116e92889edf272d15cd8e096ca805d7e38e', class: "d-flex flex-wrap" }, index.h("ir-date-view", { key: '0ac5f6f36c0be300572186504768397b3575018e', class: "ir-me-1 flex-fill font-weight-bold font-medium-1", from_date: this.dateRangeData.fromDate, to_date: this.dateRangeData.toDate }), this.guestData.length > 1 && (index.h("div", { key: '5411f85fd4c43487b063f2ab0842dcd6d8df6148', class: "mt-1 mt-md-0 ir-text-end" }, t.t('Lcz_TotalPrice', { fallback: 'Total price' }), ' ', index.h("span", { key: '964d2157f7d90deddd406f2584b3d48cf7eee1f2', class: "font-weight-bold font-medium-1" }, number.formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
                 return null;

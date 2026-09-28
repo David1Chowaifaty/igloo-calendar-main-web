@@ -7,8 +7,10 @@ import { BookingInvoiceInfo } from "../../components/ir-invoice/types";
 export interface IBookingParams {
     bookedByInfoData: any;
     check_in: boolean;
-    fromDate: Date;
-    toDate: Date;
+    /** `YYYY-MM-DD` */
+    fromDate: string;
+    /** `YYYY-MM-DD` */
+    toDate: string;
     guestData: any;
     totalNights: number;
     source: {
@@ -163,6 +165,7 @@ export declare class BookingService {
         withExtras?: boolean;
         include_dp_pricing?: boolean;
     }): Promise<Booking>;
+    /** One entry per night from `from_date` up to (not including) `to_date`, both `YYYY-MM-DD`. */
     private generateDays;
     private calculateTotalRate;
     fetchExposedGuest(email: string, property_id: number): Promise<ExposedGuests>;

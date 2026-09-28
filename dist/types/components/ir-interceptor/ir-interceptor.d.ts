@@ -60,6 +60,7 @@ export declare class IrInterceptor {
      * Sets up Axios request and response interceptors.
      */
     private setupAxiosInterceptors;
+    private getLastPathSegment;
     /**
      * Removes query params from URL for consistent endpoint matching.
      */

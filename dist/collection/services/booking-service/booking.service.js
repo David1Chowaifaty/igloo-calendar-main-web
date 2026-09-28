@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SetupEntrySchema } from "../../models/IBooking";
-import { convertDateToCustomFormat, convertDateToTime, dateToFormattedString, extras } from "../../utils/utils";
+import { extras } from "../../utils/utils";
+import { addDaysISO } from "../../utils/calendar-dates";
 import { getMyBookings } from "../../utils/booking";
 import booking_store from "../../stores/booking.store";
 import calendar_data from "../../stores/calendar-data";
@@ -160,9 +161,7 @@ export class BookingService {
                 });
                 return month.days.map(day => {
                     return {
-                        day: convertDateToCustomFormat(day.description, month.description),
                         value: day.value,
-                        currentDate: convertDateToTime(day.description, month.description),
                         dayDisplayName: day.description,
                         rate: day.room_types,
                         unassigned_units_nbr: day.unassigned_units_nbr,
@@ -460,17 +459,11 @@ export class BookingService {
             console.error(error);
         }
     }
+    /** One entry per night from `from_date` up to (not including) `to_date`, both `YYYY-MM-DD`. */
     generateDays(from_date, to_date, amount) {
-        const startDate = new Date(from_date);
-        const endDate = new Date(to_date);
         const days = [];
-        while (startDate < endDate) {
-            days.push({
-                date: startDate.toISOString().split('T')[0],
-                amount: amount,
-                cost: null,
-            });
-            startDate.setDate(startDate.getDate() + 1);
+        for (let date = from_date; date < to_date; date = addDaysISO(date, 1)) {
+            days.push({ date, amount, cost: null });
         }
         return days;
     }
@@ -547,8 +540,8 @@ export class BookingService {
     }
     async bookUser({ bookedByInfoData, check_in, currency, extras = null, fromDate, guestData, pickup_info, propertyid, rooms, source, toDate, totalNights, arrivalTime, bookingNumber, defaultGuest, identifier, pr_id, }) {
         try {
-            const fromDateStr = dateToFormattedString(fromDate);
-            const toDateStr = dateToFormattedString(toDate);
+            const fromDateStr = fromDate;
+            const toDateStr = toDate;
             let guest = {
                 email: bookedByInfoData.email === '' ? null : bookedByInfoData.email || null,
                 first_name: bookedByInfoData.firstName,

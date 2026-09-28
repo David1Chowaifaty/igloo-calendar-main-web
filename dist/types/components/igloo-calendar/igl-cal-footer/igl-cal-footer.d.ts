@@ -7,7 +7,8 @@ export declare class IglCalFooter {
         [key: string]: any;
     };
     isLegendOpen: boolean;
-    today: String;
+    /** `YYYY-MM-DD` */
+    today: string;
     highlightedDate: string;
     private _today;
     handleOptionEvent(key: any, data?: string): void;

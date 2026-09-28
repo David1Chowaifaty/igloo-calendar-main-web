@@ -10,9 +10,10 @@ export declare class IglToBeAssigned {
         key: string;
         data?: unknown;
     }>;
+    /** `data` is the `YYYY-MM-DD` day to scroll to. */
     showBookingPopup: EventEmitter<{
         key: 'calendar';
-        data: number;
+        data: string;
         noScroll: boolean;
     }>;
     addToBeAssignedEvent: EventEmitter<{
@@ -30,7 +31,7 @@ export declare class IglToBeAssigned {
     private refreshToken;
     componentWillLoad(): void;
     handleGotoDate(event: CustomEvent<{
-        data: number;
+        data: string;
     }>): void;
     /** A card was highlighted: scroll the calendar to that booking's first night. */
     handleBookingHighlight(event: CustomEvent<{

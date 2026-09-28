@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
-import { c as calendar_data } from './calendar-data-CiYzaNK0.js';
+import { c as calendar_data } from './calendar-data-CL6uTgDb.js';
 import { t } from './t-CHjay2ar.js';
 import { n as numberType } from './types-CB66a07H.js';
 import './locales.store-CXJn6ls-.js';

@@ -23,9 +23,10 @@ export declare class IrRoomNights {
     isEndDateBeforeFromDate: boolean;
     defaultTotalNights: number;
     isInputFocused: number;
+    /** `YYYY-MM-DD` */
     dates: {
-        from_date: Date;
-        to_date: Date;
+        from_date: string;
+        to_date: string;
     };
     closeRoomNightsDialog: EventEmitter<IRoomNightsDataEventPayload>;
     private bookingService;

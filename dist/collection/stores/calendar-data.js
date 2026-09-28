@@ -12,13 +12,11 @@ const initialState = {
     currency: undefined,
     property: null,
     colorsForegrounds: null,
-    endingDate: 0,
     housekeeping_enabled: true, //TODO: revert to true
     formattedLegendData: undefined,
     is_vacation_rental: false,
     legendData: [],
     roomsInfo: [],
-    startingDate: 0,
     language: '',
     toBeAssignedEvents: [],
     allowed_payment_methods: [],

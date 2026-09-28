@@ -2,8 +2,6 @@ import { MomentFormatSpecification } from 'moment';
 import IBooking, { ICountry, PhysicalRoomType, PropertyRoomType } from '../models/IBooking';
 import { Toast } from "../components/ir-toast-provider/ir-toast-provider";
 import { TPositions } from "../components/ui/ir-toast/toast";
-export declare function convertDateToCustomFormat(dayWithWeekday: string, monthWithYear: string, format?: string): string;
-export declare function convertDateToTime(dayWithWeekday: string, monthWithYear: string): number;
 export interface SelectOption {
     text: string;
     value: string;
@@ -50,6 +48,7 @@ export declare function checkMealPlan({ rateplan_id, roomTypes, roomTypeId }: Ch
 export declare function showToast(toast: Toast & {
     position?: TPositions;
 }): void;
+/** Nights between two `YYYY-MM-DD` days. */
 export declare function dateDifference(FROM_DATE: string, TO_DATE: string): number;
 export declare const getBrowserLanguage: () => string;
 export declare const transformBooking: (physicalRoom: PhysicalRoomType[]) => IBooking[];
@@ -82,10 +81,6 @@ export declare function getReleaseHoursString(releaseDate: number): {
     BLOCKED_TILL_HOUR: string;
     BLOCKED_TILL_MINUTE: string;
 };
-export declare function computeEndDate(startDate: string, numberOfDays: number): string;
-export declare function convertDMYToISO(date: string): string;
-export declare function addTwoMonthToDate(date: Date): string;
-export declare function getNextDay(date: Date): string;
 /** Row label for the per-night price breakdown — display only. */
 export declare function convertDatePrice(date: string): string;
 export declare function getDaysArray(date1: string, date2: string): any[];

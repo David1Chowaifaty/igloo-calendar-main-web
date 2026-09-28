@@ -14,18 +14,19 @@ const REVEAL_TOTAL_MS = REVEAL_STEP_MS * REVEAL_MAX_STEPS + Math.max(REVEAL_DURA
 /**
  * The `.headersContainer` sticky bar of `igl-cal-header`: the month row plus the per-day header
  * cells (unassigned-units badge, day title, occupancy percent). `.headersContainer`/`.headerCell`
- * and each cell's `data-day` attribute are read directly by `igloo-calendar.tsx`'s drag-bounds
+ * and each cell's `data-date` (`YYYY-MM-DD`) attribute are read directly by `igloo-calendar.tsx`'s drag-bounds
  * calculation (`document.querySelectorAll('.headersContainer .headerCell')`) — do not rename them.
  */
 export class IglCalHeaderDays {
     isVacationRental;
+    /** `YYYY-MM-DD` */
     today;
     highlightedDate;
     monthsInfo = [];
     days = [];
-    /** Unassigned-unit counts keyed by `dayInfo.day`, falling back to `dayInfo.unassigned_units_nbr` per cell. */
+    /** Unassigned-unit counts keyed by `dayInfo.value` (`YYYY-MM-DD`), falling back to `dayInfo.unassigned_units_nbr` per cell. */
     unassignedRoomsNumber = {};
-    /** Days (keyed by `dayInfo.day`) whose unassigned-units fetch is still in flight; their badges breathe. */
+    /** Days (keyed by `dayInfo.value`) whose unassigned-units fetch is still in flight; their badges breathe. */
     loadingDays = {};
     /**
      * Gates the badge entrance cascade so it plays once per screen open. Stays open from mount until
@@ -73,8 +74,8 @@ export class IglCalHeaderDays {
         }, REVEAL_TOTAL_MS);
     }
     handleBadgeClick(dayInfo) {
-        if (this.unassignedRoomsNumber[dayInfo.day] || 0) {
-            this.dayBadgeClicked.emit({ day: dayInfo.day, currentDate: dayInfo.currentDate });
+        if (this.unassignedRoomsNumber[dayInfo.value] || 0) {
+            this.dayBadgeClicked.emit({ date: dayInfo.value });
         }
     }
     /** Stagger radiates outward from today's cell, where the user is looking after the initial scroll. */
@@ -82,15 +83,15 @@ export class IglCalHeaderDays {
         return Math.min(Math.abs(index - todayIndex), REVEAL_MAX_STEPS) * REVEAL_STEP_MS;
     }
     render() {
-        const todayIndex = Math.max(this.days.findIndex(dayInfo => dayInfo.day === this.today), 0);
-        return (h(Host, { key: '3524180eee10d70ec81a8ca98343f72243859e62' }, h("div", { key: '632e5c0a341ff93b87b054f55171873621400247', class: { 'stickyCell': true, 'headersContainer': true, 'is-revealing': this.revealing } }, h("div", { key: 'ce4a505c67b01b5cef0af2b88c2d7533553691f4', class: "monthsContainer" }, this.monthsInfo.map(monthInfo => {
+        const todayIndex = Math.max(this.days.findIndex(dayInfo => dayInfo.value === this.today), 0);
+        return (h(Host, { key: '5fb4794098d0bd67429ce7a047713ed3970da927' }, h("div", { key: '31489fa317b2ba72e8c5f079dd496bca11d301fa', class: { 'stickyCell': true, 'headersContainer': true, 'is-revealing': this.revealing } }, h("div", { key: '75dc980774647c9ca4f5ab664b234c3c2ba54bf3', class: "monthsContainer" }, this.monthsInfo.map(monthInfo => {
             return (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, formatDate(monthInfo.firstDayValue, 'MMM YYYY'))));
         })), this.days.map((dayInfo, index) => {
-            const count = this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr;
+            const count = this.unassignedRoomsNumber[dayInfo.value] || dayInfo.unassigned_units_nbr;
             const revealDelay = this.getRevealDelay(index, todayIndex);
-            return (h("div", { class: `headerCell align-items-center ${'day-' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}`, "data-day": dayInfo.day }, !this.isVacationRental && (h("div", { class: { 'preventPageScroll': true, 'is-loading': !!this.loadingDays[dayInfo.day] }, onClick: () => this.handleBadgeClick(dayInfo) }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr !== 0 ? (h("button", { class: 'fd-header__badge-btn', style: this.revealing ? { animationDelay: `${revealDelay}ms` } : undefined }, h("wa-badge", { class: "fd-header__badge", variant: 'brand', appearance: 'accent', pill: true }, this.revealing ? (
+            return (h("div", { class: `headerCell align-items-center ${dayInfo.value === this.today || dayInfo.value === this.highlightedDate ? 'currentDay' : ''}`, "data-date": dayInfo.value }, !this.isVacationRental && (h("div", { class: { 'preventPageScroll': true, 'is-loading': !!this.loadingDays[dayInfo.value] }, onClick: () => this.handleBadgeClick(dayInfo) }, this.unassignedRoomsNumber[dayInfo.value] || dayInfo.unassigned_units_nbr !== 0 ? (h("button", { class: 'fd-header__badge-btn', style: this.revealing ? { animationDelay: `${revealDelay}ms` } : undefined }, h("wa-badge", { class: "fd-header__badge", variant: 'brand', appearance: 'accent', pill: true }, this.revealing ? (
             /* Digits are drawn by CSS (`counter()` over the animated `--fd-count`) until the gate closes. */
-            h("span", { class: "fd-header__badge-count", style: { '--fd-count-target': String(count), 'animationDelay': `${revealDelay + REVEAL_COUNT_DELAY_MS}ms` } })) : (formatCount(count))))) : (h("wa-badge", { variant: 'neutral', appearance: 'filled', pill: true }, ' ', formatCount(this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr))))), h("div", { class: { dayTitle: true, weekend: isWeekend(dayInfo.value) } }, formatDate(dayInfo.value, 'ddd D')), h("div", { class: "dayCapacityPercent" }, formatPercent(dayInfo.occupancy))));
+            h("span", { class: "fd-header__badge-count", style: { '--fd-count-target': String(count), 'animationDelay': `${revealDelay + REVEAL_COUNT_DELAY_MS}ms` } })) : (formatCount(count))))) : (h("wa-badge", { variant: 'neutral', appearance: 'filled', pill: true }, ' ', formatCount(this.unassignedRoomsNumber[dayInfo.value] || dayInfo.unassigned_units_nbr))))), h("div", { class: { dayTitle: true, weekend: isWeekend(dayInfo.value) } }, formatDate(dayInfo.value, 'ddd D')), h("div", { class: "dayCapacityPercent" }, formatPercent(dayInfo.occupancy))));
         }))));
     }
     static get is() { return "igl-cal-header-days"; }
@@ -127,26 +128,23 @@ export class IglCalHeaderDays {
                 "attribute": "is-vacation-rental"
             },
             "today": {
-                "type": "unknown",
+                "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "String",
-                    "resolved": "String",
-                    "references": {
-                        "String": {
-                            "location": "global",
-                            "id": "global::String"
-                        }
-                    }
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "`YYYY-MM-DD`"
                 },
                 "getter": false,
-                "setter": false
+                "setter": false,
+                "reflect": false,
+                "attribute": "today"
             },
             "highlightedDate": {
                 "type": "string",
@@ -229,7 +227,7 @@ export class IglCalHeaderDays {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Unassigned-unit counts keyed by `dayInfo.day`, falling back to `dayInfo.unassigned_units_nbr` per cell."
+                    "text": "Unassigned-unit counts keyed by `dayInfo.value` (`YYYY-MM-DD`), falling back to `dayInfo.unassigned_units_nbr` per cell."
                 },
                 "getter": false,
                 "setter": false,
@@ -247,7 +245,7 @@ export class IglCalHeaderDays {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Days (keyed by `dayInfo.day`) whose unassigned-units fetch is still in flight; their badges breathe."
+                    "text": "Days (keyed by `dayInfo.value`) whose unassigned-units fetch is still in flight; their badges breathe."
                 },
                 "getter": false,
                 "setter": false,
@@ -272,8 +270,8 @@ export class IglCalHeaderDays {
                     "text": "Emitted only when a badge with a non-zero count is clicked \u2014 a zero-count badge is inert."
                 },
                 "complexType": {
-                    "original": "{ day: string; currentDate: any }",
-                    "resolved": "{ day: string; currentDate: any; }",
+                    "original": "{ date: string }",
+                    "resolved": "{ date: string; }",
                     "references": {}
                 }
             }];

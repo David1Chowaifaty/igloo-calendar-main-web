@@ -4,9 +4,10 @@ import { TAdultChildConstraints, TPropertyButtonsTypes } from "../../../models/i
 import { IToast } from "../../ui/ir-toast/toast";
 import { ICurrency } from "../../../models/calendarData";
 export type IHistoryEntry = {
+    /** `YYYY-MM-DD` */
     dates: {
-        checkIn: Date;
-        checkOut: Date;
+        checkIn: string;
+        checkOut: string;
     };
     adults: number;
     children: number;
@@ -23,19 +24,16 @@ export declare class IglBookProperty {
     };
     adultChildConstraints: TAdultChildConstraints;
     renderAgain: boolean;
+    /** `fromDate`/`toDate` are `YYYY-MM-DD`. */
     dateRangeData: {
+        fromDate: string;
+        toDate: string;
+        dateDifference: number;
         [key: string]: any;
     };
     defaultData: any;
     isLoading: string;
-    bookingHistory: Array<{
-        dates: {
-            checkIn: Date;
-            checkOut: Date;
-        };
-        adults: number;
-        children: number;
-    }>;
+    bookingHistory: IHistoryEntry[];
     closeBookingWindow: EventEmitter<{
         [key: string]: any;
     }>;

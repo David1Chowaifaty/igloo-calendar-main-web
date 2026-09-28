@@ -102,14 +102,13 @@ export class IglBookPropertyHeader {
             });
         }
         else if (this.isEventType('ADD_ROOM') || this.isEventType('SPLIT_BOOKING')) {
-            const initialToDate = moment(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date));
-            const initialFromDate = moment(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date));
-            const selectedFromDate = moment(new Date(this.dateRangeData.fromDate));
-            const selectedToDate = moment(new Date(this.dateRangeData.toDate));
-            if (selectedToDate.isBefore(initialFromDate) || selectedFromDate.isAfter(initialToDate)) {
+            const initialToDate = this.bookedByInfoData.to_date || this.defaultDaterange.to_date;
+            const initialFromDate = this.bookedByInfoData.from_date || this.defaultDaterange.from_date;
+            const { fromDate: selectedFromDate, toDate: selectedToDate } = this.dateRangeData;
+            if (selectedToDate < initialFromDate || selectedFromDate > initialToDate) {
                 showToast({
                     type: 'error',
-                    title: `${t('Lcz_CheckInDateShouldBeMAx', { fallback: 'The check-in or check-out must fall within %1 and %2.', params: [formatDate(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date), 'ddd, DD MMM YYYY'), formatDate(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date), 'ddd, DD MMM YYYY')] })}  `,
+                    title: `${t('Lcz_CheckInDateShouldBeMAx', { fallback: 'The check-in or check-out must fall within %1 and %2.', params: [formatDate(initialFromDate, 'ddd, DD MMM YYYY'), formatDate(initialToDate, 'ddd, DD MMM YYYY')] })}  `,
                 });
                 return;
             }
@@ -165,7 +164,7 @@ export class IglBookPropertyHeader {
     render() {
         console.log(this.bookingData.event_type);
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: 'b47bfbb711c72a0b13c8c2963e221e75b9a03b21' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: 'c86b79a38fcb615395eb7d755d4c396f93c02255', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("ir-date-range", { key: '3bd944508a8ac4e9a59afc2702769bc18fbcecb9', "data-testid": "date_picker", variant: "booking", dateLabel: t('Lcz_Dates', { fallback: 'Dates' }), maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), h("ir-custom-button", { key: '1b9dda389313d2058a9ea8cfe74f17d2311f6c1f', loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, t('Lcz_Check', { fallback: 'Check' }))), h("p", { key: '2e3d45bc1b590e9a1f7ab01e07a6b66c4eccda0b', class: "ir-text-end message-label" }, calendar_data.tax_statement)));
+        return (h(Host, { key: 'd580aedf7877dc50306fa45102f35e9d15650a6b' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: 'e9b3906a6bf470b70239a56c5e015f3dade41c92', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("ir-date-range", { key: '8b3618b99abc6388465e9690d311f540cb59e5d7', "data-testid": "date_picker", variant: "booking", dateLabel: t('Lcz_Dates', { fallback: 'Dates' }), maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), h("ir-custom-button", { key: '35c0947462ae862518bcaea7dec7125142bb2fe3', loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, t('Lcz_Check', { fallback: 'Check' }))), h("p", { key: 'dd252ebefa9c9a2e3a039c8348ffd487a6ff8347', class: "ir-text-end message-label" }, calendar_data.tax_statement)));
     }
     static get is() { return "igl-book-property-header"; }
     static get encapsulation() { return "scoped"; }

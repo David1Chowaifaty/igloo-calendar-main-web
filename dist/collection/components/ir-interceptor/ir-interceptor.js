@@ -70,11 +70,14 @@ export class IrInterceptor {
         axios.interceptors.request.use(this.handleRequest.bind(this), this.handleError.bind(this));
         axios.interceptors.response.use(this.handleResponse.bind(this), this.handleError.bind(this));
     }
+    getLastPathSegment(url) {
+        return `/${new URL(url, 'http://dummy.local').pathname.split('/').filter(Boolean).pop()}`;
+    }
     /**
      * Removes query params from URL for consistent endpoint matching.
      */
     extractEndpoint(url) {
-        return url.split('?')[0];
+        return this.getLastPathSegment(url.split('?')[0]);
     }
     /**
      * Returns true if the given endpoint is listed as "handled".
@@ -89,6 +92,7 @@ export class IrInterceptor {
      */
     handleRequest(config) {
         const extractedUrl = this.extractEndpoint(config.url);
+        console.log({ extractedUrl });
         interceptor_requests[extractedUrl] = 'pending';
         config.params = config.params || {};
         // if (this.ticket) {
@@ -240,7 +244,7 @@ export class IrInterceptor {
         this.baseOTPUrl = null;
     }
     render() {
-        return (h(Host, { key: '135761eae57782fbc1bb385b91550201ba3f3df1' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '42699e5a655d2b09692114b7abf5be8277c486cc', class: "loadingScreenContainer" }, h("div", { key: 'be739beaba52e887cc212fb42d79432affd454f5', class: "loaderContainer" }, h("wa-spinner", { key: '526c30c71653c0e23a964558ce8ae16a10be724c', style: { 'fontSize': '2.5rem', '--track-width': '3.5px' } })))), this.showModal && (h("ir-otp-modal", { key: 'edc8fa6ceee37a34a11033d7758ad174162e6dd9', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: '7282fd3f8ac2689e65ff9c1b209895308a51447d' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '4048670eeee28744eccdac3370c5ebe8c7351f98', class: "loadingScreenContainer" }, h("div", { key: 'c75961ff1057d26575d215de09733499186eb454', class: "loaderContainer" }, h("wa-spinner", { key: '613747d118acbd7df75f34fd32a92e7cea576216', style: { 'fontSize': '2.5rem', '--track-width': '3.5px' } })))), this.showModal && (h("ir-otp-modal", { key: '6aa1eac4b8a366041bce65edecbb3c6a1a4ebd3e', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }

@@ -3,23 +3,8 @@ import { z } from "zod";
 import calendarData, { calendar_data } from "../stores/calendar-data";
 import { ROOM_IN_OUT } from "../models/booking.dto";
 import { formatDate } from "./date/index";
+import { nightsBetween } from "./calendar-dates";
 import { t } from "../services/locale/t";
-export function convertDateToCustomFormat(dayWithWeekday, monthWithYear, format = 'D_M_YYYY') {
-    const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
-    // Parses the backend's English `day.description`/`month.description` and produces an internal
-    // calendar cell key — both ends are identity, not display, so the locale is pinned to English.
-    const date = moment(dateStr, 'DD MMM YYYY', 'en');
-    if (!date.isValid()) {
-        throw new Error('Invalid Date');
-    }
-    return date.format(format);
-}
-export function convertDateToTime(dayWithWeekday, monthWithYear) {
-    // Same English-only backend strings as `convertDateToCustomFormat` — pinned for the same reason.
-    const date = moment(dayWithWeekday + ' ' + monthWithYear, 'ddd DD MMM YYYY', 'en').toDate();
-    date.setHours(0, 0, 0, 0);
-    return date.getTime();
-}
 /**
  * Determines whether the currently selected room's rateplan is valid for the
  * chosen room type. If it is **not** valid, this returns the list of
@@ -112,10 +97,9 @@ export function showToast(toast) {
     const event = new CustomEvent('toast', { detail: toast });
     document.body.dispatchEvent(event);
 }
+/** Nights between two `YYYY-MM-DD` days. */
 export function dateDifference(FROM_DATE, TO_DATE) {
-    const startDate = new Date(FROM_DATE);
-    const endDate = new Date(TO_DATE);
-    return Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+    return nightsBetween(FROM_DATE, TO_DATE);
 }
 export const getBrowserLanguage = () => {
     const defaultLang = 'en';
@@ -223,29 +207,14 @@ export function getReleaseHoursString(releaseDate) {
         BLOCKED_TILL_MINUTE: dt.getMinutes().toString(),
     };
 }
-export function computeEndDate(startDate, numberOfDays) {
-    const dateObj = moment(startDate, 'D_M_YYYY');
-    dateObj.add(numberOfDays, 'days');
-    return dateObj.format('YYYY-MM-DD');
-}
-export function convertDMYToISO(date) {
-    const dateObj = moment(date, 'D_M_YYYY');
-    return dateObj.format('YYYY-MM-DD');
-}
-export function addTwoMonthToDate(date) {
-    return moment(date).add(2, 'months').format('YYYY-MM-DD');
-}
-export function getNextDay(date) {
-    return moment(date).add(1, 'days').format('YYYY-MM-DD');
-}
 /** Row label for the per-night price breakdown — display only. */
 export function convertDatePrice(date) {
     return formatDate(date, 'DD/MM ddd');
 }
 export function getDaysArray(date1, date2) {
     let dates = [];
-    let start = moment.min(moment(date1).add(1, 'days'), moment(date2));
-    let end = moment.max(moment(date1), moment(date2));
+    let start = moment.min(moment(date1, 'YYYY-MM-DD').add(1, 'days'), moment(date2, 'YYYY-MM-DD'));
+    let end = moment.max(moment(date1, 'YYYY-MM-DD'), moment(date2, 'YYYY-MM-DD'));
     while (start < end) {
         dates.push(start.format('YYYY-MM-DD'));
         start = start.clone().add(1, 'days');

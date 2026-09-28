@@ -1,13 +1,14 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var utils = require('./utils-CVHsag7R.js');
-var events_service = require('./events.service-B4yqXnx_.js');
+var utils = require('./utils-2ithg_2A.js');
+var events_service = require('./events.service-CsNSJcYb.js');
 var moment = require('./moment-CdViwxPQ.js');
+var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 var locales_store = require('./locales.store-BMTss6fG.js');
-var calendarData = require('./calendar-data-HgC39-BR.js');
-var booking = require('./booking-CTTU8QIq.js');
-var index$1 = require('./index-C004gPMd.js');
+var calendarData = require('./calendar-data-y64tb1w5.js');
+var booking = require('./booking-CWu4XQMM.js');
+var index$1 = require('./index-sb_b7hT4.js');
 var enums = require('./enums-BSCnMYlE.js');
 var direction = require('./direction-Cb_BHcnU.js');
 var number = require('./number-BmMUYhE5.js');
@@ -19,7 +20,7 @@ require('./ir-date-BLb2Vxrk.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./axios-EresIryl.js');
-require('./booking.store-BsDoPdtX.js');
+require('./booking.store-B76Qpi_v.js');
 require('./IBooking-hDE_y33g.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./functions-B3fUkdt1.js');
@@ -60,17 +61,22 @@ const IglBookingEventHover = class {
         if (selectedRt) {
             this.shouldHideUnassignUnit = selectedRt.physicalrooms.length === 1;
         }
-        if (moment.hooks(this.bookingEvent.TO_DATE, 'YYYY-MM-DD').isBefore(moment.hooks())) {
+        // TO_DATE's midnight is already behind "now" once the departure day arrives.
+        if (this.bookingEvent.TO_DATE <= calendarDates.todayISO()) {
             this.hideButtons = true;
         }
         this.baseColor = this.getEventLegend().color;
         this.bookingColor = this.bookingEvent.ROOM_INFO?.calendar_extra ? this.bookingEvent.ROOM_INFO?.calendar_extra?.booking_color : null;
-        this.canCheckInOrCheckout = moment.hooks().isSameOrAfter(new Date(this.bookingEvent.FROM_DATE), 'days') && moment.hooks().isBefore(new Date(this.bookingEvent.TO_DATE), 'days');
+        this.canCheckInOrCheckout = this.isStayingToday();
+    }
+    /** Today falls on one of the booked nights (`FROM_DATE` ≤ today < `TO_DATE`). */
+    isStayingToday() {
+        const today = calendarDates.todayISO();
+        return today >= this.bookingEvent.FROM_DATE && today < this.bookingEvent.TO_DATE;
     }
     handleBookingEventChange(newValue, oldValue) {
         if (newValue !== oldValue)
-            this.canCheckInOrCheckout =
-                moment.hooks(new Date()).isSameOrAfter(new Date(this.bookingEvent.FROM_DATE), 'days') && moment.hooks(new Date()).isBefore(new Date(this.bookingEvent.TO_DATE), 'days');
+            this.canCheckInOrCheckout = this.isStayingToday();
     }
     handleListenKeyDown(e) {
         if (e.key === 'Escape') {
@@ -178,7 +184,7 @@ const IglBookingEventHover = class {
         }
         const now = moment.hooks();
         if (this.bookingEvent.ROOM_INFO?.in_out?.code === '000' &&
-            moment.hooks().isSameOrAfter(new Date(this.bookingEvent.TO_DATE), 'days') &&
+            calendarDates.todayISO() >= this.bookingEvent.TO_DATE &&
             booking.compareTime(now.toDate(), booking.createDateWithOffsetAndHour(calendarData.calendar_data.checkin_checkout_hours?.offset, calendarData.calendar_data.checkin_checkout_hours?.hour))) {
             return true;
         }
@@ -194,23 +200,14 @@ const IglBookingEventHover = class {
         this.bookingEvent.TITLE = t.t('Lcz_EditBookingFor');
         this.handleBookingOption('EDIT_BOOKING');
     }
-    getStringDateFormat(dt) {
-        return dt.getFullYear() + '-' + (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1) + '-' + (dt.getDate() <= 9 ? '0' : '') + dt.getDate();
-    }
     handleAddRoom() {
-        let fromDate = new Date(this.bookingEvent.FROM_DATE);
-        fromDate.setHours(0, 0, 0, 0);
-        let from_date_str = this.getStringDateFormat(fromDate);
-        let toDate = new Date(this.bookingEvent.TO_DATE);
-        //toDate.setDate(toDate.getDate() + 1);
-        toDate.setHours(0, 0, 0, 0);
-        let to_date_str = this.getStringDateFormat(toDate);
+        const { FROM_DATE, TO_DATE } = this.bookingEvent;
         let eventData = {
             ID: '',
             NAME: '',
             BOOKING_NUMBER: this.bookingEvent.BOOKING_NUMBER,
-            FROM_DATE: from_date_str, // "2023-07-09",
-            TO_DATE: to_date_str, // "2023-07-11",
+            FROM_DATE,
+            TO_DATE,
             roomsInfo: this.bookingEvent.roomsInfo,
             ARRIVAL: this.bookingEvent.ARRIVAL,
             ADD_ROOM_TO_BOOKING: this.bookingEvent.ID,
@@ -222,10 +219,8 @@ const IglBookingEventHover = class {
             SOURCE: this.bookingEvent.SOURCE,
             booking: this.bookingEvent?.base_booking,
             defaultDateRange: {
-                fromDate: fromDate,
-                fromDateStr: '',
-                toDate: toDate,
-                toDateStr: '',
+                fromDate: FROM_DATE,
+                toDate: TO_DATE,
                 dateDifference: 0,
                 editabled: true,
                 message: t.t('Lcz_IncludingCityTaxExcludingVatMock', { fallback: 'Including 5.00% City Tax - Excluding 11.00% VAT' }),
@@ -465,7 +460,7 @@ const IglBookingEventHover = class {
         return index.h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (index.h(index.Host, { key: 'c4bcb0beec6d42effe21c716f9087a0087d3cec6', dir: direction.isRtlDirection(locales_store.locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (index.h(index.Host, { key: '79fecb41e8d6b41258c87d8eac93d81658a3b443', dir: direction.isRtlDirection(locales_store.locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": [{

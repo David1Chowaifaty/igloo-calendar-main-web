@@ -39,7 +39,7 @@ export class IrDateRange {
      */
     size = 's';
     /**
-     * Initial date values. Expects `{ fromDate: string | Date, toDate: string | Date }`.
+     * Initial date values as `YYYY-MM-DD` strings: `{ fromDate, toDate }`. `selectedDateRange` is emitted in the same format.
      * Re-initializes dates whenever this prop reference changes.
      */
     defaultData;
@@ -114,13 +114,12 @@ export class IrDateRange {
     }
     initializeDates() {
         if (this.defaultData) {
+            // `YYYY-MM-DD` parsed as a local day — `new Date('YYYY-MM-DD')` would be UTC midnight (the previous day west of UTC).
             if (this.defaultData.fromDate) {
-                this.fromDate = new Date(this.defaultData.fromDate);
-                this.fromDate.setHours(0, 0, 0, 0);
+                this.fromDate = moment(this.defaultData.fromDate, 'YYYY-MM-DD').toDate();
             }
             if (this.defaultData.toDate) {
-                this.toDate = new Date(this.defaultData.toDate);
-                this.toDate.setHours(0, 0, 0, 0);
+                this.toDate = moment(this.defaultData.toDate, 'YYYY-MM-DD').toDate();
             }
         }
         if (this.fromDate && this.toDate) {
@@ -143,10 +142,8 @@ export class IrDateRange {
         const startMoment = moment(start);
         const endMoment = moment(end);
         this.handleDateSelectEvent('selectedDateRange', {
-            fromDate: start.getTime(),
-            toDate: end.getTime(),
-            fromDateStr: formatDate(startMoment, 'DD MMM YYYY'),
-            toDateStr: formatDate(endMoment, 'DD MMM YYYY'),
+            fromDate: startMoment.format('YYYY-MM-DD'),
+            toDate: endMoment.format('YYYY-MM-DD'),
             dateDifference: this.totalNights,
         });
         this.dateRangeChange.emit({ checkIn: startMoment, checkOut: endMoment });
@@ -189,7 +186,7 @@ export class IrDateRange {
     }
     render() {
         const showNights = this.variant === 'booking' && this.withDateDifference;
-        return (h("wa-popup", { key: '11cbcca916f13d0f72788efce952424533f11c3b', part: "popup", arrow: true, placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "igl-date-range__popup" }, h("div", { key: '1b780077e32cce5addf13d9a49c5bada350e8157', slot: "anchor", part: "anchor", class: "igl-date-range__trigger" }, h("div", { key: '1dba2ea6e8601bb18ddeac5743dbdf3c873cb359', part: "combobox", class: "igl-date-range__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": t('Lcz_SelectDateRange', { fallback: 'Select date range' }), onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("ir-input", { key: 'c36307764b7c3e7aaf85056d48992de5f8bb5404', part: "input", disabled: this.disabled, class: "igl-date-range__input", readonly: true, value: this.formattedLabel, "aria-invalid": this.isInvalid, "aria-expanded": String(this.isActive), "aria-disabled": this.disabled ? 'true' : undefined }, h("wa-icon", { key: 'b4d6d93a5f94cc6279258fe5e330251cbfd08c93', part: "calendar-icon", slot: "start", variant: "regular", name: "calendar" }), showNights && this.totalNights > 0 && (h("span", { key: 'c9a4227089b0286c8b2e72be358a59fdc8ba9b6a', part: "nights-badge", slot: "end", class: "igl-date-range__nights" }, formatCount(this.totalNights), " ", this.totalNights > 1 ? t('Lcz_Nights', { fallback: 'nights' }) : t('Lcz_Night', { fallback: 'night' })))))), h("div", { key: '978763d2f8074279715cec02f5522c3df1d7c326', part: "body", id: this.popupId, class: "igl-date-range__calendar", role: "dialog", "aria-modal": "false", "aria-label": t('Lcz_DateRangeSelectionDialog', { fallback: 'Date range selection dialog' }) }, h("ir-custom-date-range", { key: '937aa7df03f87095ba8bc2e426d5b5ce132c455a', part: "calendar", exportparts: "base: calendar-base, calendar, calendar-header, month-navigation, nav-prev, nav-next, month-label, weekday-row, weekday, days-grid, week-row, day-cell, day-button", style: { '--cal-button-size': '35px' }, fromDate: moment(this.fromDate), toDate: moment(this.toDate), minDate: this.minDate ? moment(this.minDate) : undefined, maxDate: this.maxDate ? moment(this.maxDate) : undefined, onDateChange: e => this.handleCustomDateChange(e) }))));
+        return (h("wa-popup", { key: '24a12ec2d3e5b6df6f373421d7d7c3e129218480', part: "popup", arrow: true, placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "igl-date-range__popup" }, h("div", { key: '2b7182fb4c57ac94abf6f4e36d43ad3f7e002643', slot: "anchor", part: "anchor", class: "igl-date-range__trigger" }, h("div", { key: 'a501be4a60909264832d2f1a4aed263fd2b6c4c6', part: "combobox", class: "igl-date-range__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": t('Lcz_SelectDateRange', { fallback: 'Select date range' }), onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("ir-input", { key: '8fa342d0ad5cf3a6f9c65e2f61429df8df09f35f', part: "input", disabled: this.disabled, class: "igl-date-range__input", readonly: true, value: this.formattedLabel, "aria-invalid": this.isInvalid, "aria-expanded": String(this.isActive), "aria-disabled": this.disabled ? 'true' : undefined }, h("wa-icon", { key: '63c3f75bd76d10ae24cef24ef0a22f19e6ba78d1', part: "calendar-icon", slot: "start", variant: "regular", name: "calendar" }), showNights && this.totalNights > 0 && (h("span", { key: '7a8dd0fcc942911fb99ac5fdb37c11ee9dd934fe', part: "nights-badge", slot: "end", class: "igl-date-range__nights" }, formatCount(this.totalNights), " ", this.totalNights > 1 ? t('Lcz_Nights', { fallback: 'nights' }) : t('Lcz_Night', { fallback: 'night' })))))), h("div", { key: 'b60ab06ad852acd373f0ba36da7312a7cbe4f37a', part: "body", id: this.popupId, class: "igl-date-range__calendar", role: "dialog", "aria-modal": "false", "aria-label": t('Lcz_DateRangeSelectionDialog', { fallback: 'Date range selection dialog' }) }, h("ir-custom-date-range", { key: '5e1b1971ccc8d0043902b5f68fe6eea7cd94c101', part: "calendar", exportparts: "base: calendar-base, calendar, calendar-header, month-navigation, nav-prev, nav-next, month-label, weekday-row, weekday, days-grid, week-row, day-cell, day-button", style: { '--cal-button-size': '35px' }, fromDate: moment(this.fromDate), toDate: moment(this.toDate), minDate: this.minDate ? moment(this.minDate) : undefined, maxDate: this.maxDate ? moment(this.maxDate) : undefined, onDateChange: e => this.handleCustomDateChange(e) }))));
     }
     static get is() { return "ir-date-range"; }
     static get encapsulation() { return "shadow"; }
@@ -240,7 +237,7 @@ export class IrDateRange {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Initial date values. Expects `{ fromDate: string | Date, toDate: string | Date }`.\nRe-initializes dates whenever this prop reference changes."
+                    "text": "Initial date values as `YYYY-MM-DD` strings: `{ fromDate, toDate }`. `selectedDateRange` is emitted in the same format.\nRe-initializes dates whenever this prop reference changes."
                 },
                 "getter": false,
                 "setter": false

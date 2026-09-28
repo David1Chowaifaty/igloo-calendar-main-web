@@ -1,11 +1,12 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, F as Fragment, H as Host } from './index-CeHdrJeH.js';
-import { k as findCountry, c as canCheckIn } from './utils-CKFOUZvS.js';
-import { E as EventsService } from './events.service-qz0oRBCp.js';
+import { j as findCountry, c as canCheckIn } from './utils-S6Mv4SON.js';
+import { E as EventsService } from './events.service-CT6pUVtF.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
+import { t as todayISO } from './calendar-dates-D3hVfsrC.js';
 import { l as locales } from './locales.store-CXJn6ls-.js';
-import { c as calendar_data } from './calendar-data-CiYzaNK0.js';
-import { b as compareTime, d as createDateWithOffsetAndHour } from './booking-CwfPgjWM.js';
-import { P as PropertyService } from './index-E60ir1da.js';
+import { c as calendar_data } from './calendar-data-CL6uTgDb.js';
+import { b as compareTime, d as createDateWithOffsetAndHour } from './booking-Bu0fFgC3.js';
+import { P as PropertyService } from './index-DC8YmeDR.js';
 import { H as HbPreference } from './enums-CSCQSgBu.js';
 import { c as isRtlDirection } from './direction-h66wLQy4.js';
 import { a as formatBookingNumber, f as formatAmount } from './number-DbiGgV_N.js';
@@ -17,7 +18,7 @@ import './ir-date-tLkbTntq.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './axios-B50ozOIF.js';
-import './booking.store-WDoYTEgI.js';
+import './booking.store-B2SwPuV6.js';
 import './IBooking-B4waZCSK.js';
 import './commonSchemas-Cx9w9d8l.js';
 import './functions-BI0MgE9h.js';
@@ -58,17 +59,22 @@ const IglBookingEventHover = class {
         if (selectedRt) {
             this.shouldHideUnassignUnit = selectedRt.physicalrooms.length === 1;
         }
-        if (hooks(this.bookingEvent.TO_DATE, 'YYYY-MM-DD').isBefore(hooks())) {
+        // TO_DATE's midnight is already behind "now" once the departure day arrives.
+        if (this.bookingEvent.TO_DATE <= todayISO()) {
             this.hideButtons = true;
         }
         this.baseColor = this.getEventLegend().color;
         this.bookingColor = this.bookingEvent.ROOM_INFO?.calendar_extra ? this.bookingEvent.ROOM_INFO?.calendar_extra?.booking_color : null;
-        this.canCheckInOrCheckout = hooks().isSameOrAfter(new Date(this.bookingEvent.FROM_DATE), 'days') && hooks().isBefore(new Date(this.bookingEvent.TO_DATE), 'days');
+        this.canCheckInOrCheckout = this.isStayingToday();
+    }
+    /** Today falls on one of the booked nights (`FROM_DATE` ≤ today < `TO_DATE`). */
+    isStayingToday() {
+        const today = todayISO();
+        return today >= this.bookingEvent.FROM_DATE && today < this.bookingEvent.TO_DATE;
     }
     handleBookingEventChange(newValue, oldValue) {
         if (newValue !== oldValue)
-            this.canCheckInOrCheckout =
-                hooks(new Date()).isSameOrAfter(new Date(this.bookingEvent.FROM_DATE), 'days') && hooks(new Date()).isBefore(new Date(this.bookingEvent.TO_DATE), 'days');
+            this.canCheckInOrCheckout = this.isStayingToday();
     }
     handleListenKeyDown(e) {
         if (e.key === 'Escape') {
@@ -176,7 +182,7 @@ const IglBookingEventHover = class {
         }
         const now = hooks();
         if (this.bookingEvent.ROOM_INFO?.in_out?.code === '000' &&
-            hooks().isSameOrAfter(new Date(this.bookingEvent.TO_DATE), 'days') &&
+            todayISO() >= this.bookingEvent.TO_DATE &&
             compareTime(now.toDate(), createDateWithOffsetAndHour(calendar_data.checkin_checkout_hours?.offset, calendar_data.checkin_checkout_hours?.hour))) {
             return true;
         }
@@ -192,23 +198,14 @@ const IglBookingEventHover = class {
         this.bookingEvent.TITLE = t('Lcz_EditBookingFor');
         this.handleBookingOption('EDIT_BOOKING');
     }
-    getStringDateFormat(dt) {
-        return dt.getFullYear() + '-' + (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1) + '-' + (dt.getDate() <= 9 ? '0' : '') + dt.getDate();
-    }
     handleAddRoom() {
-        let fromDate = new Date(this.bookingEvent.FROM_DATE);
-        fromDate.setHours(0, 0, 0, 0);
-        let from_date_str = this.getStringDateFormat(fromDate);
-        let toDate = new Date(this.bookingEvent.TO_DATE);
-        //toDate.setDate(toDate.getDate() + 1);
-        toDate.setHours(0, 0, 0, 0);
-        let to_date_str = this.getStringDateFormat(toDate);
+        const { FROM_DATE, TO_DATE } = this.bookingEvent;
         let eventData = {
             ID: '',
             NAME: '',
             BOOKING_NUMBER: this.bookingEvent.BOOKING_NUMBER,
-            FROM_DATE: from_date_str, // "2023-07-09",
-            TO_DATE: to_date_str, // "2023-07-11",
+            FROM_DATE,
+            TO_DATE,
             roomsInfo: this.bookingEvent.roomsInfo,
             ARRIVAL: this.bookingEvent.ARRIVAL,
             ADD_ROOM_TO_BOOKING: this.bookingEvent.ID,
@@ -220,10 +217,8 @@ const IglBookingEventHover = class {
             SOURCE: this.bookingEvent.SOURCE,
             booking: this.bookingEvent?.base_booking,
             defaultDateRange: {
-                fromDate: fromDate,
-                fromDateStr: '',
-                toDate: toDate,
-                toDateStr: '',
+                fromDate: FROM_DATE,
+                toDate: TO_DATE,
                 dateDifference: 0,
                 editabled: true,
                 message: t('Lcz_IncludingCityTaxExcludingVatMock', { fallback: 'Including 5.00% City Tax - Excluding 11.00% VAT' }),
@@ -463,7 +458,7 @@ const IglBookingEventHover = class {
         return h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (h(Host, { key: 'c4bcb0beec6d42effe21c716f9087a0087d3cec6', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '79fecb41e8d6b41258c87d8eac93d81658a3b443', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": [{

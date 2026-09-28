@@ -1,6 +1,6 @@
 import { Fragment, Host, h } from "@stencil/core";
 import calendar_data from "../../../../stores/calendar-data";
-import moment from "moment";
+import { todayISO } from "../../../../utils/calendar-dates";
 import { t } from "../../../../services/locale/t";
 export class IglBookPropertyFooter {
     eventType;
@@ -45,7 +45,7 @@ export class IglBookPropertyFooter {
                 }))) : (h(Fragment, null, this.renderButton({ value: 'cancel', label: t('Lcz_Cancel', { fallback: 'Cancel' }), appearance: 'filled', variant: 'neutral' }), this.shouldRenderTwoButtons() &&
                 this.renderButton({ value: 'next', label: `${t('Lcz_Next', { fallback: 'Next' })}`, icon_name: 'angles_right', variant: 'brand', appearance: 'accent' })))));
         }
-        const showBookAndCheckin = calendar_data.checkin_enabled && moment(new Date(this.dateRangeData?.fromDate)).isSame(new Date(), 'day');
+        const showBookAndCheckin = calendar_data.checkin_enabled && this.dateRangeData?.fromDate === todayISO();
         return (h(Fragment, null, this.isEditOrAddRoomEvent ? (h(Fragment, null, this.renderButton({
             value: 'back',
             icon_position: 'left',

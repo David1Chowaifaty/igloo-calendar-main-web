@@ -1,11 +1,11 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var booking_store = require('./booking.store-BsDoPdtX.js');
-var utils = require('./utils-CVHsag7R.js');
+var booking_store = require('./booking.store-B76Qpi_v.js');
+var utils = require('./utils-2ithg_2A.js');
 var irDate = require('./ir-date-BLb2Vxrk.js');
 var moment = require('./moment-CdViwxPQ.js');
-var calendarData = require('./calendar-data-HgC39-BR.js');
+var calendarData = require('./calendar-data-y64tb1w5.js');
 var number = require('./number-BmMUYhE5.js');
 var locale_controller = require('./locale.controller-B-HVDnk7.js');
 var t = require('./t-C54QV4_c.js');
@@ -13,7 +13,8 @@ require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
-require('./booking-CTTU8QIq.js');
+require('./calendar-dates-BxDGM1ix.js');
+require('./booking-CWu4XQMM.js');
 require('./locales.store-BMTss6fG.js');
 require('./functions-B3fUkdt1.js');
 require('./commonSchemas-D4iFLV5-.js');
@@ -49,11 +50,12 @@ const IrRoomNights = class {
     isEndDateBeforeFromDate = false;
     defaultTotalNights = 0;
     isInputFocused = -1;
-    dates = { from_date: new Date(), to_date: new Date() };
+    /** `YYYY-MM-DD` */
+    dates = { from_date: '', to_date: '' };
     closeRoomNightsDialog;
     bookingService = new booking_store.BookingService();
     componentWillLoad() {
-        this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
+        this.dates = { from_date: this.fromDate, to_date: this.toDate };
         this.init();
     }
     isButtonDisabled() {
@@ -62,13 +64,7 @@ const IrRoomNights = class {
     async init() {
         try {
             const { from_date } = this.defaultDates;
-            if (moment.hooks(from_date, 'YYYY-MM-DD').isBefore(moment.hooks(this.fromDate, 'YYYY-MM-DD'))) {
-                this.dates.from_date = new Date(from_date);
-            }
-            else {
-                this.dates.from_date = new Date(this.fromDate);
-            }
-            this.dates.to_date = new Date(this.toDate);
+            this.dates = { from_date: from_date < this.fromDate ? from_date : this.fromDate, to_date: this.toDate };
             this.bookingEvent = await this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: locale_controller.LocaleController.language });
             if (this.bookingEvent) {
                 const filteredRooms = this.bookingEvent.rooms.filter(room => room.identifier === this.identifier);
@@ -195,8 +191,8 @@ const IrRoomNights = class {
             oldRooms[selectedRoomIndex] = {
                 ...oldRooms[selectedRoomIndex],
                 days: this.rates,
-                to_date: moment.hooks(this.dates.to_date).format('YYYY-MM-DD'),
-                from_date: moment.hooks(this.dates.from_date).format('YYYY-MM-DD'),
+                to_date: this.dates.to_date,
+                from_date: this.dates.from_date,
             };
             const body = {
                 assign_units: true,
@@ -208,8 +204,8 @@ const IrRoomNights = class {
                 agent: this.bookingEvent.agent,
                 booking: {
                     booking_nbr: this.bookingNumber,
-                    from_date: moment.hooks(this.dates.from_date).format('YYYY-MM-DD'),
-                    to_date: moment.hooks(this.dates.to_date).format('YYYY-MM-DD'),
+                    from_date: this.dates.from_date,
+                    to_date: this.dates.to_date,
                     remark: this.bookingEvent.remark,
                     property: this.bookingEvent.property,
                     source: this.bookingEvent.source,

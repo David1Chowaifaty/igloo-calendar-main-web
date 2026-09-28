@@ -13,7 +13,8 @@ export declare class IglCalHeader {
     calendarData: {
         [key: string]: any;
     };
-    today: String;
+    /** `YYYY-MM-DD` */
+    today: string;
     propertyid: number;
     to_date: string;
     highlightedDate: string;
@@ -22,12 +23,11 @@ export declare class IglCalHeader {
     private roomsList;
     componentWillLoad(): void;
     private initializeRoomsList;
-    /** Reads the unassigned-units store live (auto-subscribes on render), keyed by `dayInfo.day` (D_M_YYYY) after conversion to ISO. */
+    /** Reads the unassigned-units store live (auto-subscribes on render), keyed by `dayInfo.value` (`YYYY-MM-DD`). */
     private getUnassignedRoomsNumberMap;
-    /** Days (D_M_YYYY) whose unassigned-units fetch is still in flight — same store subscription as the count map. */
+    /** Days (`YYYY-MM-DD`) whose unassigned-units fetch is still in flight — same store subscription as the count map. */
     private getUnassignedLoadingDaysMap;
     handleOptionEvent(key: any, data?: any): void;
-    getStringDateFormat(dt: any): string;
     getNewBookingModel(): {
         ID: string;
         NAME: string;
@@ -41,10 +41,8 @@ export declare class IglCalHeader {
         event_type: string;
         legendData: any;
         defaultDateRange: {
-            fromDate: Date;
-            fromDateStr: string;
-            toDate: Date;
-            toDateStr: string;
+            fromDate: string;
+            toDate: string;
             dateDifference: number;
             editabled: boolean;
             message: string;

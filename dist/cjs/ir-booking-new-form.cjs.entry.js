@@ -2,7 +2,9 @@
 
 var index = require('./index-CQkpA5n3.js');
 var t = require('./t-C54QV4_c.js');
+var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 require('./locales.store-BMTss6fG.js');
+require('./moment-CdViwxPQ.js');
 
 const irBookingNewFormCss = () => `.sc-ir-booking-new-form-h{display:block}`;
 
@@ -15,15 +17,12 @@ const IrBookingNewForm = class {
     language;
     bookingItem = null;
     handleTriggerClicked() {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
+        const today = calendarDates.todayISO();
         this.bookingItem = {
             FROM_DATE: undefined,
             defaultDateRange: {
-                fromDate: new Date(),
-                fromDateStr: '',
-                toDate: tomorrow,
-                toDateStr: '',
+                fromDate: today,
+                toDate: calendarDates.addDaysISO(today, 1),
                 dateDifference: 0,
                 message: '',
             },
@@ -38,9 +37,9 @@ const IrBookingNewForm = class {
         };
     }
     render() {
-        return (index.h(index.Host, { key: 'f6bfacdd5c7efd6ef3723293bff098c3d726d350' }, index.h("div", { key: '69416446269bb870d4325b06727c47fe79040295', onClick: () => {
+        return (index.h(index.Host, { key: 'fe534ee21b08dce8a881305d197deaa5eae0259e' }, index.h("div", { key: 'a8db92030966abd987b1c3585e1a258443158eda', onClick: () => {
                 this.handleTriggerClicked();
-            } }, index.h("slot", { key: '0007b84426be8804129bb26f63d5ee87d8cab494', name: "trigger" }, index.h("ir-custom-button", { key: '895f5a30964c0df2ac674384d0dea7335e8325ea', appearance: "plain", variant: "brand" }, index.h("wa-icon", { key: '6a6a794021b0e857fee2c3d30c27b95a6a0ef5f7', name: "circle-plus", style: { fontSize: '1.2rem' } })))), index.h("ir-booking-editor-drawer", { key: '49142be4f0bb64c1821fbfe88e46b4f0aa730a59', onBookingEditorClosed: e => {
+            } }, index.h("slot", { key: 'f403ffcceab2de8a44df2a3c2a3b245825d855ec', name: "trigger" }, index.h("ir-custom-button", { key: '4edc5392b7e96b8dbc941235d2337bdacd3db809', appearance: "plain", variant: "brand" }, index.h("wa-icon", { key: '0dd3c5eadfebc456a051c954703c82b0f8ebd557', name: "circle-plus", style: { fontSize: '1.2rem' } })))), index.h("ir-booking-editor-drawer", { key: '20b57b036ccf0674f4bffdfa261fe647fe919f03', onBookingEditorClosed: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingItem = null;

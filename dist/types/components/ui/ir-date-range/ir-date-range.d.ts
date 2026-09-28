@@ -28,7 +28,7 @@ export declare class IrDateRange {
      */
     size: 's' | 'm' | 'l';
     /**
-     * Initial date values. Expects `{ fromDate: string | Date, toDate: string | Date }`.
+     * Initial date values as `YYYY-MM-DD` strings: `{ fromDate, toDate }`. `selectedDateRange` is emitted in the same format.
      * Re-initializes dates whenever this prop reference changes.
      */
     defaultData: {
