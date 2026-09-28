@@ -2,7 +2,7 @@ import { h, r as registerInstance, F as Fragment } from './index-CeHdrJeH.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { _ as _formatTime } from './functions-BI0MgE9h.js';
 import { a as calculateDaysBetweenDates } from './booking-CwfPgjWM.js';
-import { B as BookingService } from './booking.store-AYyn6ifP.js';
+import { B as BookingService } from './booking.store-WDoYTEgI.js';
 import { R as RoomService } from './room.service-jft1_Mb6.js';
 import { f as formatDate } from './ir-date-tLkbTntq.js';
 import { a as formatBookingNumber, f as formatAmount, d as formatPercent, b as formatCount } from './number-DbiGgV_N.js';

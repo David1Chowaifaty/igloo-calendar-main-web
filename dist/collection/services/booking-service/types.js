@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { LanguageSchema, PropertyIdSchema, TaxTypesSchema } from "../commonSchemas";
+import { DateSchema, LanguageSchema, PropertyIdSchema, TaxTypesSchema } from "../commonSchemas";
 const NumberOrStringSchema = z.union([z.number(), z.string().optional()]);
 export const CurrencySchema = z.object({
     id: z.number(),
@@ -238,4 +238,9 @@ export const SetArrivalTimePropsSchema = z.object({
     property_id: PropertyIdSchema,
     room_identifier: z.string(),
     code: z.string(),
+});
+export const GetCalendarDataParamsSchema = LanguageSchema.extend({
+    propertyid: PropertyIdSchema,
+    from_date: DateSchema,
+    to_date: DateSchema,
 });

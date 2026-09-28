@@ -3,7 +3,7 @@ import { c as calendar_data } from './calendar-data-CiYzaNK0.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { t } from './t-CHjay2ar.js';
 import { i as isRequestPending } from './ir-interceptor.store-302gZvQv.js';
-import { B as BookingService, b as booking_store, s as setBookingDraft, m as modifyBookingStore, f as setBookedByGuestManualEditState } from './booking.store-AYyn6ifP.js';
+import { B as BookingService, b as booking_store, s as setBookingDraft, m as modifyBookingStore, f as setBookedByGuestManualEditState } from './booking.store-WDoYTEgI.js';
 import { h as showToast, v as validateEmail } from './utils-CKFOUZvS.js';
 import { f as formatDate } from './ir-date-tLkbTntq.js';
 import { a as formatBookingNumber, b as formatCount, f as formatAmount } from './number-DbiGgV_N.js';

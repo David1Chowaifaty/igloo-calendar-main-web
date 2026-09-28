@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var booking_store = require('./booking.store-2t1EBZlX.js');
+var booking_store = require('./booking.store-BsDoPdtX.js');
 var calendarData = require('./calendar-data-HgC39-BR.js');
 var moment = require('./moment-CdViwxPQ.js');
 var booking_dto = require('./booking.dto-CUSvGTvD.js');
@@ -3418,7 +3418,12 @@ const IrBookingEditor = class {
      */
     async checkDayUseAvailability(date) {
         this.preventPageLoad.emit('/Get_Exposed_Calendar');
-        const results = await this.bookingService.getCalendarData(Number(calendarData.calendar_data.property.id), date, date);
+        const results = await this.bookingService.getCalendarData({
+            propertyid: Number(calendarData.calendar_data.property.id),
+            from_date: date,
+            to_date: date,
+            language: locale_controller.LocaleController.language,
+        });
         const day = results?.days?.[0];
         this.dayUseRoomTypes = day?.rate ?? [];
     }

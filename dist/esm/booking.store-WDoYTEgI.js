@@ -6,7 +6,7 @@ import { c as createStore } from './locales.store-CXJn6ls-.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { c as calendar_data } from './calendar-data-CiYzaNK0.js';
 import { t } from './t-CHjay2ar.js';
-import { L as LanguageSchema, P as PropertyIdSchema, T as TaxTypesSchema } from './commonSchemas-Cx9w9d8l.js';
+import { L as LanguageSchema, P as PropertyIdSchema, T as TaxTypesSchema, D as DateSchema } from './commonSchemas-Cx9w9d8l.js';
 import { u as unionType, n as numberType, s as stringType, o as objectType, b as booleanType, d as arrayType, e as enumType, h as custom, f as nullType, l as literalType, g as anyType } from './types-CB66a07H.js';
 
 const NumberOrStringSchema = unionType([numberType(), stringType().optional()]);
@@ -247,6 +247,11 @@ const SetArrivalTimePropsSchema = objectType({
     room_identifier: stringType(),
     code: stringType(),
 });
+const GetCalendarDataParamsSchema = LanguageSchema.extend({
+    propertyid: PropertyIdSchema,
+    from_date: DateSchema,
+    to_date: DateSchema,
+});
 
 const CurrencySchema = objectType({
     code: stringType(),
@@ -384,18 +389,17 @@ class BookingService {
         }
         return data.My_Result;
     }
-    async getCalendarData(propertyid, from_date, to_date) {
+    async getCalendarData(params) {
         try {
+            const payload = GetCalendarDataParamsSchema.parse(params);
             const v4Candidates = new Set([373, 1221, 42, 26]);
             let route = 'Get_Exposed_Calendar';
-            const isCandidate = v4Candidates.has(Number(propertyid));
+            const isCandidate = v4Candidates.has(Number(payload.propertyid));
             if (isCandidate) {
                 route += '_V4';
             }
             const { data } = await axios.post(`https://gateway.igloorooms.com/IR/${route}`, {
-                propertyid,
-                from_date,
-                to_date,
+                ...payload,
                 extras,
                 include_sales_rate_plans: true,
             });
@@ -432,7 +436,7 @@ class BookingService {
                 ExceptionCode: null,
                 ExceptionMsg: '',
                 My_Params_Get_Rooming_Data: {
-                    AC_ID: propertyid,
+                    AC_ID: payload.propertyid,
                     FROM: data[`My_Params_${route}`].from_date,
                     TO: data[`My_Params_${route}`].to_date,
                 },

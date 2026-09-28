@@ -5,7 +5,7 @@ import { getMyBookings } from "../../utils/booking";
 import booking_store from "../../stores/booking.store";
 import calendar_data from "../../stores/calendar-data";
 import { z } from "zod";
-import { CalculateOptimBaseGrossAmountParamsSchema, DoDayUseParamsSchema, SetDepartureTimePropsSchema, SetHbPreferencePropsSchema, SimulateDirectBookingParamsSchema, VoidPaymentPropsSchema, AckExposedRevisionPropsSchema, CalculateExclusiveTaxPropsSchema, GetBookingInvoiceInfoPropsSchema, GetRoomsToCheckInPropsSchema, GetRoomsToCheckOutPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, SetArrivalTimePropsSchema, } from "./types";
+import { CalculateOptimBaseGrossAmountParamsSchema, DoDayUseParamsSchema, SetDepartureTimePropsSchema, SetHbPreferencePropsSchema, SimulateDirectBookingParamsSchema, VoidPaymentPropsSchema, AckExposedRevisionPropsSchema, CalculateExclusiveTaxPropsSchema, GetBookingInvoiceInfoPropsSchema, GetRoomsToCheckInPropsSchema, GetRoomsToCheckOutPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, SetArrivalTimePropsSchema, GetCalendarDataParamsSchema, } from "./types";
 import { BookingInvoiceInfoSchema } from "../../components/ir-invoice/types";
 /**
  * Builds a grouped payment types record from raw entries and groups.
@@ -128,18 +128,17 @@ export class BookingService {
         }
         return data.My_Result;
     }
-    async getCalendarData(propertyid, from_date, to_date) {
+    async getCalendarData(params) {
         try {
+            const payload = GetCalendarDataParamsSchema.parse(params);
             const v4Candidates = new Set([373, 1221, 42, 26]);
             let route = 'Get_Exposed_Calendar';
-            const isCandidate = v4Candidates.has(Number(propertyid));
+            const isCandidate = v4Candidates.has(Number(payload.propertyid));
             if (isCandidate) {
                 route += '_V4';
             }
             const { data } = await axios.post(`https://gateway.igloorooms.com/IR/${route}`, {
-                propertyid,
-                from_date,
-                to_date,
+                ...payload,
                 extras,
                 include_sales_rate_plans: true,
             });
@@ -176,7 +175,7 @@ export class BookingService {
                 ExceptionCode: null,
                 ExceptionMsg: '',
                 My_Params_Get_Rooming_Data: {
-                    AC_ID: propertyid,
+                    AC_ID: payload.propertyid,
                     FROM: data[`My_Params_${route}`].from_date,
                     TO: data[`My_Params_${route}`].to_date,
                 },

@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var booking_store = require('./booking.store-2t1EBZlX.js');
+var booking_store = require('./booking.store-BsDoPdtX.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var irInterceptor_store = require('./ir-interceptor.store-moMB-JCs.js');
 var utils = require('./utils-CVHsag7R.js');

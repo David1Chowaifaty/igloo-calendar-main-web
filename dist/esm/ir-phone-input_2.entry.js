@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-CeHdrJeH.js';
-import { B as BookingService } from './booking.store-AYyn6ifP.js';
+import { B as BookingService } from './booking.store-WDoYTEgI.js';
 import { L as LocaleController } from './locale.controller-BQzvhC3Q.js';
 import { t } from './t-CHjay2ar.js';
 import './axios-B50ozOIF.js';

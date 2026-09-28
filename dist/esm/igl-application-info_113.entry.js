@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment, a as getElement } from './index-CeHdrJeH.js';
-import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams, i as getVisibleInventory, j as setDayUseSelection, s as setBookingDraft, d as setBookingSelectOptions, r as resetBookingStore, k as fillMissingReservedGuestNames, l as getReservedRooms, n as resetAvailability, o as hasAtLeastOneRoomSelected, c as calculateTotalRooms, p as getBookingTotalPrice, q as syncFirstRoomGuestName, t as bookedByGuestBaseData } from './booking.store-AYyn6ifP.js';
+import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams, i as getVisibleInventory, j as setDayUseSelection, s as setBookingDraft, d as setBookingSelectOptions, r as resetBookingStore, k as fillMissingReservedGuestNames, l as getReservedRooms, n as resetAvailability, o as hasAtLeastOneRoomSelected, c as calculateTotalRooms, p as getBookingTotalPrice, q as syncFirstRoomGuestName, t as bookedByGuestBaseData } from './booking.store-WDoYTEgI.js';
 import { e as isSingleUnit, c as calendar_data, d as getExtraServiceDefaultPrice, b as getBabyCotPricingModel, i as isOptimReadOnly } from './calendar-data-CiYzaNK0.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { E as ExtraServiceSchema, R as ROOM_IN_OUT, v as validateSharedPerson, Z as ZSharedPerson } from './booking.dto-B554ToUQ.js';
@@ -3415,7 +3415,12 @@ const IrBookingEditor = class {
      */
     async checkDayUseAvailability(date) {
         this.preventPageLoad.emit('/Get_Exposed_Calendar');
-        const results = await this.bookingService.getCalendarData(Number(calendar_data.property.id), date, date);
+        const results = await this.bookingService.getCalendarData({
+            propertyid: Number(calendar_data.property.id),
+            from_date: date,
+            to_date: date,
+            language: LocaleController.language,
+        });
         const day = results?.days?.[0];
         this.dayUseRoomTypes = day?.rate ?? [];
     }

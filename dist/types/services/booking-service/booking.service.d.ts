@@ -2,7 +2,7 @@ import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRe
 import { BookingDetails, IBlockUnit, ICountry, SetupEntries } from '../../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../../models/booking.dto';
 import { PaymentEntries } from "../../components/ir-booking-details/types";
-import { SimulateDirectBookingParams, type CalculateOptimBaseGrossAmountParams, type DoDayUseParams, type SetHbPreferenceProps, type SetDepartureTimeProps, type VoidPaymentProps, type RoomsToProcessResult, type CalculateExclusiveTaxProps, type AckExposedRevisionProps, type ExposedGuests, type GetBookingInvoiceInfoProps, type GetRoomsToCheckInProps, type GetRoomsToCheckOutProps, type IssueInvoiceProps, type PrintInvoiceProps, type VoidInvoiceProps, type SetArrivalTimeProps } from './types';
+import { SimulateDirectBookingParams, type CalculateOptimBaseGrossAmountParams, type DoDayUseParams, type SetHbPreferenceProps, type SetDepartureTimeProps, type VoidPaymentProps, type RoomsToProcessResult, type CalculateExclusiveTaxProps, type AckExposedRevisionProps, type ExposedGuests, type GetBookingInvoiceInfoProps, type GetRoomsToCheckInProps, type GetRoomsToCheckOutProps, type IssueInvoiceProps, type PrintInvoiceProps, type VoidInvoiceProps, type SetArrivalTimeProps, type GetCalendarDataParams } from './types';
 import { BookingInvoiceInfo } from "../../components/ir-invoice/types";
 export interface IBookingParams {
     bookedByInfoData: any;
@@ -92,7 +92,7 @@ export declare class BookingService {
     }): Promise<any>;
     getLov(): Promise<any>;
     sendBookingConfirmationEmail(booking_nbr: string, language: string): Promise<any>;
-    getCalendarData(propertyid: number, from_date: string, to_date: string): Promise<{
+    getCalendarData(params: GetCalendarDataParams): Promise<{
         [key: string]: any;
     }>;
     handleExposedRoomGuests(props: HandleExposedRoomGuestsRequest): Promise<any>;

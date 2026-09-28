@@ -293,7 +293,12 @@ export class IrBookingEditor {
      */
     async checkDayUseAvailability(date) {
         this.preventPageLoad.emit('/Get_Exposed_Calendar');
-        const results = await this.bookingService.getCalendarData(Number(calendar_data.property.id), date, date);
+        const results = await this.bookingService.getCalendarData({
+            propertyid: Number(calendar_data.property.id),
+            from_date: date,
+            to_date: date,
+            language: LocaleController.language,
+        });
         const day = results?.days?.[0];
         this.dayUseRoomTypes = day?.rate ?? [];
     }

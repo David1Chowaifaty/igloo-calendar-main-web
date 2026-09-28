@@ -249,6 +249,11 @@ const SetArrivalTimePropsSchema = types.objectType({
     room_identifier: types.stringType(),
     code: types.stringType(),
 });
+const GetCalendarDataParamsSchema = commonSchemas.LanguageSchema.extend({
+    propertyid: commonSchemas.PropertyIdSchema,
+    from_date: commonSchemas.DateSchema,
+    to_date: commonSchemas.DateSchema,
+});
 
 const CurrencySchema = types.objectType({
     code: types.stringType(),
@@ -386,18 +391,17 @@ class BookingService {
         }
         return data.My_Result;
     }
-    async getCalendarData(propertyid, from_date, to_date) {
+    async getCalendarData(params) {
         try {
+            const payload = GetCalendarDataParamsSchema.parse(params);
             const v4Candidates = new Set([373, 1221, 42, 26]);
             let route = 'Get_Exposed_Calendar';
-            const isCandidate = v4Candidates.has(Number(propertyid));
+            const isCandidate = v4Candidates.has(Number(payload.propertyid));
             if (isCandidate) {
                 route += '_V4';
             }
             const { data } = await axios.axios.post(`https://gateway.igloorooms.com/IR/${route}`, {
-                propertyid,
-                from_date,
-                to_date,
+                ...payload,
                 extras: utils.extras,
                 include_sales_rate_plans: true,
             });
@@ -434,7 +438,7 @@ class BookingService {
                 ExceptionCode: null,
                 ExceptionMsg: '',
                 My_Params_Get_Rooming_Data: {
-                    AC_ID: propertyid,
+                    AC_ID: payload.propertyid,
                     FROM: data[`My_Params_${route}`].from_date,
                     TO: data[`My_Params_${route}`].to_date,
                 },

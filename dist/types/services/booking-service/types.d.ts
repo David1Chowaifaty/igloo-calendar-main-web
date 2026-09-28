@@ -1502,3 +1502,21 @@ export declare const SetArrivalTimePropsSchema: z.ZodObject<{
     room_identifier?: string;
 }>;
 export type SetArrivalTimeProps = z.infer<typeof SetArrivalTimePropsSchema>;
+export declare const GetCalendarDataParamsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
+    propertyid: z.ZodNumber;
+    from_date: z.ZodEffects<z.ZodString, string, string>;
+    to_date: z.ZodEffects<z.ZodString, string, string>;
+}, "strip", z.ZodTypeAny, {
+    language?: string;
+    from_date?: string;
+    to_date?: string;
+    propertyid?: number;
+}, {
+    language?: string;
+    from_date?: string;
+    to_date?: string;
+    propertyid?: number;
+}>;
+export type GetCalendarDataParams = z.infer<typeof GetCalendarDataParamsSchema>;
