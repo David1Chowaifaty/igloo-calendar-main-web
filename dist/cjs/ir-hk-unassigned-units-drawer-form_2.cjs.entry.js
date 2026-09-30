@@ -4,7 +4,7 @@ var index = require('./index-CQkpA5n3.js');
 var index$1 = require('./index-BcHErp1S.js');
 var calendarData = require('./calendar-data-y64tb1w5.js');
 var t = require('./t-C54QV4_c.js');
-var booking_store = require('./booking.store-B76Qpi_v.js');
+var booking_store = require('./booking.store-DbF4cBud.js');
 var user_service = require('./user.service-D_YQgdm7.js');
 var constants = require('./constants-BLID23LD.js');
 var types = require('./types-BVJQZ50e.js');
@@ -20,7 +20,7 @@ require('./type-Bj2x9EWc.js');
 require('./ir-date-BLb2Vxrk.js');
 require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
-require('./booking-CWu4XQMM.js');
+require('./booking-Cla_l0-a.js');
 require('./functions-B3fUkdt1.js');
 
 const irHkUnassignedUnitsDrawerFormCss = () => `.sc-ir-hk-unassigned-units-drawer-form-h{display:block;min-width:20rem;--ir-root-active-color:#1e9ff2;--ir-root-inactive-color:#d2d2d2;text-align:start !important}table.sc-ir-hk-unassigned-units-drawer-form{width:100%}td.sc-ir-hk-unassigned-units-drawer-form{padding-top:3px;padding-bottom:3px}td.sc-ir-hk-unassigned-units-drawer-form:last-child{text-align:end}.title.sc-ir-hk-unassigned-units-drawer-form{min-width:230px !important}.ir-ps-1.sc-ir-hk-unassigned-units-drawer-form{padding-inline-start:0.25rem}`;
@@ -135,11 +135,6 @@ IrHkUnassignedUnitsDrawerForm.style = irHkUnassignedUnitsDrawerFormCss();
 
 const irHkUserDrawerFormCss = () => `.sc-ir-hk-user-drawer-form-h{display:block;height:100%}.hk-user-form.sc-ir-hk-user-drawer-form{display:flex;flex-direction:column;gap:1rem}.hk-user-form--password-change.sc-ir-hk-user-drawer-form{position:relative;height:100%;justify-content:center;align-items:center}.hk-user-form__back-btn.sc-ir-hk-user-drawer-form{position:absolute;top:0;inset-inline-start:0}.hk-user-form__password-fields.sc-ir-hk-user-drawer-form{display:flex;flex-direction:column;gap:1rem;width:100%;max-width:26rem}.hk-user-form__password-header.sc-ir-hk-user-drawer-form{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0.5rem;margin-bottom:0.5rem}.hk-user-form__password-icon.sc-ir-hk-user-drawer-form{font-size:2.25rem;color:var(--wa-color-text-normal)}.hk-user-form__password-title.sc-ir-hk-user-drawer-form{margin:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-l)}.hk-user-form__password-hint.sc-ir-hk-user-drawer-form{margin:0;font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold);color:var(--wa-color-text-normal);max-width:22rem}.hk-user-form__change-password-btn.sc-ir-hk-user-drawer-form{align-self:flex-end}.hk-user-form__change-password-btn.sc-ir-hk-user-drawer-form::part(base),.hk-user-form__change-password-btn.sc-ir-hk-user-drawer-form [part~="base"]{padding:0;height:auto;width:fit-content}.ir-flip-rtl.sc-ir-hk-user-drawer-form:dir(rtl){scale:-1 1}`;
 
-const nameSchema = types.stringType().min(2, t.t('Lcz_NameMinLength', { fallback: 'Name must be at least 2 characters.' }));
-const mobileSchema = types.stringType()
-    .min(1, t.t('Lcz_MobileRequired', { fallback: 'Mobile is required.' }))
-    .max(14, t.t('Lcz_MobileMaxLength', { fallback: 'Mobile must be at most 14 characters.' }));
-const usernameBaseSchema = types.stringType().min(3, t.t('Lcz_UsernameMinLength', { fallback: 'Username must be at least 3 characters.' }));
 const IrHkUserDrawerForm = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
@@ -173,6 +168,9 @@ const IrHkUserDrawerForm = class {
     housekeepingService = new index$1.HouseKeepingService();
     bookingService = new booking_store.BookingService();
     // Stable schema references — closures read current `this` state at validation time.
+    // Built in `buildSchemas()` rather than at module load so their messages resolve against the loaded locale.
+    nameSchema;
+    mobileSchema;
     usernameSchema;
     passwordSchema;
     fullSchema;
@@ -211,6 +209,11 @@ const IrHkUserDrawerForm = class {
         }
     }
     buildSchemas() {
+        this.nameSchema = types.stringType().min(2, t.t('Lcz_NameMinLength', { fallback: 'Name must be at least 2 characters.' }));
+        this.mobileSchema = types.stringType()
+            .min(1, t.t('Lcz_MobileRequired', { fallback: 'Mobile is required.' }))
+            .max(14, t.t('Lcz_MobileMaxLength', { fallback: 'Mobile must be at most 14 characters.' }));
+        const usernameBaseSchema = types.stringType().min(3, t.t('Lcz_UsernameMinLength', { fallback: 'Username must be at least 3 characters.' }));
         this.usernameSchema = usernameBaseSchema.refine(async (name) => {
             if (this.user && this.user.username === name)
                 return true;
@@ -227,8 +230,8 @@ const IrHkUserDrawerForm = class {
             return constants.CONSTANTS.PASSWORD.test(password);
         }, { message: t.t('Lcz_PasswordMinLength', { fallback: 'Password must be at least 8 characters long.' }) });
         this.fullSchema = types.objectType({
-            name: nameSchema,
-            mobile: mobileSchema,
+            name: this.nameSchema,
+            mobile: this.mobileSchema,
             password: this.passwordSchema,
             username: this.usernameSchema,
         });
@@ -280,7 +283,7 @@ const IrHkUserDrawerForm = class {
         return (index.h("form", { id: this.formId, class: "hk-user-form hk-user-form--password-change", onSubmit: e => {
                 e.preventDefault();
                 this.addUser();
-            } }, index.h("ir-custom-button", { type: "button", class: "hk-user-form__back-btn", appearance: "plain", variant: "neutral", size: "s", onClickHandler: () => this.cancelPasswordChange() }, index.h("wa-icon", { class: "ir-flip-rtl", name: "arrow-left", "aria-hidden": "true", style: { fontSize: '1rem' } })), index.h("div", { class: "hk-user-form__password-fields" }, index.h("div", { class: "hk-user-form__password-header" }, index.h("wa-icon", { name: "lock", class: "hk-user-form__password-icon" }), index.h("h4", { class: "hk-user-form__password-title" }, "Set New Password"), index.h("p", { class: "hk-user-form__password-hint" }, t.t('Lcz_NewPasswordMustBeDifferent', { fallback: 'Your new password must be different to previously used password' }))), index.h("ir-validator", { schema: this.passwordSchema, value: this.userInfo.password, valueEvent: "text-change", showErrorMessage: true }, index.h("ir-input", { placeholder: t.t('Lcz_NewPassword', { fallback: 'New password' }), value: this.userInfo.password, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => this.updateUserField('password', e.detail), onInputFocus: () => (this.showPasswordValidation = true) })), this.showPasswordValidation && index.h("ir-password-validator", { password: this.userInfo.password }), index.h("ir-validator", { schema: types.stringType().refine(v => v === this.userInfo.password, { message: t.t('Lcz_PasswordsDoNotMatch', { fallback: 'Passwords do not match.' }) }), value: this.confirmPassword, valueEvent: "text-change", showErrorMessage: true }, index.h("ir-input", { placeholder: t.t('Lcz_ConfirmPassword', { fallback: 'Confirm password' }), value: this.confirmPassword, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => (this.confirmPassword = e.detail) })))));
+            } }, index.h("ir-custom-button", { type: "button", class: "hk-user-form__back-btn", appearance: "plain", variant: "neutral", size: "s", onClickHandler: () => this.cancelPasswordChange() }, index.h("wa-icon", { class: "ir-flip-rtl", name: "arrow-left", "aria-hidden": "true", style: { fontSize: '1rem' } })), index.h("div", { class: "hk-user-form__password-fields" }, index.h("div", { class: "hk-user-form__password-header" }, index.h("wa-icon", { name: "lock", class: "hk-user-form__password-icon" }), index.h("h4", { class: "hk-user-form__password-title" }, t.t('Lcz_SetNewPassword', { fallback: 'Set new password' })), index.h("p", { class: "hk-user-form__password-hint" }, t.t('Lcz_NewPasswordMustBeDifferent', { fallback: 'Your new password must be different to previously used password' }))), index.h("ir-validator", { schema: this.passwordSchema, value: this.userInfo.password, valueEvent: "text-change", showErrorMessage: true }, index.h("ir-input", { placeholder: t.t('Lcz_NewPassword', { fallback: 'New password' }), value: this.userInfo.password, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => this.updateUserField('password', e.detail), onInputFocus: () => (this.showPasswordValidation = true) })), this.showPasswordValidation && index.h("ir-password-validator", { password: this.userInfo.password }), index.h("ir-validator", { schema: types.stringType().refine(v => v === this.userInfo.password, { message: t.t('Lcz_PasswordsDoNotMatch', { fallback: 'Passwords do not match.' }) }), value: this.confirmPassword, valueEvent: "text-change", showErrorMessage: true }, index.h("ir-input", { placeholder: t.t('Lcz_ConfirmPassword', { fallback: 'Confirm password' }), value: this.confirmPassword, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => (this.confirmPassword = e.detail) })))));
     }
     render() {
         if (this.isPageLoading) {
@@ -292,7 +295,7 @@ const IrHkUserDrawerForm = class {
         return (index.h("form", { id: this.formId, class: "hk-user-form", onSubmit: e => {
                 e.preventDefault();
                 this.addUser();
-            } }, index.h("ir-validator", { schema: nameSchema, value: this.userInfo.name, valueEvent: "text-change", showErrorMessage: true }, index.h("ir-input", { label: t.t('Lcz_Name', { fallback: 'Name' }), value: this.userInfo.name, maxlength: 40, "onText-change": (e) => this.updateUserField('name', e.detail), "onInput-blur": this.handleNameBlur.bind(this) })), index.h("ir-validator", { schema: mobileSchema, value: this.userInfo.mobile, valueEvent: "mobile-input-change", showErrorMessage: true }, index.h("ir-mobile-input", { label: t.t('Lcz_Mobile', { fallback: 'Mobile' }), value: this.userInfo.mobile, countryCode: this.countryCode, countries: this.countries, "onMobile-input-change": e => {
+            } }, index.h("ir-validator", { schema: this.nameSchema, value: this.userInfo.name, valueEvent: "text-change", showErrorMessage: true }, index.h("ir-input", { label: t.t('Lcz_Name', { fallback: 'Name' }), value: this.userInfo.name, maxlength: 40, "onText-change": (e) => this.updateUserField('name', e.detail), "onInput-blur": this.handleNameBlur.bind(this) })), index.h("ir-validator", { schema: this.mobileSchema, value: this.userInfo.mobile, valueEvent: "mobile-input-change", showErrorMessage: true }, index.h("ir-mobile-input", { label: t.t('Lcz_Mobile', { fallback: 'Mobile' }), value: this.userInfo.mobile, countryCode: this.countryCode, countries: this.countries, "onMobile-input-change": e => {
                 this.updateUserField('phone_prefix', e.detail.country.phone_prefix);
                 this.updateUserField('mobile', e.detail.value);
             } })), index.h("wa-textarea", { "data-testid": "note", maxlength: 250, size: "s", label: t.t('Lcz_Note', { fallback: 'Note' }), value: this.userInfo.note, defaultValue: this.userInfo.note, onchange: e => this.updateUserField('note', e.target.value) }), index.h("ir-validator", { schema: this.usernameSchema, value: this.userInfo.username, valueEvent: "text-change", asyncValidation: true, showErrorMessage: true }, index.h("ir-input", { label: t.t('Lcz_Username', { fallback: 'Username' }), value: this.userInfo.username, "onText-change": (e) => this.updateUserField('username', e.detail) })), !this.user ? (index.h(index.Fragment, null, index.h("ir-validator", { schema: this.passwordSchema, value: this.userInfo.password, valueEvent: "text-change", showErrorMessage: true }, index.h("ir-input", { label: t.t('Lcz_Password', { fallback: 'Password' }), value: this.userInfo.password, type: "password", maxlength: 16, passwordToggle: true, "onText-change": (e) => this.updateUserField('password', e.detail), onInputFocus: () => (this.showPasswordValidation = true) })), this.showPasswordValidation && index.h("ir-password-validator", { password: this.userInfo.password }))) : (index.h("wa-button", { size: "s", appearance: "plain", variant: "brand", type: "button", class: "hk-user-form__change-password-btn", onClick: () => (this.isChangingPassword = true) }, t.t('Lcz_ChangePassword', { fallback: 'Change Password' })))));

@@ -18,6 +18,8 @@ export declare class IrHkUserDrawerForm {
     loadingChanged: EventEmitter<boolean>;
     private housekeepingService;
     private bookingService;
+    private nameSchema;
+    private mobileSchema;
     private usernameSchema;
     private passwordSchema;
     private fullSchema;

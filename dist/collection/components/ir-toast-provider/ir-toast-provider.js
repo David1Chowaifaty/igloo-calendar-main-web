@@ -143,7 +143,7 @@ export class IrToastProvider {
         }
         this.showLayerIfNeeded();
         requestAnimationFrame(() => this.animatePositions());
-        this.announce(`${type}: ${toast.title}${toast.description ? '. ' + toast.description : ''}`, type === 'error' || type === 'danger');
+        this.announce(`${this.typeLabel(type)}: ${toast.title}${toast.description ? '. ' + toast.description : ''}`, type === 'error' || type === 'danger');
         return id;
     }
     async removeToast(id) {
@@ -419,6 +419,21 @@ export class IrToastProvider {
                 return 'info';
         }
     }
+    /** Localized name of the toast type, spoken ahead of the message by the live region. */
+    typeLabel(type) {
+        switch (type) {
+            case 'success':
+                return t('Lcz_Success', { fallback: 'Success' });
+            case 'warning':
+                return t('Lcz_Warning', { fallback: 'Warning' });
+            case 'error':
+                return t('Lcz_Error', { fallback: 'Error' });
+            case 'danger':
+                return t('Lcz_Danger', { fallback: 'Danger' });
+            default:
+                return t('Lcz_Info', { fallback: 'Info' });
+        }
+    }
     mapVariant(type) {
         switch (type) {
             case 'success':
@@ -433,7 +448,7 @@ export class IrToastProvider {
         }
     }
     render() {
-        return h(Host, { key: '6f78d4cfdaaddbbbd6f76deca7cfde90bd69e016' });
+        return h(Host, { key: '89328fdd1b2aef9cf4a60181b991d504e1f04d24' });
     }
     static get is() { return "ir-toast-provider"; }
     static get encapsulation() { return "shadow"; }

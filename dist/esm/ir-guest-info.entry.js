@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-CeHdrJeH.js';
-import { B as BookingService } from './booking.store-B2SwPuV6.js';
+import { B as BookingService } from './booking.store-Bc0gsD0k.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { i as isRequestPending } from './ir-interceptor.store-302gZvQv.js';
 import { d as showToast } from './utils-S6Mv4SON.js';
@@ -12,7 +12,7 @@ import './IBooking-B4waZCSK.js';
 import './types-CB66a07H.js';
 import './calendar-dates-D3hVfsrC.js';
 import './moment-Mki5YqAR.js';
-import './booking-Bu0fFgC3.js';
+import './booking-DXVys0Tr.js';
 import './locales.store-CXJn6ls-.js';
 import './calendar-data-CL6uTgDb.js';
 import './functions-BI0MgE9h.js';

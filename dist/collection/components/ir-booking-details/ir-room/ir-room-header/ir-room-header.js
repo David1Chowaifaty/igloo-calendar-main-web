@@ -35,8 +35,9 @@ export class IrRoomHeader {
             }, "onwa-select": async (e) => {
                 this.action.emit(e.detail.item.value);
             } }, h("ir-custom-button", { key: 'c26ff971672e096f750d8df285f62781cf44831a', slot: "trigger", size: "s", class: "booking-room__edit-button", appearance: "plain", id: `actions-room-${this.room.identifier}`, iconBtn: true, variant: "neutral", style: { marginBottom: '4px' } }, h("wa-icon", { key: '930f33f48cad803dceddbf41875cef544bea4bf1', style: { fontSize: '1rem' }, label: t('Lcz_Actions', { fallback: 'Actions' }), name: "ellipsis-vertical" })), this.hasRoomEdit && h("wa-dropdown-item", { key: '406f72463b298c4199640658326533a2144866c4', value: "edit" }, t('Lcz_EditUnit', { fallback: 'Edit unit' })), this.hasRoomEdit && h("wa-dropdown-item", { key: '0e57ae63304d7320d5f2a7c22c7a0c30f693a584', value: "edit-rates" }, t('Lcz_EditNightlyRates', { fallback: 'Edit Nightly Rates' })), isAgentMode(this.agent) && this.hasRoomEdit && (h("wa-dropdown-item", { key: 'a856c82fe5fb3b51d89d1a5291a1d9a5dfa6a0d8', value: "toggle" }, t('Lcz_ReassignFolioDropdown', {
-            params: [this.room.agent ? 'guest' : 'agent'],
-        }))), !!this.unitId && h("wa-dropdown-item", { key: '0c2a4d0acef52e35ef05c4607a867d1819007cc1', value: "add-extra-service" }, t('Lcz_AddExtraServiceToUnit', { fallback: 'Add extra service to this unit' })), this.hasRoomDelete && (h("wa-dropdown-item", { key: '284ac969217fdd4d28c3fe5c2afaed3701876e2d', value: "delete", variant: "danger" }, t('Lcz_Delete', { fallback: 'Delete' })))))))));
+            fallback: 'Re-assign %1 folio',
+            params: [this.room.agent ? t('Lcz_GuestLowercase', { fallback: 'guest' }) : t('Lcz_AgentLowercase', { fallback: 'agent' })],
+        }))), !!this.unitId && h("wa-dropdown-item", { key: '616dcf67655301774008a347af174c692eaf3a00', value: "add-extra-service" }, t('Lcz_AddExtraServiceToUnit', { fallback: 'Add extra service to this unit' })), this.hasRoomDelete && (h("wa-dropdown-item", { key: '229bd799e092384d89952983bb118f14578890bc', value: "delete", variant: "danger" }, t('Lcz_Delete', { fallback: 'Delete' })))))))));
     }
     static get is() { return "ir-room-header"; }
     static get encapsulation() { return "scoped"; }

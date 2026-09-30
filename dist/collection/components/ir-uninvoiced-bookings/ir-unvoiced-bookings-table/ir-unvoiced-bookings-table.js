@@ -104,7 +104,7 @@ export class IrUnvoicedBookingsTable {
                 'cell--booking': cell.column.id === 'booking',
                 'cell--booked-by': cell.column.id === 'booked_by',
                 'cell--amount': amountColumnIds.includes(cell.column.id),
-            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))))))), h("ir-pagination", { key: '8db929dc37bbed331f870e6a33448e1d3effe43e', class: "uninvoiced-bookings-table__pagination", total: total, pages: pageCount, pageSize: pageSize, currentPage: currentPage, allowPageSizeChange: true, pageSizes: this.pageSizes, showing: { from: total ? startIndex + 1 : 0, to: startIndex + pageRows.length }, recordLabel: "bookings", onPageChange: this.handlePageChange, onPageSizeChange: this.handlePageSizeChange })));
+            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))))))), h("ir-pagination", { key: 'c9467af4c664ebd7233e087c95bf4e29353fe260', class: "uninvoiced-bookings-table__pagination", total: total, pages: pageCount, pageSize: pageSize, currentPage: currentPage, allowPageSizeChange: true, pageSizes: this.pageSizes, showing: { from: total ? startIndex + 1 : 0, to: startIndex + pageRows.length }, recordLabel: t('Lcz_Bookings', { fallback: 'bookings' }), onPageChange: this.handlePageChange, onPageSizeChange: this.handlePageSizeChange })));
     }
     static get is() { return "ir-unvoiced-bookings-table"; }
     static get encapsulation() { return "scoped"; }

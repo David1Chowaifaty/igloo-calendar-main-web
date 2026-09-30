@@ -255,7 +255,7 @@ const IrRevenueTable = class {
             }), this.groupType === 'method' &&
             Array.from(this.regroupPaymentsByMethod().entries()).flatMap(([methodKey, byType]) => {
                 const total = Array.from(byType.entries()).reduce((prev, [_, list]) => prev + list.reduce((p, c) => p + c.amount, 0), 0);
-                return (index.h("div", { key: `method_${methodKey}` }, index.h("div", { class: "revenue-table__method_header" }, index.h("p", null, this.payMethodObj[methodKey] ?? methodKey), index.h("p", null, number.formatAmount(calendarData.calendar_data.currency.symbol, total))), Array.from(byType.entries()).map(([typeKey, list]) => {
+                return (index.h("div", { key: `method_${methodKey}` }, index.h("div", { class: "revenue-table__method_header" }, index.h("p", null, this.payMethodObj[methodKey] ?? (methodKey === 'UNKNOWN' ? t.t('Lcz_Unknown', { fallback: 'Unknown' }) : methodKey)), index.h("p", null, number.formatAmount(calendarData.calendar_data.currency.symbol, total))), Array.from(byType.entries()).map(([typeKey, list]) => {
                     list = this.sortByDateTime(list);
                     const groupName = global_variables.PAYMENT_TYPES_WITH_METHOD.includes(typeKey) ? `${this.payTypesObj[typeKey] ?? typeKey}` : (this.payTypesObj[typeKey] ?? typeKey);
                     return (index.h("div", { key: `type_${typeKey}`, class: "revenue-table__type-group" }, index.h("ir-revenue-row", { payments: list, groupName: groupName })));

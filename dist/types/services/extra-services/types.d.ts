@@ -44,8 +44,8 @@ export declare const ExtraServiceDefinitionSchema: z.ZodObject<{
     property_id: z.ZodNumber;
     section: z.ZodEnum<["accommodation", "addon"]>;
     code: z.ZodNullable<z.ZodString>;
-    name: z.ZodString;
-    default_price: z.ZodNumber;
+    name: z.ZodEffects<z.ZodString, string, string>;
+    default_price: z.ZodEffects<z.ZodNumber, number, number>;
     vat_mode: z.ZodEnum<["001", "000"]>;
     allow_price_override: z.ZodDefault<z.ZodBoolean>;
     is_active: z.ZodDefault<z.ZodBoolean>;
@@ -108,8 +108,8 @@ export declare const HandleExposedExtraServicePropsSchema: z.ZodObject<{
         property_id: z.ZodNumber;
         section: z.ZodEnum<["accommodation", "addon"]>;
         code: z.ZodNullable<z.ZodString>;
-        name: z.ZodString;
-        default_price: z.ZodNumber;
+        name: z.ZodEffects<z.ZodString, string, string>;
+        default_price: z.ZodEffects<z.ZodNumber, number, number>;
         vat_mode: z.ZodEnum<["001", "000"]>;
         allow_price_override: z.ZodDefault<z.ZodBoolean>;
         is_active: z.ZodDefault<z.ZodBoolean>;

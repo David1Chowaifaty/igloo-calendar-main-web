@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
-import { E as ExtraServiceSection } from './types-BfrxdAk7.js';
+import { E as ExtraServiceSection } from './types-BJLthOBz.js';
 import { t } from './t-CHjay2ar.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import './enums-CSCQSgBu.js';

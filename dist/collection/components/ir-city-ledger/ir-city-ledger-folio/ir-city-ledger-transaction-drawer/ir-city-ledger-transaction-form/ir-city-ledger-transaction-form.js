@@ -242,7 +242,7 @@ export class IrCityLedgerTransactionForm {
                 this.updateFormData({ taxId: event.target.value });
             } }, this.taxOptions
             .filter(tx => tx.id !== ClTxTypeCode.DebitNote)
-            .map(tax => (h("wa-option", { key: tax.id, label: tax.label, value: tax.id }, tax.label))), h("wa-option", { value: "N/A", label: t('Lcz_NotApplicable', { fallback: 'Not Applicable' }) }, "Not Applicable")))))) : (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: t('Lcz_Amount', { fallback: 'Amount' }), mask: "price", value: this.formData.amount, required: true, "onText-change": (event) => {
+            .map(tax => (h("wa-option", { key: tax.id, label: tax.label, value: tax.id }, tax.label))), h("wa-option", { value: "N/A", label: t('Lcz_NotApplicable', { fallback: 'Not Applicable' }) }, t('Lcz_NotApplicable', { fallback: 'Not Applicable' }))))))) : (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: t('Lcz_Amount', { fallback: 'Amount' }), mask: "price", value: this.formData.amount, required: true, "onText-change": (event) => {
                 this.updateFormData({ amount: event.detail ?? '' });
             } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol)))))))));
     }

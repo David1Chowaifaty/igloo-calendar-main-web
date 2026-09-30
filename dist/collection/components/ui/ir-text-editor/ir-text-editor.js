@@ -397,10 +397,23 @@ export class IrTextEditor {
     get hintId() {
         return `${this.componentId}-hint`;
     }
+    /**
+     * Quill's snow theme renders its link-tooltip words through CSS `content`, which can't call `t()`.
+     * They're exposed as custom properties (CSS string literals) that ir-text-editor.css reads.
+     */
+    get tooltipLabelVars() {
+        return {
+            '--ir-ql-visit-url': JSON.stringify(t('Lcz_VisitUrl', { fallback: 'Visit URL:' })),
+            '--ir-ql-enter-link': JSON.stringify(t('Lcz_EnterLink', { fallback: 'Enter link:' })),
+            '--ir-ql-edit': JSON.stringify(t('Lcz_Edit', { fallback: 'Edit' })),
+            '--ir-ql-save': JSON.stringify(t('Lcz_Save', { fallback: 'Save' })),
+            '--ir-ql-remove': JSON.stringify(t('Lcz_Remove', { fallback: 'Remove' })),
+        };
+    }
     render() {
         const hasLabel = !!this.label || this.hasLabelSlot;
         const hasHint = !!this.hint || this.hasHintSlot;
-        return (h(Host, { key: 'd3989282a2f9a77209aa423896a7a7de86a24915' }, h("div", { key: 'f8317d0fcf6715f8da1dafcf753492e93029dd85', class: "field" }, hasLabel && (h("label", { key: '7ccad1b4c40a75b70f35b261017b394dc4620801', id: this.labelId, class: "label has-label ", part: "form-control-label label", onClick: () => this.editor?.focus() }, h("slot", { key: 'ee4cbc7a1e2f26d526696301594d026b3c62758a', name: "label" }, this.label))), h("div", { key: '1fe612efeed998d086b23501f5898f04078f3e38', class: { 'editor-wrapper': true, 'error': this.error }, part: "base" }, h("div", { key: '4da0d3564d5a4dc4e0c183abe775a14b2d4de32c', ref: el => (this.editorContainer = el), class: "editor-container" })), hasHint && (h("div", { key: '39538ad7b272084eccbf8cac2066c1f34f839cba', id: this.hintId, class: "field__hint has-hint", part: "hint" }, h("slot", { key: 'fad98130d9d0fcd87e208ce15cb9571c41b41c57', name: "hint" }, this.hint))))));
+        return (h(Host, { key: 'd8ef5c5e407fa5d0a3272c266b9480d933d6d0ef', style: this.tooltipLabelVars }, h("div", { key: '09d84b4c3dd6bc1023bffd4fc7ac54088e785c68', class: "field" }, hasLabel && (h("label", { key: 'e1ec2d847ea5762e69bb3ecd732f278d120938c3', id: this.labelId, class: "label has-label ", part: "form-control-label label", onClick: () => this.editor?.focus() }, h("slot", { key: '58af8602d2d6ed0bed96aaf882ffc124a2f4d703', name: "label" }, this.label))), h("div", { key: '6cfbd5cf8a310aadb6875b208bcb107a79faa6b4', class: { 'editor-wrapper': true, 'error': this.error }, part: "base" }, h("div", { key: 'c05c246d8594d56bae5f4a1a67031c582a0382aa', ref: el => (this.editorContainer = el), class: "editor-container" })), hasHint && (h("div", { key: '883474b7af14d45ac869a4d9431ca36becfa385a', id: this.hintId, class: "field__hint has-hint", part: "hint" }, h("slot", { key: '1711faa07fc2a2bd37106944f7d259ba8a60b26c', name: "hint" }, this.hint))))));
     }
     static get is() { return "ir-text-editor"; }
     static get encapsulation() { return "shadow"; }

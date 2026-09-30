@@ -49,7 +49,7 @@ const IrClStatementPreview = class {
     hasEmitted = false;
     componentWillLoad() {
         if (!this.ticket) {
-            this.error = 'Authentication ticket is required.';
+            this.error = t('Lcz_AuthTicketRequired', { fallback: 'Authentication ticket is required.' });
             return;
         }
         if (this.baseurl)

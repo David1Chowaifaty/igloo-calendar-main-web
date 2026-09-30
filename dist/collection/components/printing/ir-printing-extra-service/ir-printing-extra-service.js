@@ -1,6 +1,7 @@
 import { formatAmount } from "../../../utils/utils";
 import { Fragment, h } from "@stencil/core";
 import { formatDate } from "../../../utils/date/index";
+import { t } from "../../../services/locale/t";
 export class IrPrintingExtraService {
     /** Extra services attached to the booking */
     extraServices;
@@ -8,7 +9,7 @@ export class IrPrintingExtraService {
     currency;
     invocableKeys;
     render() {
-        return (h("section", { key: '54a11af4cc09204a6b998c4af60d85158c5c58a0', class: "ir-print-extra-services" }, h("h3", { key: 'd2a20bdc817a92d143f0e230acf782f27a8a6474', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '36128ff4fd9d556ca16e755012793752d186ab5a', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
+        return (h("section", { key: 'a2bb0bfa0e87279871ea4d9e9321f208543e8352', class: "ir-print-extra-services" }, h("h3", { key: '69dffc151e361b6b38e7937a596cbc513825e068', class: "ir-print-extra-services__title" }, t('Lcz_ExtraServicesTitle', { fallback: 'Extra Services' })), h("div", { key: '1f3582a564817492862833410d6f628f4d439419', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
             if (!this.invocableKeys.has(service.system_id)) {
                 return null;
             }

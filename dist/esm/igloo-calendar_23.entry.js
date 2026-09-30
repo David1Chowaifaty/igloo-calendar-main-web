@@ -1,15 +1,15 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, F as Fragment, H as Host } from './index-CeHdrJeH.js';
 import { R as RoomService } from './room.service-DuTZ0GXh.js';
-import { B as BookingService } from './booking.store-B2SwPuV6.js';
+import { B as BookingService } from './booking.store-Bc0gsD0k.js';
 import { S as SetupService } from './index-BZAU6GVz.js';
 import { u as formatLegendColors, i as isBlockUnit, d as showToast, l as isPrivilegedUser, h as downloadFile } from './utils-S6Mv4SON.js';
 import { t, a as tRaw } from './t-CHjay2ar.js';
 import { t as todayISO, I as ISO_FORMAT, a as addDaysISO, b as addMonthsISO, n as nightsBetween } from './calendar-dates-D3hVfsrC.js';
 import { r as realtimeService } from './realtime.service-CGYmIxkT.js';
-import { E as EventsService } from './events.service-CT6pUVtF.js';
+import { E as EventsService } from './events.service-Bmrcnbm7.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { U as UnassignedUnitsService } from './index-DBJEeIOv.js';
-import { j as isEarlyCheckout, c as calendar_dates, k as addCleaningTasks, f as formatName, l as getRoomStatus, m as cleanRoom, n as addRoomForCleaning, t as transformNewBooking, o as transformNewBLockedRooms, p as bookingStatus, e as getPrivateNote, a as calculateDaysBetweenDates } from './booking-Bu0fFgC3.js';
+import { j as isEarlyCheckout, c as calendar_dates, k as addCleaningTasks, f as formatName, l as getRoomStatus, m as cleanRoom, n as addRoomForCleaning, t as transformNewBooking, o as transformNewBLockedRooms, p as bookingStatus, e as getPrivateNote, a as calculateDaysBetweenDates } from './booking-DXVys0Tr.js';
 import { l as locales } from './locales.store-CXJn6ls-.js';
 import { c as calendar_data, a as getDayUseBlockState, b as getBabyCotPricingModel, d as getExtraServiceDefaultPrice } from './calendar-data-CL6uTgDb.js';
 import { o as onUnassignedUnitsChange, h as beginUnassignedUnitsFetch, r as replaceUnassignedUnitsRange, R as ROOM_HEADER_WIDTH } from './calendar-grid-BQuXzjtr.js';
@@ -28,14 +28,14 @@ import { B as BookingListingService, u as updateUserSelection, b as booking_list
 import { d as setChannelIdAndActiveState, u as updateChannelSettings, s as selectChannel, t as testConnection, C as ChannelService, r as resetStore, c as channels_data } from './channel.service-BPvf55-a.js';
 import { S as SystemService } from './system.service-DN8zRqj9.js';
 import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-Rz1PALbu.js';
-import { g as groupSvcCategoriesByParent, t as toAccChargeRule, f as findAccTax, a as getAccTaxPayloadFields, b as getTopLevelSvcCategories } from './svc-category.utils-DZnDO43u.js';
+import { g as groupSvcCategoriesByParent, t as toAccChargeRule, f as findAccTax, a as getAccTaxPayloadFields, b as getTopLevelSvcCategories } from './svc-category.utils-B7DcOoB8.js';
 import { S as SvcCategory, F as FdTypes } from './enums-CSCQSgBu.js';
 import { o as objectType, n as numberType, s as stringType, d as arrayType, b as booleanType, e as enumType, i as nativeEnumType } from './types-CB66a07H.js';
 import { m as setLoading, b as updateTasks, h as hkTasksStore, c as clearSelectedTasks, n as updateSelectedTasks } from './hk-tasks.store-BjXreNK2.js';
 import { d as calendarPreference, C as CalendarPreferenceController, e as toApiDate, g as getWeekdayLabels, h as getFirstDayOfWeek, f as formatDate } from './ir-date-tLkbTntq.js';
 import { b as formatCount, d as formatPercent, f as formatAmount, c as formatNumber } from './number-DbiGgV_N.js';
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-CFc75Vwr.js';
-import { e as extraServicesCategories } from './index-4i2ssxHX.js';
+import { e as extraServicesCategories } from './index-BIr1udkc.js';
 import { a as uninvoiced_bookings, c as setUninvoicedBookingsCriteria } from './uninvoiced_bookings.store-wJitnhQC.js';
 import { U as UserService } from './user.service-6YlcSa34.js';
 import './IBooking-B4waZCSK.js';
@@ -46,7 +46,7 @@ import './functions-BI0MgE9h.js';
 import './language-observer-CHgzsZkY.js';
 import './types-CyZFzmvF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './types-BfrxdAk7.js';
+import './types-BJLthOBz.js';
 
 class BatchingQueue {
     queue = [];
@@ -2138,7 +2138,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (h(Host, { key: '5fe5e6a83bff88e8b5c4eadc15c2e698b1b3c0d4', class: "p-1" }, h("ir-interceptor", { key: '72915883cd9361d235a0f14df616b64b95033401', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: 'c6d5d0064a00e6c55364f89bc53980325b3c8083' }), h("div", { key: '413e32b6213f315cdaad99b371f4ea3e66a41f4a', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: 'b00dae139e862f50a6467af51e1e34fbd20d2532', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '76e3879baf1d6e1b401e98dbdb0e4a218a45a4a4', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: '974f1c0e77a8734b144ec50cc6a5991a4057f40d', class: "p-1" }, h("ir-interceptor", { key: '19a1cfa535578be631d9dd9f5f8d40ed62cb15fc', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '6f4b6e181e730cb543370cab9caef838f258b48b' }), h("div", { key: '87d334c1605226f5e3f21c55cd6f83188f858a4e', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '651c53ffe5cba5a940f21cb76140cd7d9d44e582', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: t('Lcz_BookingNumber', { fallback: 'Booking number' }) }), h("ir-button", { key: '1cff57c72a7c5e03a6cb947d0f92294ec832ab4b', size: "sm", text: t('Lcz_Search', { fallback: 'Search' }), onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -2146,7 +2146,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: '78554e04e6a120e5efb39f15f360c61c62580ba5' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: '35574fd10deb91656441995d587ccdf3cfa83404' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": [{
@@ -3503,7 +3503,7 @@ const IrExtraServicesSettings = class {
                 h("div", { class: "extra-services-grid__row", id: category.CODE_NAME, key: category.CODE_NAME + 'row' + idx }, h("div", { class: "extra-services-grid__name" }, h("p", { class: "extra-services-grid__title" }, getEntryValue({ entry: category, language: LocaleController.language }))), h("div", { class: "extra-services-grid__controls" }, h("div", { class: "extra-services-grid__cell" }, isBabyCot ? (h("div", { class: 'ir__field-group' }, h("ir-extra-service-price-input", {
                     // class={'--grow'}
                     autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule
-                }), h("wa-select", { value: this.babyCotPricingModel, defaultValue: this.babyCotPricingModel, size: "s", style: { width: 'min-content', minWidth: '100px' }, onchange: e => (this.babyCotPricingModel = e.target.value) }, h("wa-option", { value: t('Lcz_Stay', { fallback: 'Stay' }) }, "Stay"), h("wa-option", { value: "Night" }, "Night")))) : (h("ir-extra-service-price-input", { autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule }, isExtraBed && h("span", { slot: "end" }, t('Lcz_PerNightSuffix', { fallback: '/night' }))))))),
+                }), h("wa-select", { value: this.babyCotPricingModel, defaultValue: this.babyCotPricingModel, size: "s", style: { width: 'min-content', minWidth: '100px' }, onchange: e => (this.babyCotPricingModel = e.target.value) }, h("wa-option", { value: "Stay" }, t('Lcz_Stay', { fallback: 'Stay' })), h("wa-option", { value: "Night" }, t('Lcz_NightLabel', { fallback: 'Night' }))))) : (h("ir-extra-service-price-input", { autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule }, isExtraBed && h("span", { slot: "end" }, t('Lcz_PerNightSuffix', { fallback: '/night' }))))))),
             ];
         }))))))));
     }
@@ -6063,7 +6063,7 @@ const IrTaxServiceCategories = class {
         const accSetup = this.chargeCategoryRules.get('ACC');
         const filteredVat = (this.setupEntries?.vat_included ?? []).filter(v => v.CODE_NAME !== '000');
         const categories = this.categories;
-        return (h("ir-page", { label: t('Lcz_TaxAndServiceCategories', { fallback: 'Tax & Service Categories' }), description: t('Lcz_TaxServiceCategoriesDescription', { fallback: 'Define taxes and service charges for room rates, cancellations, and on-property services.' }), "data-testid": "ir-tax-service-categories" }, h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "tax-service-categories__form", style: { width: '100px' }, variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })), h("form", { id: "tax-service-categories__form", onSubmit: e => this.handleSubmit(e) }, h("wa-card", { appearance: "plain", class: "tax-service-categories__card" }, h("div", { class: "tax-grid" }, h("div", { class: "tax-grid__header", "aria-hidden": "true" }, h("div", null), h("div", { class: "tax-grid__col-label" }, "VAT"), h("div", { class: "tax-grid__col-label" }, "City Tax"), h("div", { class: "tax-grid__col-label" }, t('Lcz_ServiceCharge', { fallback: 'Service Charge' })), h("div", { class: "tax-grid__col-label" }, t('Lcz_TaxationStrategy', { fallback: 'Taxation Strategy' }))), h("div", { class: "tax-grid__row" }, h("div", { class: "tax-grid__name" }, h("p", { class: "tax-grid__title" }, t('Lcz_Accommodation', { fallback: 'Accommodation' })), h("p", { class: "tax-grid__hint" }, t('Lcz_RoomRelatedChargesHint', { fallback: 'Room-related charges applied to reservations and cancellations' }))), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_Vat', { fallback: 'VAT' }) }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'vat', e.detail), chargeRule: accSetup?.vat, setupEntries: this.setupEntries?.vat_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_CityTaxColumn', { fallback: 'City Tax' }) }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'cityTax', e.detail), chargeRule: accSetup?.cityTax, setupEntries: this.setupEntries?.city_tax_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_ServiceCharge', { fallback: 'Service Charge' }) }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'serviceCharge', e.detail), chargeRule: accSetup?.serviceCharge, setupEntries: this.setupEntries?.service_charge_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_TaxationStrategy', { fallback: 'Taxation Strategy' }) }, h("wa-radio-group", { size: "s", orientation: "horizontal", value: accSetup?.taxationStrategy ?? TaxationStrategy.Normal, "onwa-change": (e) => this.handleTaxationStrategyChange(e.detail.value) }, h("wa-radio", { appearance: "button", value: TaxationStrategy.Normal }, t('Lcz_Normal', { fallback: 'Normal' })), h("wa-radio", { appearance: "button", value: TaxationStrategy.Cumulative }, t('Lcz_Cumulative', { fallback: 'Cumulative' }))))), categories.map(category => {
+        return (h("ir-page", { label: t('Lcz_TaxAndServiceCategories', { fallback: 'Tax & Service Categories' }), description: t('Lcz_TaxServiceCategoriesDescription', { fallback: 'Define taxes and service charges for room rates, cancellations, and on-property services.' }), "data-testid": "ir-tax-service-categories" }, h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "tax-service-categories__form", style: { width: '100px' }, variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })), h("form", { id: "tax-service-categories__form", onSubmit: e => this.handleSubmit(e) }, h("wa-card", { appearance: "plain", class: "tax-service-categories__card" }, h("div", { class: "tax-grid" }, h("div", { class: "tax-grid__header", "aria-hidden": "true" }, h("div", null), h("div", { class: "tax-grid__col-label" }, t('Lcz_Vat', { fallback: 'VAT' })), h("div", { class: "tax-grid__col-label" }, t('Lcz_CityTaxColumn', { fallback: 'City Tax' })), h("div", { class: "tax-grid__col-label" }, t('Lcz_ServiceCharge', { fallback: 'Service Charge' })), h("div", { class: "tax-grid__col-label" }, t('Lcz_TaxationStrategy', { fallback: 'Taxation Strategy' }))), h("div", { class: "tax-grid__row" }, h("div", { class: "tax-grid__name" }, h("p", { class: "tax-grid__title" }, t('Lcz_Accommodation', { fallback: 'Accommodation' })), h("p", { class: "tax-grid__hint" }, t('Lcz_RoomRelatedChargesHint', { fallback: 'Room-related charges applied to reservations and cancellations' }))), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_Vat', { fallback: 'VAT' }) }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'vat', e.detail), chargeRule: accSetup?.vat, setupEntries: this.setupEntries?.vat_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_CityTaxColumn', { fallback: 'City Tax' }) }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'cityTax', e.detail), chargeRule: accSetup?.cityTax, setupEntries: this.setupEntries?.city_tax_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_ServiceCharge', { fallback: 'Service Charge' }) }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'serviceCharge', e.detail), chargeRule: accSetup?.serviceCharge, setupEntries: this.setupEntries?.service_charge_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_TaxationStrategy', { fallback: 'Taxation Strategy' }) }, h("wa-radio-group", { size: "s", orientation: "horizontal", value: accSetup?.taxationStrategy ?? TaxationStrategy.Normal, "onwa-change": (e) => this.handleTaxationStrategyChange(e.detail.value) }, h("wa-radio", { appearance: "button", value: TaxationStrategy.Normal }, t('Lcz_Normal', { fallback: 'Normal' })), h("wa-radio", { appearance: "button", value: TaxationStrategy.Cumulative }, t('Lcz_Cumulative', { fallback: 'Cumulative' }))))), categories.map(category => {
             const categorySetup = this.chargeCategoryRules.get(category.CODE_NAME);
             return [
                 h("div", { class: "tax-grid__divider" }, h("wa-divider", null)),

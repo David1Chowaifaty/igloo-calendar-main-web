@@ -71,7 +71,7 @@ export class IrApplicablePolicies {
         const momentCheckInDate = moment(checkInDate, 'YYYY-MM-DD');
         if (bracketDueDate.isSame(momentCheckInDate, 'days')) {
             return {
-                leftLabel: `${formatDate(momentCheckInDate, 'MMM DD')} onwards`,
+                leftLabel: `${formatDate(momentCheckInDate, 'MMM DD')} ${t('Lcz_Onwards', { fallback: 'onwards' })}`,
                 showArrow: false,
                 rightLabel: '',
             };

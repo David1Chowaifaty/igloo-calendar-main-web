@@ -1,11 +1,11 @@
 import { r as registerInstance, c as createEvent, h, a as getElement, F as Fragment, H as Host, f as forceUpdate } from './index-CeHdrJeH.js';
-import { B as BookingService, b as booking_store, r as resetBookingStore } from './booking.store-B2SwPuV6.js';
+import { B as BookingService, b as booking_store, r as resetBookingStore } from './booking.store-Bc0gsD0k.js';
 import { g as getReleaseHoursString, i as isBlockUnit, d as showToast, r as checkMealPlan, t as isWeekend, n as getDaysArray } from './utils-S6Mv4SON.js';
 import { t } from './t-CHjay2ar.js';
-import { h as buildSplitIndex, i as getSplitRole, a as calculateDaysBetweenDates, t as transformNewBooking, c as calendar_dates, b as compareTime, d as createDateWithOffsetAndHour } from './booking-Bu0fFgC3.js';
+import { h as buildSplitIndex, i as getSplitRole, a as calculateDaysBetweenDates, t as transformNewBooking, c as calendar_dates, b as compareTime, d as createDateWithOffsetAndHour } from './booking-DXVys0Tr.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { a as addDaysISO, n as nightsBetween, t as todayISO } from './calendar-dates-D3hVfsrC.js';
-import { E as EventsService } from './events.service-CT6pUVtF.js';
+import { E as EventsService } from './events.service-Bmrcnbm7.js';
 import { l as locales } from './locales.store-CXJn6ls-.js';
 import { c as calendar_data } from './calendar-data-CL6uTgDb.js';
 import { C as CELL_WIDTH, E as EVENT_HEIGHT, g as getEventTopWithinRow, c as computeEventHorizontalGeometry, t as toPhysicalLeft, R as ROOM_HEADER_WIDTH, s as snapEventLeft, a as getTotalGridWidth, b as getUnassignedUnitsCountForDate, i as isUnassignedUnitsDateLoading, d as getUnassignedUnitsDateKeys, r as replaceUnassignedUnitsRange, e as getUnassignedUnitsForDate, f as removeUnassignedRoom } from './calendar-grid-BQuXzjtr.js';
@@ -20,7 +20,7 @@ import { n as numberType, o as objectType, c as coerce, Z as ZodError } from './
 import { i as isRequestPending } from './ir-interceptor.store-302gZvQv.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import { U as UnassignedUnitsService } from './index-DBJEeIOv.js';
-import { b as groupIntoCategories } from './utils-CAZknjOx.js';
+import { b as groupIntoCategories } from './utils-B1SB6aE8.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './IBooking-B4waZCSK.js';
@@ -2706,7 +2706,7 @@ const IglHkIssuesDialog = class {
         const selectable = this.isMultiple;
         const isSelected = this.selectedIds.has(issue.id);
         const description = issue.description?.trim();
-        return (h("div", { key: issue.id, class: { 'issue': true, 'issue--selectable': selectable, 'issue--selected': isSelected }, role: selectable ? 'checkbox' : undefined, "aria-checked": selectable ? String(isSelected) : undefined, tabindex: selectable ? 0 : undefined, onClick: selectable ? () => this.toggleIssue(issue.id) : undefined, onKeyDown: selectable ? (event) => this.handleRowKeyDown(event, issue.id) : undefined }, selectable && h("wa-checkbox", { class: "issue__check", checked: isSelected, tabIndex: -1 }), h("div", { class: "issue__body" }, h("p", { class: { 'issue__description': true, 'issue__description--empty': !description } }, description || 'No description provided'), h("p", { class: "issue__meta" }, h("span", { class: "issue__reporter" }, issue.housekeeper_name || t('Lcz_UnknownHousekeeper', { fallback: 'Unknown housekeeper' })), h("span", { class: "issue__sep", "aria-hidden": "true" }, "\u00B7"), h("span", { class: "issue__date" }, this.formatReportedAt(issue))))));
+        return (h("div", { key: issue.id, class: { 'issue': true, 'issue--selectable': selectable, 'issue--selected': isSelected }, role: selectable ? 'checkbox' : undefined, "aria-checked": selectable ? String(isSelected) : undefined, tabindex: selectable ? 0 : undefined, onClick: selectable ? () => this.toggleIssue(issue.id) : undefined, onKeyDown: selectable ? (event) => this.handleRowKeyDown(event, issue.id) : undefined }, selectable && h("wa-checkbox", { class: "issue__check", checked: isSelected, tabIndex: -1 }), h("div", { class: "issue__body" }, h("p", { class: { 'issue__description': true, 'issue__description--empty': !description } }, description || t('Lcz_NoDescriptionProvided', { fallback: 'No description provided.' })), h("p", { class: "issue__meta" }, h("span", { class: "issue__reporter" }, issue.housekeeper_name || t('Lcz_UnknownHousekeeper', { fallback: 'Unknown housekeeper' })), h("span", { class: "issue__sep", "aria-hidden": "true" }, "\u00B7"), h("span", { class: "issue__date" }, this.formatReportedAt(issue))))));
     }
     renderBody() {
         if (!this.open) {
@@ -2715,13 +2715,13 @@ const IglHkIssuesDialog = class {
         if (!this.issues?.length) {
             return h("ir-empty-state", { message: t('Lcz_NoIssuesReportedForUnit', { fallback: 'No issues reported for this unit.' }) });
         }
-        return (h("div", { class: "issues" }, this.isMultiple && (h("div", { class: "issues__toolbar" }, h("span", { class: "issues__count" }, t('Lcz_IssuesReportedCount', { params: [formatCount(this.issues.length)], fallback: `${this.issues.length} issues reported` })), h("button", { type: "button", class: "issues__select-all", onClick: this.toggleSelectAll }, this.allSelected ? t('Lcz_Clear', { fallback: 'Clear' }) : t('Lcz_SelectAll', { fallback: 'Select all' })))), h("div", { class: "issues__list", role: this.isMultiple ? 'group' : undefined, "aria-label": this.isMultiple ? 'Reported issues' : undefined }, this.issues.map(issue => this.renderIssue(issue))), this.error && (h("div", { class: "issues__error", role: "alert" }, h("wa-callout", { variant: "danger" }, h("wa-icon", { slot: "icon", name: "circle-exclamation" }), this.error)))));
+        return (h("div", { class: "issues" }, this.isMultiple && (h("div", { class: "issues__toolbar" }, h("span", { class: "issues__count" }, t('Lcz_IssuesReportedCount', { params: [formatCount(this.issues.length)], fallback: `${this.issues.length} issues reported` })), h("button", { type: "button", class: "issues__select-all", onClick: this.toggleSelectAll }, this.allSelected ? t('Lcz_Clear', { fallback: 'Clear' }) : t('Lcz_SelectAll', { fallback: 'Select all' })))), h("div", { class: "issues__list", role: this.isMultiple ? 'group' : undefined, "aria-label": this.isMultiple ? t('Lcz_ReportedIssues', { fallback: 'Reported Issues' }) : undefined }, this.issues.map(issue => this.renderIssue(issue))), this.error && (h("div", { class: "issues__error", role: "alert" }, h("wa-callout", { variant: "danger" }, h("wa-icon", { slot: "icon", name: "circle-exclamation" }), this.error)))));
     }
     render() {
         const multiple = (this.issues?.length ?? 0) > 1;
         const selectedCount = this.selectedIds.size;
         const unitSuffix = this.unitName ? ` · ${this.unitName}` : '';
-        return (h("ir-dialog", { key: 'c641816f6d8276aaf503ed1e22aea02bef0d930a', ref: el => (this.dialogRef = el), label: `${multiple ? t('Lcz_ReportedIssues', { fallback: 'Reported Issues' }) : t('Lcz_ReportedIssue', { fallback: 'Reported Issue' })}${unitSuffix}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderBody(), h("div", { key: '3f317b2e366c0b4050de9aad5666d1e24cfd035a', slot: "footer", class: "footer" }, multiple && selectedCount > 0 && h("span", { key: 'e5f684ce7e2f3260279ad73873c8b32305251851', class: "footer__hint" }, t('Lcz_SelectedItemsCount', { params: [selectedCount], fallback: `${selectedCount} selected` })), h("ir-custom-button", { key: 'a7b5ba7c437b767b89587500d277b5377b40df99', variant: "neutral", size: "m", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, t('Lcz_Close', { fallback: 'Close' })), h("ir-custom-button", { key: 'be68556dac179981d66b8d3fb0c0412e85bcdb08', variant: "brand", size: "m", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, multiple
+        return (h("ir-dialog", { key: 'ebf5f7e035dc9d99d2c8a599bec2072ef8eed2db', ref: el => (this.dialogRef = el), label: `${multiple ? t('Lcz_ReportedIssues', { fallback: 'Reported Issues' }) : t('Lcz_ReportedIssue', { fallback: 'Reported Issue' })}${unitSuffix}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderBody(), h("div", { key: 'ac3be1655a16bf1320c53e8e248a1507d3547300', slot: "footer", class: "footer" }, multiple && selectedCount > 0 && h("span", { key: '7e00045f512aa7fc9cffccf1ca9fb4787af27443', class: "footer__hint" }, t('Lcz_SelectedItemsCount', { params: [selectedCount], fallback: `${selectedCount} selected` })), h("ir-custom-button", { key: '18a33bf43b8965e12eb506c74e7699d3cc083cbd', variant: "neutral", size: "m", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, t('Lcz_Close', { fallback: 'Close' })), h("ir-custom-button", { key: '2d4321f8eb1569abf04b08109273c78ad69bf82e', variant: "brand", size: "m", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, multiple
             ? selectedCount
                 ? t('Lcz_ResolveCount', { params: [selectedCount], fallback: `Resolve ${selectedCount}` })
                 : t('Lcz_Resolve', { fallback: 'Resolve' })
@@ -2777,11 +2777,11 @@ const IglHousekeepingDialog = class {
             case '004':
                 return t('Lcz_Inspected', { fallback: 'inspected' });
             default:
-                return 'clean';
+                return t('Lcz_CleanLowercase', { fallback: 'clean' });
         }
     }
     middleButtonLabel() {
-        return this.selectedRoom?.hk_status === '002' ? t('Lcz_Clean', { fallback: 'Clean' }) : 'Dirty';
+        return this.selectedRoom?.hk_status === '002' ? t('Lcz_Clean', { fallback: 'Clean' }) : t('Lcz_DirtyLabel', { fallback: 'Dirty' });
     }
     rightButtonLabel() {
         return this.selectedRoom?.hk_status !== '004' ? t('Lcz_CleanAndInspect', { fallback: 'Clean & Inspect' }) : t('Lcz_Clean', { fallback: 'Clean' });
@@ -2828,7 +2828,7 @@ const IglHousekeepingDialog = class {
         }
     }
     render() {
-        return (h("ir-dialog", { key: '47a7a0ea13311d9976f4a0c22cd116015e77f32c', ref: el => (this.dialogRef = el), open: this.open, label: t('Lcz_HousekeepingUpdate', { fallback: 'Housekeeping Update' }), onIrDialogAfterHide: () => this.irAfterClose.emit() }, h("p", { key: 'd05d0bf49b278a79db8f5c6a77791e859d609fb6', style: { margin: '0' } }, this.selectedRoom?.name, " ", t('Lcz_UnitCurrentlyMarkedAs', { fallback: 'is currently marked as' }), " ", this.getStatusLabel(), "."), h("div", { key: '22c4bf5bf324359f2ec73212edb803b2de85e14a', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '3328d2caee3fe48ff4c0d05b09b0d186358afd33', "data-dialog": "close", size: "m", variant: "neutral", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '2cb0bbe6aba62f7440d8de4e4f15c7b113240338', value: "hk-toggle-clean-dirty", size: "m", variant: "brand", appearance: "outlined", loading: this.isLoading === 'hk-toggle-clean-dirty', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '002' ? '001' : '002') }, this.middleButtonLabel()), h("ir-custom-button", { key: '750839e6db27fad72767526fc051fa71d65bb905', value: "hk-clean-inspect", size: "m", variant: "brand", appearance: "accent", loading: this.isLoading === 'hk-clean-inspect', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '004' ? '001' : '004') }, this.rightButtonLabel()))));
+        return (h("ir-dialog", { key: '4027a57903df61618f4f14596bc12d6ab9db845c', ref: el => (this.dialogRef = el), open: this.open, label: t('Lcz_HousekeepingUpdate', { fallback: 'Housekeeping Update' }), onIrDialogAfterHide: () => this.irAfterClose.emit() }, h("p", { key: '8ebadd29e3e6d4098b699b6c87a131c1bd9d533c', style: { margin: '0' } }, this.selectedRoom?.name, " ", t('Lcz_UnitCurrentlyMarkedAs', { fallback: 'is currently marked as' }), " ", this.getStatusLabel(), "."), h("div", { key: '38c2a28effccd5772211acad6ab90523f880f7ba', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '11a2ff17fe9a4de01df89a681bc3377652c610e9', "data-dialog": "close", size: "m", variant: "neutral", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'b4d41995a1cb50bcfb93496df3aa56b50c9a2f22', value: "hk-toggle-clean-dirty", size: "m", variant: "brand", appearance: "outlined", loading: this.isLoading === 'hk-toggle-clean-dirty', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '002' ? '001' : '002') }, this.middleButtonLabel()), h("ir-custom-button", { key: '7aa42740bf1e692862ff1a16603b37f24247746a', value: "hk-clean-inspect", size: "m", variant: "brand", appearance: "accent", loading: this.isLoading === 'hk-clean-inspect', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '004' ? '001' : '004') }, this.rightButtonLabel()))));
     }
 };
 IglHousekeepingDialog.style = iglHousekeepingDialogCss();

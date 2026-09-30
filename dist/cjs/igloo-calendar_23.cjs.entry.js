@@ -2,16 +2,16 @@
 
 var index = require('./index-CQkpA5n3.js');
 var room_service = require('./room.service-xIQZw30b.js');
-var booking_store = require('./booking.store-B76Qpi_v.js');
+var booking_store = require('./booking.store-DbF4cBud.js');
 var index$1 = require('./index-DSxpSl4C.js');
 var utils = require('./utils-2ithg_2A.js');
 var t = require('./t-C54QV4_c.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 var realtime_service = require('./realtime.service-BMgF8Zdb.js');
-var events_service = require('./events.service-CsNSJcYb.js');
+var events_service = require('./events.service-CaRXl40H.js');
 var moment = require('./moment-CdViwxPQ.js');
 var index$3 = require('./index-Dim9sJ84.js');
-var booking = require('./booking-CWu4XQMM.js');
+var booking = require('./booking-Cla_l0-a.js');
 var locales_store = require('./locales.store-BMTss6fG.js');
 var calendarData = require('./calendar-data-y64tb1w5.js');
 var calendarGrid = require('./calendar-grid-DKz-VO3M.js');
@@ -30,14 +30,14 @@ var index$5 = require('./index-Wn8F-1-n.js');
 var channel_service = require('./channel.service-BtikBr9V.js');
 var system_service = require('./system.service-q3G6_5Tb.js');
 var departures_store = require('./departures.store-DhkxbZkG.js');
-var svcCategory_utils = require('./svc-category.utils-B7unrFqt.js');
+var svcCategory_utils = require('./svc-category.utils-_wm_FnZX.js');
 var enums = require('./enums-BSCnMYlE.js');
 var types = require('./types-BVJQZ50e.js');
 var hkTasks_store = require('./hk-tasks.store-Dzn1X32f.js');
 var irDate = require('./ir-date-BLb2Vxrk.js');
 var number = require('./number-BmMUYhE5.js');
 var paymentOption_store = require('./payment-option.store-CGVaTA9W.js');
-var index$6 = require('./index-BgFNePQr.js');
+var index$6 = require('./index-BLzA_caO.js');
 var uninvoiced_bookings_store = require('./uninvoiced_bookings.store-B2X9eepI.js');
 var user_service = require('./user.service-D_YQgdm7.js');
 require('./IBooking-hDE_y33g.js');
@@ -48,7 +48,7 @@ require('./functions-B3fUkdt1.js');
 require('./language-observer-DKp37LIu.js');
 require('./types-sp5nWPAa.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./types-BPmU04ib.js');
+require('./types-DHbGnhcr.js');
 
 class BatchingQueue {
     queue = [];
@@ -2140,7 +2140,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '5fe5e6a83bff88e8b5c4eadc15c2e698b1b3c0d4', class: "p-1" }, index.h("ir-interceptor", { key: '72915883cd9361d235a0f14df616b64b95033401', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: 'c6d5d0064a00e6c55364f89bc53980325b3c8083' }), index.h("div", { key: '413e32b6213f315cdaad99b371f4ea3e66a41f4a', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: 'b00dae139e862f50a6467af51e1e34fbd20d2532', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: '76e3879baf1d6e1b401e98dbdb0e4a218a45a4a4', size: "sm", text: "search", onClickHandler: async () => {
+        return (index.h(index.Host, { key: '974f1c0e77a8734b144ec50cc6a5991a4057f40d', class: "p-1" }, index.h("ir-interceptor", { key: '19a1cfa535578be631d9dd9f5f8d40ed62cb15fc', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: '6f4b6e181e730cb543370cab9caef838f258b48b' }), index.h("div", { key: '87d334c1605226f5e3f21c55cd6f83188f858a4e', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: '651c53ffe5cba5a940f21cb76140cd7d9d44e582', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: t.t('Lcz_BookingNumber', { fallback: 'Booking number' }) }), index.h("ir-button", { key: '1cff57c72a7c5e03a6cb947d0f92294ec832ab4b', size: "sm", text: t.t('Lcz_Search', { fallback: 'Search' }), onClickHandler: async () => {
                 const { data } = await axios.axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -2148,7 +2148,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), index.h("p", { key: '78554e04e6a120e5efb39f15f360c61c62580ba5' }, JSON.stringify(this.data, null, 2))));
+            } })), index.h("p", { key: '35574fd10deb91656441995d587ccdf3cfa83404' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": [{
@@ -3505,7 +3505,7 @@ const IrExtraServicesSettings = class {
                 index.h("div", { class: "extra-services-grid__row", id: category.CODE_NAME, key: category.CODE_NAME + 'row' + idx }, index.h("div", { class: "extra-services-grid__name" }, index.h("p", { class: "extra-services-grid__title" }, utils$1.getEntryValue({ entry: category, language: locale_controller.LocaleController.language }))), index.h("div", { class: "extra-services-grid__controls" }, index.h("div", { class: "extra-services-grid__cell" }, isBabyCot ? (index.h("div", { class: 'ir__field-group' }, index.h("ir-extra-service-price-input", {
                     // class={'--grow'}
                     autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule
-                }), index.h("wa-select", { value: this.babyCotPricingModel, defaultValue: this.babyCotPricingModel, size: "s", style: { width: 'min-content', minWidth: '100px' }, onchange: e => (this.babyCotPricingModel = e.target.value) }, index.h("wa-option", { value: t.t('Lcz_Stay', { fallback: 'Stay' }) }, "Stay"), index.h("wa-option", { value: "Night" }, "Night")))) : (index.h("ir-extra-service-price-input", { autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule }, isExtraBed && index.h("span", { slot: "end" }, t.t('Lcz_PerNightSuffix', { fallback: '/night' }))))))),
+                }), index.h("wa-select", { value: this.babyCotPricingModel, defaultValue: this.babyCotPricingModel, size: "s", style: { width: 'min-content', minWidth: '100px' }, onchange: e => (this.babyCotPricingModel = e.target.value) }, index.h("wa-option", { value: "Stay" }, t.t('Lcz_Stay', { fallback: 'Stay' })), index.h("wa-option", { value: "Night" }, t.t('Lcz_NightLabel', { fallback: 'Night' }))))) : (index.h("ir-extra-service-price-input", { autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule }, isExtraBed && index.h("span", { slot: "end" }, t.t('Lcz_PerNightSuffix', { fallback: '/night' }))))))),
             ];
         }))))))));
     }
@@ -6065,7 +6065,7 @@ const IrTaxServiceCategories = class {
         const accSetup = this.chargeCategoryRules.get('ACC');
         const filteredVat = (this.setupEntries?.vat_included ?? []).filter(v => v.CODE_NAME !== '000');
         const categories = this.categories;
-        return (index.h("ir-page", { label: t.t('Lcz_TaxAndServiceCategories', { fallback: 'Tax & Service Categories' }), description: t.t('Lcz_TaxServiceCategoriesDescription', { fallback: 'Define taxes and service charges for room rates, cancellations, and on-property services.' }), "data-testid": "ir-tax-service-categories" }, index.h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "tax-service-categories__form", style: { width: '100px' }, variant: "brand" }, t.t('Lcz_Save', { fallback: 'Save' })), index.h("form", { id: "tax-service-categories__form", onSubmit: e => this.handleSubmit(e) }, index.h("wa-card", { appearance: "plain", class: "tax-service-categories__card" }, index.h("div", { class: "tax-grid" }, index.h("div", { class: "tax-grid__header", "aria-hidden": "true" }, index.h("div", null), index.h("div", { class: "tax-grid__col-label" }, "VAT"), index.h("div", { class: "tax-grid__col-label" }, "City Tax"), index.h("div", { class: "tax-grid__col-label" }, t.t('Lcz_ServiceCharge', { fallback: 'Service Charge' })), index.h("div", { class: "tax-grid__col-label" }, t.t('Lcz_TaxationStrategy', { fallback: 'Taxation Strategy' }))), index.h("div", { class: "tax-grid__row" }, index.h("div", { class: "tax-grid__name" }, index.h("p", { class: "tax-grid__title" }, t.t('Lcz_Accommodation', { fallback: 'Accommodation' })), index.h("p", { class: "tax-grid__hint" }, t.t('Lcz_RoomRelatedChargesHint', { fallback: 'Room-related charges applied to reservations and cancellations' }))), index.h("div", { class: "tax-grid__cell", "data-label": t.t('Lcz_Vat', { fallback: 'VAT' }) }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'vat', e.detail), chargeRule: accSetup?.vat, setupEntries: this.setupEntries?.vat_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": t.t('Lcz_CityTaxColumn', { fallback: 'City Tax' }) }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'cityTax', e.detail), chargeRule: accSetup?.cityTax, setupEntries: this.setupEntries?.city_tax_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": t.t('Lcz_ServiceCharge', { fallback: 'Service Charge' }) }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'serviceCharge', e.detail), chargeRule: accSetup?.serviceCharge, setupEntries: this.setupEntries?.service_charge_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": t.t('Lcz_TaxationStrategy', { fallback: 'Taxation Strategy' }) }, index.h("wa-radio-group", { size: "s", orientation: "horizontal", value: accSetup?.taxationStrategy ?? TaxationStrategy.Normal, "onwa-change": (e) => this.handleTaxationStrategyChange(e.detail.value) }, index.h("wa-radio", { appearance: "button", value: TaxationStrategy.Normal }, t.t('Lcz_Normal', { fallback: 'Normal' })), index.h("wa-radio", { appearance: "button", value: TaxationStrategy.Cumulative }, t.t('Lcz_Cumulative', { fallback: 'Cumulative' }))))), categories.map(category => {
+        return (index.h("ir-page", { label: t.t('Lcz_TaxAndServiceCategories', { fallback: 'Tax & Service Categories' }), description: t.t('Lcz_TaxServiceCategoriesDescription', { fallback: 'Define taxes and service charges for room rates, cancellations, and on-property services.' }), "data-testid": "ir-tax-service-categories" }, index.h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "tax-service-categories__form", style: { width: '100px' }, variant: "brand" }, t.t('Lcz_Save', { fallback: 'Save' })), index.h("form", { id: "tax-service-categories__form", onSubmit: e => this.handleSubmit(e) }, index.h("wa-card", { appearance: "plain", class: "tax-service-categories__card" }, index.h("div", { class: "tax-grid" }, index.h("div", { class: "tax-grid__header", "aria-hidden": "true" }, index.h("div", null), index.h("div", { class: "tax-grid__col-label" }, t.t('Lcz_Vat', { fallback: 'VAT' })), index.h("div", { class: "tax-grid__col-label" }, t.t('Lcz_CityTaxColumn', { fallback: 'City Tax' })), index.h("div", { class: "tax-grid__col-label" }, t.t('Lcz_ServiceCharge', { fallback: 'Service Charge' })), index.h("div", { class: "tax-grid__col-label" }, t.t('Lcz_TaxationStrategy', { fallback: 'Taxation Strategy' }))), index.h("div", { class: "tax-grid__row" }, index.h("div", { class: "tax-grid__name" }, index.h("p", { class: "tax-grid__title" }, t.t('Lcz_Accommodation', { fallback: 'Accommodation' })), index.h("p", { class: "tax-grid__hint" }, t.t('Lcz_RoomRelatedChargesHint', { fallback: 'Room-related charges applied to reservations and cancellations' }))), index.h("div", { class: "tax-grid__cell", "data-label": t.t('Lcz_Vat', { fallback: 'VAT' }) }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'vat', e.detail), chargeRule: accSetup?.vat, setupEntries: this.setupEntries?.vat_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": t.t('Lcz_CityTaxColumn', { fallback: 'City Tax' }) }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'cityTax', e.detail), chargeRule: accSetup?.cityTax, setupEntries: this.setupEntries?.city_tax_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": t.t('Lcz_ServiceCharge', { fallback: 'Service Charge' }) }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'serviceCharge', e.detail), chargeRule: accSetup?.serviceCharge, setupEntries: this.setupEntries?.service_charge_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": t.t('Lcz_TaxationStrategy', { fallback: 'Taxation Strategy' }) }, index.h("wa-radio-group", { size: "s", orientation: "horizontal", value: accSetup?.taxationStrategy ?? TaxationStrategy.Normal, "onwa-change": (e) => this.handleTaxationStrategyChange(e.detail.value) }, index.h("wa-radio", { appearance: "button", value: TaxationStrategy.Normal }, t.t('Lcz_Normal', { fallback: 'Normal' })), index.h("wa-radio", { appearance: "button", value: TaxationStrategy.Cumulative }, t.t('Lcz_Cumulative', { fallback: 'Cumulative' }))))), categories.map(category => {
             const categorySetup = this.chargeCategoryRules.get(category.CODE_NAME);
             return [
                 index.h("div", { class: "tax-grid__divider" }, index.h("wa-divider", null)),

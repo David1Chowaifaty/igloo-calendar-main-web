@@ -372,16 +372,16 @@ export class IrRoom {
                 this.room.roomtype.name,
                 this.room.rateplan.short_name,
                 this.room.unit?.name ?? '',
-                this.room.agent ? 'guest' : (this.booking?.agent?.name ?? 'agent'),
+                this.room.agent ? t('Lcz_GuestLowercase', { fallback: 'guest' }) : (this.booking?.agent?.name ?? t('Lcz_AgentLowercase', { fallback: 'agent' })),
             ],
-        }))), h("ir-dialog", { key: 'b48883ec5a76f796d96dbfb49661b4e40be78f05', label: this.modalReason === 'delete' ? t('Lcz_Alert', { fallback: 'Alert' }) : t('Lcz_Confirmation', { fallback: 'Confirmation' }), ref: el => (this.modal = el), onIrDialogHide: e => {
+        }))), h("ir-dialog", { key: 'a185e04c25cc32b819806ea7a28fb7b2050257cc', label: this.modalReason === 'delete' ? t('Lcz_Alert', { fallback: 'Alert' }) : t('Lcz_Confirmation', { fallback: 'Confirmation' }), ref: el => (this.modal = el), onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.modalReason = null;
-            }, lightDismiss: this.modalReason === 'checkin' }, h("p", { key: '7f858f6313cfd1fe5c4ac33cf31ef113d9f6e904' }, this.renderModalMessage()), h("div", { key: '0edf85e3ebd797d2c33010b590cb2def6e2db14e', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '3c70612d91dc4f5b3ba096d278e868cab3facc9d', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '53b5ab1ed8b4701625d3403fc03f6fd2a82aa958', size: "m", loading: this.isLoading, onClickHandler: e => this.handleModalConfirmation(e), variant: this.modalReason === 'delete' ? 'danger' : 'brand' }, this.modalReason === 'delete' ? t('Lcz_Delete', { fallback: 'Delete' }) : t('Lcz_Confirm', { fallback: 'Confirm' })))), h("ir-checkout-dialog", { key: '2df9c08794684a8efa58c98725d4ea964c47c599', onCheckoutDialogClosed: e => {
+            }, lightDismiss: this.modalReason === 'checkin' }, h("p", { key: '671535778350cd86a57601059798de98cdfd2240' }, this.renderModalMessage()), h("div", { key: '8262d749f0d529c24751c1d68aa184ca9d2e0331', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '7ddeb3e7a0b9e067ceaae072d38d3b34ab81b6cf', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '74a4334590da12d159e4d33774770f0147300ca4', size: "m", loading: this.isLoading, onClickHandler: e => this.handleModalConfirmation(e), variant: this.modalReason === 'delete' ? 'danger' : 'brand' }, this.modalReason === 'delete' ? t('Lcz_Delete', { fallback: 'Delete' }) : t('Lcz_Confirm', { fallback: 'Confirm' })))), h("ir-checkout-dialog", { key: '910ddc971a019952aa49bf2c82426ccbd1b4cae6', onCheckoutDialogClosed: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.modalReason = null;
@@ -396,28 +396,28 @@ export class IrRoom {
                 else if (e.detail.reason === 'checkout') {
                     this.resetBookingEvt.emit();
                 }
-            }, identifier: this.room.identifier, open: this.modalReason === 'checkout', booking: this.booking }), h("ir-invoice", { key: '4ab6392c789709e07e3e08d28d453ddda82b236e', onInvoiceClose: e => {
+            }, identifier: this.room.identifier, open: this.modalReason === 'checkout', booking: this.booking }), h("ir-invoice", { key: 'a6a8bdbda9c576f80231ac57a5eabdc36259bb96', onInvoiceClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            }, open: this.isOpen, booking: this.booking, roomIdentifier: this.room.identifier }), h("ir-booking-pricing-drawer", { key: '4ba28e04a725ee001cfb40d35e668b0ac04ea30b', open: this.isPricingDrawerOpen, booking: this.booking, room: this.room, agent: this.agent, folioEntries: this.clTransactions, currencySymbol: this.booking?.currency?.symbol ?? '', onCloseDrawer: () => (this.isPricingDrawerOpen = false), onPricingSaved: () => {
+            }, open: this.isOpen, booking: this.booking, roomIdentifier: this.room.identifier }), h("ir-booking-pricing-drawer", { key: '404539fb36ab3dbe5304ba954b684922949cea82', open: this.isPricingDrawerOpen, booking: this.booking, room: this.room, agent: this.agent, folioEntries: this.clTransactions, currencySymbol: this.booking?.currency?.symbol ?? '', onCloseDrawer: () => (this.isPricingDrawerOpen = false), onPricingSaved: () => {
                 this.isPricingDrawerOpen = false;
                 this.resetBookingEvt.emit(null);
-            } }), h("ir-hb-preference-dialog", { key: 'cce5cd7c0a9d79ed366a1ae64a110fde3f755866', room: this.room, open: this.isHbDialogOpen, onHbPreferenceClose: (e) => {
+            } }), h("ir-hb-preference-dialog", { key: '72fd2f643ca1918016503d1cd4e5cf42b3a37d32', room: this.room, open: this.isHbDialogOpen, onHbPreferenceClose: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isHbDialogOpen = false;
                 if (e.detail.saved) {
                     this.resetBookingEvt.emit(null);
                 }
-            } }), h("ir-departure-time-dialog", { key: 'fe8581a42d069258a8c9b2ff8331ede423be1744', room: this.room, booking: this.booking, open: this.isDepartureDialogOpen, property_id: this.property_id, departureTime: this.departureTime, language: this.language, booking_nbr: this.booking.booking_nbr, currency_id: this.booking.currency.id, currencySymbol: this.currency, onDepartureTimeClose: (e) => {
+            } }), h("ir-departure-time-dialog", { key: 'b42c1d7b4bdfb634efb653b1db3b7dfc3a43b770', room: this.room, booking: this.booking, open: this.isDepartureDialogOpen, property_id: this.property_id, departureTime: this.departureTime, language: this.language, booking_nbr: this.booking.booking_nbr, currency_id: this.booking.currency.id, currencySymbol: this.currency, onDepartureTimeClose: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isDepartureDialogOpen = false;
                 if (e.detail.saved) {
                     this.resetBookingEvt.emit(null);
                 }
-            } }), h("ir-arrival-time-dialog", { key: '745b3d44c288c7cf2e0aebb7de6c49ce7bcfbd27', room: this.room, booking: this.booking, open: this.isArrivalDialogOpen, property_id: this.property_id, arrivalTime: this.arrivalTime, language: this.language, booking_nbr: this.booking.booking_nbr, currency_id: this.booking.currency.id, currencySymbol: this.currency, onArrivalTimeClose: (e) => {
+            } }), h("ir-arrival-time-dialog", { key: 'd41d12442bf9f2edf3ea7b13f8f7217c5937b878', room: this.room, booking: this.booking, open: this.isArrivalDialogOpen, property_id: this.property_id, arrivalTime: this.arrivalTime, language: this.language, booking_nbr: this.booking.booking_nbr, currency_id: this.booking.currency.id, currencySymbol: this.currency, onArrivalTimeClose: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isArrivalDialogOpen = false;

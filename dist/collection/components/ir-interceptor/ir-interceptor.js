@@ -2,6 +2,7 @@ import { Host, h } from "@stencil/core";
 import axios from "axios";
 import interceptor_requests from "../../stores/ir-interceptor.store";
 import { InterceptorError } from "./InterceptorError";
+import { t } from "../../services/locale/t";
 export class IrInterceptor {
     /**
      * List of endpoint paths that should trigger loader logic and OTP handling.
@@ -181,13 +182,17 @@ export class IrInterceptor {
     }
     /**
      * Displays error toasts unless the endpoint is configured to suppress them.
+     *
+     * Also bound as the axios reject handler, where `error` is an error object rather than the
+     * API's (already localized) `ExceptionMsg` — those get a generic localized title instead of
+     * their English `toString()`.
      */
     handleError(error, url, code) {
         const shouldSuppressToast = this.suppressToastEndpoints.includes(url);
         if (!shouldSuppressToast || (shouldSuppressToast && !code)) {
             this.toast.emit({
                 type: 'error',
-                title: error,
+                title: typeof error === 'string' && error.trim() ? error : t('Lcz_SomethingWentWrong', { fallback: 'Something went wrong' }),
                 description: '',
                 position: 'top-right',
             });
@@ -244,7 +249,7 @@ export class IrInterceptor {
         this.baseOTPUrl = null;
     }
     render() {
-        return (h(Host, { key: '7282fd3f8ac2689e65ff9c1b209895308a51447d' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '4048670eeee28744eccdac3370c5ebe8c7351f98', class: "loadingScreenContainer" }, h("div", { key: 'c75961ff1057d26575d215de09733499186eb454', class: "loaderContainer" }, h("wa-spinner", { key: '613747d118acbd7df75f34fd32a92e7cea576216', style: { 'fontSize': '2.5rem', '--track-width': '3.5px' } })))), this.showModal && (h("ir-otp-modal", { key: '6aa1eac4b8a366041bce65edecbb3c6a1a4ebd3e', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: '05b2e4e8e3e0880e5c3d22dcaae3b611ff39f00c' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '547d30cb1eb4c8d08debb5ae38e3c0905dbb1126', class: "loadingScreenContainer" }, h("div", { key: 'fb533f79abd28610989868c1ee854e3f626705f0', class: "loaderContainer" }, h("wa-spinner", { key: '975ed313db266df40b1aa29d2c32bdb47bb233f9', style: { 'fontSize': '2.5rem', '--track-width': '3.5px' } })))), this.showModal && (h("ir-otp-modal", { key: 'db8e26964de870c408512fd310b4f18590b0e696', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }

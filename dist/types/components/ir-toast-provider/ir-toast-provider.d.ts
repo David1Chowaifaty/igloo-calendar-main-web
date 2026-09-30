@@ -54,6 +54,8 @@ export declare class IrToastProvider {
     private generateToastId;
     /** Accepts both the provider's own types and the legacy IToast vocabulary ('error', 'custom'). */
     private normalizeType;
+    /** Localized name of the toast type, spoken ahead of the message by the live region. */
+    private typeLabel;
     private mapVariant;
     render(): any;
 }

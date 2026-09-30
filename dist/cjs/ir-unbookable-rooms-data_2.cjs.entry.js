@@ -35,11 +35,12 @@ const IrUnbookableRoomsData = class {
     propertyNameFilter = '';
     todayFormatted = irDate.formatDate(moment.hooks(), 'MMM DD');
     getPropertyName(propertyId) {
+        const fallbackName = `${t.t('Lcz_Property', { fallback: 'Property' })} ${propertyId}`;
         if (!this.allowedProperties?.length) {
-            return `Property ${propertyId}`;
+            return fallbackName;
         }
         const match = this.allowedProperties.find(property => property.id === propertyId);
-        return match?.name ?? `Property ${propertyId}`;
+        return match?.name ?? fallbackName;
     }
     getPeriodOffset(firstNight) {
         if (!firstNight)

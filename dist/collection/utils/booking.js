@@ -462,8 +462,12 @@ export const DAY_USE_STATUS_ICON = {
 };
 /** Human-readable text for a same-day movement, incorporating the checkout/checkin clock time when known. */
 export function formatDayUseStatusText(dayStatus, checkoutTime, checkinTime) {
-    const checkoutText = checkoutTime ? `Check-out at ${checkoutTime}` : 'Check-out happening today';
-    const checkinText = checkinTime ? `Check-in at ${checkinTime}` : 'Check-in happening today';
+    const checkoutText = checkoutTime
+        ? t('Lcz_CheckOutAtTime', { fallback: 'Check-out at %1', params: [checkoutTime] })
+        : t('Lcz_CheckOutHappeningToday', { fallback: 'Check-out happening today' });
+    const checkinText = checkinTime
+        ? t('Lcz_CheckInAtTime', { fallback: 'Check-in at %1', params: [checkinTime] })
+        : t('Lcz_CheckInHappeningToday', { fallback: 'Check-in happening today' });
     if (dayStatus === 'turnover') {
         return `${checkoutText}  ${checkinText}`;
     }

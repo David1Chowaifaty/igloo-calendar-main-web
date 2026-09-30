@@ -2,14 +2,15 @@ import { h } from "@stencil/core";
 import moment from "moment";
 import uninvoiced_bookings, { updateUninvoicedBookingsFilters } from "../../../stores/uninvoiced_bookings.store";
 import { t } from "../../../services/locale/t";
+import { formatCount } from "../../../utils/number";
 export class IrUnvoicedBookingsFilters {
     uninvoicedBookingsFiltersChange;
-    quickDates = [
-        { label: '7 Days Ago', getDate: () => moment().subtract(7, 'days') },
-        { label: '14 Days Ago', getDate: () => moment().subtract(14, 'days') },
-        { label: '30 Days Ago', getDate: () => moment().subtract(30, 'days') },
-        { label: '90 Days Ago', getDate: () => moment().subtract(90, 'days') },
-    ];
+    get quickDates() {
+        return [7, 14, 30, 90].map(days => ({
+            label: t('Lcz_DaysAgo', { fallback: '%1 Days Ago', params: [formatCount(days)] }),
+            getDate: () => moment().subtract(days, 'days'),
+        }));
+    }
     handleDatesChanged = (e) => {
         e.stopImmediatePropagation();
         e.stopPropagation();
@@ -30,7 +31,7 @@ export class IrUnvoicedBookingsFilters {
         });
     };
     render() {
-        return (h("div", { key: '6acb4f69e55ea94f969721e10c943badfe169f8a', class: "uninvoiced-bookings-filters" }, h("ir-date-range-filter", { key: '91bd3dcce2183bbbc534d34c13a15380910fcf97', class: "uninvoiced-bookings-filters__date-picker", fromDate: uninvoiced_bookings.filters.from, toDate: uninvoiced_bookings.filters.to, maxDate: moment().format('YYYY-MM-DD'), showQuickActions: true, quickDates: this.quickDates, quickDatesMode: "range", withClear: false, selectionMode: "auto", onDatesChanged: this.handleDatesChanged }), h("div", { key: 'e15c16a2e1db61961fb39df43ffbc9433d64d62e', class: "uninvoiced-bookings-group" }, h("wa-select", { key: 'c06935830b2e849f3de05031afee23eb94f8b262', onchange: this.handleSourceChanged, value: uninvoiced_bookings.filters.source, size: "s" }, h("wa-option", { key: 'aead2e4d0a3e787ca2cea6006be8c46bead8b77e', value: "" }, t('Lcz_AllChannels', { fallback: 'All channels' })), uninvoiced_bookings.channels.map(channel => (h("wa-option", { key: channel.value, value: channel.value }, channel.name)))), h("ir-custom-button", { key: '445f9b74be670faf18bd98bc957d8cef48521953', id: "uninvoiced-bookings-search-btn", loading: uninvoiced_bookings.isLoading, disabled: uninvoiced_bookings.isLoading, onClickHandler: this.handleSearch, variant: "neutral", appearance: "outlined" }, h("wa-icon", { key: '81cb73705dece2888d930941be506451a6bd35ba', name: "magnifying-glass" }))), h("wa-tooltip", { key: 'fb88ec79db8cccbb7f52ce746bd694da42f2b089', for: "uninvoiced-bookings-search-btn" }, t('Lcz_Search', { fallback: 'Search' }))));
+        return (h("div", { key: '0790fcecc4e9410516da48649ae181f988f11de3', class: "uninvoiced-bookings-filters" }, h("ir-date-range-filter", { key: '755e489b229f5d87cbd2cd4dab014bb8d5a41a20', class: "uninvoiced-bookings-filters__date-picker", fromDate: uninvoiced_bookings.filters.from, toDate: uninvoiced_bookings.filters.to, maxDate: moment().format('YYYY-MM-DD'), showQuickActions: true, quickDates: this.quickDates, quickDatesMode: "range", withClear: false, selectionMode: "auto", onDatesChanged: this.handleDatesChanged }), h("div", { key: '640aaceff292b05588199b887c210efe67d80ce6', class: "uninvoiced-bookings-group" }, h("wa-select", { key: '57f97f78551bd55eed0fdef6659e015a2831a847', onchange: this.handleSourceChanged, value: uninvoiced_bookings.filters.source, size: "s" }, h("wa-option", { key: '1ac19638864db981b9df07b1f7c59583325926d8', value: "" }, t('Lcz_AllChannels', { fallback: 'All channels' })), uninvoiced_bookings.channels.map(channel => (h("wa-option", { key: channel.value, value: channel.value }, channel.name)))), h("ir-custom-button", { key: '016ab9fa242a817c6235a928e02389a98379e015', id: "uninvoiced-bookings-search-btn", loading: uninvoiced_bookings.isLoading, disabled: uninvoiced_bookings.isLoading, onClickHandler: this.handleSearch, variant: "neutral", appearance: "outlined" }, h("wa-icon", { key: 'a5d33eb3e6a9ce5166ad7a3fce860f0df9e79442', name: "magnifying-glass" }))), h("wa-tooltip", { key: '56cc65e73a48a171407aa8158bbcbcf6935bbd26', for: "uninvoiced-bookings-search-btn" }, t('Lcz_Search', { fallback: 'Search' }))));
     }
     static get is() { return "ir-unvoiced-bookings-filters"; }
     static get encapsulation() { return "scoped"; }

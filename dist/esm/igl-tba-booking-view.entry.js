@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
 import { U as UnassignedUnitsService } from './index-DBJEeIOv.js';
-import { c as clampToLoadedRange, t as toCalendarPreviewEvents, a as toCalendarAssignedEvent, g as guestName } from './utils-CAZknjOx.js';
+import { c as clampToLoadedRange, t as toCalendarPreviewEvents, a as toCalendarAssignedEvent, g as guestName } from './utils-B1SB6aE8.js';
 import { t } from './t-CHjay2ar.js';
 import { a as formatBookingNumber } from './number-DbiGgV_N.js';
 import { c as canCheckIn } from './utils-S6Mv4SON.js';
@@ -10,7 +10,7 @@ import './commonSchemas-Cx9w9d8l.js';
 import './types-CB66a07H.js';
 import './calendar-dates-D3hVfsrC.js';
 import './moment-Mki5YqAR.js';
-import './booking-Bu0fFgC3.js';
+import './booking-DXVys0Tr.js';
 import './locales.store-CXJn6ls-.js';
 import './calendar-data-CL6uTgDb.js';
 import './functions-BI0MgE9h.js';

@@ -35,11 +35,11 @@ export class IglHousekeepingDialog {
             case '004':
                 return t('Lcz_Inspected', { fallback: 'inspected' });
             default:
-                return 'clean';
+                return t('Lcz_CleanLowercase', { fallback: 'clean' });
         }
     }
     middleButtonLabel() {
-        return this.selectedRoom?.hk_status === '002' ? t('Lcz_Clean', { fallback: 'Clean' }) : 'Dirty';
+        return this.selectedRoom?.hk_status === '002' ? t('Lcz_Clean', { fallback: 'Clean' }) : t('Lcz_DirtyLabel', { fallback: 'Dirty' });
     }
     rightButtonLabel() {
         return this.selectedRoom?.hk_status !== '004' ? t('Lcz_CleanAndInspect', { fallback: 'Clean & Inspect' }) : t('Lcz_Clean', { fallback: 'Clean' });
@@ -86,7 +86,7 @@ export class IglHousekeepingDialog {
         }
     }
     render() {
-        return (h("ir-dialog", { key: '47a7a0ea13311d9976f4a0c22cd116015e77f32c', ref: el => (this.dialogRef = el), open: this.open, label: t('Lcz_HousekeepingUpdate', { fallback: 'Housekeeping Update' }), onIrDialogAfterHide: () => this.irAfterClose.emit() }, h("p", { key: 'd05d0bf49b278a79db8f5c6a77791e859d609fb6', style: { margin: '0' } }, this.selectedRoom?.name, " ", t('Lcz_UnitCurrentlyMarkedAs', { fallback: 'is currently marked as' }), " ", this.getStatusLabel(), "."), h("div", { key: '22c4bf5bf324359f2ec73212edb803b2de85e14a', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '3328d2caee3fe48ff4c0d05b09b0d186358afd33', "data-dialog": "close", size: "m", variant: "neutral", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '2cb0bbe6aba62f7440d8de4e4f15c7b113240338', value: "hk-toggle-clean-dirty", size: "m", variant: "brand", appearance: "outlined", loading: this.isLoading === 'hk-toggle-clean-dirty', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '002' ? '001' : '002') }, this.middleButtonLabel()), h("ir-custom-button", { key: '750839e6db27fad72767526fc051fa71d65bb905', value: "hk-clean-inspect", size: "m", variant: "brand", appearance: "accent", loading: this.isLoading === 'hk-clean-inspect', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '004' ? '001' : '004') }, this.rightButtonLabel()))));
+        return (h("ir-dialog", { key: '4027a57903df61618f4f14596bc12d6ab9db845c', ref: el => (this.dialogRef = el), open: this.open, label: t('Lcz_HousekeepingUpdate', { fallback: 'Housekeeping Update' }), onIrDialogAfterHide: () => this.irAfterClose.emit() }, h("p", { key: '8ebadd29e3e6d4098b699b6c87a131c1bd9d533c', style: { margin: '0' } }, this.selectedRoom?.name, " ", t('Lcz_UnitCurrentlyMarkedAs', { fallback: 'is currently marked as' }), " ", this.getStatusLabel(), "."), h("div", { key: '38c2a28effccd5772211acad6ab90523f880f7ba', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '11a2ff17fe9a4de01df89a681bc3377652c610e9', "data-dialog": "close", size: "m", variant: "neutral", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'b4d41995a1cb50bcfb93496df3aa56b50c9a2f22', value: "hk-toggle-clean-dirty", size: "m", variant: "brand", appearance: "outlined", loading: this.isLoading === 'hk-toggle-clean-dirty', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '002' ? '001' : '002') }, this.middleButtonLabel()), h("ir-custom-button", { key: '7aa42740bf1e692862ff1a16603b37f24247746a', value: "hk-clean-inspect", size: "m", variant: "brand", appearance: "accent", loading: this.isLoading === 'hk-clean-inspect', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '004' ? '001' : '004') }, this.rightButtonLabel()))));
     }
     static get is() { return "igl-housekeeping-dialog"; }
     static get encapsulation() { return "scoped"; }

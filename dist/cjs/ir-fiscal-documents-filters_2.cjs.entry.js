@@ -4,7 +4,7 @@ var index = require('./index-CQkpA5n3.js');
 var enums = require('./enums-BSCnMYlE.js');
 var moment = require('./moment-CdViwxPQ.js');
 var agents_service = require('./agents.service-C9idZypK.js');
-var booking_store = require('./booking.store-B76Qpi_v.js');
+var booking_store = require('./booking.store-DbF4cBud.js');
 var irInterceptor_store = require('./ir-interceptor.store-moMB-JCs.js');
 var t = require('./t-C54QV4_c.js');
 var types = require('./types-BVJQZ50e.js');
@@ -22,7 +22,7 @@ require('./type-Bj2x9EWc.js');
 require('./IBooking-hDE_y33g.js');
 require('./utils-2ithg_2A.js');
 require('./calendar-dates-BxDGM1ix.js');
-require('./booking-CWu4XQMM.js');
+require('./booking-Cla_l0-a.js');
 require('./locales.store-BMTss6fG.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./language-observer-DKp37LIu.js');
@@ -174,7 +174,7 @@ const IrFiscalDocumentsFilters = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.applyFilters.emit({ ...this.draft, docNumber: '' });
-            } }, index.h("wa-icon", { key: 'a19717bcbf9830df86903978527be92762a3421c', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), this.draft.folioType === 'guest' && (index.h("wa-select", { key: '689731166c80a2e92b7138b211642d8a78c85daa', class: "filters-bar__combo-select", size: "s", value: this.draft.searchBy, defaultValue: this.draft.searchBy, onchange: e => this.updateDraft({ searchBy: e.target.value }) }, index.h("wa-option", { key: '49dbb3d1c220a6bafefbd56f96ec30e610b9023a', value: "doc_nbr" }, t.t('Lcz_DocumentNumberOption', { fallback: 'Document number' })), index.h("wa-option", { key: 'dcd6233a4294e346537d8604a0e0117b2b157ce7', value: "booking_nbr" }, t.t('Lcz_BookingNumber', { fallback: 'Booking number' }))))), index.h("wa-tooltip", { key: 'c44d8ce332ded9b179155b9e387aea0236219ec0', for: "search-btn" }, t.t('Lcz_Search', { fallback: 'Search' })), index.h("ir-custom-button", { key: '69be133aeba145da50b028abd79b7fd071b1e5b3', id: "search-btn", loading: this.loading === 'search', class: "filters-bar__search-submit", value: "search", variant: "neutral", appearance: "outlined", type: "submit" }, index.h("wa-icon", { key: '16b841c6a30611c51b3eceb988bbdf046c15a1c7', name: "magnifying-glass" })), index.h("wa-tooltip", { key: '5836c86e365b08a3eab6cc31892f0a3a17c2d43d', for: "excel-btn" }, 'Export to excel'), index.h("ir-custom-button", { key: 'da4d1b79160f5c14ff88cad23c76dd3d983e5a06', disabled: !(this.draft?.fromDate || this.draft?.toDate), id: "excel-btn", variant: "neutral", loading: this.loading === 'export', appearance: "outlined", type: "submit", value: "export" }, index.h("wa-icon", { key: '1d6a1149469f6feb3a282fe10cdaead5998472fc', name: "file-excel", variant: "regular" })))))));
+            } }, index.h("wa-icon", { key: 'a19717bcbf9830df86903978527be92762a3421c', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), this.draft.folioType === 'guest' && (index.h("wa-select", { key: '689731166c80a2e92b7138b211642d8a78c85daa', class: "filters-bar__combo-select", size: "s", value: this.draft.searchBy, defaultValue: this.draft.searchBy, onchange: e => this.updateDraft({ searchBy: e.target.value }) }, index.h("wa-option", { key: '49dbb3d1c220a6bafefbd56f96ec30e610b9023a', value: "doc_nbr" }, t.t('Lcz_DocumentNumberOption', { fallback: 'Document number' })), index.h("wa-option", { key: 'dcd6233a4294e346537d8604a0e0117b2b157ce7', value: "booking_nbr" }, t.t('Lcz_BookingNumber', { fallback: 'Booking number' }))))), index.h("wa-tooltip", { key: 'c44d8ce332ded9b179155b9e387aea0236219ec0', for: "search-btn" }, t.t('Lcz_Search', { fallback: 'Search' })), index.h("ir-custom-button", { key: '69be133aeba145da50b028abd79b7fd071b1e5b3', id: "search-btn", loading: this.loading === 'search', class: "filters-bar__search-submit", value: "search", variant: "neutral", appearance: "outlined", type: "submit" }, index.h("wa-icon", { key: '16b841c6a30611c51b3eceb988bbdf046c15a1c7', name: "magnifying-glass" })), index.h("wa-tooltip", { key: '5836c86e365b08a3eab6cc31892f0a3a17c2d43d', for: "excel-btn" }, t.t('Lcz_ExportToExcel', { fallback: 'Export to excel' })), index.h("ir-custom-button", { key: '07124579787d4e02da9c826047edee37f5085bf8', disabled: !(this.draft?.fromDate || this.draft?.toDate), id: "excel-btn", variant: "neutral", loading: this.loading === 'export', appearance: "outlined", type: "submit", value: "export" }, index.h("wa-icon", { key: '11a69481053b592880ffdddbc47fa9c6fd80e0ad', name: "file-excel", variant: "regular" })))))));
     }
     static get watchers() { return {
         "filters": [{
@@ -429,7 +429,7 @@ const IrFiscalDocumentsTable = class {
                 'fiscal-table__cell--numeric': numericColumnIds.includes(cell.column.id),
                 'fiscal-table__cell--actions': cell.column.id === 'actions',
                 'fiscal-table__cell--doc-number': cell.column.id === 'DOC_NUMBER' || cell.column.id === 'bookingNumber',
-            } }, useTable.flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (index.h("tr", null, index.h("td", { class: "empty-row", colSpan: columns.length }, this.isLoading ? index.h("ir-spinner", null) : t.t('Lcz_NoFiscalDocumentsMatchFilters', { fallback: 'No fiscal documents match the current filters.' }))))))), this.totalRecords > 0 && (index.h("ir-pagination", { class: "data-table--pagination", showing: showing, total: this.totalRecords, pages: totalPages, pageSize: this.pageSize, currentPage: this.currentPage, allowPageSizeChange: true, pageSizes: PAGE_SIZES, recordLabel: "documents", onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) }))));
+            } }, useTable.flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (index.h("tr", null, index.h("td", { class: "empty-row", colSpan: columns.length }, this.isLoading ? index.h("ir-spinner", null) : t.t('Lcz_NoFiscalDocumentsMatchFilters', { fallback: 'No fiscal documents match the current filters.' }))))))), this.totalRecords > 0 && (index.h("ir-pagination", { class: "data-table--pagination", showing: showing, total: this.totalRecords, pages: totalPages, pageSize: this.pageSize, currentPage: this.currentPage, allowPageSizeChange: true, pageSizes: PAGE_SIZES, recordLabel: t.t('Lcz_Documents', { fallback: 'documents' }), onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) }))));
     }
 };
 IrFiscalDocumentsTable.style = irFiscalDocumentsTableCss();

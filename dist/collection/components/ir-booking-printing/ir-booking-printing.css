@@ -214,3 +214,7 @@ span {
     display: block;
   }
 }
+
+.accommodation-title {
+  text-transform: uppercase;
+}

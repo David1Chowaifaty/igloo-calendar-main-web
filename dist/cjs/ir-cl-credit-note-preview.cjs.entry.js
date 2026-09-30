@@ -46,7 +46,7 @@ const IrClCreditNotePreview = class {
     hasEmitted = false;
     componentWillLoad() {
         if (!this.ticket) {
-            this.error = 'Authentication ticket is required.';
+            this.error = t.t('Lcz_AuthTicketRequired', { fallback: 'Authentication ticket is required.' });
             return;
         }
         this.dataService.init(this.baseurl, this.ticket);
