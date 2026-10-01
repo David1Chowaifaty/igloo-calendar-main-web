@@ -794,7 +794,7 @@ const IrCityLedgerFolioTable = class {
             enableGrouping: true,
         }),
         this.columnHelper.accessor('debit', {
-            header: t.t('Lcz_DebitColumn', { fallback: 'Debit' }),
+            header: t.t('Lcz_Debit', { fallback: 'Debit' }),
             cell: info => {
                 const symbol = this.getSymbol(info.row.original._raw.CURRENCY_ID);
                 return (index.h("ir-input-cell", { disabled: true, mask: 'price', value: info.getValue().toString() }, index.h("span", { slot: "start" }, symbol), index.h("span", null, info.getValue() ? number.formatAmount(symbol, info.getValue()) : '')));
@@ -805,7 +805,7 @@ const IrCityLedgerFolioTable = class {
             enableSorting: false,
         }),
         this.columnHelper.accessor('credit', {
-            header: t.t('Lcz_CreditColumn', { fallback: 'Credit' }),
+            header: t.t('Lcz_Credit', { fallback: 'Credit' }),
             cell: info => {
                 const symbol = this.getSymbol(info.row.original._raw.CURRENCY_ID);
                 return (index.h("ir-input-cell", { mask: 'price', disabled: true, value: info.getValue().toString() }, index.h("span", { slot: "start" }, symbol), index.h("span", null, info.getValue() ? number.formatAmount(symbol, info.getValue()) : '')));
@@ -1286,12 +1286,12 @@ const IrCityLedgerStatementsTable = class {
             }),
             this.columnHelper.accessor('DEBIT', {
                 id: 'debit',
-                header: t.t('Lcz_DebitColumn', { fallback: 'Debit' }),
+                header: t.t('Lcz_Debit', { fallback: 'Debit' }),
                 cell: info => (info.row.original.FD_TYPE_CODE === enums.FdTypes.CreditReceipt ? '' : this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID)),
             }),
             this.columnHelper.accessor('CREDIT', {
                 id: 'credit',
-                header: t.t('Lcz_CreditColumn', { fallback: 'Credit' }),
+                header: t.t('Lcz_Credit', { fallback: 'Credit' }),
                 cell: info => this.renderMoney(this.getCredit(info), info.row.original.CURRENCY_ID),
             }),
             this.columnHelper.display({

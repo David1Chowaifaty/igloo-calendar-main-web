@@ -71,6 +71,7 @@ export declare const SCREEN_TABLES: {
     readonly otpModal: readonly ["_USER_MGT"];
     readonly paymentOption: readonly ["_PAYMENT_BACK"];
     readonly pmsPage: readonly ["_PMS", "_CALENDAR"];
+    readonly pmsSearch: readonly [];
     readonly queueManager: readonly ["_FRONTDESK"];
     readonly resetPassword: readonly ["_USER_MGT", "_AUTH"];
     readonly salesByChannel: readonly ["_REPORTS"];

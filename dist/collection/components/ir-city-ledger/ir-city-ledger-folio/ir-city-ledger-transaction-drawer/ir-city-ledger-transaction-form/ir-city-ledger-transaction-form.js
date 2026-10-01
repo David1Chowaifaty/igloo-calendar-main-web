@@ -227,7 +227,7 @@ export class IrCityLedgerTransactionForm {
                 this.transaction?.CL_TX_TYPE_CODE !== type.CODE_NAME) {
                 return null;
             }
-            return (h("wa-option", { key: type.CODE_NAME, value: type.CODE_NAME, label: label }, h("div", { class: "tx-option" }, h("span", { class: "tx-option__label" }, label), h("span", { class: "tx-option__badges" }, (rate === 'CR' || rate === 'CR|DB') && h("wa-badge", { variant: "success" }, t('Lcz_CreditColumn', { fallback: 'Credit' })), (rate === 'DB' || rate === 'CR|DB') && h("wa-badge", { variant: "danger" }, t('Lcz_DebitColumn', { fallback: 'Debit' }))))));
+            return (h("wa-option", { key: type.CODE_NAME, value: type.CODE_NAME, label: label }, h("div", { class: "tx-option" }, h("span", { class: "tx-option__label" }, label), h("span", { class: "tx-option__badges" }, (rate === 'CR' || rate === 'CR|DB') && h("wa-badge", { variant: "success" }, t('Lcz_Credit', { fallback: 'Credit' })), (rate === 'DB' || rate === 'CR|DB') && h("wa-badge", { variant: "danger" }, t('Lcz_Debit', { fallback: 'Debit' }))))));
         })))));
     }
     renderCommonFields(withTaxes = true) {

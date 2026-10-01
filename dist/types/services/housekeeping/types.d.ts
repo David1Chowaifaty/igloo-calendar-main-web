@@ -74,10 +74,10 @@ export declare const GetExposedHKSetupParamsSchema: z.ZodObject<{
 } & {
     property_id: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    language?: string;
     property_id?: number;
+    language?: string;
 }, {
-    language?: string;
     property_id?: number;
+    language?: string;
 }>;
 export type GetExposedHKSetupParams = z.infer<typeof GetExposedHKSetupParamsSchema>;

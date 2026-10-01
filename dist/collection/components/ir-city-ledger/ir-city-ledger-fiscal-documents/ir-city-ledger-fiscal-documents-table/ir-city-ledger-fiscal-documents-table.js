@@ -213,11 +213,11 @@ export class IrCityLedgerFiscalDocumentsTable {
             ...base,
             ...amountCols,
             this.columnHelper.accessor('DEBIT', {
-                header: t('Lcz_DebitColumn', { fallback: 'Debit' }),
+                header: t('Lcz_Debit', { fallback: 'Debit' }),
                 cell: info => (info.row.original.FD_TYPE_CODE === FdTypes.CreditReceipt ? '' : this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID)),
             }),
             this.columnHelper.accessor('CREDIT', {
-                header: t('Lcz_CreditColumn', { fallback: 'Credit' }),
+                header: t('Lcz_Credit', { fallback: 'Credit' }),
                 cell: info => this.renderMoney(this.getCredit(info), info.row.original.CURRENCY_ID),
             }),
             this.columnHelper.display({

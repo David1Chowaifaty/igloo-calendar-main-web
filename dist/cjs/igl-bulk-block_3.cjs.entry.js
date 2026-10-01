@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var booking_store = require('./booking.store-DbF4cBud.js');
+var booking_service = require('./booking.service-Dvyvn2Xc.js');
 var calendarData = require('./calendar-data-y64tb1w5.js');
 var moment = require('./moment-CdViwxPQ.js');
 var t = require('./t-C54QV4_c.js');
@@ -12,8 +12,8 @@ require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./calendar-dates-BxDGM1ix.js');
-require('./locales.store-BMTss6fG.js');
 require('./commonSchemas-D4iFLV5-.js');
+require('./locales.store-BMTss6fG.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
 require('./ir-date-BLb2Vxrk.js');
@@ -79,7 +79,7 @@ const IglBulkBlock = class {
     dateRefs = [];
     reloadInterceptor;
     minDate = moment.hooks().format('YYYY-MM-DD');
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     datesSchema = types.arrayType(types.objectType({
         from: types.anyType()
             .refine((val) => moment.hooks.isMoment(val), {
@@ -297,7 +297,7 @@ const IglBulkStopSale = class {
     // private allRoomTypes: SelectedRooms[] = [];
     reloadInterceptor;
     minDate = moment.hooks().format('YYYY-MM-DD');
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     getDayIndex(dateStr) {
         return moment.hooks(dateStr, 'YYYY-MM-DD').day();
     }

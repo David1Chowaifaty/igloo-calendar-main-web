@@ -1,25 +1,25 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
-import { C as CityLedgerService } from './index-mdFrKllf.js';
-import { F as FdTypes, C as ClTxTypeCode } from './enums-CSCQSgBu.js';
+import { C as CityLedgerService } from './index-DEPBY97D.js';
+import { F as FdTypes, C as ClTxTypeCode } from './enums-CcLtXwvz.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { t } from './t-CHjay2ar.js';
 import { D as Debounce } from './debounce-DF70NVXP.js';
-import { s as stringType, o as objectType } from './types-CB66a07H.js';
+import { s as stringType, o as objectType } from './types-BG9uwIsj.js';
 import { r as realtimeService } from './realtime.service-CGYmIxkT.js';
-import { m as mapClTxToFolioRow, a as actionableClTypes, d as debitFdTypeCode } from './city-ledger.service-DqZ-fHNb.js';
-import { c as calendar_data } from './calendar-data-CL6uTgDb.js';
+import { m as mapClTxToFolioRow, a as actionableClTypes, d as debitFdTypeCode } from './city-ledger.service-6tSmrPad.js';
+import { c as calendar_data } from './calendar-data-vejfJjJ2.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
-import './booking.dto-B554ToUQ.js';
-import { f as formatDate } from './ir-date-tLkbTntq.js';
-import { a as formatBookingNumber, f as formatAmount, b as formatCount } from './number-DbiGgV_N.js';
-import { c as createColumnHelper, f as flexRender, u as useTable, b as getExpandedRowModel, d as getGroupedRowModel, a as getSortedRowModel, g as getCoreRowModel } from './useTable-CXkYMQoa.js';
-import { _ as _formatTime } from './functions-BI0MgE9h.js';
+import './booking.dto-FOZcMojD.js';
+import { f as formatDate } from './ir-date-2sKX7m-4.js';
+import { a as formatBookingNumber, f as formatAmount, b as formatCount } from './number-2X31jLIQ.js';
+import { c as createColumnHelper, f as flexRender, u as useTable, b as getExpandedRowModel, d as getGroupedRowModel, g as getSortedRowModel, a as getCoreRowModel } from './useTable-D3LS_BXH.js';
+import { _ as _formatTime } from './functions-DuaivJG8.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './utils-S6Mv4SON.js';
+import './utils-Buh7m2Xs.js';
 import './calendar-dates-D3hVfsrC.js';
 import './locales.store-CXJn6ls-.js';
-import './type-DjfVZqvs.js';
+import './type-DUaIPoJQ.js';
 import './language-observer-CHgzsZkY.js';
 
 const irCityLedgerFiscalDocumentsCss = () => `.sc-ir-city-ledger-fiscal-documents-h{display:block;max-width:1000px;margin-inline:auto}.fiscal-documents.sc-ir-city-ledger-fiscal-documents{display:flex;flex-direction:column;gap:0.875rem}`;
@@ -792,7 +792,7 @@ const IrCityLedgerFolioTable = class {
             enableGrouping: true,
         }),
         this.columnHelper.accessor('debit', {
-            header: t('Lcz_DebitColumn', { fallback: 'Debit' }),
+            header: t('Lcz_Debit', { fallback: 'Debit' }),
             cell: info => {
                 const symbol = this.getSymbol(info.row.original._raw.CURRENCY_ID);
                 return (h("ir-input-cell", { disabled: true, mask: 'price', value: info.getValue().toString() }, h("span", { slot: "start" }, symbol), h("span", null, info.getValue() ? formatAmount(symbol, info.getValue()) : '')));
@@ -803,7 +803,7 @@ const IrCityLedgerFolioTable = class {
             enableSorting: false,
         }),
         this.columnHelper.accessor('credit', {
-            header: t('Lcz_CreditColumn', { fallback: 'Credit' }),
+            header: t('Lcz_Credit', { fallback: 'Credit' }),
             cell: info => {
                 const symbol = this.getSymbol(info.row.original._raw.CURRENCY_ID);
                 return (h("ir-input-cell", { mask: 'price', disabled: true, value: info.getValue().toString() }, h("span", { slot: "start" }, symbol), h("span", null, info.getValue() ? formatAmount(symbol, info.getValue()) : '')));
@@ -1284,12 +1284,12 @@ const IrCityLedgerStatementsTable = class {
             }),
             this.columnHelper.accessor('DEBIT', {
                 id: 'debit',
-                header: t('Lcz_DebitColumn', { fallback: 'Debit' }),
+                header: t('Lcz_Debit', { fallback: 'Debit' }),
                 cell: info => (info.row.original.FD_TYPE_CODE === FdTypes.CreditReceipt ? '' : this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID)),
             }),
             this.columnHelper.accessor('CREDIT', {
                 id: 'credit',
-                header: t('Lcz_CreditColumn', { fallback: 'Credit' }),
+                header: t('Lcz_Credit', { fallback: 'Credit' }),
                 cell: info => this.renderMoney(this.getCredit(info), info.row.original.CURRENCY_ID),
             }),
             this.columnHelper.display({

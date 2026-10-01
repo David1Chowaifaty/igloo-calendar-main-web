@@ -1,5 +1,5 @@
 import type { HKSkipParams } from "../housekeeping/index";
-import type { SetRoomCalendarExtraParams } from "../property/types";
+import type { ExposedRectifierParams, SetRoomCalendarExtraParams } from "../property/types";
 import type { DoDayUseParams, SetDepartureTimeProps } from "../booking-service/types";
 import type { ClTx } from "../city-ledger/index";
 import type { RoomHkStatus } from "../../models/booking.dto";
@@ -169,6 +169,7 @@ export interface RealtimeEventMap {
     /** Full ClTx — use CL_TX_ID + IS_LOCKED + TRAVEL_AGENCY_ID from the object. */
     CL_TX_LOCKING: ClTx;
     CL_TX_CREATED: ClTx;
+    UPDATE_CALENDAR_AVAILABILITIES: ExposedRectifierParams;
 }
 /** Union of all known REASON strings. */
 export type RealtimeReason = keyof RealtimeEventMap;

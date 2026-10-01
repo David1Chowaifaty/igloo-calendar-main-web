@@ -104,12 +104,12 @@ export class IrCityLedgerStatementsTable {
             }),
             this.columnHelper.accessor('DEBIT', {
                 id: 'debit',
-                header: t('Lcz_DebitColumn', { fallback: 'Debit' }),
+                header: t('Lcz_Debit', { fallback: 'Debit' }),
                 cell: info => (info.row.original.FD_TYPE_CODE === FdTypes.CreditReceipt ? '' : this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID)),
             }),
             this.columnHelper.accessor('CREDIT', {
                 id: 'credit',
-                header: t('Lcz_CreditColumn', { fallback: 'Credit' }),
+                header: t('Lcz_Credit', { fallback: 'Credit' }),
                 cell: info => this.renderMoney(this.getCredit(info), info.row.original.CURRENCY_ID),
             }),
             this.columnHelper.display({

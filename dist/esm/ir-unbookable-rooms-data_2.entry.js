@@ -1,7 +1,7 @@
 import { r as registerInstance, h, H as Host, c as createEvent } from './index-CeHdrJeH.js';
 import { D as Debounce } from './debounce-DF70NVXP.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { f as formatDate } from './ir-date-tLkbTntq.js';
+import { f as formatDate } from './ir-date-2sKX7m-4.js';
 import { t } from './t-CHjay2ar.js';
 import './locales.store-CXJn6ls-.js';
 import './language-observer-CHgzsZkY.js';

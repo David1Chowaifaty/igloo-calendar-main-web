@@ -1,23 +1,25 @@
 import { r as registerInstance, a as getElement, h, H as Host, c as createEvent, F as Fragment } from './index-CeHdrJeH.js';
-import { P as PropertyService } from './index-DC8YmeDR.js';
+import { P as PropertyService } from './index-wG9M27cp.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { t } from './t-CHjay2ar.js';
-import { b as formatCount, a as formatBookingNumber } from './number-DbiGgV_N.js';
-import { B as BookingListingService } from './index-xYPScKrA.js';
+import { b as formatCount, a as formatBookingNumber } from './number-2X31jLIQ.js';
+import { B as BookingListingService } from './index-Bu3W4Jih.js';
 import { c as cjsExports } from './index-Bn8mRT4P.js';
+import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-BcfMCOSw.js';
+import { L as LanguageSync } from './language-sync-Bb-pm1Xe.js';
 import { a as axios } from './axios-B50ozOIF.js';
-import './types-CB66a07H.js';
-import './calendar-data-CL6uTgDb.js';
+import './types-BG9uwIsj.js';
+import './calendar-data-vejfJjJ2.js';
 import './locales.store-CXJn6ls-.js';
-import './utils-S6Mv4SON.js';
+import './utils-Buh7m2Xs.js';
 import './moment-Mki5YqAR.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
-import './ir-date-tLkbTntq.js';
+import './booking.dto-FOZcMojD.js';
+import './type-DUaIPoJQ.js';
+import './ir-date-2sKX7m-4.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './calendar-dates-D3hVfsrC.js';
-import './commonSchemas-Cx9w9d8l.js';
+import './commonSchemas-Ba2UWqGb.js';
 
 const irMenuCss = () => `:host{display:block}`;
 
@@ -442,6 +444,7 @@ const IrPmsSearch = class {
     }
     propertyid;
     ticket;
+    language = 'en';
     shortcutHint = null;
     bookings = [];
     isLoading;
@@ -449,6 +452,11 @@ const IrPmsSearch = class {
     bookingListingService = new BookingListingService();
     search$ = new cjsExports.Subject();
     subscription;
+    /** Results were fetched in the old language; drop them so the next search refetches in the new one. */
+    languageSync = new LanguageSync(SCREEN_TABLES.pmsSearch, () => {
+        this.bookings = [];
+        this.autoCompleteRef?.hide();
+    });
     comboboxSelect;
     autoCompleteRef;
     componentWillLoad() {
@@ -457,6 +465,7 @@ const IrPmsSearch = class {
         if (this.ticket) {
             this.apiClientService.setApiClient(this.ticket);
         }
+        LocaleController.load({ language: this.language, tables: SCREEN_TABLES.pmsSearch });
         this.subscription = this.search$
             .pipe(cjsExports.debounceTime(500), cjsExports.distinctUntilChanged(), cjsExports.filter(value => value.length >= 2), cjsExports.tap(() => {
             this.isLoading = true;
@@ -483,6 +492,7 @@ const IrPmsSearch = class {
                 is_to_export: false,
                 property_ids: null,
                 channel: '',
+                language: LocaleController.language,
             }, { skipStore: true })).pipe(cjsExports.catchError(() => cjsExports.of([])));
         }))
             .subscribe(bookings => {
@@ -491,9 +501,16 @@ const IrPmsSearch = class {
             this.autoCompleteRef?.show();
         });
     }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
     disconnectedCallback() {
         document.removeEventListener('keydown', this.focusInput);
         this.subscription?.unsubscribe();
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     handleTicketChange(newValue, oldValue) {
         console.log(this.ticket);
@@ -544,7 +561,7 @@ const IrPmsSearch = class {
         });
     }
     render() {
-        return (h(Host, { key: 'a77ad44e81ba68620a683d3b4f2c1887b35da934' }, h("ir-autocomplete", { key: '44764dae05df0449d1a4c7c13dc423a88a0199f0', class: "pms-search__autocomplete", placeholder: t('Lcz_BookingOrGuestNamePlaceholder', { fallback: 'Booking# or guest name' }), ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: '711d7236940aa3a2879f7b32407ca8e8a87f4281', name: "magnifying-glass", slot: "start" }), h("div", { key: '709de6f9f3d083dd50bae9f3aecd04c5278ae724', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: '860759888dc0fe39ec8bf90ca7f34fa044cb9525' }), this.shortcutHint && h("span", { key: '1111adbee99db82251d80b4dba6d20fbd8a68bf1' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (h("div", { key: '6a72c028985386af95b08a5c200afaaeee951425', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: 'bc03bfcf0de764f8ce31dd792d879372790a1c19', name: "circle-info", "aria-hidden": "true" }), h("div", { key: 'a71c6816fe25c52335fab74287a336ca120d1a9a', class: "pms-search__empty-content" }, h("div", { key: '7ee9e44a84792009370e75e36ea187846f888d23', class: "pms-search__empty-title" }, t('Lcz_NoResultsFound', { fallback: 'No results found' }))))), (this.bookings ?? [])?.map(b => {
+        return (h(Host, { key: '0e797aa39a709606a7f506ef61b56f7193d9539e' }, h("ir-autocomplete", { key: 'c3ab9dbe03a954882f82217e70299aa18296fd73', class: "pms-search__autocomplete", placeholder: t('Lcz_BookingOrGuestNamePlaceholder', { fallback: 'Booking# or guest name' }), ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: 'f1b903be2c39ab60c7a36938ea3bfc6d67dca813', name: "magnifying-glass", slot: "start" }), h("div", { key: 'c2fe33668b00a40f9581283775a14aaf313fc8a7', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: '0d98c40d194db5508b0ee01c21ec91d8d3899d07' }), this.shortcutHint && h("span", { key: '1c3b580eff48bbec75f29f4bed0e283e5e994b75' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (h("div", { key: 'db326115aad5b4b0f5d35fc20ea594ab5d142651', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: '13053a281086a10b1746499f038bce5e7b5976d3', name: "circle-info", "aria-hidden": "true" }), h("div", { key: '2467b9b098c8a76049003a5e632ef88a14146960', class: "pms-search__empty-content" }, h("div", { key: '794974a286e58a18eb60abbafcf449abd942120e', class: "pms-search__empty-title" }, t('Lcz_NoResultsFound', { fallback: 'No results found' }))))), (this.bookings ?? [])?.map(b => {
             if (!b) {
                 return null;
             }
@@ -553,6 +570,9 @@ const IrPmsSearch = class {
         }))));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "handleTicketChange": 0
             }]

@@ -5548,6 +5548,10 @@ export namespace Components {
         "ticket": string;
     }
     interface IrPmsSearch {
+        /**
+          * @default 'en'
+         */
+        "language": string;
         "propertyid": string;
         "ticket": string;
     }
@@ -20278,6 +20282,10 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrPmsSearch {
+        /**
+          * @default 'en'
+         */
+        "language"?: string;
         "onCombobox-select"?: (event: IrPmsSearchCustomEvent<IrComboboxSelectEventDetail>) => void;
         "propertyid"?: string;
         "ticket"?: string;
@@ -23919,6 +23927,7 @@ declare namespace LocalJSX {
     interface IrPmsSearchAttributes {
         "propertyid": string;
         "ticket": string;
+        "language": string;
     }
     interface IrPopoverAttributes {
         "content": string;

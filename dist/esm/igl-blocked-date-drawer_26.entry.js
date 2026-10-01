@@ -1,34 +1,33 @@
 import { r as registerInstance, c as createEvent, h, a as getElement, F as Fragment, H as Host, f as forceUpdate } from './index-CeHdrJeH.js';
-import { B as BookingService, b as booking_store, r as resetBookingStore } from './booking.store-Bc0gsD0k.js';
-import { g as getReleaseHoursString, i as isBlockUnit, d as showToast, r as checkMealPlan, t as isWeekend, n as getDaysArray } from './utils-S6Mv4SON.js';
+import { B as BookingService, b as booking_store, r as resetBookingStore } from './booking.service-C4G-ZI0V.js';
+import { g as getReleaseHoursString, i as isBlockUnit, d as showToast, r as checkMealPlan, t as isWeekend, n as getDaysArray } from './utils-Buh7m2Xs.js';
 import { t } from './t-CHjay2ar.js';
-import { h as buildSplitIndex, i as getSplitRole, a as calculateDaysBetweenDates, t as transformNewBooking, c as calendar_dates, b as compareTime, d as createDateWithOffsetAndHour } from './booking-DXVys0Tr.js';
+import { j as buildSplitIndex, k as getSplitRole, a as calculateDaysBetweenDates, t as transformNewBooking, c as calendar_dates, b as compareTime, d as createDateWithOffsetAndHour } from './booking-BasvoNd9.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { a as addDaysISO, n as nightsBetween, t as todayISO } from './calendar-dates-D3hVfsrC.js';
-import { E as EventsService } from './events.service-Bmrcnbm7.js';
+import { E as EventsService } from './events.service-CnU1BfrY.js';
 import { l as locales } from './locales.store-CXJn6ls-.js';
-import { c as calendar_data } from './calendar-data-CL6uTgDb.js';
+import { c as calendar_data } from './calendar-data-vejfJjJ2.js';
 import { C as CELL_WIDTH, E as EVENT_HEIGHT, g as getEventTopWithinRow, c as computeEventHorizontalGeometry, t as toPhysicalLeft, R as ROOM_HEADER_WIDTH, s as snapEventLeft, a as getTotalGridWidth, b as getUnassignedUnitsCountForDate, i as isUnassignedUnitsDateLoading, d as getUnassignedUnitsDateKeys, r as replaceUnassignedUnitsRange, e as getUnassignedUnitsForDate, f as removeUnassignedRoom } from './calendar-grid-BQuXzjtr.js';
-import { a as formatBookingNumber, f as formatAmount, c as formatNumber, b as formatCount, d as formatPercent } from './number-DbiGgV_N.js';
-import { L as LocaleController } from './locale.controller-BQzvhC3Q.js';
+import { a as formatBookingNumber, f as formatAmount, c as formatNumber, b as formatCount, d as formatPercent } from './number-2X31jLIQ.js';
+import { L as LocaleController } from './locale.controller-BcfMCOSw.js';
 import { c as isRtlDirection } from './direction-h66wLQy4.js';
-import { _ as _formatTime } from './functions-BI0MgE9h.js';
-import { f as formatDate } from './ir-date-tLkbTntq.js';
-import { H as HouseKeepingService } from './index-Dj3jk4LQ.js';
-import { P as PropertyService, E as ExposedRectifierParamsSchema } from './index-DC8YmeDR.js';
-import { n as numberType, o as objectType, c as coerce, Z as ZodError } from './types-CB66a07H.js';
+import { _ as _formatTime } from './functions-DuaivJG8.js';
+import { f as formatDate } from './ir-date-2sKX7m-4.js';
+import { H as HouseKeepingService } from './index-DGhJDPo4.js';
+import { P as PropertyService, E as ExposedRectifierParamsSchema } from './index-wG9M27cp.js';
+import { n as numberType, o as objectType, c as coerce, Z as ZodError } from './types-BG9uwIsj.js';
 import { i as isRequestPending } from './ir-interceptor.store-302gZvQv.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
-import { U as UnassignedUnitsService } from './index-DBJEeIOv.js';
-import { b as groupIntoCategories } from './utils-B1SB6aE8.js';
+import { U as UnassignedUnitsService } from './index-D-fuzvxW.js';
+import { b as groupIntoCategories } from './utils-DYuzHSzL.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-B4waZCSK.js';
-import './commonSchemas-Cx9w9d8l.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
+import './IBooking-B-QQODPH.js';
+import './commonSchemas-Ba2UWqGb.js';
+import './booking.dto-FOZcMojD.js';
+import './type-DUaIPoJQ.js';
 import './language-observer-CHgzsZkY.js';
-import './types-CyZFzmvF.js';
 
 const iglBlockedDateDrawerCss = () => `.sc-igl-blocked-date-drawer-h{display:block;text-align:start}`;
 
@@ -2155,7 +2154,7 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (h(Host, { key: 'b1826a8b2c5cb8a377c9978b2f1dfc0331aef138', class: "footerContainer" }, h("div", { key: 'd1c9c3d74c5d53e1952ea5cc0e26ea50ee8ad7e7', class: "footerCell bottomLeftCell align-items-center preventPageScroll", style: { paddingInlineStart: '10px' } }, h("button", { key: '2ef505921c73aacbc9e51de1a094bd05393410b9', class: "m-0 p-0 btn btn-sm  legendBtn d-flex align-items-center", style: { gap: '0.25rem' }, onClick: () => this.handleOptionEvent('showLegend') }, this.isLegendOpen ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, h("path", { fill: "currentColor", d: "M105.4 297.4C92.9 309.9 92.9 330.2 105.4 342.7L265.4 502.7C277.9 515.2 298.2 515.2 310.7 502.7C323.2 490.2 323.2 469.9 310.7 457.4L173.3 320L310.6 182.6C323.1 170.1 323.1 149.8 310.6 137.3C298.1 124.8 277.8 124.8 265.3 137.3L105.3 297.3zM457.4 137.4L297.4 297.4C284.9 309.9 284.9 330.2 297.4 342.7L457.4 502.7C469.9 515.2 490.2 515.2 502.7 502.7C515.2 490.2 515.2 469.9 502.7 457.4L365.3 320L502.6 182.6C515.1 170.1 515.1 149.8 502.6 137.3C490.1 124.8 469.8 124.8 457.3 137.3z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, h("path", { fill: "currentColor", d: "M535.1 342.6C547.6 330.1 547.6 309.8 535.1 297.3L375.1 137.3C362.6 124.8 342.3 124.8 329.8 137.3C317.3 149.8 317.3 170.1 329.8 182.6L467.2 320L329.9 457.4C317.4 469.9 317.4 490.2 329.9 502.7C342.4 515.2 362.7 515.2 375.2 502.7L535.2 342.7zM183.1 502.6L343.1 342.6C355.6 330.1 355.6 309.8 343.1 297.3L183.1 137.3C170.6 124.8 150.3 124.8 137.8 137.3C125.3 149.8 125.3 170.1 137.8 182.6L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7z" }))), h("span", { key: '2a57b8ad8e5e95761d20b93c964fd40b0a476e55' }, t('Lcz_Legend')), h("span", { key: '22439b49b471bb7476fe1d0aa9a718f292541d92' }, "v1.67"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: {
+        return (h(Host, { key: 'b1826a8b2c5cb8a377c9978b2f1dfc0331aef138', class: "footerContainer" }, h("div", { key: 'd1c9c3d74c5d53e1952ea5cc0e26ea50ee8ad7e7', class: "footerCell bottomLeftCell align-items-center preventPageScroll", style: { paddingInlineStart: '10px' } }, h("button", { key: '2ef505921c73aacbc9e51de1a094bd05393410b9', class: "m-0 p-0 btn btn-sm  legendBtn d-flex align-items-center", style: { gap: '0.25rem' }, onClick: () => this.handleOptionEvent('showLegend') }, this.isLegendOpen ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, h("path", { fill: "currentColor", d: "M105.4 297.4C92.9 309.9 92.9 330.2 105.4 342.7L265.4 502.7C277.9 515.2 298.2 515.2 310.7 502.7C323.2 490.2 323.2 469.9 310.7 457.4L173.3 320L310.6 182.6C323.1 170.1 323.1 149.8 310.6 137.3C298.1 124.8 277.8 124.8 265.3 137.3L105.3 297.3zM457.4 137.4L297.4 297.4C284.9 309.9 284.9 330.2 297.4 342.7L457.4 502.7C469.9 515.2 490.2 515.2 502.7 502.7C515.2 490.2 515.2 469.9 502.7 457.4L365.3 320L502.6 182.6C515.1 170.1 515.1 149.8 502.6 137.3C490.1 124.8 469.8 124.8 457.3 137.3z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, h("path", { fill: "currentColor", d: "M535.1 342.6C547.6 330.1 547.6 309.8 535.1 297.3L375.1 137.3C362.6 124.8 342.3 124.8 329.8 137.3C317.3 149.8 317.3 170.1 329.8 182.6L467.2 320L329.9 457.4C317.4 469.9 317.4 490.2 329.9 502.7C342.4 515.2 362.7 515.2 375.2 502.7L535.2 342.7zM183.1 502.6L343.1 342.6C355.6 330.1 355.6 309.8 343.1 297.3L183.1 137.3C170.6 124.8 150.3 124.8 137.8 137.3C125.3 149.8 125.3 170.1 137.8 182.6L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7z" }))), h("span", { key: '2a57b8ad8e5e95761d20b93c964fd40b0a476e55' }, t('Lcz_Legend')), h("span", { key: '22439b49b471bb7476fe1d0aa9a718f292541d92' }, "v1.68"))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: {
                 'dayTitle full-height align-items-center': true,
                 'weekend': isWeekend(dayInfo.value),
                 'currentDay': dayInfo.value === this._today || this.highlightedDate === dayInfo.value,
@@ -2942,7 +2941,7 @@ const IglLegend = class {
                     this.handleNameInput(index, event.target.value);
                     this.handleBlur(index);
                 } }, this.loadingIndex.includes(index) && (this.saveState === 'saving' || this.saveState === 'saved') ? (h("ir-success-loader", { slot: "end", onLoaderComplete: () => this.handleLoaderComplete(index) })) : null)));
-        })), h("wa-divider", { key: '2fffe2088548c6536ba037b452c4a388ad0bbf90' }), h("div", { key: '622789382d3dd842635807617d1142aa49285042' }, h("div", { key: 'd003e719aa9953c16a9fda559f5b001c3e79cf8f', class: "legendCalendar" }, h("div", { key: '25f3bfe9ba57e5cbc011830b010c3f06aa4797a0', class: "legendRow" }, h("div", { key: '49eddfcb81a1a904c9fee5c8ee76e9aabdfdd5c7', class: "legendCal br-t br-s br-bt" }, h("strong", { key: '4ea5c5732507f942feffdc2628c21f347921c8f2' }, t('Lcz_ExampleMonthYearLabel', { fallback: 'MAR 2022' }))), h("div", { key: 'fc731ed5c3336c4d9d467e17d4b9ff3b48053c7c', class: "hyphenLegend" }, t('Lcz_MonthAndYear'))), h("div", { key: 'c1caf3f18a10048c1f1e04a5e21c760485787187', class: "legendRow" }, h("div", { key: 'ca681ad975a1afe0a231221241145ea45ebbdb64', class: "legendCal headerCell br-s" }, h("wa-badge", { key: '5a1b9cda218f44045843263135506cf9604ab6b9', pill: true }, "3")), h("div", { key: 'c343e6b04b6c2f2527d8bda57b88b855072d9fa5', class: "hyphenLegend" }, h("div", { key: '08503aee4817f65ab8fd7f9a4993b0d5a9561442' }, t('Lcz_UnassignedUnits')))), h("div", { key: '70f67c9b243491cd5de6e88ba971763fd0c646a5', class: "legendRow" }, h("div", { key: 'be11005bbb89dcb5a836776cba8dfd6dbe17aba7', class: "legendCal dayTitle br-s" }, t('Lcz_ExampleDayLabel', { fallback: 'Fri 18' })), h("div", { key: '45f244335468444ade0e3d917dfd6e6a3250c750', class: "hyphenLegend" }, t('Lcz_Date'))), h("div", { key: '8ae65156a83a2d7f364a020437fad1fb50526d7b', class: "legendRow" }, h("div", { key: 'd3cd73f1ee5dec2d0c2c42a8966c0dd3dd034c1a', class: "legendCal br-s br-bt dayCapacityPercent" }, "15%"), h("div", { key: '26811223dc51e5ef3771316ad8fdd8b515aa9311', class: "hyphenLegend" }, t('Lcz_Occupancy'))), h("div", { key: '65a1a5cb36428bcae12b6a1fdfaba2ebd42df0c4', class: "legendRow" }, h("div", { key: '82e362414e72d4d45c6e67bbdae244d435d728af', class: "legendCal br-s br-bt total-availability" }, "20"), h("div", { key: '2ca3211eda0e2fe1c65d76baee6e6045ce037256', class: "hyphenLegend" }, t('Lcz_TotalAvailability'))))))));
+        })), h("wa-divider", { key: '2fffe2088548c6536ba037b452c4a388ad0bbf90' }), h("div", { key: '622789382d3dd842635807617d1142aa49285042' }, h("div", { key: 'd003e719aa9953c16a9fda559f5b001c3e79cf8f', class: "legendCalendar" }, h("div", { key: '25f3bfe9ba57e5cbc011830b010c3f06aa4797a0', class: "legendRow" }, h("div", { key: '49eddfcb81a1a904c9fee5c8ee76e9aabdfdd5c7', class: "legendCal br-t br-s br-bt" }, h("strong", { key: '4ea5c5732507f942feffdc2628c21f347921c8f2' }, t('Lcz_ExampleMonthYearLabel', { fallback: 'MAR 2022' }))), h("div", { key: 'fc731ed5c3336c4d9d467e17d4b9ff3b48053c7c', class: "hyphenLegend" }, t('Lcz_MonthAndYear'))), h("div", { key: 'c1caf3f18a10048c1f1e04a5e21c760485787187', class: "legendRow" }, h("div", { key: 'ca681ad975a1afe0a231221241145ea45ebbdb64', class: "legendCal headerCell br-s" }, h("wa-badge", { key: '5a1b9cda218f44045843263135506cf9604ab6b9', pill: true }, "3")), h("div", { key: 'c343e6b04b6c2f2527d8bda57b88b855072d9fa5', class: "hyphenLegend" }, h("div", { key: '08503aee4817f65ab8fd7f9a4993b0d5a9561442' }, t('Lcz_UnassignedUnits')))), h("div", { key: '70f67c9b243491cd5de6e88ba971763fd0c646a5', class: "legendRow" }, h("div", { key: 'be11005bbb89dcb5a836776cba8dfd6dbe17aba7', class: "legendCal dayTitle br-s" }, t('Lcz_ExampleDayLabel', { fallback: 'Fri 18' })), h("div", { key: '45f244335468444ade0e3d917dfd6e6a3250c750', class: "hyphenLegend" }, t('Lcz_DateLabel', { fallback: 'Date' }))), h("div", { key: '8522bb8c3dd79932598844adf92bc91da3640c72', class: "legendRow" }, h("div", { key: 'ccf30877ff99471ff29a4d81cf1e546f60c27a75', class: "legendCal br-s br-bt dayCapacityPercent" }, "15%"), h("div", { key: 'c9ae1a3d970430b91646ce8406478d86448e9df5', class: "hyphenLegend" }, t('Lcz_Occupancy'))), h("div", { key: '693a43d5a3a211e6e2c6e155aacb6af507b11230', class: "legendRow" }, h("div", { key: '4d68db9fb79e3f03a9c649c2c3d7587c17727a77', class: "legendCal br-s br-bt total-availability" }, "20"), h("div", { key: '110e4dd83717fa8c7a2b448984c780fea276f691', class: "hyphenLegend" }, t('Lcz_TotalAvailability'))))))));
     }
     static get watchers() { return {
         "saveState": [{

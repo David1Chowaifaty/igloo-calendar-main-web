@@ -1,18 +1,18 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var booking_store = require('./booking.store-DbF4cBud.js');
+var booking_service = require('./booking.service-Dvyvn2Xc.js');
 var utils = require('./utils-2ithg_2A.js');
 var t = require('./t-C54QV4_c.js');
 var booking = require('./booking-Cla_l0-a.js');
 var moment = require('./moment-CdViwxPQ.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
-var events_service = require('./events.service-CaRXl40H.js');
+var events_service = require('./events.service-BUG1-0zh.js');
 var locales_store = require('./locales.store-BMTss6fG.js');
 var calendarData = require('./calendar-data-y64tb1w5.js');
 var calendarGrid = require('./calendar-grid-DKz-VO3M.js');
 var number = require('./number-BmMUYhE5.js');
-var locale_controller = require('./locale.controller-B-HVDnk7.js');
+var locale_controller = require('./locale.controller-Fv2TNRHR.js');
 var direction = require('./direction-Cb_BHcnU.js');
 var functions = require('./functions-B3fUkdt1.js');
 var irDate = require('./ir-date-BLb2Vxrk.js');
@@ -30,7 +30,6 @@ require('./commonSchemas-D4iFLV5-.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
 require('./language-observer-DKp37LIu.js');
-require('./types-sp5nWPAa.js');
 
 const iglBlockedDateDrawerCss = () => `.sc-igl-blocked-date-drawer-h{display:block;text-align:start}`;
 
@@ -77,7 +76,7 @@ const IglBlockedDateDrawer = class {
         BLOCKED_TILL_MINUTE: null,
     };
     blockedDateDrawerClosed;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     async handleBlockDate() {
         try {
             this.isLoading = true;
@@ -336,7 +335,7 @@ const IglBookingEvent = class {
     isStretch = false;
     /*Services */
     eventsService = new events_service.EventsService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     /* Resize props */
     resizeSide = '';
     isDragging = false;
@@ -2157,7 +2156,7 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (index.h(index.Host, { key: 'b1826a8b2c5cb8a377c9978b2f1dfc0331aef138', class: "footerContainer" }, index.h("div", { key: 'd1c9c3d74c5d53e1952ea5cc0e26ea50ee8ad7e7', class: "footerCell bottomLeftCell align-items-center preventPageScroll", style: { paddingInlineStart: '10px' } }, index.h("button", { key: '2ef505921c73aacbc9e51de1a094bd05393410b9', class: "m-0 p-0 btn btn-sm  legendBtn d-flex align-items-center", style: { gap: '0.25rem' }, onClick: () => this.handleOptionEvent('showLegend') }, this.isLegendOpen ? (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, index.h("path", { fill: "currentColor", d: "M105.4 297.4C92.9 309.9 92.9 330.2 105.4 342.7L265.4 502.7C277.9 515.2 298.2 515.2 310.7 502.7C323.2 490.2 323.2 469.9 310.7 457.4L173.3 320L310.6 182.6C323.1 170.1 323.1 149.8 310.6 137.3C298.1 124.8 277.8 124.8 265.3 137.3L105.3 297.3zM457.4 137.4L297.4 297.4C284.9 309.9 284.9 330.2 297.4 342.7L457.4 502.7C469.9 515.2 490.2 515.2 502.7 502.7C515.2 490.2 515.2 469.9 502.7 457.4L365.3 320L502.6 182.6C515.1 170.1 515.1 149.8 502.6 137.3C490.1 124.8 469.8 124.8 457.3 137.3z" }))) : (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, index.h("path", { fill: "currentColor", d: "M535.1 342.6C547.6 330.1 547.6 309.8 535.1 297.3L375.1 137.3C362.6 124.8 342.3 124.8 329.8 137.3C317.3 149.8 317.3 170.1 329.8 182.6L467.2 320L329.9 457.4C317.4 469.9 317.4 490.2 329.9 502.7C342.4 515.2 362.7 515.2 375.2 502.7L535.2 342.7zM183.1 502.6L343.1 342.6C355.6 330.1 355.6 309.8 343.1 297.3L183.1 137.3C170.6 124.8 150.3 124.8 137.8 137.3C125.3 149.8 125.3 170.1 137.8 182.6L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7z" }))), index.h("span", { key: '2a57b8ad8e5e95761d20b93c964fd40b0a476e55' }, t.t('Lcz_Legend')), index.h("span", { key: '22439b49b471bb7476fe1d0aa9a718f292541d92' }, "v1.67"))), this.calendarData.days.map(dayInfo => (index.h("div", { class: "footerCell align-items-center" }, index.h("div", { class: {
+        return (index.h(index.Host, { key: 'b1826a8b2c5cb8a377c9978b2f1dfc0331aef138', class: "footerContainer" }, index.h("div", { key: 'd1c9c3d74c5d53e1952ea5cc0e26ea50ee8ad7e7', class: "footerCell bottomLeftCell align-items-center preventPageScroll", style: { paddingInlineStart: '10px' } }, index.h("button", { key: '2ef505921c73aacbc9e51de1a094bd05393410b9', class: "m-0 p-0 btn btn-sm  legendBtn d-flex align-items-center", style: { gap: '0.25rem' }, onClick: () => this.handleOptionEvent('showLegend') }, this.isLegendOpen ? (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, index.h("path", { fill: "currentColor", d: "M105.4 297.4C92.9 309.9 92.9 330.2 105.4 342.7L265.4 502.7C277.9 515.2 298.2 515.2 310.7 502.7C323.2 490.2 323.2 469.9 310.7 457.4L173.3 320L310.6 182.6C323.1 170.1 323.1 149.8 310.6 137.3C298.1 124.8 277.8 124.8 265.3 137.3L105.3 297.3zM457.4 137.4L297.4 297.4C284.9 309.9 284.9 330.2 297.4 342.7L457.4 502.7C469.9 515.2 490.2 515.2 502.7 502.7C515.2 490.2 515.2 469.9 502.7 457.4L365.3 320L502.6 182.6C515.1 170.1 515.1 149.8 502.6 137.3C490.1 124.8 469.8 124.8 457.3 137.3z" }))) : (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, index.h("path", { fill: "currentColor", d: "M535.1 342.6C547.6 330.1 547.6 309.8 535.1 297.3L375.1 137.3C362.6 124.8 342.3 124.8 329.8 137.3C317.3 149.8 317.3 170.1 329.8 182.6L467.2 320L329.9 457.4C317.4 469.9 317.4 490.2 329.9 502.7C342.4 515.2 362.7 515.2 375.2 502.7L535.2 342.7zM183.1 502.6L343.1 342.6C355.6 330.1 355.6 309.8 343.1 297.3L183.1 137.3C170.6 124.8 150.3 124.8 137.8 137.3C125.3 149.8 125.3 170.1 137.8 182.6L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7z" }))), index.h("span", { key: '2a57b8ad8e5e95761d20b93c964fd40b0a476e55' }, t.t('Lcz_Legend')), index.h("span", { key: '22439b49b471bb7476fe1d0aa9a718f292541d92' }, "v1.68"))), this.calendarData.days.map(dayInfo => (index.h("div", { class: "footerCell align-items-center" }, index.h("div", { class: {
                 'dayTitle full-height align-items-center': true,
                 'weekend': utils.isWeekend(dayInfo.value),
                 'currentDay': dayInfo.value === this._today || this.highlightedDate === dayInfo.value,
@@ -2944,7 +2943,7 @@ const IglLegend = class {
                     this.handleNameInput(index$1, event.target.value);
                     this.handleBlur(index$1);
                 } }, this.loadingIndex.includes(index$1) && (this.saveState === 'saving' || this.saveState === 'saved') ? (index.h("ir-success-loader", { slot: "end", onLoaderComplete: () => this.handleLoaderComplete(index$1) })) : null)));
-        })), index.h("wa-divider", { key: '2fffe2088548c6536ba037b452c4a388ad0bbf90' }), index.h("div", { key: '622789382d3dd842635807617d1142aa49285042' }, index.h("div", { key: 'd003e719aa9953c16a9fda559f5b001c3e79cf8f', class: "legendCalendar" }, index.h("div", { key: '25f3bfe9ba57e5cbc011830b010c3f06aa4797a0', class: "legendRow" }, index.h("div", { key: '49eddfcb81a1a904c9fee5c8ee76e9aabdfdd5c7', class: "legendCal br-t br-s br-bt" }, index.h("strong", { key: '4ea5c5732507f942feffdc2628c21f347921c8f2' }, t.t('Lcz_ExampleMonthYearLabel', { fallback: 'MAR 2022' }))), index.h("div", { key: 'fc731ed5c3336c4d9d467e17d4b9ff3b48053c7c', class: "hyphenLegend" }, t.t('Lcz_MonthAndYear'))), index.h("div", { key: 'c1caf3f18a10048c1f1e04a5e21c760485787187', class: "legendRow" }, index.h("div", { key: 'ca681ad975a1afe0a231221241145ea45ebbdb64', class: "legendCal headerCell br-s" }, index.h("wa-badge", { key: '5a1b9cda218f44045843263135506cf9604ab6b9', pill: true }, "3")), index.h("div", { key: 'c343e6b04b6c2f2527d8bda57b88b855072d9fa5', class: "hyphenLegend" }, index.h("div", { key: '08503aee4817f65ab8fd7f9a4993b0d5a9561442' }, t.t('Lcz_UnassignedUnits')))), index.h("div", { key: '70f67c9b243491cd5de6e88ba971763fd0c646a5', class: "legendRow" }, index.h("div", { key: 'be11005bbb89dcb5a836776cba8dfd6dbe17aba7', class: "legendCal dayTitle br-s" }, t.t('Lcz_ExampleDayLabel', { fallback: 'Fri 18' })), index.h("div", { key: '45f244335468444ade0e3d917dfd6e6a3250c750', class: "hyphenLegend" }, t.t('Lcz_Date'))), index.h("div", { key: '8ae65156a83a2d7f364a020437fad1fb50526d7b', class: "legendRow" }, index.h("div", { key: 'd3cd73f1ee5dec2d0c2c42a8966c0dd3dd034c1a', class: "legendCal br-s br-bt dayCapacityPercent" }, "15%"), index.h("div", { key: '26811223dc51e5ef3771316ad8fdd8b515aa9311', class: "hyphenLegend" }, t.t('Lcz_Occupancy'))), index.h("div", { key: '65a1a5cb36428bcae12b6a1fdfaba2ebd42df0c4', class: "legendRow" }, index.h("div", { key: '82e362414e72d4d45c6e67bbdae244d435d728af', class: "legendCal br-s br-bt total-availability" }, "20"), index.h("div", { key: '2ca3211eda0e2fe1c65d76baee6e6045ce037256', class: "hyphenLegend" }, t.t('Lcz_TotalAvailability'))))))));
+        })), index.h("wa-divider", { key: '2fffe2088548c6536ba037b452c4a388ad0bbf90' }), index.h("div", { key: '622789382d3dd842635807617d1142aa49285042' }, index.h("div", { key: 'd003e719aa9953c16a9fda559f5b001c3e79cf8f', class: "legendCalendar" }, index.h("div", { key: '25f3bfe9ba57e5cbc011830b010c3f06aa4797a0', class: "legendRow" }, index.h("div", { key: '49eddfcb81a1a904c9fee5c8ee76e9aabdfdd5c7', class: "legendCal br-t br-s br-bt" }, index.h("strong", { key: '4ea5c5732507f942feffdc2628c21f347921c8f2' }, t.t('Lcz_ExampleMonthYearLabel', { fallback: 'MAR 2022' }))), index.h("div", { key: 'fc731ed5c3336c4d9d467e17d4b9ff3b48053c7c', class: "hyphenLegend" }, t.t('Lcz_MonthAndYear'))), index.h("div", { key: 'c1caf3f18a10048c1f1e04a5e21c760485787187', class: "legendRow" }, index.h("div", { key: 'ca681ad975a1afe0a231221241145ea45ebbdb64', class: "legendCal headerCell br-s" }, index.h("wa-badge", { key: '5a1b9cda218f44045843263135506cf9604ab6b9', pill: true }, "3")), index.h("div", { key: 'c343e6b04b6c2f2527d8bda57b88b855072d9fa5', class: "hyphenLegend" }, index.h("div", { key: '08503aee4817f65ab8fd7f9a4993b0d5a9561442' }, t.t('Lcz_UnassignedUnits')))), index.h("div", { key: '70f67c9b243491cd5de6e88ba971763fd0c646a5', class: "legendRow" }, index.h("div", { key: 'be11005bbb89dcb5a836776cba8dfd6dbe17aba7', class: "legendCal dayTitle br-s" }, t.t('Lcz_ExampleDayLabel', { fallback: 'Fri 18' })), index.h("div", { key: '45f244335468444ade0e3d917dfd6e6a3250c750', class: "hyphenLegend" }, t.t('Lcz_DateLabel', { fallback: 'Date' }))), index.h("div", { key: '8522bb8c3dd79932598844adf92bc91da3640c72', class: "legendRow" }, index.h("div", { key: 'ccf30877ff99471ff29a4d81cf1e546f60c27a75', class: "legendCal br-s br-bt dayCapacityPercent" }, "15%"), index.h("div", { key: 'c9ae1a3d970430b91646ce8406478d86448e9df5', class: "hyphenLegend" }, t.t('Lcz_Occupancy'))), index.h("div", { key: '693a43d5a3a211e6e2c6e155aacb6af507b11230', class: "legendRow" }, index.h("div", { key: '4d68db9fb79e3f03a9c649c2c3d7587c17727a77', class: "legendCal br-s br-bt total-availability" }, "20"), index.h("div", { key: '110e4dd83717fa8c7a2b448984c780fea276f691', class: "hyphenLegend" }, t.t('Lcz_TotalAvailability'))))))));
     }
     static get watchers() { return {
         "saveState": [{
@@ -3032,7 +3031,7 @@ const IglRateExtenderForm = class {
     loadingChanged;
     /** Emits whether inventory is available for the additional nights (false when there is none). */
     availabilityChanged;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     inputRefs = [];
     shouldScrollToFirstEnabled = false;
     componentWillLoad() {
@@ -3228,7 +3227,7 @@ const IglRateExtenderForm = class {
         return (index.h("form", { id: "rate-extender-form", class: "rate-extender-form", onSubmit: e => {
                 e.preventDefault();
                 this.handleRoomConfirmation();
-            } }, index.h("section", { class: "rate-form__body" }, index.h("p", { class: "rate-form__booking-number" }, `${t.t('Lcz_Booking', { fallback: 'Booking' })}#`, " ", number.formatBookingNumber(this.bookingNumber)), index.h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', index.h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && index.h("span", { class: 'irfontgreen' }, t.t('Lcz_NonRefundable', { fallback: 'Non-refundable' }))), this.inventory !== 0 && this.inventory !== null && booking_store.booking_store.roomTypes?.length > 0 && (index.h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement))), index.h("p", { class: "rate-form__date-range" }, irDate.formatDate(this.dates.from_date, 'ddd, DD MMM YYYY'), " ", index.h("wa-icon", { class: "ir-flip-rtl", name: "arrow-right" }), " ", irDate.formatDate(this.dates.to_date, 'ddd, DD MMM YYYY')), (this.inventory === 0 || this.inventory === null) && (index.h("wa-callout", { size: "s", variant: "danger", class: "rate-form__availability-callout" }, index.h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), t.t('Lcz_NoAvailabilityForAdditionalNights'))), this.rates?.map((day, index$1) => {
+            } }, index.h("section", { class: "rate-form__body" }, index.h("p", { class: "rate-form__booking-number" }, `${t.t('Lcz_Booking', { fallback: 'Booking' })}#`, " ", number.formatBookingNumber(this.bookingNumber)), index.h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', index.h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && index.h("span", { class: 'irfontgreen' }, t.t('Lcz_NonRefundable', { fallback: 'Non-refundable' }))), this.inventory !== 0 && this.inventory !== null && booking_service.booking_store.roomTypes?.length > 0 && (index.h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement))), index.h("p", { class: "rate-form__date-range" }, irDate.formatDate(this.dates.from_date, 'ddd, DD MMM YYYY'), " ", index.h("wa-icon", { class: "ir-flip-rtl", name: "arrow-right" }), " ", irDate.formatDate(this.dates.to_date, 'ddd, DD MMM YYYY')), (this.inventory === 0 || this.inventory === null) && (index.h("wa-callout", { size: "s", variant: "danger", class: "rate-form__availability-callout" }, index.h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), t.t('Lcz_NoAvailabilityForAdditionalNights'))), this.rates?.map((day, index$1) => {
             return [
                 index.h("ir-validator", { key: day.date, value: day.amount, schema: types.numberType().min(0) }, index.h("ir-input", { ref: el => (this.inputRefs[index$1] = el), disabled: this.disabled(index$1), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index$1), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: irDate.formatDate(day.date, 'ddd, MMM D') }, index.h("span", { slot: "start" }, currency_symbol))),
                 this.showArrow(index$1) && index.h("wa-icon", { class: "rate-extender-arrow", name: this.isEndDateBeforeFromDate ? 'arrow-up' : 'arrow-down' }),
@@ -3421,7 +3420,7 @@ const IglSplitBookingForm = class {
     mealPlanOptions = null;
     closeModal;
     defaultDates;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     componentWillLoad() {
         this.room = this.getRoom();
         this.defaultDates = { ...this.generateDates(this.room) };
@@ -3457,7 +3456,7 @@ const IglSplitBookingForm = class {
     }
     async checkBookingAvailability() {
         this.isSearching = true;
-        booking_store.resetBookingStore(false);
+        booking_service.resetBookingStore(false);
         const from_date = this.selectedDates.from_date.format('YYYY-MM-DD');
         const to_date = this.selectedDates.to_date.format('YYYY-MM-DD');
         const is_in_agent_mode = this.booking.agent !== null;
@@ -4060,7 +4059,7 @@ const IrReallocationForm = class {
     errors;
     mealPlanOptions = null;
     closeModal;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     eventsService = new events_service.EventsService();
     componentWillLoad() {
         this.room = this.getRoom();
@@ -4082,7 +4081,7 @@ const IrReallocationForm = class {
     }
     async checkBookingAvailability() {
         this.isLoading = true;
-        booking_store.resetBookingStore(false);
+        booking_service.resetBookingStore(false);
         const is_in_agent_mode = this.booking.agent !== null;
         const { from_date, to_date } = this.getDates();
         try {

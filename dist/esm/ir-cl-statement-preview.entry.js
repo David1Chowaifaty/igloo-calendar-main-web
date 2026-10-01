@@ -1,25 +1,24 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
-import { C as CityLedgerService } from './index-mdFrKllf.js';
-import { P as PropertyService } from './index-DC8YmeDR.js';
+import { C as CityLedgerService } from './index-DEPBY97D.js';
+import { P as PropertyService } from './index-wG9M27cp.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-CL6uTgDb.js';
-import './booking.dto-B554ToUQ.js';
-import { f as formatDate } from './ir-date-tLkbTntq.js';
+import './calendar-data-vejfJjJ2.js';
+import './booking.dto-FOZcMojD.js';
+import { f as formatDate } from './ir-date-2sKX7m-4.js';
 import { t } from './t-CHjay2ar.js';
-import { f as formatAmount, a as formatBookingNumber } from './number-DbiGgV_N.js';
+import { f as formatAmount, a as formatBookingNumber } from './number-2X31jLIQ.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { F as FdTypes } from './enums-CSCQSgBu.js';
-import { L as LocaleController } from './locale.controller-BQzvhC3Q.js';
+import { F as FdTypes } from './enums-CcLtXwvz.js';
+import { L as LocaleController } from './locale.controller-BcfMCOSw.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './types-CB66a07H.js';
-import './utils-S6Mv4SON.js';
+import './types-BG9uwIsj.js';
+import './utils-Buh7m2Xs.js';
 import './calendar-dates-D3hVfsrC.js';
-import './commonSchemas-Cx9w9d8l.js';
+import './commonSchemas-Ba2UWqGb.js';
 import './locales.store-CXJn6ls-.js';
-import './type-DjfVZqvs.js';
+import './type-DUaIPoJQ.js';
 import './language-observer-CHgzsZkY.js';
-import './types-CyZFzmvF.js';
 
 const irClStatementPreviewCss = () => `.cl-table{width:100%;border-collapse:collapse;font-size:0.8125rem;table-layout:auto}.cl-th{padding:0.5rem 0.75rem;text-align:start;font-size:0.75rem;font-weight:600;text-transform:capitalize;color:#374151;border-top:2px solid #111827;border-bottom:1px solid #111827;white-space:nowrap}.cl-th--num{text-align:end}.cl-td{padding:0.45rem 0.75rem;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:middle}.cl-td--num{text-align:end;font-variant-numeric:tabular-nums;white-space:nowrap}.cl-td--muted{color:#6b7280}.cl-td--bold{font-weight:700;color:#111827}.cl-td--nowrap{white-space:nowrap}.cl-td--empty{text-align:center;color:#6b7280;padding:1.5rem 0.75rem;font-style:italic}.cl-balance-row td{background:#f3f4f6;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-weight:600;color:#111827;padding-top:0.5rem;padding-bottom:0.5rem}@media print{.cl-table{font-size:0.75rem}.cl-th,.cl-td{padding:0.35rem 0.5rem}.cl-td--muted,.cl-td--empty{color:#374151}.cl-balance-row td{-webkit-print-color-adjust:exact;print-color-adjust:exact}.cl-balance-row{page-break-inside:avoid}}:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:960px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.statement-period{display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;padding:0.5rem 0.75rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:4px;font-size:0.8125rem}.statement-period__label{font-weight:600;color:#374151}.statement-period__value{color:#374151}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}`;
 
@@ -111,7 +110,7 @@ const IrClStatementPreview = class {
         const { STARTING_BALANCE, ENDING_BALANCE } = this.statement;
         const currency = this.property?.currency?.symbol ?? '$';
         const fmt = (v) => (v != null ? formatAmount(currency, v) : '—');
-        return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '1.75rem' }, property: this.property, agentName: this.agentName, documentType: "statement" }), h("table", { class: "cl-table" }, h("thead", null, h("tr", null, h("th", { class: "cl-th" }, t('Lcz_DateLabel', { fallback: 'Date' })), h("th", { class: "cl-th" }, t('Lcz_DocumentNumberLabel', { fallback: 'Document #' })), h("th", { class: "cl-th" }, t('Lcz_Type', { fallback: 'Type' })), h("th", { class: "cl-th cl-th--num" }, t('Lcz_DebitColumn', { fallback: 'Debit' })), h("th", { class: "cl-th cl-th--num" }, t('Lcz_CreditColumn', { fallback: 'Credit' })), h("th", { class: "cl-th cl-th--num" }, t('Lcz_Balance', { fallback: 'Balance' })))), h("tbody", null, h("tr", { class: "cl-balance-row" }, h("td", { class: "cl-td", colSpan: 3 }, t('Lcz_OpeningBalanceRow', { fallback: 'Opening Balance — %1', params: [formatDate(this.fromDate, DATE_DISPLAY)] })), h("td", { class: "cl-td" }), h("td", { class: "cl-td" }), h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(STARTING_BALANCE))), (() => {
+        return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '1.75rem' }, property: this.property, agentName: this.agentName, documentType: "statement" }), h("table", { class: "cl-table" }, h("thead", null, h("tr", null, h("th", { class: "cl-th" }, t('Lcz_DateLabel', { fallback: 'Date' })), h("th", { class: "cl-th" }, t('Lcz_DocumentNumberLabel', { fallback: 'Document #' })), h("th", { class: "cl-th" }, t('Lcz_Type', { fallback: 'Type' })), h("th", { class: "cl-th cl-th--num" }, t('Lcz_Debit', { fallback: 'Debit' })), h("th", { class: "cl-th cl-th--num" }, t('Lcz_Credit', { fallback: 'Credit' })), h("th", { class: "cl-th cl-th--num" }, t('Lcz_Balance', { fallback: 'Balance' })))), h("tbody", null, h("tr", { class: "cl-balance-row" }, h("td", { class: "cl-td", colSpan: 3 }, t('Lcz_OpeningBalanceRow', { fallback: 'Opening Balance — %1', params: [formatDate(this.fromDate, DATE_DISPLAY)] })), h("td", { class: "cl-td" }), h("td", { class: "cl-td" }), h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(STARTING_BALANCE))), (() => {
             let running = STARTING_BALANCE;
             return this.fiscalDocuments.map(doc => {
                 running += (doc.DEBIT ?? 0) - (doc.CREDIT ?? 0);

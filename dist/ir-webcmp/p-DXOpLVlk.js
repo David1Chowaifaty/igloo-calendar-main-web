@@ -1,1 +1,0 @@
-import{o as s,s as e,d as o}from"./p-CB66a07H.js";const a=s({code:e(),description:e().nullable().default(""),table_name:e().nullable().optional()}),t=s({entries:o(a).nullable().default([]),direction:e().nullable().default("LTR")});export{t as E}

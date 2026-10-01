@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-CeHdrJeH.js';
 import { t } from './t-CHjay2ar.js';
-import { c as formatNumber } from './number-DbiGgV_N.js';
+import { c as formatNumber } from './number-2X31jLIQ.js';
 import './locales.store-CXJn6ls-.js';
-import './ir-date-tLkbTntq.js';
+import './ir-date-2sKX7m-4.js';
 import './language-observer-CHgzsZkY.js';
 import './moment-Mki5YqAR.js';
 import './_commonjsHelpers-BFTU3MAI.js';

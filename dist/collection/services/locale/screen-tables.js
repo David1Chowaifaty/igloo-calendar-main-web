@@ -71,6 +71,7 @@ export const SCREEN_TABLES = {
     otpModal: ['_USER_MGT'],
     paymentOption: ['_PAYMENT_BACK'],
     pmsPage: ['_PMS', '_CALENDAR'],
+    pmsSearch: [],
     queueManager: ['_FRONTDESK'],
     resetPassword: ['_USER_MGT', '_AUTH'],
     salesByChannel: ['_REPORTS'],

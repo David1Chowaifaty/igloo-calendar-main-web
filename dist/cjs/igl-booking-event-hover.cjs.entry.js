@@ -2,7 +2,7 @@
 
 var index = require('./index-CQkpA5n3.js');
 var utils = require('./utils-2ithg_2A.js');
-var events_service = require('./events.service-CaRXl40H.js');
+var events_service = require('./events.service-BUG1-0zh.js');
 var moment = require('./moment-CdViwxPQ.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 var locales_store = require('./locales.store-BMTss6fG.js');
@@ -20,7 +20,7 @@ require('./ir-date-BLb2Vxrk.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./axios-EresIryl.js');
-require('./booking.store-DbF4cBud.js');
+require('./booking.service-Dvyvn2Xc.js');
 require('./IBooking-hDE_y33g.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./functions-B3fUkdt1.js');
@@ -107,7 +107,7 @@ const IglBookingEventHover = class {
         if (CHILDREN_COUNT === 0) {
             return `${ADULTS_COUNT} ${ADULTS_COUNT > 1 ? t.t('Lcz_Adults', { fallback: 'adults' }) : t.t('Lcz_Single_Adult')?.toLowerCase()}`;
         }
-        return `${ADULTS_COUNT} ${ADULTS_COUNT > 1 ? t.t('Lcz_Adults', { fallback: 'adults' }) : t.t('Lcz_Single_Adult')?.toLowerCase()}, ${CHILDREN_COUNT} ${CHILDREN_COUNT > 1 ? t.t('Lcz_ChildCaption', { fallback: 'Child.' }).toLowerCase() : t.t('Lcz_Single_Child')?.toLowerCase()}`;
+        return `${ADULTS_COUNT} ${ADULTS_COUNT > 1 ? t.t('Lcz_Adults', { fallback: 'adults' }) : t.t('Lcz_Single_Adult')?.toLowerCase()}, ${CHILDREN_COUNT} ${CHILDREN_COUNT > 1 ? t.t('Lcz_ChildCaption', { fallback: 'Child.' }).toLowerCase() : t.t('Lcz_Child', { fallback: 'Child' })?.toLowerCase()}`;
     }
     getPhoneNumber() {
         return this.bookingEvent.PHONE;
@@ -420,7 +420,7 @@ const IglBookingEventHover = class {
             ? t.t('Lcz_WithLunch', { fallback: 'With lunch' })
             : this.room?.hb_preference === enums.HbPreference.Dinner
                 ? t.t('Lcz_WithDinner', { fallback: 'With dinner' })
-                : t.t('Lcz_ChooseLunchOrDinner', { fallback: 'Choose lunch or dinner' }))))), this.bookingEvent.DEPARTURE_TIME?.code !== '000' && (index.h("ir-label", { labelText: `${t.t('Lcz_DepartureTime', { fallback: 'Departure time:' })}`, content: this.bookingEvent.DEPARTURE_TIME?.description })), this.bookingEvent.PRIVATE_NOTE && index.h("ir-label", { labelText: `${t.t('Lcz_BookingPrivateNote')}:`, display: "inline", content: this.bookingEvent.PRIVATE_NOTE }), this.bookingEvent.is_direct && index.h("ir-label", { labelText: `${t.t('Lcz_GuestRemark')}:`, display: "inline", content: this.bookingEvent.NOTES }), index.h("ir-label", { labelText: `${t.t('Lcz_ChannelNotes')}:`, display: "inline", content: this.getOTANotes(), renderContentAsHtml: true }), this.getInternalNote() && index.h("ir-label", { labelText: `${t.t('Lcz_InternalRemark')}:`, content: this.getInternalNote() })), index.h("div", { class: "event-hover__actions", style: { paddingTop: '1.5rem' }, role: "group" }, index.h("ir-custom-button", { size: "xs", variant: "brand", onClickHandler: () => this.handleEditBooking() }, t.t('Lcz_Edit', { fallback: 'Edit' })), index.h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleReallocationBooking() }, t.t('Lcz_Reassign', { fallback: 'Reassign' })), this.bookingEvent.is_direct && this.bookingEvent.IS_EDITABLE && !this.hideButtons && (index.h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleAddRoom() }, t.t('Lcz_AddRoom'))), this.canSplitBooking() && (index.h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleSplitBooking() }, t.t('Lcz_Split', { fallback: 'Split' }))), this.canCheckIn() && (index.h("ir-custom-button", { size: "xs", onClickHandler: () => this.handleCustomerCheckIn(), variant: "brand", appearance: "outlined" }, t.t('Lcz_CheckIn', { fallback: 'Check in' }))), this.canCheckOut() && (index.h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleCustomerCheckOut() }, t.t('Lcz_CheckOut', { fallback: 'Check out' }))), this.hideButtons
+                : t.t('Lcz_ChooseLunchOrDinner', { fallback: 'Choose lunch or dinner' }))))), this.bookingEvent.DEPARTURE_TIME?.code !== '000' && (index.h("ir-label", { labelText: `${t.t('Lcz_DepartureTime', { fallback: 'Departure time:' })}`, content: this.bookingEvent.DEPARTURE_TIME?.description })), this.bookingEvent.PRIVATE_NOTE && index.h("ir-label", { labelText: `${t.t('Lcz_BookingPrivateNote')}:`, display: "inline", content: this.bookingEvent.PRIVATE_NOTE }), this.bookingEvent.is_direct && index.h("ir-label", { labelText: `${t.t('Lcz_GuestRemark')}:`, display: "inline", content: this.bookingEvent.NOTES }), index.h("ir-label", { labelText: `${t.t('Lcz_ChannelNotes')}:`, display: "inline", content: this.getOTANotes(), renderContentAsHtml: true }), this.getInternalNote() && index.h("ir-label", { labelText: `${t.t('Lcz_InternalRemark')}:`, content: this.getInternalNote() })), index.h("div", { class: "event-hover__actions", style: { paddingTop: '1.5rem' }, role: "group" }, index.h("ir-custom-button", { size: "xs", variant: "brand", onClickHandler: () => this.handleEditBooking() }, t.t('Lcz_Edit', { fallback: 'Edit' })), index.h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleReallocationBooking() }, t.t('Lcz_Reassign', { fallback: 'Reassign' })), this.bookingEvent.is_direct && this.bookingEvent.IS_EDITABLE && !this.hideButtons && (index.h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleAddRoom() }, t.t('Lcz_AddUnit', { fallback: 'Add unit' }))), this.canSplitBooking() && (index.h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleSplitBooking() }, t.t('Lcz_Split', { fallback: 'Split' }))), this.canCheckIn() && (index.h("ir-custom-button", { size: "xs", onClickHandler: () => this.handleCustomerCheckIn(), variant: "brand", appearance: "outlined" }, t.t('Lcz_CheckIn', { fallback: 'Check in' }))), this.canCheckOut() && (index.h("ir-custom-button", { size: "xs", variant: "brand", appearance: "outlined", onClickHandler: () => this.handleCustomerCheckOut() }, t.t('Lcz_CheckOut', { fallback: 'Check out' }))), this.hideButtons
             ? null
             : !this.shouldHideUnassignUnit && (index.h("ir-custom-button", { size: "xs", variant: "danger", appearance: "outlined", onClickHandler: _ => {
                     this.handleDeleteEvent();
@@ -460,7 +460,7 @@ const IglBookingEventHover = class {
         return index.h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (index.h(index.Host, { key: '79fecb41e8d6b41258c87d8eac93d81658a3b443', dir: direction.isRtlDirection(locales_store.locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (index.h(index.Host, { key: '502fc9c771d65a47f0519c5891b6cb5e39d486f8', dir: direction.isRtlDirection(locales_store.locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": [{

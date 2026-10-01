@@ -163,7 +163,7 @@ export class IrCityLedgerFolioTable {
             enableGrouping: true,
         }),
         this.columnHelper.accessor('debit', {
-            header: t('Lcz_DebitColumn', { fallback: 'Debit' }),
+            header: t('Lcz_Debit', { fallback: 'Debit' }),
             cell: info => {
                 const symbol = this.getSymbol(info.row.original._raw.CURRENCY_ID);
                 return (h("ir-input-cell", { disabled: true, mask: 'price', value: info.getValue().toString() }, h("span", { slot: "start" }, symbol), h("span", null, info.getValue() ? formatAmount(symbol, info.getValue()) : '')));
@@ -174,7 +174,7 @@ export class IrCityLedgerFolioTable {
             enableSorting: false,
         }),
         this.columnHelper.accessor('credit', {
-            header: t('Lcz_CreditColumn', { fallback: 'Credit' }),
+            header: t('Lcz_Credit', { fallback: 'Credit' }),
             cell: info => {
                 const symbol = this.getSymbol(info.row.original._raw.CURRENCY_ID);
                 return (h("ir-input-cell", { mask: 'price', disabled: true, value: info.getValue().toString() }, h("span", { slot: "start" }, symbol), h("span", null, info.getValue() ? formatAmount(symbol, info.getValue()) : '')));

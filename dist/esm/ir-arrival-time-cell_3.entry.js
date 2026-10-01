@@ -1,9 +1,9 @@
 import { r as registerInstance, h, H as Host, F as Fragment } from './index-CeHdrJeH.js';
-import { _ as _formatTime } from './functions-BI0MgE9h.js';
-import { f as formatDate } from './ir-date-tLkbTntq.js';
+import { _ as _formatTime } from './functions-DuaivJG8.js';
+import { f as formatDate } from './ir-date-2sKX7m-4.js';
 import './moment-Mki5YqAR.js';
 import { t } from './t-CHjay2ar.js';
-import { c as formatNumber } from './number-DbiGgV_N.js';
+import { c as formatNumber } from './number-2X31jLIQ.js';
 import './locales.store-CXJn6ls-.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';

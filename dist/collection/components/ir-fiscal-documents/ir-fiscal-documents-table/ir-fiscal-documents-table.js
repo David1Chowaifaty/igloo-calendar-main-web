@@ -167,11 +167,11 @@ export class IrFiscalDocumentsTable {
         }));
         if (!this.taxableOnly) {
             identityCols.push(this.columnHelper.accessor('DEBIT', {
-                header: t('Lcz_DebitColumn', { fallback: 'Debit' }),
+                header: t('Lcz_Debit', { fallback: 'Debit' }),
                 cell: info => h("span", null, this.renderMoney(info.getValue())),
             }));
             identityCols.push(this.columnHelper.accessor('CREDIT', {
-                header: t('Lcz_CreditColumn', { fallback: 'Credit' }),
+                header: t('Lcz_Credit', { fallback: 'Credit' }),
                 cell: info => h("span", null, this.renderMoney(this.getCredit(info))),
             }));
         }

@@ -175,6 +175,17 @@ export declare class IglooCalendar {
     private runUnassignedDatesFlush;
     private clearUnassignedDatesTimers;
     private handleGetUnassignedDates;
+    /**
+     * Broadcast when the server rectified availability for a period. Re-reads `Get_Exposed_Calendar` for
+     * that period, clamped to the loaded range — nights outside it aren't rendered, so they aren't fetched.
+     */
+    private handleUpdateCalendarAvailabilities;
+    /**
+     * Replaces loaded days with freshly fetched ones (matched by date) and recomputes their disabled cells.
+     * Writes to the store only — reassigning `calendarData` would make igl-cal-body rebuild the disabled-cells
+     * cache from stop-sale alone and drop the cells disabled for zero inventory.
+     */
+    private applyRefreshedDays;
     /** Every unassigned-units read goes through here so the header can show the range as in flight. */
     private fetchUnassignedUnitsRange;
     private flushUnassignedDates;

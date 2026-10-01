@@ -2,10 +2,10 @@ import { r as registerInstance, c as createEvent, h } from './index-CeHdrJeH.js'
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { u as updateUninvoicedBookingsFilters, a as uninvoiced_bookings, s as setUninvoicedBookingsTablePage, b as setUninvoicedBookingsTablePageSize } from './uninvoiced_bookings.store-wJitnhQC.js';
 import { t } from './t-CHjay2ar.js';
-import { b as formatCount, f as formatAmount } from './number-DbiGgV_N.js';
-import { c as createColumnHelper, u as useTable, f as flexRender, g as getCoreRowModel } from './useTable-CXkYMQoa.js';
+import { b as formatCount, f as formatAmount } from './number-2X31jLIQ.js';
+import { c as createColumnHelper, u as useTable, f as flexRender, a as getCoreRowModel } from './useTable-D3LS_BXH.js';
 import './locales.store-CXJn6ls-.js';
-import './ir-date-tLkbTntq.js';
+import './ir-date-2sKX7m-4.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 
