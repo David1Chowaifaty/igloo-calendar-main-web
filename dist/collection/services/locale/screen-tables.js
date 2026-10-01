@@ -49,7 +49,7 @@ export const SCREEN_TABLES = {
     bookingListing: ['_BOOKING'],
     bookingPrinting: ['_BOOKING'],
     bookProperty: ['_CALENDAR'],
-    calendar: ['_USER_MGT', '_CALENDAR', '_HOUSEKEEPING', '_BOOKING'],
+    calendar: ['_CALENDAR', '_HOUSEKEEPING', '_BOOKING'],
     channel: ['_CHANNEL_FRONT', '_SETTINGS'],
     cityLedger: ['_FINANCIALS'],
     dailyRevenue: ['_REPORTS'],

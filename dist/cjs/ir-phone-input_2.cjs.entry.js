@@ -1,8 +1,8 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var booking_service = require('./booking.service-Dvyvn2Xc.js');
-var locale_controller = require('./locale.controller-Fv2TNRHR.js');
+var booking_service = require('./booking.service-BnNX44M6.js');
+var locale_controller = require('./locale.controller-CDV1QreM.js');
 var t = require('./t-C54QV4_c.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

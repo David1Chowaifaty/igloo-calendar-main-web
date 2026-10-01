@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h } from './index-CeHdrJeH.js';
-import { H as HouseKeepingService, g as getDefaultProperties } from './index-DGhJDPo4.js';
+import { H as HouseKeepingService, g as getDefaultProperties } from './index-Dd9fV5eL.js';
 import { U as UserService } from './user.service-BP3Shs6G.js';
 import { c as calendar_data } from './calendar-data-vejfJjJ2.js';
 import { C as CONSTANTS } from './constants-DI4DZmiQ.js';

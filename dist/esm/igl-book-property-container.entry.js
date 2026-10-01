@@ -1,9 +1,9 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-CeHdrJeH.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { B as BookingService } from './booking.service-C4G-ZI0V.js';
-import { R as RoomService } from './room.service-Dvut2cma.js';
-import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-BcfMCOSw.js';
-import { L as LanguageSync } from './language-sync-Bb-pm1Xe.js';
+import { B as BookingService } from './booking.service-Dix1ZuSt.js';
+import { R as RoomService } from './room.service-BjZu5iGq.js';
+import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-CLqck9OI.js';
+import { L as LanguageSync } from './language-sync-Brtzz-nr.js';
 import { t } from './t-CHjay2ar.js';
 import { t as todayISO, a as addDaysISO } from './calendar-dates-D3hVfsrC.js';
 import './axios-B50ozOIF.js';

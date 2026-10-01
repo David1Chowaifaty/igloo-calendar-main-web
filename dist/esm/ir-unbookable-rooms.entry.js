@@ -1,6 +1,6 @@
 import { r as registerInstance, h } from './index-CeHdrJeH.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { P as PropertyService } from './index-wG9M27cp.js';
+import { P as PropertyService } from './index-D4uq416n.js';
 import { t } from './t-CHjay2ar.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';

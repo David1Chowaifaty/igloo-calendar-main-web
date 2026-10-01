@@ -49,7 +49,7 @@ export declare const SCREEN_TABLES: {
     readonly bookingListing: readonly ["_BOOKING"];
     readonly bookingPrinting: readonly ["_BOOKING"];
     readonly bookProperty: readonly ["_CALENDAR"];
-    readonly calendar: readonly ["_USER_MGT", "_CALENDAR", "_HOUSEKEEPING", "_BOOKING"];
+    readonly calendar: readonly ["_CALENDAR", "_HOUSEKEEPING", "_BOOKING"];
     readonly channel: readonly ["_CHANNEL_FRONT", "_SETTINGS"];
     readonly cityLedger: readonly ["_FINANCIALS"];
     readonly dailyRevenue: readonly ["_REPORTS"];

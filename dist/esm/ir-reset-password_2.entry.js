@@ -3,7 +3,7 @@ import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { A as AuthService } from './authenticate.service-C4X_z1zf.js';
 import { S as SystemService } from './system.service-DN8zRqj9.js';
 import { C as CONSTANTS } from './constants-DI4DZmiQ.js';
-import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-BcfMCOSw.js';
+import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-CLqck9OI.js';
 import { t } from './t-CHjay2ar.js';
 import { o as objectType, s as stringType, Z as ZodError, u as unionType, l as literalType, c as coerce } from './types-BG9uwIsj.js';
 import { U as UserService } from './user.service-BP3Shs6G.js';

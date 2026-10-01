@@ -10,7 +10,7 @@ import { b as formatCount } from './number-2X31jLIQ.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { S as SystemService } from './system.service-DN8zRqj9.js';
 import { l as locales } from './locales.store-CXJn6ls-.js';
-import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-BcfMCOSw.js';
+import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-CLqck9OI.js';
 import { o as objectType, s as stringType } from './types-BG9uwIsj.js';
 import { a as countMissing, h as hasValue, s as setCopiedEntry, g as getSourceLanguage, d as diffValues, b as getCopiedEntry, U as USED_TABLES_LOCAL_STORAGE_NAME, P as PINNED_LANG_LOCAL_STORAGE_NAME, S as SHOW_NOTES_LOCAL_STORAGE_NAME, e as buildDuplicateMap, f as SESSION_CURRENT_TABLE, i as sortByDisplayOrder, o as orderLanguages, j as USED_SETUP_TABLE_SET } from './utils-DLfKehwl.js';
 import { c as createColumnHelper, f as flexRender, u as useTable, a as getCoreRowModel } from './useTable-D3LS_BXH.js';

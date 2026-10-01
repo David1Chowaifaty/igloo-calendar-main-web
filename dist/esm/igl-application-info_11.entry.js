@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment, a as getElement } from './index-CeHdrJeH.js';
-import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams } from './booking.service-C4G-ZI0V.js';
+import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams } from './booking.service-Dix1ZuSt.js';
 import { a as isSingleUnit, c as calendar_data } from './calendar-data-vejfJjJ2.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import './booking.dto-FOZcMojD.js';

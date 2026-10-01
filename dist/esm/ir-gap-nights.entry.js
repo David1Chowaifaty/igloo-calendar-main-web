@@ -1,12 +1,12 @@
 import { r as registerInstance, h, H as Host } from './index-CeHdrJeH.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { S as SetupService } from './index-C5-I3-CA.js';
-import { P as PropertyService } from './index-wG9M27cp.js';
-import { R as RoomService } from './room.service-Dvut2cma.js';
+import { P as PropertyService } from './index-D4uq416n.js';
+import { R as RoomService } from './room.service-BjZu5iGq.js';
 import { i as isRequestPending } from './ir-interceptor.store-302gZvQv.js';
 import { d as showToast } from './utils-Buh7m2Xs.js';
-import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-BcfMCOSw.js';
-import { L as LanguageSync } from './language-sync-Bb-pm1Xe.js';
+import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CLqck9OI.js';
+import { L as LanguageSync } from './language-sync-Brtzz-nr.js';
 import { t } from './t-CHjay2ar.js';
 import { g as groupEntryTablesResult, d as getSetupEntryLabel } from './utils-CaIi5Ivc.js';
 import './axios-B50ozOIF.js';

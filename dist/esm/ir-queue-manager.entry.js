@@ -2,7 +2,7 @@ import { r as registerInstance, a as getElement, h, H as Host } from './index-Ce
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { i as isRequestPending } from './ir-interceptor.store-302gZvQv.js';
 import { a as axios } from './axios-B50ozOIF.js';
-import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-BcfMCOSw.js';
+import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-CLqck9OI.js';
 import { t } from './t-CHjay2ar.js';
 import './locales.store-CXJn6ls-.js';
 import './_commonjsHelpers-BFTU3MAI.js';

@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-CeHdrJeH.js';
-import { B as BookingService } from './booking.service-C4G-ZI0V.js';
-import { L as LocaleController } from './locale.controller-BcfMCOSw.js';
+import { B as BookingService } from './booking.service-Dix1ZuSt.js';
+import { L as LocaleController } from './locale.controller-CLqck9OI.js';
 import { t } from './t-CHjay2ar.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';

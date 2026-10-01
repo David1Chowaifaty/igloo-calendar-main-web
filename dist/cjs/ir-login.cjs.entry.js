@@ -4,7 +4,7 @@ var index = require('./index-CQkpA5n3.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var authenticate_service = require('./authenticate.service-CUEKvxj9.js');
 var irInterceptor_store = require('./ir-interceptor.store-moMB-JCs.js');
-var locale_controller = require('./locale.controller-Fv2TNRHR.js');
+var locale_controller = require('./locale.controller-CDV1QreM.js');
 var t = require('./t-C54QV4_c.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

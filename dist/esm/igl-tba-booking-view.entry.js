@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
-import { U as UnassignedUnitsService } from './index-D-fuzvxW.js';
+import { U as UnassignedUnitsService } from './index-DJpC1khj.js';
 import { c as clampToLoadedRange, t as toCalendarPreviewEvents, a as toCalendarAssignedEvent, g as guestName } from './utils-DYuzHSzL.js';
 import { t } from './t-CHjay2ar.js';
 import { a as formatBookingNumber } from './number-2X31jLIQ.js';

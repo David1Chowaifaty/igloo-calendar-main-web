@@ -1,9 +1,9 @@
 import { r as registerInstance, h, H as Host } from './index-CeHdrJeH.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { R as RoomService } from './room.service-Dvut2cma.js';
+import { R as RoomService } from './room.service-BjZu5iGq.js';
 import { S as SetupService } from './index-C5-I3-CA.js';
-import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-BcfMCOSw.js';
-import { L as LanguageSync } from './language-sync-Bb-pm1Xe.js';
+import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CLqck9OI.js';
+import { L as LanguageSync } from './language-sync-Brtzz-nr.js';
 import { t } from './t-CHjay2ar.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
