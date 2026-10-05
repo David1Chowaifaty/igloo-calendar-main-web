@@ -85,6 +85,8 @@ import { MaskProp as MaskProp1, NativeWaInput as NativeWaInput1 } from "./compon
 import { FactoryArg } from "imask";
 import { BookingInvoiceInfo, ViewMode } from "./components/ir-invoice/types";
 import { IssueInvoiceProps } from "./services/booking-service/types";
+import { LoginAsideView } from "./components/ir-login-aside/ir-login-aside";
+import { TLocaleEntries } from "./stores/locales.store";
 import { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
 import { MealCountDaySummary, MealGuestEntry } from "./services/meal-report/types";
 import { MetricSize } from "./components/ir-metric-card/ir-metric-card";
@@ -194,6 +196,8 @@ export { MaskProp as MaskProp1, NativeWaInput as NativeWaInput1 } from "./compon
 export { FactoryArg } from "imask";
 export { BookingInvoiceInfo, ViewMode } from "./components/ir-invoice/types";
 export { IssueInvoiceProps } from "./services/booking-service/types";
+export { LoginAsideView } from "./components/ir-login-aside/ir-login-aside";
+export { TLocaleEntries } from "./stores/locales.store";
 export { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
 export { MealCountDaySummary, MealGuestEntry } from "./services/meal-report/types";
 export { MetricSize } from "./components/ir-metric-card/ir-metric-card";
@@ -4698,6 +4702,45 @@ export namespace Components {
           * @default 'en'
          */
         "language": string;
+    }
+    interface IrLoginAside {
+        /**
+          * Alternative text for the image. Empty means decorative.
+          * @default ''
+         */
+        "imageAlt": string;
+        /**
+          * Image URL, used when `view` is `image`.
+         */
+        "imageSrc": string;
+        /**
+          * Server-provided `Lcz_*` translations, passed through to the calendar view.
+          * @default null
+         */
+        "localeEntries": TLocaleEntries | null;
+        /**
+          * Which aside content to render.
+          * @default 'calendar'
+         */
+        "view": LoginAsideView;
+    }
+    interface IrLoginAsideCalendar {
+        /**
+          * Translated labels from the server, keyed by `Lcz_*`. Any key that's missing (or the whole object, until it arrives) falls back to the built-in English text.
+          * @default null
+         */
+        "localeEntries": TLocaleEntries | null;
+    }
+    interface IrLoginAsideImage {
+        /**
+          * Alternative text. Leave empty when the image is purely decorative.
+          * @default ''
+         */
+        "imageAlt": string;
+        /**
+          * Image URL rendered as the aside background.
+         */
+        "imageSrc": string;
     }
     interface IrMCombobox {
         /**
@@ -12067,6 +12110,24 @@ declare global {
         prototype: HTMLIrLoginElement;
         new (): HTMLIrLoginElement;
     };
+    interface HTMLIrLoginAsideElement extends Components.IrLoginAside, HTMLStencilElement {
+    }
+    var HTMLIrLoginAsideElement: {
+        prototype: HTMLIrLoginAsideElement;
+        new (): HTMLIrLoginAsideElement;
+    };
+    interface HTMLIrLoginAsideCalendarElement extends Components.IrLoginAsideCalendar, HTMLStencilElement {
+    }
+    var HTMLIrLoginAsideCalendarElement: {
+        prototype: HTMLIrLoginAsideCalendarElement;
+        new (): HTMLIrLoginAsideCalendarElement;
+    };
+    interface HTMLIrLoginAsideImageElement extends Components.IrLoginAsideImage, HTMLStencilElement {
+    }
+    var HTMLIrLoginAsideImageElement: {
+        prototype: HTMLIrLoginAsideImageElement;
+        new (): HTMLIrLoginAsideImageElement;
+    };
     interface HTMLIrMComboboxElementEventMap {
         "optionChange": ComboboxOption;
         "searchQuery": string;
@@ -14268,6 +14329,9 @@ declare global {
         "ir-loading-screen": HTMLIrLoadingScreenElement;
         "ir-locale-switcher": HTMLIrLocaleSwitcherElement;
         "ir-login": HTMLIrLoginElement;
+        "ir-login-aside": HTMLIrLoginAsideElement;
+        "ir-login-aside-calendar": HTMLIrLoginAsideCalendarElement;
+        "ir-login-aside-image": HTMLIrLoginAsideImageElement;
         "ir-m-combobox": HTMLIrMComboboxElement;
         "ir-m-combobox-booking-item": HTMLIrMComboboxBookingItemElement;
         "ir-m-combobox-item": HTMLIrMComboboxItemElement;
@@ -19325,6 +19389,45 @@ declare namespace LocalJSX {
     code: 'succsess' | 'error';
   }>) => void;
     }
+    interface IrLoginAside {
+        /**
+          * Alternative text for the image. Empty means decorative.
+          * @default ''
+         */
+        "imageAlt"?: string;
+        /**
+          * Image URL, used when `view` is `image`.
+         */
+        "imageSrc"?: string;
+        /**
+          * Server-provided `Lcz_*` translations, passed through to the calendar view.
+          * @default null
+         */
+        "localeEntries"?: TLocaleEntries | null;
+        /**
+          * Which aside content to render.
+          * @default 'calendar'
+         */
+        "view"?: LoginAsideView;
+    }
+    interface IrLoginAsideCalendar {
+        /**
+          * Translated labels from the server, keyed by `Lcz_*`. Any key that's missing (or the whole object, until it arrives) falls back to the built-in English text.
+          * @default null
+         */
+        "localeEntries"?: TLocaleEntries | null;
+    }
+    interface IrLoginAsideImage {
+        /**
+          * Alternative text. Leave empty when the image is purely decorative.
+          * @default ''
+         */
+        "imageAlt"?: string;
+        /**
+          * Image URL rendered as the aside background.
+         */
+        "imageSrc"?: string;
+    }
     interface IrMCombobox {
         /**
           * Determines how the options are loaded into the component. - 'static': Uses the options passed through the `options` prop or the default internal list. - 'external': Emits search events for external handling, options updated via `options` prop.
@@ -23687,6 +23790,15 @@ declare namespace LocalJSX {
     interface IrLoginAttributes {
         "language": string;
     }
+    interface IrLoginAsideAttributes {
+        "view": LoginAsideView;
+        "imageSrc": string;
+        "imageAlt": string;
+    }
+    interface IrLoginAsideImageAttributes {
+        "imageSrc": string;
+        "imageAlt": string;
+    }
     interface IrMComboboxAttributes {
         "placeholder": string;
         "defaultOption": ComboboxOption['value'];
@@ -24696,6 +24808,9 @@ declare namespace LocalJSX {
         "ir-loading-screen": Omit<IrLoadingScreen, keyof IrLoadingScreenAttributes> & { [K in keyof IrLoadingScreen & keyof IrLoadingScreenAttributes]?: IrLoadingScreen[K] } & { [K in keyof IrLoadingScreen & keyof IrLoadingScreenAttributes as `attr:${K}`]?: IrLoadingScreenAttributes[K] } & { [K in keyof IrLoadingScreen & keyof IrLoadingScreenAttributes as `prop:${K}`]?: IrLoadingScreen[K] };
         "ir-locale-switcher": Omit<IrLocaleSwitcher, keyof IrLocaleSwitcherAttributes> & { [K in keyof IrLocaleSwitcher & keyof IrLocaleSwitcherAttributes]?: IrLocaleSwitcher[K] } & { [K in keyof IrLocaleSwitcher & keyof IrLocaleSwitcherAttributes as `attr:${K}`]?: IrLocaleSwitcherAttributes[K] } & { [K in keyof IrLocaleSwitcher & keyof IrLocaleSwitcherAttributes as `prop:${K}`]?: IrLocaleSwitcher[K] };
         "ir-login": Omit<IrLogin, keyof IrLoginAttributes> & { [K in keyof IrLogin & keyof IrLoginAttributes]?: IrLogin[K] } & { [K in keyof IrLogin & keyof IrLoginAttributes as `attr:${K}`]?: IrLoginAttributes[K] } & { [K in keyof IrLogin & keyof IrLoginAttributes as `prop:${K}`]?: IrLogin[K] };
+        "ir-login-aside": Omit<IrLoginAside, keyof IrLoginAsideAttributes> & { [K in keyof IrLoginAside & keyof IrLoginAsideAttributes]?: IrLoginAside[K] } & { [K in keyof IrLoginAside & keyof IrLoginAsideAttributes as `attr:${K}`]?: IrLoginAsideAttributes[K] } & { [K in keyof IrLoginAside & keyof IrLoginAsideAttributes as `prop:${K}`]?: IrLoginAside[K] };
+        "ir-login-aside-calendar": IrLoginAsideCalendar;
+        "ir-login-aside-image": Omit<IrLoginAsideImage, keyof IrLoginAsideImageAttributes> & { [K in keyof IrLoginAsideImage & keyof IrLoginAsideImageAttributes]?: IrLoginAsideImage[K] } & { [K in keyof IrLoginAsideImage & keyof IrLoginAsideImageAttributes as `attr:${K}`]?: IrLoginAsideImageAttributes[K] } & { [K in keyof IrLoginAsideImage & keyof IrLoginAsideImageAttributes as `prop:${K}`]?: IrLoginAsideImage[K] };
         "ir-m-combobox": Omit<IrMCombobox, keyof IrMComboboxAttributes> & { [K in keyof IrMCombobox & keyof IrMComboboxAttributes]?: IrMCombobox[K] } & { [K in keyof IrMCombobox & keyof IrMComboboxAttributes as `attr:${K}`]?: IrMComboboxAttributes[K] } & { [K in keyof IrMCombobox & keyof IrMComboboxAttributes as `prop:${K}`]?: IrMCombobox[K] };
         "ir-m-combobox-booking-item": IrMComboboxBookingItem;
         "ir-m-combobox-item": Omit<IrMComboboxItem, keyof IrMComboboxItemAttributes> & { [K in keyof IrMComboboxItem & keyof IrMComboboxItemAttributes]?: IrMComboboxItem[K] } & { [K in keyof IrMComboboxItem & keyof IrMComboboxItemAttributes as `attr:${K}`]?: IrMComboboxItemAttributes[K] } & { [K in keyof IrMComboboxItem & keyof IrMComboboxItemAttributes as `prop:${K}`]?: IrMComboboxItem[K] } & OneOf<"value", IrMComboboxItem["value"], IrMComboboxItemAttributes["value"]>;
@@ -25261,6 +25376,9 @@ declare module "@stencil/core" {
              */
             "ir-locale-switcher": LocalJSX.IntrinsicElements["ir-locale-switcher"] & JSXBase.HTMLAttributes<HTMLIrLocaleSwitcherElement>;
             "ir-login": LocalJSX.IntrinsicElements["ir-login"] & JSXBase.HTMLAttributes<HTMLIrLoginElement>;
+            "ir-login-aside": LocalJSX.IntrinsicElements["ir-login-aside"] & JSXBase.HTMLAttributes<HTMLIrLoginAsideElement>;
+            "ir-login-aside-calendar": LocalJSX.IntrinsicElements["ir-login-aside-calendar"] & JSXBase.HTMLAttributes<HTMLIrLoginAsideCalendarElement>;
+            "ir-login-aside-image": LocalJSX.IntrinsicElements["ir-login-aside-image"] & JSXBase.HTMLAttributes<HTMLIrLoginAsideImageElement>;
             "ir-m-combobox": LocalJSX.IntrinsicElements["ir-m-combobox"] & JSXBase.HTMLAttributes<HTMLIrMComboboxElement>;
             "ir-m-combobox-booking-item": LocalJSX.IntrinsicElements["ir-m-combobox-booking-item"] & JSXBase.HTMLAttributes<HTMLIrMComboboxBookingItemElement>;
             "ir-m-combobox-item": LocalJSX.IntrinsicElements["ir-m-combobox-item"] & JSXBase.HTMLAttributes<HTMLIrMComboboxItemElement>;

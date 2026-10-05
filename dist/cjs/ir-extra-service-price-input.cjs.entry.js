@@ -2,7 +2,7 @@
 
 var index = require('./index-CQkpA5n3.js');
 var calendarData = require('./calendar-data-y64tb1w5.js');
-var t = require('./t-C54QV4_c.js');
+var t = require('./t-BqKJTQbm.js');
 var types = require('./types-BVJQZ50e.js');
 require('./locales.store-BMTss6fG.js');
 

@@ -3,7 +3,7 @@ import { A as AirDatepicker } from './air-datepicker-B-GK2tAj.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { L as LanguageObserver } from './language-observer-CHgzsZkY.js';
 import { C as ClickOutside } from './ClickOutside-l5aqn2dq.js';
-import { t } from './t-CHjay2ar.js';
+import { t } from './t-BG8YaZr6.js';
 import { c as createSlotManager } from './slot-DbozGyj_.js';
 import { f as formatDate } from './ir-date-2sKX7m-4.js';
 import './_commonjsHelpers-BFTU3MAI.js';

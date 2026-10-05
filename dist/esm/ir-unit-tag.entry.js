@@ -76,7 +76,7 @@ const IrUnitTag = class {
         }
     }
     render() {
-        return (h(Fragment, { key: '67fcde8bb50556be846b39da95f0c626ba93cc09' }, this.showTooltip && h("wa-tooltip", { key: '7356de5246976b7093cc7bcd7e562466179e9c2b', for: this._id }, this.unit), h("wa-tag", { key: '73b68eb8dd328e8507344a0922f9fd11f4454d5d', id: this._id, class: "unit-tag__el", size: "s", appearance: "filled", variant: "brand" }, h("span", { key: '9cb8ef8b77489d760ac9bca755722d06db165412', class: "unit-tag__content", ref: this.setContentRef }, this.unit))));
+        return (h(Fragment, { key: '7413d772ec05fa4da21a3b7973ab0a3a2e4ef328' }, this.showTooltip && h("wa-tooltip", { key: '24d739a11549e27bcabaf92ed1e252d6eb36a799', for: this._id }, this.unit), h("wa-tag", { key: '3adc17ce83375539639b3c037c52684c3148dba1', id: this._id, class: "unit-tag__el", size: "s", appearance: "filled", variant: "brand" }, h("span", { key: '7fe6d1bbcaca7ef33668bcbfc748c46319769fe1', class: "unit-tag__content", ref: this.setContentRef }, this.unit))));
     }
     static get watchers() { return {
         "unit": [{

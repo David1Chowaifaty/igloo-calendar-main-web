@@ -34,7 +34,7 @@ export function tRaw(key, options) {
  * Fills the API's positional placeholders. Translations carry `%1`, `%2`, … —
  * e.g. `Lcz_EmailBookingto` is "Email booking to %1".
  */
-function interpolate(value, params) {
+export function interpolate(value, params) {
     if (!params?.length) {
         return value;
     }

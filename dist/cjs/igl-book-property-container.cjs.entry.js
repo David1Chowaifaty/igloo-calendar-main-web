@@ -2,17 +2,17 @@
 
 var index = require('./index-CQkpA5n3.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var booking_service = require('./booking.service-BnNX44M6.js');
-var room_service = require('./room.service-BLJoIfGb.js');
-var locale_controller = require('./locale.controller-CDV1QreM.js');
-var languageSync = require('./language-sync-B9zsk-jj.js');
-var t = require('./t-C54QV4_c.js');
+var booking_service = require('./booking.service-k_B_cjCC.js');
+var room_service = require('./room.service-Bt_WzfSc.js');
+var locale_controller = require('./locale.controller-DAwScWwl.js');
+var languageSync = require('./language-sync-Ouq3HLRR.js');
+var t = require('./t-BqKJTQbm.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
-require('./utils-2ithg_2A.js');
+require('./utils-DZ38NPJz.js');
 require('./moment-CdViwxPQ.js');
 require('./calendar-data-y64tb1w5.js');
 require('./locales.store-BMTss6fG.js');
@@ -20,9 +20,10 @@ require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
 require('./ir-date-BLb2Vxrk.js');
 require('./language-observer-DKp37LIu.js');
-require('./booking-Cla_l0-a.js');
+require('./booking-BQAnB570.js');
 require('./functions-B3fUkdt1.js');
 require('./commonSchemas-D4iFLV5-.js');
+require('./types-sp5nWPAa.js');
 
 const iglBookPropertyContainerCss = () => `.sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans',     -apple-system,     BlinkMacSystemFont,     'Segoe UI',     Roboto,     'Helvetica Neue',     Arial,     sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:start !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}`;
 

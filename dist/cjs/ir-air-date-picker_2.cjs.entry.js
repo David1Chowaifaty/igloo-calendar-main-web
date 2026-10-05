@@ -5,7 +5,7 @@ var airDatepicker = require('./air-datepicker-DE2VSLja.js');
 var moment = require('./moment-CdViwxPQ.js');
 var languageObserver = require('./language-observer-DKp37LIu.js');
 var ClickOutside = require('./ClickOutside-DBkmnwS_.js');
-var t = require('./t-C54QV4_c.js');
+var t = require('./t-BqKJTQbm.js');
 var slot = require('./slot-BU-FjeKp.js');
 var irDate = require('./ir-date-BLb2Vxrk.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

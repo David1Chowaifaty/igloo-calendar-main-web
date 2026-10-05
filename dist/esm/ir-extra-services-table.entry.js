@@ -1,9 +1,9 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
-import { E as ExtraServiceSection, A as AccommodationExtraCode, c as createBlankAddon } from './types-DF-_eyV6.js';
+import { E as ExtraServiceSection, A as AccommodationExtraCode, c as createBlankAddon } from './types-BhCXcVB8.js';
 import { V as VatIncludedCodes } from './enums-CcLtXwvz.js';
-import { t } from './t-CHjay2ar.js';
+import { t } from './t-BG8YaZr6.js';
 import { c as formatNumber } from './number-2X31jLIQ.js';
-import './types-BG9uwIsj.js';
+import './types-Clk7NCXk.js';
 import './locales.store-CXJn6ls-.js';
 import './ir-date-2sKX7m-4.js';
 import './language-observer-CHgzsZkY.js';

@@ -2,7 +2,7 @@
 
 var index = require('./index-CQkpA5n3.js');
 var index$1 = require('./index-BzgVDj7t.js');
-var t = require('./t-C54QV4_c.js');
+var t = require('./t-BqKJTQbm.js');
 require('./types-BVJQZ50e.js');
 require('./locales.store-BMTss6fG.js');
 require('./axios-EresIryl.js');

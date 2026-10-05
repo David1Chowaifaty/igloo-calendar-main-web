@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
 import { b as formatCount } from './number-2X31jLIQ.js';
-import { t } from './t-CHjay2ar.js';
+import { t } from './t-BG8YaZr6.js';
 import './ir-date-2sKX7m-4.js';
 import './locales.store-CXJn6ls-.js';
 import './language-observer-CHgzsZkY.js';

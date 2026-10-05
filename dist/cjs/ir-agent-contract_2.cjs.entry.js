@@ -2,7 +2,7 @@
 
 var index = require('./index-CQkpA5n3.js');
 var type = require('./type-Bj2x9EWc.js');
-var t = require('./t-C54QV4_c.js');
+var t = require('./t-BqKJTQbm.js');
 var types = require('./types-BVJQZ50e.js');
 var utils = require('./utils-C3ixP2lU.js');
 require('./locales.store-BMTss6fG.js');

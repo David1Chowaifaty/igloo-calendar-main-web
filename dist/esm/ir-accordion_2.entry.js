@@ -4,7 +4,7 @@ import { f as formatDate } from './ir-date-2sKX7m-4.js';
 import './moment-Mki5YqAR.js';
 import { c as calendar_data } from './calendar-data-vejfJjJ2.js';
 import { _ as _formatTime } from './functions-DuaivJG8.js';
-import { t } from './t-CHjay2ar.js';
+import { t } from './t-BG8YaZr6.js';
 import './locales.store-CXJn6ls-.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
@@ -193,7 +193,7 @@ const IrAccordion = class {
     };
     render() {
         const isOpen = this._expanded;
-        return (h(Host, { key: '99a394a0f391455dd4cb736d82a37eb4ca53553e' }, h("div", { key: 'b0836d85c53f0e338ac174197b3d2cfb3e4fd434', part: "base", class: "ir-accordion", "data-open": isOpen ? 'true' : 'false' }, h("button", { key: 'e2aee9548c0349bae8c462930e1121bd93f904d2', type: "button", class: "ir-accordion__trigger", "aria-expanded": isOpen ? 'true' : 'false', "aria-controls": this.contentId, "aria-busy": this.isAnimating ? 'true' : 'false', onClick: this.onTriggerClick, onKeyDown: this.onTriggerKeyDown, disabled: this.isAnimating, part: "trigger" }, this.caret && h("ir-icons", { key: 'b1622a842749289217997fd3def086321c715cb7', name: 'angle-down', class: `ir-accordion__caret ${isOpen ? 'is-open' : ''}`, "aria-hidden": "true" }), h("div", { key: 'fa289a6379e70bbbbc967a8df2cc820987e48f1a', class: "ir-accordion__trigger-content" }, h("slot", { key: 'e30126fc2bd3b55504bb61cc67cfe52c65989e90', name: "trigger" }))), h("div", { key: 'd14c71c2df62df4a949069bb6122d7059a76e24f', class: "ir-accordion__content", id: this.contentId, ref: el => (this.detailsEl = el), "data-expanded": isOpen ? 'true' : null, role: "region", "aria-hidden": isOpen ? 'false' : 'true' }, h("div", { key: '241aca32f382ce7d6bb1723468e6f1c38d765b49', class: "ir-accordion__content-inner", part: "content", ref: el => (this.contentEl = el) }, h("slot", { key: 'a583da6fc9182ecb27c70000bee69d3518121981' }))))));
+        return (h(Host, { key: '2bd37cab82fb3331899ddef23f9f30b7020b29bb' }, h("div", { key: '96dde0a420777a9d1039f822c14534691e04d7eb', part: "base", class: "ir-accordion", "data-open": isOpen ? 'true' : 'false' }, h("button", { key: '0485aaab4adac4c89ea2ffb52aa2210ed5103f7c', type: "button", class: "ir-accordion__trigger", "aria-expanded": isOpen ? 'true' : 'false', "aria-controls": this.contentId, "aria-busy": this.isAnimating ? 'true' : 'false', onClick: this.onTriggerClick, onKeyDown: this.onTriggerKeyDown, disabled: this.isAnimating, part: "trigger" }, this.caret && h("ir-icons", { key: 'fdf7cb477bdfab9b1cec2374787bfb192e68a3cc', name: 'angle-down', class: `ir-accordion__caret ${isOpen ? 'is-open' : ''}`, "aria-hidden": "true" }), h("div", { key: '12701c6918a23098264c079f42dccf48767b97f6', class: "ir-accordion__trigger-content" }, h("slot", { key: '4b707e4a76a766a0a620acfd4ac5575aa9a203d7', name: "trigger" }))), h("div", { key: 'b62c8941493a07f0008f5c1fb26fd37db060ad91', class: "ir-accordion__content", id: this.contentId, ref: el => (this.detailsEl = el), "data-expanded": isOpen ? 'true' : null, role: "region", "aria-hidden": isOpen ? 'false' : 'true' }, h("div", { key: '60a5b3b5401411054574636c3c3d469babeee1ae', class: "ir-accordion__content-inner", part: "content", ref: el => (this.contentEl = el) }, h("slot", { key: 'ce42f12910b880d22582da15eb8b0bf770dd9a03' }))))));
     }
     static get watchers() { return {
         "expanded": [{

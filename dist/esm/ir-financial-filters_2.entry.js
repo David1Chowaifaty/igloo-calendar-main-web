@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h } from './index-CeHdrJeH.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { t } from './t-CHjay2ar.js';
+import { t } from './t-BG8YaZr6.js';
 import { c as calendar_data } from './calendar-data-vejfJjJ2.js';
 import './locales.store-CXJn6ls-.js';
 

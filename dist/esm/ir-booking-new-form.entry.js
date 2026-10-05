@@ -1,5 +1,5 @@
 import { r as registerInstance, h, H as Host } from './index-CeHdrJeH.js';
-import { t } from './t-CHjay2ar.js';
+import { t } from './t-BG8YaZr6.js';
 import { t as todayISO, a as addDaysISO } from './calendar-dates-D3hVfsrC.js';
 import './locales.store-CXJn6ls-.js';
 import './moment-Mki5YqAR.js';

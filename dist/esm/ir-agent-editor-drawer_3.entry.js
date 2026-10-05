@@ -1,22 +1,22 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
-import { t } from './t-CHjay2ar.js';
+import { t } from './t-BG8YaZr6.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
-import { c as AgentSchema } from './type-DUaIPoJQ.js';
-import { A as AgentsService } from './agents.service-CScn9mDQ.js';
-import { p as getFormSubmitter } from './utils-Buh7m2Xs.js';
+import { c as AgentSchema } from './type-o1ai24d7.js';
+import { A as AgentsService } from './agents.service-APCzneIF.js';
+import { p as getFormSubmitter } from './utils-D1YLn2lG.js';
 import { c as calendar_data } from './calendar-data-vejfJjJ2.js';
-import { d as getSetupEntryLabel } from './utils-CaIi5Ivc.js';
+import { d as getSetupEntryLabel } from './utils-C3byOTBu.js';
 import './locales.store-CXJn6ls-.js';
-import './types-BG9uwIsj.js';
+import './types-Clk7NCXk.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './moment-Mki5YqAR.js';
-import './booking.dto-FOZcMojD.js';
+import './booking.dto-D-ACWjZx.js';
 import './ir-date-2sKX7m-4.js';
 import './language-observer-CHgzsZkY.js';
 import './calendar-dates-D3hVfsrC.js';
-import './IBooking-B-QQODPH.js';
-import './commonSchemas-Ba2UWqGb.js';
+import './IBooking-C6czW-Mz.js';
+import './commonSchemas-BxK90Oim.js';
 
 const irAgentEditorDrawerCss = () => `.sc-ir-agent-editor-drawer-h{display:block}.agent-form__tab-group.sc-ir-agent-editor-drawer::part(nav),.agent-form__tab-group.sc-ir-agent-editor-drawer [part~="nav"]{position:sticky;top:0;z-index:10;background-color:var(--wa-color-surface-default)}`;
 

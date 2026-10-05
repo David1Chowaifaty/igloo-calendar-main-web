@@ -1,0 +1,1 @@
+import{I as i,d as o}from"./ir-login-aside-image2.js";const s=i,a=o;export{s as IrLoginAsideImage,a as defineCustomElement}

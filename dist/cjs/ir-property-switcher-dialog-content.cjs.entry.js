@@ -3,7 +3,7 @@
 var index = require('./index-CQkpA5n3.js');
 var axios = require('./axios-EresIryl.js');
 var debounce = require('./debounce-Be8tSGtB.js');
-var t = require('./t-C54QV4_c.js');
+var t = require('./t-BqKJTQbm.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./locales.store-BMTss6fG.js');
 
@@ -161,7 +161,7 @@ const IrPropertySwitcherDialogContent = class {
         return index.h("div", { class: "property-switcher__status" }, text);
     }
     render() {
-        return (index.h(index.Host, { key: 'd55aac3f6c97ff3acf2d47c132d7e72520636046' }, index.h("ir-input", { key: 'ff31ab8c629592c2b1374bd3f86eaaf8b67fac80', autofocus: true, ref: el => (this.inputRef = el), placeholder: t.t('Lcz_PropertyNameOrANumberPlaceholder', { fallback: 'Property name or A number' }), class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), index.h("div", { key: 'f14b96f7c2f2724979662a06953387407a854959', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (index.h("div", { key: '3872a05ac63a530239f5dba691008847e59d6a4e' }, index.h("p", { key: 'd7ffabf1fff6f169b6a33a2cf1140bf06f1cfa57', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, t.t('Lcz_LinkedProperties', { fallback: 'Linked Properties' })), this.properties.map(property => {
+        return (index.h(index.Host, { key: '3c85b7b7020119891f0b3062bd0dc546dcb86729' }, index.h("ir-input", { key: '8bf39a6670374decbe9a0a3debd17aeebb95b9b8', autofocus: true, ref: el => (this.inputRef = el), placeholder: t.t('Lcz_PropertyNameOrANumberPlaceholder', { fallback: 'Property name or A number' }), class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), index.h("div", { key: '250ab8f47bcb532619d038b5ceee509ab80b5c69', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (index.h("div", { key: '397e52e8c385b26313aca7a221372621d56a23e6' }, index.h("p", { key: '9295984c2a0e1cda5384f6c69cb4544a5fc0eacb', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, t.t('Lcz_LinkedProperties', { fallback: 'Linked Properties' })), this.properties.map(property => {
             const label = `${property.name}`;
             return (index.h("wa-option", { onClick: () => {
                     // this.selectProperty(property as any);

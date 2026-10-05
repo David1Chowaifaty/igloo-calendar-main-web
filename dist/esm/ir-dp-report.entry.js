@@ -1,24 +1,25 @@
 import { r as registerInstance, a as getElement, h } from './index-CeHdrJeH.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { R as RoomService } from './room.service-BjZu5iGq.js';
+import { R as RoomService } from './room.service-CrlY6wi8.js';
 import { a as axios } from './axios-B50ozOIF.js';
-import { P as PropertyIdSchema, D as DateSchema } from './commonSchemas-Ba2UWqGb.js';
-import { o as objectType } from './types-BG9uwIsj.js';
+import { P as PropertyIdSchema, D as DateSchema } from './commonSchemas-BxK90Oim.js';
+import { o as objectType } from './types-Clk7NCXk.js';
 import { u as updateDpReportFilters, d as dp_report } from './dp_report.store-BOQ_um_2.js';
 import { i as isOptimReadOnly } from './calendar-data-vejfJjJ2.js';
-import { P as PropertyService } from './index-D4uq416n.js';
-import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CLqck9OI.js';
-import { L as LanguageSync } from './language-sync-Brtzz-nr.js';
-import { t } from './t-CHjay2ar.js';
+import { P as PropertyService } from './index-CUiibZA_.js';
+import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-DUn6fc8y.js';
+import { L as LanguageSync } from './language-sync-CWmBY0H8.js';
+import { t } from './t-BG8YaZr6.js';
 import './locales.store-CXJn6ls-.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './utils-Buh7m2Xs.js';
-import './booking.dto-FOZcMojD.js';
-import './type-DUaIPoJQ.js';
+import './utils-D1YLn2lG.js';
+import './booking.dto-D-ACWjZx.js';
+import './type-o1ai24d7.js';
 import './ir-date-2sKX7m-4.js';
 import './language-observer-CHgzsZkY.js';
 import './calendar-dates-D3hVfsrC.js';
+import './types-C7G2emJd.js';
 
 const GetDPBookingsReportParamsSchema = objectType({
     from_date: DateSchema,

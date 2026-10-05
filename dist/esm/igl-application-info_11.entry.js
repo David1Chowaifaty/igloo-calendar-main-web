@@ -1,26 +1,26 @@
 import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment, a as getElement } from './index-CeHdrJeH.js';
-import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams } from './booking.service-Dix1ZuSt.js';
+import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams } from './booking.service-FGNFrgs8.js';
 import { a as isSingleUnit, c as calendar_data } from './calendar-data-vejfJjJ2.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import './booking.dto-FOZcMojD.js';
+import './booking.dto-D-ACWjZx.js';
 import { g as getWeekdayLabels, d as getMonthLabel, f as formatDate, e as toDate } from './ir-date-2sKX7m-4.js';
 import './locales.store-CXJn6ls-.js';
-import { t, a as tRaw } from './t-CHjay2ar.js';
+import { t, a as tRaw } from './t-BG8YaZr6.js';
 import { f as formatAmount, b as formatCount } from './number-2X31jLIQ.js';
-import { G as GuestCredentials } from './types--fAZD2tN.js';
-import { d as getSetupEntryLabel } from './utils-CaIi5Ivc.js';
+import { G as GuestCredentials } from './types-B7N40_24.js';
+import { d as getSetupEntryLabel } from './utils-C3byOTBu.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
-import { s as stringType } from './types-BG9uwIsj.js';
+import { s as stringType } from './types-Clk7NCXk.js';
 import { C as ClickOutside } from './ClickOutside-l5aqn2dq.js';
-import { a as calculateDaysBetweenDates } from './booking-BasvoNd9.js';
+import { a as calculateDaysBetweenDates } from './booking-Bd5Q5qHX.js';
 import { I as IMask } from './index-BQB1ooJC.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-B-QQODPH.js';
-import './utils-Buh7m2Xs.js';
+import './IBooking-C6czW-Mz.js';
+import './utils-D1YLn2lG.js';
 import './calendar-dates-D3hVfsrC.js';
-import './commonSchemas-Ba2UWqGb.js';
-import './type-DUaIPoJQ.js';
+import './commonSchemas-BxK90Oim.js';
+import './type-o1ai24d7.js';
 import './language-observer-CHgzsZkY.js';
 import './functions-DuaivJG8.js';
 
@@ -757,7 +757,7 @@ const IrCustomDateRange = class {
     }
     render() {
         const maxSpanDays = this.selectedDates.start ? this.selectedDates.start.clone().add(this.maxSpanDays, 'days') : null;
-        return (h("div", { key: 'e1be468fc69c2dfeb29378280683eb0838272535', part: "base", class: "date-picker" }, this.displayedDaysArr.map((month, index) => (h("table", { part: "calendar", class: "calendar", role: "grid" }, h("thead", null, h("tr", { part: "calendar-header", class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { part: "month-navigation", class: "month-navigation" }, index === 0 && this.displayedDaysArr[0].month.clone().startOf('month').isAfter(this.minDate) && (h("button", { part: "nav-prev", name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, t('Lcz_PreviousMonth', { fallback: 'previous month' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", { part: "month-label", class: "month-year-label" }, getMonthLabel(month.month.toDate(), { locale: this.locale ?? 'en' })), index === 0 && (h("button", { part: "nav-next", name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only" }, t('Lcz_NextMonth', { fallback: 'next month' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && this.displayedDaysArr[1].month.clone().endOf('month').isBefore(this.maxDate) && (h("button", { part: "nav-next", name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only" }, t('Lcz_NextMonth', { fallback: 'next month' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { part: "weekday-row", class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { part: "weekday", class: "weekday-name", key: weekday }, weekday.replace('.', '')))))), h("tbody", { part: "days-grid", class: "days-grid" }, month.days
+        return (h("div", { key: '6f225a4203e2a5c159c322834445a41dcff3abf1', part: "base", class: "date-picker" }, this.displayedDaysArr.map((month, index) => (h("table", { part: "calendar", class: "calendar", role: "grid" }, h("thead", null, h("tr", { part: "calendar-header", class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { part: "month-navigation", class: "month-navigation" }, index === 0 && this.displayedDaysArr[0].month.clone().startOf('month').isAfter(this.minDate) && (h("button", { part: "nav-prev", name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, t('Lcz_PreviousMonth', { fallback: 'previous month' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", { part: "month-label", class: "month-year-label" }, getMonthLabel(month.month.toDate(), { locale: this.locale ?? 'en' })), index === 0 && (h("button", { part: "nav-next", name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only" }, t('Lcz_NextMonth', { fallback: 'next month' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && this.displayedDaysArr[1].month.clone().endOf('month').isBefore(this.maxDate) && (h("button", { part: "nav-next", name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only" }, t('Lcz_NextMonth', { fallback: 'next month' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { part: "weekday-row", class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { part: "weekday", class: "weekday-name", key: weekday }, weekday.replace('.', '')))))), h("tbody", { part: "days-grid", class: "days-grid" }, month.days
             .reduce((acc, day, i) => {
             const weekIndex = Math.floor(i / 7);
             if (!acc[weekIndex]) {
@@ -1934,7 +1934,7 @@ const IrPickerItem = class {
     active = false;
     selected = false;
     render() {
-        return (h(Host, { key: 'b233357e5fc2fbb73884c94c2428409854e9f41f', role: "option", "aria-selected": this.selected ? 'true' : 'false', "aria-disabled": this.disabled ? 'true' : 'false' }, h("button", { key: '208dafa229f9783ca52a6d9840d627c2fd6865ea', class: `picker-item__container`, type: "button", tabindex: "-1", disabled: this.disabled, part: "base" }, h("wa-icon", { key: 'd4d8cbcd2a69ef8824cf3f5aba7a9b195e3c3733', class: "picker-item__check", name: "check" }), h("div", { key: 'fbe5499a2351e013391c4a3a310d071687f57afa', class: "picker-item__content", part: "content" }, h("slot", { key: '4cfc99169bd2f5139b2c3658eea2b1b88c22fac1' })))));
+        return (h(Host, { key: '6c75caac5132ee7ecefd8a281225eb77a54f69f2', role: "option", "aria-selected": this.selected ? 'true' : 'false', "aria-disabled": this.disabled ? 'true' : 'false' }, h("button", { key: '24edbb73e228984c36814f4b6ada1023d6cc9a00', class: `picker-item__container`, type: "button", tabindex: "-1", disabled: this.disabled, part: "base" }, h("wa-icon", { key: '7d0937aa5972dea60ab04678ae3264f46a333446', class: "picker-item__check", name: "check" }), h("div", { key: '92fbad6a15674f97a5f19158973dded155f9dc0f', class: "picker-item__content", part: "content" }, h("slot", { key: '403bb4b0da61b5162a2ff9ffad5cb2123b2d8701' })))));
     }
 };
 IrPickerItem.style = irPickerItemCss();

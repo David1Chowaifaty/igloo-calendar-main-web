@@ -20,3 +20,8 @@ export declare function t<K extends LocaleKey>(key: K, options?: TranslateOption
  * or sections not yet added to `src/stores/locales.store.ts`.
  */
 export declare function tRaw(key: string, options?: TranslateOptions): string;
+/**
+ * Fills the API's positional placeholders. Translations carry `%1`, `%2`, … —
+ * e.g. `Lcz_EmailBookingto` is "Email booking to %1".
+ */
+export declare function interpolate(value: string, params?: ReadonlyArray<string | number>): string;

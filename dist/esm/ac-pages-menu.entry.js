@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h } from './index-CeHdrJeH.js';
-import { t } from './t-CHjay2ar.js';
+import { t } from './t-BG8YaZr6.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import './locales.store-CXJn6ls-.js';
 

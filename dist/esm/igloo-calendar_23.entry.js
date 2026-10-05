@@ -1,51 +1,52 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, F as Fragment, H as Host } from './index-CeHdrJeH.js';
-import { R as RoomService } from './room.service-BjZu5iGq.js';
-import { B as BookingService } from './booking.service-Dix1ZuSt.js';
-import { S as SetupService } from './index-C5-I3-CA.js';
-import { u as formatLegendColors, i as isBlockUnit, d as showToast, l as isPrivilegedUser, h as downloadFile } from './utils-Buh7m2Xs.js';
-import { t, a as tRaw } from './t-CHjay2ar.js';
+import { R as RoomService } from './room.service-CrlY6wi8.js';
+import { B as BookingService } from './booking.service-FGNFrgs8.js';
+import { S as SetupService } from './index-BUvEYPMi.js';
+import { u as formatLegendColors, i as isBlockUnit, d as showToast, l as isPrivilegedUser, h as downloadFile } from './utils-D1YLn2lG.js';
+import { t, a as tRaw } from './t-BG8YaZr6.js';
 import { t as todayISO, I as ISO_FORMAT, a as addDaysISO, b as addMonthsISO, n as nightsBetween } from './calendar-dates-D3hVfsrC.js';
 import { r as realtimeService } from './realtime.service-CGYmIxkT.js';
-import { E as EventsService } from './events.service-Cr8p17Xv.js';
+import { E as EventsService } from './events.service-BYHXLXuB.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { U as UnassignedUnitsService } from './index-DJpC1khj.js';
-import { l as isEarlyCheckout, c as calendar_dates, m as addCleaningTasks, f as formatName, n as getRoomStatus, o as cleanRoom, p as addRoomForCleaning, t as transformNewBooking, q as transformNewBLockedRooms, r as bookingStatus, e as getPrivateNote, a as calculateDaysBetweenDates } from './booking-BasvoNd9.js';
+import { U as UnassignedUnitsService } from './index-CGdTFHdO.js';
+import { l as isEarlyCheckout, c as calendar_dates, m as addCleaningTasks, f as formatName, n as getRoomStatus, o as cleanRoom, p as addRoomForCleaning, t as transformNewBooking, q as transformNewBLockedRooms, r as bookingStatus, e as getPrivateNote, a as calculateDaysBetweenDates } from './booking-Bd5Q5qHX.js';
 import { l as locales } from './locales.store-CXJn6ls-.js';
 import { c as calendar_data, b as getDayUseBlockState, d as getBabyCotPricingModel, e as getExtraServiceDefaultPrice } from './calendar-data-vejfJjJ2.js';
 import { o as onUnassignedUnitsChange, h as beginUnassignedUnitsFetch, r as replaceUnassignedUnitsRange, R as ROOM_HEADER_WIDTH } from './calendar-grid-BQuXzjtr.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
-import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './index-Dd9fV5eL.js';
-import { P as PropertyService, t as taxationModes } from './index-D4uq416n.js';
-import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CLqck9OI.js';
-import { L as LanguageSync } from './language-sync-Brtzz-nr.js';
+import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './index-CB2hOUNV.js';
+import { P as PropertyService, t as taxationModes } from './index-CUiibZA_.js';
+import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-DUn6fc8y.js';
+import { L as LanguageSync } from './language-sync-CWmBY0H8.js';
 import { c as isRtlDirection, i as isRtlLanguage } from './direction-h66wLQy4.js';
-import { A as AgentsService } from './agents.service-CScn9mDQ.js';
-import { g as groupEntryTablesResult, d as getSetupEntryLabel, e as getEntryValue } from './utils-CaIi5Ivc.js';
-import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-JWBV-Gbe.js';
+import { A as AgentsService } from './agents.service-APCzneIF.js';
+import { g as groupEntryTablesResult, d as getSetupEntryLabel, e as getEntryValue } from './utils-C3byOTBu.js';
+import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-CxDgVJYK.js';
 import { a as axios } from './axios-B50ozOIF.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './index-Bu3W4Jih.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './index-CA6Sn-9s.js';
 import { d as setChannelIdAndActiveState, u as updateChannelSettings, s as selectChannel, t as testConnection, C as ChannelService, r as resetStore, c as channels_data } from './channel.service-BI6lL5Q_.js';
 import { S as SystemService } from './system.service-DN8zRqj9.js';
-import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-Dnx592AP.js';
-import { g as groupSvcCategoriesByParent, t as toAccChargeRule, f as findAccTax, a as getAccTaxPayloadFields, b as getTopLevelSvcCategories } from './svc-category.utils-CHqOTuIJ.js';
+import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-Dy1rDWwU.js';
+import { g as groupSvcCategoriesByParent, t as toAccChargeRule, f as findAccTax, a as getAccTaxPayloadFields, b as getTopLevelSvcCategories } from './svc-category.utils-BUC2JQ57.js';
 import { S as SvcCategory, F as FdTypes } from './enums-CcLtXwvz.js';
-import { o as objectType, n as numberType, s as stringType, a as arrayType, b as booleanType, e as enumType, j as nativeEnumType } from './types-BG9uwIsj.js';
+import { o as objectType, n as numberType, s as stringType, d as arrayType, b as booleanType, e as enumType, j as nativeEnumType } from './types-Clk7NCXk.js';
 import { m as setLoading, b as updateTasks, h as hkTasksStore, c as clearSelectedTasks, n as updateSelectedTasks } from './hk-tasks.store-BjXreNK2.js';
 import { h as calendarPreference, C as CalendarPreferenceController, i as toApiDate, g as getWeekdayLabels, j as getFirstDayOfWeek, f as formatDate } from './ir-date-2sKX7m-4.js';
 import { b as formatCount, d as formatPercent, f as formatAmount, c as formatNumber } from './number-2X31jLIQ.js';
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-CFc75Vwr.js';
-import { e as extraServicesCategories } from './index-DYSI_pLO.js';
+import { e as extraServicesCategories } from './index-CVUfkqho.js';
 import { a as uninvoiced_bookings, c as setUninvoicedBookingsCriteria } from './uninvoiced_bookings.store-wJitnhQC.js';
-import { U as UserService } from './user.service-BP3Shs6G.js';
-import './IBooking-B-QQODPH.js';
-import './commonSchemas-Ba2UWqGb.js';
-import './booking.dto-FOZcMojD.js';
-import './type-DUaIPoJQ.js';
+import { U as UserService } from './user.service-BfCviT_R.js';
+import './IBooking-C6czW-Mz.js';
+import './commonSchemas-BxK90Oim.js';
+import './booking.dto-D-ACWjZx.js';
+import './type-o1ai24d7.js';
 import './functions-DuaivJG8.js';
 import './language-observer-CHgzsZkY.js';
+import './types-C7G2emJd.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './types-DF-_eyV6.js';
+import './types-BhCXcVB8.js';
 
 class BatchingQueue {
     queue = [];
@@ -4859,21 +4860,21 @@ const IrLocaleSwitcher = class {
     render() {
         const language = locales.language ?? 'en';
         const calendar = calendarPreference.override ?? 'auto';
-        return (h(Host, { key: '8b64413079dd804f53a9663ee2a199059cd6a7aa', class: `ls-host ls-host--${this.placement}` }, !this.open && (h("button", { key: 'd5067a361c6e38b4cc8d83b2318170db6e297210', class: "ls-fab", title: "Locale switcher", onClick: () => this.setOpen(true) }, h("wa-icon", { key: 'bce733bc4d5189da1f53b982759b7dbef320003a', name: "globe" }), h("span", { key: '29e0dd33847d4a7862a7b763a75951a0235375c4', class: "ls-fab__label" }, language.toUpperCase()))), this.open && (h("div", { key: 'd0db2750356dd19b1c9e161edd2dcebe867df206', class: "ls-panel" }, h("header", { key: 'c3af6e2604699b13b779387255cb82765c1f9e14', class: "ls-panel__header" }, h("span", { key: '4167fe8cd0e3e575d6e4c74e301824f4c0e1f02a', class: "ls-panel__title" }, "Locale switcher"), h("button", { key: '67be835ecce6f47487336989fc2d0d00930dc2cf', class: "ls-panel__close", title: "Collapse", onClick: () => this.setOpen(false) }, h("wa-icon", { key: '838ef4960f79807e43e540eccd80b9c0322d12bb', name: "xmark" }))), h("wa-select", { key: '2cbe23b93270055792635a197f8d9b71c4bfadd8', label: "Language", size: "s", value: language, onchange: (event) => {
+        return (h(Host, { key: 'bfaf82a1940de9470ff9b3d396d1d81179cba8ee', class: `ls-host ls-host--${this.placement}` }, !this.open && (h("button", { key: '4434030b589ca24eddaa3f8ed2bd057da1c31b77', class: "ls-fab", title: "Locale switcher", onClick: () => this.setOpen(true) }, h("wa-icon", { key: 'ccd4afc9bcad0ec67dd7f63a7ff10be43c7f006d', name: "globe" }), h("span", { key: '3061d95316860d55354093de13655144ef2ec349', class: "ls-fab__label" }, language.toUpperCase()))), this.open && (h("div", { key: '5d50420b1d5230d83f6357c2bee7ae1ce9666546', class: "ls-panel" }, h("header", { key: 'e3851b33a0032eb43869966e48db019e84683987', class: "ls-panel__header" }, h("span", { key: '8477930116e1a4fd618fa6b60b86b6ebde1af23b', class: "ls-panel__title" }, "Locale switcher"), h("button", { key: '9ae1e733a17f81e0c6f8c40d19193947268e70e6', class: "ls-panel__close", title: "Collapse", onClick: () => this.setOpen(false) }, h("wa-icon", { key: 'e4999b7378a881e9c6a7bd550cbf6700096e7818', name: "xmark" }))), h("wa-select", { key: '98e55d7d64ecda49e7bff4ce24c697f1f7d37695', label: "Language", size: "s", value: language, onchange: (event) => {
                 const value = event.target.value?.toString();
                 if (value) {
                     this.applyLanguage(value);
                 }
-            } }, LANGUAGES.map(({ code, label }) => (h("wa-option", { key: code, value: code }, label)))), h("wa-select", { key: '2a59bfeaf59fbcf845d15c79b73ba0f50307b1ce', label: "Calendar", size: "s", value: calendar, onchange: (event) => {
+            } }, LANGUAGES.map(({ code, label }) => (h("wa-option", { key: code, value: code }, label)))), h("wa-select", { key: '1098f535df6b0d5a88d8dcfb002c6de4dfb362f4', label: "Calendar", size: "s", value: calendar, onchange: (event) => {
                 const value = event.target.value?.toString();
                 this.applyCalendar(value);
-            } }, h("wa-option", { key: '5a6c1b55dafe91f5c231659841bfc44c21c9f94b', value: "auto" }, "Auto \u2014 detect from device"), h("wa-option", { key: '45988dcfb77b89d6a0d5df98e553bf4987acdcc1', value: "gregory" }, "Gregorian"), h("wa-option", { key: '9ffd1864c008055af69ea17b15cdf9ccc8f31220', value: "islamic-umalqura" }, "Hijri \u2014 Umm al-Qura")), h("wa-select", { key: 'e15846c060a16ccabfb68ae58184a46829d20b24', label: "Numbers", size: "s", value: calendarPreference.numberingSystem, onchange: (event) => {
+            } }, h("wa-option", { key: 'bdfef2305266d460946c0ca33753c17de4291ba9', value: "auto" }, "Auto \u2014 detect from device"), h("wa-option", { key: 'cdf465434ff69fec9e9fa90f6e78f747e57ce8cc', value: "gregory" }, "Gregorian"), h("wa-option", { key: 'aea9abb2b78db1ddf87f323d771500b2a650e845', value: "islamic-umalqura" }, "Hijri \u2014 Umm al-Qura")), h("wa-select", { key: 'f982d08ff71f59deab5ccb16064b6c1d93b922f7', label: "Numbers", size: "s", value: calendarPreference.numberingSystem, onchange: (event) => {
                 const value = event.target.value?.toString();
                 this.applyNumberingSystem(value);
-            } }, NUMBERING_SYSTEMS.map(({ value, label }) => (h("wa-option", { key: value, value: value }, label)))), h("wa-select", { key: '6b6543a4ab852cc6207d13059ca532bd3aa0871a', label: "Direction", size: "s", value: this.direction, onchange: (event) => {
+            } }, NUMBERING_SYSTEMS.map(({ value, label }) => (h("wa-option", { key: value, value: value }, label)))), h("wa-select", { key: 'b0f592ed566b61e7ddf92b450ab477403d8c0c95', label: "Direction", size: "s", value: this.direction, onchange: (event) => {
                 const value = event.target.value?.toString();
                 this.applyDirection(value);
-            } }, h("wa-option", { key: '1f28d88533c498f2dcb99b38090c3de3eb0d399b', value: "auto" }, "Auto \u2014 from language"), h("wa-option", { key: '899e838726b7d943073de2b89ac6c87d1de4ef0a', value: "ltr" }, "LTR"), h("wa-option", { key: '39c9327bf7385466b97499c274b76f29c0ce52f5', value: "rtl" }, "RTL")), this.renderPreview(), h("footer", { key: '974604708e0cbee7ce7376bec8c287b402ccc17a', class: "ls-panel__footer" }, h("span", { key: '75bb4559aee1795d9428dfa9e923cb2cadeaac0c', class: "ls-panel__resolved" }, "resolved: ", language, " \u00B7 ", calendarPreference.resolved, " \u00B7 ", calendarPreference.numberingSystem, " \u00B7 ", document.documentElement.getAttribute('dir') ?? 'ltr'), h("button", { key: '34c28cb5c692b9b1194b827b5c20559937123b39', class: "ls-panel__reset", onClick: () => this.resetSettings() }, "Reset all"))))));
+            } }, h("wa-option", { key: 'b8e1d36d9de1a44ca97280f859b6cce2695d4a16', value: "auto" }, "Auto \u2014 from language"), h("wa-option", { key: '3a916c99f547bc84ef67922e9383099dd0dedd08', value: "ltr" }, "LTR"), h("wa-option", { key: 'c9403334148f18de3b5560c1710a9b14d7eb5fd7', value: "rtl" }, "RTL")), this.renderPreview(), h("footer", { key: '788a8eaa5d5502da78e9a91b28a26c45acb5d796', class: "ls-panel__footer" }, h("span", { key: 'c05ca76dc7c8c50dd9095d4a7612c93ef54d4856', class: "ls-panel__resolved" }, "resolved: ", language, " \u00B7 ", calendarPreference.resolved, " \u00B7 ", calendarPreference.numberingSystem, " \u00B7 ", document.documentElement.getAttribute('dir') ?? 'ltr'), h("button", { key: 'c7859913bbddd03eea0d6474e2b3227d7efd06d7', class: "ls-panel__reset", onClick: () => this.resetSettings() }, "Reset all"))))));
     }
 };
 IrLocaleSwitcher.style = irLocaleSwitcherCss();

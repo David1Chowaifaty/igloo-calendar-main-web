@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
 import { f as formatDate } from './ir-date-2sKX7m-4.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { t } from './t-CHjay2ar.js';
+import { t } from './t-BG8YaZr6.js';
 import { c as formatNumber } from './number-2X31jLIQ.js';
 import './locales.store-CXJn6ls-.js';
 import './language-observer-CHgzsZkY.js';
