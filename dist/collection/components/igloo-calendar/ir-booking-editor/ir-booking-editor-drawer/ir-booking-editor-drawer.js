@@ -10,6 +10,7 @@ import { IRBookingEditorService } from "../ir-booking-editor.service";
 import { LocaleController } from "../../../../services/locale/locale.controller";
 import { t } from "../../../../services/locale/t";
 export class IrBookingEditorDrawer {
+    el;
     /** Controls drawer visibility (reflected to DOM). */
     open;
     /** Auth ApiClient used for API requests. */
@@ -310,7 +311,7 @@ export class IrBookingEditorDrawer {
                     adult: 2,
                     child: 0,
                 },
-                language: LocaleController.language,
+                language: LocaleController.languageFor(this.el),
                 room_type_ids: roomTypeIds,
                 currency: calendar_data.property?.currency,
             });
@@ -332,7 +333,7 @@ export class IrBookingEditorDrawer {
         }
     }
     render() {
-        return (h("ir-drawer", { key: '794830066ebdf94b7e5a57a75d75e5e159f04066', onDrawerHide: async (event) => {
+        return (h("ir-drawer", { key: '0fed1de30cf0413310fd8064813188fb5364f264', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -343,7 +344,7 @@ export class IrBookingEditorDrawer {
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: '415a12cc1f1e10f71d1c82e2220e3e09b5af4317', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: 'abac44723c7974113aea2791a75f15f2c8661d87', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: '176ce476cd34309f0cfc43ac94c475f1bb971aa2', appearance: "button", value: "manual" }, t('Lcz_Stay', { fallback: 'Stay' })), h("wa-radio", { key: 'aac36d92ecddff61c217b3c6fd0a65c23c6e2ac8', appearance: "button", value: "day-use" }, t('Lcz_DayUseHyphen', { fallback: 'Day-use' }))))), this.open && this.ticket && (h("ir-booking-editor", { key: 'f653f501ddb6a4d40d990b3e12266a9c969d0613', onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: 'c2ca7537d3ee3ab0e1fc27eb42b9980ad5457612', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: '67a1104897f35a7c5cb7c43dabe2350dff82b448', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: '951693a83f78fd648c627acb535a74bf5f127944', appearance: "button", value: "manual" }, t('Lcz_Stay', { fallback: 'Stay' })), h("wa-radio", { key: '02d05ac0e3ef9afd32a6bcbb44f7cb14c115fc15', appearance: "button", value: "day-use" }, t('Lcz_DayUseHyphen', { fallback: 'Day-use' }))))), this.open && this.ticket && (h("ir-booking-editor", { key: '1f9852dba281a0557833e5cb8e538d091c92862c', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -351,7 +352,7 @@ export class IrBookingEditorDrawer {
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: '9e789487150a7894d5b930476581b01934e80ad5', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: '40bfca5d4a937662190f24af0c46507686fdfccf', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get is() { return "ir-booking-editor-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -702,6 +703,7 @@ export class IrBookingEditorDrawer {
                 }
             }];
     }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
                 "propName": "ticket",

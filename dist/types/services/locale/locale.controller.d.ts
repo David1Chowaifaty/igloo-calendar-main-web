@@ -22,6 +22,8 @@ export declare class LocaleController {
     static readonly BASE_TABLES: readonly ["_COMMON"];
     private static service;
     private static loadedTables;
+    /** Per `lang`-subtree counterpart of {@link loadedTables}, keyed by language. */
+    private static scopeTables;
     private static inFlight;
     /** What is in `locales.entries` right now — null until the first fetch lands. */
     private static loadedLanguage;
@@ -58,6 +60,24 @@ export declare class LocaleController {
      * @returns An unsubscribe function.
      */
     static subscribe(listener: (language: string) => void): () => void;
+    /**
+     * The language `el` renders in: its `lang` subtree's (see `locale-scope.ts`), else the app's.
+     * Use it for `language:` API parameters in any component that can sit inside such a subtree.
+     */
+    static languageFor(el: Element): string;
+    /**
+     * {@link load} for a screen root that may be mounted inside a `lang` subtree. There it fills
+     * that subtree's scope and leaves the app's language alone; anywhere else it is plain `load`.
+     */
+    static loadFor(el: Element, params?: LoadLocaleParams): Promise<void>;
+    /**
+     * Fetches `tables` (plus {@link BASE_TABLES}) into the scope store for `language`, without
+     * touching the app's selected language, `<html lang>` or the language-change listeners.
+     */
+    static loadScope({ language, tables }: {
+        language: string;
+        tables?: readonly LocaleTable[];
+    }): Promise<void>;
     /** Whether `table`'s strings are already in the store for the current language. */
     static isLoaded(table: LocaleTable): boolean;
     /**

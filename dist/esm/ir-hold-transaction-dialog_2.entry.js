@@ -1,19 +1,18 @@
 import { r as registerInstance, c as createEvent, h, H as Host, a as getElement } from './index-CeHdrJeH.js';
-import { C as CityLedgerService } from './index-C-cIi7ex.js';
-import { t } from './t-BG8YaZr6.js';
+import { C as CityLedgerService } from './index-CAvGG2i9.js';
+import { t } from './t-BVYK64UG.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './enums-CcLtXwvz.js';
 import './moment-Mki5YqAR.js';
-import './types-Clk7NCXk.js';
-import './utils-D1YLn2lG.js';
-import './calendar-data-vejfJjJ2.js';
-import './locales.store-CXJn6ls-.js';
-import './booking.dto-D-ACWjZx.js';
-import './type-o1ai24d7.js';
-import './ir-date-2sKX7m-4.js';
+import './types-Bauv3qGW.js';
+import './utils-B12tP0KI.js';
+import './calendar-data-C8GYkFc8.js';
+import './locale-scope-CapRuPkM.js';
+import './booking.dto-BaM1iy0R.js';
+import './type--0qBkwTA.js';
+import './ir-date-BHp3AHEu.js';
 import './language-observer-CHgzsZkY.js';
-import './calendar-dates-D3hVfsrC.js';
 
 const irHoldTransactionDialogCss = () => `.sc-ir-hold-transaction-dialog-h{display:contents}.hold-dialog__body.sc-ir-hold-transaction-dialog{display:flex;flex-direction:column;gap:0.875rem;font-size:0.875rem}.hold-dialog__details.sc-ir-hold-transaction-dialog{background:var(--wa-color-neutral-fill-quiet, #f9fafb);border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem;overflow:hidden}.hold-dialog__detail-row.sc-ir-hold-transaction-dialog{display:flex;justify-content:space-between;padding:0.5rem 0.75rem;font-size:0.8125rem;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb)}.hold-dialog__detail-row.sc-ir-hold-transaction-dialog:last-child{border-bottom:0}.hold-dialog__detail-row.sc-ir-hold-transaction-dialog span.sc-ir-hold-transaction-dialog:first-child{color:var(--wa-color-text-quiet, #6b7280)}.hold-dialog__detail-row.sc-ir-hold-transaction-dialog span.sc-ir-hold-transaction-dialog:last-child{font-weight:500}`;
 

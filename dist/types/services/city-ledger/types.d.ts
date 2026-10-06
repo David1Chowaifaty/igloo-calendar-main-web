@@ -1282,14 +1282,14 @@ export declare const PrintClProformaParamsSchema: z.ZodObject<{
     lang: z.ZodDefault<z.ZodOptional<z.ZodString>>;
     booking_nbr: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
 }, "strip", z.ZodTypeAny, {
-    booking_nbr?: string;
     lang?: string;
+    booking_nbr?: string;
     from_date?: string;
     to_date?: string;
     agency_id?: string;
 }, {
-    booking_nbr?: string;
     lang?: string;
+    booking_nbr?: string;
     from_date?: string;
     to_date?: string;
     agency_id?: string;

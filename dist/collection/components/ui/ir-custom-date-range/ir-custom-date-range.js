@@ -40,32 +40,25 @@ export class IrCustomDateRange {
     /** When `true`, displays a price line inside each day button (requires `dateModifiers`). */
     showPrice = false;
     /**
-     * BCP-47 locale tag used to localise day names and month formatting.
+     * BCP-47 locale tag used to localise day names and month formatting. Leave unset to follow the
+     * nearest `lang` ancestor (see `locale-scope.ts`), then the app's language.
      * @reflect
      */
-    locale = 'en';
+    locale;
     selectedDates = { start: moment(), end: moment() };
     displayedDaysArr = [];
     hoveredDate = null;
-    weekdays = [];
     /**
      * Emits the selected start and end dates as native `Date` objects.
      * `end` is `null` when the user has only picked the first date.
      */
     dateChange;
     componentWillLoad() {
-        this.weekdays = getWeekdayLabels({ locale: this.locale });
         this.resetHours();
         this.selectedDates = { start: this.fromDate, end: this.toDate };
         const currentMonth = this.fromDate ? this.fromDate.clone() : moment();
         const nextMonth = currentMonth.clone().add(1, 'month');
         this.displayedDaysArr = [this.getMonthDays(currentMonth), this.getMonthDays(nextMonth)];
-    }
-    /** Re-localises weekday names when the locale changes. */
-    handleLocale(newValue, oldLocale) {
-        if (newValue !== oldLocale) {
-            this.weekdays = getWeekdayLabels({ locale: newValue });
-        }
     }
     /** Syncs the internal selection start when `fromDate` prop changes. */
     handleFromDateChange(newValue, oldValue) {
@@ -215,7 +208,7 @@ export class IrCustomDateRange {
     }
     render() {
         const maxSpanDays = this.selectedDates.start ? this.selectedDates.start.clone().add(this.maxSpanDays, 'days') : null;
-        return (h("div", { key: '6f225a4203e2a5c159c322834445a41dcff3abf1', part: "base", class: "date-picker" }, this.displayedDaysArr.map((month, index) => (h("table", { part: "calendar", class: "calendar", role: "grid" }, h("thead", null, h("tr", { part: "calendar-header", class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { part: "month-navigation", class: "month-navigation" }, index === 0 && this.displayedDaysArr[0].month.clone().startOf('month').isAfter(this.minDate) && (h("button", { part: "nav-prev", name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, t('Lcz_PreviousMonth', { fallback: 'previous month' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", { part: "month-label", class: "month-year-label" }, getMonthLabel(month.month.toDate(), { style: 'long', locale: this.locale ?? 'en' })), index === 0 && (h("button", { part: "nav-next", name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only" }, t('Lcz_NextMonth', { fallback: 'next month' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && this.displayedDaysArr[1].month.clone().endOf('month').isBefore(this.maxDate) && (h("button", { part: "nav-next", name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only" }, t('Lcz_NextMonth', { fallback: 'next month' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { part: "weekday-row", class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { part: "weekday", class: "weekday-name", key: weekday }, weekday.replace('.', '')))))), h("tbody", { part: "days-grid", class: "days-grid" }, month.days
+        return (h("div", { key: '5a7d1791e153875480586dd37fef05c12f4ca6f5', part: "base", class: "date-picker" }, this.displayedDaysArr.map((month, index) => (h("table", { part: "calendar", class: "calendar", role: "grid" }, h("thead", null, h("tr", { part: "calendar-header", class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { part: "month-navigation", class: "month-navigation" }, index === 0 && this.displayedDaysArr[0].month.clone().startOf('month').isAfter(this.minDate) && (h("button", { part: "nav-prev", name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, t('Lcz_PreviousMonth', { fallback: 'previous month' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", { part: "month-label", class: "month-year-label" }, getMonthLabel(month.month.toDate(), { style: 'long', locale: this.locale })), index === 0 && (h("button", { part: "nav-next", name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only" }, t('Lcz_NextMonth', { fallback: 'next month' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && this.displayedDaysArr[1].month.clone().endOf('month').isBefore(this.maxDate) && (h("button", { part: "nav-next", name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only" }, t('Lcz_NextMonth', { fallback: 'next month' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { part: "weekday-row", class: "weekday-header", role: "row" }, getWeekdayLabels({ locale: this.locale }).map(weekday => (h("th", { part: "weekday", class: "weekday-name", key: weekday }, weekday.replace('.', '')))))), h("tbody", { part: "days-grid", class: "days-grid" }, month.days
             .reduce((acc, day, i) => {
             const weekIndex = Math.floor(i / 7);
             if (!acc[weekIndex]) {
@@ -235,7 +228,7 @@ export class IrCustomDateRange {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.selectDay(day);
-                }, style: checkedDate?.disabled && this.selectedDates.start && { cursor: 'pointer' }, title: checkedDate?.disabled ? t('Lcz_NoAvailability', { fallback: 'No availability' }) : '', "aria-unavailable": checkedDate?.disabled ? 'true' : 'false', "aria-label": `${formatDate(day.toDate(), { style: 'weekday-medium', locale: this.locale ?? 'en' })} ${isDayBeforeMinDate || isDayAfterMaxDate ? t('Lcz_NotAvailableStatus', { fallback: 'Not available' }) : ''}`, "aria-disabled": isDayBeforeMinDate || isDayAfterMaxDate || checkedDate?.disabled ? 'true' : 'false', "aria-selected": (this.selectedDates.start && isDaySameStart) || isDaySelected || (this.selectedDates.end && isDaySameEnd), class: {
+                }, style: checkedDate?.disabled && this.selectedDates.start && { cursor: 'pointer' }, title: checkedDate?.disabled ? t('Lcz_NoAvailability', { fallback: 'No availability' }) : '', "aria-unavailable": checkedDate?.disabled ? 'true' : 'false', "aria-label": `${formatDate(day.toDate(), { style: 'weekday-medium', locale: this.locale })} ${isDayBeforeMinDate || isDayAfterMaxDate ? t('Lcz_NotAvailableStatus', { fallback: 'Not available' }) : ''}`, "aria-disabled": isDayBeforeMinDate || isDayAfterMaxDate || checkedDate?.disabled ? 'true' : 'false', "aria-selected": (this.selectedDates.start && isDaySameStart) || isDaySelected || (this.selectedDates.end && isDaySameEnd), class: {
                     'day-button': true,
                     'day-range-start': this.selectedDates.start && isDaySameStart,
                     'day-range-end': this.selectedDates.end && isDaySameEnd,
@@ -430,19 +423,18 @@ export class IrCustomDateRange {
                     "references": {}
                 },
                 "required": false,
-                "optional": false,
+                "optional": true,
                 "docs": {
                     "tags": [{
                             "name": "reflect",
                             "text": undefined
                         }],
-                    "text": "BCP-47 locale tag used to localise day names and month formatting."
+                    "text": "BCP-47 locale tag used to localise day names and month formatting. Leave unset to follow the\nnearest `lang` ancestor (see `locale-scope.ts`), then the app's language."
                 },
                 "getter": false,
                 "setter": false,
                 "reflect": true,
-                "attribute": "locale",
-                "defaultValue": "'en'"
+                "attribute": "locale"
             }
         };
     }
@@ -450,8 +442,7 @@ export class IrCustomDateRange {
         return {
             "selectedDates": {},
             "displayedDaysArr": {},
-            "hoveredDate": {},
-            "weekdays": {}
+            "hoveredDate": {}
         };
     }
     static get events() {
@@ -479,9 +470,6 @@ export class IrCustomDateRange {
     }
     static get watchers() {
         return [{
-                "propName": "locale",
-                "methodName": "handleLocale"
-            }, {
                 "propName": "fromDate",
                 "methodName": "handleFromDateChange"
             }, {

@@ -1,11 +1,11 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-CeHdrJeH.js';
-import { f as formatAmount, a as formatBookingNumber } from './number-2X31jLIQ.js';
-import { f as formatDate } from './ir-date-2sKX7m-4.js';
+import { f as formatAmount, a as formatBookingNumber } from './number-bfH2_xMJ.js';
+import { f as formatDate } from './ir-date-BHp3AHEu.js';
 import './moment-Mki5YqAR.js';
-import { c as calendar_data } from './calendar-data-vejfJjJ2.js';
-import { _ as _formatTime } from './functions-DuaivJG8.js';
-import { t } from './t-BG8YaZr6.js';
-import './locales.store-CXJn6ls-.js';
+import { c as calendar_data } from './calendar-data-C8GYkFc8.js';
+import { _ as _formatTime } from './functions-Bg1OOoSj.js';
+import { t } from './t-BVYK64UG.js';
+import './locale-scope-CapRuPkM.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 

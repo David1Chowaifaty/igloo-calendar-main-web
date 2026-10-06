@@ -8,4 +8,5 @@ export * from './screen-tables';
 export * from './locale.service';
 export * from './locale.controller';
 export * from './language-sync';
+export * from './locale-scope';
 export * from './t';

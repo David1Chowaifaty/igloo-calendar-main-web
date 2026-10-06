@@ -1,28 +1,27 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-CeHdrJeH.js';
-import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, a as resetReserved, d as setBookingSelectOptions, e as reserveRooms } from './booking.service-FGNFrgs8.js';
-import { S as SetupService } from './index-BUvEYPMi.js';
-import { e as extras, k as handleBodyOverflow, g as getReleaseHoursString } from './utils-D1YLn2lG.js';
-import { I as ISO_FORMAT } from './calendar-dates-D3hVfsrC.js';
+import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, a as resetReserved, d as setBookingSelectOptions, e as reserveRooms } from './booking.store-Cp11cIZT.js';
+import { S as SetupService } from './index-C7E6srXC.js';
+import { e as extras, l as handleBodyOverflow, I as ISO_FORMAT, g as getReleaseHoursString } from './utils-B12tP0KI.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { i as isRequestPending } from './ir-interceptor.store-302gZvQv.js';
-import { t } from './t-BG8YaZr6.js';
-import { R as RoomGuestSchema, B as BookingGuestSchema } from './types-B7N40_24.js';
-import { L as LocaleController } from './locale.controller-DUn6fc8y.js';
+import { i as isRequestPending } from './ir-interceptor.store-B1TrAet5.js';
+import { t } from './t-BVYK64UG.js';
+import { R as RoomGuestSchema, B as BookingGuestSchema } from './types-o8NNYi5s.js';
+import { L as LocaleController } from './locale.controller-Cdlf6ZoU.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-C6czW-Mz.js';
-import './types-Clk7NCXk.js';
-import './booking-Bd5Q5qHX.js';
-import './locales.store-CXJn6ls-.js';
-import './calendar-data-vejfJjJ2.js';
-import './functions-DuaivJG8.js';
-import './ir-date-2sKX7m-4.js';
+import './IBooking-BBKcX-1B.js';
+import './types-Bauv3qGW.js';
+import './booking-B7pxZzJe.js';
+import './locale-scope-CapRuPkM.js';
+import './calendar-data-C8GYkFc8.js';
+import './functions-Bg1OOoSj.js';
+import './ir-date-BHp3AHEu.js';
 import './language-observer-CHgzsZkY.js';
-import './commonSchemas-BxK90Oim.js';
-import './utils-C3byOTBu.js';
-import './booking.dto-D-ACWjZx.js';
-import './type-o1ai24d7.js';
-import './types-C7G2emJd.js';
+import './commonSchemas-DkuNR9ft.js';
+import './utils-CJzWwF6f.js';
+import './booking.dto-BaM1iy0R.js';
+import './type--0qBkwTA.js';
+import './types-D6WcSF8m.js';
 
 class IglBookPropertyService {
     hasUnderscore(str) {

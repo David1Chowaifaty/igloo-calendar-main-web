@@ -1,10 +1,10 @@
 import { r as registerInstance, c as createEvent, h } from './index-CeHdrJeH.js';
 import { a as axios } from './axios-B50ozOIF.js';
-import { t } from './t-BG8YaZr6.js';
-import { b as formatCount } from './number-2X31jLIQ.js';
+import { t } from './t-BVYK64UG.js';
+import { b as formatCount } from './number-bfH2_xMJ.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './locales.store-CXJn6ls-.js';
-import './ir-date-2sKX7m-4.js';
+import './locale-scope-CapRuPkM.js';
+import './ir-date-BHp3AHEu.js';
 import './language-observer-CHgzsZkY.js';
 import './moment-Mki5YqAR.js';
 

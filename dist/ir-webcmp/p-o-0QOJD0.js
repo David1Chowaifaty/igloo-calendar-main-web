@@ -1,1 +1,0 @@
-import{h as s}from"./p-Mki5YqAR.js";const a="YYYY-MM-DD",o=o=>s(o,a),t=()=>s().format(a),Y=(s,t)=>o(s).add(t,"days").format(a),m=(s,t)=>o(s).add(t,"months").format(a),n=(s,a)=>o(a).diff(o(s),"days");export{a as I,Y as a,m as b,n,t}

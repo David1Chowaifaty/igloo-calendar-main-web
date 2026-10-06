@@ -1,8 +1,8 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var t = require('./t-BqKJTQbm.js');
-require('./locales.store-BMTss6fG.js');
+var t = require('./t-wyGILxEL.js');
+require('./locale-scope-C7rmpwuA.js');
 
 const iglBulkOperationsCss = () => `.bulk-operations-sheet-container.sc-igl-bulk-operations{display:flex;flex-direction:column;height:auto !important;min-height:100vh;background:white !important}.animated-container.sc-igl-bulk-operations{transition:all 0.5s ease}.tabs.sc-igl-bulk-operations{position:sticky;top:var(--ir-tabs-top, 54px);background-color:white;z-index:9999999;padding-top:1rem;margin-bottom:1rem}`;
 

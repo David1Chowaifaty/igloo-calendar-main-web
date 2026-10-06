@@ -22,6 +22,12 @@ export type TranslateOptions = {
     params?: ReadonlyArray<string | number>;
     /** Rendered when the key is missing. Defaults to the key itself. */
     fallback?: string;
+    /**
+     * Read from this language's scope instead of the one resolved from the rendering component.
+     * Only needed outside `render()` (toasts, validators) inside a `lang` subtree — pass
+     * `LocaleController.languageFor(this.el)`.
+     */
+    language?: string;
 };
 export type LoadLocaleParams = {
     /** Falls back to the loaded language, then `<html lang>`, then `'en'`. */

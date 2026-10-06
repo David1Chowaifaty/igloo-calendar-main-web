@@ -4,6 +4,10 @@ import { addDaysISO, todayISO } from "../../utils/calendar-dates";
 export class IrBookingNewForm {
     ticket;
     propertyid;
+    /**
+     * Language for the form and the editor it opens, independent of the page's. Reflected as `lang`
+     * on the host, which makes this subtree its own locale scope (see `locale-scope.ts`).
+     */
     language;
     bookingItem = null;
     handleTriggerClicked() {
@@ -27,13 +31,13 @@ export class IrBookingNewForm {
         };
     }
     render() {
-        return (h(Host, { key: 'fe534ee21b08dce8a881305d197deaa5eae0259e' }, h("div", { key: 'a8db92030966abd987b1c3585e1a258443158eda', onClick: () => {
+        return (h(Host, { key: '72b317ef45544fea81021de9d877e04dc2624012', lang: this.language || undefined }, h("div", { key: '05c3efd49902a47fe26c8ea222a54520f44a854f', onClick: () => {
                 this.handleTriggerClicked();
-            } }, h("slot", { key: 'f403ffcceab2de8a44df2a3c2a3b245825d855ec', name: "trigger" }, h("ir-custom-button", { key: '4edc5392b7e96b8dbc941235d2337bdacd3db809', appearance: "plain", variant: "brand" }, h("wa-icon", { key: '0dd3c5eadfebc456a051c954703c82b0f8ebd557', name: "circle-plus", style: { fontSize: '1.2rem' } })))), h("ir-booking-editor-drawer", { key: '20b57b036ccf0674f4bffdfa261fe647fe919f03', onBookingEditorClosed: e => {
+            } }, h("slot", { key: '8982c444269548c9c642f2b97a3d44fbb45d833a', name: "trigger" }, h("ir-custom-button", { key: '646fb57b8deab19d41be19b55ccb0660e508add5', appearance: "plain", variant: "brand" }, h("wa-icon", { key: 'ecb46bf512728f2582e896d0c67b5f8a60fff619', name: "circle-plus", style: { fontSize: '1.2rem' } })))), h("ir-booking-editor-drawer", { key: 'a7788a4ebde91adbaef4af82b6b6d8495a30c74a', onBookingEditorClosed: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingItem = null;
-            }, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, open: this.bookingItem !== null, language: this.language, propertyid: this.propertyid })));
+            }, mode: this.bookingItem?.event_type, ticket: this.ticket, open: this.bookingItem !== null, language: this.language, propertyid: this.propertyid })));
     }
     static get is() { return "ir-booking-new-form"; }
     static get encapsulation() { return "scoped"; }
@@ -99,7 +103,7 @@ export class IrBookingNewForm {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Language for the form and the editor it opens, independent of the page's. Reflected as `lang`\non the host, which makes this subtree its own locale scope (see `locale-scope.ts`)."
                 },
                 "getter": false,
                 "setter": false,

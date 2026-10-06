@@ -1,10 +1,10 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
-import { E as ExtraServiceSection } from './types-BhCXcVB8.js';
-import { t } from './t-BG8YaZr6.js';
+import { E as ExtraServiceSection } from './types-c6xexlW8.js';
+import { t } from './t-BVYK64UG.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import './enums-CcLtXwvz.js';
-import './types-Clk7NCXk.js';
-import './locales.store-CXJn6ls-.js';
+import './types-Bauv3qGW.js';
+import './locale-scope-CapRuPkM.js';
 
 const irExtraServiceEditorDrawerCss = () => `.ir__drawer-footer.sc-ir-extra-service-editor-drawer{display:flex;justify-content:flex-end;gap:0.5rem}`;
 

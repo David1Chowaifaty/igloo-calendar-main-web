@@ -39,14 +39,14 @@ export declare class IrCustomDateRange {
     /** When `true`, displays a price line inside each day button (requires `dateModifiers`). */
     showPrice: boolean;
     /**
-     * BCP-47 locale tag used to localise day names and month formatting.
+     * BCP-47 locale tag used to localise day names and month formatting. Leave unset to follow the
+     * nearest `lang` ancestor (see `locale-scope.ts`), then the app's language.
      * @reflect
      */
-    locale: string;
+    locale?: string;
     private selectedDates;
     private displayedDaysArr;
     private hoveredDate;
-    private weekdays;
     /**
      * Emits the selected start and end dates as native `Date` objects.
      * `end` is `null` when the user has only picked the first date.
@@ -56,8 +56,6 @@ export declare class IrCustomDateRange {
         end: Date | null;
     }>;
     componentWillLoad(): void;
-    /** Re-localises weekday names when the locale changes. */
-    handleLocale(newValue: string, oldLocale: string): void;
     /** Syncs the internal selection start when `fromDate` prop changes. */
     handleFromDateChange(newValue: Moment | null, oldValue: Moment | null): void;
     /** Syncs the internal selection end when `toDate` prop changes. */

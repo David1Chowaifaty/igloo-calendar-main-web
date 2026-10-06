@@ -1,5 +1,6 @@
 import { locales } from "../../stores/locales.store";
 import { LanguageObserver } from "../../utils/language-observer";
+import { getLocalLanguage, getLocaleScope } from "./locale-scope";
 import { LocaleService } from "./locale.service";
 import { BASE_TABLES } from "./screen-tables";
 /**
@@ -25,6 +26,8 @@ export class LocaleController {
     static BASE_TABLES = BASE_TABLES;
     static service = new LocaleService();
     static loadedTables = new Set();
+    /** Per `lang`-subtree counterpart of {@link loadedTables}, keyed by language. */
+    static scopeTables = new Map();
     static inFlight = new Map();
     /** What is in `locales.entries` right now — null until the first fetch lands. */
     static loadedLanguage = null;
@@ -65,6 +68,60 @@ export class LocaleController {
     static subscribe(listener) {
         this.listeners.add(listener);
         return () => this.listeners.delete(listener);
+    }
+    /**
+     * The language `el` renders in: its `lang` subtree's (see `locale-scope.ts`), else the app's.
+     * Use it for `language:` API parameters in any component that can sit inside such a subtree.
+     */
+    static languageFor(el) {
+        return getLocalLanguage(el) ?? this.language;
+    }
+    /**
+     * {@link load} for a screen root that may be mounted inside a `lang` subtree. There it fills
+     * that subtree's scope and leaves the app's language alone; anywhere else it is plain `load`.
+     */
+    static loadFor(el, params = {}) {
+        const local = getLocalLanguage(el);
+        if (local && local !== this.language) {
+            return this.loadScope({ language: local, tables: params.tables });
+        }
+        return this.load(params);
+    }
+    /**
+     * Fetches `tables` (plus {@link BASE_TABLES}) into the scope store for `language`, without
+     * touching the app's selected language, `<html lang>` or the language-change listeners.
+     */
+    static async loadScope({ language, tables = [] }) {
+        const lang = language.toLowerCase();
+        const loaded = this.scopeTables.get(lang) ?? new Set();
+        this.scopeTables.set(lang, loaded);
+        const missing = this.buildSections(tables).filter(table => !loaded.has(table));
+        if (!missing.length) {
+            return;
+        }
+        // Same re-enter-after-settle dedupe as `load`, on a key that can't collide with a global language.
+        const key = `scope:${lang}`;
+        const pending = this.inFlight.get(key);
+        if (pending) {
+            return pending.then(() => this.loadScope({ language: lang, tables }));
+        }
+        const scope = getLocaleScope(lang);
+        const request = (async () => {
+            scope.status = 'loading';
+            try {
+                const { entries, direction } = await this.service.getExposedLanguage(lang, missing);
+                missing.forEach(table => loaded.add(table));
+                scope.entries = { ...(scope.entries ?? {}), ...entries };
+                scope.direction = direction;
+                scope.status = 'ready';
+            }
+            catch (error) {
+                scope.status = 'error';
+                throw error;
+            }
+        })().finally(() => this.inFlight.delete(key));
+        this.inFlight.set(key, request);
+        return request;
     }
     /** Whether `table`'s strings are already in the store for the current language. */
     static isLoaded(table) {
@@ -132,6 +189,7 @@ export class LocaleController {
     /** Drops the cache. Only for tests and teardown — does not clear the store. */
     static reset() {
         this.clear();
+        this.scopeTables.clear();
         this.inFlight.clear();
         this.listeners.clear();
         this.loadedLanguage = null;

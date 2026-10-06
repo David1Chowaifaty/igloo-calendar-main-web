@@ -1,6 +1,7 @@
 import { CalendarSystem, DateInput, FormatDateOptions, NumberingSystemPreference } from './types';
 /**
- * Resolution order: an explicit per-call override, then the language the locale store was loaded
+ * Resolution order: an explicit per-call override, then the `lang` subtree of the component
+ * rendering right now (see `locale-scope.ts`), then the language the locale store was loaded
  * with, then `<html lang>`, then English. Exported because `@/utils/number` resolves the same
  * display locale and digit-script preference — they are one user-facing setting, not two.
  */

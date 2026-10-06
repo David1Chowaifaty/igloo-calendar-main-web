@@ -10,6 +10,15 @@ export type Direction = 'ltr' | 'rtl';
 export declare function isRtlDirection(direction?: string | null): boolean;
 /** Resolved document direction, for the handful of places that need it in JS. */
 export declare function getDirection(): Direction;
+/**
+ * The `dir` hardcoded on the nearest ancestor below `<html>`, walking out of shadow roots to their
+ * hosts. `undefined` when nothing below the document sets one.
+ *
+ * `wa-*` components resolve direction in JS as `host.dir || <html dir>`, skipping ancestors, so a
+ * subtree that overrides the document (e.g. `<ir-menu dir="rtl">`) has to forward this to them.
+ * Passing `undefined` through leaves the attribute off, so they keep tracking `<html dir>` live.
+ */
+export declare function getLocalDirection(el: Element): Direction | undefined;
 /** `+1` in LTR, `-1` in RTL — multiply physical x-axis deltas by this to get inline deltas. */
 export declare function inlineSign(): 1 | -1;
 /** Primary subtags written right-to-left. */

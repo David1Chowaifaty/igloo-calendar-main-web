@@ -2,27 +2,26 @@
 
 var index = require('./index-CQkpA5n3.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var index$1 = require('./index-DSxpSl4C.js');
-var utils$1 = require('./utils-DZ38NPJz.js');
+var index$1 = require('./index-DpY7ZCNu.js');
+var utils$1 = require('./utils-B_P0SLOr.js');
 var index$2 = require('./index-Dssn3hdS.js');
 var duplicateSync = require('./duplicate-sync-Cly39mO6.js');
 var setupMapping = require('./setup-mapping-D72fId4a.js');
 var utils = require('./utils-C40PtLl1.js');
-var t = require('./t-BqKJTQbm.js');
+var t = require('./t-wyGILxEL.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./utils-C3ixP2lU.js');
+require('./utils-S4ztg9KF.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
 require('./commonSchemas-D4iFLV5-.js');
-require('./locales.store-BMTss6fG.js');
+require('./locale-scope-C7rmpwuA.js');
 require('./moment-CdViwxPQ.js');
-require('./calendar-data-y64tb1w5.js');
+require('./calendar-data-Br2L_0sg.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
-require('./ir-date-BLb2Vxrk.js');
+require('./ir-date-SZW0yc7z.js');
 require('./language-observer-DKp37LIu.js');
-require('./calendar-dates-BxDGM1ix.js');
 
 const irTranslationsManagerCss = () => `.sc-ir-translations-manager-h{display:block;height:100%}.tm__page-actions.sc-ir-translations-manager{display:flex;align-items:center;flex-wrap:wrap;gap:0.5rem 0.75rem}.translation-manager__page.sc-ir-translations-manager::part(body),.translation-manager__page.sc-ir-translations-manager [part~="body"]{height:100%}.tm__table-picker.sc-ir-translations-manager{display:flex;align-items:center;gap:0.35rem;min-width:0}.tm__table-select.sc-ir-translations-manager{flex:1 1 auto;min-width:0;width:15rem}.tm__table-select.sc-ir-translations-manager::part(label),.tm__table-select.sc-ir-translations-manager [part~="label"]{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0}.tm__table-select.sc-ir-translations-manager::part(listbox),.tm__table-select.sc-ir-translations-manager [part~="listbox"]{max-height:300px;width:350px}.tm__search.sc-ir-translations-manager{flex:0 1 auto;min-width:0;width:14rem}.tm__missing-select.sc-ir-translations-manager{flex:0 1 auto;min-width:0;width:17rem;--tag-max-size:7ch}.tm__missing-select.sc-ir-translations-manager::part(tags),.tm__missing-select.sc-ir-translations-manager [part~="tags"]{flex-wrap:nowrap}.tm__search.sc-ir-translations-manager::part(label),.tm__search.sc-ir-translations-manager [part~="label"],.tm__missing-select.sc-ir-translations-manager::part(form-control-label),.tm__missing-select.sc-ir-translations-manager [part~="form-control-label"]{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0}.tm__missing-select.sc-ir-translations-manager::part(listbox),.tm__missing-select.sc-ir-translations-manager [part~="listbox"]{max-height:300px}.tm__table-picker.sc-ir-translations-manager .tm__icon-btn.sc-ir-translations-manager,.tm__page-actions.sc-ir-translations-manager>.tm__icon-btn.sc-ir-translations-manager{flex:0 0 auto;--ir-c-btn-padding:0}@media (max-width: 575px){.tm__page-actions.sc-ir-translations-manager{width:100%}.tm__table-picker.sc-ir-translations-manager{flex:1 1 100%}.tm__table-select.sc-ir-translations-manager{width:auto}.tm__search.sc-ir-translations-manager,.tm__missing-select.sc-ir-translations-manager{flex:1 1 100%;width:auto}}.tm__loader-container.sc-ir-translations-manager{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;padding:3rem 1rem;color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.tm__loader-container.sc-ir-translations-manager p.sc-ir-translations-manager{margin:0}.tm__confirm-text.sc-ir-translations-manager{margin:0}.tm__confirm-footer.sc-ir-translations-manager{display:flex;justify-content:flex-end;gap:0.5rem}`;
 

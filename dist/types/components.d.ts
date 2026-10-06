@@ -1727,6 +1727,9 @@ export namespace Components {
     interface IrBookingListingTable {
     }
     interface IrBookingNewForm {
+        /**
+          * Language for the form and the editor it opens, independent of the page's. Reflected as `lang` on the host, which makes this subtree its own locale scope (see `locale-scope.ts`).
+         */
         "language": string;
         "propertyid": string;
         "ticket": string;
@@ -2844,11 +2847,10 @@ export namespace Components {
          */
         "fromDate": Moment | null;
         /**
-          * BCP-47 locale tag used to localise day names and month formatting.
-          * @reflect 
-          * @default 'en'
+          * BCP-47 locale tag used to localise day names and month formatting. Leave unset to follow the nearest `lang` ancestor (see `locale-scope.ts`), then the app's language.
+          * @reflect
          */
-        "locale": string;
+        "locale"?: string;
         /**
           * The latest selectable date. Defaults to 24 years in the future.
           * @default moment().add(24, 'years')
@@ -16164,6 +16166,9 @@ declare namespace LocalJSX {
         "onRequestPageSizeChange"?: (event: IrBookingListingTableCustomEvent<PaginationChangeEvent>) => void;
     }
     interface IrBookingNewForm {
+        /**
+          * Language for the form and the editor it opens, independent of the page's. Reflected as `lang` on the host, which makes this subtree its own locale scope (see `locale-scope.ts`).
+         */
         "language"?: string;
         "propertyid"?: string;
         "ticket"?: string;
@@ -17356,9 +17361,8 @@ declare namespace LocalJSX {
          */
         "fromDate"?: Moment | null;
         /**
-          * BCP-47 locale tag used to localise day names and month formatting.
-          * @reflect 
-          * @default 'en'
+          * BCP-47 locale tag used to localise day names and month formatting. Leave unset to follow the nearest `lang` ancestor (see `locale-scope.ts`), then the app's language.
+          * @reflect
          */
         "locale"?: string;
         /**

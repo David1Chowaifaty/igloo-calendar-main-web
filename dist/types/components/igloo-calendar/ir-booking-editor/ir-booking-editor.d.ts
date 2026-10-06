@@ -4,6 +4,7 @@ import { BlockedDatePayload, BookingEditorMode, BookingStep } from './types';
 import { RoomType } from "../../../models/property";
 import { ExtraService } from "../../../models/booking.dto";
 export declare class IrBookingEditor {
+    el: HTMLElement;
     propertyId: string | number;
     language: string;
     roomTypeIds: (string | number)[];

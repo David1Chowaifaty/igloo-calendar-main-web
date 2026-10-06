@@ -1,16 +1,15 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-CeHdrJeH.js';
-import { t } from './t-BG8YaZr6.js';
+import { t } from './t-BVYK64UG.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { b as formatCount, f as formatAmount, d as formatPercent } from './number-2X31jLIQ.js';
-import { q as calculateTrend } from './utils-D1YLn2lG.js';
-import './calendar-data-vejfJjJ2.js';
-import './booking.dto-D-ACWjZx.js';
-import './ir-date-2sKX7m-4.js';
-import './locales.store-CXJn6ls-.js';
-import './calendar-dates-D3hVfsrC.js';
-import './types-Clk7NCXk.js';
-import './type-o1ai24d7.js';
+import { b as formatCount, f as formatAmount, d as formatPercent } from './number-bfH2_xMJ.js';
+import { u as calculateTrend } from './utils-B12tP0KI.js';
+import './calendar-data-C8GYkFc8.js';
+import './booking.dto-BaM1iy0R.js';
+import './ir-date-BHp3AHEu.js';
+import './locale-scope-CapRuPkM.js';
+import './types-Bauv3qGW.js';
+import './type--0qBkwTA.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 

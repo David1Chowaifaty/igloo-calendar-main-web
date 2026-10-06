@@ -1,14 +1,14 @@
 import { r as registerInstance, a as getElement, h, H as Host } from './index-CeHdrJeH.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { i as isRequestPending } from './ir-interceptor.store-302gZvQv.js';
+import { i as isRequestPending } from './ir-interceptor.store-B1TrAet5.js';
 import { a as axios } from './axios-B50ozOIF.js';
-import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-DUn6fc8y.js';
-import { t } from './t-BG8YaZr6.js';
-import './locales.store-CXJn6ls-.js';
+import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-Cdlf6ZoU.js';
+import { t } from './t-BVYK64UG.js';
+import './locale-scope-CapRuPkM.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './language-observer-CHgzsZkY.js';
-import './types-C7G2emJd.js';
-import './types-Clk7NCXk.js';
+import './types-D6WcSF8m.js';
+import './types-Bauv3qGW.js';
 
 const irQueueManagerCss = () => `.sc-ir-queue-manager-h{display:flex;flex-direction:column;height:100%}.queue-page.sc-ir-queue-manager{display:flex;flex-direction:column;gap:1rem}.queue-grid.sc-ir-queue-manager{display:flex;flex-direction:column;gap:1rem}.queue-grid.sc-ir-queue-manager wa-card.sc-ir-queue-manager{width:100%}.queue-item.sc-ir-queue-manager{display:grid;align-items:center;gap:0.75rem;margin-bottom:0.5rem}.queue-page__header.sc-ir-queue-manager{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}.page-title.sc-ir-queue-manager{margin-bottom:0}.queue-item__property.sc-ir-queue-manager{font-size:0.9rem;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.queue-item__status.sc-ir-queue-manager{display:grid;grid-template-columns:repeat(4, 1fr);align-items:center}.queue-item__progress.sc-ir-queue-manager{grid-column:span 3}.queue-item__count.sc-ir-queue-manager{text-align:end;font-size:0.85rem}@media (min-width: 768px){.queue-grid.sc-ir-queue-manager{display:grid;grid-template-columns:repeat(2, 1fr)}}@media (min-width: 1024px){.queue-item.sc-ir-queue-manager{grid-template-columns:300px 1fr}}`;
 

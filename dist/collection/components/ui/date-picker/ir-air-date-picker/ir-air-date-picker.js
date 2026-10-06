@@ -1,6 +1,7 @@
 import AirDatepicker from "air-datepicker";
 import moment from "moment";
 import { LanguageObserver } from "../../../../utils/language-observer";
+import { getLocalLanguage } from "../../../../services/locale/locale-scope";
 /** Loaders are dynamic `import()`s so a page only ever downloads the locale packs it actually uses. */
 const localeLoaders = {
     en: () => import('air-datepicker/locale/en'),
@@ -118,6 +119,8 @@ export class IrAirDatePicker {
     /** Unsubscribes this instance from `LanguageObserver`. */
     unsubscribeLang;
     componentWillLoad() {
+        // A `lang` subtree (see `locale-scope.ts`) pins the picker to its language instead of `<html lang>`.
+        this.currentLang = this.normalizeLang(getLocalLanguage(this.el) ?? LanguageObserver.getLang());
         if (this.date) {
             this.currentDate = this.toMoment(this.date);
         }
@@ -330,6 +333,8 @@ export class IrAirDatePicker {
     }
     /** `LanguageObserver` callback: live-swaps the calendar's locale, preserving the current selection. */
     async handleLangChange(lang) {
+        if (getLocalLanguage(this.el))
+            return;
         const nextLang = this.normalizeLang(lang);
         if (nextLang === this.currentLang || !this.datePicker)
             return;

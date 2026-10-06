@@ -1,7 +1,7 @@
 import { r as registerInstance, a as getElement, h, H as Host } from './index-CeHdrJeH.js';
 import { C as Chart, r as registerables } from './chart-3KrsuFTS.js';
-import { t } from './t-BG8YaZr6.js';
-import './locales.store-CXJn6ls-.js';
+import { t } from './t-BVYK64UG.js';
+import './locale-scope-CapRuPkM.js';
 
 const irQueueChartCss = () => `:host{display:block}`;
 

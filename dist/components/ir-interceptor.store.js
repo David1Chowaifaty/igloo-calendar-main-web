@@ -1,1 +1,1 @@
-import{c as s}from"./locales.store.js";const{state:t}=s({});function o(s){return"pending"===t[s]}export{t as a,o as i}
+import{c as n}from"./index4.js";const{state:t}=n({});function s(n){return"pending"===t[n]}export{t as a,s as i}

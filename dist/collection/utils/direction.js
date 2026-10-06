@@ -15,6 +15,24 @@ export function isRtlDirection(direction) {
 export function getDirection() {
     return isRtlDirection(locales.direction) ? 'rtl' : 'ltr';
 }
+/**
+ * The `dir` hardcoded on the nearest ancestor below `<html>`, walking out of shadow roots to their
+ * hosts. `undefined` when nothing below the document sets one.
+ *
+ * `wa-*` components resolve direction in JS as `host.dir || <html dir>`, skipping ancestors, so a
+ * subtree that overrides the document (e.g. `<ir-menu dir="rtl">`) has to forward this to them.
+ * Passing `undefined` through leaves the attribute off, so they keep tracking `<html dir>` live.
+ */
+export function getLocalDirection(el) {
+    let node = el;
+    while (node && node !== document.documentElement) {
+        const dir = node.getAttribute('dir')?.toLowerCase();
+        if (dir === 'rtl' || dir === 'ltr')
+            return dir;
+        node = node.parentElement ?? node.getRootNode().host ?? null;
+    }
+    return undefined;
+}
 /** `+1` in LTR, `-1` in RTL — multiply physical x-axis deltas by this to get inline deltas. */
 export function inlineSign() {
     return isRtlDirection(locales.direction) ? -1 : 1;

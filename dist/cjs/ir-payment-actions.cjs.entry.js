@@ -1,8 +1,8 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var t = require('./t-BqKJTQbm.js');
-require('./locales.store-BMTss6fG.js');
+var t = require('./t-wyGILxEL.js');
+require('./locale-scope-C7rmpwuA.js');
 
 const irPaymentActionsCss = () => `.sc-ir-payment-actions-h{display:block}.sc-ir-payment-actions-h p.sc-ir-payment-actions,.sc-ir-payment-actions-h div.sc-ir-payment-actions,.sc-ir-payment-actions-h span.sc-ir-payment-actions,.sc-ir-payment-actions-h ir-icons.sc-ir-payment-actions{box-sizing:border-box;padding:0;margin:0}.beta.sc-ir-payment-actions{background:var(--red);color:white;padding:0.2rem 0.3rem !important;font-size:12px;border-radius:4px;margin:0}.payment-actions-container.sc-ir-payment-actions{display:flex;flex-direction:column;gap:0.5rem}`;
 

@@ -1,4 +1,5 @@
 import { locales } from "../../stores/locales.store";
+import { getLocaleScope, getRenderingLanguage } from "./locale-scope";
 /**
  * Reads a localized string out of the `locales` store.
  *
@@ -22,13 +23,25 @@ export function t(key, options) {
  * or sections not yet added to `src/stores/locales.store.ts`.
  */
 export function tRaw(key, options) {
-    const entries = locales.entries;
-    const value = entries?.[key];
+    const value = lookup(key, options?.language ?? getRenderingLanguage());
     if (value === undefined || value === null || value === '') {
         // Fallbacks carry the same `%1` placeholders as the translation, so they need the same fill.
         return options?.fallback !== undefined ? interpolate(options.fallback, options.params) : key;
     }
     return interpolate(value, options?.params);
+}
+/**
+ * A `lang` subtree reads its own scope first. A key that scope hasn't loaded falls back to the
+ * document's entries — a string in the page language beats showing the raw key.
+ */
+function lookup(key, language) {
+    const global = locales.entries;
+    if (language && language.toLowerCase() !== locales.language) {
+        const scoped = getLocaleScope(language).entries?.[key];
+        if (scoped !== undefined && scoped !== null && scoped !== '')
+            return scoped;
+    }
+    return global?.[key];
 }
 /**
  * Fills the API's positional placeholders. Translations carry `%1`, `%2`, … —

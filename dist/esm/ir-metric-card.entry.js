@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-CeHdrJeH.js';
-import { d as formatPercent, c as formatNumber } from './number-2X31jLIQ.js';
-import { t } from './t-BG8YaZr6.js';
-import './ir-date-2sKX7m-4.js';
-import './locales.store-CXJn6ls-.js';
+import { d as formatPercent, c as formatNumber } from './number-bfH2_xMJ.js';
+import { t } from './t-BVYK64UG.js';
+import './ir-date-BHp3AHEu.js';
+import './locale-scope-CapRuPkM.js';
 import './language-observer-CHgzsZkY.js';
 import './moment-Mki5YqAR.js';
 import './_commonjsHelpers-BFTU3MAI.js';

@@ -1,9 +1,9 @@
 import { r as registerInstance, h, H as Host, c as createEvent } from './index-CeHdrJeH.js';
 import { D as Debounce } from './debounce-DF70NVXP.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { f as formatDate } from './ir-date-2sKX7m-4.js';
-import { t } from './t-BG8YaZr6.js';
-import './locales.store-CXJn6ls-.js';
+import { f as formatDate } from './ir-date-BHp3AHEu.js';
+import { t } from './t-BVYK64UG.js';
+import './locale-scope-CapRuPkM.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 

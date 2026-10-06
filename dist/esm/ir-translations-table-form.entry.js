@@ -1,22 +1,21 @@
 import { r as registerInstance, c as createEvent, h } from './index-CeHdrJeH.js';
-import { S as SetupService } from './index-BUvEYPMi.js';
-import { d as showToast } from './utils-D1YLn2lG.js';
+import { S as SetupService } from './index-C7E6srXC.js';
+import { f as showToast } from './utils-B12tP0KI.js';
 import { b as buildEditSetupParams } from './setup-mapping-CkK5DDbX.js';
-import { t } from './t-BG8YaZr6.js';
+import { t } from './t-BVYK64UG.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './utils-C3byOTBu.js';
-import './IBooking-C6czW-Mz.js';
-import './types-Clk7NCXk.js';
-import './commonSchemas-BxK90Oim.js';
-import './locales.store-CXJn6ls-.js';
+import './utils-CJzWwF6f.js';
+import './IBooking-BBKcX-1B.js';
+import './types-Bauv3qGW.js';
+import './commonSchemas-DkuNR9ft.js';
+import './locale-scope-CapRuPkM.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-vejfJjJ2.js';
-import './booking.dto-D-ACWjZx.js';
-import './type-o1ai24d7.js';
-import './ir-date-2sKX7m-4.js';
+import './calendar-data-C8GYkFc8.js';
+import './booking.dto-BaM1iy0R.js';
+import './type--0qBkwTA.js';
+import './ir-date-BHp3AHEu.js';
 import './language-observer-CHgzsZkY.js';
-import './calendar-dates-D3hVfsrC.js';
 
 const irTranslationsTableFormCss = () => `.sc-ir-translations-table-form-h{display:block}.table-form__body.sc-ir-translations-table-form{display:flex;flex-direction:column;gap:1rem}.table-form__error.sc-ir-translations-table-form{margin:-0.75rem 0 0;font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-danger-on-quiet, #991b1b)}`;
 

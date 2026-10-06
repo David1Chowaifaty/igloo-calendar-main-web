@@ -2,6 +2,7 @@ import { calendarPreference } from "../../stores/calendar-preference.store";
 import { CalendarPreferenceController } from "./calendar-preference-controller";
 import locales from "../../stores/locales.store";
 import { LanguageObserver } from "../language-observer";
+import { getRenderingLanguage } from "../../services/locale/locale-scope";
 import { configureMoment, momentHijri } from "./moment-setup";
 import { toMomentLocale } from "./locale-map";
 import { toHijriFormat } from "./tokens";
@@ -76,12 +77,13 @@ const TIME_FORMATS = {
     short: () => (prefersHour12() ? 'h:mm A' : 'HH:mm'),
 };
 /**
- * Resolution order: an explicit per-call override, then the language the locale store was loaded
+ * Resolution order: an explicit per-call override, then the `lang` subtree of the component
+ * rendering right now (see `locale-scope.ts`), then the language the locale store was loaded
  * with, then `<html lang>`, then English. Exported because `@/utils/number` resolves the same
  * display locale and digit-script preference — they are one user-facing setting, not two.
  */
 export function resolveLocale(options) {
-    return options?.locale ?? locales.language ?? LanguageObserver.getLang() ?? 'en';
+    return options?.locale ?? getRenderingLanguage() ?? locales.language ?? LanguageObserver.getLang() ?? 'en';
 }
 function resolveCalendar(options) {
     return options?.calendar ?? calendarPreference.resolved;

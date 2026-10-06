@@ -200,18 +200,18 @@ export declare const ZExposedLanguageSchema: z.ZodObject<{
     flag: z.ZodString;
     id: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    code?: string;
-    description?: string;
     entries?: null;
     direction?: string;
+    code?: string;
+    description?: string;
     id?: number;
     culture?: string;
     flag?: string;
 }, {
-    code?: string;
-    description?: string;
     entries?: null;
     direction?: string;
+    code?: string;
+    description?: string;
     id?: number;
     culture?: string;
     flag?: string;
@@ -226,18 +226,18 @@ export declare const ZExposedLanguagesSchema: z.ZodArray<z.ZodObject<{
     flag: z.ZodString;
     id: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    code?: string;
-    description?: string;
     entries?: null;
     direction?: string;
+    code?: string;
+    description?: string;
     id?: number;
     culture?: string;
     flag?: string;
 }, {
-    code?: string;
-    description?: string;
     entries?: null;
     direction?: string;
+    code?: string;
+    description?: string;
     id?: number;
     culture?: string;
     flag?: string;

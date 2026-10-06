@@ -2,6 +2,7 @@ import { EventEmitter } from '../../../../stencil-public-runtime';
 import { BlockedDatePayload, BookingEditorMode, BookingStep } from '../types';
 import { Booking, ExtraService } from "../../../../models/booking.dto";
 export declare class IrBookingEditorDrawer {
+    el: HTMLElement;
     /** Controls drawer visibility (reflected to DOM). */
     open: boolean;
     /** Auth ApiClient used for API requests. */

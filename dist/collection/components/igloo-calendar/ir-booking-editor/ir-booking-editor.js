@@ -14,9 +14,11 @@ import { LocaleController } from "../../../services/locale/locale.controller";
 import { LanguageSync } from "../../../services/locale/language-sync";
 import { SCREEN_TABLES } from "../../../services/locale/screen-tables";
 import { t } from "../../../services/locale/t";
+import { getLocalLanguage } from "../../../services/locale/locale-scope";
 /** bookingStatus['002'] in @/utils/booking — CONFIRMED. */
 const CONFIRMED_STATUS_CODE = '002';
 export class IrBookingEditor {
+    el;
     propertyId;
     language = 'en';
     roomTypeIds = [];
@@ -150,11 +152,11 @@ export class IrBookingEditor {
             this.isLoading = true;
             this.bookingEditorService.setMode(this.mode);
             const [, countriesList] = await Promise.all([
-                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.bookingEditor }),
-                this.bookingService.getCountries(LocaleController.language),
+                LocaleController.loadFor(this.el, { language: this.language, tables: SCREEN_TABLES.bookingEditor }),
+                this.bookingService.getCountries(LocaleController.languageFor(this.el)),
                 this.roomService.getExposedProperty({
                     id: Number(this.propertyId),
-                    language: LocaleController.language,
+                    language: LocaleController.languageFor(this.el),
                     is_backend: true,
                     include_units_hk_status: true,
                     include_sales_rate_plans: true,
@@ -181,6 +183,11 @@ export class IrBookingEditor {
         this.languageSync.disconnect();
     }
     languageChanged(next, previous) {
+        // Inside a `lang` subtree the prop only re-targets that subtree's scope, never the whole app.
+        if (getLocalLanguage(this.el)) {
+            this.initializeApp();
+            return;
+        }
         this.languageSync.propChanged(next, previous);
     }
     handleCheckAvailability(e) {
@@ -261,7 +268,7 @@ export class IrBookingEditor {
                         adult: occupancy.adults,
                         child: occupancy.children,
                     },
-                    language: LocaleController.language,
+                    language: LocaleController.languageFor(this.el),
                     room_type_ids,
                     currency: calendar_data.property.currency,
                     agent_id: is_in_agent_mode ? source?.tag : null,
@@ -297,7 +304,7 @@ export class IrBookingEditor {
             propertyid: Number(calendar_data.property.id),
             from_date: date,
             to_date: date,
-            language: LocaleController.language,
+            language: LocaleController.languageFor(this.el),
         });
         const day = results?.days?.[0];
         this.dayUseRoomTypes = day?.rate ?? [];
@@ -415,12 +422,12 @@ export class IrBookingEditor {
                 is_remove: false,
                 booking_nbr: this.booking?.booking_nbr,
             });
-            showToast({ title: t('Lcz_DayUseBookingUpdated', { fallback: 'Day Use Booking Updated' }), type: 'success' });
+            showToast({ title: t('Lcz_DayUseBookingUpdated', { fallback: 'Day Use Booking Updated', language: LocaleController.languageFor(this.el) }), type: 'success' });
             this.resetBookingEvt.emit(null);
             return;
         }
         const payload = {
-            language: LocaleController.language,
+            language: LocaleController.languageFor(this.el),
             is_to_block: block,
             booking: {
                 property: { id: Number(this.propertyId) },
@@ -458,7 +465,7 @@ export class IrBookingEditor {
             },
         };
         await this.bookingService.doDayUse(payload);
-        showToast({ title: t('Lcz_DayUseBookingCreated', { fallback: 'Day Use Booking Created' }), type: 'success' });
+        showToast({ title: t('Lcz_DayUseBookingCreated', { fallback: 'Day Use Booking Created', language: LocaleController.languageFor(this.el) }), type: 'success' });
         this.resetBookingEvt.emit(null);
     }
     async assignCountryCode() {
@@ -921,6 +928,7 @@ export class IrBookingEditor {
                 }
             }];
     }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
                 "propName": "mode",

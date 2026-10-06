@@ -1,24 +1,23 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var booking_service = require('./booking.service-k_B_cjCC.js');
-var calendarData = require('./calendar-data-y64tb1w5.js');
+var booking_store = require('./booking.store-BfEd-Oub.js');
+var calendarData = require('./calendar-data-Br2L_0sg.js');
 var moment = require('./moment-CdViwxPQ.js');
-var t = require('./t-BqKJTQbm.js');
-var utils = require('./utils-DZ38NPJz.js');
+var t = require('./t-wyGILxEL.js');
+var utils = require('./utils-B_P0SLOr.js');
 var types = require('./types-BVJQZ50e.js');
-var booking = require('./booking-BQAnB570.js');
+var booking = require('./booking-BFcW8dlP.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
-require('./calendar-dates-BxDGM1ix.js');
+require('./locale-scope-C7rmpwuA.js');
 require('./commonSchemas-D4iFLV5-.js');
-require('./locales.store-BMTss6fG.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
-require('./ir-date-BLb2Vxrk.js');
+require('./ir-date-SZW0yc7z.js');
 require('./language-observer-DKp37LIu.js');
-require('./functions-B3fUkdt1.js');
+require('./functions-C5raR8yq.js');
 
 class ReloadInterceptor {
     isActive = false;
@@ -79,7 +78,7 @@ const IglBulkBlock = class {
     dateRefs = [];
     reloadInterceptor;
     minDate = moment.hooks().format('YYYY-MM-DD');
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     datesSchema = types.arrayType(types.objectType({
         from: types.anyType()
             .refine((val) => moment.hooks.isMoment(val), {
@@ -297,7 +296,7 @@ const IglBulkStopSale = class {
     // private allRoomTypes: SelectedRooms[] = [];
     reloadInterceptor;
     minDate = moment.hooks().format('YYYY-MM-DD');
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     getDayIndex(dateStr) {
         return moment.hooks(dateStr, 'YYYY-MM-DD').day();
     }

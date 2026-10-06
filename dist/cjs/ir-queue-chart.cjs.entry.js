@@ -2,8 +2,8 @@
 
 var index = require('./index-CQkpA5n3.js');
 var chart = require('./chart-CMmD0hzI.js');
-var t = require('./t-BqKJTQbm.js');
-require('./locales.store-BMTss6fG.js');
+var t = require('./t-wyGILxEL.js');
+require('./locale-scope-C7rmpwuA.js');
 
 const irQueueChartCss = () => `:host{display:block}`;
 

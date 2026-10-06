@@ -2,28 +2,27 @@
 
 var index = require('./index-CQkpA5n3.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var booking_service = require('./booking.service-k_B_cjCC.js');
-var room_service = require('./room.service-Bt_WzfSc.js');
-var locale_controller = require('./locale.controller-DAwScWwl.js');
-var languageSync = require('./language-sync-Ouq3HLRR.js');
-var t = require('./t-BqKJTQbm.js');
-var calendarDates = require('./calendar-dates-BxDGM1ix.js');
+var booking_store = require('./booking.store-BfEd-Oub.js');
+var room_service = require('./room.service-ox5qNbPK.js');
+var locale_controller = require('./locale.controller-mOVjhTJn.js');
+var languageSync = require('./language-sync-CpTU62Ae.js');
+var t = require('./t-wyGILxEL.js');
+var utils = require('./utils-B_P0SLOr.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
-require('./utils-DZ38NPJz.js');
+require('./booking-BFcW8dlP.js');
 require('./moment-CdViwxPQ.js');
-require('./calendar-data-y64tb1w5.js');
-require('./locales.store-BMTss6fG.js');
-require('./booking.dto-CUSvGTvD.js');
-require('./type-Bj2x9EWc.js');
-require('./ir-date-BLb2Vxrk.js');
+require('./locale-scope-C7rmpwuA.js');
+require('./calendar-data-Br2L_0sg.js');
+require('./functions-C5raR8yq.js');
+require('./ir-date-SZW0yc7z.js');
 require('./language-observer-DKp37LIu.js');
-require('./booking-BQAnB570.js');
-require('./functions-B3fUkdt1.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./types-sp5nWPAa.js');
+require('./booking.dto-CUSvGTvD.js');
+require('./type-Bj2x9EWc.js');
 
 const iglBookPropertyContainerCss = () => `.sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans',     -apple-system,     BlinkMacSystemFont,     'Segoe UI',     Roboto,     'Helvetica Neue',     Arial,     sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:start !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}`;
 
@@ -44,7 +43,7 @@ const IglBookPropertyContainer = class {
     countries;
     calendarData = {};
     resetBookingData;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     ApiClient = new ApiClient.ApiClient();
     setRoomsData(roomServiceResp) {
@@ -109,12 +108,12 @@ const IglBookPropertyContainer = class {
         this.bookingItem = null;
     }
     handleTriggerClicked() {
-        const today = calendarDates.todayISO();
+        const today = utils.todayISO();
         this.bookingItem = {
             FROM_DATE: this.from_date,
             defaultDateRange: {
                 fromDate: today,
-                toDate: calendarDates.addDaysISO(today, 1),
+                toDate: utils.addDaysISO(today, 1),
                 dateDifference: 0,
                 message: '',
             },
