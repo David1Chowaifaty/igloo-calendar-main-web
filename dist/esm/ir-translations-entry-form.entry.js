@@ -1,23 +1,24 @@
 import { r as registerInstance, c as createEvent, h } from './index-CeHdrJeH.js';
-import { S as SetupService } from './index-C7E6srXC.js';
-import { f as showToast } from './utils-B12tP0KI.js';
+import { S as SetupService } from './index-D1cluJAe.js';
+import { h as showToast } from './utils-VLa8HWRW.js';
 import { p as planDuplicateSync } from './duplicate-sync-DQw5ZTwR.js';
 import { b as buildEditSetupParams } from './setup-mapping-CkK5DDbX.js';
 import { h as hasValue, g as getSourceLanguage, e as diffValues, i as getCopiedEntry } from './utils-Btr0LXV6.js';
 import { t } from './t-BVYK64UG.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './utils-CJzWwF6f.js';
-import './IBooking-BBKcX-1B.js';
-import './types-Bauv3qGW.js';
-import './commonSchemas-DkuNR9ft.js';
+import './utils-FfxPnEHJ.js';
+import './IBooking-C6czW-Mz.js';
+import './types-Clk7NCXk.js';
+import './commonSchemas-BxK90Oim.js';
 import './locale-scope-CapRuPkM.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-C8GYkFc8.js';
-import './booking.dto-BaM1iy0R.js';
-import './type--0qBkwTA.js';
-import './ir-date-BHp3AHEu.js';
+import './calendar-data-Cdv5kmxH.js';
+import './booking.dto-D-ACWjZx.js';
+import './type-o1ai24d7.js';
+import './ir-date-NNCOayR_.js';
 import './language-observer-CHgzsZkY.js';
+import './calendar-dates-D3hVfsrC.js';
 
 const irTranslationsEntryFormCss = () => `.sc-ir-translations-entry-form-h{display:block}.entry-form__body.sc-ir-translations-entry-form{display:flex;flex-direction:column;gap:1.25rem}.entry-form__field.sc-ir-translations-entry-form{display:flex;align-items:end}.entry-form__field.sc-ir-translations-entry-form>.entry-form__value-input.sc-ir-translations-entry-form{flex:1 1 0%}.entry-form__field.sc-ir-translations-entry-form:dir(rtl){flex-direction:row-reverse}.entry-form__field.sc-ir-translations-entry-form>.entry-form__value-copy.sc-ir-translations-entry-form{margin-bottom:0.5rem}.entry-form__key-input.sc-ir-translations-entry-form::part(input),.entry-form__key-input.sc-ir-translations-entry-form [part~="input"]{font-family:var(--wa-font-family-code, ui-monospace, SFMono-Regular, Menlo, monospace)}.entry-form__error.sc-ir-translations-entry-form{margin:-1rem 0 0;font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-danger-on-quiet, #991b1b)}.entry-form__section.sc-ir-translations-entry-form{display:flex;flex-direction:column;gap:0.75rem;padding-top:1rem;border-top:1px solid var(--wa-color-neutral-border-quiet, #e2e8f0)}.entry-form__section-header.sc-ir-translations-entry-form{display:flex;align-items:baseline;justify-content:space-between;gap:0.5rem}.entry-form__section-title.sc-ir-translations-entry-form{margin:0;font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold, 600);color:var(--wa-color-text-normal)}.entry-form__section-meta.sc-ir-translations-entry-form{font-size:var(--wa-font-size-xs, 0.75rem);font-variant-numeric:tabular-nums;color:var(--wa-color-text-quiet)}.entry-form__ai-actions.sc-ir-translations-entry-form{display:flex;flex-wrap:wrap;gap:0.5rem}.entry-form__fields.sc-ir-translations-entry-form{display:flex;flex-direction:column;gap:0.85rem}.entry-form__field-label.sc-ir-translations-entry-form{display:inline-flex;align-items:center;gap:0.4rem}.entry-form__field-code.sc-ir-translations-entry-form{font-size:0.6875rem;font-weight:var(--wa-font-weight-semibold, 600);color:var(--wa-color-text-quiet)}.entry-form__field-source.sc-ir-translations-entry-form{padding:0.05rem 0.35rem;font-size:0.6875rem;font-weight:var(--wa-font-weight-normal, 400);color:var(--wa-color-brand-on-quiet);background:var(--wa-color-brand-fill-quiet);border-radius:var(--wa-border-radius-s)}`;
 
@@ -294,7 +295,7 @@ const IrTranslationsEntryForm = class {
     render() {
         const total = this.languages.length;
         const translated = this.translatedCount;
-        return (h("form", { key: 'c3afe170c935151e87cd3b079a7919707e9b1ab9', id: this.formId, class: "entry-form__body", onSubmit: this.handleSubmit, novalidate: true }, h("ir-input", { key: '1ff2c9e30fa6cc6e38548368d93809aa2a968547', label: "Key", readonly: this.isEditing, autocomplete: "off", mask: {
+        return (h("form", { key: '7515cd1447fa244d3c6de9adc10b444fe913e6a4', id: this.formId, class: "entry-form__body", onSubmit: this.handleSubmit, novalidate: true }, h("ir-input", { key: '92832ff3cb07b31f71f1330b9496677e9a60f7ca', label: "Key", readonly: this.isEditing, autocomplete: "off", mask: {
                 mask: `{${KEY_PREFIX}}TEXT`,
                 eager: true,
                 blocks: {
@@ -303,7 +304,7 @@ const IrTranslationsEntryForm = class {
                         repeat: Infinity, // Unlimited characters
                     },
                 },
-            }, spellcheck: false, class: "entry-form__key-input", value: this.key, placeholder: "e.g. Lcz_BookingConfirmed", "onText-change": e => this.handleKeyChange(e.detail), ref: el => (this.keyInputRef = el) }, h("wa-copy-button", { key: 'a9e8d454da01e9095bb2d746c85f26de8518905d', value: this.key ?? '', slot: "end" })), this.isDuplicateKey && (h("p", { key: 'c34e06307fea372ebd534c00678f211b8c5ff5f0', class: "entry-form__error", role: "alert" }, "This key already exists in this table.")), h("div", { key: '45be51205b94d6eaa5388918b4abea49db7b6d35', class: "entry-form__section" }, h("div", { key: '4923bc42ab5dcdac401eb60aafea1008b8e6937e', class: "entry-form__section-header" }, h("h3", { key: 'b278e561b93a8236d1aa109693f971db8e6cfc6a', class: "entry-form__section-title" }, "Translations"), h("span", { key: '8e9cab948a21c0bd5d89c702f4f6f2391dd703be', class: "entry-form__section-meta" }, translated, " of ", total, " filled")), this.targetLanguages.length > 0 && (h("div", { key: '349aa5b5112cec58e4844c9f15130db968e7a551', class: "entry-form__ai-actions" }, h("ir-custom-button", { key: '23019b18a581eb851b68e86b9966d96e8451ef5c', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canCopyPrompt, onClickHandler: this.handleCopyPrompt }, h("wa-icon", { key: '7d6fd26423dbe4025003b809bbcb4443b0a096a4', name: "copy", slot: "start", "aria-hidden": "true" }), "Copy AI prompt"), h("ir-custom-button", { key: '6f9b8077b4c2fa004521d2c2d6d20b7532bfc9b2', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canPasteTranslations, onClickHandler: this.handlePasteTranslations }, h("wa-icon", { key: '09c25cc7e56cc6ad52dc7f106288674ec37408a0', name: "clipboard", slot: "start", "aria-hidden": "true" }), "Paste AI translations"))), total === 0 ? (h("ir-empty-state", { message: "No languages configured yet. Add one from Manage languages first." })) : (h("div", { class: "entry-form__fields" }, this.languages.map(language => (h("div", { class: "entry-form__field", key: language.code, dir: language.code === 'ar' ? 'rtl' : 'ltr' }, h("wa-textarea", { class: "entry-form__value-input", id: language.code, size: "s", rows: 2, resize: "auto", value: this.values[language.code] ?? '', placeholder: "Enter translation\u2026", oninput: (e) => (this.values = { ...this.values, [language.code]: e.target.value }) }, h("span", { slot: "label", class: "entry-form__field-label" }, language.name, h("span", { class: "entry-form__field-code" }, language.code.toUpperCase()), language.isSource && h("span", { class: "entry-form__field-source" }, t('Lcz_Source', { fallback: 'Source' })))), h("wa-copy-button", { class: "entry-form__value-copy", value: this.values[language.code] ?? '' })))))))));
+            }, spellcheck: false, class: "entry-form__key-input", value: this.key, placeholder: "e.g. Lcz_BookingConfirmed", "onText-change": e => this.handleKeyChange(e.detail), ref: el => (this.keyInputRef = el) }, h("wa-copy-button", { key: '8bb6087a32b43a4278d57a902a0d23cce723f539', value: this.key ?? '', slot: "end" })), this.isDuplicateKey && (h("p", { key: '9e5670fe9b0d43bd9dca22f2a93fdfec30646b59', class: "entry-form__error", role: "alert" }, "This key already exists in this table.")), h("div", { key: 'b25e0fd45133110304562d7bd66658fe82c77121', class: "entry-form__section" }, h("div", { key: 'dfadcd21662e7341a711d9b6fd5921918c4cb270', class: "entry-form__section-header" }, h("h3", { key: '860c573a5ccbf4a30daa964155dcfc77bb7d3157', class: "entry-form__section-title" }, "Translations"), h("span", { key: '9255a0755649e026dc06525d111557597f8eafa0', class: "entry-form__section-meta" }, translated, " of ", total, " filled")), this.targetLanguages.length > 0 && (h("div", { key: 'c1e330eb8f7683120c39285a78e2e3fe6e9dad33', class: "entry-form__ai-actions" }, h("ir-custom-button", { key: 'd9662f17ffe03a2f7e6bb95743899cb99520e1aa', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canCopyPrompt, onClickHandler: this.handleCopyPrompt }, h("wa-icon", { key: 'dabc7cf33182cd2a88ad3a3d750a9dd034c03abc', name: "copy", slot: "start", "aria-hidden": "true" }), "Copy AI prompt"), h("ir-custom-button", { key: 'd29c7ab6188ad6a0cb59c7f48f023b757d13d9f6', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canPasteTranslations, onClickHandler: this.handlePasteTranslations }, h("wa-icon", { key: 'd74d60a71f48957a5efa839d1bd102ad8d05c86a', name: "clipboard", slot: "start", "aria-hidden": "true" }), "Paste AI translations"))), total === 0 ? (h("ir-empty-state", { message: "No languages configured yet. Add one from Manage languages first." })) : (h("div", { class: "entry-form__fields" }, this.languages.map(language => (h("div", { class: "entry-form__field", key: language.code, dir: language.code === 'ar' ? 'rtl' : 'ltr' }, h("wa-textarea", { class: "entry-form__value-input", id: language.code, size: "s", rows: 2, resize: "auto", value: this.values[language.code] ?? '', placeholder: "Enter translation\u2026", oninput: (e) => (this.values = { ...this.values, [language.code]: e.target.value }) }, h("span", { slot: "label", class: "entry-form__field-label" }, language.name, h("span", { class: "entry-form__field-code" }, language.code.toUpperCase()), language.isSource && h("span", { class: "entry-form__field-source" }, t('Lcz_Source', { fallback: 'Source' })))), h("wa-copy-button", { class: "entry-form__value-copy", value: this.values[language.code] ?? '' })))))))));
     }
 };
 IrTranslationsEntryForm.style = irTranslationsEntryFormCss();

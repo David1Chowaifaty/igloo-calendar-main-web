@@ -8,27 +8,27 @@ export class IrGhsFilters {
     filterReset;
     countryChange;
     render() {
-        return (h("wa-card", { key: 'c196b47dd74c371f4e4df0c10ec78e47d6e52727', class: "ir-ghs-filters__container" }, h("div", { key: '0c2db9c483c0c9ff35e77cc07470ddf8a6eb7f1e', slot: "header", class: "ir-ghs-filters__header" }, h("div", { key: 'dce21d6bc17b950eb054e18ba4fc5741862ae0c3', class: "ir-ghs-filters__header-content" }, h("wa-icon", { key: 'a927ded5c471898fd23355caf115d05587242cd1', name: "filter", style: { fontSize: '18px' } }), h("h4", { key: '979171de0b939e04b4d3100cfbcdbc0afc3411ae', class: "ir-ghs-filters__title" }, t('Lcz_Filters', { fallback: 'Filters' })))), h("div", { key: '6a84f966b7631cbdc9640fa4d61dd599d5a507c6', class: "ir-ghs-filters__body" }, h("div", { key: '7911658a2a067d9e87f8462b97948fb720c0d594', class: "ir-ghs-filters__group" }, h("label", { key: 'f5bad49465e62caf6d0bd561c0084b5e12661093', class: "ir-ghs-filters__label" }, t('Lcz_Countries', { fallback: 'Countries' })), h("wa-select", { key: '98a6088ebbdc294d9d445425b37ea79d3a1ba347', size: "s", value: this.selectedCountryId?.toString() || '', defaultValue: this.selectedCountryId?.toString() || '', "onwa-hide": e => {
+        return (h("wa-card", { key: '3dacb1a59353ee9514ddd905e4fdd108b41a4f80', class: "ir-ghs-filters__container" }, h("div", { key: 'd5ff9bc7581d51f10a66648f74134d96c020574a', slot: "header", class: "ir-ghs-filters__header" }, h("div", { key: '79e76fbadaac4562384a25190ca1e3d8af746b44', class: "ir-ghs-filters__header-content" }, h("wa-icon", { key: '7869b19ec94516b6c2b5b339cc7627bdabfc3928', name: "filter", style: { fontSize: '18px' } }), h("h4", { key: '3be39c094d388c1415ae00a024c700a011e49c02', class: "ir-ghs-filters__title" }, t('Lcz_Filters', { fallback: 'Filters' })))), h("div", { key: 'de94b94814627e9271ed5e8dca41bca855703478', class: "ir-ghs-filters__body" }, h("div", { key: '38e55818deb10acb4c259edb2b2eefd1fc8f7ac3', class: "ir-ghs-filters__group" }, h("label", { key: '100ad2087b4343d10a8df0d3fe0c3042fc6c9d6e', class: "ir-ghs-filters__label" }, t('Lcz_Countries', { fallback: 'Countries' })), h("wa-select", { key: '08373f6c6ef83cb90971c4cbfc1d6b3e64e46e7f', size: "s", value: this.selectedCountryId?.toString() || '', defaultValue: this.selectedCountryId?.toString() || '', "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onchange: (e) => {
                 const val = e.target.value;
                 this.countryChange.emit(val ? parseInt(val, 10) : null);
-            } }, h("wa-option", { key: '3450c07954b97f79d740a729f887cec2d70f5da6', value: "" }, t('Lcz_ShowAllCountries', { fallback: 'Show all countries' })), this.countries.map(c => (h("wa-option", { value: c.id.toString() }, c.name)))))), h("div", { key: '03e1f02042bca2a4237140fa7af83256290765f5', slot: "footer", class: "ir-ghs-filters__footer" }, h("div", { key: '9cb512ec7b949c2df99340cc5f28e877d3eea75d', class: "d-flex align-items-center gap-2" }, h("ir-custom-button", { key: '233418089a92451a0c19c8953d0fd1509d4955db', type: "button", size: "s", variant: "neutral", appearance: "filled", class: "ir-ghs-filters__reset-btn", onClickHandler: (e) => {
+            } }, h("wa-option", { key: 'e299c0f7c0f00cc5db522c7b89392ef4a72af055', value: "" }, t('Lcz_ShowAllCountries', { fallback: 'Show all countries' })), this.countries.map(c => (h("wa-option", { value: c.id.toString() }, c.name)))))), h("div", { key: '7d275360ca065454b05995858a6b813ee8c0cf0b', slot: "footer", class: "ir-ghs-filters__footer" }, h("div", { key: '0223aa8e1e77efb037bab96bce3a6be4aef45936', class: "d-flex align-items-center gap-2" }, h("ir-custom-button", { key: '69a731b0b5393e8b20266a74d5eb659b6467b1ed', type: "button", size: "s", variant: "neutral", appearance: "filled", class: "ir-ghs-filters__reset-btn", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.filterReset.emit();
-            }, disabled: this.isLoading }, t('Lcz_Reset', { fallback: 'Reset' })), h("ir-custom-button", { key: '47ddc17b80908dfc8859b924756b24695bf43c27', type: "button", size: "s", variant: "brand", appearance: "accent", loading: this.isLoading, onClickHandler: (e) => {
+            }, disabled: this.isLoading }, t('Lcz_Reset', { fallback: 'Reset' })), h("ir-custom-button", { key: '20f41f71bc3bedfb31cbc422cfe8c0ed693a5d61', type: "button", size: "s", variant: "brand", appearance: "accent", loading: this.isLoading, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.filterApply.emit();
-            } }, t('Lcz_Apply', { fallback: 'Apply' }))), h("span", { key: 'd6f0a35aa3ebb0d55cabb0f16d8fc1f1936b7299', id: "ghs-help-icon", style: { cursor: 'pointer', display: 'inline-flex', marginInlineStart: 'auto' } }, h("wa-icon", { key: '60996c747ac2cf09a455266d7b85bf6d6e212b73', name: "circle-info", style: { fontSize: '18px', color: 'var(--wa-color-brand-fill)' } })), h("wa-popover", { key: '29ece946a6fabf6865bec58ab6f78fb13eecafd0', for: "ghs-help-icon", placement: "right" }, h("div", { key: '0fdabae7f7a38106316bf98a297c36bae7dd4eb7', style: {
+            } }, t('Lcz_Apply', { fallback: 'Apply' }))), h("span", { key: '98cbe04a0e6bdcacb805d8814ac2e6a9a3d4108f', id: "ghs-help-icon", style: { cursor: 'pointer', display: 'inline-flex', marginInlineStart: 'auto' } }, h("wa-icon", { key: 'f656456d0d3e45e3be820c8fbb5a96d2aeb07403', name: "circle-info", style: { fontSize: '18px', color: 'var(--wa-color-brand-fill)' } })), h("wa-popover", { key: '1adeb4ef87781e22c2b7e97a3fee6c2af421add8', for: "ghs-help-icon", placement: "right" }, h("div", { key: 'bf3125662864aa2381c57fc87338b51d1303954d', style: {
                 padding: 'var(--wa-space-m)',
                 background: 'var(--wa-color-neutral-0)',
                 border: '1px solid var(--wa-color-neutral-200)',
@@ -38,7 +38,7 @@ export class IrGhsFilters {
                 width: 'auto',
                 textAlign: 'start',
                 zIndex: '9999',
-            } }, h("h6", { key: 'fc4f73e527712706851a650cddbe4ab4888b30c7', style: {
+            } }, h("h6", { key: '302e6952d8e23f69897fa8e0d73222529390df38', style: {
                 color: 'var(--wa-color-brand-fill)',
                 fontSize: '15px',
                 fontWeight: 'var(--wa-font-weight-bold)',
@@ -46,15 +46,15 @@ export class IrGhsFilters {
                 paddingBottom: 'var(--wa-space-xs)',
                 marginBottom: 'var(--wa-space-m)',
                 marginTop: '0',
-            } }, t('Lcz_GoogleHotelsOnboardingWorkflowGuide', { fallback: 'Google Hotels Onboarding Workflow Guide' })), h("ul", { key: '6e0bdcbacc4c8efc76b4c6d9f87e9bc74712d8b4', style: { listStyleType: 'disc', fontSize: '13px', lineHeight: '1.6', paddingInlineStart: 'var(--wa-space-l)', marginBottom: '0' } }, h("li", { key: '64a18acfb3e5f20961b1cc329770cbc933fdfd5e', style: { marginBottom: 'var(--wa-space-s)' } }, t('Lcz_GhsStep1Selection', {
+            } }, t('Lcz_GoogleHotelsOnboardingWorkflowGuide', { fallback: 'Google Hotels Onboarding Workflow Guide' })), h("ul", { key: '9e1a00dfe1d9a6228509df6852e3d234a12fb518', style: { listStyleType: 'disc', fontSize: '13px', lineHeight: '1.6', paddingInlineStart: 'var(--wa-space-l)', marginBottom: '0' } }, h("li", { key: '9cd27c0dbdc780325975cac759852938fe2bd494', style: { marginBottom: 'var(--wa-space-s)' } }, t('Lcz_GhsStep1Selection', {
             fallback: 'Step 1 - Selection: Select candidate properties and click Generate request to download the onboarding XML listing.',
-        })), h("li", { key: 'de0493f2f511900f0b7d7248d23fbca809e2611e', style: { marginBottom: 'var(--wa-space-s)' } }, t('Lcz_GhsStep2Upload', {
+        })), h("li", { key: '97a4ea9c245c89ee1e3a5b30f229af01e06b90ee', style: { marginBottom: 'var(--wa-space-s)' } }, t('Lcz_GhsStep2Upload', {
             fallback: 'Step 2 - Upload: Log in to the Google Hotel Center portal and upload the generated XML file to the property feed section.',
-        })), h("li", { key: 'eae1a2ae13ab14ab6182baa5c7ad693b75a91d48', style: { marginBottom: 'var(--wa-space-s)' } }, t('Lcz_GhsStep3Processing', { fallback: "Step 3 - Processing: Wait for Google's automated processing confirmation email (this confirms the XML is valid)." })), h("li", { key: 'e53fda8b16cceee184d7c2bcdce7ec51cec0764d', style: { marginBottom: 'var(--wa-space-s)' } }, t('Lcz_GhsStep4Publication', {
+        })), h("li", { key: '3c8f5074a1b0ad1a3a98b1cf969be1153ca51057', style: { marginBottom: 'var(--wa-space-s)' } }, t('Lcz_GhsStep3Processing', { fallback: "Step 3 - Processing: Wait for Google's automated processing confirmation email (this confirms the XML is valid)." })), h("li", { key: '30e3591dc58b681576bb781a0d1d2a170356c5e9', style: { marginBottom: 'var(--wa-space-s)' } }, t('Lcz_GhsStep4Publication', {
             fallback: 'Step 4 - Publication: Once the confirmation email is received, return to the GHS portal and click Publish to initiate review.',
-        })), h("li", { key: 'e22dcbb3b508be0ff10c18a1325765a44198702b', style: { marginBottom: 'var(--wa-space-s)' } }, t('Lcz_GhsStep5FinalApproval', {
+        })), h("li", { key: '6ac5f1210b80a7c4863571776059ea8cfae18750', style: { marginBottom: 'var(--wa-space-s)' } }, t('Lcz_GhsStep5FinalApproval', {
             fallback: 'Step 5 - Final Approval: Wait 1-2 working days for Google to complete the manual verification and approval process.',
-        })), h("li", { key: 'a7057bb9e6910a8fb4223a0250eaebcaf8ec30f4' }, t('Lcz_GhsStep6LiveSyncFull', {
+        })), h("li", { key: '0d32753bad3887d79c136ecd2bd67acb6ba1ed54' }, t('Lcz_GhsStep6LiveSyncFull', {
             fallback: 'Step 6 - Live Sync: Only enable the "GOOGLE_HOTEL_ENABLED" flag in IR after you have received final approval from Google.',
         }))))))));
     }

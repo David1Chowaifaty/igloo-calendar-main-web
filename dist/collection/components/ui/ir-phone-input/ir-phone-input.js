@@ -2,6 +2,7 @@ import { BookingService } from "../../../services/booking-service/booking.servic
 import { Host, h } from "@stencil/core";
 import { LocaleController } from "../../../services/locale/locale.controller";
 import { t } from "../../../services/locale/t";
+import { normalizeNumericInput } from "../../../utils/number";
 export class IrPhoneInput {
     el;
     mode = 'default';
@@ -130,13 +131,13 @@ export class IrPhoneInput {
     }
     /**
      * Handles user input:
-     * - Removes all characters except numbers and "+"
+     * - Converts Arabic-Indic digits to Latin, then removes all characters except numbers and "+"
      * - Updates state and emits new phone number
      */
     handleInputChange(e) {
         let inputElement = e.target;
         let inputValue = inputElement.value;
-        inputValue = inputValue.replace(/[^+\d]+/g, '');
+        inputValue = normalizeNumericInput(inputValue).replace(/[^+\d]+/g, '');
         inputElement.value = inputValue;
         this.inputValue = inputValue;
         this.textChange.emit({ phone_prefix: this.currentCountry?.phone_prefix, mobile: this.inputValue });

@@ -79,7 +79,7 @@ export class IrRevenueTable {
     render() {
         this.buildPaymentLookups();
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("wa-card", { key: 'e49bf2385f9d14952dbd55ead8ead03bc07e6a99', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, t('Lcz_Method', { fallback: 'Method' })), h("p", null, t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
+        return (h("wa-card", { key: 'c960b1d907707c0b9396a411633f22a1dd6f9362', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, t('Lcz_Method', { fallback: 'Method' })), h("p", null, t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 list = this.sortByDateTime(list);
                 const [paymentType, paymentMethod] = key.split('_');

@@ -1,6 +1,13 @@
 import { r as registerInstance, c as createEvent, a as getElement, h } from './index-CeHdrJeH.js';
-import { I as IMask } from './index-BQB1ooJC.js';
+import { I as IMask } from './index-BA2Li5R1.js';
+import { w as withLatinDigits } from './masks-px2uYhn4.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
+import './moment-Mki5YqAR.js';
+import './number-D2n6n8dr.js';
+import './ir-date-NNCOayR_.js';
+import './locale-scope-CapRuPkM.js';
+import './language-observer-CHgzsZkY.js';
+import './_commonjsHelpers-BFTU3MAI.js';
 
 const irPriceInputCss = () => `.sc-ir-price-input-h{display:block;--ir-input-border-color:#cacfe7;flex:1 1 0%}.sc-ir-price-input-h .input-group-text.sc-ir-price-input{border-color:var(--ir-input-border-color)}.sc-ir-price-input-h .form-control.sc-ir-price-input,.currency-label.sc-ir-price-input{font-size:14px !important}.ir-bl-lbl-none.sc-ir-price-input,.ir-bl-input-none.sc-ir-price-input{border-start-start-radius:0 !important;border-end-start-radius:0 !important}.rate-input.sc-ir-price-input:read-only{background:white !important}.ir-br-lbl-none.sc-ir-price-input,.ir-br-input-none.sc-ir-price-input{border-start-end-radius:0 !important;border-end-end-radius:0 !important}.ir-br-none.sc-ir-price-input{border-inline-end:none}.ir-bl-none.sc-ir-price-input{border-inline-start:none}.rate-input-container.sc-ir-price-input{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1;padding:0 !important}[class='special-style'].sc-ir-price-input-h .rate-input.sc-ir-price-input{background:black !important}.rate-input.sc-ir-price-input{font-size:0.875rem;line-height:0;padding:0;height:0;box-sizing:border-box;border-inline-start:0;padding-inline-start:0px !important;border-start-start-radius:0 !important;border-end-start-radius:0 !important}.currency-label.with-label.sc-ir-price-input{border-radius:0}.currency-label.sc-ir-price-input{box-sizing:border-box;color:#3b4781;border:1px solid #cacfe7;font-size:0.875rem;height:2rem;background:white;border-inline-end:0;border-start-end-radius:0;border-end-end-radius:0;pointer-events:none;transition:border-color 0.15s ease-in-out,     -webkit-box-shadow 0.15s ease-in-out}.currency-label.disabled.sc-ir-price-input,.rate-input.sc-ir-price-input:disabled{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.price-input-group.sc-ir-price-input:focus-within .currency-label.sc-ir-price-input{border-top:1px solid #1e9ff2;border-bottom:1px solid #1e9ff2;border-inline-start:1px solid #1e9ff2}[data-state='error'].sc-ir-price-input-h .currency-label.sc-ir-price-input,[data-state='error'].sc-ir-price-input-h .rate-input.sc-ir-price-input,.error.sc-ir-price-input{border-color:var(--red, #ff4961) !important}.price-input.sc-ir-price-input:focus{border-inline-end-width:1px !important}.is-invalid.sc-ir-price-input{background-image:none !important}`;
 
@@ -103,7 +110,7 @@ const IrPriceInput = class {
         if (this.maxValue !== undefined) {
             maskOpts['max'] = this.maxValue;
         }
-        this.mask = IMask(this.inputRef, maskOpts);
+        this.mask = IMask(this.inputRef, withLatinDigits(maskOpts));
         // Set initial value if provided
         if (this.value) {
             this.mask.value = this.value;
@@ -162,13 +169,13 @@ const IrPriceInput = class {
         this.inputFocus.emit();
     };
     render() {
-        return (h("fieldset", { key: '5684df4e61b6615817bf954acbf1e85b8b1c0911', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: 'ef219c9ed7966ced1959788ca9a01f3dafbf711f', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: '46e40f4dee2555ca870e2d776a55208922348663', class: `input-group-text 
+        return (h("fieldset", { key: '5e60d7228aa605f1abae57884db207fff9f51f10', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: '1a53c55668b4669869e4151c4b888c1a67f50296', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: '18b6c4d2c5d72cac0ecb98ce5e9425efb0f1c9a3', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, h("label", { key: '11d6c60fbf68a545bc58924ac92542c164451ce2', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: 'd9af3948b821a4aa6c6186958f9417a428125576', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: 'c4d6a95c23387040b954c137074c411a8f7d337b' }, h("span", { key: '9cd983aabcc38cb83d1d2867e2eb74586431c4ee', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '1d500e663012f827dc7e70c2c608031fc786d3dd', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, h("label", { key: '719f01167509e40705ef0ab08af608da7c5b58b6', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: 'a7c4af3dfb7d79db5648f78920f28a968fac2392', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '21862a9d69e7f5d85ab2491c5fe6a63546b79933' }, h("span", { key: '0a2b9c17fcc854bfe97ed2a66cd0b8445804dcc5', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: 'fbc916e8b7f1ceab4b963153fffc3c8e755e46e5', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 

@@ -1,23 +1,25 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-CeHdrJeH.js';
-import { B as BookingService } from './booking.store-Cp11cIZT.js';
-import { L as LocaleController } from './locale.controller-Cdlf6ZoU.js';
+import { B as BookingService } from './booking.service-B1Dnf3vs.js';
+import { L as LocaleController } from './locale.controller-DQrDdP3Q.js';
 import { t } from './t-BVYK64UG.js';
+import { n as normalizeNumericInput } from './number-D2n6n8dr.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-BBKcX-1B.js';
-import './types-Bauv3qGW.js';
-import './utils-B12tP0KI.js';
+import './IBooking-C6czW-Mz.js';
+import './types-Clk7NCXk.js';
+import './utils-VLa8HWRW.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-C8GYkFc8.js';
+import './calendar-data-Cdv5kmxH.js';
 import './locale-scope-CapRuPkM.js';
-import './booking.dto-BaM1iy0R.js';
-import './type--0qBkwTA.js';
-import './ir-date-BHp3AHEu.js';
+import './booking.dto-D-ACWjZx.js';
+import './type-o1ai24d7.js';
+import './ir-date-NNCOayR_.js';
 import './language-observer-CHgzsZkY.js';
-import './booking-B7pxZzJe.js';
-import './functions-Bg1OOoSj.js';
-import './commonSchemas-DkuNR9ft.js';
-import './types-D6WcSF8m.js';
+import './calendar-dates-D3hVfsrC.js';
+import './booking-DX6-b7gN.js';
+import './functions-8ZwUpUDk.js';
+import './commonSchemas-BxK90Oim.js';
+import './types-C7G2emJd.js';
 
 const irPhoneInputCss = () => `.sc-ir-phone-input-h{display:block}.input-container.sc-ir-phone-input{display:flex;align-items:center;padding:0 !important}.input-container.sc-ir-phone-input:focus-within{border-color:#1e9ff2}.border-theme.sc-ir-phone-input{border-color:#cacfe7}.input-container.sc-ir-phone-input input.sc-ir-phone-input{flex:1;border:0}.input-container.sc-ir-phone-input input.sc-ir-phone-input:focus{outline:none}.dropdown-trigger.sc-ir-phone-input{display:flex;align-items:center;gap:8px;background:white;border:0;border-inline-end:1px solid #cacfe7}.ir-dropdown-container.sc-ir-phone-input{position:absolute;z-index:1000;bottom:-30px;width:100%;inset-inline-start:0;background:white}.input-container.sc-ir-phone-input label.sc-ir-phone-input{display:flex;align-items:center;justify-content:center;margin:0;padding:0 5px}.flag.sc-ir-phone-input{height:1rem;aspect-ratio:4/3;border-radius:3px}.is-invalid.sc-ir-phone-input{border-color:#ff4961}.phone_prefix_label.sc-ir-phone-input{padding:0 0.5rem;margin:0}.sc-ir-phone-input-h{--ir-floating-label-fg:#6c757d;--ir-floating-label-fg-focus:#495057;--ir-floating-label-bg:#fff;--ir-floating-label-scale:0.88;--ir-floating-label-float-translateY:-70%;--ir-floating-label-resting-offset-inline:0.9rem;--ir-floating-phone-input-radius:0.21rem;--ir-floating-phone-input-height:2rem;--ir-danger:#dc3545;--ir-disabled-fg:#9aa0a6}.sc-ir-phone-input-h .input-container.has-floating.sc-ir-phone-input{position:relative;padding-top:0.9rem}.sc-ir-phone-input-h .floating-label.sc-ir-phone-input{position:absolute;top:50%;transform:translateY(-50%);pointer-events:none;position:absolute;padding:0 0.4rem;z-index:10;color:var(--ir-floating-label-fg);background:white;transition:transform 120ms ease,     color 120ms ease,     top 120ms ease,     background-color 120ms ease,     opacity 120ms ease;opacity:0.95;line-height:1;white-space:nowrap}.sc-ir-phone-input-h .floating-label.sc-ir-phone-input{inset-inline-start:95px}.sc-ir-phone-input-h .floating-label.active.sc-ir-phone-input{top:0;transform:translateY(var(--ir-floating-label-float-translateY)) scale(var(--ir-floating-label-scale));background:var(--ir-floating-label-bg);color:var(--ir-floating-label-fg-focus);font-size:12px;padding:0;opacity:0.95}.phone-input__container.sc-ir-phone-input{display:flex;align-items:flex-end}.phone-input__prefix.sc-ir-phone-input{width:150px}.phone-input__prefix.sc-ir-phone-input::part(input),.phone-input__prefix.sc-ir-phone-input [part~="input"],.phone-input__prefix.sc-ir-phone-input::part(end),.phone-input__prefix.sc-ir-phone-input [part~="end"]{display:none}.phone-input__prefix.sc-ir-phone-input::part(base),.phone-input__prefix.sc-ir-phone-input [part~="base"]{border-start-end-radius:0;border-end-end-radius:0}.phone-input__phone.sc-ir-phone-input::part(base),.phone-input__phone.sc-ir-phone-input [part~="base"]{border-start-start-radius:0;border-end-start-radius:0}.phone-input__phone.sc-ir-phone-input{flex:1 1 0%}.phone-input__prefix.sc-ir-phone-input::part(start),.phone-input__prefix.sc-ir-phone-input [part~="start"]{width:100% !important}.phone-input__prefix.sc-ir-phone-input .dropdown-trigger.sc-ir-phone-input{border-inline-end:0;width:100% !important;display:flex;align-items:center;justify-content:space-between}.ir-me-0.sc-ir-phone-input{margin-inline-end:0}`;
 
@@ -153,13 +155,13 @@ const IrPhoneInput = class {
     }
     /**
      * Handles user input:
-     * - Removes all characters except numbers and "+"
+     * - Converts Arabic-Indic digits to Latin, then removes all characters except numbers and "+"
      * - Updates state and emits new phone number
      */
     handleInputChange(e) {
         let inputElement = e.target;
         let inputValue = inputElement.value;
-        inputValue = inputValue.replace(/[^+\d]+/g, '');
+        inputValue = normalizeNumericInput(inputValue).replace(/[^+\d]+/g, '');
         inputElement.value = inputValue;
         this.inputValue = inputValue;
         this.textChange.emit({ phone_prefix: this.currentCountry?.phone_prefix, mobile: this.inputValue });

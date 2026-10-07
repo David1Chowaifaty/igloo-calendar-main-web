@@ -1,4 +1,4 @@
-import { resolveLocale, resolveNumberingScript, resolveNumberingSystem, toNumerals } from "./date/index";
+import { resolveLocale, resolveNumberingScript, resolveNumberingSystem, toLatinDigits, toNumerals } from "./date/index";
 const formatterCache = new Map();
 /**
  * Builds the BCP-47 tag with the `-u-nu-` extension. The script is always concrete by this point
@@ -89,4 +89,19 @@ export function formatPercent(value, options) {
 export function formatAmount(currency, amount = 0, options) {
     const formatted = formatNumber(Math.abs(amount ?? 0), { minimumFractionDigits: 2, maximumFractionDigits: 2, ...options });
     return `${amount < 0 ? '- ' : ''}${currency} ${formatted}`;
+}
+/**
+ * The input-side counterpart of the formatters above: rewrites whatever the user typed into the
+ * machine-readable form. Arabic-Indic / Persian digits become Latin (`١٢` → `12`), and the Arabic
+ * decimal and thousands separators become `.` and `,` (`١٬٢٣٤٫٥٠` → `1,234.50`), so a price typed on
+ * an Arabic keyboard reaches the mask and the API the same way a Latin one does.
+ *
+ * Use this on the way *in* — input handlers and mask `prepare` hooks — never for display.
+ */
+export function normalizeNumericInput(value) {
+    if (value === null || value === undefined)
+        return '';
+    return toLatinDigits(String(value))
+        .replace(/\u066B/g, '.')
+        .replace(/\u066C/g, ',');
 }

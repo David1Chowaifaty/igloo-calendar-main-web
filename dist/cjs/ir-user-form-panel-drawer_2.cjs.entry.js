@@ -4,11 +4,11 @@ var index = require('./index-CQkpA5n3.js');
 var irInterceptor_store = require('./ir-interceptor.store-B6XUQQuI.js');
 var t = require('./t-wyGILxEL.js');
 var moment = require('./moment-CdViwxPQ.js');
-var user_service = require('./user.service-BhF_5jpL.js');
-var functions = require('./functions-C5raR8yq.js');
+var user_service = require('./user.service-CNceSuop.js');
+var functions = require('./functions-BH56K279.js');
 var system_service = require('./system.service-q3G6_5Tb.js');
-var utils = require('./utils-B_P0SLOr.js');
-var irDate = require('./ir-date-SZW0yc7z.js');
+var utils = require('./utils-C5KQRlHq.js');
+var irDate = require('./ir-date-CUtS9vzZ.js');
 require('./locale-scope-C7rmpwuA.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
@@ -16,6 +16,7 @@ require('./calendar-data-Br2L_0sg.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
 require('./types-BVJQZ50e.js');
+require('./calendar-dates-BxDGM1ix.js');
 require('./language-observer-DKp37LIu.js');
 
 const irUserFormPanelDrawerCss = () => `.sc-ir-user-form-panel-drawer-h{display:block}`;
@@ -39,14 +40,14 @@ const IrUserFormPanelDrawer = class {
     closeSideBar;
     render() {
         const formId = `user-form-${this.user?.id}`;
-        return (index.h("ir-drawer", { key: '989c00af69b6e0360bad8a9e36ab079942930142', onDrawerHide: e => {
+        return (index.h("ir-drawer", { key: '1324885d702a8271c45cfa7d9dabe7e6a7a47a1f', onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!e.detail) {
                     return;
                 }
                 this.closeSideBar.emit(null);
-            }, label: this.isEdit ? this.user.username : t.t('Lcz_CreateNewUser', { fallback: 'Create New User' }), open: this.open }, this.open && (index.h("ir-user-form-panel", { key: 'f23555a94e42c2dda9aaf3dc77ddcfd366a729e8', user: this.user, userTypes: this.userTypes, isEdit: this.isEdit, language: this.language, property_id: this.property_id, haveAdminPrivileges: this.haveAdminPrivileges, superAdminId: this.superAdminId, userTypeCode: this.userTypeCode, allowedUsersTypes: this.allowedUsersTypes, baseUserTypeCode: this.baseUserTypeCode, formId: formId })), index.h("div", { key: 'e0b9ce54f523d7fd9a4369b677e1b0482c1bc5cd', slot: "footer", class: 'ir__drawer-footer' }, index.h("ir-custom-button", { key: '0c170830da79620a1c42158c169650062233ae71', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", appearance: "filled", variant: "neutral", size: "m" }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: '238b1b2a38d6a3b801c430b53f776da368984084', form: formId, loading: irInterceptor_store.isRequestPending('/Handle_Exposed_User'), "data-testid": "save", size: "m", class: "flex-fill", type: "submit", variant: "brand" }, t.t('Lcz_Save', { fallback: 'Save' })))));
+            }, label: this.isEdit ? this.user.username : t.t('Lcz_CreateNewUser', { fallback: 'Create New User' }), open: this.open }, this.open && (index.h("ir-user-form-panel", { key: '0f8d99130ccc38856f91ee234ebf990603beac21', user: this.user, userTypes: this.userTypes, isEdit: this.isEdit, language: this.language, property_id: this.property_id, haveAdminPrivileges: this.haveAdminPrivileges, superAdminId: this.superAdminId, userTypeCode: this.userTypeCode, allowedUsersTypes: this.allowedUsersTypes, baseUserTypeCode: this.baseUserTypeCode, formId: formId })), index.h("div", { key: 'd16d9cbbfac8510812133700dceac5c74a172602', slot: "footer", class: 'ir__drawer-footer' }, index.h("ir-custom-button", { key: '3068fd65f77be0d9954f2d609c58761335bb8637', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", appearance: "filled", variant: "neutral", size: "m" }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: 'c9f12af68745127ce1fc2885ddd4b62f917178e6', form: formId, loading: irInterceptor_store.isRequestPending('/Handle_Exposed_User'), "data-testid": "save", size: "m", class: "flex-fill", type: "submit", variant: "brand" }, t.t('Lcz_Save', { fallback: 'Save' })))));
     }
 };
 IrUserFormPanelDrawer.style = irUserFormPanelDrawerCss();
@@ -186,13 +187,13 @@ const IrUserManagementTable = class {
         return 'ok';
     }
     render() {
-        return (index.h(index.Host, { key: '32225969dd253bec985e74ecdd6d44b9b94fbb3b' }, index.h("section", { key: '25ad6741ce2effbede2fdba582b78ba3b3d210e6', class: "table-container h-100  w-100 m-0 table-responsive" }, index.h("table", { key: 'b9f2e1fadde5e197671437af10d48d283c3b6b19', class: "table" }, index.h("thead", { key: 'c917a7e68dce1fe8c18cbaad39de03978042660f' }, index.h("tr", { key: 'aef66ef1baa068dec4401216dd7a74e8758ce0a2' }, index.h("th", { key: 'eb4e66406260008c792901bc4c50b8ed2f9d3e72', class: "ir-text-start" }, t.t('Lcz_Username', { fallback: 'Username' })), index.h("th", { key: '5c538761118ff6d11aece8e55792e86d40a480cb', class: "ir-text-start" }, t.t('Lcz_Email', { fallback: 'Email' })), index.h("th", { key: '5fed478917687f17e863e42c8aa0d859c5821336', class: "ir-text-start" }, t.t('Lcz_Mobile', { fallback: 'Mobile' })), index.h("th", { key: '391f416821a9de03bb68777afb26e5a94b0036cf', class: "ir-text-start" }, t.t('Lcz_Role')), index.h("th", { key: '6e16d74e429de0a243c2d332a63ee007fd631a84', class: "ir-text-start small", style: { fontWeight: 'bold' } }, index.h("p", { key: '0dfb0bd4ca7fb6adc50132c820903fc9087877b0', class: "m-0 p-0 " }, t.t('Lcz_CreatedAt')), index.h("p", { key: '2844603f3c88c3e8262d4af9a1aa073bca2b6c72', class: "m-0 p-0" }, t.t('Lcz_LastSignedIn'))), this.haveAdminPrivileges && index.h("th", { key: '46fd0578c5382bd74c4d7d20df9e4321848dcb91' }, t.t('Lcz_Active', { fallback: 'Active' })), index.h("th", { key: 'aa467c14e7236bb7b32fea0e0733dd61f4b2203d', class: 'action-row' }, this.canCreate && (index.h(index.Fragment, { key: 'd725d55a25cc529d3df8c5a155e2a6184c738f00' }, index.h("ir-custom-button", { key: 'efb0495f48d1b4843c69bb1f1a7b9210f9f20b0c', appearance: "plain", variant: "neutral", id: "new-user-btn", onClickHandler: () => {
+        return (index.h(index.Host, { key: '470557263159c4d598676c1c110387c784dd30af' }, index.h("section", { key: '6ea731039c48ea24348683aa2faaaf9e54ce4bed', class: "table-container h-100  w-100 m-0 table-responsive" }, index.h("table", { key: '719fd40c60b047a75bf689830b1b3acb48ac0245', class: "table" }, index.h("thead", { key: 'f3cc817d0c80b9347c0b4189e02647a09f7df7b1' }, index.h("tr", { key: 'abf315def7f2992167a4201f8571d1f9e947281d' }, index.h("th", { key: '8356c3865bce46a05a72d91e1a6966fd17456c12', class: "ir-text-start" }, t.t('Lcz_Username', { fallback: 'Username' })), index.h("th", { key: '16542ce37e1668e2f18b6be20ed09ce8f3cad9b0', class: "ir-text-start" }, t.t('Lcz_Email', { fallback: 'Email' })), index.h("th", { key: '686804758210ef8fd1c8265bcc7e67c9767a0168', class: "ir-text-start" }, t.t('Lcz_Mobile', { fallback: 'Mobile' })), index.h("th", { key: '259871d3f5ff20fc54af291d3519ebbf1776d967', class: "ir-text-start" }, t.t('Lcz_Role')), index.h("th", { key: '59059a0dbcd5c290d267f57fda89907c5a99e2de', class: "ir-text-start small", style: { fontWeight: 'bold' } }, index.h("p", { key: '097e5423bbcfc1d19c2c28c111df255a2597fe09', class: "m-0 p-0 " }, t.t('Lcz_CreatedAt')), index.h("p", { key: '3c3ae5788e2ff86f36de038351c7b24c6d958ac0', class: "m-0 p-0" }, t.t('Lcz_LastSignedIn'))), this.haveAdminPrivileges && index.h("th", { key: 'd7a0d28de434304e447fe6362d336529afdd4c38' }, t.t('Lcz_Active', { fallback: 'Active' })), index.h("th", { key: 'f48f4770058c214e6ea3e08fbb39186b358159ad', class: 'action-row' }, this.canCreate && (index.h(index.Fragment, { key: 'f1d507d1bf7834d1192cef7cab8075df5e10984f' }, index.h("ir-custom-button", { key: 'e3d2d9b1860036dbe6996f239f7b9ba9dee5b7b3', appearance: "plain", variant: "neutral", id: "new-user-btn", onClickHandler: () => {
                 this.verifyAdminAction({
                     type: 'user',
                     mode: 'create',
                     user: null,
                 });
-            } }, index.h("wa-icon", { key: '60d71c52d56efbaae21348bc81d1bc3e7355854d', name: "plus", style: { fontSize: '1.2rem' } })), index.h("wa-tooltip", { key: '9c5a6618fcb469aecf0e9f92fa3780ef5b571440', for: "new-user-btn" }, t.t('Lcz_CreateUser'))))))), index.h("tbody", { key: '3e23f978efeeae066dadd7d3e0b79f6157447d74' }, this.users.map(user => {
+            } }, index.h("wa-icon", { key: 'e7dbe62628ff03a5e4d293dcbc65225bfe007edc', name: "plus", style: { fontSize: '1.2rem' } })), index.h("wa-tooltip", { key: '2ad14acefecdf558abf868513795d996aa6e589e', for: "new-user-btn" }, t.t('Lcz_CreateUser'))))))), index.h("tbody", { key: 'aeb8a8ad5b0dfaddff1f2b704bec81d6cd0ba0c0' }, this.users.map(user => {
             const isUserSuperAdmin = user.type.toString() === this.superAdminId;
             const latestSignIn = user.sign_ins ? user.sign_ins[0] : null;
             const latestSignInDate = latestSignIn ? moment.hooks(latestSignIn.date, 'YYYY-MM-DD') : null;
@@ -220,12 +221,12 @@ const IrUserManagementTable = class {
                     }
                     this.openModal(user, 'delete');
                 }, "data-testid": "delete", variant: "danger", appearance: "plain", id: `delete-user-${user.id}` }, index.h("wa-icon", { name: "trash-can", style: { fontSize: '1.2rem' } })), index.h("wa-tooltip", { for: `delete-user-${user.id}` }, t.t('Lcz_DeleteUser')))))))));
-        })))), index.h("ir-user-form-panel-drawer", { key: '97005acdb858246eea3a56e87e1e2c00b283bd9f', open: this.currentTrigger !== null && this.currentTrigger?.type !== 'delete', property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, superAdminId: this.superAdminId, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: this.haveAdminPrivileges, onCloseSideBar: () => (this.currentTrigger = null), slot: "sidebar-body", user: this.currentTrigger?.user, isEdit: this.currentTrigger?.isEdit }), index.h("ir-dialog", { key: '3687691782688523e1edc6eb81d29e5d439a757f', label: t.t('Lcz_Alert', { fallback: 'Alert' }), onIrDialogAfterHide: e => {
+        })))), index.h("ir-user-form-panel-drawer", { key: 'bc03f22084007601a3971ed3a6644a6e9cf3951d', open: this.currentTrigger !== null && this.currentTrigger?.type !== 'delete', property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, superAdminId: this.superAdminId, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: this.haveAdminPrivileges, onCloseSideBar: () => (this.currentTrigger = null), slot: "sidebar-body", user: this.currentTrigger?.user, isEdit: this.currentTrigger?.isEdit }), index.h("ir-dialog", { key: '2a27df44182427d31e1eb1c1a62d914136f905c7', label: t.t('Lcz_Alert', { fallback: 'Alert' }), onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.user = null;
                 this.modalType = null;
-            }, ref: el => (this.dialogRef = el) }, index.h("span", { key: 'd4c996228f45f1e2aee43fddd39475b1c786650f' }, this.modalType === 'delete' ? `${t.t('Lcz_AreYouSureToDelete')} ${this.user?.username}?` : `${t.t('Lcz_AreYouSureToUnverify')} ${this.maskEmail(this.user?.email)}`), index.h("div", { key: '7ef7d46f7075f5decbffd0d737241be0120365d5', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '1bf847ff39bd91de47a80228ea77e704bc9e2821', "data-dialog": "close", size: "m", appearance: "filled" }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: '3e5d649afe654205899adde827d7fbb57f3550ec', size: "m", loading: irInterceptor_store.isRequestPending('/Handle_Exposed_User'), appearance: "accent", variant: this.modalType === 'verify' ? 'brand' : 'danger', onClickHandler: this.executeUserAction.bind(this) }, this.modalType === 'verify' ? t.t('Lcz_Confirm', { fallback: 'Confirm' }) : t.t('Lcz_Delete', { fallback: 'Delete' }))))));
+            }, ref: el => (this.dialogRef = el) }, index.h("span", { key: '90efb0e2343a04f237506e2839f7bddce28891c5' }, this.modalType === 'delete' ? `${t.t('Lcz_AreYouSureToDelete')} ${this.user?.username}?` : `${t.t('Lcz_AreYouSureToUnverify')} ${this.maskEmail(this.user?.email)}`), index.h("div", { key: '4cc017946337700251ea1454d53cb6c2607791d1', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '272d1c366ccb8084c5c9ecea34c9dd2934a3b90b', "data-dialog": "close", size: "m", appearance: "filled" }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: 'ed0bf7fafd8c1f23ce7931e6fb40c67c579d31fb', size: "m", loading: irInterceptor_store.isRequestPending('/Handle_Exposed_User'), appearance: "accent", variant: this.modalType === 'verify' ? 'brand' : 'danger', onClickHandler: this.executeUserAction.bind(this) }, this.modalType === 'verify' ? t.t('Lcz_Confirm', { fallback: 'Confirm' }) : t.t('Lcz_Delete', { fallback: 'Delete' }))))));
     }
     static get watchers() { return {
         "haveAdminPrivileges": [{

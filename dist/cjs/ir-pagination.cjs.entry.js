@@ -2,9 +2,9 @@
 
 var index = require('./index-CQkpA5n3.js');
 var t = require('./t-wyGILxEL.js');
-var number = require('./number-V_ghj2hm.js');
+var number = require('./number-C1isaNqY.js');
 require('./locale-scope-C7rmpwuA.js');
-require('./ir-date-SZW0yc7z.js');
+require('./ir-date-CUtS9vzZ.js');
 require('./language-observer-DKp37LIu.js');
 require('./moment-CdViwxPQ.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

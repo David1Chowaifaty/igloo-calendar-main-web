@@ -1,6 +1,7 @@
 import { h } from "@stencil/core";
 import { v4 } from "uuid";
 import IMask from "imask";
+import { withLatinDigits } from "../ir-input/masks";
 export class IrInputText {
     el;
     /** Name attribute for the input field */
@@ -119,7 +120,7 @@ export class IrInputText {
         if (!this.mask || this.maskInstance) {
             return;
         }
-        this.maskInstance = IMask(this.inputRef, this.mask);
+        this.maskInstance = IMask(this.inputRef, withLatinDigits(this.mask));
         this.maskInstance.on('accept', () => {
             const isEmpty = this.inputRef.value.trim() === '' || this.maskInstance.unmaskedValue === '';
             if (isEmpty) {

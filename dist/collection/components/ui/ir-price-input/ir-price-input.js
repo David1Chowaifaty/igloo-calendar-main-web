@@ -1,6 +1,7 @@
 import { h } from "@stencil/core";
 import { v4 } from "uuid";
 import IMask from "imask";
+import { withLatinDigits } from "../ir-input/masks";
 export class IrPriceInput {
     el;
     /** The label for the input, optional */
@@ -94,7 +95,7 @@ export class IrPriceInput {
         if (this.maxValue !== undefined) {
             maskOpts['max'] = this.maxValue;
         }
-        this.mask = IMask(this.inputRef, maskOpts);
+        this.mask = IMask(this.inputRef, withLatinDigits(maskOpts));
         // Set initial value if provided
         if (this.value) {
             this.mask.value = this.value;
@@ -153,13 +154,13 @@ export class IrPriceInput {
         this.inputFocus.emit();
     };
     render() {
-        return (h("fieldset", { key: '5684df4e61b6615817bf954acbf1e85b8b1c0911', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: 'ef219c9ed7966ced1959788ca9a01f3dafbf711f', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: '46e40f4dee2555ca870e2d776a55208922348663', class: `input-group-text 
+        return (h("fieldset", { key: '5e60d7228aa605f1abae57884db207fff9f51f10', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: '1a53c55668b4669869e4151c4b888c1a67f50296', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: '18b6c4d2c5d72cac0ecb98ce5e9425efb0f1c9a3', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, h("label", { key: '11d6c60fbf68a545bc58924ac92542c164451ce2', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: 'd9af3948b821a4aa6c6186958f9417a428125576', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: 'c4d6a95c23387040b954c137074c411a8f7d337b' }, h("span", { key: '9cd983aabcc38cb83d1d2867e2eb74586431c4ee', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '1d500e663012f827dc7e70c2c608031fc786d3dd', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, h("label", { key: '719f01167509e40705ef0ab08af608da7c5b58b6', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: 'a7c4af3dfb7d79db5648f78920f28a968fac2392', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '21862a9d69e7f5d85ab2491c5fe6a63546b79933' }, h("span", { key: '0a2b9c17fcc854bfe97ed2a66cd0b8445804dcc5', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: 'fbc916e8b7f1ceab4b963153fffc3c8e755e46e5', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 

@@ -70,7 +70,7 @@ export class IrUnitTag {
         }
     }
     render() {
-        return (h(Fragment, { key: '7413d772ec05fa4da21a3b7973ab0a3a2e4ef328' }, this.showTooltip && h("wa-tooltip", { key: '24d739a11549e27bcabaf92ed1e252d6eb36a799', for: this._id }, this.unit), h("wa-tag", { key: '3adc17ce83375539639b3c037c52684c3148dba1', id: this._id, class: "unit-tag__el", size: "s", appearance: "filled", variant: "brand" }, h("span", { key: '7fe6d1bbcaca7ef33668bcbfc748c46319769fe1', class: "unit-tag__content", ref: this.setContentRef }, this.unit))));
+        return (h(Fragment, { key: '6692002c0920bccd4b393ab2ae2b443ef8862461' }, this.showTooltip && h("wa-tooltip", { key: '27b641951a7556b96047611a8bf8edf4f1a51bd9', for: this._id }, this.unit), h("wa-tag", { key: '3d2afc818657000f2eddeb92082479391a43cea2', id: this._id, class: "unit-tag__el", size: "s", appearance: "filled", variant: "brand" }, h("span", { key: 'e2993c8ecd9b83fd18c056c2aec60f92039084cd', class: "unit-tag__content", ref: this.setContentRef }, this.unit))));
     }
     static get is() { return "ir-unit-tag"; }
     static get encapsulation() { return "scoped"; }

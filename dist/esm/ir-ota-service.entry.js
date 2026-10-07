@@ -1,8 +1,8 @@
 import { r as registerInstance, h } from './index-CeHdrJeH.js';
 import { t } from './t-BVYK64UG.js';
-import { b as formatCount, c as formatNumber } from './number-bfH2_xMJ.js';
+import { b as formatCount, c as formatNumber } from './number-D2n6n8dr.js';
 import './locale-scope-CapRuPkM.js';
-import './ir-date-BHp3AHEu.js';
+import './ir-date-NNCOayR_.js';
 import './language-observer-CHgzsZkY.js';
 import './moment-Mki5YqAR.js';
 import './_commonjsHelpers-BFTU3MAI.js';
@@ -15,7 +15,7 @@ const IrOtaService = class {
     }
     service;
     render() {
-        return (h("div", { key: 'f73348f0b62530ebcd24c3f6ec80ecff8d11e0da', class: "p-1" }, h("div", { key: '7fda1386a3be1e5a7c9face7520a2b67523dfb14', class: "m-0 p-0 d-flex align-items-center justify-content-between" }, h("p", { key: '706aba60606d1f8d3df72c68e8cfd0e41e54b55d', class: "m-0 d-flex align-items-center", style: { gap: '0.5rem' } }, h("b", { key: '94f43b04b444ddc778f2aacfbe34f7304c7de8e8' }, this.service.name), h("span", { key: '7bb1f491f8a6450b9df8a21ca3cc6845d765247f', class: "p-0 m-0" }, formatCount(this.service?.persons), " ", this.service.persons > 1 ? t('Lcz_PersonPlural', { fallback: 'persons' }) : t('Lcz_PersonSingular', { fallback: 'person' })), h("span", { key: '2301bc14b27669dfd352640ff4279e22d38f4851', class: "p-0 m-0" }, formatCount(this.service?.nights), " ", this.service.nights > 1 ? t('Lcz_Nights', { fallback: 'nights' }) : t('Lcz_Night', { fallback: 'night' }))), h("b", { key: 'db8dc07e3aacbf4b8399784699e204b357af1d6b' }, formatNumber(this.service.total_price, { minimumFractionDigits: 2, maximumFractionDigits: 2 }))), h("div", { key: '66968f029dfd2a4d1f26cdbf6f901e68e14ac691' }, h("ir-label", { key: '33494e6d0100c990d968aede2b1761fe79d596e0', containerStyle: { margin: '0', padding: '0' }, content: this.service?.price_mode, labelText: t('Lcz_PriceMode', { fallback: 'Price mode:' }) }), h("ir-label", { key: 'de5ea4e370637aa9963b689d647bf174ca9e92a7', containerStyle: { margin: '0', padding: '0' }, class: "m-0 p-0", content: this.service?.price_per_unit?.toString(), labelText: t('Lcz_PricePerUnit', { fallback: 'Price per unit:' }) }))));
+        return (h("div", { key: '729fd42ea5447828b51975eac995c7549591d941', class: "p-1" }, h("div", { key: 'b2e1d5f9ed4c1a40e1f5196b5f1b3252de3489f7', class: "m-0 p-0 d-flex align-items-center justify-content-between" }, h("p", { key: '832635d1a9d0bd145129876071371b41305be786', class: "m-0 d-flex align-items-center", style: { gap: '0.5rem' } }, h("b", { key: 'f8594405dde513b28977dda8e86382facc8af502' }, this.service.name), h("span", { key: '76d4af43eb78623ed2a508810ec6e59477fb78ff', class: "p-0 m-0" }, formatCount(this.service?.persons), " ", this.service.persons > 1 ? t('Lcz_PersonPlural', { fallback: 'persons' }) : t('Lcz_PersonSingular', { fallback: 'person' })), h("span", { key: '8f76306cf1ea2dfb6c49e3bb065600afd3daea63', class: "p-0 m-0" }, formatCount(this.service?.nights), " ", this.service.nights > 1 ? t('Lcz_Nights', { fallback: 'nights' }) : t('Lcz_Night', { fallback: 'night' }))), h("b", { key: 'ba507dab1a29e50e524ea29f19fdb9a5b7085e37' }, formatNumber(this.service.total_price, { minimumFractionDigits: 2, maximumFractionDigits: 2 }))), h("div", { key: '35e17487698d7673b23020f4a0a1f90d9abac308' }, h("ir-label", { key: 'dca5425c6ec6c0dbd4a821fbf1dce1b1d9760ad6', containerStyle: { margin: '0', padding: '0' }, content: this.service?.price_mode, labelText: t('Lcz_PriceMode', { fallback: 'Price mode:' }) }), h("ir-label", { key: 'b6b2c71f7c378b3a535d9f75b1308ee12bb1524e', containerStyle: { margin: '0', padding: '0' }, class: "m-0 p-0", content: this.service?.price_per_unit?.toString(), labelText: t('Lcz_PricePerUnit', { fallback: 'Price per unit:' }) }))));
     }
 };
 IrOtaService.style = irOtaServiceCss();

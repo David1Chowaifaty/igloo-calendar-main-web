@@ -1,5 +1,6 @@
-import { MaskedRange } from "imask";
+import { Masked, MaskedRange } from "imask";
 import moment from "moment";
+import { normalizeNumericInput } from "../../../utils/number";
 export const masks = {
     price: {
         mask: Number,
@@ -118,4 +119,25 @@ export function createTimeToMask(minHour) {
     const mask = buildTimeToMask(clampedMinHour);
     timeToMaskCache.set(clampedMinHour, mask);
     return mask;
+}
+/**
+ * Wraps mask options so anything typed or pasted in Arabic-Indic / Persian digits is converted to
+ * Latin before IMask sees it. Without this, `Number` and pattern masks silently reject those
+ * keystrokes, so price, time and phone fields can't be filled from an Arabic keyboard.
+ *
+ * Hooks the top-level `prepare`, which IMask runs on the whole string before per-character and
+ * per-block handling, so it covers `Number`, pattern masks with blocks and plain regex masks
+ * alike. A mask's own `prepare` (e.g. `masks.email`) still runs, on the normalized string.
+ */
+export function withLatinDigits(maskArg) {
+    // A ready-made Masked instance is configured by its owner; leave it alone.
+    if (!maskArg || maskArg instanceof Masked)
+        return maskArg;
+    const opts = typeof maskArg === 'object' && !(maskArg instanceof RegExp) && !Array.isArray(maskArg) ? { ...maskArg } : { mask: maskArg };
+    const prepare = opts.prepare;
+    opts.prepare = (chars, masked, flags) => {
+        const normalized = normalizeNumericInput(chars);
+        return prepare ? prepare(normalized, masked, flags) : normalized;
+    };
+    return opts;
 }

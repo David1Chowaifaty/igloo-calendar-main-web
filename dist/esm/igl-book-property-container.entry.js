@@ -1,26 +1,27 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-CeHdrJeH.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { B as BookingService } from './booking.store-Cp11cIZT.js';
-import { R as RoomService } from './room.service-BN2m6n6j.js';
-import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-Cdlf6ZoU.js';
-import { L as LanguageSync } from './language-sync-CIJ7TrC5.js';
+import { B as BookingService } from './booking.service-B1Dnf3vs.js';
+import { R as RoomService } from './room.service-ClH5dZs7.js';
+import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-DQrDdP3Q.js';
+import { L as LanguageSync } from './language-sync-D-10X4Qh.js';
 import { t } from './t-BVYK64UG.js';
-import { t as todayISO, b as addDaysISO } from './utils-B12tP0KI.js';
+import { t as todayISO, a as addDaysISO } from './calendar-dates-D3hVfsrC.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-BBKcX-1B.js';
-import './types-Bauv3qGW.js';
-import './booking-B7pxZzJe.js';
+import './IBooking-C6czW-Mz.js';
+import './types-Clk7NCXk.js';
+import './utils-VLa8HWRW.js';
 import './moment-Mki5YqAR.js';
+import './calendar-data-Cdv5kmxH.js';
 import './locale-scope-CapRuPkM.js';
-import './calendar-data-C8GYkFc8.js';
-import './functions-Bg1OOoSj.js';
-import './ir-date-BHp3AHEu.js';
+import './booking.dto-D-ACWjZx.js';
+import './type-o1ai24d7.js';
+import './ir-date-NNCOayR_.js';
 import './language-observer-CHgzsZkY.js';
-import './commonSchemas-DkuNR9ft.js';
-import './types-D6WcSF8m.js';
-import './booking.dto-BaM1iy0R.js';
-import './type--0qBkwTA.js';
+import './booking-DX6-b7gN.js';
+import './functions-8ZwUpUDk.js';
+import './commonSchemas-BxK90Oim.js';
+import './types-C7G2emJd.js';
 
 const iglBookPropertyContainerCss = () => `.sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans',     -apple-system,     BlinkMacSystemFont,     'Segoe UI',     Roboto,     'Helvetica Neue',     Arial,     sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:start !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}`;
 
@@ -126,7 +127,7 @@ const IglBookPropertyContainer = class {
         };
     }
     render() {
-        return (h(Host, { key: 'd7d5e6e9ce417972335d83128bb07442cbc6c855' }, this.withIrToastAndInterceptor && (h(Fragment, { key: 'cc679f9c20d3b7e7a6699cb78ddd79ed5912360d' }, h("ir-toast", { key: '707978c04c66af426ce6d52b206cc32b043d8cc4' }), h("ir-interceptor", { key: 'd67148853a936772e7be25220ceb0796f7de0522' }))), h("div", { key: '58e8c2d3106b336b341130ae825b3c96545fc154', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: '23f16b8e8936c943fc4ffa0173e8bd92e8292198', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: 'f879f834cf33308b19979864854e8270de0d3241', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
+        return (h(Host, { key: 'd369938f2db2ae34b233890f24e81f5f555cbbde' }, this.withIrToastAndInterceptor && (h(Fragment, { key: 'f2969a72efa0b1e4f60466a4f4e4f5ddae2b3ece' }, h("ir-toast", { key: '86facc7b09c22cfbcdfc81778a2af6322a46f9cb' }), h("ir-interceptor", { key: '93515addd89369f49134aeb30f3325c4afd9804c' }))), h("div", { key: '0d8930670e438b51decc71f7f5167804efaa029a', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: 'cc4c072ce13bfd52af486cbe416f01002237bc7f', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: 'a68b73ae9968a1a5d0df74adcc4c46a06902ff96', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingData.emit(null);

@@ -31,12 +31,12 @@ const IrExtraServiceEditorDrawer = class {
     render() {
         const isAddon = this.service?.section === types.ExtraServiceSection.BookingEngineAddon;
         const isNewAddon = isAddon && this.service?.id === -1;
-        return (index.h(index.Host, { key: '6a9cadf58c05283cb27f010b324b6867c18a05da', "data-testid": "extra-service-editor-drawer" }, index.h("ir-drawer", { key: '71b0c3d48c76de4ce8def004993cd630c1a2b19e', class: "extra-service__drawer", style: { '--ir-drawer-width': '32rem' }, label: isNewAddon
+        return (index.h(index.Host, { key: '4e3fc557eb4b5947825742c61532f4cee21b58c8', "data-testid": "extra-service-editor-drawer" }, index.h("ir-drawer", { key: '7f6b44ad22a5792c5633ff86542b7f89c1f2d6d3', class: "extra-service__drawer", style: { '--ir-drawer-width': '32rem' }, label: isNewAddon
                 ? t.t('Lcz_NewAddOn', { fallback: 'New Add-On' })
                 : t.t('Lcz_EditFieldAriaLabel', {
                     fallback: `Edit ${this.service?.name ?? 'Extra Service'}`,
                     params: [this.service?.name ?? t.t('Lcz_ExtraServiceFallback', { fallback: 'Extra Service' })],
-                }), open: this.open, "data-testid": "extra-service-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (index.h("ir-extra-service-editor-form", { key: 'c92ba947714c8c72c9dcaf9a103aa356f905b499', onCloseDrawer: e => {
+                }), open: this.open, "data-testid": "extra-service-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (index.h("ir-extra-service-editor-form", { key: 'f75dcae2a449137c6cf393ed7724e36e35317dae', onCloseDrawer: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.extraServiceEditorClose.emit();
@@ -44,7 +44,7 @@ const IrExtraServiceEditorDrawer = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.loading = e.detail;
-            }, service: this.service, formId: this.baseId, "data-testid": "extra-service-editor-form" })), index.h("div", { key: 'b0e0a9aa8175993ee332087d863426fbacba5b9b', slot: "footer", class: "ir__drawer-footer", "data-testid": "extra-service-editor-drawer-footer" }, index.h("ir-custom-button", { key: '254f70fe8ae4dae67d237fed08094e2eff4f0089', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "extra-service-editor-cancel-button" }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: '9b7552312009de377ba7448077e1672f5e5f9192', loading: this.loading, type: "submit", form: this.baseId, size: "m", appearance: "accent", variant: "brand", "data-testid": "extra-service-editor-save-button" }, t.t('Lcz_Save', { fallback: 'Save' }))))));
+            }, service: this.service, formId: this.baseId, "data-testid": "extra-service-editor-form" })), index.h("div", { key: 'da100a7cd930752bb90e168cedbbb00d94dd7fd0', slot: "footer", class: "ir__drawer-footer", "data-testid": "extra-service-editor-drawer-footer" }, index.h("ir-custom-button", { key: '461a0d467d42f6b7ad28b38803ffc1603fd2bd7a', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "extra-service-editor-cancel-button" }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: '452bb65b9eea30b529a1a2de68efd9a24893bbb8', loading: this.loading, type: "submit", form: this.baseId, size: "m", appearance: "accent", variant: "brand", "data-testid": "extra-service-editor-save-button" }, t.t('Lcz_Save', { fallback: 'Save' }))))));
     }
 };
 IrExtraServiceEditorDrawer.style = irExtraServiceEditorDrawerCss();

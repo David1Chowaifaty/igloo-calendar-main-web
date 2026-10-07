@@ -1,23 +1,25 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var booking_store = require('./booking.store-BfEd-Oub.js');
+var booking_service = require('./booking.service-DgMbxnrh.js');
 var locale_controller = require('./locale.controller-mOVjhTJn.js');
 var t = require('./t-wyGILxEL.js');
+var number = require('./number-C1isaNqY.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
-require('./utils-B_P0SLOr.js');
+require('./utils-C5KQRlHq.js');
 require('./moment-CdViwxPQ.js');
 require('./calendar-data-Br2L_0sg.js');
 require('./locale-scope-C7rmpwuA.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
-require('./ir-date-SZW0yc7z.js');
+require('./ir-date-CUtS9vzZ.js');
 require('./language-observer-DKp37LIu.js');
-require('./booking-BFcW8dlP.js');
-require('./functions-C5raR8yq.js');
+require('./calendar-dates-BxDGM1ix.js');
+require('./booking-CdR-E1kw.js');
+require('./functions-BH56K279.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./types-sp5nWPAa.js');
 
@@ -118,7 +120,7 @@ const IrPhoneInput = class {
     /** Internal: input focus state for floating label. */
     hasFocus = false;
     // private cmp_countries: ICountry[] = [];
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     /** Internal: ids for label/input pairing (a11y). */
     inputId = `ir-phone-input-${Math.random().toString(36).slice(2)}`;
     labelId = `ir-phone-input-label-${Math.random().toString(36).slice(2)}`;
@@ -155,13 +157,13 @@ const IrPhoneInput = class {
     }
     /**
      * Handles user input:
-     * - Removes all characters except numbers and "+"
+     * - Converts Arabic-Indic digits to Latin, then removes all characters except numbers and "+"
      * - Updates state and emits new phone number
      */
     handleInputChange(e) {
         let inputElement = e.target;
         let inputValue = inputElement.value;
-        inputValue = inputValue.replace(/[^+\d]+/g, '');
+        inputValue = number.normalizeNumericInput(inputValue).replace(/[^+\d]+/g, '');
         inputElement.value = inputValue;
         this.inputValue = inputValue;
         this.textChange.emit({ phone_prefix: this.currentCountry?.phone_prefix, mobile: this.inputValue });

@@ -1,10 +1,10 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var booking_store = require('./booking.store-BfEd-Oub.js');
+var booking_service = require('./booking.service-DgMbxnrh.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var irInterceptor_store = require('./ir-interceptor.store-B6XUQQuI.js');
-var utils = require('./utils-B_P0SLOr.js');
+var utils = require('./utils-C5KQRlHq.js');
 var locale_controller = require('./locale.controller-mOVjhTJn.js');
 var languageSync = require('./language-sync-CpTU62Ae.js');
 var t = require('./t-wyGILxEL.js');
@@ -12,12 +12,13 @@ require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
-require('./booking-BFcW8dlP.js');
+require('./calendar-dates-BxDGM1ix.js');
 require('./moment-CdViwxPQ.js');
+require('./booking-CdR-E1kw.js');
 require('./locale-scope-C7rmpwuA.js');
 require('./calendar-data-Br2L_0sg.js');
-require('./functions-C5raR8yq.js');
-require('./ir-date-SZW0yc7z.js');
+require('./functions-BH56K279.js');
+require('./ir-date-CUtS9vzZ.js');
 require('./language-observer-DKp37LIu.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./booking.dto-CUSvGTvD.js');
@@ -47,7 +48,7 @@ const GuestInfo = class {
     autoValidate = false;
     closeSideBar;
     resetBookingEvt;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     ApiClient = new ApiClient.ApiClient();
     /** Re-runs init when the language changes so server-localized data follows. */
     languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.guestInfo, () => this.init());

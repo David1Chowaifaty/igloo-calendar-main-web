@@ -2,21 +2,22 @@
 
 var index = require('./index-CQkpA5n3.js');
 var moment = require('./moment-CdViwxPQ.js');
-var functions = require('./functions-C5raR8yq.js');
-var booking = require('./booking-BFcW8dlP.js');
-var booking_store = require('./booking.store-BfEd-Oub.js');
+var functions = require('./functions-BH56K279.js');
+var booking = require('./booking-CdR-E1kw.js');
+var booking_service = require('./booking.service-DgMbxnrh.js');
 var room_service = require('./room.service-ox5qNbPK.js');
-var irDate = require('./ir-date-SZW0yc7z.js');
-var number = require('./number-V_ghj2hm.js');
+var irDate = require('./ir-date-CUtS9vzZ.js');
+var number = require('./number-C1isaNqY.js');
 var locale_controller = require('./locale.controller-mOVjhTJn.js');
 var languageSync = require('./language-sync-CpTU62Ae.js');
 var t = require('./t-wyGILxEL.js');
-require('./utils-B_P0SLOr.js');
+require('./utils-C5KQRlHq.js');
 require('./calendar-data-Br2L_0sg.js');
 require('./locale-scope-C7rmpwuA.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
 require('./types-BVJQZ50e.js');
+require('./calendar-dates-BxDGM1ix.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
@@ -45,7 +46,7 @@ const IrBookingPrinting = class {
     guestCountryName;
     isLoading;
     // @State() ApiClient: string;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     roomService = new room_service.RoomService();
     currency;
     totalNights;

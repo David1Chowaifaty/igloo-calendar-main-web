@@ -4,6 +4,7 @@ import { Host, h } from "@stencil/core";
 import { Subject } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, filter, from, of, switchMap, tap } from "rxjs";
 import { formatBookingNumber } from "../../../utils/number";
+import { toLatinDigits } from "../../../utils/date/index";
 import { t } from "../../../services/locale/t";
 import { LocaleController } from "../../../services/locale/locale.controller";
 import { SCREEN_TABLES } from "../../../services/locale/screen-tables";
@@ -109,7 +110,8 @@ export class IrPmsSearch {
     fetchBookings(event) {
         event.stopImmediatePropagation();
         event.stopPropagation();
-        const value = event.detail;
+        // Booking numbers typed in Arabic-Indic digits must reach the API (and the isNumber check) as Latin.
+        const value = toLatinDigits(event.detail ?? '');
         if (!value) {
             this.bookings = [];
             this.autoCompleteRef?.hide();
@@ -128,7 +130,7 @@ export class IrPmsSearch {
         });
     }
     render() {
-        return (h(Host, { key: 'fd04f415bcbe6e8cc36d9ca8bf64b97fb6ff5ca1' }, h("ir-autocomplete", { key: '323a2f6ae6f83edb2255904fc97de13f1c0e37f2', class: "pms-search__autocomplete", placeholder: t('Lcz_BookingOrGuestNamePlaceholder', { fallback: 'Booking# or guest name' }), ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: 'aedf20cedb5fa7a088379184b0c8241a1999f6e0', name: "magnifying-glass", slot: "start" }), h("div", { key: '475775f39e29b5743ff1aae4c4781d23b9ff13b0', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: '7e2f7ddae1ad9c13c8d6d25a4608a5466b729f6a' }), this.shortcutHint && h("span", { key: '67ac3c4343e0864eb4a074d78e43dbd2c0e99d97' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (h("div", { key: '168604f4113e7773772d69ca829578d29879bf2e', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: '8829bcbbc4a78348ea9a9c0e7d51a73e13f6b3ce', name: "circle-info", "aria-hidden": "true" }), h("div", { key: 'ae4b9ed22910410f8f67f9e456db2a33815ee420', class: "pms-search__empty-content" }, h("div", { key: 'ee18b462140b9fb3ac66457f7fb458467d74d5c5', class: "pms-search__empty-title" }, t('Lcz_NoResultsFound', { fallback: 'No results found' }))))), (this.bookings ?? [])?.map(b => {
+        return (h(Host, { key: '9da992033cac26259287237e4a5e499e2b0ed154' }, h("ir-autocomplete", { key: 'aee01888bae704525176b3a9510ac5d1e6c3af07', class: "pms-search__autocomplete", placeholder: t('Lcz_BookingOrGuestNamePlaceholder', { fallback: 'Booking# or guest name' }), ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: '0351efff72d774abc4192aef2a101740c854ee1a', name: "magnifying-glass", slot: "start" }), h("div", { key: 'dca482df37ff257594257388ddc66b7322896fb5', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: 'b6a769e152706b2506bc817eca5422ecda440100' }), this.shortcutHint && h("span", { key: '06c4096cf1be06e14dbc045fceacdb6ddcd5fc38' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (h("div", { key: 'a45d7ce140c9f8bde7847505360d2deffff78a96', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: 'e135f590377557987007331ca058f2198b5cbae7', name: "circle-info", "aria-hidden": "true" }), h("div", { key: 'b313a807eac2dc74010ef80acb95602a7d8f5680', class: "pms-search__empty-content" }, h("div", { key: '9e8e4548eee04acbcc898bb0fc93fa72a3d01c6a', class: "pms-search__empty-title" }, t('Lcz_NoResultsFound', { fallback: 'No results found' }))))), (this.bookings ?? [])?.map(b => {
             if (!b) {
                 return null;
             }

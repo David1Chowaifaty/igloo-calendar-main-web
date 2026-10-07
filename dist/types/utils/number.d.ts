@@ -61,3 +61,12 @@ export declare function formatPercent(value: number | null | undefined, options?
  * because callers pass an already-resolved symbol (`$`, `€`, `ر.س`), not an ISO code.
  */
 export declare function formatAmount(currency: string, amount?: number, options?: FormatNumberOptions): string;
+/**
+ * The input-side counterpart of the formatters above: rewrites whatever the user typed into the
+ * machine-readable form. Arabic-Indic / Persian digits become Latin (`١٢` → `12`), and the Arabic
+ * decimal and thousands separators become `.` and `,` (`١٬٢٣٤٫٥٠` → `1,234.50`), so a price typed on
+ * an Arabic keyboard reaches the mask and the API the same way a Latin one does.
+ *
+ * Use this on the way *in* — input handlers and mask `prepare` hooks — never for display.
+ */
+export declare function normalizeNumericInput(value: string | null | undefined): string;

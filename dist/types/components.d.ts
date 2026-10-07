@@ -110,6 +110,8 @@ import { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 import { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
 import { Toast } from "./components/ir-toast-provider/ir-toast-provider";
 import { ToastOptions } from "./components/ui/ir-toasts-provider/ir-toasts-provider";
+import { TranslatableLanguage, TranslatableTextareaLabels, TranslatableValueChangeDetail, TranslationMap } from "./components/ui/ir-translatable-textarea/types";
+import { TranslationInputDetail } from "./components/ui/ir-translatable-textarea/ir-translation-editor/ir-translation-editor";
 import { DuplicateInfo, DuplicateSibling, EntrySavedDetail, TranslationEntry, TranslationLanguage, TranslationTable } from "./components/ir-translations-manager/types";
 import { TranslationEntryMoved } from "./components/ir-translations-manager/ir-translations-move-dialog/ir-translations-move-dialog";
 import { TranslationsSettingsSaved } from "./components/ir-translations-manager/ir-translations-settings-dialog/ir-translations-settings-dialog";
@@ -221,6 +223,8 @@ export { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 export { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
 export { Toast } from "./components/ir-toast-provider/ir-toast-provider";
 export { ToastOptions } from "./components/ui/ir-toasts-provider/ir-toasts-provider";
+export { TranslatableLanguage, TranslatableTextareaLabels, TranslatableValueChangeDetail, TranslationMap } from "./components/ui/ir-translatable-textarea/types";
+export { TranslationInputDetail } from "./components/ui/ir-translatable-textarea/ir-translation-editor/ir-translation-editor";
 export { DuplicateInfo, DuplicateSibling, EntrySavedDetail, TranslationEntry, TranslationLanguage, TranslationTable } from "./components/ir-translations-manager/types";
 export { TranslationEntryMoved } from "./components/ir-translations-manager/ir-translations-move-dialog/ir-translations-move-dialog";
 export { TranslationsSettingsSaved } from "./components/ir-translations-manager/ir-translations-settings-dialog/ir-translations-settings-dialog";
@@ -6864,6 +6868,159 @@ export namespace Components {
         "withHtml": boolean;
     }
     /**
+     * A multilingual textarea modelled on Shopify's translation flow: the field itself is edited in the default
+     * language (English unless overridden), which is required. Translations are made in a separate side-by-side
+     * editor (`ir-translation-editor`, inside a dialog) and are only committed when the user saves.
+     * Value is a map keyed by BCP-47 code. Form-associated: submits `JSON.stringify(value)` under `name`, and
+     * blocks submission while the default language is blank.
+     */
+    interface IrTranslatableTextarea {
+        /**
+          * @default 'outlined'
+         */
+        "appearance": WaTextarea['appearance'];
+        "checkValidity": () => Promise<boolean>;
+        /**
+          * The source language: edited inline and required.
+          * @default 'en'
+         */
+        "defaultLanguage": string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Locale used to display language names. Defaults to the nearest `lang` attribute, then the browser locale.
+         */
+        "displayLocale": string;
+        /**
+          * Help text under the inline textarea.
+         */
+        "hint": string;
+        /**
+          * Field label. Also used in the translation editor's title.
+         */
+        "label": string;
+        /**
+          * Overrides for the built-in English UI strings.
+          * @default {}
+         */
+        "labels": Partial<TranslatableTextareaLabels>;
+        /**
+          * Languages the field can be translated into. The default language may be listed; it is skipped as a target.
+          * @default []
+         */
+        "languages": TranslatableLanguage[];
+        /**
+          * Maximum characters per language.
+         */
+        "maxlength": number;
+        /**
+          * Form field name. The submitted value is the JSON-encoded translation map.
+         */
+        "name": string;
+        /**
+          * Opens the translation editor, optionally on a specific language.
+         */
+        "openTranslations": (code?: string) => Promise<void>;
+        /**
+          * Placeholder for the inline textarea.
+         */
+        "placeholder": string;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * Like `checkValidity()`, but also shows the error and focuses the field.
+         */
+        "reportValidity": () => Promise<boolean>;
+        /**
+          * @default 'auto'
+         */
+        "resize": WaTextarea['resize'];
+        /**
+          * @default 4
+         */
+        "rows": number;
+        /**
+          * @default 's'
+         */
+        "size": WaTextarea['size'];
+        /**
+          * Text per language, e.g. `{ en: '…', fr: '…' }`. Blank translations are never stored.
+          * @default {}
+         */
+        "value": TranslationMap;
+        /**
+          * Shows a character count (remaining characters when `maxlength` is set).
+          * @default false
+         */
+        "withCount": boolean;
+    }
+    /**
+     * Side-by-side translation editor: a language selector, the default-language text as a read-only reference,
+     * and a textarea for the selected language. Stateless about edits — it shows `value` and reports keystrokes
+     * through `translationInput`; the owner decides when to save.
+     */
+    interface IrTranslationEditor {
+        /**
+          * @default 'outlined'
+         */
+        "appearance": WaTextarea['appearance'];
+        /**
+          * @default 'en'
+         */
+        "defaultLanguage": string;
+        /**
+          * Locale used to display language names.
+         */
+        "displayLocale": string;
+        /**
+          * Focuses the translation textarea.
+         */
+        "focusInput": () => Promise<void>;
+        /**
+          * Field label, used in the textarea's accessible name.
+         */
+        "label": string;
+        /**
+          * @default {}
+         */
+        "labels": Partial<TranslatableTextareaLabels>;
+        /**
+          * The language being edited. Updated when the user picks another one.
+         */
+        "language": string;
+        /**
+          * All languages; the default language is shown as the reference and excluded from the selector.
+          * @default []
+         */
+        "languages": TranslatableLanguage[];
+        "maxlength": number;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * @default 6
+         */
+        "rows": number;
+        /**
+          * @default 's'
+         */
+        "size": WaTextarea['size'];
+        /**
+          * Text per language to display (saved text merged with any unsaved edits).
+          * @default {}
+         */
+        "value": TranslationMap;
+        /**
+          * @default false
+         */
+        "withCount": boolean;
+    }
+    /**
      * Owns the entries table plus its client-side search/status filtering — the
      * parent manager just hands it one table's raw entries and listens for the
      * CRUD intents it emits.
@@ -8400,6 +8557,14 @@ export interface IrToastItemCustomEvent<T> extends CustomEvent<T> {
 export interface IrToastProviderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrToastProviderElement;
+}
+export interface IrTranslatableTextareaCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrTranslatableTextareaElement;
+}
+export interface IrTranslationEditorCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrTranslationEditorElement;
 }
 export interface IrTranslationsEntriesPanelCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -13636,6 +13801,53 @@ declare global {
         prototype: HTMLIrTooltipElement;
         new (): HTMLIrTooltipElement;
     };
+    interface HTMLIrTranslatableTextareaElementEventMap {
+        "valueChange": TranslatableValueChangeDetail;
+    }
+    /**
+     * A multilingual textarea modelled on Shopify's translation flow: the field itself is edited in the default
+     * language (English unless overridden), which is required. Translations are made in a separate side-by-side
+     * editor (`ir-translation-editor`, inside a dialog) and are only committed when the user saves.
+     * Value is a map keyed by BCP-47 code. Form-associated: submits `JSON.stringify(value)` under `name`, and
+     * blocks submission while the default language is blank.
+     */
+    interface HTMLIrTranslatableTextareaElement extends Components.IrTranslatableTextarea, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrTranslatableTextareaElementEventMap>(type: K, listener: (this: HTMLIrTranslatableTextareaElement, ev: IrTranslatableTextareaCustomEvent<HTMLIrTranslatableTextareaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrTranslatableTextareaElementEventMap>(type: K, listener: (this: HTMLIrTranslatableTextareaElement, ev: IrTranslatableTextareaCustomEvent<HTMLIrTranslatableTextareaElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrTranslatableTextareaElement: {
+        prototype: HTMLIrTranslatableTextareaElement;
+        new (): HTMLIrTranslatableTextareaElement;
+    };
+    interface HTMLIrTranslationEditorElementEventMap {
+        "translationInput": TranslationInputDetail;
+        "translationLanguageChange": string;
+    }
+    /**
+     * Side-by-side translation editor: a language selector, the default-language text as a read-only reference,
+     * and a textarea for the selected language. Stateless about edits — it shows `value` and reports keystrokes
+     * through `translationInput`; the owner decides when to save.
+     */
+    interface HTMLIrTranslationEditorElement extends Components.IrTranslationEditor, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrTranslationEditorElementEventMap>(type: K, listener: (this: HTMLIrTranslationEditorElement, ev: IrTranslationEditorCustomEvent<HTMLIrTranslationEditorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrTranslationEditorElementEventMap>(type: K, listener: (this: HTMLIrTranslationEditorElement, ev: IrTranslationEditorCustomEvent<HTMLIrTranslationEditorElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrTranslationEditorElement: {
+        prototype: HTMLIrTranslationEditorElement;
+        new (): HTMLIrTranslationEditorElement;
+    };
     interface HTMLIrTranslationsEntriesPanelElementEventMap {
         "createEntry": void;
         "editEntry": TranslationEntry;
@@ -14452,6 +14664,8 @@ declare global {
         "ir-toast-provider": HTMLIrToastProviderElement;
         "ir-toasts-provider": HTMLIrToastsProviderElement;
         "ir-tooltip": HTMLIrTooltipElement;
+        "ir-translatable-textarea": HTMLIrTranslatableTextareaElement;
+        "ir-translation-editor": HTMLIrTranslationEditorElement;
         "ir-translations-entries-panel": HTMLIrTranslationsEntriesPanelElement;
         "ir-translations-entries-table": HTMLIrTranslationsEntriesTableElement;
         "ir-translations-entry-drawer": HTMLIrTranslationsEntryDrawerElement;
@@ -21754,6 +21968,162 @@ declare namespace LocalJSX {
         "withHtml"?: boolean;
     }
     /**
+     * A multilingual textarea modelled on Shopify's translation flow: the field itself is edited in the default
+     * language (English unless overridden), which is required. Translations are made in a separate side-by-side
+     * editor (`ir-translation-editor`, inside a dialog) and are only committed when the user saves.
+     * Value is a map keyed by BCP-47 code. Form-associated: submits `JSON.stringify(value)` under `name`, and
+     * blocks submission while the default language is blank.
+     */
+    interface IrTranslatableTextarea {
+        /**
+          * @default 'outlined'
+         */
+        "appearance"?: WaTextarea['appearance'];
+        /**
+          * The source language: edited inline and required.
+          * @default 'en'
+         */
+        "defaultLanguage"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Locale used to display language names. Defaults to the nearest `lang` attribute, then the browser locale.
+         */
+        "displayLocale"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
+        /**
+          * Help text under the inline textarea.
+         */
+        "hint"?: string;
+        /**
+          * Field label. Also used in the translation editor's title.
+         */
+        "label"?: string;
+        /**
+          * Overrides for the built-in English UI strings.
+          * @default {}
+         */
+        "labels"?: Partial<TranslatableTextareaLabels>;
+        /**
+          * Languages the field can be translated into. The default language may be listed; it is skipped as a target.
+          * @default []
+         */
+        "languages"?: TranslatableLanguage[];
+        /**
+          * Maximum characters per language.
+         */
+        "maxlength"?: number;
+        /**
+          * Form field name. The submitted value is the JSON-encoded translation map.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the default-language text is edited, and when the translation editor is saved.
+         */
+        "onValueChange"?: (event: IrTranslatableTextareaCustomEvent<TranslatableValueChangeDetail>) => void;
+        /**
+          * Placeholder for the inline textarea.
+         */
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * @default 'auto'
+         */
+        "resize"?: WaTextarea['resize'];
+        /**
+          * @default 4
+         */
+        "rows"?: number;
+        /**
+          * @default 's'
+         */
+        "size"?: WaTextarea['size'];
+        /**
+          * Text per language, e.g. `{ en: '…', fr: '…' }`. Blank translations are never stored.
+          * @default {}
+         */
+        "value"?: TranslationMap;
+        /**
+          * Shows a character count (remaining characters when `maxlength` is set).
+          * @default false
+         */
+        "withCount"?: boolean;
+    }
+    /**
+     * Side-by-side translation editor: a language selector, the default-language text as a read-only reference,
+     * and a textarea for the selected language. Stateless about edits — it shows `value` and reports keystrokes
+     * through `translationInput`; the owner decides when to save.
+     */
+    interface IrTranslationEditor {
+        /**
+          * @default 'outlined'
+         */
+        "appearance"?: WaTextarea['appearance'];
+        /**
+          * @default 'en'
+         */
+        "defaultLanguage"?: string;
+        /**
+          * Locale used to display language names.
+         */
+        "displayLocale"?: string;
+        /**
+          * Field label, used in the textarea's accessible name.
+         */
+        "label"?: string;
+        /**
+          * @default {}
+         */
+        "labels"?: Partial<TranslatableTextareaLabels>;
+        /**
+          * The language being edited. Updated when the user picks another one.
+         */
+        "language"?: string;
+        /**
+          * All languages; the default language is shown as the reference and excluded from the selector.
+          * @default []
+         */
+        "languages"?: TranslatableLanguage[];
+        "maxlength"?: number;
+        /**
+          * Emitted on every keystroke in the translation textarea.
+         */
+        "onTranslationInput"?: (event: IrTranslationEditorCustomEvent<TranslationInputDetail>) => void;
+        /**
+          * Emitted when the user selects another language.
+         */
+        "onTranslationLanguageChange"?: (event: IrTranslationEditorCustomEvent<string>) => void;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * @default 6
+         */
+        "rows"?: number;
+        /**
+          * @default 's'
+         */
+        "size"?: WaTextarea['size'];
+        /**
+          * Text per language to display (saved text merged with any unsaved edits).
+          * @default {}
+         */
+        "value"?: TranslationMap;
+        /**
+          * @default false
+         */
+        "withCount"?: boolean;
+    }
+    /**
      * Owns the entries table plus its client-side search/status filtering — the
      * parent manager just hands it one table's raw entries and listens for the
      * CRUD intents it emits.
@@ -24424,6 +24794,34 @@ declare namespace LocalJSX {
         "containerClass": string;
         "alignment": 'start' | 'end' | 'center';
     }
+    interface IrTranslatableTextareaAttributes {
+        "defaultLanguage": string;
+        "label": string;
+        "hint": string;
+        "placeholder": string;
+        "name": string;
+        "rows": number;
+        "maxlength": number;
+        "withCount": boolean;
+        "resize": WaTextarea['resize'];
+        "size": WaTextarea['size'];
+        "appearance": WaTextarea['appearance'];
+        "disabled": boolean;
+        "readonly": boolean;
+        "displayLocale": string;
+    }
+    interface IrTranslationEditorAttributes {
+        "defaultLanguage": string;
+        "language": string;
+        "label": string;
+        "rows": number;
+        "maxlength": number;
+        "withCount": boolean;
+        "size": WaTextarea['size'];
+        "appearance": WaTextarea['appearance'];
+        "readonly": boolean;
+        "displayLocale": string;
+    }
     interface IrTranslationsEntriesPanelAttributes {
         "sourceCode": string;
         "isLoading": boolean;
@@ -24933,6 +25331,8 @@ declare namespace LocalJSX {
         "ir-toast-provider": Omit<IrToastProvider, keyof IrToastProviderAttributes> & { [K in keyof IrToastProvider & keyof IrToastProviderAttributes]?: IrToastProvider[K] } & { [K in keyof IrToastProvider & keyof IrToastProviderAttributes as `attr:${K}`]?: IrToastProviderAttributes[K] } & { [K in keyof IrToastProvider & keyof IrToastProviderAttributes as `prop:${K}`]?: IrToastProvider[K] };
         "ir-toasts-provider": IrToastsProvider;
         "ir-tooltip": Omit<IrTooltip, keyof IrTooltipAttributes> & { [K in keyof IrTooltip & keyof IrTooltipAttributes]?: IrTooltip[K] } & { [K in keyof IrTooltip & keyof IrTooltipAttributes as `attr:${K}`]?: IrTooltipAttributes[K] } & { [K in keyof IrTooltip & keyof IrTooltipAttributes as `prop:${K}`]?: IrTooltip[K] };
+        "ir-translatable-textarea": Omit<IrTranslatableTextarea, keyof IrTranslatableTextareaAttributes> & { [K in keyof IrTranslatableTextarea & keyof IrTranslatableTextareaAttributes]?: IrTranslatableTextarea[K] } & { [K in keyof IrTranslatableTextarea & keyof IrTranslatableTextareaAttributes as `attr:${K}`]?: IrTranslatableTextareaAttributes[K] } & { [K in keyof IrTranslatableTextarea & keyof IrTranslatableTextareaAttributes as `prop:${K}`]?: IrTranslatableTextarea[K] };
+        "ir-translation-editor": Omit<IrTranslationEditor, keyof IrTranslationEditorAttributes> & { [K in keyof IrTranslationEditor & keyof IrTranslationEditorAttributes]?: IrTranslationEditor[K] } & { [K in keyof IrTranslationEditor & keyof IrTranslationEditorAttributes as `attr:${K}`]?: IrTranslationEditorAttributes[K] } & { [K in keyof IrTranslationEditor & keyof IrTranslationEditorAttributes as `prop:${K}`]?: IrTranslationEditor[K] };
         "ir-translations-entries-panel": Omit<IrTranslationsEntriesPanel, keyof IrTranslationsEntriesPanelAttributes> & { [K in keyof IrTranslationsEntriesPanel & keyof IrTranslationsEntriesPanelAttributes]?: IrTranslationsEntriesPanel[K] } & { [K in keyof IrTranslationsEntriesPanel & keyof IrTranslationsEntriesPanelAttributes as `attr:${K}`]?: IrTranslationsEntriesPanelAttributes[K] } & { [K in keyof IrTranslationsEntriesPanel & keyof IrTranslationsEntriesPanelAttributes as `prop:${K}`]?: IrTranslationsEntriesPanel[K] };
         "ir-translations-entries-table": Omit<IrTranslationsEntriesTable, keyof IrTranslationsEntriesTableAttributes> & { [K in keyof IrTranslationsEntriesTable & keyof IrTranslationsEntriesTableAttributes]?: IrTranslationsEntriesTable[K] } & { [K in keyof IrTranslationsEntriesTable & keyof IrTranslationsEntriesTableAttributes as `attr:${K}`]?: IrTranslationsEntriesTableAttributes[K] } & { [K in keyof IrTranslationsEntriesTable & keyof IrTranslationsEntriesTableAttributes as `prop:${K}`]?: IrTranslationsEntriesTable[K] };
         "ir-translations-entry-drawer": Omit<IrTranslationsEntryDrawer, keyof IrTranslationsEntryDrawerAttributes> & { [K in keyof IrTranslationsEntryDrawer & keyof IrTranslationsEntryDrawerAttributes]?: IrTranslationsEntryDrawer[K] } & { [K in keyof IrTranslationsEntryDrawer & keyof IrTranslationsEntryDrawerAttributes as `attr:${K}`]?: IrTranslationsEntryDrawerAttributes[K] } & { [K in keyof IrTranslationsEntryDrawer & keyof IrTranslationsEntryDrawerAttributes as `prop:${K}`]?: IrTranslationsEntryDrawer[K] };
@@ -25510,6 +25910,20 @@ declare module "@stencil/core" {
             "ir-toast-provider": LocalJSX.IntrinsicElements["ir-toast-provider"] & JSXBase.HTMLAttributes<HTMLIrToastProviderElement>;
             "ir-toasts-provider": LocalJSX.IntrinsicElements["ir-toasts-provider"] & JSXBase.HTMLAttributes<HTMLIrToastsProviderElement>;
             "ir-tooltip": LocalJSX.IntrinsicElements["ir-tooltip"] & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
+            /**
+             * A multilingual textarea modelled on Shopify's translation flow: the field itself is edited in the default
+             * language (English unless overridden), which is required. Translations are made in a separate side-by-side
+             * editor (`ir-translation-editor`, inside a dialog) and are only committed when the user saves.
+             * Value is a map keyed by BCP-47 code. Form-associated: submits `JSON.stringify(value)` under `name`, and
+             * blocks submission while the default language is blank.
+             */
+            "ir-translatable-textarea": LocalJSX.IntrinsicElements["ir-translatable-textarea"] & JSXBase.HTMLAttributes<HTMLIrTranslatableTextareaElement>;
+            /**
+             * Side-by-side translation editor: a language selector, the default-language text as a read-only reference,
+             * and a textarea for the selected language. Stateless about edits — it shows `value` and reports keystrokes
+             * through `translationInput`; the owner decides when to save.
+             */
+            "ir-translation-editor": LocalJSX.IntrinsicElements["ir-translation-editor"] & JSXBase.HTMLAttributes<HTMLIrTranslationEditorElement>;
             /**
              * Owns the entries table plus its client-side search/status filtering — the
              * parent manager just hands it one table's raw entries and listens for the

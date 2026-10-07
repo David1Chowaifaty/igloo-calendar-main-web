@@ -1,20 +1,21 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var index$1 = require('./index-COFQVUvw.js');
+var index$1 = require('./index-CuxuizQy.js');
 var t = require('./t-wyGILxEL.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./enums-BSCnMYlE.js');
 require('./moment-CdViwxPQ.js');
 require('./types-BVJQZ50e.js');
-require('./utils-B_P0SLOr.js');
+require('./utils-C5KQRlHq.js');
 require('./calendar-data-Br2L_0sg.js');
 require('./locale-scope-C7rmpwuA.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
-require('./ir-date-SZW0yc7z.js');
+require('./ir-date-CUtS9vzZ.js');
 require('./language-observer-DKp37LIu.js');
+require('./calendar-dates-BxDGM1ix.js');
 
 const irHoldTransactionDialogCss = () => `.sc-ir-hold-transaction-dialog-h{display:contents}.hold-dialog__body.sc-ir-hold-transaction-dialog{display:flex;flex-direction:column;gap:0.875rem;font-size:0.875rem}.hold-dialog__details.sc-ir-hold-transaction-dialog{background:var(--wa-color-neutral-fill-quiet, #f9fafb);border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem;overflow:hidden}.hold-dialog__detail-row.sc-ir-hold-transaction-dialog{display:flex;justify-content:space-between;padding:0.5rem 0.75rem;font-size:0.8125rem;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb)}.hold-dialog__detail-row.sc-ir-hold-transaction-dialog:last-child{border-bottom:0}.hold-dialog__detail-row.sc-ir-hold-transaction-dialog span.sc-ir-hold-transaction-dialog:first-child{color:var(--wa-color-text-quiet, #6b7280)}.hold-dialog__detail-row.sc-ir-hold-transaction-dialog span.sc-ir-hold-transaction-dialog:last-child{font-weight:500}`;
 
@@ -57,7 +58,7 @@ const IrHoldTransactionDialog = class {
     }
     render() {
         const isHeld = this.row?.status?.id === 'held';
-        return (index.h(index.Host, { key: '916fcdec699998eb31bec9578ff05398590980fa' }, index.h("ir-dialog", { key: 'be006fad90dcb68d1d18b4029cc30c76fdc232e4', label: isHeld ? t.t('Lcz_RevertTransactionTitle', { fallback: 'Revert Transaction' }) : t.t('Lcz_HoldTransactionTitle', { fallback: 'Hold Transaction' }), ref: el => (this.dialogRef = el) }, index.h("div", { key: '613c4cd6afe4a89ba7a138a10638d3dd8124fb32', class: "hold-dialog__body" }, isHeld ? (index.h("p", null, t.t('Lcz_RevertToUnbilledConfirmMessage', { fallback: 'Revert this transaction back to Unbilled status? It will re-enter the billing queue.' }))) : (index.h("p", null, t.t('Lcz_HoldConfirmMessage', { fallback: 'Place this transaction on Hold? It will be excluded from invoicing until released.' })))), index.h("div", { key: '681298428ac254fe5ea13fb62afbc7d18fd819c0', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '8170c0b99d7b2f32a3fbaa6620b23af44edb6cc0', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close" }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: 'bca13e28ef7b19b66b338375d22f34d197192343', size: "m", loading: this.isLoading, onClickHandler: () => this.handleConfirm(), appearance: "accent", variant: "brand" }, t.t('Lcz_Confirm', { fallback: 'Confirm' }))))));
+        return (index.h(index.Host, { key: 'be654b3ce849a596dc3b9f2ec091e8340f4a51c3' }, index.h("ir-dialog", { key: '927b14702d857a3d8ba264cbf39f390bd440c9e9', label: isHeld ? t.t('Lcz_RevertTransactionTitle', { fallback: 'Revert Transaction' }) : t.t('Lcz_HoldTransactionTitle', { fallback: 'Hold Transaction' }), ref: el => (this.dialogRef = el) }, index.h("div", { key: '0610257b775491e8d6d7b46db21c4defc9dd9a5f', class: "hold-dialog__body" }, isHeld ? (index.h("p", null, t.t('Lcz_RevertToUnbilledConfirmMessage', { fallback: 'Revert this transaction back to Unbilled status? It will re-enter the billing queue.' }))) : (index.h("p", null, t.t('Lcz_HoldConfirmMessage', { fallback: 'Place this transaction on Hold? It will be excluded from invoicing until released.' })))), index.h("div", { key: '86e3e90b200b4afdf98ddd49e54afc6d0f2c3bf8', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '6af0ba21581385edb447b51c729d62f7ee9e03a3', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close" }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: 'a63d8a41789c01646e989480584ba954bc675348', size: "m", loading: this.isLoading, onClickHandler: () => this.handleConfirm(), appearance: "accent", variant: "brand" }, t.t('Lcz_Confirm', { fallback: 'Confirm' }))))));
     }
 };
 IrHoldTransactionDialog.style = irHoldTransactionDialogCss();
@@ -128,7 +129,7 @@ const IrInputCell = class {
         this.slotState = newState;
     }
     render() {
-        return (index.h("div", { key: 'c1ebf87c2bfc235c9dfa954c278645527cd797b9', onDblClick: () => {
+        return (index.h("div", { key: 'ada377a6cce67e70fa9926f6faadb1a51c5df0bb', onDblClick: () => {
                 if (this.disabled) {
                     return;
                 }

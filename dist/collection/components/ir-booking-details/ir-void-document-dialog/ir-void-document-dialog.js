@@ -69,7 +69,7 @@ export class IrVoidDocumentDialog {
     render() {
         const documentLabel = this.isInvoice ? t('Lcz_DocumentTypeInvoice', { fallback: 'Invoice' }) : t('Lcz_DocumentTypeReceipt', { fallback: 'Receipt' });
         const creditDocumentLabel = this.isInvoice ? t('Lcz_DocumentTypeCreditNote', { fallback: 'Credit Note' }) : t('Lcz_CreditReceipt', { fallback: 'Credit Receipt' });
-        return (h(Host, { key: '63bab095dca402196e24e590044341b255055139' }, h("ir-dialog", { key: '540fbb8919f7d1de1503b5725ffb4b4f9f6ef8d0', label: t('Lcz_Alert', { fallback: 'Alert' }), open: this.isOpen, lightDismiss: false, onIrDialogHide: e => {
+        return (h(Host, { key: '604c4a650342412b5e2b82decb543dee5fb4a7c5' }, h("ir-dialog", { key: '24e50051f73482e94dc3fedbc56f27f88ed65963', label: t('Lcz_Alert', { fallback: 'Alert' }), open: this.isOpen, lightDismiss: false, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onIrDialogAfterHide: e => {
@@ -77,7 +77,7 @@ export class IrVoidDocumentDialog {
                 e.stopPropagation();
                 this.isOpen = false;
                 this.request = null;
-            } }, h("p", { key: '3bcc60d461b1e603a8ba6e4180181044d8f25524', class: "void-document-dialog__message" }, t('Lcz_VoidDocumentConfirm', { fallback: 'Void %1 %2 by generating a %3?', params: [documentLabel, this.request?.documentNumber ?? '', creditDocumentLabel] })), h("div", { key: '1d7827a73ec989c99b1400088a333c3518fc7f19', slot: "footer", class: "void-document-dialog__footer" }, h("ir-custom-button", { key: '0a7a32d49f5ea0d69f4c47faa777170e7b02de09', "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral", disabled: this.isLoading }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '081b4de971453b4bfa154e03bf706a252d39394e', loading: this.isLoading, onClickHandler: () => this.handleConfirm(), size: "m", variant: "danger" }, t('Lcz_Confirm', { fallback: 'Confirm' }))))));
+            } }, h("p", { key: '524301d1ee0fc2c46303e8ab50fbc6f8e9e311b5', class: "void-document-dialog__message" }, t('Lcz_VoidDocumentConfirm', { fallback: 'Void %1 %2 by generating a %3?', params: [documentLabel, this.request?.documentNumber ?? '', creditDocumentLabel] })), h("div", { key: '069179555ffc877e9c21a8c27094e80f5e7ea822', slot: "footer", class: "void-document-dialog__footer" }, h("ir-custom-button", { key: '1d55e06c96a1b01d801f1d7156ac05a79e2ccbf2', "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral", disabled: this.isLoading }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'ad3c73300c78d65af457f6ecb3789f739938c1f0', loading: this.isLoading, onClickHandler: () => this.handleConfirm(), size: "m", variant: "danger" }, t('Lcz_Confirm', { fallback: 'Confirm' }))))));
     }
     static get is() { return "ir-void-document-dialog"; }
     static get encapsulation() { return "scoped"; }

@@ -103,7 +103,7 @@ export declare class IrPhoneInput {
     handleDocumentClick(event: MouseEvent): void;
     /**
      * Handles user input:
-     * - Removes all characters except numbers and "+"
+     * - Converts Arabic-Indic digits to Latin, then removes all characters except numbers and "+"
      * - Updates state and emits new phone number
      */
     private handleInputChange;

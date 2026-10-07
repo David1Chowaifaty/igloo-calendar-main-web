@@ -2,48 +2,49 @@
 
 var index = require('./index-CQkpA5n3.js');
 var room_service = require('./room.service-ox5qNbPK.js');
-var booking_store = require('./booking.store-BfEd-Oub.js');
+var booking_service = require('./booking.service-DgMbxnrh.js');
 var index$1 = require('./index-DpY7ZCNu.js');
-var utils = require('./utils-B_P0SLOr.js');
+var utils = require('./utils-C5KQRlHq.js');
 var t = require('./t-wyGILxEL.js');
+var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 var realtime_service = require('./realtime.service-BMgF8Zdb.js');
-var events_service = require('./events.service-DZAQa_HM.js');
+var events_service = require('./events.service-c4fADfmK.js');
 var moment = require('./moment-CdViwxPQ.js');
-var index$3 = require('./index-WBU0-Yz3.js');
-var booking = require('./booking-BFcW8dlP.js');
+var index$3 = require('./index-Drnh4uEP.js');
+var booking = require('./booking-CdR-E1kw.js');
 var localeScope = require('./locale-scope-C7rmpwuA.js');
 var calendarData = require('./calendar-data-Br2L_0sg.js');
 var calendarGrid = require('./calendar-grid-CWYz_hZR.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var v4 = require('./v4-_2BfiRUa.js');
 var index$4 = require('./index-Dn9o_etw.js');
-var index$2 = require('./index-BJFElpI8.js');
+var index$2 = require('./index-Cp3x1APc.js');
 var locale_controller = require('./locale.controller-mOVjhTJn.js');
 var languageSync = require('./language-sync-CpTU62Ae.js');
 var direction = require('./direction-Bl6Woad1.js');
 var agents_service = require('./agents.service-C9idZypK.js');
 var utils$1 = require('./utils-S4ztg9KF.js');
-var arrivals_store = require('./arrivals.store-C3HfJ7fQ.js');
+var arrivals_store = require('./arrivals.store-DrifzXrb.js');
 var axios = require('./axios-EresIryl.js');
-var index$5 = require('./index-33djBl21.js');
+var index$5 = require('./index-BTTYKx-Q.js');
 var channel_service = require('./channel.service-DGccP53b.js');
 var system_service = require('./system.service-q3G6_5Tb.js');
-var departures_store = require('./departures.store-D69sB5DA.js');
+var departures_store = require('./departures.store-DuaKwL_3.js');
 var svcCategory_utils = require('./svc-category.utils-C_Wk62Jh.js');
 var enums = require('./enums-BSCnMYlE.js');
 var types = require('./types-BVJQZ50e.js');
 var hkTasks_store = require('./hk-tasks.store-ClfPoXUn.js');
-var irDate = require('./ir-date-SZW0yc7z.js');
-var number = require('./number-V_ghj2hm.js');
+var irDate = require('./ir-date-CUtS9vzZ.js');
+var number = require('./number-C1isaNqY.js');
 var paymentOption_store = require('./payment-option.store-D80WhpyP.js');
 var index$6 = require('./index-BXbp_gXh.js');
 var uninvoiced_bookings_store = require('./uninvoiced_bookings.store-C6DqHV1E.js');
-var user_service = require('./user.service-BhF_5jpL.js');
+var user_service = require('./user.service-CNceSuop.js');
 require('./IBooking-hDE_y33g.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
-require('./functions-C5raR8yq.js');
+require('./functions-BH56K279.js');
 require('./language-observer-DKp37LIu.js');
 require('./types-sp5nWPAa.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
@@ -205,7 +206,7 @@ const UNASSIGNED_DATES_ROUND_TRIP_DAYS = 14;
 const UNASSIGNED_DATES_MAX_FETCHES = 3;
 /** Whole days between the end of one span and the start of the next. */
 function daysBetween(earlierTo, laterFrom) {
-    return utils.nightsBetween(earlierTo, laterFrom);
+    return calendarDates.nightsBetween(earlierTo, laterFrom);
 }
 /**
  * Collapses a batch of notification periods into the spans actually worth fetching.
@@ -293,7 +294,7 @@ const IglooCalendar = class {
     revertBooking;
     openCalendarSidebar;
     showRoomNightsDialog;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     setupService = new index$1.SetupService();
     roomService = new room_service.RoomService();
     propertyService = new index$2.PropertyService();
@@ -634,7 +635,7 @@ const IglooCalendar = class {
             this.showPaymentDetails = paymentMethods.some(item => item.code === '001' || item.code === '004');
             this.updateBookingEventsDateRange(this.calendarData.bookingEvents);
             this.updateBookingEventsDateRange(this.calendarData.toBeAssignedEvents);
-            this.today = utils.todayISO();
+            this.today = calendarDates.todayISO();
             this.days = bookingResp.days;
             this.calendarData.days = this.days;
             this.calendarData.monthsInfo = bookingResp.months;
@@ -1378,7 +1379,7 @@ const IglooCalendar = class {
                 // Either a date-picker range (`{ start, end }` moments) or a `YYYY-MM-DD` day to scroll to (to-be-assigned).
                 let targetDate;
                 if (opt.data.start !== undefined && opt.data.end !== undefined) {
-                    targetDate = opt.data.start.format(utils.ISO_FORMAT);
+                    targetDate = opt.data.start.format(calendarDates.ISO_FORMAT);
                     this.handleDateSearch(opt.data);
                 }
                 else {
@@ -1498,13 +1499,13 @@ const IglooCalendar = class {
         this.dragOverBoundsStale = true;
     }
     async handleDateSearch(dates) {
-        const startDate = dates.start.format(utils.ISO_FORMAT);
-        const endDate = dates.end.format(utils.ISO_FORMAT);
+        const startDate = dates.start.format(calendarDates.ISO_FORMAT);
+        const endDate = dates.end.format(calendarDates.ISO_FORMAT);
         const loadedFrom = this.calDates.from;
         const loadedTo = this.calendarData.to_date;
         if (startDate < loadedFrom) {
-            const newFrom = utils.addDaysISO(startDate, -1);
-            await this.addDatesToCalendar(newFrom, utils.addDaysISO(loadedFrom, -1));
+            const newFrom = calendarDates.addDaysISO(startDate, -1);
+            await this.addDatesToCalendar(newFrom, calendarDates.addDaysISO(loadedFrom, -1));
             this.calDates = { ...this.calDates, from: newFrom };
             this.scrollToElement(startDate);
         }
@@ -1512,7 +1513,7 @@ const IglooCalendar = class {
             this.scrollToElement(startDate);
         }
         else if (startDate > loadedTo) {
-            await this.addDatesToCalendar(utils.addDaysISO(loadedTo, 1), utils.addMonthsISO(endDate, 2));
+            await this.addDatesToCalendar(calendarDates.addDaysISO(loadedTo, 1), calendarDates.addMonthsISO(endDate, 2));
             this.scrollToElement(startDate);
         }
     }
@@ -1587,7 +1588,7 @@ const IglooCalendar = class {
                             this.reachedEndOfCalendar = true;
                             //await this.addNextTwoMonthsToCalendar();
                             const loadedTo = this.calendarData.to_date;
-                            await this.addDatesToCalendar(utils.addDaysISO(loadedTo, 1), utils.addMonthsISO(loadedTo, 2));
+                            await this.addDatesToCalendar(calendarDates.addDaysISO(loadedTo, 1), calendarDates.addMonthsISO(loadedTo, 2));
                             this.reachedEndOfCalendar = false;
                         }
                     }
@@ -1667,7 +1668,7 @@ const IglooCalendar = class {
                 moveToDay: (xElement && xElement.id) || 'revert',
                 pool: currentPosition.pool,
                 from_date: xElement?.id,
-                to_date: xElement ? utils.addDaysISO(xElement.id, currentPosition.nbOfDays) : undefined,
+                to_date: xElement ? calendarDates.addDaysISO(xElement.id, currentPosition.nbOfDays) : undefined,
             });
         }
     }
@@ -1822,7 +1823,7 @@ const IrAgents = class {
     setupEntries;
     agentsService = new agents_service.AgentsService();
     propertyService = new index$2.PropertyService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     setupService = new index$1.SetupService();
     apiClientService = new ApiClient.ApiClient();
     languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.agents, () => this.init());
@@ -2002,7 +2003,7 @@ const IrArrivals = class {
     countries;
     apiClientService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     setupService = new index$1.SetupService();
     paymentFolioRef;
     /** Re-runs init when the language changes so server-localized data follows. */
@@ -2193,7 +2194,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '974f1c0e77a8734b144ec50cc6a5991a4057f40d', class: "p-1" }, index.h("ir-interceptor", { key: '19a1cfa535578be631d9dd9f5f8d40ed62cb15fc', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: '6f4b6e181e730cb543370cab9caef838f258b48b' }), index.h("div", { key: '87d334c1605226f5e3f21c55cd6f83188f858a4e', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: '651c53ffe5cba5a940f21cb76140cd7d9d44e582', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: t.t('Lcz_BookingNumber', { fallback: 'Booking number' }) }), index.h("ir-button", { key: '1cff57c72a7c5e03a6cb947d0f92294ec832ab4b', size: "sm", text: t.t('Lcz_Search', { fallback: 'Search' }), onClickHandler: async () => {
+        return (index.h(index.Host, { key: 'a8b77d267e20c201b1022dd20c5d88f415115703', class: "p-1" }, index.h("ir-interceptor", { key: '29970dd645b32c054f85642b4663df410f6f7d8c', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: 'b428a3d2a39d0ff1c64fe7bba9c4350676b629e7' }), index.h("div", { key: '5d951f2eab575875589bc2cec9ce6d9babb4e4e8', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: 'a4b3e6c6b7e8df3055152b07a96ec6bc2b9d9477', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: t.t('Lcz_BookingNumber', { fallback: 'Booking number' }) }), index.h("ir-button", { key: 'df657f717e272bb139ce6fc8f2d3fd56ca641d74', size: "sm", text: t.t('Lcz_Search', { fallback: 'Search' }), onClickHandler: async () => {
                 const { data } = await axios.axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -2201,7 +2202,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), index.h("p", { key: '35574fd10deb91656441995d587ccdf3cfa83404' }, JSON.stringify(this.data, null, 2))));
+            } })), index.h("p", { key: 'f7168e1dc83df496d80fd7829a6c37e09f22236a' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": [{
@@ -3209,7 +3210,7 @@ const IrDepartures = class {
     checkoutRoomIdentifier = null;
     apiClientService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     setupService = new index$1.SetupService();
     paymentFolioRef;
     /** Re-runs init when the language changes so server-localized data follows. */
@@ -3845,7 +3846,7 @@ const IrGhsOnboarding = class {
     isActivating = false;
     propertyToActivate = null;
     ghsService = new GHSService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     apiClientService = new ApiClient.ApiClient();
     removeAllModal;
     activateModal;
@@ -4861,21 +4862,21 @@ const IrLocaleSwitcher = class {
     render() {
         const language = localeScope.locales.language ?? 'en';
         const calendar = irDate.calendarPreference.override ?? 'auto';
-        return (index.h(index.Host, { key: 'bfaf82a1940de9470ff9b3d396d1d81179cba8ee', class: `ls-host ls-host--${this.placement}` }, !this.open && (index.h("button", { key: '4434030b589ca24eddaa3f8ed2bd057da1c31b77', class: "ls-fab", title: "Locale switcher", onClick: () => this.setOpen(true) }, index.h("wa-icon", { key: 'ccd4afc9bcad0ec67dd7f63a7ff10be43c7f006d', name: "globe" }), index.h("span", { key: '3061d95316860d55354093de13655144ef2ec349', class: "ls-fab__label" }, language.toUpperCase()))), this.open && (index.h("div", { key: '5d50420b1d5230d83f6357c2bee7ae1ce9666546', class: "ls-panel" }, index.h("header", { key: 'e3851b33a0032eb43869966e48db019e84683987', class: "ls-panel__header" }, index.h("span", { key: '8477930116e1a4fd618fa6b60b86b6ebde1af23b', class: "ls-panel__title" }, "Locale switcher"), index.h("button", { key: '9ae1e733a17f81e0c6f8c40d19193947268e70e6', class: "ls-panel__close", title: "Collapse", onClick: () => this.setOpen(false) }, index.h("wa-icon", { key: 'e4999b7378a881e9c6a7bd550cbf6700096e7818', name: "xmark" }))), index.h("wa-select", { key: '98e55d7d64ecda49e7bff4ce24c697f1f7d37695', label: "Language", size: "s", value: language, onchange: (event) => {
+        return (index.h(index.Host, { key: '5f421aa4881bbc1992a12f59f21cfd2a1a96cc9a', class: `ls-host ls-host--${this.placement}` }, !this.open && (index.h("button", { key: '8e602ad962edce9d7e48933ee4b28c5247375523', class: "ls-fab", title: "Locale switcher", onClick: () => this.setOpen(true) }, index.h("wa-icon", { key: '7002e37c44ab2e11e49e9ed2e4b4ebbcbc0cdef9', name: "globe" }), index.h("span", { key: 'f3903c75ba32bc0c307e7d474f0d07cfc1bcbdb2', class: "ls-fab__label" }, language.toUpperCase()))), this.open && (index.h("div", { key: 'f8ed4e1961bf965aace04b8123b2f0ff922fb47f', class: "ls-panel" }, index.h("header", { key: '74ed27b8a2c75cc76c7a196609a3cddd42a8683c', class: "ls-panel__header" }, index.h("span", { key: '82f4c9dcd0efbb4d0eea66f02e470506a31cb3e8', class: "ls-panel__title" }, "Locale switcher"), index.h("button", { key: '737e9e295e43efe2fab0c77bdcac1d012ee34842', class: "ls-panel__close", title: "Collapse", onClick: () => this.setOpen(false) }, index.h("wa-icon", { key: 'e6ecf42fbe2b8840010597f6fa665a4aee5534fb', name: "xmark" }))), index.h("wa-select", { key: '822e31b79087968a5df2e5b410a8f4400e2d2c85', label: "Language", size: "s", value: language, onchange: (event) => {
                 const value = event.target.value?.toString();
                 if (value) {
                     this.applyLanguage(value);
                 }
-            } }, LANGUAGES.map(({ code, label }) => (index.h("wa-option", { key: code, value: code }, label)))), index.h("wa-select", { key: '1098f535df6b0d5a88d8dcfb002c6de4dfb362f4', label: "Calendar", size: "s", value: calendar, onchange: (event) => {
+            } }, LANGUAGES.map(({ code, label }) => (index.h("wa-option", { key: code, value: code }, label)))), index.h("wa-select", { key: 'bde3e4986aeef18d74ecff5b59acda05607e748a', label: "Calendar", size: "s", value: calendar, onchange: (event) => {
                 const value = event.target.value?.toString();
                 this.applyCalendar(value);
-            } }, index.h("wa-option", { key: 'bdfef2305266d460946c0ca33753c17de4291ba9', value: "auto" }, "Auto \u2014 detect from device"), index.h("wa-option", { key: 'cdf465434ff69fec9e9fa90f6e78f747e57ce8cc', value: "gregory" }, "Gregorian"), index.h("wa-option", { key: 'aea9abb2b78db1ddf87f323d771500b2a650e845', value: "islamic-umalqura" }, "Hijri \u2014 Umm al-Qura")), index.h("wa-select", { key: 'f982d08ff71f59deab5ccb16064b6c1d93b922f7', label: "Numbers", size: "s", value: irDate.calendarPreference.numberingSystem, onchange: (event) => {
+            } }, index.h("wa-option", { key: '6f7033217fb53c2437fd8ba72073cde1dd318cef', value: "auto" }, "Auto \u2014 detect from device"), index.h("wa-option", { key: '067ce58ce7b52d022e4e6bcb62555533171c81a8', value: "gregory" }, "Gregorian"), index.h("wa-option", { key: '4ac70fc3593827fb972cba7d073c4123ac510ea8', value: "islamic-umalqura" }, "Hijri \u2014 Umm al-Qura")), index.h("wa-select", { key: '6721e91c49cbac3362e21d22cad8694b03c085d1', label: "Numbers", size: "s", value: irDate.calendarPreference.numberingSystem, onchange: (event) => {
                 const value = event.target.value?.toString();
                 this.applyNumberingSystem(value);
-            } }, NUMBERING_SYSTEMS.map(({ value, label }) => (index.h("wa-option", { key: value, value: value }, label)))), index.h("wa-select", { key: 'b0f592ed566b61e7ddf92b450ab477403d8c0c95', label: "Direction", size: "s", value: this.direction, onchange: (event) => {
+            } }, NUMBERING_SYSTEMS.map(({ value, label }) => (index.h("wa-option", { key: value, value: value }, label)))), index.h("wa-select", { key: 'f4be73e695ce401acfd9492ca20cacbdd1a3f15e', label: "Direction", size: "s", value: this.direction, onchange: (event) => {
                 const value = event.target.value?.toString();
                 this.applyDirection(value);
-            } }, index.h("wa-option", { key: 'b8e1d36d9de1a44ca97280f859b6cce2695d4a16', value: "auto" }, "Auto \u2014 from language"), index.h("wa-option", { key: '3a916c99f547bc84ef67922e9383099dd0dedd08', value: "ltr" }, "LTR"), index.h("wa-option", { key: 'c9403334148f18de3b5560c1710a9b14d7eb5fd7', value: "rtl" }, "RTL")), this.renderPreview(), index.h("footer", { key: '788a8eaa5d5502da78e9a91b28a26c45acb5d796', class: "ls-panel__footer" }, index.h("span", { key: 'c05ca76dc7c8c50dd9095d4a7612c93ef54d4856', class: "ls-panel__resolved" }, "resolved: ", language, " \u00B7 ", irDate.calendarPreference.resolved, " \u00B7 ", irDate.calendarPreference.numberingSystem, " \u00B7 ", document.documentElement.getAttribute('dir') ?? 'ltr'), index.h("button", { key: 'c7859913bbddd03eea0d6474e2b3227d7efd06d7', class: "ls-panel__reset", onClick: () => this.resetSettings() }, "Reset all"))))));
+            } }, index.h("wa-option", { key: 'c3d87ce5c73a5edf0b7c7ef8a386235e433e92f4', value: "auto" }, "Auto \u2014 from language"), index.h("wa-option", { key: 'a5723fa4d19f3fc3c134f144a78d6c2fee0f2ab4', value: "ltr" }, "LTR"), index.h("wa-option", { key: '0945b5034aa97a0d6d5bf4c1f04452214bce4efe', value: "rtl" }, "RTL")), this.renderPreview(), index.h("footer", { key: 'baca07cc82235357d083fc4d77b77eaa42aade29', class: "ls-panel__footer" }, index.h("span", { key: '0ad7385bedca395f7036a579d00db6aaa757fd4e', class: "ls-panel__resolved" }, "resolved: ", language, " \u00B7 ", irDate.calendarPreference.resolved, " \u00B7 ", irDate.calendarPreference.numberingSystem, " \u00B7 ", document.documentElement.getAttribute('dir') ?? 'ltr'), index.h("button", { key: 'd30b7663fef64967a85b8bc2f6fa17fd87e9788f', class: "ls-panel__reset", onClick: () => this.resetSettings() }, "Reset all"))))));
     }
 };
 IrLocaleSwitcher.style = irLocaleSwitcherCss();
@@ -5747,7 +5748,7 @@ const IrSalesByCountry = class {
     ApiClient = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     propertyService = new index$2.PropertyService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     baseFilters = {
         FROM_DATE: moment.hooks().add(-7, 'days').format('YYYY-MM-DD'),
         TO_DATE: moment.hooks().format('YYYY-MM-DD'),
@@ -6347,7 +6348,7 @@ const IrUserManagement = class {
     ApiClient = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     userService = new user_service.UserService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     setupService = new index$1.SetupService();
     userTypes = new Map();
     unsubscribeRealtime = null;
