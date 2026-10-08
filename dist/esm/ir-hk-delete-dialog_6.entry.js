@@ -1,27 +1,27 @@
 import { r as registerInstance, c as createEvent, h, H as Host, a as getElement, F as Fragment } from './index-CeHdrJeH.js';
-import { H as HouseKeepingService, h as housekeeping_store } from './index-DBtvgD27.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './index-_mWVdfQA.js';
 import { t } from './t-BVYK64UG.js';
-import { R as RoomService } from './room.service-ClH5dZs7.js';
-import { P as PropertyService } from './index-D1CGyxvl.js';
-import { c as calendar_data } from './calendar-data-Cdv5kmxH.js';
+import { R as RoomService } from './room.service-BLPKpVpI.js';
+import { P as PropertyService } from './index-BUMvtt39.js';
+import { c as calendar_data } from './calendar-data-9xOw4JU4.js';
 import { i as isRequestPending } from './ir-interceptor.store-B1TrAet5.js';
-import { h as showToast } from './utils-VLa8HWRW.js';
-import { b as formatCount } from './number-D2n6n8dr.js';
-import { d as getSetupEntryLabel } from './utils-FfxPnEHJ.js';
-import './types-Clk7NCXk.js';
+import { f as showToast } from './utils-DsZQyztt.js';
+import { b as formatCount } from './number-1PczWhnt.js';
+import { d as getSetupEntryLabel } from './utils-Dld2CIOM.js';
+import './types-CB66a07H.js';
 import './locale-scope-CapRuPkM.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './commonSchemas-BxK90Oim.js';
-import './locale.controller-DQrDdP3Q.js';
+import './commonSchemas-Cx9w9d8l.js';
+import './locale.controller-CIFRcTwV.js';
 import './language-observer-CHgzsZkY.js';
-import './types-C7G2emJd.js';
+import './types-CyZFzmvF.js';
 import './moment-Mki5YqAR.js';
-import './booking.dto-D-ACWjZx.js';
-import './type-o1ai24d7.js';
-import './ir-date-NNCOayR_.js';
+import './booking.dto-B554ToUQ.js';
+import './type-DjfVZqvs.js';
+import './ir-date-CASx9LWM.js';
 import './calendar-dates-D3hVfsrC.js';
-import './IBooking-C6czW-Mz.js';
+import './IBooking-B4waZCSK.js';
 
 const irHkDeleteDialogCss = () => `:host{display:contents}.delete-modal__description{margin:0;font-size:var(--wa-font-size-m);color:var(--wa-color-text-quiet);line-height:var(--wa-line-height-normal)}.delete-modal__footer{display:flex;justify-content:flex-end;gap:0.5rem}`;
 
@@ -152,12 +152,12 @@ const IrHkOperationsCard = class {
         }
     }
     render() {
-        return (h(Host, { key: '7a69cc44e956fbba94e1101d311e2782d8e78c0b' }, h("wa-card", { key: '080b410cdb11b3bbb51ad0c5f6685e9bfa7f0ea5', appearance: "plain", class: "hk-operation__card" }, h("div", { key: 'c9e57020572f298dfaaa6b7b29c3bff2b50b5dde', slot: "header" }, h("span", { key: 'bc7d0598a06adb6c0b65be5fc8dc18faf6745024', class: "ops-header__title" }, t('Lcz_OperationsSettings', { fallback: 'Operations Settings' }))), h("div", { key: '06375ef87834e5e796c8ae1ea0c07194b087a191', class: "ops-settings" }, h("div", { key: 'cc249527d57e00832417a1545023e6e9174e0e8f', class: "ops-setting-item" }, h("div", { key: '84175f393bc30069fbe8c51c9c62c404b700eac6', class: "ops-setting-item__info" }, h("span", { key: 'e5bce1a9be62e5b4acee9d4f5289da5758790f0f', class: "ops-setting-item__title" }, t('Lcz_AutomaticCheckInCheckout', { fallback: 'Automatic Check-in & Check-out' })), h("span", { key: 'f1fb73097916c05fcb89078695eecd34b96037d0', class: "ops-setting-item__subtitle" }, t('Lcz_ProcessGuestsAutomaticallyBasedOnPropertyRules', { fallback: 'Process guests automatically based on property rules' }))), h("div", { key: 'aaed5672643587eccea027bee0f6cb8a06059815', class: "ops-setting-item__controls" }, h("wa-select", { key: '9a113474c676149ffe360bba61765db9eb7121de', size: "s", style: { minWidth: '260px' }, value: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', defaultValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onchange: (e) => this.saveAutomaticCheckInCheckout(e) }, h("wa-option", { key: 'f32a3207b98b4e3da9dc590d5e8eba37630f66b8', value: "auto" }, t('Lcz_YesAsPerPropertyPolicy', { fallback: 'Yes, as per the property policy.' })), h("wa-option", { key: '3d36817e0b93f4f3b63ae9d66f7f5f01ba2dee31', value: "manual" }, t('Lcz_NoIWillDoItManually', { fallback: 'No, I will do it manually.' })))))), h("div", { key: 'ea627d88aba3c48b4d91f5cd9654ee00bef9400c', class: "ops-tasks__header" }, h("p", { key: 'c5a946ce988bcf3df8f88d05b674aa4437e33ff8', class: "ops-tasks__title" }, t('Lcz_RecurringTasks', { fallback: 'Recurring Tasks' })), h("p", { key: 'a0b27f479625dba4a6f571c5e00e7be81cf21903', class: "ops-tasks__subtitle" }, t('Lcz_DefineYourHousekeepingTasksAndFrequency', { fallback: 'Define your housekeeping tasks and frequency' }))), h("div", { key: '8216496d486e37b55839f33ec0bd1a72116c5e76', class: "ops-tasks__list" }, h("div", { key: '7da7bf36a81df4cb4cd84513e846819db7d86530', class: "ops-task-row ops-task-row--locked" }, h("wa-badge", { key: '1fb5805d5cfb809627f13133f4715fac73825bb8', variant: "danger", appearance: "filled" }, t('Lcz_CleaningAbbreviation', { fallback: 'CL' })), h("span", { key: '56b450c96ad032f92a6c7a1f7b09c994e3042912', class: "ops-task-locked-label" }, t('Lcz_Cleaning', { fallback: 'Cleaning' })), h("wa-select", { key: '873e9cd29f2891da79f15b2f40f27e5ff1a7ad34', class: "ops-task-select", size: "s", value: this.selectedCleaningFrequency, defaultValue: this.selectedCleaningFrequency, onchange: (e) => {
+        return (h(Host, { key: '12c86caa0342e90bf631555eaa9173cf471775b5' }, h("wa-card", { key: 'b5c783af1289d84a7c263896b02e6358e2b67f7c', appearance: "plain", class: "hk-operation__card" }, h("div", { key: 'e6a0e21cfb5603e41ca7a45fecc74010a746fb1b', slot: "header" }, h("span", { key: '6305d7183a92106130da81396fcb0a3c847167a0', class: "ops-header__title" }, t('Lcz_OperationsSettings', { fallback: 'Operations Settings' }))), h("div", { key: 'f97e2f522e8cbda91cbb4d7084fc9aff44e81fc7', class: "ops-settings" }, h("div", { key: 'f400f1230ee83f425304116a7d91c6636c3f5f0d', class: "ops-setting-item" }, h("div", { key: '0e0704c901950a12dbd1a25f42a3006877f9675e', class: "ops-setting-item__info" }, h("span", { key: '174bd34d39c9cf9e8f15b031e6d669b9b3a9242f', class: "ops-setting-item__title" }, t('Lcz_AutomaticCheckInCheckout', { fallback: 'Automatic Check-in & Check-out' })), h("span", { key: '3984a611b40bb5e5d85102c428f0ea2fa4e4ab20', class: "ops-setting-item__subtitle" }, t('Lcz_ProcessGuestsAutomaticallyBasedOnPropertyRules', { fallback: 'Process guests automatically based on property rules' }))), h("div", { key: '8fc3bec0bcd8dfeae3e83dfac46ee2979e7881d1', class: "ops-setting-item__controls" }, h("wa-select", { key: 'da7c10acb76c978510bfeccda5ccddd129a093e9', size: "s", style: { minWidth: '260px' }, value: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', defaultValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onchange: (e) => this.saveAutomaticCheckInCheckout(e) }, h("wa-option", { key: '84123b72a27ebd2768713959eff709025f53a042', value: "auto" }, t('Lcz_YesAsPerPropertyPolicy', { fallback: 'Yes, as per the property policy.' })), h("wa-option", { key: '9732c636429eeb3c27d7a1601dfbc82aa5b6c0ee', value: "manual" }, t('Lcz_NoIWillDoItManually', { fallback: 'No, I will do it manually.' })))))), h("div", { key: '50edbae1a6bdd59f201fd669ac2f4e312c76ab90', class: "ops-tasks__header" }, h("p", { key: 'a2f4129098dd4df5eefb1b645aea0ccab1c78627', class: "ops-tasks__title" }, t('Lcz_RecurringTasks', { fallback: 'Recurring Tasks' })), h("p", { key: 'aa46bdb3166119e92c11aeeadc50d641dd065828', class: "ops-tasks__subtitle" }, t('Lcz_DefineYourHousekeepingTasksAndFrequency', { fallback: 'Define your housekeeping tasks and frequency' }))), h("div", { key: 'b51b0ab07ba889308ab9fe3beba66a431d9f95cb', class: "ops-tasks__list" }, h("div", { key: '85770f1bfb0f52de6637b7f3f02edc73262dcfcd', class: "ops-task-row ops-task-row--locked" }, h("wa-badge", { key: 'ec0d192f198dbd7fd12f259973f3e732118abcdb', variant: "danger", appearance: "filled" }, t('Lcz_CleaningAbbreviation', { fallback: 'CL' })), h("span", { key: '2fca9b56815a31b7c609c867e412f5e6667dab32', class: "ops-task-locked-label" }, t('Lcz_Cleaning', { fallback: 'Cleaning' })), h("wa-select", { key: '9918548b013d92269e0ef40840c37cc899bbf096', class: "ops-task-select", size: "s", value: this.selectedCleaningFrequency, defaultValue: this.selectedCleaningFrequency, onchange: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedCleaningFrequency = e.target.value;
                 this.dialog.openModal();
-            } }, housekeeping_store?.hk_criteria?.cleaning_frequencies.map(v => (h("wa-option", { key: v.code, value: v.code }, v.description)))), h("span", { key: '1c653ad40c67f7c1716b2f424a189050aeb15f2f' })), this.hkTasks.map((task, i) => (h("div", { key: i, class: "ops-task-row" }, h("wa-badge", { variant: i === 0 ? 'success' : 'brand', appearance: "filled" }, t('Lcz_TaskAbbreviation', { fallback: 'T%1', params: [formatCount(i + 1)] })), h("ir-input", { class: "ops-task-input", size: "s", placeholder: i === 0 ? t('Lcz_ChangeSheetsPlaceholder', { fallback: 'Change sheets, ...' }) : t('Lcz_AmenitiesRefillPlaceholder', { fallback: 'Amenities refill, ...' }), maxlength: 30, value: task.name, onChange: (e) => {
+            } }, housekeeping_store?.hk_criteria?.cleaning_frequencies.map(v => (h("wa-option", { key: v.code, value: v.code }, v.description)))), h("span", { key: 'f8267e536b4b92db9f8aa51ab32957f67e9dc5a4' })), this.hkTasks.map((task, i) => (h("div", { key: i, class: "ops-task-row" }, h("wa-badge", { variant: i === 0 ? 'success' : 'brand', appearance: "filled" }, t('Lcz_TaskAbbreviation', { fallback: 'T%1', params: [formatCount(i + 1)] })), h("ir-input", { class: "ops-task-input", size: "s", placeholder: i === 0 ? t('Lcz_ChangeSheetsPlaceholder', { fallback: 'Change sheets, ...' }) : t('Lcz_AmenitiesRefillPlaceholder', { fallback: 'Amenities refill, ...' }), maxlength: 30, value: task.name, onChange: (e) => {
                 const updated = [...this.hkTasks];
                 updated[i] = { ...updated[i], name: e.target.value };
                 this.hkTasks = updated;
@@ -172,10 +172,10 @@ const IrHkOperationsCard = class {
                 updated[i] = { name: '', frequency: '' };
                 this.hkTasks = updated;
                 this.saveHkTasks();
-            } })))))), h("ir-dialog", { key: '5cc8a1145be6a25822bc7ca58333ede09b269c9b', ref: el => (this.dialog = el), label: t('Lcz_Confirmation', { fallback: 'Confirmation' }), lightDismiss: false }, h("span", { key: '13297740d25397affade797a690ba534d345f728' }, t('Lcz_RescheduleCleaningTasksConfirmation', { fallback: 'This action will reschedule all cleaning tasks. Do you want to continue?' })), h("div", { key: 'b1cd1f135fa6cc19df04104cfc0f6e5c5b2a7d72', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'ee1820caf56abaab63d07c43effe3dd652394522', size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => {
+            } })))))), h("ir-dialog", { key: '647200010fc221bc0092c7d1f829830b6494be72', ref: el => (this.dialog = el), label: t('Lcz_Confirmation', { fallback: 'Confirmation' }), lightDismiss: false }, h("span", { key: 'ae84a3114927fbbff6ae84887efa6958a4024ce1' }, t('Lcz_RescheduleCleaningTasksConfirmation', { fallback: 'This action will reschedule all cleaning tasks. Do you want to continue?' })), h("div", { key: '9df7c154def8871651098f9d3926af85c5b46b63', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '18bc26380957e27a5dafc307d127e11e85049c1e', size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => {
                 this.selectedCleaningFrequency = (calendar_data.cleaning_frequency ?? housekeeping_store?.hk_criteria?.cleaning_frequencies?.[0])?.code ?? null;
                 this.dialog.closeModal();
-            } }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '624bc978fd69ca5fd011de86fa41d8687e5ec940', size: "m", appearance: "filled", variant: "brand", loading: isRequestPending('/Set_Exposed_Cleaning_Frequency'), onClickHandler: () => this.saveCleaningFrequency() }, t('Lcz_Confirm', { fallback: 'Confirm' }))))));
+            } }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '67296e29f8a26354bf59d3f660b3a6f2b81c9fbf', size: "m", appearance: "filled", variant: "brand", loading: isRequestPending('/Set_Exposed_Cleaning_Frequency'), onClickHandler: () => this.saveCleaningFrequency() }, t('Lcz_Confirm', { fallback: 'Confirm' }))))));
     }
 };
 IrHkOperationsCard.style = irHkOperationsCardCss();
@@ -354,7 +354,7 @@ const IrHkUnassignedUnits = class {
         });
     }
     render() {
-        return (h("div", { key: '90f42d8bba3802247abcb246f6de96e223396be4', class: "sheet-container" }, h("ir-title", { key: 'd0beefb989620d943e34fbc6f870027173f27aff', class: "title sheet-header px-1", displayContext: "sidebar", label: !this.user ? t('Lcz_AssingnUnitsTypo', { fallback: 'Assingn Units' }) : `${t('Lcz_AssignmentForUser', { fallback: 'Assignment for' })} ${this.user.name}` }), h("section", { key: '7200fdd7835a5379b22f6b343079a2fa8948cfaf', class: "px-1 sheet-body" }, h("table", { key: 'b39719c4059aa5c8d01596639f644dbf9d314409' }, h("thead", { key: '4b350c5a35dcb505c69998ff4dffef93fef5da59' }, h("th", { key: '6bf99651e58692b89d6be89d4fe1a8e1fad6ec1c', class: "sr-only" }, t('Lcz_RoomName', { fallback: 'room name' })), h("th", { key: '6e5cd48673db4d798aaeb98c675f9933b1934dda', class: "sr-only" }, t('Lcz_HousekeeperName', { fallback: 'housekeeper name' })), h("th", { key: 'd3849e7379f135e6e45855756b498a2043fd73f4', class: "sr-only" }, t('Lcz_Actions', { fallback: 'Actions' }))), h("tbody", { key: '35180b51e6c01359d15df5206ad8e8ebdda424e0' }, this.renderRooms()))), h("div", { key: 'b2260766bddb86750d37e2ebbb1ce0a211647c61', class: "sheet-footer" }, h("ir-button", { key: '622ec3689da5083f04e263ec54e59296841c7233', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: t('Lcz_Cancel', { fallback: 'Cancel' }) }), h("ir-button", { key: 'd581fcf6046a0ad29c0ecf2f64af81d302a1d862', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", text: t('Lcz_Confirm', { fallback: 'Confirm' }) }))));
+        return (h("div", { key: 'b2a51ba38a5c4bfe64b7b11dd135c9ae2a43644a', class: "sheet-container" }, h("ir-title", { key: 'c74c8c7913cfe35a66ef9d27fcf4e267e0538751', class: "title sheet-header px-1", displayContext: "sidebar", label: !this.user ? t('Lcz_AssingnUnitsTypo', { fallback: 'Assingn Units' }) : `${t('Lcz_AssignmentForUser', { fallback: 'Assignment for' })} ${this.user.name}` }), h("section", { key: '7006a1e472198edf8380f85dfc84de3899babeb2', class: "px-1 sheet-body" }, h("table", { key: '8ff194a415487c6e6a97a94e6070723639c9bacc' }, h("thead", { key: '67623f708a6a567c648b25c009959dbd26f5f313' }, h("th", { key: '248f70c2955ea9fe753149e8aba9bb73262b93db', class: "sr-only" }, t('Lcz_RoomName', { fallback: 'room name' })), h("th", { key: '64904f80607c76cbd3982549006b8ce4d6635b18', class: "sr-only" }, t('Lcz_HousekeeperName', { fallback: 'housekeeper name' })), h("th", { key: '895e6bf3d60b17009a47ed3e3c6f687348260d25', class: "sr-only" }, t('Lcz_Actions', { fallback: 'Actions' }))), h("tbody", { key: 'd92ed62a7b908ebeb70c2b7bdeaf4a3cc505c9ae' }, this.renderRooms()))), h("div", { key: 'b92c41c72b826ea673a49d3b6b4475a2e58469f0', class: "sheet-footer" }, h("ir-button", { key: '2c23e1997c0d9bf29a9fdc0a42bd39eab1c157f1', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: t('Lcz_Cancel', { fallback: 'Cancel' }) }), h("ir-button", { key: '2031bc1628ddc93eed575450bfdb56e99e50a534', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", text: t('Lcz_Confirm', { fallback: 'Confirm' }) }))));
     }
 };
 IrHkUnassignedUnits.style = irHkUnassignedUnitsCss() + sheetCss();
@@ -371,13 +371,13 @@ const IrHkUnassignedUnitsDrawer = class {
     closeSideBar;
     formId = 'hk-unassigned-units-drawer-form';
     render() {
-        return (h("ir-drawer", { key: '0209a5466956105c271dacdd992c754d3231218f', label: !this.user
+        return (h("ir-drawer", { key: 'aed0ef0a99c47ad3c197ea3d5f9e7f40013bce98', label: !this.user
                 ? t('Lcz_AssingnUnitsTypo', { fallback: 'Assingn Units' })
                 : `${t('Lcz_AssignmentForUser', { fallback: 'Assignment for' })} ${this.user.name}`, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeSideBar.emit(null);
-            }, style: { '--ir-drawer-width': 'max-content' }, open: this.open }, this.open && h("ir-hk-unassigned-units-drawer-form", { key: 'ad3c0326fbd4e5226908082603408ee3ecd48ab7', formId: this.formId, user: this.user }), h("div", { key: '9fa70256363aa7a717a0e9bf0d630e530a23e23e', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'b879d309b3e4cdeab2b2f17b5b212cb49d4ad8d8', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '114344e9eec086435c963b2da273f38e8a8fee89', loading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, t('Lcz_Save', { fallback: 'Save' })))));
+            }, style: { '--ir-drawer-width': 'max-content' }, open: this.open }, this.open && h("ir-hk-unassigned-units-drawer-form", { key: '82a20c557ebd3c6e3c3b57da593acd75a6b5bfe0', formId: this.formId, user: this.user }), h("div", { key: 'e68c84e0f7c150bd057868ceca2e98584c75c2c3', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'f998ab1adfca0d8cc3bb16b186b4286bc8871e0f', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '242d1362c9a091f8a9f4d782e23c22aa9a0a0b53', loading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, t('Lcz_Save', { fallback: 'Save' })))));
     }
 };
 IrHkUnassignedUnitsDrawer.style = irHkUnassignedUnitsDrawerCss();
@@ -396,13 +396,13 @@ const IrHkUserDrawer = class {
     closeSideBar;
     formId = 'hk-user-drawer-form';
     render() {
-        return (h("ir-drawer", { key: '9ca569ce2674b3f358344edc311c373cb08e1319', open: this.open, onDrawerHide: () => {
+        return (h("ir-drawer", { key: '44b7f8f4dfa13ecdc6a42916fcec0aef2f5c8661', open: this.open, onDrawerHide: () => {
                 this.closeSideBar.emit(null);
-            }, label: this.isEdit ? t('Lcz_EditHousekeeperProfile', { fallback: 'Edit Housekeeper Profile' }) : t('Lcz_CreateHousekeeperProfile', { fallback: 'Create housekeeper profile' }) }, this.open && (h("ir-hk-user-drawer-form", { key: 'b4d1aa9afd8e2cbc17b9a1963938fc51a61bc3c2', onLoadingChanged: e => {
+            }, label: this.isEdit ? t('Lcz_EditHousekeeperProfile', { fallback: 'Edit Housekeeper Profile' }) : t('Lcz_CreateHousekeeperProfile', { fallback: 'Create housekeeper profile' }) }, this.open && (h("ir-hk-user-drawer-form", { key: 'ddadadedd59ef879c62081d71376d838a546bcfc', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail;
-            }, isEdit: this.isEdit, user: this.user, formId: this.formId })), h("div", { key: '2b478ff79101e41338c37e9af0365c189c45fb88', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '8d86843ffe6e87038517a6a885f643c20ca60fab', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '2bcdab3254ce130c9d8eeaf63e475603c629ef29', loading: this.isLoading, variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, t('Lcz_Save', { fallback: 'Save' })))));
+            }, isEdit: this.isEdit, user: this.user, formId: this.formId })), h("div", { key: 'b99c270d503a30507732193ce6436d59ee72c6ba', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '40bff2bd5b36f238959fe0a57ed012ff1c5a5428', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '90694c4df2ba57483a053fba9de08cc1d9fdf7ad', loading: this.isLoading, variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, t('Lcz_Save', { fallback: 'Save' })))));
     }
 };
 IrHkUserDrawer.style = irHkUserDrawerCss();

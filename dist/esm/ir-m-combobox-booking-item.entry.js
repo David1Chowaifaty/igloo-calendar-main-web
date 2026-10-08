@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host } from './index-CeHdrJeH.js';
-import { a as formatBookingNumber } from './number-D2n6n8dr.js';
-import './ir-date-NNCOayR_.js';
+import { a as formatBookingNumber } from './number-1PczWhnt.js';
+import './ir-date-CASx9LWM.js';
 import './locale-scope-CapRuPkM.js';
 import './language-observer-CHgzsZkY.js';
 import './moment-Mki5YqAR.js';
@@ -14,7 +14,7 @@ const IrMComboboxBookingItem = class {
     }
     booking;
     render() {
-        return (h(Host, { key: 'ddf718887710bffb9d7012d81850642def526ec9', class: "pe-1" }, h("img", { key: 'a9ff70601b8f07c6ae0da9c60c6ea164c3dad3a6', src: this.booking.origin.Icon, alt: this.booking.origin.Label, class: "origin-icon" }), h("div", { key: 'cb0df4ee8a160ac4705e66be8e80acd3c3ce17dd' }, h("p", { key: '690eed1c0db519ab4230b46c3ba46950c5d240b1', class: "p-0 m-0" }, formatBookingNumber(this.booking.booking_nbr)), !this.booking.is_direct && h("p", { key: '5ec9436a52f6a68449703d6257df9c2e3beac018', class: "small p-0 m-0" }, formatBookingNumber(this.booking.channel_booking_nbr))), h("p", { key: 'f0bf95c0bf000c3834d832a2fb11811e984055f0', class: "p-0 m-0" }, this.booking.guest.first_name, " ", this.booking.guest.last_name)));
+        return (h(Host, { key: '195a4f87c6cb1ba781357557855214c00aca213a', class: "pe-1" }, h("img", { key: 'f26b0e3cf619f7d8e3e09ebf8219e6315a0a571a', src: this.booking.origin.Icon, alt: this.booking.origin.Label, class: "origin-icon" }), h("div", { key: '24dbbb052e305d12596e4233409c034affe6e840' }, h("p", { key: 'c7500609fee2ec7f5cc9d914833a3fde7e6280b5', class: "p-0 m-0" }, formatBookingNumber(this.booking.booking_nbr)), !this.booking.is_direct && h("p", { key: '1d7a949980678f90718f3aabbad96910918047dd', class: "small p-0 m-0" }, formatBookingNumber(this.booking.channel_booking_nbr))), h("p", { key: '7f233e6617f40f66e510ec3c35064b978b1045d2', class: "p-0 m-0" }, this.booking.guest.first_name, " ", this.booking.guest.last_name)));
     }
 };
 IrMComboboxBookingItem.style = irMComboboxBookingItemCss();

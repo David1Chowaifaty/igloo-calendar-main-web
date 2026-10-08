@@ -9,6 +9,11 @@ export declare class IrWeekdaySelector {
      */
     weekdays: number[];
     /**
+     * When true, at least one weekday must stay selected:
+     * the last remaining selected weekday is disabled so it can't be unchecked.
+     */
+    required: boolean;
+    /**
      * Internal state tracking currently selected weekdays.
      */
     selectedWeekdays: Set<number>;

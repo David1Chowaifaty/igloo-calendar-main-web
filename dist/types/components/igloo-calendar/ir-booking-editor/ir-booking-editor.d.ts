@@ -42,6 +42,8 @@ export declare class IrBookingEditor {
     private propertyService;
     private bookingEditorService;
     private room;
+    /** Set once the editor is removed, so in-flight requests don't repopulate the reset store. */
+    private disconnected;
     private get dayUsePrice();
     /**
      * Resolves the gross day-use price for the selected unit and advances to step 2.

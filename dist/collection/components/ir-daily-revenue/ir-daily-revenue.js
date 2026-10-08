@@ -1,5 +1,6 @@
 import ApiClient from "../../models/ApiClient";
 import { SetupService } from "../../services/setup/index";
+import { BookingListingService } from "../../services/booking-listing/index";
 import { PropertyService } from "../../services/property.service";
 import { RoomService } from "../../services/room.service";
 import { Host, h } from "@stencil/core";
@@ -24,12 +25,15 @@ export class IrDailyRevenue {
         from_date: null,
         to_date: null,
         users: null,
+        source: null,
     };
     sideBarEvent;
+    sources = [];
     apiClientService = new ApiClient();
     roomService = new RoomService();
     propertyService = new PropertyService();
     setupService = new SetupService();
+    bookingListingService = new BookingListingService();
     paymentEntries;
     preventPageLoad;
     /** Re-runs init when the language changes so server-localized data follows. */
@@ -98,7 +102,13 @@ export class IrDailyRevenue {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.setupService.getPaymentEntries(), this.getPaymentReports(), localeReady];
+            const requests = [
+                this.setupService.getPaymentEntries(),
+                this.getPaymentReports(),
+                localeReady,
+                // The source filter is optional; don't let a criteria failure block the report
+                this.bookingListingService.fetchExposedBookingsCriteria({ property_id: propertyId, language: LocaleController.language }).catch(() => null),
+            ];
             if (propertyId) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
@@ -107,8 +117,9 @@ export class IrDailyRevenue {
                     include_units_hk_status: true,
                 }));
             }
-            const [paymentEntries] = await Promise.all(requests);
+            const [paymentEntries, , , criteria] = await Promise.all(requests);
             this.paymentEntries = paymentEntries;
+            this.sources = this.buildSourceOptions(criteria?.channels ?? []);
         }
         catch (error) {
             console.log(error);
@@ -116,6 +127,23 @@ export class IrDailyRevenue {
         finally {
             this.isPageLoading = false;
         }
+    }
+    /**
+     * All direct channels collapse into a single "Direct" option whose value is their comma-separated values;
+     * every other channel stays its own option.
+     */
+    buildSourceOptions(channels) {
+        const directValues = channels.filter(c => c.is_direct).map(c => c.value);
+        const options = [];
+        if (directValues.length) {
+            options.push({ label: t('Lcz_Direct', { fallback: 'Direct' }), value: directValues.join(',') });
+        }
+        for (const channel of channels) {
+            if (!channel.is_direct) {
+                options.push({ label: channel.name, value: channel.value });
+            }
+        }
+        return options;
     }
     groupPaymentsByName(payments) {
         const groupedPayment = new Map();
@@ -157,6 +185,7 @@ export class IrDailyRevenue {
                     to_date: this.filters.date ? this.filters.date : this.filters.to_date,
                     property_id: this.property_id?.toString(),
                     is_export_to_excel: isExportToExcel,
+                    source: this.filters.source,
                 }),
             ];
             if (!isExportToExcel && !excludeYesterday && this.filters.date) {
@@ -165,6 +194,7 @@ export class IrDailyRevenue {
                     to_date: moment(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
                     property_id: this.property_id?.toString(),
                     is_export_to_excel: isExportToExcel,
+                    source: this.filters.source,
                 }));
             }
             const results = await Promise.all(requests);
@@ -194,7 +224,7 @@ export class IrDailyRevenue {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getPaymentReports(true);
-            } }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export', { fallback: 'Export' })), h("ir-revenue-summary", { filters: this.filters, previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "revenue-content-row" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), h("ir-revenue-table", { filters: this.filters, class: "revenue-table-card", paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-booking-details-drawer", { open: Boolean(this.sideBarEvent), propertyId: this.property_id, bookingNumber: this.sideBarEvent?.payload?.bookingNumber?.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: e => this.handleSidebarClose(e) })));
+            } }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export', { fallback: 'Export' })), h("ir-revenue-summary", { filters: this.filters, previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "revenue-content-row" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment, sources: this.sources }), h("ir-revenue-table", { filters: this.filters, class: "revenue-table-card", paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-booking-details-drawer", { open: Boolean(this.sideBarEvent), propertyId: this.property_id, bookingNumber: this.sideBarEvent?.payload?.bookingNumber?.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: e => this.handleSidebarClose(e) })));
     }
     static get is() { return "ir-daily-revenue"; }
     static get encapsulation() { return "scoped"; }
@@ -298,7 +328,8 @@ export class IrDailyRevenue {
             "previousDateGroupedPayments": {},
             "isLoading": {},
             "filters": {},
-            "sideBarEvent": {}
+            "sideBarEvent": {},
+            "sources": {}
         };
     }
     static get events() {

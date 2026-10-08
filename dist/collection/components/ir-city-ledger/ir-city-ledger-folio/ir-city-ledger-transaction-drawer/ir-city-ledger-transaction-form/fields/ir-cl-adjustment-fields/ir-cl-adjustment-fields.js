@@ -14,9 +14,9 @@ export class IrClAdjustmentFields {
     //   return [];
     // }
     render() {
-        return (h(Fragment, { key: 'd48de75f0b55e722a6d0df00020d07007d079399' }, h("div", { key: '484ef18c7984be285047c468d96b4338c9ae3da4', class: "field field--full-width" }, h("ir-validator", { key: '3e4d00e2ccf090d632a5b7d32d25a88c4afbf3ab', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: '3991e244ef51f7afb83e6ce4383f83c68addfab9', label: t('Lcz_EntryType', { fallback: 'Entry Type' }), orientation: "horizontal", size: "s", value: this.entryType, onchange: event => {
+        return (h(Fragment, { key: '0e67dd2baa4e0934097b28e7f3ea006a9be2b590' }, h("div", { key: '4ef3abe01b6065bc4a6ff1e1e0916ce1c21af91f', class: "field field--full-width" }, h("ir-validator", { key: '21dc2c508ce44ef4b9cf3e478a4433a9b0eeada4', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: '6ee8d3b65ad8f997d3bad378f43c00fb76223135', label: t('Lcz_EntryType', { fallback: 'Entry Type' }), orientation: "horizontal", size: "s", value: this.entryType, onchange: event => {
                 this.fieldChange.emit({ entryType: event.target.value });
-            } }, h("wa-radio", { key: 'b192e93b10ccaea870d9eb311852acc80b5b3fd6', value: "CR", appearance: "button", class: "entry-type --credit" }, t('Lcz_Credit', { fallback: 'Credit' })), h("wa-radio", { key: 'de489f6fd6f8ae44e205b9d57a995451523575c6', value: "DB", appearance: "button", class: "entry-type --debit" }, t('Lcz_Debit', { fallback: 'Debit' })))))));
+            } }, h("wa-radio", { key: '8d07a6090231f931c15d7c35360e38116ffb844f', value: "CR", appearance: "button", class: "entry-type --credit" }, t('Lcz_Credit', { fallback: 'Credit' })), h("wa-radio", { key: '02597bc6188259960d78c0b9b7defcfe4e3daf1f', value: "DB", appearance: "button", class: "entry-type --debit" }, t('Lcz_Debit', { fallback: 'Debit' })))))));
     }
     static get is() { return "ir-cl-adjustment-fields"; }
     static get encapsulation() { return "scoped"; }

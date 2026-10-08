@@ -2,7 +2,7 @@ import { parseChannelReportResult, parseChannelSalesParams } from "../../compone
 import calendar_data from "../../stores/calendar-data";
 import { downloadFile } from "../../utils/utils";
 import axios from "axios";
-import { AllowedPropertiesSchema, ExposedRectifierParamsSchema, FetchNotificationsParamsSchema, FetchNotificationsResultSchema, FetchUnBookableRoomsSchema, GetUnifiedFolioParamsSchema, HandleExposedPropertyTaxCategoriesParamsSchema, SetPropertyCalendarExtraParamsSchema, SetPropertyGapConfigParamsSchema, SetRoomCalendarExtraParamsSchema, GetExposedBookingsByInvoicedStatusParamsSchema, PrintGuestFolioDocParamsSchema, GetDayUseBookingsForCalendarParamsSchema, CalculateNetAmountParamsSchema, } from "./types";
+import { AllowedPropertiesSchema, ExposedRectifierParamsSchema, FetchNotificationsParamsSchema, FetchNotificationsResultSchema, FetchUnBookableRoomsSchema, GetUnifiedFolioParamsSchema, HandleExposedPropertyTaxCategoriesParamsSchema, SetPropertyCalendarExtraParamsSchema, SetPropertyGapConfigParamsSchema, SetRoomCalendarExtraParamsSchema, GetExposedBookingsByInvoicedStatusParamsSchema, PrintGuestFolioDocParamsSchema, GetDayUseBookingsForCalendarParamsSchema, CalculateNetAmountParamsSchema, CloneRatesParamsSchema, } from "./types";
 export class PropertyService {
     async printGuestFolioDoc(params) {
         const payload = PrintGuestFolioDocParamsSchema.parse(params);
@@ -163,6 +163,13 @@ export class PropertyService {
             downloadFile(data.My_Params_Get_Daily_Revenue_Report.Link_excel);
         }
         return data.My_Result;
+    }
+    async cloneRates(params) {
+        const payload = CloneRatesParamsSchema.parse(params);
+        const { data } = await axios.post('/Clone_Rates', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
     }
     async setExposedCleaningFrequency(params) {
         const { data } = await axios.post('/Set_Exposed_Cleaning_Frequency', params);

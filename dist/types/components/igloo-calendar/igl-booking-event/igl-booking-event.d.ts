@@ -71,6 +71,15 @@ export declare class IglBookingEvent {
     private handleHostScrollBind;
     private role;
     componentWillLoad(): void;
+    /**
+     * Drag/resize writes `left`/`width` straight onto the element, but the vdom only re-applies a style
+     * when its own computed value changes — so when the stay itself changes, write the new geometry back.
+     */
+    handleBookingEventChange(newValue: {
+        [key: string]: any;
+    }, oldValue: {
+        [key: string]: any;
+    }): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
     handleClickOutside(event: Event): void;

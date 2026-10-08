@@ -2,7 +2,7 @@
 
 var index = require('./index-CQkpA5n3.js');
 var index$1 = require('./index-DpY7ZCNu.js');
-var utils = require('./utils-C5KQRlHq.js');
+var utils = require('./utils-HVSePjFf.js');
 var setupMapping = require('./setup-mapping-D72fId4a.js');
 var t = require('./t-wyGILxEL.js');
 require('./axios-EresIryl.js');
@@ -16,7 +16,7 @@ require('./moment-CdViwxPQ.js');
 require('./calendar-data-Br2L_0sg.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
-require('./ir-date-CUtS9vzZ.js');
+require('./ir-date-wIaf9EWb.js');
 require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
 
@@ -102,7 +102,7 @@ const IrTranslationsTableForm = class {
         }
     };
     render() {
-        return (index.h("form", { key: '23c3b35e38502c89df3299517c27abc1e8c9a8e9', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, index.h("ir-input", { key: 'bea421465f622ae9ffe1921872e146de6eb1e91d', label: t.t('Lcz_Name', { fallback: 'Name' }), autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (index.h("p", { key: '47c7009e8a224dabc439f6f15fffac7cccc107b4', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
+        return (index.h("form", { key: '08c6b0cecbb99bb49695084f0f1a9289784fb641', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, index.h("ir-input", { key: '9de3903b83bcc3e6809258d9ed9f8b8cdc7124b1', label: t.t('Lcz_Name', { fallback: 'Name' }), autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (index.h("p", { key: '40d2935e354d932ec0bfff95e752c20c9a608e4a', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
     }
 };
 IrTranslationsTableForm.style = irTranslationsTableFormCss();

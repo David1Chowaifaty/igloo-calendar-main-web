@@ -52,6 +52,7 @@ export const SCREEN_TABLES = {
     calendar: ['_CALENDAR', '_HOUSEKEEPING', '_BOOKING'],
     channel: ['_CHANNEL_FRONT', '_SETTINGS'],
     cityLedger: ['_FINANCIALS'],
+    cloneRates: ['_SETTINGS'],
     dailyRevenue: ['_REPORTS'],
     departures: ['_BOOKING'],
     dpReport: ['_REPORTS'],

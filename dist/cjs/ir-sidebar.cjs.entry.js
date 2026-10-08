@@ -1,14 +1,14 @@
 'use strict';
 
 var index = require('./index-CQkpA5n3.js');
-var utils = require('./utils-C5KQRlHq.js');
+var utils = require('./utils-HVSePjFf.js');
 require('./moment-CdViwxPQ.js');
 require('./calendar-data-Br2L_0sg.js');
 require('./locale-scope-C7rmpwuA.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
 require('./types-BVJQZ50e.js');
-require('./ir-date-CUtS9vzZ.js');
+require('./ir-date-wIaf9EWb.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./calendar-dates-BxDGM1ix.js');
@@ -124,12 +124,12 @@ const IrSidebar = class {
             className = '';
         }
         return [
-            index.h("div", { key: '143297fc5cbaaaeee8f4c5d24e1faeccdc7402d1', class: `backdrop ${className}`, onClick: () => {
+            index.h("div", { key: 'd52044860499117bc70291afaeb074bc884be90d', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            index.h("div", { key: 'b9a2dcdbf523ddfdc8efc163d306b72a840fdbfa', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (index.h("div", { key: 'e73751e394bc3be8804936c5519a340c00bbddff', class: 'sidebar-title' }, index.h("p", { key: '10b0476787d5e9752a581d7702a04670ff4c53fe', class: 'p-0 m-0' }, this.label), index.h("div", { key: '689f07af66eb6171a284568fe6953ef9b9b364d8', class: 'p-0 m-0 sidebar-icon-container' }, index.h("ir-icon", { key: '66c94c75d5a017f601461e4f79e90b50f3734498', class: "", onIconClickHandler: () => {
+            index.h("div", { key: '433c6f6d5322e586e18ff5b698ade75ed8c8c6ae', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (index.h("div", { key: '6092390038be616f8775a8fefc32776ce0bdbf24', class: 'sidebar-title' }, index.h("p", { key: 'e4d03298113a1e5f8cc04f3d8db939c949f66c1b', class: 'p-0 m-0' }, this.label), index.h("div", { key: '0f7b35e85e7e784aef9a1c2e85364fd2bdb6cdfd', class: 'p-0 m-0 sidebar-icon-container' }, index.h("ir-icon", { key: '95e8470fae92eb10811fca0cdff8505fd4d33836', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, index.h("svg", { key: 'bce2f5329cb282daebba54ab2f60084a77d7f43a', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, index.h("path", { key: '77a6784b20d3850e9b79cdb905fc734c36d62160', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), index.h("slot", { key: 'd0285c1e3615fdf2d138dc1ce632332fe74e8d92', name: "sidebar-body" })),
+                } }, index.h("svg", { key: '001baedec089669a12ef4bf30bd21d91ca47b839', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, index.h("path", { key: 'a4eb18640edc6c0f10def8063f05d85af8a827ee', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), index.h("slot", { key: '217d421af0e833b00e76368681252d7403d16e55', name: "sidebar-body" })),
         ];
     }
     static get watchers() { return {

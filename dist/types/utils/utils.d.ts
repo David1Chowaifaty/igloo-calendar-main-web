@@ -1,5 +1,6 @@
 import { MomentFormatSpecification } from 'moment';
 import IBooking, { ICountry, PhysicalRoomType, PropertyRoomType } from '../models/IBooking';
+import { Booking } from "../models/booking.dto";
 import { Toast } from "../components/ir-toast-provider/ir-toast-provider";
 import { TPositions } from "../components/ui/ir-toast/toast";
 export interface SelectOption {
@@ -84,6 +85,16 @@ export declare function getReleaseHoursString(releaseDate: number): {
 /** Row label for the per-night price breakdown — display only. */
 export declare function convertDatePrice(date: string): string;
 export declare function getDaysArray(date1: string, date2: string): any[];
+/**
+ * Checks if a booking was modified without an OTA manipulation.
+ *
+ * @param booking - The booking to check.
+ * @returns The modification status and latest OTA manipulation.
+ */
+export declare function isBookingModified(booking: Booking): {
+    modified: boolean;
+    lastManipulation: import("@/models/booking.dto").OTAManipulations;
+};
 export declare function renderTime(time: number): string;
 export declare function validateEmail(email: string): boolean;
 /**

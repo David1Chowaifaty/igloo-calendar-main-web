@@ -1,0 +1,1132 @@
+'use strict';
+
+var index = require('./index-CQkpA5n3.js');
+var direction = require('./direction-Bl6Woad1.js');
+var index$1 = require('./index-B8JlTbgS.js');
+var ApiClient = require('./ApiClient-u7fuhiXA.js');
+var t = require('./t-wyGILxEL.js');
+var number = require('./number-BAlv3tpP.js');
+var index$2 = require('./index--mmbQpJ_.js');
+var index$3 = require('./index-Dssn3hdS.js');
+var irDate = require('./ir-date-wIaf9EWb.js');
+require('./locale-scope-C7rmpwuA.js');
+require('./moment-CdViwxPQ.js');
+var locale_controller = require('./locale.controller-Br0rFGJI.js');
+var languageSync = require('./language-sync-AVfdxIPf.js');
+var axios = require('./axios-EresIryl.js');
+var utils = require('./utils-DfCzEAC7.js');
+require('./types-BVJQZ50e.js');
+require('./calendar-data-Br2L_0sg.js');
+require('./utils-HVSePjFf.js');
+require('./booking.dto-CUSvGTvD.js');
+require('./type-Bj2x9EWc.js');
+require('./calendar-dates-BxDGM1ix.js');
+require('./commonSchemas-D4iFLV5-.js');
+require('./language-observer-DKp37LIu.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
+require('./types-sp5nWPAa.js');
+
+const irMenuCss = () => `:host{display:block}`;
+
+const IrMenu = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+    }
+    get el() { return index.getElement(this); }
+    menuGroups = [];
+    menuItems = [];
+    selectedHref;
+    componentWillLoad() {
+        const initialHref = this.selectedHref ?? this.getCurrentLocation();
+        this.selectedHref = this.normalizeHref(initialHref);
+    }
+    componentDidLoad() {
+        this.handleSlotChange();
+    }
+    handleLocationChange() {
+        this.updateSelectedHref(this.getCurrentLocation());
+    }
+    async setSelectedHref(href) {
+        this.updateSelectedHref(href);
+    }
+    handleSelectedHrefChange(newValue) {
+        this.applySelection(newValue);
+    }
+    handleSlotChange = () => {
+        this.menuGroups = Array.from(this.el.querySelectorAll('ir-menu-group'));
+        this.menuItems = Array.from(this.el.querySelectorAll('ir-menu-item'));
+        this.applySelection(this.selectedHref);
+    };
+    updateSelectedHref(href) {
+        const normalized = this.normalizeHref(href);
+        if (normalized !== this.selectedHref) {
+            this.selectedHref = normalized;
+        }
+    }
+    getCurrentLocation() {
+        if (typeof window === 'undefined')
+            return undefined;
+        const { pathname, search, hash } = window.location;
+        const cleanPath = pathname.replace(/\/+$/, '') || '/';
+        let lastSegment = cleanPath.split('/').pop() ?? cleanPath;
+        if (lastSegment === '') {
+            lastSegment = '/';
+        }
+        return `${lastSegment}${search}${hash}`;
+    }
+    normalizeHref(href) {
+        if (!href)
+            return undefined;
+        if (typeof window === 'undefined')
+            return href;
+        try {
+            const url = new URL(href, window.location.origin);
+            const normalizedPath = url.pathname.replace(/\/+$/, '') || '/';
+            return `${normalizedPath}${url.search}${url.hash}`;
+        }
+        catch {
+            return href;
+        }
+    }
+    applySelection(targetHref) {
+        const normalizedTarget = this.normalizeHref(targetHref);
+        this.menuItems.forEach(item => {
+            const itemHref = this.normalizeHref(item.href);
+            const shouldSelect = !!normalizedTarget && itemHref === normalizedTarget;
+            if (item.selected !== shouldSelect) {
+                item.selected = shouldSelect;
+            }
+        });
+    }
+    openGroupForSelectedHref(targetHref) {
+        const normalizedTarget = this.normalizeHref(targetHref);
+        if (!normalizedTarget)
+            return;
+        for (const item of this.menuItems) {
+            const itemHref = this.normalizeHref(item.href);
+            if (itemHref === normalizedTarget) {
+                const group = item.closest('ir-menu-group');
+                if (group && !group.open) {
+                    group.open = true;
+                }
+                break;
+            }
+        }
+    }
+    handleItemClick(event) {
+        const path = event.composedPath();
+        const menuItem = path.find(node => {
+            if (!(node instanceof HTMLElement))
+                return false;
+            return node.tagName?.toLowerCase() === 'ir-menu-item';
+        });
+        if (menuItem?.href) {
+            this.updateSelectedHref(menuItem.href);
+        }
+    }
+    handleGroupOpen(e) {
+        if (!e.detail)
+            return;
+        const openedGroup = e.target;
+        const groupName = openedGroup.groupName;
+        for (const group of this.menuGroups) {
+            if (group !== openedGroup && group.groupName === groupName && group.open) {
+                group.open = false;
+            }
+        }
+    }
+    handleOpenChange(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        if (e.detail) {
+            const href = this.selectedHref ?? this.getCurrentLocation();
+            this.openGroupForSelectedHref(href);
+        }
+    }
+    render() {
+        return (index.h(index.Host, { key: '9fd6ca25dfeb7b4724f6e70ebe8abfedba9f906d' }, index.h("slot", { key: '528c97c9a7787a03fc671c8dce528c2066847053', onSlotchange: this.handleSlotChange })));
+    }
+    static get watchers() { return {
+        "selectedHref": [{
+                "handleSelectedHrefChange": 0
+            }]
+    }; }
+};
+IrMenu.style = irMenuCss();
+
+const irMenuDrawerCss = () => `:host{display:block}.menu__drawer::part(header){border-bottom:0}.menu__drawer::part(body){padding:calc(var(--spacing) - 0.5rem)}`;
+
+const IrMenuDrawer = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.menuOpenChanged = index.createEvent(this, "menuOpenChanged");
+    }
+    open;
+    menuOpenChanged;
+    componentWillLoad() {
+        document.addEventListener('keydown', this.handleDocumentKeyDown);
+    }
+    disconnectedCallback() {
+        document.removeEventListener('keydown', this.handleDocumentKeyDown);
+    }
+    handleDocumentKeyDown = (e) => {
+        const isModifierPressed = e.ctrlKey || e.metaKey;
+        if (isModifierPressed && e.key === 'b') {
+            e.preventDefault();
+            this.open = !this.open;
+        }
+    };
+    async openDrawer() {
+        this.open = true;
+    }
+    handleOpenChange() {
+        this.menuOpenChanged.emit(this.open);
+    }
+    render() {
+        return (index.h("ir-drawer", { key: '8a360ec9d0bd1cf9f3033e2c9d7b019533cd2ba4', class: "menu__drawer", open: this.open, onDrawerHide: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.open = false;
+            }, style: { '--ir-drawer-width': '25rem' }, placement: "start" }, index.h("slot", { key: '2248c3b5e94184e3bc5155d48c08abc9792cde4f', name: "label", slot: "label" }), index.h("slot", { key: '63ed48ce51f504a9c0be77b244457b68c4a83d85' }), index.h("slot", { key: '571ae29bf48b32f350f322a4eb74b20118bec765', name: "footer", slot: "footer" })));
+    }
+    static get watchers() { return {
+        "open": [{
+                "handleOpenChange": 0
+            }]
+    }; }
+};
+IrMenuDrawer.style = irMenuDrawerCss();
+
+const irMenuGroupCss = () => `:host{display:block}.menu-group__details::part(summary){width:100%}.menu-group__details::part(header){transition:color var(--wa-transition-normal, 150ms ease);transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.menu-group__details::part(header),.menu-group__details::part(content){padding:0;border-radius:0;padding:0 0.5rem}.menu-group__details::part(header):hover{color:var(--wa-color-text-normal);background-color:var(--wa-color-neutral-fill-quiet)}.menu-group__details::part(header):active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active))}.menu-group__details::part(content){display:flex;flex-direction:column;border-inline-start:1px solid var(--wa-color-surface-border);margin-inline-start:1.5rem}`;
+
+const IrMenuGroup = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.openChanged = index.createEvent(this, "openChanged");
+    }
+    get el() { return index.getElement(this); }
+    open;
+    groupName;
+    openChanged;
+    // componentWillLoad() {
+    //   this.el.addEventListener('mouseenter', this.handleShow);
+    // }
+    // disconnectedCallback() {
+    //   this.el.removeEventListener('mouseenter', this.handleShow);
+    // }
+    handleHide = (event) => {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        this.open = false;
+        this.openChanged.emit(false);
+    };
+    handleShow = (event) => {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        this.open = true;
+        this.openChanged.emit(true);
+    };
+    render() {
+        return (index.h("wa-details", { key: 'e3bdd65b10b2c38f058e9151658152037c180819', dir: direction.getLocalDirection(this.el), class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, index.h("slot", { key: 'b289f8a577abaee428bd4d69c4f1923490b89d49', slot: "summary", name: "summary" }), index.h("slot", { key: 'c1bcca5dfcd5634e503205f0c3f7ed687fdb472c' })));
+    }
+};
+IrMenuGroup.style = irMenuGroupCss();
+
+const irMenuItemCss = () => `:host{display:block;width:100%}.menu-item__link{all:unset;display:flex;align-items:center;box-sizing:border-box;width:100%;color:var(--wa-color-text-quiet);padding:0.5rem;cursor:pointer;transition:color var(--wa-transition-normal, 150ms ease);transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.menu-item__label{flex:1 1 0%;text-align:start}.menu-item__link:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet))}.menu-item__link:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active))}.menu-item__link:focus{outline:none}.menu-item__link:focus-visible{outline:var(--wa-focus-ring);outline-offset:var(--wa-focus-ring-offset)}.menu-item__link--selected{color:var(--wa-color-primary-600, var(--wa-color-primary-text, #2563eb));font-weight:600}.menu-item__link--selected:hover{color:var(--wa-color-primary-600, var(--wa-color-primary-text, #2563eb))}.menu-item__link--clickable{padding-inline-start:1rem;padding-inline-end:1rem}`;
+
+const IrMenuItem = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+    }
+    href;
+    selected;
+    badge;
+    render() {
+        const contentClass = {
+            'menu-item__link': true,
+            'menu-item__link--selected': !!this.selected,
+            'menu-item__link--clickable': !!this.href,
+        };
+        const content = (index.h(index.Fragment, { key: '8d1f236399b95f27c15f3d04039f35036f4d1c24' }, index.h("span", { key: '69439ea9cc64c175881d1a1f6985f79e079e3204', class: "menu-item__icon" }, index.h("slot", { key: 'e40768e32d3e6e6b4702f5282e67a805738cbb32', name: "icon" })), index.h("span", { key: '0c0f752d642eb84088867b1fe4a7546688b5b3f8', class: "menu-item__label" }, index.h("slot", { key: '5e50c2a53ecca693b4642df65fc3d637a155c6da' })), this.badge ? (index.h("wa-badge", { variant: "danger", class: "menu-item__badge", appearance: "accent" }, this.badge)) : null));
+        return (index.h(index.Host, { key: '13ddb602227c0a58cccf9ca0c530d5cc36c1b1fe' }, this.href ? (index.h("a", { class: contentClass, href: this.href, "aria-current": this.selected ? 'page' : undefined }, content)) : (index.h("div", { class: contentClass }, content))));
+    }
+};
+IrMenuItem.style = irMenuItemCss();
+
+const irNotificationsCss = () => `.sc-ir-notifications-h{display:block;box-sizing:border-box !important;width:fit-content;height:fit-content}.notification__bell-icon.sc-ir-notifications{display:inline-flex;transform-origin:top center}.header-notification-badge.sc-ir-notifications{position:absolute;top:-5px;inset-inline-end:-5px;z-index:1}.notification__popover.sc-ir-notifications::part(body),.notification__popover.sc-ir-notifications [part~="body"]{padding:0;padding-bottom:1rem;max-height:300px;overflow-y:auto}.notification-item.sc-ir-notifications{display:flex;align-items:center;min-width:250px;padding:0.5rem 1rem;transition:color var(--wa-transition-normal, 150ms ease);transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing);color:var(--wa-color-text-normal)}.notification-item.sc-ir-notifications:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet))}.notification-item.sc-ir-notifications:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active))}.notification-item.sc-ir-notifications:focus{outline:none}.notification-item.sc-ir-notifications:focus-visible{outline:var(--wa-focus-ring);outline-offset:var(--wa-focus-ring-offset)}.notification-item__content.sc-ir-notifications{display:flex;flex:1 1 0%;align-items:center;gap:0.5rem}.notification-item.sc-ir-notifications{border-bottom:1px solid var(--wa-color-surface-border)}.notification-item.sc-ir-notifications:last-child{border-bottom:0}.notification__popover-title.sc-ir-notifications,.notification-item__title.sc-ir-notifications,.notification-item__time.sc-ir-notifications{margin:0;padding:0}.notification-item__title.sc-ir-notifications,.notification__popover-title.sc-ir-notifications{font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance}.notification-item__title.sc-ir-notifications{font-weight:400}.notification__popover-title.sc-ir-notifications{font-size:var(--wa-font-size-m);padding:1rem;position:sticky;top:0;background-color:var(--wa-color-surface-default)}.notification-item__title.sc-ir-notifications,.notification-item__time.sc-ir-notifications{font-size:var(--wa-font-size-s)}.notification-item__time.sc-ir-notifications{color:var(--wa-color-text-quiet)}.notification-item__unread-indicator.sc-ir-notifications{display:block;height:0.5rem;width:0.5rem;border-radius:0.25rem;background-color:var(--wa-color-brand-fill-loud)}.ir-flip-rtl.sc-ir-notifications:dir(rtl){scale:-1 1}`;
+
+const IrNotifications = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.notificationCleared = index.createEvent(this, "notificationCleared");
+    }
+    get el() { return index.getElement(this); }
+    ticket;
+    propertyid;
+    // Make notifications reactive;
+    notifications = [];
+    notificationCleared;
+    apiClientService = new ApiClient.ApiClient();
+    propertyService = new index$1.PropertyService();
+    buttonRef;
+    animationRef;
+    bellKeyframes = [
+        { offset: 0, transform: 'rotate(0deg)' },
+        { offset: 0.15, transform: 'rotate(-15deg)' },
+        { offset: 0.3, transform: 'rotate(13deg)' },
+        { offset: 0.45, transform: 'rotate(-10deg)' },
+        { offset: 0.6, transform: 'rotate(8deg)' },
+        { offset: 0.75, transform: 'rotate(-5deg)' },
+        { offset: 1, transform: 'rotate(0deg)' },
+    ];
+    componentWillLoad() {
+        if (this.ticket) {
+            this.apiClientService.setApiClient(this.ticket);
+            this.fetchNotifications();
+        }
+    }
+    componentDidLoad() {
+        this.updateNotificationBadge();
+    }
+    componentDidUpdate() {
+        this.updateNotificationBadge();
+    }
+    handleNotificationCountChange(newValue, oldValue) {
+        if (oldValue && newValue.length !== oldValue.length) {
+            this.animateNotificationChange();
+        }
+    }
+    handleTicketChange(newValue, oldValue) {
+        if (newValue === oldValue || !newValue) {
+            return;
+        }
+        this.apiClientService.setApiClient(newValue);
+        this.fetchNotifications();
+    }
+    handlePropertyChange(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.fetchNotifications();
+    }
+    async fetchNotifications() {
+        if (!this.propertyid) {
+            this.notifications = [];
+            return;
+        }
+        try {
+            const notifications = await this.propertyService.fetchNotifications(this.propertyid);
+            this.notifications = notifications.filter(n => n.type !== 'financial');
+        }
+        catch (error) {
+            console.log(error);
+            this.notifications = [];
+        }
+    }
+    updateNotificationBadge() {
+        if (this.buttonRef) {
+            this.buttonRef.setAttribute('data-notifications', this.notifications.length.toString());
+        }
+    }
+    animateNotificationChange() {
+        if (this.notifications?.length <= 0)
+            return;
+        this.animationRef.cancel();
+        this.animationRef.play = true;
+    }
+    // private getRelativeTimeFromParts(date: string, hour: number, minute: number): string {
+    //   const now = moment();
+    //   const then = moment(date, 'YYYY-MM-DD').hour(hour).minute(minute).second(0);
+    //   if (!then.isValid()) return '';
+    //   const diffSeconds = now.diff(then, 'seconds');
+    //   if (diffSeconds < 60) return 'just now';
+    //   const diffMinutes = now.diff(then, 'minutes');
+    //   if (diffMinutes < 60) {
+    //     return `${diffMinutes} minute${diffMinutes !== 1 ? 's' : ''} ago`;
+    //   }
+    //   const diffHours = now.diff(then, 'hours');
+    //   if (diffHours < 24) {
+    //     return `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
+    //   }
+    //   const diffDays = now.diff(then, 'days');
+    //   if (diffDays < 7) {
+    //     return `${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
+    //   }
+    //   const diffWeeks = now.diff(then, 'weeks');
+    //   return `${diffWeeks} week${diffWeeks !== 1 ? 's' : ''} ago`;
+    // }
+    // private dismissNotification(notification: Notification) {
+    //   this.notificationCleared.emit(notification);
+    //   this.notifications = this.notifications.filter(n => n.id !== notification.id);
+    // }
+    render() {
+        return (index.h(index.Host, { key: '59eeaa14e0e6f366c4d2eaa9f7578f7ab0fb868b' }, index.h("div", { key: 'cc2e68453a03e33fc35c0833d71afe2e35782f2c', style: { position: 'relative' } }, index.h("wa-tooltip", { key: 'f9726cff2bc229a145f332c5c16e03da06847654', for: "notifications-button" }, t.t('Lcz_Notifications', { fallback: 'Notifications' })), this.notifications?.length > 0 && (index.h("wa-badge", { key: '07043d42b0626ba757a2f6b34525194d188df749', pill: true, class: "header-notification-badge" }, number.formatCount(this.notifications.length))), index.h("wa-animation", { key: '624847ef4cdb8d78f64f8f23f9115d22c64aa4bf', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, index.h("ir-custom-button", { key: '9f9e404e84d89e5caadb8ec21441a77f2bf3e08b', id: "notifications-button", size: "s", appearance: "plain", ref: el => (this.buttonRef = el) }, index.h("wa-icon", { key: '49571bdd8fc33dde82a74501caac1e89e16f0333', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.4rem' } })))), index.h("wa-popover", { key: '61512f5839874eee53279308efbe695bbeaa144b', distance: 15, class: "notification__popover", for: "notifications-button" }, index.h("p", { key: '58edaec2dbdd63d612c82838824c85c63dc2dfe5', class: "notification__popover-title" }, t.t('Lcz_Notifications', { fallback: 'Notifications' })), this.notifications.map(notification => {
+            if (notification.type === 'availability_alert') {
+                return (index.h("a", { href: "AcAvailabilityAlert.aspx", class: "notification-item" }, index.h("div", { class: "notification-item__content" }, index.h("p", { class: "notification-item__title" }, notification.message, ' ', t.t('Lcz_RoomsNotBookableConsecutiveNights', { fallback: 'rooms types are not bookable for 14 consecutive nights within the next 2 months. More...' })), index.h("wa-icon", { class: "ir-flip-rtl", name: "angle-right" }))));
+            }
+        }), this.notifications?.length === 0 && (index.h("ir-empty-state", { key: '5beaf663105012938b068583173ba5b8ba3560eb', message: t.t('Lcz_AllCaughtUp', { fallback: 'All caught up!' }), style: { width: '250px', height: '150px' } }, index.h("wa-icon", { key: '55e2b4e13c6dd12b7e2c23f69840dc57b233346b', slot: "icon", name: "inbox" }))))));
+    }
+    static get watchers() { return {
+        "notifications": [{
+                "handleNotificationCountChange": 0
+            }],
+        "ticket": [{
+                "handleTicketChange": 0
+            }],
+        "propertyid": [{
+                "handlePropertyChange": 0
+            }]
+    }; }
+};
+IrNotifications.style = irNotificationsCss();
+
+const irPmsPaymentDueAlertCss = () => `.sc-ir-pms-payment-due-alert-h{display:block}.pms-payment-due-alert__callout.sc-ir-pms-payment-due-alert{border-radius:0}.pms-payment-due-alert__callout-message.sc-ir-pms-payment-due-alert{width:100%;display:flex;text-align:center;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem}`;
+
+const IrPmsPaymentDueAlert = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+    }
+    propertyid;
+    ticket;
+    baseUrl;
+    notifications = [];
+    apiClientService = new ApiClient.ApiClient();
+    propertyService = new index$1.PropertyService();
+    componentWillLoad() {
+        if (this.baseUrl) {
+            this.apiClientService.setBaseUrl(this.baseUrl);
+        }
+        if (this.ticket) {
+            this.apiClientService.setApiClient(this.ticket);
+            this.fetchNotifications();
+        }
+    }
+    handleTicketChange(newValue, oldValue) {
+        if (newValue === oldValue || !newValue) {
+            return;
+        }
+        this.apiClientService.setApiClient(newValue);
+        this.fetchNotifications();
+    }
+    async fetchNotifications() {
+        if (!this.propertyid) {
+            this.notifications = [];
+            return;
+        }
+        try {
+            this.notifications = await this.propertyService.fetchNotifications(this.propertyid);
+        }
+        catch (error) {
+            console.log(error);
+            this.notifications = [];
+        }
+    }
+    render() {
+        const combinedMessage = this.notifications
+            ?.filter(n => n.type === 'financial')
+            ?.map(notification => notification.message)
+            ?.filter(Boolean)
+            ?.join(' ');
+        if (!combinedMessage) {
+            return index.h(index.Host, null);
+        }
+        return (index.h(index.Host, null, index.h("wa-callout", { class: "pms-payment-due-alert__callout", size: "s", appearance: "filled", variant: "danger" }, index.h("div", { class: "pms-payment-due-alert__callout-message" }, index.h("wa-icon", { style: { color: 'var(--wa-color-danger-fill-loud)', fontSize: '1rem' }, slot: "icon", name: "triangle-exclamation" }), index.h("span", null, combinedMessage)))));
+    }
+    static get watchers() { return {
+        "ticket": [{
+                "handleTicketChange": 0
+            }]
+    }; }
+};
+IrPmsPaymentDueAlert.style = irPmsPaymentDueAlertCss();
+
+const irPmsSearchCss = () => `:host{display:block}.pms-autocomplete__end-slot{display:flex;align-items:center;gap:0.5rem}.pms-search__autocomplete::part(listbox){max-height:250px;width:max-content;max-width:350px}.pms-search__option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.pms-search__option-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pms-search__option-status{flex-shrink:0}.pms-search__empty{display:flex;align-items:center;flex-direction:column;gap:0.75rem;padding:0.75rem 0.9rem;border-radius:0.75rem}.pms-search__empty-icon{font-size:1.1rem;opacity:0.7;margin-top:0.15rem}.pms-search__empty-content{display:flex;flex-direction:column;align-items:center;gap:0.15rem;min-width:0}.pms-search__empty-title{font-weight:600;line-height:1.2}.pms-search__empty-subtitle{font-size:0.875rem;opacity:0.8;line-height:1.25}.pms-search__empty-example{font-weight:600;opacity:0.95}.pms-search__option{display:grid;grid-template-columns:120px      1fr ;align-items:center;gap:1rem}.pms-search__option-icon{width:1.5625rem;flex-shrink:0}.pms-search__option-bookings{margin:0;padding:0;display:flex;flex-direction:column;line-height:1.2}.pms-search__option-booking{font-size:0.875rem;font-weight:500}.pms-search__option-channel-booking{font-size:0.75rem}.pms-search__option-label{font-size:0.875rem;font-weight:500;white-space:nowrap}.pms-search__option-status{margin-inline-start:auto}.pms-search__option-icon{width:1rem}.pms-search__option-status,.pms-search__autocomplete-option::part(checked-icon){display:none}.pms-search__autocomplete-option::part(start){padding-inline-start:0.5rem}.pms-search__option-label,.pms-search__option-booking{font-size:1rem}@media (width >= 40rem){.pms-search__option-icon{width:1.5625rem;flex-shrink:0}}@media (min-width: 768px){.pms-search__autocomplete::part(listbox){width:auto;max-width:var(--auto-size-available-width)}.pms-search__option-status{display:inline-flex}}`;
+
+const IrPmsSearch = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.comboboxSelect = index.createEvent(this, "combobox-select");
+    }
+    propertyid;
+    ticket;
+    language = 'en';
+    shortcutHint = null;
+    bookings = [];
+    isLoading;
+    apiClientService = new ApiClient.ApiClient();
+    bookingListingService = new index$2.BookingListingService();
+    search$ = new index$3.cjsExports.Subject();
+    subscription;
+    /** Results were fetched in the old language; drop them so the next search refetches in the new one. */
+    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.pmsSearch, () => {
+        this.bookings = [];
+        this.autoCompleteRef?.hide();
+    });
+    comboboxSelect;
+    autoCompleteRef;
+    componentWillLoad() {
+        document.addEventListener('keydown', this.focusInput);
+        this.detectShortcutHint();
+        if (this.ticket) {
+            this.apiClientService.setApiClient(this.ticket);
+        }
+        locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.pmsSearch });
+        this.subscription = this.search$
+            .pipe(index$3.cjsExports.debounceTime(500), index$3.cjsExports.distinctUntilChanged(), index$3.cjsExports.filter(value => value.length >= 2), index$3.cjsExports.tap(() => {
+            this.isLoading = true;
+            this.autoCompleteRef?.hide();
+        }), index$3.cjsExports.switchMap(value => {
+            const isNumber = /^(?:-?\d+|.{3}-.*)$/.test(value);
+            return index$3.cjsExports.from(this.bookingListingService.getExposedBookings({
+                book_nbr: isNumber ? value : null,
+                name: isNumber ? null : value,
+                property_id: Number(this.propertyid),
+                filter_type: 1,
+                from: null,
+                to: null,
+                balance_filter: '0',
+                start_row: 0,
+                end_row: 20,
+                total_count: 0,
+                booking_status: '',
+                affiliate_id: 0,
+                is_mpo_managed: false,
+                is_mpo_used: false,
+                is_for_mobile: false,
+                is_combined_view: false,
+                is_to_export: false,
+                property_ids: null,
+                channel: '',
+                language: locale_controller.LocaleController.language,
+            }, { skipStore: true })).pipe(index$3.cjsExports.catchError(() => index$3.cjsExports.of([])));
+        }))
+            .subscribe(bookings => {
+            this.bookings = bookings.filter(Boolean);
+            this.isLoading = false;
+            this.autoCompleteRef?.show();
+        });
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        document.removeEventListener('keydown', this.focusInput);
+        this.subscription?.unsubscribe();
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
+    }
+    handleTicketChange(newValue, oldValue) {
+        console.log(this.ticket);
+        if (newValue !== oldValue && newValue) {
+            this.apiClientService.setApiClient(this.ticket);
+        }
+    }
+    detectShortcutHint() {
+        // Hide on mobile / touch devices
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        if (isTouchDevice) {
+            this.shortcutHint = null;
+            return;
+        }
+        // Detect macOS
+        const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.platform);
+        this.shortcutHint = isMac ? '⌘ K' : 'Ctrl K';
+    }
+    focusInput = (event) => {
+        const isK = event.key.toLowerCase() === 'k';
+        const isCmdOrCtrl = event.metaKey || event.ctrlKey;
+        if (isK && isCmdOrCtrl) {
+            event.preventDefault();
+            // this.pickerInputRef?.focusInput();
+            console.log(this.autoCompleteRef);
+            this.autoCompleteRef.focusInput();
+        }
+    };
+    fetchBookings(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        // Booking numbers typed in Arabic-Indic digits must reach the API (and the isNumber check) as Latin.
+        const value = irDate.toLatinDigits(event.detail ?? '');
+        if (!value) {
+            this.bookings = [];
+            this.autoCompleteRef?.hide();
+            return;
+        }
+        this.search$.next(value);
+    }
+    handleComboboxSelect(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        this.comboboxSelect.emit({
+            item: {
+                label: '',
+                value: event.detail,
+            },
+        });
+    }
+    render() {
+        return (index.h(index.Host, { key: 'e9fbbaf4d8f452914180e80b883019fd30b362da' }, index.h("ir-autocomplete", { key: '133398e58a590072e734d3d47a8a5c7b7310bd30', class: "pms-search__autocomplete", placeholder: t.t('Lcz_BookingOrGuestNamePlaceholder', { fallback: 'Booking# or guest name' }), ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, index.h("wa-icon", { key: '110c74e5a57a5aeff22f8d1895cfe66d98f381e3', name: "magnifying-glass", slot: "start" }), index.h("div", { key: '0649c9085346784d395914728310494ebfa2b7f3', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && index.h("wa-spinner", { key: '99cf55fd031607cb10c599e66206631f3ceff864' }), this.shortcutHint && index.h("span", { key: '0dabcd83f2099642ac06f544ee1701784537e618' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (index.h("div", { key: '1ec9609e261de520fdb336f8e66e4fb53440d64f', class: "pms-search__empty", role: "status", "aria-live": "polite" }, index.h("wa-icon", { key: '417a44059c1cb0bd22dfdb33485e2e929d1c3be5', name: "circle-info", "aria-hidden": "true" }), index.h("div", { key: '111713a4f8db7ed77717a6925bede461b41625eb', class: "pms-search__empty-content" }, index.h("div", { key: '33020e710c00991d8a9692e9a41f225a0995fe70', class: "pms-search__empty-title" }, t.t('Lcz_NoResultsFound', { fallback: 'No results found' }))))), (this.bookings ?? [])?.map(b => {
+            if (!b) {
+                return null;
+            }
+            const label = `${b?.booking_nbr}  ${b?.guest?.first_name} ${b?.guest?.last_name}`;
+            return (index.h("ir-autocomplete-option", { class: "pms-search__autocomplete-option", value: b.booking_nbr, label: label }, index.h("img", { slot: "start", class: "pms-search__option-icon", src: b.origin.Icon, alt: b.origin.Label }), index.h("div", { class: "pms-search__option" }, index.h("p", { class: "pms-search__option-bookings" }, index.h("span", { class: "pms-search__option-booking" }, number.formatBookingNumber(b.booking_nbr)), b.channel_booking_nbr && index.h("span", { class: "pms-search__option-channel-booking" }, number.formatBookingNumber(b.channel_booking_nbr))), index.h("span", { class: "pms-search__option-label" }, b.guest.first_name, " ", b.guest.last_name)), index.h("ir-booking-status-tag", { slot: "end", class: "pms-search__option-status", status: b.status })));
+        }))));
+    }
+    static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
+        "ticket": [{
+                "handleTicketChange": 0
+            }]
+    }; }
+};
+IrPmsSearch.style = irPmsSearchCss();
+
+const irPropertySwitcherCss = () => `.sc-ir-property-switcher-h{display:block}.property-switcher__trigger.sc-ir-property-switcher{width:200px;padding:0;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:start}.property-switcher__dialog.sc-ir-property-switcher::part(dialog),.property-switcher__dialog.sc-ir-property-switcher [part~="dialog"]{margin:0;max-width:100%;height:100%;max-height:100%;border-radius:0}.property-switcher__dialog.sc-ir-property-switcher::part(body),.property-switcher__dialog.sc-ir-property-switcher [part~="body"]{padding:0}.property-switcher__trigger-btn.sc-ir-property-switcher{width:100%}.property-switcher__trigger-btn.sc-ir-property-switcher::part(start),.property-switcher__trigger-btn.sc-ir-property-switcher [part~="start"]{display:none}.property-switcher__trigger-btn.sc-ir-property-switcher::part(base),.property-switcher__trigger-btn.sc-ir-property-switcher [part~="base"]{justify-content:space-between;width:100%}.property-switcher__loader.sc-ir-property-switcher,.property-switcher__dropdown-loader.sc-ir-property-switcher{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;min-width:100px}.property-switcher__loader.sc-ir-property-switcher{min-height:150px}@media (min-width: 640px){.property-switcher__dialog.sc-ir-property-switcher::part(dialog){margin:auto;inset:0;max-width:100%;border-radius:var(--wa-panel-border-radius);height:fit-content}.property-switcher__dialog.sc-ir-property-switcher::part(header){display:none}}`;
+
+const IrPropertySwitcher = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.propertyChange = index.createEvent(this, "propertyChange");
+    }
+    get el() { return index.getElement(this); }
+    mode = 'dialog';
+    ticket;
+    baseUrl;
+    // NEW: Allow external property binding
+    propertyId;
+    selectedLinkedPropertyId;
+    open = false;
+    isLinkedLoading = false;
+    linkedLoaded = false;
+    hasPool = false;
+    propertyState = {
+        selected: null,
+        linked: [],
+        source: 'storage',
+    };
+    displayMode = 'read-only';
+    ApiClient = new ApiClient.ApiClient();
+    /** Single unified event - emitted when dialog confirms selection OR dropdown selects linked property */
+    propertyChange;
+    storagePoller;
+    userInfoPoller;
+    lastSelectedAcRaw = null;
+    lastUserInfoRaw = null;
+    isUpdating = false; // Prevent circular updates
+    async componentWillLoad() {
+        if (this.baseUrl)
+            this.ApiClient.setBaseUrl(this.baseUrl);
+        if (this.ticket) {
+            this.ApiClient.setApiClient(this.ticket);
+            await this.init();
+        }
+        window.addEventListener('storage', this.handleStorageEvent);
+    }
+    disconnectedCallback() {
+        this.stopPolling();
+        window.removeEventListener('storage', this.handleStorageEvent);
+    }
+    async handleTicketChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.ApiClient.setApiClient(newValue);
+            await this.init();
+        }
+    }
+    // NEW: React to external property ID changes
+    async handlePropertyIdChange(newId) {
+        if (this.isUpdating)
+            return;
+        if (newId && newId !== this.propertyState.selected?.PROPERTY_ID) {
+            // External changes don't emit propertyChange event
+            await this.loadPropertyById(newId, 'external', undefined, false);
+        }
+    }
+    handleLinkedPropertyIdChange(newId) {
+        // Validate that the linked property exists
+        if (newId && !this.propertyState.linked.find(p => p.property_id === newId)) {
+            console.warn(`Linked property ${newId} not found in available properties`);
+        }
+    }
+    async init() {
+        await this.pollSelectedAcStorage();
+        this.pollUserInfoStorage();
+        if (!this.propertyState.selected) {
+            this.startPolling();
+        }
+    }
+    startPolling() {
+        if (this.storagePoller)
+            return;
+        this.storagePoller = window.setInterval(() => {
+            this.pollSelectedAcStorage();
+            this.pollUserInfoStorage();
+        }, 300);
+    }
+    stopPolling() {
+        if (this.storagePoller) {
+            clearInterval(this.storagePoller);
+            this.storagePoller = undefined;
+        }
+        if (this.userInfoPoller) {
+            clearInterval(this.userInfoPoller);
+            this.userInfoPoller = undefined;
+        }
+    }
+    handleStorageEvent = () => {
+        this.startPolling();
+    };
+    pollSelectedAcStorage = async () => {
+        const selectedAcRaw = localStorage.getItem('_Selected_Ac');
+        if (selectedAcRaw === this.lastSelectedAcRaw)
+            return;
+        this.lastSelectedAcRaw = selectedAcRaw;
+        if (!selectedAcRaw)
+            return;
+        let selectedAc;
+        try {
+            selectedAc = JSON.parse(selectedAcRaw);
+        }
+        catch {
+            return;
+        }
+        await this.updatePropertyState(selectedAc, null, 'storage');
+        this.stopPolling();
+    };
+    pollUserInfoStorage = () => {
+        const userInfoRaw = localStorage.getItem('UserInfo_b');
+        if (userInfoRaw === this.lastUserInfoRaw)
+            return;
+        this.lastUserInfoRaw = userInfoRaw;
+        if (!userInfoRaw)
+            return;
+        this.resolveDisplayMode();
+        if (this.userInfoPoller) {
+            clearInterval(this.userInfoPoller);
+            this.userInfoPoller = undefined;
+        }
+    };
+    // NEW: Unified state update method
+    async updatePropertyState(selectedAc, linkedProperty, source, emitEvent = false) {
+        this.isUpdating = true;
+        const selected = {
+            A_NAME: selectedAc.My_User?.USERNAME ?? '',
+            COUNTRY_CODE: selectedAc.COUNTRY_ID,
+            COUNTRY_NAME: selectedAc.My_Country?.L1_NAME_REF ?? '',
+            PROPERTY_ID: selectedAc.AC_ID,
+            PROPERTY_NAME: selectedAc.NAME,
+        };
+        const hasPool = Boolean(selectedAc.POOL);
+        const sameProperty = this.propertyState.selected?.PROPERTY_ID === selectedAc.AC_ID;
+        const keepLinked = sameProperty && this.linkedLoaded && hasPool;
+        const linked = keepLinked ? this.propertyState.linked : [];
+        // Update state atomically
+        this.propertyState = {
+            selected,
+            linked,
+            source,
+        };
+        this.hasPool = hasPool;
+        this.linkedLoaded = keepLinked;
+        if (!keepLinked) {
+            this.isLinkedLoading = false;
+        }
+        // Sync external props
+        this.propertyId = selected.PROPERTY_ID;
+        this.selectedLinkedPropertyId = linkedProperty?.property_id;
+        this.resolveDisplayMode();
+        // Only emit event when explicitly requested (user selection from dialog)
+        if (emitEvent) {
+            this.propertyChange.emit({
+                property: selectedAc,
+                linkedProperty,
+                allLinkedProperties: linked,
+            });
+        }
+        if (this.open) {
+            this.ensureLinkedPropertiesLoaded();
+        }
+        this.isUpdating = false;
+    }
+    async ensureLinkedPropertiesLoaded() {
+        if (!this.hasPool || this.linkedLoaded || this.isLinkedLoading)
+            return;
+        if (!this.propertyState.selected?.PROPERTY_ID)
+            return;
+        this.isLinkedLoading = true;
+        const linked = await this.fetchLinkedProperties(this.propertyState.selected.PROPERTY_ID);
+        this.propertyState = {
+            ...this.propertyState,
+            linked,
+        };
+        this.linkedLoaded = true;
+        this.isLinkedLoading = false;
+    }
+    async fetchLinkedProperties(acId) {
+        try {
+            const { data } = await axios.axios.post(`${this.baseUrl ?? ''}/Fetch_Linked_Properties`, {
+                property_id: acId,
+            });
+            if (data.ExceptionMsg) {
+                throw new Error(data.ExceptionMsg);
+            }
+            return Array.isArray(data.My_Result) ? data.My_Result : [];
+        }
+        catch (error) {
+            console.error('Failed to fetch linked properties', error);
+            return [];
+        }
+    }
+    resolveDisplayMode() {
+        const userInfoRaw = localStorage.getItem('UserInfo_b');
+        let userInfo = null;
+        try {
+            if (userInfoRaw)
+                userInfo = JSON.parse(userInfoRaw);
+        }
+        catch {
+            /* noop */
+        }
+        const userTypeCode = String(userInfo?.USER_TYPE_CODE ?? '');
+        if (userTypeCode === '1' || userTypeCode === '4') {
+            this.displayMode = 'dialog';
+            return;
+        }
+        if (!this.propertyState?.selected || !this.hasPool) {
+            this.displayMode = 'read-only';
+            return;
+        }
+        this.displayMode = 'dropdown';
+    }
+    handlePropertySelected = async (event) => {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        // This is the ONLY place where propertyChange event is emitted
+        // Only fired when dialog content confirms selection
+        await this.loadPropertyById(event.detail, 'user-selection', undefined, true);
+    };
+    handleDropdownSelect = async (selectedProperty) => {
+        const selectedId = Number(selectedProperty);
+        const linkedProperty = this.propertyState.linked.find(p => p.property_id === selectedId);
+        if (!linkedProperty)
+            return;
+        // Dropdown selection also emits propertyChange with linkedProperty context
+        await this.loadPropertyById(linkedProperty.property_id, 'user-selection', linkedProperty, true);
+    };
+    // NEW: Consolidated loading method
+    async loadPropertyById(propertyId, source, linkedProperty, emitEvent = false) {
+        if (this.isUpdating)
+            return;
+        this.open = false;
+        try {
+            const { data } = await axios.axios.post(`${this.baseUrl ?? ''}/Get_Ac_By_AC_ID_Adv`, {
+                AC_ID: propertyId,
+                Bypass_Caching: true,
+                IS_BACK_OFFICE: true,
+            });
+            if (data.ExceptionMsg) {
+                throw new Error(data.ExceptionMsg);
+            }
+            await this.updatePropertyState(data.My_Result, linkedProperty ?? null, source, emitEvent);
+        }
+        catch (error) {
+            console.error('Failed to fetch selected property details', error);
+        }
+    }
+    renderReadOnly() {
+        return index.h("p", { class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME ?? t.t('Lcz_Property', { fallback: 'Property' }));
+    }
+    trigger() {
+        return (index.h("wa-button", { size: "s", withCaret: true, class: "property-switcher__trigger-btn", variant: "neutral", appearance: "outlined", onClick: () => {
+                this.open = !this.open;
+                if (this.open) {
+                    this.ensureLinkedPropertiesLoaded();
+                }
+            } }, index.h("p", { class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME ?? t.t('Lcz_SelectProperty', { fallback: 'Select property' }))));
+    }
+    render() {
+        return (index.h(index.Host, { key: '06087106f23997647be0a2b9badd0cdac6fc7f59' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (index.h("wa-dropdown", { key: 'f430742aa25c67de99333be1dd294f545e7d146d', "onwa-show": () => {
+                this.ensureLinkedPropertiesLoaded();
+            }, "onwa-hide": e => {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+            }, "onwa-select": (e) => {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                this.handleDropdownSelect(Number(e.detail.item.value));
+            } }, index.h("wa-button", { key: 'd7fa5919bbe154bea2c3d91d5e91cd66abccabc6', size: "s", class: "property-switcher__trigger-btn", slot: "trigger", withCaret: true, variant: "neutral", appearance: "outlined" }, index.h("p", { key: '9f09a8b915613b7747bdfbfef60d4dd5b2fef30f', class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME)), this.isLinkedLoading && (index.h("wa-dropdown-item", { key: '45e05f7f0f2a2d40b3fe969682de94139001136b', disabled: true, class: "property-switcher__dropdown-loader" }, index.h("wa-spinner", { key: '258930adfa7586db2a13e5583b3925b955851cd8' }))), this.propertyState.linked?.map(property => (index.h("wa-dropdown-item", { value: property.property_id?.toString(), key: `dropdown-item-${property.property_id}` }, property.name))))), this.displayMode === 'dialog' && (index.h("div", { key: 'f66347bfbaa79724a40e53b4f1af40801e1cb08e' }, this.trigger(), index.h("ir-dialog", { key: '8be04ff02490cdad3e2447451f9d95a8281edd16',
+            // withoutHeader
+            open: this.open, label: t.t('Lcz_Search', { fallback: 'Search' }), class: "property-switcher__dialog", style: { '--ir-dialog-width': '40rem' }, onIrDialogAfterHide: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.open = false;
+            } }, this.open &&
+            (this.isLinkedLoading ? (index.h("div", { class: "property-switcher__loader" }, index.h("ir-spinner", null))) : (index.h("ir-property-switcher-dialog-content", { onLinkedPropertyChange: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.handleDropdownSelect(Number(e.detail.property_id));
+                }, open: this.open, selectedPropertyId: this.propertyState.selected?.PROPERTY_ID, properties: this.propertyState.linked, onPropertySelected: this.handlePropertySelected }))))))));
+    }
+    static get watchers() { return {
+        "ticket": [{
+                "handleTicketChange": 0
+            }],
+        "propertyId": [{
+                "handlePropertyIdChange": 0
+            }],
+        "selectedLinkedPropertyId": [{
+                "handleLinkedPropertyIdChange": 0
+            }]
+    }; }
+};
+IrPropertySwitcher.style = irPropertySwitcherCss();
+
+const irTranslatableTextareaCss = () => `:host{display:block}:host([hidden]){display:none}.field{display:flex;flex-direction:column;gap:var(--wa-space-2xs)}.field__header{display:flex;align-items:center;justify-content:space-between;gap:var(--wa-space-s);min-block-size:1.75rem}.field__label{color:var(--wa-form-control-label-color);font-weight:var(--wa-form-control-label-font-weight);line-height:var(--wa-form-control-label-line-height);font-size:var(--wa-font-size-s)}.field__required{color:var(--wa-form-control-required-content-color);margin-inline-start:var(--wa-form-control-required-content-offset, 0.1em)}.translate-trigger::part(base){padding-inline:var(--wa-space-xs)}.textarea--source::part(label){position:absolute;inline-size:1px;block-size:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.textarea--invalid{--wa-form-control-border-color:var(--wa-color-danger-border-loud)}.textarea--invalid::part(hint){color:var(--wa-color-danger-on-quiet)}.editor{--ir-dialog-width:min(64rem, 100vw - 2rem)}`;
+
+const IrTranslatableTextarea = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.valueChange = index.createEvent(this, "valueChange");
+        if (hostRef.$hostElement$["s-ei"]) {
+            this.internals = hostRef.$hostElement$["s-ei"];
+        }
+        else {
+            this.internals = hostRef.$hostElement$.attachInternals();
+            hostRef.$hostElement$["s-ei"] = this.internals;
+        }
+    }
+    internals;
+    get el() { return index.getElement(this); }
+    /** Text per language, e.g. `{ en: '…', fr: '…' }`. Blank translations are never stored. */
+    value = {};
+    /** Languages the field can be translated into. The default language may be listed; it is skipped as a target. */
+    languages = [];
+    /** The source language: edited inline and required. */
+    defaultLanguage = 'en';
+    /** Field label. Also used in the translation editor's title. */
+    label;
+    /** Help text under the inline textarea. */
+    hint;
+    /** Placeholder for the inline textarea. */
+    placeholder;
+    /** Form field name. The submitted value is the JSON-encoded translation map. */
+    name;
+    rows = 4;
+    /** Maximum characters per language. */
+    maxlength;
+    /** Shows a character count (remaining characters when `maxlength` is set). */
+    withCount = false;
+    resize = 'auto';
+    size = 's';
+    appearance = 'outlined';
+    disabled = false;
+    readonly = false;
+    /** Locale used to display language names. Defaults to the nearest `lang` attribute, then the browser locale. */
+    displayLocale;
+    /** Overrides for the built-in English UI strings. */
+    labels = {};
+    editorOpen = false;
+    /** Unsaved translator edits, keyed by language. Only languages touched in the editor are present. */
+    draft = {};
+    editingLanguage;
+    userInteracted = false;
+    /** Emitted when the default-language text is edited, and when the translation editor is saved. */
+    valueChange;
+    dialogEl;
+    editorEl;
+    sourceTextareaEl;
+    initialValue = {};
+    silentCheck = false;
+    componentWillLoad() {
+        this.value = this.value ?? {};
+        this.initialValue = { ...this.value };
+    }
+    componentDidLoad() {
+        this.syncFormState();
+    }
+    handleValueChange(next) {
+        if (!next) {
+            this.value = {};
+            return;
+        }
+        this.syncFormState();
+    }
+    handleConfigChange() {
+        this.syncFormState();
+    }
+    /** Fired by the browser on form submit and by `checkValidity()`/`reportValidity()` when the default language is blank. */
+    handleInvalid() {
+        if (!this.silentCheck)
+            this.revealError();
+    }
+    /** Opens the translation editor, optionally on a specific language. */
+    async openTranslations(code) {
+        this.openEditor(code);
+    }
+    async checkValidity() {
+        this.silentCheck = true;
+        try {
+            return this.internals.checkValidity();
+        }
+        finally {
+            this.silentCheck = false;
+        }
+    }
+    /** Like `checkValidity()`, but also shows the error and focuses the field. */
+    async reportValidity() {
+        // checkValidity() dispatches `invalid`, which reveals the error via handleInvalid().
+        return this.internals.checkValidity();
+    }
+    // Form-associated lifecycle callbacks.
+    formResetCallback() {
+        this.value = { ...this.initialValue };
+        this.userInteracted = false;
+        this.closeEditor();
+    }
+    formDisabledCallback(disabled) {
+        this.disabled = disabled;
+    }
+    get text() {
+        return { ...utils.DEFAULT_LABELS, ...this.labels };
+    }
+    get targets() {
+        return utils.targetLanguages(this.languages ?? [], this.defaultLanguage);
+    }
+    get uiLocale() {
+        return this.displayLocale || this.el.closest('[lang]')?.getAttribute('lang') || undefined;
+    }
+    languageName(code) {
+        return utils.resolveLanguageName(code, utils.findLanguage(this.languages, code).label, this.uiLocale);
+    }
+    get isDirty() {
+        return utils.applyDraft(this.value ?? {}, this.draft, this.defaultLanguage).changed.length > 0;
+    }
+    get isValid() {
+        return utils.isFilled(this.value?.[this.defaultLanguage]);
+    }
+    get showError() {
+        return this.userInteracted && !this.isValid;
+    }
+    syncFormState() {
+        if (!this.internals)
+            return;
+        this.internals.setFormValue(this.name ? JSON.stringify(this.value ?? {}) : null);
+        if (this.isValid) {
+            this.internals.setValidity({});
+        }
+        else {
+            const message = utils.format(this.text.required, { language: this.languageName(this.defaultLanguage) });
+            this.internals.setValidity({ valueMissing: true }, message, this.sourceTextareaEl);
+        }
+        this.syncStates();
+    }
+    syncStates() {
+        try {
+            // The bundled DOM lib types CustomStateSet without its Set methods.
+            const states = this.internals.states;
+            this.isValid ? states.delete('invalid') : states.add('invalid');
+            this.showError ? states.add('user-invalid') : states.delete('user-invalid');
+        }
+        catch {
+            // CustomStateSet unsupported — styling falls back to the internal classes.
+        }
+    }
+    revealError() {
+        this.userInteracted = true;
+        this.syncStates();
+        this.sourceTextareaEl?.focus();
+    }
+    handleSourceInput = (event) => {
+        const text = event.target.value ?? '';
+        this.value = { ...this.value, [this.defaultLanguage]: text };
+        this.valueChange.emit({ value: this.value, languages: [this.defaultLanguage] });
+    };
+    handleSourceBlur = () => {
+        if (this.userInteracted)
+            return;
+        this.userInteracted = true;
+        this.syncStates();
+    };
+    openEditor(code) {
+        const targets = this.targets;
+        if (!targets.length)
+            return;
+        const requested = targets.find(language => language.code === code);
+        // Start where there is work to do: the first language without a translation.
+        const firstMissing = targets.find(language => !utils.isFilled(this.value?.[language.code]));
+        this.editingLanguage = (requested ?? firstMissing ?? targets[0]).code;
+        this.draft = {};
+        this.editorOpen = true;
+    }
+    closeEditor() {
+        this.draft = {};
+        this.editorOpen = false;
+    }
+    save = () => {
+        const { next, changed } = utils.applyDraft(this.value ?? {}, this.draft, this.defaultLanguage);
+        if (changed.length) {
+            this.value = next;
+            this.valueChange.emit({ value: next, languages: changed });
+        }
+        this.closeEditor();
+    };
+    /** ir-dialog closes itself (Escape, close button) and cannot be vetoed — unsaved edits are discarded. */
+    handleDialogHide = (event) => {
+        if (event.target !== this.dialogEl)
+            return;
+        this.closeEditor();
+    };
+    handleDialogAfterShow = (event) => {
+        if (event.target !== this.dialogEl)
+            return;
+        this.editorEl?.focusInput();
+    };
+    handleTranslationInput = (event) => {
+        const { language, text } = event.detail;
+        this.draft = { ...this.draft, [language]: text };
+    };
+    renderEditor() {
+        if (!this.targets.length)
+            return null;
+        const dirty = this.isDirty;
+        return (index.h("ir-dialog", { ref: el => (this.dialogEl = el), class: "editor", label: utils.format(this.text.editorTitle, { field: this.label ?? '' }).trim(), open: this.editorOpen, lightDismiss: false, onIrDialogHide: this.handleDialogHide, onIrDialogAfterShow: this.handleDialogAfterShow }, this.editorOpen && (index.h("ir-translation-editor", { ref: el => (this.editorEl = el), value: { ...this.value, ...this.draft }, languages: this.languages, defaultLanguage: this.defaultLanguage, language: this.editingLanguage, label: this.label, rows: Math.max(this.rows, 6), maxlength: this.maxlength, withCount: this.withCount, size: this.size, appearance: this.appearance, readonly: this.readonly, displayLocale: this.uiLocale, labels: this.text, onTranslationInput: this.handleTranslationInput, onTranslationLanguageChange: (event) => (this.editingLanguage = event.detail) })), index.h("wa-button", { slot: "footer", appearance: "outlined", variant: "neutral", onClick: () => this.closeEditor() }, dirty ? this.text.discard : this.text.cancel), index.h("wa-button", { slot: "footer", variant: "brand", disabled: !dirty || this.readonly, onClick: this.save }, this.text.save)));
+    }
+    render() {
+        const defaultName = this.languageName(this.defaultLanguage);
+        const errorMessage = this.showError ? utils.format(this.text.required, { language: defaultName }) : null;
+        return (index.h(index.Host, { key: '80616e013cd0dc91c907472f494b6fc4abb901cf' }, index.h("div", { key: '8064d43e1ed0439ac6181c6d0e79a7147b516f94', class: { 'field': true, 'field--invalid': this.showError } }, index.h("div", { key: '4c6aefd50ff186fe06bc6373d2b22898b40cef3e', class: "field__header" }, index.h("span", { key: '39a914abe693e421d851c7dc7e95a59d85cb8cce', id: "field-label", class: "field__label", part: "label" }, this.label, index.h("span", { key: '6cd8ea4fe1ffee230de56445ec7abb29558a8adf', class: "field__required", "aria-hidden": "true" }, "*")), this.targets.length > 0 && (index.h("wa-button", { key: '1f082e6f3f61bc6b5fdae6cdd0648ab66f8979a3', class: "translate-trigger", size: "s", appearance: "plain", variant: "neutral", disabled: this.disabled, onClick: () => this.openEditor() }, index.h("wa-icon", { key: '40c1b3f866c9e925ec10717457368525d4b7aa61', slot: "start", name: "language" }), this.text.translate))), index.h("wa-textarea", { key: '6adf9217eed0a818d35ea360d88dc764fc6d8389', ref: el => {
+                this.sourceTextareaEl = el;
+                utils.applyLanguageAttributes(el, this.defaultLanguage, utils.resolveDir(this.defaultLanguage, utils.findLanguage(this.languages, this.defaultLanguage).dir));
+            }, class: errorMessage ? 'textarea textarea--source textarea--invalid' : 'textarea textarea--source', label: this.label || defaultName, hint: errorMessage ?? this.hint ?? '', value: this.value?.[this.defaultLanguage] ?? '', placeholder: this.placeholder, rows: this.rows, maxlength: this.maxlength, withCount: this.withCount, resize: this.resize, size: this.size, appearance: this.appearance, disabled: this.disabled, readonly: this.readonly, onInput: this.handleSourceInput, onBlur: this.handleSourceBlur })), this.renderEditor()));
+    }
+    static get formAssociated() { return true; }
+    static get watchers() { return {
+        "value": [{
+                "handleValueChange": 0
+            }],
+        "name": [{
+                "handleConfigChange": 0
+            }],
+        "defaultLanguage": [{
+                "handleConfigChange": 0
+            }],
+        "labels": [{
+                "handleConfigChange": 0
+            }]
+    }; }
+};
+IrTranslatableTextarea.style = irTranslatableTextareaCss();
+
+exports.ir_menu = IrMenu;
+exports.ir_menu_drawer = IrMenuDrawer;
+exports.ir_menu_group = IrMenuGroup;
+exports.ir_menu_item = IrMenuItem;
+exports.ir_notifications = IrNotifications;
+exports.ir_pms_payment_due_alert = IrPmsPaymentDueAlert;
+exports.ir_pms_search = IrPmsSearch;
+exports.ir_property_switcher = IrPropertySwitcher;
+exports.ir_translatable_textarea = IrTranslatableTextarea;

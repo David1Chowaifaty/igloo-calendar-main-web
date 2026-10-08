@@ -1,9 +1,9 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-CeHdrJeH.js';
-import { f as formatAmount, a as formatBookingNumber } from './number-D2n6n8dr.js';
-import { f as formatDate } from './ir-date-NNCOayR_.js';
+import { f as formatAmount, a as formatBookingNumber } from './number-1PczWhnt.js';
+import { f as formatDate } from './ir-date-CASx9LWM.js';
 import './moment-Mki5YqAR.js';
-import { c as calendar_data } from './calendar-data-Cdv5kmxH.js';
-import { _ as _formatTime } from './functions-8ZwUpUDk.js';
+import { c as calendar_data } from './calendar-data-9xOw4JU4.js';
+import { _ as _formatTime } from './functions-JJzO5bJc.js';
 import { t } from './t-BVYK64UG.js';
 import './locale-scope-CapRuPkM.js';
 import './language-observer-CHgzsZkY.js';
@@ -193,7 +193,7 @@ const IrAccordion = class {
     };
     render() {
         const isOpen = this._expanded;
-        return (h(Host, { key: '5b70e159b359843af732db95f3ec6b95611c49d3' }, h("div", { key: 'd6cc2e3ff63ea6c43d435b305e42cbdc9f2a92f5', part: "base", class: "ir-accordion", "data-open": isOpen ? 'true' : 'false' }, h("button", { key: 'f04f40ef50621ed49c7a731562a5a5932bd9a938', type: "button", class: "ir-accordion__trigger", "aria-expanded": isOpen ? 'true' : 'false', "aria-controls": this.contentId, "aria-busy": this.isAnimating ? 'true' : 'false', onClick: this.onTriggerClick, onKeyDown: this.onTriggerKeyDown, disabled: this.isAnimating, part: "trigger" }, this.caret && h("ir-icons", { key: '07e5c7613f2b15bbda50f30a0c4ff3946cf58555', name: 'angle-down', class: `ir-accordion__caret ${isOpen ? 'is-open' : ''}`, "aria-hidden": "true" }), h("div", { key: 'b82b2d5f1ebbf3be6520efc4b9ed18f339571a39', class: "ir-accordion__trigger-content" }, h("slot", { key: 'c197c95b71a40890d585291d6b025e95654b5b19', name: "trigger" }))), h("div", { key: '8d471ed470cb6485e2305366faae2b43e1cd06d7', class: "ir-accordion__content", id: this.contentId, ref: el => (this.detailsEl = el), "data-expanded": isOpen ? 'true' : null, role: "region", "aria-hidden": isOpen ? 'false' : 'true' }, h("div", { key: 'c033b9d2a48254a5b04bd4f493b4cb770a5c7d4f', class: "ir-accordion__content-inner", part: "content", ref: el => (this.contentEl = el) }, h("slot", { key: 'd4ea97e5468bcf20eda193230f87702b7588e73e' }))))));
+        return (h(Host, { key: 'f8f3cfa0a28100f097430bf6d59cd117b135016c' }, h("div", { key: 'd4262d0a0ba6eef2f689c9c5a6fa65f64b41f6ff', part: "base", class: "ir-accordion", "data-open": isOpen ? 'true' : 'false' }, h("button", { key: '800bd33ec923760c9cbd3cf90d50055899344c8c', type: "button", class: "ir-accordion__trigger", "aria-expanded": isOpen ? 'true' : 'false', "aria-controls": this.contentId, "aria-busy": this.isAnimating ? 'true' : 'false', onClick: this.onTriggerClick, onKeyDown: this.onTriggerKeyDown, disabled: this.isAnimating, part: "trigger" }, this.caret && h("ir-icons", { key: '76e27b3c8e7eedd1e98a7ef80f6233e97d2f2ffb', name: 'angle-down', class: `ir-accordion__caret ${isOpen ? 'is-open' : ''}`, "aria-hidden": "true" }), h("div", { key: 'cf9d778579c080b3e2c2bdc0fafe4838c8c798f4', class: "ir-accordion__trigger-content" }, h("slot", { key: '5f64c5e9e5ec4e250874f6b4c340fa9dfb98b417', name: "trigger" }))), h("div", { key: 'effb32d73f8d3762524d963e4d9d9d579a56f041', class: "ir-accordion__content", id: this.contentId, ref: el => (this.detailsEl = el), "data-expanded": isOpen ? 'true' : null, role: "region", "aria-hidden": isOpen ? 'false' : 'true' }, h("div", { key: 'dc69dd149f4dc2bd84d23f0739d14413e14bc874', class: "ir-accordion__content-inner", part: "content", ref: el => (this.contentEl = el) }, h("slot", { key: '5fc213e507deb273a528f470604045302122b796' }))))));
     }
     static get watchers() { return {
         "expanded": [{
@@ -213,7 +213,7 @@ const IrRevenueRowDetails = class {
     payment;
     revenueOpenSidebar;
     render() {
-        return (h(Host, { key: 'c99dce3c93ccc6aa59f0c03aa8b0a6682c469f3a' }, h("div", { key: 'c5523973cd3fa6b852a4b0924e302f0be9c63f6d', class: "ir-revenue-row-detail" }, h("div", { key: '41fec834f39492e66299656c97ec8d058dc381b7', class: "ir-revenue-row-detail__info" }, h("div", { key: '9881120394791e1c9e6a86ebcb1b0546f9b44558', class: "ir-revenue-row-detail__time" }, h("span", { key: 'cc919b8793fc2ffc596cb73364fb7d0e0ac43126', class: "ir-revenue-row-detail__label" }, formatDate(this.payment.date, 'MMM DD, YYYY')), h("span", { key: '4fea50accfe7970abb02e6009ef85b284f64bdd4', class: "ir-revenue-row-detail__value" }, _formatTime(this.payment.hour.toString(), this.payment.minute.toString())), h("div", { key: '6d6117bc197676b3cb34cc1a3e2669a3287e34a7', class: "ir-revenue-row-detail__amount" }, formatAmount(calendar_data.currency.symbol, this.payment.amount))), h("div", { key: '34d5487f840f1d3601700d1b64e9c018ea6df06b', class: "ir-revenue-row-detail__meta" }, h("div", { key: '6222ba202bd372ab191a1f816ce3a0e0bd168aaf', class: "ir-revenue-row-detail__user" }, h("span", { key: 'bab6edf7d9713c645f3e048e332752ece5ca4b12', class: "ir-revenue-row-detail__label ir-revenue-row-detail__label--capitalize" }, t('Lcz_User', { fallback: 'user' }), ":"), h("span", { key: '49af721eaec6f36a837aa584e956afe1b9d3fd32', class: "ir-revenue-row-detail__value" }, this.payment.user)), h("div", { key: 'bb1873d580ff3a81f5dbca8a00e45af50e650fb7', class: "ir-revenue-row-detail__booking" }, h("ir-custom-button", { key: '9ba76291254e25725ab21e802f0dfc7475d95d7e', link: true, style: { marginInlineStart: '1rem' }, onClickHandler: e => {
+        return (h(Host, { key: '43b9b11bbb35553e16f02ea60a5e3c2a82d4f8b7' }, h("div", { key: '9453a1d3ac9f4b164fe1148833b7bd6e8466b0f4', class: "ir-revenue-row-detail" }, h("div", { key: '13e933528995997d6b8f40da993992d7e79915c0', class: "ir-revenue-row-detail__info" }, h("div", { key: '433f8299d8c7b42ee97edde1805feee6977fb85b', class: "ir-revenue-row-detail__time" }, h("span", { key: '6c0941a65ed244e4016f7dccbb9cef5c135d60c0', class: "ir-revenue-row-detail__label" }, formatDate(this.payment.date, 'MMM DD, YYYY')), h("span", { key: 'feb661c434e6b05343950d6fc402c9e54d67d058', class: "ir-revenue-row-detail__value" }, _formatTime(this.payment.hour.toString(), this.payment.minute.toString())), h("div", { key: '706c4f20e9b3a7a1e6355e25cadef30cd80b2453', class: "ir-revenue-row-detail__amount" }, formatAmount(calendar_data.currency.symbol, this.payment.amount))), h("div", { key: '4d7950d316396f8475dcdd7cfebd762cbe72d045', class: "ir-revenue-row-detail__meta" }, h("div", { key: '6f0de80d4b42a4783d6a2de688c97583874f3d21', class: "ir-revenue-row-detail__user" }, h("span", { key: '4a98fc4e7bc4a8713a54b9f946be7897eace91a2', class: "ir-revenue-row-detail__label ir-revenue-row-detail__label--capitalize" }, t('Lcz_User', { fallback: 'user' }), ":"), h("span", { key: 'c90633b6e18d1c4e5c57bb5e679308e8651b5d2b', class: "ir-revenue-row-detail__value" }, this.payment.user)), h("div", { key: '0eac72b5313ecdf63589d34e9c3d0b494afa9f30', class: "ir-revenue-row-detail__booking" }, h("ir-custom-button", { key: '1c9625c43c0fb49df655a2e95b7fb702d573d3fa', link: true, style: { marginInlineStart: '1rem' }, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.revenueOpenSidebar.emit({
@@ -222,7 +222,7 @@ const IrRevenueRowDetails = class {
                     },
                     type: 'booking',
                 });
-            } }, formatBookingNumber(this.payment.bookingNbr))))), h("div", { key: 'd883bb4f5636e889520b1f85cb9bb474ef419478', class: "ir-revenue-row-detail__amount" }, formatAmount(calendar_data.currency.symbol, this.payment.amount)))));
+            } }, formatBookingNumber(this.payment.bookingNbr))))), h("div", { key: '9e0c723f92b3830c4316ef3b5e8f1fafbe071453', class: "ir-revenue-row-detail__amount" }, formatAmount(calendar_data.currency.symbol, this.payment.amount)))));
     }
 };
 IrRevenueRowDetails.style = irRevenueRowDetailsCss();

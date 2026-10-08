@@ -1,8 +1,9 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { DailyPaymentFilter, GroupedFolioPayment } from '../types';
+import { DailyPaymentFilter, GroupedFolioPayment, RevenueSourceOption } from '../types';
 export declare class IrDailyRevenueFilters {
     payments: GroupedFolioPayment;
     isLoading: boolean;
+    sources: RevenueSourceOption[];
     users: Set<string>;
     filters: DailyPaymentFilter;
     private baseFilters;

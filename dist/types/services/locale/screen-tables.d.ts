@@ -52,6 +52,7 @@ export declare const SCREEN_TABLES: {
     readonly calendar: readonly ["_CALENDAR", "_HOUSEKEEPING", "_BOOKING"];
     readonly channel: readonly ["_CHANNEL_FRONT", "_SETTINGS"];
     readonly cityLedger: readonly ["_FINANCIALS"];
+    readonly cloneRates: readonly ["_SETTINGS"];
     readonly dailyRevenue: readonly ["_REPORTS"];
     readonly departures: readonly ["_BOOKING"];
     readonly dpReport: readonly ["_REPORTS"];

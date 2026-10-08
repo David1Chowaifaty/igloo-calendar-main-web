@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../stencil-public-runtime';
-import { DailyPaymentFilter, GroupedFolioPayment, SidebarOpenEvent } from './types';
+import { DailyPaymentFilter, GroupedFolioPayment, RevenueSourceOption, SidebarOpenEvent } from './types';
 export declare class IrDailyRevenue {
     language: string;
     ticket: string;
@@ -12,10 +12,12 @@ export declare class IrDailyRevenue {
     isLoading: string;
     filters: DailyPaymentFilter;
     sideBarEvent: SidebarOpenEvent | null;
+    sources: RevenueSourceOption[];
     private apiClientService;
     private roomService;
     private propertyService;
     private setupService;
+    private bookingListingService;
     private paymentEntries;
     preventPageLoad: EventEmitter<null>;
     /** Re-runs init when the language changes so server-localized data follows. */
@@ -30,6 +32,11 @@ export declare class IrDailyRevenue {
     handleResetBooking(e: CustomEvent): Promise<void>;
     private handleSidebarClose;
     private initializeApp;
+    /**
+     * All direct channels collapse into a single "Direct" option whose value is their comma-separated values;
+     * every other channel stays its own option.
+     */
+    private buildSourceOptions;
     private groupPaymentsByName;
     private getPaymentReports;
     render(): any;

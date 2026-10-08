@@ -52,6 +52,8 @@ export class IrBookingEditor {
     propertyService = new PropertyService();
     bookingEditorService = new IRBookingEditorService(this.mode);
     room;
+    /** Set once the editor is removed, so in-flight requests don't repopulate the reset store. */
+    disconnected = false;
     get dayUsePrice() {
         return Number(getExtraServiceDefaultPrice(SvcCategory.DayUse));
     }
@@ -162,7 +164,11 @@ export class IrBookingEditor {
                     include_sales_rate_plans: true,
                 }),
             ]);
+            if (this.disconnected)
+                return;
             await Promise.all([this.fetchSetupEntriesAndInitialize(), this.resolveDayUseNetPrice()]);
+            if (this.disconnected)
+                return;
             setBookingSelectOptions({
                 countries: countriesList,
             });
@@ -179,6 +185,7 @@ export class IrBookingEditor {
         }
     }
     disconnectedCallback() {
+        this.disconnected = true;
         resetBookingStore(true);
         this.languageSync.disconnect();
     }
@@ -281,9 +288,13 @@ export class IrBookingEditor {
                     this.compareResults(beResults);
                 }
             }
+            if (this.disconnected)
+                return;
             if (this.mode !== 'EDIT_BOOKING') {
                 await this.assignCountryCode();
             }
+            if (this.disconnected)
+                return;
             if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
                 this.bookingEditorService.updateBooking(this.room);
             }

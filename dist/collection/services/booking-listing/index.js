@@ -4,10 +4,16 @@ import axios from "axios";
 import { ExposedBookingsParamsSchema, GetExposedBookingsCriteriaParamsSchema, RemoveExposedBookingParamsSchema, } from "./types";
 export * from './types';
 export class BookingListingService {
-    async getExposedBookingsCriteria(params) {
+    /**
+     * Fetches the bookings criteria without touching the booking listing store.
+     */
+    async fetchExposedBookingsCriteria(params) {
         const payload = GetExposedBookingsCriteriaParamsSchema.parse(params);
         const { data } = await axios.post(`/Get_Exposed_Bookings_Criteria`, payload);
-        const result = data.My_Result;
+        return data.My_Result;
+    }
+    async getExposedBookingsCriteria(params) {
+        const result = await this.fetchExposedBookingsCriteria(params);
         booking_listing.channels = result.channels;
         booking_listing.settlement_methods = result.settlement_methods;
         booking_listing.statuses = result.statuses;

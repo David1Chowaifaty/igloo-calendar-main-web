@@ -260,17 +260,17 @@ export declare const ChannelSalesParamsSchema: z.ZodObject<{
     LIST_AC_ID: z.ZodNullable<z.ZodArray<z.ZodNumber, "many">>;
 }, "strip", z.ZodTypeAny, {
     is_export_to_excel?: boolean;
+    AC_ID?: string;
     FROM_DATE?: string;
     TO_DATE?: string;
-    AC_ID?: string;
     BOOK_CASE?: string;
     WINDOW?: number;
     LIST_AC_ID?: number[];
 }, {
     is_export_to_excel?: boolean;
+    AC_ID?: string;
     FROM_DATE?: string;
     TO_DATE?: string;
-    AC_ID?: string;
     BOOK_CASE?: string;
     WINDOW?: number;
     LIST_AC_ID?: number[];
@@ -288,18 +288,18 @@ export declare const ChannelSalesFilterSchema: z.ZodObject<{
     include_previous_year: z.ZodBoolean;
 }, "strip", z.ZodTypeAny, {
     is_export_to_excel?: boolean;
+    AC_ID?: string;
     FROM_DATE?: string;
     TO_DATE?: string;
-    AC_ID?: string;
     BOOK_CASE?: string;
     WINDOW?: number;
     LIST_AC_ID?: number[];
     include_previous_year?: boolean;
 }, {
     is_export_to_excel?: boolean;
+    AC_ID?: string;
     FROM_DATE?: string;
     TO_DATE?: string;
-    AC_ID?: string;
     BOOK_CASE?: string;
     WINDOW?: number;
     LIST_AC_ID?: number[];
@@ -426,26 +426,26 @@ export declare const safeParseChannelReportResult: (data: unknown) => z.SafePars
 }[]>;
 export declare const parseChannelSalesParams: (data: unknown) => {
     is_export_to_excel?: boolean;
+    AC_ID?: string;
     FROM_DATE?: string;
     TO_DATE?: string;
-    AC_ID?: string;
     BOOK_CASE?: string;
     WINDOW?: number;
     LIST_AC_ID?: number[];
 };
 export declare const safeParseChannelSalesParams: (data: unknown) => z.SafeParseReturnType<{
     is_export_to_excel?: boolean;
+    AC_ID?: string;
     FROM_DATE?: string;
     TO_DATE?: string;
-    AC_ID?: string;
     BOOK_CASE?: string;
     WINDOW?: number;
     LIST_AC_ID?: number[];
 }, {
     is_export_to_excel?: boolean;
+    AC_ID?: string;
     FROM_DATE?: string;
     TO_DATE?: string;
-    AC_ID?: string;
     BOOK_CASE?: string;
     WINDOW?: number;
     LIST_AC_ID?: number[];

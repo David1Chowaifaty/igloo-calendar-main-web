@@ -1,28 +1,28 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-CeHdrJeH.js';
-import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, a as resetReserved, d as setBookingSelectOptions, e as reserveRooms } from './booking.service-B1Dnf3vs.js';
-import { S as SetupService } from './index-D1cluJAe.js';
-import { e as extras, k as handleBodyOverflow, g as getReleaseHoursString } from './utils-VLa8HWRW.js';
+import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, a as resetReserved, d as setBookingSelectOptions, e as reserveRooms } from './booking.store-BmKFN6Gu.js';
+import { S as SetupService } from './index-bMn4j7rZ.js';
+import { j as extras, h as handleBodyOverflow, n as getReleaseHoursString } from './utils-DsZQyztt.js';
 import { I as ISO_FORMAT } from './calendar-dates-D3hVfsrC.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { i as isRequestPending } from './ir-interceptor.store-B1TrAet5.js';
 import { t } from './t-BVYK64UG.js';
-import { R as RoomGuestSchema, B as BookingGuestSchema } from './types-BrlcHusd.js';
-import { L as LocaleController } from './locale.controller-DQrDdP3Q.js';
+import { R as RoomGuestSchema, B as BookingGuestSchema } from './types-Clgp5Fra.js';
+import { L as LocaleController } from './locale.controller-CIFRcTwV.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-C6czW-Mz.js';
-import './types-Clk7NCXk.js';
-import './booking-DX6-b7gN.js';
+import './IBooking-B4waZCSK.js';
+import './types-CB66a07H.js';
+import './booking-BY5RDPDC.js';
 import './locale-scope-CapRuPkM.js';
-import './calendar-data-Cdv5kmxH.js';
-import './functions-8ZwUpUDk.js';
-import './ir-date-NNCOayR_.js';
+import './calendar-data-9xOw4JU4.js';
+import './functions-JJzO5bJc.js';
+import './ir-date-CASx9LWM.js';
 import './language-observer-CHgzsZkY.js';
-import './commonSchemas-BxK90Oim.js';
-import './utils-FfxPnEHJ.js';
-import './booking.dto-D-ACWjZx.js';
-import './type-o1ai24d7.js';
-import './types-C7G2emJd.js';
+import './commonSchemas-Cx9w9d8l.js';
+import './utils-Dld2CIOM.js';
+import './booking.dto-B554ToUQ.js';
+import './type-DjfVZqvs.js';
+import './types-CyZFzmvF.js';
 
 class IglBookPropertyService {
     hasUnderscore(str) {
@@ -247,7 +247,7 @@ class IglBookPropertyService {
                     const filteredRooms = booking.rooms.filter(r => r.identifier !== currentRoomType.identifier);
                     console.log('currentRoomType', currentRoomType);
                     const newRooms = generateNewRooms(currentRoomType.identifier, currentRoomType.in_out?.code === '001');
-                    newBooking = modifyBookingDetails(booking, [...filteredRooms, ...newRooms]);
+                    newBooking = { ...modifyBookingDetails(booking, [...filteredRooms, ...newRooms]), target_room_identifier: currentRoomType.identifier };
                     break;
                 }
                 case 'ADD_ROOM':

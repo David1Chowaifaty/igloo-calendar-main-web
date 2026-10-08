@@ -1,6 +1,6 @@
 import { Fragment, h } from "@stencil/core";
 import ApiClient from "../../../../models/ApiClient";
-import booking_store, { hasAtLeastOneRoomSelected, resetAvailability, resetReserved, setBookingDraft, setDayUseSelection } from "../../../../stores/booking.store";
+import booking_store, { hasAtLeastOneRoomSelected, resetAvailability, resetBookingStore, resetReserved, setBookingDraft, setDayUseSelection } from "../../../../stores/booking.store";
 import calendar_data from "../../../../stores/calendar-data";
 import moment from "moment";
 import { getReleaseHoursString } from "../../../../utils/utils";
@@ -51,11 +51,33 @@ export class IrBookingEditorDrawer {
     wasBlockedUnit = false;
     didAdjustBlockedUnit = false;
     originalBlockPayload;
+    /** Bumped on every open so each session mounts a fresh `ir-booking-editor`. */
+    sessionKey = 0;
     componentWillLoad() {
         if (this.ApiClient) {
             this.ApiClient.setApiClient(this.ticket);
         }
         this.initializeBlockedUnitState(this.blockedUnit);
+        if (this.open) {
+            resetBookingStore(true);
+        }
+        this.seedStore();
+    }
+    /**
+     * The drawer stays mounted between sessions, so the store is cleared and reseeded on every
+     * open rather than relying on the editor's `disconnectedCallback` alone.
+     */
+    handleOpenChange(newValue, oldValue) {
+        if (!newValue || oldValue) {
+            return;
+        }
+        resetBookingStore(true);
+        this.seedStore();
+        this.sessionKey++;
+        this.step = 'details';
+    }
+    /** Seeds the store from the drawer's props (mode, day-use pre-selection). */
+    seedStore() {
         if (this.mode) {
             booking_store.event_type = { type: this.mode };
         }
@@ -333,7 +355,7 @@ export class IrBookingEditorDrawer {
         }
     }
     render() {
-        return (h("ir-drawer", { key: '8f74a64ff5216548843040f0bbcc44e04559093b', onDrawerHide: async (event) => {
+        return (h("ir-drawer", { key: '38450532692f1d1a749f53a80430091d3fbf389c', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -344,7 +366,7 @@ export class IrBookingEditorDrawer {
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: 'fd19bc0b9166b0cccc8a867ab4d362fe17ae1da2', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: '16e5152eedda1acf032016417e979a8249520e17', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: '70b6f94874c3ec0c36b07ff604f1ab5b0fcad67c', appearance: "button", value: "manual" }, t('Lcz_Stay', { fallback: 'Stay' })), h("wa-radio", { key: '4df2686e807b5e994137a75a46d834f2e33851f4', appearance: "button", value: "day-use" }, t('Lcz_DayUseHyphen', { fallback: 'Day-use' }))))), this.open && this.ticket && (h("ir-booking-editor", { key: 'a4ab0aec99651e340e8f0bf5639520679b28958d', onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: '46f3d55a19aaf243286b20902082882eefca0df8', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: 'd2522a8b5317568dc303afb7ee0f017a1cafb26a', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: 'c7ef40bd28df0f8a537757e6615e6f0a8a9d1e3c', appearance: "button", value: "manual" }, t('Lcz_Stay', { fallback: 'Stay' })), h("wa-radio", { key: 'b0a936d33c53de44daa73639c18ba34fe35d3f22', appearance: "button", value: "day-use" }, t('Lcz_DayUseHyphen', { fallback: 'Day-use' }))))), this.open && this.ticket && (h("ir-booking-editor", { key: `booking-editor-${this.sessionKey}`, onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -352,7 +374,7 @@ export class IrBookingEditorDrawer {
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: '7971939ec5bf573cf536af8add9db84d946524cb', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: '735c0ab487cedae6484643f720caba4bb3f2eaec', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get is() { return "ir-booking-editor-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -706,6 +728,9 @@ export class IrBookingEditorDrawer {
     static get elementRef() { return "el"; }
     static get watchers() {
         return [{
+                "propName": "open",
+                "methodName": "handleOpenChange"
+            }, {
                 "propName": "ticket",
                 "methodName": "handleTicketChange"
             }, {

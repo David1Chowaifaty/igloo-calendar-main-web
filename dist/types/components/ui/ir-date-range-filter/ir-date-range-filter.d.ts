@@ -67,6 +67,8 @@ export declare class IrDateRangeFilter {
     selectionMode: 'auto' | 'manual';
     /** Shows an ✕ button next to each filled side that clears just that side. */
     withClear: boolean;
+    /** Displays the range without letting the user change it: the pickers never open and the clear/calendar buttons are hidden. */
+    readonly: boolean;
     /**
      * Visible label rendered above the control. It names the group for assistive
      * technology (replacing the default visually-hidden "Date range selector") and,

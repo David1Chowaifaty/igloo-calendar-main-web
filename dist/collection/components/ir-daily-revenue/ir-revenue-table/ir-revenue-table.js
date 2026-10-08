@@ -79,7 +79,7 @@ export class IrRevenueTable {
     render() {
         this.buildPaymentLookups();
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("wa-card", { key: 'c960b1d907707c0b9396a411633f22a1dd6f9362', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, t('Lcz_Method', { fallback: 'Method' })), h("p", null, t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
+        return (h("wa-card", { key: '2e15ba32148dcc499de7477f07e97b40255e73d6', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, t('Lcz_Method', { fallback: 'Method' })), h("p", null, t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 list = this.sortByDateTime(list);
                 const [paymentType, paymentMethod] = key.split('_');
@@ -165,7 +165,7 @@ export class IrRevenueTable {
                 "mutable": false,
                 "complexType": {
                     "original": "DailyPaymentFilter",
-                    "resolved": "{ from_date?: string; to_date?: string; date?: string; users: string; }",
+                    "resolved": "{ from_date?: string; to_date?: string; date?: string; users: string; source: string; }",
                     "references": {
                         "DailyPaymentFilter": {
                             "location": "import",

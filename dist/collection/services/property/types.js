@@ -146,3 +146,14 @@ export const CalculateNetAmountParamsSchema = z.object({
     amount: z.number(),
     taxes_to_include: TaxTypesSchema,
 });
+export const CloneRatesParamsSchema = z.object({
+    AC_ID: z.number().int().nullish(),
+    SOURCE_FROM_DATE: z.string(),
+    SOURCE_TO_DATE: z.string(),
+    TARGET_FROM_DATE: z.string(),
+    VALUE_TO_ADD: z.number().nullish(),
+    PERCENTAGE_TO_ADD: z.number().nullish(),
+    SELECTED_ROOM_TYPE_IDS: z.array(z.number().int()),
+    DAYS_OF_WEEK: z.array(z.number().int()),
+    IS_COPY_MLS: z.boolean().nullish(),
+});

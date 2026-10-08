@@ -179,6 +179,8 @@
     "components/ir-city-ledger/ir-city-ledger-toolbar/ir-city-ledger-toolbar.js",
     "components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-dialog.js",
     "components/ir-city-ledger/ir-cl-status-tag/ir-cl-status-tag.js",
+    "components/ir-clone-rates/ir-clone-rates.js",
+    "components/ir-clone-rates/ir-clone-rates-review/ir-clone-rates-review.js",
     "components/ir-common/ir-common.js",
     "components/ir-daily-revenue/ir-daily-revenue.js",
     "components/ir-daily-revenue/ir-daily-revenue-filters/ir-daily-revenue-filters.js",

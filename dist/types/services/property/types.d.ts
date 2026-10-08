@@ -26,6 +26,8 @@ export type DailyRevenueReportParams = {
     to_date: string;
     property_id: string;
     is_export_to_excel: boolean;
+    /** Comma-separated channel values; empty/null means all sources. */
+    source?: string | null;
 };
 export type MonthlyStatsParams = {
     property_id: number;
@@ -642,3 +644,35 @@ export declare const CalculateNetAmountParamsSchema: z.ZodObject<{
     taxes_to_include?: ("VAT" | "CITY_TAX" | "SERVICE_CHARGE")[];
 }>;
 export type CalculateNetAmountParams = z.infer<typeof CalculateNetAmountParamsSchema>;
+export declare const CloneRatesParamsSchema: z.ZodObject<{
+    AC_ID: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    SOURCE_FROM_DATE: z.ZodString;
+    SOURCE_TO_DATE: z.ZodString;
+    TARGET_FROM_DATE: z.ZodString;
+    VALUE_TO_ADD: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    PERCENTAGE_TO_ADD: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    SELECTED_ROOM_TYPE_IDS: z.ZodArray<z.ZodNumber, "many">;
+    DAYS_OF_WEEK: z.ZodArray<z.ZodNumber, "many">;
+    IS_COPY_MLS: z.ZodOptional<z.ZodNullable<z.ZodBoolean>>;
+}, "strip", z.ZodTypeAny, {
+    AC_ID?: number;
+    SOURCE_FROM_DATE?: string;
+    SOURCE_TO_DATE?: string;
+    TARGET_FROM_DATE?: string;
+    VALUE_TO_ADD?: number;
+    PERCENTAGE_TO_ADD?: number;
+    SELECTED_ROOM_TYPE_IDS?: number[];
+    DAYS_OF_WEEK?: number[];
+    IS_COPY_MLS?: boolean;
+}, {
+    AC_ID?: number;
+    SOURCE_FROM_DATE?: string;
+    SOURCE_TO_DATE?: string;
+    TARGET_FROM_DATE?: string;
+    VALUE_TO_ADD?: number;
+    PERCENTAGE_TO_ADD?: number;
+    SELECTED_ROOM_TYPE_IDS?: number[];
+    DAYS_OF_WEEK?: number[];
+    IS_COPY_MLS?: boolean;
+}>;
+export type CloneRatesParams = z.infer<typeof CloneRatesParamsSchema>;

@@ -43,7 +43,16 @@ export declare class IrBookingEditorDrawer {
     private wasBlockedUnit;
     private didAdjustBlockedUnit;
     private originalBlockPayload?;
+    /** Bumped on every open so each session mounts a fresh `ir-booking-editor`. */
+    private sessionKey;
     componentWillLoad(): void;
+    /**
+     * The drawer stays mounted between sessions, so the store is cleared and reseeded on every
+     * open rather than relying on the editor's `disconnectedCallback` alone.
+     */
+    handleOpenChange(newValue: boolean, oldValue: boolean): void;
+    /** Seeds the store from the drawer's props (mode, day-use pre-selection). */
+    private seedStore;
     /**
      * BAR_BOOKING day-use bookings start "now" — seed the day-use arrival hour to one hour
      * from the current time so the front-desk agent isn't picking it from scratch. Only fills

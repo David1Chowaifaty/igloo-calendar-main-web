@@ -6,6 +6,11 @@ export class IrWeekdaySelector {
      */
     weekdays = [];
     /**
+     * When true, at least one weekday must stay selected:
+     * the last remaining selected weekday is disabled so it can't be unchecked.
+     */
+    required = false;
+    /**
      * Internal state tracking currently selected weekdays.
      */
     selectedWeekdays = new Set(this.weekdays);
@@ -62,7 +67,8 @@ export class IrWeekdaySelector {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (h(Host, { key: 'ca5daeb1581823795d3e7ffd06721aa684b1a728', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        const isLastSelected = this.required && this.selectedWeekdays.size === 1;
+        return (h(Host, { key: '5428865433473cb74877078bf0460370a926fb86', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), disabled: isLastSelected && this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get is() { return "ir-weekday-selector"; }
     static get encapsulation() { return "scoped"; }
@@ -95,6 +101,26 @@ export class IrWeekdaySelector {
                 "getter": false,
                 "setter": false,
                 "defaultValue": "[]"
+            },
+            "required": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "When true, at least one weekday must stay selected:\nthe last remaining selected weekday is disabled so it can't be unchecked."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "required",
+                "defaultValue": "false"
             }
         };
     }

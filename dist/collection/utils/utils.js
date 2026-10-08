@@ -221,6 +221,18 @@ export function getDaysArray(date1, date2) {
     }
     return dates;
 }
+/**
+ * Checks if a booking was modified without an OTA manipulation.
+ *
+ * @param booking - The booking to check.
+ * @returns The modification status and latest OTA manipulation.
+ */
+export function isBookingModified(booking) {
+    const manipulations = booking?.ota_manipulations;
+    const lastManipulation = Array.isArray(manipulations) && manipulations.length > 0 ? (manipulations[manipulations.length - 1] ?? null) : null;
+    const modified = !lastManipulation && Array.isArray(booking?.events) && typeof booking.events[0]?.type === 'string' && booking.events[0].type.toLowerCase() === 'modified';
+    return { modified, lastManipulation };
+}
 export function renderTime(time) {
     return time < 10 ? time.toString().padStart(2, '0') : time.toString();
 }

@@ -1,0 +1,1 @@
+import{I as r,d as e}from"./ir-clone-rates-review2.js";const o=r,s=e;export{o as IrCloneRatesReview,s as defineCustomElement}
