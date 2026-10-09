@@ -15,6 +15,10 @@ export class IrCloneRates {
     p;
     language = 'en';
     propertyid;
+    /** `drawer` drops the page shell and the inline Review button; the host drawer submits `#clone-rates-form` from its footer. */
+    mode = 'page';
+    /** Fired after the rates were copied successfully. */
+    ratesCloned;
     isLoading;
     isSaving;
     isReviewOpen = false;
@@ -155,6 +159,7 @@ export class IrCloneRates {
             showToast({ position: 'top-right', title: t('Lcz_RatesCopiedSuccessfully', { fallback: 'Rates copied successfully' }), description: '', type: 'success' });
             this.isReviewOpen = false;
             this.resetForm();
+            this.ratesCloned.emit();
         }
         catch (err) {
             console.error(err);
@@ -215,13 +220,25 @@ export class IrCloneRates {
         return (h("wa-card", { appearance: "plain", class: "clone-rates__card" }, h("h4", { class: "clone-rates__question" }, t('Lcz_CopyMinStayQuestion', { fallback: 'Do you want to copy over the minimum stay restrictions for these dates?' })), h("wa-checkbox", { checked: this.copyMinStay, onchange: (e) => (this.copyMinStay = e.target.checked) }, t('Lcz_CopyMinStayConfirm', { fallback: 'Yes, copy my minimum stay restrictions for this date range' }))));
     }
     renderForm() {
-        return (h("div", { class: "clone-rates__sections" }, this.renderDatesSection(), this.renderWeekdaysSection(), this.renderRoomTypesSection(), this.renderAdjustmentSection(), this.renderRestrictionsSection(), h("div", { class: "clone-rates__actions" }, h("ir-custom-button", { variant: "brand", size: "m", onClickHandler: () => this.review() }, t('Lcz_Review', { fallback: 'Review' })))));
+        return (h("form", { id: "clone-rates-form", class: "clone-rates__sections", noValidate: true, onSubmit: e => {
+                e.preventDefault();
+                this.review();
+            } }, this.renderDatesSection(), this.renderWeekdaysSection(), this.renderRoomTypesSection(), this.renderAdjustmentSection(), this.renderRestrictionsSection(), this.mode === 'page' && (h("div", { class: "clone-rates__actions" }, h("ir-custom-button", { variant: "brand", size: "m", type: "submit", form: "clone-rates-form" }, t('Lcz_Review', { fallback: 'Review' }))))));
+    }
+    renderReview() {
+        return (h("ir-clone-rates-review", { open: this.isReviewOpen, loading: this.isSaving, rows: buildReviewRows(this.formState, this.roomTypes, this.currencySymbol), onGoBack: () => (this.isReviewOpen = false), onConfirmClone: () => this.confirm() }));
     }
     render() {
+        if (this.mode === 'drawer') {
+            if (this.isLoading) {
+                return (h("div", { class: "clone-rates__loader" }, h("ir-spinner", null)));
+            }
+            return (h(Host, null, this.renderForm(), this.renderReview()));
+        }
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-page", { label: t('Lcz_CopyRatesToFutureDates', { fallback: 'Copy rates to future dates' }), description: t('Lcz_CopyRatesDescription', { fallback: 'Here you can copy over your existing rate plans to the date range you want, easily and efficiently.' }) }, this.renderForm(), h("ir-clone-rates-review", { open: this.isReviewOpen, loading: this.isSaving, rows: buildReviewRows(this.formState, this.roomTypes, this.currencySymbol), onGoBack: () => (this.isReviewOpen = false), onConfirmClone: () => this.confirm() }))));
+        return (h(Host, null, h("ir-page", { label: t('Lcz_CopyRatesToFutureDates', { fallback: 'Copy rates to future dates' }), description: t('Lcz_CopyRatesDescription', { fallback: 'Here you can copy over your existing rate plans to the date range you want, easily and efficiently.' }) }, this.renderForm(), this.renderReview())));
     }
     static get is() { return "ir-clone-rates"; }
     static get encapsulation() { return "scoped"; }
@@ -313,6 +330,26 @@ export class IrCloneRates {
                 "setter": false,
                 "reflect": false,
                 "attribute": "propertyid"
+            },
+            "mode": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'page' | 'drawer'",
+                    "resolved": "\"drawer\" | \"page\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "`drawer` drops the page shell and the inline Review button; the host drawer submits `#clone-rates-form` from its footer."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "mode",
+                "defaultValue": "'page'"
             }
         };
     }
@@ -333,6 +370,24 @@ export class IrCloneRates {
             "copyMinStay": {},
             "errors": {}
         };
+    }
+    static get events() {
+        return [{
+                "method": "ratesCloned",
+                "name": "ratesCloned",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Fired after the rates were copied successfully."
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
+                }
+            }];
     }
     static get watchers() {
         return [{

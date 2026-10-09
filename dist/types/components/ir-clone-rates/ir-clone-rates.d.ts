@@ -1,9 +1,14 @@
+import { EventEmitter } from '../../stencil-public-runtime';
 import { Adjustment, CloneRatesErrors, RoomTypeOption, SourceOption } from './clone-rates.utils';
 export declare class IrCloneRates {
     ticket: string;
     p: string;
     language: string;
     propertyid: number;
+    /** `drawer` drops the page shell and the inline Review button; the host drawer submits `#clone-rates-form` from its footer. */
+    mode: 'page' | 'drawer';
+    /** Fired after the rates were copied successfully. */
+    ratesCloned: EventEmitter<void>;
     isLoading: boolean;
     isSaving: boolean;
     isReviewOpen: boolean;
@@ -52,5 +57,6 @@ export declare class IrCloneRates {
     private renderAdjustmentSection;
     private renderRestrictionsSection;
     private renderForm;
+    private renderReview;
     render(): any;
 }

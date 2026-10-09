@@ -149,16 +149,21 @@ function buildReviewRows(state, roomTypes, currencySymbol) {
     ];
 }
 
-const irCloneRatesCss = () => `.sc-ir-clone-rates-h{display:block;--clone-rates-ease-out:cubic-bezier(0.23, 1, 0.32, 1)}.clone-rates__sections.sc-ir-clone-rates{display:flex;flex-direction:column;gap:var(--wa-space-l);max-inline-size:48rem}.clone-rates__card.sc-ir-clone-rates{margin-bottom:var(--wa-space-s)}.clone-rates__card.sc-ir-clone-rates::part(body),.clone-rates__card.sc-ir-clone-rates [part~="body"]{padding:0;display:flex;flex-direction:column;gap:var(--wa-space-s)}.clone-rates__divider.sc-ir-clone-rates{--spacing:0}ir-weekday-selector.clone-rates__weekdays.sc-ir-clone-rates{margin-block:0 !important;flex-wrap:wrap}.clone-rates__question.sc-ir-clone-rates{margin:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-m)}.clone-rates__room-types.sc-ir-clone-rates{display:flex;flex-direction:column;gap:var(--wa-space-l)}.clone-rates__room-type.sc-ir-clone-rates{display:flex;flex-direction:column;gap:var(--wa-space-s)}.clone-rates__room-type-name.sc-ir-clone-rates{margin:0;font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold);color:var(--wa-color-text-quiet)}.clone-rates__rate-plans.sc-ir-clone-rates{display:grid;grid-template-columns:repeat(auto-fill, minmax(11rem, 1fr));gap:var(--wa-space-m) var(--wa-space-l);padding-inline-start:calc(var(--wa-form-control-toggle-size) + 0.5em)}.clone-rates__amount.sc-ir-clone-rates{display:flex;flex-direction:column;gap:var(--wa-space-xs)}.clone-rates__amount.sc-ir-clone-rates,.clone-rates__error.sc-ir-clone-rates{animation:clone-rates-reveal 200ms var(--clone-rates-ease-out)}@keyframes clone-rates-reveal{from{opacity:0;transform:translateY(-4px)}}.clone-rates__actions.sc-ir-clone-rates{display:flex;gap:var(--wa-space-s)}@media (min-width: 768px){.clone-rates__source.sc-ir-clone-rates,.clone-rates__dates.sc-ir-clone-rates,.clone-rates__adjustment.sc-ir-clone-rates,.clone-rates__amount.sc-ir-clone-rates{max-inline-size:26rem}}@media (prefers-reduced-motion: reduce){.clone-rates__amount.sc-ir-clone-rates,.clone-rates__error.sc-ir-clone-rates{animation-name:clone-rates-fade}}@keyframes clone-rates-fade{from{opacity:0}}`;
+const irCloneRatesCss = () => `.sc-ir-clone-rates-h{display:block;--clone-rates-ease-out:cubic-bezier(0.23, 1, 0.32, 1)}.clone-rates__sections.sc-ir-clone-rates{display:flex;flex-direction:column;gap:var(--wa-space-l);max-inline-size:48rem}.clone-rates__card.sc-ir-clone-rates{margin-bottom:var(--wa-space-s)}.clone-rates__card.sc-ir-clone-rates::part(body),.clone-rates__card.sc-ir-clone-rates [part~="body"]{padding:0;display:flex;flex-direction:column;gap:var(--wa-space-s)}.clone-rates__divider.sc-ir-clone-rates{--spacing:0}ir-weekday-selector.clone-rates__weekdays.sc-ir-clone-rates{margin-block:0 !important;flex-wrap:wrap}.clone-rates__question.sc-ir-clone-rates{margin:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-m)}.clone-rates__room-types.sc-ir-clone-rates{display:flex;flex-direction:column;gap:var(--wa-space-l)}.clone-rates__room-type.sc-ir-clone-rates{display:flex;flex-direction:column;gap:var(--wa-space-s)}.clone-rates__room-type-name.sc-ir-clone-rates{margin:0;font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold);color:var(--wa-color-text-quiet)}.clone-rates__rate-plans.sc-ir-clone-rates{display:grid;grid-template-columns:repeat(auto-fill, minmax(11rem, 1fr));gap:var(--wa-space-m) var(--wa-space-l);padding-inline-start:calc(var(--wa-form-control-toggle-size) + 0.5em)}.clone-rates__amount.sc-ir-clone-rates{display:flex;flex-direction:column;gap:var(--wa-space-xs)}.clone-rates__amount.sc-ir-clone-rates,.clone-rates__error.sc-ir-clone-rates{animation:clone-rates-reveal 200ms var(--clone-rates-ease-out)}@keyframes clone-rates-reveal{from{opacity:0;transform:translateY(-4px)}}.clone-rates__loader.sc-ir-clone-rates{display:flex;align-items:center;justify-content:center;min-block-size:12rem}.clone-rates__actions.sc-ir-clone-rates{display:flex;gap:var(--wa-space-s)}@media (min-width: 768px){.clone-rates__source.sc-ir-clone-rates,.clone-rates__dates.sc-ir-clone-rates,.clone-rates__adjustment.sc-ir-clone-rates,.clone-rates__amount.sc-ir-clone-rates{max-inline-size:26rem}}@media (prefers-reduced-motion: reduce){.clone-rates__amount.sc-ir-clone-rates,.clone-rates__error.sc-ir-clone-rates{animation-name:clone-rates-fade}}@keyframes clone-rates-fade{from{opacity:0}}`;
 
 const IrCloneRates = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
+        this.ratesCloned = index.createEvent(this, "ratesCloned");
     }
     ticket;
     p;
     language = 'en';
     propertyid;
+    /** `drawer` drops the page shell and the inline Review button; the host drawer submits `#clone-rates-form` from its footer. */
+    mode = 'page';
+    /** Fired after the rates were copied successfully. */
+    ratesCloned;
     isLoading;
     isSaving;
     isReviewOpen = false;
@@ -299,6 +304,7 @@ const IrCloneRates = class {
             utils.showToast({ position: 'top-right', title: t.t('Lcz_RatesCopiedSuccessfully', { fallback: 'Rates copied successfully' }), description: '', type: 'success' });
             this.isReviewOpen = false;
             this.resetForm();
+            this.ratesCloned.emit();
         }
         catch (err) {
             console.error(err);
@@ -359,13 +365,25 @@ const IrCloneRates = class {
         return (index.h("wa-card", { appearance: "plain", class: "clone-rates__card" }, index.h("h4", { class: "clone-rates__question" }, t.t('Lcz_CopyMinStayQuestion', { fallback: 'Do you want to copy over the minimum stay restrictions for these dates?' })), index.h("wa-checkbox", { checked: this.copyMinStay, onchange: (e) => (this.copyMinStay = e.target.checked) }, t.t('Lcz_CopyMinStayConfirm', { fallback: 'Yes, copy my minimum stay restrictions for this date range' }))));
     }
     renderForm() {
-        return (index.h("div", { class: "clone-rates__sections" }, this.renderDatesSection(), this.renderWeekdaysSection(), this.renderRoomTypesSection(), this.renderAdjustmentSection(), this.renderRestrictionsSection(), index.h("div", { class: "clone-rates__actions" }, index.h("ir-custom-button", { variant: "brand", size: "m", onClickHandler: () => this.review() }, t.t('Lcz_Review', { fallback: 'Review' })))));
+        return (index.h("form", { id: "clone-rates-form", class: "clone-rates__sections", noValidate: true, onSubmit: e => {
+                e.preventDefault();
+                this.review();
+            } }, this.renderDatesSection(), this.renderWeekdaysSection(), this.renderRoomTypesSection(), this.renderAdjustmentSection(), this.renderRestrictionsSection(), this.mode === 'page' && (index.h("div", { class: "clone-rates__actions" }, index.h("ir-custom-button", { variant: "brand", size: "m", type: "submit", form: "clone-rates-form" }, t.t('Lcz_Review', { fallback: 'Review' }))))));
+    }
+    renderReview() {
+        return (index.h("ir-clone-rates-review", { open: this.isReviewOpen, loading: this.isSaving, rows: buildReviewRows(this.formState, this.roomTypes, this.currencySymbol), onGoBack: () => (this.isReviewOpen = false), onConfirmClone: () => this.confirm() }));
     }
     render() {
+        if (this.mode === 'drawer') {
+            if (this.isLoading) {
+                return (index.h("div", { class: "clone-rates__loader" }, index.h("ir-spinner", null)));
+            }
+            return (index.h(index.Host, null, this.renderForm(), this.renderReview()));
+        }
         if (this.isLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-page", { label: t.t('Lcz_CopyRatesToFutureDates', { fallback: 'Copy rates to future dates' }), description: t.t('Lcz_CopyRatesDescription', { fallback: 'Here you can copy over your existing rate plans to the date range you want, easily and efficiently.' }) }, this.renderForm(), index.h("ir-clone-rates-review", { open: this.isReviewOpen, loading: this.isSaving, rows: buildReviewRows(this.formState, this.roomTypes, this.currencySymbol), onGoBack: () => (this.isReviewOpen = false), onConfirmClone: () => this.confirm() }))));
+        return (index.h(index.Host, null, index.h("ir-page", { label: t.t('Lcz_CopyRatesToFutureDates', { fallback: 'Copy rates to future dates' }), description: t.t('Lcz_CopyRatesDescription', { fallback: 'Here you can copy over your existing rate plans to the date range you want, easily and efficiently.' }) }, this.renderForm(), this.renderReview())));
     }
     static get watchers() { return {
         "language": [{

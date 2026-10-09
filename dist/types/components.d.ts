@@ -2636,6 +2636,24 @@ export namespace Components {
           * @default 'en'
          */
         "language": string;
+        /**
+          * `drawer` drops the page shell and the inline Review button; the host drawer submits `#clone-rates-form` from its footer.
+          * @default 'page'
+         */
+        "mode": 'page' | 'drawer';
+        "p": string;
+        "propertyid": number;
+        "ticket": string;
+    }
+    interface IrCloneRatesDrawer {
+        /**
+          * @default 'en'
+         */
+        "language": string;
+        /**
+          * @default false
+         */
+        "open": boolean;
         "p": string;
         "propertyid": number;
         "ticket": string;
@@ -8087,6 +8105,14 @@ export interface IrClStatementPreviewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrClStatementPreviewElement;
 }
+export interface IrCloneRatesCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrCloneRatesElement;
+}
+export interface IrCloneRatesDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrCloneRatesDrawerElement;
+}
 export interface IrCloneRatesReviewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCloneRatesReviewElement;
@@ -10853,11 +10879,39 @@ declare global {
         prototype: HTMLIrClStatusTagElement;
         new (): HTMLIrClStatusTagElement;
     };
+    interface HTMLIrCloneRatesElementEventMap {
+        "ratesCloned": void;
+    }
     interface HTMLIrCloneRatesElement extends Components.IrCloneRates, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrCloneRatesElementEventMap>(type: K, listener: (this: HTMLIrCloneRatesElement, ev: IrCloneRatesCustomEvent<HTMLIrCloneRatesElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrCloneRatesElementEventMap>(type: K, listener: (this: HTMLIrCloneRatesElement, ev: IrCloneRatesCustomEvent<HTMLIrCloneRatesElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrCloneRatesElement: {
         prototype: HTMLIrCloneRatesElement;
         new (): HTMLIrCloneRatesElement;
+    };
+    interface HTMLIrCloneRatesDrawerElementEventMap {
+        "cloneRatesDrawerClosed": void;
+    }
+    interface HTMLIrCloneRatesDrawerElement extends Components.IrCloneRatesDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrCloneRatesDrawerElementEventMap>(type: K, listener: (this: HTMLIrCloneRatesDrawerElement, ev: IrCloneRatesDrawerCustomEvent<HTMLIrCloneRatesDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrCloneRatesDrawerElementEventMap>(type: K, listener: (this: HTMLIrCloneRatesDrawerElement, ev: IrCloneRatesDrawerCustomEvent<HTMLIrCloneRatesDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrCloneRatesDrawerElement: {
+        prototype: HTMLIrCloneRatesDrawerElement;
+        new (): HTMLIrCloneRatesDrawerElement;
     };
     interface HTMLIrCloneRatesReviewElementEventMap {
         "goBack": void;
@@ -14517,6 +14571,7 @@ declare global {
         "ir-cl-statement-preview": HTMLIrClStatementPreviewElement;
         "ir-cl-status-tag": HTMLIrClStatusTagElement;
         "ir-clone-rates": HTMLIrCloneRatesElement;
+        "ir-clone-rates-drawer": HTMLIrCloneRatesDrawerElement;
         "ir-clone-rates-review": HTMLIrCloneRatesReviewElement;
         "ir-collapsable-row": HTMLIrCollapsableRowElement;
         "ir-column-autocomplete": HTMLIrColumnAutocompleteElement;
@@ -17410,6 +17465,32 @@ declare namespace LocalJSX {
           * @default 'en'
          */
         "language"?: string;
+        /**
+          * `drawer` drops the page shell and the inline Review button; the host drawer submits `#clone-rates-form` from its footer.
+          * @default 'page'
+         */
+        "mode"?: 'page' | 'drawer';
+        /**
+          * Fired after the rates were copied successfully.
+         */
+        "onRatesCloned"?: (event: IrCloneRatesCustomEvent<void>) => void;
+        "p"?: string;
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
+    interface IrCloneRatesDrawer {
+        /**
+          * @default 'en'
+         */
+        "language"?: string;
+        /**
+          * Fired when the drawer closes: Cancel, the close button, Escape, light dismiss, or a successful copy. The parent should set `open` to false.
+         */
+        "onCloneRatesDrawerClosed"?: (event: IrCloneRatesDrawerCustomEvent<void>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
         "p"?: string;
         "propertyid"?: number;
         "ticket"?: string;
@@ -23699,6 +23780,14 @@ declare namespace LocalJSX {
         "p": string;
         "language": string;
         "propertyid": number;
+        "mode": 'page' | 'drawer';
+    }
+    interface IrCloneRatesDrawerAttributes {
+        "open": boolean;
+        "ticket": string;
+        "p": string;
+        "language": string;
+        "propertyid": number;
     }
     interface IrCloneRatesReviewAttributes {
         "open": boolean;
@@ -25244,6 +25333,7 @@ declare namespace LocalJSX {
         "ir-cl-statement-preview": Omit<IrClStatementPreview, keyof IrClStatementPreviewAttributes> & { [K in keyof IrClStatementPreview & keyof IrClStatementPreviewAttributes]?: IrClStatementPreview[K] } & { [K in keyof IrClStatementPreview & keyof IrClStatementPreviewAttributes as `attr:${K}`]?: IrClStatementPreviewAttributes[K] } & { [K in keyof IrClStatementPreview & keyof IrClStatementPreviewAttributes as `prop:${K}`]?: IrClStatementPreview[K] };
         "ir-cl-status-tag": Omit<IrClStatusTag, keyof IrClStatusTagAttributes> & { [K in keyof IrClStatusTag & keyof IrClStatusTagAttributes]?: IrClStatusTag[K] } & { [K in keyof IrClStatusTag & keyof IrClStatusTagAttributes as `attr:${K}`]?: IrClStatusTagAttributes[K] } & { [K in keyof IrClStatusTag & keyof IrClStatusTagAttributes as `prop:${K}`]?: IrClStatusTag[K] };
         "ir-clone-rates": Omit<IrCloneRates, keyof IrCloneRatesAttributes> & { [K in keyof IrCloneRates & keyof IrCloneRatesAttributes]?: IrCloneRates[K] } & { [K in keyof IrCloneRates & keyof IrCloneRatesAttributes as `attr:${K}`]?: IrCloneRatesAttributes[K] } & { [K in keyof IrCloneRates & keyof IrCloneRatesAttributes as `prop:${K}`]?: IrCloneRates[K] };
+        "ir-clone-rates-drawer": Omit<IrCloneRatesDrawer, keyof IrCloneRatesDrawerAttributes> & { [K in keyof IrCloneRatesDrawer & keyof IrCloneRatesDrawerAttributes]?: IrCloneRatesDrawer[K] } & { [K in keyof IrCloneRatesDrawer & keyof IrCloneRatesDrawerAttributes as `attr:${K}`]?: IrCloneRatesDrawerAttributes[K] } & { [K in keyof IrCloneRatesDrawer & keyof IrCloneRatesDrawerAttributes as `prop:${K}`]?: IrCloneRatesDrawer[K] };
         "ir-clone-rates-review": Omit<IrCloneRatesReview, keyof IrCloneRatesReviewAttributes> & { [K in keyof IrCloneRatesReview & keyof IrCloneRatesReviewAttributes]?: IrCloneRatesReview[K] } & { [K in keyof IrCloneRatesReview & keyof IrCloneRatesReviewAttributes as `attr:${K}`]?: IrCloneRatesReviewAttributes[K] } & { [K in keyof IrCloneRatesReview & keyof IrCloneRatesReviewAttributes as `prop:${K}`]?: IrCloneRatesReview[K] };
         "ir-collapsable-row": IrCollapsableRow;
         "ir-column-autocomplete": Omit<IrColumnAutocomplete, keyof IrColumnAutocompleteAttributes> & { [K in keyof IrColumnAutocomplete & keyof IrColumnAutocompleteAttributes]?: IrColumnAutocomplete[K] } & { [K in keyof IrColumnAutocomplete & keyof IrColumnAutocompleteAttributes as `attr:${K}`]?: IrColumnAutocompleteAttributes[K] } & { [K in keyof IrColumnAutocomplete & keyof IrColumnAutocompleteAttributes as `prop:${K}`]?: IrColumnAutocomplete[K] };
@@ -25691,6 +25781,7 @@ declare module "@stencil/core" {
             "ir-cl-statement-preview": LocalJSX.IntrinsicElements["ir-cl-statement-preview"] & JSXBase.HTMLAttributes<HTMLIrClStatementPreviewElement>;
             "ir-cl-status-tag": LocalJSX.IntrinsicElements["ir-cl-status-tag"] & JSXBase.HTMLAttributes<HTMLIrClStatusTagElement>;
             "ir-clone-rates": LocalJSX.IntrinsicElements["ir-clone-rates"] & JSXBase.HTMLAttributes<HTMLIrCloneRatesElement>;
+            "ir-clone-rates-drawer": LocalJSX.IntrinsicElements["ir-clone-rates-drawer"] & JSXBase.HTMLAttributes<HTMLIrCloneRatesDrawerElement>;
             "ir-clone-rates-review": LocalJSX.IntrinsicElements["ir-clone-rates-review"] & JSXBase.HTMLAttributes<HTMLIrCloneRatesReviewElement>;
             "ir-collapsable-row": LocalJSX.IntrinsicElements["ir-collapsable-row"] & JSXBase.HTMLAttributes<HTMLIrCollapsableRowElement>;
             "ir-column-autocomplete": LocalJSX.IntrinsicElements["ir-column-autocomplete"] & JSXBase.HTMLAttributes<HTMLIrColumnAutocompleteElement>;

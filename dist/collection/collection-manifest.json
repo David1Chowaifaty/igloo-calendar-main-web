@@ -180,6 +180,7 @@
     "components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-dialog.js",
     "components/ir-city-ledger/ir-cl-status-tag/ir-cl-status-tag.js",
     "components/ir-clone-rates/ir-clone-rates.js",
+    "components/ir-clone-rates/ir-clone-rates-drawer/ir-clone-rates-drawer.js",
     "components/ir-clone-rates/ir-clone-rates-review/ir-clone-rates-review.js",
     "components/ir-common/ir-common.js",
     "components/ir-daily-revenue/ir-daily-revenue.js",

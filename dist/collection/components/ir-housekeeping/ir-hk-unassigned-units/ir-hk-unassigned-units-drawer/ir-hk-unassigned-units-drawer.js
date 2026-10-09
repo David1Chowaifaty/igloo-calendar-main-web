@@ -7,13 +7,13 @@ export class IrHkUnassignedUnitsDrawer {
     closeSideBar;
     formId = 'hk-unassigned-units-drawer-form';
     render() {
-        return (h("ir-drawer", { key: 'aed0ef0a99c47ad3c197ea3d5f9e7f40013bce98', label: !this.user
+        return (h("ir-drawer", { key: 'c49a4545fbc2d65823b77cc43e0b503c83583545', label: !this.user
                 ? t('Lcz_AssingnUnitsTypo', { fallback: 'Assingn Units' })
                 : `${t('Lcz_AssignmentForUser', { fallback: 'Assignment for' })} ${this.user.name}`, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeSideBar.emit(null);
-            }, style: { '--ir-drawer-width': 'max-content' }, open: this.open }, this.open && h("ir-hk-unassigned-units-drawer-form", { key: '82a20c557ebd3c6e3c3b57da593acd75a6b5bfe0', formId: this.formId, user: this.user }), h("div", { key: 'e68c84e0f7c150bd057868ceca2e98584c75c2c3', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'f998ab1adfca0d8cc3bb16b186b4286bc8871e0f', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '242d1362c9a091f8a9f4d782e23c22aa9a0a0b53', loading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, t('Lcz_Save', { fallback: 'Save' })))));
+            }, style: { '--ir-drawer-width': 'max-content' }, open: this.open }, this.open && h("ir-hk-unassigned-units-drawer-form", { key: '9f19a9ae8d089bf1237605cfcc46008bc5d16aba', formId: this.formId, user: this.user }), h("div", { key: '3819c8ea4b1c9c5b34d83388eba85de676149227', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '58ff46607671ac62128312e3c8d5bd7617bd7ca9', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'fd83d4b55688b5ff727ad7e6ef6e69f433506865', loading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get is() { return "ir-hk-unassigned-units-drawer"; }
     static get encapsulation() { return "scoped"; }

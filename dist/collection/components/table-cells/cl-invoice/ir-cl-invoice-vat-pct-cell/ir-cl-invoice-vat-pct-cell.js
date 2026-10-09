@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 export class IrClInvoiceVatPctCell {
     vatPercent;
     render() {
-        return h(Host, { key: 'dd40a99441abec1c47fcedb8d1a013dedb4cffb1' }, this.vatPercent, "%");
+        return h(Host, { key: '40ef2291da1d98511161b25a87e1843261e5a165' }, this.vatPercent, "%");
     }
     static get is() { return "ir-cl-invoice-vat-pct-cell"; }
     static get encapsulation() { return "scoped"; }

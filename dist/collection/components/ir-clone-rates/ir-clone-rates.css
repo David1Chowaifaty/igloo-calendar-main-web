@@ -89,6 +89,13 @@ ir-weekday-selector.clone-rates__weekdays {
   }
 }
 
+.clone-rates__loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 12rem;
+}
+
 .clone-rates__actions {
   display: flex;
   gap: var(--wa-space-s);
