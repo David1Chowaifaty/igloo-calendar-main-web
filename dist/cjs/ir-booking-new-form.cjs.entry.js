@@ -1,9 +1,9 @@
 'use strict';
 
-var index = require('./index-CQkpA5n3.js');
-var t = require('./t-wyGILxEL.js');
+var index = require('./index-IDeZZwEK.js');
+var t = require('./t-sd8HJHNy.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
-require('./locale-scope-C7rmpwuA.js');
+require('./locales.store-D6DJIhoZ.js');
 require('./moment-CdViwxPQ.js');
 
 const irBookingNewFormCss = () => `.sc-ir-booking-new-form-h{display:block}`;
@@ -41,9 +41,9 @@ const IrBookingNewForm = class {
         };
     }
     render() {
-        return (index.h(index.Host, { key: 'ed4c4880d351274ab6d019a07776a28bee439f96', lang: this.language || undefined }, index.h("div", { key: '735a38d1a171a9863fbc309498e84843ce761afb', onClick: () => {
+        return (index.h(index.Host, { key: '9a9b6570fea31af0bd14e7187ebc2b1875c17cb8', lang: this.language || undefined }, index.h("div", { key: '8187b7610b1454ff3d96abf9b329611923bad7cd', onClick: () => {
                 this.handleTriggerClicked();
-            } }, index.h("slot", { key: '79d1f5a625bde5dcdd9f9ddfdb08129f018a8894', name: "trigger" }, index.h("ir-custom-button", { key: '54a9249b2c976902eb0dd532cad29309730e6e94', appearance: "plain", variant: "brand" }, index.h("wa-icon", { key: '8b6fc0ba6c5050bc5570426adf8e55c5a0a7c67a', name: "circle-plus", style: { fontSize: '1.2rem' } })))), index.h("ir-booking-editor-drawer", { key: 'bcd2a438372a9c97ec861da9c35a8aaeef89fb79', onBookingEditorClosed: e => {
+            } }, index.h("slot", { key: 'ad1ae6a40dc5f1e35650a64444b9c64607af6013', name: "trigger" }, index.h("ir-custom-button", { key: '095ae3f4c65e407890a2ae209cdacca26a1e4093', appearance: "plain", variant: "brand" }, index.h("wa-icon", { key: '53f3fa7aeb74530982c4ebf9c1ea05424982b7e1', name: "circle-plus", style: { fontSize: '1.2rem' } })))), index.h("ir-booking-editor-drawer", { key: '7f5af02800f2c0dbc0f23aeda713e512be58bbd0', onBookingEditorClosed: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingItem = null;

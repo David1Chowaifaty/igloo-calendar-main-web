@@ -1,9 +1,9 @@
 'use strict';
 
-var index = require('./index-CQkpA5n3.js');
-var direction = require('./direction-Bl6Woad1.js');
-var t = require('./t-wyGILxEL.js');
-require('./locale-scope-C7rmpwuA.js');
+var index = require('./index-IDeZZwEK.js');
+var direction = require('./direction-lj6IFDjf.js');
+var t = require('./t-sd8HJHNy.js');
+require('./locales.store-D6DJIhoZ.js');
 
 const irTabsCss = () => `.sc-ir-tabs-h{display:flex;align-items:center;position:relative;overflow-x:auto;gap:1rem;padding:0 1rem}.tab.sc-ir-tabs{font-size:0.95rem;font-weight:400;cursor:pointer;position:relative;margin:0;padding:0rem;padding-bottom:1rem;transition:color 0.3s ease;user-select:none;background-color:transparent;border:none;outline:none;flex:1 1 0%;text-align:center;white-space:nowrap}.tab[data-disabled].sc-ir-tabs{cursor:auto}.tab.sc-ir-tabs:hover{opacity:80%}.tab[data-state='selected'].sc-ir-tabs,.tab[data-state='selected'].sc-ir-tabs:hover{color:var(--blue, #1e9ff2);opacity:100%}.active-indicator.sc-ir-tabs{padding:0;bottom:0px;position:absolute;height:3px;border-radius:4px;transition:transform 0.3s ease, width 0.3s ease;background:var(--blue, #1e9ff2)}`;
 
@@ -147,7 +147,7 @@ const IrTabs = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '73e7cdb4d0ec6337b23f8f0fde71253ea367818b', role: "tablist", "aria-label": this.ariaLabel || t.t('Lcz_Tabs', { fallback: 'Tabs' }), "aria-orientation": "horizontal" }, this.tabs.map(tab => (index.h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), index.h("span", { key: 'c51e2a3490b5d72712288e39e83599408bdd9f40', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+        return (index.h(index.Host, { key: 'bd6282c45e3b752610c075bf567d21973450c1a1', role: "tablist", "aria-label": this.ariaLabel || t.t('Lcz_Tabs', { fallback: 'Tabs' }), "aria-orientation": "horizontal" }, this.tabs.map(tab => (index.h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), index.h("span", { key: '66c7a8cf7a318492390c97b635e50d7e3671e307', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
 };
 IrTabs.style = irTabsCss();

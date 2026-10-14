@@ -1,0 +1,1 @@
+import{I as r,d as s}from"./ir-dashboard-departures2.js";const a=r,o=s;export{a as IrDashboardDepartures,o as defineCustomElement}

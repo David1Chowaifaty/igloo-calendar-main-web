@@ -40,7 +40,7 @@ export class IrPickup {
     closeModal;
     _id = `pickup-form-${v4()}`;
     render() {
-        return (h("ir-drawer", { key: '99c752a4bb6241d585ea8a208aea4d43d48e5869', style: {
+        return (h("ir-drawer", { key: '8a554842b8c24dfe35bf103fb08b0923491e10dd', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -51,7 +51,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-pickup-form", { key: '400e4c0b501488815a69e5305e979e091111ca0d', booking: this.booking, agent: this.agent, onCanSubmitPickupChange: e => {
+            } }, this.open && (h("ir-pickup-form", { key: 'f023bed9a09ea08a888ee9f7ea4f958102b01136', booking: this.booking, agent: this.agent, onCanSubmitPickupChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.canSubmitPickup = e.detail;
@@ -59,7 +59,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            }, formId: this._id })), h("div", { key: '3b6a1d8dbc21af956ff5d322224ccd4d53691da6', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '8c13346421572a7b6b9151d14e4310e402ad319b', class: `flex-fill`, size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), this.canSubmitPickup && (h("ir-custom-button", { key: '86450f95803cd2c065e73f73c94cd251864aef28', type: "submit", loading: this.isLoading, form: this._id, size: "m", class: `flex-fill`, variant: "brand" }, t('Lcz_Save', { fallback: 'Save' }))))));
+            }, formId: this._id })), h("div", { key: '2272320abd69d4bc8027cba49ae55e7609573b5e', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'ae699859a193d7bb7a2aab378e02647b5a5b9b6c', class: `flex-fill`, size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), this.canSubmitPickup && (h("ir-custom-button", { key: 'ef5cbfc72fc7e6cba7b109cda4557b92667d0675', type: "submit", loading: this.isLoading, form: this._id, size: "m", class: `flex-fill`, variant: "brand" }, t('Lcz_Save', { fallback: 'Save' }))))));
     }
     static get is() { return "ir-pickup"; }
     static get encapsulation() { return "scoped"; }

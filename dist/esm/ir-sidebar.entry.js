@@ -1,16 +1,16 @@
-import { r as registerInstance, c as createEvent, a as getElement, h } from './index-CeHdrJeH.js';
-import { h as handleBodyOverflow } from './utils-DsZQyztt.js';
+import { r as registerInstance, c as createEvent, a as getElement, h } from './index-DKZeCK8T.js';
+import { k as handleBodyOverflow } from './utils-C5rtMj-W.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-9xOw4JU4.js';
-import './locale-scope-CapRuPkM.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
-import './types-CB66a07H.js';
-import './ir-date-CASx9LWM.js';
+import './calendar-data-D8EnecFU.js';
+import './locales.store-DsOXxI8k.js';
+import './booking.dto-DVIFh8qe.js';
+import './type-W0yWfEBm.js';
+import './types-CrHq6jOb.js';
+import './ir-date-CdNwD9PM.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './calendar-dates-D3hVfsrC.js';
-import './t-BVYK64UG.js';
+import './t-DTGA0v_q.js';
 
 const irSidebarCss = () => `.backdrop{position:fixed;top:0;inset-inline-start:0;width:100%;height:100vh;cursor:pointer;background:rgba(0, 0, 0, 0.5);z-index:99;transition:all 0.5s;opacity:0;pointer-events:none;transition:all 0.5s}.backdrop.active{opacity:1;pointer-events:all}.sidebar-right{position:fixed;top:0;inset-inline-end:-120%;bottom:0;width:var(--sidebar-width, 40rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:100;overflow-y:hidden;color:var(--sidebar-color, #000);background-color:var(--sidebar-backgound, #fff);padding-block:var(--ir-sidebar-padding-block, 0);padding-inline:var(--ir-sidebar-padding-inline, 0.5rem);padding-top:var(--ir-sidebar-padding-top, unset);padding-bottom:var(--ir-sidebar-padding-bottom, unset);padding-inline-start:var(--ir-sidebar-padding-inline-start, var(--ir-sidebar-padding-left, unset));padding-inline-end:var(--ir-sidebar-padding-inline-end, var(--ir-sidebar-padding-right, unset))}.sidebar-right.active{inset-inline-end:0;overflow-y:auto}.sidebar-left{position:fixed;top:0;inset-inline-start:-120%;bottom:0;width:var(--sidebar-width, 40rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:100;overflow-y:hidden;color:var(--sidebar-color, #000);background-color:var(--sidebar-backgound, #fff);padding-block:var(--ir-sidebar-padding-block, 0);padding-inline:var(--ir-sidebar-padding-inline, 0.5rem);padding-top:var(--ir-sidebar-padding-top, unset);padding-bottom:var(--ir-sidebar-padding-bottom, unset);padding-inline-start:var(--ir-sidebar-padding-inline-start, var(--ir-sidebar-padding-left, unset));padding-inline-end:var(--ir-sidebar-padding-inline-end, var(--ir-sidebar-padding-right, unset))}.sidebar-title{display:flex;align-items:center;justify-content:space-between;padding:0 1rem;border-bottom:1px solid #e4e5ec}.sidebar-title p{font-weight:500;font-size:1.2rem}.sidebar-left.active{inset-inline-start:0;overflow-y:auto}.close{position:absolute;top:0.5rem;inset-inline-end:1rem;width:1rem;height:1rem;cursor:pointer}`;
 
@@ -122,12 +122,12 @@ const IrSidebar = class {
             className = '';
         }
         return [
-            h("div", { key: '0bb1e34ab03097619c56991cfb9eca92f5b2c5a2', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: 'fe098a989054353ce8630ced68f7c1e2bcea5db4', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: '781ef1884dfa66c2d2d2d72b3886a78eda68393d', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '495623d0a659351076b43c9b2d7a31d96005d7e7', class: 'sidebar-title' }, h("p", { key: '73404cd05c815338aa81cac501e6b4e33615d3de', class: 'p-0 m-0' }, this.label), h("div", { key: 'acf8d9e32fe7b75aeecd6c1309b0dbe2830a8126', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '8a32f1a0d3119eb356c87450c51e25a4e35be23e', class: "", onIconClickHandler: () => {
+            h("div", { key: 'b7e25026e792fc5cc572a37e419c1fd12c3385a2', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: 'd63da9d1f8cc08627e013aa8d191ac4a93a7adbb', class: 'sidebar-title' }, h("p", { key: 'c3dbbc94bc944e9c7b0508f5bd7bc95b53d055bb', class: 'p-0 m-0' }, this.label), h("div", { key: '5f5c30f4961280a37bc1450d483421ca2270f60b', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '576856afc33aaec96e0c11f3c8209e68b758cf72', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: '772902904dee29a079a98b521c65d1c71b043628', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '7fb9b327823a17d031aeb9757a0f1a4dbe23307d', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '226d612e0a940e414e459c2ae5ce7eaea089acfe', name: "sidebar-body" })),
+                } }, h("svg", { key: '3f0a8b0ac906ba6795f9e3e3d90ae54e2bb015b8', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '589eda29bb23b69bc900b562e09bf388d61a5493', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: 'e09a0117ec39e151f360e2ded73ff866a509695b', name: "sidebar-body" })),
         ];
     }
     static get watchers() { return {

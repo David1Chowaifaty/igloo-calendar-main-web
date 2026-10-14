@@ -1,9 +1,9 @@
 'use strict';
 
-var index = require('./index-CQkpA5n3.js');
+var index = require('./index-IDeZZwEK.js');
 var chart = require('./chart-CMmD0hzI.js');
-var t = require('./t-wyGILxEL.js');
-require('./locale-scope-C7rmpwuA.js');
+var t = require('./t-sd8HJHNy.js');
+require('./locales.store-D6DJIhoZ.js');
 
 const irQueueChartCss = () => `:host{display:block}`;
 
@@ -108,7 +108,7 @@ const IrQueueChart = class {
         this.chart.update();
     }
     render() {
-        return (index.h(index.Host, { key: 'dd28abca8f96d001458c98e01573d38c616a2be4' }, index.h("div", { key: '3328092e4a865d8c7f7797ba63a95cce0f0610eb', class: "chart-container" }, index.h("canvas", { key: '8c76eb039c9b42db1bea5f6c9c63d1a4985e11d5', ref: el => (this.canvas = el) }))));
+        return (index.h(index.Host, { key: 'fa984357d41b3eab1f8be1d201bc73df30ed7a37' }, index.h("div", { key: 'eeab59616d82be640b84c6f9e865d23101535e7e', class: "chart-container" }, index.h("canvas", { key: '452eef770691e3cbca5569ed39118ed24b44a1c0', ref: el => (this.canvas = el) }))));
     }
     static get watchers() { return {
         "values": [{

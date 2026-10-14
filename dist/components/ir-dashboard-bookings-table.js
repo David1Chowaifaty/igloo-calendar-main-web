@@ -1,0 +1,1 @@
+import{I as o,d as s}from"./ir-dashboard-bookings-table2.js";const a=o,r=s;export{a as IrDashboardBookingsTable,r as defineCustomElement}

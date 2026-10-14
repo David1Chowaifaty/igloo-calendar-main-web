@@ -1,22 +1,22 @@
-import { r as registerInstance, c as createEvent, h } from './index-CeHdrJeH.js';
-import { S as SetupService } from './index-bMn4j7rZ.js';
-import { f as showToast } from './utils-DsZQyztt.js';
+import { r as registerInstance, c as createEvent, h } from './index-DKZeCK8T.js';
+import { S as SetupService } from './index-BBHfHK2_.js';
+import { h as showToast } from './utils-C5rtMj-W.js';
 import { p as planDuplicateSync } from './duplicate-sync-DQw5ZTwR.js';
 import { b as buildEditSetupParams } from './setup-mapping-CkK5DDbX.js';
 import { h as hasValue, g as getSourceLanguage, e as diffValues, i as getCopiedEntry } from './utils-Btr0LXV6.js';
-import { t } from './t-BVYK64UG.js';
+import { t } from './t-DTGA0v_q.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './utils-Dld2CIOM.js';
-import './IBooking-B4waZCSK.js';
-import './types-CB66a07H.js';
-import './commonSchemas-Cx9w9d8l.js';
-import './locale-scope-CapRuPkM.js';
+import './utils-CixNsOtu.js';
+import './IBooking-BV3s3Tu5.js';
+import './types-CrHq6jOb.js';
+import './commonSchemas-My88Vijq.js';
+import './locales.store-DsOXxI8k.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-9xOw4JU4.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
-import './ir-date-CASx9LWM.js';
+import './calendar-data-D8EnecFU.js';
+import './booking.dto-DVIFh8qe.js';
+import './type-W0yWfEBm.js';
+import './ir-date-CdNwD9PM.js';
 import './language-observer-CHgzsZkY.js';
 import './calendar-dates-D3hVfsrC.js';
 
@@ -295,7 +295,7 @@ const IrTranslationsEntryForm = class {
     render() {
         const total = this.languages.length;
         const translated = this.translatedCount;
-        return (h("form", { key: '5a01d424b6e8aace8cf19eea27e9f81a2e7f9c39', id: this.formId, class: "entry-form__body", onSubmit: this.handleSubmit, novalidate: true }, h("ir-input", { key: '923d99779caf0b2ca44dffd3fbf705efc1a40829', label: "Key", readonly: this.isEditing, autocomplete: "off", mask: {
+        return (h("form", { key: '13ab20553ec8e5f9754a1e5179b8b8d67a959d8a', id: this.formId, class: "entry-form__body", onSubmit: this.handleSubmit, novalidate: true }, h("ir-input", { key: '801453c1572c40bc365a3c7c93d092d5c0c8976a', label: "Key", readonly: this.isEditing, autocomplete: "off", mask: {
                 mask: `{${KEY_PREFIX}}TEXT`,
                 eager: true,
                 blocks: {
@@ -304,7 +304,7 @@ const IrTranslationsEntryForm = class {
                         repeat: Infinity, // Unlimited characters
                     },
                 },
-            }, spellcheck: false, class: "entry-form__key-input", value: this.key, placeholder: "e.g. Lcz_BookingConfirmed", "onText-change": e => this.handleKeyChange(e.detail), ref: el => (this.keyInputRef = el) }, h("wa-copy-button", { key: 'a04c804b7390b0a67858a741d2dc8050be6ac0b1', value: this.key ?? '', slot: "end" })), this.isDuplicateKey && (h("p", { key: '003985dcd3b5d94017a7d7e5a42033c264ea8669', class: "entry-form__error", role: "alert" }, "This key already exists in this table.")), h("div", { key: '3443eb2f0ab7d1d5069ab8b86ebd10539f824851', class: "entry-form__section" }, h("div", { key: '05dd689850f2eb806a306a8e037bd45131c0c7ca', class: "entry-form__section-header" }, h("h3", { key: '7570ae8f0f9e691512d10f2bb02a1d90c48e6bc8', class: "entry-form__section-title" }, "Translations"), h("span", { key: 'd2cf48fea526370a201488426d26db1496556cdf', class: "entry-form__section-meta" }, translated, " of ", total, " filled")), this.targetLanguages.length > 0 && (h("div", { key: 'a87e672a4817cbcc0ab6e6fd4d0231c78fd453d4', class: "entry-form__ai-actions" }, h("ir-custom-button", { key: '601488086ef3739ede68e4b044e753d7623c08e7', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canCopyPrompt, onClickHandler: this.handleCopyPrompt }, h("wa-icon", { key: 'b23e76f985da628b8f0c03bc012106a13478246c', name: "copy", slot: "start", "aria-hidden": "true" }), "Copy AI prompt"), h("ir-custom-button", { key: '8f40ddb4f409b6dac5c4b7d827ac44367b4650f5', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canPasteTranslations, onClickHandler: this.handlePasteTranslations }, h("wa-icon", { key: '63d0bbc8bccf43e24213542e2961bbc44bca2cf5', name: "clipboard", slot: "start", "aria-hidden": "true" }), "Paste AI translations"))), total === 0 ? (h("ir-empty-state", { message: "No languages configured yet. Add one from Manage languages first." })) : (h("div", { class: "entry-form__fields" }, this.languages.map(language => (h("div", { class: "entry-form__field", key: language.code, dir: language.code === 'ar' ? 'rtl' : 'ltr' }, h("wa-textarea", { class: "entry-form__value-input", id: language.code, size: "s", rows: 2, resize: "auto", value: this.values[language.code] ?? '', placeholder: "Enter translation\u2026", oninput: (e) => (this.values = { ...this.values, [language.code]: e.target.value }) }, h("span", { slot: "label", class: "entry-form__field-label" }, language.name, h("span", { class: "entry-form__field-code" }, language.code.toUpperCase()), language.isSource && h("span", { class: "entry-form__field-source" }, t('Lcz_Source', { fallback: 'Source' })))), h("wa-copy-button", { class: "entry-form__value-copy", value: this.values[language.code] ?? '' })))))))));
+            }, spellcheck: false, class: "entry-form__key-input", value: this.key, placeholder: "e.g. Lcz_BookingConfirmed", "onText-change": e => this.handleKeyChange(e.detail), ref: el => (this.keyInputRef = el) }, h("wa-copy-button", { key: '128d5f4b11f66475cdb81e02c9f3219be8467446', value: this.key ?? '', slot: "end" })), this.isDuplicateKey && (h("p", { key: '42f12ad108994dcb13cfbe12c23e316caef43338', class: "entry-form__error", role: "alert" }, "This key already exists in this table.")), h("div", { key: '798f4c9e914e6fed11d9c5a09f313871ca3748b2', class: "entry-form__section" }, h("div", { key: 'da8a5b050603290fecaab48d701621bb1e85ba78', class: "entry-form__section-header" }, h("h3", { key: '56be72eea5ff5990e7cdfda89c5a5839682e468c', class: "entry-form__section-title" }, "Translations"), h("span", { key: '1a45878e9c8de33327c6492d2ed07c5add9a9cda', class: "entry-form__section-meta" }, translated, " of ", total, " filled")), this.targetLanguages.length > 0 && (h("div", { key: 'be9f747b60e5d8030ad6db86e11b7a6a0fe98814', class: "entry-form__ai-actions" }, h("ir-custom-button", { key: 'df4eed02babc54e9d919c2a472f2fe753b96605e', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canCopyPrompt, onClickHandler: this.handleCopyPrompt }, h("wa-icon", { key: 'b8d7d2e09a4645b628a0519b44f75687b0543176', name: "copy", slot: "start", "aria-hidden": "true" }), "Copy AI prompt"), h("ir-custom-button", { key: 'eb265199a1bd6a69011c5ab2ec4577d80dbd54fa', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canPasteTranslations, onClickHandler: this.handlePasteTranslations }, h("wa-icon", { key: '4df581851f0a6c0a57b5134bbd90f748e44ef227', name: "clipboard", slot: "start", "aria-hidden": "true" }), "Paste AI translations"))), total === 0 ? (h("ir-empty-state", { message: "No languages configured yet. Add one from Manage languages first." })) : (h("div", { class: "entry-form__fields" }, this.languages.map(language => (h("div", { class: "entry-form__field", key: language.code, dir: language.code === 'ar' ? 'rtl' : 'ltr' }, h("wa-textarea", { class: "entry-form__value-input", id: language.code, size: "s", rows: 2, resize: "auto", value: this.values[language.code] ?? '', placeholder: "Enter translation\u2026", oninput: (e) => (this.values = { ...this.values, [language.code]: e.target.value }) }, h("span", { slot: "label", class: "entry-form__field-label" }, language.name, h("span", { class: "entry-form__field-code" }, language.code.toUpperCase()), language.isSource && h("span", { class: "entry-form__field-source" }, t('Lcz_Source', { fallback: 'Source' })))), h("wa-copy-button", { class: "entry-form__value-copy", value: this.values[language.code] ?? '' })))))))));
     }
 };
 IrTranslationsEntryForm.style = irTranslationsEntryFormCss();

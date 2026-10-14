@@ -1,25 +1,25 @@
 'use strict';
 
-var index = require('./index-CQkpA5n3.js');
-var booking_store = require('./booking.store-BH6jbvAP.js');
-var locale_controller = require('./locale.controller-Br0rFGJI.js');
-var t = require('./t-wyGILxEL.js');
-var number = require('./number-BAlv3tpP.js');
+var index = require('./index-IDeZZwEK.js');
+var booking_service = require('./booking.service-xFFQEG7h.js');
+var locale_controller = require('./locale.controller-BtkICUK3.js');
+var t = require('./t-sd8HJHNy.js');
+var number = require('./number-D6oFwIUn.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
-require('./utils-HVSePjFf.js');
+require('./utils-CpEd8z_J.js');
 require('./moment-CdViwxPQ.js');
-require('./calendar-data-Br2L_0sg.js');
-require('./locale-scope-C7rmpwuA.js');
+require('./calendar-data-DZk0v7WL.js');
+require('./locales.store-D6DJIhoZ.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
-require('./ir-date-wIaf9EWb.js');
+require('./ir-date-Bjy8vNGm.js');
 require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
-require('./booking-bItluxlL.js');
-require('./functions-DJb-cJAq.js');
+require('./booking-DETR93Bg.js');
+require('./functions-BsloxeNr.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./types-sp5nWPAa.js');
 
@@ -120,7 +120,7 @@ const IrPhoneInput = class {
     /** Internal: input focus state for floating label. */
     hasFocus = false;
     // private cmp_countries: ICountry[] = [];
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     /** Internal: ids for label/input pairing (a11y). */
     inputId = `ir-phone-input-${Math.random().toString(36).slice(2)}`;
     labelId = `ir-phone-input-label-${Math.random().toString(36).slice(2)}`;

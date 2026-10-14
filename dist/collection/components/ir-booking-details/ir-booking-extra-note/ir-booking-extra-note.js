@@ -63,9 +63,9 @@ export class IrBookingExtraNote {
         this.open = false;
     }
     render() {
-        return (h("ir-dialog", { key: '985d562eb1ef520f3b16ac6ad160a2d9be1dadbb', label: t('Lcz_PrivateNote', { fallback: 'Private Note' }), open: this.open, onIrDialogHide: () => {
+        return (h("ir-dialog", { key: '6b4b6bdbc3d7315368650db3fc9ff5ad3a0dbce5', label: t('Lcz_PrivateNote', { fallback: 'Private Note' }), open: this.open, onIrDialogHide: () => {
                 this.open = false;
-            } }, h("wa-textarea", { key: '201c10f725d6f86a58b68cd5de8b9f62150be313', size: "s", placeholder: t('Lcz_PrivateNote_MaxChar'), defaultValue: this.note, onchange: e => this.setNote(e.target.value), value: this.note }), h("div", { key: 'c57e24d61473a47be501499d89f7d12dc98eaf33', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'd5a0c4f1ecf780364c996f1eabbf97e3f4c6e08c', "data-dialog": "close", size: "m", variant: "neutral", appearance: "filled", onClickHandler: () => this.closeModal.emit(null), class: `flex-fill'}` }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '1da53ad7adf9018457b27cd3c299534b2d5a5385', size: "m", onClickHandler: () => this.savePrivateNote(), variant: "brand", loading: this.isLoading }, t('Lcz_Save', { fallback: 'Save' })))));
+            } }, h("wa-textarea", { key: 'f5db2890d3ec4c5fcb917e20e9fcace716e0c48d', size: "s", placeholder: t('Lcz_PrivateNote_MaxChar'), defaultValue: this.note, onchange: e => this.setNote(e.target.value), value: this.note }), h("div", { key: 'b42ab085bd18579c51e390120acc88db867ba868', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '001092b359f950501c1fb149c96a68562ec7796f', "data-dialog": "close", size: "m", variant: "neutral", appearance: "filled", onClickHandler: () => this.closeModal.emit(null), class: `flex-fill'}` }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '4b0b33d5d600dd684e22125899a0dbeaf88e081d', size: "m", onClickHandler: () => this.savePrivateNote(), variant: "brand", loading: this.isLoading }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get is() { return "ir-booking-extra-note"; }
     static get encapsulation() { return "scoped"; }

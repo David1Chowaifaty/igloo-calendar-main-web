@@ -1,13 +1,13 @@
 'use strict';
 
-var index = require('./index-CQkpA5n3.js');
+var index = require('./index-IDeZZwEK.js');
 var useTable = require('./useTable-BN32DOaV.js');
-var irDate = require('./ir-date-wIaf9EWb.js');
+var irDate = require('./ir-date-Bjy8vNGm.js');
 var moment = require('./moment-CdViwxPQ.js');
-var t = require('./t-wyGILxEL.js');
-var number = require('./number-BAlv3tpP.js');
-var utils = require('./utils-S4ztg9KF.js');
-require('./locale-scope-C7rmpwuA.js');
+var t = require('./t-sd8HJHNy.js');
+var number = require('./number-D6oFwIUn.js');
+var utils = require('./utils-DdTHrEYB.js');
+require('./locales.store-D6DJIhoZ.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
@@ -213,9 +213,9 @@ const IrMealReportFilters = class {
         const tomorrowDate = moment.hooks().add(1, 'day').format('YYYY-MM-DD');
         // Reflect which preset (Today/Tomorrow) is currently active based on the selected fromDate.
         const selectedPreset = this.fromDate === todayDate ? 'today' : this.fromDate === tomorrowDate ? 'tomorrow' : '';
-        return (index.h("ir-filter-card", { key: '01b298b4f2a32dbf38e9ae63d6f03799d90f778a' }, index.h("wa-radio-group", { key: '455e6441bac64b5ba2d527387f221a763d94cae3', label: t.t('Lcz_ReportType', { fallback: 'Report type' }), size: "s", orientation: "horizontal", value: this.reportType, onchange: e => {
+        return (index.h("ir-filter-card", { key: '9c09ddd7922b58c96796cdcc886d010b04f48e12' }, index.h("wa-radio-group", { key: 'df5cf7a56bc78f4422e696578666b6fde6a2ea68', label: t.t('Lcz_ReportType', { fallback: 'Report type' }), size: "s", orientation: "horizontal", value: this.reportType, onchange: e => {
                 this.reportTypeChange.emit(e.target.value);
-            } }, index.h("wa-radio", { key: '07f55ba131f88afaf54f11cd0ce1cf506ad7afb7', style: { flex: '1' }, appearance: "button", value: "GUEST_LIST" }, t.t('Lcz_GuestList', { fallback: 'Guest list' })), index.h("wa-radio", { key: 'de32c1f7210c3e5b1e0dabdc9ebb5542d9b26501', style: { flex: '1' }, appearance: "button", value: "MEAL_COUNT" }, t.t('Lcz_MealCount', { fallback: 'Meal count' }))), this.reportType === 'GUEST_LIST' ? (index.h("wa-radio-group", { label: t.t('Lcz_StayDate', { fallback: 'Stay date' }), size: "s", orientation: "horizontal", value: selectedPreset, onchange: e => {
+            } }, index.h("wa-radio", { key: 'c645923f643891a5c9f088eaa00f2f0d2a4ae591', style: { flex: '1' }, appearance: "button", value: "GUEST_LIST" }, t.t('Lcz_GuestList', { fallback: 'Guest list' })), index.h("wa-radio", { key: '2e764697ba33387139cc702dd2eeb895978a293e', style: { flex: '1' }, appearance: "button", value: "MEAL_COUNT" }, t.t('Lcz_MealCount', { fallback: 'Meal count' }))), this.reportType === 'GUEST_LIST' ? (index.h("wa-radio-group", { label: t.t('Lcz_StayDate', { fallback: 'Stay date' }), size: "s", orientation: "horizontal", value: selectedPreset, onchange: e => {
                 this.presetDate.emit(e.target.value);
             } }, index.h("wa-radio", { style: { flex: '1' }, appearance: "button", value: "today" }, t.t('Lcz_Today', { fallback: 'Today' })), index.h("wa-radio", { style: { flex: '1' }, appearance: "button", value: "tomorrow" }, t.t('Lcz_Tomorrow', { fallback: 'Tomorrow' })))) : (index.h("div", null, index.h("ir-date-range-filter", { label: t.t('Lcz_StayDate', { fallback: 'Stay date' }), fromDate: this.fromDate, showQuickActions: false, toDate: this.toDate, minDate: moment.hooks().format('YYYY-MM-DD'), maxDate: moment.hooks().add(14, 'days').format('YYYY-MM-DD'), onDatesChanged: e => {
                 const { from, to } = e.detail;
@@ -226,14 +226,14 @@ const IrMealReportFilters = class {
             }, withClear: false, selectionMode: "auto" }))), this.reportType === 'GUEST_LIST' &&
             (mealTypes.length > 0 ? (index.h("wa-radio-group", { defaultValue: this.mealType, label: t.t('Lcz_MealType', { fallback: 'Meal type' }), size: "s", orientation: "horizontal", value: this.mealType, style: { width: '100%' }, onchange: e => {
                     this.mealTypeChange.emit(e.target.value);
-                } }, mealTypes.map(type => (index.h("wa-radio", { style: { flex: '1' }, appearance: "button", value: type.CODE_NAME }, utils.getSetupEntryLabel(type)))))) : (index.h("div", { class: "ir-meal-report-filters__warning" }, t.t('Lcz_NoMealTypesFound', { fallback: 'No meal types found.' })))), index.h("div", { key: '93606dd5e3ee10be24384c4ebdc6f62e9a4abd13', slot: "footer" }, index.h("ir-custom-button", { key: 'b8883105a2203c5d22ff60e7a8b15989226edf3c', type: "button", size: "s", variant: "neutral", appearance: "filled", onClickHandler: (e) => {
+                } }, mealTypes.map(type => (index.h("wa-radio", { style: { flex: '1' }, appearance: "button", value: type.CODE_NAME }, utils.getSetupEntryLabel(type)))))) : (index.h("div", { class: "ir-meal-report-filters__warning" }, t.t('Lcz_NoMealTypesFound', { fallback: 'No meal types found.' })))), index.h("div", { key: 'b9480cbec8a4151c0a4058ca53400e3192cc1fbc', slot: "footer" }, index.h("ir-custom-button", { key: 'd3ba6eb71f6c681f0a90573db730c14bf5c090c5', type: "button", size: "s", variant: "neutral", appearance: "filled", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.filterReset.emit();
-            } }, t.t('Lcz_Reset', { fallback: 'Reset' })), index.h("ir-custom-button", { key: '463786e0f7903c20af1802063696cc50c4259de8', type: "button", size: "s", variant: "brand", loading: this.isLoading, onClickHandler: (e) => {
+            } }, t.t('Lcz_Reset', { fallback: 'Reset' })), index.h("ir-custom-button", { key: '2f924ec20a442dbe35f75da55b0efcd34da21428', type: "button", size: "s", variant: "brand", loading: this.isLoading, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();

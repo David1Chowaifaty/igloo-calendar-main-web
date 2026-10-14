@@ -31,7 +31,9 @@ export function toRoomTypeOptions(roomTypes) {
         .map(rt => ({
         id: rt.id,
         name: rt.name,
-        ratePlans: (rt.rateplans ?? []).filter(rp => rp.is_active && !rp.is_derived).map(rp => ({ id: rp.id, label: rp.short_name || rp.name })),
+        ratePlans: (rt.rateplans ?? [])
+            .filter(rp => rp.is_active && !rp.is_derived)
+            .map(rp => ({ id: rp.id, label: rp.short_name || rp.name, customText: rp.custom_text?.trim() || undefined })),
     }))
         .filter(rt => rt.ratePlans.length > 0);
 }

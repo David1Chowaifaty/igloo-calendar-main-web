@@ -1,15 +1,15 @@
-import { r as registerInstance, h } from './index-CeHdrJeH.js';
-import { s as setArrivalsSearchTerm, a as arrivalsStore, b as setArrivalsReferenceDate } from './arrivals.store-BtKWkVJb.js';
-import { i as isRequestPending } from './ir-interceptor.store-B1TrAet5.js';
-import { t } from './t-BVYK64UG.js';
-import './utils-DsZQyztt.js';
+import { r as registerInstance, h } from './index-DKZeCK8T.js';
+import { s as setArrivalsSearchTerm, a as arrivalsStore, b as setArrivalsReferenceDate } from './arrivals.store-BcQHe12C.js';
+import { i as isRequestPending } from './ir-interceptor.store-C1eBDRpd.js';
+import { t } from './t-DTGA0v_q.js';
+import './utils-C5rtMj-W.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-9xOw4JU4.js';
-import './locale-scope-CapRuPkM.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
-import './types-CB66a07H.js';
-import './ir-date-CASx9LWM.js';
+import './calendar-data-D8EnecFU.js';
+import './locales.store-DsOXxI8k.js';
+import './booking.dto-DVIFh8qe.js';
+import './type-W0yWfEBm.js';
+import './types-CrHq6jOb.js';
+import './ir-date-CdNwD9PM.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './calendar-dates-D3hVfsrC.js';
@@ -24,7 +24,7 @@ const IrArrivalsFilters = class {
         setArrivalsSearchTerm(event.detail ?? '');
     };
     render() {
-        return (h("div", { key: '04049983a08d1b46d58a0c08a2e9c52aa83e13a1', class: "arrivals-filters__container" }, h("ir-date-select", { key: '3be3b53ef9214d9489741fff16aa36976037c56f', onDateChanged: e => setArrivalsReferenceDate(e.detail.start.format('YYYY-MM-DD')), date: arrivalsStore.today, class: "arrivals-filters__date-picker" }, h("wa-icon", { key: '9a84579b098e5abfea4e1d66377665beeb174754', name: "calendar", slot: "start" }), isRequestPending('/Get_Rooms_To_Check_in') && h("wa-spinner", { key: '015b7a07d948bd4a8990623e4c70c00a0d0ca03c', slot: "end" })), h("ir-input", { key: '1a4fc1b873b46a2214ddb5f5ccdd9730143e1e01', withClear: true, class: "arrivals-filters__search-bar", placeholder: t('Lcz_SearchGuestsOrBookings', { fallback: 'Search guests or bookings' }), value: arrivalsStore.searchTerm, "onText-change": this.handleSearchChange }, h("wa-icon", { key: 'e6a6b50a4b3f89e16dea26f28795e0694e729ad5', name: "magnifying-glass", slot: "start" }))));
+        return (h("div", { key: '23c53912b808327d42ea65d3ed00606b5157d1c6', class: "arrivals-filters__container" }, h("ir-date-select", { key: '171763ebf1b6b774ffc2c10a3d5c251cbec592f8', onDateChanged: e => setArrivalsReferenceDate(e.detail.start.format('YYYY-MM-DD')), date: arrivalsStore.today, class: "arrivals-filters__date-picker" }, h("wa-icon", { key: 'fbc83435ffff165e96d3569779ec7bf4a0d1ec7f', name: "calendar", slot: "start" }), isRequestPending('/Get_Rooms_To_Check_in') && h("wa-spinner", { key: '1a56a18b76b48d0153952786f1920da891b4a021', slot: "end" })), h("ir-input", { key: '6a06f0e2973c28abacde7dca3879d111b7396adb', withClear: true, class: "arrivals-filters__search-bar", placeholder: t('Lcz_SearchGuestsOrBookings', { fallback: 'Search guests or bookings' }), value: arrivalsStore.searchTerm, "onText-change": this.handleSearchChange }, h("wa-icon", { key: '0c00d203c09efec6490a292279b3a6b5bcaafcc6', name: "magnifying-glass", slot: "start" }))));
     }
 };
 IrArrivalsFilters.style = irArrivalsFiltersCss();

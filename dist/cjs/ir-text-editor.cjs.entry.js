@@ -1,9 +1,9 @@
 'use strict';
 
-var index = require('./index-CQkpA5n3.js');
-var t = require('./t-wyGILxEL.js');
+var index = require('./index-IDeZZwEK.js');
+var t = require('./t-sd8HJHNy.js');
 var _commonjsHelpers = require('./_commonjsHelpers-BJu3ubxk.js');
-require('./locale-scope-C7rmpwuA.js');
+require('./locales.store-D6DJIhoZ.js');
 
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -16778,7 +16778,7 @@ const IrTextEditor = class {
     render() {
         const hasLabel = !!this.label || this.hasLabelSlot;
         const hasHint = !!this.hint || this.hasHintSlot;
-        return (index.h(index.Host, { key: 'd8ef5c5e407fa5d0a3272c266b9480d933d6d0ef', style: this.tooltipLabelVars }, index.h("div", { key: '09d84b4c3dd6bc1023bffd4fc7ac54088e785c68', class: "field" }, hasLabel && (index.h("label", { key: 'e1ec2d847ea5762e69bb3ecd732f278d120938c3', id: this.labelId, class: "label has-label ", part: "form-control-label label", onClick: () => this.editor?.focus() }, index.h("slot", { key: '58af8602d2d6ed0bed96aaf882ffc124a2f4d703', name: "label" }, this.label))), index.h("div", { key: '6cfbd5cf8a310aadb6875b208bcb107a79faa6b4', class: { 'editor-wrapper': true, 'error': this.error }, part: "base" }, index.h("div", { key: 'c05c246d8594d56bae5f4a1a67031c582a0382aa', ref: el => (this.editorContainer = el), class: "editor-container" })), hasHint && (index.h("div", { key: '883474b7af14d45ac869a4d9431ca36becfa385a', id: this.hintId, class: "field__hint has-hint", part: "hint" }, index.h("slot", { key: '1711faa07fc2a2bd37106944f7d259ba8a60b26c', name: "hint" }, this.hint))))));
+        return (index.h(index.Host, { key: '7cfb7001c1db806f3348ea8a4b69911e79a43347', style: this.tooltipLabelVars }, index.h("div", { key: '8089fb49bb458f45f07a260add5f690cd3c7158b', class: "field" }, hasLabel && (index.h("label", { key: '62f539eed452cb189675d8ed3f7b8f984c954eac', id: this.labelId, class: "label has-label ", part: "form-control-label label", onClick: () => this.editor?.focus() }, index.h("slot", { key: '883b9dcb7080b4c61ae3c9f49683abdc16bc6749', name: "label" }, this.label))), index.h("div", { key: '83e14f37594365d49ed98416bab520d25103248d', class: { 'editor-wrapper': true, 'error': this.error }, part: "base" }, index.h("div", { key: '1d4d77366928fcbcb0ad517e8864370d2e2eeb65', ref: el => (this.editorContainer = el), class: "editor-container" })), hasHint && (index.h("div", { key: '769b5dce299dcd41580e698c90a7eb1e712a3c2e', id: this.hintId, class: "field__hint has-hint", part: "hint" }, index.h("slot", { key: '349a2522987c9d84abccd3875ff4a53f3425f93c', name: "hint" }, this.hint))))));
     }
     static get delegatesFocus() { return true; }
     static get formAssociated() { return true; }

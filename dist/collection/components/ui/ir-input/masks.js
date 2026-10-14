@@ -11,6 +11,16 @@ export const masks = {
         padFractionalZeros: true,
         thousandsSeparator: ',',
     },
+    /** Percentage from 0 to 99 with up to 2 decimals; anything outside the range is rejected as it is typed. */
+    percentage: {
+        mask: Number,
+        scale: 2,
+        radix: '.',
+        mapToRadix: [','],
+        normalizeZeros: true,
+        min: 0,
+        max: 99,
+    },
     email: {
         mask: /^\S*@?\S*$/,
         overwrite: false,

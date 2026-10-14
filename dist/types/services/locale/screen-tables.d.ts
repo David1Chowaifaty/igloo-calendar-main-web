@@ -54,6 +54,7 @@ export declare const SCREEN_TABLES: {
     readonly cityLedger: readonly ["_FINANCIALS"];
     readonly cloneRates: readonly ["_SETTINGS"];
     readonly dailyRevenue: readonly ["_REPORTS"];
+    readonly dashboard: readonly ["_FRONTDESK", "_BOOKING", "_REPORTS", "_CALENDAR", "_PMS"];
     readonly departures: readonly ["_BOOKING"];
     readonly dpReport: readonly ["_REPORTS"];
     readonly extraServicesSettings: readonly ["_SETTINGS"];

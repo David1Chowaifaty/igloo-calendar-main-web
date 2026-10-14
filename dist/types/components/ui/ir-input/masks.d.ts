@@ -9,6 +9,16 @@ export declare const masks: {
         readonly padFractionalZeros: true;
         readonly thousandsSeparator: ",";
     };
+    /** Percentage from 0 to 99 with up to 2 decimals; anything outside the range is rejected as it is typed. */
+    readonly percentage: {
+        readonly mask: NumberConstructor;
+        readonly scale: 2;
+        readonly radix: ".";
+        readonly mapToRadix: readonly [","];
+        readonly normalizeZeros: true;
+        readonly min: 0;
+        readonly max: 99;
+    };
     readonly email: {
         readonly mask: RegExp;
         readonly overwrite: false;

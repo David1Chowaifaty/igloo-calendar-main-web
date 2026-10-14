@@ -1,11 +1,11 @@
 'use strict';
 
-var index = require('./index-CQkpA5n3.js');
-var t = require('./t-wyGILxEL.js');
-var number = require('./number-BAlv3tpP.js');
-var irDate = require('./ir-date-wIaf9EWb.js');
+var index = require('./index-IDeZZwEK.js');
+var t = require('./t-sd8HJHNy.js');
+var number = require('./number-D6oFwIUn.js');
+var irDate = require('./ir-date-Bjy8vNGm.js');
 require('./moment-CdViwxPQ.js');
-require('./locale-scope-C7rmpwuA.js');
+require('./locales.store-D6DJIhoZ.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 
@@ -104,12 +104,12 @@ const IrBookingNumberCell = class {
     channelBookingNumber;
     openBookingDetails;
     render() {
-        return (index.h(index.Host, { key: '1ed08a3787db8bb1ebd43418d712c929cc7a866b' }, this.channelBookingNumber && index.h("wa-tooltip", { key: 'f4d13d4b3e79d7aa49b95fa57d145c1cf20b0586', for: `source-logo__${this.bookingNumber}` }, this.origin.Label), index.h("img", { key: '9563b10b35eb6fbb0a4a35fe0926c6d1dd154473', class: "booked-by-source__logo", id: `source-logo__${this.bookingNumber}`, src: this.origin.Icon, alt: this.origin.Label }), index.h("div", { key: '4376fd6a6e5127e28f2a0b7d9e44b66d8b82da34', part: "container", class: "booking-nbr-cell__container" }, index.h("div", { key: 'c3b16d9bd3d1267cba33ea828fe799b6938eb2ed', style: { width: 'fit-content' } }, index.h("button", { key: 'e109c71feba19f50567ad714abf5a620ee1884c7', class: "booking-nbr-cell__button", onClick: () => this.openBookingDetails.emit(this.bookingNumber) }, number.formatBookingNumber(this.bookingNumber))), index.h("p", { key: 'cce578e68e97cfd8e762a3714244fed0b7ab59e5', part: "booking-reference", class: "booking-nbr-cell__channel_nbr" }, this.channelBookingNumber ? number.formatBookingNumber(this.channelBookingNumber) : this.origin.Label))));
+        return (index.h(index.Host, { key: '58b6c60d9a7170353bde115b405bd908a271ad03' }, this.channelBookingNumber && index.h("wa-tooltip", { key: 'd46ad13d5b0da748d3c02039e5b2988e2f5ed9ff', for: `source-logo__${this.bookingNumber}` }, this.origin.Label), index.h("img", { key: '64bd68d17022124fd606cfffc8cf741c3085df35', class: "booked-by-source__logo", id: `source-logo__${this.bookingNumber}`, src: this.origin.Icon, alt: this.origin.Label }), index.h("div", { key: '020900dcab1c8a5ed37166a5453e28da3a3acc47', part: "container", class: "booking-nbr-cell__container" }, index.h("div", { key: 'f1bc6b806bf013c3cdde0093809e25523b49bcb9', style: { width: 'fit-content' } }, index.h("button", { key: '0594e44c0077218f33c5b76a45948f520dbc5d42', class: "booking-nbr-cell__button", onClick: () => this.openBookingDetails.emit(this.bookingNumber) }, number.formatBookingNumber(this.bookingNumber))), index.h("p", { key: 'ae6b86ed75932d7896c06f24fbaf0109dc0f7bdc', part: "booking-reference", class: "booking-nbr-cell__channel_nbr" }, this.channelBookingNumber ? number.formatBookingNumber(this.channelBookingNumber) : this.origin.Label))));
     }
 };
 IrBookingNumberCell.style = irBookingNumberCellCss();
 
-const irDatesCellCss = () => `:host{box-sizing:border-box !important}:host *,:host *::before,:host *::after{box-sizing:inherit !important;padding:0;margin:0}[hidden]{display:none !important}:host{display:block;font-size:0.93rem}:host([display='inline']){display:inline-flex;align-items:center;justify-content:space-between;gap:1rem}.date-cell__container{display:flex;align-items:center;gap:0.25rem}.date-cell__label{font-weight:700}.date-cell__arrow{flex-shrink:0;font-size:0.8rem;color:var(--wa-color-text-quiet, #6b7280)}.ir-flip-rtl:dir(rtl){scale:-1 1}`;
+const irDatesCellCss = () => `:host{box-sizing:border-box !important}:host *,:host *::before,:host *::after{box-sizing:inherit !important;padding:0;margin:0}[hidden]{display:none !important}:host{display:block;font-size:0.93rem}:host([display='inline']){display:inline-flex;align-items:center;justify-content:space-between;gap:1rem}.date-cell__container{display:flex;align-items:center;gap:0.25rem}.date-cell__label{font-weight:700}.date-cell__arrow{flex-shrink:0;font-size:0.8rem;color:var(--wa-color-text-quiet, #6b7280)}.date-cell__container p{unicode-bidi:plaintext}.ir-flip-rtl:dir(rtl){scale:-1 1}`;
 
 const IrDatesCell = class {
     constructor(hostRef) {
@@ -130,7 +130,7 @@ const IrDatesCell = class {
         return irDate.formatDate(date, { style: 'medium' });
     }
     render() {
-        return (index.h(index.Host, { key: 'f6f6b4e91c41ef8abec1209a1160f665a2ef1787' }, index.h("div", { key: '7415c8e42462c98fb998b135ac51ce4eac083aa7', part: "checkin-container", class: "date-cell__container" }, this.checkInLabel && index.h("span", { key: '29f33d151bacefa79bc9d60aa5c8d4929ab9d13c', class: "date-cell__label" }, this.checkInLabel, ": "), index.h("p", { key: '065e15df17a23ba165d8298888ccd82edecae2c7', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn))), this.showArrow && index.h("wa-icon", { key: '617a04b4ec09238cab56c4e4312c50a224d97ecc', class: "date-cell__arrow ir-flip-rtl", name: "arrow-right" }), index.h("div", { key: '22480cfc4fb6251e295d1aa895dd8e814dae1307', part: "checkout-container", class: "date-cell__container" }, this.checkoutLabel && index.h("span", { key: '68449a60e3cfa44dc18b70a59c5b988217fb5c2d', class: "date-cell__label" }, this.checkoutLabel, ": "), index.h("p", { key: 'ef642d6d392622a669ddf98f91fa101d5f8e0096', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut)))));
+        return (index.h(index.Host, { key: '19401dcec3d5866e488def604c4e5a601fd27531' }, index.h("div", { key: '37fcd3b991929f271fe38caab42fddfa78c1e304', part: "checkin-container", class: "date-cell__container" }, this.checkInLabel && index.h("span", { key: 'ab9092195408012044beab48f70488a2384294e0', class: "date-cell__label" }, this.checkInLabel, ": "), index.h("p", { key: 'fbae8aa4fd35fb57c077cf4b771bb22e448c8ef8', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn))), this.showArrow && index.h("wa-icon", { key: '51f917ef37a2e64860716e5ea3d820ec43f0af94', class: "date-cell__arrow ir-flip-rtl", name: "arrow-right" }), index.h("div", { key: '7b11b5bab283c13a6820b1e84cea17150e0bcdcb', part: "checkout-container", class: "date-cell__container" }, this.checkoutLabel && index.h("span", { key: 'a84eebdd57dcff73d616c84767341039ced70e75', class: "date-cell__label" }, this.checkoutLabel, ": "), index.h("p", { key: '86c7ee3ad9ac46db72aa6868a4a9e70abeba2fbb', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut)))));
     }
 };
 IrDatesCell.style = irDatesCellCss();

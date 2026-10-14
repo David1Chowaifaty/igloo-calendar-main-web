@@ -3,6 +3,8 @@ import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { t } from "../../../services/locale/t";
 export class IrDeparturesTable {
+    /** Hides the pagination footer, for hosts that load the whole day in one page (the dashboard). */
+    hidePagination = false;
     checkoutRoom;
     requestPageChange;
     requestPageSizeChange;
@@ -53,7 +55,7 @@ export class IrDeparturesTable {
     }
     render() {
         const { needsCheckOutBookings, futureRooms, outBookings, pagination } = departuresStore;
-        return (h(Host, { key: '3e7b9e35660e6ba4a60e4280fdfd19a467245f98' }, h("div", { key: 'f1970ff370c6df7349da68fb3e2b8a937afc03fd', class: "table--container" }, h("table", { key: 'fe474557a29bb21902786acbe3990a4c7097be2a', class: "table data-table" }, h("thead", { key: '85ab7229be9deb7570b08352d3dbc759fc540fea' }, h("tr", { key: 'eefe403c23aecaf7127484bf26cd5c72d02eb756' }, h("th", { key: '9edd2ea2e035579a11e27b3c0ae14761148b2dc3' }, h("span", { key: '44ca934ce74b2b4cd727e9cd00158a08d4a2ac6a', class: 'departures-table__departure__cell' }, t('Lcz_BookingHash', { fallback: 'Booking#' }))), h("th", { key: '1b9a4a21911a4afde08ef2f67ba55cfe5ca1274b' }, h("div", { key: 'ead3b12ee4323476fd1f2ce127d8b2361ed80b2f' }, h("p", { key: 'f0e232b5d0d7577697be6c57229e732a79c454fc' }, t('Lcz_BookedBySlash', { fallback: 'Booked by /' })), h("p", { key: 'bda7a3ef5ed340372b98f0b0e8a9102838368e36' }, t('Lcz_GuestName', { fallback: 'Guest name' })))), h("th", { key: '12b2047f78f7cf66aa3deb384d33f5169071692f' }, t('Lcz_Unit', { fallback: 'Unit' })), h("th", { key: '0ae276bdb73a20e74034f14a3a10a7989d707812' }, t('Lcz_Dates', { fallback: 'Dates' })), h("th", { key: 'b71618d82a0bb7736ce81d4dbdeb7405e75acc95', class: "text-center" }, t('Lcz_Balance', { fallback: 'Balance' }), h("div", { key: '25d0c7d5da93a9b150a9eebcf17fe3dc1babbd55', style: { width: 'fit-content', marginInline: 'auto' } }, h("ir-custom-button", { key: 'bded25f835abf89006e8f8fdabe1858984e27c91', id: "balance-info", style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, t('Lcz_ClickToCollect', { fallback: 'Click to collect' })))), h("th", { key: 'b8db9ee3f096a6566b4e1aaf1bd277cb76103a3e' }))), h("tbody", { key: '44888f2a53d5221134e090cbb45c0e795db0b8e3' }, this.renderSection({ bookings: futureRooms, isFuture: true }), this.renderSection({ bookings: needsCheckOutBookings, showAction: true }), this.renderSection({ bookings: outBookings }), !needsCheckOutBookings.length && !outBookings.length && (h("tr", { key: '950fc249c1eccd7b0e59e6622c733e587468b8f2' }, h("td", { key: '960e97744ef8d5874c1951c15f348d35b6f2f007', colSpan: 6, class: "empty-row" }, h("ir-empty-state", { key: '17973cc35e8882a520172629d899688d1ef6a4b7' }))))))), (needsCheckOutBookings.length > 0 || outBookings.length > 0 || futureRooms.length > 0) && (h("ir-pagination", { key: 'd5dbdc62e70199deb977ca9084397f7ad13881ae', class: "data-table--pagination", showing: pagination.showing, total: pagination.total, pages: pagination.totalPages, pageSize: pagination.pageSize, currentPage: pagination.currentPage, allowPageSizeChange: false, pageSizes: [pagination.pageSize], recordLabel: t('Lcz_Bookings', { fallback: 'Bookings' }), onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) }))));
+        return (h(Host, { key: '5fd1dac44f9fe75c6f96fbdea742816978327c4b' }, h("div", { key: '31484ecff181aaa0f78973a9fa03427c027c93d3', class: "table--container" }, h("table", { key: '611c5c54dcdf23b600fc84ac832e32b547843c0b', class: "table data-table" }, h("thead", { key: '02f1cfb8acc530cb32b0806fd9cd53f5df2d8c4e' }, h("tr", { key: '3ab837ec562ca804bd5f9469fdee73a25122797e' }, h("th", { key: '300d48274d73d3ff849515829d21da2b35b49778' }, h("span", { key: '18b34d5e88158c6898edf929d09484971e4421a5', class: 'departures-table__departure__cell' }, t('Lcz_BookingHash', { fallback: 'Booking#' }))), h("th", { key: '5f903bd950b8eaca0cc9f585dda89f2a32a0c8d1' }, h("div", { key: '6bb67e072e9371b91aab74afb09407eab82f5d07' }, h("p", { key: 'c52669dea74d9e532122a580132a94e35e4d3252' }, t('Lcz_BookedBySlash', { fallback: 'Booked by /' })), h("p", { key: '25a716a456b836a7bc86cd505303e3600dcb9c25' }, t('Lcz_GuestName', { fallback: 'Guest name' })))), h("th", { key: '9a23ff4b3ca50a22312d5fe8c3fb83ac1a6d964e' }, t('Lcz_Unit', { fallback: 'Unit' })), h("th", { key: '72d5e6c1311960f4da6c6aebaaf1574c9c8fe632' }, t('Lcz_Dates', { fallback: 'Dates' })), h("th", { key: '15e87b93d5b35db66f66e1c3afdd4c8917535370', class: "text-center" }, t('Lcz_Balance', { fallback: 'Balance' }), h("div", { key: '8afef36b64f1f2b133b33677986e1aac16b1d42e', style: { width: 'fit-content', marginInline: 'auto' } }, h("ir-custom-button", { key: 'c023bd961a8eeb0acfb5d3a924483432533283d4', id: "balance-info", style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, t('Lcz_ClickToCollect', { fallback: 'Click to collect' })))), h("th", { key: '36ab78002cd833ac8d0771db41684e2c8f91cb7c' }))), h("tbody", { key: 'c0b0836ce66715da7619e692aa0bc0beba6fc587' }, this.renderSection({ bookings: futureRooms, isFuture: true }), this.renderSection({ bookings: needsCheckOutBookings, showAction: true }), this.renderSection({ bookings: outBookings }), !needsCheckOutBookings.length && !outBookings.length && (h("tr", { key: '1b2bf32c3bba39aed3bf08eeea50d2e8ee5b3120' }, h("td", { key: '8ecd8ab8b5d31b8fb88c4cf6fb81aa78d1371a89', colSpan: 6, class: "empty-row" }, h("ir-empty-state", { key: '085ca57ad20084ee8bd94e88414ddf63c3c90163' }))))))), !this.hidePagination && (needsCheckOutBookings.length > 0 || outBookings.length > 0 || futureRooms.length > 0) && (h("ir-pagination", { key: '0082d98bf21ad22f9d3be16df0980bcf85e96b3a', class: "data-table--pagination", showing: pagination.showing, total: pagination.total, pages: pagination.totalPages, pageSize: pagination.pageSize, currentPage: pagination.currentPage, allowPageSizeChange: false, pageSizes: [pagination.pageSize], recordLabel: t('Lcz_Bookings', { fallback: 'Bookings' }), onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) }))));
     }
     static get is() { return "ir-departures-table"; }
     static get encapsulation() { return "scoped"; }
@@ -65,6 +67,30 @@ export class IrDeparturesTable {
     static get styleUrls() {
         return {
             "$": ["ir-departures-table.css", "../../../common/table.css"]
+        };
+    }
+    static get properties() {
+        return {
+            "hidePagination": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Hides the pagination footer, for hosts that load the whole day in one page (the dashboard)."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "hide-pagination",
+                "defaultValue": "false"
+            }
         };
     }
     static get events() {

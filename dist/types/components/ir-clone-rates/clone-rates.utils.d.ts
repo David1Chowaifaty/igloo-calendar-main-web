@@ -27,6 +27,7 @@ export interface RoomTypeOption {
     ratePlans: {
         id: number;
         label: string;
+        customText?: string;
     }[];
 }
 /** Active room types with their active base (non-derived) rate plans; room types without any are dropped. */

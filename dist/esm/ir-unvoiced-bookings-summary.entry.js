@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-CeHdrJeH.js';
+import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
 
 const irUnvoicedBookingsSummaryCss = () => `:host{display:block}`;
 
@@ -7,7 +7,7 @@ const IrUnvoicedBookingsSummary = class {
         registerInstance(this, hostRef);
     }
     render() {
-        return (h(Host, { key: 'b69169b6a959c180e361186be09e00cc7fec4617' }, h("slot", { key: '66edef2dc5488f94369edf1f4223c272cda2c438' })));
+        return (h(Host, { key: '12a9bc9f6313f160af52873b87077a72091d2f8d' }, h("slot", { key: '2bbf8688ebdcd5f16c17bf42b87fbc0ba386810a' })));
     }
 };
 IrUnvoicedBookingsSummary.style = irUnvoicedBookingsSummaryCss();

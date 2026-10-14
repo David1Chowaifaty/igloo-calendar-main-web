@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-CeHdrJeH.js';
+import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-DKZeCK8T.js';
 
 const irDropdownCss = () => `.dropdown-menu.sc-ir-dropdown{z-index:1000;width:100%;max-height:300px;min-width:var(--ir-dropdown-menu-min-width, 11rem) !important;overflow-y:auto}.dropdown.nav-item.show.sc-ir-dropdown .dropdown-menu.sc-ir-dropdown{display:block}.caret-icon.sc-ir-dropdown{position:absolute;top:50%;transform:translateY(-55%);inset-inline-end:0.25rem;z-index:99999}.dropdown-trigger.sc-ir-dropdown{position:relative}.caret-icon.disabled.sc-ir-dropdown{opacity:0.5 !important;pointer-events:none !important;cursor:not-allowed !important}`;
 
@@ -263,7 +263,7 @@ const IrDropdown = class {
         this.closeDropdown();
     }
     render() {
-        return (h(Host, { key: '255e224b7d165b23854c49ed78f45e51cca14df3', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '0b4bc04722306a8c15eae94833cd39207ea83f75', onClick: () => {
+        return (h(Host, { key: 'f01a5e6d1c8fded39b3664cd1a8542398abe2da5', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: 'f2a60b608670e2b6de2e6b3b335244750327c1fa', onClick: () => {
                 if (this.disabled)
                     return;
                 if (this.isOpen) {
@@ -272,7 +272,7 @@ const IrDropdown = class {
                 else {
                     this.openDropdown();
                 }
-            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '8e0042767261fa89ffe069d0da2c1bd044933e4b', name: "trigger" }), this.caret && (h("div", { key: '8344e5a896221504bb052e1c58a4cc75030ba748', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '942c180b7aebdf92eb076f1876a33221509e168a', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: '2662b46c0f5a8fc9cad5701ca15d4350c08a5363', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '60a3bf8e38410d40cb01a9382b3e92090ada384c' }))));
+            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: 'd4ac9e4db50aeb39eb28f4631df791cade90508a', name: "trigger" }), this.caret && (h("div", { key: '30142e2382b706696403cbc21030553913ea9452', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: 'c987db69a993f7b563e4911e4a70960c08486b18', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: 'aad5b088a2a55f12aa1369e4c4cb08edf04beccc', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '1cdeead6df6d55142ffa42426adad047c315b5df' }))));
     }
     static get watchers() { return {
         "value": [{

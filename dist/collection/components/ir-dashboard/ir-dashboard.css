@@ -1,0 +1,351 @@
+:host {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  display: block;
+}
+
+.dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wa-space-l);
+}
+
+.dashboard-aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wa-space-m);
+}
+
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+@media (min-width: 992px) {
+  /*
+   * Desktop: the dashboard takes exactly the viewport's height, never more. ir-page's body and the layout row fill
+   * what the page header leaves; the aside and the active tab panel stretch to that, so the side cards end on the
+   * table's bottom edge and a long list scrolls inside the table instead of the page. On a screen too short for the
+   * tables' 20rem floor, the page scrolls instead.
+   */
+  :host {
+    --dashboard-table-min-block-size: 20rem;
+  }
+
+  ir-page {
+    block-size: 100dvh;
+  }
+
+  ir-page::part(body) {
+    flex: 1 1 auto;
+    min-block-size: 0;
+  }
+
+  .dashboard-layout {
+    flex: 1 1 auto;
+    flex-direction: row;
+    min-block-size: 0;
+  }
+
+  .dashboard-aside {
+    flex: 0 0 17rem;
+  }
+
+  ir-dashboard-stats {
+    flex: 1 1 auto;
+  }
+
+  .dashboard-main {
+    min-block-size: 0;
+  }
+
+  /* Hand the remaining height down through the tab group to the active panel and its table. */
+  .dashboard-tabs {
+    flex: 1 1 auto;
+    min-block-size: 0;
+  }
+
+  .dashboard-tabs::part(base) {
+    block-size: 100%;
+  }
+
+  .dashboard-tabs::part(body),
+  .dashboard-tab-panel[active],
+  .dashboard-tab-panel::part(base) {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-block-size: 0;
+  }
+
+  .dashboard-tab-panel > * {
+    flex: 1 1 auto;
+    min-block-size: var(--dashboard-table-min-block-size);
+  }
+}
+
+/* Summary cards: a wa-tab-group whose tabs are styled as cards. */
+.dashboard-tabs {
+  --indicator-color: transparent;
+  --track-color: transparent;
+  --track-width: 0;
+}
+
+.dashboard-tabs::part(tabs) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--wa-space-s);
+  border: 0;
+}
+
+/* Two-up on phones: the fifth card takes the full row instead of sitting alone. */
+.dashboard-tab:last-of-type {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 768px) {
+  .dashboard-tabs::part(tabs) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .dashboard-tab:last-of-type {
+    grid-column: auto;
+  }
+}
+
+.dashboard-tab {
+  display: block;
+  color: var(--wa-color-text-normal);
+}
+
+/* WA's active tab draws its own underline; the card border replaces it. */
+.dashboard-tab[active] {
+  border-block-end: 0;
+  margin-block-end: 0;
+}
+
+.dashboard-tab::part(base) {
+  display: grid;
+  /* The overdue row is reserved even when empty, so every card is one height and none grows when "N overdue" lands. */
+  grid-template-rows: auto 1fr minmax(1.25rem, auto);
+  align-items: start;
+  gap: var(--wa-space-2xs);
+  block-size: 100%;
+  min-block-size: 6.25rem;
+  padding: var(--wa-space-m);
+  /* border: var(--wa-border-width-s) var(--wa-border-style) var(--wa-color-surface-border); */
+  border-radius: var(--wa-border-radius-l);
+  background-color: var(--wa-color-surface-default);
+  /* box-shadow: var(--wa-shadow-s); */
+  white-space: normal;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 160ms var(--ease-out);
+}
+
+/* Disabled (still loading) cards don't press or hover-highlight. */
+.dashboard-tab:not([disabled]):active::part(base) {
+  transform: scale(0.98);
+}
+
+/* Active card: brand border and text only — the surface stays white. */
+.dashboard-tab[active]::part(base) {
+  border-color: var(--wa-color-brand-fill-loud);
+  box-shadow: inset 0 0 0 1px var(--wa-color-brand-fill-loud);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dashboard-tab:not([active], [disabled]):hover::part(base) {
+    border-color: var(--wa-color-brand-border-normal);
+  }
+}
+
+.dashboard-tab__label {
+  overflow: hidden;
+  font-size: var(--wa-font-size-s);
+  font-weight: var(--wa-font-weight-semibold);
+  color: var(--wa-color-text-quiet);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 150ms ease;
+}
+
+.dashboard-tab[active] .dashboard-tab__label,
+.dashboard-tab[active] .dashboard-tab__count {
+  color: var(--wa-color-brand-on-quiet);
+}
+
+.dashboard-tab__count {
+  font-size: var(--wa-font-size-2xl);
+  font-weight: var(--wa-font-weight-bold);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  transition: color 150ms ease;
+}
+
+/* The count, with the unassigned note on the same line at the card's inline end. */
+.dashboard-tab__count-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--wa-space-2xs);
+  min-inline-size: 0;
+}
+
+/* The overdue note in the reserved bottom row, at the inline end so it lines up with the unassigned note above it. */
+.dashboard-tab__notes {
+  display: flex;
+  justify-content: flex-end;
+  min-inline-size: 0;
+}
+
+/* A card's action item: a small outlined pill. */
+.dashboard-tab__note {
+  padding: 0 var(--wa-space-xs);
+  border: var(--wa-border-width-s) var(--wa-border-style) var(--wa-color-warning-border-normal);
+  border-radius: var(--wa-border-radius-pill);
+  color: var(--wa-color-warning-on-quiet);
+  font-size: var(--wa-font-size-xs);
+  font-weight: var(--wa-font-weight-semibold);
+  line-height: 1.25rem;
+  white-space: nowrap;
+  max-inline-size: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Arrivals not checked in / guests not checked out after their day — the most urgent note, in red. */
+.dashboard-tab__note--overdue {
+  border-color: var(--wa-color-danger-border-normal);
+  color: var(--wa-color-danger-on-quiet);
+}
+
+/* Rooms still waiting for a unit: always a filled blue pill. */
+.dashboard-tab__note--unassigned {
+  border-color: var(--wa-color-brand-fill-loud);
+  background-color: var(--wa-color-brand-fill-loud);
+  color: var(--wa-color-brand-on-loud);
+}
+
+.dashboard-tab-panel {
+  --padding: var(--wa-space-m) 0 0;
+}
+
+/* Skeletons for the parts that load after first paint (see dashboard-skeletons.tsx). */
+.dashboard-skeleton {
+  --color: color-mix(in oklab, var(--wa-color-neutral-fill-normal) 65%, var(--wa-color-surface-default));
+  block-size: 0.75rem;
+  min-block-size: 0;
+}
+
+.dashboard-skeleton::part(indicator) {
+  border-radius: var(--wa-border-radius-s);
+}
+
+/* Shorter than the count's line box, with margins making up the rest, so the card doesn't jump when the number lands. */
+.dashboard-skeleton--count {
+  inline-size: 1.75em;
+  block-size: 0.8em;
+  margin-block: 0.15em;
+}
+
+.dashboard-skeleton--label {
+  inline-size: 3.5rem;
+  block-size: 0.625rem;
+}
+
+/* Second line of a cell (source / channel, check-out date): smaller and lighter, like the real meta text. */
+.dashboard-skeleton--meta {
+  --color: color-mix(in oklab, var(--wa-color-neutral-fill-normal) 40%, var(--wa-color-surface-default));
+  block-size: 0.5rem;
+}
+
+.dashboard-skeleton--pill {
+  inline-size: 4.5rem;
+  block-size: 1.25rem;
+}
+
+.dashboard-skeleton--action {
+  inline-size: 7.5rem;
+  block-size: 2rem;
+}
+
+.dashboard-skeleton--action::part(indicator) {
+  border-radius: var(--wa-border-radius-m);
+}
+
+/* Same chrome and height as the booking tables it stands in for (borderless on the dashboard). */
+.dashboard-table-skeleton {
+  display: flex;
+  flex-direction: column;
+  min-block-size: var(--dashboard-table-min-block-size, 60vh);
+  overflow: hidden;
+  background-color: var(--wa-color-surface-default);
+}
+
+.dashboard-table-skeleton__head,
+.dashboard-table-skeleton__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr) minmax(0, 2fr) minmax(0, 1fr) minmax(0, 0.9fr);
+  align-items: center;
+  column-gap: var(--wa-space-l);
+  /* The real tables keep their columns and scroll sideways on phones; the skeleton keeps them and clips. */
+  min-inline-size: 40rem;
+  padding-inline: 1rem;
+}
+
+.dashboard-table-skeleton[data-extra-column] .dashboard-table-skeleton__head,
+.dashboard-table-skeleton[data-extra-column] .dashboard-table-skeleton__row {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr) minmax(0, 2fr) minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 1fr);
+}
+
+.dashboard-table-skeleton__head {
+  flex: none;
+  min-block-size: 3.625rem;
+  border-block-end: var(--wa-border-width-s) var(--wa-border-style) var(--wa-color-neutral-border-normal);
+}
+
+/* Rows fade out instead of being cut off by the card's bottom edge. */
+.dashboard-table-skeleton__body {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, #000 35%, transparent);
+}
+
+.dashboard-table-skeleton__row {
+  min-block-size: 3.3rem;
+  border-block-end: var(--wa-border-width-s) var(--wa-border-style) var(--wa-color-neutral-border-quiet);
+}
+
+.dashboard-table-skeleton__cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
+  min-inline-size: 0;
+}
+
+.dashboard-table-skeleton__cell--center {
+  align-items: center;
+}
+
+.dashboard-table-skeleton__cell--end {
+  align-items: flex-end;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-tab::part(base) {
+    transition: none;
+  }
+
+  .dashboard-skeleton::part(indicator) {
+    animation: none;
+  }
+
+  .dashboard-tab:active::part(base) {
+    transform: none;
+  }
+}

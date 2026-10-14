@@ -84,7 +84,7 @@ export class IglCalHeaderDays {
     }
     render() {
         const todayIndex = Math.max(this.days.findIndex(dayInfo => dayInfo.value === this.today), 0);
-        return (h(Host, { key: 'f83b7b27c3f7857a98e920aece39d78762f1201c' }, h("div", { key: '9584d13c2a28863c7dfe26f935997ab3b81d8518', class: { 'stickyCell': true, 'headersContainer': true, 'is-revealing': this.revealing } }, h("div", { key: '311483614c2ff40105bd71c505c469061ca38ea4', class: "monthsContainer" }, this.monthsInfo.map(monthInfo => {
+        return (h(Host, { key: '27a320ff6f33759b81c66207b2df94b72876be45' }, h("div", { key: '87388a3141d29d1d3e4feb467835f898e5315614', class: { 'stickyCell': true, 'headersContainer': true, 'is-revealing': this.revealing } }, h("div", { key: 'b0fef80b613841068fc04e17faa0b23f59d95c23', class: "monthsContainer" }, this.monthsInfo.map(monthInfo => {
             return (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, formatDate(monthInfo.firstDayValue, 'MMM YYYY'))));
         })), this.days.map((dayInfo, index) => {
             const count = this.unassignedRoomsNumber[dayInfo.value] || dayInfo.unassigned_units_nbr;

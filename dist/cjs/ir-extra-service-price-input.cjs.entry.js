@@ -1,10 +1,10 @@
 'use strict';
 
-var index = require('./index-CQkpA5n3.js');
-var calendarData = require('./calendar-data-Br2L_0sg.js');
-var t = require('./t-wyGILxEL.js');
+var index = require('./index-IDeZZwEK.js');
+var calendarData = require('./calendar-data-DZk0v7WL.js');
+var t = require('./t-sd8HJHNy.js');
 var types = require('./types-BVJQZ50e.js');
-require('./locale-scope-C7rmpwuA.js');
+require('./locales.store-D6DJIhoZ.js');
 
 const irExtraServicePriceInputCss = () => `wa-input[aria-invalid='true']::part(base),wa-textarea[aria-invalid='true']::part(base),wa-select[aria-invalid='true']::part(combobox){border-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));outline-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));border-top-width:var(--error-border-width) !important;border-inline-start-width:var(--error-border-width) !important;border-inline-end-width:var(--error-border-width) !important;border-bottom-width:var(--error-border-width) !important}:host{display:flex;flex:1}.ir-extra-service-price-input__price-wrapper{flex:1 1 0%}`;
 
@@ -36,15 +36,15 @@ const IrExtraServicePriceInput = class {
         this.price = { ...(this.price || {}), ...params };
     }
     render() {
-        return (index.h(index.Host, { key: 'e6d3d0a6222c621127435334785a15f7a496892b', class: "ir-extra-service-price-input" }, index.h("ir-validator", { key: '0bccad78f219fcf72ca2eeefb0d3c792130dca9a', form: "extra-services-settings__form", class: "ir-extra-service-price-input__price-wrapper", value: this.price?.value ?? null, schema: types.numberType()
+        return (index.h(index.Host, { key: '6bfe94e743c8da12c04be5b660c74da9d7c011d5', class: "ir-extra-service-price-input" }, index.h("ir-validator", { key: '569d0ba290e71c42102573eee8fe57b7065e8533', form: "extra-services-settings__form", class: "ir-extra-service-price-input__price-wrapper", value: this.price?.value ?? null, schema: types.numberType()
                 .nullable()
-                .refine(value => value === null || value >= 0.01, { message: t.t('Lcz_PriceMustBeGreaterThanZero', { fallback: 'Price must be greater than 0' }) }) }, index.h("ir-input", { key: 'e2760fc23f9afcbf75f9c6551fa9a03440e23857', value: this.price?.value?.toString() ?? '', mask: 'price', onChange: () => {
+                .refine(value => value === null || value >= 0.01, { message: t.t('Lcz_PriceMustBeGreaterThanZero', { fallback: 'Price must be greater than 0' }) }) }, index.h("ir-input", { key: 'd8f5143a4c4ad0f71672298cab65181c90354df7', value: this.price?.value?.toString() ?? '', mask: 'price', onChange: () => {
                 this.priceChange.emit({ value: this.price?.value ?? this.chargeRule?.value ?? null, mode: this.price?.mode ?? this.chargeRule?.mode ?? '' });
             }, part: "input", label: this.label, class: "ir-extra-service-price-input__price", exportparts: "base", size: "s", placeholder: this.placeholder, "onText-change": e => {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updatePriceField({ value });
-            } }, index.h("span", { key: '7a0049e6b3339ebf6180895e7128d6f28939214f', slot: "start", class: "ir-extra-service-price-input__price-symbol" }, calendarData.calendar_data.property.currency.symbol), index.h("slot", { key: '002dd2c422e9582fd49a5980695bfc16f1e1fe26', name: "end", slot: "end" })))));
+            } }, index.h("span", { key: 'c782f88535c53c357b2f73857904180ce7a54d06', slot: "start", class: "ir-extra-service-price-input__price-symbol" }, calendarData.calendar_data.property.currency.symbol), index.h("slot", { key: 'f2f2e134a319b13cb0dc8145bf536d421bdf6567', name: "end", slot: "end" })))));
     }
     static get watchers() { return {
         "chargeRule": [{

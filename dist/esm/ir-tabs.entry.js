@@ -1,7 +1,7 @@
-import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-CeHdrJeH.js';
-import { b as inlineOffset, a as inlineSign } from './direction-DdV1ll2Q.js';
-import { t } from './t-BVYK64UG.js';
-import './locale-scope-CapRuPkM.js';
+import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-DKZeCK8T.js';
+import { b as inlineOffset, a as inlineSign } from './direction-C6JvGTaD.js';
+import { t } from './t-DTGA0v_q.js';
+import './locales.store-DsOXxI8k.js';
 
 const irTabsCss = () => `.sc-ir-tabs-h{display:flex;align-items:center;position:relative;overflow-x:auto;gap:1rem;padding:0 1rem}.tab.sc-ir-tabs{font-size:0.95rem;font-weight:400;cursor:pointer;position:relative;margin:0;padding:0rem;padding-bottom:1rem;transition:color 0.3s ease;user-select:none;background-color:transparent;border:none;outline:none;flex:1 1 0%;text-align:center;white-space:nowrap}.tab[data-disabled].sc-ir-tabs{cursor:auto}.tab.sc-ir-tabs:hover{opacity:80%}.tab[data-state='selected'].sc-ir-tabs,.tab[data-state='selected'].sc-ir-tabs:hover{color:var(--blue, #1e9ff2);opacity:100%}.active-indicator.sc-ir-tabs{padding:0;bottom:0px;position:absolute;height:3px;border-radius:4px;transition:transform 0.3s ease, width 0.3s ease;background:var(--blue, #1e9ff2)}`;
 
@@ -145,7 +145,7 @@ const IrTabs = class {
         }
     }
     render() {
-        return (h(Host, { key: '73e7cdb4d0ec6337b23f8f0fde71253ea367818b', role: "tablist", "aria-label": this.ariaLabel || t('Lcz_Tabs', { fallback: 'Tabs' }), "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: 'c51e2a3490b5d72712288e39e83599408bdd9f40', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+        return (h(Host, { key: 'bd6282c45e3b752610c075bf567d21973450c1a1', role: "tablist", "aria-label": this.ariaLabel || t('Lcz_Tabs', { fallback: 'Tabs' }), "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: '66c7a8cf7a318492390c97b635e50d7e3671e307', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
 };
 IrTabs.style = irTabsCss();

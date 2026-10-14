@@ -1,11 +1,11 @@
 'use strict';
 
-var index = require('./index-CQkpA5n3.js');
+var index = require('./index-IDeZZwEK.js');
 var axios = require('./axios-EresIryl.js');
 var debounce = require('./debounce-Be8tSGtB.js');
-var t = require('./t-wyGILxEL.js');
+var t = require('./t-sd8HJHNy.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./locale-scope-C7rmpwuA.js');
+require('./locales.store-D6DJIhoZ.js');
 
 const irPropertySwitcherDialogContentCss = () => `.sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__search-input.sc-ir-property-switcher-dialog-content::part(base),.property-switcher__search-input.sc-ir-property-switcher-dialog-content [part~="base"]{font-size:16px;height:32px}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}@media (min-width: 640px){.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}}`;
 
@@ -161,7 +161,7 @@ const IrPropertySwitcherDialogContent = class {
         return index.h("div", { class: "property-switcher__status" }, text);
     }
     render() {
-        return (index.h(index.Host, { key: '87be88f7f5ac22b1662fe1206069161bf5d71288' }, index.h("ir-input", { key: '09e715ca3346e083fd260951fdcafc2299124872', autofocus: true, ref: el => (this.inputRef = el), placeholder: t.t('Lcz_PropertyNameOrANumberPlaceholder', { fallback: 'Property name or A number' }), class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), index.h("div", { key: '722cc0568b95640ad6a76ca866fe2ccb0f3a762b', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (index.h("div", { key: 'b96fa5a8c65c8d4c976d047b22d78874d1359c86' }, index.h("p", { key: '8b1eea53a161549fa2e2aee6bc54269142511240', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, t.t('Lcz_LinkedProperties', { fallback: 'Linked Properties' })), this.properties.map(property => {
+        return (index.h(index.Host, { key: '51a5284b0e11777df27957e9969c47da193ed2cb' }, index.h("ir-input", { key: '65f67de390fce23bd9c3166d7893aceee02bc865', autofocus: true, ref: el => (this.inputRef = el), placeholder: t.t('Lcz_PropertyNameOrANumberPlaceholder', { fallback: 'Property name or A number' }), class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), index.h("div", { key: '1da9e01a1164215f5cd2f784d96322062587a1e3', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (index.h("div", { key: '36625f0d3fb58be8480238146fe24ef4a615e97f' }, index.h("p", { key: '8531ccc7930ad23311941b878e0ca0a7a70c165f', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, t.t('Lcz_LinkedProperties', { fallback: 'Linked Properties' })), this.properties.map(property => {
             const label = `${property.name}`;
             return (index.h("wa-option", { onClick: () => {
                     // this.selectProperty(property as any);

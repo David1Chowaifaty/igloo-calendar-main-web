@@ -11,6 +11,7 @@ import { Fragment, Host, h } from "@stencil/core";
 import moment from "moment";
 import { WEEKDAYS, buildCloneRatesPayload, buildReviewRows, getAdjustments, isDecrease, isPercentage, parseSourceOption, toRoomTypeOptions, validateCloneRates, yearBounds, } from "./clone-rates.utils";
 export class IrCloneRates {
+    el;
     ticket;
     p;
     language = 'en';
@@ -34,6 +35,11 @@ export class IrCloneRates {
     copyMinStay;
     errors = {};
     propertyId;
+    /** Set by a failed review; the next render scrolls the first error into view once it is in the DOM. */
+    scrollToErrorPending = false;
+    /** Set when an adjustment is picked; the next render focuses the amount field once it is mounted. */
+    focusAmountPending = false;
+    amountInputRef;
     currentYear = moment().year();
     years = [this.currentYear, this.currentYear - 1];
     apiClientService = new ApiClient();
@@ -50,6 +56,25 @@ export class IrCloneRates {
     }
     componentDidLoad() {
         this.languageSync.connect();
+    }
+    componentDidRender() {
+        if (this.focusAmountPending) {
+            this.focusAmountPending = false;
+            this.focusAmountInput();
+        }
+        if (!this.scrollToErrorPending)
+            return;
+        this.scrollToErrorPending = false;
+        const firstError = this.el.querySelector('.clone-rates__error');
+        if (!firstError)
+            return;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        firstError.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+    }
+    /** `autofocus` only fires on page load, not when the field mounts later; wait for the inner input to render, then focus it. */
+    async focusAmountInput() {
+        const input = await this.amountInputRef?.getNativeInput();
+        input?.focus();
     }
     disconnectedCallback() {
         this.languageSync.disconnect();
@@ -151,6 +176,9 @@ export class IrCloneRates {
         if (Object.keys(this.errors).length === 0) {
             this.isReviewOpen = true;
         }
+        else {
+            this.scrollToErrorPending = true;
+        }
     }
     async confirm() {
         try {
@@ -198,20 +226,25 @@ export class IrCloneRates {
     renderRoomTypesSection() {
         const selectedCount = this.selectedRatePlans.size;
         const allSelected = selectedCount > 0 && selectedCount === this.allRatePlanIds.length;
-        return (h("wa-card", { appearance: "plain", class: "clone-rates__card" }, h("h4", { class: "clone-rates__question" }, t('Lcz_CopyRatesWhichRatePlans', { fallback: 'Which room types and rate plans do you want to copy?' })), h("wa-checkbox", { checked: allSelected, indeterminate: selectedCount > 0 && !allSelected, onchange: (e) => this.toggleAllRatePlans(e.target.checked) }, t('Lcz_SelectAllRatePlans', { fallback: 'Select all rate plans for all room types' })), h("wa-divider", { class: "clone-rates__divider" }), this.roomTypes.length === 0 ? (h("ir-empty-state", { message: t('Lcz_NoActiveRatePlans', { fallback: 'No active rate plans found' }) })) : (h("div", { class: "clone-rates__room-types" }, this.roomTypes.map(rt => (h("div", { key: rt.id, class: "clone-rates__room-type" }, h("p", { class: "clone-rates__room-type-name" }, rt.name), h("div", { class: "clone-rates__rate-plans" }, rt.ratePlans.map(rp => (h("wa-checkbox", { key: rp.id, checked: this.selectedRatePlans.has(rp.id), onchange: (e) => this.toggleRatePlan(rp.id, e.target.checked) }, rp.label))))))))), this.renderError('ratePlans')));
+        return (h("wa-card", { appearance: "plain", class: "clone-rates__card" }, h("h4", { class: "clone-rates__question" }, t('Lcz_CopyRatesWhichRatePlans', { fallback: 'Which room types and rate plans do you want to copy?' })), h("wa-checkbox", { checked: allSelected, indeterminate: selectedCount > 0 && !allSelected, onchange: (e) => this.toggleAllRatePlans(e.target.checked) }, t('Lcz_SelectAllRatePlans', { fallback: 'Select all rate plans for all room types' })), h("wa-divider", { class: "clone-rates__divider" }), this.roomTypes.length === 0 ? (h("ir-empty-state", { message: t('Lcz_NoActiveRatePlans', { fallback: 'No active rate plans found' }) })) : (h("div", { class: "clone-rates__room-types" }, this.roomTypes.map(rt => (h("div", { key: rt.id, class: "clone-rates__room-type" }, h("p", { class: "clone-rates__room-type-name" }, rt.name), h("div", { class: "clone-rates__rate-plans" }, rt.ratePlans.map(rp => (h("wa-checkbox", { key: rp.id, checked: this.selectedRatePlans.has(rp.id), onchange: (e) => this.toggleRatePlan(rp.id, e.target.checked) }, rp.label, rp.customText && h("span", { class: "clone-rates__rate-plan-custom-text" }, " (", rp.customText, ")")))))))))), this.renderError('ratePlans')));
     }
     renderAmountInput() {
-        const label = isDecrease(this.adjustment)
-            ? t('Lcz_AmountToDecreaseRatesBy', { fallback: 'Set the amount you want to decrease your rates by' })
-            : t('Lcz_AmountToIncreaseRatesBy', { fallback: 'Set the amount you want to increase your rates by' });
-        return (h("div", { class: "clone-rates__amount" }, h("ir-input", { label: label, mask: "price", value: this.amount, "onText-change": (e) => {
+        // const label = isDecrease(this.adjustment)
+        //   ? t('Lcz_AmountToDecreaseRatesBy', { fallback: 'Set the amount you want to decrease your rates by' })
+        //   : t('Lcz_AmountToIncreaseRatesBy', { fallback: 'Set the amount you want to increase your rates by' });
+        const _isPercentage = isPercentage(this.adjustment);
+        const symbol = isDecrease(this.adjustment) ? '-' : '+';
+        return (h("div", { class: "clone-rates__amount" }, h("ir-input", { class: { 'clone-rates__amount-input--percentage': _isPercentage },
+            // label={label}
+            ref: el => (this.amountInputRef = el), mask: _isPercentage ? 'percentage' : 'price', value: this.amount, "onText-change": (e) => {
                 this.amount = e.detail;
                 this.clearError('amount');
-            } }, h("span", { slot: "start" }, isPercentage(this.adjustment) ? '%' : this.currencySymbol)), this.renderError('amount')));
+            } }, _isPercentage && h("span", { slot: "start" }, symbol), h("span", { slot: _isPercentage ? 'end' : 'start' }, _isPercentage ? '%' : symbol + ' ' + this.currencySymbol)), this.renderError('amount')));
     }
     renderAdjustmentSection() {
         return (h("wa-card", { appearance: "plain", class: "clone-rates__card" }, h("h4", { class: "clone-rates__question" }, t('Lcz_CopyRatesMakeChanges', { fallback: 'Do you want to make changes to the rates?' })), h("wa-select", { size: "s", class: "clone-rates__adjustment", value: this.adjustment, defaultValue: this.adjustment, onchange: (e) => {
                 this.adjustment = e.target.value;
+                this.focusAmountPending = this.adjustment !== 'none';
                 this.amount = '';
                 this.clearError('amount');
             } }, getAdjustments().map(a => (h("wa-option", { key: a.value, value: a.value }, a.label)))), this.adjustment !== 'none' && this.renderAmountInput()));
@@ -347,7 +380,7 @@ export class IrCloneRates {
                 },
                 "getter": false,
                 "setter": false,
-                "reflect": false,
+                "reflect": true,
                 "attribute": "mode",
                 "defaultValue": "'page'"
             }
@@ -389,6 +422,7 @@ export class IrCloneRates {
                 }
             }];
     }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
                 "propName": "language",

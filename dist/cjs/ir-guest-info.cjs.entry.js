@@ -1,24 +1,24 @@
 'use strict';
 
-var index = require('./index-CQkpA5n3.js');
-var booking_store = require('./booking.store-BH6jbvAP.js');
+var index = require('./index-IDeZZwEK.js');
+var booking_service = require('./booking.service-xFFQEG7h.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var irInterceptor_store = require('./ir-interceptor.store-B6XUQQuI.js');
-var utils = require('./utils-HVSePjFf.js');
-var locale_controller = require('./locale.controller-Br0rFGJI.js');
-var languageSync = require('./language-sync-AVfdxIPf.js');
-var t = require('./t-wyGILxEL.js');
+var irInterceptor_store = require('./ir-interceptor.store-CdFHnn22.js');
+var utils = require('./utils-CpEd8z_J.js');
+var locale_controller = require('./locale.controller-BtkICUK3.js');
+var languageSync = require('./language-sync-w92_g_pi.js');
+var t = require('./t-sd8HJHNy.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
 require('./calendar-dates-BxDGM1ix.js');
 require('./moment-CdViwxPQ.js');
-require('./booking-bItluxlL.js');
-require('./locale-scope-C7rmpwuA.js');
-require('./calendar-data-Br2L_0sg.js');
-require('./functions-DJb-cJAq.js');
-require('./ir-date-wIaf9EWb.js');
+require('./booking-DETR93Bg.js');
+require('./locales.store-D6DJIhoZ.js');
+require('./calendar-data-DZk0v7WL.js');
+require('./functions-BsloxeNr.js');
+require('./ir-date-Bjy8vNGm.js');
 require('./language-observer-DKp37LIu.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./booking.dto-CUSvGTvD.js');
@@ -48,7 +48,7 @@ const GuestInfo = class {
     autoValidate = false;
     closeSideBar;
     resetBookingEvt;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     ApiClient = new ApiClient.ApiClient();
     /** Re-runs init when the language changes so server-localized data follows. */
     languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.guestInfo, () => this.init());

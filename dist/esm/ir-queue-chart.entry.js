@@ -1,7 +1,7 @@
-import { r as registerInstance, a as getElement, h, H as Host } from './index-CeHdrJeH.js';
+import { r as registerInstance, a as getElement, h, H as Host } from './index-DKZeCK8T.js';
 import { C as Chart, r as registerables } from './chart-3KrsuFTS.js';
-import { t } from './t-BVYK64UG.js';
-import './locale-scope-CapRuPkM.js';
+import { t } from './t-DTGA0v_q.js';
+import './locales.store-DsOXxI8k.js';
 
 const irQueueChartCss = () => `:host{display:block}`;
 
@@ -106,7 +106,7 @@ const IrQueueChart = class {
         this.chart.update();
     }
     render() {
-        return (h(Host, { key: 'dd28abca8f96d001458c98e01573d38c616a2be4' }, h("div", { key: '3328092e4a865d8c7f7797ba63a95cce0f0610eb', class: "chart-container" }, h("canvas", { key: '8c76eb039c9b42db1bea5f6c9c63d1a4985e11d5', ref: el => (this.canvas = el) }))));
+        return (h(Host, { key: 'fa984357d41b3eab1f8be1d201bc73df30ed7a37' }, h("div", { key: 'eeab59616d82be640b84c6f9e865d23101535e7e', class: "chart-container" }, h("canvas", { key: '452eef770691e3cbca5569ed39118ed24b44a1c0', ref: el => (this.canvas = el) }))));
     }
     static get watchers() { return {
         "values": [{

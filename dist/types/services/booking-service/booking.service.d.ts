@@ -1,5 +1,5 @@
 import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRequest } from '../../models/booking.dto';
-import { BookingDetails, IBlockUnit, ICountry, SetupEntries } from '../../models/IBooking';
+import { BookingDetails, DayType, IBlockUnit, ICountry, SetupEntries } from '../../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../../models/booking.dto';
 import { PaymentEntries } from "../../components/ir-booking-details/types";
 import { SimulateDirectBookingParams, type CalculateOptimBaseGrossAmountParams, type DoDayUseParams, type SetHbPreferenceProps, type SetDepartureTimeProps, type VoidPaymentProps, type RoomsToProcessResult, type CalculateExclusiveTaxProps, type AckExposedRevisionProps, type ExposedGuests, type GetBookingInvoiceInfoProps, type GetRoomsToCheckInProps, type GetRoomsToCheckOutProps, type IssueInvoiceProps, type PrintInvoiceProps, type VoidInvoiceProps, type SetArrivalTimeProps, type GetCalendarDataParams } from './types';
@@ -94,6 +94,11 @@ export declare class BookingService {
     }): Promise<any>;
     getLov(): Promise<any>;
     sendBookingConfirmationEmail(booking_nbr: string, language: string): Promise<any>;
+    /** Properties served by the V4 calendar endpoint, which returns `My_Result` as a JSON string. */
+    private getExposedCalendarRoute;
+    private postExposedCalendar;
+    /** Raw calendar days for the range, without the booking mapping `getCalendarData` does. */
+    fetchExposedCalendarDays(params: GetCalendarDataParams): Promise<DayType[]>;
     getCalendarData(params: GetCalendarDataParams): Promise<{
         [key: string]: any;
     }>;

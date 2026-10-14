@@ -1,0 +1,222 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wa-space-m);
+}
+
+/* Takes the host's spare height, which ir-dashboard stretches to the table's on desktop, pushing the KPI cards to the bottom. */
+.stats {
+  display: block;
+  flex: 1 1 auto;
+  --spacing: var(--wa-space-m);
+  background: var(--wa-color-surface-default);
+}
+
+.stats::part(body) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wa-space-m);
+}
+
+.stats__ring,
+.stats__section,
+.stats__count,
+.stats__kpis {
+  transition: opacity 150ms ease;
+}
+
+/* Day change: keep the old figures on screen, dimmed, until the new ones land. */
+.stats--loading {
+  opacity: 0.55;
+}
+
+.stats__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wa-space-xs);
+}
+
+.stats__ring {
+  align-self: center;
+  --size: 8.5rem;
+  --track-width: 0.625rem;
+  --indicator-width: 0.625rem;
+  --track-color: var(--wa-color-neutral-fill-quiet);
+  --indicator-color: var(--wa-color-success-fill-loud);
+}
+
+.stats__ring-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stats__ring-value {
+  unicode-bidi: isolate;
+  font-size: var(--wa-font-size-xl);
+  font-weight: var(--wa-font-weight-bold);
+  line-height: var(--wa-line-height-condensed);
+  font-variant-numeric: tabular-nums;
+}
+
+.stats__ring-label {
+  font-size: var(--wa-font-size-xs);
+  color: var(--wa-color-text-quiet);
+}
+
+.stats__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Value and label sit side by side, value first. */
+.stats__count {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--wa-font-size-s);
+}
+
+/* Same skewed swatch as the calendar legend (igl-legend .legend_skew); the colour comes from the property's legend. */
+.stats__swatch {
+  flex: none;
+  inline-size: 15px;
+  block-size: 16px;
+  border-radius: 4px;
+  background-color: var(--stats-swatch-color, var(--wa-color-brand-fill-loud));
+  transform: skew(-22deg);
+}
+
+/* Pending is drawn like the legend's pending entry: an outlined, dashed bar rather than a filled one. */
+.stats__swatch--pending {
+  border: 1px dashed var(--wa-color-success-fill-loud);
+  background-color: var(--wa-color-surface-default);
+}
+
+.stats__count-value {
+  padding-inline-start: 0.5rem;
+  min-inline-size: 2ch;
+  font-size: var(--wa-font-size-m);
+  font-weight: var(--wa-font-weight-bold);
+  line-height: var(--wa-line-height-condensed);
+  font-variant-numeric: tabular-nums;
+  color: var(--wa-color-text-normal);
+}
+
+/* Available units lead the list, so their count reads a step larger than the others. */
+.stats__count:first-child .stats__count-value {
+  font-size: var(--wa-font-size-l);
+}
+
+/* One step up from the row's base size, so the label still reads next to the bold count. */
+.stats__count-label {
+  font-size: var(--wa-font-size-m);
+  color: var(--wa-color-text-quiet);
+}
+
+/* Revenue KPIs: one card holding all three figures, at its natural height. */
+.stats__revenue {
+  display: block;
+  flex: none;
+  --spacing: var(--wa-space-m);
+  background: var(--wa-color-surface-default);
+}
+
+.stats__kpis {
+  display: grid;
+  gap: var(--wa-space-m);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stats__kpi {
+  display: grid;
+  gap: var(--wa-space-2xs);
+  min-inline-size: 0;
+}
+
+.stats__kpi-label {
+  overflow: hidden;
+  font-size: var(--wa-font-size-s);
+  font-weight: var(--wa-font-weight-semibold);
+  color: var(--wa-color-text-quiet);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stats__kpi-value {
+  /* Keep "€ 3,500.00" in one order inside RTL text. */
+  direction: ltr;
+  unicode-bidi: isolate;
+  /* A step below the tabs' counts: amounts are long strings, and occupancy stays the rail's headline figure. */
+  font-size: var(--wa-font-size-xl);
+  font-weight: var(--wa-font-weight-bold);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: var(--wa-color-text-normal);
+}
+
+/* Tablets: the rail is full width, so lay the ring and units side by side, and the KPIs in one row. */
+@media (min-width: 576px) and (max-width: 991px) {
+  .stats::part(body) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--wa-space-l);
+  }
+
+  .stats__kpis {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .stats__section {
+    align-self: stretch;
+    justify-content: center;
+  }
+}
+
+/* Skeletons shown until each part's first figures arrive. */
+.stats__skeleton {
+  inline-size: 70%;
+  block-size: 1.125rem;
+  min-block-size: 0;
+}
+
+.stats__skeleton::part(indicator) {
+  border-radius: var(--wa-border-radius-s);
+}
+
+/* Matches the KPI value's line box, so the card doesn't jump when the figures land. */
+.stats__skeleton--kpi {
+  inline-size: 6rem;
+  block-size: 1.3rem;
+}
+
+.stats__skeleton--ring {
+  align-self: center;
+  inline-size: 8.5rem;
+  block-size: 8.5rem;
+}
+
+.stats__skeleton--ring::part(indicator) {
+  border-radius: var(--wa-border-radius-circle);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stats__ring,
+  .stats__section,
+  .stats__count,
+  .stats__kpis {
+    transition: none;
+  }
+
+  .stats__skeleton::part(indicator) {
+    animation: none;
+  }
+}

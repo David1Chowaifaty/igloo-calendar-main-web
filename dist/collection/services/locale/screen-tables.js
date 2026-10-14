@@ -54,6 +54,7 @@ export const SCREEN_TABLES = {
     cityLedger: ['_FINANCIALS'],
     cloneRates: ['_SETTINGS'],
     dailyRevenue: ['_REPORTS'],
+    dashboard: ['_FRONTDESK', '_BOOKING', '_REPORTS', '_CALENDAR', '_PMS'],
     departures: ['_BOOKING'],
     dpReport: ['_REPORTS'],
     extraServicesSettings: ['_SETTINGS'],

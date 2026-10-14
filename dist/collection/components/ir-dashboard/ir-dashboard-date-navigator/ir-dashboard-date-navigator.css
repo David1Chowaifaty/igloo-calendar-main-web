@@ -1,0 +1,107 @@
+:host {
+  display: block;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.date-navigator {
+  display: block;
+  --spacing: var(--wa-space-m) var(--wa-space-s);
+  /* box-shadow: var(--wa-shadow-s); */
+  transition: border-color 200ms ease;
+  background: var(--wa-color-surface-default);
+}
+
+.date-navigator::part(body) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--wa-space-s);
+  /* Keeps the chevrons near the date when the card spans the full width on tablets. */
+  inline-size: 100%;
+  max-inline-size: 16rem;
+  margin-inline: auto;
+}
+
+/* Today: brand border and text only — the surface stays white. */
+/* .date-navigator--today {
+  border-color: var(--wa-color-brand-fill-loud);
+  box-shadow:
+    inset 0 0 0 1px var(--wa-color-brand-fill-loud),
+    var(--wa-shadow-s);
+} */
+
+.date-navigator--today .date-navigator__day {
+  color: var(--wa-color-brand-on-quiet);
+}
+
+.date-navigator__weekday,
+.date-navigator__month {
+  font-size: var(--wa-font-size-m);
+  font-weight: var(--wa-font-weight-semibold);
+  line-height: var(--wa-line-height-condensed);
+  text-align: center;
+  color: var(--wa-color-text-normal);
+  /* Line boxes hug the letters (cap height to baseline), so the gaps and the chevrons' centre line are optical, not font-metric. */
+  text-box: trim-both cap alphabetic;
+}
+
+.date-navigator__month {
+  font-weight: var(--wa-font-weight-normal);
+  color: var(--wa-color-text-quiet);
+}
+
+/* Weekday, day and month stacked and centred between the chevrons, which centre on the whole stack. */
+.date-navigator__date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--wa-space-s);
+  text-align: center;
+}
+
+/*
+ * Proportional figures: tabular ones give the narrow "1" a full digit's advance, padding its left side, so "14" or
+ * "11" sat visibly off-centre. A lone number never needs to line up with others.
+ */
+.date-navigator__day {
+  font-size: 3.5rem;
+  font-weight: var(--wa-font-weight-semibold);
+  line-height: 1;
+  font-variant-numeric: proportional-nums;
+  text-box: trim-both cap alphabetic;
+}
+
+/*
+ * A trailing "1" (1, 11, 21, 31) leaves a wide empty side bearing on its right, pulling the ink ~0.05em left of centre.
+ * Digits always run left to right, so the nudge is physical even in RTL.
+ */
+.date-navigator__day--ends-in-one {
+  transform: translateX(0.05em);
+}
+
+.date-navigator__step::part(base) {
+  transition:
+    background-color 150ms ease,
+    transform 160ms var(--ease-out);
+}
+
+.date-navigator__step:not([disabled]):active::part(base) {
+  transform: scale(0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .date-navigator,
+  .date-navigator__step::part(base) {
+    transition: none;
+  }
+
+  .date-navigator__step:not([disabled]):active::part(base) {
+    transform: none;
+  }
+}
+
+/* Directional icon: a chevron, nav arrow or date-range separator points the other way
+   under RTL. Mirroring in CSS keeps it correct without a re-render on direction change. */
+.ir-flip-rtl:dir(rtl) {
+  scale: -1 1;
+}

@@ -17,12 +17,12 @@ export class IrFiscalDocumentPreview {
     render() {
         const showAgent = this.mode === 'agent' || this.mode === 'all';
         const showGuest = this.mode === 'guest' || this.mode === 'all';
-        return (h(Host, { key: '6ff713aa68bb5612eab29ae2eb05aba42aa0c591' }, showAgent && (h("ir-cl-fiscal-document-preview", { key: '6320c7468acaf5332da32d49224c6883219312dd', ticket: this.ticket, propertyId: this.propertyId, onDocumentConverted: (e) => {
+        return (h(Host, { key: '67b05099b92f6e7db4ed653b0ff30b8879b368db' }, showAgent && (h("ir-cl-fiscal-document-preview", { key: '3f9d0e723a1e66d78e3a0f688d3c68dde9eeabd9', ticket: this.ticket, propertyId: this.propertyId, onDocumentConverted: (e) => {
                 // Stop the inner (bubbling) event and re-emit from the wrapper so
                 // the host only sees a single, typed `documentConverted`.
                 e.stopPropagation();
                 this.documentConverted.emit();
-            } })), showGuest && h("ir-guest-document-preview", { key: '39051a1fc809e0a0154a80ee3ab37d1b1392dc26', ticket: this.ticket, propertyId: this.propertyId })));
+            } })), showGuest && h("ir-guest-document-preview", { key: '56424922586bdb333c28c1e0ce61694f14fe1777', ticket: this.ticket, propertyId: this.propertyId })));
     }
     static get is() { return "ir-fiscal-document-preview"; }
     static get encapsulation() { return "scoped"; }

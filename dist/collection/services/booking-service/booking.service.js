@@ -129,28 +129,35 @@ export class BookingService {
         }
         return data.My_Result;
     }
+    /** Properties served by the V4 calendar endpoint, which returns `My_Result` as a JSON string. */
+    getExposedCalendarRoute(propertyid) {
+        const v4Candidates = new Set([373, 1221, 42, 26]);
+        const isV4 = v4Candidates.has(Number(propertyid));
+        return { route: isV4 ? 'Get_Exposed_Calendar_V4' : 'Get_Exposed_Calendar', isV4 };
+    }
+    async postExposedCalendar(params) {
+        const payload = GetCalendarDataParamsSchema.parse(params);
+        const { route, isV4 } = this.getExposedCalendarRoute(payload.propertyid);
+        const { data } = await axios.post(`/${route}`, {
+            ...payload,
+            extras,
+            include_sales_rate_plans: true,
+        });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        const res = isV4 ? JSON.parse(data.My_Result) : data.My_Result;
+        return { payload, route, data, months: res.months };
+    }
+    /** Raw calendar days for the range, without the booking mapping `getCalendarData` does. */
+    async fetchExposedCalendarDays(params) {
+        const { months } = await this.postExposedCalendar(params);
+        return (months ?? []).flatMap(month => month.days);
+    }
     async getCalendarData(params) {
         try {
-            const payload = GetCalendarDataParamsSchema.parse(params);
-            const v4Candidates = new Set([373, 1221, 42, 26]);
-            let route = 'Get_Exposed_Calendar';
-            const isCandidate = v4Candidates.has(Number(payload.propertyid));
-            if (isCandidate) {
-                route += '_V4';
-            }
-            const { data } = await axios.post(`/${route}`, {
-                ...payload,
-                extras,
-                include_sales_rate_plans: true,
-            });
-            if (data.ExceptionMsg !== '') {
-                throw new Error(data.ExceptionMsg);
-            }
-            // const months: MonthType[] = data.My_Result.months;
+            const { payload, route, data, months } = await this.postExposedCalendar(params);
             const customMonths = [];
-            const res = isCandidate ? JSON.parse(data.My_Result) : data.My_Result;
-            const months = res.months;
-            // const customMonths: { daysCount: number; monthName: string }[] = [];
             const myBooking = await getMyBookings(months);
             const days = months
                 .map(month => {

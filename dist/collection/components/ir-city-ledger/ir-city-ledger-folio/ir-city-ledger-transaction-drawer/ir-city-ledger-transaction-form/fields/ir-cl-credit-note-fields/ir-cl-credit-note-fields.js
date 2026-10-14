@@ -8,7 +8,7 @@ export class IrClCreditNoteFields {
     fieldChange;
     render() {
         // const noInvoices = this.fiscalDocuments.length === 0;
-        return (h(Fragment, { key: '9495471500496a5fabb5c6275b91db05100456e0' }, this.creditNoteMode === 'cancel-invoice' && (h("div", { key: '119f5aa43b4ea2b87de03684259db4b15faf5325', class: "field" }, h("ir-cl-invoice-select", { key: 'f5f28f7252c6ab5ec0497a52967d69b54ee3cff5', value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: t('Lcz_DocumentTypeInvoice', { fallback: 'Invoice' }), onInvoiceChange: event => {
+        return (h(Fragment, { key: '554935a5ead73ef5937d84a034368db4ebc85789' }, this.creditNoteMode === 'cancel-invoice' && (h("div", { key: '6e082290543ada2f4f4ad38e2d5c6f312a3b003e', class: "field" }, h("ir-cl-invoice-select", { key: '64ce6ec16b20d43c6337092a25dc2bf6161b4e73', value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: t('Lcz_DocumentTypeInvoice', { fallback: 'Invoice' }), onInvoiceChange: event => {
                 this.fieldChange.emit({ invoiceId: event.detail || undefined });
             }, hint: t('Lcz_IssueCreditNoteVoidHint', { fallback: 'Issuing this credit note will void the selected invoice and unlock all associated line items.' }) })))));
     }

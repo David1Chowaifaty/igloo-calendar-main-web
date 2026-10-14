@@ -12,11 +12,11 @@ export class IglSplitBookingDrawer {
         return this.booking?.rooms?.find(r => r.identifier === this.identifier);
     }
     render() {
-        return (h("ir-drawer", { key: '638c186b55ebe4c1f19a7ed8bffcbfbd8447f2c0', open: this.open, class: 'split-booking__drawer', label: `${t('Lcz_SplitUnit', { fallback: 'Split unit' })} ${this.room?.unit?.['name'] ?? ''}`, onDrawerHide: e => {
+        return (h("ir-drawer", { key: '763ebd6b95cc9d02e1f0fa37c0c02962d141eec9', open: this.open, class: 'split-booking__drawer', label: `${t('Lcz_SplitUnit', { fallback: 'Split unit' })} ${this.room?.unit?.['name'] ?? ''}`, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit(null);
-            } }, this.open && h("igl-split-booking-form", { key: '105e52bf24a192238c3be7eebee4b67f6fb9ed54', booking: this.booking, identifier: this.identifier, formId: this._id }), h("div", { key: 'c7616fc98e78769dd5787948d731709c19937fdf', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'dee62de8b8b848b50158427207f6e3ad5f13ff12', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '693e5819e2e55e1295ac41fbed691c2a5232595e', form: this._id, type: "submit", size: "m", appearance: "accent", variant: "brand", loading: isRequestPending('/DoReservation') }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
+            } }, this.open && h("igl-split-booking-form", { key: 'a6c945ce285eecdd39182ec93bc89827e0e2d5d7', booking: this.booking, identifier: this.identifier, formId: this._id }), h("div", { key: '7bc325989aff7b9ac1768a8904f9e17b77eb52f7', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'dd1b83d359fdabeae800a18e07990f1accb3806d', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'f4ba2d5d49696d8df3617cba236936c0c634a91c', form: this._id, type: "submit", size: "m", appearance: "accent", variant: "brand", loading: isRequestPending('/DoReservation') }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
     }
     static get is() { return "igl-split-booking-drawer"; }
     static get encapsulation() { return "scoped"; }
