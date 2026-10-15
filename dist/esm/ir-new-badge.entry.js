@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
-import { t } from './t-DTGA0v_q.js';
-import './locales.store-DsOXxI8k.js';
+import { t } from './t-Bvz1wS_D.js';
+import './locale-scope-Jre4lb6k.js';
 
 const irNewBadgeCss = () => `:host{display:inline-flex}.new-badge{font-weight:400;text-align:center;vertical-align:middle !important;text-transform:uppercase;letter-spacing:0.02em;line-height:1;display:inline-flex;align-items:center;justify-content:center;width:fit-content;white-space:nowrap;background:#ff4961;color:white;padding:0.2rem 0.3rem;font-size:0.75rem !important;border-radius:4px}`;
 

@@ -35,6 +35,8 @@ export class IrDashboardStats {
     unitsLoading = false;
     /** Dims the pending-units figure while a newer day's is in flight. */
     pendingLoading = false;
+    /** How tightly the cards are drawn; ir-dashboard steps it down when the desktop rail is short. */
+    density = 'regular';
     /** The property's colour for a unit row's legend entry, so the swatch matches the calendar. */
     legendColor(tone) {
         const legend = UNIT_LEGEND[tone];
@@ -57,11 +59,11 @@ export class IrDashboardStats {
     renderRing() {
         const performance = this.performance;
         if (!performance) {
-            return h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--ring", "aria-hidden": "true" });
+            return (h("div", { class: "stats__ring-slot" }, h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--ring", "aria-hidden": "true" })));
         }
         const occupancy = Math.min(Math.max(performance.occupancy, 0), 100);
         const occupancyLabel = t('Lcz_Occupancy', { fallback: 'Occupancy' });
-        return (h("wa-progress-ring", { class: `stats__ring${this.performanceLoading ? ' stats--loading' : ''}`, value: occupancy, label: occupancyLabel }, h("span", { class: "stats__ring-content" }, h("span", { class: "stats__ring-value" }, formatPercent(occupancy, { minimumFractionDigits: 2, maximumFractionDigits: 2 })), h("span", { class: "stats__ring-label" }, occupancyLabel))));
+        return (h("div", { class: "stats__ring-slot" }, h("wa-progress-ring", { class: `stats__ring${this.performanceLoading ? ' stats--loading' : ''}`, value: occupancy, label: occupancyLabel }, h("span", { class: "stats__ring-content" }, h("span", { class: "stats__ring-value" }, formatPercent(occupancy, { minimumFractionDigits: 2, maximumFractionDigits: 2 })), h("span", { class: "stats__ring-label" }, occupancyLabel)))));
     }
     renderUnits() {
         const { units, performance, pendingUnits } = this;
@@ -75,7 +77,7 @@ export class IrDashboardStats {
         return (h("wa-card", { class: "stats__revenue", appearance: "plain" }, h("ul", { class: { 'stats__kpis': true, 'stats--loading': !!performance && this.performanceLoading }, "aria-label": t('Lcz_Revenue', { fallback: 'Revenue' }), "aria-busy": !performance ? 'true' : null }, this.renderKpi(t('Lcz_RoomRevenue', { fallback: 'Room revenue' }), performance?.roomRevenue), this.renderKpi(t('Lcz_Adr', { fallback: 'ADR' }), performance?.adr), this.renderKpi(t('Lcz_RevPar', { fallback: 'RevPAR' }), performance ? computeRevPar(performance.adr, performance.occupancy) : undefined))));
     }
     render() {
-        return (h(Host, { key: 'ea4896c57df1238693479915272d40b6b065f6bd' }, h("wa-card", { key: '95d94f643a297298b37c08c8bb9e6471d2a8fd15', class: "stats", appearance: "plain" }, this.renderRing(), this.renderUnits()), this.renderRevenue()));
+        return (h(Host, { key: '28403d8c7b396c1c1f1d3242380d51e744ca9cf7' }, h("wa-card", { key: '2562948d2756109f2921f0f5286e7b5aac2757aa', class: "stats", appearance: "plain" }, this.renderRing(), this.renderUnits()), this.renderRevenue()));
     }
     static get is() { return "ir-dashboard-stats"; }
     static get encapsulation() { return "scoped"; }
@@ -236,6 +238,33 @@ export class IrDashboardStats {
                 "reflect": false,
                 "attribute": "pending-loading",
                 "defaultValue": "false"
+            },
+            "density": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "RailDensity",
+                    "resolved": "\"compact\" | \"regular\" | \"spacious\" | \"tight\"",
+                    "references": {
+                        "RailDensity": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/ir-dashboard/types.ts::RailDensity",
+                            "referenceLocation": "RailDensity"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "How tightly the cards are drawn; ir-dashboard steps it down when the desktop rail is short."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": true,
+                "attribute": "density",
+                "defaultValue": "'regular'"
             }
         };
     }

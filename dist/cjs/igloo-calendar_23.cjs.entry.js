@@ -1,55 +1,54 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var room_service = require('./room.service-DgB2Jucs.js');
-var booking_service = require('./booking.service-xFFQEG7h.js');
-var index$1 = require('./index-B68FhsPq.js');
-var utils = require('./utils-CpEd8z_J.js');
-var t = require('./t-sd8HJHNy.js');
+var room_service = require('./room.service-Dc0vGBFC.js');
+var booking_store = require('./booking.store-CFCw1RAq.js');
+var index$1 = require('./index-Cb_LC8em.js');
+var utils = require('./utils-ZKsQb8eV.js');
+var t = require('./t-CqJPQrfm.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 var realtime_service = require('./realtime.service-BMgF8Zdb.js');
-var events_service = require('./events.service-DW-g4gnM.js');
+var events_service = require('./events.service-BSuf5rtJ.js');
 var moment = require('./moment-CdViwxPQ.js');
-var index$3 = require('./index-k6C2QrOl.js');
-var booking = require('./booking-DETR93Bg.js');
-var locales_store = require('./locales.store-D6DJIhoZ.js');
-var calendarData = require('./calendar-data-DZk0v7WL.js');
-var calendarGrid = require('./calendar-grid-b1gsDTfX.js');
+var index$3 = require('./index-DQLC3SUK.js');
+var booking = require('./booking-DhSfYcY7.js');
+var localeScope = require('./locale-scope-Cch-vf1R.js');
+var calendarData = require('./calendar-data-ShS6b-Ns.js');
+var calendarGrid = require('./calendar-grid-CnZE4jx_.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var batchQueue = require('./batch-queue-gfZuZuvL.js');
-var index$4 = require('./index-BlTsK8DE.js');
-var index$2 = require('./index-CK0Nvnny.js');
-var locale_controller = require('./locale.controller-BtkICUK3.js');
-var languageSync = require('./language-sync-w92_g_pi.js');
-var direction = require('./direction-lj6IFDjf.js');
+var svcCategory_utils = require('./svc-category.utils-BykIWCtR.js');
+var index$4 = require('./index-DnLl4vlg.js');
+var index$2 = require('./index-Cw449Sfi.js');
+var locale_controller = require('./locale.controller-DXObwuz4.js');
+var languageSync = require('./language-sync-Daqv91WM.js');
+var direction = require('./direction-CuBM8Z-h.js');
 var agents_service = require('./agents.service-C9idZypK.js');
-var utils$1 = require('./utils-DdTHrEYB.js');
-var arrivals_store = require('./arrivals.store-DgqgVg8s.js');
+var utils$1 = require('./utils-PciJI6G4.js');
+var arrivals_store = require('./arrivals.store-CGHG04oE.js');
 var axios = require('./axios-EresIryl.js');
-var index$5 = require('./index-g72tsL_B.js');
-var channel_service = require('./channel.service-GkgvdbrI.js');
+var index$5 = require('./index-B0rmpW22.js');
+var channel_service = require('./channel.service-CDtqKrpG.js');
 var system_service = require('./system.service-q3G6_5Tb.js');
 var v4 = require('./v4-_2BfiRUa.js');
-var departures_store = require('./departures.store-GRnPmXjI.js');
-var svcCategory_utils = require('./svc-category.utils-Cxw4WnDQ.js');
+var departures_store = require('./departures.store-S6KcGDVr.js');
 var enums = require('./enums-BSCnMYlE.js');
 var types = require('./types-BVJQZ50e.js');
-var hkTasks_store = require('./hk-tasks.store-bykPHLBB.js');
-var irDate = require('./ir-date-Bjy8vNGm.js');
-var number = require('./number-D6oFwIUn.js');
-var paymentOption_store = require('./payment-option.store-D1YOcQFy.js');
-var index$6 = require('./index-C2yXC17O.js');
-var uninvoiced_bookings_store = require('./uninvoiced_bookings.store-8LWJa4ke.js');
-var user_service = require('./user.service-RONU8RTP.js');
+var hkTasks_store = require('./hk-tasks.store-D2zoiWNo.js');
+var irDate = require('./ir-date-CbkOKs2C.js');
+var number = require('./number-xBpNWk3H.js');
+var paymentOption_store = require('./payment-option.store-CHv49nRu.js');
+var index$6 = require('./index-BmWDYlVU.js');
+var uninvoiced_bookings_store = require('./uninvoiced_bookings.store-Cy0-clAI.js');
+var user_service = require('./user.service-BJ5KedHk.js');
 require('./IBooking-hDE_y33g.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
-require('./functions-BsloxeNr.js');
+require('./functions-CaNAUyCw.js');
 require('./language-observer-DKp37LIu.js');
 require('./types-sp5nWPAa.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./types-Dv_1Ul92.js');
+require('./types-CJnnlbYN.js');
 
 const iglooCalendarCss = () => `.sc-igloo-calendar-h{display:block;position:relative;background:var(--wa-color-surface-default, white);height:100%;text-align:center}.igl-calendar.sc-igloo-calendar{display:grid;grid-template-columns:1fr;height:100%}.calendarScrollContainer.sc-igloo-calendar{width:100%;height:100%;overflow:auto;position:relative;white-space:nowrap}.showToBeAssigned.sc-igloo-calendar,.showLegend.sc-igloo-calendar,.showDayUseBookings.sc-igloo-calendar{grid-template-columns:350px 1fr}.showLegend.sc-igloo-calendar{grid-template-columns:auto 1fr}#calendarContainer.sc-igloo-calendar{position:absolute}.legendContainer.sc-igloo-calendar,.tobeAssignedContainer.sc-igloo-calendar,.dayUseBookingsContainer.sc-igloo-calendar{display:none;height:100%;overflow-y:auto;padding-inline-start:0.5em !important;padding-inline-end:0.5em !important}.tobeAssignedContainer.sc-igloo-calendar,.legendContainer.sc-igloo-calendar,.dayUseBookingsContainer.sc-igloo-calendar{padding-inline-start:0em !important;padding-inline-end:0em !important}.showToBeAssigned.sc-igloo-calendar .tobeAssignedContainer.sc-igloo-calendar{display:block}.showLegend.sc-igloo-calendar .legendContainer.sc-igloo-calendar{display:block}.showDayUseBookings.sc-igloo-calendar .dayUseBookingsContainer.sc-igloo-calendar{display:block}.tobeBooked.sc-igloo-calendar{padding-top:8px;padding-bottom:8px;text-align:start}`;
 
@@ -161,7 +160,7 @@ const IglooCalendar = class {
     revertBooking;
     openCalendarSidebar;
     showRoomNightsDialog;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     setupService = new index$1.SetupService();
     roomService = new room_service.RoomService();
     propertyService = new index$2.PropertyService();
@@ -183,13 +182,13 @@ const IglooCalendar = class {
     unsubscribeRealtime = null;
     ApiClient = new ApiClient.ApiClient();
     calendarModalEl;
-    salesQueue = new batchQueue.BatchingQueue(this.processSalesBatch.bind(this), {
+    salesQueue = new svcCategory_utils.BatchingQueue(this.processSalesBatch.bind(this), {
         batchSize: 50,
         flushInterval: 1000,
         maxQueueSize: 5000,
         onError: e => console.error('Batch Sales Update Error:', e),
     });
-    availabilityQueue = new batchQueue.BatchingQueue(this.processAvailabilityBatch.bind(this), {
+    availabilityQueue = new svcCategory_utils.BatchingQueue(this.processAvailabilityBatch.bind(this), {
         batchSize: 50,
         flushInterval: 1000,
         maxQueueSize: 5000,
@@ -1159,7 +1158,7 @@ const IglooCalendar = class {
         const topLeftCell = this.element.querySelector('.topLeftCell');
         const gotoDay = this.element.querySelector(`.headerCell[data-date="${goToDate}"]`);
         if (gotoDay) {
-            const isRtl = direction.isRtlDirection(locales_store.locales.direction);
+            const isRtl = direction.isRtlDirection(localeScope.locales.direction);
             // scrollLeft:0 lands on the start edge regardless of direction (per the CSSOM View spec,
             // modern browsers report scrollLeft as 0-or-negative in RTL containers). From there we
             // measure the target day's offset from the same edge the sticky room-header column is
@@ -1435,7 +1434,7 @@ const IglooCalendar = class {
                     }
                 }
             }
-            const isRtl = direction.isRtlDirection(locales_store.locales.direction);
+            const isRtl = direction.isRtlDirection(localeScope.locales.direction);
             const containerRect = this.scrollContainer.getBoundingClientRect();
             let leftSideMenuSize = calendarGrid.ROOM_HEADER_WIDTH;
             let maxWidth = containerRect.width - leftSideMenuSize;
@@ -1514,7 +1513,7 @@ const IglooCalendar = class {
             // edge is the earlier (check-in) date in RTL - the mirror of LTR, since the whole bar is
             // reflected (see toPhysicalLeft in calendar-grid.ts) - so which edge identifies the
             // check-in day flips too. Falls back to the left edge when width wasn't provided.
-            const checkInX = direction.isRtlDirection(locales_store.locales.direction) && typeof currentPosition.width === 'number' ? currentPosition.x + currentPosition.width : currentPosition.x;
+            const checkInX = direction.isRtlDirection(localeScope.locales.direction) && typeof currentPosition.width === 'number' ? currentPosition.x + currentPosition.width : currentPosition.x;
             xElement = this.visibleCalendarCells.x.find(pos => pos.left < checkInX && checkInX <= pos.left + pos.width);
             yElement = this.visibleCalendarCells.y.find(pos => pos.top < currentPosition.y && currentPosition.y <= pos.top + pos.height);
         }
@@ -1627,7 +1626,7 @@ const IglooCalendar = class {
         //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
         // }
         // console.log(this.bookingItem);
-        return (index.h(index.Host, { key: 'a2cb5513a850c637711c97de62290c148584c706' }, index.h("ir-toast", { key: 'c91df5a9822ca7aeda13f726d5652600e2ae0671' }), index.h("ir-interceptor", { key: '8567ac8e9a18d25fcfa539cce962c7b3906e2df8' }), index.h("div", { key: '276b2d0940045aec12251bd73337f4c175caaed9', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend, 'showDayUseBookings': this.showDayUseBookings } }, this.shouldRenderCalendarView() ? (index.h(index.Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (index.h("igl-to-be-assigned", { propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && index.h("igl-legend", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), this.showDayUseBookings && (index.h("igl-day-use-bookings", { class: "dayUseBookingsContainer", calendarData: this.calendarData, dayUseBookings: this.dayUseBookings, onOptionEvent: evt => this.onOptionSelect(evt) })), index.h("div", { class: "calendarScrollContainer", dir: direction.isRtlDirection(locales_store.locales.direction) ? 'rtl' : 'ltr', onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, index.h("div", { id: "calendarContainer" }, index.h("igl-cal-header", { to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt), dayUseBookings: this.dayUseBookings }), index.h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData, dayUseBookings: this.dayUseBookings }), index.h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (index.h("ir-loading-screen", { message: t.t('Lcz_PreparingCalendarData', { fallback: 'Preparing Calendar Data' }) }))), index.h("igl-split-booking-drawer", { key: 'a99284f49b0e419878f8989207d0e23223cf3379', open: this.calendarSidebarState?.type === 'split', booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), index.h("igl-rate-extender-drawer", { key: 'f491be109d42b02a0e3e0e332e4d5686b0a3996d', open: !!this.roomNightsData, bookingNumber: this.roomNightsData?.bookingNumber, identifier: this.roomNightsData?.identifier, toDate: this.roomNightsData?.to_date, fromDate: this.roomNightsData?.from_date, defaultDates: this.roomNightsData?.defaultDates, pool: this.roomNightsData?.pool, ticket: this.ticket, propertyId: this.property_id, language: this.language, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this) }), index.h("ir-booking-details-drawer", { key: 'e4acb98e1d5940f5cea584ce229b0709d88763f5', open: this.editBookingItem?.event_type === 'EDIT_BOOKING' || !!this.checkoutRedirect, propertyId: this.property_id, bookingNumber: this.checkoutRedirect?.bookingNumber ?? (this.editBookingItem && this.editBookingItem?.event_type === 'EDIT_BOOKING' ? this.editBookingItem.BOOKING_NUMBER : null), checkoutRoomIdentifier: this.checkoutRedirect?.identifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
+        return (index.h(index.Host, { key: 'a2cb5513a850c637711c97de62290c148584c706' }, index.h("ir-toast", { key: 'c91df5a9822ca7aeda13f726d5652600e2ae0671' }), index.h("ir-interceptor", { key: '8567ac8e9a18d25fcfa539cce962c7b3906e2df8' }), index.h("div", { key: '276b2d0940045aec12251bd73337f4c175caaed9', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend, 'showDayUseBookings': this.showDayUseBookings } }, this.shouldRenderCalendarView() ? (index.h(index.Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (index.h("igl-to-be-assigned", { propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && index.h("igl-legend", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), this.showDayUseBookings && (index.h("igl-day-use-bookings", { class: "dayUseBookingsContainer", calendarData: this.calendarData, dayUseBookings: this.dayUseBookings, onOptionEvent: evt => this.onOptionSelect(evt) })), index.h("div", { class: "calendarScrollContainer", dir: direction.isRtlDirection(localeScope.locales.direction) ? 'rtl' : 'ltr', onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, index.h("div", { id: "calendarContainer" }, index.h("igl-cal-header", { to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt), dayUseBookings: this.dayUseBookings }), index.h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData, dayUseBookings: this.dayUseBookings }), index.h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (index.h("ir-loading-screen", { message: t.t('Lcz_PreparingCalendarData', { fallback: 'Preparing Calendar Data' }) }))), index.h("igl-split-booking-drawer", { key: 'a99284f49b0e419878f8989207d0e23223cf3379', open: this.calendarSidebarState?.type === 'split', booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), index.h("igl-rate-extender-drawer", { key: 'f491be109d42b02a0e3e0e332e4d5686b0a3996d', open: !!this.roomNightsData, bookingNumber: this.roomNightsData?.bookingNumber, identifier: this.roomNightsData?.identifier, toDate: this.roomNightsData?.to_date, fromDate: this.roomNightsData?.from_date, defaultDates: this.roomNightsData?.defaultDates, pool: this.roomNightsData?.pool, ticket: this.ticket, propertyId: this.property_id, language: this.language, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this) }), index.h("ir-booking-details-drawer", { key: 'e4acb98e1d5940f5cea584ce229b0709d88763f5', open: this.editBookingItem?.event_type === 'EDIT_BOOKING' || !!this.checkoutRedirect, propertyId: this.property_id, bookingNumber: this.checkoutRedirect?.bookingNumber ?? (this.editBookingItem && this.editBookingItem?.event_type === 'EDIT_BOOKING' ? this.editBookingItem.BOOKING_NUMBER : null), checkoutRoomIdentifier: this.checkoutRedirect?.identifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
                 this.editBookingItem = null;
                 this.checkoutRedirect = null;
             } }), index.h("ir-room-guests", { key: '2282a43f1800304ed44158e7465eece7105fd8ff', open: this.calendarSidebarState?.type === 'room-guests', countries: this.countries, language: this.language, identifier: this.calendarSidebarState?.payload?.identifier, bookingNumber: this.calendarSidebarState?.payload?.bookingNumber, roomName: this.calendarSidebarState?.payload?.roomName, totalGuests: this.calendarSidebarState?.payload?.totalGuests, sharedPersons: this.calendarSidebarState?.payload?.sharing_persons, checkIn: true, onCloseModal: () => (this.calendarSidebarState = null) }), index.h("ir-reallocation-drawer", { key: '4d4ae8e35b39264b585e119fa439b57eb405ac43', open: this.calendarSidebarState?.type === 'reallocate-drawer', booking: this.calendarSidebarState?.payload?.booking, pool: this.calendarSidebarState?.payload?.pool, roomIdentifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), index.h("igl-reallocation-dialog", { key: '440954ffcab0cdae0dc301ae4874009b52076cfc', onResetModalState: () => (this.dialogData = null), onDialogClose: () => this.handleModalCancel(), data: this.dialogData?.reason === 'reallocate' ? this.dialogData : undefined }), index.h("ir-modal", { key: '2eecb802ff5c490f7efc11d06eb637e792f6d3e9', ref: el => (this.calendarModalEl = el), modalTitle: t.t('Lcz_ModalTitlePlaceholder', { fallback: 'lol' }), rightBtnActive: this.dialogData?.reason === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: t.t('Lcz_Cancel', { fallback: 'Cancel' }), rightBtnText: t.t('Lcz_Confirm', { fallback: 'Confirm' }), modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) }), index.h("ir-checkout-dialog", { key: '7d2d00ba32b00b51afde798bf2438c0f27e8aa44', style: { textAlign: 'start' }, booking: this.dialogData?.reason === 'checkout' ? this.dialogData?.booking : null, identifier: this.dialogData?.reason === 'checkout' ? this.dialogData?.roomIdentifier : null, open: this.dialogData?.reason === 'checkout', onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), index.h("ir-invoice", { key: '477c8662920257fec16956a8a707582e4c5916fe', style: { textAlign: 'start' }, onInvoiceClose: event => this.handleInvoiceClose(event), booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null }), index.h("ir-booking-editor-drawer", { key: '3dd67e2b2ef0040a0d32fcebffc8186624772b0e', roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, roomIdentifier: this.bookingItem?.IDENTIFIER, open: this.bookingItem !== null && this.bookingItem.event_type !== 'BLOCK_DATES', language: this.language, booking: this.bookingItem?.booking, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, blockedUnit: {
@@ -1690,7 +1689,7 @@ const IrAgents = class {
     setupEntries;
     agentsService = new agents_service.AgentsService();
     propertyService = new index$2.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     setupService = new index$1.SetupService();
     apiClientService = new ApiClient.ApiClient();
     languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.agents, () => this.init());
@@ -1870,7 +1869,7 @@ const IrArrivals = class {
     countries;
     apiClientService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     setupService = new index$1.SetupService();
     paymentFolioRef;
     /** Re-runs init when the language changes so server-localized data follows. */
@@ -3106,7 +3105,7 @@ const IrDepartures = class {
     checkoutRoomIdentifier = null;
     apiClientService = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     setupService = new index$1.SetupService();
     paymentFolioRef;
     /** Re-runs init when the language changes so server-localized data follows. */
@@ -3742,7 +3741,7 @@ const IrGhsOnboarding = class {
     isActivating = false;
     propertyToActivate = null;
     ghsService = new GHSService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     apiClientService = new ApiClient.ApiClient();
     removeAllModal;
     activateModal;
@@ -4499,7 +4498,7 @@ const IrLocaleSwitcher = class {
         }
         try {
             const state = {
-                language: locales_store.locales.language ?? 'en',
+                language: localeScope.locales.language ?? 'en',
                 calendar: irDate.calendarPreference.override ?? 'auto',
                 numberingSystem: irDate.calendarPreference.numberingSystem,
                 direction: this.direction,
@@ -4590,7 +4589,7 @@ const IrLocaleSwitcher = class {
             locale_controller.LocaleController.setLanguage(language).catch(error => console.error('Failed to restore language', error));
         }
         else {
-            locales_store.locales.language = language;
+            localeScope.locales.language = language;
             document.documentElement.lang = language;
         }
         this.broadcastLanguage(language);
@@ -4650,7 +4649,7 @@ const IrLocaleSwitcher = class {
             locale_controller.LocaleController.setLanguage(language).catch(error => console.error('Failed to switch language', error));
         }
         else {
-            locales_store.locales.language = language;
+            localeScope.locales.language = language;
             document.documentElement.lang = language;
         }
         /*
@@ -4704,14 +4703,14 @@ const IrLocaleSwitcher = class {
      *
      * `auto` resolves according to the current language.
      */
-    applyDirection(mode, language = locales_store.locales.language ?? 'en', persist = true) {
+    applyDirection(mode, language = localeScope.locales.language ?? 'en', persist = true) {
         if (!this.isValidDirection(mode)) {
             return;
         }
         this.direction = mode;
         const resolved = mode === 'auto' ? (direction.isRtlLanguage(language) ? 'rtl' : 'ltr') : mode;
         document.documentElement.setAttribute('dir', resolved);
-        locales_store.locales.direction = resolved;
+        localeScope.locales.direction = resolved;
         if (persist) {
             this.saveSettings();
         }
@@ -4743,7 +4742,7 @@ const IrLocaleSwitcher = class {
         this.direction = 'auto';
         const resolvedDirection = direction.isRtlLanguage(language) ? 'rtl' : 'ltr';
         document.documentElement.setAttribute('dir', resolvedDirection);
-        locales_store.locales.direction = resolvedDirection;
+        localeScope.locales.direction = resolvedDirection;
         /*
          * Keep the component's original prop behavior after reset.
          */
@@ -4756,7 +4755,7 @@ const IrLocaleSwitcher = class {
         return (index.h("div", { class: "ls-preview" }, index.h("div", { class: "ls-preview__title" }, "Preview \u2014 ", this.sample), PREVIEW_FORMATS.map(format => (index.h("div", { class: "ls-preview__row", key: format }, index.h("code", { class: "ls-preview__format" }, format), index.h("span", { class: "ls-preview__value" }, irDate.formatDate(this.sample, format))))), index.h("div", { class: "ls-preview__row" }, index.h("code", { class: "ls-preview__format" }, "price"), index.h("span", { class: "ls-preview__value" }, number.formatAmount('$', 1234.5))), index.h("div", { class: "ls-preview__row" }, index.h("code", { class: "ls-preview__format" }, "count \u00B7 percent"), index.h("span", { class: "ls-preview__value" }, number.formatCount(3), " \u00B7 ", number.formatPercent(87))), index.h("div", { class: "ls-preview__row ls-preview__row--muted" }, index.h("code", { class: "ls-preview__format" }, "weekdays"), index.h("span", { class: "ls-preview__value" }, irDate.getWeekdayLabels().join(' '))), index.h("div", { class: "ls-preview__row ls-preview__row--muted" }, index.h("code", { class: "ls-preview__format" }, "toApiDate"), index.h("span", { class: "ls-preview__value" }, irDate.toApiDate(this.sample), " ", index.h("em", null, "\u00B7 always Gregorian"))), index.h("div", { class: "ls-preview__row ls-preview__row--muted" }, index.h("code", { class: "ls-preview__format" }, "week starts"), index.h("span", { class: "ls-preview__value" }, irDate.getWeekdayLabels()[irDate.getFirstDayOfWeek()], " \u00B7 grid stays Sunday-first"))));
     }
     render() {
-        const language = locales_store.locales.language ?? 'en';
+        const language = localeScope.locales.language ?? 'en';
         const calendar = irDate.calendarPreference.override ?? 'auto';
         return (index.h(index.Host, { key: 'b467e588a80544d73099d944a228ed400b5415b8', class: `ls-host ls-host--${this.placement}` }, !this.open && (index.h("button", { key: '45143203a1d48f8a61b6ac4bc184dda397f4faad', class: "ls-fab", title: "Locale switcher", onClick: () => this.setOpen(true) }, index.h("wa-icon", { key: 'cafbb510cadab18a5d7e248bd878ea161503defb', name: "globe" }), index.h("span", { key: 'e51a3c4fa1ce83a302623cebdc8c099135439738', class: "ls-fab__label" }, language.toUpperCase()))), this.open && (index.h("div", { key: 'b9b8b8bc36392e5b771b134cce4b1639cc2f733e', class: "ls-panel" }, index.h("header", { key: '6f124e9c1352a0fe4c02b15bd6b2321748f73c7d', class: "ls-panel__header" }, index.h("span", { key: '648310f49a264a9482f03c0640150f5959db689c', class: "ls-panel__title" }, "Locale switcher"), index.h("button", { key: '912893c5c32e7c2f13715c419ca47e3495644a6a', class: "ls-panel__close", title: "Collapse", onClick: () => this.setOpen(false) }, index.h("wa-icon", { key: 'b3e96cb53a071c7aee2a0c1c17a627f3a98eb96c', name: "xmark" }))), index.h("wa-select", { key: '0d1fda59a626d27d3a7e04f29944d99d98c8b604', label: "Language", size: "s", value: language, onchange: (event) => {
                 const value = event.target.value?.toString();
@@ -5644,7 +5643,7 @@ const IrSalesByCountry = class {
     ApiClient = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     propertyService = new index$2.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     baseFilters = {
         FROM_DATE: moment.hooks().add(-7, 'days').format('YYYY-MM-DD'),
         TO_DATE: moment.hooks().format('YYYY-MM-DD'),
@@ -6244,7 +6243,7 @@ const IrUserManagement = class {
     ApiClient = new ApiClient.ApiClient();
     roomService = new room_service.RoomService();
     userService = new user_service.UserService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     setupService = new index$1.SetupService();
     userTypes = new Map();
     unsubscribeRealtime = null;

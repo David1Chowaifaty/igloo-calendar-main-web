@@ -3,8 +3,9 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* Fills whatever height ir-dashboard gives it (the tab cards' on desktop), with the date centred in it. */
 .date-navigator {
-  display: block;
+  block-size: 100%;
   --spacing: var(--wa-space-m) var(--wa-space-s);
   /* box-shadow: var(--wa-shadow-s); */
   transition: border-color 200ms ease;
@@ -12,6 +13,7 @@
 }
 
 .date-navigator::part(body) {
+  flex: 1 1 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -86,7 +88,26 @@
 }
 
 .date-navigator__step:not([disabled]):active::part(base) {
-  transform: scale(0.94);
+  transform: scale(0.96);
+}
+
+/* Short desktop rails (ir-dashboard sets `density` from the rail's height): a smaller day and tighter card. */
+:host([density='compact']) .date-navigator,
+:host([density='tight']) .date-navigator {
+  --spacing: var(--wa-space-s);
+}
+
+:host([density='compact']) .date-navigator__date,
+:host([density='tight']) .date-navigator__date {
+  gap: var(--wa-space-xs);
+}
+
+:host([density='compact']) .date-navigator__day {
+  font-size: 2.75rem;
+}
+
+:host([density='tight']) .date-navigator__day {
+  font-size: 2.25rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

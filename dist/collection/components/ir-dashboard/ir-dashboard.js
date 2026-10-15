@@ -34,6 +34,12 @@ const SKELETON_EXTRA_COLUMN = {
  * bookings reads, which the dashboard covers with skeletons instead.
  */
 const OVERLAY_ENDPOINTS = ['/ReAllocate_Exposed_Room', '/UnBlock_Exposed_Unit'];
+/** Desktop breakpoint where the rail sits beside the table and shares its height (matches ir-dashboard.css). */
+const DESKTOP_QUERY = '(min-width: 992px)';
+/** Rail heights (px) where each density still leaves the ring room (11rem spacious, 9rem regular, 7.5rem compact); tight lets it shrink. */
+const RAIL_SPACIOUS_MIN_HEIGHT = 720;
+const RAIL_REGULAR_MIN_HEIGHT = 650;
+const RAIL_COMPACT_MIN_HEIGHT = 570;
 /**
  * PMS landing dashboard: a day picker (five days either side of today), the day's stats,
  * and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
@@ -49,6 +55,7 @@ const OVERLAY_ENDPOINTS = ['/ReAllocate_Exposed_Room', '/UnBlock_Exposed_Unit'];
  * reloads the stats plus the affected arrivals / departures tab and in-house.
  */
 export class IrDashboard {
+    el;
     /** Authentication token issued by the PMS backend. */
     ticket;
     /** ID of the property (hotel). */
@@ -65,6 +72,8 @@ export class IrDashboard {
     isPendingLoading = false;
     selectedDate = todayISO();
     activeTab = 'arrivals';
+    /** How tightly the rail's cards are drawn, so they fit the height the host page leaves on desktop. */
+    railDensity = 'regular';
     asOf;
     performance;
     units;
@@ -114,6 +123,12 @@ export class IrDashboard {
         flushInterval: 3000,
         onError: e => console.error('Dashboard realtime refresh error:', e),
     });
+    /** Watches the host page so a header or footer that resizes or mounts late re-fits the dashboard. */
+    pageResizeObserver = null;
+    fitFrame = null;
+    /** Last height (px) the host page renders above and below the dashboard. */
+    reservedBlockSize = null;
+    asideRef;
     async componentDidRender() {
         if (!this.selectArrivalsAfterRender || !this.tabGroupRef) {
             return;
@@ -144,8 +159,24 @@ export class IrDashboard {
     }
     componentDidLoad() {
         this.languageSync.connect();
+        this.fitToPage();
+        window.addEventListener('resize', this.scheduleFitToPage);
+        this.pageResizeObserver = new ResizeObserver(this.scheduleFitToPage);
+        this.pageResizeObserver.observe(document.body);
+        this.pageResizeObserver.observe(this.asideRef);
+        const tab = this.el.querySelector('.dashboard-tab');
+        if (tab) {
+            this.pageResizeObserver.observe(tab);
+        }
     }
     disconnectedCallback() {
+        window.removeEventListener('resize', this.scheduleFitToPage);
+        this.pageResizeObserver?.disconnect();
+        this.pageResizeObserver = null;
+        if (this.fitFrame !== null) {
+            cancelAnimationFrame(this.fitFrame);
+            this.fitFrame = null;
+        }
         this.languageSync.disconnect();
         this.unsubscribeRealtime?.();
         this.unsubscribeRealtime = null;
@@ -192,6 +223,97 @@ export class IrDashboard {
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.loadDay();
+    }
+    scheduleFitToPage = () => {
+        if (this.fitFrame !== null) {
+            return;
+        }
+        this.fitFrame = requestAnimationFrame(() => {
+            this.fitFrame = null;
+            this.fitToPage();
+        });
+    };
+    fitToPage() {
+        this.measureReserved();
+        this.updateRailDensity();
+        this.measureSummaryRow();
+    }
+    /**
+     * Gives the date card the summary cards' height, so the rail's cards line up with the tab cards and the table beside
+     * them. The tab cards' height comes from their own content, never from the date card, so this can't feed back.
+     */
+    measureSummaryRow() {
+        const tab = this.el.querySelector('.dashboard-tab');
+        const height = tab?.getBoundingClientRect().height ?? 0;
+        if (height > 0) {
+            this.el.style.setProperty('--dashboard-summary-block-size', `${height}px`);
+        }
+    }
+    /**
+     * Height of what the page renders under the dashboard: every in-flow element after it (or after one of its ancestors)
+     * that sits below it, plus the ancestors' bottom padding and borders and the body's bottom margin. Summing those
+     * rather than reading the document's height keeps the dashboard's own overflow (a short screen under the tables'
+     * height floor) from counting as footer and shrinking the dashboard further.
+     */
+    measureBelow() {
+        let below = 0;
+        let node = this.el;
+        while (node.parentElement && node !== document.body) {
+            const bottom = node.getBoundingClientRect().bottom;
+            for (let sibling = node.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+                const style = getComputedStyle(sibling);
+                const rect = sibling.getBoundingClientRect();
+                // Skips hidden and out-of-flow elements, and ones beside the dashboard rather than under it.
+                if (style.display === 'none' || style.position === 'absolute' || style.position === 'fixed' || rect.top < bottom - 1) {
+                    continue;
+                }
+                below += rect.height + parseFloat(style.marginBlockStart) + parseFloat(style.marginBlockEnd);
+            }
+            const parent = node.parentElement;
+            const parentStyle = getComputedStyle(parent);
+            below += parseFloat(parentStyle.paddingBlockEnd) + parseFloat(parentStyle.borderBlockEndWidth);
+            if (parent === document.body) {
+                below += parseFloat(parentStyle.marginBlockEnd);
+            }
+            node = parent;
+        }
+        return below;
+    }
+    /**
+     * Picks the rail density from the rail's height, which the layout sets (not its content), so a density change never
+     * re-triggers itself. Below the desktop breakpoint the rail is content-sized and stays regular.
+     */
+    updateRailDensity() {
+        const height = this.asideRef?.clientHeight ?? 0;
+        let density = 'regular';
+        if (window.matchMedia(DESKTOP_QUERY).matches && height > 0) {
+            if (height >= RAIL_SPACIOUS_MIN_HEIGHT) {
+                density = 'spacious';
+            }
+            else if (height >= RAIL_REGULAR_MIN_HEIGHT) {
+                density = 'regular';
+            }
+            else {
+                density = height >= RAIL_COMPACT_MIN_HEIGHT ? 'compact' : 'tight';
+            }
+        }
+        if (density !== this.railDensity) {
+            this.railDensity = density;
+        }
+    }
+    /**
+     * Measures what the host page renders above (header, body padding) and below (footer) the dashboard, so the desktop
+     * layout's height is the viewport minus that and the page never scrolls. Writing only on change keeps the body
+     * observer from looping: our own resize re-measures to the same value.
+     */
+    measureReserved() {
+        const above = this.el.getBoundingClientRect().top + window.scrollY;
+        const reserved = Math.max(0, Math.round(above + this.measureBelow()));
+        if (reserved === this.reservedBlockSize) {
+            return;
+        }
+        this.reservedBlockSize = reserved;
+        this.el.style.setProperty('--dashboard-reserved-block-size', `${reserved}px`);
     }
     get propertyId() {
         return calendar_data.property?.id ?? this.propertyid;
@@ -493,7 +615,7 @@ export class IrDashboard {
     }
     render() {
         const counts = this.counts;
-        return (h(Host, { key: '18a96f8617a91c616bd2d4bd838f3f0955f43eb8' }, h("ir-page", { key: '7c12b55e5e1a86db2ad2a2f8b6d476f1f0c42d22', label: t('Lcz_Dashboard', { fallback: 'Dashboard' }), handledEndpoints: OVERLAY_ENDPOINTS }, h("div", { key: '86f710d0c107770f5f7a45670f0d815c5a932b60', class: "dashboard-layout" }, h("aside", { key: '647092ab5895376db46c723b442d1e9dc59a7b7c', class: "dashboard-aside" }, h("ir-dashboard-date-navigator", { key: '4b1b8f10d0421a8e81696540c2148757928ed4d9', date: this.selectedDate, onDateChange: e => this.handleDateChange(e) }), h("ir-dashboard-stats", { key: '20deaed29b8fd7a574bc332c24f2dea48a4827bd', performance: this.performance, units: this.units, pendingUnits: this.pendingUnits, currencySymbol: calendar_data.currency?.symbol, performanceLoading: this.isPerformanceLoading, unitsLoading: this.isUnitsLoading, pendingLoading: this.isPendingLoading })), h("section", { key: '1a2866346a51683b4dc87b412469f10712faac87', class: "dashboard-main", "aria-busy": this.isPageLoading ? 'true' : null }, h("wa-tab-group", { key: 'bcbfc3aeca97ccca5f456b92f2b10f17810ed3ab', class: "dashboard-tabs", ref: el => (this.tabGroupRef = el), activation: "manual", active: this.activeTab, withoutScrollControls: true, "onwa-tab-show": e => this.handleTabShow(e) }, this.renderTab('arrivals', t('Lcz_Arrivals', { fallback: 'Arrivals' }), counts.arrivals, {
+        return (h(Host, { key: '788f726e3380ed0fe380c619e91495b0d231f7a8' }, h("ir-page", { key: 'ad0f3c1372adf8f3d623af2442e51a029888daec', label: t('Lcz_Dashboard', { fallback: 'Dashboard' }), handledEndpoints: OVERLAY_ENDPOINTS }, h("div", { key: '31d69d54ca3a020ec7fa84f5ec3d67b3052917e9', class: `dashboard-layout dashboard-layout--${this.railDensity}` }, h("aside", { key: '5106a5a07b811f85f26a016a1caa7c9d6c8a6a4c', class: "dashboard-aside", ref: el => (this.asideRef = el) }, h("ir-dashboard-date-navigator", { key: '0bd6b4ac204779aca7d848dc8fbb0490e09a61c5', date: this.selectedDate, density: this.railDensity, onDateChange: e => this.handleDateChange(e) }), h("ir-dashboard-stats", { key: '4160d60a7e24a3d4482dd93e08065e24da7e61e4', density: this.railDensity, performance: this.performance, units: this.units, pendingUnits: this.pendingUnits, currencySymbol: calendar_data.currency?.symbol, performanceLoading: this.isPerformanceLoading, unitsLoading: this.isUnitsLoading, pendingLoading: this.isPendingLoading })), h("section", { key: '8d47712bb1406d243bd05b5f2d93308269251c0f', class: "dashboard-main", "aria-busy": this.isPageLoading ? 'true' : null }, h("wa-tab-group", { key: '3cfd58be1f0afe6e8ccaab230abe7f7db6304a83', class: "dashboard-tabs", ref: el => (this.tabGroupRef = el), activation: "manual", active: this.activeTab, withoutScrollControls: true, "onwa-tab-show": e => this.handleTabShow(e) }, this.renderTab('arrivals', t('Lcz_Arrivals', { fallback: 'Arrivals' }), counts.arrivals, {
             overdueNote: counts.overdueArrivals > 0 ? t('Lcz_OverdueCheckInsCount', { fallback: '%1 overdue check-ins', params: [formatCount(counts.overdueArrivals)] }) : undefined,
             unassigned: counts.unassignedArrivals,
         }), this.renderTab('departures', t('Lcz_Departures', { fallback: 'Departures' }), counts.departures, {
@@ -501,12 +623,12 @@ export class IrDashboard {
                 ? t('Lcz_OverdueCheckOutsCount', { fallback: '%1 overdue check-outs', params: [formatCount(counts.overdueDepartures)] })
                 : undefined,
         }), this.renderTab('inHouse', t('Lcz_InHouse', { fallback: 'In-house' }), counts.inHouse), this.renderTab('bookings', t('Lcz_Bookings', { fallback: 'Bookings' }), counts.bookings), this.renderTab('cancellations', t('Lcz_Cancellations', { fallback: 'Cancellations' }), counts.cancellations), TABS.map(tab => (h("wa-tab-panel", { key: tab, name: tab, class: "dashboard-tab-panel" }, this.renderPanel(tab)))))))), !this.isPageLoading && [
-            h("ir-booking-details-drawer", { key: '90dae5cba3e843b26d816a7f71d90b0c8b06a73a', open: !!this.bookingNumber, propertyId: this.propertyId, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
+            h("ir-booking-details-drawer", { key: '2e7bac97419009149413a2de8be1c56ea7297a66', open: !!this.bookingNumber, propertyId: this.propertyId, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
                     this.bookingNumber = null;
                     this.checkoutRoomIdentifier = null;
                     this.loadDay();
                 } }),
-            h("ir-payment-folio", { key: '00023e87695545d2476f466d29769644fc963ee8', style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
+            h("ir-payment-folio", { key: '4f2a9463b194a25594a6ed4e90c8bac1dbc10787', style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
                     this.booking = null;
                     this.payment = null;
                 } }),
@@ -632,6 +754,7 @@ export class IrDashboard {
             "isPendingLoading": {},
             "selectedDate": {},
             "activeTab": {},
+            "railDensity": {},
             "asOf": {},
             "performance": {},
             "units": {},
@@ -650,6 +773,7 @@ export class IrDashboard {
             "payment": {}
         };
     }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
                 "propName": "ticket",

@@ -2,26 +2,26 @@
 
 var index = require('./index-IDeZZwEK.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var booking_service = require('./booking.service-xFFQEG7h.js');
-var room_service = require('./room.service-DgB2Jucs.js');
-var locale_controller = require('./locale.controller-BtkICUK3.js');
-var languageSync = require('./language-sync-w92_g_pi.js');
-var t = require('./t-sd8HJHNy.js');
+var booking_store = require('./booking.store-CFCw1RAq.js');
+var room_service = require('./room.service-Dc0vGBFC.js');
+var locale_controller = require('./locale.controller-DXObwuz4.js');
+var languageSync = require('./language-sync-Daqv91WM.js');
+var t = require('./t-CqJPQrfm.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
-require('./utils-CpEd8z_J.js');
+require('./utils-ZKsQb8eV.js');
 require('./moment-CdViwxPQ.js');
-require('./calendar-data-DZk0v7WL.js');
-require('./locales.store-D6DJIhoZ.js');
+require('./calendar-data-ShS6b-Ns.js');
+require('./locale-scope-Cch-vf1R.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
-require('./ir-date-Bjy8vNGm.js');
+require('./ir-date-CbkOKs2C.js');
 require('./language-observer-DKp37LIu.js');
-require('./booking-DETR93Bg.js');
-require('./functions-BsloxeNr.js');
+require('./booking-DhSfYcY7.js');
+require('./functions-CaNAUyCw.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./types-sp5nWPAa.js');
 
@@ -44,7 +44,7 @@ const IglBookPropertyContainer = class {
     countries;
     calendarData = {};
     resetBookingData;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     ApiClient = new ApiClient.ApiClient();
     setRoomsData(roomServiceResp) {

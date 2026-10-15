@@ -1,9 +1,9 @@
 import { r as registerInstance, c as createEvent, h, H as Host, a as getElement, F as Fragment } from './index-DKZeCK8T.js';
-import { C as ChannelService, o as onChannelChange, c as channels_data, t as testConnection, u as updateChannelSettings, s as selectChannel, a as addMapping, b as setMappedChannel } from './channel.service-Dwtc2hU2.js';
-import { t } from './t-DTGA0v_q.js';
-import { b as inlineOffset, a as inlineSign } from './direction-C6JvGTaD.js';
-import { c as calendar_data } from './calendar-data-D8EnecFU.js';
-import './locales.store-DsOXxI8k.js';
+import { C as ChannelService, o as onChannelChange, c as channels_data, t as testConnection, u as updateChannelSettings, s as selectChannel, a as addMapping, b as setMappedChannel } from './channel.service-7dB8Idj2.js';
+import { t } from './t-Bvz1wS_D.js';
+import { b as inlineOffset, a as inlineSign } from './direction-CcpbVppy.js';
+import { c as calendar_data } from './calendar-data-DWzivSW-.js';
+import './locale-scope-Jre4lb6k.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 

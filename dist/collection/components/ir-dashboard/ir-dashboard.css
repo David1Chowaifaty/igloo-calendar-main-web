@@ -24,8 +24,9 @@
 
 @media (min-width: 992px) {
   /*
-   * Desktop: the dashboard takes exactly the viewport's height, never more. ir-page's body and the layout row fill
-   * what the page header leaves; the aside and the active tab panel stretch to that, so the side cards end on the
+   * Desktop: the dashboard takes exactly the height the host page leaves it — the viewport minus whatever renders
+   * above and below it (header, footer; measured in ir-dashboard.tsx), never more. ir-page's body and the layout row
+   * fill what the page header leaves; the aside and the active tab panel stretch to that, so the side cards end on the
    * table's bottom edge and a long list scrolls inside the table instead of the page. On a screen too short for the
    * tables' 20rem floor, the page scrolls instead.
    */
@@ -34,7 +35,7 @@
   }
 
   ir-page {
-    block-size: 100dvh;
+    block-size: calc(100dvh - var(--dashboard-reserved-block-size, 0px));
   }
 
   ir-page::part(body) {
@@ -48,8 +49,19 @@
     min-block-size: 0;
   }
 
+  /* ir-dashboard compacts the rail's cards as it gets shorter; on a rail too short even for that, it scrolls on its own. */
   .dashboard-aside {
-    flex: 0 0 17rem;
+    /* A little wider on large screens, so the rail keeps its share of the row next to the wider tab cards. */
+    flex: 0 0 clamp(17rem, 16vw, 20rem);
+    min-block-size: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+
+  /* Same height as the tab cards (measured in ir-dashboard.tsx), so the stats card starts level with the table. */
+  ir-dashboard-date-navigator {
+    flex: none;
+    block-size: var(--dashboard-summary-block-size, auto);
   }
 
   ir-dashboard-stats {
@@ -143,6 +155,21 @@
     border-color 150ms ease,
     box-shadow 150ms ease,
     transform 160ms var(--ease-out);
+}
+
+/* Short desktop rails: the tab cards tighten along with the rail's cards, leaving the height to the table. */
+.dashboard-layout--compact .dashboard-tab::part(base),
+.dashboard-layout--tight .dashboard-tab::part(base) {
+  min-block-size: 0;
+  padding: var(--wa-space-s) var(--wa-space-m);
+}
+
+.dashboard-layout--compact .dashboard-tab__count {
+  font-size: var(--wa-font-size-xl);
+}
+
+.dashboard-layout--tight .dashboard-tab__count {
+  font-size: var(--wa-font-size-l);
 }
 
 /* Disabled (still loading) cards don't press or hover-highlight. */

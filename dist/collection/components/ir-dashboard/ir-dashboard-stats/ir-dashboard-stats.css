@@ -6,15 +6,17 @@
 
 /* Takes the host's spare height, which ir-dashboard stretches to the table's on desktop, pushing the KPI cards to the bottom. */
 .stats {
-  display: block;
   flex: 1 1 auto;
   --spacing: var(--wa-space-m);
   background: var(--wa-color-surface-default);
 }
 
+/* The ring and units sit centred in whatever height the card gets, rather than leaving a gap under them. */
 .stats::part(body) {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: var(--wa-space-m);
 }
 
@@ -38,11 +40,29 @@
 
 .stats__ring {
   align-self: center;
-  --size: 8.5rem;
-  --track-width: 0.625rem;
-  --indicator-width: 0.625rem;
+  --size: 10.5rem;
+  --track-width: 0.75rem;
+  --indicator-width: 0.75rem;
   --track-color: var(--wa-color-neutral-fill-quiet);
   --indicator-color: var(--wa-color-success-fill-loud);
+}
+
+/*
+ * wa-progress-ring writes the arc's dash offset inline, from the radius it has when `value` changes; when the ring is
+ * resized afterwards (rail density, the desktop ring filling its card) that offset no longer matches and the arc reads
+ * short. Its own stylesheet's formula tracks the live circumference, so put it back over the inline value.
+ */
+.stats__ring::part(indicator) {
+  stroke-dashoffset: calc(var(--circumference) - var(--percentage) * var(--circumference)) !important;
+  /* A day change morphs the arc in place: ease-in-out, kept under 300ms. */
+  transition-duration: 280ms;
+  transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.stats__ring-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .stats__ring-content {
@@ -53,7 +73,7 @@
 
 .stats__ring-value {
   unicode-bidi: isolate;
-  font-size: var(--wa-font-size-xl);
+  font-size: var(--wa-font-size-2xl);
   font-weight: var(--wa-font-weight-bold);
   line-height: var(--wa-line-height-condensed);
   font-variant-numeric: tabular-nums;
@@ -62,6 +82,41 @@
 .stats__ring-label {
   font-size: var(--wa-font-size-xs);
   color: var(--wa-color-text-quiet);
+}
+
+/*
+ * Desktop: the ring takes whatever height the card has left after the unit list (between 3rem and 11rem, and never
+ * wider than the card), so it grows into spare space instead of leaving gaps around it. Its figure scales with it.
+ */
+@media (min-width: 992px) {
+  /* Capped at the ring's largest size, so on tall rails the spare height goes around the ring and units as one group. */
+  .stats__ring-slot {
+    flex: 1 1 0;
+    min-block-size: 3rem;
+    max-block-size: 11rem;
+    container-type: size;
+  }
+
+  .stats__ring {
+    --size: clamp(3rem, 100cqmin, 11rem);
+    --track-width: calc(var(--size) * 0.07);
+    --indicator-width: calc(var(--size) * 0.07);
+  }
+
+  /* Scoped to the slot to win over the fixed skeleton size declared further down. */
+  .stats__ring-slot .stats__skeleton--ring {
+    inline-size: clamp(3rem, 100cqmin, 11rem);
+    block-size: clamp(3rem, 100cqmin, 11rem);
+  }
+
+  /* Proportional to the ring, so the figure always fits inside it and never outweighs the revenue amounts below. */
+  .stats__ring-value {
+    font-size: min(calc(var(--size) * 0.16), var(--wa-font-size-2xl));
+  }
+
+  .stats__ring-label {
+    font-size: clamp(0.625rem, calc(var(--size) * 0.085), var(--wa-font-size-xs));
+  }
 }
 
 .stats__list {
@@ -121,7 +176,6 @@
 
 /* Revenue KPIs: one card holding all three figures, at its natural height. */
 .stats__revenue {
-  display: block;
   flex: none;
   --spacing: var(--wa-space-m);
   background: var(--wa-color-surface-default);
@@ -154,10 +208,10 @@
   /* Keep "€ 3,500.00" in one order inside RTL text. */
   direction: ltr;
   unicode-bidi: isolate;
-  /* A step below the tabs' counts: amounts are long strings, and occupancy stays the rail's headline figure. */
-  font-size: var(--wa-font-size-xl);
+  /* One size at every rail height: the ring flexes to make room, the amounts never shrink to. */
+  font-size: var(--wa-font-size-l);
   font-weight: var(--wa-font-weight-bold);
-  line-height: 1.1;
+  line-height: var(--wa-line-height-condensed);
   font-variant-numeric: tabular-nums;
   color: var(--wa-color-text-normal);
 }
@@ -192,20 +246,71 @@
   border-radius: var(--wa-border-radius-s);
 }
 
-/* Matches the KPI value's line box, so the card doesn't jump when the figures land. */
+/* Exactly one line of the amount's font, so the card doesn't move when the figures land. */
 .stats__skeleton--kpi {
-  inline-size: 6rem;
-  block-size: 1.3rem;
+  inline-size: 5rem;
+  font-size: var(--wa-font-size-l);
+  line-height: var(--wa-line-height-condensed);
+  block-size: 1lh;
 }
 
 .stats__skeleton--ring {
   align-self: center;
-  inline-size: 8.5rem;
-  block-size: 8.5rem;
+  inline-size: 10.5rem;
+  block-size: 10.5rem;
 }
 
 .stats__skeleton--ring::part(indicator) {
   border-radius: var(--wa-border-radius-circle);
+}
+
+/* Tall desktop rails: airier spacing around the ring and unit rows, so the card fills its height evenly. */
+:host([density='spacious']) .stats::part(body) {
+  gap: var(--wa-space-l);
+}
+
+:host([density='spacious']) .stats__list {
+  gap: var(--wa-space-s);
+}
+
+/*
+ * Short desktop rails (ir-dashboard sets `density` from the rail's height): tighten the spacing, then the unit rows.
+ * The amounts keep their size; the ring flexes into whatever height is left.
+ */
+:host([density='compact']),
+:host([density='tight']) {
+  gap: var(--wa-space-s);
+}
+
+:host([density='compact']) .stats,
+:host([density='compact']) .stats__revenue,
+:host([density='tight']) .stats,
+:host([density='tight']) .stats__revenue {
+  --spacing: var(--wa-space-s) var(--wa-space-m);
+}
+
+:host([density='compact']) .stats::part(body),
+:host([density='tight']) .stats::part(body) {
+  gap: var(--wa-space-s);
+}
+
+:host([density='compact']) .stats__list,
+:host([density='tight']) .stats__list {
+  gap: 0.125rem;
+}
+
+:host([density='compact']) .stats__kpis,
+:host([density='tight']) .stats__kpis {
+  gap: var(--wa-space-s);
+}
+
+:host([density='tight']) .stats__count-value,
+:host([density='tight']) .stats__count-label {
+  font-size: var(--wa-font-size-s);
+}
+
+:host([density='tight']) .stats__count:first-child .stats__count-value {
+  font-size: var(--wa-font-size-m);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -218,5 +323,10 @@
 
   .stats__skeleton::part(indicator) {
     animation: none;
+  }
+
+  /* The figure inside already states the new value; the arc just snaps to it. */
+  .stats__ring::part(indicator) {
+    transition: none;
   }
 }

@@ -1,9 +1,9 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var t = require('./t-sd8HJHNy.js');
+var t = require('./t-CqJPQrfm.js');
 var _commonjsHelpers = require('./_commonjsHelpers-BJu3ubxk.js');
-require('./locales.store-D6DJIhoZ.js');
+require('./locale-scope-Cch-vf1R.js');
 
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;

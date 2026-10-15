@@ -1,8 +1,8 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var t = require('./t-sd8HJHNy.js');
-require('./locales.store-D6DJIhoZ.js');
+var t = require('./t-CqJPQrfm.js');
+require('./locale-scope-Cch-vf1R.js');
 
 const irOtaServicesCss = () => `.sc-ir-ota-services-h{display:block}.bottom-border.sc-ir-ota-services{border-bottom:1px solid rgba(0, 0, 0, 0.1)}.ir-me-2.sc-ir-ota-services{margin-inline-end:0.5rem}.ir-ms-2.sc-ir-ota-services{margin-inline-start:0.5rem}`;
 

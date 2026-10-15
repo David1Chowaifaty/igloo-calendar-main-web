@@ -1,7 +1,7 @@
 import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
-import { t } from './t-DTGA0v_q.js';
+import { t } from './t-Bvz1wS_D.js';
 import { t as todayISO, a as addDaysISO } from './calendar-dates-D3hVfsrC.js';
-import './locales.store-DsOXxI8k.js';
+import './locale-scope-Jre4lb6k.js';
 import './moment-Mki5YqAR.js';
 
 const irBookingNewFormCss = () => `.sc-ir-booking-new-form-h{display:block}`;

@@ -62,7 +62,7 @@ import { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-d
 import { DailyPaymentFilter, FolioPayment, GroupedFolioPayment, RevenueSourceOption } from "./components/ir-daily-revenue/types";
 import { DashboardBookingsTableVariant } from "./components/ir-dashboard/ir-dashboard-bookings-table/ir-dashboard-bookings-table";
 import { ISODate } from "./utils/calendar-dates";
-import { CheckoutRedirectEvent } from "./components/ir-dashboard/types";
+import { CheckoutRedirectEvent, RailDensity } from "./components/ir-dashboard/types";
 import { DashboardPerformance, DashboardUnits } from "./services/dashboard/index";
 import { DateRangeChangeEvent } from "./components/ui/ir-date-range/ir-date-range";
 import { QuickDatePreset } from "./components/ui/ir-date-range-filter/ir-date-range-filter";
@@ -180,7 +180,7 @@ export { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-d
 export { DailyPaymentFilter, FolioPayment, GroupedFolioPayment, RevenueSourceOption } from "./components/ir-daily-revenue/types";
 export { DashboardBookingsTableVariant } from "./components/ir-dashboard/ir-dashboard-bookings-table/ir-dashboard-bookings-table";
 export { ISODate } from "./utils/calendar-dates";
-export { CheckoutRedirectEvent } from "./components/ir-dashboard/types";
+export { CheckoutRedirectEvent, RailDensity } from "./components/ir-dashboard/types";
 export { DashboardPerformance, DashboardUnits } from "./services/dashboard/index";
 export { DateRangeChangeEvent } from "./components/ui/ir-date-range/ir-date-range";
 export { QuickDatePreset } from "./components/ui/ir-date-range-filter/ir-date-range-filter";
@@ -3030,6 +3030,11 @@ export namespace Components {
           * Selected day (`YYYY-MM-DD`).
          */
         "date": ISODate;
+        /**
+          * How tightly the card is drawn; ir-dashboard steps it down when the desktop rail is short.
+          * @default 'regular'
+         */
+        "density": RailDensity;
     }
     /**
      * Departures panel of the dashboard: the existing departures table plus its check-out and invoice dialogs.
@@ -3047,6 +3052,11 @@ export namespace Components {
      */
     interface IrDashboardStats {
         "currencySymbol": string;
+        /**
+          * How tightly the cards are drawn; ir-dashboard steps it down when the desktop rail is short.
+          * @default 'regular'
+         */
+        "density": RailDensity;
         /**
           * Dims the pending-units figure while a newer day's is in flight.
           * @default false
@@ -18134,6 +18144,11 @@ declare namespace LocalJSX {
          */
         "date"?: ISODate;
         /**
+          * How tightly the card is drawn; ir-dashboard steps it down when the desktop rail is short.
+          * @default 'regular'
+         */
+        "density"?: RailDensity;
+        /**
           * Emitted with the new day when the user moves to the previous / next day.
          */
         "onDateChange"?: (event: IrDashboardDateNavigatorCustomEvent<ISODate>) => void;
@@ -18158,6 +18173,11 @@ declare namespace LocalJSX {
      */
     interface IrDashboardStats {
         "currencySymbol"?: string;
+        /**
+          * How tightly the cards are drawn; ir-dashboard steps it down when the desktop rail is short.
+          * @default 'regular'
+         */
+        "density"?: RailDensity;
         /**
           * Dims the pending-units figure while a newer day's is in flight.
           * @default false
@@ -24263,6 +24283,7 @@ declare namespace LocalJSX {
     }
     interface IrDashboardDateNavigatorAttributes {
         "date": ISODate;
+        "density": RailDensity;
     }
     interface IrDashboardDeparturesAttributes {
         "propertyId": number;
@@ -24274,6 +24295,7 @@ declare namespace LocalJSX {
         "performanceLoading": boolean;
         "unitsLoading": boolean;
         "pendingLoading": boolean;
+        "density": RailDensity;
     }
     interface IrDatePickerAttributes {
         "inline": boolean;

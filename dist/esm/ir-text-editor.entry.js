@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-DKZeCK8T.js';
-import { t } from './t-DTGA0v_q.js';
+import { t } from './t-Bvz1wS_D.js';
 import { c as commonjsGlobal, g as getDefaultExportFromCjs } from './_commonjsHelpers-BFTU3MAI.js';
-import './locales.store-DsOXxI8k.js';
+import './locale-scope-Jre4lb6k.js';
 
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;

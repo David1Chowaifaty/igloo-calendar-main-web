@@ -1,9 +1,9 @@
 import { r as registerInstance, h } from './index-DKZeCK8T.js';
-import { f as formatDate } from './ir-date-CdNwD9PM.js';
+import { f as formatDate } from './ir-date-XXNYhmSL.js';
 import './moment-Mki5YqAR.js';
-import { c as formatNumber, d as formatPercent } from './number-COOjxK58.js';
-import { i as interpolate } from './t-DTGA0v_q.js';
-import './locales.store-DsOXxI8k.js';
+import { c as formatNumber, d as formatPercent } from './number-B8waOzTO.js';
+import { i as interpolate } from './t-Bvz1wS_D.js';
+import './locale-scope-Jre4lb6k.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 

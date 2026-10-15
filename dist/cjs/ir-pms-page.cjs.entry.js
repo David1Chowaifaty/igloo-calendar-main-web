@@ -2,10 +2,10 @@
 
 var index = require('./index-IDeZZwEK.js');
 var moment = require('./moment-CdViwxPQ.js');
-var locale_controller = require('./locale.controller-BtkICUK3.js');
-var languageSync = require('./language-sync-w92_g_pi.js');
-var t = require('./t-sd8HJHNy.js');
-require('./locales.store-D6DJIhoZ.js');
+var locale_controller = require('./locale.controller-DXObwuz4.js');
+var languageSync = require('./language-sync-Daqv91WM.js');
+var t = require('./t-CqJPQrfm.js');
+require('./locale-scope-Cch-vf1R.js');
 require('./language-observer-DKp37LIu.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

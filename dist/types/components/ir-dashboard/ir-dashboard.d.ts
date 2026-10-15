@@ -3,7 +3,7 @@ import type { Booking } from "../../models/booking.dto";
 import type { ICountry } from "../../models/IBooking";
 import { type DashboardPerformance, type DashboardUnits } from "../../services/dashboard/index";
 import { type ISODate } from "../../utils/calendar-dates";
-import type { DashboardTab } from './types';
+import type { DashboardTab, RailDensity } from './types';
 /**
  * PMS landing dashboard: a day picker (five days either side of today), the day's stats,
  * and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
@@ -19,6 +19,7 @@ import type { DashboardTab } from './types';
  * reloads the stats plus the affected arrivals / departures tab and in-house.
  */
 export declare class IrDashboard {
+    el: HTMLElement;
     /** Authentication token issued by the PMS backend. */
     ticket: string;
     /** ID of the property (hotel). */
@@ -35,6 +36,8 @@ export declare class IrDashboard {
     isPendingLoading: boolean;
     selectedDate: ISODate;
     activeTab: DashboardTab;
+    /** How tightly the rail's cards are drawn, so they fit the height the host page leaves on desktop. */
+    railDensity: RailDensity;
     asOf: string;
     performance: DashboardPerformance;
     units: DashboardUnits;
@@ -80,6 +83,12 @@ export declare class IrDashboard {
     /** Re-runs init when the language changes so server-localized data follows. */
     private languageSync;
     private realtimeQueue;
+    /** Watches the host page so a header or footer that resizes or mounts late re-fits the dashboard. */
+    private pageResizeObserver;
+    private fitFrame;
+    /** Last height (px) the host page renders above and below the dashboard. */
+    private reservedBlockSize;
+    private asideRef;
     componentDidRender(): Promise<void>;
     connectedCallback(): void;
     componentWillLoad(): void;
@@ -92,6 +101,31 @@ export declare class IrDashboard {
     handleResetCancellationDueAmount(e: CustomEvent): void;
     handleUpdateRoomGuests(e: CustomEvent): void;
     private reloadAfterChange;
+    private scheduleFitToPage;
+    private fitToPage;
+    /**
+     * Gives the date card the summary cards' height, so the rail's cards line up with the tab cards and the table beside
+     * them. The tab cards' height comes from their own content, never from the date card, so this can't feed back.
+     */
+    private measureSummaryRow;
+    /**
+     * Height of what the page renders under the dashboard: every in-flow element after it (or after one of its ancestors)
+     * that sits below it, plus the ancestors' bottom padding and borders and the body's bottom margin. Summing those
+     * rather than reading the document's height keeps the dashboard's own overflow (a short screen under the tables'
+     * height floor) from counting as footer and shrinking the dashboard further.
+     */
+    private measureBelow;
+    /**
+     * Picks the rail density from the rail's height, which the layout sets (not its content), so a density change never
+     * re-triggers itself. Below the desktop breakpoint the rail is content-sized and stays regular.
+     */
+    private updateRailDensity;
+    /**
+     * Measures what the host page renders above (header, body padding) and below (footer) the dashboard, so the desktop
+     * layout's height is the viewport minus that and the page never scrolls. Writing only on change keeps the body
+     * observer from looping: our own resize re-measures to the same value.
+     */
+    private measureReserved;
     private get propertyId();
     private init;
     private subscribeRealtime;

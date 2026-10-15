@@ -1,22 +1,22 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var booking_service = require('./booking.service-xFFQEG7h.js');
-var utils = require('./utils-CpEd8z_J.js');
-var irDate = require('./ir-date-Bjy8vNGm.js');
+var booking_store = require('./booking.store-CFCw1RAq.js');
+var utils = require('./utils-ZKsQb8eV.js');
+var irDate = require('./ir-date-CbkOKs2C.js');
 var moment = require('./moment-CdViwxPQ.js');
-var calendarData = require('./calendar-data-DZk0v7WL.js');
-var number = require('./number-D6oFwIUn.js');
-var locale_controller = require('./locale.controller-BtkICUK3.js');
-var t = require('./t-sd8HJHNy.js');
+var calendarData = require('./calendar-data-ShS6b-Ns.js');
+var number = require('./number-xBpNWk3H.js');
+var locale_controller = require('./locale.controller-DXObwuz4.js');
+var t = require('./t-CqJPQrfm.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
 require('./calendar-dates-BxDGM1ix.js');
-require('./booking-DETR93Bg.js');
-require('./locales.store-D6DJIhoZ.js');
-require('./functions-BsloxeNr.js');
+require('./booking-DhSfYcY7.js');
+require('./locale-scope-Cch-vf1R.js');
+require('./functions-CaNAUyCw.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
@@ -53,7 +53,7 @@ const IrRoomNights = class {
     /** `YYYY-MM-DD` */
     dates = { from_date: '', to_date: '' };
     closeRoomNightsDialog;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     componentWillLoad() {
         this.dates = { from_date: this.fromDate, to_date: this.toDate };
         this.init();
@@ -229,7 +229,7 @@ const IrRoomNights = class {
         if (!this.bookingEvent) {
             return (index.h("div", { class: "loading-container" }, index.h("ir-loading-screen", null)));
         }
-        return (index.h("div", { class: "sheet-container" }, index.h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${t.t('Lcz_AddingRoomNightsTo')} ${this.selectedRoom?.roomtype?.name} ${(this.selectedRoom?.unit).name}`, displayContext: "sidebar" }), index.h("section", { class: 'ir-text-start px-1 pt-0 sheet-body' }, index.h("p", { class: 'font-medium-1' }, `${t.t('Lcz_Booking', { fallback: 'Booking' })}#`, " ", number.formatBookingNumber(this.bookingNumber)), this.initialLoading ? (index.h("p", { class: 'mt-2 text-secondary' }, t.t('Lcz_CheckingRoomAvailability '))) : (index.h(index.Fragment, null, index.h("p", { class: 'font-weight-bold font-medium-1' }, `${irDate.formatDate(this.dates.from_date, 'ddd, DD MMM YYYY')} - ${irDate.formatDate(this.dates.to_date, 'ddd, DD MMM YYYY')}`), index.h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, ' ', this.selectedRoom.rateplan.is_non_refundable && index.h("span", { class: 'irfontgreen' }, t.t('Lcz_NonRefundable', { fallback: 'Non-refundable' }))), (this.inventory === 0 || this.inventory === null) && index.h("p", { class: "font-medium-1 text danger" }, t.t('Lcz_NoAvailabilityForAdditionalNights')), this.selectedRoom.rateplan.custom_text && index.h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), booking_service.booking_store.roomTypes?.length > 0 && calendarData.calendar_data.tax_statement && (index.h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "mt-1 booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement)), this.renderDates()))), index.h("section", { class: 'sheet-footer' }, index.h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: t.t('Lcz_Cancel', { fallback: 'Cancel' }), class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (index.h("ir-button", { isLoading: this.isLoading, text: t.t('Lcz_Confirm', { fallback: 'Confirm' }), btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
+        return (index.h("div", { class: "sheet-container" }, index.h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${t.t('Lcz_AddingRoomNightsTo')} ${this.selectedRoom?.roomtype?.name} ${(this.selectedRoom?.unit).name}`, displayContext: "sidebar" }), index.h("section", { class: 'ir-text-start px-1 pt-0 sheet-body' }, index.h("p", { class: 'font-medium-1' }, `${t.t('Lcz_Booking', { fallback: 'Booking' })}#`, " ", number.formatBookingNumber(this.bookingNumber)), this.initialLoading ? (index.h("p", { class: 'mt-2 text-secondary' }, t.t('Lcz_CheckingRoomAvailability '))) : (index.h(index.Fragment, null, index.h("p", { class: 'font-weight-bold font-medium-1' }, `${irDate.formatDate(this.dates.from_date, 'ddd, DD MMM YYYY')} - ${irDate.formatDate(this.dates.to_date, 'ddd, DD MMM YYYY')}`), index.h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, ' ', this.selectedRoom.rateplan.is_non_refundable && index.h("span", { class: 'irfontgreen' }, t.t('Lcz_NonRefundable', { fallback: 'Non-refundable' }))), (this.inventory === 0 || this.inventory === null) && index.h("p", { class: "font-medium-1 text danger" }, t.t('Lcz_NoAvailabilityForAdditionalNights')), this.selectedRoom.rateplan.custom_text && index.h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), booking_store.booking_store.roomTypes?.length > 0 && calendarData.calendar_data.tax_statement && (index.h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "mt-1 booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement)), this.renderDates()))), index.h("section", { class: 'sheet-footer' }, index.h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: t.t('Lcz_Cancel', { fallback: 'Cancel' }), class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (index.h("ir-button", { isLoading: this.isLoading, text: t.t('Lcz_Confirm', { fallback: 'Confirm' }), btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
     }
 };
 IrRoomNights.style = irRoomNightsCss() + sheetCss();

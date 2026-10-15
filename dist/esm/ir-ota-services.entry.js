@@ -1,6 +1,6 @@
 import { r as registerInstance, h, F as Fragment, H as Host } from './index-DKZeCK8T.js';
-import { t } from './t-DTGA0v_q.js';
-import './locales.store-DsOXxI8k.js';
+import { t } from './t-Bvz1wS_D.js';
+import './locale-scope-Jre4lb6k.js';
 
 const irOtaServicesCss = () => `.sc-ir-ota-services-h{display:block}.bottom-border.sc-ir-ota-services{border-bottom:1px solid rgba(0, 0, 0, 0.1)}.ir-me-2.sc-ir-ota-services{margin-inline-end:0.5rem}.ir-ms-2.sc-ir-ota-services{margin-inline-start:0.5rem}`;
 

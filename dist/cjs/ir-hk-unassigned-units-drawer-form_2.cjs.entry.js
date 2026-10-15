@@ -1,27 +1,27 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var index$1 = require('./index-BlTsK8DE.js');
-var calendarData = require('./calendar-data-DZk0v7WL.js');
-var t = require('./t-sd8HJHNy.js');
-var booking_service = require('./booking.service-xFFQEG7h.js');
-var user_service = require('./user.service-RONU8RTP.js');
+var index$1 = require('./index-DnLl4vlg.js');
+var calendarData = require('./calendar-data-ShS6b-Ns.js');
+var t = require('./t-CqJPQrfm.js');
+var booking_store = require('./booking.store-CFCw1RAq.js');
+var user_service = require('./user.service-BJ5KedHk.js');
 var constants = require('./constants-BLID23LD.js');
 var types = require('./types-BVJQZ50e.js');
-require('./locales.store-D6DJIhoZ.js');
+require('./locale-scope-Cch-vf1R.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./IBooking-hDE_y33g.js');
-require('./utils-CpEd8z_J.js');
+require('./utils-ZKsQb8eV.js');
 require('./moment-CdViwxPQ.js');
 require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
-require('./ir-date-Bjy8vNGm.js');
+require('./ir-date-CbkOKs2C.js');
 require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
-require('./booking-DETR93Bg.js');
-require('./functions-BsloxeNr.js');
+require('./booking-DhSfYcY7.js');
+require('./functions-CaNAUyCw.js');
 
 const irHkUnassignedUnitsDrawerFormCss = () => `.sc-ir-hk-unassigned-units-drawer-form-h{display:block;min-width:20rem;--ir-root-active-color:#1e9ff2;--ir-root-inactive-color:#d2d2d2;text-align:start !important}table.sc-ir-hk-unassigned-units-drawer-form{width:100%}td.sc-ir-hk-unassigned-units-drawer-form{padding-top:3px;padding-bottom:3px}td.sc-ir-hk-unassigned-units-drawer-form:last-child{text-align:end}.title.sc-ir-hk-unassigned-units-drawer-form{min-width:230px !important}.ir-ps-1.sc-ir-hk-unassigned-units-drawer-form{padding-inline-start:0.25rem}`;
 
@@ -166,7 +166,7 @@ const IrHkUserDrawerForm = class {
     closeSideBar;
     loadingChanged;
     housekeepingService = new index$1.HouseKeepingService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     // Stable schema references — closures read current `this` state at validation time.
     // Built in `buildSchemas()` rather than at module load so their messages resolve against the loaded locale.
     nameSchema;

@@ -3,9 +3,9 @@
 var index = require('./index-IDeZZwEK.js');
 var debounce = require('./debounce-Be8tSGtB.js');
 var moment = require('./moment-CdViwxPQ.js');
-var irDate = require('./ir-date-Bjy8vNGm.js');
-var t = require('./t-sd8HJHNy.js');
-require('./locales.store-D6DJIhoZ.js');
+var irDate = require('./ir-date-CbkOKs2C.js');
+var t = require('./t-CqJPQrfm.js');
+require('./locale-scope-Cch-vf1R.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 

@@ -19,3 +19,5 @@ export interface CheckoutRedirectEvent {
     bookingNumber: number;
     identifier: string;
 }
+/** How tightly the desktop rail's cards are drawn: `spacious` on tall rails, `regular`, then `compact` and `tight` as it gets shorter. */
+export type RailDensity = 'spacious' | 'regular' | 'compact' | 'tight';

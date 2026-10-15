@@ -1,8 +1,8 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var t = require('./t-sd8HJHNy.js');
-require('./locales.store-D6DJIhoZ.js');
+var t = require('./t-CqJPQrfm.js');
+require('./locale-scope-Cch-vf1R.js');
 
 const irPasswordValidatorCss = () => `.sc-ir-password-validator-h{display:block}`;
 

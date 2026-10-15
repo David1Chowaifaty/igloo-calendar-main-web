@@ -1,9 +1,9 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var number = require('./number-D6oFwIUn.js');
-require('./ir-date-Bjy8vNGm.js');
-require('./locales.store-D6DJIhoZ.js');
+var number = require('./number-xBpNWk3H.js');
+require('./ir-date-CbkOKs2C.js');
+require('./locale-scope-Cch-vf1R.js');
 require('./language-observer-DKp37LIu.js');
 require('./moment-CdViwxPQ.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

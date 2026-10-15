@@ -1,10 +1,10 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var calendarData = require('./calendar-data-DZk0v7WL.js');
-var t = require('./t-sd8HJHNy.js');
+var calendarData = require('./calendar-data-ShS6b-Ns.js');
+var t = require('./t-CqJPQrfm.js');
 var types = require('./types-BVJQZ50e.js');
-require('./locales.store-D6DJIhoZ.js');
+require('./locale-scope-Cch-vf1R.js');
 
 const irExtraServicePriceInputCss = () => `wa-input[aria-invalid='true']::part(base),wa-textarea[aria-invalid='true']::part(base),wa-select[aria-invalid='true']::part(combobox){border-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));outline-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));border-top-width:var(--error-border-width) !important;border-inline-start-width:var(--error-border-width) !important;border-inline-end-width:var(--error-border-width) !important;border-bottom-width:var(--error-border-width) !important}:host{display:flex;flex:1}.ir-extra-service-price-input__price-wrapper{flex:1 1 0%}`;
 
