@@ -1,13 +1,17 @@
 import { Fragment, h } from "@stencil/core";
 import { BookingService } from "../../../services/booking-service/booking.service";
+import { SetupService, getEntryValue } from "../../../services/setup/index";
 import { PropertyService } from "../../../services/property.service";
-import { formatAmount, getEntryValue } from "../../../utils/utils";
+import { formatAmount, formatBookingNumber } from "../../../utils/number";
 import moment from "moment";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
 import { v4 } from "uuid";
 import calendar_data from "../../../stores/calendar-data";
 import { FdTypes, PayStatus, PayTypes } from "../../../types/enums";
 import { _formatTime } from "../../ir-booking-details/functions";
+import { formatDate } from "../../../utils/date/index";
+import { LocaleController } from "../../../services/locale/locale.controller";
+import { t } from "../../../services/locale/t";
 export class IrGuestBilling {
     booking;
     isOpen = null;
@@ -22,6 +26,7 @@ export class IrGuestBilling {
     /** Refreshes the wider booking-details tree. Emit with a Booking payload to skip ir-booking-details' full-page loading spinner. */
     resetBookingEvt;
     bookingService = new BookingService();
+    setupService = new SetupService();
     propertyService = new PropertyService();
     _id = `issue_invoice__btn_${v4()}`;
     voidDialogRef;
@@ -57,7 +62,7 @@ export class IrGuestBilling {
     async init() {
         try {
             this.isLoading = 'page';
-            const [, fdTypes] = await Promise.all([this.refreshInvoiceAndFolio(), this.bookingService.getSetupEntriesByTableName('_FD_TYPE')]);
+            const [, fdTypes] = await Promise.all([this.refreshInvoiceAndFolio(), this.setupService.getSetupEntriesByTableName('_FD_TYPE')]);
             this.fdTypes = fdTypes ?? [];
             let voidedReceipts = new Set();
             this.booking.financial.payments?.forEach(payment => {
@@ -76,7 +81,7 @@ export class IrGuestBilling {
     }
     async refreshInvoiceAndFolio() {
         const [invoiceInfo, { rows }] = await Promise.all([
-            this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
+            this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr, language: LocaleController.language }),
             this.propertyService.getUnifiedFolio(this.buildFolioParams()),
         ]);
         this.invoiceInfo = invoiceInfo;
@@ -100,14 +105,14 @@ export class IrGuestBilling {
             // Voiding a receipt changes booking.financial.payments, which this component doesn't own.
             // Pass the freshly fetched booking so ir-booking-details updates in place instead of
             // taking the resetBookingEvt(null) branch, which shows its full-page loading spinner.
-            const freshBooking = await this.bookingService.getExposedBooking({ booking_nbr: this.booking.booking_nbr, language: 'en' });
+            const freshBooking = await this.bookingService.getExposedBooking({ booking_nbr: this.booking.booking_nbr, language: LocaleController.language });
             this.resetBookingEvt.emit(freshBooking);
         }
     }
     get fdTypeLabels() {
         const map = {};
         for (const entry of this.fdTypes) {
-            map[entry.CODE_NAME] = getEntryValue({ entry, language: 'en' });
+            map[entry.CODE_NAME] = getEntryValue({ entry, language: LocaleController.language });
         }
         return map;
     }
@@ -137,14 +142,14 @@ export class IrGuestBilling {
             return (h("div", { class: "drawer__loader-container" }, h("ir-spinner", null)));
         }
         const currencySymbol = this.booking.currency?.symbol ?? '';
-        return (h(Fragment, null, h("div", { class: "billing__container" }, h("section", null, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, "Issued documents"), h("ir-custom-button", { variant: "brand", id: this._id, onClickHandler: e => {
+        return (h(Fragment, null, h("div", { class: "billing__container" }, h("section", null, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, t('Lcz_IssuedDocuments', { fallback: 'Issued documents' })), h("ir-custom-button", { variant: "brand", id: this._id, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = 'invoice';
-            } }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", { class: "billing__doc-number-col" }, "Doc number"), h("th", null, "Type"), h("th", { class: "billing__price-col" }, "Debit"), h("th", { class: "billing__price-col" }, "Credit"), h("th", { class: 'text-center' }, "Actions"))), h("tbody", null, this.sortedRows.length === 0 && (h("tr", null, h("td", { colSpan: 6, class: "empty-row" }, h("ir-empty-state", null)))), this.sortedRows.map(row => {
+            } }, t('Lcz_IssueInvoice'))), h("div", { class: "table-container" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, t('Lcz_DateLabel', { fallback: 'Date' })), h("th", { class: "billing__doc-number-col" }, t('Lcz_DocNumber')), h("th", null, t('Lcz_Type', { fallback: 'Type' })), h("th", { class: "billing__price-col" }, t('Lcz_Debit', { fallback: 'Debit' })), h("th", { class: "billing__price-col" }, t('Lcz_Credit', { fallback: 'Credit' })), h("th", { class: 'text-center' }, t('Lcz_Actions', { fallback: 'Actions' })))), h("tbody", null, this.sortedRows.length === 0 && (h("tr", null, h("td", { colSpan: 6, class: "empty-row" }, h("ir-empty-state", null)))), this.sortedRows.map(row => {
             const isInvoice = row.FD_TYPE_CODE === FdTypes.Invoice;
             const isReceipt = row.FD_TYPE_CODE === FdTypes.Receipt;
-            return (h("tr", { class: "ir-table-row", key: row.DOC_NUMBER }, h("td", null, row.DOC_DATE ? (h("div", { class: "billing__date-cell" }, h("p", { class: "m-0 p-0" }, moment(row.DOC_DATE, 'YYYY-MM-DD').format('MMM DD, YYYY')), row.DOC_HOUR != null && row.DOC_MINUTE != null && h("p", { class: "billing__date-time" }, _formatTime(String(row.DOC_HOUR), String(row.DOC_MINUTE))))) : ('—')), h("td", { class: "billing__doc-number-col" }, h("wa-button", { onClick: () => this.printInvoice({ row }), variant: "brand", appearance: "plain", class: "billing__invoice-nbr" }, row.DOC_NUMBER)), h("td", null, (row.FD_TYPE_CODE && this.fdTypeLabels[row.FD_TYPE_CODE === 'RFND' ? FdTypes.CreditReceipt : row.FD_TYPE_CODE]) || row.FD_TYPE_CODE || '—'), h("td", { class: "billing__price-col" }, h("span", { class: "ir-price", style: { fontWeight: '400' } }, this.renderMoney(row.DEBIT))), h("td", { class: "billing__price-col" }, h("span", { class: "ir-price", style: { fontWeight: '400' } }, this.renderMoney(row.CREDIT))), h("td", null, h("div", { class: "billing__actions-row" }, h("wa-dropdown", { "onwa-hide": e => {
+            return (h("tr", { class: "ir-table-row", key: row.DOC_NUMBER }, h("td", null, row.DOC_DATE ? (h("div", { class: "billing__date-cell" }, h("p", { class: "m-0 p-0" }, formatDate(row.DOC_DATE, 'MMM DD, YYYY')), row.DOC_HOUR != null && row.DOC_MINUTE != null && h("p", { class: "billing__date-time" }, _formatTime(String(row.DOC_HOUR), String(row.DOC_MINUTE))))) : ('—')), h("td", { class: "billing__doc-number-col" }, h("wa-button", { onClick: () => this.printInvoice({ row }), variant: "brand", appearance: "plain", class: "billing__invoice-nbr" }, formatBookingNumber(row.DOC_NUMBER))), h("td", null, (row.FD_TYPE_CODE && this.fdTypeLabels[row.FD_TYPE_CODE === 'RFND' ? FdTypes.CreditReceipt : row.FD_TYPE_CODE]) || row.FD_TYPE_CODE || '—'), h("td", { class: "billing__price-col" }, h("span", { class: "ir-price", style: { fontWeight: '400' } }, this.renderMoney(row.DEBIT))), h("td", { class: "billing__price-col" }, h("span", { class: "ir-price", style: { fontWeight: '400' } }, this.renderMoney(row.CREDIT))), h("td", null, h("div", { class: "billing__actions-row" }, h("wa-dropdown", { "onwa-hide": e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                 }, "onwa-select": async (e) => {
@@ -163,12 +168,12 @@ export class IrGuestBilling {
                             });
                             break;
                     }
-                } }, h("wa-dropdown-item", { value: "view-print" }, "Open PDF", isRequestPending('/Print_Invoice') && h("wa-spinner", { slot: "details" })), isInvoice && !this.voidedInvoices.has(row.DOC_NUMBER) && (h("wa-dropdown-item", { variant: "danger", value: "void" }, "Void with credit note")), isReceipt && !this.voidedReceipts.has(row.DOC_NUMBER) && (h("wa-dropdown-item", { variant: "danger", value: "void" }, "Void with credit receipt")), h("ir-custom-button", { slot: "trigger", id: `pdf-${row.DOC_ID ?? row.DOC_NUMBER}`, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })))))));
+                } }, h("wa-dropdown-item", { value: "view-print" }, t('Lcz_OpenPdf', { fallback: 'Open PDF' }), isRequestPending('/Print_Invoice') && h("wa-spinner", { slot: "details" })), isInvoice && !this.voidedInvoices.has(row.DOC_NUMBER) && (h("wa-dropdown-item", { variant: "danger", value: "void" }, t('Lcz_VoidWithCreditNote', { fallback: 'Void with credit note' }))), isReceipt && !this.voidedReceipts.has(row.DOC_NUMBER) && (h("wa-dropdown-item", { variant: "danger", value: "void" }, t('Lcz_VoidWithCreditReceipt', { fallback: 'Void with credit receipt' }))), h("ir-custom-button", { slot: "trigger", id: `pdf-${row.DOC_ID ?? row.DOC_NUMBER}`, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })))))));
         })))), h("div", { class: "billing__cards" }, this.sortedRows.length === 0 && (h("div", { class: "billing__empty-state" }, h("ir-empty-state", null))), this.sortedRows.map(row => {
             const isInvoice = row.FD_TYPE_CODE === FdTypes.Invoice;
-            return (h("wa-card", { key: row.DOC_NUMBER, class: "billing__card" }, h("div", { class: "billing__card-header" }, h("div", { class: "billing__card-header-info" }, h("p", { class: "billing__card-number" }, (row.FD_TYPE_CODE && this.fdTypeLabels[row.FD_TYPE_CODE]) || row.FD_TYPE_CODE || '—', ":", row.DOC_NUMBER)), h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' } }, h("wa-tooltip", { for: `mobile-download-pdf-${row.DOC_ID ?? row.DOC_NUMBER}` }, "Open PDF"), h("ir-custom-button", { onClickHandler: () => this.printInvoice({ row }), loading: isRequestPending('/Print_Invoice'), id: `mobile-download-pdf-${row.DOC_ID ?? row.DOC_NUMBER}`, variant: "neutral", appearance: "plain", class: "billing__card-download-btn" }, h("wa-icon", { name: "file-pdf", style: { fontSize: '1rem' } })))), h("div", { class: "billing__card-details" }, h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label" }, "Date"), h("div", { class: "billing__date-cell" }, h("p", { class: "billing__card-detail-value" }, row.DOC_DATE ? moment(row.DOC_DATE, 'YYYY-MM-DD').format('MMM DD, YYYY') : '—'), row.DOC_HOUR != null && row.DOC_MINUTE != null && h("p", { class: "billing__date-time" }, _formatTime(String(row.DOC_HOUR), String(row.DOC_MINUTE))))), h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label --amount" }, "Amount"), h("p", { class: "billing__card-detail-value" }, formatAmount(currencySymbol, row.TOTAL_AMOUNT ?? 0)))), isInvoice && !this.voidedInvoices.has(row.DOC_NUMBER) && (h("div", { slot: "footer", class: "billing__card-footer" }, h("ir-custom-button", { onClickHandler: () => {
+            return (h("wa-card", { key: row.DOC_NUMBER, class: "billing__card" }, h("div", { class: "billing__card-header" }, h("div", { class: "billing__card-header-info" }, h("p", { class: "billing__card-number" }, (row.FD_TYPE_CODE && this.fdTypeLabels[row.FD_TYPE_CODE]) || row.FD_TYPE_CODE || '—', ":", formatBookingNumber(row.DOC_NUMBER))), h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' } }, h("wa-tooltip", { for: `mobile-download-pdf-${row.DOC_ID ?? row.DOC_NUMBER}` }, t('Lcz_OpenPdf', { fallback: 'Open PDF' })), h("ir-custom-button", { onClickHandler: () => this.printInvoice({ row }), loading: isRequestPending('/Print_Invoice'), id: `mobile-download-pdf-${row.DOC_ID ?? row.DOC_NUMBER}`, variant: "neutral", appearance: "plain", class: "billing__card-download-btn" }, h("wa-icon", { name: "file-pdf", style: { fontSize: '1rem' } })))), h("div", { class: "billing__card-details" }, h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label" }, t('Lcz_DateLabel', { fallback: 'Date' })), h("div", { class: "billing__date-cell" }, h("p", { class: "billing__card-detail-value" }, row.DOC_DATE ? formatDate(row.DOC_DATE, 'MMM DD, YYYY') : '—'), row.DOC_HOUR != null && row.DOC_MINUTE != null && h("p", { class: "billing__date-time" }, _formatTime(String(row.DOC_HOUR), String(row.DOC_MINUTE))))), h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label --amount" }, t('Lcz_Amount', { fallback: 'Amount' })), h("p", { class: "billing__card-detail-value" }, formatAmount(currencySymbol, row.TOTAL_AMOUNT ?? 0)))), isInvoice && !this.voidedInvoices.has(row.DOC_NUMBER) && (h("div", { slot: "footer", class: "billing__card-footer" }, h("ir-custom-button", { onClickHandler: () => {
                     this.voidDialogRef?.open({ documentType: FdTypes.Invoice, documentNumber: row.DOC_NUMBER });
-                }, variant: "danger", appearance: "outlined", class: "billing__card-void-btn" }, "Void with credit note")))));
+                }, variant: "danger", appearance: "outlined", class: "billing__card-void-btn" }, t('Lcz_VoidWithCreditNote', { fallback: 'Void with credit note' }))))));
         })))), h("ir-invoice", { invoiceInfo: this.invoiceInfo, onInvoiceClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();

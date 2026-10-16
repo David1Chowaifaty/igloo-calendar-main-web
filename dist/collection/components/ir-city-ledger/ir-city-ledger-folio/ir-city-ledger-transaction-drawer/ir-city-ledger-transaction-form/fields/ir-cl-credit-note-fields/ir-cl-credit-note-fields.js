@@ -1,4 +1,5 @@
 import { Fragment, h } from "@stencil/core";
+import { t } from "../../../../../../../services/locale/t";
 export class IrClCreditNoteFields {
     creditNoteMode = 'cancel-invoice';
     invoiceId;
@@ -7,9 +8,9 @@ export class IrClCreditNoteFields {
     fieldChange;
     render() {
         // const noInvoices = this.fiscalDocuments.length === 0;
-        return (h(Fragment, { key: '67303b7d7805d5c81faa711ae2984ee69c78c2ef' }, this.creditNoteMode === 'cancel-invoice' && (h("div", { key: 'f077638687393430e017b451e35fe700e8d51e81', class: "field" }, h("ir-cl-invoice-select", { key: 'ca58c734b71d1dffd849239292d5f591ff0fea15', value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: "Invoice", onInvoiceChange: event => {
+        return (h(Fragment, { key: '554935a5ead73ef5937d84a034368db4ebc85789' }, this.creditNoteMode === 'cancel-invoice' && (h("div", { key: '6e082290543ada2f4f4ad38e2d5c6f312a3b003e', class: "field" }, h("ir-cl-invoice-select", { key: '64ce6ec16b20d43c6337092a25dc2bf6161b4e73', value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: t('Lcz_DocumentTypeInvoice', { fallback: 'Invoice' }), onInvoiceChange: event => {
                 this.fieldChange.emit({ invoiceId: event.detail || undefined });
-            }, hint: "Issuing this credit note will void the selected invoice and unlock all associated line items." })))));
+            }, hint: t('Lcz_IssueCreditNoteVoidHint', { fallback: 'Issuing this credit note will void the selected invoice and unlock all associated line items.' }) })))));
     }
     static get is() { return "ir-cl-credit-note-fields"; }
     static get encapsulation() { return "scoped"; }

@@ -1,12 +1,15 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-CwWmK1sZ.js';
-import { c as calendar_data } from './calendar-data-zADniuy4.js';
-import { f as formatAmount } from './utils-DCUYWubA.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
+import { t } from './t-Bvz1wS_D.js';
+import { c as calendar_data } from './calendar-data-DknGMMFc.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import './index-BfixheT-.js';
-import './locales.store-DN9FqlnV.js';
-import './type-ByBjJ3uo.js';
-import './types-Cvnhk41g.js';
-import './calendar-dates-D3hVfsrC.js';
+import './booking.dto-B554ToUQ.js';
+import './ir-date-XXNYhmSL.js';
+import './locale-scope-Jre4lb6k.js';
+import { f as formatAmount } from './number-B8waOzTO.js';
+import './type-DjfVZqvs.js';
+import './types-CB66a07H.js';
+import './language-observer-CHgzsZkY.js';
+import './_commonjsHelpers-BFTU3MAI.js';
 
 const irActionsCellCss = () => `.sc-ir-actions-cell-h{box-sizing:border-box !important}.sc-ir-actions-cell-h *.sc-ir-actions-cell,.sc-ir-actions-cell-h *.sc-ir-actions-cell::before,.sc-ir-actions-cell-h *.sc-ir-actions-cell::after{box-sizing:inherit !important;padding:0;margin:0}[hidden].sc-ir-actions-cell{display:none !important}.sc-ir-actions-cell-h{display:flex;justify-content:flex-end}`;
 
@@ -20,13 +23,13 @@ const IrActionsCell = class {
     getLabel(type) {
         switch (type) {
             case 'check_in':
-                return 'Check in';
+                return t('Lcz_CheckIn', { fallback: 'Check in' });
             case 'check_out':
-                return 'Check out';
+                return t('Lcz_CheckOut', { fallback: 'Check out' });
             case 'overdue_check_in':
-                return 'Overdue check-in';
+                return t('Lcz_OverdueCheckIn', { fallback: 'Overdue check-in' });
             case 'overdue_check_out':
-                return 'Overdue check-out';
+                return t('Lcz_OverdueCheckOut', { fallback: 'Overdue check-out' });
             case 'edit':
                 return 'icon';
             case 'delete':
@@ -69,7 +72,7 @@ const IrActionsCell = class {
         return (h("ir-custom-button", { variant: variant, appearance: appearance, "data-action": type, onClick: () => this.onClick(type) }, label !== 'icon' && label, type === 'edit' && h("wa-icon", { name: "edit", style: { fontSize: '1.2rem' } }), type === 'delete' && h("wa-icon", { name: "trash-can", style: { fontSize: '1.2rem' } })));
     }
     render() {
-        return h(Host, { key: '3d5adb085757c484aabe38fd8cb68384625cfaaf' }, this.buttons.map(button => this.renderButton(button)));
+        return h(Host, { key: '73a7f5cbdb8e7e01ab244cf1c03f9ceb4f4f1078' }, this.buttons.map(button => this.renderButton(button)));
     }
 };
 IrActionsCell.style = irActionsCellCss();
@@ -96,7 +99,7 @@ const IrBalanceCell = class {
         return value !== null && value !== undefined && value !== 0;
     }
     render() {
-        return (h(Host, { key: '70e37c519bffd42ed39ee180f2d97c4529bdcc3b' }, this.label && h("p", { key: '85010d5ad0c2b0c3ff8e706a11936931ee65b0e0', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '81e002ca688f0f44c7ce9d8bbb0957717d9b90b1', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: '4e69f7798e731d35e7e5eb67a87cd406f97d72b9' }, this.label && h("p", { key: '57266b710cb2428ef43d21d87ceb854b8d30cbe6', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '1baa4eabbb2e0e675418ee56ec82ba11415790d2', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.hasAmount(this.financial.cancelation_penality_as_if_today) &&
                 this.hasAmount(this.financial.due_amount) && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -112,7 +115,7 @@ const IrBalanceCell = class {
                             reference: '',
                         },
                     });
-                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
+                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? t('Lcz_Refund', { fallback: 'Refund' }) : t('Lcz_Charge', { fallback: 'Charge' }), " "), formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
             : this.hasAmount(this.guestFinancial?.due_amount) && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
                         booking_nbr: this.bookingNumber,
@@ -144,7 +147,7 @@ const IrBalanceCell = class {
                                             reference: '',
                                         },
                                     });
-                                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
+                                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? t('Lcz_Refund', { fallback: 'Refund' }) : t('Lcz_Charge', { fallback: 'Charge' }), ' '), formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
                             : this.financial.due_amount !== 0 && (h("ir-custom-button", { onClickHandler: () => {
                                     this.payBookingBalance.emit({
                                         booking_nbr: this.bookingNumber,
@@ -174,7 +177,7 @@ const IrGuestNameCell = class {
     }
     name;
     render() {
-        return (h(Host, { key: 'bd243e7dd5efd068518336384e30f6e24253d341' }, this.name.first_name, " ", this.name.last_name));
+        return (h(Host, { key: '478837c23a7117b6d094116c463bdb97739a9289' }, this.name.first_name, " ", this.name.last_name));
     }
 };
 IrGuestNameCell.style = irGuestNameCellCss();
@@ -188,7 +191,7 @@ const IrUnitCell = class {
     room;
     showDeparture = false;
     render() {
-        return (h(Host, { key: '0636e984f7159b0e56134191b23371f5ad088e23' }, h("p", { key: 'e84d79d1373bcc59648c620758493629c2a09f26' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: '3dab175351c4800a719aa1c0fa4c0825624f2fc0', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && h("span", { key: '9eaa1c15ad1efc8e804484ddd979af3bd9b40d01' }, this.room?.departure_time?.description)));
+        return (h(Host, { key: '23952149199d5f416368d1c1ea16c535288a961c' }, h("p", { key: '152894c305a15fab8629d750561b6673e68df25a' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: '5628ce58a048f5962f3697b6d19df2821e9068e5', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && h("span", { key: '0c6a467c9c29b94587755431b2896e66c55d8930' }, this.room?.departure_time?.description)));
     }
 };
 IrUnitCell.style = irUnitCellCss();

@@ -15,9 +15,14 @@ export declare class RoomService {
     private initializeBookingColors;
     private normalizeBookingColor;
     private syncCalendarExtra;
+    /**
+     * @deprecated Use `LocaleController.load({ language, tables })` directly.
+     *
+     * Kept as a delegate so the existing call sites keep working while gaining the
+     * controller's caching, request de-duplication and guaranteed base tables.
+     */
     fetchLanguage(code: string, sections?: string[]): Promise<{
-        entries: any;
-        direction: any;
+        entries: import("@/stores/locales.store").TLocaleEntries;
+        direction: "ltr" | "rtl";
     }>;
-    private transformArrayToObject;
 }

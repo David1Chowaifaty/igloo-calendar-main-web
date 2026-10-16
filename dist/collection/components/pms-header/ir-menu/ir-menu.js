@@ -112,7 +112,7 @@ export class IrMenu {
         }
     }
     render() {
-        return (h(Host, { key: 'ab7cca5ffb52b4cb04f119031994a2ce90960a9b' }, h("slot", { key: '044355eced91a0c1d4dafdcc8982c6dafd31b867', onSlotchange: this.handleSlotChange })));
+        return (h(Host, { key: 'cc5bb5922804137f770e3e07540b92d093496164' }, h("slot", { key: '3306c395217d710f3dd2803ca1244d6e479ed8ed', onSlotchange: this.handleSlotChange })));
     }
     static get is() { return "ir-menu"; }
     static get encapsulation() { return "shadow"; }

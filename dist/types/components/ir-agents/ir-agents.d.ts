@@ -3,7 +3,7 @@ import type { Agent, Agents } from "../../services/agents/type";
 import { AgentSetupEntries } from './types';
 export declare class IrAgents {
     /**
-     * Authentication token issued by the PMS backend.
+     * Authentication ApiClient issued by the PMS backend.
      * Required for initializing the component and making API calls.
      */
     ticket: string;
@@ -32,8 +32,13 @@ export declare class IrAgents {
     private agentsService;
     private propertyService;
     private bookingService;
-    private tokenService;
+    private setupService;
+    private apiClientService;
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     handleTicketChange(): void;
     handleUpsertAgentListener(e: CustomEvent<Agent>): void;
     private init;

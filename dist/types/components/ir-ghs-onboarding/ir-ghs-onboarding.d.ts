@@ -4,6 +4,7 @@ export declare class IrGhsOnboarding {
     el: HTMLElement;
     ticket: string;
     baseurl: string;
+    language: string;
     properties: GHS_Candidate_Property[];
     countries: ICountry[];
     selectedCountryId: number | null;
@@ -15,7 +16,7 @@ export declare class IrGhsOnboarding {
     propertyToActivate: GHS_Candidate_Property | null;
     private ghsService;
     private bookingService;
-    private tokenService;
+    private apiClientService;
     private removeAllModal;
     private activateModal;
     ticketChanged(newValue: string): void;

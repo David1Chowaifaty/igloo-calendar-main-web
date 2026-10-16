@@ -1,6 +1,8 @@
 import { BookingService } from "../../../services/booking-service/booking.service";
-import locales from "../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
+import { LocaleController } from "../../../services/locale/locale.controller";
+import { t } from "../../../services/locale/t";
+import { normalizeNumericInput } from "../../../utils/number";
 export class IrPhoneInput {
     el;
     mode = 'default';
@@ -21,9 +23,9 @@ export class IrPhoneInput {
      */
     error = false;
     /**
-     * Auth token used by the booking service (if needed).
+     * Auth ApiClient used by the booking service (if needed).
      */
-    token;
+    ApiClient;
     /**
      * Two-letter language code used for country fetching.
      */
@@ -98,7 +100,7 @@ export class IrPhoneInput {
     labelId = `ir-phone-input-label-${Math.random().toString(36).slice(2)}`;
     async componentWillLoad() {
         if (this.countries.length === 0) {
-            const countries = await this.bookingService.getCountries(this.language);
+            const countries = await this.bookingService.getCountries(LocaleController.language);
             this.countries = countries;
         }
         if (this.phone_prefix) {
@@ -129,13 +131,13 @@ export class IrPhoneInput {
     }
     /**
      * Handles user input:
-     * - Removes all characters except numbers and "+"
+     * - Converts Arabic-Indic digits to Latin, then removes all characters except numbers and "+"
      * - Updates state and emits new phone number
      */
     handleInputChange(e) {
         let inputElement = e.target;
         let inputValue = inputElement.value;
-        inputValue = inputValue.replace(/[^+\d]+/g, '');
+        inputValue = normalizeNumericInput(inputValue).replace(/[^+\d]+/g, '');
         inputElement.value = inputValue;
         this.inputValue = inputValue;
         this.textChange.emit({ phone_prefix: this.currentCountry?.phone_prefix, mobile: this.inputValue });
@@ -172,23 +174,23 @@ export class IrPhoneInput {
         const showSideLabel = !!this.label && !useFloating;
         const isActive = this.hasFocus || !!this.inputValue; // float when focused or has value
         if (this.mode === 'modern') {
-            return (h(Host, null, h("div", { class: "phone-input__container" }, h("wa-input", { class: "phone-input__prefix", label: this.label, readonly: true }, h("button", { slot: "start", type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? h("img", { src: this.currentCountry?.flag, class: "flag" }) : h("p", { class: "p-0 m-0 " }, locales.entries.Lcz_Select), this.currentCountry && h("span", null, this.currentCountry.phone_prefix), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" })))), h("wa-input", { onchange: e => this.handleInputChange(e), max: 14, value: this.inputValue, class: "phone-input__phone", placeholder: this.placeholder })), this.isDropdownVisible && (h("div", null, h("ir-combobox", { onComboboxValueChange: e => {
+            return (h(Host, null, h("div", { class: "phone-input__container" }, h("wa-input", { class: "phone-input__prefix", label: this.label, readonly: true }, h("button", { slot: "start", type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? h("img", { src: this.currentCountry?.flag, class: "flag" }) : h("p", { class: "p-0 m-0 " }, t('Lcz_Select', { fallback: 'Select' })), this.currentCountry && h("span", null, this.currentCountry.phone_prefix), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" })))), h("wa-input", { onchange: e => this.handleInputChange(e), max: 14, value: this.inputValue, class: "phone-input__phone", placeholder: this.placeholder })), this.isDropdownVisible && (h("div", null, h("ir-combobox", { onComboboxValueChange: e => {
                     this.setCurrentCountry(+e.detail.data);
                     this.isDropdownVisible = false;
-                }, class: "bg-white", autoFocus: true, placeholder: "Search country", data: this.countries.map(c => ({
+                }, class: "bg-white", autoFocus: true, placeholder: t('Lcz_SearchCountry', { fallback: 'Search country' }), data: this.countries.map(c => ({
                     id: c.id.toString(),
                     name: `${c.name} (${c.phone_prefix})`,
                     image: c.flag,
                 })) })))));
         }
-        return (h(Host, null, h("div", { class: "form-group mr-0" }, h("div", { class: "input-group row m-0 p-0 position-relative" }, showSideLabel && (h("div", { class: `input-group-prepend col-3 p-0 text-dark border-none` }, h("label", { class: `input-group-text border-theme flex-grow-1 text-dark` }, this.label))), h("div", { class: 'form-control  input-container  flex-fill' + (this.error ? ' is-invalid' : '') }, h("button", { type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? h("img", { src: this.currentCountry?.flag, class: "flag" }) : h("p", { class: "p-0 m-0 " }, locales.entries.Lcz_Select), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("p", { class: 'phone_prefix_label' }, this.currentCountry?.phone_prefix), useFloating && (h("label", { id: this.labelId, class: `floating-label ${isActive ? 'active' : ''}`, htmlFor: this.inputId }, this.label)), h("input", { "data-testid": this.testId, maxLength: 14, type: "text", placeholder: this.placeholder, required: true, value: this.inputValue, disabled: this.disabled, onInput: e => this.handleInputChange(e), onFocus: () => {
+        return (h(Host, null, h("div", { class: "form-group ir-me-0" }, h("div", { class: "input-group row m-0 p-0 position-relative" }, showSideLabel && (h("div", { class: `input-group-prepend col-3 p-0 text-dark border-none` }, h("label", { class: `input-group-text border-theme flex-grow-1 text-dark` }, this.label))), h("div", { class: 'form-control  input-container  flex-fill' + (this.error ? ' is-invalid' : '') }, h("button", { type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? h("img", { src: this.currentCountry?.flag, class: "flag" }) : h("p", { class: "p-0 m-0 " }, t('Lcz_Select', { fallback: 'Select' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("p", { class: 'phone_prefix_label' }, this.currentCountry?.phone_prefix), useFloating && (h("label", { id: this.labelId, class: `floating-label ${isActive ? 'active' : ''}`, htmlFor: this.inputId }, this.label)), h("input", { "data-testid": this.testId, maxLength: 14, type: "text", placeholder: this.placeholder, required: true, value: this.inputValue, disabled: this.disabled, onInput: e => this.handleInputChange(e), onFocus: () => {
                 this.hasFocus = true;
             }, onBlur: () => {
                 this.hasFocus = false;
             } })), this.isDropdownVisible && (h("div", { class: "ir-dropdown-container" }, h("ir-combobox", { onComboboxValueChange: e => {
                 this.setCurrentCountry(+e.detail.data);
                 this.isDropdownVisible = false;
-            }, class: "bg-white", autoFocus: true, placeholder: "Search country", data: this.countries.map(c => ({
+            }, class: "bg-white", autoFocus: true, placeholder: t('Lcz_SearchCountry', { fallback: 'Search country' }), data: this.countries.map(c => ({
                 id: c.id.toString(),
                 name: `${c.name} (${c.phone_prefix})`,
                 image: c.flag,
@@ -307,7 +309,7 @@ export class IrPhoneInput {
                 "attribute": "error",
                 "defaultValue": "false"
             },
-            "token": {
+            "ApiClient": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
@@ -319,12 +321,12 @@ export class IrPhoneInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Auth token used by the booking service (if needed)."
+                    "text": "Auth ApiClient used by the booking service (if needed)."
                 },
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "token"
+                "attribute": "api-client"
             },
             "language": {
                 "type": "string",

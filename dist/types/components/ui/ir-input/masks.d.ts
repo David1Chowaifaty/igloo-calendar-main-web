@@ -1,4 +1,4 @@
-import { MaskedRange } from 'imask';
+import { FactoryArg, MaskedRange } from 'imask';
 export declare const masks: {
     readonly price: {
         readonly mask: NumberConstructor;
@@ -8,6 +8,16 @@ export declare const masks: {
         readonly normalizeZeros: true;
         readonly padFractionalZeros: true;
         readonly thousandsSeparator: ",";
+    };
+    /** Percentage from 0 to 99 with up to 2 decimals; anything outside the range is rejected as it is typed. */
+    readonly percentage: {
+        readonly mask: NumberConstructor;
+        readonly scale: 2;
+        readonly radix: ".";
+        readonly mapToRadix: readonly [","];
+        readonly normalizeZeros: true;
+        readonly min: 0;
+        readonly max: 99;
     };
     readonly email: {
         readonly mask: RegExp;
@@ -91,3 +101,13 @@ export declare function createTimeToMask(minHour: number): {
     lazy: true;
     placeholderChar: "_";
 };
+/**
+ * Wraps mask options so anything typed or pasted in Arabic-Indic / Persian digits is converted to
+ * Latin before IMask sees it. Without this, `Number` and pattern masks silently reject those
+ * keystrokes, so price, time and phone fields can't be filled from an Arabic keyboard.
+ *
+ * Hooks the top-level `prepare`, which IMask runs on the whole string before per-character and
+ * per-block handling, so it covers `Number`, pattern masks with blocks and plain regex masks
+ * alike. A mask's own `prepare` (e.g. `masks.email`) still runs, on the normalized string.
+ */
+export declare function withLatinDigits<T extends FactoryArg>(maskArg: T): T;

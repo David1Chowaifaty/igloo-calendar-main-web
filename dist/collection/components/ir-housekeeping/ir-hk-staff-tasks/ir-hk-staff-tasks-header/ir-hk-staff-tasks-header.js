@@ -1,4 +1,5 @@
 import { h } from "@stencil/core";
+import { t } from "../../../../services/locale/t";
 const LANGUAGE_OPTIONS = [
     { value: 'en', label: 'EN' },
     { value: 'ar', label: 'AR' },
@@ -13,7 +14,7 @@ export class IrHkStaffTasksHeader {
         this.languageChanged.emit(lang);
     };
     render() {
-        return (h("header", { key: 'bbe6b5913ac6e71d67e7e20e301820a7b3e00b32', class: "tasks-header" }, h("div", { key: '948eb3850170bf286365ce1809c3d48556ffd968', class: "tasks-header__inner" }, h("div", { key: '59567f72d4779ddac90bc09d2243288b30a71780', class: "tasks-header__brand" }, h("img", { key: '1ece49caad4f8a186b1ff064ea4d74a6c4b94755', class: "tasks-header__logo", src: "https://x.igloorooms.com/app-assets/images/logo/logo-dark.png", alt: "IglooRooms logo" }), h("span", { key: 'a997bbe15e69d7f7d15aeb54b8e208a29e9593f7', class: "tasks-header__name" }, this.connectedHK.NAME)), h("div", { key: '720fbd9f843024e30edf8af7d0f4766a2d746533', class: "tasks-header__actions" }, h("wa-select", { key: '9004b47d7e71890345a9eb769119fcb657ce79bb', onchange: this.handleWaChange, defaultValue: this.language, value: this.language, size: "s" }, LANGUAGE_OPTIONS.map(opt => (h("wa-option", { key: opt.value, value: opt.value }, opt.label)))), h("ir-custom-button", { key: 'aaaf010770449c0ff1aca69d72b1e4efce96decb', onClick: () => (window.location.href = 'Logout.aspx'), variant: "danger", appearance: "plain" }, h("wa-icon", { key: '8c5b19144b856bb576e72e6f779be751f23b51a9', name: "arrow-right-from-bracket", style: { fontSize: '1.2rem' } }))))));
+        return (h("header", { key: 'ce402ffbce0abe55d135aa1e04b6238fc2c55874', class: "tasks-header" }, h("div", { key: '90275c0cf1e1a21df07794157ea44a9fc7b7eaaa', class: "tasks-header__inner" }, h("div", { key: '90b4f3e542d9a424f4e203e8b513e4516b11bc92', class: "tasks-header__brand" }, h("img", { key: 'e667686adb9eef5f76f100e8b41d9f025c07eba6', class: "tasks-header__logo", src: "https://x.igloorooms.com/app-assets/images/logo/logo-dark.png", alt: t('Lcz_IglooRoomsLogo', { fallback: 'IglooRooms logo' }) }), h("span", { key: 'b5fcc519d0623a455da4b0d00956bfeb4d7f4d37', class: "tasks-header__name" }, this.connectedHK.NAME)), h("div", { key: '883100ee8f574b02d5a1cd6a4121b0207100a50e', class: "tasks-header__actions" }, h("wa-select", { key: '09f5bd4606d36ef8ccc43478589f2513b728cf04', onchange: this.handleWaChange, defaultValue: this.language, value: this.language, size: "s" }, LANGUAGE_OPTIONS.map(opt => (h("wa-option", { key: opt.value, value: opt.value }, opt.label)))), h("ir-custom-button", { key: '629e39640ed6f4ee7499ace705217e0e6230320d', onClick: () => (window.location.href = 'Logout.aspx'), variant: "danger", appearance: "plain" }, h("wa-icon", { key: '49977c74581583ffd1a717d6926813082ae754bd', name: "arrow-right-from-bracket", style: { fontSize: '1.2rem' } }))))));
     }
     static get is() { return "ir-hk-staff-tasks-header"; }
     static get encapsulation() { return "scoped"; }
@@ -38,8 +39,8 @@ export class IrHkStaffTasksHeader {
                     "references": {
                         "ConnectedHK": {
                             "location": "import",
-                            "path": "@/services/housekeeping.service",
-                            "id": "src/services/housekeeping.service.ts::ConnectedHK",
+                            "path": "@/services/housekeeping",
+                            "id": "src/services/housekeeping/index.ts::ConnectedHK",
                             "referenceLocation": "ConnectedHK"
                         }
                     }

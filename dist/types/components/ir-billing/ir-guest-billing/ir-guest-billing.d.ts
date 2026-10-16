@@ -17,6 +17,7 @@ export declare class IrGuestBilling {
     /** Refreshes the wider booking-details tree. Emit with a Booking payload to skip ir-booking-details' full-page loading spinner. */
     resetBookingEvt: EventEmitter<Booking | null>;
     private bookingService;
+    private setupService;
     private propertyService;
     private _id;
     private voidDialogRef;

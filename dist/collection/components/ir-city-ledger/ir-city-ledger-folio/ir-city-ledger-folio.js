@@ -5,6 +5,7 @@ import { realtimeService } from "../../../services/realtime/realtime.service";
 import { mapClTxToFolioRow } from "./types";
 import { CityLedgerService } from "../../../services/city-ledger/index";
 import calendar_data from "../../../stores/calendar-data";
+import { t } from "../../../services/locale/t";
 export class IrCityLedgerFolio {
     agent = null;
     propertyId;
@@ -278,7 +279,7 @@ export class IrCityLedgerFolio {
                 const mapped = mapClTxToFolioRow(tx);
                 totalDebits += tx.DEBIT || 0;
                 totalCredits += tx.CREDIT || 0;
-                if (mapped.status.label === 'Unbilled')
+                if (mapped.status.id === 'unbilled')
                     unbilledCount++;
                 return { ...mapped, _rowId: v4() };
             });
@@ -301,7 +302,7 @@ export class IrCityLedgerFolio {
         }
     }
     render() {
-        return (h(Host, { key: 'e4e4dcf6aebab348c6acb0ac71dd84e520825033' }, h("ir-city-ledger-folio-filters", { key: '8e1f730120a005444da2fd41ecd5e8ba96b150e7', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
+        return (h(Host, { key: '1c638843e1bc1fa0842953cfb558144e151f7851' }, h("ir-city-ledger-folio-filters", { key: '4d8901015bf3b3582fd088b467b760b6d219a571', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
                 this.filters = e.detail;
                 this.pageIndex = 0;
                 await this.fetchFolioData();
@@ -310,7 +311,7 @@ export class IrCityLedgerFolio {
                 this.isTransactionOpen = true;
             }, isExporting: this.isFetchingExcel, onExportFolio: () => {
                 this.fetchCl(true);
-            } }), h("ir-city-ledger-folio-table", { key: '3c6068dc5fc1531f56b4bb1254599dd56330f54e', agentId: this.agent?.id, propertyId: this.propertyId, ticket: this.ticket, language: this.language, hideBalanceInfo: !!(this.filters.search || (this.filters.status && this.filters.status !== 'all')), data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, serviceCategoryOptions: this.serviceCategoryOptions, onPageChange: async (e) => {
+            } }), h("ir-city-ledger-folio-table", { key: 'cdf9b7954d9670d0d25b53869b67dae879b62116', agentId: this.agent?.id, propertyId: this.propertyId, ticket: this.ticket, language: this.language, hideBalanceInfo: !!(this.filters.search || (this.filters.status && this.filters.status !== 'all')), data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, serviceCategoryOptions: this.serviceCategoryOptions, onPageChange: async (e) => {
                 this.pageIndex = e.detail.pageIndex;
                 this.pageSize = e.detail.pageSize;
                 await this.fetchFolioData();
@@ -322,12 +323,12 @@ export class IrCityLedgerFolio {
                 this.isTransactionOpen = true;
             }, onDeleteEntry: e => {
                 this.deleteTarget = e.detail;
-            } }), h("ir-dialog", { key: 'fdc15c8e2b4ca1c21dd2186d4f8e556720a2ea37', label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
+            } }), h("ir-dialog", { key: '8203ff716805b79ed64857661d2ea13cf700dd07', label: t('Lcz_DeleteEntry', { fallback: 'Delete Entry' }), open: !!this.deleteTarget, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!this.isDeleting)
                     this.deleteTarget = null;
-            } }, h("p", { key: 'da680b4fe13d5d41eedf10392c94cdcfb5c191d3' }, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { key: 'bdaf7a427c1502cae0543b081fb538772289b78e', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '39a189ed607396fe447d4d35c2789b2b67be4425', size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { key: '95d2f8d1db134b020896f5fbd35afb2669660748', size: "m", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete"))), h("ir-city-ledger-transaction-drawer", { key: '70f7e6a108bfc9f2f3f9c29073d98811f10bf191', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
+            } }, h("p", { key: 'e59ab0ba518c072cd903b7d1c973ae5465769169' }, t('Lcz_ConfirmDeleteFolioEntry', { fallback: 'Are you sure you want to delete this entry? This action cannot be undone.' })), h("div", { key: '93620a6ed086210363151e7839368d75b07c50bc', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '844e741ca6f506520971c0b01710c6e3cebe701d', size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '5e274fd596f776c1f0c38d87960566d662a7550a', size: "m", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, t('Lcz_Delete', { fallback: 'Delete' })))), h("ir-city-ledger-transaction-drawer", { key: 'e9823b069b87a086082736da451426cb599e4aae', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? t('Lcz_EditEntryTitle', { fallback: 'Edit Entry' }) : t('Lcz_NewEntryTitle', { fallback: 'New Entry' }), onTransactionSaved: () => {
                 this.fetchFolioData();
             }, onCloseDrawer: () => {
                 this.isTransactionOpen = false;
@@ -353,7 +354,7 @@ export class IrCityLedgerFolio {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent | null",
-                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",

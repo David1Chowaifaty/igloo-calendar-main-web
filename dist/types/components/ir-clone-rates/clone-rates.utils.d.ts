@@ -14,12 +14,10 @@ export interface CloneRatesFormState {
     amount: string;
     copyMinStay: boolean;
 }
-/** Weekdays in display order, using JS `day()` numbering (0 = Sunday). */
-export declare const WEEKDAYS: {
-    value: number;
-    label: string;
-}[];
-export declare const ADJUSTMENTS: {
+/** Weekday values in display order, using JS `day()` numbering (0 = Sunday). */
+export declare const WEEKDAYS: number[];
+/** Built on call (not at import time) so the labels follow the loaded locale. */
+export declare function getAdjustments(): {
     value: Adjustment;
     label: string;
 }[];
@@ -29,6 +27,7 @@ export interface RoomTypeOption {
     ratePlans: {
         id: number;
         label: string;
+        customText?: string;
     }[];
 }
 /** Active room types with their active base (non-derived) rate plans; room types without any are dropped. */

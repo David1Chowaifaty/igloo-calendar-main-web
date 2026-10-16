@@ -7,7 +7,7 @@ export declare class IrRevenueTable {
     private payTypesObj;
     private payMethodObj;
     private groupType;
-    componentWillLoad(): void;
+    private buildPaymentLookups;
     /**
      * Groups payments by method, then by type.
      * - Never throws on bad input (null/undefined, non-Map, malformed keys, non-array values).

@@ -1,6 +1,7 @@
 import { EventsService } from "../../../services/events.service";
 import { Fragment, h } from "@stencil/core";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
+import { t } from "../../../services/locale/t";
 export class IglReallocationDialog {
     hostEl;
     data;
@@ -99,7 +100,7 @@ export class IglReallocationDialog {
     };
     render() {
         const hasRateplans = this.hasRateplanRequirement();
-        return (h("ir-dialog", { key: '9d2b3564e15eb7b2d6bffe632c77c1e993502ad4', label: 'Alert', ref: el => (this.dialogEl = el), onIrDialogHide: this.handleDialogVisibilityChange }, this.data && (h(Fragment, { key: '66593747bfea5670c8f320d38e31cb87b910f257' }, h("div", { key: '3bd8a65287e095dbfee72eb4257a9e6ae89c6bd3', class: "dialog-body" }, h("p", { key: 'c13521c0050725050406d385ead48bbc20681319', class: "text-left dialog-body__description m-0 p-0" }, this.data.description), hasRateplans && (
+        return (h("ir-dialog", { key: 'a4a1e10ede72b9e3da4dfcd8449cd9f762644cec', label: t('Lcz_Alert', { fallback: 'Alert' }), ref: el => (this.dialogEl = el), onIrDialogHide: this.handleDialogVisibilityChange }, this.data && (h(Fragment, { key: '427db2cee6274adce6c884d8e64351a5492d29eb' }, h("div", { key: '5b6b32c36e4f1733a2d6b43f75824f951d1ce3eb', class: "dialog-body" }, h("p", { key: 'e873cd7cc30bed79383b78f0a1a87026dd501c33', class: "ir-text-start dialog-body__description m-0 p-0" }, this.data.description), hasRateplans && (
         // <ir-select
         //   ref={el => (this.rateplanSelectEl = el)}
         //   required
@@ -108,13 +109,13 @@ export class IglReallocationDialog {
         //   error={this.showRateplanError}
         //   onSelectChange={this.handleRateplanChange}
         // ></ir-select>
-        h("wa-select", { key: '0d3750b8116668be013041902d10adf33fce38bb', "onwa-hide": e => {
+        h("wa-select", { key: '7e003ad3ee91cfd5ada5896a9a209906665d1422', "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, defaultValue: '', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, size: "s", "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, h("wa-option", { key: 'b66885bb7ebe0588bc5424b823e3ab0e65cc2bfd', value: "" }, "Select rate plan..."), this.rateplanOptions.map(option => (h("wa-option", { key: option.value, value: option.value }, option.text)))))), h("div", { key: '75be562ec8f8a1dc85ac8ff0a8d2b1ee51395ae4', class: "dialog-footer", slot: "footer" }, h("ir-custom-button", { key: '3a7f5726f2fbec531def617d17aee89accd7f5e5', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "m" }, "Cancel"), h("ir-custom-button", { key: 'b43d85211765904dfbc11ce1b157e2655b1d88ab', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "m", loading: isRequestPending('/ReAllocate_Exposed_Room') }, "Confirm"))))));
+            }, size: "s", "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, h("wa-option", { key: '72c4f18fe30008146b76d0cecbb950574e19903e', value: "" }, t('Lcz_SelectRatePlan', { fallback: 'Select rate plan...' })), this.rateplanOptions.map(option => (h("wa-option", { key: option.value, value: option.value }, option.text)))))), h("div", { key: '610676c31b7971f43d23f81129a585f983dc1539', class: "dialog-footer", slot: "footer" }, h("ir-custom-button", { key: '499dfc252e428da549dc43f77cfa761a05ed3c76', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "m" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '39405219162ea4c4288a56cf4fdb3b19b69c33d7', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "m", loading: isRequestPending('/ReAllocate_Exposed_Room') }, t('Lcz_Confirm', { fallback: 'Confirm' })))))));
     }
     static get is() { return "igl-reallocation-dialog"; }
     static get encapsulation() { return "scoped"; }

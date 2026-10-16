@@ -1,5 +1,5 @@
 import { PaymentEntries } from "../../components/ir-booking-details/types";
-import { IEntries } from '../../models/IBooking';
+import { SetupEntries } from '../../models/IBooking';
 /**
  * Builds a grouped payment types record from raw entries and groups.
  *
@@ -15,4 +15,4 @@ import { IEntries } from '../../models/IBooking';
  * //   ...
  * // }
  */
-export declare function buildPaymentTypes(paymentEntries: PaymentEntries): Record<string, IEntries[]>;
+export declare function buildPaymentTypes(paymentEntries: PaymentEntries): Record<string, SetupEntries[]>;

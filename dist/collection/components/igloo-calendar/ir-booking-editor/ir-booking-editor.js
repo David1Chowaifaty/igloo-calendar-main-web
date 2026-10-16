@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 import { BookedByGuestSchema, DayUseHoursSchema, RoomsGuestsSchema } from "./types";
 import { RoomService } from "../../../services/room.service";
 import { BookingService } from "../../../services/booking-service/booking.service";
-import locales from "../../../stores/locales.store";
+import { SetupService } from "../../../services/setup/index";
 import booking_store, { fillMissingReservedGuestNames, getReservedRooms, resetBookingStore, setBookingDraft, setBookingSelectOptions, setDayUseSelection, updateBookedByGuest, } from "../../../stores/booking.store";
 import calendar_data, { getExtraServiceDefaultPrice } from "../../../stores/calendar-data";
 import { PropertyService } from "../../../services/property.service";
@@ -10,9 +10,15 @@ import { showToast } from "../../../utils/utils";
 import moment from "moment";
 import { IRBookingEditorService } from "./ir-booking-editor.service";
 import { SvcCategory } from "../../../types/enums";
+import { LocaleController } from "../../../services/locale/locale.controller";
+import { LanguageSync } from "../../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../../services/locale/screen-tables";
+import { t } from "../../../services/locale/t";
+import { getLocalLanguage } from "../../../services/locale/locale-scope";
 /** bookingStatus['002'] in @/utils/booking — CONFIRMED. */
 const CONFIRMED_STATUS_CODE = '002';
 export class IrBookingEditor {
+    el;
     propertyId;
     language = 'en';
     roomTypeIds = [];
@@ -42,6 +48,7 @@ export class IrBookingEditor {
     preventPageLoad;
     roomService = new RoomService();
     bookingService = new BookingService();
+    setupService = new SetupService();
     propertyService = new PropertyService();
     bookingEditorService = new IRBookingEditorService(this.mode);
     room;
@@ -118,8 +125,13 @@ export class IrBookingEditor {
         }
         return this.checkOut;
     }
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.bookingEditor, () => this.initializeApp());
     componentWillLoad() {
         this.initializeApp();
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
     }
     handleModeChange(newMode, oldMode) {
         if (newMode !== oldMode) {
@@ -141,12 +153,12 @@ export class IrBookingEditor {
         try {
             this.isLoading = true;
             this.bookingEditorService.setMode(this.mode);
-            const [languageTexts, countriesList] = await Promise.all([
-                this.roomService.fetchLanguage(this.language),
-                this.bookingService.getCountries(this.language),
+            const [, countriesList] = await Promise.all([
+                LocaleController.loadFor(this.el, { language: this.language, tables: SCREEN_TABLES.bookingEditor }),
+                this.bookingService.getCountries(LocaleController.languageFor(this.el)),
                 this.roomService.getExposedProperty({
                     id: Number(this.propertyId),
-                    language: this.language,
+                    language: LocaleController.languageFor(this.el),
                     is_backend: true,
                     include_units_hk_status: true,
                     include_sales_rate_plans: true,
@@ -154,10 +166,6 @@ export class IrBookingEditor {
             ]);
             if (this.disconnected)
                 return;
-            if (!locales.entries) {
-                locales.entries = languageTexts.entries;
-                locales.direction = languageTexts.direction;
-            }
             await Promise.all([this.fetchSetupEntriesAndInitialize(), this.resolveDayUseNetPrice()]);
             if (this.disconnected)
                 return;
@@ -179,6 +187,15 @@ export class IrBookingEditor {
     disconnectedCallback() {
         this.disconnected = true;
         resetBookingStore(true);
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        // Inside a `lang` subtree the prop only re-targets that subtree's scope, never the whole app.
+        if (getLocalLanguage(this.el)) {
+            this.initializeApp();
+            return;
+        }
+        this.languageSync.propChanged(next, previous);
     }
     handleCheckAvailability(e) {
         e.stopImmediatePropagation();
@@ -258,7 +275,7 @@ export class IrBookingEditor {
                         adult: occupancy.adults,
                         child: occupancy.children,
                     },
-                    language: this.language,
+                    language: LocaleController.languageFor(this.el),
                     room_type_ids,
                     currency: calendar_data.property.currency,
                     agent_id: is_in_agent_mode ? source?.tag : null,
@@ -294,7 +311,12 @@ export class IrBookingEditor {
      */
     async checkDayUseAvailability(date) {
         this.preventPageLoad.emit('/Get_Exposed_Calendar');
-        const results = await this.bookingService.getCalendarData(Number(calendar_data.property.id), date, date);
+        const results = await this.bookingService.getCalendarData({
+            propertyid: Number(calendar_data.property.id),
+            from_date: date,
+            to_date: date,
+            language: LocaleController.languageFor(this.el),
+        });
         const day = results?.days?.[0];
         this.dayUseRoomTypes = day?.rate ?? [];
     }
@@ -411,12 +433,12 @@ export class IrBookingEditor {
                 is_remove: false,
                 booking_nbr: this.booking?.booking_nbr,
             });
-            showToast({ title: 'Day Use Booking Updated', type: 'success' });
+            showToast({ title: t('Lcz_DayUseBookingUpdated', { fallback: 'Day Use Booking Updated', language: LocaleController.languageFor(this.el) }), type: 'success' });
             this.resetBookingEvt.emit(null);
             return;
         }
         const payload = {
-            language: this.language,
+            language: LocaleController.languageFor(this.el),
             is_to_block: block,
             booking: {
                 property: { id: Number(this.propertyId) },
@@ -454,7 +476,7 @@ export class IrBookingEditor {
             },
         };
         await this.bookingService.doDayUse(payload);
-        showToast({ title: 'Day Use Booking Created', type: 'success' });
+        showToast({ title: t('Lcz_DayUseBookingCreated', { fallback: 'Day Use Booking Created', language: LocaleController.languageFor(this.el) }), type: 'success' });
         this.resetBookingEvt.emit(null);
     }
     async assignCountryCode() {
@@ -533,7 +555,7 @@ export class IrBookingEditor {
         });
     }
     async fetchSetupEntries() {
-        return await this.bookingService.fetchSetupEntries();
+        return await this.setupService.fetchSetupEntries();
     }
     render() {
         if (this.isLoading) {
@@ -799,7 +821,7 @@ export class IrBookingEditor {
                 "mutable": false,
                 "complexType": {
                     "original": "ExtraService",
-                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; room_identifier?: string; booking_system_id?: number; cost?: number; end_date?: string; start_date?: string; price?: number; category?: { code?: string; }; pr_id?: number; from_time?: string; to_time?: string; charges?: { city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; total_amount?: number; vat_amount?: number; vat_percent?: number; }; }",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; charges?: { total_amount?: number; city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; vat_amount?: number; vat_percent?: number; }; cost?: number; room_identifier?: string; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; pr_id?: number; from_time?: string; to_time?: string; }",
                     "references": {
                         "ExtraService": {
                             "location": "import",
@@ -917,10 +939,14 @@ export class IrBookingEditor {
                 }
             }];
     }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
                 "propName": "mode",
                 "methodName": "handleModeChange"
+            }, {
+                "propName": "language",
+                "methodName": "languageChanged"
             }];
     }
     static get listeners() {

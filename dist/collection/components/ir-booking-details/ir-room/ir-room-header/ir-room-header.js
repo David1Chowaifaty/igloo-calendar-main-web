@@ -1,9 +1,9 @@
 import { h } from "@stencil/core";
 import { isAgentMode } from "../../functions";
-import locales from "../../../../stores/locales.store";
 import calendar_data from "../../../../stores/calendar-data";
 import { formatAmount } from "../../../../utils/utils";
 import { HbPreference } from "../../../../types/enums";
+import { t } from "../../../../services/locale/t";
 export class IrRoomHeader {
     room;
     myRoomTypeFoodCat;
@@ -22,7 +22,11 @@ export class IrRoomHeader {
         return this.room.unit?.id ?? null;
     }
     render() {
-        return (h("div", { key: '1bb5af0796c89e443ea1f19982d352796215c4fc', class: "booking-room__summary-row" }, h("p", { key: '05fd9b70d7ed8f5584645bd41871206b540371b4', class: "booking-room__summary-text" }, h("span", { key: '116356796d7c951508b5f793dc5b1983fe66ab80', class: "booking-room__summary-highlight" }, this.myRoomTypeFoodCat || '', " "), " ", this.mealCodeName, ' ', this.room.rateplan.is_non_refundable && ` - ${locales.entries.Lcz_NonRefundable}`, ' ', this.isHalfBoard && (h("wa-button", { key: '3818dee1be87ba860a03c1096b9c842960e27cda', size: "xs", class: "booking-room__meal-report-button", appearance: "filled", variant: this.room?.hb_preference ? 'brand' : 'warning', onClick: () => this.openHbDialog.emit() }, this.room?.hb_preference === HbPreference.Lunch ? 'With lunch' : this.room?.hb_preference === HbPreference.Dinner ? 'With dinner' : 'Choose lunch or dinner'))), h("div", { key: '81c5dc3952d8c599b58278a3783c3bbc87adf1f8', class: "booking-room__price-row" }, h("span", { key: 'c013b3a3ae61ad63efc183e898457dc4f8aa633c', class: "booking-room__price" }, formatAmount(this.currency, this.room['gross_total'])), this.isEditable && (this.hasRoomEdit || this.hasRoomDelete || !!this.unitId) && (h("div", { key: 'd4a12cabff105fbcd4c0c5c6c886721415482de6', class: "booking-room__actions" }, h("wa-dropdown", { key: '402bf2f40522cbff842d17141435e4c3249f36f3', "onwa-show": e => {
+        return (h("div", { key: 'c13fbbca720a13e1dd9aaceb1ef8f54d5064c1a5', class: "booking-room__summary-row" }, h("p", { key: '56c9f973e6128c276bf7cfaf6963e1f4aba4c4ce', class: "booking-room__summary-text" }, h("span", { key: '42b72a490cee24961a074d230130feb069cde421', class: "booking-room__summary-highlight" }, this.myRoomTypeFoodCat || '', " "), " ", this.mealCodeName, ' ', this.room.rateplan.is_non_refundable && ` - ${t('Lcz_NonRefundable', { fallback: 'Non-refundable' })}`, ' ', this.isHalfBoard && (h("wa-button", { key: 'bbee92339c83796fa90dcd7ebf15eab7ce17b8b4', size: "xs", class: "booking-room__meal-report-button", appearance: "filled", variant: this.room?.hb_preference ? 'brand' : 'warning', onClick: () => this.openHbDialog.emit() }, this.room?.hb_preference === HbPreference.Lunch
+            ? t('Lcz_WithLunch', { fallback: 'With lunch' })
+            : this.room?.hb_preference === HbPreference.Dinner
+                ? t('Lcz_WithDinner', { fallback: 'With dinner' })
+                : t('Lcz_ChooseLunchOrDinner', { fallback: 'Choose lunch or dinner' })))), h("div", { key: '8bb43d3c9c207ebcf2f856edced041883b0667c2', class: "booking-room__price-row" }, h("span", { key: 'b3ffa0034186c6ae3460565d04895b2961e3d50f', class: "booking-room__price" }, formatAmount(this.currency, this.room['gross_total'])), this.isEditable && (this.hasRoomEdit || this.hasRoomDelete || !!this.unitId) && (h("div", { key: '61de928a3d06cd27a202fbc43f375ad77ae695d3', class: "booking-room__actions" }, h("wa-dropdown", { key: '731bc9ced9d0a70cdfc160d0742943f7ad8c6bd2', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-hide": e => {
@@ -30,7 +34,10 @@ export class IrRoomHeader {
                 e.stopPropagation();
             }, "onwa-select": async (e) => {
                 this.action.emit(e.detail.item.value);
-            } }, h("ir-custom-button", { key: '8edfcd1e90dbb70b5c219765cee4f2d9e1bbe1e5', slot: "trigger", size: "s", class: "booking-room__edit-button", appearance: "plain", id: `actions-room-${this.room.identifier}`, iconBtn: true, variant: "neutral", style: { marginBottom: '4px' } }, h("wa-icon", { key: 'b4aeb6b049a0755cd265759eb501fad2064a3e9d', style: { fontSize: '1rem' }, label: "Actions", name: "ellipsis-vertical" })), this.hasRoomEdit && h("wa-dropdown-item", { key: '712b1489cefa43d8a1e3e4d26a61fb5bb20fce86', value: "edit" }, "Edit unit"), this.hasRoomEdit && h("wa-dropdown-item", { key: 'a89c588f64d3f7a13bdd8edfcc449d5b154abc39', value: "edit-rates" }, "Edit nightly rates"), isAgentMode(this.agent) && this.hasRoomEdit && h("wa-dropdown-item", { key: '36fbb693053fbc69cb447c461ea6e9fe9da096e9', value: "toggle" }, "Re-assign ", this.room.agent ? 'guest' : 'agent', " folio"), !!this.unitId && h("wa-dropdown-item", { key: '2b944f2cf3410a7e385fd3fd5760e308cd1a2e04', value: "add-extra-service" }, "Add extra service to this unit"), this.hasRoomDelete && (h("wa-dropdown-item", { key: '61c668e9832c81f148df6fb414ec08002259019b', value: "delete", variant: "danger" }, "Delete"))))))));
+            } }, h("ir-custom-button", { key: '179df1839e4a7a1bcd5a1c089b6a75f6c6792d4d', slot: "trigger", size: "s", class: "booking-room__edit-button", appearance: "plain", id: `actions-room-${this.room.identifier}`, iconBtn: true, variant: "neutral", style: { marginBottom: '4px' } }, h("wa-icon", { key: '576e8678adee464e5b95c078e78163441893d4c0', style: { fontSize: '1rem' }, label: t('Lcz_Actions', { fallback: 'Actions' }), name: "ellipsis-vertical" })), this.hasRoomEdit && h("wa-dropdown-item", { key: '2d14386d15459c6abc325637219c953e702eca9c', value: "edit" }, t('Lcz_EditUnit', { fallback: 'Edit unit' })), this.hasRoomEdit && h("wa-dropdown-item", { key: '8a478c15e5b7e6a807d45494506f43611dd262b4', value: "edit-rates" }, t('Lcz_EditNightlyRates', { fallback: 'Edit Nightly Rates' })), isAgentMode(this.agent) && this.hasRoomEdit && (h("wa-dropdown-item", { key: '73603c9e8faa7e793bb7cb728ab0926bbc7102bc', value: "toggle" }, t('Lcz_ReassignFolioDropdown', {
+            fallback: 'Re-assign %1 folio',
+            params: [this.room.agent ? t('Lcz_GuestLowercase', { fallback: 'guest' }) : t('Lcz_AgentLowercase', { fallback: 'agent' })],
+        }))), !!this.unitId && h("wa-dropdown-item", { key: '64c982f525b3e4d05e4b006aeb8b0bcd13ce5caf', value: "add-extra-service" }, t('Lcz_AddExtraServiceToUnit', { fallback: 'Add extra service to this unit' })), this.hasRoomDelete && (h("wa-dropdown-item", { key: 'aa9a04acccda700bc47945fb35bab1d876582647', value: "delete", variant: "danger" }, t('Lcz_Delete', { fallback: 'Delete' })))))))));
     }
     static get is() { return "ir-room-header"; }
     static get encapsulation() { return "scoped"; }
@@ -192,7 +199,7 @@ export class IrRoomHeader {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",

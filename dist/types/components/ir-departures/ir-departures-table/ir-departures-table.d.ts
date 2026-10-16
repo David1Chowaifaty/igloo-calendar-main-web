@@ -6,6 +6,8 @@ export type CheckoutRoomEvent = {
     identifier: string;
 };
 export declare class IrDeparturesTable {
+    /** Hides the pagination footer, for hosts that load the whole day in one page (the dashboard). */
+    hidePagination: boolean;
     checkoutRoom: EventEmitter<CheckoutRoomEvent>;
     requestPageChange: EventEmitter<PaginationChangeEvent>;
     requestPageSizeChange: EventEmitter<PaginationChangeEvent>;

@@ -25,10 +25,15 @@ export declare class IrHkTasks {
     private hkNameCache;
     private roomService;
     private houseKeepingService;
-    private token;
+    private ApiClient;
     private table_sorting;
     private modal;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     ticketChanged(newValue: string, oldValue: string): void;
     handleCloseSidebar(e: CustomEvent): void;
     handleSortingChanged(e: CustomEvent): void;

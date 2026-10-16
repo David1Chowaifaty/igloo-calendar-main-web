@@ -1,6 +1,5 @@
 import * as z from 'zod';
 import { Booking, IBookingPickupInfo, RoomInOut } from "../../models/booking.dto";
-import { IEntries } from "../../models/IBooking";
 export declare const CurrencySchema: z.ZodObject<{
     id: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
@@ -14,11 +13,11 @@ export declare const CurrencyWithCodeSchema: z.ZodObject<{
 } & {
     code: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
-    id?: number;
     code?: string;
+    id?: number;
 }, {
-    id?: number;
     code?: string;
+    id?: number;
 }>;
 export type CurrencyWithCode = z.infer<typeof CurrencyWithCodeSchema>;
 export declare const ItemSchema: z.ZodObject<{
@@ -27,14 +26,14 @@ export declare const ItemSchema: z.ZodObject<{
     key: z.ZodUnion<[z.ZodNumber, z.ZodOptional<z.ZodString>]>;
     description: z.ZodDefault<z.ZodOptional<z.ZodOptional<z.ZodString>>>;
 }, "strip", z.ZodTypeAny, {
-    key?: string | number;
-    type?: string;
     description?: string;
+    type?: string;
+    key?: string | number;
     amount?: number;
 }, {
-    key?: string | number;
-    type?: string;
     description?: string;
+    type?: string;
+    key?: string | number;
     amount?: number;
 }>;
 export type Item = z.infer<typeof ItemSchema>;
@@ -72,32 +71,33 @@ export declare const GetNextValuePropsSchema: z.ZodObject<{
 }>;
 export type GetNextValueProps = z.infer<typeof GetNextValuePropsSchema>;
 export declare const GetExposedApplicablePoliciesPropsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     booking_nbr: z.ZodOptional<z.ZodString>;
     currency_id: z.ZodNumber;
-    language: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     rate_plan_id: z.ZodNumber;
     room_type_id: z.ZodNumber;
     property_id: z.ZodNumber;
     is_preserve_history: z.ZodOptional<z.ZodBoolean>;
     room_identifier: z.ZodOptional<z.ZodOptional<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
-    language?: string;
     property_id?: number;
     currency_id?: number;
+    language?: string;
     booking_nbr?: string;
+    room_identifier?: string;
     rate_plan_id?: number;
     room_type_id?: number;
     is_preserve_history?: boolean;
-    room_identifier?: string;
 }, {
-    language?: string;
     property_id?: number;
     currency_id?: number;
+    language?: string;
     booking_nbr?: string;
+    room_identifier?: string;
     rate_plan_id?: number;
     room_type_id?: number;
     is_preserve_history?: boolean;
-    room_identifier?: string;
 }>;
 export type GetExposedApplicablePoliciesProps = z.infer<typeof GetExposedApplicablePoliciesPropsSchema>;
 export declare const HandleExposedRoomInOutPropsSchema: z.ZodObject<{
@@ -117,16 +117,17 @@ export type HandleExposedRoomInOutProps = z.infer<typeof HandleExposedRoomInOutP
     status: RoomInOut['code'];
 };
 export declare const GetPenaltyStatementPropsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     booking_nbr: z.ZodOptional<z.ZodString>;
     currency_id: z.ZodNumber;
-    language: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
-    language?: string;
     currency_id?: number;
+    language?: string;
     booking_nbr?: string;
 }, {
-    language?: string;
     currency_id?: number;
+    language?: string;
     booking_nbr?: string;
 }>;
 export type GetPenaltyStatementProps = z.infer<typeof GetPenaltyStatementPropsSchema>;
@@ -171,6 +172,8 @@ export declare const ChangeExposedBookingStatusPropsSchema: z.ZodObject<{
 }>;
 export type ChangeExposedBookingStatusProps = z.infer<typeof ChangeExposedBookingStatusPropsSchema>;
 export declare const GetBookingAvailabilityPropsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     from_date: z.ZodOptional<z.ZodString>;
     to_date: z.ZodOptional<z.ZodString>;
     propertyid: z.ZodNumber;
@@ -184,7 +187,6 @@ export declare const GetBookingAvailabilityPropsSchema: z.ZodObject<{
         adult?: number;
         child?: number;
     }>;
-    language: z.ZodOptional<z.ZodString>;
     room_type_ids: z.ZodArray<z.ZodNumber, "many">;
     room_type_ids_to_update: z.ZodOptional<z.ZodArray<z.ZodNumber, "many">>;
     rate_plan_ids: z.ZodOptional<z.ZodArray<z.ZodNumber, "many">>;
@@ -193,50 +195,50 @@ export declare const GetBookingAvailabilityPropsSchema: z.ZodObject<{
     } & {
         code: z.ZodOptional<z.ZodString>;
     }, "strip", z.ZodTypeAny, {
-        id?: number;
         code?: string;
+        id?: number;
     }, {
-        id?: number;
         code?: string;
+        id?: number;
     }>;
     is_in_agent_mode: z.ZodOptional<z.ZodBoolean>;
     agent_id: z.ZodOptional<z.ZodUnion<[z.ZodNumber, z.ZodOptional<z.ZodString>]>>;
 }, "strip", z.ZodTypeAny, {
     language?: string;
     currency?: {
-        id?: number;
         code?: string;
+        id?: number;
     };
     from_date?: string;
     to_date?: string;
+    room_type_ids?: number[];
+    agent_id?: string | number;
     propertyid?: number;
     adultChildCount?: {
         adult?: number;
         child?: number;
     };
-    room_type_ids?: number[];
     room_type_ids_to_update?: number[];
     rate_plan_ids?: number[];
     is_in_agent_mode?: boolean;
-    agent_id?: string | number;
 }, {
     language?: string;
     currency?: {
-        id?: number;
         code?: string;
+        id?: number;
     };
     from_date?: string;
     to_date?: string;
+    room_type_ids?: number[];
+    agent_id?: string | number;
     propertyid?: number;
     adultChildCount?: {
         adult?: number;
         child?: number;
     };
-    room_type_ids?: number[];
     room_type_ids_to_update?: number[];
     rate_plan_ids?: number[];
     is_in_agent_mode?: boolean;
-    agent_id?: string | number;
 }>;
 export type GetBookingAvailabilityProps = z.infer<typeof GetBookingAvailabilityPropsSchema>;
 export declare const BlockAvailabilityForBracketsPropsSchema: z.ZodObject<{
@@ -293,10 +295,10 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
         description?: string;
         currency_id?: number;
         agent?: {
+            code?: string;
             name?: string;
             id?: number;
             email?: string;
-            code?: string;
             property_id?: any;
             address?: string;
             agent_rate_type_code?: {
@@ -336,37 +338,37 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             pr_id?: number;
         };
         system_id?: number;
-        room_identifier?: string;
-        booking_system_id?: number;
-        cost?: number;
-        end_date?: string;
-        start_date?: string;
-        price?: number;
-        category?: {
-            code?: string;
-        };
-        pr_id?: number;
-        from_time?: string;
-        to_time?: string;
         charges?: {
+            total_amount?: number;
             city_tax_amount?: number;
             city_tax_percent?: number;
             net_amount?: number;
             service_charge_amount?: number;
             service_charge_percent?: number;
             tax_amount?: number;
-            total_amount?: number;
             vat_amount?: number;
             vat_percent?: number;
         };
+        cost?: number;
+        room_identifier?: string;
+        category?: {
+            code?: string;
+        };
+        booking_system_id?: number;
+        end_date?: string;
+        start_date?: string;
+        price?: number;
+        pr_id?: number;
+        from_time?: string;
+        to_time?: string;
     }, z.ZodTypeDef, {
         description?: string;
         currency_id?: number;
         agent?: {
+            code?: string;
             name?: string;
             id?: number;
             email?: string;
-            code?: string;
             property_id?: any;
             address?: string;
             agent_rate_type_code?: {
@@ -406,29 +408,29 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             pr_id?: number;
         };
         system_id?: number;
-        room_identifier?: string;
-        booking_system_id?: number;
-        cost?: number;
-        end_date?: string;
-        start_date?: string;
-        price?: number;
-        category?: {
-            code?: string;
-        };
-        pr_id?: number;
-        from_time?: string;
-        to_time?: string;
         charges?: {
+            total_amount?: number;
             city_tax_amount?: number;
             city_tax_percent?: number;
             net_amount?: number;
             service_charge_amount?: number;
             service_charge_percent?: number;
             tax_amount?: number;
-            total_amount?: number;
             vat_amount?: number;
             vat_percent?: number;
         };
+        cost?: number;
+        room_identifier?: string;
+        category?: {
+            code?: string;
+        };
+        booking_system_id?: number;
+        end_date?: string;
+        start_date?: string;
+        price?: number;
+        pr_id?: number;
+        from_time?: string;
+        to_time?: string;
     }>;
     booking_nbr: z.ZodUnion<[z.ZodNumber, z.ZodOptional<z.ZodString>]>;
     is_remove: z.ZodBoolean;
@@ -438,10 +440,10 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
         description?: string;
         currency_id?: number;
         agent?: {
+            code?: string;
             name?: string;
             id?: number;
             email?: string;
-            code?: string;
             property_id?: any;
             address?: string;
             agent_rate_type_code?: {
@@ -481,29 +483,29 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             pr_id?: number;
         };
         system_id?: number;
-        room_identifier?: string;
-        booking_system_id?: number;
-        cost?: number;
-        end_date?: string;
-        start_date?: string;
-        price?: number;
-        category?: {
-            code?: string;
-        };
-        pr_id?: number;
-        from_time?: string;
-        to_time?: string;
         charges?: {
+            total_amount?: number;
             city_tax_amount?: number;
             city_tax_percent?: number;
             net_amount?: number;
             service_charge_amount?: number;
             service_charge_percent?: number;
             tax_amount?: number;
-            total_amount?: number;
             vat_amount?: number;
             vat_percent?: number;
         };
+        cost?: number;
+        room_identifier?: string;
+        category?: {
+            code?: string;
+        };
+        booking_system_id?: number;
+        end_date?: string;
+        start_date?: string;
+        price?: number;
+        pr_id?: number;
+        from_time?: string;
+        to_time?: string;
     };
     is_remove?: boolean;
 }, {
@@ -512,10 +514,10 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
         description?: string;
         currency_id?: number;
         agent?: {
+            code?: string;
             name?: string;
             id?: number;
             email?: string;
-            code?: string;
             property_id?: any;
             address?: string;
             agent_rate_type_code?: {
@@ -555,29 +557,29 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             pr_id?: number;
         };
         system_id?: number;
-        room_identifier?: string;
-        booking_system_id?: number;
-        cost?: number;
-        end_date?: string;
-        start_date?: string;
-        price?: number;
-        category?: {
-            code?: string;
-        };
-        pr_id?: number;
-        from_time?: string;
-        to_time?: string;
         charges?: {
+            total_amount?: number;
             city_tax_amount?: number;
             city_tax_percent?: number;
             net_amount?: number;
             service_charge_amount?: number;
             service_charge_percent?: number;
             tax_amount?: number;
-            total_amount?: number;
             vat_amount?: number;
             vat_percent?: number;
         };
+        cost?: number;
+        room_identifier?: string;
+        category?: {
+            code?: string;
+        };
+        booking_system_id?: number;
+        end_date?: string;
+        start_date?: string;
+        price?: number;
+        pr_id?: number;
+        from_time?: string;
+        to_time?: string;
     };
     is_remove?: boolean;
 }>;
@@ -610,10 +612,6 @@ export interface IBookingProps {
         value: string;
     }[] | null;
 }
-export type TableEntries = '_CALENDAR_BLOCKED_TILL' | '_DEPARTURE_TIME' | '_ARRIVAL_TIME' | '_RATE_PRICING_MODE' | '_BED_PREFERENCE_TYPE' | '_PAY_TYPE' | '_PAY_TYPE_GROUP' | '_PAY_METHOD' | '_INVOICE_TARGET' | '_GAP_RANGE' | '_GAP_RULE' | (string & {});
-export type GroupedTableEntries = {
-    [K in TableEntries as K extends `_${infer Rest}` ? Lowercase<Rest> : never]: IEntries[];
-};
 export declare const GetRoomsToCheckInPropsSchema: z.ZodObject<{
     property_id: z.ZodString;
     check_in_date: z.ZodString;
@@ -621,14 +619,14 @@ export declare const GetRoomsToCheckInPropsSchema: z.ZodObject<{
     page_size: z.ZodDefault<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     property_id?: string;
-    check_in_date?: string;
     page_index?: number;
     page_size?: number;
+    check_in_date?: string;
 }, {
     property_id?: string;
-    check_in_date?: string;
     page_index?: number;
     page_size?: number;
+    check_in_date?: string;
 }>;
 export type GetRoomsToCheckInProps = z.infer<typeof GetRoomsToCheckInPropsSchema>;
 export declare const GetRoomsToCheckOutPropsSchema: z.ZodObject<{
@@ -653,10 +651,14 @@ export interface RoomsToProcessResult {
     total_count: number;
 }
 export declare const GetBookingInvoiceInfoPropsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     booking_nbr: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
+    language?: string;
     booking_nbr?: string;
 }, {
+    language?: string;
     booking_nbr?: string;
 }>;
 export type GetBookingInvoiceInfoProps = z.infer<typeof GetBookingInvoiceInfoPropsSchema>;
@@ -703,14 +705,14 @@ export declare const InvoiceSchema: z.ZodObject<{
         key: z.ZodUnion<[z.ZodNumber, z.ZodOptional<z.ZodString>]>;
         description: z.ZodDefault<z.ZodOptional<z.ZodOptional<z.ZodString>>>;
     }, "strip", z.ZodTypeAny, {
-        key?: string | number;
-        type?: string;
         description?: string;
+        type?: string;
+        key?: string | number;
         amount?: number;
     }, {
-        key?: string | number;
-        type?: string;
         description?: string;
+        type?: string;
+        key?: string | number;
         amount?: number;
     }>, "many">;
 }, "strip", z.ZodTypeAny, {
@@ -718,41 +720,41 @@ export declare const InvoiceSchema: z.ZodObject<{
         id?: number;
     };
     booking_nbr?: string;
+    nbr?: string;
+    billed_to_name?: string;
+    billed_to_tax?: string;
+    items?: {
+        description?: string;
+        type?: string;
+        key?: string | number;
+        amount?: number;
+    }[];
+    remark?: string;
     target?: {
         code?: string;
         description?: string;
     };
     Date?: string;
-    nbr?: string;
-    remark?: string;
-    billed_to_name?: string;
-    billed_to_tax?: string;
-    items?: {
-        key?: string | number;
-        type?: string;
-        description?: string;
-        amount?: number;
-    }[];
 }, {
     currency?: {
         id?: number;
     };
     booking_nbr?: string;
+    nbr?: string;
+    billed_to_name?: string;
+    billed_to_tax?: string;
+    items?: {
+        description?: string;
+        type?: string;
+        key?: string | number;
+        amount?: number;
+    }[];
+    remark?: string;
     target?: {
         code?: string;
         description?: string;
     };
     Date?: string;
-    nbr?: string;
-    remark?: string;
-    billed_to_name?: string;
-    billed_to_tax?: string;
-    items?: {
-        key?: string | number;
-        type?: string;
-        description?: string;
-        amount?: number;
-    }[];
 }>;
 export type Invoice = z.infer<typeof InvoiceSchema>;
 export declare const IssueInvoicePropsSchema: z.ZodObject<{
@@ -788,14 +790,14 @@ export declare const IssueInvoicePropsSchema: z.ZodObject<{
             key: z.ZodUnion<[z.ZodNumber, z.ZodOptional<z.ZodString>]>;
             description: z.ZodDefault<z.ZodOptional<z.ZodOptional<z.ZodString>>>;
         }, "strip", z.ZodTypeAny, {
-            key?: string | number;
-            type?: string;
             description?: string;
+            type?: string;
+            key?: string | number;
             amount?: number;
         }, {
-            key?: string | number;
-            type?: string;
             description?: string;
+            type?: string;
+            key?: string | number;
             amount?: number;
         }>, "many">;
     }, "strip", z.ZodTypeAny, {
@@ -803,41 +805,41 @@ export declare const IssueInvoicePropsSchema: z.ZodObject<{
             id?: number;
         };
         booking_nbr?: string;
+        nbr?: string;
+        billed_to_name?: string;
+        billed_to_tax?: string;
+        items?: {
+            description?: string;
+            type?: string;
+            key?: string | number;
+            amount?: number;
+        }[];
+        remark?: string;
         target?: {
             code?: string;
             description?: string;
         };
         Date?: string;
-        nbr?: string;
-        remark?: string;
-        billed_to_name?: string;
-        billed_to_tax?: string;
-        items?: {
-            key?: string | number;
-            type?: string;
-            description?: string;
-            amount?: number;
-        }[];
     }, {
         currency?: {
             id?: number;
         };
         booking_nbr?: string;
+        nbr?: string;
+        billed_to_name?: string;
+        billed_to_tax?: string;
+        items?: {
+            description?: string;
+            type?: string;
+            key?: string | number;
+            amount?: number;
+        }[];
+        remark?: string;
         target?: {
             code?: string;
             description?: string;
         };
         Date?: string;
-        nbr?: string;
-        remark?: string;
-        billed_to_name?: string;
-        billed_to_tax?: string;
-        items?: {
-            key?: string | number;
-            type?: string;
-            description?: string;
-            amount?: number;
-        }[];
     }>;
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
@@ -846,21 +848,21 @@ export declare const IssueInvoicePropsSchema: z.ZodObject<{
             id?: number;
         };
         booking_nbr?: string;
+        nbr?: string;
+        billed_to_name?: string;
+        billed_to_tax?: string;
+        items?: {
+            description?: string;
+            type?: string;
+            key?: string | number;
+            amount?: number;
+        }[];
+        remark?: string;
         target?: {
             code?: string;
             description?: string;
         };
         Date?: string;
-        nbr?: string;
-        remark?: string;
-        billed_to_name?: string;
-        billed_to_tax?: string;
-        items?: {
-            key?: string | number;
-            type?: string;
-            description?: string;
-            amount?: number;
-        }[];
     };
     is_proforma?: boolean;
 }, {
@@ -870,21 +872,21 @@ export declare const IssueInvoicePropsSchema: z.ZodObject<{
             id?: number;
         };
         booking_nbr?: string;
+        nbr?: string;
+        billed_to_name?: string;
+        billed_to_tax?: string;
+        items?: {
+            description?: string;
+            type?: string;
+            key?: string | number;
+            amount?: number;
+        }[];
+        remark?: string;
         target?: {
             code?: string;
             description?: string;
         };
         Date?: string;
-        nbr?: string;
-        remark?: string;
-        billed_to_name?: string;
-        billed_to_tax?: string;
-        items?: {
-            key?: string | number;
-            type?: string;
-            description?: string;
-            amount?: number;
-        }[];
     };
     is_proforma?: boolean;
 }>;
@@ -924,14 +926,14 @@ export declare const PrintInvoicePropsSchema: z.ZodObject<{
             key: z.ZodUnion<[z.ZodNumber, z.ZodOptional<z.ZodString>]>;
             description: z.ZodDefault<z.ZodOptional<z.ZodOptional<z.ZodString>>>;
         }, "strip", z.ZodTypeAny, {
-            key?: string | number;
-            type?: string;
             description?: string;
+            type?: string;
+            key?: string | number;
             amount?: number;
         }, {
-            key?: string | number;
-            type?: string;
             description?: string;
+            type?: string;
+            key?: string | number;
             amount?: number;
         }>, "many">;
     }, "strip", z.ZodTypeAny, {
@@ -939,41 +941,41 @@ export declare const PrintInvoicePropsSchema: z.ZodObject<{
             id?: number;
         };
         booking_nbr?: string;
+        nbr?: string;
+        billed_to_name?: string;
+        billed_to_tax?: string;
+        items?: {
+            description?: string;
+            type?: string;
+            key?: string | number;
+            amount?: number;
+        }[];
+        remark?: string;
         target?: {
             code?: string;
             description?: string;
         };
         Date?: string;
-        nbr?: string;
-        remark?: string;
-        billed_to_name?: string;
-        billed_to_tax?: string;
-        items?: {
-            key?: string | number;
-            type?: string;
-            description?: string;
-            amount?: number;
-        }[];
     }, {
         currency?: {
             id?: number;
         };
         booking_nbr?: string;
+        nbr?: string;
+        billed_to_name?: string;
+        billed_to_tax?: string;
+        items?: {
+            description?: string;
+            type?: string;
+            key?: string | number;
+            amount?: number;
+        }[];
+        remark?: string;
         target?: {
             code?: string;
             description?: string;
         };
         Date?: string;
-        nbr?: string;
-        remark?: string;
-        billed_to_name?: string;
-        billed_to_tax?: string;
-        items?: {
-            key?: string | number;
-            type?: string;
-            description?: string;
-            amount?: number;
-        }[];
     }>>;
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
@@ -982,21 +984,21 @@ export declare const PrintInvoicePropsSchema: z.ZodObject<{
             id?: number;
         };
         booking_nbr?: string;
+        nbr?: string;
+        billed_to_name?: string;
+        billed_to_tax?: string;
+        items?: {
+            description?: string;
+            type?: string;
+            key?: string | number;
+            amount?: number;
+        }[];
+        remark?: string;
         target?: {
             code?: string;
             description?: string;
         };
         Date?: string;
-        nbr?: string;
-        remark?: string;
-        billed_to_name?: string;
-        billed_to_tax?: string;
-        items?: {
-            key?: string | number;
-            type?: string;
-            description?: string;
-            amount?: number;
-        }[];
     };
     invoice_nbr?: string;
     mode?: "invoice" | "proforma" | "creditnote";
@@ -1007,21 +1009,21 @@ export declare const PrintInvoicePropsSchema: z.ZodObject<{
             id?: number;
         };
         booking_nbr?: string;
+        nbr?: string;
+        billed_to_name?: string;
+        billed_to_tax?: string;
+        items?: {
+            description?: string;
+            type?: string;
+            key?: string | number;
+            amount?: number;
+        }[];
+        remark?: string;
         target?: {
             code?: string;
             description?: string;
         };
         Date?: string;
-        nbr?: string;
-        remark?: string;
-        billed_to_name?: string;
-        billed_to_tax?: string;
-        items?: {
-            key?: string | number;
-            type?: string;
-            description?: string;
-            amount?: number;
-        }[];
     };
     invoice_nbr?: string;
     mode?: "invoice" | "proforma" | "creditnote";
@@ -1058,14 +1060,14 @@ export declare const ExposedGuestSchema: z.ZodObject<{
     mobile?: string;
     password?: null;
     country?: null;
+    first_name?: string;
+    last_name?: string;
+    dob?: null;
+    id_info?: null;
+    is_main?: boolean;
     alternative_email?: null;
     cci?: null;
     country_phone_prefix?: string;
-    dob?: null;
-    first_name?: string;
-    id_info?: null;
-    is_main?: boolean;
-    last_name?: string;
     mobile_without_prefix?: string;
     nbr_confirmed_bookings?: number;
     subscribe_to_news_letter?: null;
@@ -1079,14 +1081,14 @@ export declare const ExposedGuestSchema: z.ZodObject<{
     mobile?: string;
     password?: null;
     country?: null;
+    first_name?: string;
+    last_name?: string;
+    dob?: null;
+    id_info?: null;
+    is_main?: boolean;
     alternative_email?: null;
     cci?: null;
     country_phone_prefix?: string;
-    dob?: null;
-    first_name?: string;
-    id_info?: null;
-    is_main?: boolean;
-    last_name?: string;
     mobile_without_prefix?: string;
     nbr_confirmed_bookings?: number;
     subscribe_to_news_letter?: null;
@@ -1123,14 +1125,14 @@ export declare const ExposedGuestsSchema: z.ZodArray<z.ZodObject<{
     mobile?: string;
     password?: null;
     country?: null;
+    first_name?: string;
+    last_name?: string;
+    dob?: null;
+    id_info?: null;
+    is_main?: boolean;
     alternative_email?: null;
     cci?: null;
     country_phone_prefix?: string;
-    dob?: null;
-    first_name?: string;
-    id_info?: null;
-    is_main?: boolean;
-    last_name?: string;
     mobile_without_prefix?: string;
     nbr_confirmed_bookings?: number;
     subscribe_to_news_letter?: null;
@@ -1144,14 +1146,14 @@ export declare const ExposedGuestsSchema: z.ZodArray<z.ZodObject<{
     mobile?: string;
     password?: null;
     country?: null;
+    first_name?: string;
+    last_name?: string;
+    dob?: null;
+    id_info?: null;
+    is_main?: boolean;
     alternative_email?: null;
     cci?: null;
     country_phone_prefix?: string;
-    dob?: null;
-    first_name?: string;
-    id_info?: null;
-    is_main?: boolean;
-    last_name?: string;
     mobile_without_prefix?: string;
     nbr_confirmed_bookings?: number;
     subscribe_to_news_letter?: null;
@@ -1221,7 +1223,8 @@ export declare const SimulateDirectBookingParamsSchema: z.ZodObject<{
 }>;
 export type SimulateDirectBookingParams = z.infer<typeof SimulateDirectBookingParamsSchema>;
 export declare const DoDayUseParamsSchema: z.ZodObject<{
-    language: z.ZodString;
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     is_to_block: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
     booking: z.ZodObject<{
         property: z.ZodObject<{
@@ -1300,17 +1303,17 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
         property?: {
             id?: number;
         };
+        source?: {
+            code?: string;
+        };
         from_date?: string;
         to_date?: string;
-        remark?: string;
         occupancy?: {
             adult_nbr?: number;
             children_nbr?: number;
             infant_nbr?: number;
         };
-        source?: {
-            code?: string;
-        };
+        remark?: string;
     }, {
         status?: {
             code?: string;
@@ -1327,17 +1330,17 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
         property?: {
             id?: number;
         };
+        source?: {
+            code?: string;
+        };
         from_date?: string;
         to_date?: string;
-        remark?: string;
         occupancy?: {
             adult_nbr?: number;
             children_nbr?: number;
             infant_nbr?: number;
         };
-        source?: {
-            code?: string;
-        };
+        remark?: string;
     }>;
     extra_service: z.ZodObject<{
         pr_id: z.ZodNumber;
@@ -1361,32 +1364,32 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
     }, "strip", z.ZodTypeAny, {
         description?: string;
         currency_id?: number;
-        end_date?: string;
-        start_date?: string;
-        price?: number;
         category?: {
             code?: string;
         };
+        net_amount?: number;
+        tax_amount?: number;
+        end_date?: string;
+        start_date?: string;
+        price?: number;
         pr_id?: number;
         from_time?: string;
         to_time?: string;
-        net_amount?: number;
-        tax_amount?: number;
         gross_amount?: number;
     }, {
         description?: string;
         currency_id?: number;
-        end_date?: string;
-        start_date?: string;
-        price?: number;
         category?: {
             code?: string;
         };
+        net_amount?: number;
+        tax_amount?: number;
+        end_date?: string;
+        start_date?: string;
+        price?: number;
         pr_id?: number;
         from_time?: string;
         to_time?: string;
-        net_amount?: number;
-        tax_amount?: number;
         gross_amount?: number;
     }>;
 }, "strip", z.ZodTypeAny, {
@@ -1394,17 +1397,17 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
     extra_service?: {
         description?: string;
         currency_id?: number;
-        end_date?: string;
-        start_date?: string;
-        price?: number;
         category?: {
             code?: string;
         };
+        net_amount?: number;
+        tax_amount?: number;
+        end_date?: string;
+        start_date?: string;
+        price?: number;
         pr_id?: number;
         from_time?: string;
         to_time?: string;
-        net_amount?: number;
-        tax_amount?: number;
         gross_amount?: number;
     };
     is_to_block?: boolean;
@@ -1424,34 +1427,34 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
         property?: {
             id?: number;
         };
+        source?: {
+            code?: string;
+        };
         from_date?: string;
         to_date?: string;
-        remark?: string;
         occupancy?: {
             adult_nbr?: number;
             children_nbr?: number;
             infant_nbr?: number;
         };
-        source?: {
-            code?: string;
-        };
+        remark?: string;
     };
 }, {
     language?: string;
     extra_service?: {
         description?: string;
         currency_id?: number;
-        end_date?: string;
-        start_date?: string;
-        price?: number;
         category?: {
             code?: string;
         };
+        net_amount?: number;
+        tax_amount?: number;
+        end_date?: string;
+        start_date?: string;
+        price?: number;
         pr_id?: number;
         from_time?: string;
         to_time?: string;
-        net_amount?: number;
-        tax_amount?: number;
         gross_amount?: number;
     };
     is_to_block?: boolean;
@@ -1471,17 +1474,17 @@ export declare const DoDayUseParamsSchema: z.ZodObject<{
         property?: {
             id?: number;
         };
+        source?: {
+            code?: string;
+        };
         from_date?: string;
         to_date?: string;
-        remark?: string;
         occupancy?: {
             adult_nbr?: number;
             children_nbr?: number;
             infant_nbr?: number;
         };
-        source?: {
-            code?: string;
-        };
+        remark?: string;
     };
 }>;
 export type DoDayUseParams = z.infer<typeof DoDayUseParamsSchema>;
@@ -1499,3 +1502,21 @@ export declare const SetArrivalTimePropsSchema: z.ZodObject<{
     room_identifier?: string;
 }>;
 export type SetArrivalTimeProps = z.infer<typeof SetArrivalTimePropsSchema>;
+export declare const GetCalendarDataParamsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
+    propertyid: z.ZodNumber;
+    from_date: z.ZodEffects<z.ZodString, string, string>;
+    to_date: z.ZodEffects<z.ZodString, string, string>;
+}, "strip", z.ZodTypeAny, {
+    language?: string;
+    from_date?: string;
+    to_date?: string;
+    propertyid?: number;
+}, {
+    language?: string;
+    from_date?: string;
+    to_date?: string;
+    propertyid?: number;
+}>;
+export type GetCalendarDataParams = z.infer<typeof GetCalendarDataParamsSchema>;

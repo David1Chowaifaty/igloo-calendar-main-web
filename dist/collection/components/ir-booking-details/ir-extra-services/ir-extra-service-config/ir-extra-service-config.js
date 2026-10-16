@@ -1,6 +1,6 @@
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
-import locales from "../../../../stores/locales.store";
 import { h } from "@stencil/core";
+import { t } from "../../../../services/locale/t";
 export class IrExtraServiceConfig {
     booking;
     agent;
@@ -14,7 +14,7 @@ export class IrExtraServiceConfig {
         this.closeModal.emit();
     }
     render() {
-        return (h("ir-drawer", { key: '4df88f258e0eb90de6607d272b671fbeed8509a1', style: {
+        return (h("ir-drawer", { key: 'b1dace57574ff8ed63c6e0338eaff0eeea1b644f', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -25,11 +25,11 @@ export class IrExtraServiceConfig {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDialog();
-            }, label: locales.entries.Lcz_ExtraServices }, this.open && (h("ir-extra-service-config-form", { key: '895e19c201b620dc5a7c619422b0b2f61a3af501', language: this.language ?? 'en', svcCategories: this.svcCategories, onCloseModal: e => {
+            }, label: t('Lcz_ExtraServicesTitle', { fallback: 'Extra Services' }) }, this.open && (h("ir-extra-service-config-form", { key: '83bc73d8ee1e70f7fb47ca40b2befff677816957', language: this.language ?? 'en', svcCategories: this.svcCategories, onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDialog();
-            }, booking: this.booking, agent: this.agent, service: this.service, defaultIdentifier: this.defaultIdentifier })), h("div", { key: 'ab72cd173d0452a8c82cbe0604011ee463fe1500', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '01ab515ae43924c801b4c142a24703b979ca78dc', class: `flex-fill`, size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '070a3dd3741d19a7aa2bcf198638f0d3de6ec139', type: "submit", loading: isRequestPending('/Do_Booking_Extra_Service'), form: "extra-service-config-form", size: "m", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save))));
+            }, booking: this.booking, agent: this.agent, service: this.service, defaultIdentifier: this.defaultIdentifier })), h("div", { key: '5c1965a69849219fc389d4e0968b5c0d047fe2b4', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '423d9adc7ca40078e97dfe70cce9ff64f1931d96', class: `flex-fill`, size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '4ba4ec4e47928cc05faded1ab8e112aef76a56ea', type: "submit", loading: isRequestPending('/Do_Booking_Extra_Service'), form: "extra-service-config-form", size: "m", class: `flex-fill`, variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get is() { return "ir-extra-service-config"; }
     static get encapsulation() { return "scoped"; }
@@ -74,7 +74,7 @@ export class IrExtraServiceConfig {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
@@ -97,14 +97,14 @@ export class IrExtraServiceConfig {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "IEntries[]",
-                    "resolved": "IEntries[]",
+                    "original": "SetupEntries[]",
+                    "resolved": "SetupEntries[]",
                     "references": {
-                        "IEntries": {
+                        "SetupEntries": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::IEntries",
-                            "referenceLocation": "IEntries"
+                            "id": "src/models/property.ts::SetupEntries",
+                            "referenceLocation": "SetupEntries"
                         }
                     }
                 },
@@ -123,7 +123,7 @@ export class IrExtraServiceConfig {
                 "mutable": false,
                 "complexType": {
                     "original": "ExtraService",
-                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; room_identifier?: string; booking_system_id?: number; cost?: number; end_date?: string; start_date?: string; price?: number; category?: { code?: string; }; pr_id?: number; from_time?: string; to_time?: string; charges?: { city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; total_amount?: number; vat_amount?: number; vat_percent?: number; }; }",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; charges?: { total_amount?: number; city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; vat_amount?: number; vat_percent?: number; }; cost?: number; room_identifier?: string; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; pr_id?: number; from_time?: string; to_time?: string; }",
                     "references": {
                         "ExtraService": {
                             "location": "import",

@@ -1,9 +1,10 @@
 import { Host, h } from "@stencil/core";
+import { t } from "../../services/locale/t";
 export class IrEmptyState {
-    message = 'No records found';
+    message;
     showIcon = true;
     render() {
-        return (h(Host, { key: '28a2a0ecd7afcfa6ba5da37d61aa023b22749dbe' }, h("slot", { key: '65f4f8ab92a345b816317aa9bdccee6634e2a5b9', name: "icon" }, this.showIcon && (h("div", { key: 'fbcbad4f46ff1495cab8c30fc16d6ea365a9c16d', class: 'icon_container' }, h("wa-icon", { key: 'acf93d1055765127c1b17116e7fcd411b349208a', name: "ban", style: { transform: 'rotate(90deg)' } })))), h("p", { key: 'f8cafb103b65d7bc18f1a81760f3694f3bef4ba9', part: "message", class: `message ${this.showIcon ? '' : '--secondary'}` }, this.message), h("slot", { key: 'cbe30c76424621952c9da1708da6ecc816643b44' })));
+        return (h(Host, { key: '6bfc75c065f2bb99f779d7ef7d112a695f128693' }, h("slot", { key: '3a1376f74b40daa8704ba0d329779821e3aa164a', name: "icon" }, this.showIcon && (h("div", { key: '6a39cf1af023b137afc6db2dcd462621ec9af38a', class: 'icon_container' }, h("wa-icon", { key: 'ed58d21dfc5d4e33219c0f22c14ce9118117eba6', name: "ban", style: { transform: 'rotate(90deg)' } })))), h("p", { key: '5455dad6b4b6470f1e83efb6d77cb5de984198bf', part: "message", class: `message ${this.showIcon ? '' : '--secondary'}` }, this.message || t('Lcz_NoRecordsFound', { fallback: 'No records found' })), h("slot", { key: 'bda1fa13b2d1881257b5693959970474c7871da1' })));
     }
     static get is() { return "ir-empty-state"; }
     static get encapsulation() { return "shadow"; }
@@ -36,8 +37,7 @@ export class IrEmptyState {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "message",
-                "defaultValue": "'No records found'"
+                "attribute": "message"
             },
             "showIcon": {
                 "type": "boolean",

@@ -1,12 +1,13 @@
 import { h } from "@stencil/core";
 import { entryTypeFieldSchema } from "../../ir-city-ledger-transaction-form.schema";
+import { t } from "../../../../../../../services/locale/t";
 export class IrClOpeningBalanceFields {
     entryType = '';
     fieldChange;
     render() {
-        return (h("div", { key: 'b3ed9c6a0a9ce17d50c8f3203dd531a307cc0bab', class: "field field--full-width" }, h("ir-validator", { key: 'fa09859dab69f45aea32f582cfc5324aca881f06', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: '6dc3f004e801eaf68e3e542f15f8d8b64b63d871', label: "Entry Type", orientation: "horizontal", size: "s", value: this.entryType, onchange: event => {
+        return (h("div", { key: 'af09668c52fe21a05f72e829d6d1297110419b97', class: "field field--full-width" }, h("ir-validator", { key: '4d8e3d5e0301700f16a6b0e3b8bf15b19beaadda', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: '1d10da6ff256988a6e320ea225f3fbc1c42fd45b', label: t('Lcz_EntryType', { fallback: 'Entry Type' }), orientation: "horizontal", size: "s", value: this.entryType, onchange: event => {
                 this.fieldChange.emit({ entryType: event.target.value });
-            } }, h("wa-radio", { key: 'bcb84ff5b6713eb0ab117c659f48e54e11ee5358', value: "CR", appearance: "button", class: "entry-type --credit" }, "Credit"), h("wa-radio", { key: '059cf6dd963acb633b39fcf7347f612ca8beccbc', value: "DB", appearance: "button", class: "entry-type --debit" }, "Debit")))));
+            } }, h("wa-radio", { key: '159486c89b28b91a191e1ee1f8041def406ae911', value: "CR", appearance: "button", class: "entry-type --credit" }, t('Lcz_Credit', { fallback: 'Credit' })), h("wa-radio", { key: '343b2508101c5af7477992c4cfef037815c2ae9c', value: "DB", appearance: "button", class: "entry-type --debit" }, t('Lcz_Debit', { fallback: 'Debit' }))))));
     }
     static get is() { return "ir-cl-opening-balance-fields"; }
     static get encapsulation() { return "scoped"; }

@@ -1,7 +1,10 @@
 import { Host, h } from "@stencil/core";
 import { z } from "zod";
-import { getEntryValue } from "../../../utils/utils";
-const taxSetupSchema = z.string().min(1, 'Select a setup entry');
+import { getEntryValue } from "../../../services/setup/index";
+import { LocaleController } from "../../../services/locale/locale.controller";
+import { t } from "../../../services/locale/t";
+// Lazy message: built at module load, before any locale is fetched.
+const taxSetupSchema = z.string({ errorMap: () => ({ message: t('Lcz_SelectASetupEntry', { fallback: 'Select a setup entry' }) }) }).min(1);
 export class IrTaxInput {
     /**
      * List of setup entries used to populate the tax mode select.
@@ -73,7 +76,7 @@ export class IrTaxInput {
         this.tax = { ...(this.tax || {}), ...params };
     }
     render() {
-        return (h(Host, { key: 'dbe759b844f9c1a22da76aa20e7703457000923b', class: "ir-tax-input" }, h("ir-validator", { key: '9a17cd0bc33d497a6bc647f64cef340baf59c09f', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? z.number().nullable() : z.coerce.number().min(0).max(30) }, h("ir-input", { key: 'a4468c5e7d739c5adf88cbf90c4b2e15546a23c3', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
+        return (h(Host, { key: 'f9b9c412fe7acdf1c4a99815cac1e0ede8c201df', class: "ir-tax-input" }, h("ir-validator", { key: '8d83be28a30c0430e1a2ad6800cdcfc88f94dcfb', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? z.number().nullable() : z.coerce.number().min(0).max(30) }, h("ir-input", { key: 'a17a2143858883757b638c424b36a203a29ab0d6', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
                 min: 0,
                 max: 30,
                 mask: Number,
@@ -83,11 +86,11 @@ export class IrTaxInput {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updateTaxField({ value });
-            } }, h("span", { key: '303b813f710468edb56dba419860bf44e79b1386', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), h("ir-validator", { key: 'e8e41cedf2a23aa8ee4be40e85671f99391c5e6e', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, h("wa-select", { key: '8c2ed70c37fb6387c4b7888f7ec7035533ec243d', part: "select", class: "ir-tax-input__select", size: "s", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
+            } }, h("span", { key: 'e46df9c30c587444e5c341e686723f25701e157b', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), h("ir-validator", { key: '3e22a7d07cdb7da8363bcd284bea3e78a8984db7', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, h("wa-select", { key: '25d36c8459aefa1482af29b41a1a609ef2e8f204', part: "select", class: "ir-tax-input__select", size: "s", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
                 const mode = e.target.value.toString();
                 this.updateTaxField({ mode });
                 this.taxChange.emit({ value: this.tax?.value ?? this.chargeRule?.value ?? null, mode });
-            }, placeholder: "Select..." }, this.setupEntries.map(entry => (h("wa-option", { key: entry.CODE_NAME, value: entry.CODE_NAME }, getEntryValue({ entry, language: this.language }))))))));
+            }, placeholder: t('Lcz_SelectPlaceholder', { fallback: 'Select...' }) }, this.setupEntries.map(entry => (h("wa-option", { key: entry.CODE_NAME, value: entry.CODE_NAME }, getEntryValue({ entry, language: LocaleController.language }))))))));
     }
     static get is() { return "ir-tax-input"; }
     static get encapsulation() { return "shadow"; }
@@ -107,14 +110,14 @@ export class IrTaxInput {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "IEntries[]",
-                    "resolved": "IEntries[]",
+                    "original": "SetupEntries[]",
+                    "resolved": "SetupEntries[]",
                     "references": {
-                        "IEntries": {
+                        "SetupEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries",
-                            "referenceLocation": "IEntries"
+                            "id": "src/models/IBooking.ts::SetupEntries",
+                            "referenceLocation": "SetupEntries"
                         }
                     }
                 },

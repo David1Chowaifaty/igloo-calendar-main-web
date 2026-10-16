@@ -12,10 +12,15 @@ export declare class IrMonthlyBookingsReport {
     property_id: number;
     stats: Omit<MonthlyStatsResults, 'DailyStats'>;
     private baseFilters;
-    private tokenService;
+    private apiClientService;
     private roomService;
     private propertyService;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     handleApplyFiltersChange(e: CustomEvent<DailyReportFilter>): void;
     private init;

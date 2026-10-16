@@ -18,7 +18,7 @@ export declare class IrFiscalDocumentsFilters {
     handleFiltersChange(newValue: FiscalDocumentFilters): void;
     handlePropertyIdChange(newValue: number, oldValue: number): void;
     private typeOptions;
-    private folioOptions;
+    private get folioOptions();
     private get filteredAgents();
     private get searchPlaceholder();
     private fetchAgents;

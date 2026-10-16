@@ -1,18 +1,28 @@
 import { Fragment, Host, h } from "@stencil/core";
 import moment from "moment";
-import locales from "../../../stores/locales.store";
 import calendar_data from "../../../stores/calendar-data";
 import { _formatTime } from "../../ir-booking-details/functions";
-const STATUS_LABEL = {
-    'scheduled': 'Scheduled',
-    'upcoming': 'Upcoming',
-    'in-progress': 'In Progress',
-};
+import { formatDate } from "../../../utils/date/index";
+import { formatAmount, formatBookingNumber } from "../../../utils/number";
+import { t } from "../../../services/locale/t";
+function getStatusLabel(status) {
+    switch (status) {
+        case 'scheduled':
+            return t('Lcz_Scheduled', { fallback: 'Scheduled' });
+        case 'upcoming':
+            return t('Lcz_Upcoming', { fallback: 'Upcoming' });
+        case 'in-progress':
+            return t('Lcz_InProgress', { fallback: 'In Progress' });
+    }
+}
 const GUEST_NAME_CROP_SIZE = 16;
-const MOVEMENT_DISPLAY = {
-    departure: { icon: 'plane-departure', label: 'Departure' },
-    arrival: { icon: 'plane-arrival', label: 'Arrival' },
+const MOVEMENT_ICON = {
+    departure: 'plane-departure',
+    arrival: 'plane-arrival',
 };
+function getMovementLabel(kind) {
+    return kind === 'departure' ? t('Lcz_Departure', { fallback: 'Departure' }) : t('Lcz_Arrival', { fallback: 'Arrival' });
+}
 /** `_DEPARTURE_TIME` code meaning the guest never picked one — the property's standard check-out applies. */
 const UNSET_DEPARTURE_TIME_CODE = '000';
 /** `_ARRIVAL_TIME` code for "Not sure yet" — same idea, the property's standard check-in applies. */
@@ -67,8 +77,7 @@ export class IglDayUseBookings {
         return bookingEvent?.NAME ?? '';
     }
     getPrice(amount) {
-        const symbol = this.calendarData?.currency?.symbol ?? '';
-        return `${symbol}${Number(amount ?? 0).toFixed(2)}`;
+        return formatAmount(this.calendarData?.currency?.symbol ?? '', Number(amount ?? 0));
     }
     getStatus(booking) {
         if (booking.target_date !== moment().format('YYYY-MM-DD')) {
@@ -96,7 +105,7 @@ export class IglDayUseBookings {
             data: {
                 BOOKING_NUMBER: booking.book_nbr,
                 event_type: 'EDIT_BOOKING',
-                TITLE: `${locales.entries.Lcz_EditBookingFor ?? 'Edit Booking For'} ${this.getGuestName(booking)}`,
+                TITLE: `${t('Lcz_EditBookingFor', { fallback: 'Edit Booking For' })} ${this.getGuestName(booking)}`,
             },
         });
     }
@@ -167,14 +176,14 @@ export class IglDayUseBookings {
     renderStayMovements(booking, movements) {
         const movementsId = `dub-movements-${booking.bh_id}`;
         const isTurnover = movements.length > 1;
-        return (h(Fragment, null, h("div", { class: "dub-booking__movements", id: movementsId }, isTurnover && (h("span", { class: "dub-movement dub-movement--turnover" }, h("wa-icon", { name: "rotate", class: "dub-movement__icon" }), "Turnover")), movements.map(movement => (h("span", { class: `dub-movement dub-movement--${movement.kind}`, key: `${movementsId}-${movement.kind}` }, h("wa-icon", { name: MOVEMENT_DISPLAY[movement.kind].icon, class: "dub-movement__icon" }), MOVEMENT_DISPLAY[movement.kind].label, movement.time && h("span", { class: "dub-movement__time" }, movement.time))))), h("wa-tooltip", { for: movementsId, placement: "top" }, h("span", { class: "dub-movement-tip" }, movements.map(movement => (h("span", { class: "dub-movement-tip__line", key: `${movementsId}-tip-${movement.kind}` }, h("span", { class: "dub-movement-tip__label" }, MOVEMENT_DISPLAY[movement.kind].label), h("span", null, "#", movement.bookingNumber, movement.guestName ? ` \u00b7 ${movement.guestName}` : ''), movement.time && (h("span", { class: "dub-movement-tip__time" }, movement.time, movement.isStandard ? ' (standard)' : '')))))))));
+        return (h(Fragment, null, h("div", { class: "dub-booking__movements", id: movementsId }, isTurnover && (h("span", { class: "dub-movement dub-movement--turnover" }, h("wa-icon", { name: "rotate", class: "dub-movement__icon" }), t('Lcz_Turnover', { fallback: 'Turnover' }))), movements.map(movement => (h("span", { class: `dub-movement dub-movement--${movement.kind}`, key: `${movementsId}-${movement.kind}` }, h("wa-icon", { name: MOVEMENT_ICON[movement.kind], class: "dub-movement__icon" }), getMovementLabel(movement.kind), movement.time && h("span", { class: "dub-movement__time" }, movement.time))))), h("wa-tooltip", { for: movementsId, placement: "top" }, h("span", { class: "dub-movement-tip" }, movements.map(movement => (h("span", { class: "dub-movement-tip__line", key: `${movementsId}-tip-${movement.kind}` }, h("span", { class: "dub-movement-tip__label" }, getMovementLabel(movement.kind)), h("span", null, "#", formatBookingNumber(movement.bookingNumber), movement.guestName ? ` \u00b7 ${movement.guestName}` : ''), movement.time && (h("span", { class: "dub-movement-tip__time" }, movement.time, movement.isStandard ? ` ${t('Lcz_StandardSuffix', { fallback: '(standard)' })}` : '')))))))));
     }
     renderBooking(booking) {
         const guestName = this.getGuestName(booking);
         const guestNameId = `dub-guest-${booking.bh_id}`;
         const status = this.getStatus(booking);
         const movements = this.getStayMovements(booking);
-        return (h("button", { type: "button", class: "dub-booking", key: `booking-${booking.bh_id}`, onClick: () => this.openBookingDetails(booking) }, h("div", { class: "dub-booking__main" }, h("ir-unit-tag", { unit: this.getUnitName(booking.unit_id) }), h("span", { class: "dub-booking__time" }, this.formatTime(booking.from_time), " \u2013 ", this.formatTime(booking.to_time)), h("span", { class: "dub-booking__price" }, this.getPrice(booking.gross_amount))), h("div", { class: "dub-booking__meta" }, h("span", { class: "dub-booking__number" }, "#", booking.book_nbr), guestName && (h("span", { class: "dub-booking__guest", id: guestNameId }, guestName)), guestName && guestName.length > GUEST_NAME_CROP_SIZE && (h("wa-tooltip", { for: guestNameId, placement: "top" }, guestName)), h("span", { class: `dub-status dub-status--${status}` }, STATUS_LABEL[status])), movements.length > 0 && this.renderStayMovements(booking, movements)));
+        return (h("button", { type: "button", class: "dub-booking", key: `booking-${booking.bh_id}`, onClick: () => this.openBookingDetails(booking) }, h("div", { class: "dub-booking__main" }, h("ir-unit-tag", { unit: this.getUnitName(booking.unit_id) }), h("span", { class: "dub-booking__time" }, this.formatTime(booking.from_time), " \u2013 ", this.formatTime(booking.to_time)), h("span", { class: "dub-booking__price" }, this.getPrice(booking.gross_amount))), h("div", { class: "dub-booking__meta" }, h("span", { class: "dub-booking__number" }, "#", booking.book_nbr), guestName && (h("span", { class: "dub-booking__guest", id: guestNameId }, guestName)), guestName && guestName.length > GUEST_NAME_CROP_SIZE && (h("wa-tooltip", { for: guestNameId, placement: "top" }, guestName)), h("span", { class: `dub-status dub-status--${status}` }, getStatusLabel(status))), movements.length > 0 && this.renderStayMovements(booking, movements)));
     }
     renderCategory(roomTypeId, bookings) {
         return (h("div", { class: "dub-category", key: `category-${roomTypeId}` }, h("h5", { class: "dub-category__title" }, this.getRoomTypeName(roomTypeId)), h("div", { class: "dub-category__list" }, bookings.sort((a, b) => a.from_time.localeCompare(b.from_time)).map(booking => this.renderBooking(booking)))));
@@ -184,7 +193,7 @@ export class IglDayUseBookings {
         const grouped = this.groupByRoomType(bookings);
         const hasDates = this.orderedDates.length > 0;
         const isEmpty = bookings.length === 0;
-        return (h(Host, { key: '629de4d67b5b51a6824436c20f8294af9855d1af' }, h("div", { key: 'c228806b45be6e479dbcd8c12f518b00f95feb6f', class: "dub-panel" }, h("div", { key: '87d8d05a6e189ca580104735650dd4ff95b60b0c', class: "dub-panel__head" }, h("header", { key: '81019be54702bc02020fbcaf2d5a2a400c2627b3', class: "dub-panel__header" }, h("h2", { key: '02127f2e7db036eecba7bfab989f2734a615c3e6', class: "dub-panel__title", id: "day-use-bookings-title" }, "Day Use Bookings"), h("ir-custom-button", { key: 'c349cbf4b2e8a5ba8a596311e6394f6229c58f13', size: "m", appearance: "plain", variant: "neutral", onClickHandler: () => this.handleOptionEvent('closeSideMenu') }, h("wa-icon", { key: '0279b67be63af13b049201e3e49cc821a3b39293', name: "xmark", variant: "solid", label: "Close", "aria-label": "Close", role: "img" }))), hasDates && (h("div", { key: '8d15fea4d2fd8786964b32f9dacf5cbe0cdd96e8', class: "dub-panel__toolbar" }, h("wa-select", { key: 'd326a3e13ca4fcf349521908a3a061a806a641c9', size: "s", "aria-label": "Date", value: this.selectedDate, defaultValue: this.selectedDate, onchange: evt => (this.selectedDate = evt.target.value) }, this.orderedDates.map(date => (h("wa-option", { value: date }, moment(date, 'YYYY-MM-DD').format('ddd, DD MMM YYYY')))))))), h("div", { key: '01b2111fcac4073a1199da63ab96bca3039885fc', class: "dub-panel__body" }, isEmpty ? (h("ir-empty-state", { message: "No day-use bookings for this date." })) : (Array.from(grouped.entries()).map(([roomTypeId, roomTypeBookings]) => this.renderCategory(roomTypeId, roomTypeBookings)))))));
+        return (h(Host, { key: 'd5dc8de96ea100e57c0ea3cd4714156a20f96a08' }, h("div", { key: '4bd34a825f6d6f8150860d546216384982f3c0d6', class: "dub-panel" }, h("div", { key: '440976f80c756e102ac5a796b0e0ed8a702b152f', class: "dub-panel__head" }, h("header", { key: '9019f87d5791d411176e6dd8377ba60f01f7b214', class: "dub-panel__header" }, h("h2", { key: 'eb2c3a6049b83cbb7ea33c12b2a3e36cd8c75654', class: "dub-panel__title", id: "day-use-bookings-title" }, t('Lcz_DayUseBookings', { fallback: 'Day Use Bookings' })), h("ir-custom-button", { key: 'fd2f84b28b1331bafe23ae2dd1781f6c6d220d6e', size: "m", appearance: "plain", variant: "neutral", onClickHandler: () => this.handleOptionEvent('closeSideMenu') }, h("wa-icon", { key: '1c99d1907f9e53f5249f72bd41619c8e1f002220', name: "xmark", variant: "solid", label: t('Lcz_Close', { fallback: 'Close' }), "aria-label": t('Lcz_Close', { fallback: 'Close' }), role: "img" }))), hasDates && (h("div", { key: '782b56395cf9d59dd9a689130a0b77847d3ffcde', class: "dub-panel__toolbar" }, h("wa-select", { key: 'c9cf642fac6247efbd7d8815a6de88c74da2615a', size: "s", "aria-label": t('Lcz_DateLabel', { fallback: 'Date' }), value: this.selectedDate, defaultValue: this.selectedDate, onchange: evt => (this.selectedDate = evt.target.value) }, this.orderedDates.map(date => (h("wa-option", { value: date }, formatDate(date, 'ddd, DD MMM YYYY')))))))), h("div", { key: '49473813fd7daaf33fb96adb1896fab49d663bec', class: "dub-panel__body" }, isEmpty ? (h("ir-empty-state", { message: t('Lcz_NoDayUseBookingsForDate', { fallback: 'No day-use bookings for this date.' }) })) : (Array.from(grouped.entries()).map(([roomTypeId, roomTypeBookings]) => this.renderCategory(roomTypeId, roomTypeBookings)))))));
     }
     static get is() { return "igl-day-use-bookings"; }
     static get encapsulation() { return "scoped"; }

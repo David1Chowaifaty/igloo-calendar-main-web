@@ -1,8 +1,11 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { BookingService } from "../../services/booking-service/booking.service";
 import { RoomService } from "../../services/room.service";
-import locales from "../../stores/locales.store";
 import { Host, h, Fragment } from "@stencil/core";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 import { addDaysISO, todayISO } from "../../utils/calendar-dates";
 export class IglBookPropertyContainer {
     language = '';
@@ -19,7 +22,7 @@ export class IglBookPropertyContainer {
     resetBookingData;
     bookingService = new BookingService();
     roomService = new RoomService();
-    token = new Token();
+    ApiClient = new ApiClient();
     setRoomsData(roomServiceResp) {
         let roomsData = new Array();
         if (roomServiceResp.My_Result?.roomtypes?.length) {
@@ -32,18 +35,17 @@ export class IglBookPropertyContainer {
     }
     async initializeApp() {
         try {
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.bookProperty });
             if (!this.propertyid && !this.p) {
                 throw new Error('Property ID or username is required');
             }
-            const [roomResponse, languageTexts, countriesList] = await Promise.all([
-                this.roomService.getExposedProperty({ id: this.propertyid, language: this.language, aname: this.p }),
-                this.roomService.fetchLanguage(this.language),
-                this.bookingService.getCountries(this.language),
+            const [roomResponse, , countriesList] = await Promise.all([
+                this.roomService.getExposedProperty({ id: this.propertyid, language: LocaleController.language, aname: this.p }),
+                localeReady,
+                this.bookingService.getCountries(LocaleController.language),
             ]);
-            if (!locales.entries) {
-                locales.entries = languageTexts.entries;
-                locales.direction = languageTexts.direction;
-            }
             this.countries = countriesList;
             const { allowed_payment_methods: paymentMethods, currency, allowed_booking_sources, adult_child_constraints, calendar_legends } = roomResponse['My_Result'];
             this.calendarData = { currency, allowed_booking_sources, adult_child_constraints, legendData: calendar_legends };
@@ -55,17 +57,28 @@ export class IglBookPropertyContainer {
             console.error('Error initializing app:', error);
         }
     }
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.bookProperty, () => this.initializeApp());
     componentWillLoad() {
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     handleCloseBookingWindow() {
@@ -88,11 +101,11 @@ export class IglBookPropertyContainer {
             NAME: '',
             PHONE: '',
             REFERENCE_TYPE: '',
-            TITLE: locales.entries.Lcz_NewBooking,
+            TITLE: t('Lcz_NewBooking', { fallback: 'New Booking' }),
         };
     }
     render() {
-        return (h(Host, { key: 'fc188a18714f171169fa212272b6ac022d38b01a' }, this.withIrToastAndInterceptor && (h(Fragment, { key: '5d31f39dcb449e55ba72bb945b6b4037cf1582cb' }, h("ir-toast", { key: '9b1fef1c72a0e4c0321d3bc7d075e233b26439d8' }), h("ir-interceptor", { key: '589554fc16f36dc48b33a2e68eec8024bf665d3d' }))), h("div", { key: '461db38016f2d3e171f93db49728bf16f6e237c3', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: '8e4bacc5e425bb1a88e4eadd22afd1dd3dab99f6', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: 'aa29fdb821b1d3ee49e5ec283f94b7a04185510f', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
+        return (h(Host, { key: '21e1ff44f8db834ce73af4b0cff3a5b69e806f13' }, this.withIrToastAndInterceptor && (h(Fragment, { key: '37ce1003ca7892f74dc8ce62577b13838a3d2b25' }, h("ir-toast", { key: '51ad801dfef80b45e3d8374f1f387ae5e10587e4' }), h("ir-interceptor", { key: 'a66cd4616587367266ebe2eabeb084f391f7c257' }))), h("div", { key: '8689ac38260845c03718c2dbbbfb61b13c7e7c61', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: '7c7b97ec3f0a8d6ee21854cd8a9d9d3da4820c00', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: '977eaca828418c8839a4b48cd2c2766f1239779d', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingData.emit(null);
@@ -278,6 +291,9 @@ export class IglBookPropertyContainer {
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

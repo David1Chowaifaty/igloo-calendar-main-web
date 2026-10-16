@@ -1,8 +1,8 @@
-import { IEntries } from "../models/property";
+import { SetupEntries } from "../models/property";
 export interface SvcCategoryGroup {
     code: string;
     label: string;
-    categories: IEntries[];
+    categories: SetupEntries[];
 }
 /**
  * Top-level `svc_category` entries: those whose `NOTES` does *not* reference another category as a
@@ -14,7 +14,7 @@ export interface SvcCategoryGroup {
  * "Accommodation extras") even though its individual sub-categories aren't shown standalone. The
  * placeholder is inserted where its first child appears, keeping source order.
  */
-export declare function getTopLevelSvcCategories(categories: IEntries[]): IEntries[];
+export declare function getTopLevelSvcCategories(categories: SetupEntries[]): SetupEntries[];
 /**
  * Groups `svc_category` entries by their `NOTES` field: an entry belongs to a group when its
  * `NOTES` is shaped like a category code (e.g. Breakfast's `NOTES` is `Accommodation`, so it's keyed under
@@ -29,4 +29,4 @@ export declare function getTopLevelSvcCategories(categories: IEntries[]): IEntri
  * Returns a `Map` keyed by group code so a specific group's sub-categories can be looked up
  * directly, e.g. `groupSvcCategoriesByParent(categories).get('Accommodation')`.
  */
-export declare function groupSvcCategoriesByParent(categories: IEntries[], language?: string): Map<string, SvcCategoryGroup>;
+export declare function groupSvcCategoriesByParent(categories: SetupEntries[], language?: string): Map<string, SvcCategoryGroup>;

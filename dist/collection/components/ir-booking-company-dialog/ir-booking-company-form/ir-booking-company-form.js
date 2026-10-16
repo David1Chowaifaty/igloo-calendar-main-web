@@ -1,5 +1,6 @@
 import { h } from "@stencil/core";
 import { BookingService } from "../../../services/booking-service/booking.service";
+import { t } from "../../../services/locale/t";
 export class IrBookingCompanyForm {
     booking;
     formId;
@@ -48,10 +49,10 @@ export class IrBookingCompanyForm {
         }
     }
     render() {
-        return (h("form", { key: '964d4c619dd38f03ec07c52f50f525d939d64bbd', id: this.formId, onSubmit: e => {
+        return (h("form", { key: 'a3bcbcf19bc7c9b36375f42b04907e0c6a81f5c7', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveCompany();
-            }, class: "booking-company__form" }, h("ir-input", { key: 'ea09e6f8b706be0c3a8898741db7da5ec1802bae', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-input", { key: '596117598b951bfe846364efe4cc4af5f222c45b', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
+            }, class: "booking-company__form" }, h("ir-input", { key: '0a892084f6f43949da658d6d57f709eddee17a34', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: t('Lcz_Name', { fallback: 'Name' }), autofocus: true, placeholder: t('Lcz_CompanyNamePlaceholder', { fallback: 'XYZ LTD' }) }), h("ir-input", { key: 'c0ce5d160eefd6224f789629356ad4678c2d8625', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: t('Lcz_TaxId', { fallback: 'Tax ID' }), placeholder: t('Lcz_TaxIdPlaceholder', { fallback: 'VAT 123456' }) })));
     }
     static get is() { return "ir-booking-company-form"; }
     static get encapsulation() { return "scoped"; }

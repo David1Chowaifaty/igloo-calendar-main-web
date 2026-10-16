@@ -1,0 +1,1 @@
+import{I as a,d as o}from"./ir-login-aside-calendar2.js";const r=a,s=o;export{r as IrLoginAsideCalendar,s as defineCustomElement}

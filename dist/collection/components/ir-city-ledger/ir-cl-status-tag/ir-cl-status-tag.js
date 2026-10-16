@@ -1,4 +1,5 @@
 import { Host, h } from "@stencil/core";
+import { t } from "../../../services/locale/index";
 const FD_VARIANT_MAP = {
     PAID: 'success',
     ISSUED: 'brand',
@@ -10,10 +11,15 @@ const FD_VARIANT_MAP = {
 function isFolioRow(tx) {
     return 'status' in tx && tx.status != null && typeof tx.status === 'object';
 }
+const LOCALIZED_STATUS_MAP = {
+    billed: t('Lcz_Billed', { fallback: 'Billed' }),
+    unbilled: t('Lcz_Unbilled', { fallback: 'Unbilled' }),
+    held: t('Lcz_Held', { fallback: 'Held' }),
+};
 function resolveStatus(tx) {
     if (isFolioRow(tx)) {
         return {
-            label: tx.status.label,
+            label: LOCALIZED_STATUS_MAP[tx.status.id],
             variant: tx.status.variant,
             showLock: tx.status.id === 'billed',
         };

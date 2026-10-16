@@ -1,4 +1,7 @@
 import { Fragment, Host, h } from "@stencil/core";
+import { t } from "../../../../services/locale/t";
+import { formatDate } from "../../../../utils/date/index";
+import { formatNumber } from "../../../../utils/number";
 export class IrStatusActivityCell {
     isRequestToCancel;
     status;
@@ -7,7 +10,15 @@ export class IrStatusActivityCell {
     lastManipulation;
     bookingNumber;
     render() {
-        return (h(Host, { key: 'cdddacc1f3ea1f78f501fb9cb40e5d621e6780d9' }, h("ir-booking-status-tag", { key: '42c4d767bf2acdef155e0caeeeaa5a67a9d3028c', status: this.status, isRequestToCancel: this.isRequestToCancel }), this.showModifiedBadge && h("p", { key: 'c9e8fef7317d3462e5747cc30a815a78953a4ef8', class: "status-activity__modified" }, "Modified"), this.showManipulationBadge && (h(Fragment, { key: 'a865f3f11647594a1e08074db43dfc4fc66c91e7' }, h("wa-tooltip", { key: 'da8481cbef52b927f33adb48594c7bfc3a21caff', for: `manipulation_badge_${this.bookingNumber}` }, `Modified by ${this.lastManipulation.user} at ${this.lastManipulation.date} ${this.lastManipulation.hour}:${this.lastManipulation.minute}`), h("p", { key: '372f52ef5c4ea96fd817a4e0d5b579ec1948915b', class: "status-activity__manipulation", id: `manipulation_badge_${this.bookingNumber}` }, "Modified")))));
+        return (h(Host, { key: '12f6b04a2545ec2b861555e72263000734ca38d0' }, h("ir-booking-status-tag", { key: '76eb6e1373adddc6fc36f7dfbb72c52ff85b8a57', status: this.status, isRequestToCancel: this.isRequestToCancel }), this.showModifiedBadge && h("p", { key: '4d2e85c2378a95bf2524a22cf7c853cfe3195f63', class: "status-activity__modified" }, t('Lcz_Modified', { fallback: 'Modified' })), this.showManipulationBadge && (h(Fragment, { key: 'c20f961fbbded497c563c30287b1b69c6bd20a5e' }, h("wa-tooltip", { key: 'c7877f4eca23f2d6c94645981074f25535ca70a6', for: `manipulation_badge_${this.bookingNumber}` }, t('Lcz_ModifiedByTooltip', {
+            fallback: 'Modified by %1 at %2 %3:%4',
+            params: [
+                this.lastManipulation.user,
+                formatDate(this.lastManipulation.date, 'MMM DD, YYYY'),
+                formatNumber(Number(this.lastManipulation.hour), { minimumIntegerDigits: 2, useGrouping: false }),
+                formatNumber(Number(this.lastManipulation.minute), { minimumIntegerDigits: 2, useGrouping: false }),
+            ],
+        })), h("p", { key: '5c792dcc4e99441d9ad5595adf92f254ad0d09a9', class: "status-activity__manipulation", id: `manipulation_badge_${this.bookingNumber}` }, t('Lcz_Modified', { fallback: 'Modified' }))))));
     }
     static get is() { return "ir-status-activity-cell"; }
     static get encapsulation() { return "scoped"; }

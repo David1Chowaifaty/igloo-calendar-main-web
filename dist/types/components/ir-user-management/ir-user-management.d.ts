@@ -16,14 +16,18 @@ export declare class IrUserManagement {
     users: User[];
     property_id: number;
     allowedUsersTypes: AllowedUser[];
-    private token;
+    private ApiClient;
     private roomService;
     private userService;
     private bookingService;
+    private setupService;
     private userTypes;
     private unsubscribeRealtime;
     private superAdminId;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
     handleResetData(e: CustomEvent): Promise<void>;
     private initializeApp;
@@ -34,5 +38,6 @@ export declare class IrUserManagement {
     private fetchUsers;
     private fetchUserTypes;
     disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     render(): any;
 }

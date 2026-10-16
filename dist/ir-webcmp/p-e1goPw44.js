@@ -1,1 +1,0 @@
-import{o,c as t}from"./p-Cvnhk41g.js";const a=o({roomtype_id:t.number(),unit_id:t.number(),rateplan_id:t.number()});export{a as S}

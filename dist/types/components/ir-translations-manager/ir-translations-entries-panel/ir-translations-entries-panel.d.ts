@@ -31,6 +31,7 @@ export declare class IrTranslationsEntriesPanel {
     createEntry: EventEmitter<void>;
     editEntry: EventEmitter<TranslationEntry>;
     duplicateEntry: EventEmitter<TranslationEntry>;
+    moveEntry: EventEmitter<TranslationEntry>;
     deleteEntry: EventEmitter<TranslationEntry>;
     entryChange: EventEmitter<TranslationEntry>;
     reorderEntries: EventEmitter<TranslationEntry[]>;

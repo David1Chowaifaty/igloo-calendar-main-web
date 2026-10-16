@@ -1,16 +1,15 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { IEntries } from "../../../models/IBooking";
+import { SetupEntries } from "../../../models/IBooking";
 export declare class IrMealReportFilters {
     reportType: 'GUEST_LIST' | 'MEAL_COUNT';
     fromDate: string;
     toDate: string;
     mealType: string | null;
     setupEntries: {
-        meal_type: IEntries[];
-        hb_preference: IEntries[];
+        meal_type: SetupEntries[];
+        hb_preference: SetupEntries[];
     };
     isLoading: boolean;
-    lcz: any;
     reportTypeChange: EventEmitter<'GUEST_LIST' | 'MEAL_COUNT'>;
     dateChange: EventEmitter<{
         from: string;

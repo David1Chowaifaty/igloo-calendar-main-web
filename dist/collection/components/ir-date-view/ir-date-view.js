@@ -1,7 +1,9 @@
-import locales from "../../stores/locales.store";
 import { calculateDaysBetweenDates } from "../../utils/booking";
+import { formatDate, toDate } from "../../utils/date/index";
+import { formatCount } from "../../utils/number";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
+import { t } from "../../services/locale/t";
 export class IrDateView {
     /** Raw from-date — accepts ISO string, JS Date, or Moment */
     from_date;
@@ -9,27 +11,19 @@ export class IrDateView {
     to_date;
     /** Show the night-count badge after the to-date */
     showDateDifference = true;
-    /** Input format used when `from_date` / `to_date` are plain strings */
-    dateOption = 'YYYY-MM-DD';
-    /** Display format for both dates */
-    format = 'MMM DD, YYYY';
-    formatDate(date) {
-        if (!date)
-            return '';
-        if (typeof date === 'string')
-            return moment(date, this.dateOption).format(this.format);
-        if (date instanceof Date)
-            return moment(date).format(this.format);
-        if (moment.isMoment(date))
-            return date.format(this.format);
-        return '';
-    }
+    /** Display style for both dates */
+    format = 'medium';
     render() {
-        const fromStr = this.formatDate(this.from_date);
-        const toStr = this.formatDate(this.to_date);
-        const diff = calculateDaysBetweenDates(moment(fromStr, this.format).format('YYYY-MM-DD'), moment(toStr, this.format).format('YYYY-MM-DD'));
-        const nightLabel = diff === 1 ? locales.entries.Lcz_Night : locales.entries.Lcz_Nights;
-        return (h(Host, { key: '9ce751ae478ee777f3a70d908803008373c1e6ae' }, h("span", { key: '31db22dd926a31524e56d85df09c551ebf380ff1', part: "base" }, h("span", { key: '76ff9874748081d62059c4c9c3e1862d55bff6ff', part: "from-date" }, fromStr), h("span", { key: 'bf8fc087ed9d3d42f1c76daeacfbabab61bb4b77', part: "separator", "aria-hidden": "true" }, h("svg", { key: 'd7c2d86dc5f16387733465afd70f23c7fdb4b25c', xmlns: "http://www.w3.org/2000/svg", part: "separator-icon", viewBox: "0 0 512 512", "aria-hidden": "true", focusable: "false" }, h("path", { key: 'fd731f5cec0cfa82ccb22032e582b6bf75dbd542', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" }))), h("span", { key: 'cc561156d00ece2d38da45f8730490f7bc8d0fae', part: "to-date" }, toStr), this.showDateDifference && diff > 0 && (h("span", { key: 'e2c5cc66c529dffc3cc8404486ae326d324f7883', part: "night-count" }, diff, "\u00A0", nightLabel)))));
+        const fromStr = formatDate(this.from_date, { style: this.format });
+        const toStr = formatDate(this.to_date, { style: this.format });
+        // Night-count is computed from the original values, never from the (possibly Hijri) display
+        // string — re-parsing display text with a display-locale parser breaks once formatting can
+        // switch calendar systems.
+        const fromISO = toDate(this.from_date);
+        const toISO = toDate(this.to_date);
+        const diff = fromISO && toISO ? calculateDaysBetweenDates(moment(fromISO).format('YYYY-MM-DD'), moment(toISO).format('YYYY-MM-DD')) : 0;
+        const nightLabel = diff === 1 ? t('Lcz_Night', { fallback: 'night' }) : t('Lcz_Nights', { fallback: 'nights' });
+        return (h(Host, { key: 'bf3d34c924fd8777c7f16fae8d791eed695acc57' }, h("span", { key: '6334fc2890e07cd9b9c9b534f371e77286d7c2fe', part: "base" }, h("span", { key: '751bb70f6a3632869e9b462cff98f20d582c9210', part: "from-date" }, fromStr), h("span", { key: 'fb0bebcd62a762641e472055dadc6165ad4faf23', part: "separator", "aria-hidden": "true" }, h("wa-icon", { key: '21bbf3f4e509b80e729c97be619fc8bb51bab2ef', class: "ir-flip-rtl", name: "arrow-right", part: "separator-icon", "aria-hidden": "true" })), h("span", { key: '92918b6634fd5bd952d8fae3fd0df5cd4547cb29', part: "to-date" }, toStr), this.showDateDifference && diff > 0 && (h("span", { key: '56869a121c6901ac07621b44f0c2346b909b37e5', part: "night-count" }, formatCount(diff), "\u00A0", nightLabel)))));
     }
     static get is() { return "ir-date-view"; }
     static get encapsulation() { return "shadow"; }
@@ -121,45 +115,32 @@ export class IrDateView {
                 "attribute": "show-date-difference",
                 "defaultValue": "true"
             },
-            "dateOption": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": "Input format used when `from_date` / `to_date` are plain strings"
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "date-option",
-                "defaultValue": "'YYYY-MM-DD'"
-            },
             "format": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
+                    "original": "DateStyle",
+                    "resolved": "\"day-only\" | \"long\" | \"medium\" | \"month-year\" | \"short\" | \"weekday-medium\"",
+                    "references": {
+                        "DateStyle": {
+                            "location": "import",
+                            "path": "@/utils/date",
+                            "id": "src/utils/date/index.ts::DateStyle",
+                            "referenceLocation": "DateStyle"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Display format for both dates"
+                    "text": "Display style for both dates"
                 },
                 "getter": false,
                 "setter": false,
                 "reflect": false,
                 "attribute": "format",
-                "defaultValue": "'MMM DD, YYYY'"
+                "defaultValue": "'medium'"
             }
         };
     }

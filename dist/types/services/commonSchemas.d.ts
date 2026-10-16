@@ -2,4 +2,11 @@ import { z } from 'zod';
 export declare const DateSchema: z.ZodEffects<z.ZodString, string, string>;
 export declare const PropertyIdSchema: z.ZodNumber;
 export declare const BookingNumberSchema: z.ZodString;
+export declare const LanguageSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+}, "strip", z.ZodTypeAny, {
+    language?: string;
+}, {
+    language?: string;
+}>;
 export declare const TaxTypesSchema: z.ZodOptional<z.ZodArray<z.ZodEnum<["VAT", "CITY_TAX", "SERVICE_CHARGE"]>, "many">>;

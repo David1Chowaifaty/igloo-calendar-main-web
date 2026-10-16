@@ -9,10 +9,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { ClickOutside } from "../../../decorators/ClickOutside";
-import locales from "../../../stores/locales.store";
 import { calculateDaysBetweenDates } from "../../../utils/booking";
 import { h } from "@stencil/core";
 import moment from "moment";
+import { formatDate } from "../../../utils/date/index";
+import { formatCount } from "../../../utils/number";
+import { t } from "../../../services/locale/t";
 /**
  * @component ir-date-range
  * @description An accessible, popup-based date-range picker.
@@ -178,13 +180,13 @@ export class IrDateRange {
         }
     }
     get formattedLabel() {
-        const from = moment(this.fromDate).format('MMM DD, YYYY');
-        const to = moment(this.toDate).format('MMM DD, YYYY');
+        const from = formatDate(this.fromDate, 'MMM DD, YYYY');
+        const to = formatDate(this.toDate, 'MMM DD, YYYY');
         return `${from} → ${to}`;
     }
     render() {
         const showNights = this.variant === 'booking' && this.withDateDifference;
-        return (h("wa-popup", { key: 'fa68658dfad39e7ea45d89b9506a1aa4380eec07', part: "popup", arrow: true, placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "igl-date-range__popup" }, h("div", { key: 'c33a2fc3ca64306f951b7e2d66454751e0d8b21b', slot: "anchor", part: "anchor", class: "igl-date-range__trigger" }, h("div", { key: '9cc8b7f90bc7ad0d12a09f23f29c86423b79e465', part: "combobox", class: "igl-date-range__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": "Select date range", onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("ir-input", { key: '0645718d17c08b03f3ab9e09c86f7362ba39eb19', part: "input", disabled: this.disabled, class: "igl-date-range__input", readonly: true, value: this.formattedLabel, "aria-invalid": this.isInvalid, "aria-expanded": String(this.isActive), "aria-disabled": this.disabled ? 'true' : undefined }, h("wa-icon", { key: '618ad0bfe1bb9fde8caba0a11f1ff178a384d22e', part: "calendar-icon", slot: "start", variant: "regular", name: "calendar" }), showNights && this.totalNights > 0 && (h("span", { key: '73385b1f060888b3bef1fdb5bf78111ca2c9169c', part: "nights-badge", slot: "end", class: "igl-date-range__nights" }, this.totalNights, " ", this.totalNights > 1 ? locales.entries.Lcz_Nights : locales.entries.Lcz_Night))))), h("div", { key: 'd3302d11720ca35d2577988be8a8bbf24d46894b', part: "body", id: this.popupId, class: "igl-date-range__calendar", role: "dialog", "aria-modal": "false", "aria-label": "Date range selection dialog" }, h("ir-custom-date-range", { key: 'ca65e08f131e45b5746eab6927c51e61ca2e83ad', part: "calendar", exportparts: "base: calendar-base, calendar, calendar-header, month-navigation, nav-prev, nav-next, month-label, weekday-row, weekday, days-grid, week-row, day-cell, day-button", style: { '--cal-button-size': '35px' }, fromDate: moment(this.fromDate), toDate: moment(this.toDate), minDate: this.minDate ? moment(this.minDate) : undefined, maxDate: this.maxDate ? moment(this.maxDate) : undefined, onDateChange: e => this.handleCustomDateChange(e) }))));
+        return (h("wa-popup", { key: '7c9912920f2227fe6a9b6797279cdec17ab0f243', part: "popup", arrow: true, placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "igl-date-range__popup" }, h("div", { key: '730daa52a34a7386e4a25431bf82b462337e5f8a', slot: "anchor", part: "anchor", class: "igl-date-range__trigger" }, h("div", { key: 'abc38fada352e965eeeb0eae36ffe48dddfb7032', part: "combobox", class: "igl-date-range__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": t('Lcz_SelectDateRange', { fallback: 'Select date range' }), onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("ir-input", { key: 'b33440c5727814dc96edb3982055696790612d1b', part: "input", disabled: this.disabled, class: "igl-date-range__input", readonly: true, value: this.formattedLabel, "aria-invalid": this.isInvalid, "aria-expanded": String(this.isActive), "aria-disabled": this.disabled ? 'true' : undefined }, h("wa-icon", { key: '8bf861777c9e5cac66c89c89adae30bc9a4ffadf', part: "calendar-icon", slot: "start", variant: "regular", name: "calendar" }), showNights && this.totalNights > 0 && (h("span", { key: 'cd9388040f9c8589fdd25d3d0d2c2ce3eea4ce19', part: "nights-badge", slot: "end", class: "igl-date-range__nights" }, formatCount(this.totalNights), " ", this.totalNights > 1 ? t('Lcz_Nights', { fallback: 'nights' }) : t('Lcz_Night', { fallback: 'night' })))))), h("div", { key: '2a4f61d8a3cb61e7ed8e07ce3046f0b4bad56cc1', part: "body", id: this.popupId, class: "igl-date-range__calendar", role: "dialog", "aria-modal": "false", "aria-label": t('Lcz_DateRangeSelectionDialog', { fallback: 'Date range selection dialog' }) }, h("ir-custom-date-range", { key: 'e903d5eddecbfd798e4b97e0648aacfccbb4dfb3', part: "calendar", exportparts: "base: calendar-base, calendar, calendar-header, month-navigation, nav-prev, nav-next, month-label, weekday-row, weekday, days-grid, week-row, day-cell, day-button", style: { '--cal-button-size': '35px' }, fromDate: moment(this.fromDate), toDate: moment(this.toDate), minDate: this.minDate ? moment(this.minDate) : undefined, maxDate: this.maxDate ? moment(this.maxDate) : undefined, onDateChange: e => this.handleCustomDateChange(e) }))));
     }
     static get is() { return "ir-date-range"; }
     static get encapsulation() { return "shadow"; }

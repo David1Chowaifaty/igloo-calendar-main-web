@@ -1,4 +1,4 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { checkUserAuthState, manageAnchorSession } from "../../utils/utils";
 import { Host, h } from "@stencil/core";
 export class IrBooking {
@@ -6,24 +6,24 @@ export class IrBooking {
     p;
     bookingNumber;
     isAuthenticated = false;
-    token = new Token();
+    ApiClient = new ApiClient();
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
         if (isAuthenticated) {
             this.isAuthenticated = true;
-            this.token.setToken(isAuthenticated.token);
+            this.ApiClient.setApiClient(isAuthenticated.ApiClient);
         }
     }
     handleAuthFinish(e) {
-        const token = e.detail.token;
-        this.token.setToken(token);
+        const ApiClient = e.detail.ApiClient;
+        this.ApiClient.setApiClient(ApiClient);
         this.isAuthenticated = true;
-        manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
+        manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, ApiClient } });
     }
     render() {
         if (!this.isAuthenticated)
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", ticket: this.token.getToken(), bookingNumber: this.bookingNumber })));
+        return (h(Host, null, h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", ticket: this.ApiClient.getToken(), bookingNumber: this.bookingNumber })));
     }
     static get is() { return "ir-booking"; }
     static get encapsulation() { return "scoped"; }

@@ -3,7 +3,7 @@ export declare class IrPdfViewer {
     private loadingTask;
     private pdf;
     private renderTask;
-    private loadToken;
+    private loadApiClient;
     private resizeObserver?;
     private resizeTimer?;
     el: HTMLElement;

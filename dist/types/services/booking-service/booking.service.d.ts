@@ -1,8 +1,8 @@
 import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRequest } from '../../models/booking.dto';
-import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../../models/IBooking';
+import { BookingDetails, DayType, IBlockUnit, ICountry, SetupEntries } from '../../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../../models/booking.dto';
 import { PaymentEntries } from "../../components/ir-booking-details/types";
-import { SimulateDirectBookingParams, type CalculateOptimBaseGrossAmountParams, type DoDayUseParams, type SetHbPreferenceProps, type SetDepartureTimeProps, type VoidPaymentProps, type RoomsToProcessResult, type CalculateExclusiveTaxProps, type AckExposedRevisionProps, type ExposedGuests, type GetBookingInvoiceInfoProps, type GetRoomsToCheckInProps, type GetRoomsToCheckOutProps, type IssueInvoiceProps, type PrintInvoiceProps, type VoidInvoiceProps, type SetArrivalTimeProps } from './types';
+import { SimulateDirectBookingParams, type CalculateOptimBaseGrossAmountParams, type DoDayUseParams, type SetHbPreferenceProps, type SetDepartureTimeProps, type VoidPaymentProps, type RoomsToProcessResult, type CalculateExclusiveTaxProps, type AckExposedRevisionProps, type ExposedGuests, type GetBookingInvoiceInfoProps, type GetRoomsToCheckInProps, type GetRoomsToCheckOutProps, type IssueInvoiceProps, type PrintInvoiceProps, type VoidInvoiceProps, type SetArrivalTimeProps, type GetCalendarDataParams } from './types';
 import { BookingInvoiceInfo } from "../../components/ir-invoice/types";
 export interface IBookingParams {
     bookedByInfoData: any;
@@ -34,10 +34,6 @@ export interface IBookingParams {
         value: string;
     }[] | null;
 }
-export type TableEntries = '_CALENDAR_BLOCKED_TILL' | '_DEPARTURE_TIME' | '_ARRIVAL_TIME' | '_RATE_PRICING_MODE' | '_BED_PREFERENCE_TYPE' | '_PAY_TYPE' | '_PAY_TYPE_GROUP' | '_PAY_METHOD' | '_AGENT_RATE_TYPE' | '_AGENT_TYPE' | '_TA_PAYMENT_METHOD' | '_VAT_INCLUDED' | '_CITY_TAX_INCLUDED' | '_SERVICE_CHARGE_INCLUDED' | '_TAXATION_STRATEGY' | '_SVC_CATEGORY' | '_VAT_INCLUDED' | '_CL_TX_TYPE' | '_FD_TYPE' | '_FD_STATUS' | '_CL_POST_TIMING' | '_GAP_RANGE' | '_GAP_RULE' | (string & {});
-export type GroupedTableEntries = {
-    [K in TableEntries as K extends `_${infer Rest}` ? Lowercase<Rest> : never]: IEntries[];
-};
 /**
  * Builds a grouped payment types record from raw entries and groups.
  *
@@ -53,7 +49,7 @@ export type GroupedTableEntries = {
  * //   ...
  * // }
  */
-export declare function buildPaymentTypes(paymentEntries: PaymentEntries): Record<string, IEntries[]>;
+export declare function buildPaymentTypes(paymentEntries: PaymentEntries): Record<string, SetupEntries[]>;
 export declare class BookingService {
     unBlockUnitByPeriod(props: {
         unit_id: number;
@@ -98,7 +94,12 @@ export declare class BookingService {
     }): Promise<any>;
     getLov(): Promise<any>;
     sendBookingConfirmationEmail(booking_nbr: string, language: string): Promise<any>;
-    getCalendarData(propertyid: number, from_date: string, to_date: string): Promise<{
+    /** Properties served by the V4 calendar endpoint, which returns `My_Result` as a JSON string. */
+    private getExposedCalendarRoute;
+    private postExposedCalendar;
+    /** Raw calendar days for the range, without the booking mapping `getCalendarData` does. */
+    fetchExposedCalendarDays(params: GetCalendarDataParams): Promise<DayType[]>;
+    getCalendarData(params: GetCalendarDataParams): Promise<{
         [key: string]: any;
     }>;
     handleExposedRoomGuests(props: HandleExposedRoomGuestsRequest): Promise<any>;
@@ -138,17 +139,12 @@ export declare class BookingService {
     private modifyRateplans;
     private sortVariations;
     getCountries(language: string): Promise<ICountry[]>;
-    getSetupEntriesByTableName(TBL_NAME: TableEntries): Promise<IEntries[]>;
-    fetchSetupEntries(): Promise<ISetupEntries>;
     doBookingExtraService({ booking_nbr, service, is_remove }: {
         service: ExtraService;
         booking_nbr: number | string;
         is_remove: boolean;
     }): Promise<any>;
     setArrivalTime(props: SetArrivalTimeProps): Promise<any>;
-    groupEntryTablesResult(entries: IEntries[]): GroupedTableEntries;
-    getSetupEntriesByTableNameMulti(entries: TableEntries[]): Promise<IEntries[]>;
-    getBlockedInfo(): Promise<IEntries[]>;
     getUserDefaultCountry(): Promise<any>;
     blockUnit(params: IBlockUnit): Promise<any>;
     blockAvailabilityForBrackets(params: {
@@ -174,6 +170,7 @@ export declare class BookingService {
         withExtras?: boolean;
         include_dp_pricing?: boolean;
     }): Promise<Booking>;
+    /** One entry per night from `from_date` up to (not including) `to_date`, both `YYYY-MM-DD`. */
     private generateDays;
     private calculateTotalRate;
     fetchExposedGuest(email: string, property_id: number): Promise<ExposedGuests>;

@@ -13,14 +13,19 @@ export declare class IrDailyRevenue {
     filters: DailyPaymentFilter;
     sideBarEvent: SidebarOpenEvent | null;
     sources: RevenueSourceOption[];
-    private tokenService;
+    private apiClientService;
     private roomService;
     private propertyService;
-    private bookingService;
+    private setupService;
     private bookingListingService;
     private paymentEntries;
     preventPageLoad: EventEmitter<null>;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     ticketChanged(newValue: string, oldValue: string): void;
     handleOpenSidebar(e: CustomEvent<SidebarOpenEvent>): void;
     handleFetchNewReports(e: CustomEvent<DailyPaymentFilter>): void;

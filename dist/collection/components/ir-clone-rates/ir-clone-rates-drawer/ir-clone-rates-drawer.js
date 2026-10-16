@@ -1,3 +1,4 @@
+import { t } from "../../../services/locale/index";
 import { h } from "@stencil/core";
 export class IrCloneRatesDrawer {
     open = false;
@@ -13,11 +14,11 @@ export class IrCloneRatesDrawer {
         this.cloneRatesDrawerClosed.emit();
     };
     render() {
-        return (h("ir-drawer", { key: 'e53a7298b6aff15c97d31473d601d55fee1605dc', open: this.open, label: "Copy rates to future dates", onDrawerHide: this.handleDrawerHide }, this.open && (h("ir-clone-rates", { key: 'e9554a8c348dfbb79c7214d6b6e4268e1d5bc424', mode: "drawer", ticket: this.ticket, p: this.p, language: this.language, propertyid: this.propertyid, onRatesCloned: e => {
+        return (h("ir-drawer", { key: 'e0a22c763b61b6aa353d6a396d82510a7b361395', open: this.open, label: t('Lcz_CopyRatesToFutureDates'), onDrawerHide: this.handleDrawerHide }, this.open && (h("ir-clone-rates", { key: 'adf1b642816c5104307d19a474b63d6c43ae9237', mode: "drawer", ticket: this.ticket, p: this.p, language: this.language, propertyid: this.propertyid, onRatesCloned: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.cloneRatesDrawerClosed.emit();
-            } })), h("div", { key: '05a78aa3404e34baf88fde61da44ccea168c382c', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'e098eb1a686d2d5bca4ce3767b374dbb6454cc85', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, "Cancel"), h("ir-custom-button", { key: 'b1b34e28d57c0cd2d0a8e43ceb641707f51b96c3', size: "m", variant: "brand", type: "submit", form: "clone-rates-form" }, "Review"))));
+            } })), h("div", { key: '3f825f9f8c921b6ce0141f4452d3b7b3d9f5695b', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'adcd11637daad91905a0e41e4ee3961988ff373a', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel')), h("ir-custom-button", { key: '531f9dceda34aa3d6c4a4d96a934f080ecd68d27', size: "m", variant: "brand", type: "submit", form: "clone-rates-form" }, t('Lcz_Review')))));
     }
     static get is() { return "ir-clone-rates-drawer"; }
     static get encapsulation() { return "scoped"; }

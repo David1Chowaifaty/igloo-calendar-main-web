@@ -1,5 +1,5 @@
 import { Fragment, h } from "@stencil/core";
-import Token from "../../../../models/Token";
+import ApiClient from "../../../../models/ApiClient";
 import booking_store, { hasAtLeastOneRoomSelected, resetAvailability, resetBookingStore, resetReserved, setBookingDraft, setDayUseSelection } from "../../../../stores/booking.store";
 import calendar_data from "../../../../stores/calendar-data";
 import moment from "moment";
@@ -7,10 +7,13 @@ import { getReleaseHoursString } from "../../../../utils/utils";
 import { getDayUseUnitAvailability } from "../../../../utils/booking";
 import { BookingService } from "../../../../services/booking-service/booking.service";
 import { IRBookingEditorService } from "../ir-booking-editor.service";
+import { LocaleController } from "../../../../services/locale/locale.controller";
+import { t } from "../../../../services/locale/t";
 export class IrBookingEditorDrawer {
+    el;
     /** Controls drawer visibility (reflected to DOM). */
     open;
-    /** Auth token used for API requests. */
+    /** Auth ApiClient used for API requests. */
     ticket;
     /** Property identifier. */
     propertyid;
@@ -42,7 +45,7 @@ export class IrBookingEditorDrawer {
     isLoading;
     /** Emitted when the booking editor drawer is closed. */
     bookingEditorClosed;
-    token = new Token();
+    ApiClient = new ApiClient();
     bookingService = new BookingService();
     bookingEditorService = new IRBookingEditorService();
     wasBlockedUnit = false;
@@ -51,8 +54,8 @@ export class IrBookingEditorDrawer {
     /** Bumped on every open so each session mounts a fresh `ir-booking-editor`. */
     sessionKey = 0;
     componentWillLoad() {
-        if (this.token) {
-            this.token.setToken(this.ticket);
+        if (this.ApiClient) {
+            this.ApiClient.setApiClient(this.ticket);
         }
         this.initializeBlockedUnitState(this.blockedUnit);
         if (this.open) {
@@ -98,8 +101,8 @@ export class IrBookingEditorDrawer {
         setBookingDraft({ dayUseHours: { ...booking_store.bookingDraft.dayUseHours, from: moment().add(1, 'hour').format('HH:mm') } });
     }
     handleTicketChange() {
-        if (this.token) {
-            this.token.setToken(this.ticket);
+        if (this.ApiClient) {
+            this.ApiClient.setApiClient(this.ticket);
         }
     }
     handleBlockedUnitChange(newValue) {
@@ -170,20 +173,20 @@ export class IrBookingEditorDrawer {
     }
     get drawerLabel() {
         if (booking_store.bookingDraft.dayUse && ['PLUS_BOOKING'].includes(this.mode)) {
-            return 'Day-Use Booking';
+            return t('Lcz_DayUseBookingTitle', { fallback: 'Day-Use Booking' });
         }
         if (this.label) {
             return this.label;
         }
         switch (this.mode) {
             case 'EDIT_DAY_USE':
-                return 'Edit Day Use Booking';
+                return t('Lcz_EditDayUseBookingTitle', { fallback: 'Edit Day Use Booking' });
             case 'SPLIT_BOOKING':
             case 'BAR_BOOKING':
             case 'ADD_ROOM':
             case 'EDIT_BOOKING':
             case 'PLUS_BOOKING':
-                return 'New Booking';
+                return t('Lcz_NewBooking', { fallback: 'New Booking' });
         }
     }
     handleDayUseToggle(value) {
@@ -229,11 +232,11 @@ export class IrBookingEditorDrawer {
         const isNewDayUseBooking = this.mode === 'PLUS_BOOKING' && booking_store.bookingDraft.dayUse;
         const dayUseUnitHasUpcomingCheckIn = isNewDayUseBooking && getDayUseUnitAvailability(booking_store.dayUseSelection?.unit?.calendar_cell).hasUpcomingCheckIn;
         const showBookAndBlockTheNight = booking_store.bookingDraft.dayUse && ['BAR_BOOKING', 'PLUS_BOOKING'].includes(this.mode) && !dayUseUnitHasUpcomingCheckIn;
-        return (h(Fragment, null, h("ir-custom-button", { onClickHandler: this.goToDetails, size: "m", appearance: "filled", variant: "neutral" }, "Back"), showBookAndBlockTheNight && (h("ir-custom-button", { disabled: false, form: "new_booking_form", loading: this.isLoading === 'book&block', value: "book&block", type: "submit", size: "m", appearance: 'outlined', variant: "brand" }, "Book and block the night")), h("ir-custom-button", { loading: this.isLoading === 'book', value: "book", form: "new_booking_form", disabled: false, type: "submit", size: "m", appearance: showBookAndBlockTheNight ? 'accent' : hasCheckIn ? 'outlined' : 'accent', variant: "brand" }, "Book"), hasCheckIn && !booking_store.bookingDraft.dayUse && (h("ir-custom-button", { loading: this.isLoading === 'book-checkin', value: "book-checkin", form: "new_booking_form", type: "submit", size: "m", appearance: "accent", variant: "brand" }, "Book and check-in"))));
+        return (h(Fragment, null, h("ir-custom-button", { onClickHandler: this.goToDetails, size: "m", appearance: "filled", variant: "neutral" }, t('Lcz_Back', { fallback: 'Back' })), showBookAndBlockTheNight && (h("ir-custom-button", { disabled: false, form: "new_booking_form", loading: this.isLoading === 'book&block', value: "book&block", type: "submit", size: "m", appearance: 'outlined', variant: "brand" }, t('Lcz_BookAndBlockTheNight', { fallback: 'Book and block the night' }))), h("ir-custom-button", { loading: this.isLoading === 'book', value: "book", form: "new_booking_form", disabled: false, type: "submit", size: "m", appearance: showBookAndBlockTheNight ? 'accent' : hasCheckIn ? 'outlined' : 'accent', variant: "brand" }, t('Lcz_Book', { fallback: 'Book' })), hasCheckIn && !booking_store.bookingDraft.dayUse && (h("ir-custom-button", { loading: this.isLoading === 'book-checkin', value: "book-checkin", form: "new_booking_form", type: "submit", size: "m", appearance: "accent", variant: "brand" }, t('Lcz_BookAndChekcIn', { fallback: 'Book & check In' })))));
     }
     renderDetailsActions() {
         const haveRoomSelected = hasAtLeastOneRoomSelected();
-        return (h(Fragment, null, h("ir-custom-button", { "data-drawer": "close", size: "m", appearance: "filled", variant: "neutral" }, "Cancel"), !booking_store.bookingDraft.dayUse && ['PLUS_BOOKING', 'ADD_ROOM'].includes(this.mode) && (h(Fragment, null, !haveRoomSelected && h("wa-tooltip", { for: "booking_editor__next-button" }, "Please select at least one unit to continue."), h("ir-custom-button", { id: "booking_editor__next-button", disabled: !haveRoomSelected, onClickHandler: this.goToConfirm, size: "m", appearance: "accent", variant: "brand" }, "Next")))));
+        return (h(Fragment, null, h("ir-custom-button", { "data-drawer": "close", size: "m", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Cancel' })), !booking_store.bookingDraft.dayUse && ['PLUS_BOOKING', 'ADD_ROOM'].includes(this.mode) && (h(Fragment, null, !haveRoomSelected && (h("wa-tooltip", { for: "booking_editor__next-button" }, t('Lcz_PleaseSelectAtLeastOneUnitToContinue', { fallback: 'Please select at least one unit to continue.' }))), h("ir-custom-button", { id: "booking_editor__next-button", disabled: !haveRoomSelected, onClickHandler: this.goToConfirm, size: "m", appearance: "accent", variant: "brand" }, t('Lcz_Next', { fallback: 'Next' }))))));
     }
     async closeDrawer() {
         if (this.wasBlockedUnit && !this.didAdjustBlockedUnit) {
@@ -330,7 +333,7 @@ export class IrBookingEditorDrawer {
                     adult: 2,
                     child: 0,
                 },
-                language: this.language,
+                language: LocaleController.languageFor(this.el),
                 room_type_ids: roomTypeIds,
                 currency: calendar_data.property?.currency,
             });
@@ -352,7 +355,7 @@ export class IrBookingEditorDrawer {
         }
     }
     render() {
-        return (h("ir-drawer", { key: '2e5f59acbaa68b1ff6531afef19c593e29e216eb', onDrawerHide: async (event) => {
+        return (h("ir-drawer", { key: '0882ce2c4f1b0b3be0eb5331aa37399700a64ab7', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -363,7 +366,7 @@ export class IrBookingEditorDrawer {
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: 'db2abd8d81e0dca0d0a7322c062c33c26f0fa256', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: '70d128818ebc19a79aac95160ac9d45780ec19c7', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: 'a3f14fa13867d51fc374ece599339a7fdc268de6', appearance: "button", value: "manual" }, "Stay"), h("wa-radio", { key: 'e796de0c5ec0bb87112b7391e018e92194dd3849', appearance: "button", value: "day-use" }, "Day-use")))), this.open && this.ticket && (h("ir-booking-editor", { key: `booking-editor-${this.sessionKey}`, onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: '2169db7a1fe7439cfedd5a0b251b1f4dfe819095', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: 'a3a6334566db74701aba74f1b01fe256b6c07895', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: '71c44d80d78091e5f03895713620739c2fec5e4a', appearance: "button", value: "manual" }, t('Lcz_Stay', { fallback: 'Stay' })), h("wa-radio", { key: 'acc7f680421ab2de69ad03d4ccb87b83ef477851', appearance: "button", value: "day-use" }, t('Lcz_DayUseHyphen', { fallback: 'Day-use' }))))), this.open && this.ticket && (h("ir-booking-editor", { key: `booking-editor-${this.sessionKey}`, onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -371,7 +374,7 @@ export class IrBookingEditorDrawer {
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: '0c245bd047bfc9893b78ee111e56726693329210', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: '63374b056400c3366fdd2b02440c1bd86d451325', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get is() { return "ir-booking-editor-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -418,7 +421,7 @@ export class IrBookingEditorDrawer {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Auth token used for API requests."
+                    "text": "Auth ApiClient used for API requests."
                 },
                 "getter": false,
                 "setter": false,
@@ -677,7 +680,7 @@ export class IrBookingEditorDrawer {
                 "mutable": false,
                 "complexType": {
                     "original": "ExtraService",
-                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; room_identifier?: string; booking_system_id?: number; cost?: number; end_date?: string; start_date?: string; price?: number; category?: { code?: string; }; pr_id?: number; from_time?: string; to_time?: string; charges?: { city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; total_amount?: number; vat_amount?: number; vat_percent?: number; }; }",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; charges?: { total_amount?: number; city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; vat_amount?: number; vat_percent?: number; }; cost?: number; room_identifier?: string; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; pr_id?: number; from_time?: string; to_time?: string; }",
                     "references": {
                         "ExtraService": {
                             "location": "import",
@@ -722,6 +725,7 @@ export class IrBookingEditorDrawer {
                 }
             }];
     }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
                 "propName": "open",

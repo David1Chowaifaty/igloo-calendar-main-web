@@ -1,30 +1,37 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { AuthService } from "../../services/authenticate.service";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { Host, h } from "@stencil/core";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrLogin {
+    language = 'en';
     username;
     password;
     showPassword = false;
     authFinish;
     authService = new AuthService();
-    token = new Token();
+    ApiClient = new ApiClient();
+    componentWillLoad() {
+        LocaleController.load({ language: this.language, tables: SCREEN_TABLES.login });
+    }
     async handleSignIn(e) {
         e.preventDefault();
         try {
-            const token = await this.authService.authenticate({
+            const ApiClient = await this.authService.authenticate({
                 password: this.password,
                 username: this.username,
             });
-            this.token.setToken(token);
-            this.authFinish.emit({ token, code: 'succsess' });
+            this.ApiClient.setApiClient(ApiClient);
+            this.authFinish.emit({ ApiClient, code: 'succsess' });
         }
         catch (error) {
             console.log(error.message);
         }
     }
     render() {
-        return (h(Host, { key: '2517d780e90431a67fd3d3a6a3f4e4b057e95df2' }, h("ir-interceptor", { key: '5b1e34ccb5b8f6cd14c5699f408423a4cfb934b8' }), h("ir-toast", { key: 'bdf2b1a65229b605311d6661b4e98e489fbf4e9b' }), h("form", { key: 'cac5803e4e25ecbe16e878734afcfa91c6dbcc05', onSubmit: this.handleSignIn.bind(this), class: "card form-container px-2" }, h("img", { key: '6e47b456440d93acd2081d3e3a307f9d95d0bf70', class: "logo", src: "https://x.igloorooms.com/app-assets/images/logo/logo-dark.png", alt: "Login to igloorooms extranet" }), h("div", { key: '25e5b6c6cb96a2f1a7a07de912720e0ad2b1fbdf', class: "separator-container" }, h("div", { key: 'e209c23b6377550fb5e2056e2d2d569a78906b4c', class: "separator" }), h("p", { key: '59cc42b7ce910d4f7e94402ec2cefef6de022e0a' }, "Sign in to manage your property"), h("div", { key: 'dbe2437822597dd22484589997b29e530086f7fe', class: "separator" })), h("ir-input-text", { key: 'af64867630c6f5b5cf9d9ecde6a9f02d164c03d9', value: this.username, onTextChange: e => (this.username = e.detail), variant: "icon", label: "", placeholder: "Username" }, h("ir-icons", { key: '824d9859ca1c7a847788fa6b6fb3568325f99050', name: "user", slot: "icon" })), h("div", { key: '60973c04c0c43913404477016493f0c01692d8be', class: 'position-relative' }, h("ir-input-text", { key: 'fc33289eb9da047f136b001d94e484954997d530', value: this.password, onTextChange: e => (this.password = e.detail), variant: "icon", label: "", placeholder: "Password", type: this.showPassword ? 'text' : 'password' }, h("ir-icons", { key: 'c017fd88919e063e54932a0d322109e3061cdf90', name: "key", slot: "icon" })), h("button", { key: '0c455c1551b804002db452353f91ea30cae168b8', type: "button", class: "password_toggle", onClick: () => (this.showPassword = !this.showPassword) }, h("ir-icons", { key: '6b01358e4012123c6fc6fe374ad463b762b5abb4', name: !this.showPassword ? 'open_eye' : 'closed_eye' }))), h("ir-button", { key: '6793820ed834d9a0e1bec49771944133afbdbb6b', isLoading: isRequestPending('/Authenticate'), btn_type: "submit", iconPosition: "left", icon_name: "unlock", text: 'Login', size: "md", class: "login-btn" }), h("div", { key: '51e0ddb03e88a82a8d36bcb1fc9476b6cc14f2a7', class: "card-body text-center p-0 app_links" }, h("a", { key: '8b3d50e03604dc624b26c27e7c3f935236df5927', href: "https://apps.apple.com/lb/app/igloorooms/id1607846173", target: "_new" }, h("img", { key: 'c022bda32c92185cca313c8ea9a7bd9f8a581c64', src: "https://x.igloorooms.com/assets/images/svg/AppStore_ios.svg", alt: "Install igloorooms iOS App" })), h("a", { key: 'bd093e3e0064870824dd5e41df143c806e1f11e4', href: "https://play.google.com/store/apps/details?id=com.iglooroomsapp", target: "_new" }, h("img", { key: 'fc71ffdaedfd5eb3f8a859d2489ab026e49d4265', src: "https://x.igloorooms.com/assets/images/svg/AppStore_android.svg", alt: "Install igloorooms Android App" }))), h("a", { key: '5e533943e7d384f39896f4ee1216b22c8747b6d4', href: "https://info.igloorooms.com/signup", class: "btn btn-outline-danger btn-block btn-md mt-2", target: "_new" }, "New to igloorooms?"), h("p", { key: 'a0373af5885093d8ad1c99b1ddabf26231cfdbc2', class: 'font-small-3  my-1' }, "By logging in, you accept our", ' ', h("span", { key: '88cac980e2a977e715d3df64492dd3846816dae3' }, h("a", { key: 'de2bd145a450f1d5c841ecbde4b8a0e83ff76f7d', href: "https://info.igloorooms.com/privacy/", target: "_new" }, "Privacy and Cookies Policies")), ' ', "Need help? support@igloorooms.com"))));
+        return (h(Host, { key: 'dd325af0f8315137113dce8c380d5a93aa08fec3' }, h("ir-interceptor", { key: '397de7d6d15e55edab3ae6d2a1d32247aa2c903a' }), h("ir-toast", { key: '81593fb72877d740947f2faf7e74deffea7500ba' }), h("form", { key: 'cc592caba26ae821f043e4183d89fa291fc26cce', onSubmit: this.handleSignIn.bind(this), class: "card form-container px-2" }, h("img", { key: 'e5f46d57eda21dd7f4a6ae6dda5cd7622cc2801f', class: "logo", src: "https://x.igloorooms.com/app-assets/images/logo/logo-dark.png", alt: t('Lcz_LoginToIglooroomsExtranet', { fallback: 'Login to igloorooms extranet' }) }), h("div", { key: 'db831f31e02caf5cb0fd262520190c98931cbc0b', class: "separator-container" }, h("div", { key: '37051a4150d48fe9b5ed6a01ddea345b5a0938a0', class: "separator" }), h("p", { key: 'cc3161d56c186d683fad62f7bc996c8386230e64' }, t('Lcz_SignInToManageYourProperty', { fallback: 'Sign in to manage your property' })), h("div", { key: 'fc84ede29eb3ef751c23a7f6f43d36b753010cfd', class: "separator" })), h("ir-input-text", { key: '9fe0e659583b97fdea19fcc5fd3b5dd05b6a4f0a', value: this.username, onTextChange: e => (this.username = e.detail), variant: "icon", label: "", placeholder: t('Lcz_Username', { fallback: 'Username' }) }, h("ir-icons", { key: '2a028c6a8eb0505c9b2539ae8d8bc56caefde189', name: "user", slot: "icon" })), h("div", { key: 'bebfa144c696b142372b6bf584f8fef230bb74b3', class: 'position-relative' }, h("ir-input-text", { key: '3906a5cb36a3ff550520a903c340cf4e60b3ee65', value: this.password, onTextChange: e => (this.password = e.detail), variant: "icon", label: "", placeholder: t('Lcz_Password', { fallback: 'Password' }), type: this.showPassword ? 'text' : 'password' }, h("ir-icons", { key: 'e36e455603449145cd4b018692764085e671bda9', name: "key", slot: "icon" })), h("button", { key: 'c95db12e623f695cb4b7a22337188cb88b9e1df4', type: "button", class: "password_toggle", onClick: () => (this.showPassword = !this.showPassword) }, h("ir-icons", { key: 'b540ddd07180957c1bf2e6d0636139f142427b41', name: !this.showPassword ? 'open_eye' : 'closed_eye' }))), h("ir-button", { key: '2f8c588da6aa677d12dcb7e82a632a7231419ebe', isLoading: isRequestPending('/Authenticate'), btn_type: "submit", iconPosition: "left", icon_name: "unlock", text: t('Lcz_Login', { fallback: 'Login' }), size: "md", class: "login-btn" }), h("div", { key: 'cd98528226ca494a7ed110f04f604484de4b4b9e', class: "card-body text-center p-0 app_links" }, h("a", { key: 'b32541d77df3a75093ff58cc6d96cdc5143a2149', href: "https://apps.apple.com/lb/app/igloorooms/id1607846173", target: "_new" }, h("img", { key: '1945cd5c4aa6b7fd87f67c8d84cf590edf4a48f7', src: "https://x.igloorooms.com/assets/images/svg/AppStore_ios.svg", alt: t('Lcz_InstallIglooroomsIosApp', { fallback: 'Install igloorooms iOS App' }) })), h("a", { key: '8e01e9a26db35334a268f44b5cc98bc2be491535', href: "https://play.google.com/store/apps/details?id=com.iglooroomsapp", target: "_new" }, h("img", { key: '311fbe6e2cc862bb9d1abe8d0cf0a770e55fa1d5', src: "https://x.igloorooms.com/assets/images/svg/AppStore_android.svg", alt: t('Lcz_InstallIglooroomsAndroidApp', { fallback: 'Install igloorooms Android App' }) }))), h("a", { key: 'aa9ed30ba46e0e50ea8daa3c397f4c17483f482b', href: "https://info.igloorooms.com/signup", class: "btn btn-outline-danger btn-block btn-md mt-2", target: "_new" }, t('Lcz_NewToIgloorooms', { fallback: 'New to igloorooms?' })), h("p", { key: '665946d381ffce6b151b23d98b5eef068facae95', class: 'font-small-3  my-1' }, t('Lcz_ByLoggingInYouAccept', { fallback: 'By logging in, you accept our' }), ' ', h("span", { key: 'de00756c5901797931ec1f73fe04e79912ccfb2b' }, h("a", { key: 'd2dd56003277b18a1540fc7336988fd3d63d3d21', href: "https://info.igloorooms.com/privacy/", target: "_new" }, t('Lcz_PrivacyAndCookiesPolicies', { fallback: 'Privacy and Cookies Policies' }))), ' ', t('Lcz_NeedHelpContactSupport', { fallback: 'Need help? support@igloorooms.com' })))));
     }
     static get is() { return "ir-login"; }
     static get encapsulation() { return "scoped"; }
@@ -36,6 +43,30 @@ export class IrLogin {
     static get styleUrls() {
         return {
             "$": ["ir-login.css"]
+        };
+    }
+    static get properties() {
+        return {
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "language",
+                "defaultValue": "'en'"
+            }
         };
     }
     static get states() {
@@ -57,8 +88,8 @@ export class IrLogin {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "{\n    token: string;\n    code: 'succsess' | 'error';\n  }",
-                    "resolved": "{ token: string; code: \"error\" | \"succsess\"; }",
+                    "original": "{\n    ApiClient: string;\n    code: 'succsess' | 'error';\n  }",
+                    "resolved": "{ ApiClient: string; code: \"error\" | \"succsess\"; }",
                     "references": {}
                 }
             }];

@@ -1,5 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { formatAmount } from "../../../../utils/utils";
+import { t } from "../../../../services/locale/t";
 export class IrBookingAssignItems {
     items = [];
     checkedItems = new Set();
@@ -21,7 +22,7 @@ export class IrBookingAssignItems {
                 if (!e.target.closest('wa-checkbox')) {
                     this.toggleItem(item.key);
                 }
-            } }, h("wa-checkbox", { checked: checked, onchange: () => this.toggleItem(item.key) }), h("div", { class: "assign-item__text" }, h("div", { class: "assign-item__room-header" }, h("span", { class: "assign-item__label" }, item.label), item.ratePlanShortName && h("span", { class: "assign-item__rateplan" }, item.ratePlanShortName), item.unitName && h("ir-unit-tag", { unit: item.unitName }), item.isNonRefundable && h("span", { class: "assign-item__badge assign-item__badge--nr" }, "Non-refundable")), item.fromDate && item.toDate && (h("ir-date-view", { class: "assign-item__date", format: "ddd, MMM DD, YYYY", from_date: item.fromDate, to_date: item.toDate, showDateDifference: false })))));
+            } }, h("wa-checkbox", { checked: checked, onchange: () => this.toggleItem(item.key) }), h("div", { class: "assign-item__text" }, h("div", { class: "assign-item__room-header" }, h("span", { class: "assign-item__label" }, item.label), item.ratePlanShortName && h("span", { class: "assign-item__rateplan" }, item.ratePlanShortName), item.unitName && h("ir-unit-tag", { unit: item.unitName }), item.isNonRefundable && h("span", { class: "assign-item__badge assign-item__badge--nr" }, t('Lcz_NonRefundable', { fallback: 'Non-refundable' }))), item.fromDate && item.toDate && (h("ir-date-view", { class: "assign-item__date", format: "weekday-medium", from_date: item.fromDate, to_date: item.toDate, showDateDifference: false })))));
     }
     renderCheckItem(item) {
         const checked = this.checkedItems.has(item.key);
@@ -39,13 +40,13 @@ export class IrBookingAssignItems {
                 }
             } }, h("wa-checkbox", { defaultChecked: checked, checked: checked, onchange: () => {
                 this.toggleItem(item.key);
-            } }), h("div", { class: "assign-item__text" }, h("div", { class: "assign-item__room-header" }, h("span", { class: "assign-item__label" }, item.label), item.price != null && item.price > 0 && h("span", { class: "assign-item__rateplan" }, formatAmount(item.currencySymbol, item.price))), item.fromDate && (h("ir-date-view", { class: "assign-item__date", format: "ddd, MMM DD, YYYY", from_date: item.fromDate, to_date: item.toDate, showDateDifference: false })))));
+            } }), h("div", { class: "assign-item__text" }, h("div", { class: "assign-item__room-header" }, h("span", { class: "assign-item__label" }, item.label), item.price != null && item.price > 0 && h("span", { class: "assign-item__rateplan" }, formatAmount(item.currencySymbol, item.price))), item.fromDate && (h("ir-date-view", { class: "assign-item__date", format: "weekday-medium", from_date: item.fromDate, to_date: item.toDate, showDateDifference: false })))));
     }
     render() {
         const rooms = this.items.filter(i => i.type === 'room');
         const pickups = this.items.filter(i => i.type === 'pickup');
         const extras = this.items.filter(i => i.type === 'extra');
-        return (h(Host, { key: '8c1fb7d5b1a6d821247e712d6c4b23199a0e48c6', size: "s" }, h("div", { key: 'a54eebbe6bf197c475dd8bdab725fbe7d0567aea', class: "assign-container" }, h("p", { key: 'e089a9923157733e7ce9f8b63810bc9a07f0483b', class: "assign-intro" }, "Select services for the Agent folio; others remain on the Guest folio."), rooms.length > 0 && (h("div", { key: 'edc68d385e0daa11fa3a7da66867b479e6827db5', class: "assign-section" }, h("p", { key: '9da4739471cd19d3dbac73f124e0237ba049f21c', class: "assign-section__label" }, "Accommodation"), rooms.map(item => this.renderRoomItem(item)))), pickups.length > 0 && (h("div", { key: 'ecde460db2cb10dff6a14ec52b3cde97dacb9162', class: "assign-section" }, h("p", { key: 'e70237fd22e1809fc45b8e6618b1f84eae0dcfa9', class: "assign-section__label" }, "Pickup"), pickups.map(item => this.renderCheckItem(item)))), extras.length > 0 && (h("div", { key: '8a2795a9c02c4473fbe709dbd8a45c4b5de692f7', class: "assign-section" }, h("p", { key: 'b4a1c8007a3170ce47720bdfda09dd2719a751c5', class: "assign-section__label" }, "Extra Services"), extras.map(item => this.renderExtraItem(item)))))));
+        return (h(Host, { key: '9f07e0e808abe3171d002b6d44b5efd60270887f', size: "s" }, h("div", { key: '8680c6239ac0238a34b2ef16b026d0211e9439e1', class: "assign-container" }, h("p", { key: '9f7aaaf6b33e42e04d82a59a06fbfadc7f1204cc', class: "assign-intro" }, t('Lcz_AssignItemsIntro', { fallback: 'Select services for the Agent folio; others remain on the Guest folio.' })), rooms.length > 0 && (h("div", { key: 'a9d6f443a973d9ac7f6353e934b7a362155f1f7f', class: "assign-section" }, h("p", { key: '3091f8359cbc9c9d7d536b9732c40d752ee60463', class: "assign-section__label" }, t('Lcz_Accommodation', { fallback: 'Accommodation' })), rooms.map(item => this.renderRoomItem(item)))), pickups.length > 0 && (h("div", { key: '03999259e6c273386b397361d0c365cc090bb245', class: "assign-section" }, h("p", { key: '85ac86be34c85d8ba0706ce2ac23b472a3e48555', class: "assign-section__label" }, t('Lcz_Pickup', { fallback: 'Pickup' })), pickups.map(item => this.renderCheckItem(item)))), extras.length > 0 && (h("div", { key: '3f6f4962275572f102a2dc5cec7181b8751ca826', class: "assign-section" }, h("p", { key: '8f1c8f5eab53258165a51e78a8df0564ee195880', class: "assign-section__label" }, t('Lcz_ExtraServicesTitle', { fallback: 'Extra Services' })), extras.map(item => this.renderExtraItem(item)))))));
     }
     static get is() { return "ir-booking-assign-items"; }
     static get encapsulation() { return "scoped"; }

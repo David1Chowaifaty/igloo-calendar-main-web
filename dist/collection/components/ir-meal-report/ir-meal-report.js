@@ -1,10 +1,12 @@
 import { h } from "@stencil/core";
 import { MealReportService } from "../../services/meal-report/meal-report.service";
-import Token from "../../models/Token";
+import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
+import ApiClient from "../../models/ApiClient";
 import moment from "moment";
-import locales from "../../stores/locales.store";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 import axios from "axios";
-import { groupEntryTablesResult } from "../../utils/utils";
 export class IrMealReport {
     ticket;
     propertyid;
@@ -24,19 +26,20 @@ export class IrMealReport {
         hb_preference: [],
     };
     mealReportService = new MealReportService();
-    tokenService = new Token();
+    setupService = new SetupService();
+    apiClientService = new ApiClient();
     ticketChanged(newValue) {
         if (newValue) {
-            this.tokenService.setToken(newValue);
+            this.apiClientService.setApiClient(newValue);
             this.init();
         }
     }
     componentWillLoad() {
         if (this.baseurl) {
-            this.tokenService.setBaseUrl(this.baseurl);
+            this.apiClientService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -47,7 +50,10 @@ export class IrMealReport {
         try {
             this.isPageLoading = true;
             this.isDataLoading = true;
-            const setupEntries = await this.mealReportService.getSetupEntriesByTableNameMulti(['_MEAL_TYPE', '_HB_PREFERENCE']);
+            const [setupEntries] = await Promise.all([
+                this.setupService.getSetupEntriesByTableNameMulti(['_MEAL_TYPE', '_HB_PREFERENCE']),
+                LocaleController.load({ language: this.language, tables: SCREEN_TABLES.mealReport }),
+            ]);
             const grouped = groupEntryTablesResult(setupEntries);
             const meal_type = grouped.meal_type || [];
             const hb_preference = grouped.hb_preference || [];
@@ -151,7 +157,6 @@ export class IrMealReport {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        const lcz = locales.entries || {};
         // const summary = this.mealCountSummary || [];
         // const sum = (key: keyof MealCountDaySummary) => summary.reduce((acc, day) => acc + (Number(day[key]) || 0), 0);
         // const mealMetrics = [
@@ -159,14 +164,14 @@ export class IrMealReport {
         //   { label: 'Lunch', icon: 'utensils', intent: 'success' as const, adults: sum('Lunch_Ad'), children: sum('Lunch_Ch') },
         //   { label: 'Dinner', icon: 'moon', intent: 'warning' as const, adults: sum('Dinner_Ad'), children: sum('Dinner_Ch') },
         // ];
-        return (h("ir-page", { label: "Meal Report", description: this.localReportType === 'GUEST_LIST' ? 'Guest List' : 'Meal Count', class: 'page' }, h("ir-custom-button", { slot: "page-header", type: "button", size: "s", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
+        return (h("ir-page", { label: t('Lcz_MealReport', { fallback: 'Meal Report' }), description: this.localReportType === 'GUEST_LIST' ? t('Lcz_GuestList', { fallback: 'Guest list' }) : t('Lcz_MealCount', { fallback: 'Meal count' }), class: 'page' }, h("ir-custom-button", { slot: "page-header", type: "button", size: "s", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.handleExport();
-            }, class: "ir-meal-report__export-btn" }, h("wa-icon", { name: "download", slot: "start", style: { fontSize: '14px' } }), lcz.Lcz_Export || 'Export'), h("div", { class: "ir-meal-report__layout" }, h("ir-meal-report-filters", { reportType: this.localReportType, fromDate: this.localFrom, toDate: this.localTo, mealType: this.localMealType, setupEntries: this.setupEntries, isLoading: this.isDataLoading, lcz: lcz, onReportTypeChange: e => {
+            }, class: "ir-meal-report__export-btn" }, h("wa-icon", { name: "download", slot: "start", style: { fontSize: '14px' } }), t('Lcz_Export', { fallback: 'Export' })), h("div", { class: "ir-meal-report__layout" }, h("ir-meal-report-filters", { reportType: this.localReportType, fromDate: this.localFrom, toDate: this.localTo, mealType: this.localMealType, setupEntries: this.setupEntries, isLoading: this.isDataLoading, onReportTypeChange: e => {
                 this.localReportType = e.detail;
                 this.applyFilters();
                 if (e.detail === 'GUEST_LIST') {

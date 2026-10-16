@@ -1,7 +1,7 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { Booking, Room } from "../../../../models/booking.dto";
 import { Agent } from "../../../../services/agents/type";
-import { IEntries } from "../../../../models/IBooking";
+import { SetupEntries } from "../../../../models/IBooking";
 import { ClTx } from "../../../../services/city-ledger/types";
 export declare class IrRoomExtraServices {
     room: Room;
@@ -10,7 +10,7 @@ export declare class IrRoomExtraServices {
     agent: Agent;
     currency: string;
     language: string;
-    svcCategories: IEntries[];
+    svcCategories: SetupEntries[];
     clTransactions: ClTx[];
     /** Which collapsible groups ('all' | 'agent' | 'guest') are expanded — keyed so agent/guest folios can be toggled independently. */
     expandedGroups: Set<string>;

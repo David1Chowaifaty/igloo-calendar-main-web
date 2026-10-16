@@ -2,10 +2,12 @@ import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { formatAmount } from "../../../../utils/utils";
 import calendar_data from "../../../../stores/calendar-data";
-import locales from "../../../../stores/locales.store";
 import { HelpDocButton } from "../../../HelpButton";
 import { ApplicablePoliciesService } from "../../../../services/applicable-policies.service";
 import { BookingService } from "../../../../services/booking-service/booking.service";
+import { formatDate } from "../../../../utils/date/index";
+import { LocaleController } from "../../../../services/locale/locale.controller";
+import { t } from "../../../../services/locale/t";
 export class IrApplicablePolicies {
     booking;
     propertyId;
@@ -27,7 +29,7 @@ export class IrApplicablePolicies {
         try {
             this.applicablePoliciesService.booking = this.booking;
             const { cancellationStatements, guaranteeAmount } = await this.applicablePoliciesService.fetchGroupedApplicablePolicies({
-                language: this.language,
+                language: LocaleController.language,
             });
             this.guaranteeAmount = guaranteeAmount;
             this.cancellationStatements = [...cancellationStatements];
@@ -41,9 +43,9 @@ export class IrApplicablePolicies {
     }
     formatPreviousBracketDueOn(d1, d2) {
         if (d1.isSame(d2, 'year')) {
-            return d1.format('MMM DD');
+            return formatDate(d1, 'MMM DD');
         }
-        return d1.format('MMM DD, YYYY');
+        return formatDate(d1, 'MMM DD, YYYY');
     }
     getBracketLabelsAndArrowState({ bracket, index, brackets, checkInDate }) {
         // Validate inputs
@@ -69,15 +71,15 @@ export class IrApplicablePolicies {
         const momentCheckInDate = moment(checkInDate, 'YYYY-MM-DD');
         if (bracketDueDate.isSame(momentCheckInDate, 'days')) {
             return {
-                leftLabel: `${momentCheckInDate.format('MMM DD')} onwards`,
+                leftLabel: `${formatDate(momentCheckInDate, 'MMM DD')} ${t('Lcz_Onwards', { fallback: 'onwards' })}`,
                 showArrow: false,
                 rightLabel: '',
             };
         }
         return {
-            leftLabel: bracketDueDate.format('MMM DD'),
+            leftLabel: formatDate(bracketDueDate, 'MMM DD'),
             showArrow: true,
-            rightLabel: moment(checkInDate, 'YYYY-MM-DD').format('MMM DD, YYYY'),
+            rightLabel: formatDate(checkInDate, 'MMM DD, YYYY'),
         };
     }
     handleMultipleBrackets(bracket, index, brackets, checkInDate) {
@@ -97,16 +99,16 @@ export class IrApplicablePolicies {
                 nextBracketDueDate = nextBracketDueDate.clone().add(-1, 'days');
             }
             return {
-                leftLabel: 'Until',
+                leftLabel: t('Lcz_UntilLabel', { fallback: 'Until' }),
                 showArrow: false,
                 rightLabel: nextBracketDueDate.isSame(momentCheckInDate, 'dates')
-                    ? nextBracketDueDate.clone().add(-1, 'days').format('MMM DD, YYYY')
-                    : nextBracketDueDate.format('MMM DD, YYYY'),
+                    ? formatDate(nextBracketDueDate.clone().add(-1, 'days'), 'MMM DD, YYYY')
+                    : formatDate(nextBracketDueDate, 'MMM DD, YYYY'),
             };
         }
         if (moment(bracket.due_on, 'YYYY-MM-DD').isSameOrAfter(momentCheckInDate, 'days')) {
             return {
-                leftLabel: `${momentCheckInDate.format('MMM DD')} onwards`,
+                leftLabel: `${formatDate(momentCheckInDate, 'MMM DD')} ${t('Lcz_Onwards', { fallback: 'onwards' })}`,
                 showArrow: false,
                 rightLabel: '',
             };
@@ -114,9 +116,9 @@ export class IrApplicablePolicies {
         // Last bracket
         if (index === brackets.length - 1) {
             return {
-                leftLabel: bracketDueDate.clone().format('MMM DD'),
+                leftLabel: formatDate(bracketDueDate.clone(), 'MMM DD'),
                 showArrow: true,
-                rightLabel: moment(checkInDate).format('MMM DD, YYYY'),
+                rightLabel: formatDate(checkInDate, 'MMM DD, YYYY'),
             };
         }
         // Middle brackets
@@ -134,19 +136,19 @@ export class IrApplicablePolicies {
         return {
             leftLabel: this.formatPreviousBracketDueOn(bracketDueDate, periodEndDate),
             showArrow: !haveSameDays,
-            rightLabel: haveSameDays ? '' : periodEndDate.add(-1, 'days').format('MMM DD, YYYY'),
+            rightLabel: haveSameDays ? '' : formatDate(periodEndDate.add(-1, 'days'), 'MMM DD, YYYY'),
         };
     }
     generateCancellationStatement() {
-        const label = 'if cancelled today';
+        const label = t('Lcz_IfCancelledToday', { fallback: 'if cancelled today' });
         const { cancelation_penality_as_if_today } = this.booking.financial;
         if (cancelation_penality_as_if_today === 0) {
             if (this.booking.financial.collected > 0) {
-                return `No refund ${label}`;
+                return t('Lcz_NoRefund', { fallback: 'No refund %1', params: [label] });
             }
-            return `No payment required ${label}`;
+            return t('Lcz_NoPaymentRequired', { fallback: 'No payment required %1', params: [label] });
         }
-        return `${cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge'} ${formatAmount(calendar_data.currency.symbol, Math.abs(cancelation_penality_as_if_today))} ${label}`;
+        return `${cancelation_penality_as_if_today < 0 ? t('Lcz_Refund', { fallback: 'Refund' }) : t('Lcz_Charge', { fallback: 'Charge' })} ${formatAmount(calendar_data.currency.symbol, Math.abs(cancelation_penality_as_if_today))} ${label}`;
     }
     _getCurrentBracket(brackets) {
         if (!Array.isArray(brackets) || brackets.length === 0)
@@ -179,7 +181,7 @@ export class IrApplicablePolicies {
             return null;
         }
         const remainingGuaranteeAmount = this.booking.financial.collected - this.guaranteeAmount;
-        return (h(Host, null, this.guaranteeAmount !== 0 && (h("section", null, h("wa-callout", { variant: "danger", class: "applicable-policies__guarantee" }, h("div", { class: "applicable-policies__guarantee-info" }, h("p", { class: "applicable-policies__guarantee-date" }, moment(this.booking.booked_on.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { class: "applicable-policies__guarantee-amount" }, h("span", { class: "px-1" }, formatAmount(calendar_data.currency.symbol, remainingGuaranteeAmount < 0 ? Math.abs(remainingGuaranteeAmount) : this.guaranteeAmount))), h("p", { class: "applicable-policies__guarantee-label" }, "Guarantee ", remainingGuaranteeAmount < 0 ? 'balance' : '')), remainingGuaranteeAmount < 0 && (h("div", { class: "applicable-policies__guarantee-action" }, h("ir-custom-button", { onClickHandler: () => {
+        return (h(Host, null, this.guaranteeAmount !== 0 && (h("section", null, h("wa-callout", { variant: "danger", class: "applicable-policies__guarantee" }, h("div", { class: "applicable-policies__guarantee-info" }, h("p", { class: "applicable-policies__guarantee-date" }, formatDate(this.booking.booked_on.date, 'MMM DD, YYYY')), h("p", { class: "applicable-policies__guarantee-amount" }, h("span", { class: "px-1" }, formatAmount(calendar_data.currency.symbol, remainingGuaranteeAmount < 0 ? Math.abs(remainingGuaranteeAmount) : this.guaranteeAmount))), h("p", { class: "applicable-policies__guarantee-label" }, remainingGuaranteeAmount < 0 ? t('Lcz_GuaranteeBalance', { fallback: 'Guarantee balance' }) : t('Lcz_Guarantee', { fallback: 'Guarantee' }))), remainingGuaranteeAmount < 0 && (h("div", { class: "applicable-policies__guarantee-action" }, h("ir-custom-button", { onClickHandler: () => {
                 this.generatePayment.emit({
                     amount: Math.abs(remainingGuaranteeAmount),
                     currency: calendar_data.currency,
@@ -188,10 +190,10 @@ export class IrApplicablePolicies {
                     reason: '',
                     type: 'OVERDUE',
                 });
-            }, size: "s" }, "Pay")))))), h("section", null, h("div", { class: "applicable-policies__container" }, h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("p", { class: "applicable-policies__title font-size-large p-0 m-0" }, "Cancellation Schedule"), h(HelpDocButton, { message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guarantee-and-cancellation" })), h("p", { class: "applicable-policies__no-penalty" }, this.generateCancellationStatement())), this.cancellationStatements?.length > 0 && this.cancellationStatements.every(e => e.brackets.length > 0) && this.shouldShowCancellationBrackets && (h("wa-callout", { variant: "brand", class: "applicable-policies__statements" }, this.cancellationStatements?.map(statement => {
+            }, size: "s" }, t('Lcz_Pay', { fallback: 'Pay' }))))))), h("section", null, h("div", { class: "applicable-policies__container" }, h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("p", { class: "applicable-policies__title font-size-large p-0 m-0" }, t('Lcz_CancellationSchedule', { fallback: 'Cancellation Schedule' })), h(HelpDocButton, { message: t('Lcz_HelpTooltip', { fallback: 'Help' }), href: "https://help.igloorooms.com/extranet/booking-details/guarantee-and-cancellation" })), h("p", { class: "applicable-policies__no-penalty" }, this.generateCancellationStatement())), this.cancellationStatements?.length > 0 && this.cancellationStatements.every(e => e.brackets.length > 0) && this.shouldShowCancellationBrackets && (h("wa-callout", { variant: "brand", class: "applicable-policies__statements" }, this.cancellationStatements?.map(statement => {
             const currentBracket = this._getCurrentBracket(statement.brackets);
             // const isTodaySameOrAfterCheckInDate = moment().isSameOrAfter(moment(statement.checkInDate, 'YYYY-MM-DD').add(1, 'days'));
-            return (h("div", { class: "applicable-policies__statement" }, this.cancellationStatements.length > 1 && (h("p", { class: "applicable-policies__room" }, h("b", null, statement.roomType.name), " ", statement.ratePlan['short_name'], " ", statement.ratePlan.is_non_refundable ? ` - ${locales.entries.Lcz_NonRefundable}` : '')), h("div", { class: "applicable-policies__brackets" }, statement.brackets.map((bracket, idx) => {
+            return (h("div", { class: "applicable-policies__statement" }, this.cancellationStatements.length > 1 && (h("p", { class: "applicable-policies__room" }, h("b", null, statement.roomType.name), " ", statement.ratePlan['short_name'], ' ', statement.ratePlan.is_non_refundable ? ` - ${t('Lcz_NonRefundable', { fallback: 'Non-refundable' })}` : '')), h("div", { class: "applicable-policies__brackets" }, statement.brackets.map((bracket, idx) => {
                 const { leftLabel, rightLabel, showArrow } = this.getBracketLabelsAndArrowState({
                     index: idx,
                     bracket,
@@ -199,7 +201,7 @@ export class IrApplicablePolicies {
                     checkInDate: statement.checkInDate,
                 });
                 const isInCurrentBracket = moment(bracket.due_on, 'YYYY-MM-DD').isSame(currentBracket, 'date');
-                return (h("div", { class: { 'applicable-policies__bracket': true, 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, h("p", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("p", { class: "applicable-policies__amount" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("p", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
+                return (h("div", { class: { 'applicable-policies__bracket': true, 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, h("p", { class: "applicable-policies__bracket-dates" }, leftLabel, ' ', showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon ir-flip-rtl", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("p", { class: "applicable-policies__amount" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("p", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? t('Lcz_NoPenalty', { fallback: 'No penalty' }) : bracket.statement)));
             })), h("div", { class: "applicable-policies__brackets-table" }, h("table", null, h("tbody", null, statement.brackets.map((bracket, idx) => {
                 const { leftLabel, rightLabel, showArrow } = this.getBracketLabelsAndArrowState({
                     index: idx,
@@ -208,7 +210,7 @@ export class IrApplicablePolicies {
                     checkInDate: statement.checkInDate,
                 });
                 const isInCurrentBracket = moment(bracket.due_on, 'YYYY-MM-DD').isSame(currentBracket, 'date');
-                return (h("tr", { class: { 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, h("td", { class: "applicable-policies__bracket-dates" }, leftLabel, " ", showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("td", { class: "applicable-policies__amount px-1" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("td", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? 'No penalty' : bracket.statement)));
+                return (h("tr", { class: { 'applicable-policies__highlighted-bracket': isInCurrentBracket } }, h("td", { class: "applicable-policies__bracket-dates" }, leftLabel, ' ', showArrow && h("ir-icons", { name: "arrow_right", class: "applicable-policies__icon ir-flip-rtl", style: { '--icon-size': '0.875rem' } }), ' ', rightLabel), h("td", { class: "applicable-policies__amount px-1" }, formatAmount(calendar_data.currency.symbol, bracket.gross_amount)), h("td", { class: "applicable-policies__statement-text" }, bracket.amount === 0 ? t('Lcz_NoPenalty', { fallback: 'No penalty' }) : bracket.statement)));
             }))))));
         }))))));
     }

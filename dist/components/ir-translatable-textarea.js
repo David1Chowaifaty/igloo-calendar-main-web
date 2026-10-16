@@ -1,0 +1,1 @@
+import{I as a,d as t}from"./ir-translatable-textarea2.js";const r=a,s=t;export{r as IrTranslatableTextarea,s as defineCustomElement}

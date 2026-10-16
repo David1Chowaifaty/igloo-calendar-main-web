@@ -1,5 +1,5 @@
 import { Booking, Room } from "../../../../models/booking.dto";
-import { IEntries } from "../../../../models/IBooking";
+import { SetupEntries } from "../../../../models/IBooking";
 import { EventEmitter } from '../../../../stencil-public-runtime';
 /**
  * Dialog that lets staff set or change the expected departure time for a single room.
@@ -23,7 +23,7 @@ export declare class IrDepartureTimeDialog {
     /** Controls dialog visibility. */
     open: boolean;
     property_id: number;
-    departureTime: IEntries[];
+    departureTime: SetupEntries[];
     language: string;
     /** Needed to create a late-checkout extra service charge alongside the departure time. */
     booking_nbr: string;

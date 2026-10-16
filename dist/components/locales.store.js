@@ -1,1 +1,1 @@
-import{c as t}from"./index3.js";const{state:e}=t({entries:null,direction:"ltr"});export{e as l}
+import{c as e}from"./index3.js";const{state:l}=e({entries:null,direction:"ltr",language:null,loadedTables:[],status:"idle"});export{l}

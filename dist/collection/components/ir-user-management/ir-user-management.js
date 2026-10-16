@@ -1,11 +1,14 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService, getEntryValue } from "../../services/setup/index";
 import { RoomService } from "../../services/room.service";
 import { UserService } from "../../services/user.service";
 import { Host, h } from "@stencil/core";
 import { realtimeService } from "../../services/realtime/realtime.service";
-import locales from "../../stores/locales.store";
-import { getEntryValue } from "../../utils/utils";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrUserManagement {
     language = '';
     baseUrl;
@@ -22,27 +25,33 @@ export class IrUserManagement {
     users = [];
     property_id;
     allowedUsersTypes = [];
-    token = new Token();
+    ApiClient = new ApiClient();
     roomService = new RoomService();
     userService = new UserService();
     bookingService = new BookingService();
+    setupService = new SetupService();
     userTypes = new Map();
     unsubscribeRealtime = null;
     superAdminId = '5';
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.userManagement, () => this.initializeApp());
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.initializeApp();
     }
     async handleResetData(e) {
@@ -53,9 +62,12 @@ export class IrUserManagement {
     async initializeApp() {
         try {
             if (this.baseUrl) {
-                this.token.setBaseUrl(this.baseUrl);
+                this.ApiClient.setBaseUrl(this.baseUrl);
             }
             this.isLoading = true;
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.userManagement });
             let propertyId = this.propertyid;
             if (!this.propertyid && !this.p) {
                 throw new Error('Property ID or username is required');
@@ -66,7 +78,7 @@ export class IrUserManagement {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
@@ -74,11 +86,11 @@ export class IrUserManagement {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.fetchUserTypes(), this.fetchUsers(), this.roomService.fetchLanguage(this.language, ['_USER_MGT'])];
+            const requests = [this.fetchUserTypes(), this.fetchUsers(), localeReady];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -146,10 +158,10 @@ export class IrUserManagement {
         });
     }
     async fetchUserTypes() {
-        const res = await Promise.all([this.bookingService.getSetupEntriesByTableName('_USER_TYPE'), this.bookingService.getLov()]);
+        const res = await Promise.all([this.setupService.getSetupEntriesByTableName('_USER_TYPE'), this.bookingService.getLov()]);
         const allowedUsers = res[1]?.My_Result?.allowed_user_types;
         for (const e of res[0]) {
-            const value = getEntryValue({ entry: e, language: this.language });
+            const value = getEntryValue({ entry: e, language: LocaleController.language });
             if (allowedUsers.find(f => f.code === e.CODE_NAME)) {
                 this.allowedUsersTypes.push({ code: e.CODE_NAME, value });
             }
@@ -159,12 +171,16 @@ export class IrUserManagement {
     disconnectedCallback() {
         this.unsubscribeRealtime?.();
         this.unsubscribeRealtime = null;
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     render() {
         if (this.isLoading) {
             return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("ir-loading-screen", null)));
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { suppressToastEndpoints: ['/Change_User_Pwd', '/Handle_Exposed_User'] }), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("h3", { class: "page-title" }, locales.entries.Lcz_ExtranetUsers), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: [this.superAdminId, '17'].includes(this.userTypeCode?.toString()), userTypes: this.userTypes, isSuperAdmin: this.userTypeCode?.toString() === this.superAdminId, users: this.users })))));
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { suppressToastEndpoints: ['/Change_User_Pwd', '/Handle_Exposed_User'] }), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("h3", { class: "page-title" }, t('Lcz_ExtranetUsers', { fallback: 'Extranet Users' })), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: [this.superAdminId, '17'].includes(this.userTypeCode?.toString()), userTypes: this.userTypes, isSuperAdmin: this.userTypeCode?.toString() === this.superAdminId, users: this.users })))));
     }
     static get is() { return "ir-user-management"; }
     static get encapsulation() { return "scoped"; }
@@ -369,6 +385,9 @@ export class IrUserManagement {
         return [{
                 "propName": "ticket",
                 "methodName": "ticketChanged"
+            }, {
+                "propName": "language",
+                "methodName": "languageChanged"
             }];
     }
     static get listeners() {

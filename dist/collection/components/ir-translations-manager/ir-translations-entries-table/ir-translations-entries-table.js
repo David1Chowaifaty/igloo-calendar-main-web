@@ -1,7 +1,10 @@
 import { flexRender, useTable } from "../../../utils/useTable";
 import { Host, h } from "@stencil/core";
 import { createColumnHelper, getCoreRowModel } from "@tanstack/table-core";
-import { hasValue } from "../utils";
+import { hasValue, setCopiedEntry } from "../utils";
+import { t } from "../../../services/locale/index";
+import { inlineSign, isRtlLanguage } from "../../../utils/direction";
+import { showToast } from "../../../utils/utils";
 /** Rows a PageUp/PageDown jumps. */
 const PAGE_ROWS = 10;
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -28,6 +31,8 @@ export class IrTranslationsEntriesTable {
     entryChange;
     editEntry;
     duplicateEntry;
+    /** "Move to table…" — the parent opens the move dialog for this row. */
+    moveEntry;
     deleteEntry;
     clearFilters;
     reorderEntries;
@@ -481,13 +486,16 @@ export class IrTranslationsEntriesTable {
         }
         const lastRow = rows.length - 1;
         const lastCol = columns.length - 1;
+        // Arrow keys are physical; the grid can be laid out either way (RTL languages,
+        // RTL document), so the inline direction decides which one means "next column".
+        const sign = inlineSign();
         const jumpsToEdge = event.ctrlKey || event.metaKey;
         switch (event.key) {
             case 'ArrowRight':
-                this.focusCell(row, clamp(col + 1, 0, lastCol));
+                this.focusCell(row, clamp(col + sign, 0, lastCol));
                 break;
             case 'ArrowLeft':
-                this.focusCell(row, clamp(col - 1, 0, lastCol));
+                this.focusCell(row, clamp(col - sign, 0, lastCol));
                 break;
             case 'ArrowDown':
                 this.focusCell(clamp(row + 1, 0, lastRow), col);
@@ -548,6 +556,16 @@ export class IrTranslationsEntriesTable {
                 break;
             case 'copy':
                 navigator.clipboard?.writeText(entry.key);
+                break;
+            case 'copy-row':
+                // The clipboard gets only the key so it pastes cleanly into the Key
+                // field; the translations wait in memory for the form to pick up.
+                setCopiedEntry(entry);
+                navigator.clipboard?.writeText(entry.key);
+                showToast({ type: 'success', title: 'Row copied — paste its key into a new entry to reuse its translations.' });
+                break;
+            case 'move':
+                this.moveEntry.emit(entry);
                 break;
             case 'delete':
                 this.deleteEntry.emit(entry);
@@ -657,11 +675,17 @@ export class IrTranslationsEntriesTable {
         const session = this.editSession;
         const isEditing = !!session && session.key === `${entry.id}|${column.id}`;
         const ariaLabel = isNote ? `${entry.key} note` : `${language?.name} translation for ${entry.key || 'new entry'}`;
+        const dir = !isNote && isRtlLanguage(column.code) ? 'rtl' : 'ltr';
         if (entry.meta?.isUpdateable === false) {
             return (h("span", { class: "entries-table__cell-display --readonly" }, hasValue(value) ? (h("span", { class: "entries-table__cell-text", "data-tooltip": value }, value)) : (h("span", { class: "entries-table__cell-missing" }, "Missing")), h("wa-icon", { name: "lock", class: "entries-table__cell-lock", "aria-hidden": "true" })));
         }
         if (isEditing) {
-            return (h("wa-input", { size: "s", value: value, class: "entries-table__cell-input", label: ariaLabel, autocomplete: "off", spellcheck: false, oninput: (e) => (session.draft = e.target.value), onKeyDown: (e) => this.handleEditorKeyDown(e, session), onblur: () => this.handleEditorBlur(session),
+            return (h("wa-input", { size: "s", value: value, class: "entries-table__cell-input", label: ariaLabel, autocomplete: "off", spellcheck: false, ref: el => {
+                    // Not a JSX `dir` prop: every wa-* element declares `dir` as a
+                    // non-reflecting Lit property, so Stencil would assign the property
+                    // and the attribute directionality reads from would never be set.
+                    el?.setAttribute('dir', dir);
+                }, oninput: (e) => (session.draft = e.target.value), onKeyDown: (e) => this.handleEditorKeyDown(e, session), onblur: () => this.handleEditorBlur(session),
                 // `change` fires on Enter *and* on blur, and neither is guaranteed once
                 // the input is torn down mid-render — committing is idempotent per
                 // session, so wiring both simply means the save can't be missed.
@@ -696,7 +720,7 @@ export class IrTranslationsEntriesTable {
         return (h("span", { class: "entries-table__lang-head" }, h("abbr", { class: "entries-table__lang-code", "data-tooltip": language.name, "aria-label": language.name }, language.code.toUpperCase()), language.code === this.sourceCode && h("span", { class: "entries-table__lang-source" }, "source")));
     }
     renderActionsCell(entry) {
-        return (h("wa-dropdown", { "onwa-select": (e) => this.handleRowAction(e.detail.item.value, entry) }, h("ir-custom-button", { slot: "trigger", appearance: "plain", variant: "neutral", iconBtn: true }, h("wa-icon", { name: "ellipsis", label: `Actions for ${entry.key || 'entry'}` })), h("wa-dropdown-item", { value: "edit", disabled: entry.meta?.isUpdateable === false }, h("wa-icon", { slot: "icon", name: "pen" }), "Edit all languages"), h("wa-dropdown-item", { value: "copy" }, h("wa-icon", { slot: "icon", name: "clipboard" }), "Copy key"), h("wa-dropdown-item", { value: "toggle-visibility" }, h("wa-icon", { slot: "icon", name: entry.meta?.isVisible === false ? 'eye' : 'eye-slash' }), entry.meta?.isVisible === false ? 'Show in app' : 'Hide from app'), h("wa-dropdown-item", { value: "delete", variant: "danger", disabled: entry.meta?.isDeleteable === false }, h("wa-icon", { slot: "icon", name: "trash-can" }), "Delete")));
+        return (h("wa-dropdown", { "onwa-select": (e) => this.handleRowAction(e.detail.item.value, entry) }, h("ir-custom-button", { slot: "trigger", appearance: "plain", variant: "neutral", iconBtn: true }, h("wa-icon", { name: "ellipsis", label: `Actions for ${entry.key || 'entry'}` })), h("wa-dropdown-item", { value: "edit", disabled: entry.meta?.isUpdateable === false }, h("wa-icon", { slot: "icon", name: "pen" }), "Edit all languages"), h("wa-dropdown-item", { value: "copy" }, h("wa-icon", { slot: "icon", name: "clipboard" }), "Copy key"), h("wa-dropdown-item", { value: "copy-row" }, h("wa-icon", { slot: "icon", name: "clone" }), "Copy row"), h("wa-dropdown-item", { value: "move", disabled: entry.meta?.isUpdateable === false }, h("wa-icon", { slot: "icon", name: "arrow-right-arrow-left" }), "Move to table\u2026"), h("wa-dropdown-item", { value: "toggle-visibility" }, h("wa-icon", { slot: "icon", name: entry.meta?.isVisible === false ? 'eye' : 'eye-slash' }), entry.meta?.isVisible === false ? 'Show in app' : 'Hide from app'), h("wa-dropdown-item", { value: "delete", variant: "danger" }, h("wa-icon", { slot: "icon", name: "trash-can" }), t('Lcz_Delete', { fallback: 'Delete' }))));
     }
     buildColumns() {
         const helper = createColumnHelper();
@@ -727,7 +751,7 @@ export class IrTranslationsEntriesTable {
             })),
             helper.display({
                 id: 'actions',
-                header: () => h("span", { class: "entries-table__sr-only" }, "Actions"),
+                header: () => h("span", { class: "entries-table__sr-only" }, t('Lcz_Actions', { fallback: 'Actions' })),
                 cell: info => this.renderActionsCell(info.row.original),
             }),
         ];
@@ -1150,6 +1174,28 @@ export class IrTranslationsEntriesTable {
                 "docs": {
                     "tags": [],
                     "text": ""
+                },
+                "complexType": {
+                    "original": "TranslationEntry",
+                    "resolved": "TranslationEntry",
+                    "references": {
+                        "TranslationEntry": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/ir-translations-manager/types.ts::TranslationEntry",
+                            "referenceLocation": "TranslationEntry"
+                        }
+                    }
+                }
+            }, {
+                "method": "moveEntry",
+                "name": "moveEntry",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "\"Move to table\u2026\" \u2014 the parent opens the move dialog for this row."
                 },
                 "complexType": {
                     "original": "TranslationEntry",

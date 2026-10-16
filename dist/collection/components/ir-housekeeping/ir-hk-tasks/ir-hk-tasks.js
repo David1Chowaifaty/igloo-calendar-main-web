@@ -1,14 +1,17 @@
-import Token from "../../../models/Token";
-import { HouseKeepingService } from "../../../services/housekeeping.service";
+import ApiClient from "../../../models/ApiClient";
+import { HouseKeepingService } from "../../../services/housekeeping/index";
 import { RoomService } from "../../../services/room.service";
 import housekeeping_store from "../../../stores/housekeeping.store";
-import locales from "../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { v4 } from "uuid";
 import { downloadFile } from "../../../utils/utils";
 import { updateTasks as updateTasksStore, updateSelectedTasks, clearSelectedTasks, hkTasksStore, setLoading } from "../../../stores/hk-tasks.store";
 import calendar_data from "../../../stores/calendar-data";
+import { LocaleController } from "../../../services/locale/locale.controller";
+import { LanguageSync } from "../../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../../services/locale/screen-tables";
+import { t } from "../../../services/locale/t";
 export class IrHkTasks {
     el;
     language = '';
@@ -31,23 +34,34 @@ export class IrHkTasks {
     hkNameCache = {};
     roomService = new RoomService();
     houseKeepingService = new HouseKeepingService();
-    token = new Token();
+    ApiClient = new ApiClient();
     table_sorting = new Map();
     modal;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.hkTasks, () => this.init());
     componentWillLoad() {
         if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
+            this.ApiClient.setBaseUrl(this.baseUrl);
         }
         if (this.ticket !== '') {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.init();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.token.setToken(this.ticket);
+        this.ApiClient.setApiClient(this.ticket);
         this.init();
     }
     handleCloseSidebar(e) {
@@ -74,6 +88,9 @@ export class IrHkTasks {
     async init() {
         try {
             this.isLoading = true;
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.hkTasks });
             setLoading(true);
             let propertyId = this.propertyid;
             if (!this.propertyid && !this.p) {
@@ -85,7 +102,7 @@ export class IrHkTasks {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
@@ -93,11 +110,11 @@ export class IrHkTasks {
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.houseKeepingService.getExposedHKSetup(this.property_id), this.roomService.fetchLanguage(this.language)];
+            const requests = [this.houseKeepingService.getExposedHKSetup({ property_id: this.property_id, language: LocaleController.language }), localeReady];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -111,6 +128,7 @@ export class IrHkTasks {
                 cleaning_frequency: (calendar_data.cleaning_frequency ?? housekeeping_store?.hk_criteria?.cleaning_frequencies[0])?.code,
                 dusty_window: housekeeping_store?.hk_criteria?.dusty_periods[0]?.code,
                 highlight_window: housekeeping_store?.hk_criteria?.highlight_checkin_options[0]?.code,
+                language: LocaleController.language,
             });
             // updateTaskList();
             if (tasksResult?.tasks) {
@@ -233,13 +251,13 @@ export class IrHkTasks {
                 await this.houseKeepingService.executeHKAction({
                     actions: hkTasksStore.selectedTasks
                         .flatMap(t => [t, ...(t.extra_task ?? [])])
-                        .map(t => ({
-                        description: 'Cleaned',
-                        hkm_id: t.hkm_id === 0 ? null : t.hkm_id,
-                        unit_id: t.unit.id,
-                        booking_nbr: t.booking_nbr,
+                        .map(task => ({
+                        description: t('Lcz_Cleaned', { fallback: 'Cleaned' }),
+                        hkm_id: task.hkm_id === 0 ? null : task.hkm_id,
+                        unit_id: task.unit.id,
+                        booking_nbr: task.booking_nbr,
                         status: this.modalCauses?.status ?? '001',
-                        hk_task_type_code: t.task_type.code,
+                        hk_task_type_code: task.task_type.code,
                     })),
                 });
             }
@@ -281,6 +299,7 @@ export class IrHkTasks {
             from_date: moment().format('YYYY-MM-DD'),
             to_date: cleaning_periods?.code || moment().format('YYYY-MM-DD'),
             is_export_to_excel: export_to_excel,
+            language: LocaleController.language,
         });
         console.log(tasks);
         if (tasks) {
@@ -292,25 +311,28 @@ export class IrHkTasks {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, { "data-testid": "hk_tasks_base" }, h("ir-page", { label: "Daily Housekeeping Schedule" }, h("div", { class: "tasks-view" }, h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
+        return (h(Host, { "data-testid": "hk_tasks_base" }, h("ir-page", { label: t('Lcz_DailyHousekeepingSchedule', { fallback: 'Daily Housekeeping Schedule' }) }, h("div", { class: "tasks-view" }, h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
                 this.applyFilters(e);
             } }), h("div", { class: "tasks-table-wrapper" }, h("ir-tasks-table", { onRowSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 updateSelectedTasks(e.detail);
-            } })))), h("ir-dialog", { ref: el => (this.modal = el), label: locales.entries.Lcz_Confirmation, lightDismiss: false }, h("span", null, this.modalCauses
+            } })))), h("ir-dialog", { ref: el => (this.modal = el), label: t('Lcz_Confirmation', { fallback: 'Confirmation' }), lightDismiss: false }, h("span", null, this.modalCauses
             ? this.modalCauses?.cause === 'clean'
                 ? this.modalCauses.task
-                    ? `Update ${this.modalCauses?.task?.unit?.name} to Clean`
-                    : 'Update selected unit(s) to Clean'
-                : 'Skip cleaning and reschedule for tomorrow.'
-            : 'Update selected unit(s) to Clean'), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => {
+                    ? t('Lcz_UpdateUnitToCleanMessage', {
+                        params: [this.modalCauses?.task?.unit?.name],
+                        fallback: `Update ${this.modalCauses?.task?.unit?.name} to Clean`,
+                    })
+                    : t('Lcz_UpdateSelectedUnitsToClean', { fallback: 'Update selected unit(s) to Clean' })
+                : t('Lcz_SkipCleaningRescheduleTomorrow', { fallback: 'Skip cleaning and reschedule for tomorrow.' })
+            : t('Lcz_UpdateSelectedUnitsToClean', { fallback: 'Update selected unit(s) to Clean' })), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => {
                 if (this.modalCauses) {
                     clearSelectedTasks();
                     this.modalCauses = null;
                 }
                 this.modal.closeModal();
-            } }, locales.entries.Lcz_Cancel), h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales.entries.Lcz_Confirm))), h("ir-hk-archive-drawer", { open: this.isSidebarOpen, ticket: this.token.getToken(), propertyId: this.property_id, onDrawerClosed: () => (this.isSidebarOpen = false) })));
+            } }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { size: "m", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, t('Lcz_Confirm', { fallback: 'Confirm' })))), h("ir-hk-archive-drawer", { open: this.isSidebarOpen, ticket: this.ApiClient.getToken(), propertyId: this.property_id, onDrawerClosed: () => (this.isSidebarOpen = false) })));
     }
     static get is() { return "ir-hk-tasks"; }
     static get encapsulation() { return "scoped"; }
@@ -461,6 +483,9 @@ export class IrHkTasks {
     static get elementRef() { return "el"; }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

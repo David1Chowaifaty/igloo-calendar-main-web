@@ -14,6 +14,10 @@ export declare function orderLanguages(languages: TranslationLanguage[]): Transl
 export declare function hasExplicitOrder(entries: TranslationEntry[]): boolean;
 /** Leaves fetch order alone until a display order has actually been set. */
 export declare function sortByDisplayOrder(entries: TranslationEntry[]): TranslationEntry[];
+/** What "Copy row" keeps: the key plus every translation, but none of the row's Setup bookkeeping. */
+export type CopiedEntry = Pick<TranslationEntry, 'key' | 'values'>;
+export declare function setCopiedEntry(entry: TranslationEntry): void;
+export declare function getCopiedEntry(): CopiedEntry | null;
 /** The language codes whose value differs between two versions of a row, with the new values. */
 export declare function diffValues(before: Record<string, string> | undefined, after: Record<string, string>): Record<string, string>;
 /**

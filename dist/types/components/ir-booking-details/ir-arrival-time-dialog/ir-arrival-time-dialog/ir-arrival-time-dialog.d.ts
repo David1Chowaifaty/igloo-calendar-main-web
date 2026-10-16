@@ -1,5 +1,5 @@
 import { Booking, Room } from "../../../../models/booking.dto";
-import { IEntries } from "../../../../models/IBooking";
+import { SetupEntries } from "../../../../models/IBooking";
 import { EventEmitter } from '../../../../stencil-public-runtime';
 /**
  * Dialog that lets staff set or change the expected arrival time for a single room.
@@ -23,7 +23,7 @@ export declare class IrArrivalTimeDialog {
     /** Controls dialog visibility. */
     open: boolean;
     property_id: number;
-    arrivalTime: IEntries[];
+    arrivalTime: SetupEntries[];
     language: string;
     /** Needed to create an early-check-in extra service charge alongside the arrival time. */
     booking_nbr: string;

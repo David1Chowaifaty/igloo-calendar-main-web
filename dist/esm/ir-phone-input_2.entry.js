@@ -1,21 +1,27 @@
-import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-CwWmK1sZ.js';
-import { B as BookingService } from './booking.store-5VMZSDo_.js';
-import { l as locales } from './locales.store-DN9FqlnV.js';
+import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-DKZeCK8T.js';
+import { B as BookingService } from './booking.store-DE5QtFwo.js';
+import { L as LocaleController } from './locale.controller-BdYR01Ld.js';
+import { t } from './t-Bvz1wS_D.js';
+import { n as normalizeNumericInput } from './number-B8waOzTO.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-DciUlUdo.js';
-import './types-Cvnhk41g.js';
-import './utils-DCUYWubA.js';
+import './IBooking-B4waZCSK.js';
+import './types-CB66a07H.js';
+import './utils-iP-LMQsp.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-zADniuy4.js';
-import './index-BfixheT-.js';
-import './type-ByBjJ3uo.js';
+import './calendar-data-DknGMMFc.js';
+import './locale-scope-Jre4lb6k.js';
+import './booking.dto-B554ToUQ.js';
+import './type-DjfVZqvs.js';
+import './ir-date-XXNYhmSL.js';
+import './language-observer-CHgzsZkY.js';
 import './calendar-dates-D3hVfsrC.js';
-import './booking-DxbkLMu3.js';
-import './functions-COpYNLV3.js';
-import './commonSchemas-BiRmPH_2.js';
+import './booking-BERGGrrf.js';
+import './functions-Ebyqqazo.js';
+import './commonSchemas-Cx9w9d8l.js';
+import './types-CyZFzmvF.js';
 
-const irPhoneInputCss = () => `.sc-ir-phone-input-h{display:block}.input-container.sc-ir-phone-input{display:flex;align-items:center;padding:0 !important}.input-container.sc-ir-phone-input:focus-within{border-color:#1e9ff2}.border-theme.sc-ir-phone-input{border-color:#cacfe7}.input-container.sc-ir-phone-input input.sc-ir-phone-input{flex:1;border:0}.input-container.sc-ir-phone-input input.sc-ir-phone-input:focus{outline:none}.dropdown-trigger.sc-ir-phone-input{display:flex;align-items:center;gap:8px;background:white;border:0;border-right:1px solid #cacfe7}.ir-dropdown-container.sc-ir-phone-input{position:absolute;z-index:1000;bottom:-30px;width:100%;left:0;background:white}.input-container.sc-ir-phone-input label.sc-ir-phone-input{display:flex;align-items:center;justify-content:center;margin:0;padding:0 5px}.flag.sc-ir-phone-input{height:1rem;aspect-ratio:4/3;border-radius:3px}.is-invalid.sc-ir-phone-input{border-color:#ff4961}.phone_prefix_label.sc-ir-phone-input{padding:0 0.5rem;margin:0}.sc-ir-phone-input-h{--ir-floating-label-fg:#6c757d;--ir-floating-label-fg-focus:#495057;--ir-floating-label-bg:#fff;--ir-floating-label-scale:0.88;--ir-floating-label-float-translateY:-70%;--ir-floating-label-resting-offset-inline:0.9rem;--ir-floating-phone-input-radius:0.21rem;--ir-floating-phone-input-height:2rem;--ir-danger:#dc3545;--ir-disabled-fg:#9aa0a6}.sc-ir-phone-input-h .input-container.has-floating.sc-ir-phone-input{position:relative;padding-top:0.9rem}.sc-ir-phone-input-h .floating-label.sc-ir-phone-input{position:absolute;top:50%;transform:translateY(-50%);pointer-events:none;position:absolute;padding:0 0.4rem;z-index:10;color:var(--ir-floating-label-fg);background:white;transition:transform 120ms ease, color 120ms ease, top 120ms ease, background-color 120ms ease, opacity 120ms ease;opacity:0.95;line-height:1;white-space:nowrap}.sc-ir-phone-input-h .floating-label.sc-ir-phone-input:dir(rtl){right:95px}.sc-ir-phone-input-h .floating-label.sc-ir-phone-input:dir(ltr){left:95px}.sc-ir-phone-input-h .floating-label.active.sc-ir-phone-input{top:0;transform:translateY(var(--ir-floating-label-float-translateY)) scale(var(--ir-floating-label-scale));background:var(--ir-floating-label-bg);color:var(--ir-floating-label-fg-focus);font-size:12px;padding:0;opacity:0.95}.phone-input__container.sc-ir-phone-input{display:flex;align-items:flex-end}.phone-input__prefix.sc-ir-phone-input{width:150px}.phone-input__prefix.sc-ir-phone-input::part(input),.phone-input__prefix.sc-ir-phone-input [part~="input"],.phone-input__prefix.sc-ir-phone-input::part(end),.phone-input__prefix.sc-ir-phone-input [part~="end"]{display:none}.phone-input__prefix.sc-ir-phone-input:dir(ltr)::part(base),.phone-input__prefix.sc-ir-phone-input:dir(ltr) [part~="base"],.phone-input__phone.sc-ir-phone-input:dir(rtl)::part(base),.phone-input__phone.sc-ir-phone-input:dir(rtl) [part~="base"]{border-top-right-radius:0;border-bottom-right-radius:0}.phone-input__prefix.sc-ir-phone-input:dir(rtl)::part(base),.phone-input__prefix.sc-ir-phone-input:dir(rtl) [part~="base"],.phone-input__phone.sc-ir-phone-input:dir(ltr)::part(base),.phone-input__phone.sc-ir-phone-input:dir(ltr) [part~="base"]{border-top-left-radius:0;border-bottom-left-radius:0}.phone-input__phone.sc-ir-phone-input{flex:1 1 0%}.phone-input__prefix.sc-ir-phone-input::part(start),.phone-input__prefix.sc-ir-phone-input [part~="start"]{width:100% !important}.phone-input__prefix.sc-ir-phone-input .dropdown-trigger.sc-ir-phone-input{border-right:0;width:100% !important;display:flex;align-items:center;justify-content:space-between}`;
+const irPhoneInputCss = () => `.sc-ir-phone-input-h{display:block}.input-container.sc-ir-phone-input{display:flex;align-items:center;padding:0 !important}.input-container.sc-ir-phone-input:focus-within{border-color:#1e9ff2}.border-theme.sc-ir-phone-input{border-color:#cacfe7}.input-container.sc-ir-phone-input input.sc-ir-phone-input{flex:1;border:0}.input-container.sc-ir-phone-input input.sc-ir-phone-input:focus{outline:none}.dropdown-trigger.sc-ir-phone-input{display:flex;align-items:center;gap:8px;background:white;border:0;border-inline-end:1px solid #cacfe7}.ir-dropdown-container.sc-ir-phone-input{position:absolute;z-index:1000;bottom:-30px;width:100%;inset-inline-start:0;background:white}.input-container.sc-ir-phone-input label.sc-ir-phone-input{display:flex;align-items:center;justify-content:center;margin:0;padding:0 5px}.flag.sc-ir-phone-input{height:1rem;aspect-ratio:4/3;border-radius:3px}.is-invalid.sc-ir-phone-input{border-color:#ff4961}.phone_prefix_label.sc-ir-phone-input{padding:0 0.5rem;margin:0}.sc-ir-phone-input-h{--ir-floating-label-fg:#6c757d;--ir-floating-label-fg-focus:#495057;--ir-floating-label-bg:#fff;--ir-floating-label-scale:0.88;--ir-floating-label-float-translateY:-70%;--ir-floating-label-resting-offset-inline:0.9rem;--ir-floating-phone-input-radius:0.21rem;--ir-floating-phone-input-height:2rem;--ir-danger:#dc3545;--ir-disabled-fg:#9aa0a6}.sc-ir-phone-input-h .input-container.has-floating.sc-ir-phone-input{position:relative;padding-top:0.9rem}.sc-ir-phone-input-h .floating-label.sc-ir-phone-input{position:absolute;top:50%;transform:translateY(-50%);pointer-events:none;position:absolute;padding:0 0.4rem;z-index:10;color:var(--ir-floating-label-fg);background:white;transition:transform 120ms ease,     color 120ms ease,     top 120ms ease,     background-color 120ms ease,     opacity 120ms ease;opacity:0.95;line-height:1;white-space:nowrap}.sc-ir-phone-input-h .floating-label.sc-ir-phone-input{inset-inline-start:95px}.sc-ir-phone-input-h .floating-label.active.sc-ir-phone-input{top:0;transform:translateY(var(--ir-floating-label-float-translateY)) scale(var(--ir-floating-label-scale));background:var(--ir-floating-label-bg);color:var(--ir-floating-label-fg-focus);font-size:12px;padding:0;opacity:0.95}.phone-input__container.sc-ir-phone-input{display:flex;align-items:flex-end}.phone-input__prefix.sc-ir-phone-input{width:150px}.phone-input__prefix.sc-ir-phone-input::part(input),.phone-input__prefix.sc-ir-phone-input [part~="input"],.phone-input__prefix.sc-ir-phone-input::part(end),.phone-input__prefix.sc-ir-phone-input [part~="end"]{display:none}.phone-input__prefix.sc-ir-phone-input::part(base),.phone-input__prefix.sc-ir-phone-input [part~="base"]{border-start-end-radius:0;border-end-end-radius:0}.phone-input__phone.sc-ir-phone-input::part(base),.phone-input__phone.sc-ir-phone-input [part~="base"]{border-start-start-radius:0;border-end-start-radius:0}.phone-input__phone.sc-ir-phone-input{flex:1 1 0%}.phone-input__prefix.sc-ir-phone-input::part(start),.phone-input__prefix.sc-ir-phone-input [part~="start"]{width:100% !important}.phone-input__prefix.sc-ir-phone-input .dropdown-trigger.sc-ir-phone-input{border-inline-end:0;width:100% !important;display:flex;align-items:center;justify-content:space-between}.ir-me-0.sc-ir-phone-input{margin-inline-end:0}`;
 
 const IrPhoneInput = class {
     constructor(hostRef) {
@@ -41,9 +47,9 @@ const IrPhoneInput = class {
      */
     error = false;
     /**
-     * Auth token used by the booking service (if needed).
+     * Auth ApiClient used by the booking service (if needed).
      */
-    token;
+    ApiClient;
     /**
      * Two-letter language code used for country fetching.
      */
@@ -118,7 +124,7 @@ const IrPhoneInput = class {
     labelId = `ir-phone-input-label-${Math.random().toString(36).slice(2)}`;
     async componentWillLoad() {
         if (this.countries.length === 0) {
-            const countries = await this.bookingService.getCountries(this.language);
+            const countries = await this.bookingService.getCountries(LocaleController.language);
             this.countries = countries;
         }
         if (this.phone_prefix) {
@@ -149,13 +155,13 @@ const IrPhoneInput = class {
     }
     /**
      * Handles user input:
-     * - Removes all characters except numbers and "+"
+     * - Converts Arabic-Indic digits to Latin, then removes all characters except numbers and "+"
      * - Updates state and emits new phone number
      */
     handleInputChange(e) {
         let inputElement = e.target;
         let inputValue = inputElement.value;
-        inputValue = inputValue.replace(/[^+\d]+/g, '');
+        inputValue = normalizeNumericInput(inputValue).replace(/[^+\d]+/g, '');
         inputElement.value = inputValue;
         this.inputValue = inputValue;
         this.textChange.emit({ phone_prefix: this.currentCountry?.phone_prefix, mobile: this.inputValue });
@@ -192,23 +198,23 @@ const IrPhoneInput = class {
         const showSideLabel = !!this.label && !useFloating;
         const isActive = this.hasFocus || !!this.inputValue; // float when focused or has value
         if (this.mode === 'modern') {
-            return (h(Host, null, h("div", { class: "phone-input__container" }, h("wa-input", { class: "phone-input__prefix", label: this.label, readonly: true }, h("button", { slot: "start", type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? h("img", { src: this.currentCountry?.flag, class: "flag" }) : h("p", { class: "p-0 m-0 " }, locales.entries.Lcz_Select), this.currentCountry && h("span", null, this.currentCountry.phone_prefix), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" })))), h("wa-input", { onchange: e => this.handleInputChange(e), max: 14, value: this.inputValue, class: "phone-input__phone", placeholder: this.placeholder })), this.isDropdownVisible && (h("div", null, h("ir-combobox", { onComboboxValueChange: e => {
+            return (h(Host, null, h("div", { class: "phone-input__container" }, h("wa-input", { class: "phone-input__prefix", label: this.label, readonly: true }, h("button", { slot: "start", type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? h("img", { src: this.currentCountry?.flag, class: "flag" }) : h("p", { class: "p-0 m-0 " }, t('Lcz_Select', { fallback: 'Select' })), this.currentCountry && h("span", null, this.currentCountry.phone_prefix), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" })))), h("wa-input", { onchange: e => this.handleInputChange(e), max: 14, value: this.inputValue, class: "phone-input__phone", placeholder: this.placeholder })), this.isDropdownVisible && (h("div", null, h("ir-combobox", { onComboboxValueChange: e => {
                     this.setCurrentCountry(+e.detail.data);
                     this.isDropdownVisible = false;
-                }, class: "bg-white", autoFocus: true, placeholder: "Search country", data: this.countries.map(c => ({
+                }, class: "bg-white", autoFocus: true, placeholder: t('Lcz_SearchCountry', { fallback: 'Search country' }), data: this.countries.map(c => ({
                     id: c.id.toString(),
                     name: `${c.name} (${c.phone_prefix})`,
                     image: c.flag,
                 })) })))));
         }
-        return (h(Host, null, h("div", { class: "form-group mr-0" }, h("div", { class: "input-group row m-0 p-0 position-relative" }, showSideLabel && (h("div", { class: `input-group-prepend col-3 p-0 text-dark border-none` }, h("label", { class: `input-group-text border-theme flex-grow-1 text-dark` }, this.label))), h("div", { class: 'form-control  input-container  flex-fill' + (this.error ? ' is-invalid' : '') }, h("button", { type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? h("img", { src: this.currentCountry?.flag, class: "flag" }) : h("p", { class: "p-0 m-0 " }, locales.entries.Lcz_Select), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("p", { class: 'phone_prefix_label' }, this.currentCountry?.phone_prefix), useFloating && (h("label", { id: this.labelId, class: `floating-label ${isActive ? 'active' : ''}`, htmlFor: this.inputId }, this.label)), h("input", { "data-testid": this.testId, maxLength: 14, type: "text", placeholder: this.placeholder, required: true, value: this.inputValue, disabled: this.disabled, onInput: e => this.handleInputChange(e), onFocus: () => {
+        return (h(Host, null, h("div", { class: "form-group ir-me-0" }, h("div", { class: "input-group row m-0 p-0 position-relative" }, showSideLabel && (h("div", { class: `input-group-prepend col-3 p-0 text-dark border-none` }, h("label", { class: `input-group-text border-theme flex-grow-1 text-dark` }, this.label))), h("div", { class: 'form-control  input-container  flex-fill' + (this.error ? ' is-invalid' : '') }, h("button", { type: "button", onClick: () => (this.isDropdownVisible = !this.isDropdownVisible), class: "dropdown-trigger" }, this.currentCountry ? h("img", { src: this.currentCountry?.flag, class: "flag" }) : h("p", { class: "p-0 m-0 " }, t('Lcz_Select', { fallback: 'Select' })), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("p", { class: 'phone_prefix_label' }, this.currentCountry?.phone_prefix), useFloating && (h("label", { id: this.labelId, class: `floating-label ${isActive ? 'active' : ''}`, htmlFor: this.inputId }, this.label)), h("input", { "data-testid": this.testId, maxLength: 14, type: "text", placeholder: this.placeholder, required: true, value: this.inputValue, disabled: this.disabled, onInput: e => this.handleInputChange(e), onFocus: () => {
                 this.hasFocus = true;
             }, onBlur: () => {
                 this.hasFocus = false;
             } })), this.isDropdownVisible && (h("div", { class: "ir-dropdown-container" }, h("ir-combobox", { onComboboxValueChange: e => {
                 this.setCurrentCountry(+e.detail.data);
                 this.isDropdownVisible = false;
-            }, class: "bg-white", autoFocus: true, placeholder: "Search country", data: this.countries.map(c => ({
+            }, class: "bg-white", autoFocus: true, placeholder: t('Lcz_SearchCountry', { fallback: 'Search country' }), data: this.countries.map(c => ({
                 id: c.id.toString(),
                 name: `${c.name} (${c.phone_prefix})`,
                 image: c.flag,

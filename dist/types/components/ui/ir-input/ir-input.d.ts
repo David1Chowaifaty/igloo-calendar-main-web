@@ -123,6 +123,8 @@ export declare class IrInput {
     handleAriaInvalidChange(e: any): void;
     handleValueChange(newValue: string, oldValue: string): void;
     private handleInput;
+    /** Unmasked phone/number fields get Latin digits too; free-text fields are left as typed. */
+    private isNumericField;
     private initializeMask;
     private setupSlotListeners;
     private removeSlotListeners;

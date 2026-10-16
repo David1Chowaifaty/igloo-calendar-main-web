@@ -1,8 +1,8 @@
 import { h } from "@stencil/core";
 import { _formatTime } from "../../functions";
-import locales from "../../../../stores/locales.store";
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import { BookingService } from "../../../../services/booking-service/booking.service";
+import { t } from "../../../../services/locale/t";
 export class IrPmsLogs {
     bookingNumber;
     pmsLogs;
@@ -25,14 +25,14 @@ export class IrPmsLogs {
         }
     }
     render() {
-        return (h("div", { key: '840ba00bf6308d937074af8fd4d628ea0cb45cbd', class: "" }, isRequestPending('/Get_Exposed_PMS_Logs') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h("div", { class: 'dialog-container-height' }, h("div", { class: "d-flex align-items-center ", style: { paddingBottom: '0.5rem' } }, h("p", { class: "list-title p-0 m-0" }, locales.entries.Lcz_SentAt, ":"), this.pmsLogs?.sent_date ? (h("p", { class: "list-item" }, this.pmsLogs?.sent_date, " ", _formatTime(this.pmsLogs?.sent_hour.toString(), this.pmsLogs?.sent_minute.toString()))) : (h("p", { class: `list-item ${this.pmsLogs?.sent_date ? 'green' : 'red'}` }, this.pmsLogs?.is_acknowledged ? locales.entries.Lcz_YES : locales.entries.Lcz_NO))), h("div", { class: "d-flex align-items-center p-0 m-0" }, h("p", { class: "list-title p-0 m-0" }, locales.entries.Lcz_Acknowledged), h("div", { class: "d-flex align-items-center", style: { gap: '1rem' } }, h("p", { class: `list-item  ${this.pmsLogs?.is_acknowledged ? 'green' : 'red'}` }, this.pmsLogs?.is_acknowledged ? locales.entries.Lcz_YES : locales.entries.Lcz_NO), !this.pmsLogs?.is_acknowledged && this.pmsLogs?.revision_id && this.userTypeCode === '1' && (h("ir-custom-button", { variant: "brand", loading: isRequestPending('/Ack_Exposed_Revision'), onClickHandler: async (e) => {
+        return (h("div", { key: 'dc99778911bc98aba85f30f5c3e2552ef055370e', class: "" }, isRequestPending('/Get_Exposed_PMS_Logs') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h("div", { class: 'dialog-container-height' }, h("div", { class: "d-flex align-items-center ", style: { paddingBottom: '0.5rem' } }, h("p", { class: "list-title p-0 m-0" }, t('Lcz_SentAt'), ":"), this.pmsLogs?.sent_date ? (h("p", { class: "list-item" }, this.pmsLogs?.sent_date, " ", _formatTime(this.pmsLogs?.sent_hour.toString(), this.pmsLogs?.sent_minute.toString()))) : (h("p", { class: `list-item ${this.pmsLogs?.sent_date ? 'green' : 'red'}` }, this.pmsLogs?.is_acknowledged ? t('Lcz_YES') : t('Lcz_NO', { fallback: 'NO' })))), h("div", { class: "d-flex align-items-center p-0 m-0" }, h("p", { class: "list-title p-0 m-0" }, t('Lcz_Acknowledged')), h("div", { class: "d-flex align-items-center", style: { gap: '1rem' } }, h("p", { class: `list-item  ${this.pmsLogs?.is_acknowledged ? 'green' : 'red'}` }, this.pmsLogs?.is_acknowledged ? t('Lcz_YES') : t('Lcz_NO', { fallback: 'NO' })), !this.pmsLogs?.is_acknowledged && this.pmsLogs?.revision_id && this.userTypeCode === '1' && (h("ir-custom-button", { variant: "brand", loading: isRequestPending('/Ack_Exposed_Revision'), onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const data = await this.bookingService.ackExposedRevision({
                     revision_id: this.pmsLogs?.revision_id,
                 });
                 this.error = data.ExceptionMsg;
-            } }, "Acknowledge")))), this.error && (h("wa-callout", { size: "s", appearance: "filled-outlined", variant: "danger" }, this.error))))));
+            } }, t('Lcz_Acknowledge', { fallback: 'Acknowledge' }))))), this.error && (h("wa-callout", { size: "s", appearance: "filled-outlined", variant: "danger" }, this.error))))));
     }
     static get is() { return "ir-pms-logs"; }
     static get encapsulation() { return "scoped"; }

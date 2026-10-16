@@ -1,4 +1,5 @@
 import { h } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 export class IrBillingDrawer {
     /**
      * Controls whether the billing drawer is open or closed.
@@ -29,7 +30,7 @@ export class IrBillingDrawer {
      */
     billingClose;
     render() {
-        return (h("ir-drawer", { key: '29e431c1c70bd909bd23e40faf739218435e9cc2', style: {
+        return (h("ir-drawer", { key: '8a3a0052e5142c384a8818ee94a46590548fcf57', style: {
                 '--ir-drawer-width': '70rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': '0',
@@ -40,7 +41,7 @@ export class IrBillingDrawer {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.billingClose.emit();
-            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: '402b585e07c53212218745315dd4645b88b8eed6', isAllServicesAgentOwned: this.isAllServicesAgentOwned, booking: this.booking, agent: this.agent })));
+            }, open: this.open, label: t('Lcz_Billing', { fallback: 'Billing' }) }, this.open && h("ir-billing", { key: 'bab841243cf23f8e8d50526e6b88790be6caec3d', isAllServicesAgentOwned: this.isAllServicesAgentOwned, booking: this.booking, agent: this.agent })));
     }
     static get is() { return "ir-billing-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -110,7 +111,7 @@ export class IrBillingDrawer {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",

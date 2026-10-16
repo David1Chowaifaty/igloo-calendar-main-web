@@ -1,11 +1,11 @@
 import { Booking, ExtraService } from "../../../../models/booking.dto";
 import { Agent } from "../../../../services/agents/type";
-import { IEntries } from "../../../../models/property";
+import { SetupEntries } from "../../../../models/property";
 import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IrExtraServiceConfig {
     booking: Booking;
     agent: Agent;
-    svcCategories: IEntries[];
+    svcCategories: SetupEntries[];
     service: ExtraService;
     language: string;
     open: boolean;

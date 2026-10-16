@@ -1,5 +1,5 @@
 import { h } from "@stencil/core";
-import locales from "../../../stores/locales.store";
+import { t } from "../../../services/locale/t";
 export class IrRoomGuests {
     open;
     /**
@@ -20,7 +20,7 @@ export class IrRoomGuests {
     identifier;
     /**
      * An array of people sharing the room.
-     * Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+     * Contains information about the {t('Lcz_MainGuest', { fallback: 'Main guest' })} and additional guests, such as their name, date of birth, {t('Lcz_Nationality', { fallback: 'Nationality' })}, and ID details.
      */
     sharedPersons = [];
     /**
@@ -30,7 +30,7 @@ export class IrRoomGuests {
     totalGuests = 0;
     /**
      * A list of available countries.
-     * Used to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests.
+     * Used to populate dropdowns for selecting the {t('Lcz_Nationality', { fallback: 'Nationality' })} of guests.
      */
     countries;
     /**
@@ -51,22 +51,22 @@ export class IrRoomGuests {
     closeModal;
     isLoading;
     render() {
-        return (h("ir-drawer", { key: '6f042664ffa34e7a8545ad54c1860b361925bfa0', style: {
+        return (h("ir-drawer", { key: '5c51974b1ce8223cae40120f5a45f7691d5972df', style: {
                 '--ir-drawer-width': '60rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, label: this.roomName ? `Room ${this.roomName}` : this.roomType || 'Guest Details', open: this.open, onDrawerHide: e => {
+            }, label: this.roomName ? t('Lcz_RoomDrawerLabel', { fallback: 'Room %1', params: [this.roomName] }) : this.roomType || t('Lcz_GuestDetails', { fallback: 'Guest Details' }), open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-room-guests-form", { key: 'ceba9a4ed8bd89f15134dd2c812fe5498216a645', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language, onLoadingChange: e => {
+            } }, this.open && (h("ir-room-guests-form", { key: '6232eba52c2bf5627da2ca818371f75d6dc5aabf', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language, onLoadingChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail;
-            } })), h("div", { key: '45f2444e342178a233d0cfcac5a873ac1a77c8b2', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'e3a42fd3d3c43397275e2846e17836665239a49b', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Save'), h("ir-custom-button", { key: 'da3b2d8f453d4464788282dcfc8b1bee7ead78f9', value: "save", loading: this.isLoading === 'save', size: "m", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, locales?.entries?.Lcz_Save ?? 'Save'), this.checkIn && this.roomName && (h("ir-custom-button", { key: '743f47ecde60bc0d00597d598e416729737e2157', value: "save_checkin", loading: this.isLoading === 'save_checkin', size: "m", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, locales.entries?.Lcz_CheckIn ?? 'Check in')))));
+            } })), h("div", { key: '205bd9f5afcfd1bea70f26c6f705d4e98c656e0f', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '612bad0a035f71f9c93d6a735c4c4851efee7f86', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Save' })), h("ir-custom-button", { key: '16c62c3a7fecf6e95213383ce292b46870b2144f', value: "save", loading: this.isLoading === 'save', size: "m", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })), this.checkIn && this.roomName && (h("ir-custom-button", { key: '143d357ea0fd23a1cfba031bb7dc8c845687f905', value: "save_checkin", loading: this.isLoading === 'save_checkin', size: "m", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, t('Lcz_CheckIn', { fallback: 'Check in' }))))));
     }
     static get is() { return "ir-room-guests"; }
     static get encapsulation() { return "scoped"; }
@@ -177,7 +177,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "An array of people sharing the room.\nContains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details."
+                    "text": "An array of people sharing the room.\nContains information about the {t('Lcz_MainGuest', { fallback: 'Main guest' })} and additional guests, such as their name, date of birth, {t('Lcz_Nationality', { fallback: 'Nationality' })}, and ID details."
                 },
                 "getter": false,
                 "setter": false,
@@ -222,7 +222,7 @@ export class IrRoomGuests {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "A list of available countries.\nUsed to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests."
+                    "text": "A list of available countries.\nUsed to populate dropdowns for selecting the {t('Lcz_Nationality', { fallback: 'Nationality' })} of guests."
                 },
                 "getter": false,
                 "setter": false

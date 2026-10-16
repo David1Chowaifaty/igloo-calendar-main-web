@@ -1,9 +1,9 @@
 import { Host, h } from "@stencil/core";
-import moment from "moment";
+import { formatDate } from "../../../../utils/date/index";
 export class IrClInvoiceDateCell {
     date;
     render() {
-        return h(Host, { key: 'ada5c60e63fb94296d1d4a83f0f51754622a063e' }, moment(this.date, 'YYYY-MM-DD').format('MMM DD, YYYY'));
+        return h(Host, { key: 'a2ac327d6070c0ce5c036f745a04ceeb413ea477' }, formatDate(this.date, { style: 'medium' }));
     }
     static get is() { return "ir-cl-invoice-date-cell"; }
     static get encapsulation() { return "scoped"; }

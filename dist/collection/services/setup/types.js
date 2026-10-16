@@ -1,21 +1,10 @@
-import { ZIEntrySchema } from "../../models/IBooking";
+import { SetupEntrySchema } from "../../models/IBooking";
 import * as z from "zod";
+import { LanguageSchema } from "../commonSchemas";
 // ---------------------------------------------------------------------------
 // Shared entry shape
 // ---------------------------------------------------------------------------
-export { ZIEntrySchema };
-// ---------------------------------------------------------------------------
-// Get_Setup_Entries_By_TBL_NAME
-// ---------------------------------------------------------------------------
-export const GetSetupEntriesByTblNameParamsSchema = z.object({
-    TBL_NAME: z.string().min(1),
-});
-// ---------------------------------------------------------------------------
-// Get_Setup_Entries_By_TBL_NAME_Multi
-// ---------------------------------------------------------------------------
-export const GetSetupEntriesByTblNameMultiParamsSchema = z.object({
-    TBL_NAMES: z.array(z.string().min(1)),
-});
+export { SetupEntrySchema };
 // ---------------------------------------------------------------------------
 // Get_Distinct_Setup_Tables
 // ---------------------------------------------------------------------------
@@ -81,9 +70,7 @@ export const MoveSetupEntryParamsSchema = z.object({
 /* -------------------------------------------------------------------------- */
 /*                              Move Setup Entry                              */
 /* -------------------------------------------------------------------------- */
-export const MissingSetupEntriesParamsSchema = z.object({
-    language: z.string(),
-});
+export const MissingSetupEntriesParamsSchema = LanguageSchema;
 /* -------------------------------------------------------------------------- */
 /*                       Search Setup By Description                          */
 /* -------------------------------------------------------------------------- */

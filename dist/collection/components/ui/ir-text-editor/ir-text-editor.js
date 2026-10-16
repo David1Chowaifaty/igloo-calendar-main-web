@@ -1,4 +1,5 @@
 import { Host, h } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 import Quill from "quill";
 import { patchQuillForShadowDom } from "./quill-shadow";
 function buildToolbar(config) {
@@ -368,7 +369,7 @@ export class IrTextEditor {
             return;
         }
         if (this.required && !this.disabled && this.isEmpty) {
-            this.internals.setValidity({ valueMissing: true }, 'Please fill out this field.', this.editor.root);
+            this.internals.setValidity({ valueMissing: true }, t('Lcz_PleaseFillOutThisField', { fallback: 'Please fill out this field.' }), this.editor.root);
         }
         else {
             this.internals.setValidity({});
@@ -396,10 +397,23 @@ export class IrTextEditor {
     get hintId() {
         return `${this.componentId}-hint`;
     }
+    /**
+     * Quill's snow theme renders its link-tooltip words through CSS `content`, which can't call `t()`.
+     * They're exposed as custom properties (CSS string literals) that ir-text-editor.css reads.
+     */
+    get tooltipLabelVars() {
+        return {
+            '--ir-ql-visit-url': JSON.stringify(t('Lcz_VisitUrl', { fallback: 'Visit URL:' })),
+            '--ir-ql-enter-link': JSON.stringify(t('Lcz_EnterLink', { fallback: 'Enter link:' })),
+            '--ir-ql-edit': JSON.stringify(t('Lcz_Edit', { fallback: 'Edit' })),
+            '--ir-ql-save': JSON.stringify(t('Lcz_Save', { fallback: 'Save' })),
+            '--ir-ql-remove': JSON.stringify(t('Lcz_Remove', { fallback: 'Remove' })),
+        };
+    }
     render() {
         const hasLabel = !!this.label || this.hasLabelSlot;
         const hasHint = !!this.hint || this.hasHintSlot;
-        return (h(Host, { key: 'c433ba28f96d5462b2f5c9b634f32757c1002a83' }, h("div", { key: '3a79b2d4a70bc2ca84ec9b930e4a2a60b8bc0c07', class: "field" }, hasLabel && (h("label", { key: 'e916934e539232e2fb8d2beac4b6280e93e1d34b', id: this.labelId, class: "label has-label ", part: "form-control-label label", onClick: () => this.editor?.focus() }, h("slot", { key: 'b6fab49045ce0a46f1008944be71321f0959afda', name: "label" }, this.label))), h("div", { key: '7be7c9cd47c0a7557a61b0c8c5f755deab55feaa', class: { 'editor-wrapper': true, 'error': this.error }, part: "base" }, h("div", { key: 'cc7b88e47c10acc8393cd83995663f05f6fa2a30', ref: el => (this.editorContainer = el), class: "editor-container" })), hasHint && (h("div", { key: '5f8dfa4567bf2f989eecf18c13cbd31ba0e46616', id: this.hintId, class: "field__hint has-hint", part: "hint" }, h("slot", { key: '57a8d1a216d5794fbbb6dd59c191feb5276a33a2', name: "hint" }, this.hint))))));
+        return (h(Host, { key: '7cfb7001c1db806f3348ea8a4b69911e79a43347', style: this.tooltipLabelVars }, h("div", { key: '8089fb49bb458f45f07a260add5f690cd3c7158b', class: "field" }, hasLabel && (h("label", { key: '62f539eed452cb189675d8ed3f7b8f984c954eac', id: this.labelId, class: "label has-label ", part: "form-control-label label", onClick: () => this.editor?.focus() }, h("slot", { key: '883b9dcb7080b4c61ae3c9f49683abdc16bc6749', name: "label" }, this.label))), h("div", { key: '83e14f37594365d49ed98416bab520d25103248d', class: { 'editor-wrapper': true, 'error': this.error }, part: "base" }, h("div", { key: '1d4d77366928fcbcb0ad517e8864370d2e2eeb65', ref: el => (this.editorContainer = el), class: "editor-container" })), hasHint && (h("div", { key: '769b5dce299dcd41580e698c90a7eb1e712a3c2e', id: this.hintId, class: "field__hint has-hint", part: "hint" }, h("slot", { key: '349a2522987c9d84abccd3875ff4a53f3425f93c', name: "hint" }, this.hint))))));
     }
     static get is() { return "ir-text-editor"; }
     static get encapsulation() { return "shadow"; }
@@ -407,12 +421,12 @@ export class IrTextEditor {
     static get formAssociated() { return true; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-text-editor.css", "quill.snow.css"]
+            "$": ["ir-text-editor.css", "quill.snow.css", "quill-rtl.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-text-editor.css", "quill.snow.css"]
+            "$": ["ir-text-editor.css", "quill.snow.css", "quill-rtl.css"]
         };
     }
     static get properties() {

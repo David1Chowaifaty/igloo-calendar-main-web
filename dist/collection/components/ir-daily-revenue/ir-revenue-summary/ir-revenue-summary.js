@@ -1,6 +1,7 @@
 import { Host, h } from "@stencil/core";
 import { calculateTrend, formatAmount } from "../../../utils/utils";
 import calendar_data from "../../../stores/calendar-data";
+import { t } from "../../../services/locale/t";
 export class IrRevenueSummary {
     filters;
     groupedPayments = new Map();
@@ -42,7 +43,7 @@ export class IrRevenueSummary {
         const previousDateRefundAmount = this.calculateTotalRefunds(this.previousDateGroupedPayments);
         const previousDateTotalAmount = previousDatePaymentsTotal + previousDateRefundAmount;
         const hasPrevious = Boolean(this.filters?.date && this.previousDateGroupedPayments?.size > 0);
-        return (h(Host, { key: 'a9d9d21796f106afa7a8b1f6ba4a8d90f7b5091f' }, h("div", { key: 'a1d18bd7fdad70415442d6839d6eb5d5d6921f6e', class: "revenue-summary__row" }, h("ir-metric-card", { key: '2d480953113701f289c2962829f8d9f370499c65', class: "revenue-summary__metric", icon: "arrow-trend-up", label: "Payments", value: formatAmount(calendar_data.currency.symbol, paymentsTotal), trend: hasPrevious ? calculateTrend(paymentsTotal, previousDatePaymentsTotal) : undefined, trendLabel: "from previous day", caption: hasPrevious ? `Previous day: ${formatAmount(calendar_data.currency.symbol, previousDatePaymentsTotal)}` : undefined }), h("ir-metric-card", { key: '802e3e45cf1f838a4a53dc9345e424eadad63443', class: "revenue-summary__metric", icon: "arrow-trend-down", label: "Refunds", value: formatAmount(calendar_data.currency.symbol, refundAmount), trend: hasPrevious ? calculateTrend(refundAmount, previousDateRefundAmount) : undefined, trendLabel: "from previous day", invertTrend: true, caption: hasPrevious ? `Previous day: ${formatAmount(calendar_data.currency.symbol, previousDateRefundAmount)}` : undefined }), h("ir-metric-card", { key: 'd8032efd251c3be55333c7af935c3836f62ec0cf', class: "revenue-summary__metric", icon: this.getTrendIcon(totalAmount, previousDateTotalAmount) ?? 'money-bill', label: "Net Total", value: formatAmount(calendar_data.currency.symbol, totalAmount), trend: hasPrevious ? calculateTrend(totalAmount, previousDateTotalAmount) : undefined, trendLabel: "from previous day", caption: hasPrevious ? `Previous day: ${formatAmount(calendar_data.currency.symbol, previousDateTotalAmount)}` : undefined }))));
+        return (h(Host, { key: 'cf9ebb8a0a33861970a990f1281428c397f3c5d0' }, h("div", { key: '401055b47f453c87643d2d0f59c98ab9985ae77b', class: "revenue-summary__row" }, h("ir-metric-card", { key: '6dfe42a7f02cfe29c40e44dc83bea31b08219d9b', class: "revenue-summary__metric", icon: "arrow-trend-up", label: t('Lcz_Payments', { fallback: 'Payments' }), value: formatAmount(calendar_data.currency.symbol, paymentsTotal), trend: hasPrevious ? calculateTrend(paymentsTotal, previousDatePaymentsTotal) : undefined, trendLabel: t('Lcz_FromPreviousDay', { fallback: 'from previous day' }), caption: hasPrevious ? `${t('Lcz_PreviousDay', { fallback: 'Previous day:' })} ${formatAmount(calendar_data.currency.symbol, previousDatePaymentsTotal)}` : undefined }), h("ir-metric-card", { key: 'fc21c4a9cd7f818073a2e15cb828a330071ea36b', class: "revenue-summary__metric", icon: "arrow-trend-down", label: t('Lcz_Refunds', { fallback: 'Refunds' }), value: formatAmount(calendar_data.currency.symbol, refundAmount), trend: hasPrevious ? calculateTrend(refundAmount, previousDateRefundAmount) : undefined, trendLabel: t('Lcz_FromPreviousDay', { fallback: 'from previous day' }), invertTrend: true, caption: hasPrevious ? `${t('Lcz_PreviousDay', { fallback: 'Previous day:' })} ${formatAmount(calendar_data.currency.symbol, previousDateRefundAmount)}` : undefined }), h("ir-metric-card", { key: '30523571f28128de141918b1bc3667e35bee0da7', class: "revenue-summary__metric", icon: this.getTrendIcon(totalAmount, previousDateTotalAmount) ?? 'money-bill', label: t('Lcz_NetTotal', { fallback: 'Net Total' }), value: formatAmount(calendar_data.currency.symbol, totalAmount), trend: hasPrevious ? calculateTrend(totalAmount, previousDateTotalAmount) : undefined, trendLabel: t('Lcz_FromPreviousDay', { fallback: 'from previous day' }), caption: hasPrevious ? `${t('Lcz_PreviousDay', { fallback: 'Previous day:' })} ${formatAmount(calendar_data.currency.symbol, previousDateTotalAmount)}` : undefined }))));
     }
     static get is() { return "ir-revenue-summary"; }
     static get encapsulation() { return "scoped"; }
@@ -137,7 +138,7 @@ export class IrRevenueSummary {
                 "mutable": false,
                 "complexType": {
                     "original": "PaymentEntries",
-                    "resolved": "{ types: IEntries[]; groups: IEntries[]; methods: IEntries[]; }",
+                    "resolved": "{ types: SetupEntries[]; groups: SetupEntries[]; methods: SetupEntries[]; }",
                     "references": {
                         "PaymentEntries": {
                             "location": "import",

@@ -1,17 +1,23 @@
 'use strict';
 
-var index = require('./index-Bp205iz4.js');
-var setupMapping = require('./setup-mapping-CNvHLVKB.js');
-var utils = require('./utils-w7_1d-K4.js');
+var index = require('./index-IDeZZwEK.js');
+var index$1 = require('./index-Cb_LC8em.js');
+var utils = require('./utils-ZKsQb8eV.js');
+var setupMapping = require('./setup-mapping-D72fId4a.js');
+var t = require('./t-CqJPQrfm.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./IBooking-Dsxfr_fF.js');
+require('./utils-PciJI6G4.js');
+require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
+require('./commonSchemas-D4iFLV5-.js');
+require('./locale-scope-Cch-vf1R.js');
 require('./moment-CdViwxPQ.js');
-require('./calendar-data-BpobEh98.js');
-require('./index-CjQGUKJk.js');
-require('./locales.store-CQhQqUVl.js');
+require('./calendar-data-ShS6b-Ns.js');
+require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
+require('./ir-date-CbkOKs2C.js');
+require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
 
 const irTranslationsTableFormCss = () => `.sc-ir-translations-table-form-h{display:block}.table-form__body.sc-ir-translations-table-form{display:flex;flex-direction:column;gap:1rem}.table-form__error.sc-ir-translations-table-form{margin:-0.75rem 0 0;font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-danger-on-quiet, #991b1b)}`;
@@ -38,7 +44,7 @@ const IrTranslationsTableForm = class {
     name = '';
     isSubmitting = false;
     nameInputRef;
-    setupService = new setupMapping.SetupService();
+    setupService = new index$1.SetupService();
     componentWillLoad() {
         this.name = this.table?.name ?? '';
         this.submitDisabledChange.emit(!this.isValid);
@@ -96,7 +102,7 @@ const IrTranslationsTableForm = class {
         }
     };
     render() {
-        return (index.h("form", { key: 'bc0c9cdeffe2f05b7c3c0dcb545ba6b2b69a9dba', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, index.h("ir-input", { key: '84d103a87cc9bc1a082a44ad43b5cdd7fdfff3fa', label: "Name", autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (index.h("p", { key: '5dffaec011937ae91904386caf1e19da593ff2c8', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
+        return (index.h("form", { key: 'bae8c69d1753432244bc66399ae85d8646f65880', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, index.h("ir-input", { key: '208143e9facd8364f33fc12962e95c3bd55d52a9', label: t.t('Lcz_Name', { fallback: 'Name' }), autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (index.h("p", { key: '57f9e24b8fc929b1bd616d5d5a1d7afb7f20c6c3', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
     }
 };
 IrTranslationsTableForm.style = irTranslationsTableFormCss();

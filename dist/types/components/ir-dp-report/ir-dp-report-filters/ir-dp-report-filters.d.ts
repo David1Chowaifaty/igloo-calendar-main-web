@@ -19,7 +19,7 @@ export declare class IrDpReportFilters {
      * (see `quickDatesMode="range"` on ir-date-range-filter); picked from the to-side it sets
      * from-date to this anchor *and* to-date to today, producing a complete last-N-days range.
      */
-    private quickDates;
+    private get quickDates();
     private handleDatesChanged;
     private handleSearch;
     render(): any;

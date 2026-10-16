@@ -1,10 +1,13 @@
 import { Host, h } from "@stencil/core";
 import { CityLedgerService } from "../../../services/city-ledger/index";
 import { mapClTxToFolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
-import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
 import { actionableClTypes } from "../../../services/city-ledger.service";
 import { formatAmount } from "../../../utils/utils";
+import { formatDate } from "../../../utils/date/index";
+import { formatBookingNumber } from "../../../utils/number";
+import { t } from "../../../services/locale/t";
+import { getSetupEntryLabel } from "../../../services/setup/index";
 export class IrBookingCityLedger {
     cityLedgerService = new CityLedgerService();
     /** Booking object; component is hidden when booking.agent is null. */
@@ -55,10 +58,11 @@ export class IrBookingCityLedger {
         }
     }
     get serviceCategoryOptions() {
-        return this.svcCategories.map(s => ({ id: s.CODE_NAME, label: s.CODE_VALUE_EN }));
+        return this.svcCategories.map(s => ({ id: s.CODE_NAME, label: getSetupEntryLabel(s) }));
     }
     get bookingOptions() {
-        return this.booking?.booking_nbr ? [{ id: this.booking.booking_nbr, label: `#${this.booking.booking_nbr}` }] : [];
+        // `id` stays the raw booking number — it is the option's identity; only `label` is displayed.
+        return this.booking?.booking_nbr ? [{ id: this.booking.booking_nbr, label: `#${formatBookingNumber(this.booking.booking_nbr)}` }] : [];
     }
     formatAmount(value) {
         if (!value)
@@ -75,7 +79,7 @@ export class IrBookingCityLedger {
         }
         return (h("div", { class: "folio-list" }, this.rows.map(row => {
             const showDropdown = row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.has(row._raw.CL_TX_TYPE_CODE);
-            return (h("div", { key: row._rowId, class: { 'folio-row': true, '--without-dropdown': !showDropdown } }, h("div", { class: "folio-row__header" }, h("div", { class: "folio-row__meta" }, h("span", { class: "folio-row__date" }, moment(row.serviceDate).format('MMM DD, YYYY'))), h("div", { class: "folio-row__right" }, h("span", { class: "folio-row__amount" }, row.debit !== null && h("span", { class: "is-debit" }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: "is-credit" }, row.credit ? this.formatAmount(row.credit) : '')), showDropdown && (h("wa-dropdown", { "onwa-hide": e => {
+            return (h("div", { key: row._rowId, class: { 'folio-row': true, '--without-dropdown': !showDropdown } }, h("div", { class: "folio-row__header" }, h("div", { class: "folio-row__meta" }, h("span", { class: "folio-row__date" }, formatDate(row.serviceDate, 'MMM DD, YYYY'))), h("div", { class: "folio-row__right" }, h("span", { class: "folio-row__amount" }, row.debit !== null && h("span", { class: "is-debit" }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: "is-credit" }, row.credit ? this.formatAmount(row.credit) : '')), showDropdown && (h("wa-dropdown", { "onwa-hide": e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                 }, "onwa-select": e => {
@@ -88,29 +92,29 @@ export class IrBookingCityLedger {
                             this.deleteTarget = row;
                             break;
                     }
-                } }, h("wa-button", { size: "s", class: "folio-row__action-trigger", appearance: "plain", slot: "trigger" }, h("wa-icon", { name: "ellipsis-vertical", class: "folio-row__action-trigger-icon" })), h("wa-dropdown-item", { value: "edit" }, h("wa-icon", { slot: "icon", name: "edit" }), "Edit"), h("wa-dropdown-item", { value: "delete", variant: "danger" }, h("wa-icon", { slot: "icon", name: "trash" }), "Delete"))))), h("div", { class: 'folio-row-desc_row' }, row.description && h("p", { class: "folio-row__desc" }, row.description), h("ir-cl-status-tag", { style: { marginRight: showDropdown ? '1.9rem' : '0' }, transaction: { _rowId: '', ...mapClTxToFolioRow(row._raw), balance: 0 } }))));
+                } }, h("wa-button", { size: "s", class: "folio-row__action-trigger", appearance: "plain", slot: "trigger" }, h("wa-icon", { name: "ellipsis-vertical", class: "folio-row__action-trigger-icon" })), h("wa-dropdown-item", { value: "edit" }, h("wa-icon", { slot: "icon", name: "edit" }), t('Lcz_Edit', { fallback: 'Edit' })), h("wa-dropdown-item", { value: "delete", variant: "danger" }, h("wa-icon", { slot: "icon", name: "trash" }), t('Lcz_Delete', { fallback: 'Delete' })))))), h("div", { class: 'folio-row-desc_row' }, row.description && h("p", { class: "folio-row__desc" }, row.description), h("ir-cl-status-tag", { style: { marginInlineEnd: showDropdown ? '1.9rem' : '0' }, transaction: { _rowId: '', ...mapClTxToFolioRow(row._raw), balance: 0 } }))));
         })));
     }
     render() {
         if (!this.booking?.agent) {
             return h(Host, null);
         }
-        return (h(Host, null, h("wa-card", { appearance: "plain", class: "booking-city-ledger__card" }, h("div", { slot: "header", class: "booking-city-ledger__header-title" }, h("p", { class: "font-size-large p-0 m-0" }, " Agent Folio")), h("wa-tooltip", { for: "booking-city-ledger-add-btn" }, "Add folio entry"), h("ir-custom-button", { slot: "header-actions", id: "booking-city-ledger-add-btn", size: "s", variant: "neutral", appearance: "plain", onClickHandler: () => {
+        return (h(Host, null, h("wa-card", { appearance: "plain", class: "booking-city-ledger__card" }, h("div", { slot: "header", class: "booking-city-ledger__header-title" }, h("p", { class: "font-size-large p-0 m-0" }, t('Lcz_AgentFolio', { fallback: 'Agent Folio' }))), h("wa-tooltip", { for: "booking-city-ledger-add-btn" }, t('Lcz_AddFolioEntry', { fallback: 'Add folio entry' })), h("ir-custom-button", { slot: "header-actions", id: "booking-city-ledger-add-btn", size: "s", variant: "neutral", appearance: "plain", onClickHandler: () => {
                 this.editingRow = null;
                 this.drawerOpen = true;
-            } }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), this.isLoading ? (h("div", { class: "booking-city-ledger__spinner-wrap" }, h("ir-spinner", null))) : this.error ? (h("p", { class: "booking-city-ledger__error" }, this.error)) : (this.renderRows())), h("ir-city-ledger-transaction-drawer", { open: this.drawerOpen, drawerLabel: this.editingRow ? 'Edit Folio Entry' : 'New Folio Entry', agent: this.booking.agent, booking: this.booking, transaction: this.editingRow?._raw ?? null, serviceCategoryOptions: this.serviceCategoryOptions, bookingOptions: this.bookingOptions, onCloseDrawer: () => {
+            } }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), this.isLoading ? (h("div", { class: "booking-city-ledger__spinner-wrap" }, h("ir-spinner", null))) : this.error ? (h("p", { class: "booking-city-ledger__error" }, this.error)) : (this.renderRows())), h("ir-city-ledger-transaction-drawer", { open: this.drawerOpen, drawerLabel: this.editingRow ? t('Lcz_EditFolioEntry', { fallback: 'Edit Folio Entry' }) : t('Lcz_NewFolioEntry', { fallback: 'New Folio Entry' }), agent: this.booking.agent, booking: this.booking, transaction: this.editingRow?._raw ?? null, serviceCategoryOptions: this.serviceCategoryOptions, bookingOptions: this.bookingOptions, onCloseDrawer: () => {
                 this.drawerOpen = false;
                 this.editingRow = null;
             }, onTransactionSaved: () => {
                 this.drawerOpen = false;
                 this.editingRow = null;
                 // this.clRefreshNeeded.emit();
-            } }), h("ir-dialog", { label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
+            } }), h("ir-dialog", { label: t('Lcz_DeleteEntry', { fallback: 'Delete Entry' }), open: !!this.deleteTarget, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!this.isDeleting)
                     this.deleteTarget = null;
-            } }, h("p", null, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { size: "m", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete")))));
+            } }, h("p", null, t('Lcz_ConfirmDeleteFolioEntry', { fallback: 'Are you sure you want to delete this entry? This action cannot be undone.' })), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "m", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { size: "m", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, t('Lcz_Delete', { fallback: 'Delete' }))))));
     }
     static get is() { return "ir-booking-city-ledger"; }
     static get encapsulation() { return "scoped"; }
@@ -174,14 +178,14 @@ export class IrBookingCityLedger {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "IEntries[]",
-                    "resolved": "IEntries[]",
+                    "original": "SetupEntries[]",
+                    "resolved": "SetupEntries[]",
                     "references": {
-                        "IEntries": {
+                        "SetupEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries",
-                            "referenceLocation": "IEntries"
+                            "id": "src/models/IBooking.ts::SetupEntries",
+                            "referenceLocation": "SetupEntries"
                         }
                     }
                 },

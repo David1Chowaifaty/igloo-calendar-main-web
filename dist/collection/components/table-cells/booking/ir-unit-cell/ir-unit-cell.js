@@ -3,7 +3,7 @@ export class IrUnitCell {
     room;
     showDeparture = false;
     render() {
-        return (h(Host, { key: '0636e984f7159b0e56134191b23371f5ad088e23' }, h("p", { key: 'e84d79d1373bcc59648c620758493629c2a09f26' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: '3dab175351c4800a719aa1c0fa4c0825624f2fc0', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && h("span", { key: '9eaa1c15ad1efc8e804484ddd979af3bd9b40d01' }, this.room?.departure_time?.description)));
+        return (h(Host, { key: '23952149199d5f416368d1c1ea16c535288a961c' }, h("p", { key: '152894c305a15fab8629d750561b6673e68df25a' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: '5628ce58a048f5962f3697b6d19df2821e9068e5', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && h("span", { key: '0c6a467c9c29b94587755431b2896e66c55d8930' }, this.room?.departure_time?.description)));
     }
     static get is() { return "ir-unit-cell"; }
     static get encapsulation() { return "scoped"; }

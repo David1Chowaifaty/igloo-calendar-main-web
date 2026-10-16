@@ -1,10 +1,14 @@
 import { Host, h } from "@stencil/core";
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { AgentsService } from "../../services/agents/agents.service";
-import { BookingService } from "../../services/booking-service/booking.service";
+import { SetupService, groupEntryTablesResult, getSetupEntryLabel } from "../../services/setup/index";
 import { PropertyService } from "../../services/property.service";
 import calendar_data from "../../stores/calendar-data";
 import { SystemService } from "../../services/system.service";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrCityLedger {
     el;
     ticket;
@@ -15,12 +19,11 @@ export class IrCityLedger {
     agentId = null;
     resolvedPropertyId = null;
     currentTab = 'folio';
-    isLoading = false;
+    isLoading = true;
     agents = [];
     selectedAgent = null;
     taxOptions = [];
-    serviceCategoryOptions = [];
-    currencySymbol = '$';
+    svcCategories = [];
     // Statement tab state
     statementFrom = null;
     statementTo = null;
@@ -29,15 +32,10 @@ export class IrCityLedger {
     agentSearch = '';
     fiscalFilters = { fromDate: undefined, toDate: undefined, docNumber: '', taxableOnly: false, type: 'all', proformaOnly: false };
     stmtFilters = { fromDate: null, toDate: null };
-    panels = [
-        { id: 'folio', label: 'Folio' },
-        { id: 'fiscal-documents', label: 'Fiscal Documents' },
-        { id: 'create-statement', label: 'Create Statement' },
-    ];
-    tokenService = new Token();
+    apiClientService = new ApiClient();
     agentsService = new AgentsService();
     propertyService = new PropertyService();
-    bookingService = new BookingService();
+    setupService = new SetupService();
     systemService = new SystemService();
     toolbarRef;
     createInvoiceDialogRef;
@@ -48,6 +46,8 @@ export class IrCityLedger {
             return this.agents;
         return this.agents.filter(a => a.name.toLowerCase().includes(q));
     }
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.cityLedger, () => this.init());
     componentWillLoad() {
         const agentId = this.getAgentIdFromSearchParams();
         if (agentId && !this.agentId) {
@@ -55,18 +55,27 @@ export class IrCityLedger {
         }
         if (this.ticket) {
             if (this.baseurl) {
-                this.tokenService.setBaseUrl(this.baseurl);
+                this.apiClientService.setBaseUrl(this.baseurl);
             }
-            this.tokenService.setToken(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.init();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue === oldValue)
             return;
         if (this.baseurl)
-            this.tokenService.setBaseUrl(this.baseurl);
-        this.tokenService.setToken(this.ticket);
+            this.apiClientService.setBaseUrl(this.baseurl);
+        this.apiClientService.setApiClient(this.ticket);
         this.init();
     }
     handlePropertyIdChange(newValue, oldValue) {
@@ -102,29 +111,29 @@ export class IrCityLedger {
     async init() {
         try {
             this.isLoading = true;
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.cityLedger });
             // If a property name was supplied but no numeric id, resolve the id first.
             let propertyId = this.propertyid;
             if (!propertyId && this.p) {
-                await this.propertyService.getExposedProperty({ id: null, language: this.language, aname: this.p });
+                await this.propertyService.getExposedProperty({ id: null, language: LocaleController.language, aname: this.p });
                 propertyId = calendar_data.id;
             }
             this.resolvedPropertyId = propertyId;
             const resolvedByName = !this.propertyid && !!this.p;
             const [, setupEntries, agents, currencies] = await Promise.all([
-                resolvedByName ? Promise.resolve() : this.propertyService.getExposedProperty({ id: propertyId, language: this.language }),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_SVC_CATEGORY']),
+                resolvedByName ? Promise.resolve() : this.propertyService.getExposedProperty({ id: propertyId, language: LocaleController.language }),
+                this.setupService.getSetupEntriesByTableNameMulti(['_SVC_CATEGORY']),
                 this.agentsService.getExposedAgents({ property_id: propertyId }),
                 this.systemService.getExposedCurrencies(),
+                localeReady,
             ]);
             this.currencies = currencies;
             this.agents = agents ?? [];
             this.applyAgentIdProp();
-            const { svc_category } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.serviceCategoryOptions = (svc_category ?? []).map(entry => ({
-                id: entry.CODE_NAME,
-                label: entry.CODE_VALUE_EN,
-            }));
-            this.currencySymbol = calendar_data.currency?.symbol ?? '$';
+            const { svc_category } = groupEntryTablesResult(setupEntries);
+            this.svcCategories = svc_category ?? [];
         }
         catch (error) {
             console.error('Failed to initialize city ledger', error);
@@ -133,13 +142,16 @@ export class IrCityLedger {
             this.isLoading = false;
         }
     }
+    get serviceCategoryOptions() {
+        return this.svcCategories.map(entry => ({ id: entry.CODE_NAME, label: getSetupEntryLabel(entry) }));
+    }
     render() {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-page", { label: 'City Ledger', description: this.selectedAgent?.name }, h("i", { slot: "page-description", style: { marginLeft: '0.5rem' } }, this.selectedAgent?.code), h("ir-autocomplete", { slot: "page-header",
+        return (h(Host, null, h("ir-page", { label: t('Lcz_CityLedgerPageLabel', { fallback: 'City Ledger' }), description: this.selectedAgent?.name }, h("i", { slot: "page-description", style: { marginInlineStart: '0.5rem' } }, this.selectedAgent?.code), h("ir-autocomplete", { slot: "page-header",
             // size="m"
-            placeholder: "Select agent", class: "city-ledger__agents-autocomplete", "onText-change": (e) => {
+            placeholder: t('Lcz_SelectAgentPlaceholder', { fallback: 'Select agent' }), class: "city-ledger__agents-autocomplete", "onText-change": (e) => {
                 this.agentSearch = e.detail ?? '';
             }, "onCombobox-change": (e) => {
                 this.agentSearch = '';
@@ -165,9 +177,9 @@ export class IrCityLedger {
                     url.searchParams.set('agentId', this.selectedAgent.id.toString());
                     window.history.replaceState({}, '', url);
                 }
-            } }, this.filteredAgents.map(agent => (h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name)))), !this.selectedAgent ? (h("ir-empty-state", { message: "Select an agent to get started", class: "city-ledger__no-agent" }, h("div", { slot: "icon", class: 'city-ledger__no-agent-icon-container' }, h("wa-icon", { name: "building", class: "city-ledger__no-agent-icon" })), h("p", { class: "city-ledger__no-agent-sub" }, "Choose an agent from the selector above to view their city ledger folio, fiscal documents, and statements."))) : (h("div", { class: "city-ledger__content" }, h("ir-city-ledger-toolbar", { ref: el => (this.toolbarRef = el), agentId: this.selectedAgent?.id, currencySymbol: this.currencySymbol, onCreateInvoice: () => this.createInvoiceDialogRef.openModal() }), h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
+            } }, this.filteredAgents.map(agent => (h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name)))), !this.selectedAgent ? (h("ir-empty-state", { message: t('Lcz_SelectAgentToGetStarted', { fallback: 'Select an agent to get started' }), class: "city-ledger__no-agent" }, h("div", { slot: "icon", class: 'city-ledger__no-agent-icon-container' }, h("wa-icon", { name: "building", class: "city-ledger__no-agent-icon" })), h("p", { class: "city-ledger__no-agent-sub" }, t('Lcz_SelectAgentSubtext', { fallback: 'Choose an agent from the selector above to view their city ledger folio, fiscal documents, and statements.' })))) : (h("div", { class: "city-ledger__content" }, h("ir-city-ledger-toolbar", { ref: el => (this.toolbarRef = el), agentId: this.selectedAgent?.id, onCreateInvoice: () => this.createInvoiceDialogRef.openModal() }), h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
                 this.currentTab = e.detail.name.toString();
-            }, active: this.currentTab }, this.panels.map(panel => (h("wa-tab", { key: panel.id, panel: panel.id }, panel.label))), h("wa-tab-panel", { name: "folio" }, h("ir-city-ledger-folio", { agent: this.selectedAgent, propertyId: this.resolvedPropertyId, ticket: this.ticket, language: this.language, serviceCategoryOptions: this.serviceCategoryOptions, currencies: this.currencies, onFolioSummaryUpdate: e => (this.folioSummary = e.detail) })), h("wa-tab-panel", { name: "fiscal-documents" }, h("ir-city-ledger-fiscal-documents", { agentId: this.selectedAgent?.id, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId, initialFilters: this.fiscalFilters, onClFiscalFiltersChange: e => (this.fiscalFilters = e.detail) })), h("wa-tab-panel", { name: "create-statement", class: "statement-tab-panel" }, h("ir-city-ledger-statements", { agentId: this.selectedAgent?.id, agentName: this.selectedAgent?.name ?? '', currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId, initialFilters: this.stmtFilters, onClStmtFiltersChange: e => (this.stmtFilters = e.detail) })))))), h("ir-cl-invoice-dialog", { ref: el => (this.createInvoiceDialogRef = el), agentId: this.selectedAgent?.id, onInvoiceIssued: async () => {
+            }, active: this.currentTab }, h("wa-tab", { panel: 'folio' }, t('Lcz_Folio', { fallback: 'Folio' })), h("wa-tab", { panel: 'fiscal-documents' }, t('Lcz_FiscalDocuments', { fallback: 'Fiscal Documents' })), h("wa-tab", { panel: 'create-statement' }, t('Lcz_CreateStatement', { fallback: 'Create Statement' })), h("wa-tab-panel", { name: "folio" }, h("ir-city-ledger-folio", { agent: this.selectedAgent, propertyId: this.resolvedPropertyId, ticket: this.ticket, language: this.language, serviceCategoryOptions: this.serviceCategoryOptions, currencies: this.currencies, onFolioSummaryUpdate: e => (this.folioSummary = e.detail) })), h("wa-tab-panel", { name: "fiscal-documents" }, h("ir-city-ledger-fiscal-documents", { agentId: this.selectedAgent?.id, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId, initialFilters: this.fiscalFilters, onClFiscalFiltersChange: e => (this.fiscalFilters = e.detail) })), h("wa-tab-panel", { name: "create-statement", class: "statement-tab-panel" }, h("ir-city-ledger-statements", { agentId: this.selectedAgent?.id, agentName: this.selectedAgent?.name ?? '', currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId, initialFilters: this.stmtFilters, onClStmtFiltersChange: e => (this.stmtFilters = e.detail) })))))), h("ir-cl-invoice-dialog", { ref: el => (this.createInvoiceDialogRef = el), agentId: this.selectedAgent?.id, onInvoiceIssued: async () => {
                 await this.toolbarRef?.refresh();
             } }), h("ir-cl-fiscal-document-preview", { ticket: this.ticket, propertyId: calendar_data?.property?.id, onDocumentConverted: () => this.toolbarRef?.refresh() })));
     }
@@ -311,8 +323,7 @@ export class IrCityLedger {
             "agents": {},
             "selectedAgent": {},
             "taxOptions": {},
-            "serviceCategoryOptions": {},
-            "currencySymbol": {},
+            "svcCategories": {},
             "statementFrom": {},
             "statementTo": {},
             "showStatementPreview": {},
@@ -325,6 +336,9 @@ export class IrCityLedger {
     static get elementRef() { return "el"; }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "handleTicketChange"
             }, {

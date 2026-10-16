@@ -1,6 +1,8 @@
 import { h, Fragment } from "@stencil/core";
-import locales from "../../../../stores/locales.store";
 import calendar_data, { isSingleUnit } from "../../../../stores/calendar-data";
+import { t } from "../../../../services/locale/t";
+import { getSetupEntryLabel } from "../../../../services/setup/index";
+import { formatCount } from "../../../../utils/number";
 export class IrRoomDetails {
     room;
     booking;
@@ -19,18 +21,18 @@ export class IrRoomDetails {
         const adultCount = adult_nbr > 0 ? adult_nbr : 0;
         const childCount = children_nbr > 0 ? children_nbr : 0;
         const infantCount = infant_nbr > 0 ? infant_nbr : 0;
-        const adultLabel = adultCount > 1 ? locales.entries.Lcz_Adults.toLowerCase() : locales.entries.Lcz_Adult.toLowerCase();
-        const childLabel = childCount > 1 ? locales.entries.Lcz_Children.toLowerCase() : locales.entries.Lcz_Child.toLowerCase();
-        const infantLabel = infantCount > 1 ? locales.entries.Lcz_Infants.toLowerCase() : locales.entries.Lcz_Infant.toLowerCase();
+        const adultLabel = adultCount > 1 ? t('Lcz_Adults', { fallback: 'adults' }).toLowerCase() : t('Lcz_Adult', { fallback: 'adult' }).toLowerCase();
+        const childLabel = childCount > 1 ? t('Lcz_Children', { fallback: 'Children' }).toLowerCase() : t('Lcz_Child', { fallback: 'Child' }).toLowerCase();
+        const infantLabel = infantCount > 1 ? t('Lcz_Infants').toLowerCase() : t('Lcz_Infant').toLowerCase();
         const parts = [];
         if (adultCount > 0) {
-            parts.push(`${adultCount} ${adultLabel}`);
+            parts.push(`${formatCount(adultCount)} ${adultLabel}`);
         }
         if (childCount > 0) {
-            parts.push(`${childCount} ${childLabel}`);
+            parts.push(`${formatCount(childCount)} ${childLabel}`);
         }
         if (infantCount > 0) {
-            parts.push(`${infantCount} ${infantLabel}`);
+            parts.push(`${formatCount(infantCount)} ${infantLabel}`);
         }
         return parts.join('&nbsp&nbsp&nbsp&nbsp');
     }
@@ -40,13 +42,13 @@ export class IrRoomDetails {
             if (!bed) {
                 return;
             }
-            return bed[`CODE_VALUE_${this.language}`] ?? bed.CODE_VALUE_EN;
+            return getSetupEntryLabel(bed, this.language);
         }
         return this.room.ota_meta?.bed_preferences;
     }
     render() {
         const bed = this.getBedName();
-        return (h(Fragment, { key: '65bdc0ac2a1b986e5340a80af650b362546ce07d' }, h("div", { key: '076222922239f090e00043e8d98734db34dd2896', class: "booking-room__dates-row" }, h("ir-date-view", { key: 'b8ca30540ee49c65d3bfe5cc3a7ecc67fa86c23a', format: 'ddd, MMM DD, YYYY', class: "booking-room__date-view", from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), !isSingleUnit(this.room.roomtype.id) && calendar_data.is_frontdesk_enabled && this.room.unit && h("ir-unit-tag", { key: '6515c16489ef4526881ddb833d1dc3d80ca0cfee', unit: this.room.unit.name }), this.hasCheckIn && (h("ir-custom-button", { key: '0ef804917c0fa811492fb1e88c3849890f2d3db0', onClickHandler: () => this.checkIn.emit(), id: "checkin", appearance: "outlined", variant: "brand" }, locales.entries.Lcz_CheckIn)), this.hasCheckOut && (h("ir-custom-button", { key: '3ffc2a6d40d5b1ce0b2defd9146ed6e09584965f', appearance: "outlined", variant: "brand", onClickHandler: () => this.checkOut.emit(), id: "checkout" }, locales.entries.Lcz_CheckOut))), h("div", { key: 'c3422196169a36ee594844f940226bb2dab86ef4', class: "booking-room__guest-row" }, h("p", { key: '440dfcebf989763b2a95d051e574283d2426ee44', class: "booking-room__text-reset booking-room__guest-name" }, `${this.mainGuest.first_name || ''} ${this.mainGuest.last_name || ''}`), this.room.rateplan.selected_variation.adult_nbr > 0 && (h(Fragment, { key: '44dfcb2c582aa988503298bcaa5162aacf9a3819' }, h("wa-tooltip", { key: 'c9e988ae63781ab7e24d6c6246d03a79ae2ba8c4', for: `view-guest-btn-${this.room.identifier}` }, "View guests"), h("ir-custom-button", { key: 'ce596a9dd607287be531994d72b575cb85db6df5', link: true, onClickHandler: () => this.viewGuests.emit(), id: `view-guest-btn-${this.room.identifier}`, variant: "brand", appearance: "plain" }, h("span", { key: '5a10d5da4846bd76f8b5d34597d8750fa4c0068e', innerHTML: this.formatVariation(this.room.occupancy) })))), bed && h("p", { key: 'cae6990bf059dcf1c00bcbdd1a12e1368b8eb2a0', class: "booking-room__text-reset booking-room__bed-info" }, "(", bed, ")")), (this.includeDepartureTime || this.booking.is_direct) && (h("div", { key: '0aeb72fd1da15cd4d510dd2517b26a2ceb4b5548', class: "booking-room__departure-row" }, h("div", { key: 'bb983ebfa1a7b471c20af13c829254872aa1d580', class: "booking-room__time-item" }, h("span", { key: 'e1937f2529d7d8a2ed7a22dabba47feba128b839', class: "booking-room__departure-label" }, "Expected arrival time:"), h("ir-custom-button", { key: '48af9a4e6b817d8f312cd94f5c7ca27490ea28f7', link: true, appearance: "plain", variant: "brand", onClickHandler: () => this.openArrivalDialog.emit() }, this.room.arrival_time?.description || 'Not provided')), this.includeDepartureTime && (h("div", { key: '16016670192b818e80dff5e676e39c5131c8f72e', class: "booking-room__time-item" }, h("span", { key: '23d5d3eb9ba6052abf6ee63766999d63d73714c6', class: "booking-room__departure-label" }, "Departure time:"), h("ir-custom-button", { key: '14f1368db049e5d6f1e3f107e19dbbd9acfd54c1', link: true, appearance: "plain", variant: "brand", onClickHandler: () => this.openDepartureDialog.emit() }, this.room.departure_time?.description || 'Not provided')))))));
+        return (h(Fragment, { key: '4b4dc865a2c35a21c4dbe8beb0f39ccd56143762' }, h("div", { key: 'b06560ed0d91f3f7941907ff9ed0771e44262bef', class: "booking-room__dates-row" }, h("ir-date-view", { key: 'e2404d2b490179ee19307a1b0394bf8cbd463c39', format: 'weekday-medium', class: "booking-room__date-view", from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), !isSingleUnit(this.room.roomtype.id) && calendar_data.is_frontdesk_enabled && this.room.unit && h("ir-unit-tag", { key: '3bd6955b5b17dc531e29b3c1323b17dddf819cbd', unit: this.room.unit.name }), this.hasCheckIn && (h("ir-custom-button", { key: 'fa9381cef5269c0fd3f5457a3af6d4403688ce68', onClickHandler: () => this.checkIn.emit(), id: "checkin", appearance: "outlined", variant: "brand" }, t('Lcz_CheckIn', { fallback: 'Check in' }))), this.hasCheckOut && (h("ir-custom-button", { key: 'feaa36770adbde2ca0b79f5953ed1c3a355103bf', appearance: "outlined", variant: "brand", onClickHandler: () => this.checkOut.emit(), id: "checkout" }, t('Lcz_CheckOut', { fallback: 'Check out' })))), h("div", { key: '6bbfe7eb337eb0bd3f4250bd7a8aaaa8656d1d10', class: "booking-room__guest-row" }, h("p", { key: 'fec293f0da3291211f8d5b067bf1dd810e3a9b0d', class: "booking-room__text-reset booking-room__guest-name" }, `${this.mainGuest.first_name || ''} ${this.mainGuest.last_name || ''}`), this.room.rateplan.selected_variation.adult_nbr > 0 && (h(Fragment, { key: '8a6c6e4b1b70c6af21f2fd3ceccb4d510007c029' }, h("wa-tooltip", { key: '2f2bb3cfcb1fdb474cfd925bd8396fdf51d0775e', for: `view-guest-btn-${this.room.identifier}` }, t('Lcz_ViewGuests', { fallback: 'View guests' })), h("ir-custom-button", { key: '27623d9190be8c6ca427a6972aaed7a5bfa6a2ea', link: true, onClickHandler: () => this.viewGuests.emit(), id: `view-guest-btn-${this.room.identifier}`, variant: "brand", appearance: "plain" }, h("span", { key: 'd2d53287e23bf3f69c7799f2f934da1212068d12', innerHTML: this.formatVariation(this.room.occupancy) })))), bed && h("p", { key: 'c236d5b60553fcf4674e292275a42ddcad1dd2cb', class: "booking-room__text-reset booking-room__bed-info" }, "(", bed, ")")), (this.includeDepartureTime || this.booking.is_direct) && (h("div", { key: 'f2970c941684fff308815465f362d840e0a4ce5e', class: "booking-room__departure-row" }, h("div", { key: 'b7ed5edd2957bf5dbfd72605adb6478a403590c0', class: "booking-room__time-item" }, h("span", { key: '81104f597d800cd9cebad0da858143d706de1f60', class: "booking-room__departure-label" }, t('Lcz_ExpectedArrivalTime', { fallback: 'Expected Arrival Time' }), ":"), h("ir-custom-button", { key: '1e7fc84b14dd83294dc529658be80a095b59dff3', link: true, appearance: "plain", variant: "brand", onClickHandler: () => this.openArrivalDialog.emit() }, this.room.arrival_time?.description || t('Lcz_NotProvided', { fallback: 'Not provided' }))), this.includeDepartureTime && (h("div", { key: 'a72887fd6869e72c5cdde65b893c87dc80599eac', class: "booking-room__time-item" }, h("span", { key: '2deab8c6fae3629b13a20ad6888ffd9f3091e1e1', class: "booking-room__departure-label" }, t('Lcz_DepartureTime', { fallback: 'Departure time:' })), h("ir-custom-button", { key: 'a3402a729de87bbfafc10682c5b8680431643c9b', link: true, appearance: "plain", variant: "brand", onClickHandler: () => this.openDepartureDialog.emit() }, this.room.departure_time?.description || t('Lcz_NotProvided', { fallback: 'Not provided' }))))))));
     }
     static get is() { return "ir-room-details"; }
     static get encapsulation() { return "scoped"; }
@@ -138,14 +140,14 @@ export class IrRoomDetails {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "IEntries[]",
-                    "resolved": "IEntries[]",
+                    "original": "SetupEntries[]",
+                    "resolved": "SetupEntries[]",
                     "references": {
-                        "IEntries": {
+                        "SetupEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries",
-                            "referenceLocation": "IEntries"
+                            "id": "src/models/IBooking.ts::SetupEntries",
+                            "referenceLocation": "SetupEntries"
                         }
                     }
                 },

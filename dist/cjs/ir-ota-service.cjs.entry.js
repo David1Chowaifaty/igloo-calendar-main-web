@@ -1,6 +1,13 @@
 'use strict';
 
-var index = require('./index-Bp205iz4.js');
+var index = require('./index-IDeZZwEK.js');
+var t = require('./t-CqJPQrfm.js');
+var number = require('./number-xBpNWk3H.js');
+require('./locale-scope-Cch-vf1R.js');
+require('./ir-date-CbkOKs2C.js');
+require('./language-observer-DKp37LIu.js');
+require('./moment-CdViwxPQ.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
 
 const irOtaServiceCss = () => `.sc-ir-ota-service-h{display:block}.extra-channel-service-container.sc-ir-ota-service{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.extra-channel-service-container.sc-ir-ota-service *.sc-ir-ota-service{padding:0;margin:0;box-sizing:border-box}.extra-channel-service-actions.sc-ir-ota-service{display:flex;align-items:center;gap:0.5rem}.extra-channel-service-conditional-date.sc-ir-ota-service{margin-top:0.5rem}`;
 
@@ -10,7 +17,7 @@ const IrOtaService = class {
     }
     service;
     render() {
-        return (index.h("div", { key: 'eb985d147972aa561ebf33d29daf8f6a5a127540', class: "p-1" }, index.h("div", { key: 'f9fade24f97a0373b023e46a9600b6b138485d3c', class: "m-0 p-0 d-flex align-items-center justify-content-between" }, index.h("p", { key: 'b787ff714b0545ba3e054831dbe834f70ece53fd', class: "m-0 d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("b", { key: 'b80c0838313b53be56b9cb6f8b5a5868755504f3' }, this.service.name), index.h("span", { key: '5073aae73d6b2091519c5f794943cfef07c174a4', class: "p-0 m-0" }, this.service?.persons?.toString(), " ", this.service.persons > 1 ? 'persons' : 'person'), index.h("span", { key: '4130bf70960dfc19a24848032e8200a031f9f395', class: "p-0 m-0" }, this.service?.nights?.toString(), " ", this.service.nights > 1 ? 'nights' : 'night')), index.h("b", { key: '766c9c3003718debb4b76a013fce7bcd3f5539d2' }, this.service.total_price)), index.h("div", { key: '760d2bca5cb57ddef27956082353dc511abc46b8' }, index.h("ir-label", { key: '0c380f20f4119dddbc6e426fae4bcd42cd132b00', containerStyle: { margin: '0', padding: '0' }, content: this.service?.price_mode, labelText: `Price mode:` }), index.h("ir-label", { key: 'e36e37eea2e4194cf62e72e6ec96b6f391169201', containerStyle: { margin: '0', padding: '0' }, class: "m-0 p-0", content: this.service?.price_per_unit?.toString(), labelText: `Price per unit:` }))));
+        return (index.h("div", { key: '920b8df5d11d76f42e6cb28d97a27c9ab944fab5', class: "p-1" }, index.h("div", { key: 'fba44c7a58a7fe4eaefd9370918c6bc0e82a490a', class: "m-0 p-0 d-flex align-items-center justify-content-between" }, index.h("p", { key: '843544b3d7298f393a7bf44d6e4dd83fd2714cfa', class: "m-0 d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("b", { key: 'c984abeb630f127cf915a96e4d27ae7f34fc1963' }, this.service.name), index.h("span", { key: '1423cd71a174cd67c276495b467dd49cfa2c5fe2', class: "p-0 m-0" }, number.formatCount(this.service?.persons), " ", this.service.persons > 1 ? t.t('Lcz_PersonPlural', { fallback: 'persons' }) : t.t('Lcz_PersonSingular', { fallback: 'person' })), index.h("span", { key: '233d2de96c703ea5ba00cdecb403e3587f20a411', class: "p-0 m-0" }, number.formatCount(this.service?.nights), " ", this.service.nights > 1 ? t.t('Lcz_Nights', { fallback: 'nights' }) : t.t('Lcz_Night', { fallback: 'night' }))), index.h("b", { key: '348a581050e69feaf636dfd022f4ce44fc0309da' }, number.formatNumber(this.service.total_price, { minimumFractionDigits: 2, maximumFractionDigits: 2 }))), index.h("div", { key: '59e0125bae3a0b362907be1b308190bb4fa74979' }, index.h("ir-label", { key: 'c24cebb16f4f34de63e6491e62ba1241a6f37a50', containerStyle: { margin: '0', padding: '0' }, content: this.service?.price_mode, labelText: t.t('Lcz_PriceMode', { fallback: 'Price mode:' }) }), index.h("ir-label", { key: 'f644bff4a283304ff1e7c9343a04f9c2f95d264b', containerStyle: { margin: '0', padding: '0' }, class: "m-0 p-0", content: this.service?.price_per_unit?.toString(), labelText: t.t('Lcz_PricePerUnit', { fallback: 'Price per unit:' }) }))));
     }
 };
 IrOtaService.style = irOtaServiceCss();

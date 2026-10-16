@@ -1,7 +1,7 @@
 import { h } from "@stencil/core";
 import { toFloat } from "../../../../utils/utils";
-import locales from "../../../../stores/locales.store";
 import calendar_data from "../../../../stores/calendar-data";
+import { t } from "../../../../services/locale/t";
 export class IrBookingGuarantee {
     booking;
     bookingService;
@@ -41,11 +41,11 @@ export class IrBookingGuarantee {
         if (this.booking.agent) {
             const code = this.booking?.extras?.find(e => e.key === 'agent_payment_mode');
             if (code) {
-                paymentMethod = code.value === '001' ? locales.entries.Lcz_OnCredit : payment_code ? this.checkPaymentCode(payment_code.value) : null;
+                paymentMethod = code.value === '001' ? t('Lcz_OnCredit') : payment_code ? this.checkPaymentCode(payment_code.value) : null;
             }
         }
         else if (payment_code) {
-            paymentMethod = payment_code.value === '000' ? 'No card info required upon booking' : this.checkPaymentCode(payment_code.value);
+            paymentMethod = payment_code.value === '000' ? t('Lcz_NoCardInfoRequired', { fallback: 'No card info required upon booking' }) : this.checkPaymentCode(payment_code.value);
         }
         return paymentMethod;
     }
@@ -67,8 +67,8 @@ export class IrBookingGuarantee {
         if (!cci)
             return null;
         return [
-            h("div", null, cci && 'Card:', " ", h("span", null, cci.nbr || ''), cci.expiry_month && ' Expiry: ', h("span", null, cci.expiry_month || '', cci.expiry_year && '/' + cci.expiry_year)),
-            h("div", null, cci.holder_name && 'Name:', " ", h("span", null, cci.holder_name || ''), cci.cvc && ' - CVC:', " ", h("span", null, cci.cvc || '')),
+            h("div", null, cci && t('Lcz_CardLabel', { fallback: 'Card:' }), " ", h("span", null, cci.nbr || ''), cci.expiry_month && t('Lcz_ExpiryLabel', { fallback: ' Expiry: ' }), h("span", null, cci.expiry_month || '', cci.expiry_year && '/' + cci.expiry_year)),
+            h("div", null, cci.holder_name && `${t('Lcz_Name', { fallback: 'Name' })}:`, " ", h("span", null, cci.holder_name || ''), cci.cvc && t('Lcz_CvcLabel', { fallback: ' - CVC:' }), " ", h("span", null, cci.cvc || '')),
         ];
     }
     renderCollapsedContent() {
@@ -84,14 +84,14 @@ export class IrBookingGuarantee {
         const { ota_guarante } = this.booking;
         if (!ota_guarante || this.booking.is_direct)
             return null;
-        return (h("div", null, h("ir-label", { content: ota_guarante.card_type + `${ota_guarante.is_virtual ? ' (virtual)' : ''}`, labelText: `${locales.entries.Lcz_CardType}:` }), h("ir-label", { content: ota_guarante.cardholder_name, labelText: `${locales.entries.Lcz_CardHolderName}:` }), h("ir-label", { content: ota_guarante.card_number, labelText: `${locales.entries.Lcz_CardNumber}:` }), h("ir-label", { content: this.formatCurrency(toFloat(Number(ota_guarante.meta?.virtual_card_current_balance), Number(ota_guarante.meta?.virtual_card_decimal_places)), ota_guarante.meta?.virtual_card_currency_code), labelText: `${locales.entries.Lcz_CardBalance}:` })));
+        return (h("div", null, h("ir-label", { content: ota_guarante.card_type + `${ota_guarante.is_virtual ? t('Lcz_VirtualCardSuffix', { fallback: ' (virtual)' }) : ''}`, labelText: `${t('Lcz_CardType')}:` }), h("ir-label", { content: ota_guarante.cardholder_name, labelText: `${t('Lcz_CardHolderName', { fallback: 'Card holder name' })}:` }), h("ir-label", { content: ota_guarante.card_number, labelText: `${t('Lcz_CardNumber', { fallback: 'Card number' })}:` }), h("ir-label", { content: this.formatCurrency(toFloat(Number(ota_guarante.meta?.virtual_card_current_balance), Number(ota_guarante.meta?.virtual_card_decimal_places)), ota_guarante.meta?.virtual_card_currency_code), labelText: `${t('Lcz_CardBalance')}:` })));
     }
     render() {
         if (!this.shouldShowGuarantee()) {
             return null;
         }
         const paymentMethod = this.booking.is_direct ? this.getPaymentMethod() : null;
-        return (h("div", { class: "mb-1" }, h("div", { class: "d-flex align-items-center" }, h("span", { class: "mr-1 font-medium" }, locales.entries.Lcz_BookingGuarantee, paymentMethod && h("span", null, ": ", paymentMethod)), this.shouldShowToggleButton() && (h("ir-button", { id: "drawer-icon", "data-toggle": "collapse", "data-target": ".guarrantee", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "myCollapse", class: "sm-padding-right pointer", variant: "icon", icon_name: "credit_card", onClickHandler: this.handleToggleCollapse.bind(this) }))), h("div", { class: "collapse guarrantee" }, this.renderCollapsedContent()), this.renderOtaGuarantee()));
+        return (h("div", { class: "mb-1" }, h("div", { class: "d-flex align-items-center" }, h("span", { class: "ir-me-1 font-medium" }, t('Lcz_BookingGuarantee'), paymentMethod && h("span", null, ": ", paymentMethod)), this.shouldShowToggleButton() && (h("ir-button", { id: "drawer-icon", "data-toggle": "collapse", "data-target": ".guarrantee", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "myCollapse", class: "sm-padding-right pointer", variant: "icon", icon_name: "credit_card", onClickHandler: this.handleToggleCollapse.bind(this) }))), h("div", { class: "collapse guarrantee" }, this.renderCollapsedContent()), this.renderOtaGuarantee()));
     }
     static get is() { return "ir-booking-guarantee"; }
     static get encapsulation() { return "scoped"; }

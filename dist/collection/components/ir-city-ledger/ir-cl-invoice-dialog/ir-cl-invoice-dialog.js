@@ -3,6 +3,8 @@ import { CityLedgerService } from "../../../services/city-ledger/index";
 import calendar_data from "../../../stores/calendar-data";
 import { ClTxTypeCode, FdTypes, InOut } from "../../../types/enums";
 import moment from "moment";
+import { formatBookingNumber } from "../../../utils/number";
+import { t } from "../../../services/locale/t";
 export class IrClInvoiceDialog {
     agentId = null;
     mode = 'default';
@@ -144,7 +146,7 @@ export class IrClInvoiceDialog {
             }
         }
         catch (err) {
-            this.error = err instanceof Error ? err.message : 'Failed to issue invoice.';
+            this.error = err instanceof Error ? err.message : t('Lcz_FailedToIssueInvoice', { fallback: 'Failed to issue invoice.' });
         }
         finally {
             this.isLoading = false;
@@ -190,7 +192,7 @@ export class IrClInvoiceDialog {
             this.dialogRef.closeModal();
         }
         catch (err) {
-            this.error = err instanceof Error ? err.message : 'Failed to generate proforma.';
+            this.error = err instanceof Error ? err.message : t('Lcz_FailedToGenerateProforma', { fallback: 'Failed to generate proforma.' });
         }
         finally {
             this.isLoading = false;
@@ -198,9 +200,15 @@ export class IrClInvoiceDialog {
     }
     render() {
         const units = this.booking ? this.booking?.rooms.filter(r => r.agent && r.in_out?.code !== InOut.CheckedOut).map(r => r.unit.name) : null;
-        return (h(Host, { key: '9c07bdcb6deacdbb35c6fdfbd7d15a648989256c' }, h("ir-dialog", { key: '45c0eb219900f325e609e4a4b893826baa68bd78', label: "Create Invoice", ref: el => (this.dialogRef = el) }, this.booking && (h("div", { key: 'a25e0a4bd4bef783be70006d02372711b010ed23', slot: "header-actions", class: 'cl-invoice-dialog__header-actions' }, h("wa-switch", { key: 'f8e94eb3718043e642a1ccce8ae66347ce9cbdc2', checked: this.isProforma, disabled: this.mode === 'booking' && !this.allRoomsCheckedOut, onchange: e => (this.isProforma = e.target.checked) }, "Proforma"))), h("div", { key: '969dc92fa64ba39d033e97137ec6ea2bb87bd5ee', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (!this.allRoomsCheckedOut ? (h("wa-callout", { size: "s", variant: "warning" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), "Only a proforma invoice can be generated at this time because ", units?.length > 1 ? 'units' : 'unit', " ", h("b", null, units?.join(', ')), ".", ' ', units?.length > 1 ? 'are' : 'is', " still in-house.")) : (h("p", { class: "create-invoice-dialog__message" }, this.isProforma
-            ? `Generate a proforma for Booking #${this.booking?.booking_nbr}?`
-            : `Issue a draft invoice for Booking #${this.booking?.booking_nbr} to the agent?`))) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: 'e9a858b6cda1e07f7a61ceec76c49f1a93adf024', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '303cbe4cc4ffa2182257d60265722a6a4673ab21', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: '97ebe1aa2e1cefc8e9dd303b7fa6bf06655ca7f0', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '26bb1a7d0590bee2fae403724a1734ed5a747eec', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '1c03ef4eaf14dc1bc9c16c158005c16e8ee9ef49', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '0bc20c81e2e7d3e8d7b557d0dff489b200684484', size: "m", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, this.isProforma ? 'Confirm' : 'Show draft')))));
+        return (h(Host, { key: '9d52d380e346a7b487daeb66c4fb16eeb05cf922' }, h("ir-dialog", { key: '7c299ac62bc081f625516758490e332154901bf3', label: t('Lcz_CreateInvoice', { fallback: 'Create Invoice' }), ref: el => (this.dialogRef = el) }, this.booking && (h("div", { key: '6d2e752cafb476e09ad1753f102fa3b3b2961d5f', slot: "header-actions", class: 'cl-invoice-dialog__header-actions' }, h("wa-switch", { key: 'bccd484dd08f6a9cb3ad959693c12b3b92870676', checked: this.isProforma, disabled: this.mode === 'booking' && !this.allRoomsCheckedOut, onchange: e => (this.isProforma = e.target.checked) }, t('Lcz_Proforma', { fallback: 'Proforma' })))), h("div", { key: '45ea634e40ac80d2b23b19c00098d23856b2be75', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (!this.allRoomsCheckedOut ? (h("wa-callout", { size: "s", variant: "warning" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), t('Lcz_ProformaOnlyInHouseWarning', {
+            fallback: 'Only a proforma invoice can be generated at this time because %1 is/are still in-house.',
+            params: [`${units?.length > 1 ? t('Lcz_UnitsLowercase', { fallback: 'units' }) : t('Lcz_UnitLowercase', { fallback: 'unit' })} ${units?.join(', ')}`],
+        }))) : (h("p", { class: "create-invoice-dialog__message" }, this.isProforma
+            ? t('Lcz_GenerateProformaConfirm', { fallback: 'Generate a proforma for Booking #%1?', params: [formatBookingNumber(this.booking?.booking_nbr)] })
+            : t('Lcz_IssueDraftInvoiceConfirm', {
+                fallback: 'Issue a draft invoice for Booking #%1 to the agent?',
+                params: [formatBookingNumber(this.booking?.booking_nbr)],
+            })))) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: '115ad6b8264c3fdeced494bd378d1fff94952f0b', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: 'e2934731acdb55dd1888012d39f53e60f547000b', slot: "icon", name: "triangle-exclamation" }), t('Lcz_NoTransactionsFoundForPeriod', { fallback: 'No transactions found for the selected period and filters.' }))), this.error && h("p", { key: '732109d612112e9334fea671bd134f7ea664b0be', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '4acecf3abdcc21c0346400311e4a889d36ba97c0', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '8727acbc6f0cdcf51a074b219c37c0e0f1ba8828', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '5c297bafe0d29c997b300b166770a910be36a723', size: "m", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, this.isProforma ? t('Lcz_Confirm', { fallback: 'Confirm' }) : t('Lcz_ShowDraft', { fallback: 'Show draft' }))))));
     }
     static get is() { return "ir-cl-invoice-dialog"; }
     static get encapsulation() { return "scoped"; }

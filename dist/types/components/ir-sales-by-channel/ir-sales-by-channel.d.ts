@@ -12,11 +12,15 @@ export declare class IrSalesByChannel {
     channelSalesFilters: ChannelSaleFilter;
     allowedProperties: AllowedProperties;
     propertyID: number;
-    private token;
-    private roomService;
+    private ApiClient;
     private propertyService;
     private baseFilters;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     ticketChanged(newValue: string, oldValue: string): void;
     private initializeApp;
     private getChannelSales;

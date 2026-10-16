@@ -1,19 +1,25 @@
-import { r as registerInstance, h, H as Host } from './index-CwWmK1sZ.js';
-import { T as Token } from './Token-CkxFIO_J.js';
-import { S as SetupService, e as exposedLanguagesToTranslationLanguages, s as setupEntryToTranslationEntry, b as buildEditSetupParams } from './setup-mapping-CgIk5H3x.js';
-import { k as showToast } from './utils-DCUYWubA.js';
+import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
+import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
+import { S as SetupService } from './index-BjCyQqYQ.js';
+import { f as showToast } from './utils-iP-LMQsp.js';
 import { c as cjsExports } from './index-Bn8mRT4P.js';
-import { p as planDuplicateSync } from './duplicate-sync-Cly-YjZD.js';
-import { U as USED_TABLES_LOCAL_STORAGE_NAME, P as PINNED_LANG_LOCAL_STORAGE_NAME, S as SHOW_NOTES_LOCAL_STORAGE_NAME, b as buildDuplicateMap, a as SESSION_CURRENT_TABLE, s as sortByDisplayOrder, o as orderLanguages, g as getSourceLanguage, d as USED_SETUP_TABLE_SET, e as diffValues } from './utils-D41R8RSL.js';
+import { p as planDuplicateSync } from './duplicate-sync-DQw5ZTwR.js';
+import { e as exposedLanguagesToTranslationLanguages, s as setupEntryToTranslationEntry, b as buildEditSetupParams } from './setup-mapping-CkK5DDbX.js';
+import { U as USED_TABLES_LOCAL_STORAGE_NAME, P as PINNED_LANG_LOCAL_STORAGE_NAME, S as SHOW_NOTES_LOCAL_STORAGE_NAME, b as buildDuplicateMap, a as SESSION_CURRENT_TABLE, s as sortByDisplayOrder, o as orderLanguages, g as getSourceLanguage, d as USED_SETUP_TABLE_SET, e as diffValues } from './utils-Btr0LXV6.js';
+import { t } from './t-Bvz1wS_D.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-DciUlUdo.js';
-import './types-Cvnhk41g.js';
+import './utils-BjFJEvis.js';
+import './IBooking-B4waZCSK.js';
+import './types-CB66a07H.js';
+import './commonSchemas-Cx9w9d8l.js';
+import './locale-scope-Jre4lb6k.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-zADniuy4.js';
-import './index-BfixheT-.js';
-import './locales.store-DN9FqlnV.js';
-import './type-ByBjJ3uo.js';
+import './calendar-data-DknGMMFc.js';
+import './booking.dto-B554ToUQ.js';
+import './type-DjfVZqvs.js';
+import './ir-date-XXNYhmSL.js';
+import './language-observer-CHgzsZkY.js';
 import './calendar-dates-D3hVfsrC.js';
 
 const irTranslationsManagerCss = () => `.sc-ir-translations-manager-h{display:block;height:100%}.tm__page-actions.sc-ir-translations-manager{display:flex;align-items:center;flex-wrap:wrap;gap:0.5rem 0.75rem}.translation-manager__page.sc-ir-translations-manager::part(body),.translation-manager__page.sc-ir-translations-manager [part~="body"]{height:100%}.tm__table-picker.sc-ir-translations-manager{display:flex;align-items:center;gap:0.35rem;min-width:0}.tm__table-select.sc-ir-translations-manager{flex:1 1 auto;min-width:0;width:15rem}.tm__table-select.sc-ir-translations-manager::part(label),.tm__table-select.sc-ir-translations-manager [part~="label"]{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0}.tm__table-select.sc-ir-translations-manager::part(listbox),.tm__table-select.sc-ir-translations-manager [part~="listbox"]{max-height:300px;width:350px}.tm__search.sc-ir-translations-manager{flex:0 1 auto;min-width:0;width:14rem}.tm__missing-select.sc-ir-translations-manager{flex:0 1 auto;min-width:0;width:17rem;--tag-max-size:7ch}.tm__missing-select.sc-ir-translations-manager::part(tags),.tm__missing-select.sc-ir-translations-manager [part~="tags"]{flex-wrap:nowrap}.tm__search.sc-ir-translations-manager::part(label),.tm__search.sc-ir-translations-manager [part~="label"],.tm__missing-select.sc-ir-translations-manager::part(form-control-label),.tm__missing-select.sc-ir-translations-manager [part~="form-control-label"]{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0}.tm__missing-select.sc-ir-translations-manager::part(listbox),.tm__missing-select.sc-ir-translations-manager [part~="listbox"]{max-height:300px}.tm__table-picker.sc-ir-translations-manager .tm__icon-btn.sc-ir-translations-manager,.tm__page-actions.sc-ir-translations-manager>.tm__icon-btn.sc-ir-translations-manager{flex:0 0 auto;--ir-c-btn-padding:0}@media (max-width: 575px){.tm__page-actions.sc-ir-translations-manager{width:100%}.tm__table-picker.sc-ir-translations-manager{flex:1 1 100%}.tm__table-select.sc-ir-translations-manager{width:auto}.tm__search.sc-ir-translations-manager,.tm__missing-select.sc-ir-translations-manager{flex:1 1 100%;width:auto}}.tm__loader-container.sc-ir-translations-manager{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;padding:3rem 1rem;color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.tm__loader-container.sc-ir-translations-manager p.sc-ir-translations-manager{margin:0}.tm__confirm-text.sc-ir-translations-manager{margin:0}.tm__confirm-footer.sc-ir-translations-manager{display:flex;justify-content:flex-end;gap:0.5rem}`;
@@ -41,6 +47,8 @@ const IrTranslationsManager = class {
     tableDialogOpen = false;
     tableDialogMode = 'create';
     tableDialogTable = null;
+    moveDialogOpen = false;
+    moveDialogEntry = null;
     settingsDialogOpen = false;
     /** Non-source language codes pinned as columns. `null` means "not customized yet" — everything is pinned. */
     pinnedLanguageCodes = null;
@@ -74,7 +82,7 @@ const IrTranslationsManager = class {
     duplicates = new Map();
     deleteDialogRef;
     unsavedOrderDialogRef;
-    tokenService = new Token();
+    apiClientService = new ApiClient();
     setupService = new SetupService();
     /** Every keystroke in the header search. Debounced downstream — typing shouldn't be a query per character. */
     search$ = new cjsExports.Subject();
@@ -94,7 +102,7 @@ const IrTranslationsManager = class {
             this.isLoadingCrossTable = false;
         });
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.loadLanguages();
             this.loadTables();
             this.loadDuplicatedSetupEntriesAcrossTables();
@@ -109,7 +117,7 @@ const IrTranslationsManager = class {
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue && newValue !== oldValue) {
-            this.tokenService.setToken(newValue);
+            this.apiClientService.setApiClient(newValue);
             this.loadLanguages();
             this.loadTables();
             this.loadDuplicatedSetupEntriesAcrossTables();
@@ -171,7 +179,7 @@ const IrTranslationsManager = class {
         }
         this.isLoadingEntries = true;
         try {
-            const rows = await this.setupService.getSetupEntriesByTblName({ TBL_NAME: tableId });
+            const rows = await this.setupService.getSetupEntriesByTableName(tableId);
             const entries = sortByDisplayOrder(rows.map(setupEntryToTranslationEntry));
             this.tables = this.tables.map(table => (table.id === tableId ? { ...table, entries } : table));
             // A fresh fetch is always the authoritative order — any pending local reorder is moot now.
@@ -491,7 +499,10 @@ const IrTranslationsManager = class {
                 showToast({ type: 'error', title: 'Saved, but its duplicate rows could not be updated' });
             }
             else {
-                showToast({ type: 'success', title: synced > 0 ? `Saved — also updated ${synced} duplicate ${synced === 1 ? 'row' : 'rows'}` : 'Saved Successfully' });
+                showToast({
+                    type: 'success',
+                    title: synced > 0 ? `Saved — also updated ${synced} duplicate ${synced === 1 ? 'row' : 'rows'}` : t('Lcz_SavedSuccessfully', { fallback: 'Saved Successfully' }),
+                });
             }
         }
         catch (error) {
@@ -600,6 +611,27 @@ const IrTranslationsManager = class {
     requestDeleteEntry(entry) {
         this.deleteTarget = { type: 'entry', id: entry.id, label: entry.key || 'this key' };
         this.deleteDialogRef?.openModal();
+    }
+    openMoveEntry(entry) {
+        // Same guard as the header search — a move refetches rows, which would silently drop an unsaved reorder.
+        if (this.orderDirty) {
+            showToast({ type: 'error', title: 'Save or discard the pending order first' });
+            return;
+        }
+        this.moveDialogEntry = { ...entry, tableName: this.tableNameFor(entry) };
+        this.moveDialogOpen = true;
+    }
+    /** Move_Setup_Entry already re-homed the row — drop it from whatever is on screen and let the destination refetch when it's next selected. */
+    handleEntryMoved({ entry }) {
+        this.moveDialogOpen = false;
+        this.moveDialogEntry = null;
+        this.patchEntries(entries => entries.filter(item => item.id !== entry.id));
+        if (this.isCrossTableMode) {
+            // The row still matches the query — refetch so it reappears under its new table's header.
+            this.refresh$.next();
+        }
+        // Duplicate badges are keyed by `TBL_NAME::CODE_NAME`, so the moved row's id just changed.
+        this.loadDuplicatedSetupEntriesAcrossTables();
     }
     // #endregion
     // #region Table CRUD
@@ -755,12 +787,15 @@ const IrTranslationsManager = class {
         const sourceCode = getSourceLanguage(this.languages)?.code;
         // In the cross-table view the drawer follows the row being edited, not the picker.
         const drawerTableName = this.entryDrawerEntry?.tableName ?? activeTable?.name;
-        return (h(Host, { key: 'e9ad019458b74591fc08bf4548bcc1050491b0c7' }, h("ir-page", { key: '7b599f1bdbaa1fbaf8487e0db9ea3707a7cd891e', class: 'translation-manager__page', label: "Setup Entries" }, this.renderPageActions(), this.isLoading ? (h("div", { class: "tm__loader-container" }, h("ir-spinner", null), h("p", null, "Loading translation tables\u2026"))) : !activeTable && !this.isCrossTableMode ? (h("ir-empty-state", { message: "No translation tables yet \u2014 create one to start translating strings." }, h("ir-custom-button", { variant: "brand", appearance: "filled", onClickHandler: () => this.openCreateTable() }, "New table"))) : this.isCrossTableMode && !this.isLoadingCrossTable && this.allowedCrossTableEntries.length === 0 ? (h("ir-empty-state", { message: this.crossTableEmptyMessage })) : (h("ir-translations-entries-panel", { entries: this.displayedEntries, languages: this.displayedLanguages, sourceCode: sourceCode, isLoading: this.isLoadingEntries || this.isLoadingCrossTable, disableActions: this.isMutating, groupByTable: this.isCrossTableMode, tableNames: this.crossTableNames, disableCreate: this.isCrossTableMode, hasPendingOrder: this.orderDirty, changedEntryIds: this.changedEntryIds, duplicates: this.duplicates, showNotes: this.showNotesColumn, onCreateEntry: () => this.openCreateEntry(), onEditEntry: (e) => this.openEditEntry(e.detail),
+        return (h(Host, { key: 'ea47a3b3b13f286d440148164a23250e56620fc5' }, h("ir-page", { key: 'b8a5e9014e8f6c04b27406c3b6c8a1c3ad7f7fae', class: 'translation-manager__page', label: "Setup Entries" }, this.renderPageActions(), this.isLoading ? (h("div", { class: "tm__loader-container" }, h("ir-spinner", null), h("p", null, "Loading translation tables\u2026"))) : !activeTable && !this.isCrossTableMode ? (h("ir-empty-state", { message: "No translation tables yet \u2014 create one to start translating strings." }, h("ir-custom-button", { variant: "brand", appearance: "filled", onClickHandler: () => this.openCreateTable() }, "New table"))) : this.isCrossTableMode && !this.isLoadingCrossTable && this.allowedCrossTableEntries.length === 0 ? (h("ir-empty-state", { message: this.crossTableEmptyMessage })) : (h("ir-translations-entries-panel", { entries: this.displayedEntries, languages: this.displayedLanguages, sourceCode: sourceCode, isLoading: this.isLoadingEntries || this.isLoadingCrossTable, disableActions: this.isMutating, groupByTable: this.isCrossTableMode, tableNames: this.crossTableNames, disableCreate: this.isCrossTableMode, hasPendingOrder: this.orderDirty, changedEntryIds: this.changedEntryIds, duplicates: this.duplicates, showNotes: this.showNotesColumn, onCreateEntry: () => this.openCreateEntry(), onEditEntry: (e) => this.openEditEntry(e.detail),
             // onDuplicateEntry={(e: CustomEvent<TranslationEntry>) => this.handleDuplicateEntry(e.detail)}
-            onDeleteEntry: (e) => this.requestDeleteEntry(e.detail), onEntryChange: (e) => this.handleEntryChange(e.detail), onToggleVisibility: (e) => this.handleToggleVisibility(e.detail), onReorderEntries: (e) => this.handleReorderEntries(e.detail), onSaveOrder: () => this.handleSaveOrder(), onDiscardOrder: () => this.handleDiscardOrder() }))), h("ir-translations-entry-drawer", { key: 'e054d72432f9d90c9bbded1f4f25d2f13b08b6ce', open: this.entryDrawerOpen, languages: languages, entry: this.entryDrawerEntry, duplicateSiblings: this.entryDrawerEntry ? (this.duplicates.get(this.entryDrawerEntry.id)?.siblings ?? []) : [], existingKeys: this.displayedEntries.filter(entry => entry.tableName === drawerTableName).map(entry => entry.key), nextDisplayOrder: this.nextDisplayOrder, tableName: drawerTableName, ownerId: this.propertyid, entryUserId: this.userId, onEntrySaved: this.handleEntrySaved, onCloseDrawer: () => {
+            onMoveEntry: (e) => this.openMoveEntry(e.detail), onDeleteEntry: (e) => this.requestDeleteEntry(e.detail), onEntryChange: (e) => this.handleEntryChange(e.detail), onToggleVisibility: (e) => this.handleToggleVisibility(e.detail), onReorderEntries: (e) => this.handleReorderEntries(e.detail), onSaveOrder: () => this.handleSaveOrder(), onDiscardOrder: () => this.handleDiscardOrder() }))), h("ir-translations-entry-drawer", { key: '2c56ca798543c32140784aa2e883b69acbada009', open: this.entryDrawerOpen, languages: languages, entry: this.entryDrawerEntry, duplicateSiblings: this.entryDrawerEntry ? (this.duplicates.get(this.entryDrawerEntry.id)?.siblings ?? []) : [], existingKeys: this.displayedEntries.filter(entry => entry.tableName === drawerTableName).map(entry => entry.key), nextDisplayOrder: this.nextDisplayOrder, tableName: drawerTableName, ownerId: this.propertyid, entryUserId: this.userId, onEntrySaved: this.handleEntrySaved, onCloseDrawer: () => {
                 this.entryDrawerOpen = false;
                 this.entryDrawerEntry = null;
-            } }), h("ir-translations-settings-dialog", { key: 'd9f7414d5e5117f0dd0c63a117d16664e2e5cf51', open: this.settingsDialogOpen, usedTablesOnly: this.usedTablesOnly, languages: this.languages, sourceCode: sourceCode, pinnedCodes: this.effectivePinnedLanguageCodes, showNotes: this.showNotesColumn, onSaveSettings: (e) => this.handleSaveSettings(e.detail), onCloseDialog: () => (this.settingsDialogOpen = false) }), h("ir-translations-table-dialog", { key: '3e49c73ef6a52efdd4d33d7d37da1acdabd6ffba', open: this.tableDialogOpen, mode: this.tableDialogMode, table: this.tableDialogTable, existingNames: this.tables.map(table => table.name), ownerId: this.propertyid, entryUserId: this.userId, onTableSaved: (e) => this.handleTableSaved(e.detail), onTableSaveFailed: this.handleTableSaveFailed, onCloseDialog: () => (this.tableDialogOpen = false) }), h("ir-dialog", { key: '39469a032ce1a8f25f6b1e978d3edbd067dfd23f', label: this.deleteTarget?.type === 'table' ? 'Delete table' : 'Delete key', ref: el => (this.deleteDialogRef = el), onIrDialogAfterHide: () => (this.deleteTarget = null) }, h("p", { key: '7092fab81d02170dc53fe93b630cc765dbce4c5c', class: "tm__confirm-text" }, "Delete ", h("strong", { key: '8c72b6d03733c6fd408c85235d4f2789134bb5d6' }, this.deleteTarget?.label), "? ", this.deleteTarget?.detail, " This cannot be undone."), h("div", { key: '666e211016d3518398fdb09efbf0db1cf4a79f11', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '95c2f49d08711d8f7fba3ace7ebac76f655f6c9c', size: "m", appearance: "outlined", variant: "neutral", onClickHandler: () => this.deleteDialogRef?.closeModal() }, "Cancel"), h("ir-custom-button", { key: '73cb2a6b0e2caf9d10dafc53dec9d016c0164ca1', size: "m", appearance: "accent", variant: "danger", loading: this.isMutating, onClickHandler: () => this.confirmDelete() }, "Delete"))), h("ir-dialog", { key: 'ddac69bfb992e2c0dd505e10f515be08b298bb85', label: "Unsaved order", ref: el => (this.unsavedOrderDialogRef = el), onIrDialogAfterHide: () => {
+            } }), h("ir-translations-move-dialog", { key: '05d7ff40854ff0031ece7a0d56e7eb01189f1a2b', open: this.moveDialogOpen, entry: this.moveDialogEntry, tables: this.visibleTables, sourceCode: sourceCode, onEntryMoved: (e) => this.handleEntryMoved(e.detail), onCloseDialog: () => {
+                this.moveDialogOpen = false;
+                this.moveDialogEntry = null;
+            } }), h("ir-translations-settings-dialog", { key: 'db41497c3905d31d4e8cbbb059a5b4c79d6a6330', open: this.settingsDialogOpen, usedTablesOnly: this.usedTablesOnly, languages: this.languages, sourceCode: sourceCode, pinnedCodes: this.effectivePinnedLanguageCodes, showNotes: this.showNotesColumn, onSaveSettings: (e) => this.handleSaveSettings(e.detail), onCloseDialog: () => (this.settingsDialogOpen = false) }), h("ir-translations-table-dialog", { key: 'fa0d0675dc74d71ea937bf5c97f2a7bdc7f01764', open: this.tableDialogOpen, mode: this.tableDialogMode, table: this.tableDialogTable, existingNames: this.tables.map(table => table.name), ownerId: this.propertyid, entryUserId: this.userId, onTableSaved: (e) => this.handleTableSaved(e.detail), onTableSaveFailed: this.handleTableSaveFailed, onCloseDialog: () => (this.tableDialogOpen = false) }), h("ir-dialog", { key: '3a32d0e21a50d81b0e611af52af01a049aa2c393', label: this.deleteTarget?.type === 'table' ? 'Delete table' : 'Delete key', ref: el => (this.deleteDialogRef = el), onIrDialogAfterHide: () => (this.deleteTarget = null) }, h("p", { key: '874ae6470653c158aed689303120978b9f507c87', class: "tm__confirm-text" }, t('Lcz_Delete', { fallback: 'Delete' }), h("strong", { key: '8bcdda6348339b491755f729d7934fccb9615705' }, this.deleteTarget?.label), "? ", this.deleteTarget?.detail, " This cannot be undone."), h("div", { key: 'aa6284112104911ba198a5296e2d4d23eebec4cb', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '8f2a30254af80109ace269a8f0e56f331fe3a81c', size: "m", appearance: "outlined", variant: "neutral", onClickHandler: () => this.deleteDialogRef?.closeModal() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '91d04fba3c6fa0a66aeca93d1af84660714217a3', size: "m", appearance: "accent", variant: "danger", loading: this.isMutating, onClickHandler: () => this.confirmDelete() }, t('Lcz_Delete', { fallback: 'Delete' })))), h("ir-dialog", { key: 'e75a38a87a1503707bfa0e5c364f9787a7ea1b1a', label: "Unsaved order", ref: el => (this.unsavedOrderDialogRef = el), onIrDialogAfterHide: () => {
                 // Only true if neither Save nor Discard resolved it — i.e. the picker already
                 // optimistically wrote the newly-clicked option's label straight into its own
                 // input DOM node, bypassing our `value` prop. Since `tableQuery` itself never
@@ -771,7 +806,7 @@ const IrTranslationsManager = class {
                     requestAnimationFrame(() => (this.tableQuery = this.activeTable?.name ?? ''));
                 }
                 this.pendingTableSwitchId = null;
-            } }, h("p", { key: '5399cc56f4ce90df58cf4dda443c8f7a18a83d65', class: "tm__confirm-text" }, "You reordered keys in this table but haven't saved it yet. Save the new order, or discard it and switch tables?"), h("div", { key: '2134c336ca4ca14e1e55148d4ac31b846f590379', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '502caa36f628f06b65511fa40c50008e31443bed', size: "m", appearance: "outlined", variant: "neutral", onClickHandler: () => this.unsavedOrderDialogRef?.closeModal() }, "Cancel"), h("ir-custom-button", { key: 'c54063e2c2e3fb79b529528b8a6c02ecfc4e0045', size: "m", appearance: "outlined", variant: "danger", disabled: this.isMutating, onClickHandler: () => this.discardOrderAndSwitchTable() }, "Discard"), h("ir-custom-button", { key: 'b6d418c9bbaf2fd62b938e47398a73e606095efc', size: "m", appearance: "accent", variant: "brand", loading: this.isMutating, onClickHandler: () => this.saveOrderAndSwitchTable() }, "Save")))));
+            } }, h("p", { key: '73dee7f03e02ec936fd30a5be7a7b3f281929544', class: "tm__confirm-text" }, "You reordered keys in this table but haven't saved it yet. Save the new order, or discard it and switch tables?"), h("div", { key: '07adcfd00d6449f2743be6af0418da58c10a224a', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '97e934f8d72e2f09d388bc132cb4d26cb799b4c8', size: "m", appearance: "outlined", variant: "neutral", onClickHandler: () => this.unsavedOrderDialogRef?.closeModal() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '83b5031098dd502cb88b1a43f2684a72bbd6f414', size: "m", appearance: "outlined", variant: "danger", disabled: this.isMutating, onClickHandler: () => this.discardOrderAndSwitchTable() }, "Discard"), h("ir-custom-button", { key: '8f4c554982c8bb5221715b7ca0efe05b4d3fa227', size: "m", appearance: "accent", variant: "brand", loading: this.isMutating, onClickHandler: () => this.saveOrderAndSwitchTable() }, t('Lcz_Save', { fallback: 'Save' }))))));
     }
     static get watchers() { return {
         "ticket": [{

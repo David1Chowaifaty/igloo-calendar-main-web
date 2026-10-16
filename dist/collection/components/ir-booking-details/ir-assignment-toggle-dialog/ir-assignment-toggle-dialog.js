@@ -1,13 +1,14 @@
 import { Host, h } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 export class IrAssignmentToggleDialog {
     /** Dialog header title */
-    label = 'Are you sure?';
+    label = t('Lcz_AreYouSure', { fallback: 'Are you sure?' });
     /** Message shown inside the dialog */
     message;
     /** Confirm button label */
-    confirmLabel = 'Confirm';
+    confirmLabel;
     /** Cancel button label */
-    cancelLabel = 'Cancel';
+    cancelLabel;
     /** Controls the loading spinner on the confirm button — set by the parent while the async operation runs */
     loading = false;
     /** Emitted when the user clicks confirm */
@@ -20,10 +21,10 @@ export class IrAssignmentToggleDialog {
         this.dialogRef?.closeModal();
     }
     render() {
-        return (h(Host, { key: 'f2bb493a094c1bd9eb65f4780be4091d22ded01e' }, h("ir-dialog", { key: '7b4a34c78277835d1244d9787ac146902d0516fc', label: this.label, lightDismiss: false, ref: el => (this.dialogRef = el), onIrDialogHide: e => {
+        return (h(Host, { key: '3aec7a1c92698bb751a1d035b8e404254087c91f' }, h("ir-dialog", { key: 'f2b0d724d20de5846ed36ff14c5600fac7928320', label: this.label, lightDismiss: false, ref: el => (this.dialogRef = el), onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            } }, h("p", { key: '97b65ddf20442f9f32e37e42a88f60db9f56f19f', class: "assignment-toggle-dialog__message" }, h("slot", { key: '9cf5a6f58d71973787a584b53acb825cfc8d86f6', name: "message" }, this.message)), h("div", { key: '57de63b40adb24e80854cc2b80badfb68bb557b3', slot: "footer", class: "assignment-toggle-dialog__footer" }, h("ir-custom-button", { key: '63e425304212a6b25060e798de1c801daeb9ae43', appearance: "filled", variant: "neutral", size: "m", "data-dialog": "close", disabled: this.loading }, this.cancelLabel), h("ir-custom-button", { key: '7174fcd73161219a86565526b62d4023480dde46', variant: "brand", size: "m", loading: this.loading, onClickHandler: () => this.confirmToggle.emit() }, this.confirmLabel)))));
+            } }, h("p", { key: '11163fba2563bf06283f36d474ee759a75bebad5', class: "assignment-toggle-dialog__message" }, h("slot", { key: '13bf9248005640e7b106bacac222874baf0ef637', name: "message" }, this.message)), h("div", { key: 'c4ba4b0474ab47beca6147850a08f8514468382c', slot: "footer", class: "assignment-toggle-dialog__footer" }, h("ir-custom-button", { key: '84ace2354c7a8cc8c4cb40e39ad9a7c051d157fb', appearance: "filled", variant: "neutral", size: "m", "data-dialog": "close", disabled: this.loading }, this.cancelLabel || t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '8f576cc96814a798e85cec050b48993fcdac20d0', variant: "brand", size: "m", loading: this.loading, onClickHandler: () => this.confirmToggle.emit() }, this.confirmLabel || t('Lcz_Confirm', { fallback: 'Confirm' }))))));
     }
     static get is() { return "ir-assignment-toggle-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -57,7 +58,7 @@ export class IrAssignmentToggleDialog {
                 "setter": false,
                 "reflect": false,
                 "attribute": "label",
-                "defaultValue": "'Are you sure?'"
+                "defaultValue": "t('Lcz_AreYouSure', { fallback: 'Are you sure?' })"
             },
             "message": {
                 "type": "string",
@@ -95,8 +96,7 @@ export class IrAssignmentToggleDialog {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "confirm-label",
-                "defaultValue": "'Confirm'"
+                "attribute": "confirm-label"
             },
             "cancelLabel": {
                 "type": "string",
@@ -115,8 +115,7 @@ export class IrAssignmentToggleDialog {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "cancel-label",
-                "defaultValue": "'Cancel'"
+                "attribute": "cancel-label"
             },
             "loading": {
                 "type": "boolean",

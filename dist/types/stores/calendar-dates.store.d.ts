@@ -9,6 +9,7 @@ export interface ICalendarDates {
     months: {
         daysCount: number;
         monthName: string;
+        firstDayValue?: string;
     }[];
     fromDate: string;
     toDate: string;

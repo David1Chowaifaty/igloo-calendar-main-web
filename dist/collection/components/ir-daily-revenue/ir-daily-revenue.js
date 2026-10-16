@@ -1,12 +1,15 @@
-import Token from "../../models/Token";
-import { BookingService } from "../../services/booking-service/booking.service";
-import { BookingListingService } from "../../services/booking_listing.service";
+import ApiClient from "../../models/ApiClient";
+import { SetupService } from "../../services/setup/index";
+import { BookingListingService } from "../../services/booking-listing/index";
 import { PropertyService } from "../../services/property.service";
 import { RoomService } from "../../services/room.service";
-import locales from "../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 import { v4 } from "uuid";
 import moment from "moment";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrDailyRevenue {
     language = '';
     ticket = '';
@@ -26,24 +29,35 @@ export class IrDailyRevenue {
     };
     sideBarEvent;
     sources = [];
-    tokenService = new Token();
+    apiClientService = new ApiClient();
     roomService = new RoomService();
     propertyService = new PropertyService();
-    bookingService = new BookingService();
+    setupService = new SetupService();
     bookingListingService = new BookingListingService();
     paymentEntries;
     preventPageLoad;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.dailyRevenue, () => this.initializeApp());
     componentWillLoad() {
         if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
+            this.apiClientService.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.tokenService.setToken(this.ticket);
+        this.apiClientService.setApiClient(this.ticket);
         this.initializeApp();
     }
     handleOpenSidebar(e) {
@@ -70,6 +84,9 @@ export class IrDailyRevenue {
     async initializeApp() {
         this.isPageLoading = true;
         try {
+            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
+            // so the requests below are built with the right language on first mount.
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.dailyRevenue });
             let propertyId = this.propertyid;
             if (!propertyId && !this.p) {
                 throw new Error('Property ID or username is required');
@@ -78,7 +95,7 @@ export class IrDailyRevenue {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
@@ -86,28 +103,23 @@ export class IrDailyRevenue {
             }
             this.property_id = propertyId;
             const requests = [
-                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
+                this.setupService.getPaymentEntries(),
                 this.getPaymentReports(),
-                this.roomService.fetchLanguage(this.language),
+                localeReady,
                 // The source filter is optional; don't let a criteria failure block the report
-                this.bookingListingService.fetchExposedBookingsCriteria(propertyId).catch(() => null),
+                this.bookingListingService.fetchExposedBookingsCriteria({ property_id: propertyId, language: LocaleController.language }).catch(() => null),
             ];
             if (propertyId) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
-                    language: this.language,
+                    language: LocaleController.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
             }
-            const [setupEntries, , , criteria] = await Promise.all(requests);
+            const [paymentEntries, , , criteria] = await Promise.all(requests);
+            this.paymentEntries = paymentEntries;
             this.sources = this.buildSourceOptions(criteria?.channels ?? []);
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = {
-                groups: pay_type_group,
-                methods: pay_method,
-                types: pay_type,
-            };
         }
         catch (error) {
             console.log(error);
@@ -124,7 +136,7 @@ export class IrDailyRevenue {
         const directValues = channels.filter(c => c.is_direct).map(c => c.value);
         const options = [];
         if (directValues.length) {
-            options.push({ label: 'Direct', value: directValues.join(',') });
+            options.push({ label: t('Lcz_Direct', { fallback: 'Direct' }), value: directValues.join(',') });
         }
         for (const channel of channels) {
             if (!channel.is_direct) {
@@ -208,11 +220,11 @@ export class IrDailyRevenue {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-page", { label: "Daily Revenue" }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-page", { label: t('Lcz_DailyRevenue', { fallback: 'Daily Revenue' }) }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getPaymentReports(true);
-            } }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("ir-revenue-summary", { filters: this.filters, previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "revenue-content-row" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment, sources: this.sources }), h("ir-revenue-table", { filters: this.filters, class: "revenue-table-card", paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-booking-details-drawer", { open: Boolean(this.sideBarEvent), propertyId: this.property_id, bookingNumber: this.sideBarEvent?.payload?.bookingNumber?.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: e => this.handleSidebarClose(e) })));
+            } }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export', { fallback: 'Export' })), h("ir-revenue-summary", { filters: this.filters, previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "revenue-content-row" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment, sources: this.sources }), h("ir-revenue-table", { filters: this.filters, class: "revenue-table-card", paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-booking-details-drawer", { open: Boolean(this.sideBarEvent), propertyId: this.property_id, bookingNumber: this.sideBarEvent?.payload?.bookingNumber?.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: e => this.handleSidebarClose(e) })));
     }
     static get is() { return "ir-daily-revenue"; }
     static get encapsulation() { return "scoped"; }
@@ -340,6 +352,9 @@ export class IrDailyRevenue {
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

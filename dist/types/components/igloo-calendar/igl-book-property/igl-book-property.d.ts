@@ -52,6 +52,7 @@ export declare class IglBookProperty {
     private selectedUnits;
     private bedPreferenceType;
     private bookingService;
+    private setupService;
     private bookPropertyService;
     private defaultDateRange;
     private updatedBooking;

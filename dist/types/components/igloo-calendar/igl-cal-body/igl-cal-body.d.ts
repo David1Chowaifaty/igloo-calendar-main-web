@@ -38,8 +38,11 @@ export declare class IglCalBody {
     private dayRateMap;
     private roomsWithTodayCheckinStatus;
     private categoriesWithTodayCheckinStatus;
+    private lastRenderedRoomTops;
     private roomTitleClickTimer;
     private dayUseBookingsByKey;
+    componentDidRender(): void;
+    private roomTopsEqual;
     componentWillLoad(): void;
     disconnectedCallback(): void;
     handleCalendarDataChange(): void;
@@ -59,6 +62,13 @@ export declare class IglCalBody {
     private getRoomId;
     private getRoomById;
     private getBookingData;
+    /**
+     * Single batched DOM read (one querySelectorAll) shared by every booking bar, instead of
+     * each igl-booking-event independently measuring its own room row. Room row top offsets
+     * can't be derived from a fixed formula alone since rows are conditionally rendered based
+     * on category expand/collapse state owned by this component.
+     */
+    private getRoomTopOffsets;
     private addBookingDatas;
     private getSelectedCellRefName;
     private getSplitBookingEvents;

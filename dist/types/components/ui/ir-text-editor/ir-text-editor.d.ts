@@ -114,5 +114,10 @@ export declare class IrTextEditor {
     private get computedToolbar();
     private get labelId();
     private get hintId();
+    /**
+     * Quill's snow theme renders its link-tooltip words through CSS `content`, which can't call `t()`.
+     * They're exposed as custom properties (CSS string literals) that ir-text-editor.css reads.
+     */
+    private get tooltipLabelVars();
     render(): any;
 }

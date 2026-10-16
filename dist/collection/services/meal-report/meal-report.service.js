@@ -16,11 +16,4 @@ export class MealReportService {
             throw new Error(data.ExceptionMsg);
         }
     }
-    async getSetupEntriesByTableNameMulti(entries) {
-        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: entries });
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        return data.My_Result;
-    }
 }

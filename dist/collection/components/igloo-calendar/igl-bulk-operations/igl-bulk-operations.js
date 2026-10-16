@@ -1,3 +1,4 @@
+import { t } from "../../../services/locale/t";
 import { h } from "@stencil/core";
 export class IglBulkOperations {
     maxDatesLength = 8;
@@ -8,11 +9,11 @@ export class IglBulkOperations {
     tabs = [
         {
             id: 'stop-sale',
-            label: 'Stop/Open Sale',
+            label: t('Lcz_StopOpenSale', { fallback: 'Stop/Open Sale' }),
         },
         {
             id: 'block',
-            label: 'Block Unit',
+            label: t('Lcz_BlockUnit', { fallback: 'Block Unit' }),
         },
     ];
     tabsEl;
@@ -21,7 +22,7 @@ export class IglBulkOperations {
         this.tabsEl.style.setProperty('--ir-tabs-top', this.titleEl?.getBoundingClientRect()?.height?.toString() + 'px');
     }
     render() {
-        return (h("div", { key: '49ad9ed0b7ad82f424c930f71d28ba2b2925720b', class: 'bulk-operations-sheet-container' }, h("div", { key: '1c06dff3d9c95170bd1154e445041586cab5fddf', class: "sheet-header d-flex align-items-center" }, h("ir-title", { key: '7a17c1fa3902cf82f9940f9a63f4ace43f806188', ref: el => (this.titleEl = el), onCloseSideBar: e => {
+        return (h("div", { key: '43b915fdc11ac2f9c815916993984db9cfc16ceb', class: 'bulk-operations-sheet-container' }, h("div", { key: 'a564bcd863ab9933b59e1cf3c1799f56adda1674', class: "sheet-header d-flex align-items-center" }, h("ir-title", { key: '695231c2b22b7a4c2a64d7f15b34cab1d5b972e9', ref: el => (this.titleEl = el), onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 // if (this.isLoading) {
@@ -29,8 +30,8 @@ export class IglBulkOperations {
                 // }
                 this.closeModal.emit(null);
             }, class: "px-1 mb-0",
-            // label={locales.entries.Lcz_BulkStopOpenSale}
-            label: 'Bulk Operations', displayContext: "sidebar" })), h("ir-tabs", { key: 'e997c69f02c1eef0427293b08429e11bdf3d55af', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
+            // label={t('Lcz_BulkStopOpenSale')}
+            label: t('Lcz_BulkOperations', { fallback: 'Bulk Operations' }), displayContext: "sidebar" })), h("ir-tabs", { key: '864a58ad8520665ba87647b2f743d5ac3218cbef', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
     }
     static get is() { return "igl-bulk-operations"; }
     static get encapsulation() { return "scoped"; }

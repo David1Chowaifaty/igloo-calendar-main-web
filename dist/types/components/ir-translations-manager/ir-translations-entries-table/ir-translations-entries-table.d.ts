@@ -23,6 +23,8 @@ export declare class IrTranslationsEntriesTable {
     entryChange: EventEmitter<TranslationEntry>;
     editEntry: EventEmitter<TranslationEntry>;
     duplicateEntry: EventEmitter<TranslationEntry>;
+    /** "Move to table…" — the parent opens the move dialog for this row. */
+    moveEntry: EventEmitter<TranslationEntry>;
     deleteEntry: EventEmitter<TranslationEntry>;
     clearFilters: EventEmitter<void>;
     reorderEntries: EventEmitter<TranslationEntry[]>;

@@ -2,16 +2,17 @@ export type SecureScreens = 'hk' | 'tasks' | 'daily-revenue' | 'arrivals' | 'dep
 export declare class IrSecureTasks {
     el: HTMLElement;
     propertyid: number;
+    language: string;
     p: string;
     bookingNumber: string;
     ticket: string;
     isAuthenticated: boolean;
     currentPage: SecureScreens;
     inputValue: string;
-    canScrollLeft: boolean;
-    canScrollRight: boolean;
+    canScrollTowardsStart: boolean;
+    canScrollTowardsEnd: boolean;
     isLoading: boolean;
-    private token;
+    private ApiClient;
     private dates;
     private tabsTrackRef;
     private resizeObserver;

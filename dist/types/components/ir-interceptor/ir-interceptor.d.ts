@@ -94,6 +94,10 @@ export declare class IrInterceptor {
     private handleOtpResponse;
     /**
      * Displays error toasts unless the endpoint is configured to suppress them.
+     *
+     * Also bound as the axios reject handler, where `error` is an error object rather than the
+     * API's (already localized) `ExceptionMsg` — those get a generic localized title instead of
+     * their English `toString()`.
      */
     private handleError;
     /**

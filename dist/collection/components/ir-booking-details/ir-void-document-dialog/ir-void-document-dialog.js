@@ -2,6 +2,7 @@ import { Host, h } from "@stencil/core";
 import { BookingService } from "../../../services/booking-service/booking.service";
 import calendar_data from "../../../stores/calendar-data";
 import { FdTypes } from "../../../types/enums";
+import { t } from "../../../services/locale/t";
 export class IrVoidDocumentDialog {
     isOpen = false;
     isLoading = false;
@@ -56,8 +57,8 @@ export class IrVoidDocumentDialog {
             console.error(error);
             this.toast.emit({
                 type: 'error',
-                title: 'Error',
-                description: 'Failed to void document. Please try again.',
+                title: t('Lcz_Error', { fallback: 'Error' }),
+                description: t('Lcz_FailedToVoidDocument', { fallback: 'Failed to void document. Please try again.' }),
                 position: 'top-right',
             });
         }
@@ -66,9 +67,9 @@ export class IrVoidDocumentDialog {
         }
     }
     render() {
-        const documentLabel = this.isInvoice ? 'invoice' : 'receipt';
-        const creditDocumentLabel = this.isInvoice ? 'credit note' : 'credit receipt';
-        return (h(Host, { key: '6a2442ef61f9d3bd356e68a14724b3fe86d7792c' }, h("ir-dialog", { key: '8d387a4749c725ec9b7f7038c863747e2ac58fd6', label: "Alert", open: this.isOpen, lightDismiss: false, onIrDialogHide: e => {
+        const documentLabel = this.isInvoice ? t('Lcz_DocumentTypeInvoice', { fallback: 'Invoice' }) : t('Lcz_DocumentTypeReceipt', { fallback: 'Receipt' });
+        const creditDocumentLabel = this.isInvoice ? t('Lcz_DocumentTypeCreditNote', { fallback: 'Credit Note' }) : t('Lcz_CreditReceipt', { fallback: 'Credit Receipt' });
+        return (h(Host, { key: '3f0125d419443aefe456eda30c08df803f61c58e' }, h("ir-dialog", { key: 'f1aa8561d62f2fe66956597caa17d46e5da3e001', label: t('Lcz_Alert', { fallback: 'Alert' }), open: this.isOpen, lightDismiss: false, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onIrDialogAfterHide: e => {
@@ -76,7 +77,7 @@ export class IrVoidDocumentDialog {
                 e.stopPropagation();
                 this.isOpen = false;
                 this.request = null;
-            } }, h("p", { key: '3dc416b271d061ed385ca540020b418052827e04', class: "void-document-dialog__message" }, "Void ", documentLabel, " ", this.request?.documentNumber, " by generating a ", creditDocumentLabel, "?"), h("div", { key: 'b6ba67447edb532a88ce6c4d0eb1b2b5dca59826', slot: "footer", class: "void-document-dialog__footer" }, h("ir-custom-button", { key: 'f1e1bf5a8a5ba614db768713c1d50913a6cb0b9a', "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '461e6d25d445374fee9af70ae89d21ae33065cc0', loading: this.isLoading, onClickHandler: () => this.handleConfirm(), size: "m", variant: "danger" }, "Confirm")))));
+            } }, h("p", { key: 'a7d4b35ac94a294c400d899b46b0529704661a1d', class: "void-document-dialog__message" }, t('Lcz_VoidDocumentConfirm', { fallback: 'Void %1 %2 by generating a %3?', params: [documentLabel, this.request?.documentNumber ?? '', creditDocumentLabel] })), h("div", { key: '141f215f72f712e9e37dfaf00e7d9e847269e0ae', slot: "footer", class: "void-document-dialog__footer" }, h("ir-custom-button", { key: 'c16c034c966454b5ed6ff7299b7ed1d32ee17337', "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral", disabled: this.isLoading }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '81fb14deeac4569bbc06d574a107c51388f740aa', loading: this.isLoading, onClickHandler: () => this.handleConfirm(), size: "m", variant: "danger" }, t('Lcz_Confirm', { fallback: 'Confirm' }))))));
     }
     static get is() { return "ir-void-document-dialog"; }
     static get encapsulation() { return "scoped"; }

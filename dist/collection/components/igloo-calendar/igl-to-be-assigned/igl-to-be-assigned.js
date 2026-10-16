@@ -2,9 +2,9 @@ import { Host, h } from "@stencil/core";
 import { UnassignedUnitsService } from "../../../services/unassigned-units/index";
 import { groupIntoCategories } from "../../../services/unassigned-units/utils";
 import calendar_data from "../../../stores/calendar-data";
-import locales from "../../../stores/locales.store";
+import { t } from "../../../services/locale/t";
 import { getUnassignedUnitsDateKeys, getUnassignedUnitsForDate, removeUnassignedRoom, replaceUnassignedUnitsRange } from "../../../stores/unassigned-units.store";
-import { formatDate } from "../../../utils/utils";
+import { formatDate } from "../../../utils/date/index";
 export class IglToBeAssigned {
     propertyid;
     calendarData;
@@ -115,10 +115,10 @@ export class IglToBeAssigned {
             return (h("div", { class: "tba-panel__loading" }, h("ir-spinner", null)));
         }
         if (!hasDates) {
-            return this.renderEmptyState(locales.entries.Lcz_AllBookingsAreAssigned);
+            return this.renderEmptyState(t('Lcz_AllBookingsAreAssigned'));
         }
         if (categories.length === 0) {
-            return this.renderEmptyState(locales.entries.Lcz_AllAssignForThisDay, formatDate(this.selectedDate, 'YYYY-MM-DD'));
+            return this.renderEmptyState(t('Lcz_AllAssignForThisDay'), formatDate(this.selectedDate, 'ddd, DD MMM YYYY'));
         }
         return categories.map((category, index) => (h("igl-tba-category-view", { key: category.roomTypeId, calendarData: this.calendarData, selectedDate: this.selectedDate, category: category, categoryIndex: index, onAssignUnitEvent: this.handleAssignUnit })));
     }
@@ -128,7 +128,7 @@ export class IglToBeAssigned {
         // dropdown doesn't go blank under the user. It drops off as soon as another date is picked.
         const options = this.selectedDate && !dates.includes(this.selectedDate) ? [...dates, this.selectedDate].sort() : dates;
         const categories = this.selectedDate ? this.categoriesFor(this.selectedDate) : [];
-        return (h(Host, { key: 'd3219180b30c3c185277652d2b6c2f9a301b5fa2' }, h("div", { key: 'd330f3449a0ecea769ba075055c8d86ce6e20741', class: "tba-panel" }, h("div", { key: 'aa30ea4ccac7ff9b918add2c6d05c98342c7e7c2', class: "tba-panel__head" }, h("header", { key: '99618837d4e2a35fce0efb02d546379bcc04d471', class: "tba-panel__header" }, h("h2", { key: '8ae01c317f6ebb3a79c8b0d85296651c2e0b5d53', class: "tba-panel__title", id: "to-be-assigned-title" }, locales.entries.Lcz_Assignments), h("ir-custom-button", { key: 'ebf0364d0e81ec08dd4a899f8e2baedc5e54d96b', size: "m", appearance: "plain", variant: "neutral", onClickHandler: this.handleClose }, h("wa-icon", { key: '7be396efe9d278c10e360cb29c780457d973d6b0', name: "xmark", variant: "solid", label: "Close", "aria-label": "Close", role: "img" }))), options.length > 0 && (h("div", { key: '64df20d3c363c05aea8ae6169a53e145564d7156', class: "tba-panel__toolbar" }, h("wa-select", { key: 'b9ace9798fd2b8e7d655c2611ff8b80a2399b1de', size: "s", "aria-label": locales.entries.Lcz_Assignments, value: this.selectedDate ?? '', defaultValue: this.selectedDate ?? '', onchange: this.handleDateChange }, options.map(date => (h("wa-option", { key: date, value: date }, formatDate(date, 'YYYY-MM-DD')))))))), h("div", { key: '42a470792744880c439805cb55b44e0553c4eaa0', class: "tba-panel__body" }, this.renderBody(dates.length > 0, categories)))));
+        return (h(Host, { key: '1fa6414f12ff7fa29a81c7b750f8e60a7f3be85d' }, h("div", { key: '5689e0db4cbc7a147319d0fcb9eefebf0c715d89', class: "tba-panel" }, h("div", { key: '9e85bc62c4cae5b1f8ae8604fcb900935dd41e4a', class: "tba-panel__head" }, h("header", { key: 'a2cb7bb9dffab3b4afa33a19d927e20f300b5353', class: "tba-panel__header" }, h("h2", { key: '3a8a0e9b5dd0948ff7b7d8c6760bb84515787484', class: "tba-panel__title", id: "to-be-assigned-title" }, t('Lcz_Assignments')), h("ir-custom-button", { key: 'eaf40d7726a60f388fb887ba9f73ed244766b036', size: "m", appearance: "plain", variant: "neutral", onClickHandler: this.handleClose }, h("wa-icon", { key: '37a2d95ccd7bfcdddb523a076127be3c923304f7', name: "xmark", variant: "solid", label: t('Lcz_Close', { fallback: 'Close' }), "aria-label": t('Lcz_Close', { fallback: 'Close' }), role: "img" }))), options.length > 0 && (h("div", { key: '9f083fe4dedefcef5b9c05ebd5e6f53c1fcc889b', class: "tba-panel__toolbar" }, h("wa-select", { key: '7e7bb2dff1895bc5f8e0b9ad148e5adf1d6699d7', size: "s", "aria-label": t('Lcz_Assignments'), value: this.selectedDate ?? '', defaultValue: this.selectedDate ?? '', onchange: this.handleDateChange }, options.map(date => (h("wa-option", { key: date, value: date }, formatDate(date, 'ddd, DD MMM YYYY')))))))), h("div", { key: '7e6aa28e8c29b6e468550dcc0a2240df841a0ee2', class: "tba-panel__body" }, this.renderBody(dates.length > 0, categories)))));
     }
     static get is() { return "igl-to-be-assigned"; }
     static get encapsulation() { return "scoped"; }

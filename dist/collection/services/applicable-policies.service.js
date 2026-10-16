@@ -1,4 +1,6 @@
 import moment from "moment";
+import { t } from "./locale/t";
+import { formatCount } from "../utils/number";
 /**
  * Coordinates retrieval of applicable policies for a booking by delegating to
  * {@link BookingService} while providing light data preparation utilities.
@@ -214,7 +216,7 @@ export class ApplicablePoliciesService {
             due_on_formatted: '',
             gross_amount: room.gross_total,
             gross_amount_formatted: '',
-            statement: '100% of total price',
+            statement: t('Lcz_PercentOfTotalPrice', { fallback: '%1% of total price', params: [formatCount(100)] }),
         };
     }
     /**

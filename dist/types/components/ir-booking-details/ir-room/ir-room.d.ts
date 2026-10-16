@@ -2,7 +2,7 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking, ExtraService, Room, SharedPerson } from "../../../models/booking.dto";
 import { Agent } from "../../../services/agents/type";
 import { TIglBookPropertyPayload } from "../../../models/igl-book-property";
-import { IEntries } from "../../../models/IBooking";
+import { SetupEntries } from "../../../models/IBooking";
 import { OpenSidebarEvent, RoomGuestsPayload } from '../types';
 import { IToast } from "../../ui/ir-toast/toast";
 import { ClTx } from "../../../services/city-ledger/types";
@@ -21,9 +21,9 @@ export declare class IrRoom {
     language: string;
     legendData: any;
     roomsInfo: any;
-    bedPreferences: IEntries[];
-    departureTime: IEntries[];
-    arrivalTime: IEntries[];
+    bedPreferences: SetupEntries[];
+    departureTime: SetupEntries[];
+    arrivalTime: SetupEntries[];
     hasRoomEdit: boolean;
     hasRoomDelete: boolean;
     hasRoomAdd: boolean;
@@ -38,7 +38,7 @@ export declare class IrRoom {
     agent: Agent;
     clTransactions: ClTx[];
     /** `_SVC_CATEGORY` setup entries, used to label extra services in the room's extra-services section. */
-    svcCategories: IEntries[];
+    svcCategories: SetupEntries[];
     collapsed: boolean;
     isLoading: boolean;
     isToggling: boolean;

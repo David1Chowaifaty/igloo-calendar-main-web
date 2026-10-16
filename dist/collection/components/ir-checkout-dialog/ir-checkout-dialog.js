@@ -1,5 +1,5 @@
 import { BookingService } from "../../services/booking-service/booking.service";
-import locales from "../../stores/locales.store";
+import { SetupService } from "../../services/setup/index";
 import { Fragment, h } from "@stencil/core";
 import { InvoiceableItemReason } from "../../types/enums";
 import moment from "moment";
@@ -8,6 +8,10 @@ import { isAgentMode } from "../ir-booking-details/functions";
 import { CityLedgerService } from "../../services/city-ledger/index";
 import calendar_data from "../../stores/calendar-data";
 import { isEarlyCheckout } from "../../utils/booking";
+import { formatDate } from "../../utils/date/index";
+import { formatAmount, formatCount } from "../../utils/number";
+import { t } from "../../services/locale/t";
+import { LocaleController } from "../../services/locale/locale.controller";
 export class IrCheckoutDialog {
     open;
     booking;
@@ -26,6 +30,7 @@ export class IrCheckoutDialog {
     includeInvoice = false;
     checkoutDialogClosed;
     bookingService = new BookingService();
+    setupService = new SetupService();
     agentService = new AgentsService();
     cityLedgerService = new CityLedgerService();
     initialPenaltyStr = '0.00';
@@ -38,7 +43,7 @@ export class IrCheckoutDialog {
         return this.booking?.currency?.symbol ?? '$';
     }
     formatAmount(amount) {
-        return `${this.currencySymbol}${amount.toFixed(2)}`;
+        return formatAmount(this.currencySymbol, amount);
     }
     async checkoutRoom({ e, source }) {
         try {
@@ -102,16 +107,15 @@ export class IrCheckoutDialog {
             this.detectEarlyCheckout();
             const hasAgent = !!this.room?.agent;
             const hasDueAmount = (this.booking?.financial?.due_amount ?? 0) > 0;
-            const [invoiceInfo, agent, setupEntries] = await Promise.all([
-                this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
+            const [invoiceInfo, agent, paymentEntries] = await Promise.all([
+                this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr, language: LocaleController.language }),
                 hasAgent ? this.agentService.getExposedAgent({ id: this.booking.agent.id }) : Promise.resolve(null),
-                hasDueAmount ? this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']) : Promise.resolve(null),
+                hasDueAmount ? this.setupService.getPaymentEntries() : Promise.resolve(null),
             ]);
             this.invoiceInfo = invoiceInfo;
             this.setupButtons();
-            if (setupEntries) {
-                const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-                this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
+            if (paymentEntries) {
+                this.paymentEntries = paymentEntries;
             }
             if (agent && isAgentMode(agent)) {
                 this.agent = agent;
@@ -179,10 +183,10 @@ export class IrCheckoutDialog {
         const unitName = this.room?.unit?.name ?? this.room?.identifier;
         const remainingCount = this.remainingDays.length;
         const total = this.remainingTotal;
-        return (h("div", { class: "early-checkout" }, h("wa-callout", { class: "ec-summary", size: "s", appearance: "filled", variant: "neutral" }, h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Unit"), h("span", { class: "ec-summary__value" }, unitName)), h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Original check-out"), h("span", { class: "ec-summary__value" }, moment(this.room.to_date, 'YYYY-MM-DD').format('ddd, MMM D, YYYY'))), h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Actual check-out"), h("span", { class: "ec-summary__value" }, moment().format('ddd, MMM D, YYYY')))), h("div", { class: "ec-section" }, h("p", { class: "ec-section__title" }, "Reclaimed Nights ", h("wa-badge", { pill: true }, remainingCount)), h("div", { class: "ec-nights" }, this.remainingDays.map(day => (h("div", { key: day.date, class: "ec-nights__row" }, h("span", { class: "ec-nights__date" }, moment(day.date, 'YYYY-MM-DD').format('ddd, MMM D')), h("span", { class: "ec-nights__amount" }, this.formatAmount(day.charges.total_amount))))), h("div", { class: "ec-nights__subtotal" }, h("span", null, "Subtotal (Including taxes and fees)"), h("span", null, this.formatAmount(total))))), h("div", { class: "ec-section" }, this.penaltyMax > 0 ? (h("ir-input", { label: "Apply the full cancellation penalty?", mask: "price", value: this.initialPenaltyStr, defaultValue: this.initialPenaltyStr, min: 0, max: this.penaltyMax, hint: "Pre-filled from reclaimed nights or due amount. Modify or waive entirely.", "onText-change": (e) => {
+        return (h("div", { class: "early-checkout" }, h("wa-callout", { class: "ec-summary", size: "s", appearance: "filled", variant: "neutral" }, h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, t('Lcz_Unit', { fallback: 'Unit' })), h("span", { class: "ec-summary__value" }, unitName)), h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, t('Lcz_OriginalCheckOut', { fallback: 'Original check-out' })), h("span", { class: "ec-summary__value" }, formatDate(this.room.to_date, 'ddd, MMM D, YYYY'))), h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, t('Lcz_ActualCheckOut', { fallback: 'Actual check-out' })), h("span", { class: "ec-summary__value" }, formatDate(moment(), 'ddd, MMM D, YYYY')))), h("div", { class: "ec-section" }, h("p", { class: "ec-section__title" }, t('Lcz_ReclaimedNights', { fallback: 'Reclaimed Nights' }), " ", h("wa-badge", { pill: true }, formatCount(remainingCount))), h("div", { class: "ec-nights" }, this.remainingDays.map(day => (h("div", { key: day.date, class: "ec-nights__row" }, h("span", { class: "ec-nights__date" }, formatDate(day.date, 'ddd, MMM D')), h("span", { class: "ec-nights__amount" }, this.formatAmount(day.charges.total_amount))))), h("div", { class: "ec-nights__subtotal" }, h("span", null, t('Lcz_SubtotalIncludingTaxesAndFees', { fallback: 'Subtotal (Including taxes and fees)' })), h("span", null, this.formatAmount(total))))), h("div", { class: "ec-section" }, this.penaltyMax > 0 ? (h("ir-input", { label: t('Lcz_ApplyFullCancellationPenalty', { fallback: 'Apply the full cancellation penalty?' }), mask: "price", value: this.initialPenaltyStr, defaultValue: this.initialPenaltyStr, min: 0, max: this.penaltyMax, hint: t('Lcz_PrefilledFromReclaimedNightsOrDueAmountHint', { fallback: 'Pre-filled from reclaimed nights or due amount. Modify or waive entirely.' }), "onText-change": (e) => {
                 const val = parseFloat(e.detail);
                 this.penaltyAmount = isNaN(val) ? 0 : val;
-            } }, h("span", { slot: "start" }, this.currencySymbol))) : (h("wa-callout", { size: "s", variant: "success" }, h("wa-icon", { slot: "icon", name: "circle-check" }), "This booking is fully paid \u2014 no cancellation penalty or outstanding balance is due.")))));
+            } }, h("span", { slot: "start" }, this.currencySymbol))) : (h("wa-callout", { size: "s", variant: "success" }, h("wa-icon", { slot: "icon", name: "circle-check" }), t('Lcz_BookingFullyPaidNoPenaltyDue', { fallback: 'This booking is fully paid — no cancellation penalty or outstanding balance is due.' }))))));
     }
     get duePayment() {
         const p = this.paymentEntries.types.find(t => t.CODE_NAME === '001');
@@ -202,12 +206,12 @@ export class IrCheckoutDialog {
         if (!balance || balance <= 0)
             return null;
         const amount = this.formatAmount(balance);
-        return (h("div", { class: "due-amount-btn" }, h("wa-callout", { size: "s", variant: "danger" }, h("wa-icon", { slot: "icon", name: "money-bill-wave" }), h("div", { class: 'd-flex align-items-center justify-content-between' }, h("span", null, "Outstanding guest balance: ", amount), canCollect && (h("ir-custom-button", { variant: "danger", appearance: "outlined", size: "xs", style: { marginLeft: 'auto' }, onClick: () => this.paymentFolioRef?.openFolio() }, "Collect"))))));
+        return (h("div", { class: "due-amount-btn" }, h("wa-callout", { size: "s", variant: "danger" }, h("wa-icon", { slot: "icon", name: "money-bill-wave" }), h("div", { class: 'd-flex align-items-center justify-content-between' }, h("span", null, t('Lcz_OutstandingGuestBalance', { fallback: 'Outstanding guest balance:' }), " ", amount), canCollect && (h("ir-custom-button", { variant: "danger", appearance: "outlined", size: "xs", style: { marginLeft: 'auto' }, onClick: () => this.paymentFolioRef?.openFolio() }, t('Lcz_Collect', { fallback: 'Collect' })))))));
     }
     renderSameDayWarning() {
         if (moment().isSame(moment(this.room?.from_date, 'YYYY-MM-DD'), 'date')) {
             const isSingleRoom = this.booking.rooms.length === 1;
-            return (h("wa-callout", { size: "s", variant: "danger" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), "This ", isSingleRoom ? 'booking' : 'room', " will be ", isSingleRoom ? 'cancelled' : 'removed'));
+            return (h("wa-callout", { size: "s", variant: "danger" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), isSingleRoom ? t('Lcz_BookingWillBeCancelled', { fallback: 'This booking will be cancelled' }) : t('Lcz_RoomWillBeRemoved', { fallback: 'This room will be removed' })));
         }
         return null;
     }
@@ -216,21 +220,21 @@ export class IrCheckoutDialog {
         if (!summary)
             return null;
         if (summary.total === 0) {
-            return (h("wa-callout", { size: "s", variant: "success" }, h("wa-icon", { slot: "icon", name: "circle-check" }), "All charges posted to ", h("b", null, this.agent.name), " City Ledger"));
+            return (h("wa-callout", { size: "s", variant: "success" }, h("wa-icon", { slot: "icon", name: "circle-check" }), t('Lcz_AllChargesPostedToCityLedger', { fallback: 'All charges posted to %1 City Ledger', params: [this.agent.name] })));
         }
-        return (h("wa-callout", { size: "s", variant: "warning" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), summary.total, " item", summary.total !== 1 ? 's' : '', " not posted to city ledger"));
+        return (h("wa-callout", { size: "s", variant: "warning" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), t('Lcz_ItemsNotPostedToCityLedger', { fallback: '%1 item(s) not posted to city ledger', params: [formatCount(summary.total)] })));
     }
     render() {
         const isEarly = this.isEarlyCheckout && this.isLoading !== 'page';
         const hasDue = (this.booking?.guest_financial?.due_amount ?? 0) > 0;
-        return (h(Fragment, { key: 'e6e15e23dd3cbd35d9eb8e8ce271e24b4511474f' }, h("ir-dialog", { key: '13018b8403a49f30038c558d0a48f07a46f636cd', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
+        return (h(Fragment, { key: 'ffdb7ac66107eee7cdf6d1468ff781619932373d' }, h("ir-dialog", { key: '2a4c08c21b61ace9af39b8d28eb1c9c1114e0ffc', open: this.open, label: isEarly ? t('Lcz_EarlyCheckOut', { fallback: 'Early Check-Out' }) : t('Lcz_CheckOutLabel', { fallback: 'Check-out' }), style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.buttons.clear();
                 this.checkoutDialogClosed.emit({ reason: 'cancel' });
-            } }, this.open && (h(Fragment, { key: '58b3d0667be3a0d10ad5532a5277f57cee637266' }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, h("div", { class: "checkout-dialog__callouts" }, this.renderDueAmountWarning({ canCollect: !isEarly }), this.renderMissingClWarning(), this.renderSameDayWarning()), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")), this.buttons.has('invoice_checkout') && (h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' } }, h("wa-checkbox", { style: { marginTop: '1rem', color: 'var(--wa-color-text-quiet)', marginLeft: 'auto' }, value: String(this.includeInvoice), defaultChecked: this.includeInvoice, onchange: () => {
+            } }, this.open && (h(Fragment, { key: 'e2b78eb1d1c00cad21a07dc9d1ebb75bdeece103' }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, h("div", { class: "checkout-dialog__callouts" }, this.renderDueAmountWarning({ canCollect: !isEarly }), this.renderMissingClWarning(), this.renderSameDayWarning()), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, t('Lcz_AreYouSureCheckOutUnit', { fallback: 'Are you sure you want to check out unit %1?', params: [this.room?.unit?.name ?? ''] }))), this.buttons.has('invoice_checkout') && (h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' } }, h("wa-checkbox", { style: { marginTop: '1rem', color: 'var(--wa-color-text-quiet)', marginInlineStart: 'auto' }, value: String(this.includeInvoice), defaultChecked: this.includeInvoice, onchange: () => {
                 this.includeInvoice = !this.includeInvoice;
-            } }, "Prepare guest invoice after checkout"))))))), h("div", { key: 'fe4f3377257f9a7b1f6a4dc34cefb9a00103d8d8', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: '4398ece4a4dcb696d794bdac4080e0230d098434' }, h("ir-custom-button", { key: 'cac6b33fc948360195720e5f846184bd92d4db2b', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), h("ir-custom-button", { key: '8d637912e66b2ffbeffd915efcfcddbe55f538f9', size: "m", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm early check-out' : 'Check out')))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: '20eef4a48dfc57e7464cd5b55e3c9a1f13caf363', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
+            } }, t('Lcz_PrepareGuestInvoiceAfterCheckout', { fallback: 'Prepare guest invoice after checkout' })))))))), h("div", { key: '9d305ede1e04cddae3213c7289fde9cbab550a30', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: 'b3bb117d738357fe549e12934a9962052dee5b54' }, h("ir-custom-button", { key: '46944c0e2ed02117794371ffb534e3e595ccf877', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '7ea23a1854ad37b3149b39dcc10147fd0e7c9875', size: "m", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? t('Lcz_ConfirmEarlyCheckOut', { fallback: 'Confirm early check-out' }) : t('Lcz_CheckOut', { fallback: 'Check out' }))))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: 'da7d4f44fa530d508f8a4909669b1a7e1742cf23', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
     }
     static get is() { return "ir-checkout-dialog"; }
     static get encapsulation() { return "scoped"; }

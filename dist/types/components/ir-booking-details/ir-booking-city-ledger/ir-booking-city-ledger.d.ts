@@ -1,5 +1,5 @@
 import { Booking } from "../../../models/booking.dto";
-import { IEntries } from "../../../models/IBooking";
+import { SetupEntries } from "../../../models/IBooking";
 import { FolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
 export declare class IrBookingCityLedger {
     private cityLedgerService;
@@ -8,7 +8,7 @@ export declare class IrBookingCityLedger {
     /** Active language code. */
     language: string;
     /** Service-category entries used to populate the transaction form. */
-    svcCategories: IEntries[];
+    svcCategories: SetupEntries[];
     /** Folio rows fetched by the parent. */
     folioRows: FolioRow[];
     /** Loading state driven by the parent fetch. */

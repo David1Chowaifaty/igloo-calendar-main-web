@@ -1,4 +1,5 @@
 import { h } from "@stencil/core";
+import { t } from "../../../services/locale/t";
 export class IrCopyButton {
     text;
     state = null;
@@ -10,13 +11,13 @@ export class IrCopyButton {
     get tooltipMessage() {
         switch (this.currentState) {
             case 'loading':
-                return 'Copying...';
+                return t('Lcz_Copying', { fallback: 'Copying...' });
             case 'success':
-                return 'Copied to clipboard';
+                return t('Lcz_CopiedToClipboard', { fallback: 'Copied to clipboard' });
             case 'failed':
-                return 'Copy failed';
+                return t('Lcz_CopyFailed', { fallback: 'Copy failed' });
             default:
-                return 'Copy to clipboard';
+                return t('Lcz_CopyToClipboard', { fallback: 'Copy to clipboard' });
         }
     }
     disconnectedCallback() {
@@ -69,7 +70,7 @@ export class IrCopyButton {
     }
     render() {
         const state = this.currentState;
-        return (h("button", { key: '60066f7e5ab97c04d5cfb4dab85788d40fc2fe44', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
+        return (h("button", { key: 'c6a845aa30e81fb38a387cc6de5a485769098e21', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
     }
     static get is() { return "ir-copy-button"; }
     static get encapsulation() { return "scoped"; }

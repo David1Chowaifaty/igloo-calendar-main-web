@@ -1,23 +1,29 @@
 'use strict';
 
-var index = require('./index-Bp205iz4.js');
-var index$2 = require('./index-sInp0tn4.js');
-var index$1 = require('./index---Y4j1HL.js');
-var utils = require('./utils-w7_1d-K4.js');
-var Token = require('./Token-mN7PQKGF.js');
-var moment = require('./moment-CdViwxPQ.js');
+var index = require('./index-IDeZZwEK.js');
+var index$2 = require('./index-tJ-3XZhY.js');
+var index$1 = require('./index-Cw449Sfi.js');
+require('./moment-CdViwxPQ.js');
+require('./calendar-data-ShS6b-Ns.js');
+require('./booking.dto-CUSvGTvD.js');
+var irDate = require('./ir-date-CbkOKs2C.js');
+var t = require('./t-CqJPQrfm.js');
+var number = require('./number-xBpNWk3H.js');
+var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var enums = require('./enums-BSCnMYlE.js');
+var locale_controller = require('./locale.controller-DXObwuz4.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./types-BVJQZ50e.js');
-require('./calendar-data-BpobEh98.js');
-require('./index-CjQGUKJk.js');
-require('./commonSchemas-rhaJ5cvr.js');
-require('./locales.store-CQhQqUVl.js');
-require('./type-Bj2x9EWc.js');
+require('./utils-ZKsQb8eV.js');
 require('./calendar-dates-BxDGM1ix.js');
+require('./commonSchemas-D4iFLV5-.js');
+require('./locale-scope-Cch-vf1R.js');
+require('./type-Bj2x9EWc.js');
+require('./language-observer-DKp37LIu.js');
+require('./types-sp5nWPAa.js');
 
-const irClStatementPreviewCss = () => `.cl-table{width:100%;border-collapse:collapse;font-size:0.8125rem;table-layout:auto}.cl-th{padding:0.5rem 0.75rem;text-align:left;font-size:0.75rem;font-weight:600;text-transform:capitalize;color:#374151;border-top:2px solid #111827;border-bottom:1px solid #111827;white-space:nowrap}.cl-th--num{text-align:right}.cl-td{padding:0.45rem 0.75rem;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:middle}.cl-td--num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.cl-td--muted{color:#6b7280}.cl-td--bold{font-weight:700;color:#111827}.cl-td--nowrap{white-space:nowrap}.cl-td--empty{text-align:center;color:#6b7280;padding:1.5rem 0.75rem;font-style:italic}.cl-balance-row td{background:#f3f4f6;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-weight:600;color:#111827;padding-top:0.5rem;padding-bottom:0.5rem}@media print{.cl-table{font-size:0.75rem}.cl-th,.cl-td{padding:0.35rem 0.5rem}.cl-td--muted,.cl-td--empty{color:#374151}.cl-balance-row td{-webkit-print-color-adjust:exact;print-color-adjust:exact}.cl-balance-row{page-break-inside:avoid}}:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:960px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.statement-period{display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;padding:0.5rem 0.75rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:4px;font-size:0.8125rem}.statement-period__label{font-weight:600;color:#374151}.statement-period__value{color:#374151}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}`;
+const irClStatementPreviewCss = () => `.cl-table{width:100%;border-collapse:collapse;font-size:0.8125rem;table-layout:auto}.cl-th{padding:0.5rem 0.75rem;text-align:start;font-size:0.75rem;font-weight:600;text-transform:capitalize;color:#374151;border-top:2px solid #111827;border-bottom:1px solid #111827;white-space:nowrap}.cl-th--num{text-align:end}.cl-td{padding:0.45rem 0.75rem;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:middle}.cl-td--num{text-align:end;font-variant-numeric:tabular-nums;white-space:nowrap}.cl-td--muted{color:#6b7280}.cl-td--bold{font-weight:700;color:#111827}.cl-td--nowrap{white-space:nowrap}.cl-td--empty{text-align:center;color:#6b7280;padding:1.5rem 0.75rem;font-style:italic}.cl-balance-row td{background:#f3f4f6;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-weight:600;color:#111827;padding-top:0.5rem;padding-bottom:0.5rem}@media print{.cl-table{font-size:0.75rem}.cl-th,.cl-td{padding:0.35rem 0.5rem}.cl-td--muted,.cl-td--empty{color:#374151}.cl-balance-row td{-webkit-print-color-adjust:exact;print-color-adjust:exact}.cl-balance-row{page-break-inside:avoid}}:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:960px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.statement-period{display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;padding:0.5rem 0.75rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:4px;font-size:0.8125rem}.statement-period__label{font-weight:600;color:#374151}.statement-period__value{color:#374151}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}`;
 
 const DATE_DISPLAY = 'MMM DD, YYYY';
 const IrClStatementPreview = class {
@@ -39,18 +45,18 @@ const IrClStatementPreview = class {
     statement = null;
     fiscalDocuments = [];
     clPreviewReady;
-    tokenService = new Token.Token();
+    apiClientService = new ApiClient.ApiClient();
     propertyService = new index$1.PropertyService();
     cityLedgerService = new index$2.CityLedgerService();
     hasEmitted = false;
     componentWillLoad() {
         if (!this.ticket) {
-            this.error = 'Authentication ticket is required.';
+            this.error = t.t('Lcz_AuthTicketRequired', { fallback: 'Authentication ticket is required.' });
             return;
         }
         if (this.baseurl)
-            this.tokenService.setBaseUrl(this.baseurl);
-        this.tokenService.setToken(this.ticket);
+            this.apiClientService.setBaseUrl(this.baseurl);
+        this.apiClientService.setApiClient(this.ticket);
         return this.fetchData();
     }
     componentDidRender() {
@@ -66,7 +72,7 @@ const IrClStatementPreview = class {
         this.error = null;
         try {
             const [propertyData, statement, fiscalDocuments] = await Promise.all([
-                this.propertyService.getExposedProperty({ id: this.propertyId, language: 'en' }),
+                this.propertyService.getExposedProperty({ id: this.propertyId, language: locale_controller.LocaleController.language }),
                 this.cityLedgerService.getCLStatement({
                     AGENCY_ID: this.agentId,
                     CURRENCY_ID: this.currencyId,
@@ -85,7 +91,7 @@ const IrClStatementPreview = class {
             this.fiscalDocuments = fiscalDocuments ?? [];
         }
         catch (e) {
-            this.error = e?.message ?? 'Failed to load statement data.';
+            this.error = e?.message ?? t.t('Lcz_FailedToLoadStatementData', { fallback: 'Failed to load statement data.' });
         }
         finally {
             this.isLoading = false;
@@ -93,7 +99,7 @@ const IrClStatementPreview = class {
     }
     render() {
         if (!this.ticket) {
-            return (index.h(index.Host, null, index.h("div", { class: "document-state document-state--error" }, "Authentication ticket is required.")));
+            return (index.h(index.Host, null, index.h("div", { class: "document-state document-state--error" }, t.t('Lcz_AuthTicketRequired', { fallback: 'Authentication ticket is required.' }))));
         }
         if (this.isLoading) {
             return (index.h(index.Host, null, index.h("div", { class: "document-state" }, index.h("ir-spinner", null))));
@@ -102,18 +108,18 @@ const IrClStatementPreview = class {
             return (index.h(index.Host, null, index.h("div", { class: "document-state document-state--error" }, this.error)));
         }
         if (!this.statement) {
-            return (index.h(index.Host, null, index.h("div", { class: "document-state document-state--error" }, "No statement data found.")));
+            return (index.h(index.Host, null, index.h("div", { class: "document-state document-state--error" }, t.t('Lcz_NoStatementDataFound', { fallback: 'No statement data found.' }))));
         }
         const { STARTING_BALANCE, ENDING_BALANCE } = this.statement;
         const currency = this.property?.currency?.symbol ?? '$';
-        const fmt = (v) => (v != null ? utils.formatAmount(currency, v) : '—');
-        return (index.h(index.Host, null, index.h("div", { class: "document" }, index.h("ir-cl-document-header", { style: { marginBottom: '1.75rem' }, property: this.property, agentName: this.agentName, documentType: "statement" }), index.h("table", { class: "cl-table" }, index.h("thead", null, index.h("tr", null, index.h("th", { class: "cl-th" }, "Date"), index.h("th", { class: "cl-th" }, "Document #"), index.h("th", { class: "cl-th" }, "Type"), index.h("th", { class: "cl-th cl-th--num" }, "Debit"), index.h("th", { class: "cl-th cl-th--num" }, "Credit"), index.h("th", { class: "cl-th cl-th--num" }, "Balance"))), index.h("tbody", null, index.h("tr", { class: "cl-balance-row" }, index.h("td", { class: "cl-td", colSpan: 3 }, "Opening Balance \u2014 ", moment.hooks(this.fromDate).format(DATE_DISPLAY)), index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(STARTING_BALANCE))), (() => {
+        const fmt = (v) => (v != null ? number.formatAmount(currency, v) : '—');
+        return (index.h(index.Host, null, index.h("div", { class: "document" }, index.h("ir-cl-document-header", { style: { marginBottom: '1.75rem' }, property: this.property, agentName: this.agentName, documentType: "statement" }), index.h("table", { class: "cl-table" }, index.h("thead", null, index.h("tr", null, index.h("th", { class: "cl-th" }, t.t('Lcz_DateLabel', { fallback: 'Date' })), index.h("th", { class: "cl-th" }, t.t('Lcz_DocumentNumberLabel', { fallback: 'Document #' })), index.h("th", { class: "cl-th" }, t.t('Lcz_Type', { fallback: 'Type' })), index.h("th", { class: "cl-th cl-th--num" }, t.t('Lcz_Debit', { fallback: 'Debit' })), index.h("th", { class: "cl-th cl-th--num" }, t.t('Lcz_Credit', { fallback: 'Credit' })), index.h("th", { class: "cl-th cl-th--num" }, t.t('Lcz_Balance', { fallback: 'Balance' })))), index.h("tbody", null, index.h("tr", { class: "cl-balance-row" }, index.h("td", { class: "cl-td", colSpan: 3 }, t.t('Lcz_OpeningBalanceRow', { fallback: 'Opening Balance — %1', params: [irDate.formatDate(this.fromDate, DATE_DISPLAY)] })), index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(STARTING_BALANCE))), (() => {
             let running = STARTING_BALANCE;
             return this.fiscalDocuments.map(doc => {
                 running += (doc.DEBIT ?? 0) - (doc.CREDIT ?? 0);
-                return (index.h("tr", null, index.h("td", { class: "cl-td cl-td--nowrap" }, doc.ISSUE_DATE_DISPLAY || (doc.ISSUE_DATE ? moment.hooks(doc.ISSUE_DATE).format(DATE_DISPLAY) : '—')), index.h("td", { class: "cl-td" }, doc.DOC_NUMBER || '—'), index.h("td", { class: "cl-td" }, doc.FD_TYPE_NAME || '—'), index.h("td", { class: "cl-td cl-td--num cl-td--muted" }, doc.DEBIT ? fmt(doc.DEBIT) : '—'), index.h("td", { class: "cl-td cl-td--num cl-td--muted" }, doc.CREDIT ? fmt(doc.CREDIT) : '—'), index.h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(running))));
+                return (index.h("tr", null, index.h("td", { class: "cl-td cl-td--nowrap" }, doc.ISSUE_DATE_DISPLAY || (doc.ISSUE_DATE ? irDate.formatDate(doc.ISSUE_DATE, DATE_DISPLAY) : '—')), index.h("td", { class: "cl-td" }, doc.DOC_NUMBER ? number.formatBookingNumber(doc.DOC_NUMBER) : '—'), index.h("td", { class: "cl-td" }, doc.FD_TYPE_NAME || '—'), index.h("td", { class: "cl-td cl-td--num cl-td--muted" }, doc.DEBIT ? fmt(doc.DEBIT) : '—'), index.h("td", { class: "cl-td cl-td--num cl-td--muted" }, doc.CREDIT ? fmt(doc.CREDIT) : '—'), index.h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(running))));
             });
-        })(), this.fiscalDocuments.length === 0 && (index.h("tr", null, index.h("td", { class: "cl-td cl-td--empty", colSpan: 6 }, "No fiscal documents found for this period."))), index.h("tr", { class: "cl-balance-row" }, index.h("td", { class: "cl-td", colSpan: 3 }, "Closing Balance \u2014 ", moment.hooks(this.toDate).format(DATE_DISPLAY)), index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(ENDING_BALANCE))))))));
+        })(), this.fiscalDocuments.length === 0 && (index.h("tr", null, index.h("td", { class: "cl-td cl-td--empty", colSpan: 6 }, t.t('Lcz_NoFiscalDocumentsForPeriod', { fallback: 'No fiscal documents found for this period.' })))), index.h("tr", { class: "cl-balance-row" }, index.h("td", { class: "cl-td", colSpan: 3 }, t.t('Lcz_ClosingBalanceRow', { fallback: 'Closing Balance — %1', params: [irDate.formatDate(this.toDate, DATE_DISPLAY)] })), index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(ENDING_BALANCE))))))));
     }
 };
 IrClStatementPreview.style = irClStatementPreviewCss();

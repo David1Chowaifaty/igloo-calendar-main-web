@@ -5,7 +5,7 @@ export declare class IrUnvoicedBookingsFilters {
         to: string;
         source: string;
     }>;
-    private quickDates;
+    private get quickDates();
     private handleDatesChanged;
     private handleSourceChanged;
     private handleSearch;

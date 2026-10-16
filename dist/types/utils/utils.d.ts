@@ -1,35 +1,8 @@
 import { MomentFormatSpecification } from 'moment';
-import IBooking, { ICountry, IEntries, PhysicalRoomType, PropertyRoomType } from '../models/IBooking';
+import IBooking, { ICountry, PhysicalRoomType, PropertyRoomType } from '../models/IBooking';
 import { Booking } from "../models/booking.dto";
-import { GroupedTableEntries } from "../services/booking-service/types";
 import { Toast } from "../components/ir-toast-provider/ir-toast-provider";
 import { TPositions } from "../components/ui/ir-toast/toast";
-/** Supported language codes that map to `CODE_VALUE_*` fields on {@link IEntries}. */
-export type EntryLanguage = 'en' | 'ar' | 'de' | 'el' | 'fr' | 'he' | 'pl' | 'ru' | 'ua';
-/**
- * Returns the localised display string for an {@link IEntries} entry.
- *
- * Resolution order:
- * 1. `CODE_VALUE_<language>` — if present and non-empty.
- * 2. `CODE_VALUE_EN` — English fallback.
- * 3. `CODE_NAME` — last-resort fallback when both the requested language
- *    and English values are absent.
- *
- * @param entry - The `IEntries` object to translate.
- * @param language - BCP-47-style language code (e.g. `"fr"`, `"ar"`).
- *   Defaults to `"en"`.
- * @returns The best available display string for the requested language.
- *
- * @example
- * ```ts
- * const label = getEntryValue({ entry: someEntry, language: 'fr' });
- * // → "Petit-déjeuner" (falls back to "Breakfast" if French is null)
- * ```
- */
-export declare function getEntryValue({ entry, language }: {
-    entry: IEntries;
-    language?: string;
-}): string;
 export interface SelectOption {
     text: string;
     value: string;
@@ -109,7 +82,7 @@ export declare function getReleaseHoursString(releaseDate: number): {
     BLOCKED_TILL_HOUR: string;
     BLOCKED_TILL_MINUTE: string;
 };
-export declare function formatDate(dateString: any, option?: string): string;
+/** Row label for the per-night price breakdown — display only. */
 export declare function convertDatePrice(date: string): string;
 export declare function getDaysArray(date1: string, date2: string): any[];
 /**
@@ -124,7 +97,13 @@ export declare function isBookingModified(booking: Booking): {
 };
 export declare function renderTime(time: number): string;
 export declare function validateEmail(email: string): boolean;
-export declare function formatAmount(currency: string, amount?: number): string;
+/**
+ * Re-exported from `@/utils/number` so the ~135 existing call sites pick up locale- and
+ * digit-script-aware formatting without changing. Previously this used `toLocaleString(undefined,
+ * …)`, i.e. the *browser's* locale rather than the app's — so a French browser rendered
+ * `1 234,50` inside an English UI. It now follows the app's active language.
+ */
+export { formatAmount } from './number';
 /**
  * Determines whether the given user has privileged (global or elevated) access.
  *
@@ -217,5 +196,3 @@ export declare function generateTimeSlotsMilitary(from: string, to: string, step
  */
 export declare function isWeekend(date: string, format?: MomentFormatSpecification): boolean;
 export declare function getFormSubmitter(e: Event): string;
-export declare function groupEntryTablesResult(entries: IEntries[]): GroupedTableEntries;
-export {};

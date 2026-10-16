@@ -20,7 +20,7 @@ export declare class IrPropertySwitcher {
     hasPool: boolean;
     propertyState: PropertyState;
     displayMode: SwitcherMode;
-    private token;
+    private ApiClient;
     /** Single unified event - emitted when dialog confirms selection OR dropdown selects linked property */
     propertyChange: EventEmitter<{
         property: GetACByACID;

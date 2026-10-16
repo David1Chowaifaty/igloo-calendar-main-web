@@ -1,1 +1,1 @@
-import{h as m}from"./moment.js";const s=s=>m(s).format("MMM DD, YYYY"),a=s=>m(s).format("DD/MM ddd"),o=(s,a)=>m(`${s}:${a}`,"HH:mm").format("h:mm A"),M=m=>m&&"002"!==m.payment_mode.code;export{o as _,s as a,a as b,M as i}
+import{f as s,d as a}from"./ir-date.js";import"./moment.js";const r=a=>s(a,"MMM DD, YYYY"),t=a=>s(a,"DD/MM ddd"),e=(s,r)=>{const t=new Date;return t.setHours(Number(s)||0,Number(r)||0,0,0),a(t)},m=s=>s&&"002"!==s.payment_mode.code;export{e as _,r as a,t as b,m as i}

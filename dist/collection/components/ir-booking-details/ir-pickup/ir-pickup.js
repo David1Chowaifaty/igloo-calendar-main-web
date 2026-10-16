@@ -1,6 +1,6 @@
-import locales from "../../../stores/locales.store";
 import { h } from "@stencil/core";
 import { v4 } from "uuid";
+import { t } from "../../../services/locale/t";
 export class IrPickup {
     booking;
     /**
@@ -40,18 +40,18 @@ export class IrPickup {
     closeModal;
     _id = `pickup-form-${v4()}`;
     render() {
-        return (h("ir-drawer", { key: '4ccbc33b907d3395006b7a6c8112098c87455bc1', style: {
+        return (h("ir-drawer", { key: '8a554842b8c24dfe35bf103fb08b0923491e10dd', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, label: locales.entries.Lcz_Pickup, open: this.open, onDrawerHide: e => {
+            }, label: t('Lcz_Pickup', { fallback: 'Pickup' }), open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-pickup-form", { key: 'e383a09744cf87b0f14fc29c024da1a6ed438b05', booking: this.booking, agent: this.agent, onCanSubmitPickupChange: e => {
+            } }, this.open && (h("ir-pickup-form", { key: 'f023bed9a09ea08a888ee9f7ea4f958102b01136', booking: this.booking, agent: this.agent, onCanSubmitPickupChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.canSubmitPickup = e.detail;
@@ -59,7 +59,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            }, formId: this._id })), h("div", { key: '633eecfa61f84bcf86d6a5ee4aece88b4620e9f1', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '5d46d6052f9c40c57990bd3022dd191abbb2d78a', class: `flex-fill`, size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: 'c472559d0e3e2699a6bf66486e929095c9b98dfd', type: "submit", loading: this.isLoading, form: this._id, size: "m", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
+            }, formId: this._id })), h("div", { key: '2272320abd69d4bc8027cba49ae55e7609573b5e', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'ae699859a193d7bb7a2aab378e02647b5a5b9b6c', class: `flex-fill`, size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), this.canSubmitPickup && (h("ir-custom-button", { key: 'ef5cbfc72fc7e6cba7b109cda4557b92667d0675', type: "submit", loading: this.isLoading, form: this._id, size: "m", class: `flex-fill`, variant: "brand" }, t('Lcz_Save', { fallback: 'Save' }))))));
     }
     static get is() { return "ir-pickup"; }
     static get encapsulation() { return "scoped"; }
@@ -184,7 +184,7 @@ export class IrPickup {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",

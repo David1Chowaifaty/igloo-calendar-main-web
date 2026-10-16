@@ -1,11 +1,12 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { AuthService } from "../../services/authenticate.service";
-import { RoomService } from "../../services/room.service";
 import { SystemService } from "../../services/system.service";
-import locales from "../../stores/locales.store";
 import { CONSTANTS } from "../../utils/constants";
 import { Fragment, h } from "@stencil/core";
 import { z, ZodError } from "zod";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
+import { t } from "../../services/locale/t";
 export class IrResetPassword {
     el;
     username;
@@ -22,14 +23,13 @@ export class IrResetPassword {
     isLoading = false;
     isFetching = false;
     closeSideBar;
-    token = new Token();
+    ApiClient = new ApiClient();
     authService = new AuthService();
     systemService = new SystemService();
-    roomService = new RoomService();
     initialized = false;
     componentWillLoad() {
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
         }
     }
     componentDidLoad() {
@@ -37,7 +37,7 @@ export class IrResetPassword {
     }
     handleTicketChange(oldValue, newValue) {
         if (oldValue !== newValue) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
             this.init();
         }
     }
@@ -45,14 +45,12 @@ export class IrResetPassword {
         if (!this.ticket || this.initialized) {
             return;
         }
-        const [localized_words] = await Promise.all([
-            this.roomService.fetchLanguage(this.language, ['_USER_MGT']),
+        await Promise.all([
+            LocaleController.load({ language: this.language, tables: SCREEN_TABLES.resetPassword }),
             this.systemService.checkOTPNecessity({
                 METHOD_NAME: 'Change_User_Pwd',
             }),
         ]);
-        locales.entries = localized_words.entries;
-        locales.direction = localized_words.direction;
         this.initialized = false;
     }
     ResetPasswordSchema = z.object({
@@ -65,7 +63,7 @@ export class IrResetPassword {
                 return false;
             }
             return password === this.password;
-        }, { message: 'Password must be at least 8 characters long.' }),
+        }, { message: t('Lcz_PasswordMinLength', { fallback: 'Password must be at least 8 characters long.' }) }),
     });
     async handleChangePassword(e) {
         e.preventDefault();
@@ -124,13 +122,13 @@ export class IrResetPassword {
         // if (!locales.entries && !insideSidebar) {
         //   return <ir-loading-screen></ir-loading-screen>;
         // }
-        return (h("div", { key: 'b7b4dd5a657fe72c5e0f51d759ffe50797e24549', class: { 'base-host': !insideSidebar, 'h-100': insideSidebar } }, h(Fragment, { key: '2c28cdea3b4e7cebe17813beb4782efbb97080c8' }, !insideSidebar && (h(Fragment, { key: '250cfbb81c8fc815c9fb481c087c8e4e63d0713a' }, h("ir-interceptor", { key: '02b16712b7b60c15d246180003e6b530dae60452', suppressToastEndpoints: ['/Change_User_Pwd'] }), h("ir-toast", { key: '81475170376f0dfe66f6bbc274471f23f5b58879' }))), h("form", { key: 'e5e3a28133940603099adc29f45c4fcb5373ab7c', onSubmit: this.handleChangePassword.bind(this), class: { 'sheet-container': insideSidebar } }, insideSidebar && h("ir-title", { key: '9b861ee99edbfa3b1a65895b54029bf80a7229cc', class: "px-1 sheet-header", displayContext: "sidebar", label: 'Change Password' }), h("div", { key: '7beb75aec8300fcc9dc0e66d4e96c3bd2b074c0d', class: { 'form-container': true, 'sheet-body px-1': insideSidebar, 'px-2': !insideSidebar } }, h("svg", { key: 'fb8b1f8fdb724515fd8fa924961a6797c906dc06', class: "lock-icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 24, width: 24 }, h("path", { key: '7c5c41b5747e0d8564363bc60b3e0c81c67e88bc', fill: "currentColor", d: "M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" })), h("div", { key: 'd3afc875c62a1c900ca90879cb8c5a9afe241b2c', class: "text-center mb-2" }, h("h4", { key: 'cd37c8a964a675e218d5b4bc871e141dce6a61b5', class: "mb-1" }, locales?.entries?.Lcz_SetNewPassword), this.submitted ? (h("p", null, "An email has been sent to your address. Please check your inbox to confirm the password change.")) : (h("p", null, "Your new password must be different to previously used password"))), !this.submitted && (h("section", { key: '72d848c782bd67aa9a794cec779ef541f5e8da4e' }, h("div", { key: 'ce14206caebf14e0baadc64fb56b210f47fdad96', class: 'mb-2 d-flex flex-column', style: { gap: '1rem' } }, h("div", { key: 'd9426f3e81a13a741d4ececa7992231a2d783794', class: "m-0 p-0" }, h("div", { key: '37471d83668afaae3b1d10a472208dcbcf885bb6', class: 'position-relative' }, h("ir-validator", { key: 'ec5c4d58542b16a500ba1c09859ca2a7884c7f6c', schema: this.ResetPasswordSchema.shape.password, value: this.password }, h("ir-input", { key: '5f370a5870fa7d844af597f25f456c2445574cf7', type: "password", passwordToggle: true, "onText-change": e => (this.password = e.detail), onInputFocus: () => (this.showValidator = true), placeholder: locales.entries?.Lcz_NewPassword, value: this.password }))), this.showValidator && h("ir-password-validator", { key: 'cb1eb4bb7e4d8cffd3f3281456109172d484ad60', class: "mb-1", password: this.password })), h("div", { key: '27703c9f43cd35baa48bbc292672792ff7f4ac27', class: 'position-relative' }, h("ir-validator", { key: '5a36ee79aa6f4f701e9c06ba6c8bb382a7da2539', schema: this.ResetPasswordSchema.shape.confirm_password, value: this.confirmPassword }, h("ir-input", { key: '9f1f27023a27b9a5f4e66f1f1a7123c9255ca9be', type: "password", passwordToggle: true, "onText-change": e => (this.confirmPassword = e.detail), placeholder: locales.entries?.Lcz_ConfirmPassword, value: this.confirmPassword })))), !insideSidebar && (h("div", { key: 'c86511a061467337a0d314df9c43b0ef90866261', class: "d-flex flex-column mt-2 flex-sm-row align-items-sm-center", style: { gap: '0.5rem' } }, h("ir-custom-button", { key: 'b15f0472b46f75750ecb041b0c48d6961eb68893',
+        return (h("div", { key: '836ddeec35d1c1d73a963fa966f47deecd6d7255', class: { 'base-host': !insideSidebar, 'h-100': insideSidebar } }, h(Fragment, { key: '4a53109202a8c23a3625d5fb4edacf7fa0aea0b8' }, !insideSidebar && (h(Fragment, { key: 'c608f8041871f31da8d93cabbfaa0b8a352bd761' }, h("ir-interceptor", { key: 'd9ee3049704c3dfc777a38defbac66bb6cd8199e', suppressToastEndpoints: ['/Change_User_Pwd'] }), h("ir-toast", { key: '25bdf1539dbb0e26964f85a0395d586c429b3e4b' }))), h("form", { key: '06dc0e5c514edbf2341f2a3b4136deffd13b6ab3', onSubmit: this.handleChangePassword.bind(this), class: { 'sheet-container': insideSidebar } }, insideSidebar && h("ir-title", { key: 'dd593773de870293248728a9e2da9a91ba17626e', class: "px-1 sheet-header", displayContext: "sidebar", label: t('Lcz_ChangePassword', { fallback: 'Change Password' }) }), h("div", { key: '2c2807ac4288fdcc73c9f36ba298ca3c3267709b', class: { 'form-container': true, 'sheet-body px-1': insideSidebar, 'px-2': !insideSidebar } }, h("svg", { key: 'ed3baaef7e410c5bf073047ecbd47f69de544cb3', class: "lock-icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 24, width: 24 }, h("path", { key: '6684f5b78c63207a74c947ef9fc194918533132f', fill: "currentColor", d: "M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" })), h("div", { key: '99ce2007dc51a19234765f47f2616a3ddc66a79b', class: "text-center mb-2" }, h("h4", { key: 'c98b4903f3d7c2bf004b68229aa7ec1c5a4c94f6', class: "mb-1" }, t('Lcz_SetNewPassword')), this.submitted ? (h("p", null, t('Lcz_EmailSentConfirmPasswordChange', { fallback: 'An email has been sent to your address. Please check your inbox to confirm the password change.' }))) : (h("p", null, t('Lcz_NewPasswordMustBeDifferent', { fallback: 'Your new password must be different to previously used password' })))), !this.submitted && (h("section", { key: '03f35474f096ad907f27e258a4c391a40545f086' }, h("div", { key: 'de0e9c9c86c1ecc8ea2898df66835c92b16ef70a', class: 'mb-2 d-flex flex-column', style: { gap: '1rem' } }, h("div", { key: '13c61954e41710e668bf15ab86b179f1e8a4a0bb', class: "m-0 p-0" }, h("div", { key: '4cfa4cc87134d35e200f150faa10e5b61321d16e', class: 'position-relative' }, h("ir-validator", { key: '83dd3c95d9374f7004f99049aad5bb0063ad7874', schema: this.ResetPasswordSchema.shape.password, value: this.password }, h("ir-input", { key: '591aab5e27da33e37fda500e1666c48c2094d97e', type: "password", passwordToggle: true, "onText-change": e => (this.password = e.detail), onInputFocus: () => (this.showValidator = true), placeholder: t('Lcz_NewPassword', { fallback: 'New password' }), value: this.password }))), this.showValidator && h("ir-password-validator", { key: 'f27128d560a322b143e8b8065d76af36f010673a', class: "mb-1", password: this.password })), h("div", { key: '5114040263dea0fc4bc5bc93b96b473fca0d5e95', class: 'position-relative' }, h("ir-validator", { key: '14848769b4614c5247a74ef403909960afddf4ac', schema: this.ResetPasswordSchema.shape.confirm_password, value: this.confirmPassword }, h("ir-input", { key: '5f020caaa7bfc5c3f0efa16c6df19b0e886fd60c', type: "password", passwordToggle: true, "onText-change": e => (this.confirmPassword = e.detail), placeholder: t('Lcz_ConfirmPassword', { fallback: 'Confirm password' }), value: this.confirmPassword })))), !insideSidebar && (h("div", { key: '8fb5c194faacdac84ac43ebeaee392a626b12f46', class: "d-flex flex-column mt-2 flex-sm-row align-items-sm-center", style: { gap: '0.5rem' } }, h("ir-custom-button", { key: 'c25e30c6ef55dd28474a0184fc84bc69555e9d48',
             // btn_styles={'flex-fill'}
             onClickHandler: () => window.history.back(), class: "flex-fill",
-            // text={locales.entries?.Lcz_Cancel}
-            size: "m", appearance: "filled", variant: "neutral" }, locales.entries?.Lcz_Cancel), h("ir-custom-button", { key: '1eb48484875eee5aef5b88bf60238fda5cca1cd0',
+            // text={t('Lcz_Cancel', { fallback: 'Cancel' })}
+            size: "m", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '5aee265da611d0f9ea14a7bfddcc5c00fe1cba3a',
             // btn_styles={'flex-fill'}
-            class: "flex-fill", loading: this.isLoading, type: "submit", size: "m", variant: "brand" }, locales.entries?.Lcz_ChangePassword)))))), insideSidebar && (h("div", { key: 'cacbfd5975b70c17eedbf3fcfd08373845736367', class: 'sheet-footer w-full' }, h("ir-custom-button", { key: '3c385e03c874a2d9ad9b7e860ec67efc28d37c1b', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", appearance: "filled", variant: "neutral", size: "m" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '3883902edbc3915880e336cc161303db0f4f4245', variant: "brand", loading: this.isLoading, class: "flex-fill", type: "submit", size: "m" }, locales.entries.Lcz_ChangePassword)))))));
+            class: "flex-fill", loading: this.isLoading, type: "submit", size: "m", variant: "brand" }, t('Lcz_ChangePassword', { fallback: 'Change Password' }))))))), insideSidebar && (h("div", { key: 'b8e5ba2a456dd5ee61da85697884199211cbc388', class: 'sheet-footer w-full' }, h("ir-custom-button", { key: '3a42e146fd02a61a6b8f17f0df03374a45c6216d', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", appearance: "filled", variant: "neutral", size: "m" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'a1871adef16710f4031a7f16367da53e1d46f2bd', variant: "brand", loading: this.isLoading, class: "flex-fill", type: "submit", size: "m" }, t('Lcz_ChangePassword', { fallback: 'Change Password' }))))))));
     }
     static get is() { return "ir-reset-password"; }
     static get encapsulation() { return "scoped"; }

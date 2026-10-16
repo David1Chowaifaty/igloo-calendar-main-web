@@ -1,4 +1,5 @@
 import { Host, h } from "@stencil/core";
+import { t } from "../../services/locale/t";
 // In current Chrome, anything outside a modal dialog (`showModal()`) is inert —
 // including popovers shown *after* the dialog, even though they paint above it.
 // The only place a toast stays clickable while an ir-drawer/wa-dialog is open is
@@ -48,6 +49,7 @@ function findDialogIn(el) {
 }
 export class IrToastProvider {
     position = 'top-end';
+    /** Pins the toast layer to RTL. Leave unset to inherit the document direction. */
     rtl = false;
     duration = 5000;
     /** Maximum number of toasts shown at once; when exceeded, the oldest are dismissed. */
@@ -85,7 +87,7 @@ export class IrToastProvider {
         const detail = event?.detail || {};
         // Legacy IToast emitters (ir-interceptor, booking details, …) often send an
         // empty description and put the message in `title`, or vice versa.
-        const title = detail.title || detail.description || 'Notification';
+        const title = detail.title || detail.description || t('Lcz_Notification', { fallback: 'Notification' });
         const payload = {
             ...detail,
             title,
@@ -141,7 +143,7 @@ export class IrToastProvider {
         }
         this.showLayerIfNeeded();
         requestAnimationFrame(() => this.animatePositions());
-        this.announce(`${type}: ${toast.title}${toast.description ? '. ' + toast.description : ''}`, type === 'error' || type === 'danger');
+        this.announce(`${this.typeLabel(type)}: ${toast.title}${toast.description ? '. ' + toast.description : ''}`, type === 'error' || type === 'danger');
         return id;
     }
     async removeToast(id) {
@@ -225,7 +227,15 @@ export class IrToastProvider {
         s.top = vertical === 'bottom' ? 'auto' : '0';
         s.bottom = vertical === 'bottom' ? '0' : 'auto';
         s.alignItems = horizontal === 'center' ? 'center' : horizontal === 'start' ? 'flex-start' : 'flex-end';
-        this.layer.setAttribute('dir', this.rtl ? 'rtl' : 'ltr');
+        // The layer lives in document.body (and is re-parented into modal dialogs), so it already
+        // inherits the document direction. Only an explicit `rtl` opt-in pins it; forcing 'ltr'
+        // otherwise would un-mirror every toast on an RTL page.
+        if (this.rtl) {
+            this.layer.setAttribute('dir', 'rtl');
+        }
+        else {
+            this.layer.removeAttribute('dir');
+        }
     }
     /** Deep-scans the document (piercing shadow roots) for open modal dialogs. */
     findOpenModalDialogs() {
@@ -409,6 +419,21 @@ export class IrToastProvider {
                 return 'info';
         }
     }
+    /** Localized name of the toast type, spoken ahead of the message by the live region. */
+    typeLabel(type) {
+        switch (type) {
+            case 'success':
+                return t('Lcz_Success', { fallback: 'Success' });
+            case 'warning':
+                return t('Lcz_Warning', { fallback: 'Warning' });
+            case 'error':
+                return t('Lcz_Error', { fallback: 'Error' });
+            case 'danger':
+                return t('Lcz_Danger', { fallback: 'Danger' });
+            default:
+                return t('Lcz_Info', { fallback: 'Info' });
+        }
+    }
     mapVariant(type) {
         switch (type) {
             case 'success':
@@ -423,7 +448,7 @@ export class IrToastProvider {
         }
     }
     render() {
-        return h(Host, { key: '2f1289fca9959b51251762ed70cc6134363475a2' });
+        return h(Host, { key: '89328fdd1b2aef9cf4a60181b991d504e1f04d24' });
     }
     static get is() { return "ir-toast-provider"; }
     static get encapsulation() { return "shadow"; }
@@ -471,7 +496,7 @@ export class IrToastProvider {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Pins the toast layer to RTL. Leave unset to inherit the document direction."
                 },
                 "getter": false,
                 "setter": false,

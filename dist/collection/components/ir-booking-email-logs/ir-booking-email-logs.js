@@ -1,23 +1,24 @@
-import Token from "../../models/Token";
+import ApiClient from "../../models/ApiClient";
 import { Host, h } from "@stencil/core";
 import axios from "axios";
+import { t } from "../../services/locale/t";
 export class IrBookingEmailLogs {
     ticket;
     data;
     bookingNumber;
-    token = new Token();
+    ApiClient = new ApiClient();
     componentWillLoad() {
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
         }
     }
     handleTicketChange() {
         if (this.ticket) {
-            this.token.setToken(this.ticket);
+            this.ApiClient.setApiClient(this.ticket);
         }
     }
     render() {
-        return (h(Host, { key: '15cb5821f1c2c7539f5b560befeea65813e61517', class: "p-1" }, h("ir-interceptor", { key: 'e5b81c851d46bf3c4c470c743af55053bc9dd191', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: 'b7396b520caed3737ffba124ade719464fcf7573' }), h("div", { key: '6b633d7e58ef6e855443ac05c6b33745627db504', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '87ac4c13e03e4f1894cc16431376d6014f44feec', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: 'd64a2a457e606894dcfe544114e0d1ea28c68d4c', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: '27c78f356858cea95bdb89dfedb171ac211838a3', class: "p-1" }, h("ir-interceptor", { key: '18728db8edf669704db03abfa464f0dbb9ddb2e9', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: 'dd5601cbdb271ac2a301ff16bac2cb41663d289d' }), h("div", { key: '7315d0f181d62180751753419913628ffe17d14b', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: 'db6216048674ad89bc605a4469c8dad08cd87873', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: t('Lcz_BookingNumber', { fallback: 'Booking number' }) }), h("ir-button", { key: '4646945aec060df53907d2a0e4b1e4921f0691eb', size: "sm", text: t('Lcz_Search', { fallback: 'Search' }), onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -25,7 +26,7 @@ export class IrBookingEmailLogs {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: '93fa1a1da79d1ec8e1beab266f0259e3c7d08e68' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: '29bfd796ef6652c3890bf0e41e072a2b32f4de8a' }, JSON.stringify(this.data, null, 2))));
     }
     static get is() { return "ir-booking-email-logs"; }
     static get encapsulation() { return "scoped"; }

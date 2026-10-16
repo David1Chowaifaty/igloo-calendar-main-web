@@ -1,12 +1,12 @@
 import { Booking, ExtraService } from "../../../../../models/booking.dto";
 import { Agent } from "../../../../../services/agents/type";
-import { IEntries } from "../../../../../models/property";
+import { SetupEntries } from "../../../../../models/property";
 import { EventEmitter } from '../../../../../stencil-public-runtime';
 export declare class IrExtraServiceConfigForm {
     booking: Booking;
     agent: Agent;
     service: ExtraService;
-    svcCategories: IEntries[];
+    svcCategories: SetupEntries[];
     language: string;
     /** Pre-selected room identifier to link a new service to, e.g. when added from ir-room's quick-add action. */
     defaultIdentifier: string | null;

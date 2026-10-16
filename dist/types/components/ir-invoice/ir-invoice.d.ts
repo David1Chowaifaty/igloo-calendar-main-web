@@ -83,8 +83,16 @@ export declare class IrInvoice {
     viewMode: ViewMode;
     isLoading: boolean;
     private _id;
-    private tokenService;
+    private apiClientService;
     componentWillLoad(): void;
+    handleOpenChange(open: boolean): void;
+    /**
+     * Self-loading leaf: the fiscal-document previews and confirm dialogs under this
+     * drawer speak `_FINANCIALS`, which hosts like the calendar and departures never load.
+     * Deferred until the drawer opens — hosts mount it closed at first render, before
+     * they have a ticket, so an eager load in `componentWillLoad` would go out unauthenticated.
+     */
+    private loadLocaleTables;
     handleBookingChange(): void;
     render(): any;
 }

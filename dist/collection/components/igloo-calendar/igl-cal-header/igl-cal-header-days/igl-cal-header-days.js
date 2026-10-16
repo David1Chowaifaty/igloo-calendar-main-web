@@ -1,5 +1,7 @@
 import { Host, h } from "@stencil/core";
 import { isWeekend } from "../../../../utils/utils";
+import { formatDate } from "../../../../utils/date/index";
+import { formatCount, formatPercent } from "../../../../utils/number";
 /** Entrance stagger: 30ms per cell of distance from today, capped so the far tail lands within ~450ms. */
 const REVEAL_STEP_MS = 30;
 const REVEAL_MAX_STEPS = 15;
@@ -82,12 +84,14 @@ export class IglCalHeaderDays {
     }
     render() {
         const todayIndex = Math.max(this.days.findIndex(dayInfo => dayInfo.value === this.today), 0);
-        return (h(Host, { key: 'd735595c15a6c69c88be3be76db4791efd8a65db' }, h("div", { key: '19d0f5e2a1487154f6ca8d94a5e7e38e838ea08d', class: { 'stickyCell': true, 'headersContainer': true, 'is-revealing': this.revealing } }, h("div", { key: '5aefd146621d40d90a51d37bbf9398dba5b65429', class: "monthsContainer" }, this.monthsInfo.map(monthInfo => (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, monthInfo.monthName))))), this.days.map((dayInfo, index) => {
+        return (h(Host, { key: '27a320ff6f33759b81c66207b2df94b72876be45' }, h("div", { key: '87388a3141d29d1d3e4feb467835f898e5315614', class: { 'stickyCell': true, 'headersContainer': true, 'is-revealing': this.revealing } }, h("div", { key: 'b0fef80b613841068fc04e17faa0b23f59d95c23', class: "monthsContainer" }, this.monthsInfo.map(monthInfo => {
+            return (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, formatDate(monthInfo.firstDayValue, 'MMM YYYY'))));
+        })), this.days.map((dayInfo, index) => {
             const count = this.unassignedRoomsNumber[dayInfo.value] || dayInfo.unassigned_units_nbr;
             const revealDelay = this.getRevealDelay(index, todayIndex);
             return (h("div", { class: `headerCell align-items-center ${dayInfo.value === this.today || dayInfo.value === this.highlightedDate ? 'currentDay' : ''}`, "data-date": dayInfo.value }, !this.isVacationRental && (h("div", { class: { 'preventPageScroll': true, 'is-loading': !!this.loadingDays[dayInfo.value] }, onClick: () => this.handleBadgeClick(dayInfo) }, this.unassignedRoomsNumber[dayInfo.value] || dayInfo.unassigned_units_nbr !== 0 ? (h("button", { class: 'fd-header__badge-btn', style: this.revealing ? { animationDelay: `${revealDelay}ms` } : undefined }, h("wa-badge", { class: "fd-header__badge", variant: 'brand', appearance: 'accent', pill: true }, this.revealing ? (
             /* Digits are drawn by CSS (`counter()` over the animated `--fd-count`) until the gate closes. */
-            h("span", { class: "fd-header__badge-count", style: { '--fd-count-target': String(count), 'animationDelay': `${revealDelay + REVEAL_COUNT_DELAY_MS}ms` } })) : (count)))) : (h("wa-badge", { variant: 'neutral', appearance: 'filled', pill: true }, ' ', this.unassignedRoomsNumber[dayInfo.value] || dayInfo.unassigned_units_nbr)))), h("div", { class: { dayTitle: true, weekend: isWeekend(dayInfo.value) } }, dayInfo.dayDisplayName), h("div", { class: "dayCapacityPercent" }, dayInfo.occupancy, "%")));
+            h("span", { class: "fd-header__badge-count", style: { '--fd-count-target': String(count), 'animationDelay': `${revealDelay + REVEAL_COUNT_DELAY_MS}ms` } })) : (formatCount(count))))) : (h("wa-badge", { variant: 'neutral', appearance: 'filled', pill: true }, ' ', formatCount(this.unassignedRoomsNumber[dayInfo.value] || dayInfo.unassigned_units_nbr))))), h("div", { class: { dayTitle: true, weekend: isWeekend(dayInfo.value) } }, formatDate(dayInfo.value, 'ddd D')), h("div", { class: "dayCapacityPercent" }, formatPercent(dayInfo.occupancy))));
         }))));
     }
     static get is() { return "igl-cal-header-days"; }

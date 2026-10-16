@@ -11,6 +11,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { Host, h } from "@stencil/core";
 import axios from "axios";
 import { Debounce } from "../../../decorators/debounce";
+import { t } from "../../../services/locale/t";
 /**
  * Internal component responsible for rendering the searchable list of properties inside the switcher dialog.
  * It owns the data fetching, filtering and keyboard navigation logic so the parent dialog stays lean.
@@ -152,13 +153,13 @@ export class IrPropertySwitcherDialogContent {
         return h("div", { class: "property-switcher__status" }, text);
     }
     render() {
-        return (h(Host, { key: '3a0deb341e151c6c7abf417e8e261411680960af' }, h("ir-input", { key: 'dce68c7ba87e57cf972023a88047cfb09b769125', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Property name or A number", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: '542d9a927631869a680b92400c6769f65d152378', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: 'f75ea16fdad93db4bdf1b3442ed65ae05ce8cc40' }, h("p", { key: '18b99ac05e67a55b6771d53a0fe42ce097fb05b2', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, "Linked Properties"), this.properties.map(property => {
+        return (h(Host, { key: '51a5284b0e11777df27957e9969c47da193ed2cb' }, h("ir-input", { key: '65f67de390fce23bd9c3166d7893aceee02bc865', autofocus: true, ref: el => (this.inputRef = el), placeholder: t('Lcz_PropertyNameOrANumberPlaceholder', { fallback: 'Property name or A number' }), class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: '1da9e01a1164215f5cd2f784d96322062587a1e3', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: '36625f0d3fb58be8480238146fe24ef4a615e97f' }, h("p", { key: '8531ccc7930ad23311941b878e0ca0a7a70c165f', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, t('Lcz_LinkedProperties', { fallback: 'Linked Properties' })), this.properties.map(property => {
             const label = `${property.name}`;
             return (h("wa-option", { onClick: () => {
                     // this.selectProperty(property as any);
                     this.linkedPropertyChange.emit(property);
                 }, selected: this.selectedPropertyId === property.property_id, value: property.property_id?.toString(), label: label }, label));
-        }))), this.searchTerm && this.filteredProperties.length === 0 && this.renderStatus('No properties found'), this.filteredProperties.map((property, index) => {
+        }))), this.searchTerm && this.filteredProperties.length === 0 && this.renderStatus(t('Lcz_NoPropertiesFound', { fallback: 'No properties found' })), this.filteredProperties.map((property, index) => {
             const label = `${property.COUNTRY_CODE}: ${property.PROPERTY_NAME} - ${property.A_NAME}`;
             return (h("wa-option", { onClick: () => this.selectProperty(property), selected: this.selectedPropertyId === property.PROPERTY_ID, current: this.highlightedIndex === index, value: property.PROPERTY_ID?.toString(), label: label }, label));
         }))));
@@ -285,7 +286,7 @@ export class IrPropertySwitcherDialogContent {
                 },
                 "complexType": {
                     "original": "LinkedProperty",
-                    "resolved": "{ name: string; property_id: number; token: string; }",
+                    "resolved": "{ name: string; property_id: number; ApiClient: string; }",
                     "references": {
                         "LinkedProperty": {
                             "location": "import",

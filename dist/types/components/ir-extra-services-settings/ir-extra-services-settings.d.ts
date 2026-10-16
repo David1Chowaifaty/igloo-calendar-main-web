@@ -14,8 +14,8 @@ export declare class IrExtraServicesSettings {
     autoValidate: boolean;
     dayUseBlockNight: boolean;
     babyCotPricingModel: BabyCotPricingModel;
-    private tokenService;
-    private bookingService;
+    private apiClientService;
+    private setupService;
     private propertyService;
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;

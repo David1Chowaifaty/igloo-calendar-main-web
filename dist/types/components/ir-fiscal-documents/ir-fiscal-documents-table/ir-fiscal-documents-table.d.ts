@@ -1,7 +1,7 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import type { ClFiscalDocumentPreviewRequest } from "../../ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 import type { PaginationChangeEvent } from "../../ir-pagination/ir-pagination";
-import type { ICurrency, IEntries } from "../../../models/property";
+import type { ICurrency, SetupEntries } from "../../../models/property";
 import type { FiscalDocumentRow, FiscalFolioType } from '../types';
 import type { GuestDocumentPreviewRequest } from '../ir-guest-document-preview/types';
 export declare class IrFiscalDocumentsTable {
@@ -13,7 +13,7 @@ export declare class IrFiscalDocumentsTable {
     propertyId: number;
     language: string;
     /** `_FD_TYPE` setup entries used to display the document type. */
-    fdTypes: IEntries[];
+    fdTypes: SetupEntries[];
     fromDate: string | null;
     toDate: string | null;
     hasFetched: boolean;

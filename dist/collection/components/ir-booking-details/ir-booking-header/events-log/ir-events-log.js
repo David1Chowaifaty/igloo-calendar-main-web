@@ -1,5 +1,8 @@
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import { Fragment, h } from "@stencil/core";
+import { t } from "../../../../services/locale/t";
+import { formatDate } from "../../../../utils/date/index";
+import { formatNumber } from "../../../../utils/number";
 export class IrEventsLog {
     bookingNumber;
     booking;
@@ -16,7 +19,7 @@ export class IrEventsLog {
         }
     }
     render() {
-        return (h("div", { key: 'db574464f537d826ce4f032ecc94688a179dcf76', class: "" }, isRequestPending('/Get_Exposed_Booking_Events') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h(Fragment, null, h("table", { class: " dialog-container-height" }, h("thead", { class: "sr-only" }, h("tr", null, h("th", null, "date"), h("th", null, "user"), h("th", null, "status"))), h("tbody", null, this.bookingEvents?.map(e => (h("tr", { key: e.id, class: "pb-1" }, h("td", { class: "event-row dates-row" }, h("span", null, e.date), h("span", null, String(e.hour).padStart(2, '0'), ":", String(e.minute).padStart(2, '0'), ":", String(e.second).padStart(2, '0'))), h("td", { class: "pl-3 event-row " }, e.type), h("td", { class: "pl-1 event-row " }, e.user))))))))));
+        return (h("div", { key: 'cc736de4b10bf9561ea67ee37d64eeb3f875e719', class: "" }, isRequestPending('/Get_Exposed_Booking_Events') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h(Fragment, null, h("table", { class: " dialog-container-height" }, h("thead", { class: "sr-only" }, h("tr", null, h("th", null, t('Lcz_DateLabel', { fallback: 'Date' })), h("th", null, t('Lcz_User', { fallback: 'user' })), h("th", null, t('Lcz_Status', { fallback: 'Status' })))), h("tbody", null, this.bookingEvents?.map(e => (h("tr", { key: e.id, class: "pb-1" }, h("td", { class: "event-row dates-row" }, h("span", null, formatDate(e.date, 'MMM DD, YYYY')), h("span", null, formatNumber(e.hour, { minimumIntegerDigits: 2, useGrouping: false }), ":", formatNumber(e.minute, { minimumIntegerDigits: 2, useGrouping: false }), ":", formatNumber(e.second, { minimumIntegerDigits: 2, useGrouping: false }))), h("td", { class: "ir-ps-3 event-row " }, e.type), h("td", { class: "ir-ps-1 event-row " }, e.user))))))))));
     }
     static get is() { return "ir-events-log"; }
     static get encapsulation() { return "scoped"; }

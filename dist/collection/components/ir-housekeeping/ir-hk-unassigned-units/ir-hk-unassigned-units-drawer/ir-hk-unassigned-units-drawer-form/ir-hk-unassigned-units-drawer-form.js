@@ -1,8 +1,8 @@
-import { HouseKeepingService } from "../../../../../services/housekeeping.service";
+import { HouseKeepingService } from "../../../../../services/housekeeping/index";
 import calendar_data from "../../../../../stores/calendar-data";
 import housekeeping_store from "../../../../../stores/housekeeping.store";
-import locales from "../../../../../stores/locales.store";
 import { h } from "@stencil/core";
+import { t } from "../../../../../services/locale/t";
 export class IrHkUnassignedUnitsDrawerForm {
     formId;
     user = null;
@@ -58,7 +58,7 @@ export class IrHkUnassignedUnitsDrawerForm {
     }
     renderRooms() {
         if (!this.user) {
-            return housekeeping_store.hk_criteria.units_assignments.unassigned_units?.map(unit => (h("tr", { key: unit.id }, h("td", { class: "" }, unit.name), h("td", { class: "sr-only" }), h("td", { class: "pl-1" }, h("wa-select", { size: "s", style: { textAlign: 'start' }, placeholder: "Select", onchange: e => {
+            return housekeeping_store.hk_criteria.units_assignments.unassigned_units?.map(unit => (h("tr", { key: unit.id }, h("td", { class: "" }, unit.name), h("td", { class: "sr-only" }), h("td", { class: "ir-ps-1" }, h("wa-select", { size: "s", style: { textAlign: 'start' }, placeholder: t('Lcz_Select', { fallback: 'Select' }), onchange: e => {
                     let hk_id = e.target.value;
                     if (hk_id === '') {
                         hk_id = null;
@@ -98,10 +98,10 @@ export class IrHkUnassignedUnitsDrawerForm {
         });
     }
     render() {
-        return (h("form", { key: 'd2a2b44671d8f97a01ff7f8b19783de02ea77f23', id: this.formId, onSubmit: e => {
+        return (h("form", { key: '7fb17e737fc4fb006451b6cf2da6e89655e2eae2', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.assignUnits();
-            } }, h("table", { key: '3165b8381d989fffd4ea84951e1ee5afad3154e8' }, h("thead", { key: '04c4b07e5d2169fa6f1158c64e3be09827d801e9' }, h("th", { key: '8e87af22d2368000237013be9bafc9500cf15e63', class: "sr-only" }, locales.entries.Lcz_RoomName), h("th", { key: '143582eaccc6705d8a1e71e15bc284a62245d9e9', class: "sr-only" }, locales.entries.Lcz_HousekeeperName), h("th", { key: 'd29e4be9468f7134d5787242720e59618bbe2040', class: "sr-only" }, locales.entries.Lcz_Actions)), h("tbody", { key: 'e2642977fc7f921945787088102abcbda98092eb' }, this.renderRooms()))));
+            } }, h("table", { key: '9b65fc961cb42feba9d8231706cf3f0756d89f35' }, h("thead", { key: 'efe821ec212b3d70077e0ecaa8d8167bab4f78b7' }, h("th", { key: 'f46b54d9f0a9eb13f2c2832e6320844a1f5134f4', class: "sr-only" }, t('Lcz_RoomName', { fallback: 'room name' })), h("th", { key: '2b74950da4c132532c17feaa2c685545bd9cc08b', class: "sr-only" }, t('Lcz_HousekeeperName', { fallback: 'housekeeper name' })), h("th", { key: '4dca8adb558a9a7df52be79b12f19c967fe78948', class: "sr-only" }, t('Lcz_Actions', { fallback: 'Actions' }))), h("tbody", { key: '6bebddf55b677c481c585ca08c5d2389a18ced33' }, this.renderRooms()))));
     }
     static get is() { return "ir-hk-unassigned-units-drawer-form"; }
     static get encapsulation() { return "scoped"; }
