@@ -175,6 +175,8 @@ export declare class IglooCalendar {
     private runUnassignedDatesFlush;
     private clearUnassignedDatesTimers;
     private handleGetUnassignedDates;
+    /** Queues an unassigned-units re-read for the part of `[from, to]` that overlaps the loaded range. */
+    private queueUnassignedDatesRefresh;
     /**
      * Broadcast when the server rectified availability for a period. Re-reads `Get_Exposed_Calendar` for
      * that period, clamped to the loaded range — nights outside it aren't rendered, so they aren't fetched.

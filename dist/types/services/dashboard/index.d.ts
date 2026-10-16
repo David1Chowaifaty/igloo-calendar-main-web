@@ -19,6 +19,7 @@ export declare class DashboardService {
      * Only meaningful when the property's booking criteria list the pending status (001).
      */
     getPendingUnits({ property_id, date, language }: DashboardDayParams): Promise<number>;
-    getCancellations(params: DashboardDayParams): Promise<Booking[]>;
+    /** Bookings cancelled (deleted) on `date`. */
+    getCancellations({ property_id, date }: DashboardDayParams): Promise<Booking[]>;
     private getExposedBookings;
 }

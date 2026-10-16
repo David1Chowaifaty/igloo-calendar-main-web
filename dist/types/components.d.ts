@@ -2969,7 +2969,8 @@ export namespace Components {
      *    when the property's criteria list the pending status);
      * 3. every remaining tab, in the background, so each card's count fills in.
      * Realtime notifications are batched every 3s: UPDATE_CALENDAR_AVAILABILITY reloads the whole day, ROOM_STATUS_CHANGED
-     * reloads the stats plus the affected arrivals / departures tab and in-house.
+     * reloads the stats plus the affected arrivals / departures tab and in-house, and CHANGE_IN_BOOK_STATUS cancelling (003) a
+     * booking whose stay covers the selected day reloads the stats plus cancellations.
      */
     interface IrDashboard {
         /**
@@ -3006,8 +3007,9 @@ export namespace Components {
         "language": string;
     }
     /**
-     * Read-only booking list used by the dashboard's In-house, Bookings and Cancellations panels.
-     * One row per room, built from the shared booking table cells.
+     * Read-only booking list used by the dashboard's In-house, Bookings and Cancellations panels, built from the shared
+     * booking table cells. In-house lists one row per occupied room; Bookings and Cancellations list one row per booking,
+     * with its rooms' units stacked in the Unit cell.
      */
     interface IrDashboardBookingsTable {
         /**
@@ -11255,7 +11257,8 @@ declare global {
      *    when the property's criteria list the pending status);
      * 3. every remaining tab, in the background, so each card's count fills in.
      * Realtime notifications are batched every 3s: UPDATE_CALENDAR_AVAILABILITY reloads the whole day, ROOM_STATUS_CHANGED
-     * reloads the stats plus the affected arrivals / departures tab and in-house.
+     * reloads the stats plus the affected arrivals / departures tab and in-house, and CHANGE_IN_BOOK_STATUS cancelling (003) a
+     * booking whose stay covers the selected day reloads the stats plus cancellations.
      */
     interface HTMLIrDashboardElement extends Components.IrDashboard, HTMLStencilElement {
     }
@@ -11274,8 +11277,9 @@ declare global {
         new (): HTMLIrDashboardArrivalsElement;
     };
     /**
-     * Read-only booking list used by the dashboard's In-house, Bookings and Cancellations panels.
-     * One row per room, built from the shared booking table cells.
+     * Read-only booking list used by the dashboard's In-house, Bookings and Cancellations panels, built from the shared
+     * booking table cells. In-house lists one row per occupied room; Bookings and Cancellations list one row per booking,
+     * with its rooms' units stacked in the Unit cell.
      */
     interface HTMLIrDashboardBookingsTableElement extends Components.IrDashboardBookingsTable, HTMLStencilElement {
     }
@@ -18082,7 +18086,8 @@ declare namespace LocalJSX {
      *    when the property's criteria list the pending status);
      * 3. every remaining tab, in the background, so each card's count fills in.
      * Realtime notifications are batched every 3s: UPDATE_CALENDAR_AVAILABILITY reloads the whole day, ROOM_STATUS_CHANGED
-     * reloads the stats plus the affected arrivals / departures tab and in-house.
+     * reloads the stats plus the affected arrivals / departures tab and in-house, and CHANGE_IN_BOOK_STATUS cancelling (003) a
+     * booking whose stay covers the selected day reloads the stats plus cancellations.
      */
     interface IrDashboard {
         /**
@@ -18119,8 +18124,9 @@ declare namespace LocalJSX {
         "language"?: string;
     }
     /**
-     * Read-only booking list used by the dashboard's In-house, Bookings and Cancellations panels.
-     * One row per room, built from the shared booking table cells.
+     * Read-only booking list used by the dashboard's In-house, Bookings and Cancellations panels, built from the shared
+     * booking table cells. In-house lists one row per occupied room; Bookings and Cancellations list one row per booking,
+     * with its rooms' units stacked in the Unit cell.
      */
     interface IrDashboardBookingsTable {
         /**
@@ -26265,7 +26271,8 @@ declare module "@stencil/core" {
              *    when the property's criteria list the pending status);
              * 3. every remaining tab, in the background, so each card's count fills in.
              * Realtime notifications are batched every 3s: UPDATE_CALENDAR_AVAILABILITY reloads the whole day, ROOM_STATUS_CHANGED
-             * reloads the stats plus the affected arrivals / departures tab and in-house.
+             * reloads the stats plus the affected arrivals / departures tab and in-house, and CHANGE_IN_BOOK_STATUS cancelling (003) a
+             * booking whose stay covers the selected day reloads the stats plus cancellations.
              */
             "ir-dashboard": LocalJSX.IntrinsicElements["ir-dashboard"] & JSXBase.HTMLAttributes<HTMLIrDashboardElement>;
             /**
@@ -26274,8 +26281,9 @@ declare module "@stencil/core" {
              */
             "ir-dashboard-arrivals": LocalJSX.IntrinsicElements["ir-dashboard-arrivals"] & JSXBase.HTMLAttributes<HTMLIrDashboardArrivalsElement>;
             /**
-             * Read-only booking list used by the dashboard's In-house, Bookings and Cancellations panels.
-             * One row per room, built from the shared booking table cells.
+             * Read-only booking list used by the dashboard's In-house, Bookings and Cancellations panels, built from the shared
+             * booking table cells. In-house lists one row per occupied room; Bookings and Cancellations list one row per booking,
+             * with its rooms' units stacked in the Unit cell.
              */
             "ir-dashboard-bookings-table": LocalJSX.IntrinsicElements["ir-dashboard-bookings-table"] & JSXBase.HTMLAttributes<HTMLIrDashboardBookingsTableElement>;
             /**

@@ -3,7 +3,6 @@ import { countRooms, filterInHouse, sumUnits } from "../../components/ir-dashboa
 import { BookingService } from "../booking-service/booking.service";
 import { BookingListingService } from "../booking-listing/index";
 import { PropertyService } from "../property/index";
-import { mockCancellations } from "./mocks";
 export * from './types';
 /**
  * Data source for the dashboard widgets. Each method covers one day (`params.date`).
@@ -44,9 +43,10 @@ export class DashboardService {
         const bookings = await this.getExposedBookings(property_id, date, { filter_type: '1', booking_status: '001', language });
         return countRooms(bookings);
     }
-    // TODO: replace with real endpoint (bookings cancelled on `date`).
-    async getCancellations(params) {
-        return mockCancellations(params.date);
+    /** Bookings cancelled (deleted) on `date`. */
+    async getCancellations({ property_id, date }) {
+        const bookings = await this.propertyService.getDeletedBookings({ property_id, date });
+        return (bookings ?? []).map(b => ({ ...b, rooms: b.rooms ?? [] }));
     }
     async getExposedBookings(property_id, date, filters) {
         const result = await this.bookingListingService.getExposedBookings({

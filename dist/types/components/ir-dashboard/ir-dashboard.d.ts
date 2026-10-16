@@ -16,7 +16,8 @@ import type { DashboardTab, RailDensity } from './types';
  * 3. every remaining tab, in the background, so each card's count fills in.
  *
  * Realtime notifications are batched every 3s: UPDATE_CALENDAR_AVAILABILITY reloads the whole day, ROOM_STATUS_CHANGED
- * reloads the stats plus the affected arrivals / departures tab and in-house.
+ * reloads the stats plus the affected arrivals / departures tab and in-house, and CHANGE_IN_BOOK_STATUS cancelling (003) a
+ * booking whose stay covers the selected day reloads the stats plus cancellations.
  */
 export declare class IrDashboard {
     el: HTMLElement;

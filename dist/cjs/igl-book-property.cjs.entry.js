@@ -1,10 +1,9 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var booking_store = require('./booking.store-CFCw1RAq.js');
+var booking_store = require('./booking.store-jiuBIVme.js');
 var index$1 = require('./index-Cb_LC8em.js');
-var utils = require('./utils-ZKsQb8eV.js');
-var calendarDates = require('./calendar-dates-BxDGM1ix.js');
+var utils = require('./utils-BsosarL4.js');
 var moment = require('./moment-CdViwxPQ.js');
 var irInterceptor_store = require('./ir-interceptor.store-GIfc0Pi9.js');
 var t = require('./t-CqJPQrfm.js');
@@ -14,7 +13,7 @@ require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
-require('./booking-DhSfYcY7.js');
+require('./booking-B1EKPJ0D.js');
 require('./locale-scope-Cch-vf1R.js');
 require('./calendar-data-ShS6b-Ns.js');
 require('./functions-CaNAUyCw.js');
@@ -22,8 +21,7 @@ require('./ir-date-CbkOKs2C.js');
 require('./language-observer-DKp37LIu.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./utils-PciJI6G4.js');
-require('./booking.dto-CUSvGTvD.js');
-require('./type-Bj2x9EWc.js');
+require('./booking.dto-6_6OdGf9.js');
 require('./types-sp5nWPAa.js');
 
 class IglBookPropertyService {
@@ -558,8 +556,8 @@ const IglBookProperty = class {
         this.dateRangeData = { ...this.defaultData.defaultDateRange };
         booking_store.setBookingDraft({
             dates: {
-                checkIn: moment.hooks(this.defaultData.defaultDateRange.fromDate, calendarDates.ISO_FORMAT),
-                checkOut: moment.hooks(this.defaultData.defaultDateRange.toDate, calendarDates.ISO_FORMAT),
+                checkIn: moment.hooks(this.defaultData.defaultDateRange.fromDate, utils.ISO_FORMAT),
+                checkOut: moment.hooks(this.defaultData.defaultDateRange.toDate, utils.ISO_FORMAT),
             },
         });
     }

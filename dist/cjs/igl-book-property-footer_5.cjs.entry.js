@@ -2,16 +2,15 @@
 
 var index = require('./index-IDeZZwEK.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
-var calendarDates = require('./calendar-dates-BxDGM1ix.js');
+var utils = require('./utils-BsosarL4.js');
 var t = require('./t-CqJPQrfm.js');
 var moment = require('./moment-CdViwxPQ.js');
 var irInterceptor_store = require('./ir-interceptor.store-GIfc0Pi9.js');
-var booking_store = require('./booking.store-CFCw1RAq.js');
-var utils = require('./utils-ZKsQb8eV.js');
+var booking_store = require('./booking.store-jiuBIVme.js');
 var irDate = require('./ir-date-CbkOKs2C.js');
 var number = require('./number-xBpNWk3H.js');
 var types = require('./types-BVJQZ50e.js');
-require('./booking.dto-CUSvGTvD.js');
+require('./booking.dto-6_6OdGf9.js');
 require('./locale-scope-Cch-vf1R.js');
 var index$1 = require('./index-DtKMs5Q4.js');
 var types$1 = require('./types-CTNoTDNu.js');
@@ -20,11 +19,10 @@ var v4 = require('./v4-_2BfiRUa.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
-require('./booking-DhSfYcY7.js');
+require('./booking-B1EKPJ0D.js');
 require('./functions-CaNAUyCw.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./language-observer-DKp37LIu.js');
-require('./type-Bj2x9EWc.js');
 
 const iglBookPropertyFooterCss = () => `.sc-igl-book-property-footer-h{width:100% !important;background:#000}`;
 
@@ -75,7 +73,7 @@ const IglBookPropertyFooter = class {
                 }))) : (index.h(index.Fragment, null, this.renderButton({ value: 'cancel', label: t.t('Lcz_Cancel', { fallback: 'Cancel' }), appearance: 'filled', variant: 'neutral' }), this.shouldRenderTwoButtons() &&
                 this.renderButton({ value: 'next', label: `${t.t('Lcz_Next', { fallback: 'Next' })}`, icon_name: 'angles_right', variant: 'brand', appearance: 'accent' })))));
         }
-        const showBookAndCheckin = calendarData.calendar_data.checkin_enabled && this.dateRangeData?.fromDate === calendarDates.todayISO();
+        const showBookAndCheckin = calendarData.calendar_data.checkin_enabled && this.dateRangeData?.fromDate === utils.todayISO();
         return (index.h(index.Fragment, null, this.isEditOrAddRoomEvent ? (index.h(index.Fragment, null, this.renderButton({
             value: 'back',
             icon_position: 'left',

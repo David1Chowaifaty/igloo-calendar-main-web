@@ -1,24 +1,22 @@
 import { r as registerInstance, c as createEvent, h } from './index-DKZeCK8T.js';
-import { S as SetupService } from './index-BjCyQqYQ.js';
-import { f as showToast } from './utils-iP-LMQsp.js';
+import { S as SetupService } from './index-CXJcihXV.js';
+import { g as showToast } from './utils-7d2paP_5.js';
 import { p as planDuplicateSync } from './duplicate-sync-DQw5ZTwR.js';
 import { b as buildEditSetupParams } from './setup-mapping-CkK5DDbX.js';
 import { h as hasValue, g as getSourceLanguage, e as diffValues, i as getCopiedEntry } from './utils-Btr0LXV6.js';
 import { t } from './t-Bvz1wS_D.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './utils-BjFJEvis.js';
-import './IBooking-B4waZCSK.js';
-import './types-CB66a07H.js';
-import './commonSchemas-Cx9w9d8l.js';
+import './utils-BiRsUP2L.js';
+import './IBooking-BkA5McwU.js';
+import './types-D3UHbzT8.js';
+import './commonSchemas-tRk7G47G.js';
 import './locale-scope-Jre4lb6k.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-DknGMMFc.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
-import './ir-date-XXNYhmSL.js';
+import './calendar-data-BA4qNb8e.js';
+import './booking.dto-DGJPCSXA.js';
+import './ir-date-B3ui37NM.js';
 import './language-observer-CHgzsZkY.js';
-import './calendar-dates-D3hVfsrC.js';
 
 const irTranslationsEntryFormCss = () => `.sc-ir-translations-entry-form-h{display:block}.entry-form__body.sc-ir-translations-entry-form{display:flex;flex-direction:column;gap:1.25rem}.entry-form__field.sc-ir-translations-entry-form{display:flex;align-items:end}.entry-form__field.sc-ir-translations-entry-form>.entry-form__value-input.sc-ir-translations-entry-form{flex:1 1 0%}.entry-form__field.sc-ir-translations-entry-form:dir(rtl){flex-direction:row-reverse}.entry-form__field.sc-ir-translations-entry-form>.entry-form__value-copy.sc-ir-translations-entry-form{margin-bottom:0.5rem}.entry-form__key-input.sc-ir-translations-entry-form::part(input),.entry-form__key-input.sc-ir-translations-entry-form [part~="input"]{font-family:var(--wa-font-family-code, ui-monospace, SFMono-Regular, Menlo, monospace)}.entry-form__error.sc-ir-translations-entry-form{margin:-1rem 0 0;font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-danger-on-quiet, #991b1b)}.entry-form__section.sc-ir-translations-entry-form{display:flex;flex-direction:column;gap:0.75rem;padding-top:1rem;border-top:1px solid var(--wa-color-neutral-border-quiet, #e2e8f0)}.entry-form__section-header.sc-ir-translations-entry-form{display:flex;align-items:baseline;justify-content:space-between;gap:0.5rem}.entry-form__section-title.sc-ir-translations-entry-form{margin:0;font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold, 600);color:var(--wa-color-text-normal)}.entry-form__section-meta.sc-ir-translations-entry-form{font-size:var(--wa-font-size-xs, 0.75rem);font-variant-numeric:tabular-nums;color:var(--wa-color-text-quiet)}.entry-form__ai-actions.sc-ir-translations-entry-form{display:flex;flex-wrap:wrap;gap:0.5rem}.entry-form__fields.sc-ir-translations-entry-form{display:flex;flex-direction:column;gap:0.85rem}.entry-form__field-label.sc-ir-translations-entry-form{display:inline-flex;align-items:center;gap:0.4rem}.entry-form__field-code.sc-ir-translations-entry-form{font-size:0.6875rem;font-weight:var(--wa-font-weight-semibold, 600);color:var(--wa-color-text-quiet)}.entry-form__field-source.sc-ir-translations-entry-form{padding:0.05rem 0.35rem;font-size:0.6875rem;font-weight:var(--wa-font-weight-normal, 400);color:var(--wa-color-brand-on-quiet);background:var(--wa-color-brand-fill-quiet);border-radius:var(--wa-border-radius-s)}`;
 

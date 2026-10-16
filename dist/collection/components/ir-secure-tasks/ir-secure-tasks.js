@@ -85,6 +85,7 @@ export class IrSecureTasks {
         this.tabsTrackRef?.scrollBy({ left: 240 * inlineSign() * (towards === 'end' ? 1 : -1), behavior: 'smooth' });
     }
     validPages = new Set([
+        'dashboard',
         'hk',
         'tasks',
         'daily-revenue',
@@ -126,6 +127,7 @@ export class IrSecureTasks {
         },
         {
             routes: [
+                { name: 'Dashboard', value: 'dashboard' },
                 { name: 'Front Desk', value: 'front' },
                 { name: 'Arrivals', value: 'arrivals' },
                 { name: 'Departures', value: 'departures' },
@@ -202,6 +204,8 @@ export class IrSecureTasks {
     }
     renderPage() {
         switch (this.currentPage) {
+            case 'dashboard':
+                return h("ir-dashboard", { p: this.p, propertyid: this.propertyid, language: this.language, ticket: this.ApiClient.getToken() });
             case 'front':
                 return (h("div", { style: { flex: '1 1 0%', display: 'block' } }, h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.ApiClient.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: this.language })));
             case 'arrivals':

@@ -3,12 +3,11 @@
 var index = require('./index-IDeZZwEK.js');
 var moment = require('./moment-CdViwxPQ.js');
 require('./calendar-data-ShS6b-Ns.js');
-require('./booking.dto-CUSvGTvD.js');
+require('./booking.dto-6_6OdGf9.js');
 var irDate = require('./ir-date-CbkOKs2C.js');
 var t = require('./t-CqJPQrfm.js');
 var number = require('./number-xBpNWk3H.js');
 require('./locale-scope-Cch-vf1R.js');
-require('./type-Bj2x9EWc.js');
 require('./types-BVJQZ50e.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

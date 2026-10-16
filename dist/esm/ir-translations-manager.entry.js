@@ -1,7 +1,7 @@
 import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
 import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { S as SetupService } from './index-BjCyQqYQ.js';
-import { f as showToast } from './utils-iP-LMQsp.js';
+import { S as SetupService } from './index-CXJcihXV.js';
+import { g as showToast } from './utils-7d2paP_5.js';
 import { c as cjsExports } from './index-Bn8mRT4P.js';
 import { p as planDuplicateSync } from './duplicate-sync-DQw5ZTwR.js';
 import { e as exposedLanguagesToTranslationLanguages, s as setupEntryToTranslationEntry, b as buildEditSetupParams } from './setup-mapping-CkK5DDbX.js';
@@ -9,18 +9,16 @@ import { U as USED_TABLES_LOCAL_STORAGE_NAME, P as PINNED_LANG_LOCAL_STORAGE_NAM
 import { t } from './t-Bvz1wS_D.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './utils-BjFJEvis.js';
-import './IBooking-B4waZCSK.js';
-import './types-CB66a07H.js';
-import './commonSchemas-Cx9w9d8l.js';
+import './utils-BiRsUP2L.js';
+import './IBooking-BkA5McwU.js';
+import './types-D3UHbzT8.js';
+import './commonSchemas-tRk7G47G.js';
 import './locale-scope-Jre4lb6k.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-DknGMMFc.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
-import './ir-date-XXNYhmSL.js';
+import './calendar-data-BA4qNb8e.js';
+import './booking.dto-DGJPCSXA.js';
+import './ir-date-B3ui37NM.js';
 import './language-observer-CHgzsZkY.js';
-import './calendar-dates-D3hVfsrC.js';
 
 const irTranslationsManagerCss = () => `.sc-ir-translations-manager-h{display:block;height:100%}.tm__page-actions.sc-ir-translations-manager{display:flex;align-items:center;flex-wrap:wrap;gap:0.5rem 0.75rem}.translation-manager__page.sc-ir-translations-manager::part(body),.translation-manager__page.sc-ir-translations-manager [part~="body"]{height:100%}.tm__table-picker.sc-ir-translations-manager{display:flex;align-items:center;gap:0.35rem;min-width:0}.tm__table-select.sc-ir-translations-manager{flex:1 1 auto;min-width:0;width:15rem}.tm__table-select.sc-ir-translations-manager::part(label),.tm__table-select.sc-ir-translations-manager [part~="label"]{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0}.tm__table-select.sc-ir-translations-manager::part(listbox),.tm__table-select.sc-ir-translations-manager [part~="listbox"]{max-height:300px;width:350px}.tm__search.sc-ir-translations-manager{flex:0 1 auto;min-width:0;width:14rem}.tm__missing-select.sc-ir-translations-manager{flex:0 1 auto;min-width:0;width:17rem;--tag-max-size:7ch}.tm__missing-select.sc-ir-translations-manager::part(tags),.tm__missing-select.sc-ir-translations-manager [part~="tags"]{flex-wrap:nowrap}.tm__search.sc-ir-translations-manager::part(label),.tm__search.sc-ir-translations-manager [part~="label"],.tm__missing-select.sc-ir-translations-manager::part(form-control-label),.tm__missing-select.sc-ir-translations-manager [part~="form-control-label"]{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0}.tm__missing-select.sc-ir-translations-manager::part(listbox),.tm__missing-select.sc-ir-translations-manager [part~="listbox"]{max-height:300px}.tm__table-picker.sc-ir-translations-manager .tm__icon-btn.sc-ir-translations-manager,.tm__page-actions.sc-ir-translations-manager>.tm__icon-btn.sc-ir-translations-manager{flex:0 0 auto;--ir-c-btn-padding:0}@media (max-width: 575px){.tm__page-actions.sc-ir-translations-manager{width:100%}.tm__table-picker.sc-ir-translations-manager{flex:1 1 100%}.tm__table-select.sc-ir-translations-manager{width:auto}.tm__search.sc-ir-translations-manager,.tm__missing-select.sc-ir-translations-manager{flex:1 1 100%;width:auto}}.tm__loader-container.sc-ir-translations-manager{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;padding:3rem 1rem;color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.tm__loader-container.sc-ir-translations-manager p.sc-ir-translations-manager{margin:0}.tm__confirm-text.sc-ir-translations-manager{margin:0}.tm__confirm-footer.sc-ir-translations-manager{display:flex;justify-content:flex-end;gap:0.5rem}`;
 

@@ -2,7 +2,7 @@ import { parseChannelReportResult, parseChannelSalesParams } from "../../compone
 import calendar_data from "../../stores/calendar-data";
 import { downloadFile } from "../../utils/utils";
 import axios from "axios";
-import { AllowedPropertiesSchema, ExposedRectifierParamsSchema, FetchNotificationsParamsSchema, FetchNotificationsResultSchema, FetchUnBookableRoomsSchema, GetUnifiedFolioParamsSchema, HandleExposedPropertyTaxCategoriesParamsSchema, SetPropertyCalendarExtraParamsSchema, SetPropertyGapConfigParamsSchema, SetRoomCalendarExtraParamsSchema, GetExposedBookingsByInvoicedStatusParamsSchema, PrintGuestFolioDocParamsSchema, GetDayUseBookingsForCalendarParamsSchema, CalculateNetAmountParamsSchema, CloneRatesParamsSchema, } from "./types";
+import { AllowedPropertiesSchema, ExposedRectifierParamsSchema, FetchNotificationsParamsSchema, FetchNotificationsResultSchema, FetchUnBookableRoomsSchema, GetUnifiedFolioParamsSchema, HandleExposedPropertyTaxCategoriesParamsSchema, SetPropertyCalendarExtraParamsSchema, SetPropertyGapConfigParamsSchema, SetRoomCalendarExtraParamsSchema, GetExposedBookingsByInvoicedStatusParamsSchema, PrintGuestFolioDocParamsSchema, GetDayUseBookingsForCalendarParamsSchema, CloneRatesParamsSchema, CalculateNetAmountParamsSchema, GetDeletedBookingsParamsSchema, } from "./types";
 export class PropertyService {
     async printGuestFolioDoc(params) {
         const payload = PrintGuestFolioDocParamsSchema.parse(params);
@@ -19,6 +19,14 @@ export class PropertyService {
             throw new Error(data.ExceptionMsg);
         }
         return data;
+    }
+    async getDeletedBookings(params) {
+        const payload = GetDeletedBookingsParamsSchema.parse(params);
+        const { data } = await axios.post('/Get_Deleted_Bookings', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
     }
     async setPropertyGapConfig(params) {
         const payload = SetPropertyGapConfigParamsSchema.parse(params);

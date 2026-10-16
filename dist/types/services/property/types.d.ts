@@ -676,3 +676,15 @@ export declare const CloneRatesParamsSchema: z.ZodObject<{
     IS_COPY_MLS?: boolean;
 }>;
 export type CloneRatesParams = z.infer<typeof CloneRatesParamsSchema>;
+export declare const GetDeletedBookingsParamsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    date: z.ZodEffects<z.ZodString, string, string>;
+}, "strip", z.ZodTypeAny, {
+    date?: string;
+    property_id?: number;
+}, {
+    date?: string;
+    property_id?: number;
+}>;
+export type GetDeletedBookingsParams = z.infer<typeof GetDeletedBookingsParamsSchema>;
+export type GetDeletedBookings = Booking[];

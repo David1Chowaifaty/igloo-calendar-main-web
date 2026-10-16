@@ -2,28 +2,26 @@
 
 var index = require('./index-IDeZZwEK.js');
 var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var booking_store = require('./booking.store-CFCw1RAq.js');
+var booking_store = require('./booking.store-jiuBIVme.js');
 var room_service = require('./room.service-Dc0vGBFC.js');
 var locale_controller = require('./locale.controller-DXObwuz4.js');
 var languageSync = require('./language-sync-Daqv91WM.js');
 var t = require('./t-CqJPQrfm.js');
-var calendarDates = require('./calendar-dates-BxDGM1ix.js');
+var utils = require('./utils-BsosarL4.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
-require('./utils-ZKsQb8eV.js');
+require('./booking-B1EKPJ0D.js');
 require('./moment-CdViwxPQ.js');
-require('./calendar-data-ShS6b-Ns.js');
 require('./locale-scope-Cch-vf1R.js');
-require('./booking.dto-CUSvGTvD.js');
-require('./type-Bj2x9EWc.js');
+require('./calendar-data-ShS6b-Ns.js');
+require('./functions-CaNAUyCw.js');
 require('./ir-date-CbkOKs2C.js');
 require('./language-observer-DKp37LIu.js');
-require('./booking-DhSfYcY7.js');
-require('./functions-CaNAUyCw.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./types-sp5nWPAa.js');
+require('./booking.dto-6_6OdGf9.js');
 
 const iglBookPropertyContainerCss = () => `.sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans',     -apple-system,     BlinkMacSystemFont,     'Segoe UI',     Roboto,     'Helvetica Neue',     Arial,     sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:start !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}`;
 
@@ -109,12 +107,12 @@ const IglBookPropertyContainer = class {
         this.bookingItem = null;
     }
     handleTriggerClicked() {
-        const today = calendarDates.todayISO();
+        const today = utils.todayISO();
         this.bookingItem = {
             FROM_DATE: this.from_date,
             defaultDateRange: {
                 fromDate: today,
-                toDate: calendarDates.addDaysISO(today, 1),
+                toDate: utils.addDaysISO(today, 1),
                 dateDifference: 0,
                 message: '',
             },

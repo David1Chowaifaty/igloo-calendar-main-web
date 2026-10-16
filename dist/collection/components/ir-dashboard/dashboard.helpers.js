@@ -3,6 +3,8 @@ import { isBlockUnit } from "../../utils/utils";
 export const MAX_DAY_OFFSET = 5;
 /** Quiet time after the last day change before the day is fetched, so stepping through several days only loads the last. */
 export const DATE_CHANGE_DEBOUNCE_MS = 300;
+/** Booking status of a cancelled booking. */
+const CANCELLED_STATUS_CODE = '003';
 /** Block status the calendar flags as out of service (`OUT_OF_SERVICE` in utils/booking). */
 const OUT_OF_SERVICE_CODE = '004';
 const roomsOf = (bookings) => (bookings ?? []).flatMap(b => b.rooms ?? []);
@@ -27,6 +29,10 @@ export function countOverdueDepartures(bookings, today) {
 /** Units departing on `date` — counted per room, not per booking. */
 export function countDepartingUnits(bookings, date) {
     return roomsOf(bookings).filter(room => room.to_date === date).length;
+}
+/** Whether a booking status change cancels a booking whose stay covers `date`, arrival and departure days included. */
+export function isCancellationOn({ status_code, from_date, to_date }, date) {
+    return status_code === CANCELLED_STATUS_CODE && !!from_date && !!to_date && from_date <= date && date <= to_date;
 }
 /** Rooms across all bookings — the in-house card counts rooms, not bookings. */
 export function countRooms(bookings) {

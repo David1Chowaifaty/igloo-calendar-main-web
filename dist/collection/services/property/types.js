@@ -157,3 +157,7 @@ export const CloneRatesParamsSchema = z.object({
     DAYS_OF_WEEK: z.array(z.number().int()),
     IS_COPY_MLS: z.boolean().nullish(),
 });
+export const GetDeletedBookingsParamsSchema = z.object({
+    property_id: PropertyIdSchema,
+    date: DateSchema,
+});

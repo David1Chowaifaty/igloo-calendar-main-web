@@ -1,7 +1,7 @@
 import { r as registerInstance, h } from './index-DKZeCK8T.js';
-import { f as formatDate } from './ir-date-XXNYhmSL.js';
+import { f as formatDate } from './ir-date-B3ui37NM.js';
 import './moment-Mki5YqAR.js';
-import { c as formatNumber, d as formatPercent } from './number-B8waOzTO.js';
+import { c as formatNumber, d as formatPercent } from './number-BTwSXP0A.js';
 import { i as interpolate } from './t-Bvz1wS_D.js';
 import './locale-scope-Jre4lb6k.js';
 import './language-observer-CHgzsZkY.js';

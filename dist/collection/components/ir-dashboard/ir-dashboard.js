@@ -19,7 +19,7 @@ import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { Subject, debounceTime, filter } from "rxjs";
 import { DASHBOARD_PAGE_SIZE, loadArrivals, loadDepartures } from "./dashboard.data";
-import { countDepartingUnits, countOverdueArrivals, countOverdueDepartures, countRooms, countUnassignedArrivals, DATE_CHANGE_DEBOUNCE_MS } from "./dashboard.helpers";
+import { countDepartingUnits, countOverdueArrivals, countOverdueDepartures, countRooms, countUnassignedArrivals, DATE_CHANGE_DEBOUNCE_MS, isCancellationOn, } from "./dashboard.helpers";
 import { CountSkeleton, TableSkeleton } from "./dashboard-skeletons";
 const TABS = ['arrivals', 'departures', 'inHouse', 'bookings', 'cancellations'];
 /** Shape of each tab's last table column in its skeleton: the check-in / check-out button, "Booked on", or the status; in-house has none. */
@@ -52,7 +52,8 @@ const RAIL_COMPACT_MIN_HEIGHT = 570;
  * 3. every remaining tab, in the background, so each card's count fills in.
  *
  * Realtime notifications are batched every 3s: UPDATE_CALENDAR_AVAILABILITY reloads the whole day, ROOM_STATUS_CHANGED
- * reloads the stats plus the affected arrivals / departures tab and in-house.
+ * reloads the stats plus the affected arrivals / departures tab and in-house, and CHANGE_IN_BOOK_STATUS cancelling (003) a
+ * booking whose stay covers the selected day reloads the stats plus cancellations.
  */
 export class IrDashboard {
     el;
@@ -359,7 +360,7 @@ export class IrDashboard {
     subscribeRealtime() {
         this.unsubscribeRealtime?.();
         this.unsubscribeRealtime = realtimeService.subscribe(this.propertyId, msg => {
-            if (msg.reason === 'UPDATE_CALENDAR_AVAILABILITY' || msg.reason === 'ROOM_STATUS_CHANGED') {
+            if (msg.reason === 'UPDATE_CALENDAR_AVAILABILITY' || msg.reason === 'ROOM_STATUS_CHANGED' || msg.reason === 'CHANGE_IN_BOOK_STATUS') {
                 this.realtimeQueue.offer(msg);
             }
         });
@@ -374,12 +375,20 @@ export class IrDashboard {
             await this.loadDay();
             return;
         }
-        // Checking a guest in or out also changes who's in-house.
-        const tabs = new Set(['inHouse']);
+        const tabs = new Set();
         for (const msg of messages) {
             if (msg.reason === 'ROOM_STATUS_CHANGED') {
+                // Checking a guest in or out also changes who's in-house.
+                tabs.add('inHouse');
                 tabs.add(this.tabForRoomStatus(msg.payload));
             }
+            else if (msg.reason === 'CHANGE_IN_BOOK_STATUS' && isCancellationOn(msg.payload, this.selectedDate)) {
+                tabs.add('cancellations');
+            }
+        }
+        // The batch held only status changes outside the selected day.
+        if (!tabs.size) {
+            return;
         }
         const seq = this.loadSeq;
         await Promise.all([...this.loadStats(), ...[...tabs].map(tab => this.reloadTab(tab))]);
@@ -615,7 +624,7 @@ export class IrDashboard {
     }
     render() {
         const counts = this.counts;
-        return (h(Host, { key: '788f726e3380ed0fe380c619e91495b0d231f7a8' }, h("ir-page", { key: 'ad0f3c1372adf8f3d623af2442e51a029888daec', label: t('Lcz_Dashboard', { fallback: 'Dashboard' }), handledEndpoints: OVERLAY_ENDPOINTS }, h("div", { key: '31d69d54ca3a020ec7fa84f5ec3d67b3052917e9', class: `dashboard-layout dashboard-layout--${this.railDensity}` }, h("aside", { key: '5106a5a07b811f85f26a016a1caa7c9d6c8a6a4c', class: "dashboard-aside", ref: el => (this.asideRef = el) }, h("ir-dashboard-date-navigator", { key: '0bd6b4ac204779aca7d848dc8fbb0490e09a61c5', date: this.selectedDate, density: this.railDensity, onDateChange: e => this.handleDateChange(e) }), h("ir-dashboard-stats", { key: '4160d60a7e24a3d4482dd93e08065e24da7e61e4', density: this.railDensity, performance: this.performance, units: this.units, pendingUnits: this.pendingUnits, currencySymbol: calendar_data.currency?.symbol, performanceLoading: this.isPerformanceLoading, unitsLoading: this.isUnitsLoading, pendingLoading: this.isPendingLoading })), h("section", { key: '8d47712bb1406d243bd05b5f2d93308269251c0f', class: "dashboard-main", "aria-busy": this.isPageLoading ? 'true' : null }, h("wa-tab-group", { key: '3cfd58be1f0afe6e8ccaab230abe7f7db6304a83', class: "dashboard-tabs", ref: el => (this.tabGroupRef = el), activation: "manual", active: this.activeTab, withoutScrollControls: true, "onwa-tab-show": e => this.handleTabShow(e) }, this.renderTab('arrivals', t('Lcz_Arrivals', { fallback: 'Arrivals' }), counts.arrivals, {
+        return (h(Host, { key: '981b3dedd25950188f993ec1704ffd3b684be061' }, h("ir-page", { key: '174e751e4b44a8c2e64779aed1e82d506f679146', label: t('Lcz_Dashboard', { fallback: 'Dashboard' }), handledEndpoints: OVERLAY_ENDPOINTS }, h("div", { key: '2f8e8b3d71bdd2f60ec9cb570dd7a725587def8d', class: `dashboard-layout dashboard-layout--${this.railDensity}` }, h("aside", { key: '8d972db1a314108472929b403608ba568bbcefbe', class: "dashboard-aside", ref: el => (this.asideRef = el) }, h("ir-dashboard-date-navigator", { key: 'de6464dacdc68791a8f43e3ff435b67b6d49a407', date: this.selectedDate, density: this.railDensity, onDateChange: e => this.handleDateChange(e) }), h("ir-dashboard-stats", { key: '1b033bba62d39bef037e4df40e74db1b617d4576', density: this.railDensity, performance: this.performance, units: this.units, pendingUnits: this.pendingUnits, currencySymbol: calendar_data.currency?.symbol, performanceLoading: this.isPerformanceLoading, unitsLoading: this.isUnitsLoading, pendingLoading: this.isPendingLoading })), h("section", { key: 'c6d613a6e539df6ba967e2fecdfa9268a182a557', class: "dashboard-main", "aria-busy": this.isPageLoading ? 'true' : null }, h("wa-tab-group", { key: 'dc32d9391683b3db57027880aca242da3a660b6b', class: "dashboard-tabs", ref: el => (this.tabGroupRef = el), activation: "manual", active: this.activeTab, withoutScrollControls: true, "onwa-tab-show": e => this.handleTabShow(e) }, this.renderTab('arrivals', t('Lcz_Arrivals', { fallback: 'Arrivals' }), counts.arrivals, {
             overdueNote: counts.overdueArrivals > 0 ? t('Lcz_OverdueCheckInsCount', { fallback: '%1 overdue check-ins', params: [formatCount(counts.overdueArrivals)] }) : undefined,
             unassigned: counts.unassignedArrivals,
         }), this.renderTab('departures', t('Lcz_Departures', { fallback: 'Departures' }), counts.departures, {
@@ -623,12 +632,12 @@ export class IrDashboard {
                 ? t('Lcz_OverdueCheckOutsCount', { fallback: '%1 overdue check-outs', params: [formatCount(counts.overdueDepartures)] })
                 : undefined,
         }), this.renderTab('inHouse', t('Lcz_InHouse', { fallback: 'In-house' }), counts.inHouse), this.renderTab('bookings', t('Lcz_Bookings', { fallback: 'Bookings' }), counts.bookings), this.renderTab('cancellations', t('Lcz_Cancellations', { fallback: 'Cancellations' }), counts.cancellations), TABS.map(tab => (h("wa-tab-panel", { key: tab, name: tab, class: "dashboard-tab-panel" }, this.renderPanel(tab)))))))), !this.isPageLoading && [
-            h("ir-booking-details-drawer", { key: '2e7bac97419009149413a2de8be1c56ea7297a66', open: !!this.bookingNumber, propertyId: this.propertyId, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
+            h("ir-booking-details-drawer", { key: '667f52eccb015b2699f01a697776b0948f37f885', open: !!this.bookingNumber, propertyId: this.propertyId, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
                     this.bookingNumber = null;
                     this.checkoutRoomIdentifier = null;
                     this.loadDay();
                 } }),
-            h("ir-payment-folio", { key: '4f2a9463b194a25594a6ed4e90c8bac1dbc10787', style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
+            h("ir-payment-folio", { key: '49e70a3a2f55bbfeea3aed443e9ca7d26cb898d1', style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
                     this.booking = null;
                     this.payment = null;
                 } }),

@@ -115,6 +115,8 @@ export interface RealtimeEventMap {
     CHANGE_IN_BOOK_STATUS: {
         pools: number[];
         status_code: string;
+        from_date?: string;
+        to_date?: string;
     };
     NON_TECHNICAL_CHANGE_IN_BOOKING: {
         booking_nbr: string;

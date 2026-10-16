@@ -32,6 +32,13 @@
   margin: 0;
 }
 
+/* A booking's rooms, one under the other. */
+.units-cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wa-space-2xs);
+}
+
 .data-table th,
 .data-table td {
   vertical-align: middle;

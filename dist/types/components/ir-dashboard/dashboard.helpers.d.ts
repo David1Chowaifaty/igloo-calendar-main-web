@@ -2,6 +2,7 @@ import { type Booking } from "../../models/booking.dto";
 import type { CalendarCellType } from "../../models/IBooking";
 import type { RoomType } from "../../models/property";
 import type { DashboardUnits } from "../../services/dashboard/types";
+import type { RealtimeEventMap } from "../../services/realtime/types";
 import type { ISODate } from "../../utils/calendar-dates";
 export declare const MAX_DAY_OFFSET = 5;
 /** Quiet time after the last day change before the day is fetched, so stepping through several days only loads the last. */
@@ -20,6 +21,8 @@ export declare function countOverdueArrivals(bookings: Booking[], today: ISODate
 export declare function countOverdueDepartures(bookings: Booking[], today: ISODate): number;
 /** Units departing on `date` — counted per room, not per booking. */
 export declare function countDepartingUnits(bookings: Booking[], date: ISODate): number;
+/** Whether a booking status change cancels a booking whose stay covers `date`, arrival and departure days included. */
+export declare function isCancellationOn({ status_code, from_date, to_date }: RealtimeEventMap['CHANGE_IN_BOOK_STATUS'], date: ISODate): boolean;
 /** Rooms across all bookings — the in-house card counts rooms, not bookings. */
 export declare function countRooms(bookings: Booking[]): number;
 /**
