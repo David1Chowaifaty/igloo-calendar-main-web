@@ -1,5 +1,4 @@
 import { h } from "@stencil/core";
-import { getLocalDirection } from "../../../utils/direction";
 export class IrMenuGroup {
     el;
     open;
@@ -24,7 +23,7 @@ export class IrMenuGroup {
         this.openChanged.emit(true);
     };
     render() {
-        return (h("wa-details", { key: '66d7db2c7bd1aa382c27a056e5a48a3c9dece1fd', dir: getLocalDirection(this.el), class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, h("slot", { key: 'd1d4c61f5fe74880524cde3ebd6bcd42ee3d2067', slot: "summary", name: "summary" }), h("slot", { key: '2dfde902589bfd86b2fafc94917d971b85852bcf' })));
+        return (h("wa-details", { key: '776dde9eb4206aebc0b20bfa1331454223b5394c', class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, h("slot", { key: 'e0fd60c18247a5014cf83962d9c505f4b27d79cc', slot: "summary", name: "summary" }), h("slot", { key: 'f00ce0d9df0b8078918ccca14c66848788bd2e55' })));
     }
     static get is() { return "ir-menu-group"; }
     static get encapsulation() { return "shadow"; }

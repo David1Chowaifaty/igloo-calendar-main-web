@@ -1,7 +1,6 @@
 import { h } from "@stencil/core";
 import moment from "moment";
 import { v4 } from "uuid";
-import { t } from "../../../../services/locale/t";
 const DATE_FORMAT = 'YYYY-MM-DD';
 export class IrPaymentFolio {
     /**
@@ -69,24 +68,24 @@ export class IrPaymentFolio {
     _id = `ir__folio-form-${v4()}`;
     render() {
         // const isNewPayment = this.folioData?.payment_type?.code === '001' && this.folioData.id === -1;
-        return (h("ir-drawer", { key: '926587d916dcad5de5c8e5da75f67f1a4d4ece16', placement: "start", style: {
+        return (h("ir-drawer", { key: 'b4383b361f6e845c729429261b1ffc0caaa4bb3a', placement: "start", style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, label: this.payment?.id !== -1 ? t('Lcz_EditFolioEntry', { fallback: 'Edit Folio Entry' }) : t('Lcz_NewFolioEntry', { fallback: 'New Folio Entry' }), open: this.isOpen, onDrawerHide: event => {
+            }, label: this.payment?.id !== -1 ? 'Edit Folio Entry' : 'New Folio Entry', open: this.isOpen, onDrawerHide: event => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 this.closeFolio();
-            } }, this.isOpen && (h("ir-payment-folio-form", { key: '736e5159948cdef0723a51c7224c39372f061aa7', booking: this.booking, formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
+            } }, this.isOpen && (h("ir-payment-folio-form", { key: '38c76cb4f5a72dd8e6335d1e6d5410fa117d408b', booking: this.booking, formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeFolio();
-            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: '37375e1932d1a34f59be70199dbf0315c3fe1dd6', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: 'bc682ee3760a93896ac03972b1e0f6b0e1e7a975', class: "flex-fill", size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'b175c96639933f8c8e6fc062c96093ea64985fb6', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "m", type: "submit", value: "save",
+            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: '8d8b8355be93ca963c6926f485e77b512407e354', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: 'e5b8b97adb74ecde3dda5e41012723948999f346', class: "flex-fill", size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: 'c0d58b8ea4d74436d2cf7316e2be6bfcd120d3ac', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "m", type: "submit", value: "save",
             // appearance={isNewPayment ? 'outlined' : 'accent'}
-            appearance: 'accent', variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })))));
+            appearance: 'accent', variant: "brand" }, "Save"))));
     }
     static get is() { return "ir-payment-folio"; }
     static get encapsulation() { return "scoped"; }
@@ -107,7 +106,7 @@ export class IrPaymentFolio {
                 "mutable": false,
                 "complexType": {
                     "original": "PaymentEntries",
-                    "resolved": "{ types: SetupEntries[]; groups: SetupEntries[]; methods: SetupEntries[]; }",
+                    "resolved": "{ types: IEntries[]; groups: IEntries[]; methods: IEntries[]; }",
                     "references": {
                         "PaymentEntries": {
                             "location": "import",

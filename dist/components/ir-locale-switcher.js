@@ -1,1 +1,0 @@
-import{I as o,d as r}from"./ir-locale-switcher2.js";const s=o,t=r;export{s as IrLocaleSwitcher,t as defineCustomElement}

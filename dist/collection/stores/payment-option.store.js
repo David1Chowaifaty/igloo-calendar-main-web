@@ -1,7 +1,7 @@
 import { createStore } from "@stencil/store";
 const initialState = {
     selectedOption: null,
-    ApiClient: null,
+    token: null,
     mode: 'create',
     languages: null,
 };

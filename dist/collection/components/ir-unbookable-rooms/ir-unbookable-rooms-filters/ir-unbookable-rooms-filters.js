@@ -1,5 +1,4 @@
 import { h } from "@stencil/core";
-import { t } from "../../../services/locale/t";
 export class IrUnbookableRoomsFilters {
     mode = 'default';
     filters = { period_to_check: 2, consecutive_period: 14, country: 'all' };
@@ -36,13 +35,13 @@ export class IrUnbookableRoomsFilters {
             }
         });
         const sortedCountries = [...countries.entries()].sort((a, b) => a[1].localeCompare(b[1], undefined, { sensitivity: 'base' }) || a[0] - b[0]);
-        return (h("ir-filter-card", { key: 'b81fc441f2511c999bf4a9cdee59c856938d73e6' }, h("wa-select", { key: '4c70bdb76b70c20f0e1faed93efd8493dc08f042', label: t('Lcz_LookAhead', { fallback: 'Look ahead' }), size: "s", value: this.filters.period_to_check?.toString(), defaultValue: this.filters.period_to_check?.toString(), onchange: e => {
+        return (h("ir-filter-card", { key: 'eeb10b4c4ac439a899989bc7a5f7faf7b3128379' }, h("wa-select", { key: 'ff5696d50c913469dced41ac0221abf9a20b2cd2', label: "Look ahead", size: "s", value: this.filters.period_to_check?.toString(), defaultValue: this.filters.period_to_check?.toString(), onchange: e => {
                 this.handlePeriodChange(e.target.value);
-            } }, Array.from({ length: 5 }, (_, i) => i + 2).map(value => (h("wa-option", { value: value.toString() }, value, " ", t('Lcz_Month', { fallback: 'month' }), value > 1 ? 's' : '')))), h("ir-input", { key: '364a4be7ae5b11c269837c5067de99858b4f62ef', type: "number", label: t('Lcz_MinimumConsecutiveNights', { fallback: 'Minimum consecutive nights' }), min: "7", hint: t('Lcz_PeriodRoomTypesClosedForBooking', { fallback: 'Period where room types are closed for booking.' }), max: "60", value: this.filters.consecutive_period?.toString(), "onText-change": e => {
+            } }, Array.from({ length: 5 }, (_, i) => i + 2).map(value => (h("wa-option", { value: value.toString() }, value, " month", value > 1 ? 's' : '')))), h("ir-input", { key: '76673fd00492fbbd67d3b7a05d4ad2a3075667d2', type: "number", label: "Minimum consecutive nights", min: "7", hint: "Period where room types are closed for booking.", max: "60", value: this.filters.consecutive_period?.toString(), "onText-change": e => {
                 this.handleConsecutiveChange(e.detail);
-            } }), this.mode === 'mpo' && sortedCountries.length > 1 && (h("wa-select", { key: 'b00718d8816cefad24655e1ec89b77d80be65cb9', label: t('Lcz_Country', { fallback: 'Country' }), size: "s", value: this.filters.country?.toString(), defaultValue: "all", onchange: e => {
+            } }), this.mode === 'mpo' && sortedCountries.length > 1 && (h("wa-select", { key: '5109ad6c936bb3ff0862fa76aab2529f65323cc8', label: "Country", size: "s", value: this.filters.country?.toString(), defaultValue: "all", onchange: e => {
                 this.handleCountryChange(e.target.value);
-            } }, h("wa-option", { key: '6034f4edbbf8d126059168f48a547bf619e076a3', value: "all" }, t('Lcz_ShowAll', { fallback: 'Show all' })), sortedCountries.map(([id, name]) => (h("wa-option", { value: id.toString() }, name))))), h("div", { key: '732428e2b8ab82fd746c5f5491c236ece7f7f441', slot: "footer" }, h("ir-custom-button", { key: '243eccd23c8a272ce39e056319873c2fad3610f5', onClickHandler: () => this.filtersReset.emit(), variant: "neutral", appearance: "filled" }, t('Lcz_Reset', { fallback: 'Reset' })), h("ir-custom-button", { key: '5367a6b10c436becbe97c20bd44769f8c948d6b5', loading: this.isLoading, onClickHandler: () => this.filtersSave.emit(), variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })))));
+            } }, h("wa-option", { key: '16fd600be76764c3cfd066d42c664d90667cb74d', value: "all" }, "Show all"), sortedCountries.map(([id, name]) => (h("wa-option", { value: id.toString() }, name))))), h("div", { key: '048a0335aab73ff27bdc6e090f1116390da10aa0', slot: "footer" }, h("ir-custom-button", { key: '9f31b651896e9c7a7cb1bc6ab0b813ac5af5b0d9', onClickHandler: () => this.filtersReset.emit(), variant: "neutral", appearance: "filled" }, "Reset"), h("ir-custom-button", { key: 'ef27c25fe6767b03ef52574255193e6abccbfb3e', loading: this.isLoading, onClickHandler: () => this.filtersSave.emit(), variant: "brand" }, "Save"))));
     }
     static get is() { return "ir-unbookable-rooms-filters"; }
     static get encapsulation() { return "scoped"; }

@@ -34,7 +34,7 @@
 }
 
 .cell--left {
-  text-align: start;
+  text-align: left;
 }
 
 .cell--center {
@@ -42,7 +42,7 @@
 }
 
 .cell--right {
-  text-align: end;
+  text-align: right;
 }
 
 .cell-stack {

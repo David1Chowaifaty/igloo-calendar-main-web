@@ -12,6 +12,6 @@ export declare class IrSalesByChannelFilters {
     private updateFilter;
     private applyFiltersEvt;
     private resetFilters;
-    private get quickDates();
+    private quickDates;
     render(): any;
 }

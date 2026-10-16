@@ -1,7 +1,6 @@
-import { SetupEntries } from "../../models/IBooking";
 import type { Agent } from "../../services/agents/type";
 import { Moment } from 'moment';
-import type { TaxOption } from './ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema';
+import type { TaxOption, ServiceCategoryOption } from './ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema';
 import type { FolioSummary } from './ir-city-ledger-folio/types';
 import type { ClFiscalDocumentFilters } from './ir-city-ledger-fiscal-documents/types';
 import type { StatementFilters } from './ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter';
@@ -20,7 +19,8 @@ export declare class IrCityLedger {
     agents: Agent[];
     selectedAgent: Agent | null;
     taxOptions: TaxOption[];
-    svcCategories: SetupEntries[];
+    serviceCategoryOptions: ServiceCategoryOption[];
+    currencySymbol: string;
     statementFrom: Moment | null;
     statementTo: Moment | null;
     showStatementPreview: boolean;
@@ -28,27 +28,22 @@ export declare class IrCityLedger {
     agentSearch: string;
     fiscalFilters: ClFiscalDocumentFilters;
     stmtFilters: StatementFilters;
-    private apiClientService;
+    private panels;
+    private tokenService;
     private agentsService;
     private propertyService;
-    private setupService;
+    private bookingService;
     private systemService;
     private toolbarRef;
     private createInvoiceDialogRef;
     private currencies;
     private get filteredAgents();
-    /** Re-runs init when the language changes so server-localized data follows. */
-    private languageSync;
     componentWillLoad(): void;
-    componentDidLoad(): void;
-    disconnectedCallback(): void;
-    languageChanged(next: string, previous: string): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     handlePropertyIdChange(newValue: number, oldValue: number): void;
     handleAgentIdChange(newId: number | null, oldId: number | null): void;
     private getAgentIdFromSearchParams;
     private applyAgentIdProp;
     private init;
-    private get serviceCategoryOptions();
     render(): any;
 }

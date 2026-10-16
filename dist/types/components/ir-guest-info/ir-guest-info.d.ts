@@ -15,13 +15,9 @@ export declare class GuestInfo {
     closeSideBar: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
     private bookingService;
-    private ApiClient;
-    /** Re-runs init when the language changes so server-localized data follows. */
-    private languageSync;
+    private roomService;
+    private token;
     componentWillLoad(): Promise<void>;
-    componentDidLoad(): void;
-    disconnectedCallback(): void;
-    languageChanged(next: string, previous: string): void;
     ticketChanged(newValue: string, oldValue: string): void;
     init(): Promise<void>;
     private handleInputChange;

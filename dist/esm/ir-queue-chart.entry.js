@@ -1,7 +1,5 @@
-import { r as registerInstance, a as getElement, h, H as Host } from './index-DKZeCK8T.js';
+import { r as registerInstance, d as getElement, h, H as Host } from './index-CwWmK1sZ.js';
 import { C as Chart, r as registerables } from './chart-3KrsuFTS.js';
-import { t } from './t-Bvz1wS_D.js';
-import './locale-scope-Jre4lb6k.js';
 
 const irQueueChartCss = () => `:host{display:block}`;
 
@@ -16,7 +14,7 @@ const IrQueueChart = class {
     /** Values for bars */
     values = [];
     /** Chart title */
-    label = t('Lcz_QueueStatus', { fallback: 'Queue Status' });
+    label = 'Queue Status';
     chart;
     canvas;
     componentDidLoad() {
@@ -106,7 +104,7 @@ const IrQueueChart = class {
         this.chart.update();
     }
     render() {
-        return (h(Host, { key: 'fa984357d41b3eab1f8be1d201bc73df30ed7a37' }, h("div", { key: 'eeab59616d82be640b84c6f9e865d23101535e7e', class: "chart-container" }, h("canvas", { key: '452eef770691e3cbca5569ed39118ed24b44a1c0', ref: el => (this.canvas = el) }))));
+        return (h(Host, { key: 'f0cfb0bc434c02d36f3e2ec4bad1179a45f57fc8' }, h("div", { key: 'ab02c495caf4c0d30f5ad10106e01b5bd31c3789', class: "chart-container" }, h("canvas", { key: 'e5f01fdbe7f1e2f90e272cdeb28fceeb31fce940', ref: el => (this.canvas = el) }))));
     }
     static get watchers() { return {
         "values": [{

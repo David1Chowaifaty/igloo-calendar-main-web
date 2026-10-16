@@ -1,5 +1,4 @@
 import { Host, h } from "@stencil/core";
-import { t } from "../../../services/locale/t";
 export class IrMobileInput {
     el;
     static idCounter = 0;
@@ -12,11 +11,11 @@ export class IrMobileInput {
     /** The input's size. */
     size = 's';
     /** Visible label for the phone input */
-    label;
+    label = 'Phone number';
     /** Name attribute passed to the native input */
     name = 'phone';
     /** Placeholder shown when the input is empty */
-    placeholder;
+    placeholder = 'Enter phone number';
     /** Help text rendered under the label */
     description;
     /** Error message announced to screen readers */
@@ -117,22 +116,17 @@ export class IrMobileInput {
     // };
     render() {
         const describedByIds = [this.description ? this.descriptionId : null, this.error ? this.errorId : null].filter(Boolean).join(' ') || undefined;
-        return (h(Host, { key: '8745c67eda436bfd97c26d08a4ffb1dc29e3aa11', size: 's', role: "group", "aria-labelledby": this.labelId, "aria-describedby": describedByIds }, h("label", { key: 'b0c32d5fc056419dac434f81979ff853d4bd7d4b', class: "mobile-input__label", id: this.labelId, htmlFor: this.inputId }, this.label || t('Lcz_PhoneNumber', { fallback: 'Phone number' }), this.required ? (h("span", { class: "mobile-input__required", "aria-hidden": "true" }, "*")) : null), this.description ? (h("p", { id: this.descriptionId, class: "mobile-input__description" }, this.description)) : null, h("div", { key: '6c3aff5f6ae603317d8b3b43543d0beb42220d10', class: { 'mobile-input__container': true, 'mobile-input__container--disabled': this.disabled } }, h("wa-dropdown", { key: '0d582694e1735e9500d19fe65b6834446aee388f', "onwa-show": e => {
+        return (h(Host, { key: 'eed3323aa3759627d9f45a95f3508d12b646f622', size: 's', role: "group", "aria-labelledby": this.labelId, "aria-describedby": describedByIds }, h("label", { key: '5ff455ee154aa0b754d883b17ced1137bc37dd55', class: "mobile-input__label", id: this.labelId, htmlFor: this.inputId }, this.label, this.required ? (h("span", { class: "mobile-input__required", "aria-hidden": "true" }, "*")) : null), this.description ? (h("p", { id: this.descriptionId, class: "mobile-input__description" }, this.description)) : null, h("div", { key: 'a4740548a84ee818de8b683b13a8547a74f6a0b2', class: { 'mobile-input__container': true, 'mobile-input__container--disabled': this.disabled } }, h("wa-dropdown", { key: 'f7c501ea3ba8bfd1efb5208e916dbc1dc6f20175', "onwa-show": e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
             }, "onwa-hide": e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
-            }, "onwa-select": this.handleCountrySelect, class: "mobile-input__prefix-dropdown" }, h("button", { key: '211b23a5120a0c70b9cba63204ff839a64fcc093', "aria-invalid": String(this.isInvalid && !this.selectedCountry), slot: "trigger", type: "button", class: "mobile-input__trigger", disabled: this.disabled, "aria-haspopup": "listbox", "aria-label": t('Lcz_ChangeCountryCallingCode', { fallback: 'Change country calling code' }) }, h("div", { key: '6178480a33ea599a02bb9f0b725e060de094a85a', class: "mobile-input__phone-country", style: { marginInlineEnd: '1rem' } }, this.selectedCountry ? (h("img", { src: this.selectedCountry?.flag, alt: this.selectedCountry?.name, class: "mobile-input__logo" })) : (h("span", null, t('Lcz_Select', { fallback: 'Select' })))), h("wa-icon", { key: '87d29144658d4c09242cf45dacaf618703648b89', class: "mobile-input__phone-country-caret", name: "chevron-down", "aria-hidden": "true" })), h("span", { key: '27269d618103bb5053454e49517088855b1b364b', class: "sr-only", id: this.countryStatusId, "aria-live": "polite" }, this.selectedCountry
-            ? t('Lcz_SelectedCountryAnnouncement', {
-                fallback: `Selected country ${this.selectedCountry.name} ${this.selectedCountry.phone_prefix}`,
-                params: [this.selectedCountry.name, this.selectedCountry.phone_prefix],
-            })
-            : t('Lcz_SelectACountry', { fallback: 'Select a country' })), this.countries.map(country => (h("wa-dropdown-item", { value: country.id.toString() }, h("div", { class: "mobile-input__phone-country", role: "option", "aria-selected": this.selectedCountry?.id === country.id ? 'true' : 'false' }, h("img", { src: country.flag, alt: country.name, class: "mobile-input__logo" }), h("span", { class: "mobile-input__country-name" }, country.name), h("span", { class: "mobile-input__country-prefix" }, country.phone_prefix)))))), h("ir-input", { key: 'e03a49f72d60aa29e63e0237a789972eebbbb7af', "aria-invalid": String(this.isInvalid && (this.value ?? '').length < 4), type: "tel", inputMode: "tel", autocomplete: "off", disabled: this.disabled, placeholder: this.placeholder || t('Lcz_EnterPhoneNumber', { fallback: 'Enter phone number' }), defaultValue: this.value, value: this.value, class: "phone__input", "onText-change": e => {
+            }, "onwa-select": this.handleCountrySelect, class: "mobile-input__prefix-dropdown" }, h("button", { key: '8a23667bc07ba41d6772fa013a5e0b32ae6527cd', "aria-invalid": String(this.isInvalid && !this.selectedCountry), slot: "trigger", type: "button", class: "mobile-input__trigger", disabled: this.disabled, "aria-haspopup": "listbox", "aria-label": "Change country calling code" }, h("div", { key: '1da5015fcbc73a02d9bee078fc1d57883a091d75', class: "mobile-input__phone-country", style: { marginRight: '1rem' } }, this.selectedCountry ? h("img", { src: this.selectedCountry?.flag, alt: this.selectedCountry?.name, class: "mobile-input__logo" }) : h("span", null, "Select")), h("wa-icon", { key: 'cddf8ba2c27f30adeaa6c7cbe217de032b9f6ec1', class: "mobile-input__phone-country-caret", name: "chevron-down", "aria-hidden": "true" })), h("span", { key: 'bf4f3de3b970f67b5b2b9c53b2a8ba9a2852ceba', class: "sr-only", id: this.countryStatusId, "aria-live": "polite" }, this.selectedCountry ? `Selected country ${this.selectedCountry.name} ${this.selectedCountry.phone_prefix}` : 'Select a country'), this.countries.map(country => (h("wa-dropdown-item", { value: country.id.toString() }, h("div", { class: "mobile-input__phone-country", role: "option", "aria-selected": this.selectedCountry?.id === country.id ? 'true' : 'false' }, h("img", { src: country.flag, alt: country.name, class: "mobile-input__logo" }), h("span", { class: "mobile-input__country-name" }, country.name), h("span", { class: "mobile-input__country-prefix" }, country.phone_prefix)))))), h("ir-input", { key: '985b94e4127674db689509a1fdb591e3ea9c5665', "aria-invalid": String(this.isInvalid && (this.value ?? '').length < 4), type: "tel", inputMode: "tel", autocomplete: "off", disabled: this.disabled, placeholder: this.placeholder, defaultValue: this.value, value: this.value, class: "phone__input", "onText-change": e => {
                 const value = e.detail;
                 this.value = value;
                 this.mobileInputChange.emit({ formattedValue: value, value, country: this.selectedCountry });
-            } }, this.selectedCountry && h("span", { key: '55bd2ac861fa63ab88b6d1490c8ffac783477265', slot: "start" }, this.selectedCountry?.phone_prefix))), this.error ? (h("p", { id: this.errorId, class: "mobile-input__error", role: "alert" }, this.error)) : null));
+            } }, this.selectedCountry && h("span", { key: 'e4aa4ce05b76af2503e7d6fb68bfeb1dd9254aa5', slot: "start" }, this.selectedCountry?.phone_prefix))), this.error ? (h("p", { id: this.errorId, class: "mobile-input__error", role: "alert" }, this.error)) : null));
     }
     static get is() { return "ir-mobile-input"; }
     static get encapsulation() { return "shadow"; }
@@ -192,7 +186,8 @@ export class IrMobileInput {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "label"
+                "attribute": "label",
+                "defaultValue": "'Phone number'"
             },
             "name": {
                 "type": "string",
@@ -231,7 +226,8 @@ export class IrMobileInput {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "placeholder"
+                "attribute": "placeholder",
+                "defaultValue": "'Enter phone number'"
             },
             "description": {
                 "type": "string",

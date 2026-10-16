@@ -1,29 +1,23 @@
-import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { B as BookingService } from './booking.store-DZcDD-4z.js';
-import { R as RoomService } from './room.service-BJ8j9O2_.js';
-import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-BdYR01Ld.js';
-import { L as LanguageSync } from './language-sync-D7Gk7F48.js';
-import { t } from './t-Bvz1wS_D.js';
+import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-CwWmK1sZ.js';
+import { T as Token } from './Token-CkxFIO_J.js';
+import { B as BookingService } from './booking.store-5VMZSDo_.js';
+import { R as RoomService } from './room.service-Ck68Bw__.js';
+import { l as locales } from './locales.store-DN9FqlnV.js';
 import { t as todayISO, a as addDaysISO } from './calendar-dates-D3hVfsrC.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-B4waZCSK.js';
-import './types-CB66a07H.js';
-import './utils-BaDgLaiu.js';
+import './IBooking-DciUlUdo.js';
+import './types-Cvnhk41g.js';
+import './utils-DCUYWubA.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-DWzivSW-.js';
-import './locale-scope-Jre4lb6k.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
-import './ir-date-XXNYhmSL.js';
-import './language-observer-CHgzsZkY.js';
-import './booking-CDc4-nmz.js';
-import './functions-Ebyqqazo.js';
-import './commonSchemas-Cx9w9d8l.js';
-import './types-CyZFzmvF.js';
+import './calendar-data-zADniuy4.js';
+import './index-BfixheT-.js';
+import './type-ByBjJ3uo.js';
+import './booking-DxbkLMu3.js';
+import './functions-COpYNLV3.js';
+import './commonSchemas-BiRmPH_2.js';
 
-const iglBookPropertyContainerCss = () => `.sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans',     -apple-system,     BlinkMacSystemFont,     'Segoe UI',     Roboto,     'Helvetica Neue',     Arial,     sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:start !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}`;
+const iglBookPropertyContainerCss = () => `.sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}`;
 
 const IglBookPropertyContainer = class {
     constructor(hostRef) {
@@ -44,7 +38,7 @@ const IglBookPropertyContainer = class {
     resetBookingData;
     bookingService = new BookingService();
     roomService = new RoomService();
-    ApiClient = new ApiClient();
+    token = new Token();
     setRoomsData(roomServiceResp) {
         let roomsData = new Array();
         if (roomServiceResp.My_Result?.roomtypes?.length) {
@@ -57,17 +51,18 @@ const IglBookPropertyContainer = class {
     }
     async initializeApp() {
         try {
-            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
-            // so the requests below are built with the right language on first mount.
-            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.bookProperty });
             if (!this.propertyid && !this.p) {
                 throw new Error('Property ID or username is required');
             }
-            const [roomResponse, , countriesList] = await Promise.all([
-                this.roomService.getExposedProperty({ id: this.propertyid, language: LocaleController.language, aname: this.p }),
-                localeReady,
-                this.bookingService.getCountries(LocaleController.language),
+            const [roomResponse, languageTexts, countriesList] = await Promise.all([
+                this.roomService.getExposedProperty({ id: this.propertyid, language: this.language, aname: this.p }),
+                this.roomService.fetchLanguage(this.language),
+                this.bookingService.getCountries(this.language),
             ]);
+            if (!locales.entries) {
+                locales.entries = languageTexts.entries;
+                locales.direction = languageTexts.direction;
+            }
             this.countries = countriesList;
             const { allowed_payment_methods: paymentMethods, currency, allowed_booking_sources, adult_child_constraints, calendar_legends } = roomResponse['My_Result'];
             this.calendarData = { currency, allowed_booking_sources, adult_child_constraints, legendData: calendar_legends };
@@ -79,28 +74,17 @@ const IglBookPropertyContainer = class {
             console.error('Error initializing app:', error);
         }
     }
-    /** Re-runs init when the language changes so server-localized data follows. */
-    languageSync = new LanguageSync(SCREEN_TABLES.bookProperty, () => this.initializeApp());
     componentWillLoad() {
         if (this.ticket !== '') {
-            this.ApiClient.setApiClient(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
-    }
-    componentDidLoad() {
-        this.languageSync.connect();
-    }
-    disconnectedCallback() {
-        this.languageSync.disconnect();
-    }
-    languageChanged(next, previous) {
-        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.ApiClient.setApiClient(this.ticket);
+        this.token.setToken(this.ticket);
         this.initializeApp();
     }
     handleCloseBookingWindow() {
@@ -123,20 +107,17 @@ const IglBookPropertyContainer = class {
             NAME: '',
             PHONE: '',
             REFERENCE_TYPE: '',
-            TITLE: t('Lcz_NewBooking', { fallback: 'New Booking' }),
+            TITLE: locales.entries.Lcz_NewBooking,
         };
     }
     render() {
-        return (h(Host, { key: '21e1ff44f8db834ce73af4b0cff3a5b69e806f13' }, this.withIrToastAndInterceptor && (h(Fragment, { key: '37ce1003ca7892f74dc8ce62577b13838a3d2b25' }, h("ir-toast", { key: '51ad801dfef80b45e3d8374f1f387ae5e10587e4' }), h("ir-interceptor", { key: 'a66cd4616587367266ebe2eabeb084f391f7c257' }))), h("div", { key: '8689ac38260845c03718c2dbbbfb61b13c7e7c61', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: '7c7b97ec3f0a8d6ee21854cd8a9d9d3da4820c00', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: '977eaca828418c8839a4b48cd2c2766f1239779d', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
+        return (h(Host, { key: 'fc188a18714f171169fa212272b6ac022d38b01a' }, this.withIrToastAndInterceptor && (h(Fragment, { key: '5d31f39dcb449e55ba72bb945b6b4037cf1582cb' }, h("ir-toast", { key: '9b1fef1c72a0e4c0321d3bc7d075e233b26439d8' }), h("ir-interceptor", { key: '589554fc16f36dc48b33a2e68eec8024bf665d3d' }))), h("div", { key: '461db38016f2d3e171f93db49728bf16f6e237c3', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: '8e4bacc5e425bb1a88e4eadd22afd1dd3dab99f6', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: 'aa29fdb821b1d3ee49e5ec283f94b7a04185510f', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingData.emit(null);
             }, onCloseBookingWindow: () => this.handleCloseBookingWindow() }))));
     }
     static get watchers() { return {
-        "language": [{
-                "languageChanged": 0
-            }],
         "ticket": [{
                 "ticketChanged": 0
             }]

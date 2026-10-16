@@ -4,10 +4,9 @@ import { CityLedgerService } from "../../../services/city-ledger/index";
 import calendar_data from "../../../stores/calendar-data";
 import moment from "moment";
 import { _formatTime } from "../../ir-booking-details/functions";
-import { formatDate } from "../../../utils/date/index";
-import { t } from "../../../services/locale/t";
 export class IrCityLedgerToolbar {
     agentId = null;
+    currencySymbol = '$';
     accountOverview = null;
     createInvoice;
     cityLedgerService = new CityLedgerService();
@@ -34,13 +33,10 @@ export class IrCityLedgerToolbar {
         });
     }
     render() {
-        return (h(Host, { key: '155699f783c1059f994f07eaf4381dd6b759a13a' }, h("div", { key: '90f27a71953accc9e33b7c1fa6d58452bf02efde', class: "toolbar" }, this.accountOverview ? (h("div", { class: "toolbar__stats" }, h("div", { id: "netbalance", class: "toolbar__stat" }, h("span", { class: "toolbar__stat-label" }, t('Lcz_NetBalance', { fallback: 'Net Balance' })), h("span", { class: {
+        return (h(Host, { key: 'ab882daac1029ebf3e9eb93122fced826df49205' }, h("div", { key: '5a8004fe5ea0cab6a2bf0b054db6563f89b03486', class: "toolbar" }, this.accountOverview ? (h("div", { class: "toolbar__stats" }, h("div", { id: "netbalance", class: "toolbar__stat" }, h("span", { class: "toolbar__stat-label" }, "Net Balance"), h("span", { class: {
                 'toolbar__stat-value': true,
                 'toolbar__stat-value--negative': this.accountOverview.ACCOUNT_NET_BALANCE < 0,
-            } }, this.accountOverview.ACCOUNT_NET_BALANCE < 0 ? '-' : '', formatAmount(calendar_data.currency.symbol, Math.abs(this.accountOverview.ACCOUNT_NET_BALANCE)))), h("div", { class: "toolbar__stats-sep" }), h("div", { id: "uninvoiced", class: "toolbar__stat" }, h("span", { class: "toolbar__stat-label" }, t('Lcz_Uninvoiced', { fallback: 'Uninvoiced' })), h("span", { class: "toolbar__stat-value" }, formatAmount(calendar_data.currency.symbol, this.accountOverview.TOTAL_UNINVOICED))), h("wa-tooltip", { for: "netbalance" }, t('Lcz_EndingBalanceAsOfTooltip', {
-            fallback: 'Ending balance as of %1 %2',
-            params: [formatDate(moment(), 'MMM DD, YYYY'), _formatTime(new Date().getHours().toString(), new Date().getMinutes().toString())],
-        })), h("wa-tooltip", { for: "due-invoice" }), h("wa-tooltip", { for: "uninvoiced" }, t('Lcz_UnbilledEntriesTooltip', { fallback: 'Total unbilled entries from bookings, manual charges, adjustments and discounts.' })), h("wa-tooltip", { for: "toolbar-held" }, t('Lcz_HeldEntriesTooltip', { fallback: 'Total held entries to resolve with agent.' })))) : (h("div", { class: "toolbar__stats-placeholder" })), h("div", { key: '629c141dc6269d79b9d95257f7b6c2f314c1b391', class: "toolbar__actions" }, h("ir-custom-button", { key: '2a368ddc20a0d9ca6d8068304854e2b742155f28', variant: "brand", onClickHandler: () => this.createInvoice.emit() }, t('Lcz_CreateInvoice', { fallback: 'Create Invoice' }))))));
+            } }, this.accountOverview.ACCOUNT_NET_BALANCE < 0 ? '-' : '', formatAmount(this.currencySymbol, Math.abs(this.accountOverview.ACCOUNT_NET_BALANCE)))), h("div", { class: "toolbar__stats-sep" }), h("div", { id: "uninvoiced", class: "toolbar__stat" }, h("span", { class: "toolbar__stat-label" }, "Uninvoiced"), h("span", { class: "toolbar__stat-value" }, formatAmount(this.currencySymbol, this.accountOverview.TOTAL_UNINVOICED))), h("wa-tooltip", { for: "netbalance" }, "Ending balance as of ", moment().format('MMM DD, YYYY'), " ", _formatTime(new Date().getHours().toString(), new Date().getMinutes().toString())), h("wa-tooltip", { for: "due-invoice" }), h("wa-tooltip", { for: "uninvoiced" }, "Total ", h("b", null, "unbilled"), " entries from bookings, manual charges, adjustments and discounts."), h("wa-tooltip", { for: "toolbar-held" }, "Total ", h("b", null, "held"), " entries to resolve with agent."))) : (h("div", { class: "toolbar__stats-placeholder" })), h("div", { key: 'ed609df15a4eecd8729582e4b77e51622eca54c2', class: "toolbar__actions" }, h("ir-custom-button", { key: '5071998329ddb98847f5337f125ad6802344313e', variant: "brand", onClickHandler: () => this.createInvoice.emit() }, "Create Invoice")))));
     }
     static get is() { return "ir-city-ledger-toolbar"; }
     static get encapsulation() { return "scoped"; }
@@ -75,6 +71,26 @@ export class IrCityLedgerToolbar {
                 "reflect": false,
                 "attribute": "agent-id",
                 "defaultValue": "null"
+            },
+            "currencySymbol": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "currency-symbol",
+                "defaultValue": "'$'"
             }
         };
     }

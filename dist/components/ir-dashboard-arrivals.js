@@ -1,1 +1,0 @@
-import{I as r,d as a}from"./ir-dashboard-arrivals2.js";const s=r,o=a;export{s as IrDashboardArrivals,o as defineCustomElement}

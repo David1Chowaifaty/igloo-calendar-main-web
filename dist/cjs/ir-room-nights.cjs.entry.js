@@ -1,29 +1,23 @@
 'use strict';
 
-var index = require('./index-IDeZZwEK.js');
-var booking_store = require('./booking.store-CFCw1RAq.js');
-var utils = require('./utils-ZKsQb8eV.js');
-var irDate = require('./ir-date-CbkOKs2C.js');
+var index = require('./index-Bp205iz4.js');
+var booking_store = require('./booking.store-C55fqH3Y.js');
+var utils = require('./utils-w7_1d-K4.js');
 var moment = require('./moment-CdViwxPQ.js');
-var calendarData = require('./calendar-data-ShS6b-Ns.js');
-var number = require('./number-xBpNWk3H.js');
-var locale_controller = require('./locale.controller-DXObwuz4.js');
-var t = require('./t-CqJPQrfm.js');
+var locales_store = require('./locales.store-CQhQqUVl.js');
+var calendarData = require('./calendar-data-BpobEh98.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./IBooking-hDE_y33g.js');
+require('./IBooking-Dsxfr_fF.js');
 require('./types-BVJQZ50e.js');
-require('./calendar-dates-BxDGM1ix.js');
-require('./booking-DhSfYcY7.js');
-require('./locale-scope-Cch-vf1R.js');
-require('./functions-CaNAUyCw.js');
-require('./commonSchemas-D4iFLV5-.js');
-require('./booking.dto-CUSvGTvD.js');
+require('./booking-D5vyMAnI.js');
+require('./index-CjQGUKJk.js');
+require('./functions-CTWJ6pA_.js');
+require('./commonSchemas-rhaJ5cvr.js');
 require('./type-Bj2x9EWc.js');
-require('./language-observer-DKp37LIu.js');
-require('./types-sp5nWPAa.js');
+require('./calendar-dates-BxDGM1ix.js');
 
-const irRoomNightsCss = () => `.sc-ir-room-nights-h{display:block;box-sizing:border-box;margin:0;position:relative}.loading-container.sc-ir-room-nights{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center}.close-icon.sc-ir-room-nights{position:absolute;top:18px;inset-inline-end:33px;outline:none}.close.sc-ir-room-nights{float:inline-end;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:0.5;padding:0;background-color:transparent;border:0;appearance:none}.card.sc-ir-room-nights{top:0;z-index:1000}.card-title.sc-ir-room-nights{border-bottom:1px solid #e4e5ec;width:100%}.irfontgreen.sc-ir-room-nights{color:#0e930e}.currency.sc-ir-room-nights{display:block;position:absolute;margin:0;padding:0;height:auto;inset-inline-start:10px}.rate-input.sc-ir-room-nights{font-size:14px;line-height:0;padding:0;height:0;border-inline-start:0;border-radius:0.25rem !important}.rate-input-container.sc-ir-room-nights{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1}.new-currency.sc-ir-room-nights{color:#3b4781;border:1px solid #cacfe7;font-size:0.975rem;height:2rem;background:rgb(255, 255, 255);padding-inline-end:0 !important;border-inline-end:0;border-start-end-radius:0;border-end-end-radius:0;transition:border-color 0.15s ease-in-out,     -webkit-box-shadow 0.15s ease-in-out}.input-group-prepend.sc-ir-room-nights span[data-state='focus'].sc-ir-room-nights{border-color:var(--blue)}.input-group-prepend.sc-ir-room-nights span[data-disabled].sc-ir-room-nights{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.rateInputBorder.sc-ir-room-nights{padding-inline-start:5px !important;padding-inline-end:5px !important;border-start-start-radius:0 !important;border-end-start-radius:0 !important}.room-night__input.sc-ir-room-nights{display:grid;grid-template-columns:auto 1fr;gap:var(--wa-space-l);align-items:center;margin-bottom:1rem}.room-night__input.sc-ir-room-nights::part(label),.room-night__input.sc-ir-room-nights [part~="label"]{width:80px;margin:0}.room-night__input.sc-ir-room-nights:disabled::part(label),.room-night__input.sc-ir-room-nights:disabled [part~="label"]{opacity:0.5}.room-night__input.sc-ir-room-nights::part(wa-input),.room-night__input.sc-ir-room-nights [part~="wa-input"]{grid-column:1 / -1;grid-row-end:span 2;display:grid;grid-template-columns:subgrid;gap:0 var(--wa-space-s);align-items:center}@media (min-width: 768px){.room-night__input.sc-ir-room-nights::part(base){max-width:180px}}.ir-ms-1.sc-ir-room-nights{margin-inline-start:0.25rem}.ir-text-start.sc-ir-room-nights{text-align:start}`;
+const irRoomNightsCss = () => `.sc-ir-room-nights-h{display:block;box-sizing:border-box;margin:0;position:relative}.loading-container.sc-ir-room-nights{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center}.close-icon.sc-ir-room-nights{position:absolute;top:18px;right:33px;outline:none}.close.sc-ir-room-nights{float:right;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:0.5;padding:0;background-color:transparent;border:0;appearance:none}.card.sc-ir-room-nights{top:0;z-index:1000}.card-title.sc-ir-room-nights{border-bottom:1px solid #e4e5ec;width:100%}.irfontgreen.sc-ir-room-nights{color:#0e930e}.currency.sc-ir-room-nights{display:block;position:absolute;margin:0;padding:0;height:auto;left:10px}.rate-input.sc-ir-room-nights{font-size:14px;line-height:0;padding:0;height:0;border-left:0;border-radius:0.25rem !important}.rate-input-container.sc-ir-room-nights{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1}.new-currency.sc-ir-room-nights{color:#3b4781;border:1px solid #cacfe7;font-size:0.975rem;height:2rem;background:rgb(255, 255, 255);padding-right:0 !important;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;transition:border-color 0.15s ease-in-out,     -webkit-box-shadow 0.15s ease-in-out}.input-group-prepend.sc-ir-room-nights span[data-state='focus'].sc-ir-room-nights{border-color:var(--blue)}.input-group-prepend.sc-ir-room-nights span[data-disabled].sc-ir-room-nights{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.rateInputBorder.sc-ir-room-nights{padding-left:5px !important;padding-right:5px !important;border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.room-night__input.sc-ir-room-nights{display:grid;grid-template-columns:auto 1fr;gap:var(--wa-space-l);align-items:center;margin-bottom:1rem}.room-night__input.sc-ir-room-nights::part(label),.room-night__input.sc-ir-room-nights [part~="label"]{width:80px;margin:0}.room-night__input.sc-ir-room-nights:disabled::part(label),.room-night__input.sc-ir-room-nights:disabled [part~="label"]{opacity:0.5}.room-night__input.sc-ir-room-nights::part(wa-input),.room-night__input.sc-ir-room-nights [part~="wa-input"]{grid-column:1 / -1;grid-row-end:span 2;display:grid;grid-template-columns:subgrid;gap:0 var(--wa-space-s);align-items:center}@media (min-width: 768px){.room-night__input.sc-ir-room-nights::part(base){max-width:180px}}`;
 
 const sheetCss = () => `.sc-ir-room-nights-h{height:100%}.sheet-container.sc-ir-room-nights{display:flex !important;flex-direction:column !important;background:white;height:100vh;gap:1rem;z-index:1000}.sheet-container.sc-ir-room-nights{height:-webkit-fill-available;height:100vh;height:100dvh}.sheet-footer.sc-ir-room-nights{position:sticky;bottom:0;z-index:20;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-ir-room-nights{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-ir-room-nights{flex:1 1 0%}@media (min-width: 768px){.sheet-footer.sc-ir-room-nights{flex-direction:row;align-items:center}}`;
 
@@ -65,7 +59,7 @@ const IrRoomNights = class {
         try {
             const { from_date } = this.defaultDates;
             this.dates = { from_date: from_date < this.fromDate ? from_date : this.fromDate, to_date: this.toDate };
-            this.bookingEvent = await this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: locale_controller.LocaleController.language });
+            this.bookingEvent = await this.bookingService.getExposedBooking({ booking_nbr: this.bookingNumber, language: this.language });
             if (this.bookingEvent) {
                 const filteredRooms = this.bookingEvent.rooms.filter(room => room.identifier === this.identifier);
                 this.selectedRoom = filteredRooms[0];
@@ -131,7 +125,7 @@ const IrRoomNights = class {
                     adult: this.selectedRoom.rateplan.selected_variation.adult_nbr,
                     child: this.selectedRoom.rateplan.selected_variation.child_nbr,
                 },
-                language: locale_controller.LocaleController.language,
+                language: this.language,
                 currency: this.bookingEvent.currency,
                 room_type_ids: [this.selectedRoom.roomtype.id],
                 rate_plan_ids: [rate_plan_id],
@@ -157,10 +151,10 @@ const IrRoomNights = class {
         }
     }
     renderInputField(index$1, currency_symbol, day) {
-        return (index.h("div", { class: "col-3 ir-ms-1 position-relative  m-0 p-0 rate-input-container" }, index.h("ir-price-input", { value: day.amount > 0 ? day.amount.toString() : '', disabled: this.inventory === 0 || this.inventory === null, currency: currency_symbol, "aria-label": "rate", "aria-describedby": "rate cost", onTextChange: e => this.handleInput(e.detail, index$1) })));
+        return (index.h("div", { class: "col-3 ml-1 position-relative  m-0 p-0 rate-input-container" }, index.h("ir-price-input", { value: day.amount > 0 ? day.amount.toString() : '', disabled: this.inventory === 0 || this.inventory === null, currency: currency_symbol, "aria-label": "rate", "aria-describedby": "rate cost", onTextChange: e => this.handleInput(e.detail, index$1) })));
     }
     renderReadOnlyField(currency_symbol, day) {
-        return index.h("p", { class: "col-9 ir-ms-1 m-0 p-0" }, number.formatAmount(currency_symbol, Number(day.amount)));
+        return index.h("p", { class: "col-9 ml-1 m-0 p-0" }, `${currency_symbol}${Number(day.amount).toFixed(2)}`);
     }
     renderRateFields(index, currency_symbol, day) {
         if (this.isEndDateBeforeFromDate) {
@@ -229,7 +223,7 @@ const IrRoomNights = class {
         if (!this.bookingEvent) {
             return (index.h("div", { class: "loading-container" }, index.h("ir-loading-screen", null)));
         }
-        return (index.h("div", { class: "sheet-container" }, index.h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${t.t('Lcz_AddingRoomNightsTo')} ${this.selectedRoom?.roomtype?.name} ${(this.selectedRoom?.unit).name}`, displayContext: "sidebar" }), index.h("section", { class: 'ir-text-start px-1 pt-0 sheet-body' }, index.h("p", { class: 'font-medium-1' }, `${t.t('Lcz_Booking', { fallback: 'Booking' })}#`, " ", number.formatBookingNumber(this.bookingNumber)), this.initialLoading ? (index.h("p", { class: 'mt-2 text-secondary' }, t.t('Lcz_CheckingRoomAvailability '))) : (index.h(index.Fragment, null, index.h("p", { class: 'font-weight-bold font-medium-1' }, `${irDate.formatDate(this.dates.from_date, 'ddd, DD MMM YYYY')} - ${irDate.formatDate(this.dates.to_date, 'ddd, DD MMM YYYY')}`), index.h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, ' ', this.selectedRoom.rateplan.is_non_refundable && index.h("span", { class: 'irfontgreen' }, t.t('Lcz_NonRefundable', { fallback: 'Non-refundable' }))), (this.inventory === 0 || this.inventory === null) && index.h("p", { class: "font-medium-1 text danger" }, t.t('Lcz_NoAvailabilityForAdditionalNights')), this.selectedRoom.rateplan.custom_text && index.h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), booking_store.booking_store.roomTypes?.length > 0 && calendarData.calendar_data.tax_statement && (index.h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "mt-1 booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement)), this.renderDates()))), index.h("section", { class: 'sheet-footer' }, index.h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: t.t('Lcz_Cancel', { fallback: 'Cancel' }), class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (index.h("ir-button", { isLoading: this.isLoading, text: t.t('Lcz_Confirm', { fallback: 'Confirm' }), btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
+        return (index.h("div", { class: "sheet-container" }, index.h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${locales_store.locales.entries.Lcz_AddingRoomNightsTo} ${this.selectedRoom?.roomtype?.name} ${(this.selectedRoom?.unit).name}`, displayContext: "sidebar" }), index.h("section", { class: 'text-left px-1 pt-0 sheet-body' }, index.h("p", { class: 'font-medium-1' }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), this.initialLoading ? (index.h("p", { class: 'mt-2 text-secondary' }, locales_store.locales.entries['Lcz_CheckingRoomAvailability '])) : (index.h(index.Fragment, null, index.h("p", { class: 'font-weight-bold font-medium-1' }, `${utils.formatDate(this.dates.from_date, 'YYYY-MM-DD')} - ${utils.formatDate(this.dates.to_date, 'YYYY-MM-DD')}`), index.h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && index.h("p", { class: "font-medium-1 text danger" }, locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && index.h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), booking_store.booking_store.roomTypes?.length > 0 && calendarData.calendar_data.tax_statement && (index.h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "mt-1 booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement)), this.renderDates()))), index.h("section", { class: 'sheet-footer' }, index.h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales_store.locales?.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (index.h("ir-button", { isLoading: this.isLoading, text: locales_store.locales?.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
     }
 };
 IrRoomNights.style = irRoomNightsCss() + sheetCss();

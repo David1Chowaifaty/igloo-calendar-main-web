@@ -1,19 +1,18 @@
-import ApiClient from "../../../../models/ApiClient";
+import Token from "../../../../models/Token";
 import { CityLedgerService } from "../../../../services/city-ledger/index";
 import { PropertyService } from "../../../../services/property.service";
-import { LocaleController } from "../../../../services/locale/locale.controller";
 export class ClFiscalDocumentService {
-    apiClientService = new ApiClient();
+    tokenService = new Token();
     propertyService = new PropertyService();
     cityLedgerService = new CityLedgerService();
     init(baseurl, ticket) {
         if (baseurl)
-            this.apiClientService.setBaseUrl(baseurl);
-        this.apiClientService.setApiClient(ticket);
+            this.tokenService.setBaseUrl(baseurl);
+        this.tokenService.setToken(ticket);
     }
     async fetchData(propertyId, agentId, documentNumber) {
         const [propertyData, clResult] = await Promise.all([
-            this.propertyService.getExposedProperty({ id: propertyId, language: LocaleController.language }),
+            this.propertyService.getExposedProperty({ id: propertyId, language: 'en' }),
             this.cityLedgerService.fetchCL({
                 AGENCY_ID: agentId,
                 START_ROW: 0,

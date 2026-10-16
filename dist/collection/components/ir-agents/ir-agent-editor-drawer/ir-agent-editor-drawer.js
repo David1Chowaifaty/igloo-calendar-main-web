@@ -1,6 +1,5 @@
 import { Host, h } from "@stencil/core";
 import { v4 } from "uuid";
-import { t } from "../../../services/locale/t";
 export class IrAgentEditorDrawer {
     open = false;
     agent;
@@ -24,7 +23,7 @@ export class IrAgentEditorDrawer {
     // }
     render() {
         const isEditMode = this.agent?.id !== -1;
-        return (h(Host, { key: 'cc462f81a9b70f3fefdf53468af4f5be11c253bb', "data-testid": "agent-editor-drawer" }, h("ir-drawer", { key: 'c3c9586e0ffff51bc32d21265e049f5c76b51df3', class: "agent__drawer", style: { '--ir-drawer-width': '60rem' }, label: isEditMode ? t('Lcz_EditAgent', { fallback: 'Edit Agent' }) : t('Lcz_NewAgent', { fallback: 'New Agent' }), open: this.open, "data-testid": "agent-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (
+        return (h(Host, { key: 'f78a628eef0493091a5907480f170227ed77168f', "data-testid": "agent-editor-drawer" }, h("ir-drawer", { key: 'acd6d18ebc079f9efa66fe78ed5b28ecb83b758e', class: "agent__drawer", style: { '--ir-drawer-width': '60rem' }, label: isEditMode ? 'Edit Agent' : 'New Agent', open: this.open, "data-testid": "agent-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (
         // <wa-tab-group class="agent-form__tab-group" activation='manual' active={this.currentTab.toString()} onwa-tab-show={e => this.handleTabChange(e)}>
         //   <wa-tab panel="profile" >Profile</wa-tab>
         //   <wa-tab disabled={!isEditMode} panel="contract">Contract</wa-tab>
@@ -35,7 +34,7 @@ export class IrAgentEditorDrawer {
         //     {this.currentTab === 'contract' && <ir-agent-contract formId={formId} agent={this.agent}></ir-agent-contract>}
         //   </wa-tab-panel>
         // </wa-tab-group>
-        h("ir-agent-editor-form", { key: 'aa66c5fefdaeb099f0760e1ae69b89e1242db5d2', onCloseDrawer: e => {
+        h("ir-agent-editor-form", { key: '1dbc70bbbcd63589b5eb523fa73310a89ba57f4a', onCloseDrawer: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.agentEditorClose.emit();
@@ -43,7 +42,7 @@ export class IrAgentEditorDrawer {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.loading = e.detail;
-            }, setupEntries: this.setupEntries, countries: this.countries, agent: this.agent, formId: this.baseId, "data-testid": "agent-editor-form" })), h("div", { key: 'b58997ce439e4ae343596b80d8c78188f9e9a025', slot: "footer", class: "ir__drawer-footer", "data-testid": "agent-editor-drawer-footer" }, h("ir-custom-button", { key: '0737c31892157c7c5ed906e1ab5ab1aefd7109c6', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "agent-editor-cancel-button" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'dea2c4692a0ab572065f26188af8df3ef9026ea9', loading: this.loading === (this.agent?.id === -1 ? 'save&close' : 'save'), type: "submit", form: this.baseId, size: "m", value: this.agent?.id === -1 ? 'save&close' : 'save', appearance: this.agent?.id === -1 ? 'accent' : 'outlined', variant: "brand", "data-testid": "agent-editor-save-button" }, t('Lcz_Save', { fallback: 'Save' })), this.agent?.id !== -1 && (h("ir-custom-button", { key: 'c23f800657f4cb1009f52623087ca7f432e0e5f1', loading: this.loading === 'save&close', type: "submit", form: this.baseId, size: "m", value: "save&close", appearance: "accent", variant: "brand", "data-testid": "agent-editor-save-button" }, t('Lcz_SaveAndClose', { fallback: 'Save & Close' })))))));
+            }, setupEntries: this.setupEntries, countries: this.countries, agent: this.agent, formId: this.baseId, "data-testid": "agent-editor-form" })), h("div", { key: 'da801c32f84ffc000d39f75e351f0f4bd0fd77c9', slot: "footer", class: "ir__drawer-footer", "data-testid": "agent-editor-drawer-footer" }, h("ir-custom-button", { key: '28242b46b2d64a359edbf3b45a934f6bc40355df', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "agent-editor-cancel-button" }, "Cancel"), h("ir-custom-button", { key: '58c695672679dfddcc34c7d5ebf8c80c6fd81482', loading: this.loading === (this.agent?.id === -1 ? 'save&close' : 'save'), type: "submit", form: this.baseId, size: "m", value: this.agent?.id === -1 ? 'save&close' : 'save', appearance: this.agent?.id === -1 ? 'accent' : 'outlined', variant: "brand", "data-testid": "agent-editor-save-button" }, "Save"), this.agent?.id !== -1 && (h("ir-custom-button", { key: '0fca15f25cd4b1769fb95a6a3884e7ae3065c067', loading: this.loading === 'save&close', type: "submit", form: this.baseId, size: "m", value: "save&close", appearance: "accent", variant: "brand", "data-testid": "agent-editor-save-button" }, "Save & Close"))))));
     }
     static get is() { return "ir-agent-editor-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -84,7 +83,7 @@ export class IrAgentEditorDrawer {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
@@ -132,7 +131,7 @@ export class IrAgentEditorDrawer {
                 "mutable": false,
                 "complexType": {
                     "original": "AgentSetupEntries",
-                    "resolved": "{ agent_rate_type: SetupEntries[]; agent_type: SetupEntries[]; ta_payment_method: SetupEntries[]; cl_post_timing: SetupEntries[]; }",
+                    "resolved": "{ agent_rate_type: IEntries[]; agent_type: IEntries[]; ta_payment_method: IEntries[]; cl_post_timing: IEntries[]; }",
                     "references": {
                         "AgentSetupEntries": {
                             "location": "import",

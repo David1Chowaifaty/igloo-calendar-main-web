@@ -253,7 +253,7 @@
   .ops-task-delete {
     grid-column: unset;
     grid-row: unset;
-    margin-inline-start: auto;
+    margin-left: auto;
   }
 
   .ops-task-row--locked {

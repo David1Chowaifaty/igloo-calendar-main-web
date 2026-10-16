@@ -1,17 +1,12 @@
-import ApiClient from "../../models/ApiClient";
+import Token from "../../models/Token";
 import { BookingService } from "../../services/booking-service/booking.service";
-import { SetupService } from "../../services/setup/index";
 import { RoomService } from "../../services/room.service";
 import { Host, h } from "@stencil/core";
 import { arrivalsStore, initializeArrivalsStore, onArrivalsStoreChange, setArrivalsPage, setArrivalsPageSize, setArrivalsTotal } from "../../stores/arrivals.store";
 import calendar_data from "../../stores/calendar-data";
-import { LocaleController } from "../../services/locale/locale.controller";
-import { LanguageSync } from "../../services/locale/language-sync";
-import { SCREEN_TABLES } from "../../services/locale/screen-tables";
-import { t } from "../../services/locale/t";
 export class IrArrivals {
     /**
-     * Authentication ApiClient issued by the PMS backend.
+     * Authentication token issued by the PMS backend.
      * Required for initializing the component and making API calls.
      */
     ticket;
@@ -43,16 +38,13 @@ export class IrArrivals {
     payment;
     roomGuestState = null;
     countries;
-    apiClientService = new ApiClient();
+    tokenService = new Token();
     roomService = new RoomService();
     bookingService = new BookingService();
-    setupService = new SetupService();
     paymentFolioRef;
-    /** Re-runs init when the language changes so server-localized data follows. */
-    languageSync = new LanguageSync(SCREEN_TABLES.arrivals, () => this.init());
     componentWillLoad() {
         if (this.ticket) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.init();
         }
         setArrivalsPageSize(this.pageSize);
@@ -60,22 +52,13 @@ export class IrArrivals {
             this.getBookings();
         });
     }
-    componentDidLoad() {
-        this.languageSync.connect();
-    }
-    disconnectedCallback() {
-        this.languageSync.disconnect();
-    }
-    languageChanged(next, previous) {
-        this.languageSync.propChanged(next, previous);
-    }
     handlePageSizeChange(newValue, oldValue) {
         if (newValue !== oldValue)
             setArrivalsPageSize(newValue);
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue && newValue) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.init();
         }
     }
@@ -106,9 +89,6 @@ export class IrArrivals {
     async init() {
         try {
             this.isPageLoading = true;
-            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
-            // so the requests below are built with the right language on first mount.
-            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.arrivals });
             if (!this.propertyid && !this.p) {
                 throw new Error('Missing credentials');
             }
@@ -117,20 +97,19 @@ export class IrArrivals {
                 await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                 });
             }
-            const [_, __, countries, paymentEntries] = await Promise.all([
-                calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: LocaleController.language, aname: this.p }),
-                localeReady,
-                this.bookingService.getCountries(LocaleController.language),
-                this.setupService.getPaymentEntries(),
-                this.getBookings(),
+            const [_, __, countries, setupEntries] = await Promise.all([
+                calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
+                this.roomService.fetchLanguage(this.language),
+                this.bookingService.getCountries(this.language),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
             ]);
             this.countries = countries;
-            this.paymentEntries = paymentEntries;
-            this.countries = countries;
+            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
             // Fetch bookings only after the property/calendar data is loaded — the arrivals
             // pipeline (canCheckIn) reads `calendar_data.property`, which is null until the
             // getExposedProperty calls above resolve.
@@ -196,7 +175,7 @@ export class IrArrivals {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("h3", { class: "page-title" }, t('Lcz_CheckIns', { fallback: 'Check-ins' })), h("ir-arrivals-table", { onCheckInRoom: event => this.handleCheckingRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) }), h("ir-booking-details-drawer", { open: !!this.bookingNumber, propertyId: this.propertyid, bookingNumber: this.bookingNumber?.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.bookingNumber = null) }), h("ir-payment-folio", { booking: this.booking, style: { height: 'auto' }, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("h3", { class: "page-title" }, "Check-ins"), h("ir-arrivals-table", { onCheckInRoom: event => this.handleCheckingRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) }), h("ir-booking-details-drawer", { open: !!this.bookingNumber, propertyId: this.propertyid, bookingNumber: this.bookingNumber?.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.bookingNumber = null) }), h("ir-payment-folio", { booking: this.booking, style: { height: 'auto' }, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
                 this.booking = null;
                 this.payment = null;
             } }), h("ir-room-guests", { open: this.roomGuestState !== null, countries: this.countries, language: this.language, identifier: this.roomGuestState?.identifier, bookingNumber: this.roomGuestState?.booking_nbr?.toString(), roomName: this.roomGuestState?.roomName, totalGuests: this.roomGuestState?.totalGuests, sharedPersons: this.roomGuestState?.sharing_persons, checkIn: this.roomGuestState?.checkin, onCloseModal: () => (this.roomGuestState = null) }))));
@@ -227,7 +206,7 @@ export class IrArrivals {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Authentication ApiClient issued by the PMS backend.\nRequired for initializing the component and making API calls."
+                    "text": "Authentication token issued by the PMS backend.\nRequired for initializing the component and making API calls."
                 },
                 "getter": false,
                 "setter": false,
@@ -327,9 +306,6 @@ export class IrArrivals {
     }
     static get watchers() {
         return [{
-                "propName": "language",
-                "methodName": "languageChanged"
-            }, {
                 "propName": "pageSize",
                 "methodName": "handlePageSizeChange"
             }, {

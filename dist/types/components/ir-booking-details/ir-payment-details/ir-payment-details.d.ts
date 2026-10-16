@@ -4,7 +4,7 @@ import { Agent } from "../../../services/agents/type";
 import { IPaymentAction } from "../../../services/payment.service";
 import { IToast } from "../../ui/ir-toast/toast";
 import { PaymentEntries, PaymentSidebarEvent, PrintScreenOptions } from '../types';
-import { SetupEntries } from "../../../models/property";
+import { IEntries } from "../../../models/property";
 import { FolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
 import { ClTx } from "../../../services/city-ledger/types";
 import type { GuestDocumentPreviewRequest } from "../../ir-fiscal-documents/ir-guest-document-preview/types";
@@ -14,7 +14,7 @@ export declare class IrPaymentDetails {
     propertyId: number;
     paymentEntries: PaymentEntries;
     language: string;
-    svcCategories: SetupEntries[];
+    svcCategories: IEntries[];
     isAllServicesAgentOwned: boolean;
     agent: Agent;
     folioRows: FolioRow[];

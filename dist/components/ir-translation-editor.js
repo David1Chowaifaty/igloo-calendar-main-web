@@ -1,1 +1,0 @@
-import{I as o,d as r}from"./ir-translation-editor2.js";const t=o,s=r;export{t as IrTranslationEditor,s as defineCustomElement}

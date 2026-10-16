@@ -1,7 +1,6 @@
 import { h } from "@stencil/core";
-import { HouseKeepingService } from "../../../../services/housekeeping/index";
+import { HouseKeepingService } from "../../../../services/housekeeping.service";
 import calendar_data from "../../../../stores/calendar-data";
-import { t } from "../../../../services/locale/t";
 export class IglHousekeepingDialog {
     /**
      * Controls whether the dialog is open.
@@ -31,18 +30,18 @@ export class IglHousekeepingDialog {
     getStatusLabel() {
         switch (this.selectedRoom?.hk_status) {
             case '002':
-                return t('Lcz_Dirty', { fallback: 'dirty' });
+                return 'dirty';
             case '004':
-                return t('Lcz_Inspected', { fallback: 'inspected' });
+                return 'inspected';
             default:
-                return t('Lcz_CleanLowercase', { fallback: 'clean' });
+                return 'clean';
         }
     }
     middleButtonLabel() {
-        return this.selectedRoom?.hk_status === '002' ? t('Lcz_Clean', { fallback: 'Clean' }) : t('Lcz_DirtyLabel', { fallback: 'Dirty' });
+        return this.selectedRoom?.hk_status === '002' ? 'Clean' : 'Dirty';
     }
     rightButtonLabel() {
-        return this.selectedRoom?.hk_status !== '004' ? t('Lcz_CleanAndInspect', { fallback: 'Clean & Inspect' }) : t('Lcz_Clean', { fallback: 'Clean' });
+        return this.selectedRoom?.hk_status !== '004' ? 'Clean & Inspect' : 'Clean';
     }
     // private renderModalBody() {
     //   if (!this.selectedRoom) {
@@ -69,7 +68,7 @@ export class IglHousekeepingDialog {
                 await this.housekeepingService.executeHKAction({
                     actions: [
                         {
-                            description: t('Lcz_Cleaned', { fallback: 'Cleaned' }),
+                            description: 'Cleaned',
                             hkm_id: this.selectedRoom?.housekeeper?.id || null,
                             unit_id: this.selectedRoom?.id,
                             booking_nbr: this.bookingNumber,
@@ -86,7 +85,7 @@ export class IglHousekeepingDialog {
         }
     }
     render() {
-        return (h("ir-dialog", { key: '4f680bbc098098082a29d69a5734d70b1d4315ca', ref: el => (this.dialogRef = el), open: this.open, label: t('Lcz_HousekeepingUpdate', { fallback: 'Housekeeping Update' }), onIrDialogAfterHide: () => this.irAfterClose.emit() }, h("p", { key: '873fa87bf82d59c60434a7d4be2ec106f31b58bd', style: { margin: '0' } }, this.selectedRoom?.name, " ", t('Lcz_UnitCurrentlyMarkedAs', { fallback: 'is currently marked as' }), " ", this.getStatusLabel(), "."), h("div", { key: 'd7248752f4c699b1741ca667247df9de802e500b', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'd3a3979dc86fecd4246f82778f89cab774e6fa72', "data-dialog": "close", size: "m", variant: "neutral", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'd0270958a423d7dc58e1ed13001b12253df6d4db', value: "hk-toggle-clean-dirty", size: "m", variant: "brand", appearance: "outlined", loading: this.isLoading === 'hk-toggle-clean-dirty', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '002' ? '001' : '002') }, this.middleButtonLabel()), h("ir-custom-button", { key: '87757363ca89753e2e36cc63b9ed1da1023c953e', value: "hk-clean-inspect", size: "m", variant: "brand", appearance: "accent", loading: this.isLoading === 'hk-clean-inspect', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '004' ? '001' : '004') }, this.rightButtonLabel()))));
+        return (h("ir-dialog", { key: '2cc088c330e2ce70a404d479e1595f54ebe6674a', ref: el => (this.dialogRef = el), open: this.open, label: "Housekeeping Update", onIrDialogAfterHide: () => this.irAfterClose.emit() }, h("p", { key: '4f387dac104163cf5c134f1b3c4544cecebe993b', style: { margin: '0' } }, `${this.selectedRoom?.name} is currently marked as ${this.getStatusLabel()}.`), h("div", { key: '417ceaf5a77cb6034638674d03ea6b4087303652', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '11f51a8a37c26792b9c64d53f4f7955f71325177', "data-dialog": "close", size: "m", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'ebeb2f939192baa7d51aef980cb64fc2d8a6751e', value: "hk-toggle-clean-dirty", size: "m", variant: "brand", appearance: "outlined", loading: this.isLoading === 'hk-toggle-clean-dirty', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '002' ? '001' : '002') }, this.middleButtonLabel()), h("ir-custom-button", { key: 'b47d07f54899e3762c64aaa0b53f33b37db2f226', value: "hk-clean-inspect", size: "m", variant: "brand", appearance: "accent", loading: this.isLoading === 'hk-clean-inspect', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '004' ? '001' : '004') }, this.rightButtonLabel()))));
     }
     static get is() { return "igl-housekeeping-dialog"; }
     static get encapsulation() { return "scoped"; }

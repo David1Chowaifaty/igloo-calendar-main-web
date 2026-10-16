@@ -20,9 +20,9 @@ export declare class IrPhoneInput {
      */
     error: boolean;
     /**
-     * Auth ApiClient used by the booking service (if needed).
+     * Auth token used by the booking service (if needed).
      */
-    ApiClient: string;
+    token: string;
     /**
      * Two-letter language code used for country fetching.
      */
@@ -103,7 +103,7 @@ export declare class IrPhoneInput {
     handleDocumentClick(event: MouseEvent): void;
     /**
      * Handles user input:
-     * - Converts Arabic-Indic digits to Latin, then removes all characters except numbers and "+"
+     * - Removes all characters except numbers and "+"
      * - Updates state and emits new phone number
      */
     private handleInputChange;

@@ -9,9 +9,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { ClickOutside } from "../../../../decorators/ClickOutside";
-import { t } from "../../../../services/locale/t";
 import { createSlotManager } from "../../../../utils/slot";
-import { formatDate } from "../../../../utils/date/index";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 export class IrDateSelect {
@@ -177,20 +175,20 @@ export class IrDateSelect {
     }
     get _label() {
         if (this.range) {
-            return this.dates.map(d => formatDate(d, { style: 'medium' })).join(' → ');
+            return this.dates.map(d => moment(d).format('MMM DD, YYYY')).join(' → ');
         }
         if (!this.currentDate) {
             return null;
         }
-        return formatDate(this.currentDate, { style: 'medium', withTime: this.timepicker ? 'short' : undefined });
+        return this.timepicker ? moment(this.currentDate).format('MMM DD, YYYY, HH:mm') : moment(this.currentDate).format('MMM DD, YYYY');
     }
     render() {
-        return (h(Host, { key: '68102baeec9481e1b02869d2422014eeb322672f', class: {
+        return (h(Host, { key: 'e359d60e04ee2719feee75376b2794f65fee42fa', class: {
                 'ir-date-select': true,
                 'ir-date-select--active': this.isActive,
                 'ir-date-select--inline': this.inline,
                 'ir-date-select--disabled': this.disabled,
-            } }, h("wa-popup", { key: '6795b65b34cd2456bfd2a1c32f20249d457fa139', arrow: true, part: "base", placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "ir-date-select__popup" }, h("div", { key: '78ff1bc41c7a4309009c9aa834d39ab2cb077435', slot: "anchor", part: "anchor", class: "ir-date-select__trigger" }, h("div", { key: '0e7a75c96a4a089d358f2a0e7dd2f659891f194e', part: "combobox", class: "ir-date-select__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": t('Lcz_SelectDate', { fallback: 'Select date' }), onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("slot", { key: '63a481d975511c2a4253c41cf3bbc614d15e2654', name: "trigger" }, h("ir-input", { key: '8e9273c40baa0becabb753469df59552c302f713', disabled: this.disabled, class: "ir-date-select__input", placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, "aria-invalid": this.isValid, readonly: true, defaultValue: this._label, label: this.label, value: this._label }, this.slotManager.hasSlot('label') && h("slot", { key: '6d9a210af1bcafbfd6bbb0c6df29aa9cf9cd26ae', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '2c803880811adbe36bb1caf53279edd590926b0a', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '83559b618ccc158ab25083e035b93ea73c988e58', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: 'd24941699f264b216329f1e29f94d13bb37d3ee1', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '42fd0a8900c6c5a99fe410560b5e7fc7850feb8a', name: "hint", slot: "hint" }))))), h("div", { key: 'ec4ba3819959e689860a313710756e04e8838b2a', part: "body", id: this.popupId, class: "ir-date-select__calendar", role: "dialog", "aria-modal": "false", "aria-label": t('Lcz_DateSelectionDialog', { fallback: 'Date selection dialog' }) }, h("ir-air-date-picker", { key: '4600cdd970ccbe74f0fc548df49bcb6dc1164438', ref: el => (this.airDatePickerRef = el), withClear: this.withClear, placeholder: this.placeholder, label: this.label, dates: this.dates, inline: this.inline, date: this.date, multipleDates: this.multipleDates, range: this.range, dateFormat: this.dateFormat, timepicker: this.timepicker, minDate: this.minDate, maxDate: this.maxDate, disabled: this.disabled, autoClose: this.autoClose, showOtherMonths: this.showOtherMonths, selectOtherMonths: this.selectOtherMonths, customPicker: this.customPicker, container: this.container, forceDestroyOnUpdate: this.forceDestroyOnUpdate, emitEmptyDate: this.emitEmptyDate, onDateChanged: e => {
+            } }, h("wa-popup", { key: '7e2e2cd9f163a531c1dccef73512df45e5edc8d9', arrow: true, part: "base", placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "ir-date-select__popup" }, h("div", { key: '69bb1d4e3893a4b92dfdc64908aae06b4ee0d625', slot: "anchor", part: "anchor", class: "ir-date-select__trigger" }, h("div", { key: '99d04732545ddaba6509bf34c0fb03fd9eeef933', part: "combobox", class: "ir-date-select__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": "Select date", onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("slot", { key: '3e12e929d8e2d6b0c48a350452a39132d595d553', name: "trigger" }, h("ir-input", { key: '2917861f112b189424d803c2c7e1d1eb2c9d2e1a', disabled: this.disabled, class: "ir-date-select__input", placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, "aria-invalid": this.isValid, readonly: true, defaultValue: this._label, label: this.label, value: this._label }, this.slotManager.hasSlot('label') && h("slot", { key: '8002107bc344ada2002cf7c2f46c5391a3991a81', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '3ff7b82381dc2511cb493fcbf41ce4403a4682e0', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '0f041dd362d8bb6b333898377bf675ea181d2eca', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: '57de995be9c91f7acda5680355c74fb21bf9e523', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: 'eaf5e7a944aa766316e28c3f20221c3fa8fd4b1c', name: "hint", slot: "hint" }))))), h("div", { key: 'df2b5a77e462d29b6bd473ffe6dab48bdb3ee989', part: "body", id: this.popupId, class: "ir-date-select__calendar", role: "dialog", "aria-modal": "false", "aria-label": "Date selection dialog" }, h("ir-air-date-picker", { key: '25d1c158cfa6aa6d7ee0a3df2e9c6f883d752af2', ref: el => (this.airDatePickerRef = el), withClear: this.withClear, placeholder: this.placeholder, label: this.label, dates: this.dates, inline: this.inline, date: this.date, multipleDates: this.multipleDates, range: this.range, dateFormat: this.dateFormat, timepicker: this.timepicker, minDate: this.minDate, maxDate: this.maxDate, disabled: this.disabled, autoClose: this.autoClose, showOtherMonths: this.showOtherMonths, selectOtherMonths: this.selectOtherMonths, customPicker: this.customPicker, container: this.container, forceDestroyOnUpdate: this.forceDestroyOnUpdate, emitEmptyDate: this.emitEmptyDate, onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.currentDate = e.detail?.start;
@@ -199,7 +197,7 @@ export class IrDateSelect {
                 if (shouldClose) {
                     this.hide();
                 }
-            } }), h("slot", { key: '4deb5bcad3d4a11aee8a2b8e42083f5c3b6f84a7' })))));
+            } }), h("slot", { key: 'dc07baf56511e0c4685ac33eb0e1c03caf599597' })))));
     }
     static get is() { return "ir-date-select"; }
     static get encapsulation() { return "shadow"; }

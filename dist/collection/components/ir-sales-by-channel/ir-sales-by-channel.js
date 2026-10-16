@@ -1,11 +1,9 @@
 import { Host, h } from "@stencil/core";
-import ApiClient from "../../models/ApiClient";
+import Token from "../../models/Token";
 import { PropertyService } from "../../services/property.service";
+import { RoomService } from "../../services/room.service";
+import locales from "../../stores/locales.store";
 import moment from "moment";
-import { LocaleController } from "../../services/locale/locale.controller";
-import { LanguageSync } from "../../services/locale/language-sync";
-import { SCREEN_TABLES } from "../../services/locale/screen-tables";
-import { t } from "../../services/locale/t";
 export class IrSalesByChannel {
     language = '';
     ticket = '';
@@ -18,7 +16,8 @@ export class IrSalesByChannel {
     channelSalesFilters;
     allowedProperties = [];
     propertyID;
-    ApiClient = new ApiClient();
+    token = new Token();
+    roomService = new RoomService();
     propertyService = new PropertyService();
     baseFilters = {
         FROM_DATE: moment().add(-7, 'days').format('YYYY-MM-DD'),
@@ -28,37 +27,23 @@ export class IrSalesByChannel {
         include_previous_year: false,
         is_export_to_excel: false,
     };
-    /** Re-runs init when the language changes so server-localized data follows. */
-    languageSync = new LanguageSync(SCREEN_TABLES.salesByChannel, () => this.initializeApp());
     componentWillLoad() {
         this.channelSalesFilters = this.baseFilters;
         if (this.ticket) {
-            this.ApiClient.setApiClient(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
-    }
-    componentDidLoad() {
-        this.languageSync.connect();
-    }
-    disconnectedCallback() {
-        this.languageSync.disconnect();
-    }
-    languageChanged(next, previous) {
-        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.ApiClient.setApiClient(this.ticket);
+        this.token.setToken(this.ticket);
         this.initializeApp();
     }
     async initializeApp() {
         try {
             this.isPageLoading = true;
-            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
-            // so the requests below are built with the right language on first mount.
-            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.salesByChannel });
             if (!this.mode) {
                 throw new Error("Missing required 'mode'. Please set it to either 'property' or 'mpo'.");
             }
@@ -69,12 +54,12 @@ export class IrSalesByChannel {
                 const property = await this.propertyService.getExposedProperty({
                     id: Number(this.propertyid ?? 0),
                     aname: this.p,
-                    language: LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                 });
                 this.propertyID = property.My_Result.id;
             }
-            const requests = [localeReady];
+            const requests = [, this.roomService.fetchLanguage(this.language)];
             if (this.mode === 'mpo') {
                 requests.unshift(this.propertyService.getExposedAllowedProperties());
                 const [properties] = await Promise.all(requests);
@@ -217,11 +202,11 @@ export class IrSalesByChannel {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-page", { label: t('Lcz_SalesBySource', { fallback: 'Sales by Source' }) }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-page", { label: "Sales by Source" }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getChannelSales(true);
-            } }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export', { fallback: 'Export' })), h("ir-sales-by-channel-summary", { filters: this.channelSalesFilters, records: this.salesData }), h("div", { class: "channel-content-row" }, h("ir-sales-by-channel-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+            } }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("ir-sales-by-channel-summary", { filters: this.channelSalesFilters, records: this.salesData }), h("div", { class: "channel-content-row" }, h("ir-sales-by-channel-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.channelSalesFilters = { ...e.detail };
@@ -360,9 +345,6 @@ export class IrSalesByChannel {
     }
     static get watchers() {
         return [{
-                "propName": "language",
-                "methodName": "languageChanged"
-            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

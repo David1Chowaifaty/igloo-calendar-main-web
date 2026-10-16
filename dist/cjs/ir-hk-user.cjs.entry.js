@@ -1,22 +1,18 @@
 'use strict';
 
-var index = require('./index-IDeZZwEK.js');
-var index$1 = require('./index-DnLl4vlg.js');
-var user_service = require('./user.service-BJ5KedHk.js');
-var calendarData = require('./calendar-data-ShS6b-Ns.js');
+var index = require('./index-Bp205iz4.js');
+var housekeeping_service = require('./housekeeping.service-6nengkN8.js');
+var user_service = require('./user.service-DhJVnNxN.js');
+var calendarData = require('./calendar-data-BpobEh98.js');
+var locales_store = require('./locales.store-CQhQqUVl.js');
 var constants = require('./constants-BLID23LD.js');
-var t = require('./t-CqJPQrfm.js');
 var types = require('./types-BVJQZ50e.js');
-require('./locale-scope-Cch-vf1R.js');
+require('./index-CjQGUKJk.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./commonSchemas-D4iFLV5-.js');
-require('./utils-ZKsQb8eV.js');
+require('./utils-w7_1d-K4.js');
 require('./moment-CdViwxPQ.js');
-require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
-require('./ir-date-CbkOKs2C.js');
-require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
 
 const irHkUserCss = () => `.sc-ir-hk-user-h{display:block}`;
@@ -48,9 +44,9 @@ const IrHkUser = class {
     isUsernameTaken;
     resetData;
     closeSideBar;
-    housekeepingService = new index$1.HouseKeepingService();
+    housekeepingService = new housekeeping_service.HouseKeepingService();
     default_properties = {
-        ApiClient: '',
+        token: '',
         language: '',
     };
     housekeeperSchema = types.objectType({
@@ -64,7 +60,7 @@ const IrHkUser = class {
                 return true;
             }
             return constants.CONSTANTS.PASSWORD.test(password);
-        }, { message: t.t('Lcz_PasswordMinLength', { fallback: 'Password must be at least 8 characters long.' }) }),
+        }, { message: 'Password must be at least 8 characters long.' }),
         username: types.stringType()
             .min(3)
             .refine(async (name) => {
@@ -75,11 +71,11 @@ const IrHkUser = class {
                 return !(await new user_service.UserService().checkUserExistence({ UserName: name }));
             }
             return true;
-        }, { message: t.t('Lcz_UsernameAlreadyExists', { fallback: 'Username already exists.' }) }),
+        }, { message: 'Username already exists.' }),
     });
     async componentWillLoad() {
-        const { ApiClient, language, property_id } = index$1.getDefaultProperties();
-        this.default_properties = { ApiClient, language };
+        const { token, language, property_id } = housekeeping_service.getDefaultProperties();
+        this.default_properties = { token, language };
         if (!this.user) {
             this.userInfo['property_id'] = property_id;
             // this.showPasswordValidation = true;
@@ -132,12 +128,12 @@ const IrHkUser = class {
         this.updateUserField('username', usermame);
     }
     render() {
-        return (index.h("div", { key: 'a50848a5164c42a977e5b8a88f1b9e52d2e69f96', class: "sheet-container" }, index.h("ir-title", { key: 'fc45bbc1540d204819a04dc773f6135a1f3af090', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? t.t('Lcz_EditHousekeeperProfile', { fallback: 'Edit Housekeeper Profile' }) : t.t('Lcz_CreateHousekeeperProfile', { fallback: 'Create housekeeper profile' }) }), index.h("section", { key: '6ba380382a3b6859cb6810f786b1f9d7c85597a8', class: "px-1 sheet-body" }, index.h("ir-input-text", { key: 'e19e099e70fd30241d2447a9a686f5a8548ccf7e', testId: "name", zod: this.housekeeperSchema.pick({ name: true }), wrapKey: "name", autoValidate: this.autoValidate, error: this.errors?.name, label: t.t('Lcz_Name', { fallback: 'Name' }), placeholder: t.t('Lcz_Name', { fallback: 'Name' }), onTextChange: e => this.updateUserField('name', e.detail), value: this.userInfo.name, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), index.h("ir-phone-input", { key: '9346dd07ae67d039cd5e1dbeba6f13d8aecd494c', testId: "phone", placeholder: t.t('Lcz_Mobile', { fallback: 'Mobile' }), error: this.errors?.mobile && !this.userInfo?.mobile, language: this.default_properties.language, ApiClient: this.default_properties.ApiClient, default_country: calendarData.calendar_data.country.id, phone_prefix: this.user?.phone_prefix, label: t.t('Lcz_Mobile', { fallback: 'Mobile' }), value: this.userInfo.mobile, onTextChange: e => {
+        return (index.h("div", { key: '40f81f1fa4f4e8dff3ca46a9b04903961512619d', class: "sheet-container" }, index.h("ir-title", { key: '3be2819eb03f1556e11272f781e3df78f66104a4', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? locales_store.locales.entries.Lcz_EditHousekeeperProfile : locales_store.locales.entries.Lcz_CreateHousekeeperProfile }), index.h("section", { key: 'c2313d447d25d1ebaf40d22fa06c0d58403f2a79', class: "px-1 sheet-body" }, index.h("ir-input-text", { key: '66d87706b2365a4904cfdff76d67dac63a19d991', testId: "name", zod: this.housekeeperSchema.pick({ name: true }), wrapKey: "name", autoValidate: this.autoValidate, error: this.errors?.name, label: locales_store.locales.entries.Lcz_Name, placeholder: locales_store.locales.entries.Lcz_Name, onTextChange: e => this.updateUserField('name', e.detail), value: this.userInfo.name, onInputBlur: this.handleBlur.bind(this), maxLength: 40 }), index.h("ir-phone-input", { key: 'df8bdbd26c413154221acfcd23d3fc538ba84011', testId: "phone", placeholder: locales_store.locales.entries.Lcz_Mobile, error: this.errors?.mobile && !this.userInfo?.mobile, language: this.default_properties.language, token: this.default_properties.token, default_country: calendarData.calendar_data.country.id, phone_prefix: this.user?.phone_prefix, label: locales_store.locales.entries.Lcz_Mobile, value: this.userInfo.mobile, onTextChange: e => {
                 this.updateUserField('phone_prefix', e.detail.phone_prefix);
                 this.updateUserField('mobile', e.detail.mobile);
-            } }), index.h("div", { key: 'adf959bf72ae9b29ea5d43eb5292556b545908f3', class: "mb-1" }, index.h("ir-textarea", { key: '0cee0d3792b436b12c42433047e289dcd6da022d', testId: "note", variant: "prepend", maxLength: 250, label: t.t('Lcz_Note', { fallback: 'Note' }), placeholder: t.t('Lcz_Note', { fallback: 'Note' }), value: this.userInfo.note, onTextChange: e => this.updateUserField('note', e.detail) })), index.h("ir-input-text", { key: '26cc23233c910375b296597599709115ef23959c', testId: "username", zod: this.housekeeperSchema.pick({ username: true }), wrapKey: "username", error: this.errors?.username, asyncParse: true, autoValidate: this.user ? (this.userInfo?.username !== this.user.username ? true : false) : this.autoValidate, errorMessage: this.errors?.username && this.userInfo?.username?.length >= 3 ? t.t('Lcz_UsernameAlreadyExists', { fallback: 'Username already exists.' }) : undefined, label: t.t('Lcz_Username', { fallback: 'Username' }), placeholder: t.t('Lcz_Username', { fallback: 'Username' }), value: this.userInfo.username, onTextChange: e => this.updateUserField('username', e.detail) }), index.h("ir-input-text", { key: 'a0d17ebd883f81c8ac1f801c2a596824ad6a3d8f', testId: "password", autoValidate: this.user ? (!this.userInfo?.password ? false : true) : this.autoValidate, label: t.t('Lcz_Password', { fallback: 'Password' }), value: this.userInfo.password, type: "password", maxLength: 16, zod: this.housekeeperSchema.pick({ password: true }), wrapKey: "password", error: this.errors?.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
+            } }), index.h("div", { key: '6ee1a42e8ac7658d7132450562fc8d2fc2bedefc', class: "mb-1" }, index.h("ir-textarea", { key: '889654cfd4ea79183c04bc719f32ece0c82f290a', testId: "note", variant: "prepend", maxLength: 250, label: locales_store.locales.entries.Lcz_Note, placeholder: locales_store.locales.entries.Lcz_Note, value: this.userInfo.note, onTextChange: e => this.updateUserField('note', e.detail) })), index.h("ir-input-text", { key: '9b1bb838eef6333efea5458844191515087c7225', testId: "username", zod: this.housekeeperSchema.pick({ username: true }), wrapKey: "username", error: this.errors?.username, asyncParse: true, autoValidate: this.user ? (this.userInfo?.username !== this.user.username ? true : false) : this.autoValidate, errorMessage: this.errors?.username && this.userInfo?.username?.length >= 3 ? locales_store.locales.entries.Lcz_UsernameAlreadyExists : undefined, label: locales_store.locales.entries.Lcz_Username, placeholder: locales_store.locales.entries.Lcz_Username, value: this.userInfo.username, onTextChange: e => this.updateUserField('username', e.detail) }), index.h("ir-input-text", { key: 'e54bcc1bee4cf58d8d54d1eb1b6a909440a7aea6', testId: "password", autoValidate: this.user ? (!this.userInfo?.password ? false : true) : this.autoValidate, label: locales_store.locales.entries.Lcz_Password, value: this.userInfo.password, type: "password", maxLength: 16, zod: this.housekeeperSchema.pick({ password: true }), wrapKey: "password", error: this.errors?.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
                 // if (this.user) this.showPasswordValidation = false;
-            }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && index.h("ir-password-validator", { key: '776caec1d3be280504d96c7ffba2897c64ef6927', password: this.userInfo.password })), index.h("div", { key: '601a868802bf72c6160495386fe55f898aeb3e1b', class: "sheet-footer" }, index.h("ir-button", { key: '4a6e0a2dd91a60631fff707f1999ba47884e01d6', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: t.t('Lcz_Cancel', { fallback: 'Cancel' }) }), index.h("ir-button", { key: '13b79042c2f989bbf1c77297ed9d896cb22124c3', "data-testid": "save", isLoading: this.isLoading, onClickHandler: this.addUser.bind(this), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", text: t.t('Lcz_Save', { fallback: 'Save' }) }))));
+            }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && index.h("ir-password-validator", { key: '80576d9fba6a9dd0eab449ebbe675959802d7063', password: this.userInfo.password })), index.h("div", { key: '51a812f725e166ab379ff8870a45a9a9079ad23c', class: "sheet-footer" }, index.h("ir-button", { key: 'e0545d5949e686f99b63f5c4cd5774bf8b5768fa', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", btn_color: "secondary", text: locales_store.locales.entries.Lcz_Cancel }), index.h("ir-button", { key: 'e5193d0ce0f0b397e8ef64c31c0e41d42610ac18', "data-testid": "save", isLoading: this.isLoading, onClickHandler: this.addUser.bind(this), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", text: locales_store.locales.entries.Lcz_Save }))));
     }
 };
 IrHkUser.style = irHkUserCss() + sheetCss();

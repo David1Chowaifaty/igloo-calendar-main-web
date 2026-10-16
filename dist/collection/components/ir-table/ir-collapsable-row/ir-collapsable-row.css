@@ -201,8 +201,8 @@
 
 .sticky-column {
   position: sticky !important;
-  inset-inline-end: 0;
-  background-color: var(--wa-color-surface-default, white);
+  right: 0;
+  background-color: white;
 }
 
 /* #endregion */
@@ -216,10 +216,4 @@ td {
 
 td:last-child {
   border-inline-end: 0;
-}
-
-/* Logical replacements for the Bootstrap 4 directional utilities this
-   component used; the injected Bootstrap sheet is LTR-only and cannot mirror. */
-.ir-text-end {
-  text-align: end;
 }

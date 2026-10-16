@@ -1,4 +1,4 @@
-import { ConnectedHK } from "../../../../services/housekeeping/index";
+import { ConnectedHK } from "../../../../services/housekeeping.service";
 import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IrHkStaffTasksHeader {
     connectedHK: ConnectedHK;

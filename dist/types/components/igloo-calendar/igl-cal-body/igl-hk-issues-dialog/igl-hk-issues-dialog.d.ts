@@ -12,16 +12,11 @@ export declare class IglHkIssuesDialog {
     selectedIds: Set<number>;
     private dialogRef;
     private houseKeepingService;
-    handleOpenChange(isOpen: boolean): void;
+    handleOpenChange(isOpen: boolean): Promise<void>;
     handleIssuesChange(newIssues: HKIssue[] | null): void;
-    private get isMultiple();
-    private get allSelected();
     private toggleIssue;
-    private toggleSelectAll;
-    private handleRowKeyDown;
     private handleResolve;
-    private formatReportedAt;
-    private renderIssue;
-    private renderBody;
+    private renderTicket;
+    private renderContent;
     render(): any;
 }

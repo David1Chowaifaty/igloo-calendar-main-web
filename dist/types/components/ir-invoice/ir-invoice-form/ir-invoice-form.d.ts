@@ -82,7 +82,6 @@ export declare class IrInvoiceForm {
     private room;
     private confirmButtonRef;
     private bookingService;
-    private setupService;
     private invoiceTarget;
     private apiDisabledItemKeys;
     private alreadyInvoicedItemKeys;

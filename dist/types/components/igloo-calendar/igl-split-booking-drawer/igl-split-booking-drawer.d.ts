@@ -5,7 +5,6 @@ export declare class IglSplitBookingDrawer {
     identifier: Room['identifier'];
     open: boolean;
     closeModal: EventEmitter<null>;
-    private _id;
     private get room();
     render(): any;
 }

@@ -1,7 +1,5 @@
 import { Host, h } from "@stencil/core";
 import calendar_data from "../../../stores/calendar-data";
-import { t } from "../../../services/locale/t";
-import { getSetupEntryLabel } from "../../../services/setup/index";
 export class IrAgentsTable {
     agents = [];
     setupEntries;
@@ -16,7 +14,7 @@ export class IrAgentsTable {
             console.warn(`couldn't find agent type ${agent?.agent_type_code?.code}`, agent);
             return;
         }
-        return getSetupEntryLabel(agentType, this.language);
+        return agentType[`CODE_VALUE_${this.language?.toUpperCase()}`] || agentType.CODE_VALUE_EN;
     }
     getAgentPhoneNumber({ phone, country_id }) {
         if (!phone) {
@@ -67,11 +65,11 @@ export class IrAgentsTable {
         });
     };
     render() {
-        return (h(Host, { key: '5dcaee36cc0bbacbfaba0bdec2f2e5314689d28b' }, h("div", { key: 'd2856be16b01b891f16ad540a04f7d2ef7996fa4', class: "table--container" }, h("table", { key: '006fad124c82c1977b054e0d9c5e5a3903b63450', class: "table" }, h("thead", { key: '78627ba82a1d426bb64be0ece5f1253df5b4cbc1' }, h("tr", { key: '987c84fc7ed040310222db97ab6a4efad081b453' }, h("th", { key: '799a8dc64e31e435f897875b761fa6fff990062f', class: "agents-table__header" }, t('Lcz_Name', { fallback: 'Name' })), h("th", { key: '3ad8da9b106a54c0d26f1450c0f4620a5c34bf0c', class: "agents-table__header" }, t('Lcz_Type', { fallback: 'Type' })), h("th", { key: 'a7c7715bb3b36158b16c179232635523c62dc74a', class: "agents-table__header" }, t('Lcz_Email', { fallback: 'Email' })), h("th", { key: '05df2ec229ffda5b6bd558cb15849bfdc911520b', class: "agents-table__header" }, t('Lcz_Phone', { fallback: 'Phone' })), h("th", { key: 'd8c500e9d34abf90a342dfa0dce977303fd09859', class: "agents-table__header" }, t('Lcz_Active', { fallback: 'Active' })), h("th", { key: '91bacaf24922f7833526c6492192529002c6035e', class: "agents-table__header " }, h("div", { key: 'ac8292ec063172ccb658cbba216babecc960b4a1', class: "agents-table__action" }, h("wa-tooltip", { key: '9afe28fe4ef77f0e0edd36ed4d12d2a13ceb4829', for: "create-agent-button" }, t('Lcz_NewAgent', { fallback: 'New Agent' })), h("ir-custom-button", { key: '9f5d1d530a5a9d7ba4c34303155397c6d83469f2', onClickHandler: this.createAgent, variant: "neutral", appearance: "plain", id: "create-agent-button", "data-testid": "create-agent-button" }, h("wa-icon", { key: '2cdb6f32b1dc66de77d4a9e2935686b913d82750', name: "plus", style: { fontSize: '1.2rem' }, label: t('Lcz_NewAgent', { fallback: 'New Agent' }) })))))), h("tbody", { key: '4ee9fc8ad1cd72e5d8a48321e24a037c5012bc83' }, this.agents.map(agent => {
+        return (h(Host, { key: '0e6231c7b47e58f64e020d5db4de135d97ed8193' }, h("div", { key: 'e7b4ffd62cba793a8a49a418bbe1097d871b957c', class: "table--container" }, h("table", { key: '56269f7ff1910cc55b51d2efe0601ebe50d6d9a8', class: "table" }, h("thead", { key: 'ccbb8a7805d9cc73cb622021db46a4d83fe13193' }, h("tr", { key: '4e9190ee291e9def684fb3e04268fa1ce177ca26' }, h("th", { key: '6e909cab61d88964ae77c3f05917df871bacbd42', class: "agents-table__header" }, "Name"), h("th", { key: '42a809ba0a7bbed1f2d806163f7e33e2f11d29bd', class: "agents-table__header" }, "Type"), h("th", { key: 'c52fdf8e596cb7fc6c71cb213924b5934fadc1ca', class: "agents-table__header" }, "Email"), h("th", { key: '7cf9f1c7f89154ae02b6fd665fa94aa3a1c7bb27', class: "agents-table__header" }, "Phone"), h("th", { key: 'f55b18fd911471c078cd5ef656060c640bdc751e', class: "agents-table__header" }, "Active"), h("th", { key: 'df92ce9792852fc1c457059698a149bb6b9148b4', class: "agents-table__header " }, h("div", { key: '2ee61c30d60fdc83d20d9b07696fd16f3c175875', class: "agents-table__action" }, h("wa-tooltip", { key: '5783f23a9d6fb67c14e222410aa960a6c92339b6', for: "create-agent-button" }, "New Agent"), h("ir-custom-button", { key: 'd523a0b069ca06d64121f6e0933a92348d38f2c1', onClickHandler: this.createAgent, variant: "neutral", appearance: "plain", id: "create-agent-button", "data-testid": "create-agent-button" }, h("wa-icon", { key: 'da71ce209333890cc202d6566c4c8517593f436b', name: "plus", style: { fontSize: '1.2rem' }, label: "New Agent" })))))), h("tbody", { key: '23825e0eecea6a74995ab765f33f6efc9abd9231' }, this.agents.map(agent => {
             // const status = this.getStatusLabel(agent);
             const typeLabel = this.getAgentTypeLabel(agent);
-            return (h("tr", { class: "ir-table-row", key: agent.id }, h("td", { class: "agents-table__name" }, h("div", { class: "d-flex flex-column" }, h("p", null, agent.name), h("p", { class: "agents-table__muted" }, agent.reference))), h("td", null, h("div", { class: "d-flex flex-column" }, h("p", null, typeLabel), h("p", { class: "agents-table__muted" }, agent.code))), h("td", null, agent.email || t('Lcz_NotAvailable', { fallback: 'N/A' })), h("td", null, this.getAgentPhoneNumber(agent) || t('Lcz_NotAvailable', { fallback: 'N/A' })), h("td", null, h("wa-switch", { onchange: e => this.toggleAgentActive.emit({ ...agent, is_active: e.target.checked }), defaultChecked: agent.is_active, checked: agent.is_active })), h("td", null, h("div", { class: "agents-table__action" }, h("ir-custom-button", { appearance: "plain", variant: "neutral", onClickHandler: () => this.upsertAgent.emit(agent) }, h("wa-icon", { name: "edit", "aria-hidden": "true", style: { fontSize: '1.2rem' } }))))));
-        }), this.agents?.length === 0 && (h("tr", { key: 'd8d6c1d56dc7a69dc76f1b9a4a84c5182229920e', class: "empty-row" }, h("td", { key: 'e662bffcb9daa3046751f5776249659eaa559cdc', colSpan: 6 }, h("ir-empty-state", { key: '8dba470d5b907f89778d3a087d5ea5d1a88a377d' })))))))));
+            return (h("tr", { class: "ir-table-row", key: agent.id }, h("td", { class: "agents-table__name" }, h("div", { class: "d-flex flex-column" }, h("p", null, agent.name), h("p", { class: "agents-table__muted" }, agent.reference))), h("td", null, h("div", { class: "d-flex flex-column" }, h("p", null, typeLabel), h("p", { class: "agents-table__muted" }, agent.code))), h("td", null, agent.email || 'N/A'), h("td", null, this.getAgentPhoneNumber(agent) || 'N/A'), h("td", null, h("wa-switch", { onchange: e => this.toggleAgentActive.emit({ ...agent, is_active: e.target.checked }), defaultChecked: agent.is_active, checked: agent.is_active })), h("td", null, h("div", { class: "agents-table__action" }, h("ir-custom-button", { appearance: "plain", variant: "neutral", onClickHandler: () => this.upsertAgent.emit(agent) }, h("wa-icon", { name: "edit", "aria-hidden": "true", style: { fontSize: '1.2rem' } }))))));
+        }), this.agents?.length === 0 && (h("tr", { key: 'bc20c610ae7caf7ee3bb69a73a110ee62405b864', class: "empty-row" }, h("td", { key: 'de56c4b1bdfe9d6301db14b6d55f163f954bbaef', colSpan: 6 }, h("ir-empty-state", { key: 'f1e15e59856b9ab27efc2f73bb61465ea2351e38' })))))))));
     }
     static get is() { return "ir-agents-table"; }
     static get encapsulation() { return "scoped"; }
@@ -92,7 +90,7 @@ export class IrAgentsTable {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent[]",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }[]",
+                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }[]",
                     "references": {
                         "Agent": {
                             "location": "import",
@@ -117,7 +115,7 @@ export class IrAgentsTable {
                 "mutable": false,
                 "complexType": {
                     "original": "AgentSetupEntries",
-                    "resolved": "{ agent_rate_type: SetupEntries[]; agent_type: SetupEntries[]; ta_payment_method: SetupEntries[]; cl_post_timing: SetupEntries[]; }",
+                    "resolved": "{ agent_rate_type: IEntries[]; agent_type: IEntries[]; ta_payment_method: IEntries[]; cl_post_timing: IEntries[]; }",
                     "references": {
                         "AgentSetupEntries": {
                             "location": "import",
@@ -194,7 +192,7 @@ export class IrAgentsTable {
                 },
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
@@ -216,7 +214,7 @@ export class IrAgentsTable {
                 },
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
@@ -238,7 +236,7 @@ export class IrAgentsTable {
                 },
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",

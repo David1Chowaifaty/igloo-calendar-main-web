@@ -27,8 +27,6 @@ export declare class IrTranslationsEntryForm {
     isSubmitting: boolean;
     private keyInputRef?;
     private setupService;
-    /** Key the copied row was last applied for — so backspacing and retyping it doesn't re-fill and re-toast. */
-    private filledFromCopiedKey;
     componentWillLoad(): void;
     componentDidLoad(): void;
     private get isEditing();
@@ -45,12 +43,6 @@ export declare class IrTranslationsEntryForm {
     private handleCopyPrompt;
     private handlePasteTranslations;
     private handleKeyChange;
-    /**
-     * The other half of the table's "Copy row": a new entry given the copied row's
-     * key inherits its translations. Only blanks are filled, so anything already
-     * typed into a language field stays.
-     */
-    private fillFromCopiedEntry;
     private handleSubmit;
     render(): any;
 }

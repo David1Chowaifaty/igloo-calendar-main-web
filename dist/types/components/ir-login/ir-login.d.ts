@@ -1,16 +1,14 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 export declare class IrLogin {
-    language: string;
     username: string;
     password: string;
     showPassword: boolean;
     authFinish: EventEmitter<{
-        ApiClient: string;
+        token: string;
         code: 'succsess' | 'error';
     }>;
     private authService;
-    private ApiClient;
-    componentWillLoad(): void;
+    private token;
     private handleSignIn;
     render(): any;
 }

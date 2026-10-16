@@ -7,9 +7,6 @@ import { FdStatus, FdTypes } from "../../../../types/enums";
 import moment from "moment";
 import calendar_data from "../../../../stores/calendar-data";
 import { _formatTime } from "../../../ir-booking-details/functions";
-import { t } from "../../../../services/locale/t";
-import { formatBookingNumber } from "../../../../utils/number";
-import { formatDate } from "../../../../utils/date/index";
 export class IrCityLedgerFiscalDocumentsTable {
     rows = [];
     booking;
@@ -155,18 +152,18 @@ export class IrCityLedgerFiscalDocumentsTable {
     get columns() {
         const base = [
             this.columnHelper.accessor('FD_STATUS_CODE', {
-                header: t('Lcz_Status', { fallback: 'Status' }),
+                header: 'Status',
                 cell: info => h("ir-cl-status-tag", { transaction: info.row.original }),
             }),
             this.columnHelper.accessor('ISSUE_DATE_DISPLAY', {
-                header: t('Lcz_DateLabel', { fallback: 'Date' }),
+                header: 'Date',
                 cell: info => {
                     const row = info.row.original;
-                    return (h("div", { class: "fiscal-table__date-cell" }, h("p", { class: "m-0 p-0" }, formatDate(info.getValue())), row.ISSUE_HOUR != null && row.ISSUE_MINUTE != null && h("p", { class: "fd_ss" }, _formatTime(String(row.ISSUE_HOUR), String(row.ISSUE_MINUTE)))));
+                    return (h("div", { class: "fiscal-table__date-cell" }, h("p", { class: "m-0 p-0" }, info.getValue()), row.ISSUE_HOUR != null && row.ISSUE_MINUTE != null && h("p", { class: "fd_ss" }, _formatTime(String(row.ISSUE_HOUR), String(row.ISSUE_MINUTE)))));
                 },
             }),
             this.columnHelper.accessor('DOC_NUMBER', {
-                header: t('Lcz_DocNumber', { fallback: 'Doc Number' }),
+                header: 'Doc Number',
                 cell: info => (h("wa-button", { onClick: () => {
                         const row = info.row.original;
                         this.clFiscalDocumentPreview.emit({
@@ -180,24 +177,22 @@ export class IrCityLedgerFiscalDocumentsTable {
                             toDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.TO_DATE : this.toDate,
                             bookingNbr: row.FD_TYPE_CODE === FdTypes.Proforma ? row.BOOK_NBR : null,
                         });
-                    }, variant: "brand", appearance: "plain", class: "fiscal-table__doc-number" }, formatBookingNumber(info.getValue()))),
+                    }, variant: "brand", appearance: "plain", class: "fiscal-table__doc-number" }, info.getValue() ?? '')),
             }),
             this.columnHelper.accessor('FD_TYPE_NAME', {
                 id: 'type',
-                header: t('Lcz_Type', { fallback: 'Type' }),
-                cell: info => (h("div", null, h("p", { class: "m-0 p-0" }, info.getValue()), info.row.original.EXTERNAL_REF && (h("p", { class: "fd_ss" }, [FdTypes.CreditNote, FdTypes.CreditReceipt].includes(info.row.original.FD_TYPE_CODE)
-                    ? h("span", { class: "fd_ss__connector" }, t('Lcz_For', { fallback: 'For' }))
-                    : t('Lcz_VoidedByReference', { fallback: 'voided by' }), ' ', info.row.original.EXTERNAL_REF)))),
+                header: 'Type',
+                cell: info => (h("div", null, h("p", { class: "m-0 p-0" }, info.getValue()), info.row.original.EXTERNAL_REF && (h("p", { class: "fd_ss" }, [FdTypes.CreditNote, FdTypes.CreditReceipt].includes(info.row.original.FD_TYPE_CODE) ? 'for' : 'voided by', " ", info.row.original.EXTERNAL_REF)))),
             }),
         ];
         const amountCols = this.taxableOnly
             ? [
                 this.columnHelper.accessor('NET_AMOUNT', {
-                    header: t('Lcz_NetAmount', { fallback: 'Net Amount' }),
+                    header: 'Net Amount',
                     cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
                 }),
                 this.columnHelper.accessor('TAX_AMOUNT', {
-                    header: t('Lcz_Taxes', { fallback: 'Taxes' }),
+                    header: 'Taxes',
                     cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
                 }),
             ]
@@ -213,16 +208,16 @@ export class IrCityLedgerFiscalDocumentsTable {
             ...base,
             ...amountCols,
             this.columnHelper.accessor('DEBIT', {
-                header: t('Lcz_Debit', { fallback: 'Debit' }),
+                header: 'Debit',
                 cell: info => (info.row.original.FD_TYPE_CODE === FdTypes.CreditReceipt ? '' : this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID)),
             }),
             this.columnHelper.accessor('CREDIT', {
-                header: t('Lcz_Credit', { fallback: 'Credit' }),
+                header: 'Credit',
                 cell: info => this.renderMoney(this.getCredit(info), info.row.original.CURRENCY_ID),
             }),
             this.columnHelper.display({
                 id: 'actions',
-                header: t('Lcz_Actions', { fallback: 'Actions' }),
+                header: 'Actions',
                 cell: info => {
                     const row = info.row.original;
                     const isDraft = row.FD_TYPE_CODE === FdTypes.Draft;
@@ -236,21 +231,21 @@ export class IrCityLedgerFiscalDocumentsTable {
                             this.handleAction(e.detail.item.value, row);
                         } }, h("wa-button", { slot: "trigger", size: "s", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), isDraft
                         ? [
-                            h("wa-dropdown-item", { value: "preview" }, t('Lcz_Preview', { fallback: 'Preview' })),
-                            h("wa-dropdown-item", { value: "convert-to-invoice" }, t('Lcz_ConvertToInvoice', { fallback: 'Convert to Invoice' })),
-                            h("wa-dropdown-item", { value: "delete-draft", variant: "danger" }, t('Lcz_Delete', { fallback: 'Delete' })),
+                            h("wa-dropdown-item", { value: "preview" }, "Preview"),
+                            h("wa-dropdown-item", { value: "convert-to-invoice" }, "Convert to invoice"),
+                            h("wa-dropdown-item", { value: "delete-draft", variant: "danger" }, "Delete"),
                         ]
                         : [
-                            h("wa-dropdown-item", { value: "view" }, t('Lcz_ViewDocument', { fallback: 'View document' })),
-                            h("wa-dropdown-item", { value: "print" }, t('Lcz_Print', { fallback: 'Print' })),
+                            h("wa-dropdown-item", { value: "view" }, "View document"),
+                            h("wa-dropdown-item", { value: "print" }, "Print"),
                             // <wa-dropdown-item value="download">Download PDF</wa-dropdown-item>,
                             // (!isPaid || !isInvoice) && <wa-divider></wa-divider>,
                             // !isPaid && <wa-dropdown-item value="send-reminder">Send Reminder</wa-dropdown-item>,
                             // !isPaid && isInvoice && <wa-dropdown-item value="apply-payment">Apply Payment</wa-dropdown-item>,
                             // !isPaid && <wa-dropdown-item value="mark-paid">Mark as Paid</wa-dropdown-item>,
                             // <wa-divider></wa-divider>,
-                            isInvoice && info.row.original.FD_STATUS_CODE !== FdStatus.Voided && (h("wa-dropdown-item", { value: "void" }, h("span", { class: "fiscal-table__action-danger" }, t('Lcz_IssueCreditNote', { fallback: 'Issue credit note' })))),
-                            isReceipt && info.row.original.FD_STATUS_CODE !== FdStatus.Voided && (h("wa-dropdown-item", { value: "void" }, h("span", { class: "fiscal-table__action-danger" }, t('Lcz_VoidWithCreditReceipt', { fallback: 'Void with credit receipt' })))),
+                            isInvoice && info.row.original.FD_STATUS_CODE !== FdStatus.Voided && (h("wa-dropdown-item", { value: "void" }, h("span", { class: "fiscal-table__action-danger" }, "Issue credit note"))),
+                            isReceipt && info.row.original.FD_STATUS_CODE !== FdStatus.Voided && (h("wa-dropdown-item", { value: "void" }, h("span", { class: "fiscal-table__action-danger" }, "Void with credit receipt"))),
                         ]));
                 },
                 enableSorting: false,
@@ -269,7 +264,7 @@ export class IrCityLedgerFiscalDocumentsTable {
     render() {
         if (!this.hasFetched) {
             const hasDate = !!(this.fromDate || this.toDate);
-            return (h(Host, null, h("div", { class: "fiscal-table__date-prompt" }, h("div", { class: "fiscal-table__date-prompt-icon" }, h("wa-icon", { name: "calendar-days" })), h("p", { class: "fiscal-table__date-prompt-title" }, t('Lcz_SelectDateRangeToGetStarted', { fallback: 'Select a date range to get started' })), hasDate && (h("wa-animation", { iterations: 1, play: true, id: "cleanAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { size: "s", variant: "brand", onClickHandler: () => this.fetchRequested.emit() }, h("wa-icon", { slot: "start", name: "magnifying-glass" }), t('Lcz_LoadDocuments', { fallback: 'Load Documents' })))))));
+            return (h(Host, null, h("div", { class: "fiscal-table__date-prompt" }, h("div", { class: "fiscal-table__date-prompt-icon" }, h("wa-icon", { name: "calendar-days" })), h("p", { class: "fiscal-table__date-prompt-title" }, "Select a date range to get started"), hasDate && (h("wa-animation", { iterations: 1, play: true, id: "cleanAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { size: "s", variant: "brand", onClickHandler: () => this.fetchRequested.emit() }, h("wa-icon", { slot: "start", name: "magnifying-glass" }), "Load Documents"))))));
         }
         const table = useTable({
             data: this.rows,
@@ -285,7 +280,7 @@ export class IrCityLedgerFiscalDocumentsTable {
                 'fiscal-table__cell--numeric': ['NET_AMOUNT', 'TAX_AMOUNT', 'amount', 'DEBIT', 'CREDIT'].includes(cell.column.id),
                 'fiscal-table__cell--actions': cell.column.id === 'actions',
                 'fiscal-table__cell--doc-number': cell.column.id === 'DOC_NUMBER',
-            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", null, h("td", { class: "empty-row", colSpan: this.columns.length }, this.isLoading ? h("ir-spinner", null) : t('Lcz_NoFiscalDocumentsMatchFilters', { fallback: 'No fiscal documents match the current filters.' }))))))), h("ir-fd-confirm-dialog", { amount: this.pendingAction?.row?.TOTAL_AMOUNT, fdType: this.pendingAction?.row?.FD_TYPE_CODE, open: this.pendingAction !== null, action: this.pendingAction?.action ?? null, docNumber: this.pendingAction?.row.DOC_NUMBER ?? t('Lcz_ThisDocumentFallback', { fallback: 'this document' }), isConfirming: this.isConfirming, onConfirmed: e => this.confirmPendingAction(e), onCancelled: () => (this.pendingAction = null) })));
+            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", null, h("td", { class: "empty-row", colSpan: this.columns.length }, this.isLoading ? h("ir-spinner", null) : 'No fiscal documents match the current filters.')))))), h("ir-fd-confirm-dialog", { amount: this.pendingAction?.row?.TOTAL_AMOUNT, fdType: this.pendingAction?.row?.FD_TYPE_CODE, open: this.pendingAction !== null, action: this.pendingAction?.action ?? null, docNumber: this.pendingAction?.row.DOC_NUMBER ?? 'this document', isConfirming: this.isConfirming, onConfirmed: e => this.confirmPendingAction(e), onCancelled: () => (this.pendingAction = null) })));
     }
     static get is() { return "ir-city-ledger-fiscal-documents-table"; }
     static get encapsulation() { return "scoped"; }

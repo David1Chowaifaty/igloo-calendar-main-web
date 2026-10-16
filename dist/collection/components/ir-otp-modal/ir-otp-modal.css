@@ -1,9 +1,10 @@
+
 :host {
   display: block;
   box-sizing: border-box;
 }
-:host(*) {
-  box-sizing: border-box;
+:host(*){
+    box-sizing: border-box;
 }
 .otp-modal {
   --ir-dialog-width: fit-content;
@@ -35,8 +36,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   margin: 0;
-  text-align: start;
+  text-align: flex-start;
   padding-bottom: 1rem;
+
 }
 .otp-error {
   margin: 0.25rem 0 0;

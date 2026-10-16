@@ -93,7 +93,7 @@ export class IrValidator {
             return [];
         return spec
             .split(/[\s,]+/)
-            .map(ApiClient => ApiClient.trim())
+            .map(token => token.trim())
             .filter(Boolean);
     }
     async handleValuePropChange(next, previous) {
@@ -300,7 +300,7 @@ export class IrValidator {
         }
     }
     render() {
-        return (h(Host, { key: 'a5be2bd226903ee2326e87ec85438627628bcd50' }, h("slot", { key: '87df9fed45325b7b10d4a37807ee8a3944286f22' }), !this.isValid && this.showErrorMessage && (h("span", { key: '5c3426987022d621bb112192a07ee028eae4ea6d', part: "error-message", class: "error-message" }, this.errorMessage))));
+        return (h(Host, { key: 'a947f96518bdd81ef74a52ac48eed688014472d0' }, h("slot", { key: '8c31e73527c5cecd9e75be2542f37ccde939ff2f' }), !this.isValid && this.showErrorMessage && (h("span", { key: '7fadaa22c6143ed9972a0270487fc6f27ace25cf', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get is() { return "ir-validator"; }
     static get encapsulation() { return "shadow"; }

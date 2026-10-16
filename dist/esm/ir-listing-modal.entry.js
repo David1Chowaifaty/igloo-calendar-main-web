@@ -1,25 +1,18 @@
-import { r as registerInstance, c as createEvent, h } from './index-DKZeCK8T.js';
-import { B as BookingListingService, b as booking_listing } from './index-xzG7E-Vl.js';
+import { r as registerInstance, c as createEvent, h } from './index-CwWmK1sZ.js';
+import { B as BookingListingService, b as booking_listing } from './booking_listing.service-CzEc5dbW.js';
+import { l as locales } from './locales.store-DN9FqlnV.js';
 import { P as PaymentService } from './payment.service-D2gbn5FN.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { a as formatBookingNumber } from './number-B8waOzTO.js';
-import { t } from './t-Bvz1wS_D.js';
-import { d as getSetupEntryLabel } from './utils-BjFJEvis.js';
-import './locale-scope-Jre4lb6k.js';
-import './commonSchemas-Cx9w9d8l.js';
-import './types-CB66a07H.js';
-import './utils-BaDgLaiu.js';
-import './calendar-data-DWzivSW-.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
-import './ir-date-XXNYhmSL.js';
-import './language-observer-CHgzsZkY.js';
-import './_commonjsHelpers-BFTU3MAI.js';
+import './index-BfixheT-.js';
+import './types-Cvnhk41g.js';
+import './utils-DCUYWubA.js';
+import './calendar-data-zADniuy4.js';
+import './type-ByBjJ3uo.js';
 import './calendar-dates-D3hVfsrC.js';
 import './axios-B50ozOIF.js';
-import './IBooking-B4waZCSK.js';
+import './_commonjsHelpers-BFTU3MAI.js';
 
-const irListingModalCss = () => `.backdropModal.sc-ir-listing-modal{background-color:rgba(0, 0, 0, 0.5);z-index:1000;position:fixed;top:0;inset-inline-start:0;height:100vh;width:100%;opacity:0;transition:opacity 0.3s ease-in-out;pointer-events:none}.backdropModal.active.sc-ir-listing-modal{cursor:pointer;opacity:1 !important;pointer-events:all}.ir-modal[data-state='opened'].sc-ir-listing-modal{opacity:1;visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-alert-content.sc-ir-listing-modal{padding:10px;background:white;border-radius:5px}.modal.sc-ir-listing-modal{z-index:1001 !important}.modal-dialog.sc-ir-listing-modal{height:100vh;display:flex;align-items:center}.ir-alert-footer.sc-ir-listing-modal{gap:10px}.exit-icon.sc-ir-listing-modal{position:absolute;inset-inline-end:10px;top:5px;margin:0}.ir-modal.sc-ir-listing-modal{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);z-index:1050;width:90%;max-width:32rem;overflow:hidden;outline:0;opacity:0;transition:transform 0.3s ease-in-out,     opacity 0.3s ease-in-out,     visibility 0.3s ease-in-out;visibility:hidden;pointer-events:none}.ir-modal.active.sc-ir-listing-modal{opacity:1;transform:translate(-50%, 0);visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-text-start.sc-ir-listing-modal{text-align:start}`;
+const irListingModalCss = () => `.backdropModal.sc-ir-listing-modal{background-color:rgba(0, 0, 0, 0.5);z-index:1000;position:fixed;top:0;left:0;height:100vh;width:100%;opacity:0;transition:opacity 0.3s ease-in-out;pointer-events:none}.backdropModal.active.sc-ir-listing-modal{cursor:pointer;opacity:1 !important;pointer-events:all}.ir-modal[data-state='opened'].sc-ir-listing-modal{opacity:1;visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-alert-content.sc-ir-listing-modal{padding:10px;background:white;border-radius:5px}.modal.sc-ir-listing-modal{z-index:1001 !important}.modal-dialog.sc-ir-listing-modal{height:100vh;display:flex;align-items:center}.ir-alert-footer.sc-ir-listing-modal{gap:10px}.exit-icon.sc-ir-listing-modal{position:absolute;right:10px;top:5px;margin:0}.ir-modal.sc-ir-listing-modal{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);z-index:1050;width:90%;max-width:32rem;overflow:hidden;outline:0;opacity:0;transition:transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;visibility:hidden;pointer-events:none}.ir-modal.active.sc-ir-listing-modal{opacity:1;transform:translate(-50%, 0);visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}`;
 
 const IrListingModal = class {
     constructor(hostRef) {
@@ -27,7 +20,7 @@ const IrListingModal = class {
         this.modalClosed = createEvent(this, "modalClosed");
         this.resetData = createEvent(this, "resetData");
     }
-    modalTitle;
+    modalTitle = 'Modal Title';
     editBooking;
     paymentEntries;
     isOpen = false;
@@ -87,7 +80,7 @@ const IrListingModal = class {
                 else {
                     if (this.deletionStage === 2) {
                         // this.loadingBtn = 'recover_and_delete';
-                        await this.bookingListingsService.removeExposedBooking({ booking_nbr: this.editBooking.booking.booking_nbr, is_to_revover: true });
+                        await this.bookingListingsService.removeExposedBooking(this.editBooking.booking.booking_nbr, true);
                         this.filterBookings();
                     }
                     // if (this.deletionStage === 1) {
@@ -98,7 +91,7 @@ const IrListingModal = class {
             if (name === 'cancel') {
                 // if (this.deletionStage === 2) {
                 //   this.loadingBtn = 'just_delete';
-                //   await this.bookingListingsService.removeExposedBooking({ booking_nbr: this.editBooking.booking.booking_nbr, is_to_revover: false });
+                //   await this.bookingListingsService.removeExposedBooking(this.editBooking.booking.booking_nbr, false);
                 //   this.filterBookings();
                 // } else {
                 //   this.closeModal();
@@ -118,27 +111,27 @@ const IrListingModal = class {
     }
     renderTitle() {
         if (this.editBooking.cause === 'payment') {
-            return t('Lcz_MarkBookingAsPaid', { params: [this.editBooking.booking.booking_nbr] });
+            return locales.entries?.Lcz_MarkBookingAsPaid.replace('%1', this.editBooking.booking.booking_nbr);
         }
         else {
             // if (this.deletionStage === 1) {
-            //   return t('Lcz_SureYouWantToDeleteBookingNbr') + this.editBooking?.booking.booking_nbr;
+            //   return locales.entries.Lcz_SureYouWantToDeleteBookingNbr + this.editBooking?.booking.booking_nbr;
             // }
-            // return t('Lcz_WantToRecoverAllotment');
-            return t('Lcz_SureYouWantToDeleteBookingNbr') + formatBookingNumber(this.editBooking?.booking.booking_nbr);
+            // return locales.entries.Lcz_WantToRecoverAllotment;
+            return locales.entries.Lcz_SureYouWantToDeleteBookingNbr + this.editBooking?.booking.booking_nbr;
         }
     }
     renderConfirmationTitle() {
         // if (this.deletionStage === 2) {
-        //   return t('Lcz_RecoverAndDelete');
+        //   return locales.entries.Lcz_RecoverAndDelete;
         // }
-        return t('Lcz_Confirm', { fallback: 'Confirm' });
+        return locales.entries.Lcz_Confirm;
     }
     renderCancellationTitle() {
         // if (this.deletionStage === 2) {
-        //   return t('Lcz_JustDelete');
+        //   return locales.entries.Lcz_JustDelete;
         // }
-        return t('Lcz_Cancel', { fallback: 'Cancel' });
+        return locales.entries.Lcz_Cancel;
     }
     handleDropdownChange(e) {
         e.stopImmediatePropagation();
@@ -165,9 +158,9 @@ const IrListingModal = class {
                 } }),
             h("div", { "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, this.isOpen && (h("div", { class: `ir-alert-content p-2` }, h("div", { class: `ir-alert-header align-items-center border-0 py-0 m-0 ` }, h("p", { class: "p-0 my-0 mb-1" }, this.renderTitle()), h("ir-icon", { class: "exit-icon", style: { cursor: 'pointer' }, onClick: () => {
                     this.closeModal();
-                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "14", width: "10.5", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("div", { class: "modal-body ir-text-start p-0 mb-2" }, this.editBooking.cause === 'payment' ? (h("ir-select", { selectedValue: this.selectedDesignation?.CODE_NAME, onSelectChange: this.handleDropdownChange.bind(this), showFirstOption: false, data: this.paymentEntries.methods?.map(m => ({
+                } }, h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "14", width: "10.5", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), h("div", { class: "modal-body text-left p-0 mb-2" }, this.editBooking.cause === 'payment' ? (h("ir-select", { selectedValue: this.selectedDesignation?.CODE_NAME, onSelectChange: this.handleDropdownChange.bind(this), showFirstOption: false, data: this.paymentEntries.methods?.map(m => ({
                     value: m.CODE_NAME,
-                    text: getSetupEntryLabel(m),
+                    text: m.CODE_VALUE_EN,
                 })) })) : null), h("div", { class: `ir-alert-footer border-0 d-flex justify-content-end` }, h("ir-button", { isLoading: this.loadingBtn === 'just_delete', btn_color: 'secondary', btn_block: true, text: this.renderCancellationTitle(), name: 'cancel' }), h("ir-button", { isLoading: this.loadingBtn === 'confirm',
                 // isLoading={this.loadingBtn === 'recover_and_delete'}
                 btn_color: 'primary', btn_block: true, text: this.renderConfirmationTitle(), name: 'confirm' }))))),

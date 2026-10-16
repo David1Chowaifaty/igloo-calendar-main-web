@@ -3,8 +3,6 @@ import { Booking } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { RoomGuestsPayload } from "../../ir-booking-details/types";
 export declare class IrArrivalsTable {
-    /** Hides the pagination footer, for hosts that load the whole day in one page (the dashboard). */
-    hidePagination: boolean;
     selectedBooking: Booking;
     requestPageChange: EventEmitter<PaginationChangeEvent>;
     requestPageSizeChange: EventEmitter<PaginationChangeEvent>;

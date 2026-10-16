@@ -110,9 +110,8 @@ export declare const ZSharedPerson: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     id?: number;
     country_id?: number;
-    first_name?: string;
-    last_name?: string;
     dob?: string;
+    first_name?: string;
     id_info?: {
         number?: string;
         type?: {
@@ -121,12 +120,12 @@ export declare const ZSharedPerson: z.ZodObject<{
         };
     };
     is_main?: boolean;
+    last_name?: string;
 }, {
     id?: number;
     country_id?: number;
-    first_name?: string;
-    last_name?: string;
     dob?: string;
+    first_name?: string;
     id_info?: {
         number?: string;
         type?: {
@@ -135,6 +134,7 @@ export declare const ZSharedPerson: z.ZodObject<{
         };
     };
     is_main?: boolean;
+    last_name?: string;
 }>;
 export declare function validateSharedPerson(data: any): void;
 export interface HandleExposedRoomGuestsRequest {
@@ -150,7 +150,7 @@ export interface OtaGuarantee {
     expiration_date: string;
     is_virtual: boolean;
     meta: Meta;
-    ApiClient: string;
+    token: string;
 }
 interface Meta {
     virtual_card_currency_code: string;
@@ -198,23 +198,23 @@ export declare const ChargesSchema: z.ZodObject<{
     vat_amount: z.ZodNumber;
     vat_percent: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    total_amount?: number;
     city_tax_amount?: number;
     city_tax_percent?: number;
     net_amount?: number;
     service_charge_amount?: number;
     service_charge_percent?: number;
     tax_amount?: number;
+    total_amount?: number;
     vat_amount?: number;
     vat_percent?: number;
 }, {
-    total_amount?: number;
     city_tax_amount?: number;
     city_tax_percent?: number;
     net_amount?: number;
     service_charge_amount?: number;
     service_charge_percent?: number;
     tax_amount?: number;
+    total_amount?: number;
     vat_amount?: number;
     vat_percent?: number;
 }>;
@@ -386,10 +386,10 @@ export declare const ExtraServiceSchema: z.ZodObject<{
             description?: string;
         }>>>;
     }, "strip", z.ZodTypeAny, {
-        code?: string;
         name?: string;
         id?: number;
         email?: string;
+        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {
@@ -428,10 +428,10 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         };
         pr_id?: number;
     }, {
-        code?: string;
         name?: string;
         id?: number;
         email?: string;
+        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {
@@ -483,23 +483,23 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         vat_amount: z.ZodNumber;
         vat_percent: z.ZodNumber;
     }, "strip", z.ZodTypeAny, {
-        total_amount?: number;
         city_tax_amount?: number;
         city_tax_percent?: number;
         net_amount?: number;
         service_charge_amount?: number;
         service_charge_percent?: number;
         tax_amount?: number;
+        total_amount?: number;
         vat_amount?: number;
         vat_percent?: number;
     }, {
-        total_amount?: number;
         city_tax_amount?: number;
         city_tax_percent?: number;
         net_amount?: number;
         service_charge_amount?: number;
         service_charge_percent?: number;
         tax_amount?: number;
+        total_amount?: number;
         vat_amount?: number;
         vat_percent?: number;
     }>>;
@@ -507,10 +507,10 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     description?: string;
     currency_id?: number;
     agent?: {
-        code?: string;
         name?: string;
         id?: number;
         email?: string;
+        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {
@@ -550,37 +550,37 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         pr_id?: number;
     };
     system_id?: number;
+    room_identifier?: string;
+    booking_system_id?: number;
+    cost?: number;
+    end_date?: string;
+    start_date?: string;
+    price?: number;
+    category?: {
+        code?: string;
+    };
+    pr_id?: number;
+    from_time?: string;
+    to_time?: string;
     charges?: {
-        total_amount?: number;
         city_tax_amount?: number;
         city_tax_percent?: number;
         net_amount?: number;
         service_charge_amount?: number;
         service_charge_percent?: number;
         tax_amount?: number;
+        total_amount?: number;
         vat_amount?: number;
         vat_percent?: number;
     };
-    cost?: number;
-    room_identifier?: string;
-    category?: {
-        code?: string;
-    };
-    booking_system_id?: number;
-    end_date?: string;
-    start_date?: string;
-    price?: number;
-    pr_id?: number;
-    from_time?: string;
-    to_time?: string;
 }, {
     description?: string;
     currency_id?: number;
     agent?: {
-        code?: string;
         name?: string;
         id?: number;
         email?: string;
+        code?: string;
         property_id?: any;
         address?: string;
         agent_rate_type_code?: {
@@ -620,29 +620,29 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         pr_id?: number;
     };
     system_id?: number;
+    room_identifier?: string;
+    booking_system_id?: number;
+    cost?: number;
+    end_date?: string;
+    start_date?: string;
+    price?: number;
+    category?: {
+        code?: string;
+    };
+    pr_id?: number;
+    from_time?: string;
+    to_time?: string;
     charges?: {
-        total_amount?: number;
         city_tax_amount?: number;
         city_tax_percent?: number;
         net_amount?: number;
         service_charge_amount?: number;
         service_charge_percent?: number;
         tax_amount?: number;
+        total_amount?: number;
         vat_amount?: number;
         vat_percent?: number;
     };
-    cost?: number;
-    room_identifier?: string;
-    category?: {
-        code?: string;
-    };
-    booking_system_id?: number;
-    end_date?: string;
-    start_date?: string;
-    price?: number;
-    pr_id?: number;
-    from_time?: string;
-    to_time?: string;
 }>;
 export type ExtraService = z.infer<typeof ExtraServiceSchema>;
 export interface Extras {

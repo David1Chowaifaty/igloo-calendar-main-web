@@ -1,9 +1,8 @@
 import { h } from "@stencil/core";
-import { t } from "../../../../services/locale/t";
 export class IrCityLedgerTransactionDrawer {
     open = false;
     formId = 'city-ledger-transaction-form';
-    drawerLabel = t('Lcz_NewEntryTitle', { fallback: 'New Entry' });
+    drawerLabel = 'New Entry';
     agent = null;
     booking = null;
     initialTransactionType = 'OB';
@@ -19,7 +18,7 @@ export class IrCityLedgerTransactionDrawer {
         event.stopImmediatePropagation();
     }
     render() {
-        return (h("ir-drawer", { key: '4c79709de4e40ef911ac2b56e80e06aa88be279a', open: this.open, style: {
+        return (h("ir-drawer", { key: 'dbb6eb111399c9f830bfb330914a0f0156b19798', open: this.open, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -31,14 +30,14 @@ export class IrCityLedgerTransactionDrawer {
                 if (event.detail) {
                     this.closeDrawer.emit();
                 }
-            } }, this.open && (h("ir-city-ledger-transaction-form", { key: '959af5b02af98d64247708c136c0f969fee3e955', booking: this.booking, formId: this.formId, agent: this.agent, initialTransactionType: this.initialTransactionType, unpaidInvoiceOptions: this.unpaidInvoiceOptions, bookingOptions: this.bookingOptions, serviceCategoryOptions: this.serviceCategoryOptions, transaction: this.transaction, onTransactionSaved: e => {
+            } }, this.open && (h("ir-city-ledger-transaction-form", { key: 'b613b76d15563a4633cd088fc853614f93c767fe', booking: this.booking, formId: this.formId, agent: this.agent, initialTransactionType: this.initialTransactionType, unpaidInvoiceOptions: this.unpaidInvoiceOptions, bookingOptions: this.bookingOptions, serviceCategoryOptions: this.serviceCategoryOptions, transaction: this.transaction, onTransactionSaved: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.transactionSaved.emit();
                 this.closeDrawer.emit();
             }, onSubmitDisabledChange: (e) => {
                 this.saveDisabled = e.detail;
-            } })), h("div", { key: 'dc53b866c44401010390d37f361f4f0c6a9f38c8', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'b6c0125ca86ba3ba65556af0b00eaf7033fbb897', appearance: "filled", size: "m", variant: "neutral", class: "city-ledger-transaction-drawer__btn", onClickHandler: () => this.closeDrawer.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '5795056dc5f9f0561de7271514f16d74f4400e35', form: this.formId, size: "m", type: "submit", variant: "brand", class: "city-ledger-transaction-drawer__btn", disabled: this.saveDisabled }, t('Lcz_Save', { fallback: 'Save' })))));
+            } })), h("div", { key: '3ca4dd0c707055a9d6a8bbb7f2c4154415311476', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '935d55e83f45a721d5bcde89b6558c7b90ebbb92', appearance: "filled", size: "m", variant: "neutral", class: "city-ledger-transaction-drawer__btn", onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: 'e95aa22c528be69235d20257c4f2d349b4fcf152', form: this.formId, size: "m", type: "submit", variant: "brand", class: "city-ledger-transaction-drawer__btn", disabled: this.saveDisabled }, "Save"))));
     }
     static get is() { return "ir-city-ledger-transaction-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -112,14 +111,14 @@ export class IrCityLedgerTransactionDrawer {
                 "setter": false,
                 "reflect": false,
                 "attribute": "drawer-label",
-                "defaultValue": "t('Lcz_NewEntryTitle', { fallback: 'New Entry' })"
+                "defaultValue": "'New Entry'"
             },
             "agent": {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
                     "original": "Agent | null",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",

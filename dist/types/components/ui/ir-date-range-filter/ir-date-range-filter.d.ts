@@ -36,9 +36,7 @@ export interface QuickDatePreset {
  */
 export declare class IrDateRangeFilter {
     /** Configurable quick-date preset buttons shown alongside each calendar. */
-    quickDates?: QuickDatePreset[];
-    /** Default presets when the host doesn't pass its own; labels localise through `t()`. */
-    private defaultQuickDates;
+    quickDates: QuickDatePreset[];
     /** Controlled start date in YYYY-MM-DD format. */
     fromDate?: string;
     /** Controlled end date in YYYY-MM-DD format. */

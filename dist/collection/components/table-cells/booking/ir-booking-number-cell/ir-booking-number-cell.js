@@ -1,5 +1,4 @@
 import { Host, h } from "@stencil/core";
-import { formatBookingNumber } from "../../../../utils/number";
 export class IrBookingNumberCell {
     bookingNumber;
     /**
@@ -13,7 +12,7 @@ export class IrBookingNumberCell {
     channelBookingNumber;
     openBookingDetails;
     render() {
-        return (h(Host, { key: '58b6c60d9a7170353bde115b405bd908a271ad03' }, this.channelBookingNumber && h("wa-tooltip", { key: 'd46ad13d5b0da748d3c02039e5b2988e2f5ed9ff', for: `source-logo__${this.bookingNumber}` }, this.origin.Label), h("img", { key: '64bd68d17022124fd606cfffc8cf741c3085df35', class: "booked-by-source__logo", id: `source-logo__${this.bookingNumber}`, src: this.origin.Icon, alt: this.origin.Label }), h("div", { key: '020900dcab1c8a5ed37166a5453e28da3a3acc47', part: "container", class: "booking-nbr-cell__container" }, h("div", { key: 'f1bc6b806bf013c3cdde0093809e25523b49bcb9', style: { width: 'fit-content' } }, h("button", { key: '0594e44c0077218f33c5b76a45948f520dbc5d42', class: "booking-nbr-cell__button", onClick: () => this.openBookingDetails.emit(this.bookingNumber) }, formatBookingNumber(this.bookingNumber))), h("p", { key: 'ae6b86ed75932d7896c06f24fbaf0109dc0f7bdc', part: "booking-reference", class: "booking-nbr-cell__channel_nbr" }, this.channelBookingNumber ? formatBookingNumber(this.channelBookingNumber) : this.origin.Label))));
+        return (h(Host, { key: 'd9fb2637656c762bd881986465dea46156ef24a5' }, this.channelBookingNumber && h("wa-tooltip", { key: '304d3b4390f17e93b03a3d057ed050390ffa71a2', for: `source-logo__${this.bookingNumber}` }, this.origin.Label), h("img", { key: '33d01bd4c910ad68a49d087d2400f16d2b51e144', class: "booked-by-source__logo", id: `source-logo__${this.bookingNumber}`, src: this.origin.Icon, alt: this.origin.Label }), h("div", { key: 'f9d92ed6c8734756be2ce7ee1600c3f65ef14655', part: "container", class: "booking-nbr-cell__container" }, h("div", { key: 'c272e73581f1171224b82cf0464ff09e21b619e2', style: { width: 'fit-content' } }, h("button", { key: '980ed9662525ac8c9e44ca55adc78053f35abcb4', class: "booking-nbr-cell__button", onClick: () => this.openBookingDetails.emit(this.bookingNumber) }, this.bookingNumber)), h("p", { key: '0e38564797156b3e91443c654ff9dbec90939500', part: "booking-reference", class: "booking-nbr-cell__channel_nbr" }, this.channelBookingNumber ? this.channelBookingNumber : this.origin.Label))));
     }
     static get is() { return "ir-booking-number-cell"; }
     static get encapsulation() { return "shadow"; }

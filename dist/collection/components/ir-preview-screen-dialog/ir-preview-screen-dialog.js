@@ -1,6 +1,5 @@
 import { Fragment, h } from "@stencil/core";
 import { v4 } from "uuid";
-import { t } from "../../services/locale/t";
 export class IrPreviewScreenDialog {
     el;
     actionIconByType = {
@@ -23,7 +22,7 @@ export class IrPreviewScreenDialog {
      * The dialog's label as displayed in the header.
      * Required for accessibility and announced by assistive technologies.
      */
-    label;
+    label = 'Preview';
     /**
      * Indicates whether or not the preview dialog is open.
      * Toggle this attribute or use {@link openDialog} / {@link closeDialog} to control visibility.
@@ -132,7 +131,7 @@ export class IrPreviewScreenDialog {
         if (this.actionButtonLabel) {
             return this.actionButtonLabel;
         }
-        return this.action === 'print' ? t('Lcz_PrintPreview', { fallback: 'Print preview' }) : t('Lcz_DownloadPreview', { fallback: 'Download preview' });
+        return this.action === 'print' ? 'Print preview' : 'Download preview';
     }
     shouldDisableActionButton() {
         return this.action === 'download' && !this.downloadUrl;
@@ -193,11 +192,11 @@ export class IrPreviewScreenDialog {
         this.restorePrintLayout();
     }
     render() {
-        return (h("ir-dialog", { key: '75b36795151fe34c1b1b108cb41280d059b40aa2', onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '917dd0cb1a5e9b794976d48d2cba53cc76535b3d', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openChanged.emit(false);
-            }, label: this.label || t('Lcz_Preview', { fallback: 'Preview' }), open: this.open, class: "ir-fullscreen-dialog" }, h("div", { key: 'def8286a6d9da8e2d5b1ec19120c1ecda8e4a3da', slot: "header-actions", class: "ir-fullscreen-dialog__header-actions" }, h("slot", { key: '9066eee2220b5f48e1faa17c79b3de7b06a0981d', name: "header-actions" }), !this.hideDefaultAction && (h(Fragment, { key: '30a10e7dcd4a8ffea1308c1a43101470c547e30f' }, h("wa-tooltip", { key: 'f56fd22332f8b87b7c46782249fef999aef1c2fd', for: this._id }, t('Lcz_PrintPdf', { fallback: 'Print PDF' })), h("ir-custom-button", { key: '3df9a9e1cdb108951bfd19c084ba5342f2616fff', id: this._id, size: "m", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: '74dfaaa49bd6abe08ed0ae1e091589427916cc66', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))))), h("slot", { key: '9d9f4dc2e481fa4f8c63f639436d7f0b6e41183a' })));
+            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, h("div", { key: '0926a7d2c6fb82e4168cb70752d4facca6aab285', slot: "header-actions", class: "ir-fullscreen-dialog__header-actions" }, h("slot", { key: '58a8cbe0aed23b8c945c6af07b9970268f3989d0', name: "header-actions" }), !this.hideDefaultAction && (h(Fragment, { key: '1dae1663090923cd56cabbc8bf4d370555c05a32' }, h("wa-tooltip", { key: 'dbbf6cfd37d4bbee70d705f5b562189ca0a551c8', for: this._id }, "Print PDF"), h("ir-custom-button", { key: 'c27098bea9562426209bdb1fb6c3ef65d68f6933', id: this._id, size: "m", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: '3a8fb872d11a0a6a3fa3a57c0e18e774ead55314', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))))), h("slot", { key: 'e025d1f7b061b51c2c71c60ec4486d7eba0d07f2' })));
     }
     static get is() { return "ir-preview-screen-dialog"; }
     static get encapsulation() { return "shadow"; }
@@ -230,7 +229,8 @@ export class IrPreviewScreenDialog {
                 "getter": false,
                 "setter": false,
                 "reflect": true,
-                "attribute": "label"
+                "attribute": "label",
+                "defaultValue": "'Preview'"
             },
             "open": {
                 "type": "boolean",

@@ -1,6 +1,6 @@
-import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
+import { r as registerInstance, h, H as Host } from './index-CwWmK1sZ.js';
 
-const irTooltipCss = () => `.sc-ir-tooltip-h{position:relative}.tooltip-icon.sc-ir-tooltip{margin:0 5px;padding:0}.tooltip-inner-custom.sc-ir-tooltip{min-width:max-content !important}.ir-ms-1.sc-ir-tooltip{margin-inline-start:0.25rem}`;
+const irTooltipCss = () => `.sc-ir-tooltip-h{position:relative}.tooltip-icon.sc-ir-tooltip{margin:0 5px;padding:0}.tooltip-inner-custom.sc-ir-tooltip{min-width:max-content !important}`;
 
 const IrTooltip = class {
     constructor(hostRef) {

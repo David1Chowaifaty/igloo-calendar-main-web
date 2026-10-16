@@ -1,7 +1,6 @@
 import { h } from "@stencil/core";
 import moment from "moment";
-import { formatDate } from "../../../utils/date/index";
-import { t } from "../../../services/locale/t";
+import locales from "../../../stores/locales.store";
 export class IrDailyRevenueFilters {
     payments;
     isLoading;
@@ -49,23 +48,23 @@ export class IrDailyRevenueFilters {
     getLast30Days() {
         return Array.from({ length: 30 }, (_, i) => {
             const date = moment().subtract(i, 'days');
-            const label = i === 0 ? t('Lcz_Today', { fallback: 'Today' }) : formatDate(date, 'MMM DD, YYYY');
+            const label = i === 0 ? 'Today' : date.format('MMM DD, YYYY');
             return { text: label, value: date.format('YYYY-MM-DD') };
         });
     }
     render() {
-        return (h("ir-filter-card", { key: '8e70f84d755c99e997b577d2082fb2528d96493c' }, h("wa-select", { key: 'ae8b88467eb8f77fcab7630386037d2f0b84771e', label: t('Lcz_Source', { fallback: 'Source' }), size: "s", value: this.filters?.source ?? '', defaultValue: this.filters?.source ?? '', onchange: (e) => {
+        return (h("ir-filter-card", { key: '09b00ca4c1505b12882b2d8e4e715937ce386dee' }, h("wa-select", { key: '316b84902f6fbe1cf532f8314e765ebfcf01e468', label: locales.entries?.Lcz_Source ?? 'Source', size: "s", value: this.filters?.source ?? '', defaultValue: this.filters?.source ?? '', onchange: (e) => {
                 const value = e.target.value;
                 this.updateFilter({ source: value || null });
-            } }, h("wa-option", { key: '600125ecdc4e04b5d699e781f1e3b5c0430de755', value: "" }, t('Lcz_AllSources', { fallback: 'All sources' })), this.sources.map(({ label, value }) => (h("wa-option", { key: value, value: value }, label)))), h("wa-select", { key: '44bccdbf35c9df8bb2b01b14d53e1b814a0d5679', label: t('Lcz_SelectedPeriod', { fallback: 'Selected period' }), size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
+            } }, h("wa-option", { key: 'd2ef0ff5f13231fc22759dd9cf6076d68ebf292f', value: "" }, "All sources"), this.sources.map(({ label, value }) => (h("wa-option", { key: value, value: value }, label)))), h("wa-select", { key: '1144b93bfb016867519c0f3657bc012ea50ff8b1', label: "Selected period", size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
                 const value = e.target.value;
                 this.updateFilter({ date: value, to_date: value, from_date: value });
-            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: 'fd20d21f52aac56d4f74f42a58e21d6f0a154a5b', class: "or-divider" }, h("span", { key: '8fcfebd104ab5e5c259fd470e73757bbac317874', class: "or-divider__line" }), h("span", { key: '25ebfe3a4d195aa24e3cf21d360da8cb6a7f1e25', class: "or-divider__text" }, t('Lcz_Or', { fallback: 'Or' })), h("span", { key: 'c916cb7c6d38ab0c2c655fa37da65f6926832255', class: "or-divider__line" })), h("ir-date-range-filter", { key: 'd538a5fbfd9f5e4c2ab8cbf8b52f6d6195ccf3a5', showQuickActions: false, label: t('Lcz_DateRange', { fallback: 'Date range' }), fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: moment().format('YYYY-MM-DD'), onDatesChanged: e => {
+            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: 'fffa94c1ac996750e26849992526b32d4a7f47e7', class: "or-divider" }, h("span", { key: 'f089b64345a97923b70c8fc3f16a879cca1a4848', class: "or-divider__line" }), h("span", { key: '1468d7baff69034b64967f2e10f74144fa5cfa55', class: "or-divider__text" }, "Or"), h("span", { key: '59843c0e13016414109abde28ffa7930e4d02093', class: "or-divider__line" })), h("ir-date-range-filter", { key: '7957c56e4d4a1e266dd5c72da4cefa75f88ec75d', showQuickActions: false, label: "Date range", fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: moment().format('YYYY-MM-DD'), onDatesChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { from, to } = e.detail;
                 this.updateFilter({ from_date: from, to_date: to, date: null });
-            } }), h("div", { key: '06afce67aaf6e246c210fb0a0f8e5ab46c4c9616', slot: "footer" }, h("ir-custom-button", { key: 'bd27db3a4fc6f9f8b5bba3c2770b92c71340fbb2', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, t('Lcz_Reset', { fallback: 'Reset' })), h("ir-custom-button", { key: '2a26bcea621e413e71292ac01fb604d0ccc67b6d', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, t('Lcz_Apply', { fallback: 'Apply' })))));
+            } }), h("div", { key: '7b6e116b7eb9f317fb22cb436ed058377acf119f', slot: "footer" }, h("ir-custom-button", { key: 'a0fe8902383842684eb00a916290858cd1d0cd0a', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: '0741646fa1726a21e21e9ebb0d752ca6cfa3a484', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
     }
     static get is() { return "ir-daily-revenue-filters"; }
     static get encapsulation() { return "scoped"; }

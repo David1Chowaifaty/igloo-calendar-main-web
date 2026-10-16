@@ -1,7 +1,7 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 import { Booking, ExtraService, Guest, IPmsLog, SharedPerson } from "../../models/booking.dto";
 import { TIglBookPropertyPayload } from "../../models/igl-book-property";
-import { ICountry, SetupEntries } from "../../models/IBooking";
+import { ICountry, IEntries } from "../../models/IBooking";
 import { IPaymentAction } from "../../services/payment.service";
 import { BookingDetailsSidebarEvents, OpenSidebarEvent, PaymentEntries, PrintScreenOptions } from './types';
 import { SplitIndex } from "../../utils/booking";
@@ -10,7 +10,6 @@ import { type ClTx } from "../../services/city-ledger/index";
 import { FolioRow } from "../ir-city-ledger/ir-city-ledger-folio/types";
 export declare class IrBookingDetails {
     private bookingService;
-    private setupService;
     private roomService;
     private paymentService;
     private agentService;
@@ -18,19 +17,19 @@ export declare class IrBookingDetails {
     private unsubscribeRealtime;
     private clLockingPending;
     private clLockingTimer;
-    private ApiClient;
+    private token;
     private arrivalTime;
     private svcCategories;
     private printingBaseUrl;
     private modalRef;
     private paymentFolioRef;
     element: HTMLElement;
-    bedPreference: SetupEntries[];
+    bedPreference: IEntries[];
     booking: Booking;
     bookingItem: TIglBookPropertyPayload | null;
     calendarData: any;
     countries: ICountry[];
-    departureTime: SetupEntries[];
+    departureTime: IEntries[];
     guestData: Guest;
     isPMSLogLoading: boolean;
     isUpdateClicked: boolean;
@@ -124,7 +123,7 @@ export declare class IrBookingDetails {
      */
     propertyid: number;
     /**
-     * Authentication ApiClient used to initialize the component.
+     * Authentication token used to initialize the component.
      * Triggers re-initialization when changed.
      */
     ticket: string;
@@ -139,12 +138,8 @@ export declare class IrBookingDetails {
      * Typically triggered by header actions (e.g., close button).
      */
     closeSidebar: EventEmitter<null>;
-    /** Re-runs init when the language changes so server-localized data follows. */
-    private languageSync;
     componentWillLoad(): void;
-    componentDidLoad(): void;
     disconnectedCallback(): void;
-    languageChanged(next: string, previous: string): void;
     handleSideBarEvents(e: CustomEvent<OpenSidebarEvent<unknown>>): void;
     handleIconClick(e: CustomEvent): void;
     handleResetExposedCancellationDueAmount(e: CustomEvent): Promise<void>;

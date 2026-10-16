@@ -1,28 +1,21 @@
-import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-DKZeCK8T.js';
-import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, a as resetReserved, d as setBookingSelectOptions, e as reserveRooms } from './booking.store-DZcDD-4z.js';
-import { S as SetupService } from './index-BjCyQqYQ.js';
-import { e as extras, k as handleBodyOverflow, g as getReleaseHoursString } from './utils-BaDgLaiu.js';
+import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-CwWmK1sZ.js';
+import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, a as resetReserved, d as setBookingSelectOptions, e as reserveRooms } from './booking.store-5VMZSDo_.js';
+import { n as extras, r as handleBodyOverflow, t as getReleaseHoursString } from './utils-DCUYWubA.js';
 import { I as ISO_FORMAT } from './calendar-dates-D3hVfsrC.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { i as isRequestPending } from './ir-interceptor.store-DjDNm9TC.js';
-import { t } from './t-Bvz1wS_D.js';
-import { R as RoomGuestSchema, B as BookingGuestSchema } from './types-CgK3rIGZ.js';
-import { L as LocaleController } from './locale.controller-BdYR01Ld.js';
+import { l as locales } from './locales.store-DN9FqlnV.js';
+import { i as isRequestPending } from './ir-interceptor.store-BjT5RY0N.js';
+import { R as RoomGuestSchema, B as BookingGuestSchema } from './types-DZSQLvDi.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-B4waZCSK.js';
-import './types-CB66a07H.js';
-import './booking-CDc4-nmz.js';
-import './locale-scope-Jre4lb6k.js';
-import './calendar-data-DWzivSW-.js';
-import './functions-Ebyqqazo.js';
-import './ir-date-XXNYhmSL.js';
-import './language-observer-CHgzsZkY.js';
-import './commonSchemas-Cx9w9d8l.js';
-import './utils-BjFJEvis.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
-import './types-CyZFzmvF.js';
+import './IBooking-DciUlUdo.js';
+import './types-Cvnhk41g.js';
+import './booking-DxbkLMu3.js';
+import './index-BfixheT-.js';
+import './calendar-data-zADniuy4.js';
+import './functions-COpYNLV3.js';
+import './commonSchemas-BiRmPH_2.js';
+import './type-ByBjJ3uo.js';
 
 class IglBookPropertyService {
     hasUnderscore(str) {
@@ -353,7 +346,7 @@ class IglBookPropertyService {
     }
 }
 
-const iglBookPropertyCss = () => `.sc-igl-book-property-h{position:fixed;top:0;inset-inline-end:0;width:100vw;min-height:100vh;z-index:99;overflow:hidden}.card-title.sc-igl-book-property{border-bottom:1px solid #e4e5ec;width:100%}.card-header-container.sc-igl-book-property{border-bottom:1px solid #e4e5ec;width:100%;display:flex;align-items:center;box-sizing:border-box;padding:1rem 0;justify-content:space-between}.fd-book-property__title.sc-igl-book-property{margin:0;padding:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-l)}.loading-container.sc-igl-book-property{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}.card-header-container.sc-igl-book-property h3.sc-igl-book-property{padding:0;margin:0}.background-overlay.sc-igl-book-property{position:absolute;top:0;inset-inline-start:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.25)}.formContainer.sc-igl-book-property{height:calc(100% - 79px);overflow:auto}.gap-30.sc-igl-book-property{gap:30px}.block-date.sc-igl-book-property{width:100%}.sideWindow.sc-igl-book-property{position:absolute;inset:0;inset-inline-start:unset;background-color:#ffffff;width:100%;overflow:auto;animation:slideInFromRight 0.5s}.card.sc-igl-book-property{top:0;z-index:1000}.close.sc-igl-book-property{float:inline-end;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:0.5;padding:0;background-color:transparent;border:0;appearance:none}.close-icon.sc-igl-book-property{position:absolute;top:18px;inset-inline-end:33px;outline:none}button.sc-igl-book-property:not(:disabled),[type='button'].sc-igl-book-property:not(:disabled){cursor:pointer}.sheet-footer.sc-igl-book-property{width:100%}.card-header-container.sc-igl-book-property{--spacing:var(--wa-space-l);padding:0;display:flex;flex-wrap:nowrap;padding-inline-start:var(--spacing);padding-block-end:0;padding-inline-end:calc(var(--spacing) - var(--wa-form-control-padding-block));padding-block-start:calc(var(--spacing) - var(--wa-form-control-padding-block));border-bottom:1px solid var(--wa-color-surface-border);padding-bottom:calc(var(--spacing) / 2);background-color:var(--wa-color-surface-default)}@media only screen and (min-width: 1200px){.sideWindow.sc-igl-book-property{max-width:70%}}@media only screen and (min-width: 2000px){.sideWindow.sc-igl-book-property{max-width:40%}}@media only screen and (min-width: 768px) and (max-width: 1200px){.sideWindow.sc-igl-book-property{max-width:90%}}@media only screen and (min-width: 600px) and (max-width: 768px){.sideWindow.sc-igl-book-property{max-width:75%}}@media only screen and (min-width: 641px){.block-date.sc-igl-book-property{max-width:450px;padding-bottom:0 !important}}@keyframes slideInFromRight{from{transform:translateX(120%)}to{transform:translateX(0)}}@keyframes slideOutToRight{from{transform:translateX(0)}to{transform:translateX(120%)}}.sideWindow--exit.sc-igl-book-property{animation:slideOutToRight 0.5s forwards}`;
+const iglBookPropertyCss = () => `.sc-igl-book-property-h{position:fixed;top:0;right:0;width:100vw;min-height:100vh;z-index:99;overflow:hidden}.card-title.sc-igl-book-property{border-bottom:1px solid #e4e5ec;width:100%}.card-header-container.sc-igl-book-property{border-bottom:1px solid #e4e5ec;width:100%;display:flex;align-items:center;box-sizing:border-box;padding:1rem 0;justify-content:space-between}.fd-book-property__title.sc-igl-book-property{margin:0;padding:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-l)}.loading-container.sc-igl-book-property{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}.card-header-container.sc-igl-book-property h3.sc-igl-book-property{padding:0;margin:0}.background-overlay.sc-igl-book-property{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.25)}.formContainer.sc-igl-book-property{height:calc(100% - 79px);overflow:auto}.gap-30.sc-igl-book-property{gap:30px}.block-date.sc-igl-book-property{width:100%}.sideWindow.sc-igl-book-property{position:absolute;inset:0;left:unset;background-color:#ffffff;width:100%;overflow:auto;animation:slideInFromRight 0.5s}.card.sc-igl-book-property{top:0;z-index:1000}.close.sc-igl-book-property{float:right;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:0.5;padding:0;background-color:transparent;border:0;appearance:none}.close-icon.sc-igl-book-property{position:absolute;top:18px;right:33px;outline:none}button.sc-igl-book-property:not(:disabled),[type='button'].sc-igl-book-property:not(:disabled){cursor:pointer}.sheet-footer.sc-igl-book-property{width:100%}.card-header-container.sc-igl-book-property{--spacing:var(--wa-space-l);padding:0;display:flex;flex-wrap:nowrap;padding-inline-start:var(--spacing);padding-block-end:0;padding-inline-end:calc(var(--spacing) - var(--wa-form-control-padding-block));padding-block-start:calc(var(--spacing) - var(--wa-form-control-padding-block));border-bottom:1px solid var(--wa-color-surface-border);padding-bottom:calc(var(--spacing) / 2);background-color:var(--wa-color-surface-default)}@media only screen and (min-width: 1200px){.sideWindow.sc-igl-book-property{max-width:70%}}@media only screen and (min-width: 2000px){.sideWindow.sc-igl-book-property{max-width:40%}}@media only screen and (min-width: 768px) and (max-width: 1200px){.sideWindow.sc-igl-book-property{max-width:90%}}@media only screen and (min-width: 600px) and (max-width: 768px){.sideWindow.sc-igl-book-property{max-width:75%}}@media only screen and (min-width: 641px){.block-date.sc-igl-book-property{max-width:450px;padding-bottom:0 !important}}@keyframes slideInFromRight{from{transform:translateX(120%)}to{transform:translateX(0)}}@keyframes slideOutToRight{from{transform:translateX(0)}to{transform:translateX(120%)}}.sideWindow--exit.sc-igl-book-property{animation:slideOutToRight 0.5s forwards}`;
 
 const sheetCss = () => `.sc-igl-book-property-h{height:100%}.sheet-container.sc-igl-book-property{display:flex !important;flex-direction:column !important;background:white;height:100vh;gap:1rem;z-index:1000}.sheet-container.sc-igl-book-property{height:-webkit-fill-available;height:100vh;height:100dvh}.sheet-footer.sc-igl-book-property{position:sticky;bottom:0;z-index:20;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-igl-book-property{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-igl-book-property{flex:1 1 0%}@media (min-width: 768px){.sheet-footer.sc-igl-book-property{flex-direction:row;align-items:center}}`;
 
@@ -397,7 +390,6 @@ const IglBookProperty = class {
     selectedUnits = new Map();
     bedPreferenceType = [];
     bookingService = new BookingService();
-    setupService = new SetupService();
     bookPropertyService = new IglBookPropertyService();
     defaultDateRange;
     updatedBooking = false;
@@ -442,7 +434,7 @@ const IglBookProperty = class {
         if (key === 'select' || (key === 'blur' && data !== '')) {
             const res = await this.bookingService.getExposedBooking({
                 booking_nbr: data.booking_nbr || data,
-                language: LocaleController.language,
+                language: this.language,
             });
             this.defaultData = { ...this.defaultData, booking: res };
             this.bookPropertyService.setBookingInfoFromAutoComplete(this, res);
@@ -515,8 +507,8 @@ const IglBookProperty = class {
                 }
                 this.toast.emit({
                     type: 'error',
-                    description: t('Lcz_SelectRatePlan', { fallback: 'Select a rate plan' }),
-                    title: t('Lcz_SelectRatePlan', { fallback: 'Select a rate plan' }),
+                    description: locales.entries.Lcz_SelectRatePlan,
+                    title: locales.entries.Lcz_SelectRatePlan,
                 });
                 break;
             case 'check':
@@ -621,7 +613,7 @@ const IglBookProperty = class {
         }
     }
     async fetchSetupEntries() {
-        return await this.setupService.fetchSetupEntries();
+        return await this.bookingService.fetchSetupEntries();
     }
     isGuestDataIncomplete() {
         for (const roomtypeId in booking_store.ratePlanSelections) {
@@ -724,7 +716,7 @@ const IglBookProperty = class {
                     adult: occupancy.adults,
                     child: occupancy.children,
                 },
-                language: LocaleController.language,
+                language: this.language,
                 room_type_ids,
                 currency: this.currency,
                 agent_id: is_in_agent_mode ? source?.tag : null,
@@ -780,7 +772,7 @@ const IglBookProperty = class {
                     adult: 2,
                     child: 0,
                 },
-                language: LocaleController.language,
+                language: this.language,
                 room_type_ids: this.defaultData.roomsInfo.map(room => room.id),
                 currency: this.currency,
             });
@@ -958,7 +950,7 @@ const IglBookProperty = class {
         return this.page === name;
     }
     render() {
-        return (h(Host, { key: 'f3f5f33cd45a15f188366a04417434f9381dcb22', "data-testid": "book_property_sheet h-100" }, h("div", { key: '0c65afd216d12b300ca196670b51b52bfa8230a4', class: "background-overlay", onClick: () => this.closeWindow() }), h("div", { key: '7bd16af3654199300163b40331dbf3f9ac51e5b6', class: 'sideWindow sheet-container ' + (this.getCurrentPage('page_block_date') ? 'block-date' : '') }, isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI') ? (h("div", { class: 'loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("div", { class: "sheet-header" }, h("div", { class: "card-header-container" }, h("h2", { class: "fd-book-property__title" }, this.getCurrentPage('page_block_date') ? this.defaultData.BLOCK_DATES_TITLE : this.defaultData.TITLE), h("ir-custom-button", { appearance: "plain", variant: "neutral", size: "m", onClickHandler: () => this.closeWindow() }, h("wa-icon", { name: "xmark", library: "system", variant: "solid", label: t('Lcz_Close', { fallback: 'Close' }), "aria-label": t('Lcz_Close', { fallback: 'Close' }) })))), h("div", { class: "px-2 sheet-body" }, this.getCurrentPage('page_one') && (h("igl-booking-overview-page", { wasBlockedUnit: this.wasBlockedUnit, initialRoomIds: this.initialRoomIds, defaultDaterange: this.defaultDateRange, eventType: this.defaultData.event_type, selectedRooms: this.selectedUnits, currency: this.currency, showSplitBookingOption: this.showSplitBookingOption, ratePricingMode: this.ratePricingMode, dateRangeData: this.dateRangeData, bookingData: this.defaultData, bookedByInfoData: this.bookedByInfoData, adultChildConstraints: this.adultChildConstraints, propertyId: this.propertyid })), this.getCurrentPage('page_two') && (h("igl-booking-form", { currency: this.currency, propertyId: this.propertyid, showPaymentDetails: this.showPaymentDetails, selectedGuestData: this.guestData, countries: this.countries, isLoading: this.isLoading, selectedRooms: this.selectedUnits, bedPreferenceType: this.bedPreferenceType, dateRangeData: this.dateRangeData, bookingData: this.defaultData, showSplitBookingOption: this.showSplitBookingOption, language: this.language, bookedByInfoData: this.bookedByInfoData, defaultGuestData: this.defaultData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), onDataUpdateEvent: event => this.handlePageTwoDataUpdateEvent(event) })), this.getCurrentPage('page_block_date') ? this.getPageBlockDatesView() : null), this.getCurrentPage('page_block_date') ? (h("div", { class: "sheet-footer" }, h("ir-button", { text: t('Lcz_Cancel', { fallback: 'Cancel' }), btn_color: "secondary", class: "flex-fill", onClick: () => this.closeWindow() }), h("ir-button", { text: t('Lcz_Blockdates', { fallback: 'Block dates' }), isLoading: isRequestPending('/Block_Exposed_Unit'), class: "flex-fill", onClick: () => this.handleBlockDate() }))) : (h("igl-book-property-footer", { page: this.page, dateRangeData: this.dateRangeData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), isLoading: this.isLoading, class: 'sheet-footer', eventType: this.bookingData.event_type })))))));
+        return (h(Host, { key: '56d4cb85865afc5dc1fe2ea619f03c531fb95aed', "data-testid": "book_property_sheet h-100" }, h("div", { key: '4aff2fb7ceb23a72e87734e03ccef374b7176975', class: "background-overlay", onClick: () => this.closeWindow() }), h("div", { key: '0f51379c49b45a0d88f965ed3f8c9dd726c603e8', class: 'sideWindow sheet-container ' + (this.getCurrentPage('page_block_date') ? 'block-date' : '') }, isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI') ? (h("div", { class: 'loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("div", { class: "sheet-header" }, h("div", { class: "card-header-container" }, h("h2", { class: "fd-book-property__title" }, this.getCurrentPage('page_block_date') ? this.defaultData.BLOCK_DATES_TITLE : this.defaultData.TITLE), h("ir-custom-button", { appearance: "plain", variant: "neutral", size: "m", onClickHandler: () => this.closeWindow() }, h("wa-icon", { name: "xmark", library: "system", variant: "solid", label: "Close", "aria-label": "Close" })))), h("div", { class: "px-2 sheet-body" }, this.getCurrentPage('page_one') && (h("igl-booking-overview-page", { wasBlockedUnit: this.wasBlockedUnit, initialRoomIds: this.initialRoomIds, defaultDaterange: this.defaultDateRange, eventType: this.defaultData.event_type, selectedRooms: this.selectedUnits, currency: this.currency, showSplitBookingOption: this.showSplitBookingOption, ratePricingMode: this.ratePricingMode, dateRangeData: this.dateRangeData, bookingData: this.defaultData, bookedByInfoData: this.bookedByInfoData, adultChildConstraints: this.adultChildConstraints, propertyId: this.propertyid })), this.getCurrentPage('page_two') && (h("igl-booking-form", { currency: this.currency, propertyId: this.propertyid, showPaymentDetails: this.showPaymentDetails, selectedGuestData: this.guestData, countries: this.countries, isLoading: this.isLoading, selectedRooms: this.selectedUnits, bedPreferenceType: this.bedPreferenceType, dateRangeData: this.dateRangeData, bookingData: this.defaultData, showSplitBookingOption: this.showSplitBookingOption, language: this.language, bookedByInfoData: this.bookedByInfoData, defaultGuestData: this.defaultData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), onDataUpdateEvent: event => this.handlePageTwoDataUpdateEvent(event) })), this.getCurrentPage('page_block_date') ? this.getPageBlockDatesView() : null), this.getCurrentPage('page_block_date') ? (h("div", { class: "sheet-footer" }, h("ir-button", { text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: "flex-fill", onClick: () => this.closeWindow() }), h("ir-button", { text: locales.entries.Lcz_Blockdates, isLoading: isRequestPending('/Block_Exposed_Unit'), class: "flex-fill", onClick: () => this.handleBlockDate() }))) : (h("igl-book-property-footer", { page: this.page, dateRangeData: this.dateRangeData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), isLoading: this.isLoading, class: 'sheet-footer', eventType: this.bookingData.event_type })))))));
     }
 };
 IglBookProperty.style = iglBookPropertyCss() + sheetCss();

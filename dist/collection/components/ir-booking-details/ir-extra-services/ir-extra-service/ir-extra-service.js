@@ -1,16 +1,13 @@
 import { Host, h } from "@stencil/core";
-import { formatAmount } from "../../../../utils/utils";
-import { getEntryValue } from "../../../../services/setup/index";
+import { formatAmount, getEntryValue } from "../../../../utils/utils";
+import locales from "../../../../stores/locales.store";
+import moment from "moment";
 import { BookingService } from "../../../../services/booking-service/booking.service";
 import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import { _formatTime, isAgentMode } from "../../functions";
 import calendar_data from "../../../../stores/calendar-data";
 import { mapClTxToFolioRow } from "../../../ir-city-ledger/ir-city-ledger-folio/types";
 import { SvcCategory } from "../../../../types/enums";
-import { formatDate } from "../../../../utils/date/index";
-import { formatCount } from "../../../../utils/number";
-import { LocaleController } from "../../../../services/locale/locale.controller";
-import { t } from "../../../../services/locale/t";
 export class IrExtraService {
     service;
     booking;
@@ -63,7 +60,7 @@ export class IrExtraService {
     }
     get categoryLabel() {
         const category = this.category;
-        return category ? getEntryValue({ entry: category, language: LocaleController.language }) : null;
+        return category ? getEntryValue({ entry: category, language: this.language }) : null;
     }
     get description() {
         const categoryLabel = this.categoryLabel;
@@ -102,8 +99,8 @@ export class IrExtraService {
         const statusTag = tx ? h("ir-cl-status-tag", { transaction: { _rowId: '', ...mapClTxToFolioRow(tx), balance: 0 }, size: "extra-small" }) : null;
         const unitName = this.linkedUnitName;
         const hasMeta = !!(this.service.start_date || unitName || statusTag);
-        return (h(Host, { key: 'f01cf842f87d04dbc7bcac3139a1a9d6e25cfdc9' }, h("div", { key: '3c37ab4ca73c278c17cee7c993609d99dcbf0871', class: "es-row" }, h("div", { key: 'bc8de92ea1eaef04a8de94e59fb94194dbf1d0b6', class: "es-content" }, h("p", { key: '3fe2f43e194b481131a82f859e773181bab039eb', class: "es-description" }, this.description, this.service.category.code === SvcCategory.DayUse && (h("span", { key: 'dc812b212991806d978679c8eef39792c5e3edf8' }, ": ", this.formatDayUseTime(this.service.from_time), " \u2013 ", this.formatDayUseTime(this.service.to_time)))), hasMeta && (h("div", { key: 'b8f52154225ebdd2a04c201510b08d198d3b95ff', class: "es-meta" }, this.service.start_date &&
-            (this.service.end_date && this.service?.category?.code !== SvcCategory.DayUse ? (h("ir-date-view", { class: "es-meta-date", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (h("span", { class: "es-meta-date" }, formatDate(new Date(this.service.start_date), 'MMM DD, YYYY'), " "))), unitName && h("ir-unit-tag", { key: 'c3f21e90c28c8bbefe73a4619dfdc73e1644cc17', unit: unitName }), statusTag))), h("div", { key: 'c36b0605ed626beb8ac7673dbb2cdc58e5e8b1f0', class: "es-aside" }, !!this.service.price && this.service.price > 0 && (h("div", { key: '56095cc803e21593b0d1cec2b6b0fc18c7ff4f31', class: "es-pricing" }, h("p", { key: '913ccbd9e6f71c47af7de008ad41ccc789c7d624', class: "es-price" }, formatAmount(this.currencySymbol, this.service.price)), !!this.service.charges?.vat_percent && (h("p", { key: '73bffc735f7181c3805bde8b51fb06e46b1a47b0', class: "es-vat" }, t('Lcz_InclVat', { fallback: 'incl. %1% VAT', params: [formatCount(this.service.charges.vat_percent)] }))))), h("wa-dropdown", { key: '2220412fd091061fb9f599f7eadb328e43c7b7ff', "onwa-show": e => {
+        return (h(Host, { key: 'a2beb47eec4e1457a26461a5e52d07c61979e2fc' }, h("div", { key: 'd1330b1fe05d14c566f81c51bb8601fdba2fecb3', class: "es-row" }, h("div", { key: '1d7a90c7e605d413bd5c7165731a3bdcf64f89dc', class: "es-content" }, h("p", { key: '902ebd4c518561cbd9870b2e0dd2227f177c5fdf', class: "es-description" }, this.description, this.service.category.code === SvcCategory.DayUse && (h("span", { key: '96a631ed738ec307c8f30546c3bcc209111bb19a' }, ": ", this.formatDayUseTime(this.service.from_time), " \u2013 ", this.formatDayUseTime(this.service.to_time)))), hasMeta && (h("div", { key: 'dfc930b11b7feff28734179c8f4154f2d4e6f976', class: "es-meta" }, this.service.start_date &&
+            (this.service.end_date && this.service?.category?.code !== SvcCategory.DayUse ? (h("ir-date-view", { class: "es-meta-date", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (h("span", { class: "es-meta-date" }, moment(new Date(this.service.start_date)).format('MMM DD, YYYY'), " "))), unitName && h("ir-unit-tag", { key: '940293ed8d6e407c53310087ba07b3e8f94d79b1', unit: unitName }), statusTag))), h("div", { key: 'cba2961494817804cc2694f747d6a896f0f70c13', class: "es-aside" }, !!this.service.price && this.service.price > 0 && (h("div", { key: '1bd85ccdc5710bbb02bf200115cdba4893f1f228', class: "es-pricing" }, h("p", { key: '745d99ddba119634b648e58fbc7c4ebeea9d4e9d', class: "es-price" }, formatAmount(this.currencySymbol, this.service.price)), !!this.service.charges?.vat_percent && h("p", { key: '6733eeacd9118d474d6d70af0074d8105b22a60e', class: "es-vat" }, "incl. ", this.service.charges.vat_percent, "% VAT"))), h("wa-dropdown", { key: 'fffb1a7e97380e01200df83aad58d17e634327b4', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-hide": e => {
@@ -121,26 +118,10 @@ export class IrExtraService {
                         this.toggleDialogRef.openModal();
                         break;
                 }
-            } }, h("wa-button", { key: '93421329de525fb21048c53bd5dba4208d8fa207', class: "es-action-trigger", slot: "trigger", size: "s", appearance: "plain", id: `extra-service-actions-${this.service.system_id}`, variant: "neutral", "aria-label": t('Lcz_ServiceActions', { fallback: 'Service actions' }) }, h("wa-icon", { key: '4f2cef4a20a532941d557d921861bb3a5f38f130', class: "es-action-trigger-icon", name: "ellipsis-vertical" })), h("wa-dropdown-item", { key: 'b5911dbc4ec985e838e43176efcfbaf53706a232', value: "edit" }, t('Lcz_Edit', { fallback: 'Edit' })), agentMode && (h("wa-dropdown-item", { key: '1923a8fee2b07a17fa0fdaf5255d3a4a2274d536', value: "toggle" }, t('Lcz_ReassignFolioDropdown', {
-            fallback: 'Re-assign %1 folio',
-            params: [this.service.agent ? t('Lcz_GuestLowercase', { fallback: 'guest' }) : t('Lcz_AgentLowercase', { fallback: 'agent' })],
-        }))), h("wa-dropdown-item", { key: 'e80d3907e40fd596324e0bbed1697d248f43083c', value: "delete", variant: "danger" }, t('Lcz_Delete', { fallback: 'Delete' }))))), h("ir-assignment-toggle-dialog", { key: '8ba0972179a2acd554288c3fdb2bce879b2e0b8a', ref: el => (this.toggleDialogRef = el), loading: this.isToggling, message: t('Lcz_SwitchFolioConfirm', {
-                fallback: 'Switch "%1" to %2?',
-                params: [
-                    this.service.description,
-                    this.service.agent ? t('Lcz_GuestLowercase', { fallback: 'guest' }) : (this.booking?.agent?.name ?? t('Lcz_AgentLowercase', { fallback: 'agent' })),
-                ],
-            }), onConfirmToggle: () => this.toggleServiceAgent() }, h("span", { key: '9d38f369cbbdc216c6db42c3dfdb2c85e1705f18', slot: "message" }, t('Lcz_ReassignFolioMessage', {
-            fallback: 'Re-assign %1 from %2 folio to %3 folio.',
-            params: [
-                this.service.description ?? '',
-                this.service.agent ? t('Lcz_Agent', { fallback: 'Agent' }) : t('Lcz_Guest', { fallback: 'Guest' }),
-                this.service.agent ? t('Lcz_Guest', { fallback: 'Guest' }) : t('Lcz_Agent', { fallback: 'Agent' }),
-            ],
-        }))), h("ir-dialog", { key: '24e25b99796cbb83050c32fd8d67ebbc0b68b523', onIrDialogHide: e => {
+            } }, h("wa-button", { key: 'ab016fd2dc6dad32d55d9854a4818ddc51470a98', class: "es-action-trigger", slot: "trigger", size: "s", appearance: "plain", id: `extra-service-actions-${this.service.system_id}`, variant: "neutral", "aria-label": "Service actions" }, h("wa-icon", { key: '5ae40c6ef8c539904fe0719aca62e83e6e58ed4c', class: "es-action-trigger-icon", name: "ellipsis-vertical" })), h("wa-dropdown-item", { key: 'a8a600d4ae361c812e0ded2d0b310b51ff4bb726', value: "edit" }, "Edit"), agentMode && h("wa-dropdown-item", { key: 'cdda7e6198bed6ad149ab5b35d7408c561f7cb26', value: "toggle" }, "Re-assign to ", this.service.agent ? 'guest' : 'agent', " folio"), h("wa-dropdown-item", { key: 'e445b5793a5d5dfdc1d323c192289e8f9ad0fe67', value: "delete", variant: "danger" }, "Delete")))), h("ir-assignment-toggle-dialog", { key: '31c6507a4c37e0a19337787e7b0690aadddc04c4', ref: el => (this.toggleDialogRef = el), loading: this.isToggling, message: `Switch "${this.service.description}" to ${this.service.agent ? 'guest' : (this.booking?.agent?.name ?? 'agent')}?`, onConfirmToggle: () => this.toggleServiceAgent() }, h("span", { key: '902810c5cab2e9ff2522f101f920cb00b6c28634', slot: "message" }, "Re-assign ", this.description, " ", h("br", { key: 'f14a368df1aad7dc43cb0ae670b0ed71db6535f8' }), " from ", this.service.agent ? 'Agent' : 'Guest', " folio to ", h("b", { key: '5c5514965eb30f2137217519b3f03e0fb39d5163' }, this.service.agent ? 'Guest' : 'Agent', " folio"), ".")), h("ir-dialog", { key: 'e6f6e8ea2d79c6e054c805de9baa59bf40e7c805', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, label: t('Lcz_Alert', { fallback: 'Alert' }), ref: el => (this.irModalRef = el), lightDismiss: false }, `${t('Lcz_AreYouSureDoYouWantToRemove ')} ${t('Lcz_ThisService')} ${t('Lcz_FromThisBooking')}`, h("div", { key: '72e0a26f6c18f43ca3cdacf2da4189d942facb8d', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '310803eb767d6f97703ae650d94016233d5e997f', appearance: "filled", variant: "neutral", size: "m", "data-dialog": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '8f5cafbaad9caa08a46441030d39b1c9a50baea8', onClickHandler: () => this.deleteService(), loading: isRequestPending('/Do_Booking_Extra_Service'), variant: "danger", size: "m" }, t('Lcz_Delete', { fallback: 'Delete' }))))));
+            }, label: "Alert", ref: el => (this.irModalRef = el), lightDismiss: false }, `${locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales.entries.Lcz_ThisService} ${locales.entries.Lcz_FromThisBooking}`, h("div", { key: 'dcf5d390759a61c1d6bc87e9c991ee1071791cce', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '6e05db4af0572db6c52e3592ac915fb661a71874', appearance: "filled", variant: "neutral", size: "m", "data-dialog": "close" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '595f8e9d7a825bd42838618a2c6d1c1017837ad5', onClickHandler: () => this.deleteService(), loading: isRequestPending('/Do_Booking_Extra_Service'), variant: "danger", size: "m" }, locales.entries.Lcz_Delete)))));
     }
     static get is() { return "ir-extra-service"; }
     static get encapsulation() { return "scoped"; }
@@ -161,7 +142,7 @@ export class IrExtraService {
                 "mutable": false,
                 "complexType": {
                     "original": "ExtraService",
-                    "resolved": "{ description?: string; currency_id?: number; agent?: { code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; charges?: { total_amount?: number; city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; vat_amount?: number; vat_percent?: number; }; cost?: number; room_identifier?: string; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; pr_id?: number; from_time?: string; to_time?: string; }",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; room_identifier?: string; booking_system_id?: number; cost?: number; end_date?: string; start_date?: string; price?: number; category?: { code?: string; }; pr_id?: number; from_time?: string; to_time?: string; charges?: { city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; total_amount?: number; vat_amount?: number; vat_percent?: number; }; }",
                     "references": {
                         "ExtraService": {
                             "location": "import",
@@ -209,7 +190,7 @@ export class IrExtraService {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
@@ -290,14 +271,14 @@ export class IrExtraService {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "SetupEntries[]",
-                    "resolved": "SetupEntries[]",
+                    "original": "IEntries[]",
+                    "resolved": "IEntries[]",
                     "references": {
-                        "SetupEntries": {
+                        "IEntries": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::SetupEntries",
-                            "referenceLocation": "SetupEntries"
+                            "id": "src/models/property.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },
@@ -355,7 +336,7 @@ export class IrExtraService {
                 },
                 "complexType": {
                     "original": "ExtraService",
-                    "resolved": "{ description?: string; currency_id?: number; agent?: { code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; charges?: { total_amount?: number; city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; vat_amount?: number; vat_percent?: number; }; cost?: number; room_identifier?: string; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; pr_id?: number; from_time?: string; to_time?: string; }",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; room_identifier?: string; booking_system_id?: number; cost?: number; end_date?: string; start_date?: string; price?: number; category?: { code?: string; }; pr_id?: number; from_time?: string; to_time?: string; charges?: { city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; total_amount?: number; vat_amount?: number; vat_percent?: number; }; }",
                     "references": {
                         "ExtraService": {
                             "location": "import",

@@ -27,7 +27,7 @@ const initialState = {
     taxes: [],
     id: null,
     name: '',
-    ApiClient: '',
+    token: '',
     tax_statement: '',
     country: undefined,
     is_pms_enabled: false,

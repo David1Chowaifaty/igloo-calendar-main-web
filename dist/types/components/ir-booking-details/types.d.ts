@@ -1,3 +1,4 @@
+import { IEntries } from "../../models/IBooking";
 import { RoomType, RatePlan, ExposedApplicablePolicy } from "../../models/booking.dto";
 import { IPayment, SharedPerson } from './../../models/booking.dto';
 export type BookingDetailsSidebarEvents = 'invoice' | 'guest' | 'pickup' | 'extra_note' | 'extra_service' | 'room-guest' | 'payment-folio';
@@ -27,7 +28,11 @@ export type RoomGuestsPayload = {
     identifier: string;
     booking_nbr?: string | number;
 };
-export type { PaymentEntries } from '@/services/setup/types';
+export type PaymentEntries = {
+    types: IEntries[];
+    groups: IEntries[];
+    methods: IEntries[];
+};
 export type CancellationStatement = {
     roomType: RoomType;
     ratePlan: RatePlan;

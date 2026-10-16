@@ -6,7 +6,6 @@
   font-size: var(--wa-font-size-s);
   background-color: var(--wa-color-surface-default);
   border-inline-end: 2px solid var(--wa-color-surface-border);
-  text-align: start;
 }
 
 /* Legend */
@@ -65,20 +64,11 @@
 }
 
 .legend_skew.split {
-  border-inline-end: 4px solid var(--wa-color-text-normal, black);
+  border-right: 4px solid var(--wa-color-text-normal, black);
 }
 
 .legend_skew-bordered {
   border: 1px solid var(--wa-color-text-normal, black);
-}
-
-/* Skew is a cosmetic "leaning into the future" lean, tied to physical direction rather than
-   inline-start/end (CSS has no logical skew). Mirror it for RTL so the swatch leans the same
-   way as the booking bars it represents — see igl-booking-event.css for the matching rule. */
-:host([dir='rtl']) .legend_skew:not(.in-house),
-:host([dir='rtl']) .legend_skew-bordered,
-:host([dir='rtl']) .legend_skewsplit {
-  transform: skew(22deg);
 }
 
 .legend_dirty-unit {
@@ -106,8 +96,8 @@
   position: absolute;
   bottom: 0;
   height: 100%;
-  inset-inline-start: 30%;
-  inset-inline-end: 30%;
+  left: 30%;
+  right: 30%;
   background-color: #d4d0be !important;
 }
 
@@ -115,12 +105,11 @@
   border-radius: 100%;
   width: 10px;
   height: 10px;
-  margin-block: 3px;
-  margin-inline: 2px 3px;
+  margin: 3px 3px 3px 2px;
 }
 
 .legend_skewsplit {
-  border-inline-end: 2px solid var(--wa-color-text-normal, black);
+  border-right: 2px solid var(--wa-color-text-normal, black);
 }
 /* Legend Calendar */
 
@@ -142,12 +131,6 @@
 }
 .total-availability {
   font-size: 1em !important;
-  font-weight: 700;
-}
-.legendTextarea {
-  border: 0;
-  margin: 0;
-  padding: 0;
 }
 .legendCalendar .legendCal {
   width: 80px;
@@ -178,7 +161,8 @@
   border-top: 1px solid var(--wa-color-surface-border);
 }
 .br-s {
-  border-inline: 1px solid var(--wa-color-surface-border);
+  border-left: 1px solid var(--wa-color-surface-border);
+  border-right: 1px solid var(--wa-color-surface-border);
 }
 .br-bt {
   border-bottom: 1px solid var(--wa-color-surface-border);
@@ -198,7 +182,8 @@
   background-color: var(--wa-color-text-normal, black);
   vertical-align: middle;
   display: inline-block;
-  margin-inline: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
   -webkit-user-select: none;
   user-select: none;
   -webkit-user-drag: none;
@@ -233,10 +218,11 @@
   background-color: var(--wa-color-surface-default);
   z-index: 1;
   padding-inline-start: var(--spacing);
+  padding-block-end: 0;
   padding-inline-end: calc(var(--spacing) - var(--wa-form-control-padding-block));
   padding-block-start: calc(var(--spacing) - var(--wa-form-control-padding-block));
-  padding-block-end: calc(var(--spacing) / 2);
   border-bottom: 1px solid var(--wa-color-surface-border);
+  padding-bottom: calc(var(--spacing) / 2);
   box-sizing: border-box;
   background-color: var(--ir-drawer-background-color, var(--wa-color-surface-default));
 }

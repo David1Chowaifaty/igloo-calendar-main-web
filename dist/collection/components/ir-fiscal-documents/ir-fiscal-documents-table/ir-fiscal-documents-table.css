@@ -201,8 +201,8 @@
 
 .sticky-column {
   position: sticky !important;
-  inset-inline-end: 0;
-  background-color: var(--wa-color-surface-default, white);
+  right: 0;
+  background-color: white;
 }
 
 /* #endregion */
@@ -220,12 +220,12 @@
 
 /* #region head */
 .fiscal-table__heading:last-child {
-  border-inline-end: 0;
+  border-right: 0;
 }
 
 .fiscal-table__heading--numeric,
 .fiscal-table__cell--numeric {
-  text-align: end !important;
+  text-align: right !important;
 }
 .ir-table-row.--is-draft > td {
   background-color: var(--wa-color-warning-fill-quiet) !important;

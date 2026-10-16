@@ -1,24 +1,3 @@
-// Demo-page direction/language harness.
-// Every src/pages/index-*.html loads this file from <head>, so reading `?dir=` and `?lang=`
-// here sets the document direction before any component upgrades. This is the only way to
-// exercise RTL locally — the pages themselves ship a hardcoded `dir` on <html>.
-(function applyUrlDirection() {
-    try {
-        const params = new URLSearchParams(window.location.search);
-        const dir = (params.get('dir') || '').toLowerCase();
-        const lang = params.get('lang');
-        if (dir === 'rtl' || dir === 'ltr') {
-            document.documentElement.setAttribute('dir', dir);
-        }
-        if (lang) {
-            document.documentElement.setAttribute('lang', lang);
-        }
-    } catch (e) {
-        // Non-fatal: the page just stays in its markup-declared direction.
-        console.warn('direction harness skipped', e);
-    }
-})();
-
 async function getToken() {
     try {
         if (!document.getElementById("jwt-decode-cdn")) {
@@ -36,37 +15,37 @@ async function getToken() {
             console.log("jwt-decode script loaded.");
         }
 
-        // Load ApiClient from localStorage or fallback
-        let ApiClient = localStorage.getItem("ApiClient");
+        // Load token from localStorage or fallback
+        let token = localStorage.getItem("token");
 
         let isExpired = true;
 
-        if (ApiClient) {
-            const decoded = jwt_decode(ApiClient);
+        if (token) {
+            const decoded = jwt_decode(token);
             isExpired = Date.now() > decoded.exp * 1000;
-            console.log("ApiClient expiration:", new Date(decoded.exp * 1000), "Now:", new Date(), "Expired?", isExpired);
+            console.log("Token expiration:", new Date(decoded.exp * 1000), "Now:", new Date(), "Expired?", isExpired);
         }
 
-        if (!ApiClient || isExpired) {
-            console.log("ApiClient missing or expired. Fetching new one...");
-            const newApiClient = await authenticate("A35", "H@mburger9");
+        if (!token || isExpired) {
+            console.log("Token missing or expired. Fetching new one...");
+            const newToken = await authenticate("A35", "H@mburger9");
 
-            if (newApiClient) {
-                localStorage.setItem("ApiClient", newApiClient);
-                ApiClient = newApiClient;
-                console.log("New ApiClient saved to localStorage.");
+            if (newToken) {
+                localStorage.setItem("token", newToken);
+                token = newToken;
+                console.log("New token saved to localStorage.");
             } else {
-                console.error("Failed to get new ApiClient.");
+                console.error("Failed to get new token.");
             }
         }
 
-        return ApiClient;
+        return token;
     } catch (error) {
         console.error("getToken error:", error);
     }
 }
 
-// ApiClient = await authenticate("A35", "QAZqaz900_")
+// token = await authenticate("A35", "QAZqaz900_")
 function getId() {
     return "42"
 }

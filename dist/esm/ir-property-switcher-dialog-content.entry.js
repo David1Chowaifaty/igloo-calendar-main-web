@@ -1,9 +1,7 @@
-import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-DKZeCK8T.js';
+import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-CwWmK1sZ.js';
 import { a as axios } from './axios-B50ozOIF.js';
 import { D as Debounce } from './debounce-DF70NVXP.js';
-import { t } from './t-Bvz1wS_D.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './locale-scope-Jre4lb6k.js';
 
 const irPropertySwitcherDialogContentCss = () => `.sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__search-input.sc-ir-property-switcher-dialog-content::part(base),.property-switcher__search-input.sc-ir-property-switcher-dialog-content [part~="base"]{font-size:16px;height:32px}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}@media (min-width: 640px){.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}}`;
 
@@ -159,13 +157,13 @@ const IrPropertySwitcherDialogContent = class {
         return h("div", { class: "property-switcher__status" }, text);
     }
     render() {
-        return (h(Host, { key: '51a5284b0e11777df27957e9969c47da193ed2cb' }, h("ir-input", { key: '65f67de390fce23bd9c3166d7893aceee02bc865', autofocus: true, ref: el => (this.inputRef = el), placeholder: t('Lcz_PropertyNameOrANumberPlaceholder', { fallback: 'Property name or A number' }), class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: '1da9e01a1164215f5cd2f784d96322062587a1e3', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: '36625f0d3fb58be8480238146fe24ef4a615e97f' }, h("p", { key: '8531ccc7930ad23311941b878e0ca0a7a70c165f', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, t('Lcz_LinkedProperties', { fallback: 'Linked Properties' })), this.properties.map(property => {
+        return (h(Host, { key: '3a0deb341e151c6c7abf417e8e261411680960af' }, h("ir-input", { key: 'dce68c7ba87e57cf972023a88047cfb09b769125', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Property name or A number", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: '542d9a927631869a680b92400c6769f65d152378', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: 'f75ea16fdad93db4bdf1b3442ed65ae05ce8cc40' }, h("p", { key: '18b99ac05e67a55b6771d53a0fe42ce097fb05b2', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, "Linked Properties"), this.properties.map(property => {
             const label = `${property.name}`;
             return (h("wa-option", { onClick: () => {
                     // this.selectProperty(property as any);
                     this.linkedPropertyChange.emit(property);
                 }, selected: this.selectedPropertyId === property.property_id, value: property.property_id?.toString(), label: label }, label));
-        }))), this.searchTerm && this.filteredProperties.length === 0 && this.renderStatus(t('Lcz_NoPropertiesFound', { fallback: 'No properties found' })), this.filteredProperties.map((property, index) => {
+        }))), this.searchTerm && this.filteredProperties.length === 0 && this.renderStatus('No properties found'), this.filteredProperties.map((property, index) => {
             const label = `${property.COUNTRY_CODE}: ${property.PROPERTY_NAME} - ${property.A_NAME}`;
             return (h("wa-option", { onClick: () => this.selectProperty(property), selected: this.selectedPropertyId === property.PROPERTY_ID, current: this.highlightedIndex === index, value: property.PROPERTY_ID?.toString(), label: label }, label));
         }))));

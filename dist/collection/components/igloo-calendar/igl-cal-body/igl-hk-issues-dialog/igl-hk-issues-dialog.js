@@ -1,8 +1,6 @@
-import { HouseKeepingService } from "../../../../services/housekeeping/index";
+import { HouseKeepingService } from "../../../../services/housekeeping.service";
 import { h } from "@stencil/core";
-import { formatDate } from "../../../../utils/date/index";
-import { t } from "../../../../services/locale/t";
-import { formatCount, formatNumber } from "../../../../utils/number";
+import moment from "moment";
 export class IglHkIssuesDialog {
     open = false;
     unitId;
@@ -15,9 +13,9 @@ export class IglHkIssuesDialog {
     selectedIds = new Set();
     dialogRef;
     houseKeepingService = new HouseKeepingService();
-    handleOpenChange(isOpen) {
-        this.error = null;
+    async handleOpenChange(isOpen) {
         if (isOpen) {
+            this.error = null;
             this.dialogRef?.openModal();
         }
         else {
@@ -25,14 +23,10 @@ export class IglHkIssuesDialog {
         }
     }
     handleIssuesChange(newIssues) {
-        // A single issue is the only thing to act on — pre-select it.
-        this.selectedIds = newIssues?.length === 1 ? new Set([newIssues[0].id]) : new Set();
-    }
-    get isMultiple() {
-        return (this.issues?.length ?? 0) > 1;
-    }
-    get allSelected() {
-        return !!this.issues?.length && this.selectedIds.size === this.issues.length;
+        this.selectedIds = new Set();
+        if (newIssues?.length === 1) {
+            this.selectedIds = new Set([newIssues[0].id]);
+        }
     }
     toggleIssue(id) {
         const next = new Set(this.selectedIds);
@@ -44,65 +38,49 @@ export class IglHkIssuesDialog {
         }
         this.selectedIds = next;
     }
-    toggleSelectAll = () => {
-        this.selectedIds = this.allSelected ? new Set() : new Set(this.issues.map(issue => issue.id));
-    };
-    handleRowKeyDown = (event, id) => {
-        if (event.key === ' ' || event.key === 'Enter') {
-            event.preventDefault();
-            this.toggleIssue(id);
-        }
-    };
     handleResolve = async () => {
-        if (!this.selectedIds.size || this.isResolving) {
+        if (!this.selectedIds.size || this.isResolving)
             return;
-        }
         this.isResolving = true;
         this.error = null;
         try {
-            await this.houseKeepingService.resolveHKIssue({ issue_ids: Array.from(this.selectedIds) });
+            const payload = Array.from(this.selectedIds);
+            await this.houseKeepingService.resolveHKIssue({ issue_ids: payload });
             this.dialogRef?.closeModal();
         }
         catch (e) {
-            this.error = e instanceof Error ? e.message : t('Lcz_FailedToResolveGeneric', { fallback: 'Failed to resolve. Please try again.' });
+            this.error = e instanceof Error ? e.message : 'Failed to resolve issue. Please try again.';
         }
         finally {
             this.isResolving = false;
         }
     };
-    formatReportedAt(issue) {
-        const date = formatDate(issue.date, 'MMM D, YYYY');
-        if (issue.hour == null || issue.minute == null) {
-            return date;
-        }
-        const pad = { minimumIntegerDigits: 2, useGrouping: false };
-        const time = `${formatNumber(issue.hour, pad)}:${formatNumber(issue.minute, pad)}`;
-        return `${date} · ${time}`;
-    }
-    renderIssue(issue) {
-        const selectable = this.isMultiple;
+    // private getInitials(name: string): string {
+    //   return (name ?? '')
+    //     .split(' ')
+    //     .map(n => n[0])
+    //     .join('')
+    //     .toUpperCase()
+    //     .slice(0, 2);
+    // }
+    renderTicket(issue) {
+        const isMultiple = this.issues.length > 1;
         const isSelected = this.selectedIds.has(issue.id);
-        const description = issue.description?.trim();
-        return (h("div", { key: issue.id, class: { 'issue': true, 'issue--selectable': selectable, 'issue--selected': isSelected }, role: selectable ? 'checkbox' : undefined, "aria-checked": selectable ? String(isSelected) : undefined, tabindex: selectable ? 0 : undefined, onClick: selectable ? () => this.toggleIssue(issue.id) : undefined, onKeyDown: selectable ? (event) => this.handleRowKeyDown(event, issue.id) : undefined }, selectable && h("wa-checkbox", { class: "issue__check", checked: isSelected, tabIndex: -1 }), h("div", { class: "issue__body" }, h("p", { class: { 'issue__description': true, 'issue__description--empty': !description } }, description || t('Lcz_NoDescriptionProvided', { fallback: 'No description provided.' })), h("p", { class: "issue__meta" }, h("span", { class: "issue__reporter" }, issue.housekeeper_name || t('Lcz_UnknownHousekeeper', { fallback: 'Unknown housekeeper' })), h("span", { class: "issue__sep", "aria-hidden": "true" }, "\u00B7"), h("span", { class: "issue__date" }, this.formatReportedAt(issue))))));
+        // const initials = this.getInitials(issue.housekeeper_name);
+        return (h("div", { class: `ticket ${isSelected ? 'ticket--selected' : ''}`, key: issue.id, onClick: () => isMultiple && this.toggleIssue(issue.id) }, h("p", { class: "ticket-description" }, issue.description || 'No description provided.'), h("div", { class: "ticket-footer-row" }, h("div", { class: "ticket-reporter" }, h("span", { class: "ticket-reporter-name" }, issue.housekeeper_name)), h("div", { class: 'ticket-meta' }, h("span", { class: "ticket-date" }, moment(issue.date).format('MMM D, YYYY'), issue.hour != null && issue.minute != null && (h("span", { class: "ticket-time" }, String(issue.hour).padStart(2, '0'), ":", String(issue.minute).padStart(2, '0')))), isMultiple && (h("wa-checkbox", { checked: isSelected, defaultChecked: isSelected, onchange: (e) => {
+                e.stopPropagation();
+                this.toggleIssue(issue.id);
+            } }))))));
     }
-    renderBody() {
-        if (!this.open) {
+    renderContent() {
+        if (!this.issues?.length || !this.open)
             return null;
-        }
-        if (!this.issues?.length) {
-            return h("ir-empty-state", { message: t('Lcz_NoIssuesReportedForUnit', { fallback: 'No issues reported for this unit.' }) });
-        }
-        return (h("div", { class: "issues" }, this.isMultiple && (h("div", { class: "issues__toolbar" }, h("span", { class: "issues__count" }, t('Lcz_IssuesReportedCount', { params: [formatCount(this.issues.length)], fallback: `${this.issues.length} issues reported` })), h("button", { type: "button", class: "issues__select-all", onClick: this.toggleSelectAll }, this.allSelected ? t('Lcz_Clear', { fallback: 'Clear' }) : t('Lcz_SelectAll', { fallback: 'Select all' })))), h("div", { class: "issues__list", role: this.isMultiple ? 'group' : undefined, "aria-label": this.isMultiple ? t('Lcz_ReportedIssues', { fallback: 'Reported Issues' }) : undefined }, this.issues.map(issue => this.renderIssue(issue))), this.error && (h("div", { class: "issues__error", role: "alert" }, h("wa-callout", { variant: "danger" }, h("wa-icon", { slot: "icon", name: "circle-exclamation" }), this.error)))));
+        return (h("div", { class: "dialog-body" }, h("div", { class: "tickets-list" }, this.issues.map(issue => this.renderTicket(issue))), this.error && (h("div", { class: "error-banner", role: "alert" }, h("wa-icon", { name: "circle-exclamation" }), this.error))));
     }
     render() {
-        const multiple = (this.issues?.length ?? 0) > 1;
+        const count = this.issues?.length ?? 0;
         const selectedCount = this.selectedIds.size;
-        const unitSuffix = this.unitName ? ` · ${this.unitName}` : '';
-        return (h("ir-dialog", { key: '63f58a113e751cacc61abcac3aceb59af9aec291', ref: el => (this.dialogRef = el), label: `${multiple ? t('Lcz_ReportedIssues', { fallback: 'Reported Issues' }) : t('Lcz_ReportedIssue', { fallback: 'Reported Issue' })}${unitSuffix}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderBody(), h("div", { key: '0958ce39397098824b87e07974f84f19e7a3fcc6', slot: "footer", class: "footer" }, multiple && selectedCount > 0 && h("span", { key: '5d7caf6dcf9b016902f4d470f9dcb2b8ee7701f0', class: "footer__hint" }, t('Lcz_SelectedItemsCount', { params: [selectedCount], fallback: `${selectedCount} selected` })), h("ir-custom-button", { key: '418b05e3bd3615e3debf376000c8dfb78b9765de', variant: "neutral", size: "m", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, t('Lcz_Close', { fallback: 'Close' })), h("ir-custom-button", { key: 'e9e1f4f6630358a8e40a434442553c3e5fa4486d', variant: "brand", size: "m", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, multiple
-            ? selectedCount
-                ? t('Lcz_ResolveCount', { params: [selectedCount], fallback: `Resolve ${selectedCount}` })
-                : t('Lcz_Resolve', { fallback: 'Resolve' })
-            : t('Lcz_MarkAsResolved', { fallback: 'Mark as Resolved' })))));
+        return (h("ir-dialog", { key: '4672b3ea0785ca449c5dcdc883abf4b7788b70c7', ref: el => (this.dialogRef = el), label: `Reported ${count > 1 ? 'Issues' : 'Issue'}: ${this.unitName}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderContent(), h("div", { key: '8505d8ecd892bd34ebd5d562d399a46ade443881', slot: "footer", class: "dialog-footer" }, h("ir-custom-button", { key: '8a85420bf6b533426d06e3be4a561464cc5dbbe1', variant: "neutral", size: "m", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, "Close"), h("ir-custom-button", { key: '37e3d9d97ec043762d1013b9097dea846264c533', variant: "brand", size: "m", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, "Mark as Resolved"))));
     }
     static get is() { return "igl-hk-issues-dialog"; }
     static get encapsulation() { return "scoped"; }

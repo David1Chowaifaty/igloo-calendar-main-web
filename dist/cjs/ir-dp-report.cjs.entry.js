@@ -1,27 +1,21 @@
 'use strict';
 
-var index = require('./index-IDeZZwEK.js');
+var index = require('./index-Bp205iz4.js');
 var moment = require('./moment-CdViwxPQ.js');
-var ApiClient = require('./ApiClient-u7fuhiXA.js');
-var room_service = require('./room.service-Dc0vGBFC.js');
+var Token = require('./Token-mN7PQKGF.js');
+var room_service = require('./room.service-Ccry0dJV.js');
 var axios = require('./axios-EresIryl.js');
-var commonSchemas = require('./commonSchemas-D4iFLV5-.js');
+var commonSchemas = require('./commonSchemas-rhaJ5cvr.js');
 var types = require('./types-BVJQZ50e.js');
-var dp_report_store = require('./dp_report.store-B_XSKrYf.js');
-var calendarData = require('./calendar-data-ShS6b-Ns.js');
-var index$1 = require('./index-Cw449Sfi.js');
-var locale_controller = require('./locale.controller-DXObwuz4.js');
-var languageSync = require('./language-sync-Daqv91WM.js');
-var t = require('./t-CqJPQrfm.js');
-require('./locale-scope-Cch-vf1R.js');
+var locales_store = require('./locales.store-CQhQqUVl.js');
+var dp_report_store = require('./dp_report.store-D112WWVT.js');
+var calendarData = require('./calendar-data-BpobEh98.js');
+var index$1 = require('./index---Y4j1HL.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./utils-ZKsQb8eV.js');
-require('./booking.dto-CUSvGTvD.js');
+require('./index-CjQGUKJk.js');
+require('./utils-w7_1d-K4.js');
 require('./type-Bj2x9EWc.js');
-require('./ir-date-CbkOKs2C.js');
-require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
-require('./types-sp5nWPAa.js');
 
 const GetDPBookingsReportParamsSchema = types.objectType({
     from_date: commonSchemas.DateSchema,
@@ -76,35 +70,24 @@ const IrDpReport = class {
     propertyId;
     allowedProperties = null;
     minAllowedDate;
-    ApiClient = new ApiClient.ApiClient();
+    token = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
     dpReportService = new DpReportService();
-    /** Re-runs init when the language changes so server-localized data follows. */
-    languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.dpReport, () => this.initializeApp());
     componentWillLoad() {
         if (this.baseUrl) {
-            this.ApiClient.setBaseUrl(this.baseUrl);
+            this.token.setBaseUrl(this.baseUrl);
         }
         if (this.ticket !== '') {
-            this.ApiClient.setApiClient(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
-    }
-    componentDidLoad() {
-        this.languageSync.connect();
-    }
-    disconnectedCallback() {
-        this.languageSync.disconnect();
-    }
-    languageChanged(next, previous) {
-        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.ApiClient.setApiClient(this.ticket);
+        this.token.setToken(this.ticket);
         this.initializeApp();
     }
     async handleDpFiltersChange(e) {
@@ -125,9 +108,6 @@ const IrDpReport = class {
     async initializeApp() {
         this.isPageLoading = true;
         try {
-            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
-            // so the requests below are built with the right language on first mount.
-            const localeReady = locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.dpReport });
             if (!this.propertyid && !this.p) {
                 throw new Error('Property ID or username is required');
             }
@@ -136,25 +116,29 @@ const IrDpReport = class {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: locale_controller.LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
             this.propertyId = propertyId;
-            const [, allowedProperties] = await Promise.all([
-                localeReady,
+            const [languageTexts, allowedProperties] = await Promise.all([
+                this.roomService.fetchLanguage(this.language),
                 this.propertyService.getActiveOptimExposedProperties(),
                 !this.propertyid
                     ? Promise.resolve(null)
                     : this.roomService.getExposedProperty({
                         id: this.propertyId,
                         aname: this.p,
-                        language: locale_controller.LocaleController.language,
+                        language: this.language,
                         is_backend: true,
                     }),
                 await this.fetchInitialDpReport(),
             ]);
+            if (!locales_store.locales.entries) {
+                locales_store.locales.entries = languageTexts.entries;
+                locales_store.locales.direction = languageTexts.direction;
+            }
             this.allowedProperties = allowedProperties && allowedProperties.length > 1 ? allowedProperties : null;
         }
         catch (error) {
@@ -236,16 +220,9 @@ const IrDpReport = class {
         if (this.isPageLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h("ir-page", { description: t.t('Lcz_DynamicPricingEffectTooltip', {
-                fallback: 'The dynamic pricing effect is calculated at the time the booking is created and remains fixed thereafter, serving as an indicator of the additional profit generated or of the incentive price reduction.',
-            }), label: t.t('Lcz_DynamicPricingEffect', { fallback: 'Dynamic Pricing Effect' }), class: "dp-report__page" }, this.allowedProperties && (index.h("ir-autocomplete", { slot: "page-header", placeholder: t.t('Lcz_ChangeProperty', { fallback: 'Change property' }), withExpandIcon: true, class: 'dp-report__property-select', value: this.allowedProperties.find(property => property.id === this.propertyId)?.name ?? '', "onCombobox-change": this.handlePropertyChange }, index.h("wa-icon", { slot: "start", name: "magnifying-glass" }), this.allowedProperties.map(property => (index.h("ir-autocomplete-option", { key: property.id, label: property.name, value: String(property.id) }, property.name))))), calendarData.isOptimReadOnly() && (index.h("wa-callout", { size: "s", variant: "danger", class: "dp-report__callout" }, index.h("wa-icon", { slot: "icon", name: "face-frown" }), index.h("div", { class: "dp-report__callout-header" }, index.h("b", null, t.t('Lcz_MissedProfit', { fallback: 'Missed Profit' })), index.h("wa-badge", { pill: true, variant: "danger" }, t.t('Lcz_Simulation', { fallback: 'SIMULATION' }))), index.h("p", { class: "dp-report__callout-text" }, t.t('Lcz_MissedProfitCalloutText', {
-            fallback: 'The figures below estimate the additional profit your hotel could have generated if Dynamic Pricing had been enabled during the selected period. Contact your account manager to subscribe.',
-        })))), index.h("ir-dp-report-summary", null), index.h("wa-tab-group", { active: this.activeTab, activation: "manual", "onwa-tab-show": this.handleTabShow }, index.h("wa-tab", { panel: "chart" }, t.t('Lcz_Chart', { fallback: 'Chart' })), index.h("wa-tab", { panel: "bookings" }, t.t('Lcz_Bookings', { fallback: 'Bookings' })), index.h("wa-tab-panel", { name: "chart" }, index.h("ir-dp-report-filters", { minDate: this.minAllowedDate }), index.h("ir-dp-report-chart", null)), index.h("wa-tab-panel", { name: "bookings" }, index.h("ir-dp-report-filters", { minDate: this.minAllowedDate }), index.h("ir-dp-report-table", null))), index.h("ir-booking-details-drawer", { open: !!this.activeBookingNbr, propertyId: this.propertyId, bookingNumber: this.activeBookingNbr, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.activeBookingNbr = null) }), index.h("ir-guest-info-drawer", { open: !!this.activeGuestBookingNbr, booking_nbr: this.activeGuestBookingNbr, email: this.findRow(this.activeGuestBookingNbr)?.raw.guest.email, language: this.language, onGuestInfoDrawerClosed: () => (this.activeGuestBookingNbr = null) })));
+        return (index.h("ir-page", { description: "The dynamic pricing effect is calculated at the time the booking is\ncreated and remains fixed thereafter, serving as an indicator of the additional profit generated or of\nthe incentive price reduction.", label: "Dynamic Pricing Effect", class: "dp-report__page" }, this.allowedProperties && (index.h("ir-autocomplete", { slot: "page-header", placeholder: "Change property", withExpandIcon: true, class: 'dp-report__property-select', value: this.allowedProperties.find(property => property.id === this.propertyId)?.name ?? '', "onCombobox-change": this.handlePropertyChange }, index.h("wa-icon", { slot: "start", name: "magnifying-glass" }), this.allowedProperties.map(property => (index.h("ir-autocomplete-option", { key: property.id, label: property.name, value: String(property.id) }, property.name))))), calendarData.isOptimReadOnly() && (index.h("wa-callout", { size: "s", variant: "danger", class: "dp-report__callout" }, index.h("wa-icon", { slot: "icon", name: "face-frown" }), index.h("div", { class: "dp-report__callout-header" }, index.h("b", null, "Missed Profit"), index.h("wa-badge", { pill: true, variant: "danger" }, "SIMULATION")), index.h("p", { class: "dp-report__callout-text" }, "The figures below estimate the additional profit your hotel could have generated if Dynamic Pricing had been enabled during the selected period. Contact your account manager to subscribe."))), index.h("ir-dp-report-summary", null), index.h("wa-tab-group", { active: this.activeTab, activation: "manual", "onwa-tab-show": this.handleTabShow }, index.h("wa-tab", { panel: "chart" }, "Chart"), index.h("wa-tab", { panel: "bookings" }, "Bookings"), index.h("wa-tab-panel", { name: "chart" }, index.h("ir-dp-report-filters", { minDate: this.minAllowedDate }), index.h("ir-dp-report-chart", null)), index.h("wa-tab-panel", { name: "bookings" }, index.h("ir-dp-report-filters", { minDate: this.minAllowedDate }), index.h("ir-dp-report-table", null))), index.h("ir-booking-details-drawer", { open: !!this.activeBookingNbr, propertyId: this.propertyId, bookingNumber: this.activeBookingNbr, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.activeBookingNbr = null) }), index.h("ir-guest-info-drawer", { open: !!this.activeGuestBookingNbr, booking_nbr: this.activeGuestBookingNbr, email: this.findRow(this.activeGuestBookingNbr)?.raw.guest.email, language: this.language, onGuestInfoDrawerClosed: () => (this.activeGuestBookingNbr = null) })));
     }
     static get watchers() { return {
-        "language": [{
-                "languageChanged": 0
-            }],
         "ticket": [{
                 "ticketChanged": 0
             }]

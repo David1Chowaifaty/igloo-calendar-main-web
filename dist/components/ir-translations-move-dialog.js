@@ -1,1 +1,0 @@
-import{I as o,d as s}from"./ir-translations-move-dialog2.js";const a=o,r=s;export{a as IrTranslationsMoveDialog,r as defineCustomElement}

@@ -1,5 +1,4 @@
 import { Host, h } from "@stencil/core";
-import { inlineOffset, inlineSign } from "../../../utils/direction";
 export class IrChannelHeader {
     el;
     headerTitles = [];
@@ -27,20 +26,19 @@ export class IrChannelHeader {
         requestAnimationFrame(() => {
             const selectedTab = this.el.querySelector(`li.tab[data-state="selected"]`);
             if (selectedTab) {
-                const tabRect = selectedTab.getBoundingClientRect();
-                // Measured on the inline axis: the indicator starts at the strip's inline start,
-                // which is the right edge under RTL, so a raw physical offset walks it the wrong way.
-                const position = inlineOffset(tabRect, this.el.getBoundingClientRect());
-                this.activeIndicator.style.width = `${tabRect.width}px`;
-                this.activeIndicator.style.transform = `translateX(${position * inlineSign()}px)`;
+                const { left, width } = selectedTab.getBoundingClientRect();
+                const parentLeft = this.el.getBoundingClientRect().left;
+                const position = left - parentLeft;
+                this.activeIndicator.style.width = `${width}px`;
+                this.activeIndicator.style.transform = `translateX(${position}px)`;
             }
         });
     }
     render() {
-        return (h(Host, { key: '17bd2676aa90c352ebbf7724a98a67b5bdb9f74b' }, h("ul", { key: 'fbf294b6dde0481634980f40d0d9f4f7b3a686b9', class: "px-1" }, this.headerTitles.map((title, index) => (h("li", { class: `tab ${title.disabled ? 'text-light' : ''}`, key: title.id, onClick: () => {
+        return (h(Host, { key: '19a7f9ffd88a518ff3864b7b0773b03de372b6e1' }, h("ul", { key: '7075eee8df8563292a040b2a45b368edd601a145', class: "px-1" }, this.headerTitles.map((title, index) => (h("li", { class: `tab ${title.disabled ? 'text-light' : ''}`, key: title.id, onClick: () => {
                 if (!title.disabled)
                     this.handleTabSelection(index);
-            }, "data-disabled": title.disabled, "data-state": this.selectedIndex === index ? 'selected' : '' }, title.name)))), h("span", { key: '056f213aa4cb30d7e4de6d01695320639ac7cf37', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+            }, "data-disabled": title.disabled, "data-state": this.selectedIndex === index ? 'selected' : '' }, title.name)))), h("span", { key: '8927d4f43b951b3d595749336e209306dbb92044', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
     static get is() { return "ir-channel-header"; }
     static get encapsulation() { return "scoped"; }

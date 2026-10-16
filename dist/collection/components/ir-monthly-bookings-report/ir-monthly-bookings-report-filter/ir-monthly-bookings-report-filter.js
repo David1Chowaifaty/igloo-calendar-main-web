@@ -1,7 +1,6 @@
 import { h } from "@stencil/core";
 import moment from "moment";
-import { formatDate } from "../../../utils/date/index";
-import { t } from "../../../services/locale/t";
+import locales from "../../../stores/locales.store";
 export class IrMonthlyBookingsReportFilter {
     isLoading;
     baseFilters;
@@ -34,7 +33,7 @@ export class IrMonthlyBookingsReportFilter {
         let cursor = startDate.clone();
         while (cursor.isSameOrBefore(firstOfThisMonth, 'month')) {
             dates.push({
-                description: formatDate(cursor, 'MMMM YYYY'),
+                description: cursor.format('MMMM YYYY'),
                 firstOfMonth: cursor.format(format),
                 lastOfMonth: cursor.clone().endOf('month').format(format),
             });
@@ -43,7 +42,7 @@ export class IrMonthlyBookingsReportFilter {
         const futureCursor = firstOfThisMonth.clone().add(1, 'month');
         for (let i = 0; i < 6; i++) {
             dates.push({
-                description: formatDate(futureCursor, 'MMMM YYYY'),
+                description: futureCursor.format('MMMM YYYY'),
                 firstOfMonth: futureCursor.format(format),
                 lastOfMonth: futureCursor.clone().endOf('month').format(format),
             });
@@ -52,14 +51,14 @@ export class IrMonthlyBookingsReportFilter {
         return dates.reverse();
     }
     render() {
-        return (h("ir-filter-card", { key: '9428ba53e04cfd125024d398052051dbe46a748d' }, h("wa-select", { key: '3f9ad1216f60682cdb7f0d52196e3c3ea3b5d080', label: t('Lcz_For', { fallback: 'For' }), size: "s", value: this.filters?.date?.description, defaultValue: this.filters?.date?.description, onchange: (e) => {
+        return (h("ir-filter-card", { key: 'fa80fffbad421d4388f8550fa242d13a868c931e' }, h("wa-select", { key: '551b38dd1f4642242744f4924a1fb750f140c241', label: "For", size: "s", value: this.filters?.date?.description, defaultValue: this.filters?.date?.description, onchange: (e) => {
                 const value = e.target.value;
                 this.updateFilter({ date: this.dates.find(d => d.description === value) });
-            } }, this.dates.map(d => (h("wa-option", { value: d.description }, d.description)))), h("wa-checkbox", { key: 'a1d9b0c0d10d0904dcd19c8e817f942c62d4e832', checked: this.filters?.include_previous_year, onchange: (e) => {
+            } }, this.dates.map(d => (h("wa-option", { value: d.description }, d.description)))), h("wa-checkbox", { key: '8e3d865d8aea4fbd5e7f30e3981ba42b0a6a0310', checked: this.filters?.include_previous_year, onchange: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ include_previous_year: e.target.checked });
-            } }, t('Lcz_CompareWithPreviousYear', { fallback: 'Compare with previous year' })), h("div", { key: 'fbaf8d9d893c1f89eb093a1905590a18404adbfb', slot: "footer" }, h("ir-custom-button", { key: 'a5f142600b5496ac1277302b7cfe04d78b6ddb4f', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, t('Lcz_Reset', { fallback: 'Reset' })), h("ir-custom-button", { key: '73d36e2347d3885dcdd226bccd20fe5f9d7c1ab0', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, t('Lcz_Apply', { fallback: 'Apply' })))));
+            } }, "Compare with previous year"), h("div", { key: 'b891fe94f2bffa54f172fe742ddac536683c0eec', slot: "footer" }, h("ir-custom-button", { key: '484b319d55c051f5d52fccfe9317791330a0201f', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, locales.entries?.Lcz_Reset ?? 'Reset'), h("ir-custom-button", { key: 'fdc5729ffd98b1367d67e2a6a6a579b4e4000237', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, locales.entries?.Lcz_Apply ?? 'Apply'))));
     }
     static get is() { return "ir-monthly-bookings-report-filter"; }
     static get encapsulation() { return "scoped"; }

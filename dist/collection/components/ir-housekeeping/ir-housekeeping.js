@@ -1,14 +1,11 @@
-import ApiClient from "../../models/ApiClient";
-import { HouseKeepingService } from "../../services/housekeeping/index";
+import Token from "../../models/Token";
+import { HouseKeepingService } from "../../services/housekeeping.service";
 import { RoomService } from "../../services/room.service";
 import calendar_data from "../../stores/calendar-data";
 import { updateHKStore } from "../../stores/housekeeping.store";
 import { h } from "@stencil/core";
-import { SetupService } from "../../services/setup/index";
-import { LocaleController } from "../../services/locale/locale.controller";
-import { LanguageSync } from "../../services/locale/language-sync";
-import { SCREEN_TABLES } from "../../services/locale/screen-tables";
-import { t } from "../../services/locale/t";
+import locales from "../../stores/locales.store";
+import { BookingService } from "../../services/booking-service/booking.service";
 export class IrHousekeeping {
     language = '';
     ticket = '';
@@ -19,69 +16,55 @@ export class IrHousekeeping {
     frequencies = [];
     roomService = new RoomService();
     houseKeepingService = new HouseKeepingService();
-    setupService = new SetupService();
-    ApiClient = new ApiClient();
-    /** Re-runs init when the language changes so server-localized data follows. */
-    languageSync = new LanguageSync(SCREEN_TABLES.housekeeping, () => this.initializeApp());
+    bookingService = new BookingService();
+    token = new Token();
     componentWillLoad() {
         if (this.baseUrl) {
-            this.ApiClient.setBaseUrl(this.baseUrl);
+            this.token.setBaseUrl(this.baseUrl);
         }
         if (this.ticket !== '') {
-            this.ApiClient.setApiClient(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
-    }
-    componentDidLoad() {
-        this.languageSync.connect();
-    }
-    disconnectedCallback() {
-        this.languageSync.disconnect();
-    }
-    languageChanged(next, previous) {
-        this.languageSync.propChanged(next, previous);
     }
     async handleResetData(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        await this.houseKeepingService.getExposedHKSetup({ property_id: this.propertyid });
+        await this.houseKeepingService.getExposedHKSetup(this.propertyid);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.ApiClient.setApiClient(this.ticket);
+        this.token.setToken(this.ticket);
         this.initializeApp();
     }
     async initializeApp() {
         try {
             this.isLoading = true;
-            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
-            // so the requests below are built with the right language on first mount.
-            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.housekeeping });
             let propertyId = this.propertyid;
             if (!propertyId) {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                     include_sales_rate_plans: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
-            updateHKStore('default_properties', { ApiClient: this.ticket, property_id: propertyId, language: LocaleController.language });
+            updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
             const [frequencies] = await Promise.all([
-                this.setupService.getSetupEntriesByTableName('_HK_FREQUENCY'),
-                localeReady,
+                this.bookingService.getSetupEntriesByTableName('_HK_FREQUENCY'),
+                this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT']),
                 this.propertyid &&
                     this.roomService.getExposedProperty({
                         id: propertyId,
-                        language: LocaleController.language,
+                        language: this.language,
                         is_backend: true,
                         include_sales_rate_plans: true,
                     }),
-                calendar_data.housekeeping_enabled && this.houseKeepingService.getExposedHKSetup({ property_id: propertyId }),
+                calendar_data.housekeeping_enabled && this.houseKeepingService.getExposedHKSetup(propertyId),
             ]);
             this.frequencies = frequencies;
         }
@@ -96,7 +79,7 @@ export class IrHousekeeping {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("ir-page", { label: t('Lcz_HouseKeepingAndCheckInSetup', { fallback: 'Housekeeping & Check-In Setup' }) }, h("ir-hk-operations-card", { frequencies: this.frequencies }), calendar_data.housekeeping_enabled && h("ir-hk-team", null)));
+        return (h("ir-page", { label: locales.entries.Lcz_HouseKeepingAndCheckInSetup }, h("ir-hk-operations-card", { frequencies: this.frequencies }), calendar_data.housekeeping_enabled && h("ir-hk-team", null)));
     }
     static get is() { return "ir-housekeeping"; }
     static get encapsulation() { return "scoped"; }
@@ -219,9 +202,6 @@ export class IrHousekeeping {
     }
     static get watchers() {
         return [{
-                "propName": "language",
-                "methodName": "languageChanged"
-            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

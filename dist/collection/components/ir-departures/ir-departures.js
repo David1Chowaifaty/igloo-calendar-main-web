@@ -1,15 +1,10 @@
-import ApiClient from "../../models/ApiClient";
+import Token from "../../models/Token";
 import { departuresStore, initializeDeparturesStore, onDeparturesStoreChange, setDeparturesPage, setDeparturesPageSize, setDepartureTotal } from "../../stores/departures.store";
 import { Host, h } from "@stencil/core";
 import { RoomService } from "../../services/room.service";
 import { BookingService } from "../../services/booking-service/booking.service";
-import { SetupService } from "../../services/setup/index";
 import calendar_data from "../../stores/calendar-data";
-import { LocaleController } from "../../services/locale/locale.controller";
-import { LanguageSync } from "../../services/locale/language-sync";
-import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 import { isEarlyCheckout } from "../../utils/booking";
-import { t } from "../../services/locale/t";
 export class IrDepartures {
     ticket;
     propertyid;
@@ -24,34 +19,22 @@ export class IrDepartures {
     invoiceState = null;
     /** Room identifier whose check-out dialog should auto-open inside the booking-details drawer (early check-out redirect). */
     checkoutRoomIdentifier = null;
-    apiClientService = new ApiClient();
+    tokenService = new Token();
     roomService = new RoomService();
     bookingService = new BookingService();
-    setupService = new SetupService();
     paymentFolioRef;
-    /** Re-runs init when the language changes so server-localized data follows. */
-    languageSync = new LanguageSync(SCREEN_TABLES.departures, () => this.init());
     componentWillLoad() {
         if (this.ticket) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.init();
         }
         onDeparturesStoreChange('today', _ => {
             this.getBookings();
         });
     }
-    componentDidLoad() {
-        this.languageSync.connect();
-    }
-    disconnectedCallback() {
-        this.languageSync.disconnect();
-    }
-    languageChanged(next, previous) {
-        this.languageSync.propChanged(next, previous);
-    }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.init();
         }
     }
@@ -82,9 +65,6 @@ export class IrDepartures {
     async init() {
         try {
             this.isPageLoading = true;
-            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
-            // so the requests below are built with the right language on first mount.
-            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.departures });
             if (!this.propertyid && !this.p) {
                 throw new Error('Missing credentials');
             }
@@ -93,17 +73,17 @@ export class IrDepartures {
                 await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                 });
             }
-            const [_, __, paymentEntries] = await Promise.all([
-                calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: LocaleController.language, aname: this.p }),
-                localeReady,
-                this.setupService.getPaymentEntries(),
-                this.getBookings(),
+            const [_, __, setupEntries] = await Promise.all([
+                calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
+                this.roomService.fetchLanguage(this.language),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
             ]);
-            this.paymentEntries = paymentEntries;
+            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
             // Fetch bookings only after the property/calendar data is loaded — the departures
             // pipeline (canCheckout) reads the calendar data store, which is empty until the
             // getExposedProperty calls above resolve.
@@ -187,7 +167,7 @@ export class IrDepartures {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_Out'] }), h("div", { class: 'ir-page__container' }, h("h3", { class: "page-title" }, t('Lcz_CheckOuts', { fallback: 'Check-outs' })), h("ir-departures-table", { onCheckoutRoom: event => this.handleCheckoutRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) })), h("ir-booking-details-drawer", { open: !!this.bookingNumber, propertyId: this.propertyid, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_Out'] }), h("div", { class: 'ir-page__container' }, h("h3", { class: "page-title" }, "Check-outs"), h("ir-departures-table", { onCheckoutRoom: event => this.handleCheckoutRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) })), h("ir-booking-details-drawer", { open: !!this.bookingNumber, propertyId: this.propertyid, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
                 this.bookingNumber = null;
                 this.checkoutRoomIdentifier = null;
                 this.getBookings();
@@ -303,9 +283,6 @@ export class IrDepartures {
     }
     static get watchers() {
         return [{
-                "propName": "language",
-                "methodName": "languageChanged"
-            }, {
                 "propName": "ticket",
                 "methodName": "handleTicketChange"
             }];

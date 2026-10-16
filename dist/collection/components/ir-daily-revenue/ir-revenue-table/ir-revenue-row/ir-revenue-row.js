@@ -1,6 +1,5 @@
 import { Host, h } from "@stencil/core";
-import { formatAmount, formatCount } from "../../../../utils/number";
-import { t } from "../../../../services/locale/t";
+import { formatAmount } from "../../../../utils/utils";
 import calendar_data from "../../../../stores/calendar-data";
 let accId = 0;
 export class IrRevenueRow {
@@ -12,7 +11,7 @@ export class IrRevenueRow {
     contentId = `ir-rr-content-${++accId}`;
     render() {
         const total = this.payments.reduce((prev, curr) => prev + curr.amount, 0);
-        return (h(Host, { key: '614664d34e0b1569a62e0f7683f4259677437039' }, h("ir-accordion", { key: 'be431d0995570d53f87132f77a657a0095ae399b', class: "ir-revenue-row__accordion" }, h("div", { key: '37df77d74e7f2ccf0e4603bab6d0abb93b3e9ce1', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: 'ede927f068b36a050f9ffaa900c46d140025fa03', class: "ir-revenue-row__header-left" }, h("p", { key: '036006711806ccfb58aa55e72bfcd82bb7da5b97', class: "ir-revenue-row__group" }, this.groupName, ' ', h("wa-badge", { key: '48b38aca4101dbb0b061a5b7f256ff73662b9cbb', variant: "brand", "aria-label": t('Lcz_TransactionsCountAriaLabel', { fallback: '%1 transactions', params: [formatCount(this.payments.length)] }) }, formatCount(this.payments.length)))), h("p", { key: '1edafcb30bb1e333a73119c9c6ae675f62d69652', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: '870235d1bd03b889b540d7463bed088560343498', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: '3af4c4e065ae6f0a540cdc9328b5fafd4edca301', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
+        return (h(Host, { key: '89e7ec9e5d880d65e105ef67a4c436232e04aaac' }, h("ir-accordion", { key: '703215cd19dd334e6eaca64dc0d17b55d1593d77', class: "ir-revenue-row__accordion" }, h("div", { key: 'af5a0245bca2b69d41f4a078293e9569c5ade1af', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: 'f730c02ef3edd59615a0444fa9d123030f07ee2b', class: "ir-revenue-row__header-left" }, h("p", { key: '31de3a8f7ad8f424127b7bb909b89837efe71a88', class: "ir-revenue-row__group" }, this.groupName, ' ', h("wa-badge", { key: 'f401e757886d84bd9d9e99aa1c5f422b663fa5b3', variant: "brand", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), h("p", { key: '0fdcfc2aa910d836fd465ec706ea5d04a173211d', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: 'fe0d6e8427ae2451304e9a17c5014a251120a5f5', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: '8525220c0376b5f24e3d5e47012eebc9cbc6d1d0', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
     }
     static get is() { return "ir-revenue-row"; }
     static get encapsulation() { return "scoped"; }

@@ -1,34 +1,15 @@
-import type { SetupEntries, ISetupEntries } from "../../models/IBooking";
-import { type EditSetupParams, type EditSetupManyParams, type GetSetupEntryByCodeParams, type SetupEntry, type ExposedLanguages, type TableEntries, type PaymentEntries, MoveSetupEntryParams, MissingSetupEntriesParams, SearchSetupByDescriptionParams, DuplicatedSetupEntriesAcrossTables } from './types';
+import { type EditSetupParams, type EditSetupManyParams, type GetSetupEntriesByTblNameMultiParams, type GetSetupEntriesByTblNameParams, type GetSetupEntryByCodeParams, type SetupEntry, type ExposedLanguages, MoveSetupEntryParams, MissingSetupEntriesParams, SearchSetupByDescriptionParams, DuplicatedSetupEntriesAcrossTables } from './types';
 export * from './types';
-export * from './utils';
 export declare class SetupService {
     /**
-     * POSTs to an IglooRooms endpoint, throws on `ExceptionMsg`, and returns
-     * `My_Result`. Every method below is a thin wrapper around this.
+     * All entries belonging to a single setup table (e.g. one translation table).
      */
-    private request;
-    /** All entries belonging to a single setup table. */
-    getSetupEntriesByTableName(TBL_NAME: TableEntries): Promise<SetupEntries[]>;
+    getSetupEntriesByTblName(params: GetSetupEntriesByTblNameParams): Promise<SetupEntry[]>;
     /**
-     * Entries across several setup tables in one round trip.
-     *
-     * NOTE: the endpoint string is ALL CAPS (`..._MULTI`); `igl-book-property.tsx`
-     * calls `isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI')` — keep in sync.
+     * Entries across several setup tables in a single round trip — used to load
+     * every translation table's rows at once instead of one request per table.
      */
-    getSetupEntriesByTableNameMulti(entries: TableEntries[]): Promise<SetupEntries[]>;
-    /**
-     * Arrival-time, rate-pricing-mode and bed-preference tables, shaped as
-     * {@link ISetupEntries} for the booking editors.
-     */
-    fetchSetupEntries(): Promise<ISetupEntries>;
-    /** Calendar "blocked till" entries (`_CALENDAR_BLOCKED_TILL`). */
-    getBlockedInfo(): Promise<SetupEntries[]>;
-    /**
-     * The `_PAY_TYPE` / `_PAY_TYPE_GROUP` / `_PAY_METHOD` tables in one round trip,
-     * grouped into the {@link PaymentEntries} shape the payment folio consumes.
-     */
-    getPaymentEntries(): Promise<PaymentEntries>;
+    getSetupEntriesByTblNameMulti(params: GetSetupEntriesByTblNameMultiParams): Promise<SetupEntry[]>;
     /**
      * Every distinct TBL_NAME that currently has at least one setup entry.
      * Normalizes the response to plain strings regardless of whether the API
@@ -111,8 +92,8 @@ export declare class SetupService {
      * Each result contains the duplicated description, the number of occurrences,
      * and the setup entries/tables where that description is used.
      *
-     * @returns A list of duplicated setup entries grouped by description.
-     * @throws If the API returns an exception.
+     * @returns A validated list of duplicated setup entries grouped by description.
+     * @throws If the API returns an exception or the response fails validation.
      */
     getDuplicatedSetupEntriesAcrossTables(): Promise<DuplicatedSetupEntriesAcrossTables[]>;
 }

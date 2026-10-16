@@ -1,6 +1,4 @@
 import { h, Host } from "@stencil/core";
-import { t } from "../../../services/locale/t";
-import { formatCount } from "../../../utils/number";
 const DEFAULT_ASYNC_DEBOUNCE = 300;
 export class IrPicker {
     /** Selected value (also shown in the input when `mode="select"`). */
@@ -476,24 +474,19 @@ export class IrPicker {
         // In async mode avoid showing the empty state until loading finished and no results rendered.
         const showEmptyState = !this.loading && !hasResults && (!isAsyncMode || !hasChildren);
         const emptyDescriptionId = showEmptyState ? this.emptyStateId : undefined;
-        return (h(Host, { key: 'bb7b342725ceae6bd2d1333212b0b4693b3d65a8' }, h("wa-popup", { key: '00dbc5f3c3addf9a1981433f4c6fb989e9981189', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: 'b477d5a98c7df5e232f7e1e196daa922104317cb', slot: "anchor", class: "search-bar", "aria-invalid": this.isValid, withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, onblur: () => this.inputPickerBlurred.emit(), autocomplete: "nope", placeholder: this.placeholder || t('Lcz_Search', { fallback: 'Search' }), oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
+        return (h(Host, { key: '9111cf8639da28be3ea7f05c9eb199270b0e1a94' }, h("wa-popup", { key: '38a0014ea9cefa0b07092735f11066cab4c09528', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: '21676b1a895fda4640a84a92250ce47f731c6ed1', slot: "anchor", class: "search-bar", "aria-invalid": this.isValid, withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, onblur: () => this.inputPickerBlurred.emit(), autocomplete: "nope", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
                 this.applyFilter('');
                 this.open();
                 this.comboboxClear.emit();
-            } }, this.loading && h("wa-spinner", { key: '7c70108b6821db8ac1c1600b9f63433bb74fcc37', slot: "end" }), h("wa-icon", { key: 'df47563afaf64e7fd79e55f96f8276f1b23b8333', slot: "start", name: "magnifying-glass", "aria-hidden": "true" }), h("slot", { key: '2cd076e3e125da56eb84d9fc2f3404e3a45d381d', name: "end", slot: "end" })), h("div", { key: 'a257b95a0497db03bb1799a7307d64735586be2a', class: "menu", role: "presentation" }, h("p", { key: '7fd35d0800ba2ae42c11ed3a9308a1ba219f2de7', class: "sr-only", id: this.listboxLabelId }, t('Lcz_AvailableSearchShortcuts', { fallback: 'Available search shortcuts' })), h("ul", { key: '8493dda3db595707a04ba7aef7e8af7b18de2749', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: '5dba756e4321e026578887560261b3aaab2a8942', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: '943dce895a44078bf102d799e6d75e7c79985c80' }), h("p", { key: 'e565daa4df8615561beb6f5aa881ba25842020ff' }, t('Lcz_LoadingSuggestions', { fallback: 'Loading suggestions…' })))), h("slot", { key: 'cb41ec9249e2c65cc47556dbb1913e96bf6f1e1b', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: '30c1bb7fc1beee91a8dc8a5e669b3bb05f3d17e2', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: '943b1acc98ae8b98bfbb1588a5e6c5bfca5d4f1a', name: "circle-info", "aria-hidden": "true" }), h("p", { key: 'e0ad43503ca8683ed62e9638a770d39f0c8837b2' }, t('Lcz_NoResultsFound', { fallback: 'No results found' }))))))), h("span", { key: 'abede9518600b9c6d0c28238737c81c090e7a339', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
+            } }, this.loading && h("wa-spinner", { key: '5ee4762d1f39da108b149405ee5d84a6a91a656d', slot: "end" }), h("wa-icon", { key: '52a8c6cdca48f83738311c7e630a9fbaf0940b5b', slot: "start", name: "magnifying-glass", "aria-hidden": "true" }), h("slot", { key: '2c6f1c268267b5329c0a8abc2f057df85a1f50b0', name: "end", slot: "end" })), h("div", { key: '73ebcfc005478978ad738d0ba645dc26dc0fa915', class: "menu", role: "presentation" }, h("p", { key: '8fad89470467a583602fc54c4d8a6c62ce0c77a4', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: 'd746ec13b2cdcc6c6dbf55fab65924b04cc50657', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: 'd59820ce90089fba5e82e2f586d1cbf94b3f5084', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: 'd750df6e39c5583ef7b78d0e42822b38b674bd3d' }), h("p", { key: 'e8ac0df48a64ca466c8d40e2c737c15b2d22e324' }, "Loading suggestions\u2026"))), h("slot", { key: '70cfabeb21bd52c4fb3a664d71914ecb2d17daae', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: '037820eea56d6ff1712ae65917533bf50cd80f92', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: 'b9ad7cb78486771dc7dc3d09832ffda2fe6bc2c1', name: "circle-info", "aria-hidden": "true" }), h("p", { key: 'b08f3a23a3497ddafdce41050f0d83d40ff14c37' }, "No results found")))))), h("span", { key: '5bfb219f4b3fa2029dd6dfa8cccae1f2c0c41112', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
     }
     updateLiveRegion(resultCount, context) {
         if (!resultCount) {
-            this.liveRegionMessage = context
-                ? t('Lcz_NoResultsForContext', { fallback: `No results for ${context}`, params: [context] })
-                : t('Lcz_NoResultsAvailable', { fallback: 'No results available' });
+            this.liveRegionMessage = context ? `No results for ${context}` : 'No results available';
             return;
         }
-        const plural = resultCount === 1 ? t('Lcz_ResultSingular', { fallback: 'result' }) : t('Lcz_ResultPlural', { fallback: 'results' });
-        const count = formatCount(resultCount);
-        this.liveRegionMessage = context
-            ? t('Lcz_ResultsForContext', { fallback: '%1 %2 for %3', params: [count, plural, context] })
-            : t('Lcz_ResultsAvailable', { fallback: '%1 %2 available', params: [count, plural] });
+        const plural = resultCount === 1 ? 'result' : 'results';
+        this.liveRegionMessage = context ? `${resultCount} ${plural} for ${context}` : `${resultCount} ${plural} available`;
     }
     runAfterNextFrame(callback) {
         if (typeof requestAnimationFrame === 'function') {

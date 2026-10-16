@@ -1,18 +1,13 @@
-import ApiClient from "../../models/ApiClient";
+import Token from "../../models/Token";
 import { AgentsService } from "../../services/agents/agents.service";
 import { BookingService } from "../../services/booking-service/booking.service";
-import { SetupService, groupEntryTablesResult } from "../../services/setup/index";
 import { Host, h } from "@stencil/core";
 import calendar_data from "../../stores/calendar-data";
 import { PropertyService } from "../../services/property.service";
 import { showToast } from "../../utils/utils";
-import { LocaleController } from "../../services/locale/locale.controller";
-import { SCREEN_TABLES } from "../../services/locale/screen-tables";
-import { LanguageSync } from "../../services/locale/language-sync";
-import { t } from "../../services/locale/t";
 export class IrAgents {
     /**
-     * Authentication ApiClient issued by the PMS backend.
+     * Authentication token issued by the PMS backend.
      * Required for initializing the component and making API calls.
      */
     ticket;
@@ -41,26 +36,15 @@ export class IrAgents {
     agentsService = new AgentsService();
     propertyService = new PropertyService();
     bookingService = new BookingService();
-    setupService = new SetupService();
-    apiClientService = new ApiClient();
-    languageSync = new LanguageSync(SCREEN_TABLES.agents, () => this.init());
+    tokenService = new Token();
     componentWillLoad() {
         if (this.ticket) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.init();
         }
     }
-    componentDidLoad() {
-        this.languageSync.connect();
-    }
-    disconnectedCallback() {
-        this.languageSync.disconnect();
-    }
-    languageChanged(next, previous) {
-        this.languageSync.propChanged(next, previous);
-    }
     handleTicketChange() {
-        this.apiClientService.setApiClient(this.ticket);
+        this.tokenService.setToken(this.ticket);
         this.init();
     }
     handleUpsertAgentListener(e) {
@@ -71,9 +55,6 @@ export class IrAgents {
     async init() {
         try {
             this.isLoading = true;
-            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
-            // so the requests below are built with the right language on first mount.
-            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.agents });
             if (!this.propertyid && !this.p) {
                 throw new Error('Missing credentials');
             }
@@ -82,24 +63,23 @@ export class IrAgents {
                 await this.propertyService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                 });
             }
             const [countries, setupEntries] = await Promise.all([
-                this.bookingService.getCountries(LocaleController.language),
-                this.setupService.getSetupEntriesByTableNameMulti(['_AGENT_RATE_TYPE', '_AGENT_TYPE', '_TA_PAYMENT_METHOD', '_CL_POST_TIMING']),
-                localeReady,
+                this.bookingService.getCountries(this.language),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_AGENT_RATE_TYPE', '_AGENT_TYPE', '_TA_PAYMENT_METHOD', '_CL_POST_TIMING']),
                 calendar_data?.property
                     ? Promise.resolve(null)
                     : this.propertyService.getExposedProperty({
                         id: this.propertyid || 0,
-                        language: LocaleController.language,
+                        language: this.language,
                         aname: this.p,
                     }),
                 this.fetchAgents(),
             ]);
-            const { agent_rate_type, agent_type, ta_payment_method, cl_post_timing } = groupEntryTablesResult(setupEntries);
+            const { agent_rate_type, agent_type, ta_payment_method, cl_post_timing } = this.bookingService.groupEntryTablesResult(setupEntries);
             this.setupEntries = {
                 agent_rate_type,
                 agent_type,
@@ -150,7 +130,7 @@ export class IrAgents {
             showToast({
                 type: 'success',
                 description: '',
-                title: t('Lcz_SavedSuccessfully', { fallback: 'Saved Successfully' }),
+                title: 'Saved Successfully',
             });
         }
         catch (error) {
@@ -161,12 +141,9 @@ export class IrAgents {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, { "data-testid": "ir-agents" }, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("div", { class: "page-header__container" }, h("h3", { class: "page-title" }, t('Lcz_AgentsCompanies', { fallback: 'Agents/Companies' }))), h("ir-agents-table", { countries: this.countries, setupEntries: this.setupEntries, onToggleAgentActive: event => this.handleToggleAgentStatus(event.detail), agents: this.agents, onUpsertAgent: event => this.handleUpsertAgent(event.detail), onDeleteAgent: event => this.handleDeleteAgent(event.detail) })), h("ir-agent-editor-drawer", { setupEntries: this.setupEntries, countries: this.countries, open: this.isDrawerOpen, agent: this.selectedAgent ?? undefined, onAgentEditorClose: () => this.handleDrawerClose() }), h("ir-dialog", { label: t('Lcz_DeleteAgent', { fallback: 'Delete Agent' }), open: this.isDeleteDialogOpen, lightDismiss: false, onIrDialogHide: () => this.handleDeleteDialogClose() }, h("span", null, this.selectedAgent
-            ? t('Lcz_ConfirmDeleteAgentNamed', {
-                fallback: `Are you sure you want to delete ${this.selectedAgent.name}? This action permanently removes the agent and cannot be undone.`,
-                params: [this.selectedAgent.name],
-            })
-            : t('Lcz_ConfirmDeleteAgent', { fallback: 'Are you sure you want to delete this agent? This action permanently removes the agent and cannot be undone.' })), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { size: "m", appearance: "accent", variant: "danger", onClickHandler: () => this.confirmDeleteAgent() }, t('Lcz_Delete', { fallback: 'Delete' }))))));
+        return (h(Host, { "data-testid": "ir-agents" }, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("div", { class: "page-header__container" }, h("h3", { class: "page-title" }, "Agents/Companies")), h("ir-agents-table", { countries: this.countries, setupEntries: this.setupEntries, onToggleAgentActive: event => this.handleToggleAgentStatus(event.detail), agents: this.agents, onUpsertAgent: event => this.handleUpsertAgent(event.detail), onDeleteAgent: event => this.handleDeleteAgent(event.detail) })), h("ir-agent-editor-drawer", { setupEntries: this.setupEntries, countries: this.countries, open: this.isDrawerOpen, agent: this.selectedAgent ?? undefined, onAgentEditorClose: () => this.handleDrawerClose() }), h("ir-dialog", { label: "Delete Agent", open: this.isDeleteDialogOpen, lightDismiss: false, onIrDialogHide: () => this.handleDeleteDialogClose() }, h("span", null, this.selectedAgent
+            ? `Are you sure you want to delete ${this.selectedAgent.name}? This action permanently removes the agent and cannot be undone.`
+            : 'Are you sure you want to delete this agent? This action permanently removes the agent and cannot be undone.'), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "m", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { size: "m", appearance: "accent", variant: "danger", onClickHandler: () => this.confirmDeleteAgent() }, "Delete")))));
     }
     static get is() { return "ir-agents"; }
     static get encapsulation() { return "scoped"; }
@@ -194,7 +171,7 @@ export class IrAgents {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Authentication ApiClient issued by the PMS backend.\nRequired for initializing the component and making API calls."
+                    "text": "Authentication token issued by the PMS backend.\nRequired for initializing the component and making API calls."
                 },
                 "getter": false,
                 "setter": false,
@@ -274,9 +251,6 @@ export class IrAgents {
     }
     static get watchers() {
         return [{
-                "propName": "language",
-                "methodName": "languageChanged"
-            }, {
                 "propName": "ticket",
                 "methodName": "handleTicketChange"
             }];

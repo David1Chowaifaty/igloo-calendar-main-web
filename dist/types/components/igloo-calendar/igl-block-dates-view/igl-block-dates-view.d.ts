@@ -15,18 +15,14 @@ export declare class IglBlockDatesView {
     }>;
     private blockDatesData;
     private releaseList;
-    private setupService;
+    private bookingService;
     componentWillLoad(): Promise<void>;
-    private handleOptionalReason;
-    private handleReleaseAfterChange;
-    /**
-     * Switches between the two ways a block resolves: auto-release after a period, or out-of-service (manual release).
-     * The `wa-select` / `wa-input` for the auto-release branch live inside the radio group, so their bubbled `change`
-     * events reach this handler too — ignore anything that isn't the radio group or a radio.
-     */
-    private handleModeChange;
-    private emitData;
-    private getReleaseHoursString;
-    private renderPage;
+    handleOptionalReason(event: any): void;
+    handleReleaseAfterChange(evt: any): void;
+    emitData(): void;
+    getReleaseHoursString(): string;
+    formatNumber(value: number): string | number;
+    handleOutOfService(evt: any): void;
+    renderPage(): void;
     render(): any;
 }

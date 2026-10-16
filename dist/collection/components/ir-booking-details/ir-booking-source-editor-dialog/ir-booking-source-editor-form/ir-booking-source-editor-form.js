@@ -1,7 +1,6 @@
 import calendar_data from "../../../../stores/calendar-data";
 import { BookingService } from "../../../../services/booking-service/booking.service";
 import { h } from "@stencil/core";
-import { t } from "../../../../services/locale/t";
 export class IrBookingSourceEditorForm {
     booking;
     selectedSource;
@@ -34,7 +33,7 @@ export class IrBookingSourceEditorForm {
         this.booking.rooms?.forEach(room => {
             items.push({
                 key: `room-${room.identifier}`,
-                label: room.roomtype?.name ?? t('Lcz_RoomFallback', { fallback: 'Room' }),
+                label: room.roomtype?.name ?? 'Room',
                 type: 'room',
                 ratePlanShortName: room.rateplan?.short_name,
                 isNonRefundable: room.rateplan?.is_non_refundable,
@@ -47,7 +46,7 @@ export class IrBookingSourceEditorForm {
             const pickup = this.booking.pickup_info;
             items.push({
                 key: 'pickup',
-                label: pickup.selected_option?.vehicle?.description ?? t('Lcz_AirportPickupFallback', { fallback: 'Airport Pickup' }),
+                label: pickup.selected_option?.vehicle?.description ?? 'Airport Pickup',
                 type: 'pickup',
             });
         }
@@ -150,7 +149,7 @@ export class IrBookingSourceEditorForm {
     }
     render() {
         const isAssign = this.step === 'assign';
-        return (h("form", { key: '148507a5ee1dc3943a95a2fad6332e2247a2d0c1', id: `change-source-form-${this.booking?.booking_nbr}`, onSubmit: this.handleSubmit.bind(this) }, this.booking.agent === null && this.booking?.financial?.payments?.filter(p => !p.is_city_ledger)?.length > 0 && (h("wa-callout", { key: 'be25333a2f155a1d23e9ac168e13bebb4463e2dd', size: "s", variant: "warning", style: { marginBottom: '1rem' } }, h("wa-icon", { key: '2c81dae4d223a2622f8dcc18710d606e1bf2d63b', slot: "icon", name: "triangle-exclamation" }), t('Lcz_GuestFolioEntriesWarning', { fallback: 'You have guest folio entries that may need to be removed and recreated in the agent folio.' }))), h("wa-select", { key: 'c403c06c8b46a2a6e5b2194656a5ae653e6e57a1', label: t('Lcz_NewSource', { fallback: 'New source' }), onchange: this.handleSelectChange.bind(this), size: "s", value: this.selectedSource?.id, defaultValue: this.selectedSource?.id }, calendar_data?.property?.allowed_booking_sources?.map(option => option.type === 'LABEL' ? (h("small", { key: option.id }, option.description)) : (h("wa-option", { key: option.id, value: option.id?.toString() }, option.description)))), isAssign && h("ir-booking-assign-items", { key: 'f959384c23aa6d33b692779ab5630bad7360cf91', items: this.buildAssignableItems(), onBookingSelectionChange: e => (this.checkedItems = e.detail) })));
+        return (h("form", { key: '41b9901c83a63880ece515c30b7f8410c5172d86', id: `change-source-form-${this.booking?.booking_nbr}`, onSubmit: this.handleSubmit.bind(this) }, this.booking.agent === null && this.booking?.financial?.payments?.filter(p => !p.is_city_ledger)?.length > 0 && (h("wa-callout", { key: 'a46a274540e5b9daf9987c6756aaa3dc1311dcfb', size: "s", variant: "warning", style: { marginBottom: '1rem' } }, h("wa-icon", { key: '1a4c051c05d8d90b63f9a2350fde3696f4100910', slot: "icon", name: "triangle-exclamation" }), "You have guest folio entries that may need to be removed and recreated in the agent folio.")), h("wa-select", { key: 'fc3f80aac7aa370ef2baa724bbc70f52f7041a2e', label: "New source", onchange: this.handleSelectChange.bind(this), size: "s", value: this.selectedSource?.id, defaultValue: this.selectedSource?.id }, calendar_data?.property?.allowed_booking_sources?.map(option => option.type === 'LABEL' ? (h("small", { key: option.id }, option.description)) : (h("wa-option", { key: option.id, value: option.id?.toString() }, option.description)))), isAssign && h("ir-booking-assign-items", { key: 'eb5ae7a890226511c082e12b75af98d1d1e9da1c', items: this.buildAssignableItems(), onBookingSelectionChange: e => (this.checkedItems = e.detail) })));
     }
     static get is() { return "ir-booking-source-editor-form"; }
     static get encapsulation() { return "scoped"; }

@@ -1,14 +1,13 @@
 import { h } from "@stencil/core";
-import { t } from "../../../services/locale/t";
 export class IrModal {
     /**
      * The title text displayed in the modal header.
      */
-    modalTitle;
+    modalTitle = 'Modal Title';
     /**
      * The main content text shown in the modal body.
      */
-    modalBody;
+    modalBody = 'Modal Body';
     /**
      * Controls whether the modal title is rendered.
      */
@@ -26,13 +25,13 @@ export class IrModal {
     /**
      * Text displayed on the right (confirm) button.
      */
-    rightBtnText;
+    rightBtnText = 'Confirm';
     /**
      * Text displayed on the left (cancel/close) button.
      */
-    leftBtnText;
+    leftBtnText = 'Close';
     /**Text displayed on the middle (tertiary) button. */
-    middleBtnText;
+    middleBtnText = 'More';
     /**
      * Whether the modal is in a loading state, disabling interaction.
      */
@@ -105,36 +104,21 @@ export class IrModal {
     cancelModal;
     /** Fired when the middle (tertiary) button is clicked. Emits the current `item` value. */
     middleModal;
-    get resolvedModalTitle() {
-        return this.modalTitle || t('Lcz_ModalTitle', { fallback: 'Modal Title' });
-    }
-    get resolvedModalBody() {
-        return this.modalBody || t('Lcz_ModalBody', { fallback: 'Modal Body' });
-    }
-    get resolvedRightBtnText() {
-        return this.rightBtnText || t('Lcz_Confirm', { fallback: 'Confirm' });
-    }
-    get resolvedLeftBtnText() {
-        return this.leftBtnText || t('Lcz_Close', { fallback: 'Close' });
-    }
-    get resolvedMiddleBtnText() {
-        return this.middleBtnText || t('Lcz_More', { fallback: 'More' });
-    }
     btnClickHandler(event) {
         let target = event.target;
         let name = target.name;
-        if (name === this.resolvedLeftBtnText) {
+        if (name === this.leftBtnText) {
             this.cancelModal.emit();
             this.item = {};
             this.closeModal();
         }
-        else if (name === this.resolvedMiddleBtnText) {
+        else if (name === this.middleBtnText) {
             this.middleModal.emit(this.item);
             this.item = {};
             if (this.autoClose)
                 this.closeModal();
         }
-        else if (name === this.resolvedRightBtnText) {
+        else if (name === this.rightBtnText) {
             this.confirmModal.emit(this.item);
             this.item = {};
             if (this.autoClose) {
@@ -144,13 +128,13 @@ export class IrModal {
     }
     render() {
         return [
-            h("div", { key: 'df5851c4855b8a12e8d988ceacf3c0748bd19c9d', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: '7dbbe2c4d8567a86da8050376beb1e5bbef7495e', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: 'e86d99dda69bd9b9c2c3c8903980b1bbba7fb483', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'de43006944340ffbca4969dc656227e40e6be1f8', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '1e6244e6963801daff95a534dab87f1d17e73d6c', class: `ir-alert-header` }, h("p", { key: '4a3001d7b536765f3cad987f631e2a0c10b780e5' }, this.resolvedModalTitle))), h("div", { key: '34a83ca8a619b8145d75963f51d770f5a86c9a89', class: "modal-body ir-text-start p-0 mb-2" }, h("div", { key: '6ee8bf5d71a5d805f030f099e7c4c98e82530921' }, this.resolvedModalBody)), h("div", { key: 'd87851e953a2a3cafbda20928829e8fa03b91122', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && (h("ir-button", { key: '231407a2ab71e8fa2e548a8be8657b34d10893fa', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.resolvedLeftBtnText, name: this.resolvedLeftBtnText })), this.middleBtnActive && (h("ir-button", { key: 'b9bb9003dc706f5124cd2b412055a7d5e981c082', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.resolvedMiddleBtnText, isLoading: this.isMiddleButtonLoading, name: this.resolvedMiddleBtnText })), this.rightBtnActive && (h("ir-button", { key: '844f9d18a529010b0c17969299020fe17ef497b0', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.resolvedRightBtnText, name: this.resolvedRightBtnText }))))),
+            h("div", { key: '25a6f70a24d22d5306b502fa822b3b67c824c396', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '8482267cfdb5edfac68b84fbe2aabda48e76c0f5', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '344dcc651db5b900b69175f43240eded06d6634f', class: `ir-alert-header` }, h("p", { key: 'f391168a87d288608165b11dabd7fb077fca14f0' }, this.modalTitle))), h("div", { key: 'f54e5a335289e8c3e8c6ee5ad7b762bbfff31c11', class: "modal-body text-left p-0 mb-2" }, h("div", { key: 'fd0b0abf3385cced0b9bc428550b7cbaca0746dc' }, this.modalBody)), h("div", { key: '08237976691eb5268687f7b668c3c5f44f3641cf', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '4c4525e9b47d91b2a277f5d418a82188aec2491e', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (h("ir-button", { key: 'e6127d476806192c22bd60bbd6d1dcbd8fe26061', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (h("ir-button", { key: '4185428cf5b8a753407dd491d5af81151b582994', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
     static get is() { return "ir-modal"; }
@@ -184,7 +168,8 @@ export class IrModal {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "modal-title"
+                "attribute": "modal-title",
+                "defaultValue": "'Modal Title'"
             },
             "modalBody": {
                 "type": "string",
@@ -203,7 +188,8 @@ export class IrModal {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "modal-body"
+                "attribute": "modal-body",
+                "defaultValue": "'Modal Body'"
             },
             "showTitle": {
                 "type": "boolean",
@@ -301,7 +287,8 @@ export class IrModal {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "right-btn-text"
+                "attribute": "right-btn-text",
+                "defaultValue": "'Confirm'"
             },
             "leftBtnText": {
                 "type": "string",
@@ -320,7 +307,8 @@ export class IrModal {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "left-btn-text"
+                "attribute": "left-btn-text",
+                "defaultValue": "'Close'"
             },
             "middleBtnText": {
                 "type": "string",
@@ -339,7 +327,8 @@ export class IrModal {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "middle-btn-text"
+                "attribute": "middle-btn-text",
+                "defaultValue": "'More'"
             },
             "isLoading": {
                 "type": "boolean",

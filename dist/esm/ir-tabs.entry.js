@@ -1,7 +1,4 @@
-import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-DKZeCK8T.js';
-import { b as inlineOffset, a as inlineSign } from './direction-CcpbVppy.js';
-import { t } from './t-Bvz1wS_D.js';
-import './locale-scope-Jre4lb6k.js';
+import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-CwWmK1sZ.js';
 
 const irTabsCss = () => `.sc-ir-tabs-h{display:flex;align-items:center;position:relative;overflow-x:auto;gap:1rem;padding:0 1rem}.tab.sc-ir-tabs{font-size:0.95rem;font-weight:400;cursor:pointer;position:relative;margin:0;padding:0rem;padding-bottom:1rem;transition:color 0.3s ease;user-select:none;background-color:transparent;border:none;outline:none;flex:1 1 0%;text-align:center;white-space:nowrap}.tab[data-disabled].sc-ir-tabs{cursor:auto}.tab.sc-ir-tabs:hover{opacity:80%}.tab[data-state='selected'].sc-ir-tabs,.tab[data-state='selected'].sc-ir-tabs:hover{color:var(--blue, #1e9ff2);opacity:100%}.active-indicator.sc-ir-tabs{padding:0;bottom:0px;position:absolute;height:3px;border-radius:4px;transition:transform 0.3s ease, width 0.3s ease;background:var(--blue, #1e9ff2)}`;
 
@@ -34,7 +31,7 @@ const IrTabs = class {
      * @type {string}
      * @default 'Tabs'
      */
-    ariaLabel;
+    ariaLabel = 'Tabs';
     _selectedTab;
     /**
      * Emitted when a tab is selected
@@ -82,13 +79,11 @@ const IrTabs = class {
         requestAnimationFrame(() => {
             const selectedTab = this.el.querySelector(`.tab[data-state="selected"]`);
             if (selectedTab) {
-                const tabRect = selectedTab.getBoundingClientRect();
-                // The indicator is absolutely positioned with no inset, so it starts at the strip's
-                // inline start - which is the right edge under RTL, where a positive translateX walks
-                // it the wrong way. Measure the offset on the inline axis and push it the same way.
-                const position = inlineOffset(tabRect, this.el.getBoundingClientRect()) - this.remSize;
-                this.activeIndicator.style.width = `${tabRect.width - this.remSize}px`;
-                this.activeIndicator.style.transform = `translateX(${position * inlineSign()}px)`;
+                const { left, width } = selectedTab.getBoundingClientRect();
+                const parentLeft = this.el.getBoundingClientRect().left;
+                const position = left - parentLeft - this.remSize;
+                this.activeIndicator.style.width = `${width - this.remSize}px`;
+                this.activeIndicator.style.transform = `translateX(${position}px)`;
             }
         });
     }
@@ -109,14 +104,14 @@ const IrTabs = class {
         const currentIndex = this.tabs.findIndex(t => t.id === currentTab.id);
         let nextIndex = currentIndex;
         switch (event.key) {
-            // Arrow keys move along the inline axis, so RTL swaps which key is "next".
             case 'ArrowRight':
-            case 'ArrowLeft': {
                 event.preventDefault();
-                const forward = (event.key === 'ArrowRight') === (inlineSign() === 1);
-                nextIndex = forward ? (currentIndex + 1) % this.tabs.length : currentIndex === 0 ? this.tabs.length - 1 : currentIndex - 1;
+                nextIndex = (currentIndex + 1) % this.tabs.length;
                 break;
-            }
+            case 'ArrowLeft':
+                event.preventDefault();
+                nextIndex = currentIndex === 0 ? this.tabs.length - 1 : currentIndex - 1;
+                break;
             case 'Home':
                 event.preventDefault();
                 nextIndex = 0;
@@ -145,7 +140,7 @@ const IrTabs = class {
         }
     }
     render() {
-        return (h(Host, { key: 'bd6282c45e3b752610c075bf567d21973450c1a1', role: "tablist", "aria-label": this.ariaLabel || t('Lcz_Tabs', { fallback: 'Tabs' }), "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: '66c7a8cf7a318492390c97b635e50d7e3671e307', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+        return (h(Host, { key: 'f2e0d035124d089be083abff86c3cf68f5838987', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: 'd3f48eab77e71f0133c1ee1f5f066ca7e9234317', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
 };
 IrTabs.style = irTabsCss();

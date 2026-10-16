@@ -6,7 +6,7 @@ export declare class IrAgentBilling {
     private hasFetched;
     private invoiceDialogRef;
     private cityLedgerService;
-    private apiClientService;
+    private tokenService;
     componentWillLoad(): Promise<void>;
     handleBookingChange(newVal: Booking, oldVal: Booking): Promise<void>;
     private fetchFiscalDocuments;

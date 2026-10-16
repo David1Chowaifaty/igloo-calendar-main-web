@@ -1,53 +1,30 @@
 import axios from "axios";
 import * as z from "zod";
-import { DistinctSetupTablesResponseSchema, EditSetupParamsSchema, EditSetupManyParamsSchema, GetSetupEntryByCodeParamsSchema, SetupEntrySchema, ZExposedLanguagesSchema, MoveSetupEntryParamsSchema, MissingSetupEntriesParamsSchema, ZSearchSetupByDescriptionParamsSchema, } from "./types";
-import { groupEntryTablesResult, toSetupEntries } from "./utils";
+import { DistinctSetupTablesResponseSchema, EditSetupParamsSchema, EditSetupManyParamsSchema, GetSetupEntriesByTblNameMultiParamsSchema, GetSetupEntriesByTblNameParamsSchema, GetSetupEntryByCodeParamsSchema, ZIEntrySchema, ZExposedLanguagesSchema, MoveSetupEntryParamsSchema, MissingSetupEntriesParamsSchema, ZSearchSetupByDescriptionParamsSchema, } from "./types";
 export * from './types';
-export * from './utils';
 export class SetupService {
     /**
-     * POSTs to an IglooRooms endpoint, throws on `ExceptionMsg`, and returns
-     * `My_Result`. Every method below is a thin wrapper around this.
+     * All entries belonging to a single setup table (e.g. one translation table).
      */
-    async request(url, body = {}) {
-        const { data } = await axios.post(url, body);
-        if (data.ExceptionMsg) {
+    async getSetupEntriesByTblName(params) {
+        const payload = GetSetupEntriesByTblNameParamsSchema.parse(params);
+        const { data } = await axios.post('/Get_Setup_Entries_By_TBL_NAME', payload);
+        if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
-        return data.My_Result;
-    }
-    /** All entries belonging to a single setup table. */
-    async getSetupEntriesByTableName(TBL_NAME) {
-        return this.request('/Get_Setup_Entries_By_TBL_NAME', { TBL_NAME }).then(res => res ?? []);
+        return z.array(ZIEntrySchema).parse(data.My_Result ?? []);
     }
     /**
-     * Entries across several setup tables in one round trip.
-     *
-     * NOTE: the endpoint string is ALL CAPS (`..._MULTI`); `igl-book-property.tsx`
-     * calls `isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI')` — keep in sync.
+     * Entries across several setup tables in a single round trip — used to load
+     * every translation table's rows at once instead of one request per table.
      */
-    async getSetupEntriesByTableNameMulti(entries) {
-        return this.request('/Get_Setup_Entries_By_TBL_NAME_MULTI', { TBL_NAMES: entries }).then(res => res ?? []);
-    }
-    /**
-     * Arrival-time, rate-pricing-mode and bed-preference tables, shaped as
-     * {@link ISetupEntries} for the booking editors.
-     */
-    async fetchSetupEntries() {
-        const data = await this.getSetupEntriesByTableNameMulti(['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE']);
-        return toSetupEntries(groupEntryTablesResult(data));
-    }
-    /** Calendar "blocked till" entries (`_CALENDAR_BLOCKED_TILL`). */
-    getBlockedInfo() {
-        return this.getSetupEntriesByTableNameMulti(['_CALENDAR_BLOCKED_TILL']);
-    }
-    /**
-     * The `_PAY_TYPE` / `_PAY_TYPE_GROUP` / `_PAY_METHOD` tables in one round trip,
-     * grouped into the {@link PaymentEntries} shape the payment folio consumes.
-     */
-    async getPaymentEntries() {
-        const { pay_type, pay_type_group, pay_method } = groupEntryTablesResult(await this.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']));
-        return { types: pay_type, groups: pay_type_group, methods: pay_method };
+    async getSetupEntriesByTblNameMulti(params) {
+        const payload = GetSetupEntriesByTblNameMultiParamsSchema.parse(params);
+        const { data } = await axios.post('/Get_Setup_Entries_By_TBL_NAME_Multi', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return z.array(ZIEntrySchema).parse(data.My_Result ?? []);
     }
     /**
      * Every distinct TBL_NAME that currently has at least one setup entry.
@@ -55,7 +32,11 @@ export class SetupService {
      * returns bare names or row objects carrying a TBL_NAME field.
      */
     async getDistinctSetupTables() {
-        const rows = DistinctSetupTablesResponseSchema.parse((await this.request('/Get_Distinct_Setup_Tables')) ?? []);
+        const { data } = await axios.post('/Get_Distinct_Setup_Tables', {});
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        const rows = DistinctSetupTablesResponseSchema.parse(data.My_Result ?? []);
         return rows.map(row => (typeof row === 'string' ? row : row.TBL_NAME));
     }
     /**
@@ -63,8 +44,12 @@ export class SetupService {
      * matching row exists.
      */
     async getSetupEntryByCode(params) {
-        const result = await this.request('/Get_SetupEntry_By_Code', GetSetupEntryByCodeParamsSchema.parse(params));
-        return result ? SetupEntrySchema.parse(result) : null;
+        const payload = GetSetupEntryByCodeParamsSchema.parse(params);
+        const { data } = await axios.post('/Get_SetupEntry_By_Code', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result ? ZIEntrySchema.parse(data.My_Result) : null;
     }
     /**
      * Creates or updates a setup entry. There is no separate delete endpoint —
@@ -72,7 +57,10 @@ export class SetupService {
      */
     async editSetup(params) {
         const payload = EditSetupParamsSchema.parse(params);
-        await this.request('/Edit_Setup', payload);
+        const { data } = await axios.post('/Edit_Setup', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
         return payload;
     }
     /**
@@ -81,7 +69,10 @@ export class SetupService {
      */
     async editSetupMany(params) {
         const payload = EditSetupManyParamsSchema.parse(params);
-        await this.request('/Edit_Setup_Many', { list_setup_entries: payload });
+        const { data } = await axios.post('/Edit_Setup_Many', { list_setup_entries: payload });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
         return payload;
     }
     /**
@@ -92,7 +83,11 @@ export class SetupService {
      * @throws If the API returns an exception or the response fails validation.
      */
     async getExposedLanguages() {
-        return ZExposedLanguagesSchema.parse(await this.request('https://gateway.igloorooms.com/IRBE/Get_Exposed_Languages'));
+        const { data } = await axios.post('https://gateway.igloorooms.com/IRBE/Get_Exposed_Languages', {});
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return ZExposedLanguagesSchema.parse(data.My_Result);
     }
     /**
      * Fetches setup entries that are missing for the specified language.
@@ -102,8 +97,12 @@ export class SetupService {
      * @throws If the API returns an exception or the response fails validation.
      */
     async getMissingSetupEntries(params) {
-        const result = await this.request('/Get_Missing_Setup_Entries', MissingSetupEntriesParamsSchema.parse(params));
-        return z.array(SetupEntrySchema).parse(result ?? []);
+        const payload = MissingSetupEntriesParamsSchema.parse(params);
+        const { data } = await axios.post(`/Get_Missing_Setup_Entries`, payload);
+        if (data.ExceptionMsg) {
+            throw new Error(data.ExceptionMsg);
+        }
+        return z.array(ZIEntrySchema).parse(data.My_Result ?? []);
     }
     /**
      * Moves a setup entry from one setup table to another.
@@ -115,7 +114,11 @@ export class SetupService {
      * @throws If the API returns an exception or the request parameters fail validation.
      */
     async moveSetupEntry(params) {
-        await this.request('/Move_Setup_Entry', MoveSetupEntryParamsSchema.parse(params));
+        const payload = MoveSetupEntryParamsSchema.parse(params);
+        const { data } = await axios.post(`/Move_Setup_Entry`, payload);
+        if (data.ExceptionMsg) {
+            throw new Error(data.ExceptionMsg);
+        }
     }
     /**
      * Searches setup entries by their description/value.
@@ -125,8 +128,12 @@ export class SetupService {
      * @throws If the API returns an exception or the response fails validation.
      */
     async searchSetupByDescription(params) {
-        const result = await this.request('/Search_Setup_By_Description', ZSearchSetupByDescriptionParamsSchema.parse(params));
-        return z.array(SetupEntrySchema).parse(result ?? []);
+        const payload = ZSearchSetupByDescriptionParamsSchema.parse(params);
+        const { data } = await axios.post(`/Search_Setup_By_Description`, payload);
+        if (data.ExceptionMsg) {
+            throw new Error(data.ExceptionMsg);
+        }
+        return z.array(ZIEntrySchema).parse(data.My_Result ?? []);
     }
     /**
      * Fetches duplicated setup entries that exist across multiple setup tables.
@@ -134,10 +141,14 @@ export class SetupService {
      * Each result contains the duplicated description, the number of occurrences,
      * and the setup entries/tables where that description is used.
      *
-     * @returns A list of duplicated setup entries grouped by description.
-     * @throws If the API returns an exception.
+     * @returns A validated list of duplicated setup entries grouped by description.
+     * @throws If the API returns an exception or the response fails validation.
      */
-    getDuplicatedSetupEntriesAcrossTables() {
-        return this.request('/Get_Duplicated_Setup_Entries_Across_Tables');
+    async getDuplicatedSetupEntriesAcrossTables() {
+        const { data } = await axios.post(`/Get_Duplicated_Setup_Entries_Across_Tables`, {});
+        if (data.ExceptionMsg) {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
     }
 }

@@ -1,14 +1,11 @@
-import ApiClient from "../../models/ApiClient";
+import Token from "../../models/Token";
 import { PropertyService } from "../../services/property.service";
 import { RoomService } from "../../services/room.service";
+import locales from "../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { v4 } from "uuid";
 import { BookingService } from "../../services/booking-service/booking.service";
-import { LocaleController } from "../../services/locale/locale.controller";
-import { LanguageSync } from "../../services/locale/language-sync";
-import { SCREEN_TABLES } from "../../services/locale/screen-tables";
-import { t } from "../../services/locale/t";
 export class IrSalesByCountry {
     language = '';
     ticket = '';
@@ -20,7 +17,7 @@ export class IrSalesByCountry {
     salesData;
     salesFilters;
     countries = new Map();
-    ApiClient = new ApiClient();
+    token = new Token();
     roomService = new RoomService();
     propertyService = new PropertyService();
     bookingService = new BookingService();
@@ -31,36 +28,22 @@ export class IrSalesByCountry {
         WINDOW: 7,
         include_previous_year: false,
     };
-    /** Re-runs init when the language changes so server-localized data follows. */
-    languageSync = new LanguageSync(SCREEN_TABLES.salesByCountry, () => this.initializeApp());
     componentWillLoad() {
         this.salesFilters = this.baseFilters;
         if (this.ticket) {
-            this.ApiClient.setApiClient(this.ticket);
+            this.token.setToken(this.ticket);
             this.initializeApp();
         }
-    }
-    componentDidLoad() {
-        this.languageSync.connect();
-    }
-    disconnectedCallback() {
-        this.languageSync.disconnect();
-    }
-    languageChanged(next, previous) {
-        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.ApiClient.setApiClient(this.ticket);
+        this.token.setToken(this.ticket);
         this.initializeApp();
     }
     async initializeApp() {
         try {
-            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
-            // so the requests below are built with the right language on first mount.
-            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.salesByCountry });
             let propertyId = this.propertyid;
             if (!this.propertyid && !this.p) {
                 throw new Error('Property ID or username is required');
@@ -69,18 +52,18 @@ export class IrSalesByCountry {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.bookingService.getCountries(LocaleController.language), localeReady, this.getCountrySales()];
+            const requests = [this.bookingService.getCountries(this.language), this.roomService.fetchLanguage(this.language), this.getCountrySales()];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: this.propertyid,
-                    language: LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
@@ -160,11 +143,11 @@ export class IrSalesByCountry {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-page", { label: t('Lcz_SalesByCountry', { fallback: 'Sales by Country' }) }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-page", { label: "Sales by Country" }, h("ir-custom-button", { slot: "page-header", variant: "neutral", appearance: "outlined", loading: this.isLoading === 'export', onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getCountrySales(true);
-            } }, h("wa-icon", { name: "download", slot: "start" }), t('Lcz_Export', { fallback: 'Export' })), h("ir-sales-by-country-summary", { salesReports: this.salesData }), h("div", { class: "sales-content-row" }, h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+            } }, h("wa-icon", { name: "download", slot: "start" }), locales.entries?.Lcz_Export), h("ir-sales-by-country-summary", { salesReports: this.salesData }), h("div", { class: "sales-content-row" }, h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.salesFilters = e.detail;
@@ -277,9 +260,6 @@ export class IrSalesByCountry {
     }
     static get watchers() {
         return [{
-                "propName": "language",
-                "methodName": "languageChanged"
-            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

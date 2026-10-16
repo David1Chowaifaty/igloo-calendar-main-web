@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking } from "../../../models/booking.dto";
-import { SetupEntries } from "../../../models/property";
+import { IEntries } from "../../../models/property";
 import { PaymentEntries } from "../../ir-booking-details/types";
 export declare class IrListingModal {
     modalTitle: string;
@@ -11,7 +11,7 @@ export declare class IrListingModal {
     paymentEntries: PaymentEntries;
     isOpen: boolean;
     deletionStage: number;
-    selectedDesignation: SetupEntries;
+    selectedDesignation: IEntries;
     loadingBtn: 'confirm' | 'just_delete' | 'recover_and_delete' | null;
     private bookingListingsService;
     private paymentService;

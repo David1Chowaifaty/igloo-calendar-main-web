@@ -26,10 +26,7 @@ export declare class IrWeekdaySelector {
      * ```
      */
     weekdayChange: EventEmitter<number[]>;
-    /** Monday-first day values; labels come from `Lcz_WeekdayAbbreviations` so they localise. */
-    private static readonly WEEKDAY_VALUES;
-    private static readonly WEEKDAY_FALLBACK;
-    private get _weekdays();
+    private _weekdays;
     componentWillLoad(): void;
     handleWeekdayChange(newDays: number[], oldDays: number[]): void;
     /**

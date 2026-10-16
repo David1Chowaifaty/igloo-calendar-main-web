@@ -1,31 +1,27 @@
-import ApiClient from "../../models/ApiClient";
+import Token from "../../models/Token";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { Host, h } from "@stencil/core";
 import axios from "axios";
-import { LocaleController } from "../../services/locale/locale.controller";
-import { SCREEN_TABLES } from "../../services/locale/screen-tables";
-import { t } from "../../services/locale/t";
 export class IrQueueManager {
     el;
     ticket = '';
-    language = 'en';
     isLoading = true;
-    apiClientService = new ApiClient();
+    tokenService = new Token();
     data;
     componentWillLoad() {
         if (this.ticket) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.init();
         }
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue && newValue) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.init();
         }
     }
     async init() {
-        await Promise.all([this.fetchData(), LocaleController.load({ language: this.language, tables: SCREEN_TABLES.queueManager })]);
+        await this.fetchData();
         this.isLoading = false;
     }
     async fetchData() {
@@ -72,9 +68,9 @@ export class IrQueueManager {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("div", { class: "ir-page__container" }, h("div", { class: "queue-page__header" }, h("h3", { class: "page-title" }, t('Lcz_PendingQueues', { fallback: 'Pending Queues' })), h("ir-custom-button", { onClickHandler: () => {
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("div", { class: "ir-page__container" }, h("div", { class: "queue-page__header" }, h("h3", { class: "page-title" }, "Pending Queues"), h("ir-custom-button", { onClickHandler: () => {
                 this.fetchData();
-            }, appearance: "filled", loading: isRequestPending('/Get_Q_Summary') }, h("wa-icon", { name: "refresh" }))), this.data.length === 0 && h("ir-empty-state", { style: { marginTop: '20vh' } }), h("div", { class: "queue-grid" }, this.data.map(d => (h("wa-details", { open: false }, h("p", { slot: "header" }, d.q_name, " (", d.total_pending, " ", t('Lcz_TotalPending', { fallback: 'total pending' }), ")"), d.properties.map((property, index) => {
+            }, appearance: "filled", loading: isRequestPending('/Get_Q_Summary') }, h("wa-icon", { name: "refresh" }))), this.data.length === 0 && h("ir-empty-state", { style: { marginTop: '20vh' } }), h("div", { class: "queue-grid" }, this.data.map(d => (h("wa-details", { open: false }, h("p", { slot: "summary", style: { padding: "0", "margin": "0" } }, d.q_name, " (", d.total_pending, " total pending)"), d.properties.map((property, index) => {
             const pending = d.pendingRequests[index];
             const percentage = d.total_pending > 0 ? (pending / d.total_pending) * 100 : 0;
             return (h("div", { class: "queue-item" }, h("span", { class: "queue-item__property" }, property), h("div", { class: "queue-item__status" }, h("wa-progress-bar", { class: "queue-item__progress", value: percentage }), h("span", { class: "queue-item__count" }, pending, " (", percentage.toFixed(2), "%)"))));
@@ -113,26 +109,6 @@ export class IrQueueManager {
                 "reflect": false,
                 "attribute": "ticket",
                 "defaultValue": "''"
-            },
-            "language": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "language",
-                "defaultValue": "'en'"
             }
         };
     }

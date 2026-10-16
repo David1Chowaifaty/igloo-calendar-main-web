@@ -1,15 +1,13 @@
-import ApiClient from "../../models/ApiClient";
+import Token from "../../models/Token";
 import { h } from "@stencil/core";
 import { TaxationStrategy } from "./types";
-import { SetupService, groupEntryTablesResult, getSetupEntryLabel } from "../../services/setup/index";
+import { BookingService } from "../../services/booking-service/booking.service";
 import { PropertyService } from "../../services/property.service";
 import calendar_data from "../../stores/calendar-data";
 import { showToast } from "../../utils/utils";
 import { extraServicesCategories } from "../../services/extra-services/index";
 import { toAccChargeRule, findAccTax } from "../../services/property/acc-tax.helpers";
 import { getTopLevelSvcCategories } from "../../utils/svc-category.utils";
-import { LocaleController } from "../../services/locale/locale.controller";
-import { t } from "../../services/locale/t";
 export class IrTaxServiceCategories {
     ticket;
     p;
@@ -20,12 +18,12 @@ export class IrTaxServiceCategories {
     chargeCategoryRules = new Map();
     setupEntries;
     autoValidate;
-    apiClientService = new ApiClient();
-    setupService = new SetupService();
+    tokenService = new Token();
+    bookingService = new BookingService();
     propertyService = new PropertyService();
     componentWillLoad() {
         if (this.ticket) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.init();
         }
     }
@@ -43,7 +41,7 @@ export class IrTaxServiceCategories {
     }
     /** Re-authenticates and re-fetches configuration when a watched prop changes. */
     reinit() {
-        this.apiClientService.setApiClient(this.ticket);
+        this.tokenService.setToken(this.ticket);
         this.init();
     }
     /** Fetches setup entries and property data, then builds the initial charge rules map. */
@@ -51,10 +49,10 @@ export class IrTaxServiceCategories {
         this.isLoading = true;
         try {
             const [, tableEntries] = await Promise.all([
-                this.propertyService.getExposedProperty({ id: this.propertyid, language: LocaleController.language }),
-                this.setupService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY', '_CITY_TAX_INCLUDED', '_SERVICE_CHARGE_INCLUDED']),
+                this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY', '_CITY_TAX_INCLUDED', '_SERVICE_CHARGE_INCLUDED']),
             ]);
-            this.setupEntries = groupEntryTablesResult(tableEntries);
+            this.setupEntries = this.bookingService.groupEntryTablesResult(tableEntries);
             this.chargeCategoryRules = this.buildInitialRules();
         }
         catch (error) {
@@ -177,7 +175,7 @@ export class IrTaxServiceCategories {
             const payload = this.buildPayload();
             await this.propertyService.handleExposedPropertyTaxCategories(payload);
             showToast({
-                title: t('Lcz_SavedSuccessfully', { fallback: 'Saved Successfully' }),
+                title: 'Saved Successfully',
                 type: 'success',
             });
         }
@@ -195,11 +193,11 @@ export class IrTaxServiceCategories {
         const accSetup = this.chargeCategoryRules.get('ACC');
         const filteredVat = (this.setupEntries?.vat_included ?? []).filter(v => v.CODE_NAME !== '000');
         const categories = this.categories;
-        return (h("ir-page", { label: t('Lcz_TaxAndServiceCategories', { fallback: 'Tax & Service Categories' }), description: t('Lcz_TaxServiceCategoriesDescription', { fallback: 'Define taxes and service charges for room rates, cancellations, and on-property services.' }), "data-testid": "ir-tax-service-categories" }, h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "tax-service-categories__form", style: { width: '100px' }, variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })), h("form", { id: "tax-service-categories__form", onSubmit: e => this.handleSubmit(e) }, h("wa-card", { appearance: "plain", class: "tax-service-categories__card" }, h("div", { class: "tax-grid" }, h("div", { class: "tax-grid__header", "aria-hidden": "true" }, h("div", null), h("div", { class: "tax-grid__col-label" }, t('Lcz_Vat', { fallback: 'VAT' })), h("div", { class: "tax-grid__col-label" }, t('Lcz_CityTaxColumn', { fallback: 'City Tax' })), h("div", { class: "tax-grid__col-label" }, t('Lcz_ServiceCharge', { fallback: 'Service Charge' })), h("div", { class: "tax-grid__col-label" }, t('Lcz_TaxationStrategy', { fallback: 'Taxation Strategy' }))), h("div", { class: "tax-grid__row" }, h("div", { class: "tax-grid__name" }, h("p", { class: "tax-grid__title" }, t('Lcz_Accommodation', { fallback: 'Accommodation' })), h("p", { class: "tax-grid__hint" }, t('Lcz_RoomRelatedChargesHint', { fallback: 'Room-related charges applied to reservations and cancellations' }))), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_Vat', { fallback: 'VAT' }) }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'vat', e.detail), chargeRule: accSetup?.vat, setupEntries: this.setupEntries?.vat_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_CityTaxColumn', { fallback: 'City Tax' }) }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'cityTax', e.detail), chargeRule: accSetup?.cityTax, setupEntries: this.setupEntries?.city_tax_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_ServiceCharge', { fallback: 'Service Charge' }) }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'serviceCharge', e.detail), chargeRule: accSetup?.serviceCharge, setupEntries: this.setupEntries?.service_charge_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_TaxationStrategy', { fallback: 'Taxation Strategy' }) }, h("wa-radio-group", { size: "s", orientation: "horizontal", value: accSetup?.taxationStrategy ?? TaxationStrategy.Normal, "onwa-change": (e) => this.handleTaxationStrategyChange(e.detail.value) }, h("wa-radio", { appearance: "button", value: TaxationStrategy.Normal }, t('Lcz_Normal', { fallback: 'Normal' })), h("wa-radio", { appearance: "button", value: TaxationStrategy.Cumulative }, t('Lcz_Cumulative', { fallback: 'Cumulative' }))))), categories.map(category => {
+        return (h("ir-page", { label: "Tax & Service Categories", description: "Define taxes and service charges for room rates, cancellations, and on-property services.", "data-testid": "ir-tax-service-categories" }, h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "tax-service-categories__form", style: { width: '100px' }, variant: "brand" }, "Save"), h("form", { id: "tax-service-categories__form", onSubmit: e => this.handleSubmit(e) }, h("wa-card", { appearance: "plain", class: "tax-service-categories__card" }, h("div", { class: "tax-grid" }, h("div", { class: "tax-grid__header", "aria-hidden": "true" }, h("div", null), h("div", { class: "tax-grid__col-label" }, "VAT"), h("div", { class: "tax-grid__col-label" }, "City Tax"), h("div", { class: "tax-grid__col-label" }, "Service Charge"), h("div", { class: "tax-grid__col-label" }, "Taxation Strategy")), h("div", { class: "tax-grid__row" }, h("div", { class: "tax-grid__name" }, h("p", { class: "tax-grid__title" }, "Accommodation"), h("p", { class: "tax-grid__hint" }, "Room-related charges applied to reservations and cancellations")), h("div", { class: "tax-grid__cell", "data-label": "VAT" }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'vat', e.detail), chargeRule: accSetup?.vat, setupEntries: this.setupEntries?.vat_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": "City Tax" }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'cityTax', e.detail), chargeRule: accSetup?.cityTax, setupEntries: this.setupEntries?.city_tax_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": "Service Charge" }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'serviceCharge', e.detail), chargeRule: accSetup?.serviceCharge, setupEntries: this.setupEntries?.service_charge_included ?? [] })), h("div", { class: "tax-grid__cell", "data-label": "Taxation Strategy" }, h("wa-radio-group", { size: "s", orientation: "horizontal", value: accSetup?.taxationStrategy ?? TaxationStrategy.Normal, "onwa-change": (e) => this.handleTaxationStrategyChange(e.detail.value) }, h("wa-radio", { appearance: "button", value: TaxationStrategy.Normal }, "Normal"), h("wa-radio", { appearance: "button", value: TaxationStrategy.Cumulative }, "Cumulative")))), categories.map(category => {
             const categorySetup = this.chargeCategoryRules.get(category.CODE_NAME);
             return [
                 h("div", { class: "tax-grid__divider" }, h("wa-divider", null)),
-                h("div", { class: "tax-grid__row" }, h("div", { class: "tax-grid__name" }, h("p", { class: "tax-grid__title" }, getSetupEntryLabel(category)), category.NOTES && h("p", { class: "tax-grid__hint" }, category.NOTES)), h("div", { class: "tax-grid__cell", "data-label": t('Lcz_Vat', { fallback: 'VAT' }) }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange(category.CODE_NAME, 'vat', e.detail), chargeRule: categorySetup?.vat, setupEntries: filteredVat })), h("div", { class: "tax-grid__cell" }), h("div", { class: "tax-grid__cell" }), h("div", { class: "tax-grid__cell" })),
+                h("div", { class: "tax-grid__row" }, h("div", { class: "tax-grid__name" }, h("p", { class: "tax-grid__title" }, category.CODE_VALUE_EN), category.NOTES && h("p", { class: "tax-grid__hint" }, category.NOTES)), h("div", { class: "tax-grid__cell", "data-label": "VAT" }, h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange(category.CODE_NAME, 'vat', e.detail), chargeRule: categorySetup?.vat, setupEntries: filteredVat })), h("div", { class: "tax-grid__cell" }), h("div", { class: "tax-grid__cell" }), h("div", { class: "tax-grid__cell" })),
             ];
         }))))));
     }

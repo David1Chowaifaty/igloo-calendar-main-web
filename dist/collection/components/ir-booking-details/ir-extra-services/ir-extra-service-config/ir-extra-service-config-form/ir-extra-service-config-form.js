@@ -4,14 +4,12 @@ import { BookingService } from "../../../../../services/booking-service/booking.
 import { taxationModes } from "../../../../../services/property/types";
 import { findAccTax, toAccChargeRule } from "../../../../../services/property/acc-tax.helpers";
 import calendar_data, { getExtraServiceDefaultPrice, getBabyCotPricingModel } from "../../../../../stores/calendar-data";
+import locales from "../../../../../stores/locales.store";
 import { getTopLevelSvcCategories, groupSvcCategoriesByParent } from "../../../../../utils/svc-category.utils";
 import { calculateDaysBetweenDates, formatName } from "../../../../../utils/booking";
 import { h } from "@stencil/core";
 import { z, ZodError } from "zod";
 import { SvcCategory } from "../../../../../types/enums";
-import { t } from "../../../../../services/locale/t";
-import { getSetupEntryLabel } from "../../../../../services/setup/index";
-import { formatCount } from "../../../../../utils/number";
 /** Group code for accommodation-linked extra services (Breakfast, Minibar, ...) — see `KNOWN_GROUP_LABELS` in svc-category.utils. */
 const ACCOMMODATION_GROUP_CODE = SvcCategory.Accommodation;
 /** Early Check-In / Late Check-Out aren't selectable as an accommodation sub-category here — they're handled elsewhere in the booking flow. */
@@ -102,7 +100,8 @@ export class IrExtraServiceConfigForm {
         return { ...cat, pct: taxPctByCode[cat.CODE_NAME] ?? 0, isNotApplicable: notApplicableCodes.has(cat.CODE_NAME) };
     }
     sortByLabel(entries) {
-        return entries.sort((a, b) => getSetupEntryLabel(a, this.language).localeCompare(getSetupEntryLabel(b, this.language)));
+        const langKey = `CODE_VALUE_${(this.language ?? 'en').toUpperCase()}`;
+        return entries.sort((a, b) => (a[langKey] ?? a.CODE_VALUE_EN ?? '').localeCompare(b[langKey] ?? b.CODE_VALUE_EN ?? ''));
     }
     get categories() {
         return this.sortByLabel(getTopLevelSvcCategories(this.svcCategories).map(cat => this.toCategoryOption(cat)));
@@ -152,11 +151,7 @@ export class IrExtraServiceConfigForm {
                 return;
             }
             const schema = this.isUnitRequired
-                ? ExtraServiceSchema.extend({
-                    room_identifier: z
-                        .string({ required_error: t('Lcz_UnitIsRequired', { fallback: 'Unit is required' }) })
-                        .nonempty(t('Lcz_UnitIsRequired', { fallback: 'Unit is required' })),
-                })
+                ? ExtraServiceSchema.extend({ room_identifier: z.string({ required_error: 'Unit is required' }).nonempty('Unit is required') })
                 : ExtraServiceSchema;
             schema.parse(service);
             await this.bookingService.doBookingExtraService({
@@ -239,10 +234,10 @@ export class IrExtraServiceConfigForm {
         this.assignee = event.detail;
     }
     render() {
-        return (h("form", { key: 'deae4d31fd394028a7aa32d9dd4294dd877c6106', id: "extra-service-config-form", onSubmit: async (e) => {
+        return (h("form", { key: 'ec2fbb41d95ae6911f004bb4834e001807a35e13', id: "extra-service-config-form", onSubmit: async (e) => {
                 e.preventDefault();
                 this.saveAmenity();
-            }, class: 'extra-service-config__container' }, this.categories.length > 0 && (h("ir-validator", { key: '507c49afd31ec2b57a27dfaf14135ba9c2d36f0b', value: this.s_service?.category, schema: ExtraServiceSchema.shape.category }, h("wa-select", { key: '3db0a3c7a9723f4b6ff288dd8f6fa34ba74670be', size: "s", label: t('Lcz_ServiceCategory', { fallback: 'Service category' }), value: this.selectedGroupCode ?? this.s_service?.category?.code ?? '', defaultValue: this.selectedGroupCode ?? this.s_service?.category?.code ?? '', onchange: (e) => {
+            }, class: 'extra-service-config__container' }, this.categories.length > 0 && (h("ir-validator", { key: '72532aff68c6228992ffea71ab2a7b971a2329d0', value: this.s_service?.category, schema: ExtraServiceSchema.shape.category }, h("wa-select", { key: '1f3e8165d6f0d52beaa0f2f95f7016269f14abdf', size: "s", label: "Service category", value: this.selectedGroupCode ?? this.s_service?.category?.code ?? '', defaultValue: this.selectedGroupCode ?? this.s_service?.category?.code ?? '', onchange: (e) => {
                 const code = e.target.value;
                 const group = this.svcGroups.get(code);
                 if (group && group.categories.length > 0) {
@@ -260,17 +255,14 @@ export class IrExtraServiceConfigForm {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             } }, this.categories?.map(category => {
-            const vatSuffix = category.isNotApplicable
-                ? t('Lcz_VatNotApplicable', { fallback: 'VAT - Not applicable' })
-                : t('Lcz_VatPercent', { fallback: 'VAT %1%', params: [formatCount(category.pct)] });
-            const label = getSetupEntryLabel(category, this.language) + ` (${vatSuffix})`;
+            const langKey = `CODE_VALUE_${(this.language ?? 'en').toUpperCase()}`;
+            const vatSuffix = category.isNotApplicable ? 'VAT - Not applicable' : `VAT ${category.pct}%`;
+            const label = (category[langKey] ?? category.CODE_VALUE_EN ?? '') + ` (${vatSuffix})`;
             if (this.booking.is_room_less && category.CODE_NAME === SvcCategory.Accommodation) {
                 return null;
             }
             return (h("wa-option", { value: category.CODE_NAME, label: label }, label));
-        })))), this.selectedGroupCode && this.subCategories.length > 0 && (h("ir-validator", { key: 'ececbb08067e2ae783c79d9be55202c1f5ff1392', value: this.s_service?.category?.code ?? null, schema: z
-                .string({ required_error: t('Lcz_SubcategoryIsRequired', { fallback: 'Subcategory is required' }) })
-                .nonempty(t('Lcz_SubcategoryIsRequired', { fallback: 'Subcategory is required' })) }, h("wa-select", { key: 'fb65a847ca2d6912784994ec96f71fb7d3e4cb95', size: "s", label: t('Lcz_Subcategory', { fallback: 'Subcategory' }), required: true, value: this.s_service?.category?.code ?? '', defaultValue: this.s_service?.category?.code ?? '', onchange: (e) => {
+        })))), this.selectedGroupCode && this.subCategories.length > 0 && (h("ir-validator", { key: '9344479c8a2fed1d2dc8f1bb6f6ddeafe08e1cfa', value: this.s_service?.category?.code ?? null, schema: z.string({ required_error: 'Subcategory is required' }).nonempty('Subcategory is required') }, h("wa-select", { key: '42a24d111f4ba05023ab944b56a183d7161b4ba2', size: "s", label: "Subcategory", required: true, value: this.s_service?.category?.code ?? '', defaultValue: this.s_service?.category?.code ?? '', onchange: (e) => {
                 this.selectCategory(e.target.value);
             }, "onwa-hide": e => {
                 e.stopImmediatePropagation();
@@ -279,11 +271,10 @@ export class IrExtraServiceConfigForm {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             } }, this.subCategories.map(category => {
-            const label = getSetupEntryLabel(category, this.language);
-            return (h("wa-option", { value: category.CODE_NAME, label: label }, label, category.CODE_NAME === BABY_COT_CATEGORY_CODE && getBabyCotPricingModel() && h("span", null, " (/", getBabyCotPricingModel().toLowerCase(), ")"), category.CODE_NAME === 'EXB' && h("span", null, t('Lcz_ExtraBedPerNightSuffix', { fallback: ' (/night)' }))));
-        })))), h("ir-validator", { key: 'e3a1c377bf1e177005c97b3cf2a4898e8602ff13', id: "amenity description-validator", schema: ExtraServiceSchema.shape.description }, h("wa-textarea", { key: '1563ecaf43608c23780cebeebcd7f732e4a27c80', size: "s", defaultValue: this.s_service?.description, value: this.s_service?.description, onchange: e => this.updateService({ description: e.target.value }), id: "amenity-description", "aria-label": t('Lcz_AmenityDescriptionAriaLabel', { fallback: 'Amenity description' }), maxlength: 250, label: t('Lcz_Description', { fallback: 'Description' }) })), this.showUnitLink && (h("ir-validator", { key: '98a1a0b8b5ec5619c58a5fe8f86371e57d3c91bf', value: this.s_service?.room_identifier ?? null, schema: this.isUnitRequired
-                ? z.string({ required_error: t('Lcz_UnitIsRequired', { fallback: 'Unit is required' }) }).nonempty(t('Lcz_UnitIsRequired', { fallback: 'Unit is required' }))
-                : ExtraServiceSchema.shape.room_identifier }, h("wa-select", { key: '320362882289322ea543e52254389f98365b9d28', size: "s", label: this.isUnitRequired ? t('Lcz_LinkToUnit', { fallback: 'Link to unit' }) : t('Lcz_LinkToUnitOptional', { fallback: 'Link to unit (optional)' }), required: this.isUnitRequired, value: this.s_service?.room_identifier ?? '', defaultValue: this.s_service?.room_identifier ?? '', onchange: (e) => {
+            const langKey = `CODE_VALUE_${(this.language ?? 'en').toUpperCase()}`;
+            const label = category[langKey] ?? category.CODE_VALUE_EN ?? '';
+            return (h("wa-option", { value: category.CODE_NAME, label: label }, label, category.CODE_NAME === BABY_COT_CATEGORY_CODE && getBabyCotPricingModel() && h("span", null, " (/", getBabyCotPricingModel().toLowerCase(), ")"), category.CODE_NAME === 'EXB' && h("span", null, " (/night)")));
+        })))), h("ir-validator", { key: '170d4e6c3de7106db0142dc5af5212af504b6631', id: "amenity description-validator", schema: ExtraServiceSchema.shape.description }, h("wa-textarea", { key: 'd6e12b63f1f2e3a2b3ba73d2d984abb5d9799fcf', size: "s", defaultValue: this.s_service?.description, value: this.s_service?.description, onchange: e => this.updateService({ description: e.target.value }), id: "amenity-description", "aria-label": "Amenity description", maxlength: 250, label: locales.entries.Lcz_Description })), this.showUnitLink && (h("ir-validator", { key: '6cdd8da8e7e4b1d5981b6ff4fa48645d578939cf', value: this.s_service?.room_identifier ?? null, schema: this.isUnitRequired ? z.string({ required_error: 'Unit is required' }).nonempty('Unit is required') : ExtraServiceSchema.shape.room_identifier }, h("wa-select", { key: '99518dbadc9bcddd1a40644b148ba8fce1596d6f', size: "s", label: this.isUnitRequired ? 'Link to unit' : 'Link to unit (optional)', required: this.isUnitRequired, value: this.s_service?.room_identifier ?? '', defaultValue: this.s_service?.room_identifier ?? '', onchange: (e) => {
                 const value = e.target.value;
                 this.updateService({ room_identifier: value || null });
             }, "onwa-hide": e => {
@@ -292,19 +283,19 @@ export class IrExtraServiceConfigForm {
             }, "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            } }, !this.isUnitRequired && h("wa-option", { key: 'e03eb7b53aee9632659e46a97ed6613bd00a3435', value: "" }, t('Lcz_NotLinkedToSpecificUnit', { fallback: 'Not linked to a specific unit' })), this.unitOptions.map(option => (h("wa-option", { value: option.identifier, label: option.label }, option.label)))))), h("ir-validator", { key: 'e5d4bdaa9bfa2de1bb8d34e8cd3363dc6ba1f38c', value: this.s_service?.start_date ?? null, schema: ExtraServiceSchema.shape.start_date }, h("ir-date-select", { key: '5fee49b615012af913c4f7e830cf088d9d12741a', placeholder: t('Lcz_SelectDate', { fallback: 'Select date' }), withClear: true, label: t('Lcz_DatesOn', { fallback: 'Dates on' }), emitEmptyDate: true, date: this.s_service?.start_date, minDate: this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => {
+            } }, !this.isUnitRequired && h("wa-option", { key: '2de94f31c6d420c7d7fd4bf34702f8f0ff1e9201', value: "" }, "Not linked to a specific unit"), this.unitOptions.map(option => (h("wa-option", { value: option.identifier, label: option.label }, option.label)))))), h("ir-validator", { key: 'a030ed668051caa14a7c0e0eafedf63df070349a', value: this.s_service?.start_date ?? null, schema: ExtraServiceSchema.shape.start_date }, h("ir-date-select", { key: '01a95353b7138ec52a0f928a72d54c1ec33a452e', placeholder: "Select date", withClear: true, label: "Dates on", emitEmptyDate: true, date: this.s_service?.start_date, minDate: this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => {
                 this.updateService({ start_date: e.detail.start?.format('YYYY-MM-DD') });
                 this.syncBabyCotPriceWithDateRange();
-            } })), h("ir-date-select", { key: '2d69738a9a7811184ecda1055ccab0124b329016', withClear: true, emitEmptyDate: true, placeholder: t('Lcz_SelectDate', { fallback: 'Select date' }), date: this.s_service?.end_date, minDate: this.s_service?.start_date ?? this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => {
+            } })), h("ir-date-select", { key: '5e5660c1e12020d84344313d2cccca2f0e3f83ac', withClear: true, emitEmptyDate: true, placeholder: "Select date", date: this.s_service?.end_date, minDate: this.s_service?.start_date ?? this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateService({ end_date: e.detail.start?.format('YYYY-MM-DD') });
                 this.syncBabyCotPriceWithDateRange();
-            }, label: t('Lcz_TillAndIncluding', { fallback: 'Till and including' }) }), h("ir-validator", { key: '2eba088cdffaf535a70742a5e781d7feeece8149', value: this.s_service?.price ?? null, schema: ExtraServiceSchema.shape.price }, h("ir-input", { key: '7280890c6d48ea494e95849f04473b217cb54874', "onText-change": e => {
+            }, label: "Till and including" }), h("ir-validator", { key: 'eee66027ec01d8490e118dfa12dcbd3f527f2141', value: this.s_service?.price ?? null, schema: ExtraServiceSchema.shape.price }, h("ir-input", { key: 'bc9d07c151c90a1e2d52f06f532da3cb33d2209c', "onText-change": e => {
                 this.updateService({ price: Number(e.detail) });
             }, defaultValue: this.s_service?.price?.toString(), value: this.s_service?.price?.toString(), mask: 'price', type: "text", onChange: () => {
                 this.priceManuallyEdited = true;
-            }, label: `${t('Lcz_Price')} ${t('Lcz_IncludingTaxSuffix', { fallback: '(including tax)' })}` }, h("span", { key: '3e6754df4462998824e9c198cd97708b7800773b', slot: "start" }, this.booking.currency.symbol))), isAgentMode(this.agent) && (h("ir-service-assignee-select", { key: '95a4fd378f601d13deec852439f4cc694ed28e50', assigneeType: this.assignee, onAssignmentChange: e => this.assignmentChanged(e), agent: this.booking.agent }))));
+            }, label: `${locales.entries.Lcz_Price} (including tax)` }, h("span", { key: '30e857a5a1b5bbba43fc945cd8b2b77897322393', slot: "start" }, this.booking.currency.symbol))), isAgentMode(this.agent) && (h("ir-service-assignee-select", { key: '8d49d71a2fb9f082ec8af1663b74d43c37cb6d3b', assigneeType: this.assignee, onAssignmentChange: e => this.assignmentChanged(e), agent: this.booking.agent }))));
     }
     static get is() { return "ir-extra-service-config-form"; }
     static get encapsulation() { return "scoped"; }
@@ -349,7 +340,7 @@ export class IrExtraServiceConfigForm {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
@@ -373,7 +364,7 @@ export class IrExtraServiceConfigForm {
                 "mutable": false,
                 "complexType": {
                     "original": "ExtraService",
-                    "resolved": "{ description?: string; currency_id?: number; agent?: { code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; charges?: { total_amount?: number; city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; vat_amount?: number; vat_percent?: number; }; cost?: number; room_identifier?: string; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; pr_id?: number; from_time?: string; to_time?: string; }",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; room_identifier?: string; booking_system_id?: number; cost?: number; end_date?: string; start_date?: string; price?: number; category?: { code?: string; }; pr_id?: number; from_time?: string; to_time?: string; charges?: { city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; total_amount?: number; vat_amount?: number; vat_percent?: number; }; }",
                     "references": {
                         "ExtraService": {
                             "location": "import",
@@ -396,14 +387,14 @@ export class IrExtraServiceConfigForm {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "SetupEntries[]",
-                    "resolved": "SetupEntries[]",
+                    "original": "IEntries[]",
+                    "resolved": "IEntries[]",
                     "references": {
-                        "SetupEntries": {
+                        "IEntries": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::SetupEntries",
-                            "referenceLocation": "SetupEntries"
+                            "id": "src/models/property.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },

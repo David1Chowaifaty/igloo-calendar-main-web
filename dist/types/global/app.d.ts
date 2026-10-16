@@ -6,7 +6,6 @@ import '../assets/webawesome/themes/default.css';
 import '@awesome.me/webawesome/dist/components/button/button.js';
 import '@awesome.me/webawesome/dist/components/icon/icon.js';
 import '@awesome.me/webawesome/dist/components/spinner/spinner.js';
-import '@awesome.me/webawesome/dist/components/skeleton/skeleton.js';
 import '@awesome.me/webawesome/dist/components/tab-group/tab-group.js';
 import '@awesome.me/webawesome/dist/components/dropdown/dropdown.js';
 import '@awesome.me/webawesome/dist/components/tag/tag.js';
@@ -36,12 +35,5 @@ import '@awesome.me/webawesome/dist/components/progress-ring/progress-ring.js';
 import '@awesome.me/webawesome/dist/components/slider/slider.js';
 import '@awesome.me/webawesome/dist/components/copy-button/copy-button.js';
 import '@awesome.me/webawesome/dist/components/format-bytes/format-bytes.js';
-/**
- * Deliberately empty of date/store setup. Importing `@/stores/*` from this global script makes
- * `createStore` run in the global-script bundle, where `@stencil/store` cannot see
- * `getRenderingRef` — it then installs a no-op subscription and the store stops re-rendering
- * components entirely, silently. The date layer initialises itself lazily instead; see
- * `ensureDateLayer()` in `src/utils/date/ir-date.ts`.
- */
 declare const _default: () => void;
 export default _default;

@@ -1,24 +1,22 @@
 import { h } from "@stencil/core";
+import moment from "moment";
 import { formatAmount } from "../../../../../../../utils/utils";
 import calendar_data from "../../../../../../../stores/calendar-data";
 import { invoiceIdRequiredFieldSchema } from "../../ir-city-ledger-transaction-form.schema";
-import { formatDate } from "../../../../../../../utils/date/index";
-import { t } from "../../../../../../../services/locale/t";
-import { formatBookingNumber } from "../../../../../../../utils/number";
 export class IrClInvoiceSelect {
     value = '';
     fiscalDocuments = [];
-    label;
+    label = 'Invoice';
     hint = '';
     invoiceChange;
     render() {
-        return (h("ir-validator", { key: 'db47b1c59b9a9f29172b932e5b9ce3d8ff4606a2', schema: invoiceIdRequiredFieldSchema, value: this.value, valueEvent: "change" }, h("wa-select", { key: '0819cbb27a12214e640712a60c1f4b91b4e0a742', label: this.label || t('Lcz_DocumentTypeInvoice', { fallback: 'Invoice' }), size: "s", required: true, hint: this.hint || undefined, placeholder: t('Lcz_SelectInvoicePlaceholder', { fallback: 'Select invoice' }), value: this.value, onchange: event => {
+        return (h("ir-validator", { key: 'c6f17a3eaad088b6a67ceed34eb804a38c88e14c', schema: invoiceIdRequiredFieldSchema, value: this.value, valueEvent: "change" }, h("wa-select", { key: 'c8cbef12eee9b9fcade2f75067debba880bc474e', label: this.label, size: "s", required: true, hint: this.hint || undefined, placeholder: "Select invoice", value: this.value, onchange: event => {
                 this.invoiceChange.emit(event.target.value || '');
             } }, this.fiscalDocuments.map(doc => {
-            const date = doc.ISSUE_DATE_DISPLAY ?? (doc.ISSUE_DATE ? formatDate(doc.ISSUE_DATE, 'MMM D, YYYY') : '');
+            const date = doc.ISSUE_DATE_DISPLAY ?? (doc.ISSUE_DATE ? moment(doc.ISSUE_DATE, 'YYYY-MM-DD').format('MMM D, YYYY') : '');
             const amount = doc.TOTAL_AMOUNT != null ? formatAmount(calendar_data.property?.currency?.symbol, doc.TOTAL_AMOUNT) : '';
             const docNumber = doc.DOC_NUMBER ?? '';
-            return (h("wa-option", { key: doc.FD_ID, value: String(doc.FD_ID), label: docNumber }, h("div", { class: "invoice-option" }, h("div", { class: "invoice-option__left" }, h("span", { class: "invoice-option__number" }, formatBookingNumber(docNumber)), date && h("span", { class: "invoice-option__date" }, date), doc.EXTERNAL_REF && (h("span", { class: "invoice-option__ref" }, t('Lcz_Ref', { fallback: 'Ref:' }), " ", doc.EXTERNAL_REF))), amount && h("span", { class: "invoice-option__amount" }, amount))));
+            return (h("wa-option", { key: doc.FD_ID, value: String(doc.FD_ID), label: docNumber }, h("div", { class: "invoice-option" }, h("div", { class: "invoice-option__left" }, h("span", { class: "invoice-option__number" }, docNumber), date && h("span", { class: "invoice-option__date" }, date), doc.EXTERNAL_REF && h("span", { class: "invoice-option__ref" }, "Ref: ", doc.EXTERNAL_REF)), amount && h("span", { class: "invoice-option__amount" }, amount))));
         }))));
     }
     static get is() { return "ir-cl-invoice-select"; }
@@ -97,7 +95,8 @@ export class IrClInvoiceSelect {
                 "getter": false,
                 "setter": false,
                 "reflect": false,
-                "attribute": "label"
+                "attribute": "label",
+                "defaultValue": "'Invoice'"
             },
             "hint": {
                 "type": "string",

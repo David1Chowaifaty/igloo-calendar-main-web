@@ -1,9 +1,9 @@
 import { h } from "@stencil/core";
-import { t } from "../../../services/locale/t";
+import locales from "../../../stores/locales.store";
 let panelId = 0;
 export class IrFiltersPanel {
     /** Panel headline text */
-    filterTitle = t('Lcz_Filters', { fallback: 'Filters' });
+    filterTitle = locales.entries.Lcz_Filters;
     /** Optional custom collapse target id (useful for legacy CSS hooks) */
     collapseId;
     /** Show collapse toggle button */
@@ -33,9 +33,9 @@ export class IrFiltersPanel {
     /** Collapse icon when collapsed */
     collapseIconClosed = 'closed_eye';
     /** Apply button copy */
-    applyLabel = t('Lcz_Apply', { fallback: 'Apply' });
+    applyLabel = locales.entries.Lcz_Apply;
     /** Reset button copy */
-    resetLabel = t('Lcz_Reset', { fallback: 'Reset' });
+    resetLabel = locales.entries.Lcz_Reset;
     /** Disable apply action */
     disableApply = false;
     /** Disable reset action */
@@ -113,11 +113,11 @@ export class IrFiltersPanel {
             [`filters-panel__footer--${this.actionsAlign}`]: true,
         };
         const cardClass = `card mb-0 p-1 d-flex flex-column ${this.cardClass || ''}`.trim();
-        return (h("div", { key: '3f1c0a8da63d5953d45715a1fab30bd1e00bfe84', class: panelClasses }, h("div", { key: '10f0005c7c31fd9adfd1e92f4977a87237dddce7', class: cardClass }, h("div", { key: '9505bb7d0e3aec464c81d8bf4eda7549f76520df', class: headerClasses }, h("div", { key: '8ccb8d34fa98a5ab306adff25dd78381f92dca48', class: "filters-panel__title-group" }, h("slot", { key: '23bce67e868da18688440059d90bdf7fd3bc601a', name: "header-icon" }, this.renderDefaultIcon()), this.filterTitle && h("h4", { key: 'eae8c386a5096c2557b6364fc7ad49a9791b3a5a', class: "filters-panel__title m-0 p-0 flex-grow-1" }, this.filterTitle), h("slot", { key: '31bd33cbcd5f3767cfa173abfd48623620548572', name: "header-title-extra" })), h("div", { key: 'ac44c8e5b1a0ddf2bc20f25f02dabd0786dff5a3', class: "filters-panel__header-actions" }, h("slot", { key: '1744329a12e8bc5cbca16283782a6bc12bbb3cd2', name: "header-actions" }), this.renderCollapseButton(collapsed))), h("div", { key: '6ed6a1fcc4f7f3bd20c65bcd267fd8110c46fa63', id: this.targetId, class: {
+        return (h("div", { key: '0c2592aed4ad1bf10efdc8154e6df921c5f88ea7', class: panelClasses }, h("div", { key: 'c54517c7cc349e575388e5a8456fa18a44f0663d', class: cardClass }, h("div", { key: '7aca19883e915ce729fc788794bd051fa498b3a2', class: headerClasses }, h("div", { key: '08a620065af6dbe3131b33a444eb70599e19d7bb', class: "filters-panel__title-group" }, h("slot", { key: '761d3590f736fe531a48e9a51edad8ceac2adf85', name: "header-icon" }, this.renderDefaultIcon()), this.filterTitle && h("h4", { key: '9b07578b87242f66515952b2701adf47bad01f95', class: "filters-panel__title m-0 p-0 flex-grow-1" }, this.filterTitle), h("slot", { key: 'ad2baa406f041e6d43ee7a257afee755e9eb5cc4', name: "header-title-extra" })), h("div", { key: '993f3fdb1171987e88c4221a9a89357b396c8b16', class: "filters-panel__header-actions" }, h("slot", { key: 'de3cab55e4db3acf547078743b0f1af185ab5e59', name: "header-actions" }), this.renderCollapseButton(collapsed))), h("div", { key: '936d6fbfe5d99c2897510f1286c42321b0c8f5ef', id: this.targetId, class: {
                 'filters-panel__content': true,
                 'collapse': true,
                 'show': !collapsed,
-            }, "aria-hidden": collapsed ? 'true' : 'false' }, h("div", { key: 'af31985120f2c5f8c172005d9c54dc4709676a56', class: contentWrapperClasses, style: { gap: this.contentGap } }, h("slot", { key: 'e4a5e5c3b71ecd3b215e5cf6aa878ff5831e018d' }), !this.hideDefaultActions && (h("div", { key: '68c653761229dc6d89c1792470610cab811f1339', class: footerClasses }, h("slot", { key: '3a8d882eebe8f6bbddcda8bdec76182bc97505ea', name: "actions" }, h("ir-button", { key: '1ba8d19ebab5634a73e678a1fd67edccee347da4', btn_type: "button", "data-testid": `${this.actionTestId}-reset`, text: this.resetLabel, size: "sm", btn_color: "secondary", btn_disabled: this.disableReset, onClickHandler: this.handleReset.bind(this) }), h("ir-button", { key: 'aa7241001ed1505a8aad756470bccb5477390958', btn_type: "button", "data-testid": `${this.actionTestId}-apply`, isLoading: this.isApplyLoading, text: this.applyLabel, size: "sm", btn_disabled: this.disableApply, onClickHandler: this.handleApply.bind(this) })))))))));
+            }, "aria-hidden": collapsed ? 'true' : 'false' }, h("div", { key: 'd275876a68aa152a6dd2f28d16e1762c73803da3', class: contentWrapperClasses, style: { gap: this.contentGap } }, h("slot", { key: 'af644f72da9dc5b1c9d692e4978b9f14ff03c167' }), !this.hideDefaultActions && (h("div", { key: '8e1d888a3a6a8eabb3de1f2c404478385fef6a7d', class: footerClasses }, h("slot", { key: '3698f026fb3e232b70b37f367d967c99b7a323c3', name: "actions" }, h("ir-button", { key: '821fe1a93ddd975defab9458ca4f4407e482a434', btn_type: "button", "data-testid": `${this.actionTestId}-reset`, text: this.resetLabel, size: "sm", btn_color: "secondary", btn_disabled: this.disableReset, onClickHandler: this.handleReset.bind(this) }), h("ir-button", { key: 'e14f300e2066ed93e36ccb162359f8ebd3bc5893', btn_type: "button", "data-testid": `${this.actionTestId}-apply`, isLoading: this.isApplyLoading, text: this.applyLabel, size: "sm", btn_disabled: this.disableApply, onClickHandler: this.handleApply.bind(this) })))))))));
     }
     static get is() { return "ir-filters-panel"; }
     static get encapsulation() { return "scoped"; }
@@ -151,7 +151,7 @@ export class IrFiltersPanel {
                 "setter": false,
                 "reflect": false,
                 "attribute": "filter-title",
-                "defaultValue": "t('Lcz_Filters', { fallback: 'Filters' })"
+                "defaultValue": "locales.entries.Lcz_Filters"
             },
             "collapseId": {
                 "type": "string",
@@ -460,7 +460,7 @@ export class IrFiltersPanel {
                 "setter": false,
                 "reflect": false,
                 "attribute": "apply-label",
-                "defaultValue": "t('Lcz_Apply', { fallback: 'Apply' })"
+                "defaultValue": "locales.entries.Lcz_Apply"
             },
             "resetLabel": {
                 "type": "string",
@@ -480,7 +480,7 @@ export class IrFiltersPanel {
                 "setter": false,
                 "reflect": false,
                 "attribute": "reset-label",
-                "defaultValue": "t('Lcz_Reset', { fallback: 'Reset' })"
+                "defaultValue": "locales.entries.Lcz_Reset"
             },
             "disableApply": {
                 "type": "boolean",

@@ -1,14 +1,10 @@
 import { h } from "@stencil/core";
-import ApiClient from "../../models/ApiClient";
+import Token from "../../models/Token";
 import moment from "moment";
 import { PropertyService } from "../../services/property/index";
 import { RoomService } from "../../services/room.service";
-import { SetupService } from "../../services/setup/index";
+import { BookingService } from "../../services/booking-service/booking.service";
 import { FdTypes } from "../../types/enums";
-import { LocaleController } from "../../services/locale/locale.controller";
-import { LanguageSync } from "../../services/locale/language-sync";
-import { SCREEN_TABLES } from "../../services/locale/screen-tables";
-import { t } from "../../services/locale/t";
 /** Selectable page sizes for the fiscal-documents list. */
 const PAGE_SIZES = [20, 50, 100];
 export class IrFiscalDocuments {
@@ -43,37 +39,26 @@ export class IrFiscalDocuments {
     totalRows = 0;
     /** Booking number whose details drawer is currently open. */
     selectedBookingNumber = null;
-    apiClientService = new ApiClient();
+    tokenService = new Token();
     propertyService = new PropertyService();
     roomService = new RoomService();
-    setupService = new SetupService();
-    /** Re-runs init when the language changes so server-localized data follows. */
-    languageSync = new LanguageSync(SCREEN_TABLES.fiscalDocuments, () => this.init());
+    bookingService = new BookingService();
     componentWillLoad() {
         if (this.baseurl) {
-            this.apiClientService.setBaseUrl(this.baseurl);
+            this.tokenService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.init();
         }
-    }
-    componentDidLoad() {
-        this.languageSync.connect();
-    }
-    disconnectedCallback() {
-        this.languageSync.disconnect();
-    }
-    languageChanged(next, previous) {
-        this.languageSync.propChanged(next, previous);
     }
     handleTicketChange(newValue, oldValue) {
         if (newValue === oldValue)
             return;
         if (this.baseurl) {
-            this.apiClientService.setBaseUrl(this.baseurl);
+            this.tokenService.setBaseUrl(this.baseurl);
         }
-        this.apiClientService.setApiClient(this.ticket);
+        this.tokenService.setToken(this.ticket);
         this.init();
     }
     /**
@@ -84,9 +69,6 @@ export class IrFiscalDocuments {
     async init() {
         this.isPageLoading = true;
         try {
-            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
-            // so the requests below are built with the right language on first mount.
-            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.fiscalDocuments });
             let propertyId = this.propertyid;
             if (!propertyId && !this.p) {
                 throw new Error('Property ID or username (p) is required');
@@ -97,7 +79,7 @@ export class IrFiscalDocuments {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                 });
                 propertyId = propertyData.My_Result.id;
@@ -105,11 +87,11 @@ export class IrFiscalDocuments {
             this.property_id = propertyId;
             // Remaining setup — all in parallel. The property is only fetched here
             // when we didn't already load it through the aname lookup above.
-            const requests = [this.setupService.getSetupEntriesByTableName('_FD_TYPE'), localeReady];
+            const requests = [this.bookingService.getSetupEntriesByTableName('_FD_TYPE'), this.roomService.fetchLanguage(this.language)];
             if (this.propertyid) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
-                    language: LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                 }));
             }
@@ -196,7 +178,7 @@ export class IrFiscalDocuments {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("ir-page", { label: t('Lcz_FiscalDocuments', { fallback: 'Fiscal Documents' }) }, h("ir-fiscal-documents-filters", { propertyId: this.property_id, loading: this.isLoading, filters: this.filters, onFilterChanged: e => (this.filters = { ...this.filters, ...e.detail }), onApplyFilters: e => this.handleApplyFilters(e.detail) }), h("ir-fiscal-documents-table", { rows: this.rows, taxableOnly: this.filters?.taxableOnly, isLoading: this.isLoading === 'search', hasFetched: this.hasFetched, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.property_id, language: this.language, fdTypes: this.fdTypes, currentPage: this.currentPage, pageSize: this.pageSize, totalRecords: this.totalRows, pageSizes: PAGE_SIZES, onFetchRequested: () => this.fetchFiscalDocuments(this.filters), onRequestPageChange: (e) => this.handlePageChange(e.detail.currentPage), onRequestPageSizeChange: (e) => this.handlePageSizeChange(e.detail.pageSize), onOpenBookingDetails: (e) => (this.selectedBookingNumber = e.detail) }), h("ir-booking-details-drawer", { open: !!this.selectedBookingNumber, propertyId: this.property_id, bookingNumber: this.selectedBookingNumber, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.selectedBookingNumber = null) }), h("ir-fiscal-document-preview", { mode: "all", ticket: this.ticket, propertyId: this.property_id, onDocumentConverted: () => this.fetchFiscalDocuments(this.filters) })));
+        return (h("ir-page", { label: "Fiscal Documents" }, h("ir-fiscal-documents-filters", { propertyId: this.property_id, loading: this.isLoading, filters: this.filters, onFilterChanged: e => (this.filters = { ...this.filters, ...e.detail }), onApplyFilters: e => this.handleApplyFilters(e.detail) }), h("ir-fiscal-documents-table", { rows: this.rows, taxableOnly: this.filters?.taxableOnly, isLoading: this.isLoading === 'search', hasFetched: this.hasFetched, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.property_id, language: this.language, fdTypes: this.fdTypes, currentPage: this.currentPage, pageSize: this.pageSize, totalRecords: this.totalRows, pageSizes: PAGE_SIZES, onFetchRequested: () => this.fetchFiscalDocuments(this.filters), onRequestPageChange: (e) => this.handlePageChange(e.detail.currentPage), onRequestPageSizeChange: (e) => this.handlePageSizeChange(e.detail.pageSize), onOpenBookingDetails: (e) => (this.selectedBookingNumber = e.detail) }), h("ir-booking-details-drawer", { open: !!this.selectedBookingNumber, propertyId: this.property_id, bookingNumber: this.selectedBookingNumber, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.selectedBookingNumber = null) }), h("ir-fiscal-document-preview", { mode: "all", ticket: this.ticket, propertyId: this.property_id, onDocumentConverted: () => this.fetchFiscalDocuments(this.filters) })));
     }
     static get is() { return "ir-fiscal-documents"; }
     static get encapsulation() { return "scoped"; }
@@ -327,9 +309,6 @@ export class IrFiscalDocuments {
     }
     static get watchers() {
         return [{
-                "propName": "language",
-                "methodName": "languageChanged"
-            }, {
                 "propName": "ticket",
                 "methodName": "handleTicketChange"
             }];

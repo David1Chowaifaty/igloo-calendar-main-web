@@ -1,6 +1,3 @@
 :host {
   display: block;
 }
-.split-booking__drawer::part(body) {
-  padding: 0;
-}

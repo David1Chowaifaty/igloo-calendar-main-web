@@ -1,29 +1,24 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
-import { C as ClFiscalDocumentService } from './cl-fiscal-document.service-BhcgeQFE.js';
-import './moment-Mki5YqAR.js';
-import './calendar-data-DWzivSW-.js';
-import './booking.dto-B554ToUQ.js';
-import './ir-date-XXNYhmSL.js';
-import './locale-scope-Jre4lb6k.js';
-import { t } from './t-Bvz1wS_D.js';
-import { f as formatAmount } from './number-B8waOzTO.js';
-import { C as CityLedgerService } from './index-D69WOq3D.js';
-import { S as SetupService } from './index-BjCyQqYQ.js';
-import { d as getSetupEntryLabel } from './utils-BjFJEvis.js';
-import './ApiClient-4jHvz1N4.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-CwWmK1sZ.js';
+import { C as ClFiscalDocumentService } from './cl-fiscal-document.service-CDv6GEqw.js';
+import { f as formatAmount } from './utils-DCUYWubA.js';
+import { C as CityLedgerService } from './index-nOYqyHAZ.js';
+import { B as BookingService } from './booking.store-5VMZSDo_.js';
+import './Token-CkxFIO_J.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './index-CnWneKl2.js';
-import './types-CB66a07H.js';
-import './utils-BaDgLaiu.js';
+import './index-CoQI_xnH.js';
+import './types-Cvnhk41g.js';
+import './calendar-data-zADniuy4.js';
+import './index-BfixheT-.js';
+import './moment-Mki5YqAR.js';
+import './commonSchemas-BiRmPH_2.js';
+import './locales.store-DN9FqlnV.js';
+import './type-ByBjJ3uo.js';
 import './calendar-dates-D3hVfsrC.js';
-import './commonSchemas-Cx9w9d8l.js';
-import './locale.controller-BdYR01Ld.js';
-import './language-observer-CHgzsZkY.js';
-import './types-CyZFzmvF.js';
-import './type-DjfVZqvs.js';
 import './enums-CSCQSgBu.js';
-import './IBooking-B4waZCSK.js';
+import './IBooking-DciUlUdo.js';
+import './booking-DxbkLMu3.js';
+import './functions-COpYNLV3.js';
 
 const irClReceiptPreviewCss = () => `:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:900px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.receipt-body{display:flex;flex-direction:column;gap:1.75rem}.receipt-section__title{margin:0 0 0.625rem;padding-bottom:0.375rem;font-size:0.6875rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#9ca3af;border-bottom:1px solid #e5e7eb}.receipt-rows{display:flex;flex-direction:column;gap:0.35rem}.receipt-row{display:flex;align-items:baseline;gap:0.375rem;font-size:0.875rem}.receipt-row__label{color:#6b7280;font-weight:400;flex-shrink:0}.receipt-row__label::after{content:':'}.receipt-row__value{color:#111827;font-weight:500}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}.receipt-section__title{color:#374151}.receipt-row__label{color:#374151}}`;
 
@@ -47,11 +42,11 @@ const IrClReceiptPreview = class {
     clPreviewReady;
     hasEmitted = false;
     dataService = new ClFiscalDocumentService();
-    setupService = new SetupService();
+    bookingService = new BookingService();
     cityLedgerService = new CityLedgerService();
     componentWillLoad() {
         if (!this.ticket) {
-            this.error = t('Lcz_AuthTicketRequired', { fallback: 'Authentication ticket is required.' });
+            this.error = 'Authentication ticket is required.';
             return;
         }
         this.dataService.init(this.baseurl, this.ticket);
@@ -63,7 +58,7 @@ const IrClReceiptPreview = class {
         try {
             const [{ property, transactions }, paymentMethods, documents] = await Promise.all([
                 this.dataService.fetchData(this.propertyId, this.agentId, this.documentNumber),
-                this.setupService.getSetupEntriesByTableName('_PAY_METHOD'),
+                this.bookingService.getSetupEntriesByTableName('_PAY_METHOD'),
                 this.cityLedgerService.getFiscalDocuments({
                     AGENCY_ID: this.agentId,
                     DOC_NUMBER: this.documentNumber,
@@ -75,7 +70,7 @@ const IrClReceiptPreview = class {
             this.paymentMethods = paymentMethods;
         }
         catch (e) {
-            this.error = e?.message ?? t('Lcz_FailedToLoadReceiptData', { fallback: 'Failed to load receipt data.' });
+            this.error = e?.message ?? 'Failed to load receipt data.';
         }
         finally {
             this.isLoading = false;
@@ -93,11 +88,11 @@ const IrClReceiptPreview = class {
         if (!code)
             return '—';
         const entry = this.paymentMethods.find(e => e.CODE_NAME === code);
-        return entry ? getSetupEntryLabel(entry) : code;
+        return entry?.CODE_VALUE_EN ?? code;
     }
     render() {
         if (!this.ticket) {
-            return (h(Host, null, h("div", { class: "document-state document-state--error" }, t('Lcz_AuthTicketRequired', { fallback: 'Authentication ticket is required.' }))));
+            return (h(Host, null, h("div", { class: "document-state document-state--error" }, "Authentication ticket is required.")));
         }
         if (this.isLoading) {
             return (h(Host, null, h("div", { class: "document-state" }, h("ir-spinner", null))));
@@ -107,11 +102,11 @@ const IrClReceiptPreview = class {
         }
         const tx = this.ClEntry;
         if (!tx) {
-            return (h(Host, null, h("div", { class: "document-state document-state--error" }, t('Lcz_NoReceiptDataFound', { fallback: 'No receipt data found.' }))));
+            return (h(Host, null, h("div", { class: "document-state document-state--error" }, "No receipt data found.")));
         }
         const currency = this.property?.currency?.symbol ?? '$';
         const fmt = (v) => (v != null ? formatAmount(currency, v) : '—');
-        return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '2.5rem' }, property: this.property, documentNumber: this.documentNumber, agentName: this.agentName, documentType: "receipt" }), h("div", { class: "receipt-body" }, h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, t('Lcz_PaymentDetailsTitle', { fallback: 'Payment Details' })), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, t('Lcz_AmountReceived', { fallback: 'Amount Received' })), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, t('Lcz_PaymentMethod', { fallback: 'Payment Method' })), h("span", { class: "receipt-row__value" }, this.getPaymentMethodLabel(tx.PAY_METHOD_CODE))), tx.DESCRIPTION && (h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, t('Lcz_Reference', { fallback: 'Reference' })), h("span", { class: "receipt-row__value" }, tx.DESCRIPTION))))), h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, t('Lcz_BalanceSummaryAccountTitle', { fallback: 'Balance Summary (Account)' })), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, t('Lcz_BalanceBeforePayment', { fallback: 'Balance Before Payment' })), h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_BEFORE_TX))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, t('Lcz_PaymentReceived', { fallback: 'Payment Received' })), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, t('Lcz_BalanceAfterPayment', { fallback: 'Balance After Payment' })), h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_AFTER_TX)))))))));
+        return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '2.5rem' }, property: this.property, documentNumber: this.documentNumber, agentName: this.agentName, documentType: "receipt" }), h("div", { class: "receipt-body" }, h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, "Payment Details"), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Amount Received"), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Payment Method"), h("span", { class: "receipt-row__value" }, this.getPaymentMethodLabel(tx.PAY_METHOD_CODE))), tx.DESCRIPTION && (h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Reference"), h("span", { class: "receipt-row__value" }, tx.DESCRIPTION))))), h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, "Balance Summary (Account)"), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Balance Before Payment"), h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_BEFORE_TX))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Payment Received"), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Balance After Payment"), h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_AFTER_TX)))))))));
     }
 };
 IrClReceiptPreview.style = irClReceiptPreviewCss();

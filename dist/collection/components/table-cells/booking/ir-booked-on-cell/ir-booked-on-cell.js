@@ -1,6 +1,6 @@
 import { _formatTime } from "../../../ir-booking-details/functions";
 import { Host, h } from "@stencil/core";
-import { formatDate } from "../../../../utils/date/index";
+import moment from "moment";
 export class IrBookedOnCell {
     display = 'block';
     bookedOn;
@@ -8,7 +8,7 @@ export class IrBookedOnCell {
     showTime = true;
     render() {
         const { date, hour, minute } = this.bookedOn;
-        return (h(Host, { key: 'e6f2e26fac306fb7dfc01828915ef5060ee4c38c' }, this.label && h("p", { key: '50ab0fc1b2286c2893873c0194402d4b1b78c8e9', class: "cell-label" }, this.label, ":"), h("p", { key: 'f267d17d3bb65f2fcf0a6b84464db429444f8595', class: "booked-on-cell__date" }, formatDate(date, 'DD MMM YYYY')), this.showTime && h("p", { key: '0737450de3bc957ae3261fa2cc3c29f8ca2a4001', class: "booked-on-cell__time" }, _formatTime(hour.toString(), minute.toString()))));
+        return (h(Host, { key: '22d7b747fe17e1ad73c02f7458fdc4a717f32aae' }, this.label && h("p", { key: '2e44a217e3375b55589992c0aac47b2ddd4075a4', class: "cell-label" }, this.label, ":"), h("p", { key: '6cdd26a24ced8690f447e30bf177eaecc0f32802', class: "booked-on-cell__date" }, moment(date, 'YYYY-MM-DD').format('DD MMM YYYY')), this.showTime && h("p", { key: '308ff9ca10a3a8726f9d5b180ed0e0dba18afc61', class: "booked-on-cell__time" }, _formatTime(hour.toString(), minute.toString()))));
     }
     static get is() { return "ir-booked-on-cell"; }
     static get encapsulation() { return "scoped"; }

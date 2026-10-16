@@ -1,5 +1,5 @@
 import { Booking } from "../../../models/booking.dto";
-import { SetupEntries } from "../../../models/IBooking";
+import { IEntries } from "../../../models/IBooking";
 import { Agent } from "../../../services/agents/type";
 import { SplitIndex } from "../../../utils/booking";
 import { EventEmitter } from '../../../stencil-public-runtime';
@@ -15,17 +15,17 @@ export declare class IrBookingRooms {
      * Available bed preference options for the booking rooms.
      * Used to populate bed selection inside each room component.
      */
-    bedPreference: SetupEntries[];
+    bedPreference: IEntries[];
     /**
      * Available departure time options for the booking.
      * Passed down to each room when applicable.
      */
-    departureTime: SetupEntries[];
+    departureTime: IEntries[];
     /**
      * Available arrival time options for the booking.
      * Passed down to each room when applicable.
      */
-    arrivalTime: SetupEntries[];
+    arrivalTime: IEntries[];
     /**
      * Enables the ability to add a new room/unit to the booking.
      */
@@ -62,7 +62,7 @@ export declare class IrBookingRooms {
     splitIndex: SplitIndex;
     clTransactions: ClTx[];
     /** `_SVC_CATEGORY` setup entries, threaded down to each room's extra-services section for category labels. */
-    svcCategories: SetupEntries[];
+    svcCategories: IEntries[];
     /**
      * When set, the room whose identifier matches auto-opens its check-out dialog. Used to
      * route early check-outs triggered from other screens through the full booking details.

@@ -1,9 +1,8 @@
 import { CityLedgerService } from "../../../services/city-ledger/index";
 import calendar_data from "../../../stores/calendar-data";
 import { Host, h } from "@stencil/core";
+import moment from "moment";
 import { FdTypes } from "../../../types/enums";
-import { formatDate } from "../../../utils/date/index";
-import { t } from "../../../services/locale/t";
 export class IrCityLedgerStatements {
     agentId = null;
     agentName = '';
@@ -108,26 +107,23 @@ export class IrCityLedgerStatements {
     }
     getPrintLabel() {
         if (!this.printFilters?.fromDate || !this.printFilters?.toDate)
-            return t('Lcz_StatementPreviewTitle', { fallback: 'Statement Preview' });
-        return t('Lcz_StatementDateRangeLabel', {
-            fallback: 'Statement - %1 to %2',
-            params: [formatDate(this.printFilters.fromDate, 'MMM DD, YYYY'), formatDate(this.printFilters.toDate, 'MMM DD, YYYY')],
-        });
+            return 'Statement Preview';
+        return `Statement - ${moment(this.printFilters.fromDate).format('MMM DD, YYYY')} to ${moment(this.printFilters.toDate).format('MMM DD, YYYY')}`;
     }
     render() {
-        return (h(Host, { key: '87915c2040cc23e7f7f7df3a7b1c9bc14299cd2a' }, h("section", { key: '44360a854d89e2c8df521fc3df10cb83d95b2a98', class: "cl-statements", "aria-label": t('Lcz_CityLedgerStatementsAriaLabel', { fallback: 'City ledger statements' }) }, h("ir-city-ledger-statements-filter", { key: '933066f8c84b4204c34d54d05259b9d73898962a', initialFromDate: this.filters.fromDate, initialToDate: this.filters.toDate, onFiltersChange: e => {
+        return (h(Host, { key: '054c8f46435279412b8008d1ed6beedb9eaeeafa' }, h("section", { key: 'f322de7b92e32c0edc707f044a01c7c7ad9abf1c', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: 'a45d189beab9929d264ca06321e5b20734debe8e', initialFromDate: this.filters.fromDate, initialToDate: this.filters.toDate, onFiltersChange: e => {
                 this.filters = e.detail;
                 this.clStmtFiltersChange.emit(e.detail);
             }, onCreateStatement: e => {
                 this.filters = e.detail;
                 this.clStmtFiltersChange.emit(e.detail);
                 this.fetchStatement(e.detail);
-            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: 'a583eb7176d29bf23c99624dac2b8381a4113275', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: '52d73d7f52deeed0a87a2e2df4445d028ffb13de', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '834895009a744ad1983fadda8cd9afe278c200b1', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: '0ff4d1eb2b1359934c13046cafcedd3ec248ba47', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
                 if (!e.detail) {
                     this.printFilters = null;
                     this.pdfUrl = null;
                 }
-            } }, h("div", { key: 'b769868a9d5812e38ea07b1724e8c85e8bdb347d', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '241c7c4a82100602cc9890b37d51fe9d4ccefc8d', size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '038f17d1b97e83d548c44921217a494b33a561ea', name: "download", label: t('Lcz_DownloadPdfTooltip', { fallback: 'Download PDF' }) })))), this.printFilters &&
+            } }, h("div", { key: '37cfaefa98eb49dfed8b7f0775cf02c2ecf77e26', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '42422747330fdc890af6c73e5ac2b95f3d9fcc42', size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '5e64b1800be0ad456c65a318891405851890f1e9', name: "download", label: "Download PDF" })))), this.printFilters &&
             (this.isFetchingPdf ? (h("div", { class: "preview-loading" }, h("ir-spinner", null))) : (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.pdfUrl })))))));
     }
     static get is() { return "ir-city-ledger-statements"; }

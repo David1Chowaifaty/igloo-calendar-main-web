@@ -3,7 +3,7 @@ export declare class IrBooking {
     p: string;
     bookingNumber: string;
     isAuthenticated: boolean;
-    private ApiClient;
+    private token;
     componentWillLoad(): void;
     private handleAuthFinish;
     render(): any;

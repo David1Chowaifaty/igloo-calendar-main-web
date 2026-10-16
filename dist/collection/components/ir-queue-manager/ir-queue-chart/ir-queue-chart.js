@@ -1,6 +1,5 @@
 import { Host, h } from "@stencil/core";
 import { Chart, registerables } from "chart.js";
-import { t } from "../../../services/locale/t";
 Chart.register(...registerables);
 export class IrQueueChart {
     el;
@@ -9,7 +8,7 @@ export class IrQueueChart {
     /** Values for bars */
     values = [];
     /** Chart title */
-    label = t('Lcz_QueueStatus', { fallback: 'Queue Status' });
+    label = 'Queue Status';
     chart;
     canvas;
     componentDidLoad() {
@@ -99,7 +98,7 @@ export class IrQueueChart {
         this.chart.update();
     }
     render() {
-        return (h(Host, { key: 'fa984357d41b3eab1f8be1d201bc73df30ed7a37' }, h("div", { key: 'eeab59616d82be640b84c6f9e865d23101535e7e', class: "chart-container" }, h("canvas", { key: '452eef770691e3cbca5569ed39118ed24b44a1c0', ref: el => (this.canvas = el) }))));
+        return (h(Host, { key: 'f0cfb0bc434c02d36f3e2ec4bad1179a45f57fc8' }, h("div", { key: 'ab02c495caf4c0d30f5ad10106e01b5bd31c3789', class: "chart-container" }, h("canvas", { key: 'e5f01fdbe7f1e2f90e272cdeb28fceeb31fce940', ref: el => (this.canvas = el) }))));
     }
     static get is() { return "ir-queue-chart"; }
     static get originalStyleUrls() {
@@ -168,7 +167,7 @@ export class IrQueueChart {
                 "setter": false,
                 "reflect": false,
                 "attribute": "label",
-                "defaultValue": "t('Lcz_QueueStatus', { fallback: 'Queue Status' })"
+                "defaultValue": "'Queue Status'"
             }
         };
     }

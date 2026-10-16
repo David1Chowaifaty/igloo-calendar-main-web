@@ -717,7 +717,7 @@ export interface TimeConstraints {
     check_in_till: string;
     check_out_till: string;
 }
-export interface SetupEntries {
+export interface IEntries {
     CODE_NAME: string;
     CODE_VALUE_AR: string;
     CODE_VALUE_DE: string;
@@ -742,9 +742,9 @@ export interface SetupEntries {
     TBL_NAME: string;
 }
 export interface ISetupEntries {
-    arrivalTime: SetupEntries[];
-    ratePricingMode: SetupEntries[];
-    bedPreferenceType: SetupEntries[];
+    arrivalTime: IEntries[];
+    ratePricingMode: IEntries[];
+    bedPreferenceType: IEntries[];
 }
 export interface IExposedApplicablePolicies {
     type: 'guarantee' | 'cancelation';

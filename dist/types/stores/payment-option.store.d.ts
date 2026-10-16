@@ -1,7 +1,7 @@
 import { ILanguages, PaymentOption } from "../models/payment-options";
 export interface IPaymentOptionStore {
     selectedOption: PaymentOption | null;
-    ApiClient: string;
+    token: string;
     languages: ILanguages[];
     mode: 'edit' | 'create';
 }

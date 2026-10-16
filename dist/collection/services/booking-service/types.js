@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { DateSchema, LanguageSchema, PropertyIdSchema, TaxTypesSchema } from "../commonSchemas";
+import { PropertyIdSchema, TaxTypesSchema } from "../commonSchemas";
 const NumberOrStringSchema = z.union([z.number(), z.string().optional()]);
 export const CurrencySchema = z.object({
     id: z.number(),
@@ -25,9 +25,10 @@ export const UnblockUnitByPeriodPropsSchema = z.object({
 export const GetNextValuePropsSchema = z.object({
     starter: z.string().optional(),
 });
-export const GetExposedApplicablePoliciesPropsSchema = LanguageSchema.extend({
+export const GetExposedApplicablePoliciesPropsSchema = z.object({
     booking_nbr: z.string().optional(),
     currency_id: z.number(),
+    language: z.string().optional().optional(),
     rate_plan_id: z.number(),
     room_type_id: z.number(),
     property_id: z.number(),
@@ -39,9 +40,10 @@ export const HandleExposedRoomInOutPropsSchema = z.object({
     room_identifier: z.string().optional(),
     status: z.string().optional(),
 });
-export const GetPenaltyStatementPropsSchema = LanguageSchema.extend({
+export const GetPenaltyStatementPropsSchema = z.object({
     booking_nbr: z.string().optional(),
     currency_id: z.number(),
+    language: z.string().optional(),
 });
 const RestrictionSchema = z.object({
     room_type_id: NumberOrStringSchema,
@@ -60,11 +62,12 @@ const AdultChildCountSchema = z.object({
     adult: z.number(),
     child: z.number(),
 });
-export const GetBookingAvailabilityPropsSchema = LanguageSchema.extend({
+export const GetBookingAvailabilityPropsSchema = z.object({
     from_date: z.string().optional(),
     to_date: z.string().optional(),
     propertyid: z.number(),
     adultChildCount: AdultChildCountSchema,
+    language: z.string().optional(),
     room_type_ids: z.array(z.number()),
     room_type_ids_to_update: z.array(z.number()).optional(),
     rate_plan_ids: z.array(z.number()).optional(),
@@ -108,13 +111,13 @@ export const GetRoomsToCheckOutPropsSchema = z.object({
     page_size: z.number().default(10),
 });
 /* INVOICE TYPES */
-export const GetBookingInvoiceInfoPropsSchema = LanguageSchema.extend({
+export const GetBookingInvoiceInfoPropsSchema = z.object({
     booking_nbr: z.string().optional(),
 });
 export const VoidInvoicePropsSchema = z.object({
     invoice_nbr: z.string().optional(),
     reason: z.string().optional(),
-    property_id: PropertyIdSchema,
+    property_id: z.number(),
 });
 export const InvoiceSchema = z.object({
     booking_nbr: z.string().optional(),
@@ -184,7 +187,8 @@ export const CalculateOptimBaseGrossAmountParamsSchema = z.object({
 export const SimulateDirectBookingParamsSchema = z.object({
     booking_nbr: z.string(),
 });
-export const DoDayUseParamsSchema = LanguageSchema.extend({
+export const DoDayUseParamsSchema = z.object({
+    language: z.string().min(1),
     is_to_block: z.boolean().optional().default(false),
     booking: z.object({
         property: z.object({
@@ -238,9 +242,4 @@ export const SetArrivalTimePropsSchema = z.object({
     property_id: PropertyIdSchema,
     room_identifier: z.string(),
     code: z.string(),
-});
-export const GetCalendarDataParamsSchema = LanguageSchema.extend({
-    propertyid: PropertyIdSchema,
-    from_date: DateSchema,
-    to_date: DateSchema,
 });

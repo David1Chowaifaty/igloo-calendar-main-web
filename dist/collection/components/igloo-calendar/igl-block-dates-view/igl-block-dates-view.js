@@ -1,7 +1,6 @@
 import { Host, h } from "@stencil/core";
-import { SetupService, getSetupEntryLabel } from "../../../services/setup/index";
-import { t } from "../../../services/locale/t";
-import { formatDate } from "../../../utils/date/index";
+import { BookingService } from "../../../services/booking-service/booking.service";
+import locales from "../../../stores/locales.store";
 export class IglBlockDatesView {
     defaultData;
     fromDate;
@@ -18,10 +17,10 @@ export class IglBlockDatesView {
         OUT_OF_SERVICE: false,
     }; // Change of property name might require updates in booking-event-hover
     releaseList = [];
-    setupService = new SetupService();
+    bookingService = new BookingService();
     async componentWillLoad() {
         try {
-            this.releaseList = await this.setupService.getBlockedInfo();
+            this.releaseList = await this.bookingService.getBlockedInfo();
             if (this.defaultData) {
                 this.blockDatesData = { ...this.defaultData };
             }
@@ -45,25 +44,6 @@ export class IglBlockDatesView {
         this.renderPage();
         this.emitData();
     }
-    /**
-     * Switches between the two ways a block resolves: auto-release after a period, or out-of-service (manual release).
-     * The `wa-select` / `wa-input` for the auto-release branch live inside the radio group, so their bubbled `change`
-     * events reach this handler too — ignore anything that isn't the radio group or a radio.
-     */
-    handleModeChange(evt) {
-        const target = evt.target;
-        if (!target || (target.tagName !== 'WA-RADIO-GROUP' && target.tagName !== 'WA-RADIO')) {
-            return;
-        }
-        const outOfService = target.value === 'oos';
-        this.blockDatesData.OUT_OF_SERVICE = outOfService;
-        if (outOfService) {
-            this.blockDatesData.OPTIONAL_REASON = '';
-            this.blockDatesData.RELEASE_AFTER_HOURS = 0;
-        }
-        this.renderPage();
-        this.emitData();
-    }
     emitData() {
         this.dataUpdateEvent.emit({
             key: 'blockDatesData',
@@ -71,6 +51,8 @@ export class IglBlockDatesView {
         });
     }
     getReleaseHoursString() {
+        // console.log("entry date", this.entryDate);
+        // console.log("blocked date data", this.blockDatesData);
         let dt = this.entryDate ? new Date(this.entryDate) : new Date();
         if (this.entryDate && this.entryHour && this.entryMinute) {
             dt.setHours(this.entryHour, this.entryMinute, 0, 0);
@@ -78,16 +60,25 @@ export class IglBlockDatesView {
         else {
             dt.setHours(dt.getHours() + this.blockDatesData.RELEASE_AFTER_HOURS, dt.getMinutes(), 0, 0);
         }
-        return formatDate(dt, 'MMM D, HH:mm');
+        return dt.toLocaleString('default', { month: 'short' }) + ' ' + dt.getDate() + ', ' + this.formatNumber(dt.getHours()) + ':' + this.formatNumber(dt.getMinutes());
+    }
+    formatNumber(value) {
+        return value < 10 ? `0${value}` : value;
+    }
+    handleOutOfService(evt) {
+        this.blockDatesData.OUT_OF_SERVICE = evt.target.checked;
+        if (this.blockDatesData.OUT_OF_SERVICE) {
+            this.blockDatesData.OPTIONAL_REASON = '';
+            this.blockDatesData.RELEASE_AFTER_HOURS = 0;
+        }
+        this.renderPage();
+        this.emitData();
     }
     renderPage() {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        const { OUT_OF_SERVICE, OPTIONAL_REASON, RELEASE_AFTER_HOURS } = this.blockDatesData;
-        const releaseValue = String(Number(RELEASE_AFTER_HOURS) || 0);
-        const releaseHours = Number(RELEASE_AFTER_HOURS) || 0;
-        return (h(Host, { key: '9e8dbd2f7c2684ca16921f824e367a7e0fe22bed' }, h("div", { key: '4ad6996b18128ac1e42db09b7a3caecd6dd9a54d', class: "block-dates" }, h("ir-date-view", { key: 'dd0c05c15e843394e87483dffcd29792e0c8a841', format: 'weekday-medium', from_date: this.fromDate, to_date: this.toDate, showDateDifference: false }), h("wa-radio-group", { key: '72ac655bbb15bcadedcbc34152424af061ea96cc', class: "block-dates__mode", size: "m", orientation: "vertical", value: OUT_OF_SERVICE ? 'oos' : 'auto', onchange: evt => this.handleModeChange(evt) }, h("span", { key: 'a90cb44586e4eb2475074292b403be2392bf3942', slot: "label", class: "block-dates__label" }, t('Lcz_Reason', { fallback: 'Reason' })), h("wa-radio", { key: '6c75c8c37238e67cbe471df0f7a475e2b0105c1d', value: "auto" }, t('Lcz_AutomaticReleaseIn', { fallback: 'Automatic release in' })), !OUT_OF_SERVICE && (h("div", { key: '156d0c26db1b727eb80aa3f13e2bd804582f28d2', class: "block-dates__fields" }, h("wa-select", { key: '77e759e6717e9d00c7a132a52126ec3902d57542', class: "block-dates__select", size: "s", value: releaseValue, defaultValue: releaseValue, onchange: evt => this.handleReleaseAfterChange(evt) }, h("wa-icon", { key: '6699386a71acf98d48259d1b31aba32e6160ad05', slot: "start", name: "clock", label: t('Lcz_AutomaticReleaseIn', { fallback: 'Automatic release in' }) }), releaseHours > 0 && (h("span", { key: 'b1391ad1b440edd7148827462d75a41c1c50ac6a', slot: "end", class: "block-dates__release-on" }, t('Lcz_On', { fallback: 'On' }), " ", this.getReleaseHoursString())), this.releaseList.map(releaseItem => (h("wa-option", { value: String(Number(releaseItem.CODE_NAME) || 0) }, getSetupEntryLabel(releaseItem))))), h("wa-input", { key: 'f871d0d7b3247fac4e3da3d7c0a34e9696902a9f', class: "block-dates__reason", size: "s", placeholder: t('Lcz_OptionalReason', { fallback: 'Optional reason' }), value: OPTIONAL_REASON, oninput: event => this.handleOptionalReason(event) }, h("wa-icon", { key: 'b8bfae7f66a8df0505240abdc690dee0b943c18e', slot: "start", name: "comment", label: t('Lcz_OptionalReason', { fallback: 'Optional reason' }) })))), h("wa-radio", { key: 'f918bc2ec9490cdddaaf1ba762da5fe37daf87df', value: "oos" }, t('Lcz_OutOfservice', { fallback: 'Out of service' }))))));
+        return (h(Host, { key: '5b6b80f283b673d56649b0dc40a661b3878cf298' }, h("div", { key: '63aef9bd4bd2958029cc7202f2b511352ed07652', class: `m-0 p-0 mb-1` }, h("div", { key: '8223272ee505af29de8266b04f53bfa0e4900cba', class: "text-left p-0" }, h("ir-date-view", { key: '7ed8e45ffdf2313c465dd38ffd2f40bd8f3109c5', format: 'ddd, MMM DD, YYYY', from_date: this.fromDate, dateOption: "YYYY-MM-DD", showDateDifference: false, to_date: this.toDate }))), h("div", { key: '22f78e902ab3fa17bef596e4bb25ba4786b9e078', class: ` mb-1 text-left ${this.isEventHover && 'p-0'}` }, h("div", { key: 'e0d27b14600b2c24024a52e90bc60a11d025e0e5', class: "mb-1 " }, h("label", { key: '6775d5e24fa3218f8680209e2aa9cfc5336ab512', class: "p-0 text-bold-700 font-medium-1 m-0 align-middle" }, locales.entries.Lcz_Reason, ":"), h("div", { key: '70b4c531a3c811c2e6f4ffea7dd37ebc6288bab3', class: "p-0 m-0 pr-1  controlContainer checkBoxContainer d-inline-block align-middle" }, h("input", { key: '3a9a96ae2a3da0462840f8f1be21c2c3801d50b6', class: "form-control", type: "checkbox", checked: this.blockDatesData.OUT_OF_SERVICE, id: "userinput6", onChange: event => this.handleOutOfService(event) })), h("span", { key: '327692ca94f59f5ed52799676009aa47be7cba19', class: "align-middle out-of-service-label" }, locales.entries.Lcz_OutOfservice)), !this.blockDatesData.OUT_OF_SERVICE ? (h("div", null, h("div", { class: "mb-1 d-flex  align-items-center" }, h("span", { class: "align-middle" }, locales.entries.Lcz_Or, " "), h("div", { class: "d-inline-flex col pr-0 align-middle" }, h("input", { class: "form-control", type: "text", placeholder: locales.entries.Lcz_OptionalReason, id: "optReason", value: this.blockDatesData.OPTIONAL_REASON, onInput: event => this.handleOptionalReason(event) }))), h("div", { class: "mb-1 w-100 pr-0 " }, h("span", { class: "text-bold-700 font-medium-1" }, locales.entries.Lcz_AutomaticReleaseIn, ": "), h("div", { class: "d-inline-block" }, h("select", { class: "form-control input-sm", id: "zSmallSelect", onChange: evt => this.handleReleaseAfterChange(evt) }, this.releaseList.map(releaseItem => (h("option", { value: +releaseItem.CODE_NAME, selected: Number(this.blockDatesData.RELEASE_AFTER_HOURS) == Number(releaseItem.CODE_NAME) }, releaseItem.CODE_VALUE_EN))))), this.blockDatesData.RELEASE_AFTER_HOURS ? (h("div", { class: "d-inline-block releaseTime" }, h("em", null, locales.entries.Lcz_On, " ", this.getReleaseHoursString()))) : null))) : null)));
     }
     static get is() { return "igl-block-dates-view"; }
     static get encapsulation() { return "scoped"; }

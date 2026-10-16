@@ -1,17 +1,10 @@
 'use strict';
 
-var index = require('./index-IDeZZwEK.js');
-var index$1 = require('./index-DtKMs5Q4.js');
-var masks = require('./masks-DJsCZmbG.js');
+var index = require('./index-Bp205iz4.js');
+var index$1 = require('./index-BquCITYD.js');
 var v4 = require('./v4-_2BfiRUa.js');
-require('./moment-CdViwxPQ.js');
-require('./number-xBpNWk3H.js');
-require('./ir-date-CbkOKs2C.js');
-require('./locale-scope-Cch-vf1R.js');
-require('./language-observer-DKp37LIu.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
 
-const irPriceInputCss = () => `.sc-ir-price-input-h{display:block;--ir-input-border-color:#cacfe7;flex:1 1 0%}.sc-ir-price-input-h .input-group-text.sc-ir-price-input{border-color:var(--ir-input-border-color)}.sc-ir-price-input-h .form-control.sc-ir-price-input,.currency-label.sc-ir-price-input{font-size:14px !important}.ir-bl-lbl-none.sc-ir-price-input,.ir-bl-input-none.sc-ir-price-input{border-start-start-radius:0 !important;border-end-start-radius:0 !important}.rate-input.sc-ir-price-input:read-only{background:white !important}.ir-br-lbl-none.sc-ir-price-input,.ir-br-input-none.sc-ir-price-input{border-start-end-radius:0 !important;border-end-end-radius:0 !important}.ir-br-none.sc-ir-price-input{border-inline-end:none}.ir-bl-none.sc-ir-price-input{border-inline-start:none}.rate-input-container.sc-ir-price-input{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1;padding:0 !important}[class='special-style'].sc-ir-price-input-h .rate-input.sc-ir-price-input{background:black !important}.rate-input.sc-ir-price-input{font-size:0.875rem;line-height:0;padding:0;height:0;box-sizing:border-box;border-inline-start:0;padding-inline-start:0px !important;border-start-start-radius:0 !important;border-end-start-radius:0 !important}.currency-label.with-label.sc-ir-price-input{border-radius:0}.currency-label.sc-ir-price-input{box-sizing:border-box;color:#3b4781;border:1px solid #cacfe7;font-size:0.875rem;height:2rem;background:white;border-inline-end:0;border-start-end-radius:0;border-end-end-radius:0;pointer-events:none;transition:border-color 0.15s ease-in-out,     -webkit-box-shadow 0.15s ease-in-out}.currency-label.disabled.sc-ir-price-input,.rate-input.sc-ir-price-input:disabled{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.price-input-group.sc-ir-price-input:focus-within .currency-label.sc-ir-price-input{border-top:1px solid #1e9ff2;border-bottom:1px solid #1e9ff2;border-inline-start:1px solid #1e9ff2}[data-state='error'].sc-ir-price-input-h .currency-label.sc-ir-price-input,[data-state='error'].sc-ir-price-input-h .rate-input.sc-ir-price-input,.error.sc-ir-price-input{border-color:var(--red, #ff4961) !important}.price-input.sc-ir-price-input:focus{border-inline-end-width:1px !important}.is-invalid.sc-ir-price-input{background-image:none !important}`;
+const irPriceInputCss = () => `.sc-ir-price-input-h{display:block;--ir-input-border-color:#cacfe7;flex:1 1 0%}.sc-ir-price-input-h .input-group-text.sc-ir-price-input{border-color:var(--ir-input-border-color)}.sc-ir-price-input-h .form-control.sc-ir-price-input,.currency-label.sc-ir-price-input{font-size:14px !important}.ir-bl-lbl-none.sc-ir-price-input,.ir-bl-input-none.sc-ir-price-input{border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.rate-input.sc-ir-price-input:read-only{background:white !important}.ir-br-lbl-none.sc-ir-price-input,.ir-br-input-none.sc-ir-price-input{border-top-right-radius:0 !important;border-bottom-right-radius:0 !important}.ir-br-none.sc-ir-price-input{border-right:none}.ir-bl-none.sc-ir-price-input{border-left:none}.rate-input-container.sc-ir-price-input{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1;padding:0 !important}[class='special-style'].sc-ir-price-input-h .rate-input.sc-ir-price-input{background:black !important}.rate-input.sc-ir-price-input{font-size:0.875rem;line-height:0;padding:0;height:0;box-sizing:border-box;border-left:0;padding-left:0px !important;border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.currency-label.with-label.sc-ir-price-input{border-radius:0}.currency-label.sc-ir-price-input{box-sizing:border-box;color:#3b4781;border:1px solid #cacfe7;font-size:0.875rem;height:2rem;background:white;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;pointer-events:none;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.currency-label.disabled.sc-ir-price-input,.rate-input.sc-ir-price-input:disabled{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.price-input-group.sc-ir-price-input:focus-within .currency-label.sc-ir-price-input{border-top:1px solid #1e9ff2;border-bottom:1px solid #1e9ff2;border-left:1px solid #1e9ff2}[data-state='error'].sc-ir-price-input-h .currency-label.sc-ir-price-input,[data-state='error'].sc-ir-price-input-h .rate-input.sc-ir-price-input,.error.sc-ir-price-input{border-color:var(--red, #ff4961) !important}.price-input.sc-ir-price-input:focus{border-right-width:1px !important}.is-invalid.sc-ir-price-input{background-image:none !important}`;
 
 const IrPriceInput = class {
     constructor(hostRef) {
@@ -112,7 +105,7 @@ const IrPriceInput = class {
         if (this.maxValue !== undefined) {
             maskOpts['max'] = this.maxValue;
         }
-        this.mask = index$1.IMask(this.inputRef, masks.withLatinDigits(maskOpts));
+        this.mask = index$1.IMask(this.inputRef, maskOpts);
         // Set initial value if provided
         if (this.value) {
             this.mask.value = this.value;
@@ -171,13 +164,13 @@ const IrPriceInput = class {
         this.inputFocus.emit();
     };
     render() {
-        return (index.h("fieldset", { key: 'd07405ec056a3c1c02a47dbecfde186c6906d99c', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (index.h("div", { key: '93083c6ac3be81d850fb82a54102531042cf8cd6', class: `input-group-prepend ${this.labelContainerClassname}` }, index.h("span", { key: 'c51bcabf7f95e047a7155add0af7210104c92ac0', class: `input-group-text 
+        return (index.h("fieldset", { key: '2cd1082833501a76e9986336975f21a48250aeeb', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (index.h("div", { key: '8999bb74f5990292d90eea458e24a6468363e501', class: `input-group-prepend ${this.labelContainerClassname}` }, index.h("span", { key: '38a1825595f296aef332b6242a3285998a744cbc', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, index.h("label", { key: 'e0cc2ec09b8a82a1457a1dc0b3800e3b9228a7c2', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), index.h("div", { key: '274c34ff5930e4d7fefae0c2f54eb545dcc231c5', class: "position-relative has-icon-left rate-input-container" }, this.currency && (index.h("div", { key: '25d31390e593f6a62d1a11978491dcb1ef45a551' }, index.h("span", { key: 'c829e49aced2203e0f5ec4875ce7be911332035d', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), index.h("input", { key: '68a63393d3412e3ee9f0f7ed22c686802aa9368d', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, index.h("label", { key: 'ee21939e8fdb94639b81d99d71166b10875a7137', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), index.h("div", { key: '5875bf6d07dcfb29a34641c89cc5a1178c52b773', class: "position-relative has-icon-left rate-input-container" }, this.currency && (index.h("div", { key: 'c8e021ef09363ce8b33b31a9cf9f9d679b679b7e' }, index.h("span", { key: '00464167ecf3c0b2f4e3001d5b528d989382246b', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), index.h("input", { key: '782f5f434d92ac866df95555a8ad28c77a2e1a1e', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 

@@ -1,11 +1,8 @@
-import ApiClient from "../../models/ApiClient";
+import Token from "../../models/Token";
 import { Host, h } from "@stencil/core";
+import locales from "../../stores/locales.store";
 import { RoomService } from "../../services/room.service";
-import { SetupService } from "../../services/setup/index";
-import { LocaleController } from "../../services/locale/locale.controller";
-import { LanguageSync } from "../../services/locale/language-sync";
-import { SCREEN_TABLES } from "../../services/locale/screen-tables";
-import { t } from "../../services/locale/t";
+import { BookingService } from "../../services/booking-service/booking.service";
 export class IrFinancialActions {
     language = '';
     ticket = '';
@@ -15,32 +12,21 @@ export class IrFinancialActions {
     isPageLoading = true;
     property_id;
     sideBarEvent;
-    apiClientService = new ApiClient();
+    tokenService = new Token();
     roomService = new RoomService();
-    setupService = new SetupService();
+    bookingService = new BookingService();
     paymentEntries;
-    /** Re-runs init when the language changes so server-localized data follows. */
-    languageSync = new LanguageSync(SCREEN_TABLES.financialActions, () => this.initializeApp());
     componentWillLoad() {
         if (this.ticket) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.initializeApp();
         }
-    }
-    componentDidLoad() {
-        this.languageSync.connect();
-    }
-    disconnectedCallback() {
-        this.languageSync.disconnect();
-    }
-    languageChanged(next, previous) {
-        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
-        this.apiClientService.setApiClient(this.ticket);
+        this.tokenService.setToken(this.ticket);
         this.initializeApp();
     }
     handleSidebarClose = (e) => {
@@ -72,9 +58,6 @@ export class IrFinancialActions {
     async initializeApp() {
         this.isPageLoading = true;
         try {
-            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
-            // so the requests below are built with the right language on first mount.
-            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.financialActions });
             let propertyId = this.propertyid;
             if (!propertyId && !this.p) {
                 throw new Error('Property ID or username is required');
@@ -83,24 +66,33 @@ export class IrFinancialActions {
                 const propertyData = await this.roomService.getExposedProperty({
                     id: 0,
                     aname: this.p,
-                    language: LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 });
                 propertyId = propertyData.My_Result.id;
             }
             this.property_id = propertyId;
-            const requests = [this.setupService.getPaymentEntries(), this.getFinancialAction(), localeReady];
+            const requests = [
+                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
+                this.getFinancialAction(),
+                this.roomService.fetchLanguage(this.language),
+            ];
             if (propertyId) {
                 requests.push(this.roomService.getExposedProperty({
                     id: propertyId,
-                    language: LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                     include_units_hk_status: true,
                 }));
             }
-            const [paymentEntries] = await Promise.all(requests);
-            this.paymentEntries = paymentEntries;
+            const [setupEntries] = await Promise.all(requests);
+            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.paymentEntries = {
+                groups: pay_type_group,
+                methods: pay_method,
+                types: pay_type,
+            };
         }
         catch (error) {
             console.log(error);
@@ -113,7 +105,7 @@ export class IrFinancialActions {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, t('Lcz_PaymentActions', { fallback: 'Payment Actions' })), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: t('Lcz_Export', { fallback: 'Export' }), onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Payment Actions"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: locales.entries?.Lcz_Export, onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getFinancialAction(true);
@@ -226,9 +218,6 @@ export class IrFinancialActions {
     }
     static get watchers() {
         return [{
-                "propName": "language",
-                "methodName": "languageChanged"
-            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }];

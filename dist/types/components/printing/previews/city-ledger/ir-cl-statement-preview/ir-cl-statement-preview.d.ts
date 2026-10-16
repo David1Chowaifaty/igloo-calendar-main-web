@@ -14,7 +14,7 @@ export declare class IrClStatementPreview {
     private statement;
     private fiscalDocuments;
     clPreviewReady: EventEmitter<void>;
-    private apiClientService;
+    private tokenService;
     private propertyService;
     private cityLedgerService;
     private hasEmitted;

@@ -201,8 +201,8 @@
 
 .sticky-column {
   position: sticky !important;
-  inset-inline-end: 0;
-  background-color: var(--wa-color-surface-default, white);
+  right: 0;
+  background-color: white;
 }
 
 /* #endregion */
@@ -221,12 +221,12 @@
 
 /* #region head */
 .fiscal-table__heading:last-child {
-  border-inline-end: 0;
+  border-right: 0;
 }
 
 .fiscal-table__heading--numeric,
 .fiscal-table__cell--numeric {
-  text-align: end !important;
+  text-align: right !important;
 }
 .ir-table-row.--is-draft > td {
   background-color: var(--wa-color-warning-fill-quiet) !important;
@@ -236,10 +236,6 @@
   margin: 0;
   padding: 0;
   font-size: var(--wa-font-size-s);
-}
-/* `Lcz_For` is capitalised; here it is a connector mid-sentence ("for INV-123"). */
-.fd_ss__connector {
-  text-transform: lowercase;
 }
 .fiscal-table__date-cell {
   display: flex;

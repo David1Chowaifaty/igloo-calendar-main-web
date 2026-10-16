@@ -40,25 +40,3 @@
     min-width: 150px;
   }
 }
-
-/* Logical replacements for the Bootstrap 4 directional utilities this
-   component used; the injected Bootstrap sheet is LTR-only and cannot mirror. */
-.ir-text-end {
-  text-align: end;
-}
-
-/* Content height, shrinking to scroll once the rows outgrow a fixed-height host (the dashboard), with the pagination kept in view below. */
-:host .table--container {
-  flex: 0 1 auto;
-  block-size: auto;
-  min-block-size: 0;
-}
-
-/* Header stays put while the rows scroll. A border on a sticky cell scrolls away with the collapsed table, so the rule is drawn as a shadow. */
-:host .data-table thead th {
-  position: sticky;
-  inset-block-start: 0;
-  z-index: 3;
-  border-block-end-color: transparent !important;
-  box-shadow: inset 0 -1px 0 var(--wa-color-neutral-border-normal);
-}

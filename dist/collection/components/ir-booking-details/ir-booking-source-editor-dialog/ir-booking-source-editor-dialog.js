@@ -1,5 +1,4 @@
 import { h } from "@stencil/core";
-import { t } from "../../../services/locale/t";
 export class IrBookingSourceEditorDialog {
     booking;
     resetBookingEvt;
@@ -12,14 +11,14 @@ export class IrBookingSourceEditorDialog {
         this.open = false;
     }
     render() {
-        return (h("ir-dialog", { key: '6cf64a2abafc4fc900acd25241edc57ef673b0de', label: t('Lcz_ChangeBookingSource', { fallback: 'Change Booking Source' }), onIrDialogHide: e => {
+        return (h("ir-dialog", { key: 'bf5c2f6282cb0d56b3388a55c02bf37055ae006f', label: "Change Booking Source", onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.open = false;
-            }, open: this.open }, this.open && (h("ir-booking-source-editor-form", { key: 'a2aa51ea947ad421b9a99aca6cc42125d305eb93', booking: this.booking, onBookingSourceSaved: () => {
+            }, open: this.open }, this.open && (h("ir-booking-source-editor-form", { key: 'e4b42fea8e07e18cdc288f8f2e2964a097146610', booking: this.booking, onBookingSourceSaved: () => {
                 this.closeDialog();
                 setTimeout(() => this.resetBookingEvt.emit(null), 100);
-            }, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: '3c16b3148cc8b601ca10593810441367d5c2fc87', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '29f4d6edd24267b1e073a4ee82442aae42fd1ad2', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '671462218260a1e8443e3db30a4b18cc59dc72dc', type: "submit", form: `change-source-form-${this.booking?.booking_nbr}`, size: "m", appearance: "accent", variant: "brand", loading: this.isLoading }, t('Lcz_Save', { fallback: 'Save' })))));
+            }, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: '88546e10b34d6a8e79366a62fa1befc94a30f7d3', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '45d04f9134fd4ca0136f42a4f41c008a969b02f3', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { key: 'f7d234bf82af1fa34926ec6258c8194ff93534c0', type: "submit", form: `change-source-form-${this.booking?.booking_nbr}`, size: "m", appearance: "accent", variant: "brand", loading: this.isLoading }, "Save"))));
     }
     static get is() { return "ir-booking-source-editor-dialog"; }
     static get encapsulation() { return "scoped"; }

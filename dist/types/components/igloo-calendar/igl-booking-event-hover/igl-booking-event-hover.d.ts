@@ -9,6 +9,7 @@ export declare class IglBookingEventHover {
         [key: string]: any;
     };
     bubbleInfoTop: boolean;
+    currency: any;
     countries: ICountry[];
     is_vacation_rental: boolean;
     isLoading: string;
@@ -83,7 +84,6 @@ export declare class IglBookingEventHover {
      */
     private canSplitBooking;
     private get isHalfBoard();
-    private renderColorPicker;
     private getInfoElement;
     private handleReallocationBooking;
     private handleSplitBooking;

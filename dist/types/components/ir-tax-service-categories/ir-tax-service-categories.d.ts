@@ -9,8 +9,8 @@ export declare class IrTaxServiceCategories {
     chargeCategoryRules: Map<string, TaxAndChargeSetup>;
     setupEntries: TaxesSetupEntries;
     autoValidate: boolean;
-    private apiClientService;
-    private setupService;
+    private tokenService;
+    private bookingService;
     private propertyService;
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;

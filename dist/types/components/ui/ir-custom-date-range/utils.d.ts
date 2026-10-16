@@ -1,0 +1,10 @@
+import 'moment/locale/ar';
+import 'moment/locale/es';
+import 'moment/locale/fr';
+import 'moment/locale/de';
+import 'moment/locale/pl';
+import 'moment/locale/uk';
+import 'moment/locale/ru';
+import 'moment/locale/el';
+export declare function matchLocale(locale: string): string;
+export declare function getAbbreviatedWeekdays(locale: string): any[];

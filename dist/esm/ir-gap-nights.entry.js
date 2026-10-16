@@ -1,28 +1,23 @@
-import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { S as SetupService } from './index-BjCyQqYQ.js';
-import { P as PropertyService } from './index-CnWneKl2.js';
-import { R as RoomService } from './room.service-BJ8j9O2_.js';
-import { i as isRequestPending } from './ir-interceptor.store-DjDNm9TC.js';
-import { h as showToast } from './utils-BaDgLaiu.js';
-import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-BdYR01Ld.js';
-import { L as LanguageSync } from './language-sync-D7Gk7F48.js';
-import { t } from './t-Bvz1wS_D.js';
-import { g as groupEntryTablesResult, d as getSetupEntryLabel } from './utils-BjFJEvis.js';
+import { r as registerInstance, h, H as Host } from './index-CwWmK1sZ.js';
+import { T as Token } from './Token-CkxFIO_J.js';
+import { B as BookingService } from './booking.store-5VMZSDo_.js';
+import { P as PropertyService } from './index-CoQI_xnH.js';
+import { R as RoomService } from './room.service-Ck68Bw__.js';
+import { i as isRequestPending } from './ir-interceptor.store-BjT5RY0N.js';
+import { j as groupEntryTablesResult, k as showToast } from './utils-DCUYWubA.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './IBooking-B4waZCSK.js';
-import './types-CB66a07H.js';
-import './calendar-data-DWzivSW-.js';
-import './locale-scope-Jre4lb6k.js';
+import './IBooking-DciUlUdo.js';
+import './types-Cvnhk41g.js';
+import './booking-DxbkLMu3.js';
 import './moment-Mki5YqAR.js';
-import './commonSchemas-Cx9w9d8l.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
-import './ir-date-XXNYhmSL.js';
-import './language-observer-CHgzsZkY.js';
+import './locales.store-DN9FqlnV.js';
+import './index-BfixheT-.js';
+import './calendar-data-zADniuy4.js';
+import './functions-COpYNLV3.js';
+import './commonSchemas-BiRmPH_2.js';
+import './type-ByBjJ3uo.js';
 import './calendar-dates-D3hVfsrC.js';
-import './types-CyZFzmvF.js';
 
 const irGapNightsCss = () => `.sc-ir-gap-nights-h{display:block}.gap-nights__card.sc-ir-gap-nights{min-height:70vh}@media (min-width: 768px){.gap-nights__day-options.sc-ir-gap-nights{max-width:300px}}.gap-nights__card.sc-ir-gap-nights{background-color:var(--wa-color-surface-default, white)}.gap-nights__card-header.sc-ir-gap-nights{display:flex;flex-direction:row;justify-content:space-between;align-items:center;width:100%;gap:var(--wa-space-l)}.gap-nights__card-header.sc-ir-gap-nights p.sc-ir-gap-nights{margin:0;padding:0}.gap-nights__card.sc-ir-gap-nights::part(body),.gap-nights__card.sc-ir-gap-nights [part~="body"]{display:flex;flex-direction:column;gap:var(--wa-space-l)}.gap-nights__period.sc-ir-gap-nights{display:flex;align-items:center;gap:var(--wa-space-m)}.gap-nights__period-label.sc-ir-gap-nights{font-size:var(--wa-font-size-s);font-weight:var(--wa-font-weight-semibold);color:var(--wa-color-neutral-800);white-space:nowrap}.gap-nights__period--disabled.sc-ir-gap-nights .gap-nights__period-label.sc-ir-gap-nights{color:var(--wa-color-neutral-400)}`;
 
@@ -43,30 +38,19 @@ const IrGapNights = class {
     gapRules = [];
     gapRanges = [];
     propertyId;
-    apiClientService = new ApiClient();
+    tokenService = new Token();
     roomService = new RoomService();
     propertyService = new PropertyService();
-    setupService = new SetupService();
-    /** Re-runs init when the language changes so server-localized data follows. */
-    languageSync = new LanguageSync(SCREEN_TABLES.gapNights, () => this.init());
+    bookingService = new BookingService();
     componentWillLoad() {
         if (this.ticket) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.init();
         }
     }
-    componentDidLoad() {
-        this.languageSync.connect();
-    }
-    disconnectedCallback() {
-        this.languageSync.disconnect();
-    }
-    languageChanged(next, previous) {
-        this.languageSync.propChanged(next, previous);
-    }
     handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.apiClientService.setApiClient(newValue);
+            this.tokenService.setToken(newValue);
             this.init();
         }
     }
@@ -81,18 +65,15 @@ const IrGapNights = class {
     async init() {
         try {
             this.isLoading = true;
-            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
-            // so the requests below are built with the right language on first mount.
-            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.gapNights });
             const [propertyRes, , setupEntries] = await Promise.all([
                 this.roomService.getExposedProperty({
                     id: this.propertyid ?? 0,
                     aname: this.p,
-                    language: LocaleController.language,
+                    language: this.language,
                     is_backend: true,
                 }),
-                localeReady,
-                this.setupService.getSetupEntriesByTableNameMulti(['_GAP_RANGE', '_GAP_RULE']),
+                this.roomService.fetchLanguage(this.language),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_GAP_RANGE', '_GAP_RULE']),
             ]);
             this.propertyId = propertyRes.My_Result.id;
             const { gap_rule, gap_range } = groupEntryTablesResult(setupEntries);
@@ -119,11 +100,11 @@ const IrGapNights = class {
                 gap_rule_code: this.selectedRule,
                 gap_lookahead_days: this.selectedRule === DEFAULT_RULE_CODE ? 0 : this.applicableDays,
             });
-            showToast({ position: 'top-right', title: t('Lcz_SavedSuccessfully', { fallback: 'Saved successfully' }), description: '', type: 'success' });
+            showToast({ position: 'top-right', title: 'Saved successfully', description: '', type: 'success' });
         }
         catch (err) {
             console.error(err);
-            showToast({ position: 'top-right', title: t('Lcz_FailedToSave', { fallback: 'Failed to save' }), description: String(err), type: 'error' });
+            showToast({ position: 'top-right', title: 'Failed to save', description: String(err), type: 'error' });
         }
         finally {
             this.isSaving = false;
@@ -135,18 +116,13 @@ const IrGapNights = class {
         }
         const ruleDisabled = isRequestPending('/Set_Property_Gap_Config') || this.isSaving;
         const periodDisabled = ruleDisabled || this.selectedRule === DEFAULT_RULE_CODE;
-        return (h(Host, null, h("ir-page", { label: t('Lcz_GapNights', { fallback: 'Gap Nights' }) }, h("ir-custom-button", { slot: "page-header", variant: "brand", loading: ruleDisabled, onClickHandler: () => this.save() }, t('Lcz_Save', { fallback: 'Save' })), h("wa-card", { appearance: "plain", class: "gap-nights__card" }, h("wa-callout", { variant: "neutral", size: "s" }, h("wa-icon", { slot: "icon", name: "circle-info" }), t('Lcz_GapNightsExplanation', {
-            fallback: "Gap nights are nights guests can't book because of your length of stay restriction. For example, if you have 2 consecutive nights left and you've set a restriction of 3 nights minimum stay, guests won't be able to book those 2 nights.",
-        })), h("wa-radio-group", { label: t('Lcz_Rule', { fallback: 'Rule' }), value: this.selectedRule, defaultValue: this.selectedRule, onchange: (e) => {
+        return (h(Host, null, h("ir-page", { label: "Gap Nights" }, h("ir-custom-button", { slot: "page-header", variant: "brand", loading: ruleDisabled, onClickHandler: () => this.save() }, "Save"), h("wa-card", { appearance: "plain", class: "gap-nights__card" }, h("wa-callout", { variant: "neutral", size: "s" }, h("wa-icon", { slot: "icon", name: "circle-info" }), "Gap nights are nights guests can't book because of your length of stay restriction. For example, if you have 2 consecutive nights left and you've set a restriction of 3 nights minimum stay, guests won't be able to book those 2 nights."), h("wa-radio-group", { label: "Rule", value: this.selectedRule, defaultValue: this.selectedRule, onchange: (e) => {
                 this.selectedRule = e.target.value;
-            } }, this.gapRules.map(r => (h("wa-radio", { key: r.CODE_NAME, value: r.CODE_NAME, disabled: ruleDisabled }, getSetupEntryLabel(r))))), h("wa-select", { size: "s", class: "gap-nights__day-options", label: t('Lcz_ApplicableOverTheNext', { fallback: 'Applicable over the next' }), value: this.applicableDays.toString(), defaultValue: this.applicableDays.toString(), disabled: periodDisabled, onchange: (e) => {
+            } }, this.gapRules.map(r => (h("wa-radio", { key: r.CODE_NAME, value: r.CODE_NAME, disabled: ruleDisabled }, r.CODE_VALUE_EN)))), h("wa-select", { size: "s", class: "gap-nights__day-options", label: "Applicable over the next", value: this.applicableDays.toString(), defaultValue: this.applicableDays.toString(), disabled: periodDisabled, onchange: (e) => {
                 this.applicableDays = Number(e.target.value);
-            } }, this.gapRanges.map(r => (h("wa-option", { key: r.CODE_NAME, value: Number(r.CODE_NAME).toString() }, getSetupEntryLabel(r)))))))));
+            } }, this.gapRanges.map(r => (h("wa-option", { key: r.CODE_NAME, value: Number(r.CODE_NAME).toString() }, r.CODE_VALUE_EN))))))));
     }
     static get watchers() { return {
-        "language": [{
-                "languageChanged": 0
-            }],
         "ticket": [{
                 "handleTicketChange": 0
             }],

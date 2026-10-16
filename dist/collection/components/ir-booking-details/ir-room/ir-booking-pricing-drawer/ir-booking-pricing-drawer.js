@@ -1,5 +1,4 @@
 import { h } from "@stencil/core";
-import { t } from "../../../../services/locale/t";
 export class IrBookingPricingDrawer {
     open = false;
     formId = 'booking-pricing-form';
@@ -14,7 +13,7 @@ export class IrBookingPricingDrawer {
     pricingSaved;
     get drawerLabel() {
         if (!this.room)
-            return t('Lcz_EditNightlyRates', { fallback: 'Edit Nightly Rates' });
+            return 'Edit Nightly Rates';
         const parts = [this.room.roomtype?.name, this.room.rateplan?.short_name].filter(Boolean);
         const unitName = this.room.unit?.name;
         if (unitName)
@@ -26,7 +25,7 @@ export class IrBookingPricingDrawer {
         event.stopImmediatePropagation();
     }
     render() {
-        return (h("ir-drawer", { key: '17dd56dc2b366cfffa6949589805fa6051f0b8b0', open: this.open, label: this.drawerLabel, style: {
+        return (h("ir-drawer", { key: 'ca3de6706ee9419f9e8adf3de9734505b451f0fb', open: this.open, label: this.drawerLabel, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -39,7 +38,7 @@ export class IrBookingPricingDrawer {
                     this.allItemsDisabled = false;
                     this.closeDrawer.emit();
                 }
-            } }, this.open && (h("ir-booking-pricing-form", { key: 'e8596b05e3f7bfb99ae14a40c3d5380325b9f0e6', formId: this.formId, booking: this.booking, room: this.room, agent: this.agent, folioEntries: this.folioEntries, currencySymbol: this.currencySymbol, onPricingSaved: e => {
+            } }, this.open && (h("ir-booking-pricing-form", { key: '7a6d77eab25ad5e29844398e0620ebbfaa6e1eed', formId: this.formId, booking: this.booking, room: this.room, agent: this.agent, folioEntries: this.folioEntries, currencySymbol: this.currencySymbol, onPricingSaved: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.pricingSaved.emit();
@@ -50,7 +49,7 @@ export class IrBookingPricingDrawer {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.allItemsDisabled = e.detail;
-            } })), h("div", { key: '6455aee6737bc4d5ebd034eccf5ae0971b68c640', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '0d49bac6f1995089eeb58750c42693bfebcb7acb', appearance: "filled", size: "m", variant: "neutral", onClickHandler: () => this.closeDrawer.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '2939f7bce0d3aae6c7eab2bf1caafdc0d49898be', form: this.formId, size: "m", type: "submit", variant: "brand", loading: this.saveDisabled, disabled: this.allItemsDisabled }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
+            } })), h("div", { key: '8c5bd367fa09da0c5d290e004e660874134f26ed', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'f5df3bd3a3fe31ffbf86a7b14e368a13d5d515f2', appearance: "filled", size: "m", variant: "neutral", onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: 'f9216fd747ba9619ad075e54a3dc4a5987e2cab4', form: this.formId, size: "m", type: "submit", variant: "brand", loading: this.saveDisabled, disabled: this.allItemsDisabled }, "Confirm"))));
     }
     static get is() { return "ir-booking-pricing-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -159,7 +158,7 @@ export class IrBookingPricingDrawer {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent | null",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",

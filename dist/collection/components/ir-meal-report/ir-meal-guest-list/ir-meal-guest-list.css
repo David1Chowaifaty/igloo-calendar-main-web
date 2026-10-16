@@ -201,8 +201,8 @@
 
 .sticky-column {
   position: sticky !important;
-  inset-inline-end: 0;
-  background-color: var(--wa-color-surface-default, white);
+  right: 0;
+  background-color: white;
 }
 
 /* #endregion */
@@ -227,14 +227,14 @@
 /* Align header horizontal padding with the tightened body cells. */
 
 .meal-guest-list__cell--ad {
-  text-align: end !important;
+  text-align: right !important;
   padding-inline: 0.4rem 0.2rem !important;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 .meal-guest-list__cell--ch {
-  text-align: start !important;
+  text-align: left !important;
   padding-inline: 0.4rem 0.2rem !important;
   color: var(--wa-color-text-quiet);
   text-transform: uppercase;

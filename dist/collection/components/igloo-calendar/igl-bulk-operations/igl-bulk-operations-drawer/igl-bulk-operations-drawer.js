@@ -1,5 +1,4 @@
 import { Host, h } from "@stencil/core";
-import { t } from "../../../../services/locale/t";
 export class IglBulkOperationsDrawer {
     open;
     maxDatesLength = 8;
@@ -12,11 +11,11 @@ export class IglBulkOperationsDrawer {
     tabs = [
         {
             id: 'stop-sale',
-            label: t('Lcz_StopOpenSale', { fallback: 'Stop/Open Sale' }),
+            label: 'Stop/Open Sale',
         },
         {
             id: 'block',
-            label: t('Lcz_BlockUnit', { fallback: 'Block Unit' }),
+            label: 'Block Unit',
         },
     ];
     handleLoadingChange(e) {
@@ -31,7 +30,7 @@ export class IglBulkOperationsDrawer {
     }
     render() {
         const formId = `${this.formId}-${this.selectedTab}`;
-        return (h(Host, { key: 'fe8052a2cfb9826c2b6646ec5691b3284fba8442' }, h("ir-drawer", { key: 'f13b1727b2ee1e115a5805393fb8388fa67b6b1a', onDrawerHide: this.handleDrawerClose.bind(this), label: t('Lcz_BulkAvailabilityOperations', { fallback: 'Bulk Availability Operations' }), open: this.open, class: "bulk-operations__drawer" }, this.open && (h("wa-tab-group", { key: '31b773dcafac984441efd5372adfbca60af360a2', class: "bulk-operations__tab-group", active: this.selectedTab, activation: "manual", "onwa-tab-show": e => (this.selectedTab = e.detail.name?.toString()) }, this.tabs.map(tab => (h("wa-tab", { panel: tab.id }, tab.label))), h("wa-tab-panel", { key: 'b64b960fc1710e174e83e77855d6bed944fca818', name: "stop-sale" }, this.selectedTab === 'stop-sale' && (h("igl-bulk-stop-sale", { key: 'a15565ac85b604af67e337560e20164464271f5a', onCloseDrawer: this.handleDrawerClose.bind(this), maxDatesLength: this.maxDatesLength, formId: formId, property_id: this.property_id }))), h("wa-tab-panel", { key: '16780f0e36f8c87ed1dad7395cd4b6b0f88cca7c', name: "block" }, this.selectedTab === 'block' && (h("igl-bulk-block", { key: '6a2511b4fcdfb6e15acb1d14a4c45c1b97de446e', onCloseDrawer: this.handleDrawerClose.bind(this), formId: formId, maxDatesLength: this.maxDatesLength, property_id: this.property_id }))))), h("div", { key: '66d18fa662d57ea03ff2446d7555422575f0253b', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '95d02b6e04d86243d1a4f0dccd8660609f52a0cf', size: "m", variant: "neutral", appearance: "filled", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '97a53e8d1bac23eeb5c60f96b761a4dd207bdd99', loading: this.isLoading, type: "submit", form: formId, size: "m", variant: "brand" }, t('Lcz_Confirm', { fallback: 'Confirm' }))))));
+        return (h(Host, { key: '461877989ee484b4cfd976064d817b1ad58b8257' }, h("ir-drawer", { key: '3a321df11adad69500ba1fc96c6b5788d820b029', onDrawerHide: this.handleDrawerClose.bind(this), label: "Bulk Availability Operations", open: this.open, class: "bulk-operations__drawer" }, this.open && (h("wa-tab-group", { key: '56a3c78afb8ec8a7e540a4b4732c3630f3e5ac93', class: "bulk-operations__tab-group", active: this.selectedTab, activation: "manual", "onwa-tab-show": e => (this.selectedTab = e.detail.name?.toString()) }, this.tabs.map(tab => (h("wa-tab", { panel: tab.id }, tab.label))), h("wa-tab-panel", { key: '2e5100b95fa159a119e82eb6efbc0c553861ec71', name: "stop-sale" }, this.selectedTab === 'stop-sale' && (h("igl-bulk-stop-sale", { key: '3371a50b44ae4968e3297ed36557300a3e5e16cf', onCloseDrawer: this.handleDrawerClose.bind(this), maxDatesLength: this.maxDatesLength, formId: formId, property_id: this.property_id }))), h("wa-tab-panel", { key: '555d3b1358010bca09593de2dcf55618028bfba5', name: "block" }, this.selectedTab === 'block' && (h("igl-bulk-block", { key: '2a41b0ffb52720436db4e8f63adcbbb89eaf906a', onCloseDrawer: this.handleDrawerClose.bind(this), formId: formId, maxDatesLength: this.maxDatesLength, property_id: this.property_id }))))), h("div", { key: '1b2221c757d6f97056a7f639491ef7a1dd037a82', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'be3fe845b1a8fd6cd1ef8f7ca238d205bf1cba10', size: "m", variant: "neutral", appearance: "filled", "data-drawer": "close" }, "Cancel"), h("ir-custom-button", { key: 'ceb0adc52c143e64ff96d621e1ef4f4555239dad', loading: this.isLoading, type: "submit", form: formId, size: "m", variant: "brand" }, "Confirm")))));
     }
     static get is() { return "igl-bulk-operations-drawer"; }
     static get encapsulation() { return "scoped"; }

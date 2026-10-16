@@ -2,7 +2,6 @@ import calendar_data from "../../../../stores/calendar-data";
 import { formatAmount } from "../../../../utils/utils";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
-import { t } from "../../../../services/locale/t";
 export class IrBalanceCell {
     label;
     display = 'block';
@@ -19,7 +18,7 @@ export class IrBalanceCell {
         return value !== null && value !== undefined && value !== 0;
     }
     render() {
-        return (h(Host, { key: '4e69f7798e731d35e7e5eb67a87cd406f97d72b9' }, this.label && h("p", { key: '57266b710cb2428ef43d21d87ceb854b8d30cbe6', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '1baa4eabbb2e0e675418ee56ec82ba11415790d2', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: '70e37c519bffd42ed39ee180f2d97c4529bdcc3b' }, this.label && h("p", { key: '85010d5ad0c2b0c3ff8e706a11936931ee65b0e0', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '81e002ca688f0f44c7ce9d8bbb0957717d9b90b1', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.hasAmount(this.financial.cancelation_penality_as_if_today) &&
                 this.hasAmount(this.financial.due_amount) && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -35,7 +34,7 @@ export class IrBalanceCell {
                             reference: '',
                         },
                     });
-                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? t('Lcz_Refund', { fallback: 'Refund' }) : t('Lcz_Charge', { fallback: 'Charge' }), " "), formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
+                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
             : this.hasAmount(this.guestFinancial?.due_amount) && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
                         booking_nbr: this.bookingNumber,
@@ -67,7 +66,7 @@ export class IrBalanceCell {
                                             reference: '',
                                         },
                                     });
-                                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? t('Lcz_Refund', { fallback: 'Refund' }) : t('Lcz_Charge', { fallback: 'Charge' }), ' '), formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
+                                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
                             : this.financial.due_amount !== 0 && (h("ir-custom-button", { onClickHandler: () => {
                                     this.payBookingBalance.emit({
                                         booking_nbr: this.bookingNumber,

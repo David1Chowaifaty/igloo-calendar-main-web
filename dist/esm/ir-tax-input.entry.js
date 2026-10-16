@@ -1,20 +1,16 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
-import { e as getEntryValue } from './utils-BjFJEvis.js';
-import { L as LocaleController } from './locale.controller-BdYR01Ld.js';
-import { t } from './t-Bvz1wS_D.js';
-import { s as stringType, n as numberType, c as coerce } from './types-CB66a07H.js';
-import './IBooking-B4waZCSK.js';
-import './commonSchemas-Cx9w9d8l.js';
-import './locale-scope-Jre4lb6k.js';
-import './language-observer-CHgzsZkY.js';
-import './axios-B50ozOIF.js';
-import './_commonjsHelpers-BFTU3MAI.js';
-import './types-CyZFzmvF.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-CwWmK1sZ.js';
+import { h as getEntryValue } from './utils-DCUYWubA.js';
+import { s as stringType, n as numberType, c as coerce } from './types-Cvnhk41g.js';
+import './moment-Mki5YqAR.js';
+import './calendar-data-zADniuy4.js';
+import './index-BfixheT-.js';
+import './locales.store-DN9FqlnV.js';
+import './type-ByBjJ3uo.js';
+import './calendar-dates-D3hVfsrC.js';
 
-const irTaxInputCss = () => `wa-input[aria-invalid='true']::part(base),wa-textarea[aria-invalid='true']::part(base),wa-select[aria-invalid='true']::part(combobox){border-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));outline-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));border-top-width:var(--error-border-width) !important;border-inline-start-width:var(--error-border-width) !important;border-inline-end-width:var(--error-border-width) !important;border-bottom-width:var(--error-border-width) !important}:host{display:flex;flex:1;gap:0;align-items:flex-end;}.ir-tax-input__percentage::part(base){border-start-end-radius:0;border-end-end-radius:0}.ir-tax-input__select::part(combobox){border-start-start-radius:0;border-end-start-radius:0;border-inline-start-width:0}.ir-tax-input__percentage-wrapper{z-index:4;}.ir-tax-input__select-wrapper{flex:1 1 0%}.ir-tax-input__percentage{z-index:5}.ir-tax-input__select{flex:1 1 0%}.ir-tax-input__select-wrapper{z-index:3}.ir-tax-input__select-wrapper:has(.ir-tax-input__select[open]),.ir-tax-input__select-wrapper:has(.ir-tax-input__select:focus-visible),.ir-tax-input__select-wrapper:has(.ir-tax-input__select:focus-within),.ir-tax-input__select[open],.ir-tax-input__select:focus-visible,.ir-tax-input__select:focus-within{z-index:4}`;
+const irTaxInputCss = () => `wa-input[aria-invalid='true']::part(base),wa-textarea[aria-invalid='true']::part(base),wa-select[aria-invalid='true']::part(combobox){border-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));outline-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));border-top-width:var(--error-border-width) !important;border-left-width:var(--error-border-width) !important;border-right-width:var(--error-border-width) !important;border-bottom-width:var(--error-border-width) !important}:host{display:flex;flex:1;gap:0;align-items:flex-end;}:host(:dir(rtl)) .ir-tax-input__percentage::part(base),:host(:dir(ltr)) .ir-tax-input__select::part(combobox){border-top-left-radius:0;border-bottom-left-radius:0}:host(:dir(rtl)) .ir-tax-input__select::part(combobox),:host(:dir(ltr)) .ir-tax-input__percentage::part(base){border-top-right-radius:0;border-bottom-right-radius:0}:host(:dir(rtl)) .ir-tax-input__select::part(combobox){border-right-width:0}:host(:dir(ltr)) .ir-tax-input__select::part(combobox){border-left-width:0}.ir-tax-input__percentage-wrapper{z-index:4;}.ir-tax-input__select-wrapper{flex:1 1 0%}.ir-tax-input__percentage{z-index:5}.ir-tax-input__select{flex:1 1 0%}.ir-tax-input__select-wrapper{z-index:3}.ir-tax-input__select-wrapper:has(.ir-tax-input__select[open]),.ir-tax-input__select-wrapper:has(.ir-tax-input__select:focus-visible),.ir-tax-input__select-wrapper:has(.ir-tax-input__select:focus-within),.ir-tax-input__select[open],.ir-tax-input__select:focus-visible,.ir-tax-input__select:focus-within{z-index:4}`;
 
-// Lazy message: built at module load, before any locale is fetched.
-const taxSetupSchema = stringType({ errorMap: () => ({ message: t('Lcz_SelectASetupEntry', { fallback: 'Select a setup entry' }) }) }).min(1);
+const taxSetupSchema = stringType().min(1, 'Select a setup entry');
 const IrTaxInput = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
@@ -90,7 +86,7 @@ const IrTaxInput = class {
         this.tax = { ...(this.tax || {}), ...params };
     }
     render() {
-        return (h(Host, { key: 'f9b9c412fe7acdf1c4a99815cac1e0ede8c201df', class: "ir-tax-input" }, h("ir-validator", { key: '8d83be28a30c0430e1a2ad6800cdcfc88f94dcfb', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? numberType().nullable() : coerce.number().min(0).max(30) }, h("ir-input", { key: 'a17a2143858883757b638c424b36a203a29ab0d6', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
+        return (h(Host, { key: 'dbe759b844f9c1a22da76aa20e7703457000923b', class: "ir-tax-input" }, h("ir-validator", { key: '9a17cd0bc33d497a6bc647f64cef340baf59c09f', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? numberType().nullable() : coerce.number().min(0).max(30) }, h("ir-input", { key: 'a4468c5e7d739c5adf88cbf90c4b2e15546a23c3', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
                 min: 0,
                 max: 30,
                 mask: Number,
@@ -100,11 +96,11 @@ const IrTaxInput = class {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updateTaxField({ value });
-            } }, h("span", { key: 'e46df9c30c587444e5c341e686723f25701e157b', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), h("ir-validator", { key: '3e22a7d07cdb7da8363bcd284bea3e78a8984db7', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, h("wa-select", { key: '25d36c8459aefa1482af29b41a1a609ef2e8f204', part: "select", class: "ir-tax-input__select", size: "s", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
+            } }, h("span", { key: '303b813f710468edb56dba419860bf44e79b1386', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), h("ir-validator", { key: 'e8e41cedf2a23aa8ee4be40e85671f99391c5e6e', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, h("wa-select", { key: '8c2ed70c37fb6387c4b7888f7ec7035533ec243d', part: "select", class: "ir-tax-input__select", size: "s", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
                 const mode = e.target.value.toString();
                 this.updateTaxField({ mode });
                 this.taxChange.emit({ value: this.tax?.value ?? this.chargeRule?.value ?? null, mode });
-            }, placeholder: t('Lcz_SelectPlaceholder', { fallback: 'Select...' }) }, this.setupEntries.map(entry => (h("wa-option", { key: entry.CODE_NAME, value: entry.CODE_NAME }, getEntryValue({ entry, language: LocaleController.language }))))))));
+            }, placeholder: "Select..." }, this.setupEntries.map(entry => (h("wa-option", { key: entry.CODE_NAME, value: entry.CODE_NAME }, getEntryValue({ entry, language: this.language }))))))));
     }
     static get watchers() { return {
         "chargeRule": [{

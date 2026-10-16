@@ -1,7 +1,5 @@
 import { h, Fragment } from "@stencil/core";
 import { isAgentMode } from "../../functions";
-import { t } from "../../../../services/locale/t";
-import { formatCount, formatNumber } from "../../../../utils/number";
 /** Extra-service category codes that are never tucked inside the collapsible list — always shown for the room, e.g. Early Check-In / Late Check-Out fees. */
 const ALWAYS_VISIBLE_EXTRA_SERVICE_CODES = new Set(['ECI', 'LCO', 'BCT', 'EXB', 'HMP', 'ANP']);
 export class IrRoomExtraServices {
@@ -53,7 +51,7 @@ export class IrRoomExtraServices {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.setGroupExpanded(groupKey, false);
-            } }, h("span", { slot: "summary", class: "booking-room__extra-services-toggle-label" }, t('Lcz_MoreServicesCount', { fallback: '%1 more service(s)', params: [formatCount(collapsible.length)] })), h("div", { class: "booking-room__extra-services-list" }, collapsible.map((service, idx) => (h(Fragment, null, this.renderExtraServiceItem(service), idx < collapsible.length - 1 && h("wa-divider", null)))))))));
+            } }, h("span", { slot: "summary", class: "booking-room__extra-services-toggle-label" }, collapsible.length, " more service", collapsible.length > 1 ? 's' : ''), h("div", { class: "booking-room__extra-services-list" }, collapsible.map((service, idx) => (h(Fragment, null, this.renderExtraServiceItem(service), idx < collapsible.length - 1 && h("wa-divider", null)))))))));
     }
     render() {
         const services = this.roomExtraServices;
@@ -61,8 +59,8 @@ export class IrRoomExtraServices {
         const inAgentMode = isAgentMode(this.agent);
         const guestServices = inAgentMode ? services.filter(s => s.agent === null || s.agent === undefined) : [];
         const agentServices = inAgentMode ? services.filter(s => s.agent !== null && s.agent !== undefined) : [];
-        const agentName = this.booking.agent?.name ?? t('Lcz_Agent', { fallback: 'Agent' });
-        return (h("wa-card", { key: '3ef96140ef4893ea2c5e85bea4b6b20486f699a4', appearance: "filled", class: "booking-room__extra-services" }, h("div", { key: 'f1d2aef1a2b6b414199be0bef8b8d1bfe15721b1', slot: "header", class: "booking-room__extra-services-header" }, h("span", { key: '7ea90c387f1bdb02f38c757191cf073fc4b25dc3', class: "booking-room__extra-services-label" }, h("span", { key: '850c004489a93f9849e2f313fa5682b0585f072c', class: "booking-room__extra-services-title" }, total > 0 ? t('Lcz_Extras', { fallback: 'Extras' }) : t('Lcz_AddExtras', { fallback: 'Add Extras' })), total > 0 && h("span", { key: '06c5221ece4e90ebe960c018f2521b1358c7e2a9', class: "booking-room__extra-services-count" }, formatNumber(total))), h(Fragment, { key: '81f03a46e549631ce02e1547ba8d2f5ab1031b39' }, h("wa-tooltip", { key: '3c0535d2a57add82160832c998387c407275f5a3', for: `add-extra-service-${this.room.identifier}` }, t('Lcz_AddExtraService', { fallback: 'Add extra service' })), h("ir-custom-button", { key: '5659a49f8e3a0da2e4ce5bc80e2d5381bb956a01', id: `add-extra-service-${this.room.identifier}`, class: "booking-room__extra-services-add", iconBtn: true, size: "s", appearance: "plain", variant: "brand", onClickHandler: () => this.requestAddExtraService.emit() }, h("wa-icon", { key: 'eb50e1a918ef014634d6f22683be244bc7b4b5a4', style: { fontSize: '0.9rem' }, label: t('Lcz_AddExtraService', { fallback: 'Add extra service' }), name: "plus" })))), inAgentMode ? (h(Fragment, null, h("div", { class: "booking-room__extra-services-group booking-room__extra-services-group--agent" }, h("p", { class: "booking-room__extra-services-group-label booking-room__extra-services-group-label--agent" }, agentName, h("span", null, t('Lcz_Folio', { fallback: 'Folio' }))), agentServices.length === 0 ? (h("p", { class: "booking-room__extra-services-empty" }, t('Lcz_NoAgentServicesAdded', { fallback: 'No agent services added' }))) : (this.renderServiceGroup('agent', agentServices))), h("wa-divider", null), h("div", { class: "booking-room__extra-services-group booking-room__extra-services-group--guest" }, h("p", { class: "booking-room__extra-services-group-label" }, t('Lcz_Guest', { fallback: 'Guest' }), h("span", null, t('Lcz_Folio', { fallback: 'Folio' }))), guestServices.length === 0 ? (h("p", { class: "booking-room__extra-services-empty" }, t('Lcz_NoGuestServicesAdded', { fallback: 'No guest services added' }))) : (this.renderServiceGroup('guest', guestServices))))) : (this.renderServiceGroup('all', services))));
+        const agentName = this.booking.agent?.name ?? 'Agent';
+        return (h("wa-card", { key: '2404630481019aa9da841cfaf9012755540e928b', appearance: "filled", class: "booking-room__extra-services" }, h("div", { key: 'ab070ec38c55dcae06be2f551e803f09701b22ae', slot: "header", class: "booking-room__extra-services-header" }, h("span", { key: 'c110bf6068239578ffa61c62ed017b07cc0244f4', class: "booking-room__extra-services-label" }, h("span", { key: 'e5c30a95df8cea645918b3e0fda726027d27e97a', class: "booking-room__extra-services-title" }, total > 0 ? '' : 'Add ', "Extras"), total > 0 && h("span", { key: 'a84d4c4191f53325b33abdedeafa00af9865e28e', class: "booking-room__extra-services-count" }, total)), h("wa-tooltip", { key: '2ec9a83554fdfaf5185fca41fb1f7f1b6fecbc1b', for: `add-extra-service-${this.room.identifier}` }, "Add extra service"), h("ir-custom-button", { key: 'ed765174d0e62211fb3af30ff9e3fb7f8efd3587', id: `add-extra-service-${this.room.identifier}`, class: "booking-room__extra-services-add", iconBtn: true, size: "s", appearance: "plain", variant: "brand", onClickHandler: () => this.requestAddExtraService.emit() }, h("wa-icon", { key: 'd942384a647574a856aa032ff8e4db50b33bd12f', style: { fontSize: '0.9rem' }, label: "Add extra service", name: "plus" }))), inAgentMode ? (h(Fragment, null, h("div", { class: "booking-room__extra-services-group booking-room__extra-services-group--agent" }, h("p", { class: "booking-room__extra-services-group-label booking-room__extra-services-group-label--agent" }, agentName, h("span", null, "Folio")), agentServices.length === 0 ? h("p", { class: "booking-room__extra-services-empty" }, "No agent services added") : this.renderServiceGroup('agent', agentServices)), h("wa-divider", null), h("div", { class: "booking-room__extra-services-group booking-room__extra-services-group--guest" }, h("p", { class: "booking-room__extra-services-group-label" }, "Guest", h("span", null, "Folio")), guestServices.length === 0 ? h("p", { class: "booking-room__extra-services-empty" }, "No guest services added") : this.renderServiceGroup('guest', guestServices)))) : (this.renderServiceGroup('all', services))));
     }
     static get is() { return "ir-room-extra-services"; }
     static get encapsulation() { return "scoped"; }
@@ -150,7 +148,7 @@ export class IrRoomExtraServices {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; code?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
@@ -213,14 +211,14 @@ export class IrRoomExtraServices {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "SetupEntries[]",
-                    "resolved": "SetupEntries[]",
+                    "original": "IEntries[]",
+                    "resolved": "IEntries[]",
                     "references": {
-                        "SetupEntries": {
+                        "IEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::SetupEntries",
-                            "referenceLocation": "SetupEntries"
+                            "id": "src/models/IBooking.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },

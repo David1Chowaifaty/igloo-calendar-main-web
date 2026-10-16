@@ -1,6 +1,5 @@
 import { Host, h } from "@stencil/core";
 import { getDocument, GlobalWorkerOptions, RenderingCancelledException } from "pdfjs-dist/build/pdf.mjs";
-import { t } from "../../services/locale/t";
 const RENDER_QUALITY = 2;
 const PDF_WORKER_URL = 'https://unpkg.com/pdfjs-dist@6.0.227/build/pdf.worker.min.mjs';
 let workerInitialized = false;
@@ -15,7 +14,7 @@ export class IrPdfViewer {
     loadingTask = null;
     pdf = null;
     renderTask = null;
-    loadApiClient = 0;
+    loadToken = 0;
     resizeObserver;
     resizeTimer;
     el;
@@ -43,7 +42,7 @@ export class IrPdfViewer {
             this.loadPdf(this.src);
     }
     disconnectedCallback() {
-        this.loadApiClient++;
+        this.loadToken++;
         this.renderTask?.cancel();
         this.renderTask = null;
         this.pdf = null;
@@ -57,7 +56,7 @@ export class IrPdfViewer {
         }
     }
     async loadPdf(url) {
-        const ApiClient = ++this.loadApiClient;
+        const token = ++this.loadToken;
         this.isLoading = true;
         this.error = null;
         this.totalPages = 0;
@@ -70,26 +69,26 @@ export class IrPdfViewer {
             const task = getDocument({ url });
             this.loadingTask = task;
             const pdf = await task.promise;
-            if (ApiClient !== this.loadApiClient) {
+            if (token !== this.loadToken) {
                 await task.destroy();
                 return;
             }
             this.pdf = pdf;
             this.totalPages = pdf.numPages;
-            await this.renderPage(this.currentPage, ApiClient);
+            await this.renderPage(this.currentPage, token);
         }
         catch (err) {
-            if (ApiClient !== this.loadApiClient || isCancelled(err))
+            if (token !== this.loadToken || isCancelled(err))
                 return;
             const msg = err instanceof Error ? err.message : String(err);
-            this.error = `${t('Lcz_CouldNotLoadPdf', { fallback: 'Could not load PDF:' })} ${msg}`;
+            this.error = `Could not load PDF: ${msg}`;
         }
         finally {
-            if (ApiClient === this.loadApiClient)
+            if (token === this.loadToken)
                 this.isLoading = false;
         }
     }
-    async renderPage(pageNumber, ApiClient) {
+    async renderPage(pageNumber, token) {
         const pdf = this.pdf;
         const canvas = this.canvasEl;
         if (!pdf || !canvas)
@@ -97,7 +96,7 @@ export class IrPdfViewer {
         this.renderTask?.cancel();
         this.renderTask = null;
         const page = await pdf.getPage(pageNumber);
-        if (ApiClient !== this.loadApiClient)
+        if (token !== this.loadToken)
             return;
         const hostW = this.el.clientWidth;
         if (hostW === 0)
@@ -131,26 +130,26 @@ export class IrPdfViewer {
             window.clearTimeout(this.resizeTimer);
         this.resizeTimer = window.setTimeout(() => {
             this.resizeTimer = undefined;
-            this.renderPage(this.currentPage, this.loadApiClient);
+            this.renderPage(this.currentPage, this.loadToken);
         }, 120);
     }
     async goTo(page) {
         if (!this.pdf || page < 1 || page > this.totalPages || this.isLoading)
             return;
-        const ApiClient = this.loadApiClient;
+        const token = this.loadToken;
         this.currentPage = page;
         this.isLoading = true;
         try {
-            await this.renderPage(page, ApiClient);
+            await this.renderPage(page, token);
         }
         catch (err) {
-            if (ApiClient !== this.loadApiClient || isCancelled(err))
+            if (token !== this.loadToken || isCancelled(err))
                 return;
             const msg = err instanceof Error ? err.message : String(err);
-            this.error = `${t('Lcz_CouldNotRenderPage', { fallback: 'Could not render page:' })} ${msg}`;
+            this.error = `Could not render page: ${msg}`;
         }
         finally {
-            if (ApiClient === this.loadApiClient)
+            if (token === this.loadToken)
                 this.isLoading = false;
         }
     }
@@ -163,7 +162,7 @@ export class IrPdfViewer {
         const { isLoading, error, totalPages, currentPage } = this;
         const atFirstPage = currentPage <= 1 || isLoading;
         const atLastPage = currentPage >= totalPages || isLoading;
-        return (h(Host, { key: '1dae90808de09e7df6f6133ff09e5b44f13db0ff' }, h("canvas", { key: 'aae4beb7e9407339bc7e5bea7056d3f70fd91c05', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: '6d47f977fdc9dbcf630ff02070fe6289d31a1930', class: "overlay" }, h("wa-spinner", { key: 'd9c63675d9cd8f8247b9531f7dce0deff755b7c1' }))), error && !isLoading && (h("div", { key: '9b09a403d4832d9c1ddc303a18058e5931bce3b0', class: "error-state", role: "alert" }, h("wa-icon", { key: '5fcadf7b676ce9a6003d617138e401a747255d49', name: "triangle-exclamation" }), h("span", { key: '990849ef220909016cd4e8ee5852de983de73e11' }, error))), totalPages > 1 && (h("div", { key: '749a24f72a39b91a78426ec7785d281475316ce7', class: "pagination" }, h("button", { key: '14f6028a23309690287889391907797d8fe22069', type: "button", class: "page-btn", "aria-label": t('Lcz_PreviousPage', { fallback: 'Previous page' }), disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '0003de7819960ae9d9d1a773f90a8c7cb5d9f787', class: "ir-flip-rtl", name: "chevron-left" })), h("span", { key: 'a6bf0a80be970d41bf07e7c1c2301c17a6568d8c', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: 'bee277196ffb8e00bf4981963c6751774b9666d7', type: "button", class: "page-btn", "aria-label": t('Lcz_NextPage', { fallback: 'Next page' }), disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: '99aad82308f5d3447d621e17e59495b0ef5d0861', class: "ir-flip-rtl", name: "chevron-right" }))))));
+        return (h(Host, { key: 'f7ef05f8f78f93c13ca16e60c25d3b76fc3b28b0' }, h("canvas", { key: '190e7fdce91945b02a283983a71927c1f6517625', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: 'acc4e830cc9daeeafab48a62217d2d310bef5878', class: "overlay" }, h("wa-spinner", { key: 'b9fdad799daf52a2dbf75b24dfba48d47298ac2d' }))), error && !isLoading && (h("div", { key: '01c048abba0d412db183b647c614f53ea743c6b4', class: "error-state", role: "alert" }, h("wa-icon", { key: '9da32a9e19d8be0ace5035917f484dd1110854a3', name: "triangle-exclamation" }), h("span", { key: '406998308f19ba7a8e1137e77c0d2d31b5fc48ad' }, error))), totalPages > 1 && (h("div", { key: 'db0a5b6241423d297708c466926500d1a47f193f', class: "pagination" }, h("button", { key: '5e784aa4ca549ce3bd3b93842cc0dd495daa961b', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '1285a947698b86a6c875985b5e1a9ba0c3445884', name: "chevron-left" })), h("span", { key: '7a5bf819803822a8aa3b05ffb795036e7e98cd4c', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: '2bd9013b2058bb6201238077ed62043e26525b90', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: '3d4479342baa36273af4c4ed0f43ddc8bc61dcdf', name: "chevron-right" }))))));
     }
     static get is() { return "ir-pdf-viewer"; }
     static get encapsulation() { return "shadow"; }

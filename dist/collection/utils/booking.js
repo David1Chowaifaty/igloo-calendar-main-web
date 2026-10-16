@@ -1,11 +1,10 @@
 import moment from "moment";
 import { dateDifference, isBlockUnit } from "./utils";
 import axios from "axios";
+import locales from "../stores/locales.store";
 import calendar_dates from "../stores/calendar-dates.store";
 import calendar_data from "../stores/calendar-data";
 import { _formatTime } from "../components/ir-booking-details/functions";
-import { formatDate } from "./date/index";
-import { t } from "../services/locale/t";
 /**
  * Builds an index of split chains for a booking's rooms.
  * @param rooms - The booking's rooms array.
@@ -182,7 +181,7 @@ function renderBlock003Date(date, hour, minute) {
     const dt = new Date(date);
     dt.setHours(hour);
     dt.setMinutes(minute);
-    return `${t('Lcz_BlockedTill')} ${formatDate(dt, 'MMM DD, HH:mm')}`;
+    return `${locales.entries.Lcz_BlockedTill} ${moment(dt).format('MMM DD, HH:mm')}`;
 }
 function getDefaultData(cell, stayStatusLookup) {
     if (isBlockUnit(cell.STAY_STATUS_CODE)) {
@@ -462,12 +461,8 @@ export const DAY_USE_STATUS_ICON = {
 };
 /** Human-readable text for a same-day movement, incorporating the checkout/checkin clock time when known. */
 export function formatDayUseStatusText(dayStatus, checkoutTime, checkinTime) {
-    const checkoutText = checkoutTime
-        ? t('Lcz_CheckOutAtTime', { fallback: 'Check-out at %1', params: [checkoutTime] })
-        : t('Lcz_CheckOutHappeningToday', { fallback: 'Check-out happening today' });
-    const checkinText = checkinTime
-        ? t('Lcz_CheckInAtTime', { fallback: 'Check-in at %1', params: [checkinTime] })
-        : t('Lcz_CheckInHappeningToday', { fallback: 'Check-in happening today' });
+    const checkoutText = checkoutTime ? `Check-out at ${checkoutTime}` : 'Check-out happening today';
+    const checkinText = checkinTime ? `Check-in at ${checkinTime}` : 'Check-in happening today';
     if (dayStatus === 'turnover') {
         return `${checkoutText}  ${checkinText}`;
     }

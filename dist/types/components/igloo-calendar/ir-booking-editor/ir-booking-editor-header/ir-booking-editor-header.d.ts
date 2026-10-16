@@ -3,7 +3,6 @@ import { BookingEditorMode } from '../types';
 import { Booking } from "../../../../models/booking.dto";
 import { ZodSchema } from 'zod';
 export declare class IrBookingEditorHeader {
-    el: HTMLElement;
     /** Booking context used for edit, add-room, and split flows */
     booking: Booking;
     isLoading: boolean;
@@ -24,8 +23,6 @@ export declare class IrBookingEditorHeader {
     private readonly bookingEditorService;
     private BookedByGuestPickerSchema;
     private pickerRef;
-    /** Validators run outside `render()`, so they can't pick up a `lang` subtree on their own. */
-    private get lang();
     componentWillLoad(): void;
     handleBookingChange(newValue: any, oldValue: any): void;
     handleModeChange(newValue: any, oldValue: any): void;

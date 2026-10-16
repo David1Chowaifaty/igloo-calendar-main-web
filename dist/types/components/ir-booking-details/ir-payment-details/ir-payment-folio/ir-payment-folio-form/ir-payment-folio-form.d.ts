@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../../../stencil-public-runtime';
-import { SetupEntries } from "../../../../../models/IBooking";
+import { IEntries } from "../../../../../models/IBooking";
 import { FolioEntryMode, Payment, PaymentEntries } from '../../../types';
 import { Booking } from "../../../../../models/booking.dto";
 export declare class IrPaymentFolioForm {
@@ -13,7 +13,7 @@ export declare class IrPaymentFolioForm {
     errors: Record<string, boolean>;
     autoValidate: boolean;
     folioData: Payment;
-    _paymentTypes: Record<string, SetupEntries[]>;
+    _paymentTypes: Record<string, IEntries[]>;
     closeModal: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
     resetExposedCancellationDueAmount: EventEmitter<Pick<Booking, 'booking_nbr'>>;

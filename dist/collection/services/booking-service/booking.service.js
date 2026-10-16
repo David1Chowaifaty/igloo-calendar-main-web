@@ -1,12 +1,11 @@
 import axios from "axios";
-import { SetupEntrySchema } from "../../models/IBooking";
+import { ZIEntrySchema } from "../../models/IBooking";
 import { extras } from "../../utils/utils";
-import { addDaysISO } from "../../utils/calendar-dates";
 import { getMyBookings } from "../../utils/booking";
 import booking_store from "../../stores/booking.store";
 import calendar_data from "../../stores/calendar-data";
 import { z } from "zod";
-import { CalculateOptimBaseGrossAmountParamsSchema, DoDayUseParamsSchema, SetDepartureTimePropsSchema, SetHbPreferencePropsSchema, SimulateDirectBookingParamsSchema, VoidPaymentPropsSchema, AckExposedRevisionPropsSchema, CalculateExclusiveTaxPropsSchema, GetBookingInvoiceInfoPropsSchema, GetRoomsToCheckInPropsSchema, GetRoomsToCheckOutPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, SetArrivalTimePropsSchema, GetCalendarDataParamsSchema, } from "./types";
+import { CalculateOptimBaseGrossAmountParamsSchema, DoDayUseParamsSchema, SetDepartureTimePropsSchema, SetHbPreferencePropsSchema, SimulateDirectBookingParamsSchema, VoidPaymentPropsSchema, AckExposedRevisionPropsSchema, CalculateExclusiveTaxPropsSchema, GetBookingInvoiceInfoPropsSchema, GetRoomsToCheckInPropsSchema, GetRoomsToCheckOutPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, SetArrivalTimePropsSchema, } from "./types";
 import { BookingInvoiceInfoSchema } from "../../components/ir-invoice/types";
 /**
  * Builds a grouped payment types record from raw entries and groups.
@@ -27,9 +26,9 @@ export function buildPaymentTypes(paymentEntries) {
     try {
         const { groups, types } = z
             .object({
-            types: SetupEntrySchema.array().min(1),
-            groups: SetupEntrySchema.array().min(1),
-            methods: SetupEntrySchema.array().min(1),
+            types: ZIEntrySchema.array().min(1),
+            groups: ZIEntrySchema.array().min(1),
+            methods: ZIEntrySchema.array().min(1),
         })
             .parse(paymentEntries);
         const items = [...types];
@@ -44,12 +43,12 @@ export function buildPaymentTypes(paymentEntries) {
             //   rec[group.CODE_NAME] = methods.map(entry => ({
             //     ...entry,
             //     CODE_VALUE_EN: `Payment: ${entry.CODE_VALUE_EN}`,
-            //   })) as SetupEntries[];
+            //   })) as IEntries[];
             // } else if (group.CODE_NAME === 'REFUND') {
             //   rec[group.CODE_NAME] = methods.map(entry => ({
             //     ...entry,
             //     CODE_VALUE_EN: `Refund: ${entry.CODE_VALUE_EN}`,
-            //   })) as SetupEntries[];
+            //   })) as IEntries[];
             rec[group.CODE_NAME] = byCodes(extractGroupCodes(group.CODE_NAME));
         });
         return rec;
@@ -129,34 +128,26 @@ export class BookingService {
         }
         return data.My_Result;
     }
-    /** Properties served by the V4 calendar endpoint, which returns `My_Result` as a JSON string. */
-    getExposedCalendarRoute(propertyid) {
-        const v4Candidates = new Set([373, 1221, 42, 26]);
-        const isV4 = v4Candidates.has(Number(propertyid));
-        return { route: isV4 ? 'Get_Exposed_Calendar_V4' : 'Get_Exposed_Calendar', isV4 };
-    }
-    async postExposedCalendar(params) {
-        const payload = GetCalendarDataParamsSchema.parse(params);
-        const { route, isV4 } = this.getExposedCalendarRoute(payload.propertyid);
-        const { data } = await axios.post(`/${route}`, {
-            ...payload,
-            extras,
-            include_sales_rate_plans: true,
-        });
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        const res = isV4 ? JSON.parse(data.My_Result) : data.My_Result;
-        return { payload, route, data, months: res.months };
-    }
-    /** Raw calendar days for the range, without the booking mapping `getCalendarData` does. */
-    async fetchExposedCalendarDays(params) {
-        const { months } = await this.postExposedCalendar(params);
-        return (months ?? []).flatMap(month => month.days);
-    }
-    async getCalendarData(params) {
+    async getCalendarData(propertyid, from_date, to_date) {
         try {
-            const { payload, route, data, months } = await this.postExposedCalendar(params);
+            const v4Candidates = new Set([373, 1221, 42, 26]);
+            let route = 'Get_Exposed_Calendar';
+            const isCandidate = v4Candidates.has(Number(propertyid));
+            if (isCandidate) {
+                route += '_V4';
+            }
+            const { data } = await axios.post(`/${route}`, {
+                propertyid,
+                from_date,
+                to_date,
+                extras,
+                include_sales_rate_plans: true,
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            const res = isCandidate ? JSON.parse(data.My_Result) : data.My_Result;
+            const months = res.months;
             const customMonths = [];
             const myBooking = await getMyBookings(months);
             const days = months
@@ -164,7 +155,6 @@ export class BookingService {
                 customMonths.push({
                     daysCount: month.days.length,
                     monthName: month.description,
-                    firstDayValue: month.days[0]?.value,
                 });
                 return month.days.map(day => {
                     return {
@@ -181,7 +171,7 @@ export class BookingService {
                 ExceptionCode: null,
                 ExceptionMsg: '',
                 My_Params_Get_Rooming_Data: {
-                    AC_ID: payload.propertyid,
+                    AC_ID: propertyid,
                     FROM: data[`My_Params_${route}`].from_date,
                     TO: data[`My_Params_${route}`].to_date,
                 },
@@ -365,6 +355,31 @@ export class BookingService {
             throw new Error(error);
         }
     }
+    async getSetupEntriesByTableName(TBL_NAME) {
+        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME`, {
+            TBL_NAME,
+        });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        const res = data.My_Result ?? [];
+        return res;
+    }
+    async fetchSetupEntries() {
+        try {
+            const data = await this.getSetupEntriesByTableNameMulti(['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE']);
+            const { arrival_time, rate_pricing_mode, bed_preference_type } = this.groupEntryTablesResult(data);
+            return {
+                arrivalTime: arrival_time,
+                ratePricingMode: rate_pricing_mode,
+                bedPreferenceType: bed_preference_type,
+            };
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
     async doBookingExtraService({ booking_nbr, service, is_remove }) {
         const { data } = await axios.post(`/Do_Booking_Extra_Service`, { ...service, booking_nbr, is_remove });
         if (data.ExceptionMsg !== '') {
@@ -379,6 +394,27 @@ export class BookingService {
             throw new Error(data.ExceptionMsg);
         }
         return data.My_Result;
+    }
+    groupEntryTablesResult(entries) {
+        let result = {};
+        for (const entry of entries) {
+            const key = entry.TBL_NAME.substring(1, entry.TBL_NAME.length).toLowerCase();
+            if (!result[key]) {
+                result[key] = [];
+            }
+            result[key] = [...result[key], entry];
+        }
+        return result;
+    }
+    async getSetupEntriesByTableNameMulti(entries) {
+        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: entries });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
+    async getBlockedInfo() {
+        return await this.getSetupEntriesByTableNameMulti(['_CALENDAR_BLOCKED_TILL']);
     }
     async getUserDefaultCountry() {
         try {
@@ -466,11 +502,17 @@ export class BookingService {
             console.error(error);
         }
     }
-    /** One entry per night from `from_date` up to (not including) `to_date`, both `YYYY-MM-DD`. */
     generateDays(from_date, to_date, amount) {
+        const startDate = new Date(from_date);
+        const endDate = new Date(to_date);
         const days = [];
-        for (let date = from_date; date < to_date; date = addDaysISO(date, 1)) {
-            days.push({ date, amount, cost: null });
+        while (startDate < endDate) {
+            days.push({
+                date: startDate.toISOString().split('T')[0],
+                amount: amount,
+                cost: null,
+            });
+            startDate.setDate(startDate.getDate() + 1);
         }
         return days;
     }

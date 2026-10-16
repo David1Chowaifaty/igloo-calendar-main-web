@@ -1264,14 +1264,14 @@ export declare const PrintClStatementParamsSchema: z.ZodObject<{
     to_date: z.ZodString;
     lang: z.ZodDefault<z.ZodOptional<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
-    lang?: string;
     from_date?: string;
     to_date?: string;
+    lang?: string;
     agency_id?: string;
 }, {
-    lang?: string;
     from_date?: string;
     to_date?: string;
+    lang?: string;
     agency_id?: string;
 }>;
 export type PrintClStatementParams = z.infer<typeof PrintClStatementParamsSchema>;
@@ -1282,16 +1282,16 @@ export declare const PrintClProformaParamsSchema: z.ZodObject<{
     lang: z.ZodDefault<z.ZodOptional<z.ZodString>>;
     booking_nbr: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
 }, "strip", z.ZodTypeAny, {
-    lang?: string;
     booking_nbr?: string;
     from_date?: string;
     to_date?: string;
+    lang?: string;
     agency_id?: string;
 }, {
-    lang?: string;
     booking_nbr?: string;
     from_date?: string;
     to_date?: string;
+    lang?: string;
     agency_id?: string;
 }>;
 export type PrintClProformaParams = z.infer<typeof PrintClProformaParamsSchema>;

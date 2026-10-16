@@ -4,7 +4,6 @@ import { BlockedDatePayload, BookingEditorMode, BookingStep } from './types';
 import { RoomType } from "../../../models/property";
 import { ExtraService } from "../../../models/booking.dto";
 export declare class IrBookingEditor {
-    el: HTMLElement;
     propertyId: string | number;
     language: string;
     roomTypeIds: (string | number)[];
@@ -38,7 +37,6 @@ export declare class IrBookingEditor {
     preventPageLoad: EventEmitter<string>;
     private roomService;
     private bookingService;
-    private setupService;
     private propertyService;
     private bookingEditorService;
     private room;
@@ -64,15 +62,11 @@ export declare class IrBookingEditor {
     /** Resolves `dayUsePrice` (gross) to its net equivalent once, up front, so it's ready before the day-use unit list renders. */
     private resolveDayUseNetPrice;
     private get adjustedCheckout();
-    /** Re-runs init when the language changes so server-localized data follows. */
-    private languageSync;
     componentWillLoad(): void;
-    componentDidLoad(): void;
     handleModeChange(newMode: BookingEditorMode, oldMode: BookingEditorMode): void;
     handleGuestSelected(e: CustomEvent): void;
     private initializeApp;
     disconnectedCallback(): void;
-    languageChanged(next: string, previous: string): void;
     handleCheckAvailability(e: CustomEvent): void;
     /**
      * Initializes booking draft and guest data

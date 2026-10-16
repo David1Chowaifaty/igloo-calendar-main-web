@@ -1,16 +1,13 @@
-import ApiClient from "../../models/ApiClient";
+import Token from "../../models/Token";
 import { h } from "@stencil/core";
-import { SetupService, getEntryValue, groupEntryTablesResult } from "../../services/setup/index";
+import { BookingService } from "../../services/booking-service/booking.service";
 import { PropertyService } from "../../services/property.service";
 import { taxationModes } from "../../services/property/types";
 import { getAccTaxPayloadFields, findAccTax, toAccChargeRule } from "../../services/property/acc-tax.helpers";
 import { getExtraServiceDefaultPrice, getDayUseBlockState, getBabyCotPricingModel } from "../../stores/calendar-data";
-import { showToast } from "../../utils/utils";
+import { getEntryValue, showToast } from "../../utils/utils";
 import { groupSvcCategoriesByParent } from "../../utils/svc-category.utils";
 import { SvcCategory } from "../../types/enums";
-import { LocaleController } from "../../services/locale/locale.controller";
-import { SCREEN_TABLES } from "../../services/locale/screen-tables";
-import { t } from "../../services/locale/t";
 /** Hidden `_SVC_CATEGORY` — only used for categories that doesn't require a default price. */
 const HIDDEN_SUB_CATEGORIES = new Set([SvcCategory.Minibar]);
 /** Valid `BABY_COT_PRICING_MODEL` values — the baby cot's default price is either a flat per-stay charge or a per-night charge. */
@@ -27,12 +24,12 @@ export class IrExtraServicesSettings {
     autoValidate;
     dayUseBlockNight = false;
     babyCotPricingModel = 'Stay';
-    apiClientService = new ApiClient();
-    setupService = new SetupService();
+    tokenService = new Token();
+    bookingService = new BookingService();
     propertyService = new PropertyService();
     componentWillLoad() {
         if (this.ticket) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.init();
         }
     }
@@ -49,21 +46,17 @@ export class IrExtraServicesSettings {
             this.reinit();
     }
     reinit() {
-        this.apiClientService.setApiClient(this.ticket);
+        this.tokenService.setToken(this.ticket);
         this.init();
     }
     async init() {
         this.isLoading = true;
         try {
-            // Started first: it seeds `LocaleController.language` from the host prop synchronously,
-            // so the requests below are built with the right language on first mount.
-            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.extraServicesSettings });
             const [, tableEntries] = await Promise.all([
-                this.propertyService.getExposedProperty({ id: this.propertyid, language: LocaleController.language }),
-                this.setupService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY']),
-                localeReady,
+                this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY']),
             ]);
-            this.setupEntries = groupEntryTablesResult(tableEntries);
+            this.setupEntries = this.bookingService.groupEntryTablesResult(tableEntries);
             this.priceCategoryRules = this.buildInitialRules();
             this.dayUseBlockNight = getDayUseBlockState() === '1';
             this.babyCotPricingModel = this.resolveBabyCotPricingModel(getBabyCotPricingModel());
@@ -94,8 +87,8 @@ export class IrExtraServicesSettings {
     /** Formats a charge rule as e.g. "15% Inclusive" or "Not Applicable". */
     formatAccChargeRule(rule) {
         if (rule.mode === taxationModes.NOT_APPLICABLE)
-            return t('Lcz_NotApplicable', { fallback: 'Not Applicable' });
-        return `${rule.value ?? 0}% ${rule.mode === taxationModes.INCLUSIVE ? t('Lcz_Inclusive', { fallback: 'Inclusive' }) : t('Lcz_Exclusive', { fallback: 'Exclusive' })}`;
+            return 'Not Applicable';
+        return `${rule.value ?? 0}% ${rule.mode === taxationModes.INCLUSIVE ? 'Inclusive' : 'Exclusive'}`;
     }
     /** Builds the initial price rules map from `extra_info`'s `SVC_DEFAULT_PRICE_<code>` entries. Mode is always Inclusive — see `vatSummary`. */
     buildInitialRules() {
@@ -145,7 +138,7 @@ export class IrExtraServicesSettings {
             const payload = this.buildPayload();
             await this.propertyService.handleExposedPropertyTaxCategories(payload);
             showToast({
-                title: t('Lcz_SavedSuccessfully', { fallback: 'Saved Successfully' }),
+                title: 'Saved Successfully',
                 type: 'success',
             });
         }
@@ -160,9 +153,7 @@ export class IrExtraServicesSettings {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h("ir-page", { label: t('Lcz_ExtraServicesTitle', { fallback: 'Extra Services' }), description: t('Lcz_ExtraServicesSettingsDescription', { fallback: 'Define default pricing and options for the extra services offered on this property.' }), "data-testid": "ir-extra-services-settings" }, h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "extra-services-settings__form", style: { width: '100px' }, variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })), h("form", { id: "extra-services-settings__form", onSubmit: e => this.handleSubmit(e), class: "extra-services-settings__groups" }, this.serviceGroups.length === 0 && (h("ir-empty-state", { message: t('Lcz_NoExtraServiceGroupsSetUp', {
-                fallback: "No extra-service groups are set up yet. Add a service category whose CODE_NAME is referenced by other categories' NOTES to group them here.",
-            }) })), this.serviceGroups.map(group => (h("wa-card", { appearance: "plain", class: "extra-services-settings__card" }, h("div", { slot: "header", class: "extra-services-settings__header" }, h("span", null, group.label), h("span", { class: "extra-services-settings__tax-chip" }, h("span", { class: "extra-services-settings__tax-chip-label" }, t('Lcz_Vat', { fallback: 'VAT' })), h("span", null, this.formatAccChargeRule(this.vatSummary)))), h("div", { class: "extra-services-grid" }, group.categories
+        return (h("ir-page", { label: "Extra Services", description: "Define default pricing and options for the extra services offered on this property.", "data-testid": "ir-extra-services-settings" }, h("ir-custom-button", { slot: "page-header", loading: this.isSaving, type: "submit", form: "extra-services-settings__form", style: { width: '100px' }, variant: "brand" }, "Save"), h("form", { id: "extra-services-settings__form", onSubmit: e => this.handleSubmit(e), class: "extra-services-settings__groups" }, this.serviceGroups.length === 0 && (h("ir-empty-state", { message: "No extra-service groups are set up yet. Add a service category whose CODE_NAME is referenced by other categories' NOTES to group them here." })), this.serviceGroups.map(group => (h("wa-card", { appearance: "plain", class: "extra-services-settings__card" }, h("div", { slot: "header", class: "extra-services-settings__header" }, h("span", null, group.label), h("span", { class: "extra-services-settings__tax-chip" }, h("span", { class: "extra-services-settings__tax-chip-label" }, "VAT"), h("span", null, this.formatAccChargeRule(this.vatSummary)))), h("div", { class: "extra-services-grid" }, group.categories
             .filter(c => !HIDDEN_SUB_CATEGORIES.has(c.CODE_NAME))
             .map((category, idx) => {
             const rule = this.priceCategoryRules.get(category.CODE_NAME);
@@ -171,10 +162,10 @@ export class IrExtraServicesSettings {
             const isExtraBed = category.CODE_NAME === 'EXB';
             return [
                 idx > 0 && (h("div", { class: "extra-services-grid__divider", key: category.CODE_NAME + 'divider' + idx }, h("wa-divider", null))),
-                h("div", { class: "extra-services-grid__row", id: category.CODE_NAME, key: category.CODE_NAME + 'row' + idx }, h("div", { class: "extra-services-grid__name" }, h("p", { class: "extra-services-grid__title" }, getEntryValue({ entry: category, language: LocaleController.language }))), h("div", { class: "extra-services-grid__controls" }, h("div", { class: "extra-services-grid__cell" }, isBabyCot ? (h("div", { class: 'ir__field-group' }, h("ir-extra-service-price-input", {
+                h("div", { class: "extra-services-grid__row", id: category.CODE_NAME, key: category.CODE_NAME + 'row' + idx }, h("div", { class: "extra-services-grid__name" }, h("p", { class: "extra-services-grid__title" }, getEntryValue({ entry: category, language: this.language }))), h("div", { class: "extra-services-grid__controls" }, h("div", { class: "extra-services-grid__cell" }, isBabyCot ? (h("div", { class: 'ir__field-group' }, h("ir-extra-service-price-input", {
                     // class={'--grow'}
                     autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule
-                }), h("wa-select", { value: this.babyCotPricingModel, defaultValue: this.babyCotPricingModel, size: "s", style: { width: 'min-content', minWidth: '100px' }, onchange: e => (this.babyCotPricingModel = e.target.value) }, h("wa-option", { value: "Stay" }, t('Lcz_Stay', { fallback: 'Stay' })), h("wa-option", { value: "Night" }, t('Lcz_NightLabel', { fallback: 'Night' }))))) : (h("ir-extra-service-price-input", { autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule }, isExtraBed && h("span", { slot: "end" }, t('Lcz_PerNightSuffix', { fallback: '/night' }))))))),
+                }), h("wa-select", { value: this.babyCotPricingModel, defaultValue: this.babyCotPricingModel, size: "s", style: { width: 'min-content', minWidth: '100px' }, onchange: e => (this.babyCotPricingModel = e.target.value) }, h("wa-option", { value: "Stay" }, "Stay"), h("wa-option", { value: "Night" }, "Night")))) : (h("ir-extra-service-price-input", { autoValidate: this.autoValidate, onPriceChange: e => this.handlePriceRuleChange(category.CODE_NAME, e.detail), chargeRule: rule }, isExtraBed && h("span", { slot: "end" }, "/night")))))),
             ];
         }))))))));
     }

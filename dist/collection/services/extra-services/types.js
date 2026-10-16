@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { VatIncludedCodes } from "../../types/enums";
-import { t } from "../locale/t";
 /** The 13 fixed Accommodation Extras seeded on every property. */
 export const AccommodationExtraCode = {
     EarlyCheckin: 'EARLY_CHECKIN',
@@ -67,12 +66,8 @@ export const ExtraServiceDefinitionSchema = z.object({
     property_id: z.number(),
     section: z.enum([ExtraServiceSection.Accommodation, ExtraServiceSection.BookingEngineAddon]),
     code: z.string().nullable(),
-    // Refine callbacks (not string messages) so the text resolves against the loaded locale, not the empty one at import time.
-    name: z
-        .string()
-        .trim()
-        .refine(value => value.length > 0, () => ({ message: t('Lcz_NameIsRequired', { fallback: 'Name is required' }) })),
-    default_price: z.coerce.number().refine(value => value >= 0, () => ({ message: t('Lcz_PriceMustBeZeroOrMore', { fallback: 'Price must be 0 or more' }) })),
+    name: z.string().trim().nonempty('Name is required'),
+    default_price: z.coerce.number().min(0, 'Price must be 0 or more'),
     vat_mode: z.enum([VatIncludedCodes.Inclusive, VatIncludedCodes.Exclusive]),
     allow_price_override: z.boolean().default(false),
     is_active: z.boolean().default(true),

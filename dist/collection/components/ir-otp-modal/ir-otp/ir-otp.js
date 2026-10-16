@@ -1,6 +1,4 @@
 import { h, Host } from "@stencil/core";
-import { t } from "../../../services/locale/t";
-import { formatCount } from "../../../utils/number";
 export class IrOtp {
     /**
      * The length of the OTP code
@@ -227,9 +225,9 @@ export class IrOtp {
         this.emitChanges();
     }
     render() {
-        return (h(Host, { key: '9d0e482d09e198a041b4eb80e4acaa052e44ddb6', class: "otp-input-container" }, h("div", { key: 'b7ab8eedd98d0eab7cba5c149d93400d5aebb40a', class: "otp-input-wrapper" }, Array(this.length)
+        return (h(Host, { key: '39eb4033bc78c9c64d5a103a71c60e0906e189fa', class: "otp-input-container" }, h("div", { key: 'e1e88c3e68250b7f4a6d0707cc80648324ee3b38', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
-            .map((_, index) => (h("input", { ref: el => (this.inputRefs[index] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index], onInput: e => this.handleInput(e, index), onKeyDown: e => this.handleKeyDown(e, index), onPaste: e => this.handlePaste(e, index), onFocus: this.handleFocus, "aria-label": t('Lcz_DigitOfLength', { fallback: 'Digit %1 of %2', params: [formatCount(index + 1), formatCount(this.length)] }) }))))));
+            .map((_, index) => (h("input", { ref: el => (this.inputRefs[index] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index], onInput: e => this.handleInput(e, index), onKeyDown: e => this.handleKeyDown(e, index), onPaste: e => this.handlePaste(e, index), onFocus: this.handleFocus, "aria-label": `Digit ${index + 1} of ${this.length}` }))))));
     }
     static get is() { return "ir-otp"; }
     static get encapsulation() { return "shadow"; }

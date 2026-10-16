@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-IDeZZwEK.js');
+var index = require('./index-Bp205iz4.js');
 
 const IrCheckBoxes = class {
     constructor(hostRef) {
@@ -26,7 +26,7 @@ const IrCheckBoxes = class {
         }
     }
     render() {
-        return (index.h("div", { key: '6c741c22068becb1a5199ab190acf97e36c3383f' }, this.checkboxes.map((checkbox, index$1) => (index.h("ir-checkbox", { name: index$1.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
+        return (index.h("div", { key: '801894401f06a1a97476dcc97f33be2c516f4bf9' }, this.checkboxes.map((checkbox, index$1) => (index.h("ir-checkbox", { name: index$1.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
     }
 };
 

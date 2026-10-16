@@ -25,8 +25,6 @@ export declare class IrTranslationsManager {
     tableDialogOpen: boolean;
     tableDialogMode: 'create' | 'edit';
     tableDialogTable: TranslationTable | null;
-    moveDialogOpen: boolean;
-    moveDialogEntry: TranslationEntry | null;
     settingsDialogOpen: boolean;
     /** Non-source language codes pinned as columns. `null` means "not customized yet" — everything is pinned. */
     pinnedLanguageCodes: string[] | null;
@@ -60,7 +58,7 @@ export declare class IrTranslationsManager {
     duplicates: Map<string, DuplicateInfo>;
     private deleteDialogRef;
     private unsavedOrderDialogRef;
-    private apiClientService;
+    private tokenService;
     private setupService;
     /** Every keystroke in the header search. Debounced downstream — typing shouldn't be a query per character. */
     private search$;
@@ -191,9 +189,6 @@ export declare class IrTranslationsManager {
     /** Drops the local reorder and refetches — the same "fresh fetch is authoritative" path `loadTableEntries` already resets order state through. */
     private handleDiscardOrder;
     private requestDeleteEntry;
-    private openMoveEntry;
-    /** Move_Setup_Entry already re-homed the row — drop it from whatever is on screen and let the destination refetch when it's next selected. */
-    private handleEntryMoved;
     private openCreateTable;
     /** The table form saved (create, empty-table rename, or bulk rename) directly against Setup — reconcile local state with what it reports. */
     private handleTableSaved;

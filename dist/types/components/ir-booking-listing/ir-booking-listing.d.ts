@@ -21,19 +21,16 @@ export declare class IrBookingListing {
     payment: Payment;
     booking: Booking;
     private bookingListingService;
-    private setupService;
+    private bookingService;
     private roomService;
     private propertyService;
-    private ApiClient;
+    private token;
     private listingModal;
     private listingModalTimeout;
     private allowedProperties;
     private havePrivilege;
     private paymentFolioRef;
-    /** Re-runs init when the language changes so server-localized data follows. */
-    private languageSync;
     componentWillLoad(): void;
-    componentDidLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
     private fetchBookings;
     private initializeApp;
@@ -41,7 +38,6 @@ export declare class IrBookingListing {
     geSearchFiltersFromParams(): void;
     openModal(): void;
     disconnectedCallback(): void;
-    languageChanged(next: string, previous: string): void;
     handlePaginationChange(event: CustomEvent<PaginationChangeEvent>): Promise<void>;
     handlePaginationPageSizeChange(event: CustomEvent<PaginationChangeEvent>): Promise<void>;
     handleResetStoreData(e: CustomEvent): Promise<void>;

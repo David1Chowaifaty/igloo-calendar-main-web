@@ -1,5 +1,4 @@
 import { h } from "@stencil/core";
-import { t } from "../../services/locale/t";
 export class IrPasswordValidator {
     /**
      * The password string to validate
@@ -42,7 +41,7 @@ export class IrPasswordValidator {
         return /[!@#$%^&*()\-_=+]/.test(this.password);
     }
     render() {
-        return (h("div", { key: 'f939583bba60d9bcd59d61e3cb52877f611240b1', class: "m-0 p-0" }, h("requirement-check", { key: '2af4670a96c89beb8c3700f0a24781777cd93544', isValid: this.validLength, text: t('Lcz_Minimum8Characters', { fallback: 'Minimum 8 characters' }) }), h("requirement-check", { key: '3aea70e25990b6b842400c5b5aa24458c6d3cb35', isValid: this.hasUppercase, text: t('Lcz_AtLeastOneUppercaseLetter', { fallback: 'At least one uppercase letter' }) }), h("requirement-check", { key: '68584b174410604d5899eaec17f2faa7b65c6d26', isValid: this.hasLowercase, text: t('Lcz_AtLeastOneLowercaseLetter', { fallback: 'At least one lowercase letter' }) }), h("requirement-check", { key: '7bfc4a93e1fdb249ff91b0347d21deaad17bb141', isValid: this.hasDigit, text: t('Lcz_AtLeastOneDigit', { fallback: 'At least one digit' }) }), h("requirement-check", { key: '09548993f1df615e596b430c0d5d27666dc7fee7', isValid: this.hasSpecialChar, text: t('Lcz_AtLeastOneSpecialCharacter', { fallback: 'At least one special character' }) })));
+        return (h("div", { key: '7332cc03a568cce9b77b625d4b34f91307cc6ac7', class: "m-0 p-0" }, h("requirement-check", { key: '4a1fb95725298dc50a2c6d66f77db5b96b3506f4', isValid: this.validLength, text: "Minimum 8 characters" }), h("requirement-check", { key: '0ecd56504bcb75ce540e480d9a40b9195499422c', isValid: this.hasUppercase, text: "At least one uppercase letter" }), h("requirement-check", { key: '0725a560c0f17f0a01f57f9f48fbe4e23236c154', isValid: this.hasLowercase, text: "At least one lowercase letter" }), h("requirement-check", { key: '6290339c9efa3ee5b2697fbf7da5a23e7e2e34ab', isValid: this.hasDigit, text: "At least one digit" }), h("requirement-check", { key: '2709a7e782eeebaf2d26b9fac442606642add9d6', isValid: this.hasSpecialChar, text: "At least one special character" })));
     }
     static get is() { return "ir-password-validator"; }
     static get encapsulation() { return "scoped"; }

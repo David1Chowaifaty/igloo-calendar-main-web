@@ -2,12 +2,11 @@ import { formatAmount } from "../../../../utils/utils";
 import { flexRender, useTable } from "../../../../utils/useTable";
 import { Host, h } from "@stencil/core";
 import { createColumnHelper, getCoreRowModel, getExpandedRowModel, getGroupedRowModel, getSortedRowModel } from "@tanstack/table-core";
+import moment from "moment";
 import { actionableClTypes } from "../../../../services/city-ledger.service";
 import { ClTxTypeCode } from "../../../../types/enums";
-import { t } from "../../../../services/locale/t";
-import { formatBookingNumber, formatCount } from "../../../../utils/number";
-import { formatDate } from "../../../../utils/date/index";
 const DATE_DISPLAY_FORMAT = 'MMM DD, YYYY';
+const DATE_INPUT_FORMAT = 'YYYY-MM-DD';
 /** `REL_ENTITY` of CL rows that came from a booking extra service. */
 const BOOKING_SERVICE_ENTITY = 'TBL_BSE';
 export class IrCityLedgerFolioTable {
@@ -65,13 +64,12 @@ export class IrCityLedgerFolioTable {
     formatDate(date) {
         if (!date)
             return '';
-        return formatDate(date, DATE_DISPLAY_FORMAT);
-        // const m = moment(date, [DATE_INPUT_FORMAT, moment.ISO_8601], true);
-        // return m.isValid() ? m.format(DATE_DISPLAY_FORMAT) : date;
+        const m = moment(date, [DATE_INPUT_FORMAT, moment.ISO_8601], true);
+        return m.isValid() ? m.format(DATE_DISPLAY_FORMAT) : date;
     }
     // ─── Selection ────────────────────────────────────────────────────────────
     get selectedUnbilledRows() {
-        return this.data.filter(row => this.selectedRowIds.has(row._rowId) && row.status?.id === 'unbilled');
+        return this.data.filter(row => this.selectedRowIds.has(row._rowId) && row.status?.label === 'Unbilled');
     }
     handleHoldToggled(rowId, newIsHold) {
         // Note: optimistic local update — parent will re-fetch on next search
@@ -79,9 +77,7 @@ export class IrCityLedgerFolioTable {
             if (row._rowId !== rowId)
                 return row;
             const updatedRaw = { ...row._raw, IS_HOLD: newIsHold };
-            const status = newIsHold
-                ? { id: 'held', label: t('Lcz_Held', { fallback: 'Held' }), variant: 'warning', description: '' }
-                : { id: 'unbilled', label: t('Lcz_Unbilled', { fallback: 'Unbilled' }), variant: 'neutral', description: '' };
+            const status = newIsHold ? { id: 'held', label: 'Held', variant: 'warning', description: '' } : { id: 'unbilled', label: 'Unbilled', variant: 'neutral', description: '' };
             return { ...row, _raw: updatedRaw, status };
         });
         // Trigger re-render by reassigning (Stencil tracks Prop changes via reference)
@@ -106,7 +102,7 @@ export class IrCityLedgerFolioTable {
     columns = [
         this.columnHelper.accessor(row => row.status.label, {
             id: 'status',
-            header: t('Lcz_Status', { fallback: 'Status' }),
+            header: 'Status',
             size: 200,
             cell: info => {
                 if (info?.row?.original?._raw?.CL_TX_TYPE_CODE === ClTxTypeCode.OpeningBalance) {
@@ -119,7 +115,7 @@ export class IrCityLedgerFolioTable {
         }),
         this.columnHelper.accessor('serviceDate', {
             enableSorting: false,
-            header: t('Lcz_ServiceDate', { fallback: 'Service Date' }),
+            header: 'Service Date',
             cell: info => this.formatDate(info.getValue()),
             aggregatedCell: info => this.formatDate(info.getValue()),
             enableGrouping: false,
@@ -137,7 +133,7 @@ export class IrCityLedgerFolioTable {
             },
         }),
         this.columnHelper.accessor('bookingNumber', {
-            header: t('Lcz_BookingNumberColumn', { fallback: 'Booking #' }),
+            header: 'Booking #',
             cell: info => {
                 const val = info.getValue();
                 if (!val)
@@ -145,25 +141,25 @@ export class IrCityLedgerFolioTable {
                 return (h("ir-custom-button", { link: true, onClickHandler: () => {
                         this.selectedBookingNumber = val;
                         this.bookingDrawerOpen = true;
-                    } }, formatBookingNumber(val)));
+                    } }, val));
             },
             enableGrouping: true,
             enableSorting: false,
         }),
         this.columnHelper.accessor('description', {
-            header: t('Lcz_Description', { fallback: 'Description' }),
+            header: 'Description',
             cell: info => h("span", { class: "folio-table__description" }, this.resolveRowDescription(info.row.original)),
             enableSorting: false,
             enableGrouping: true,
         }),
         this.columnHelper.accessor('docNumber', {
-            header: t('Lcz_FiscalDoc', { fallback: 'Fiscal Doc' }),
+            header: 'Fiscal Doc',
             cell: info => h("span", null, info.getValue()),
             enableSorting: false,
             enableGrouping: true,
         }),
         this.columnHelper.accessor('debit', {
-            header: t('Lcz_Debit', { fallback: 'Debit' }),
+            header: 'Debit',
             cell: info => {
                 const symbol = this.getSymbol(info.row.original._raw.CURRENCY_ID);
                 return (h("ir-input-cell", { disabled: true, mask: 'price', value: info.getValue().toString() }, h("span", { slot: "start" }, symbol), h("span", null, info.getValue() ? formatAmount(symbol, info.getValue()) : '')));
@@ -174,7 +170,7 @@ export class IrCityLedgerFolioTable {
             enableSorting: false,
         }),
         this.columnHelper.accessor('credit', {
-            header: t('Lcz_Credit', { fallback: 'Credit' }),
+            header: 'Credit',
             cell: info => {
                 const symbol = this.getSymbol(info.row.original._raw.CURRENCY_ID);
                 return (h("ir-input-cell", { mask: 'price', disabled: true, value: info.getValue().toString() }, h("span", { slot: "start" }, symbol), h("span", null, info.getValue() ? formatAmount(symbol, info.getValue()) : '')));
@@ -185,7 +181,7 @@ export class IrCityLedgerFolioTable {
             enableGrouping: false,
         }),
         this.columnHelper.accessor('balance', {
-            header: t('Lcz_Balance', { fallback: 'Balance' }),
+            header: 'Balance',
             cell: info => {
                 const symbol = this.getSymbol(info.row.original._raw.CURRENCY_ID);
                 return (h("ir-input-cell", { disabled: true, mask: 'price', value: info.getValue().toString() }, h("span", { slot: "start" }, symbol), h("span", null, info.getValue() ? formatAmount(symbol, +info.getValue()) : '')));
@@ -195,7 +191,7 @@ export class IrCityLedgerFolioTable {
         }),
         this.columnHelper.display({
             id: 'actions',
-            header: t('Lcz_Actions', { fallback: 'Actions' }),
+            header: 'Actions',
             size: 48,
             cell: info => {
                 const row = info.row.original;
@@ -207,7 +203,7 @@ export class IrCityLedgerFolioTable {
                         e.stopPropagation();
                     }, "onwa-select": (e) => {
                         this.handleAction(e.detail.item.value, row);
-                    } }, h("wa-button", { slot: "trigger", size: "s", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })), h("wa-dropdown-item", { value: "hold-transaction" }, row._raw.IS_HOLD ? t('Lcz_RevertToUnbilled', { fallback: 'Revert to Unbilled' }) : t('Lcz_HoldEntry', { fallback: 'Hold entry' })), canEditOrDelete && h("wa-dropdown-item", { value: "edit-transaction" }, t('Lcz_Edit', { fallback: 'Edit' })), canEditOrDelete && (h("wa-dropdown-item", { value: "delete-transaction", variant: "danger" }, t('Lcz_Delete', { fallback: 'Delete' })))));
+                    } }, h("wa-button", { slot: "trigger", size: "s", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })), h("wa-dropdown-item", { value: "hold-transaction" }, row._raw.IS_HOLD ? 'Revert to Unbilled' : 'Hold entry'), canEditOrDelete && h("wa-dropdown-item", { value: "edit-transaction" }, "Edit"), canEditOrDelete && (h("wa-dropdown-item", { value: "delete-transaction", variant: "danger" }, "Delete"))));
             },
             enableSorting: false,
             enableGrouping: false,
@@ -258,7 +254,7 @@ export class IrCityLedgerFolioTable {
     };
     renderCell = (cell) => {
         if (cell.getIsGrouped()) {
-            return (h("wa-button", { appearance: "plain", size: "s", class: "group-expander", onClick: () => cell.row.toggleExpanded() }, h("wa-icon", { style: { fontSize: '0.875rem' }, slot: "start", name: cell.row.getIsExpanded() ? 'chevron-down' : 'chevron-up' }), flexRender(cell.column.columnDef.cell, cell.getContext()), " ", h("span", { slot: "end" }, "(", formatCount(cell.row.subRows.length), ")")));
+            return (h("wa-button", { appearance: "plain", size: "s", class: "group-expander", onClick: () => cell.row.toggleExpanded() }, h("wa-icon", { style: { fontSize: '0.875rem' }, slot: "start", name: cell.row.getIsExpanded() ? 'chevron-down' : 'chevron-up' }), flexRender(cell.column.columnDef.cell, cell.getContext()), " ", h("span", { slot: "end" }, "(", cell.row.subRows.length, ")")));
         }
         if (cell.getIsAggregated()) {
             return flexRender(cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell, cell.getContext());
@@ -294,10 +290,10 @@ export class IrCityLedgerFolioTable {
         }))))));
     }
     renderStartingBalanceRow() {
-        return (h("tr", { class: "ir-table-row balance-row balance-row--start" }, h("td", { class: "sticky-column" }), h("td", null, this.formatDate(this.fromDate)), h("td", null), h("td", null, h("wa-icon", { name: "scale-balanced", style: { marginInlineEnd: '0.375rem', fontSize: '0.875rem' } }), t('Lcz_StartingBalance', { fallback: 'Starting Balance' })), h("td", null), h("td", { class: "cell--align-end" }, this.startingBalance >= 0 ? formatAmount(this.currencySymbol, this.startingBalance) : ''), h("td", { class: "cell--align-end" }, this.startingBalance < 0 ? formatAmount(this.currencySymbol, this.startingBalance) : ''), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, this.startingBalance)), h("td", null)));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--start" }, h("td", { class: "sticky-column" }), h("td", null, this.formatDate(this.fromDate)), h("td", null), h("td", null, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Starting Balance"), h("td", null), h("td", { class: "cell--align-end" }, this.startingBalance >= 0 ? formatAmount(this.currencySymbol, this.startingBalance) : ''), h("td", { class: "cell--align-end" }, this.startingBalance < 0 ? formatAmount(this.currencySymbol, this.startingBalance) : ''), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, this.startingBalance)), h("td", null)));
     }
     renderEndingBalanceRow() {
-        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", { class: "sticky-column" }), h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", null, h("wa-icon", { name: "scale-balanced", style: { marginInlineEnd: '0.375rem', fontSize: '0.875rem' } }), t('Lcz_EndingBalance', { fallback: 'Ending Balance' })), h("td", null), h("td", { class: "cell--align-end" }, this.closingBalance >= 0 ? formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), h("td", { class: "cell--align-end" }, this.closingBalance < 0 ? formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), h("td", { class: "cell--align-end" }, this.closingBalance < 0 ? '-' : '', formatAmount(this.currencySymbol, Math.abs(this.closingBalance))), h("td", null)));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", { class: "sticky-column" }), h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", null, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", null), h("td", { class: "cell--align-end" }, this.closingBalance >= 0 ? formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), h("td", { class: "cell--align-end" }, this.closingBalance < 0 ? formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), h("td", { class: "cell--align-end" }, this.closingBalance < 0 ? '-' : '', formatAmount(this.currencySymbol, Math.abs(this.closingBalance))), h("td", null)));
     }
     renderDataRows(table) {
         const rows = table.getRowModel().rows;
@@ -320,11 +316,11 @@ export class IrCityLedgerFolioTable {
     // ─── Render ───────────────────────────────────────────────────────────────
     render() {
         if (!this.agentId) {
-            return (h(Host, null, h("div", { class: "folio-table__empty-state" }, h("wa-icon", { name: "building-columns", style: { fontSize: '2.5rem', opacity: '0.3' } }), h("p", null, t('Lcz_SelectAgentToViewFolio', { fallback: 'Select an agent to view the folio ledger.' })))));
+            return (h(Host, null, h("div", { class: "folio-table__empty-state" }, h("wa-icon", { name: "building-columns", style: { fontSize: '2.5rem', opacity: '0.3' } }), h("p", null, "Select an agent to view the folio ledger."))));
         }
         if (!this.hasFetched) {
             const hasDate = !!(this.fromDate || this.toDate);
-            return (h(Host, null, h("div", { class: "folio-table__date-prompt" }, h("div", { class: "folio-table__date-prompt-icon" }, h("wa-icon", { name: "calendar-days" })), h("p", { class: "folio-table__date-prompt-title" }, t('Lcz_SelectDateRangeToGetStarted', { fallback: 'Select a date range to get started' })), hasDate && (h("wa-animation", { play: true, iterations: 1, id: "cleanAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { size: "s", variant: "brand", onClickHandler: () => this.fetchRequested.emit() }, h("wa-icon", { slot: "start", name: "magnifying-glass" }), t('Lcz_LoadTransactions', { fallback: 'Load Transactions' })))))));
+            return (h(Host, null, h("div", { class: "folio-table__date-prompt" }, h("div", { class: "folio-table__date-prompt-icon" }, h("wa-icon", { name: "calendar-days" })), h("p", { class: "folio-table__date-prompt-title" }, "Select a date range to get started"), hasDate && (h("wa-animation", { play: true, iterations: 1, id: "cleanAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { size: "s", variant: "brand", onClickHandler: () => this.fetchRequested.emit() }, h("wa-icon", { slot: "start", name: "magnifying-glass" }), "Load Transactions"))))));
         }
         if (this.isLoading) {
             return (h(Host, null, h("div", { class: "folio-table__loading" }, h("ir-spinner", null))));
@@ -346,7 +342,7 @@ export class IrCityLedgerFolioTable {
         const showingFrom = total ? this.pageIndex * this.pageSize + 1 : 0;
         const showingTo = total ? Math.min(this.pageIndex * this.pageSize + this.displayData.length, total) : 0;
         const hasUnbilledSelected = this.selectedUnbilledRows.length > 0;
-        return (h(Host, null, hasUnbilledSelected && (h("div", { class: "folio-table__invoice-bar" }, h("span", { class: "folio-table__invoice-bar-text" }, h("wa-icon", { name: "file-invoice", style: { marginInlineEnd: '0.375rem' } }), t('Lcz_UnbilledItemsSelected', { fallback: '%1 unbilled item(s) selected', params: [formatCount(this.selectedUnbilledRows.length)] })), h("ir-custom-button", { size: "s", variant: "brand", onClickHandler: () => this.generateInvoice.emit(this.selectedUnbilledRows) }, h("wa-icon", { slot: "start", name: "file-invoice-dollar" }), t('Lcz_GenerateInvoice', { fallback: 'Generate Invoice' })), h("ir-custom-button", { size: "s", variant: "neutral", appearance: "outlined", onClickHandler: () => (this.selectedRowIds = new Set()) }, t('Lcz_ClearSelection', { fallback: 'Clear Selection' })))), h("div", { class: "table--container" }, h("table", { class: "table data-table" }, this.renderTableHead(table), h("tbody", null, !this.hideBalanceInfo && this.renderStartingBalanceRow(), this.renderDataRows(table), !this.hideBalanceInfo && this.renderEndingBalanceRow()))), h("ir-pagination", { class: "data-table--pagination", total: total, pages: pageCount, pageSize: this.pageSize, currentPage: this.pageIndex + 1, allowPageSizeChange: true, showing: { from: showingFrom, to: showingTo }, pageSizes: this.pageSizes, recordLabel: '', onPageChange: (event) => {
+        return (h(Host, null, hasUnbilledSelected && (h("div", { class: "folio-table__invoice-bar" }, h("span", { class: "folio-table__invoice-bar-text" }, h("wa-icon", { name: "file-invoice", style: { marginRight: '0.375rem' } }), this.selectedUnbilledRows.length, " unbilled item", this.selectedUnbilledRows.length !== 1 ? 's' : '', " selected"), h("ir-custom-button", { size: "s", variant: "brand", onClickHandler: () => this.generateInvoice.emit(this.selectedUnbilledRows) }, h("wa-icon", { slot: "start", name: "file-invoice-dollar" }), "Generate Invoice"), h("ir-custom-button", { size: "s", variant: "neutral", appearance: "outlined", onClickHandler: () => (this.selectedRowIds = new Set()) }, "Clear Selection"))), h("div", { class: "table--container" }, h("table", { class: "table data-table" }, this.renderTableHead(table), h("tbody", null, !this.hideBalanceInfo && this.renderStartingBalanceRow(), this.renderDataRows(table), !this.hideBalanceInfo && this.renderEndingBalanceRow()))), h("ir-pagination", { class: "data-table--pagination", total: total, pages: pageCount, pageSize: this.pageSize, currentPage: this.pageIndex + 1, allowPageSizeChange: true, showing: { from: showingFrom, to: showingTo }, pageSizes: this.pageSizes, recordLabel: '', onPageChange: (event) => {
                 event.stopPropagation();
                 this.pageChange.emit({ pageIndex: event.detail.currentPage - 1, pageSize: this.pageSize });
             }, onPageSizeChange: (event) => {

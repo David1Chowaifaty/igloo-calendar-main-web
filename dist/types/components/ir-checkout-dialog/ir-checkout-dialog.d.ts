@@ -25,7 +25,6 @@ export declare class IrCheckoutDialog {
     includeInvoice: boolean;
     checkoutDialogClosed: EventEmitter<CheckoutDialogCloseEvent>;
     private bookingService;
-    private setupService;
     private agentService;
     private cityLedgerService;
     private initialPenaltyStr;

@@ -1,8 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { PropertyService } from "../../services/property.service";
-import ApiClient from "../../models/ApiClient";
-import { t } from "../../services/locale/t";
-import { formatCount } from "../../utils/number";
+import Token from "../../models/Token";
 export class IrNotifications {
     el;
     ticket;
@@ -10,7 +8,7 @@ export class IrNotifications {
     // Make notifications reactive;
     notifications = [];
     notificationCleared;
-    apiClientService = new ApiClient();
+    tokenService = new Token();
     propertyService = new PropertyService();
     buttonRef;
     animationRef;
@@ -25,7 +23,7 @@ export class IrNotifications {
     ];
     componentWillLoad() {
         if (this.ticket) {
-            this.apiClientService.setApiClient(this.ticket);
+            this.tokenService.setToken(this.ticket);
             this.fetchNotifications();
         }
     }
@@ -44,7 +42,7 @@ export class IrNotifications {
         if (newValue === oldValue || !newValue) {
             return;
         }
-        this.apiClientService.setApiClient(newValue);
+        this.tokenService.setToken(newValue);
         this.fetchNotifications();
     }
     handlePropertyChange(newValue, oldValue) {
@@ -104,11 +102,11 @@ export class IrNotifications {
     //   this.notifications = this.notifications.filter(n => n.id !== notification.id);
     // }
     render() {
-        return (h(Host, { key: '21d84c2c081dea396d2beaf31339c999534334ce' }, h("div", { key: 'c89540364d05c09901671d4496fbfe1628ee4682', style: { position: 'relative' } }, h("wa-tooltip", { key: 'f2a3ac626543eca6b8a86bbcb14a2b5ef2d1936b', for: "notifications-button" }, t('Lcz_Notifications', { fallback: 'Notifications' })), this.notifications?.length > 0 && (h("wa-badge", { key: '5f82e95b6b8f82d25c2c643feaecd09fae5c7e15', pill: true, class: "header-notification-badge" }, formatCount(this.notifications.length))), h("wa-animation", { key: 'b18c72aced037e1859f0099512f71ed3efac2405', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, h("ir-custom-button", { key: '30bfdc9f4a6ec020100035ff0b5e3939424965a3', id: "notifications-button", size: "s", appearance: "plain", ref: el => (this.buttonRef = el) }, h("wa-icon", { key: '1ffbbbaaa6e44ebbf9379d022fc85ec490acfb5f', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.4rem' } })))), h("wa-popover", { key: '1e4b3e0db53b9d70b156c8266bf2f60dc1f6fb62', distance: 15, class: "notification__popover", for: "notifications-button" }, h("p", { key: '332d4fef32391166f85291b454b88ee597af3985', class: "notification__popover-title" }, t('Lcz_Notifications', { fallback: 'Notifications' })), this.notifications.map(notification => {
+        return (h(Host, { key: 'f56028f9960e19f94bcf44b3ad59633000a40159' }, h("div", { key: 'ca554bbe270f52754f5a584bec31d4dafd1c76c2', style: { position: 'relative' } }, h("wa-tooltip", { key: '5b3a02b4741882ce0da7bc197a8a65ee2472403b', for: "notifications-button" }, "Notifications"), this.notifications?.length > 0 && (h("wa-badge", { key: 'ce1cc4aa98df55e819d75987b065515f1e3f4b02', pill: true, class: "header-notification-badge" }, this.notifications.length)), h("wa-animation", { key: 'e1d0fc4dabc70db64fb25de8f087eb4041b66e7c', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, h("ir-custom-button", { key: '37ebe6c7039bfadd0d913004379165a2699b2b76', id: "notifications-button", size: "s", appearance: "plain", ref: el => (this.buttonRef = el) }, h("wa-icon", { key: 'c5ea999b5187634c3094a036805c094b42c2d1ec', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.4rem' } })))), h("wa-popover", { key: '1fafbea2af3fd8a0d8452342c393fcb6be6456f5', distance: 15, class: "notification__popover", for: "notifications-button" }, h("p", { key: '8a2e3f39f28e57fa6be999ba8eaff3e239fe85e0', class: "notification__popover-title" }, "Notifications"), this.notifications.map(notification => {
             if (notification.type === 'availability_alert') {
-                return (h("a", { href: "AcAvailabilityAlert.aspx", class: "notification-item" }, h("div", { class: "notification-item__content" }, h("p", { class: "notification-item__title" }, notification.message, ' ', t('Lcz_RoomsNotBookableConsecutiveNights', { fallback: 'rooms types are not bookable for 14 consecutive nights within the next 2 months. More...' })), h("wa-icon", { class: "ir-flip-rtl", name: "angle-right" }))));
+                return (h("a", { href: "AcAvailabilityAlert.aspx", class: "notification-item" }, h("div", { class: "notification-item__content" }, h("p", { class: "notification-item__title" }, notification.message, " rooms types are not bookable for 14 consecutive nights within the next 2 months. More..."), h("wa-icon", { name: "angle-right" }))));
             }
-        }), this.notifications?.length === 0 && (h("ir-empty-state", { key: '42618c9c6680345f7882f93299ed1a6189e54707', message: t('Lcz_AllCaughtUp', { fallback: 'All caught up!' }), style: { width: '250px', height: '150px' } }, h("wa-icon", { key: 'fb4e90b4f19a830301a31008c33ccc1b8427f003', slot: "icon", name: "inbox" }))))));
+        }), this.notifications?.length === 0 && (h("ir-empty-state", { key: 'f47de7b78210af9b1bae8c2f70b53601717adbc4', message: "All caught up!", style: { width: '250px', height: '150px' } }, h("wa-icon", { key: '75796cb2e0ca10ee81c66048d8b8557c63aaf214', slot: "icon", name: "inbox" }))))));
     }
     static get is() { return "ir-notifications"; }
     static get encapsulation() { return "scoped"; }
@@ -182,7 +180,7 @@ export class IrNotifications {
                 },
                 "complexType": {
                     "original": "Notification",
-                    "resolved": "Readonly<{ id: string; title: string; message: string; date: string; hour: number; minute: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"error\" | \"warning\" | \"alert\"; ariaRole?: \"alert\"; } | Readonly<{ id: string; title: string; message: string; date: string; hour: number; minute: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"success\" | \"info\"; ariaRole?: \"status\"; }",
+                    "resolved": "Readonly<{ id: string; title: string; message: string; date: string; hour: number; minute: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"success\" | \"info\"; ariaRole?: \"status\"; } | Readonly<{ id: string; title: string; message: string; date: string; hour: number; minute: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"warning\" | \"error\" | \"alert\"; ariaRole?: \"alert\"; }",
                     "references": {
                         "Notification": {
                             "location": "import",

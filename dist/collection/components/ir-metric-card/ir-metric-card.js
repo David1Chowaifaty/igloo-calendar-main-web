@@ -1,6 +1,4 @@
 import { Host, h } from "@stencil/core";
-import { formatNumber, formatPercent } from "../../utils/number";
-import { t } from "../../services/locale/t";
 /**
  * A compact, themeable KPI / metric card. Displays a label, a primary value with an
  * optional unit, an optional leading icon, a trend delta, a caption, and arbitrary
@@ -82,9 +80,8 @@ export class IrMetricCard {
         const tone = direction === 'flat' ? 'flat' : this.trendIsPositive ? 'positive' : 'negative';
         const iconName = direction === 'up' ? 'arrow-trend-up' : direction === 'down' ? 'arrow-trend-down' : 'minus';
         const magnitude = Math.abs(this.trend);
-        const displayValue = this.trendValue ?? formatPercent(magnitude);
-        const directionLabel = direction === 'up' ? t('Lcz_TrendUp', { fallback: 'up' }) : direction === 'down' ? t('Lcz_TrendDown', { fallback: 'down' }) : t('Lcz_NoChange', { fallback: 'no change' });
-        const ariaLabel = `${directionLabel} ${this.trendValue ?? `${formatNumber(magnitude)} ${t('Lcz_Percent', { fallback: 'percent' })}`}`;
+        const displayValue = this.trendValue ?? `${magnitude}%`;
+        const ariaLabel = `${direction === 'flat' ? 'no change' : direction} ${this.trendValue ?? `${magnitude} percent`}`;
         return (h("span", { part: "trend", class: `metric__trend metric__trend--${tone}`, "aria-label": ariaLabel }, h("wa-icon", { name: iconName, "aria-hidden": "true" }), h("span", null, displayValue), this.trendLabel && h("span", { class: "metric__trend-label" }, this.trendLabel)));
     }
     renderIcon() {
@@ -94,7 +91,7 @@ export class IrMetricCard {
         const hasIcon = !!this.icon;
         const interactive = this.clickable && !this.loading;
         const ariaLabel = [this.label, this.value, this.unit].filter(Boolean).join(' ') || undefined;
-        return (h(Host, { key: '5a35d40bfe42d636f6263598b3620c3b105c3494', role: this.clickable ? 'button' : null, tabindex: interactive ? '0' : null, "aria-label": this.clickable ? ariaLabel : null, "aria-busy": this.loading ? 'true' : null, onClick: interactive ? this.handleActivate : undefined, onKeyDown: interactive ? this.handleKeyDown : undefined }, h("div", { key: 'cb695fd2ebcbd280e50bc02fe8e0148a1e875046', part: "base", class: "metric" }, (hasIcon || this.label) && (h("div", { key: '0bed2bcd9b20b35d0f613dc2e788d05f381429bd', part: "header", class: "metric__header" }, hasIcon && this.renderIcon(), h("span", { key: '3b923dc03163b5d431a31c6cbbc3e057885de50d', part: "label", class: "metric__label" }, h("slot", { key: 'd017e725e36993243015804e34f5643592af7c8c', name: "label" }, this.label)))), this.loading ? (h("div", { class: "metric__skeleton" }, h("span", { class: "metric__skeleton-bar metric__skeleton-bar--value" }), h("span", { class: "metric__skeleton-bar metric__skeleton-bar--caption" }))) : (h("div", { class: "metric__main" }, h("div", { part: "value", class: "metric__value" }, h("slot", { name: "value" }, this.value !== undefined && this.value !== null && (h("span", { class: "metric__value-number" }, typeof this.value === 'number' ? formatNumber(this.value) : this.value)), this.unit && (h("span", { part: "unit", class: "metric__unit" }, this.unit))), this.renderTrend()), this.caption && (h("p", { part: "caption", class: "metric__caption" }, this.caption)))), h("div", { key: 'c44b74796ab8bd5be4052835a6dc4920bd96b447', part: "body", class: "metric__body" }, h("slot", { key: 'e715a082ddbb0601290a89211a7215a4a5382a88' })), h("div", { key: '15343b40f6621f3b614fdb9c47fcc06fd99ccdbe', part: "footer", class: "metric__footer" }, h("slot", { key: '7e56143679683857f7c67d9d5e7936d4de8ee456', name: "footer" })))));
+        return (h(Host, { key: 'df016a2cbb8d3506a83052178e0a1fead10da609', role: this.clickable ? 'button' : null, tabindex: interactive ? '0' : null, "aria-label": this.clickable ? ariaLabel : null, "aria-busy": this.loading ? 'true' : null, onClick: interactive ? this.handleActivate : undefined, onKeyDown: interactive ? this.handleKeyDown : undefined }, h("div", { key: 'fc0cd31a02524b23b4ebb586cb82169f04aebeb7', part: "base", class: "metric" }, (hasIcon || this.label) && (h("div", { key: '408f8fa79df585bd9dd65460e7b0abfb05dc422d', part: "header", class: "metric__header" }, hasIcon && this.renderIcon(), h("span", { key: '0c68fcd8b748bebb3ab4572dab911be2b491c9b2', part: "label", class: "metric__label" }, h("slot", { key: '7ae61d8d5e3d6ea5ce027815af8d2fc21a7dd3b2', name: "label" }, this.label)))), this.loading ? (h("div", { class: "metric__skeleton" }, h("span", { class: "metric__skeleton-bar metric__skeleton-bar--value" }), h("span", { class: "metric__skeleton-bar metric__skeleton-bar--caption" }))) : (h("div", { class: "metric__main" }, h("div", { part: "value", class: "metric__value" }, h("slot", { name: "value" }, this.value !== undefined && this.value !== null && h("span", { class: "metric__value-number" }, this.value), this.unit && (h("span", { part: "unit", class: "metric__unit" }, this.unit))), this.renderTrend()), this.caption && (h("p", { part: "caption", class: "metric__caption" }, this.caption)))), h("div", { key: '5a79e162c02bb3bfc814697bc116444a6fd62f7d', part: "body", class: "metric__body" }, h("slot", { key: '84dd4e0515ad53a7a4ad6d0741a0144f6d85b0b1' })), h("div", { key: '13fc554590aaad6e7ca1f915bca00edc6c302b99', part: "footer", class: "metric__footer" }, h("slot", { key: '08535c33b733eaf71bcf4f97c73bb9011ea40d92', name: "footer" })))));
     }
     static get is() { return "ir-metric-card"; }
     static get encapsulation() { return "shadow"; }

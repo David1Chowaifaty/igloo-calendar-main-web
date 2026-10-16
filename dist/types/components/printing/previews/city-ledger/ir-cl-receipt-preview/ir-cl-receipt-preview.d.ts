@@ -15,7 +15,7 @@ export declare class IrClReceiptPreview {
     clPreviewReady: EventEmitter<void>;
     private hasEmitted;
     private dataService;
-    private setupService;
+    private bookingService;
     private cityLedgerService;
     componentWillLoad(): Promise<void>;
     private fetchData;

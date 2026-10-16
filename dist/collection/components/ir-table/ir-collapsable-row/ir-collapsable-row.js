@@ -17,8 +17,8 @@ export class IrCollapsableRow {
     };
     render() {
         return [
-            h("tr", { key: '311eac9209bbbc24b45c1f72a311614d69b89b2e' }, this.row.getVisibleCells().map((cell, index) => (h("td", { key: cell.id, class: {
-                    'ir-text-end': ['debit', 'credit', 'balance'].includes(cell.column.id),
+            h("tr", { key: 'c21e7f4a04cb39591b4be144832372b1bdc6ab7b' }, this.row.getVisibleCells().map((cell, index) => (h("td", { key: cell.id, class: {
+                    'text-right': ['debit', 'credit', 'balance'].includes(cell.column.id),
                     'text-center': cell.column.id === 'actions',
                     'sticky-column': cell.column.id === 'status',
                     'input-column': ['debit', 'credit'].includes(cell.column.id),
@@ -27,14 +27,14 @@ export class IrCollapsableRow {
             ...(this.isActive
                 ? [
                     h("tr", null, this.row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
-                            'ir-text-end': ['debit', 'credit', 'balance'].includes(cell.column.id),
+                            'text-right': ['debit', 'credit', 'balance'].includes(cell.column.id),
                             'text-center': cell.column.id === 'actions',
                             'sticky-column': cell.column.id === 'status',
                             'input-column': ['debit', 'credit'].includes(cell.column.id),
                             'grouped-cell': cell.getIsGrouped(),
                         } }, "ACM2 ", this.renderCell(cell))))),
                     h("tr", null, this.row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
-                            'ir-text-end': ['debit', 'credit', 'balance'].includes(cell.column.id),
+                            'text-right': ['debit', 'credit', 'balance'].includes(cell.column.id),
                             'text-center': cell.column.id === 'actions',
                             'sticky-column': cell.column.id === 'status',
                             'input-column': ['debit', 'credit'].includes(cell.column.id),

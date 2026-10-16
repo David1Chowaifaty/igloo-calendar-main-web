@@ -1,22 +1,16 @@
-import ApiClient from "../../../models/ApiClient";
-import { HouseKeepingService } from "../../../services/housekeeping/index";
+import Token from "../../../models/Token";
+import { HouseKeepingService } from "../../../services/housekeeping.service";
 import { Host, h } from "@stencil/core";
-import moment from "moment";
-import { formatDate } from "../../../utils/date/index";
-import { isRtlLanguage } from "../../../utils/direction";
+import moment from "moment/min/moment-with-locales";
 import { realtimeService } from "../../../services/realtime/realtime.service";
 import { v4 } from "uuid";
-import { t } from "../../../services/locale/t";
-import { formatCount } from "../../../utils/number";
-import { LocaleController } from "../../../services/locale/locale.controller";
-import { SCREEN_TABLES } from "../../../services/locale/screen-tables";
 const LANGUAGE_KEY = 'ir_language';
-/**
- * Fallbacks for `t()`. This page is opened by housekeeping staff on their own devices, in
- * their own language, so it cannot wait for Setup's `_HOUSEKEEPING` table to be translated —
- * the strings a translated table would carry are inlined here until it is.
- */
-const INLINE_LABELS = {
+const localeMap = {
+    en: 'en',
+    ar: 'ar',
+    el: 'el',
+};
+const translations = {
     en: {
         noTasks: 'No tasks for this day.',
         markAsCleaned: 'Mark as Cleaned',
@@ -39,14 +33,18 @@ const INLINE_LABELS = {
         cancel: 'Ακύρωση',
     },
 };
-function inlineLabels(lang) {
-    return INLINE_LABELS[lang?.toLowerCase()] ?? INLINE_LABELS.en;
+function toMomentLocale(lang) {
+    return localeMap[lang?.toLowerCase()] ?? 'en';
+}
+function t(lang) {
+    return translations[lang?.toLowerCase()] ?? translations.en;
 }
 export class IrHkStaffTasks {
+    el;
     ticket;
     baseurl;
     language = 'en';
-    apiClientService = new ApiClient();
+    tokenService = new Token();
     houseKeepingService = new HouseKeepingService();
     // Always use English locale for date keys to avoid Arabic-Indic numerals
     fromDate = moment().locale('en').format('YYYY-MM-DD');
@@ -65,13 +63,13 @@ export class IrHkStaffTasks {
     componentWillLoad() {
         // Language resolution: stored preference wins, then prop, then default 'en'
         this.activeLanguage = localStorage.getItem(LANGUAGE_KEY) || this.language;
-        this.publishLanguage(this.activeLanguage);
+        moment.locale(toMomentLocale(this.activeLanguage));
+        this.el.setAttribute('dir', this.activeLanguage === 'ar' ? 'rtl' : 'ltr');
         if (this.baseurl) {
-            this.apiClientService.setBaseUrl(this.baseurl);
+            this.tokenService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
-            this.apiClientService.setApiClient(this.ticket);
-            this.loadLocale(this.activeLanguage);
+            this.tokenService.setToken(this.ticket);
             this.loadTasks();
         }
     }
@@ -84,44 +82,20 @@ export class IrHkStaffTasks {
         }
         this.activeLanguage = lang;
         localStorage.setItem(LANGUAGE_KEY, lang);
-        this.publishLanguage(lang);
-        if (this.ticket) {
-            this.loadLocale(lang, true);
-        }
+        moment.locale(toMomentLocale(lang));
+        this.el.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
         this.tasksByDate = this.tasksByDate.map(group => ({
             ...group,
-            formattedDate: formatDate(group.date, 'ddd, DD MMM'),
+            // Use locale('en') clone so display format uses active locale correctly
+            formattedDate: moment(group.date).format('ddd, DD MMM'),
         }));
-    }
-    /**
-     * Standalone page, so it fetches its own strings — after `setApiClient`, since the request
-     * needs the ticket. Nothing awaits this: `t()` renders the inline fallback until the store
-     * fills, then the component re-renders through the store.
-     */
-    loadLocale(language, force = false) {
-        LocaleController.load({ language, tables: SCREEN_TABLES.hkStaffTasks, force }).catch(() => { });
-    }
-    /**
-     * This component is mounted standalone (staff open it directly), so nothing else has run
-     * `fetchLanguage` to publish the active language. Setting `<html lang>` is what routes it to
-     * the date layer — see `resolveLocale` in `src/utils/date/ir-date.ts`. Deliberately no
-     * `moment.locale()` call: that is a global mutation that would change date output for every
-     * other component on the page.
-     */
-    publishLanguage(lang) {
-        const normalized = (lang ?? 'en').toLowerCase();
-        document.documentElement.lang = normalized;
-        // Direction is a document-level concern - dialogs, drawers and toasts render outside
-        // this element's subtree and would keep the page default if `dir` only went on the host.
-        document.documentElement.setAttribute('dir', isRtlLanguage(normalized) ? 'rtl' : 'ltr');
     }
     async handleTicketChange(newValue, oldValue) {
         if (newValue === oldValue) {
             return;
         }
         if (this.ticket) {
-            this.apiClientService.setApiClient(this.ticket);
-            this.loadLocale(this.activeLanguage);
+            this.tokenService.setToken(this.ticket);
             this.loadTasks();
         }
     }
@@ -167,7 +141,7 @@ export class IrHkStaffTasks {
             const dateStr = cursor.clone().locale('en').format('YYYY-MM-DD');
             dateMap.set(dateStr, {
                 date: dateStr,
-                formattedDate: formatDate(dateStr, 'ddd, DD MMM'),
+                formattedDate: cursor.format('ddd, DD MMM'), // uses active global locale for display
                 isFuture: dateStr > today,
                 tasks: [],
             });
@@ -194,7 +168,6 @@ export class IrHkStaffTasks {
                 cleaning_frequency: '001',
                 dusty_window: '000',
                 highlight_window: '000',
-                language: LocaleController.language,
             });
             if (tasks) {
                 const mapped = tasks.filter(i => !i.hkm_id || i.hkm_id === this.connectedHk.HKM_ID).map((task) => ({ ...task, id: v4() }));
@@ -253,7 +226,7 @@ export class IrHkStaffTasks {
             const allTasks = [this.selectedTask, ...(this.selectedTask.extra_task ?? [])];
             await this.houseKeepingService.executeHKAction({
                 actions: allTasks.map((task, i) => ({
-                    description: comment || t('Lcz_Cleaned', { fallback: 'Cleaned' }),
+                    description: comment || 'Cleaned',
                     hkm_id: task.hkm_id === 0 ? null : task.hkm_id,
                     unit_id: task.unit.id,
                     booking_nbr: task.booking_nbr,
@@ -280,7 +253,6 @@ export class IrHkStaffTasks {
             housekeepers: [{ id: this.connectedHk.HKM_ID }],
             cleaning_frequency: '001',
             dusty_window: '000',
-            language: LocaleController.language,
             highlight_window: '000',
         });
         if (tasks) {
@@ -292,16 +264,16 @@ export class IrHkStaffTasks {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        const i18n = inlineLabels(this.activeLanguage);
-        return (h(Host, null, h("ir-hk-staff-tasks-header", { connectedHK: this.connectedHk, language: this.activeLanguage, onLanguageChanged: e => this.applyLanguage(e.detail) }), h("div", { class: "tasks__container" }, this.tasksByDate.map(group => (h("section", { key: group.date, class: `tasks__section${group.isFuture ? ' tasks__section--future' : ''}`, "aria-label": `${t('Lcz_TasksFor', { fallback: 'Tasks for' })} ${group.formattedDate}` }, h("header", { class: "tasks__header" }, h("h3", { class: "tasks__date" }, group.formattedDate), h("wa-badge", { pill: true, style: { fontSize: '0.875rem', fontWeight: 'bold' }, variant: group.isFuture ? 'neutral' : 'brand', appearance: group.isFuture ? 'filled' : 'accent' }, formatCount(group.tasks.length))), group.tasks.length > 0 ? (h("div", { class: "tasks-grid", role: "list" }, group.tasks.map(task => (h("ir-hk-staff-task", { class: "task-card", onTaskClick: e => {
+        const i18n = t(this.activeLanguage);
+        return (h(Host, null, h("ir-hk-staff-tasks-header", { connectedHK: this.connectedHk, language: this.activeLanguage, onLanguageChanged: e => this.applyLanguage(e.detail) }), h("div", { class: "tasks__container" }, this.tasksByDate.map(group => (h("section", { key: group.date, class: `tasks__section${group.isFuture ? ' tasks__section--future' : ''}`, "aria-label": `Tasks for ${group.formattedDate}` }, h("header", { class: "tasks__header" }, h("h3", { class: "tasks__date" }, group.formattedDate), h("wa-badge", { pill: true, style: { fontSize: '0.875rem', fontWeight: 'bold' }, variant: group.isFuture ? 'neutral' : 'brand', appearance: group.isFuture ? 'filled' : 'accent' }, group.tasks.length)), group.tasks.length > 0 ? (h("div", { class: "tasks-grid", role: "list" }, group.tasks.map(task => (h("ir-hk-staff-task", { class: "task-card", onTaskClick: e => {
                 this.selectedTask = e.detail;
                 this.confirmDialog.openModal();
-            }, future: group.isFuture, task: task, key: task.id, role: "listitem" }))))) : (h("p", { class: "tasks__empty" }, t('Lcz_NoTasksForThisDay', { fallback: i18n.noTasks }))))))), h("ir-dialog", { class: "hk-staff-tasks__dialog", ref: el => (this.confirmDialog = el), label: this.selectedTask ? `${this.selectedTask.unit.name} — ${t('Lcz_MarkAsCleaned', { fallback: i18n.markAsCleaned })}` : t('Lcz_Confirm', { fallback: i18n.confirm }), onIrDialogAfterHide: () => {
+            }, future: group.isFuture, task: task, key: task.id, role: "listitem" }))))) : (h("p", { class: "tasks__empty" }, i18n.noTasks)))))), h("ir-dialog", { class: "hk-staff-tasks__dialog", ref: el => (this.confirmDialog = el), label: this.selectedTask ? `${this.selectedTask.unit.name} — ${i18n.markAsCleaned}` : i18n.confirm, onIrDialogAfterHide: () => {
                 this.selectedTask = null;
                 if (this.anythingToReportString) {
                     this.anythingToReportString = null;
                 }
-            } }, h("wa-textarea", { value: this.anythingToReportString, onchange: e => (this.anythingToReportString = e.target.value), defaultValue: this.anythingToReportString, placeholder: t('Lcz_AnythingToReport', { fallback: i18n.anythingToReport }), maxlength: 500 }), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { variant: "neutral", appearance: "filled", onClickHandler: () => this.confirmDialog.closeModal() }, t('Lcz_Cancel', { fallback: i18n.cancel })), h("ir-custom-button", { variant: "brand", appearance: "accent", loading: this.isConfirmLoading, onClickHandler: this.handleConfirm.bind(this) }, t('Lcz_Confirm', { fallback: i18n.confirm }))))));
+            } }, h("wa-textarea", { value: this.anythingToReportString, onchange: e => (this.anythingToReportString = e.target.value), defaultValue: this.anythingToReportString, placeholder: i18n.anythingToReport, maxlength: 500 }), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { variant: "neutral", appearance: "filled", onClickHandler: () => this.confirmDialog.closeModal() }, i18n.cancel), h("ir-custom-button", { variant: "brand", appearance: "accent", loading: this.isConfirmLoading, onClickHandler: this.handleConfirm.bind(this) }, i18n.confirm)))));
     }
     static get is() { return "ir-hk-staff-tasks"; }
     static get encapsulation() { return "scoped"; }
@@ -388,6 +360,7 @@ export class IrHkStaffTasks {
             "anythingToReportString": {}
         };
     }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
                 "propName": "language",

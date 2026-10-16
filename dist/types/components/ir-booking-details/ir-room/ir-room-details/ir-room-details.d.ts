@@ -1,11 +1,11 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { Booking, Room, SharedPerson } from "../../../../models/booking.dto";
-import { SetupEntries } from "../../../../models/IBooking";
+import { IEntries } from "../../../../models/IBooking";
 export declare class IrRoomDetails {
     room: Room;
     booking: Booking;
     mainGuest: SharedPerson;
-    bedPreferences: SetupEntries[];
+    bedPreferences: IEntries[];
     language: string;
     includeDepartureTime: boolean;
     hasCheckIn: boolean;

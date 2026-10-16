@@ -2,10 +2,8 @@ import { h, Host } from "@stencil/core";
 export class IrPage {
     label;
     description;
-    /** Endpoints that show the embedded interceptor's full-page loader. Omit to keep the interceptor's default list. */
-    handledEndpoints;
     render() {
-        return (h(Host, { key: '54ae133f7dbe2909c3375a684ae5bfac62b3228c' }, h("ir-interceptor", { key: 'c8e0b88aa3d2a01c5b774501b50b8468b25e2cf6', ...(this.handledEndpoints ? { handledEndpoints: this.handledEndpoints } : {}) }), h("ir-toast", { key: '290c23eaec1d9557b9128874ef9004b85bc4dcef' }), h("main", { key: '8cc106a8b14855befd16a7e7a687153c898bca46', part: "main", class: "ir-page__container" }, h("header", { key: 'fd18df44bc979520527c9c6edc61e48c6777626e', part: "header", class: "tax-page__header" }, h("slot", { key: '459c6c23415a571825ade8bd2b1f56bec8a01782', name: "heading" }, h("div", { key: '537fcf748a91f056cece9e9a2767271fe9255095', class: "tax-page__heading" }, h("h3", { key: 'dbdf852bfb48f15029943771f4595256bc267e42', part: "title", class: "page-title" }, this.label), this.description && (h("p", { key: '22feb41aa67a9e67e2b9be73e146786c82a03e8d', part: "description", class: "page__description" }, this.description, h("slot", { key: '7aa2076515f1cd48f5890de68b9fe4bf3f27d318', name: "page-description" }))))), h("slot", { key: '6f556781460fec505d2823f69be2fbe736f2aba9', name: "page-header" })), h("div", { key: '17828e8a20d79b1b95d7dcdeae489ccfc080b8ac', part: "body", class: 'page-body' }, h("slot", { key: '60741aa2cac8ce382e57e0138df9c3f5d5ed9c1c' })))));
+        return (h(Host, { key: '283984db76019ca1e76a2816ccd4533e4ad490cf' }, h("ir-interceptor", { key: '480a146f1168b6c51b8e594de9c89fa2e434c160' }), h("ir-toast", { key: '8bc90bc9114181b8983187477394db96de27ecbc' }), h("main", { key: 'a5916717dfef28e5659038e3d9670f27717e2b40', part: "main", class: "ir-page__container" }, h("header", { key: 'de2fd78db6df4913f5de3a14026c42212df42620', part: "header", class: "tax-page__header" }, h("slot", { key: 'c609d69a5d04699e801882e8d98fd551a6f4a94b', name: "heading" }, h("div", { key: '509c358e55d636069e0ffed7964cd06ac3a3adcd', class: "tax-page__heading" }, h("h3", { key: '373d55a51a13d5f8df4d90578273fbc0bf81b37e', part: "title", class: "page-title" }, this.label), this.description && (h("p", { key: '5ed89ef8cdd45436be27f3fc2a9d199c2743b76b', part: "description", class: "page__description" }, this.description, h("slot", { key: 'aa3966ef599f799f461923679e85685f189dce1b', name: "page-description" }))))), h("slot", { key: '68778566e1392dcba7ca39413395d331fb9fddcf', name: "page-header" })), h("div", { key: 'd63b0b6afdfc96d02a0a5fa550ff813eb7a63103', part: "body", class: 'page-body' }, h("slot", { key: '7667f3c7e31bf65f3454c02b9259688349cf5a41' })))));
     }
     static get is() { return "ir-page"; }
     static get encapsulation() { return "shadow"; }
@@ -58,23 +56,6 @@ export class IrPage {
                 "setter": false,
                 "reflect": false,
                 "attribute": "description"
-            },
-            "handledEndpoints": {
-                "type": "unknown",
-                "mutable": false,
-                "complexType": {
-                    "original": "string[]",
-                    "resolved": "string[]",
-                    "references": {}
-                },
-                "required": false,
-                "optional": true,
-                "docs": {
-                    "tags": [],
-                    "text": "Endpoints that show the embedded interceptor's full-page loader. Omit to keep the interceptor's default list."
-                },
-                "getter": false,
-                "setter": false
             }
         };
     }

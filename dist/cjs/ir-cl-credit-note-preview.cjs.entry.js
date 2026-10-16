@@ -1,27 +1,22 @@
 'use strict';
 
-var index = require('./index-IDeZZwEK.js');
-var clFiscalDocument_service = require('./cl-fiscal-document.service-DOMZvEbx.js');
-var t = require('./t-CqJPQrfm.js');
-require('./ApiClient-u7fuhiXA.js');
+var index = require('./index-Bp205iz4.js');
+var clFiscalDocument_service = require('./cl-fiscal-document.service-Dxvbatta.js');
+require('./Token-mN7PQKGF.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./index-tJ-3XZhY.js');
+require('./index-sInp0tn4.js');
 require('./enums-BSCnMYlE.js');
 require('./moment-CdViwxPQ.js');
 require('./types-BVJQZ50e.js');
-require('./utils-ZKsQb8eV.js');
-require('./calendar-data-ShS6b-Ns.js');
-require('./locale-scope-Cch-vf1R.js');
-require('./booking.dto-CUSvGTvD.js');
+require('./utils-w7_1d-K4.js');
+require('./calendar-data-BpobEh98.js');
+require('./index-CjQGUKJk.js');
+require('./locales.store-CQhQqUVl.js');
 require('./type-Bj2x9EWc.js');
-require('./ir-date-CbkOKs2C.js');
-require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
-require('./index-Cw449Sfi.js');
-require('./commonSchemas-D4iFLV5-.js');
-require('./locale.controller-DXObwuz4.js');
-require('./types-sp5nWPAa.js');
+require('./index---Y4j1HL.js');
+require('./commonSchemas-rhaJ5cvr.js');
 
 const irClCreditNotePreviewCss = () => `:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:900px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}`;
 
@@ -46,7 +41,7 @@ const IrClCreditNotePreview = class {
     hasEmitted = false;
     componentWillLoad() {
         if (!this.ticket) {
-            this.error = t.t('Lcz_AuthTicketRequired', { fallback: 'Authentication ticket is required.' });
+            this.error = 'Authentication ticket is required.';
             return;
         }
         this.dataService.init(this.baseurl, this.ticket);
@@ -69,7 +64,7 @@ const IrClCreditNotePreview = class {
             this.transactions = transactions;
         }
         catch (e) {
-            this.error = e?.message ?? t.t('Lcz_FailedToLoadCreditNoteData', { fallback: 'Failed to load credit note data.' });
+            this.error = e?.message ?? 'Failed to load credit note data.';
         }
         finally {
             this.isLoading = false;
@@ -77,7 +72,7 @@ const IrClCreditNotePreview = class {
     }
     render() {
         if (!this.ticket) {
-            return (index.h(index.Host, null, index.h("div", { class: "document-state document-state--error" }, t.t('Lcz_AuthTicketRequired', { fallback: 'Authentication ticket is required.' }))));
+            return (index.h(index.Host, null, index.h("div", { class: "document-state document-state--error" }, "Authentication ticket is required.")));
         }
         if (this.isLoading) {
             return (index.h(index.Host, null, index.h("div", { class: "document-state" }, index.h("ir-spinner", null))));

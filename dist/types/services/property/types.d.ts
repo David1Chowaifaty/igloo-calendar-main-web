@@ -11,7 +11,7 @@ export type FetchedProperty = {
 export type LinkedProperty = {
     name: string;
     property_id: number;
-    ApiClient: string;
+    token: string;
 };
 export type CountrySalesParams = {
     AC_ID: number;
@@ -372,15 +372,15 @@ export declare const GetUnifiedFolioParamsSchema: z.ZodObject<{
     property_id?: number;
     from_date?: string;
     to_date?: string;
+    agent_id?: string;
+    page_index?: number;
+    page_size?: number;
     target_type?: string;
     doc_type?: string;
     fd_type_code?: string;
     doc_number?: string;
-    agent_id?: string;
     guest_id?: string;
     booking_number?: string;
-    page_index?: number;
-    page_size?: number;
     o_Total_Rows?: number;
     is_export_to_excel?: boolean;
     Link_excel?: string;
@@ -388,15 +388,15 @@ export declare const GetUnifiedFolioParamsSchema: z.ZodObject<{
     property_id?: number;
     from_date?: string;
     to_date?: string;
+    agent_id?: string;
+    page_index?: number;
+    page_size?: number;
     target_type?: string;
     doc_type?: string;
     fd_type_code?: string;
     doc_number?: string;
-    agent_id?: string;
     guest_id?: string;
     booking_number?: string;
-    page_index?: number;
-    page_size?: number;
     o_Total_Rows?: number;
     is_export_to_excel?: boolean;
     Link_excel?: string;
@@ -577,18 +577,18 @@ export declare const GetExposedBookingsByInvoicedStatusParamsSchema: z.ZodObject
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
     booking_nbr?: string;
-    source?: string;
     from_date?: string;
     to_date?: string;
+    source?: string;
     is_totally_invoiced?: boolean;
     start_row?: number;
     end_row?: number;
 }, {
     property_id?: number;
     booking_nbr?: string;
-    source?: string;
     from_date?: string;
     to_date?: string;
+    source?: string;
     is_totally_invoiced?: boolean;
     start_row?: number;
     end_row?: number;

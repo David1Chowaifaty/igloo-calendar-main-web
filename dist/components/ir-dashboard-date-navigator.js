@@ -1,1 +1,0 @@
-import{I as a,d as o}from"./ir-dashboard-date-navigator2.js";const r=a,s=o;export{r as IrDashboardDateNavigator,s as defineCustomElement}

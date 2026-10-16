@@ -1,20 +1,17 @@
 'use strict';
 
-var index = require('./index-IDeZZwEK.js');
-var paymentOption_store = require('./payment-option.store-CHv49nRu.js');
-var irInterceptor_store = require('./ir-interceptor.store-GIfc0Pi9.js');
-var utils = require('./utils-ZKsQb8eV.js');
-var t = require('./t-CqJPQrfm.js');
+var index = require('./index-Bp205iz4.js');
+var paymentOption_store = require('./payment-option.store-C-vTyDCZ.js');
+var irInterceptor_store = require('./ir-interceptor.store-Df1UISPa.js');
+var locales_store = require('./locales.store-CQhQqUVl.js');
+var utils = require('./utils-w7_1d-K4.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./locale-scope-Cch-vf1R.js');
+require('./index-CjQGUKJk.js');
 require('./moment-CdViwxPQ.js');
-require('./calendar-data-ShS6b-Ns.js');
-require('./booking.dto-CUSvGTvD.js');
+require('./calendar-data-BpobEh98.js');
 require('./type-Bj2x9EWc.js');
 require('./types-BVJQZ50e.js');
-require('./ir-date-CbkOKs2C.js');
-require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
 
 const irOptionDetailsCss = () => `.sc-ir-option-details-h{display:block}`;
@@ -89,7 +86,7 @@ const IrOptionDetails = class {
         utils.showToast({
             type: 'success',
             description: '',
-            title: t.t('Lcz_Saved', { fallback: 'Saved' }),
+            title: locales_store.locales.entries.Lcz_Saved,
             position: 'top-right',
         });
         this.closeModal.emit(selectedOption);
@@ -148,10 +145,10 @@ const IrOptionDetails = class {
         if (!paymentOption_store.payment_option_store.selectedOption) {
             return null;
         }
-        return (index.h(index.Host, null, index.h("form", { class: 'sheet-container', onSubmit: this.saveOption.bind(this) }, index.h("ir-title", { class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: t.t('Lcz_Information', { params: [paymentOption_store.payment_option_store.selectedOption?.description] }), displayContext: "sidebar" }), index.h("div", { class: "sheet-body px-1" }, paymentOption_store.payment_option_store.selectedOption.code === '005' ? (index.h("div", null, index.h("div", { class: "mb-1" }, index.h("ir-select", { selectedValue: this.selectedLanguage, showFirstOption: false, data: paymentOption_store.payment_option_store.languages.map(l => ({
+        return (index.h(index.Host, null, index.h("form", { class: 'sheet-container', onSubmit: this.saveOption.bind(this) }, index.h("ir-title", { class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: locales_store.locales?.entries.Lcz_Information?.replace('%1', paymentOption_store.payment_option_store.selectedOption?.description), displayContext: "sidebar" }), index.h("div", { class: "sheet-body px-1" }, paymentOption_store.payment_option_store.selectedOption.code === '005' ? (index.h("div", null, index.h("div", { class: "mb-1" }, index.h("ir-select", { selectedValue: this.selectedLanguage, showFirstOption: false, data: paymentOption_store.payment_option_store.languages.map(l => ({
                 text: l.description,
                 value: l.id.toString(),
-            })) })), index.h("div", null, this.invalid && index.h("p", { class: "text-danger p-0 m-0" }, t.t('Lcz_YouMustFillEnglishField')), index.h("ir-text-editor", {
+            })) })), index.h("div", null, this.invalid && index.h("p", { class: "text-danger p-0 m-0" }, locales_store.locales.entries.Lcz_YouMustFillEnglishField), index.h("ir-text-editor", {
             // plugins={[Link]}
             // pluginsMode="add"
             // toolbarItemsMode="add"
@@ -159,7 +156,7 @@ const IrOptionDetails = class {
             maxLength: 450, placeholder: "", style: { '--ir-editor-height': '250px' }, error: this.invalid, value: this.localizationIdx !== null ? (paymentOption_store.payment_option_store.selectedOption?.localizables[this.localizationIdx]?.description ?? '') : '', onTextChange: this.handleTextAreaChange.bind(this)
         })))) : (index.h("div", null, paymentOption_store.payment_option_store.selectedOption.data?.map((d, idx) => {
             return (index.h("fieldset", { key: d.key }, index.h("ir-input-text", { value: d.value, onTextChange: e => this.handlePaymentGatewayInfoChange(e, idx), id: `input_${d.key}`, label: d.key.replace(/_/g, ' '), placeholder: "", labelWidth: 4, "aria-invalid": this.invalid && (d.value === null || (d.value ?? '')?.trim() === '') ? 'true' : 'false' })));
-        })))), index.h("div", { class: 'sheet-footer' }, index.h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: t.t('Lcz_Cancel', { fallback: 'Cancel' }), btn_color: "secondary", btn_type: "button" }), index.h("ir-button", { btn_type: "submit", btn_styles: "justify-content-center align-items-center", class: 'flex-fill', isLoading: irInterceptor_store.isRequestPending('/Handle_Payment_Method'), text: t.t('Lcz_Save', { fallback: 'Save' }), btn_color: "primary" })))));
+        })))), index.h("div", { class: 'sheet-footer' }, index.h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: locales_store.locales.entries.Lcz_Cancel, btn_color: "secondary", btn_type: "button" }), index.h("ir-button", { btn_type: "submit", btn_styles: "justify-content-center align-items-center", class: 'flex-fill', isLoading: irInterceptor_store.isRequestPending('/Handle_Payment_Method'), text: locales_store.locales.entries.Lcz_Save, btn_color: "primary" })))));
     }
 };
 IrOptionDetails.style = irOptionDetailsCss() + sheetCss();

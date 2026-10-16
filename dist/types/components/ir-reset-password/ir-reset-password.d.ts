@@ -18,9 +18,10 @@ export declare class IrResetPassword {
     isLoading: boolean;
     isFetching: boolean;
     closeSideBar: EventEmitter<null>;
-    private ApiClient;
+    private token;
     private authService;
     private systemService;
+    private roomService;
     private initialized;
     componentWillLoad(): void;
     componentDidLoad(): void;

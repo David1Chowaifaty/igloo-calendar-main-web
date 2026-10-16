@@ -1,1 +1,0 @@
-import{I as s,d as a}from"./ir-dashboard-stats2.js";const o=s,r=a;export{o as IrDashboardStats,r as defineCustomElement}

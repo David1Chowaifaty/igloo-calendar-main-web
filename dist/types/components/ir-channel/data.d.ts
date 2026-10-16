@@ -1,5 +1,6 @@
 import { IChannel } from "../../models/calendarData";
-export declare const actions: () => {
+import { TLocaleEntries } from "../../stores/locales.store";
+export declare const actions: (entries: TLocaleEntries) => {
     id: string;
     name: string;
     icon: () => any;

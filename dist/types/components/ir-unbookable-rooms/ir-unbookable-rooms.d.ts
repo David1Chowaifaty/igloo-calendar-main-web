@@ -22,7 +22,7 @@ export declare class IrUnbookableRooms {
     };
     lastUpdatedLabel: string;
     isPageLoading: boolean;
-    private apiClientService;
+    private tokenService;
     private propertyService;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
