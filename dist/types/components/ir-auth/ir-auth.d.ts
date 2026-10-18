@@ -27,8 +27,11 @@ export declare class IrAuth {
     /** When set together with {@link autoPassword}, signs in on load. */
     autoUsername: string;
     autoPassword: string;
-    /** Overrides the axios base URL the login endpoints are posted to. */
-    baseUrl: string;
+    /**
+     * Base URL of the app's WCF service the login endpoints live on — `_apiUri` in
+     * `js/CommonLibrary.js`. The default resolves next to the page (`…/Default.aspx` → `…/AppWCF.svc/`).
+     */
+    apiUrl: string;
     /** Id of the server button whose postback signs the user in (`FormsAuthentication.RedirectFromLoginPage`). */
     redirectButton: string;
     /** Where users who must confirm a one-time password are sent instead. */
@@ -40,6 +43,8 @@ export declare class IrAuth {
     forgotPasswordUsername: string;
     email: string;
     isLoading: boolean;
+    /** Set once navigation starts, so the submit button stays busy until the page unloads. */
+    redirecting: boolean;
     languageList: AuthLanguage[];
     authLanguageChange: EventEmitter<{
         code: string;
@@ -50,7 +55,6 @@ export declare class IrAuth {
         requiresOtp: boolean;
     }>;
     private authService;
-    private apiClient;
     private languageSync;
     private formEl?;
     private postedUsernameEl?;
@@ -60,7 +64,7 @@ export declare class IrAuth {
     disconnectedCallback(): void;
     languageChanged(next: string, previous: string): void;
     parseLanguages(value: string | AuthLanguage[]): void;
-    applyBaseUrl(url: string): void;
+    createAuthService(url: string): void;
     /**
      * One schema per field. `ir-validator` uses them to show messages on submit and while
      * typing; the submit handlers re-check them to block the request.

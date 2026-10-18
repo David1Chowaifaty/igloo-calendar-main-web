@@ -19,19 +19,28 @@ export interface LegacyStartupData {
     My_Gw: unknown;
 }
 /**
- * The legacy back-office login endpoints that `Default.js` used to reach through
- * `ajaxHelper`, with the exact payloads it sent.
+ * The back-office login endpoints of the app's own WCF service (`AppWCF.svc`),
+ * called the way `ajaxHelper` / `prepareApiUri` in `js/CommonLibrary.js` call them:
+ * `POST {apiUrl}{method}?Ticket={ticket}` with a JSON body.
+ *
+ * Uses its own axios instance on purpose — the shared one carries the gateway
+ * base URL and `ApiClient`'s `Authorization` interceptor, neither of which this
+ * service understands.
  *
  * Stateless and free of storage writes — `ir-auth` owns the flow and persists
  * what the rest of the extranet reads from `localStorage`.
  */
 export declare class LegacyAuthService {
+    private http;
+    /** @param apiUrl The WCF base, e.g. `AppWCF.svc/` (relative to the page) or `_apiUri`. */
+    constructor(apiUrl: string);
     isAuthenticated({ username, password }: {
         username: string;
         password: string;
     }): Promise<LegacyUserInfo>;
-    getStartupDataSignature(ownerId: number): Promise<string>;
-    getStartupData(ownerId: number, language: string): Promise<LegacyStartupData>;
+    /** The server returns an Int64; compare it as a string against what `localStorage` holds. */
+    getStartupDataSignature(ownerId: number, ticket: string): Promise<number | string>;
+    getStartupData(ownerId: number, language: string, ticket: string): Promise<LegacyStartupData>;
     /** Mails the password of `username`. Resolves to the (masked) address it was sent to. */
     forgotPassword(username: string): Promise<string>;
     forgotUsername(email: string): Promise<unknown>;

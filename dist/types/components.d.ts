@@ -1104,15 +1104,16 @@ export namespace Components {
      * field it renders is posted with that form.
      */
     interface IrAuth {
+        /**
+          * Base URL of the app's WCF service the login endpoints live on — `_apiUri` in `js/CommonLibrary.js`. The default resolves next to the page (`…/Default.aspx` → `…/AppWCF.svc/`).
+          * @default 'AppWCF.svc/'
+         */
+        "apiUrl": string;
         "autoPassword": string;
         /**
           * When set together with {@link autoPassword}, signs in on load.
          */
         "autoUsername": string;
-        /**
-          * Overrides the axios base URL the login endpoints are posted to.
-         */
-        "baseUrl": string;
         /**
           * Hides the app links and the sign-up button when the page runs inside MPO.
           * @default false
@@ -16191,15 +16192,16 @@ declare namespace LocalJSX {
      * field it renders is posted with that form.
      */
     interface IrAuth {
+        /**
+          * Base URL of the app's WCF service the login endpoints live on — `_apiUri` in `js/CommonLibrary.js`. The default resolves next to the page (`…/Default.aspx` → `…/AppWCF.svc/`).
+          * @default 'AppWCF.svc/'
+         */
+        "apiUrl"?: string;
         "autoPassword"?: string;
         /**
           * When set together with {@link autoPassword}, signs in on load.
          */
         "autoUsername"?: string;
-        /**
-          * Overrides the axios base URL the login endpoints are posted to.
-         */
-        "baseUrl"?: string;
         /**
           * Hides the app links and the sign-up button when the page runs inside MPO.
           * @default false
@@ -23907,7 +23909,7 @@ declare namespace LocalJSX {
         "insideMpo": boolean;
         "autoUsername": string;
         "autoPassword": string;
-        "baseUrl": string;
+        "apiUrl": string;
         "redirectButton": string;
         "otpUrl": string;
     }

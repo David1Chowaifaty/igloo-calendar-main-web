@@ -1,7 +1,6 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var ApiClient = require('./ApiClient-u7fuhiXA.js');
 var axios = require('./axios-EresIryl.js');
 var languageSync = require('./language-sync-DZdPGMff.js');
 var locale_controller = require('./locale.controller-DOykNQAc.js');
@@ -23,34 +22,47 @@ require('./type-Bj2x9EWc.js');
 require('./ir-date-CbkOKs2C.js');
 require('./calendar-dates-BxDGM1ix.js');
 
+/** `ajaxHelper` retried a call this many times when the database reported a deadlock. */
+const DEADLOCK_RETRIES = 3;
 /**
- * The legacy back-office login endpoints that `Default.js` used to reach through
- * `ajaxHelper`, with the exact payloads it sent.
+ * The back-office login endpoints of the app's own WCF service (`AppWCF.svc`),
+ * called the way `ajaxHelper` / `prepareApiUri` in `js/CommonLibrary.js` call them:
+ * `POST {apiUrl}{method}?Ticket={ticket}` with a JSON body.
+ *
+ * Uses its own axios instance on purpose — the shared one carries the gateway
+ * base URL and `ApiClient`'s `Authorization` interceptor, neither of which this
+ * service understands.
  *
  * Stateless and free of storage writes — `ir-auth` owns the flow and persists
  * what the rest of the extranet reads from `localStorage`.
  */
 class LegacyAuthService {
+    http;
+    /** @param apiUrl The WCF base, e.g. `AppWCF.svc/` (relative to the page) or `_apiUri`. */
+    constructor(apiUrl) {
+        this.http = axios.axios.create({ baseURL: apiUrl.endsWith('/') ? apiUrl : `${apiUrl}/` });
+    }
     async isAuthenticated({ username, password }) {
-        return this.request('/IsAuthenticated_JSON', {
+        return this.request('IsAuthenticated_JSON', {
             My_UserInfo: { UserName: username, Password: password },
             My_Enum_Authentication_Mode: 0,
             IS_BACK_OFFICE: true,
         });
     }
-    async getStartupDataSignature(ownerId) {
-        return this.request('/Get_Startup_Data_Signature', { OWNER_ID: ownerId });
+    /** The server returns an Int64; compare it as a string against what `localStorage` holds. */
+    async getStartupDataSignature(ownerId, ticket) {
+        return this.request('Get_Startup_Data_Signature', { OWNER_ID: ownerId }, ticket);
     }
-    async getStartupData(ownerId, language) {
-        return this.request('/Get_Startup_Data', {
+    async getStartupData(ownerId, language, ticket) {
+        return this.request('Get_Startup_Data', {
             IS_BACK_OFFICE: true,
             OWNER_ID: ownerId,
             LANGUAGE_ABBREVIATION: language,
-        });
+        }, ticket);
     }
     /** Mails the password of `username`. Resolves to the (masked) address it was sent to. */
     async forgotPassword(username) {
-        return this.request('/Forgot_Password', {
+        return this.request('Forgot_Password', {
             USERNAME: username,
             My_Enum_Forgot_Password_Mode: 0, // By USERNAME
             ENVIRONMENT_USER_ID: 2,
@@ -58,18 +70,25 @@ class LegacyAuthService {
         });
     }
     async forgotUsername(email) {
-        return this.request('/Forgot_UserName', {
+        return this.request('Forgot_UserName', {
             EMAIL: email,
             My_Enum_Forgot_Password_Mode: 1, // By EMAIL
             ENVIRONMENT_USER_ID: 2,
         });
     }
-    async request(url, params) {
-        const { data } = await axios.axios.post(url, params);
-        if (data?.ExceptionMsg?.trim()) {
-            throw new Error(data.ExceptionMsg.trim());
+    async request(method, params, ticket = '') {
+        for (let attempt = 0;; attempt++) {
+            const { data } = await this.http.post(`${method}?Ticket=${encodeURIComponent(ticket)}`, params, {
+                headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            });
+            const exception = String(data?.ExceptionMsg ?? '').trim();
+            if (!exception) {
+                return data?.My_Result;
+            }
+            if (!exception.includes('deadlocked') || attempt >= DEADLOCK_RETRIES) {
+                throw new Error(exception);
+            }
         }
-        return data?.My_Result;
     }
 }
 
@@ -104,8 +123,11 @@ const IrAuth = class {
     /** When set together with {@link autoPassword}, signs in on load. */
     autoUsername;
     autoPassword;
-    /** Overrides the axios base URL the login endpoints are posted to. */
-    baseUrl;
+    /**
+     * Base URL of the app's WCF service the login endpoints live on — `_apiUri` in
+     * `js/CommonLibrary.js`. The default resolves next to the page (`…/Default.aspx` → `…/AppWCF.svc/`).
+     */
+    apiUrl = 'AppWCF.svc/';
     /** Id of the server button whose postback signs the user in (`FormsAuthentication.RedirectFromLoginPage`). */
     redirectButton = 'btn_RedirectFromLogin';
     /** Where users who must confirm a one-time password are sent instead. */
@@ -117,12 +139,13 @@ const IrAuth = class {
     forgotPasswordUsername = '';
     email = '';
     isLoading = false;
+    /** Set once navigation starts, so the submit button stays busy until the page unloads. */
+    redirecting = false;
     languageList = [];
     authLanguageChange;
     /** Fires after a successful login, before redirecting. Call `preventDefault()` to handle navigation yourself. */
     authFinish;
-    authService = new LegacyAuthService();
-    apiClient = new ApiClient.ApiClient();
+    authService;
     languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.auth, () => locale_controller.LocaleController.load({ tables: locale_controller.SCREEN_TABLES.auth }));
     formEl;
     postedUsernameEl;
@@ -130,7 +153,7 @@ const IrAuth = class {
     componentWillLoad() {
         locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.auth }).catch(error => console.error('Failed to load login strings', error));
         this.parseLanguages(this.languages);
-        this.applyBaseUrl(this.baseUrl);
+        this.createAuthService(this.apiUrl);
         this.username = this.readStorage('USERNAME') ?? '';
     }
     componentDidLoad() {
@@ -161,10 +184,8 @@ const IrAuth = class {
             this.languageList = [];
         }
     }
-    applyBaseUrl(url) {
-        if (url) {
-            this.apiClient.setBaseUrl(url);
-        }
+    createAuthService(url) {
+        this.authService = new LegacyAuthService(url || 'AppWCF.svc/');
     }
     /**
      * One schema per field. `ir-validator` uses them to show messages on submit and while
@@ -226,7 +247,7 @@ const IrAuth = class {
         }
     }
     async authenticate() {
-        if (!this.isValid('username', 'password') || this.isLoading) {
+        if (!this.isValid('username', 'password') || this.isLoading || this.redirecting) {
             return;
         }
         this.writeStorage('USERNAME', this.rememberUsername ? this.username : '');
@@ -234,11 +255,11 @@ const IrAuth = class {
         try {
             const userInfo = await this.authService.isAuthenticated({ username: this.username, password: this.password });
             this.writeStorage('UserInfo_b', JSON.stringify(userInfo));
-            this.apiClient.setApiClient(userInfo.Ticket);
-            const signature = await this.authService.getStartupDataSignature(userInfo.OwnerID);
+            // An Int64 from the server against a string from storage — legacy compared them with `!=`.
+            const signature = String(await this.authService.getStartupDataSignature(userInfo.OwnerID, userInfo.Ticket));
             if (this.readStorage('_Startup_Data_Signature_b') !== signature) {
                 this.writeStorage('_Startup_Data_Signature_b', signature);
-                const startupData = await this.authService.getStartupData(userInfo.OwnerID, 'EN');
+                const startupData = await this.authService.getStartupData(userInfo.OwnerID, 'EN', userInfo.Ticket);
                 for (const [storageKey, field] of Object.entries(STARTUP_STORAGE_KEYS)) {
                     this.writeStorage(storageKey, JSON.stringify(startupData?.[field]));
                 }
@@ -256,11 +277,14 @@ const IrAuth = class {
             this.toastError(error);
         }
         finally {
-            this.isLoading = false;
+            if (!this.redirecting) {
+                this.isLoading = false;
+            }
         }
     }
     redirect(requiresOtp) {
         if (requiresOtp) {
+            this.redirecting = true;
             window.location.href = this.otpUrl;
             return;
         }
@@ -276,6 +300,7 @@ const IrAuth = class {
         if (this.postedUsernameEl) {
             this.postedUsernameEl.value = this.username;
         }
+        this.redirecting = true;
         button.click();
     }
     async forgotPassword() {
@@ -343,7 +368,7 @@ const IrAuth = class {
         return (index.h("p", { class: "pms-auth__return" }, index.h("a", { href: "#", class: "Lnk_ReturnToLogin", onClick: e => (e.preventDefault(), this.switchView('login')) }, t.t('Lcz_BackToSignIn', { fallback: 'Back to sign in' }))));
     }
     renderSubmit(label) {
-        return (index.h("ir-custom-button", { class: "pms-auth__submit", type: "submit", variant: "brand", size: "m", loading: this.isLoading }, label));
+        return (index.h("ir-custom-button", { class: "pms-auth__submit", type: "submit", variant: "brand", size: "m", loading: this.isLoading || this.redirecting }, label));
     }
     /** `id` and `name` are the ones the legacy `Default.aspx` markup used, so page scripts can still find the fields. */
     renderInput({ field, id, name, label, type = 'text', autocomplete, }) {
@@ -372,10 +397,10 @@ const IrAuth = class {
         return (index.h("div", { class: "pms-auth__lang" }, index.h("wa-dropdown", { id: "language-selector", "onwa-select": e => this.authLanguageChange.emit({ code: e.detail.item.value }) }, index.h("wa-button", { slot: "trigger", size: "s", appearance: "outlined", variant: "neutral", "with-caret": true }, current?.label ?? this.language?.toUpperCase()), this.languageList.map(({ code, label }) => (index.h("wa-dropdown-item", { key: code, value: code }, label))))));
     }
     render() {
-        return (index.h(index.Host, { key: '483cf65b068e6ff53630e3f17f994d276e2e5053' }, index.h("ir-toast", { key: 'd85211413e25cb1f420a2e51292224ed648928d3' }), index.h("input", { key: 'f51b57dea9e9f6f88d8f77d7b7cefed79e76de06', type: "hidden", name: "txt_username", value: this.username, ref: el => (this.postedUsernameEl = el) }), index.h("div", { key: 'a213acfdfd7157e5bfa0675ae470d8b9407bfabc', class: "pms-auth__topbar" }, index.h("div", { key: '30c66d979d84942fffe53140e5c465fdd4b330e3', class: "pms-auth__brand" }, this.logoUrl && index.h("img", { key: '1b3ea9fc70bfeab841a8e03ed1def047db565f50', src: this.logoUrl, alt: "igloorooms" })), this.renderLanguageSelector()), index.h("div", { key: '89b28c64ad42f2cdca669d3a8bde8500a0ddf9f3', class: "pms-auth__card" }, index.h("form", { key: 'cd11486dd38f4390871893b2d806e4bdfa390ab2', id: "frm_login", novalidate: true, ref: el => {
+        return (index.h(index.Host, { key: '40c59f8ba906677f07019119419edfea351b6885' }, index.h("ir-toast", { key: '37c1d25b108c24dd4708dc3431ea38d2923fd275' }), index.h("input", { key: '7c01908a9f22c1b062f2c4d435151be9a0b3e770', type: "hidden", name: "txt_username", value: this.username, ref: el => (this.postedUsernameEl = el) }), index.h("div", { key: '3094ffa57b7f7fa85b2d7c4e5db49cf29f974f57', class: "pms-auth__topbar" }, index.h("div", { key: '7e3ed3af185d48cb9a3c91768ab67210e0955c9e', class: "pms-auth__brand" }, this.logoUrl && index.h("img", { key: '30240b7918ac041bc4b7ffb36d237029776da6a1', src: this.logoUrl, alt: "igloorooms" })), this.renderLanguageSelector()), index.h("div", { key: '984651f98210f7c512e45afc7fa625f6eecc8b2f', class: "pms-auth__card" }, index.h("form", { key: '02a1a90464387c88a82d02fea8503c927d1160a7', id: "frm_login", novalidate: true, ref: el => {
                 this.formEl = el;
                 el.setAttribute('runat', 'server');
-            }, onSubmit: e => this.handleSubmit(e), onKeyDown: e => this.handleKeyDown(e) }, this.view === 'login' && this.renderLogin(), this.view === 'forgotPassword' && this.renderForgotPassword(), this.view === 'forgotUsername' && this.renderForgotUsername()), !this.insideMpo && (index.h("div", { key: '269033fd21131a6e56cade8cd8214ab2e154634c' }, index.h("hr", { key: 'fa75a6eb4ee30d02da7cd2a8e802a0e60a3ee33f', class: "pms-auth__divider" }), index.h("div", { key: '9b044fc8d5c65eff47bb1a107644c8de5ff2d5d9', class: "pms-auth__apps" }, index.h("a", { key: '2146b15fda89b3b74b4047b1101f1b1707898cad', href: "https://apps.apple.com/lb/app/igloorooms/id1607846173", target: "_new", "aria-label": t.t('Lcz_InstallIglooroomsIosApp', { fallback: 'Install igloorooms iOS App' }) }, index.h("wa-icon", { key: '6c4715b84aeaa5fdb5e02ef1f75bec4e3a0695db', style: { fontSize: '1.5rem' }, name: "app-store", family: "brands" })), index.h("a", { key: 'e52ceeb435c26a5d7933517d8695b7cfdb10467d', href: "https://play.google.com/store/apps/details?id=com.iglooroomsapp", target: "_new", "aria-label": t.t('Lcz_InstallIglooroomsAndroidApp', { fallback: 'Install igloorooms Android App' }) }, index.h("wa-icon", { key: '07fc2c8da4ced8cc84dbb5c4e64f07417cb59a99', style: { fontSize: '1.5rem' }, name: "google-play", family: "brands" }))), index.h("ir-custom-button", { key: 'e0ce3f97af07d330490e8ad83385d30e18740ab0', class: "pms-auth__signup", appearance: "outlined", variant: "neutral", size: "m", href: "https://info.igloorooms.com/signup", target: "_blank" }, t.t('Lcz_NewToIgloorooms', { fallback: 'New to igloorooms?' }))))), index.h("div", { key: 'eac4999e3eca2d654238b4f04a990ffd4461bf9e', class: "pms-auth__footer" }, index.h("a", { key: 'c66c370fdfba59573bd225311618d59c5a763a4d', href: "https://info.igloorooms.com/privacy/", target: "_new" }, t.t('Lcz_PrivacyPolicy', { fallback: 'Privacy policy' })), index.h("span", { key: 'e6b12e3ef14d55215747d3d1636c46810f820dec' }, t.t('Lcz_NeedHelpContactSupport', { fallback: 'Need help? support@igloorooms.com' })))));
+            }, onSubmit: e => this.handleSubmit(e), onKeyDown: e => this.handleKeyDown(e) }, this.view === 'login' && this.renderLogin(), this.view === 'forgotPassword' && this.renderForgotPassword(), this.view === 'forgotUsername' && this.renderForgotUsername()), !this.insideMpo && (index.h("div", { key: '126b41d9bef2028e4b6479c164aac92c562b734e' }, index.h("hr", { key: 'c57fb4028f2ad668ca1c5a49b6ba9a19df345936', class: "pms-auth__divider" }), index.h("div", { key: '4406cf9dad2a4e5f97958a2782b845f7e1b0bff7', class: "pms-auth__apps" }, index.h("a", { key: 'bfd646e0c5517bffc0648e1e67af711cbd3ec503', href: "https://apps.apple.com/lb/app/igloorooms/id1607846173", target: "_new", "aria-label": t.t('Lcz_InstallIglooroomsIosApp', { fallback: 'Install igloorooms iOS App' }) }, index.h("wa-icon", { key: '7483350d8b18754d7c0a8047fa1f8265a3511f86', style: { fontSize: '1.5rem' }, name: "app-store", family: "brands" })), index.h("a", { key: 'e9fe0e1a4291e4a078a162c581afceb1964c6b6f', href: "https://play.google.com/store/apps/details?id=com.iglooroomsapp", target: "_new", "aria-label": t.t('Lcz_InstallIglooroomsAndroidApp', { fallback: 'Install igloorooms Android App' }) }, index.h("wa-icon", { key: '6ed7a5646c77460087b7187d5b41016749e71923', style: { fontSize: '1.5rem' }, name: "google-play", family: "brands" }))), index.h("ir-custom-button", { key: '20fafb6c3546f38ce771adf43367366a82dc7611', class: "pms-auth__signup", appearance: "outlined", variant: "neutral", size: "m", href: "https://info.igloorooms.com/signup", target: "_blank" }, t.t('Lcz_NewToIgloorooms', { fallback: 'New to igloorooms?' }))))), index.h("div", { key: '871c4e85511e40f1a92d9856413877031dffc8a3', class: "pms-auth__footer" }, index.h("a", { key: 'a922a16df240ab9cfb6ef79aa615a29a205c1177', href: "https://info.igloorooms.com/privacy/", target: "_new" }, t.t('Lcz_PrivacyPolicy', { fallback: 'Privacy policy' })), index.h("span", { key: '38410d52bd6c59b52cd82597634e9ac95e97a3f7' }, t.t('Lcz_NeedHelpContactSupport', { fallback: 'Need help? support@igloorooms.com' })))));
     }
     static get watchers() { return {
         "language": [{
@@ -384,8 +409,8 @@ const IrAuth = class {
         "languages": [{
                 "parseLanguages": 0
             }],
-        "baseUrl": [{
-                "applyBaseUrl": 0
+        "apiUrl": [{
+                "createAuthService": 0
             }]
     }; }
 };
