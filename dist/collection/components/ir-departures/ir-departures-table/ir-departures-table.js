@@ -5,6 +5,11 @@ import { t } from "../../../services/locale/t";
 export class IrDeparturesTable {
     /** Hides the pagination footer, for hosts that load the whole day in one page (the dashboard). */
     hidePagination = false;
+    /**
+     * For properties without front desk (PMS): check-out status isn't tracked, so every room departing on the store's day is
+     * listed in one list, without overdue marks or the actions column.
+     */
+    pmsDisabled = false;
     checkoutRoom;
     requestPageChange;
     requestPageSizeChange;
@@ -33,15 +38,37 @@ export class IrDeparturesTable {
     }
     renderRow(booking, room, index, showAction, isFuture) {
         const rowKey = `${booking.booking_nbr}-${room?.identifier ?? index}`;
-        const isOverdueCheckout = moment(room.to_date, 'YYYY-MM-DD').startOf('day').isBefore(moment().startOf('day'));
-        return (h("tr", { class: "ir-table-row", key: rowKey }, h("td", { class: "sticky-column" }, h("ir-booking-number-cell", { origin: booking.origin, channelBookingNumber: booking.channel_booking_nbr, source: booking.source, bookingNumber: booking.booking_nbr })), h("td", null, h("ir-booked-by-cell", { guest: booking.guest }), !this.compareGuests(booking, room) && h("ir-guest-name-cell", { name: room.guest })), h("td", null, h("ir-unit-cell", { room: room })), h("td", null, h("ir-dates-cell", { overdueCheckout: isOverdueCheckout, checkIn: room.from_date, checkOut: room.to_date })), h("td", { class: "ir-text-end" }, h("ir-balance-cell", { guestFinancial: booking.guest_financial, bookingNumber: booking.booking_nbr, isDirect: booking.is_direct, statusCode: booking.status.code, currencySymbol: booking.currency.symbol, financial: booking.financial, removeBalance: true })), h("td", null, h("div", { class: "departures-table__actions-cell" }, showAction ? (h("ir-actions-cell", { onIrAction: e => {
+        const isOverdueCheckout = !this.pmsDisabled && moment(room.to_date, 'YYYY-MM-DD').startOf('day').isBefore(moment().startOf('day'));
+        return (h("tr", { class: "ir-table-row", key: rowKey }, h("td", { class: "sticky-column" }, h("ir-booking-number-cell", { origin: booking.origin, channelBookingNumber: booking.channel_booking_nbr, source: booking.source, bookingNumber: booking.booking_nbr })), h("td", null, h("ir-booked-by-cell", { guest: booking.guest }), !this.compareGuests(booking, room) && h("ir-guest-name-cell", { name: room.guest })), h("td", null, h("ir-unit-cell", { room: room })), h("td", null, h("ir-dates-cell", { overdueCheckout: isOverdueCheckout, checkIn: room.from_date, checkOut: room.to_date })), h("td", { class: "ir-text-end" }, h("ir-balance-cell", { guestFinancial: booking.guest_financial, bookingNumber: booking.booking_nbr, isDirect: booking.is_direct, statusCode: booking.status.code, currencySymbol: booking.currency.symbol, financial: booking.financial, removeBalance: true })), !this.pmsDisabled && (h("td", null, h("div", { class: "departures-table__actions-cell" }, showAction ? (h("ir-actions-cell", { onIrAction: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.checkoutRoom.emit({
                     booking: booking,
                     identifier: room.identifier,
                 });
-            }, buttons: isOverdueCheckout ? ['overdue_check_out'] : ['check_out'] })) : isFuture ? ('') : (t('Lcz_InHouse', { fallback: 'In-house' }))))));
+            }, buttons: isOverdueCheckout ? ['overdue_check_out'] : ['check_out'] })) : isFuture ? ('') : (t('Lcz_InHouse', { fallback: 'In-house' })))))));
+    }
+    /** Non-PMS rows: every room departing on the store's day, in the store's order. */
+    renderDepartingRooms() {
+        const { filteredBookings, today } = departuresStore;
+        const departing = filteredBookings.flatMap(booking => (booking.rooms ?? []).filter(room => room.to_date === today).map(room => ({ booking, room })));
+        return departing.map(({ booking, room }, index) => this.renderRow(booking, room, index, false, false));
+    }
+    renderBody() {
+        const { needsCheckOutBookings, futureRooms, outBookings } = departuresStore;
+        const columnCount = this.pmsDisabled ? 5 : 6;
+        const rows = this.pmsDisabled
+            ? this.renderDepartingRooms()
+            : [
+                ...(this.renderSection({ bookings: futureRooms, isFuture: true }) ?? []),
+                ...(this.renderSection({ bookings: needsCheckOutBookings, showAction: true }) ?? []),
+                ...(this.renderSection({ bookings: outBookings }) ?? []),
+            ];
+        const isEmpty = this.pmsDisabled ? !rows.length : !needsCheckOutBookings.length && !outBookings.length;
+        return [
+            ...rows,
+            isEmpty && (h("tr", null, h("td", { colSpan: columnCount, class: "empty-row" }, h("ir-empty-state", null)))),
+        ];
     }
     handlePageChange(event) {
         event.stopImmediatePropagation();
@@ -55,7 +82,7 @@ export class IrDeparturesTable {
     }
     render() {
         const { needsCheckOutBookings, futureRooms, outBookings, pagination } = departuresStore;
-        return (h(Host, { key: '5fd1dac44f9fe75c6f96fbdea742816978327c4b' }, h("div", { key: '31484ecff181aaa0f78973a9fa03427c027c93d3', class: "table--container" }, h("table", { key: '611c5c54dcdf23b600fc84ac832e32b547843c0b', class: "table data-table" }, h("thead", { key: '02f1cfb8acc530cb32b0806fd9cd53f5df2d8c4e' }, h("tr", { key: '3ab837ec562ca804bd5f9469fdee73a25122797e' }, h("th", { key: '300d48274d73d3ff849515829d21da2b35b49778' }, h("span", { key: '18b34d5e88158c6898edf929d09484971e4421a5', class: 'departures-table__departure__cell' }, t('Lcz_BookingHash', { fallback: 'Booking#' }))), h("th", { key: '5f903bd950b8eaca0cc9f585dda89f2a32a0c8d1' }, h("div", { key: '6bb67e072e9371b91aab74afb09407eab82f5d07' }, h("p", { key: 'c52669dea74d9e532122a580132a94e35e4d3252' }, t('Lcz_BookedBySlash', { fallback: 'Booked by /' })), h("p", { key: '25a716a456b836a7bc86cd505303e3600dcb9c25' }, t('Lcz_GuestName', { fallback: 'Guest name' })))), h("th", { key: '9a23ff4b3ca50a22312d5fe8c3fb83ac1a6d964e' }, t('Lcz_Unit', { fallback: 'Unit' })), h("th", { key: '72d5e6c1311960f4da6c6aebaaf1574c9c8fe632' }, t('Lcz_Dates', { fallback: 'Dates' })), h("th", { key: '15e87b93d5b35db66f66e1c3afdd4c8917535370', class: "text-center" }, t('Lcz_Balance', { fallback: 'Balance' }), h("div", { key: '8afef36b64f1f2b133b33677986e1aac16b1d42e', style: { width: 'fit-content', marginInline: 'auto' } }, h("ir-custom-button", { key: 'c023bd961a8eeb0acfb5d3a924483432533283d4', id: "balance-info", style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, t('Lcz_ClickToCollect', { fallback: 'Click to collect' })))), h("th", { key: '36ab78002cd833ac8d0771db41684e2c8f91cb7c' }))), h("tbody", { key: 'c0b0836ce66715da7619e692aa0bc0beba6fc587' }, this.renderSection({ bookings: futureRooms, isFuture: true }), this.renderSection({ bookings: needsCheckOutBookings, showAction: true }), this.renderSection({ bookings: outBookings }), !needsCheckOutBookings.length && !outBookings.length && (h("tr", { key: '1b2bf32c3bba39aed3bf08eeea50d2e8ee5b3120' }, h("td", { key: '8ecd8ab8b5d31b8fb88c4cf6fb81aa78d1371a89', colSpan: 6, class: "empty-row" }, h("ir-empty-state", { key: '085ca57ad20084ee8bd94e88414ddf63c3c90163' }))))))), !this.hidePagination && (needsCheckOutBookings.length > 0 || outBookings.length > 0 || futureRooms.length > 0) && (h("ir-pagination", { key: '0082d98bf21ad22f9d3be16df0980bcf85e96b3a', class: "data-table--pagination", showing: pagination.showing, total: pagination.total, pages: pagination.totalPages, pageSize: pagination.pageSize, currentPage: pagination.currentPage, allowPageSizeChange: false, pageSizes: [pagination.pageSize], recordLabel: t('Lcz_Bookings', { fallback: 'Bookings' }), onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) }))));
+        return (h(Host, { key: 'c7e33f532878e2c57fe8eeccc51b18135387f4b7' }, h("div", { key: 'a9bda198b891c95c330b932104941b2f60847b47', class: "table--container" }, h("table", { key: '42091cbda281709b84ae5856deec5a4a276e3beb', class: "table data-table" }, h("thead", { key: 'a46abdc948af5ff6a2e250e5a97a8425f6efe363' }, h("tr", { key: '02962fab1eb7dfdb398b3699a7e59dd6cb08be19' }, h("th", { key: '59c9e3952f51d3f4d135747f4ee22f9821f36b71' }, h("span", { key: '790db3de78f963879f6ff5cd7f5f8d5bf9ba54e4', class: 'departures-table__departure__cell' }, t('Lcz_BookingHash', { fallback: 'Booking#' }))), h("th", { key: '80c25dc81a572c9c6362fc896b18441c705d2eba' }, h("div", { key: 'd430dc66a73fd47d8aa171855982d6fd02750d52' }, h("p", { key: 'c506c8747ce7f56683c8073b0dfac53d79ba883e' }, t('Lcz_BookedBySlash', { fallback: 'Booked by /' })), h("p", { key: 'd2a14b2f67bc31c240cd2b8b992a800ba02d19a5' }, t('Lcz_GuestName', { fallback: 'Guest name' })))), h("th", { key: '20aec3702f1ded33d2b29dc4223e3cf2cd2790f0' }, t('Lcz_Unit', { fallback: 'Unit' })), h("th", { key: 'd76178003b0125e4043728ad1637c6bba44f040b' }, t('Lcz_Dates', { fallback: 'Dates' })), h("th", { key: 'e06388c6ade66d502906f7f92a2dd447d9704a3a', class: "text-center" }, t('Lcz_Balance', { fallback: 'Balance' }), h("div", { key: 'eb6d8f6ba30c2d722efcff1b58a570e0a2f3b1aa', style: { width: 'fit-content', marginInline: 'auto' } }, h("ir-custom-button", { key: '4d6e6c6fcb44a06018a33454943faa7e0fe0b494', id: "balance-info", style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "s", variant: "danger", appearance: "outlined" }, t('Lcz_ClickToCollect', { fallback: 'Click to collect' })))), !this.pmsDisabled && h("th", { key: 'e098b7747be4c38d045b1b7930853cb9651ff4a1' }))), h("tbody", { key: '573f14671b142048d8ab7d0a09ae32c057b92e29' }, this.renderBody()))), !this.hidePagination && (needsCheckOutBookings.length > 0 || outBookings.length > 0 || futureRooms.length > 0) && (h("ir-pagination", { key: 'be32e3a841236cab53499c6375a5f60d7eec4ec4', class: "data-table--pagination", showing: pagination.showing, total: pagination.total, pages: pagination.totalPages, pageSize: pagination.pageSize, currentPage: pagination.currentPage, allowPageSizeChange: false, pageSizes: [pagination.pageSize], recordLabel: t('Lcz_Bookings', { fallback: 'Bookings' }), onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) }))));
     }
     static get is() { return "ir-departures-table"; }
     static get encapsulation() { return "scoped"; }
@@ -89,6 +116,26 @@ export class IrDeparturesTable {
                 "setter": false,
                 "reflect": false,
                 "attribute": "hide-pagination",
+                "defaultValue": "false"
+            },
+            "pmsDisabled": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "For properties without front desk (PMS): check-out status isn't tracked, so every room departing on the store's day is\nlisted in one list, without overdue marks or the actions column."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "pms-disabled",
                 "defaultValue": "false"
             }
         };

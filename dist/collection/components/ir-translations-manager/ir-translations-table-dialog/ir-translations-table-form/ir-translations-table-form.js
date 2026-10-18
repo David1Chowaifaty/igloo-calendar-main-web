@@ -87,7 +87,7 @@ export class IrTranslationsTableForm {
         }
     };
     render() {
-        return (h("form", { key: 'bae8c69d1753432244bc66399ae85d8646f65880', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, h("ir-input", { key: '208143e9facd8364f33fc12962e95c3bd55d52a9', label: t('Lcz_Name', { fallback: 'Name' }), autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (h("p", { key: '57f9e24b8fc929b1bd616d5d5a1d7afb7f20c6c3', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
+        return (h("form", { key: '9acd107351b0b07b0c0b703a85b3948c04b2f287', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, h("ir-input", { key: '75fdbcc06a7e623ac632eae947875c8a30ae6f40', label: t('Lcz_Name', { fallback: 'Name' }), autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (h("p", { key: '20e28a4228480349641aca39584cdf49af7e378f', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
     }
     static get is() { return "ir-translations-table-form"; }
     static get encapsulation() { return "scoped"; }

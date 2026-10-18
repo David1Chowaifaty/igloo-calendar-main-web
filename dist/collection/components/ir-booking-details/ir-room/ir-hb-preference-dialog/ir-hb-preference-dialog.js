@@ -52,7 +52,7 @@ export class IrHbPreferenceDialog {
         }
     }
     render() {
-        return (h("ir-dialog", { key: 'd570f318bdaaae7e49aa8d74390f9c5d1b792f5d', open: this.open, label: t('Lcz_HalfBoard2ndMealPreference', { fallback: 'Half-board 2nd Meal Preference' }), ref: el => (this.dialogRef = el), onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '4f2485af2e5522034910018a1e43d9adaec67129', open: this.open, label: t('Lcz_HalfBoard2ndMealPreference', { fallback: 'Half-board 2nd Meal Preference' }), ref: el => (this.dialogRef = el), onIrDialogHide: e => {
                 e.preventDefault();
                 const saved = this.closedBySave;
                 this.hbPreferenceClose.emit({ saved });
@@ -61,7 +61,7 @@ export class IrHbPreferenceDialog {
                 e.stopPropagation();
                 this.closedBySave = false;
                 this.selectedValue = null;
-            } }, h("wa-radio-group", { key: '5747d7dc9334aac56a5ffa2d545e4d1f68c5817f', value: this.selectedValue ?? '', onchange: e => (this.selectedValue = e.target.value) }, h("wa-radio", { key: 'adf359fdde5d0d2a806c1e838aa9df9af744c270', value: HbPreference.Lunch }, t('Lcz_Lunch', { fallback: 'Lunch' })), h("wa-radio", { key: '466189f96ffbcad847a4840059e964f33a47d485', value: HbPreference.Dinner }, t('Lcz_Dinner', { fallback: 'Dinner' }))), h("div", { key: 'b49549842c4b1ad53901848fec9e764407c6ccbd', slot: "footer", class: 'ir-dialog__footer' }, h("ir-custom-button", { key: '2733001c78dbc00bcb083c9ed982267af57f83e1', size: "m", variant: "neutral", appearance: "filled", "data-dialog": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '489426257ffbab9f31367e00035a90ac367b7ea5', size: "m", variant: "brand", loading: this.isLoading, disabled: !this.selectedValue, onClickHandler: e => this.handleConfirm(e), appearance: "accent" }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
+            } }, h("wa-radio-group", { key: '26f40fbb97fafb7851c9ee4aa42d454a95bf45fa', value: this.selectedValue ?? '', onchange: e => (this.selectedValue = e.target.value) }, h("wa-radio", { key: '925cdd62ac45724f97817d1fc03cef23ac3f40ef', value: HbPreference.Lunch }, t('Lcz_Lunch', { fallback: 'Lunch' })), h("wa-radio", { key: 'a714b77bc819112a0644e5dded38d17f6522c158', value: HbPreference.Dinner }, t('Lcz_Dinner', { fallback: 'Dinner' }))), h("div", { key: '8657c88567a947a0cae57e34b50790cfbfa1e8ee', slot: "footer", class: 'ir-dialog__footer' }, h("ir-custom-button", { key: '3d9b45cfea67488b2a27f8ae89dc5b23bdaf629c', size: "m", variant: "neutral", appearance: "filled", "data-dialog": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '4ba6935d5709dabf5c757c828ea5916d293cdd0c', size: "m", variant: "brand", loading: this.isLoading, disabled: !this.selectedValue, onClickHandler: e => this.handleConfirm(e), appearance: "accent" }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
     }
     static get is() { return "ir-hb-preference-dialog"; }
     static get encapsulation() { return "scoped"; }

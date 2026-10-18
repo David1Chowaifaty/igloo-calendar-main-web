@@ -55,7 +55,7 @@ export class IrActionsCell {
         return (h("ir-custom-button", { variant: variant, appearance: appearance, "data-action": type, onClick: () => this.onClick(type) }, label !== 'icon' && label, type === 'edit' && h("wa-icon", { name: "edit", style: { fontSize: '1.2rem' } }), type === 'delete' && h("wa-icon", { name: "trash-can", style: { fontSize: '1.2rem' } })));
     }
     render() {
-        return h(Host, { key: '73a7f5cbdb8e7e01ab244cf1c03f9ceb4f4f1078' }, this.buttons.map(button => this.renderButton(button)));
+        return h(Host, { key: '024c70ac6e42a3cc62db315c39c3fbdc96bf3bb2' }, this.buttons.map(button => this.renderButton(button)));
     }
     static get is() { return "ir-actions-cell"; }
     static get encapsulation() { return "scoped"; }

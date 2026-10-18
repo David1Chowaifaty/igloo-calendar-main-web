@@ -1,27 +1,34 @@
 import calendar_data from "../../../stores/calendar-data";
 import { t } from "../../../services/locale/t";
+import { todayISO } from "../../../utils/calendar-dates";
+import { formatDate } from "../../../utils/date/index";
 import { formatCount, formatPercent } from "../../../utils/number";
 import { formatAmount } from "../../../utils/utils";
 import { Host, h } from "@stencil/core";
 import { computeRevPar } from "../dashboard.helpers";
 /**
- * Calendar legend entry (igl-legend) each unit row's swatch copies, with the default colour as fallback.
- * Out-of-service units are blocks with status 004, which the calendar draws as "Blocked dates", so they share its swatch.
- * Available units have no legend entry and keep the brand colour.
+ * Calendar legend entry (igl-legend) each unit's dot copies, with the default colour as fallback.
+ * Available units keep the brand colour and blocked ones a neutral grey.
  */
 const UNIT_LEGEND = {
     'booked': { id: '2', fallback: '#45b16d' },
     'pending': { id: '3', fallback: '#FF9149' },
     'out-of-service': { id: '6', fallback: '#f34752' },
-    'blocked': { id: '6', fallback: '#f34752' },
 };
 /**
- * Left-hand stats panel: a card with the occupancy ring and unit breakdown, followed by the day's
- * room-revenue KPIs in a second card. The first card takes the rail's spare height, so the revenue card sits at its bottom.
- * The figures come from three requests (monthly stats, calendar, pending bookings), so each part — down to each
- * unit row and KPI — shows its own skeleton until its figure arrives.
+ * Left-hand stats rail: an occupancy card (the day's occupancy, units booked and the unit breakdown) followed by a
+ * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
+ * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
+ * skeleton until it arrives.
+ *
+ * Properties without front desk (`isPms` false) see only Available, Booked and Pending — no occupancy, no bar —
+ * and no RevPAR.
  */
 export class IrDashboardStats {
+    /** Selected day (`YYYY-MM-DD`); titles the occupancy card. */
+    date;
+    /** Whether the property uses the front desk (PMS); without it the rail shows the reduced set of figures. */
+    isPms = true;
     /** Occupancy and revenue figures; `null` shows their skeletons. */
     performance;
     /** Calendar unit breakdown; `null` shows its skeleton. */
@@ -37,7 +44,7 @@ export class IrDashboardStats {
     pendingLoading = false;
     /** How tightly the cards are drawn; ir-dashboard steps it down when the desktop rail is short. */
     density = 'regular';
-    /** The property's colour for a unit row's legend entry, so the swatch matches the calendar. */
+    /** The property's colour for a unit's legend entry, so the dot matches the calendar. */
     legendColor(tone) {
         const legend = UNIT_LEGEND[tone];
         if (!legend) {
@@ -45,39 +52,61 @@ export class IrDashboardStats {
         }
         return calendar_data.property?.calendar_legends?.find(l => l.id?.toString() === legend.id)?.color ?? legend.fallback;
     }
-    renderCount(value, label, tone, { loaded, refreshing }) {
+    /** Units the property has: the calendar's total, else the physical rooms of its room types. */
+    get totalUnits() {
+        if (this.units?.total != null) {
+            return this.units.total;
+        }
+        const roomTypes = calendar_data.property?.roomtypes;
+        return roomTypes?.length ? roomTypes.reduce((total, rt) => total + (rt.physicalrooms?.length ?? 0), 0) : undefined;
+    }
+    /** "Today's occupancy" on today, otherwise the day itself ("Saturday, 17 Oct."); the card title is capitalized in CSS. */
+    get title() {
+        if (!this.date || this.date === todayISO()) {
+            return t('Lcz_TodaysOccupancy', { fallback: "Today's occupancy" });
+        }
+        return `${formatDate(this.date, 'dddd, D MMM')}.`;
+    }
+    renderUnit(value, label, tone, { loaded, refreshing }) {
         if (!loaded) {
-            return (h("li", { class: "stats__count", "aria-hidden": "true" }, h("wa-skeleton", { effect: "pulse", class: "stats__skeleton" })));
+            return (h("li", { class: "stats__unit", "aria-hidden": "true" }, h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--unit" })));
         }
         const color = this.legendColor(tone);
-        return (h("li", { class: `stats__count${refreshing ? ' stats--loading' : ''}` }, h("span", { class: `stats__swatch stats__swatch--${tone}`, style: color ? { '--stats-swatch-color': color } : undefined, "aria-hidden": "true" }), h("span", { class: `stats__count-value` }, formatCount(value ?? 0)), h("span", { class: "stats__count-label" }, label)));
+        return (h("li", { class: { 'stats__unit': true, 'stats--loading': refreshing } }, h("span", { class: `stats__dot stats__dot--${tone}`, style: color ? { '--stats-dot-color': color } : undefined, "aria-hidden": "true" }), h("span", { class: "stats__unit-value" }, formatCount(value ?? 0)), h("span", { class: "stats__unit-label" }, label)));
     }
-    /** One revenue figure in the revenue card; an `undefined` value shows a skeleton under the label. */
-    renderKpi(label, value) {
-        return (h("li", { class: "stats__kpi" }, h("span", { class: "stats__kpi-label" }, label), value === undefined ? (h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--kpi", "aria-hidden": "true" })) : (h("span", { class: "stats__kpi-value" }, formatAmount(this.currencySymbol, value)))));
-    }
-    renderRing() {
+    /** Occupancy figure, units booked and the bar (PMS only). */
+    renderOccupancy() {
         const performance = this.performance;
         if (!performance) {
-            return (h("div", { class: "stats__ring-slot" }, h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--ring", "aria-hidden": "true" })));
+            return (h("div", { class: "stats__occupancy", "aria-hidden": "true" }, h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--occupancy" }), h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--booked" }), h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--bar" })));
         }
         const occupancy = Math.min(Math.max(performance.occupancy, 0), 100);
-        const occupancyLabel = t('Lcz_Occupancy', { fallback: 'Occupancy' });
-        return (h("div", { class: "stats__ring-slot" }, h("wa-progress-ring", { class: `stats__ring${this.performanceLoading ? ' stats--loading' : ''}`, value: occupancy, label: occupancyLabel }, h("span", { class: "stats__ring-content" }, h("span", { class: "stats__ring-value" }, formatPercent(occupancy, { minimumFractionDigits: 2, maximumFractionDigits: 2 })), h("span", { class: "stats__ring-label" }, occupancyLabel)))));
+        // Rounding must never claim a full house: 99.96% reads 99.9%, not 100%.
+        const shownOccupancy = occupancy < 100 ? Math.min(occupancy, 99.9) : 100;
+        const total = this.totalUnits;
+        return (h("div", { class: { 'stats__occupancy': true, 'stats--loading': this.performanceLoading } }, h("div", { class: "stats__occupancy-figure" }, h("span", { class: "stats__icon stats__icon--round", "aria-hidden": "true" }, h("wa-icon", { name: "bed" })), h("span", { class: "stats__occupancy-value" }, formatPercent(shownOccupancy, { maximumFractionDigits: 1 }))), total !== undefined && (h("p", { class: "stats__booked" }, t('Lcz_UnitsBookedOf', { fallback: '%1 of %2 units booked', params: [formatCount(performance.bookedUnits ?? 0), formatCount(total)] }))), h("wa-progress-bar", { class: "stats__bar", value: occupancy, label: t('Lcz_Occupancy', { fallback: 'Occupancy' }) })));
     }
     renderUnits() {
         const { units, performance, pendingUnits } = this;
         const calendar = { loaded: !!units, refreshing: this.unitsLoading };
         const stats = { loaded: !!performance, refreshing: this.performanceLoading };
         const pending = { loaded: pendingUnits != null, refreshing: this.pendingLoading };
-        return (h("section", { class: "stats__section", "aria-label": t('Lcz_Units', { fallback: 'Units' }), "aria-busy": !units || !performance ? 'true' : null }, h("ul", { class: "stats__list" }, this.renderCount(units?.available, t('Lcz_AvailableUnits', { fallback: 'Available units' }), 'available', calendar), this.renderCount(performance?.bookedUnits, t('Lcz_BookedUnits', { fallback: 'Booked units' }), 'booked', stats), this.renderCount(pendingUnits, t('Lcz_Pending', { fallback: 'Pending' }), 'pending', pending), this.renderCount(units?.outOfService, t('Lcz_OutOfservice', { fallback: 'Out of service' }), 'out-of-service', calendar), this.renderCount(units?.blocked, t('Lcz_Blocked', { fallback: 'Blocked' }), 'blocked', calendar))));
+        return (h("ul", { class: "stats__units", "aria-label": t('Lcz_Units', { fallback: 'Units' }), "aria-busy": !units || !performance ? 'true' : null }, this.renderUnit(units?.available, t('Lcz_Available', { fallback: 'Available' }), 'available', calendar), this.renderUnit(performance?.bookedUnits, t('Lcz_Booked', { fallback: 'Booked' }), 'booked', stats), this.renderUnit(pendingUnits, t('Lcz_Pending', { fallback: 'Pending' }), 'pending', pending), this.isPms && this.renderUnit(units?.outOfService, t('Lcz_OOS', { fallback: 'OOS' }), 'out-of-service', calendar), this.isPms && this.renderUnit(units?.blocked, t('Lcz_Blocked', { fallback: 'Blocked' }), 'blocked', calendar)));
     }
-    renderRevenue() {
+    /** One revenue figure: icon tile, amount, label. An `undefined` value shows a skeleton in place of the amount. */
+    renderKpi(icon, label, value) {
+        const amount = value === undefined ? '' : formatAmount(this.currencySymbol, value);
+        // Long amounts step down a size instead of wrapping the currency onto its own line or running out of the card.
+        const length = amount.length > 15 ? ' stats__kpi-value--longest' : amount.length > 11 ? ' stats__kpi-value--long' : '';
+        return (h("li", { class: "stats__kpi" }, h("span", { class: "stats__icon", "aria-hidden": "true" }, h("wa-icon", { name: icon })), h("span", { class: "stats__kpi-text" }, value === undefined ? (h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--kpi", "aria-hidden": "true" })) : (h("span", { class: `stats__kpi-value${length}`, title: amount }, amount)), h("span", { class: "stats__kpi-label" }, label))));
+    }
+    renderPerformance() {
         const performance = this.performance;
-        return (h("wa-card", { class: "stats__revenue", appearance: "plain" }, h("ul", { class: { 'stats__kpis': true, 'stats--loading': !!performance && this.performanceLoading }, "aria-label": t('Lcz_Revenue', { fallback: 'Revenue' }), "aria-busy": !performance ? 'true' : null }, this.renderKpi(t('Lcz_RoomRevenue', { fallback: 'Room revenue' }), performance?.roomRevenue), this.renderKpi(t('Lcz_Adr', { fallback: 'ADR' }), performance?.adr), this.renderKpi(t('Lcz_RevPar', { fallback: 'RevPAR' }), performance ? computeRevPar(performance.adr, performance.occupancy) : undefined))));
+        return (h("wa-card", { class: "stats__card stats__card--performance", appearance: "plain" }, h("h2", { class: "stats__title" }, t('Lcz_Performance', { fallback: 'Performance' })), h("ul", { class: { 'stats__kpis': true, 'stats--loading': !!performance && this.performanceLoading }, "aria-label": t('Lcz_Revenue', { fallback: 'Revenue' }), "aria-busy": !performance ? 'true' : null }, this.renderKpi('coins', t('Lcz_RoomRevenue', { fallback: 'Room Revenue' }), performance?.roomRevenue), this.renderKpi('chart-simple', t('Lcz_Adr', { fallback: 'ADR' }), performance?.adr), this.isPms &&
+            this.renderKpi('arrow-trend-up', t('Lcz_RevPar', { fallback: 'RevPAR' }), performance ? computeRevPar(performance.adr, performance.occupancy) : undefined))));
     }
     render() {
-        return (h(Host, { key: '28403d8c7b396c1c1f1d3242380d51e744ca9cf7' }, h("wa-card", { key: '2562948d2756109f2921f0f5286e7b5aac2757aa', class: "stats", appearance: "plain" }, this.renderRing(), this.renderUnits()), this.renderRevenue()));
+        return (h(Host, { key: '69e7e505671d4a8db6ba7c9b45114dd111a89902' }, h("wa-card", { key: '60b1d24901a7eb13387652688e597712a844bf80', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: 'a40c99ae3f2f5546fc1cd5615d33ae839b61e1ac', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
     }
     static get is() { return "ir-dashboard-stats"; }
     static get encapsulation() { return "scoped"; }
@@ -93,6 +122,52 @@ export class IrDashboardStats {
     }
     static get properties() {
         return {
+            "date": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "ISODate",
+                    "resolved": "string",
+                    "references": {
+                        "ISODate": {
+                            "location": "import",
+                            "path": "@/utils/calendar-dates",
+                            "id": "src/utils/calendar-dates.ts::ISODate",
+                            "referenceLocation": "ISODate"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Selected day (`YYYY-MM-DD`); titles the occupancy card."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "date"
+            },
+            "isPms": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Whether the property uses the front desk (PMS); without it the rail shows the reduced set of figures."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "is-pms",
+                "defaultValue": "true"
+            },
             "performance": {
                 "type": "unknown",
                 "mutable": false,

@@ -32,6 +32,8 @@ import { Moment } from "moment";
 import { IPaymentAction } from "./services/payment.service";
 import { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
 import { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
+import { AuthLanguage } from "./components/ir-auth/ir-auth";
+import { LegacyUserInfo } from "./services/auth/legacy-auth.service";
 import { MaskProp, NativeWaInput } from "./components/ui/ir-input/ir-input";
 import { BookedByCellGuest } from "./components/table-cells/booking/ir-booked-by-cell/ir-booked-by-cell";
 import { AssignableItem } from "./components/ir-booking-details/ir-booking-source-editor-dialog/types";
@@ -150,6 +152,8 @@ export { Moment } from "moment";
 export { IPaymentAction } from "./services/payment.service";
 export { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
 export { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
+export { AuthLanguage } from "./components/ir-auth/ir-auth";
+export { LegacyUserInfo } from "./services/auth/legacy-auth.service";
 export { MaskProp, NativeWaInput } from "./components/ui/ir-input/ir-input";
 export { BookedByCellGuest } from "./components/table-cells/booking/ir-booked-by-cell/ir-booked-by-cell";
 export { AssignableItem } from "./components/ir-booking-details/ir-booking-source-editor-dialog/types";
@@ -1058,6 +1062,11 @@ export namespace Components {
           * @default false
          */
         "hidePagination": boolean;
+        /**
+          * For properties without front desk (PMS): check-in status isn't tracked, so every room arriving on the store's day is listed in one list, without overdue marks or the actions column.
+          * @default false
+         */
+        "pmsDisabled": boolean;
     }
     interface IrAssignmentToggleDialog {
         /**
@@ -1084,6 +1093,40 @@ export namespace Components {
          */
         "message": string;
         "openModal": () => Promise<void>;
+    }
+    /**
+     * The extranet sign-in panel: login, forgot password and forgot username.
+     * Owns validation and the whole legacy login chain (`IsAuthenticated_JSON` →
+     * `Get_Startup_Data_Signature` → `Get_Startup_Data`). Navigation is left to the
+     * host page through {@link authFinish}, since the final redirect is a server
+     * postback.
+     */
+    interface IrAuth {
+        "autoPassword": string;
+        /**
+          * When set together with {@link autoPassword}, signs in on load.
+         */
+        "autoUsername": string;
+        /**
+          * Overrides the axios base URL the login endpoints are posted to.
+         */
+        "baseUrl": string;
+        /**
+          * Hides the app links and the sign-up button when the page runs inside MPO.
+          * @default false
+         */
+        "insideMpo": boolean;
+        /**
+          * The page's current language, e.g. `<%= CurrentLanguage %>`.
+          * @default 'en'
+         */
+        "language": string;
+        /**
+          * Languages offered by the switcher, as an array or a JSON string of `{ code, label }`.
+          * @default []
+         */
+        "languages": string | AuthLanguage[];
+        "logoUrl": string;
     }
     interface IrAutocomplete {
         /**
@@ -2960,9 +3003,10 @@ export namespace Components {
         "sources": RevenueSourceOption[];
     }
     /**
-     * PMS landing dashboard: a day picker (five days either side of today), the day's stats,
-     * and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
-     * new bookings and cancellations.
+     * PMS landing dashboard: a day picker in the page header (two days either side of today), the day's stats in the
+     * left rail, and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
+     * new bookings and cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
+     * arrivals / departures without check-in / check-out, and a reduced stats rail.
      * Loads in order of importance, each part showing a skeleton until its data lands:
      * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
      * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar, and pending bookings
@@ -3005,6 +3049,11 @@ export namespace Components {
           * @default 'en'
          */
         "language": string;
+        /**
+          * Property without front desk: every arriving room in one list, no check-in actions.
+          * @default false
+         */
+        "pmsDisabled": boolean;
     }
     /**
      * Read-only booking list used by the dashboard's In-house, Bookings and Cancellations panels, built from the shared
@@ -3018,25 +3067,20 @@ export namespace Components {
         "bookings": Booking[];
         "emptyMessage": string;
         /**
-          * Adds the variant-specific column: booked-on date for new bookings, status for cancellations.
+          * In-house drops the Balance and Status columns that Bookings and Cancellations end with.
           * @default 'inHouse'
          */
         "variant": DashboardBookingsTableVariant;
     }
     /**
-     * Day picker for the dashboard, bounded to five days either side of today: weekday, day and month stacked
-     * between the previous / next chevrons, all vertically centred. The day turns brand blue while it is today.
+     * Day picker for the dashboard header: a pill showing the selected day that opens a list of the days from
+     * `MAX_DAY_OFFSET` before today to `MAX_DAY_OFFSET` after it.
      */
     interface IrDashboardDateNavigator {
         /**
           * Selected day (`YYYY-MM-DD`).
          */
         "date": ISODate;
-        /**
-          * How tightly the card is drawn; ir-dashboard steps it down when the desktop rail is short.
-          * @default 'regular'
-         */
-        "density": RailDensity;
     }
     /**
      * Departures panel of the dashboard: the existing departures table plus its check-out and invoice dialogs.
@@ -3044,21 +3088,37 @@ export namespace Components {
      */
     interface IrDashboardDepartures {
         "date": ISODate;
+        /**
+          * Property without front desk: every departing room in one list, no check-out actions.
+          * @default false
+         */
+        "pmsDisabled": boolean;
         "propertyId": number;
     }
     /**
-     * Left-hand stats panel: a card with the occupancy ring and unit breakdown, followed by the day's
-     * room-revenue KPIs in a second card. The first card takes the rail's spare height, so the revenue card sits at its bottom.
-     * The figures come from three requests (monthly stats, calendar, pending bookings), so each part — down to each
-     * unit row and KPI — shows its own skeleton until its figure arrives.
+     * Left-hand stats rail: an occupancy card (the day's occupancy, units booked and the unit breakdown) followed by a
+     * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
+     * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
+     * skeleton until it arrives.
+     * Properties without front desk (`isPms` false) see only Available, Booked and Pending — no occupancy, no bar —
+     * and no RevPAR.
      */
     interface IrDashboardStats {
         "currencySymbol": string;
+        /**
+          * Selected day (`YYYY-MM-DD`); titles the occupancy card.
+         */
+        "date": ISODate;
         /**
           * How tightly the cards are drawn; ir-dashboard steps it down when the desktop rail is short.
           * @default 'regular'
          */
         "density": RailDensity;
+        /**
+          * Whether the property uses the front desk (PMS); without it the rail shows the reduced set of figures.
+          * @default true
+         */
+        "isPms": boolean;
         /**
           * Dims the pending-units figure while a newer day's is in flight.
           * @default false
@@ -3498,6 +3558,11 @@ export namespace Components {
           * @default false
          */
         "hidePagination": boolean;
+        /**
+          * For properties without front desk (PMS): check-out status isn't tracked, so every room departing on the store's day is listed in one list, without overdue marks or the actions column.
+          * @default false
+         */
+        "pmsDisabled": boolean;
     }
     interface IrDialog {
         "closeModal": () => Promise<void>;
@@ -8027,6 +8092,10 @@ export interface IrAssignmentToggleDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrAssignmentToggleDialogElement;
 }
+export interface IrAuthCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrAuthElement;
+}
 export interface IrAutocompleteCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrAutocompleteElement;
@@ -9859,6 +9928,31 @@ declare global {
         prototype: HTMLIrAssignmentToggleDialogElement;
         new (): HTMLIrAssignmentToggleDialogElement;
     };
+    interface HTMLIrAuthElementEventMap {
+        "authLanguageChange": { code: string };
+        "authFinish": { userInfo: LegacyUserInfo; requiresOtp: boolean };
+    }
+    /**
+     * The extranet sign-in panel: login, forgot password and forgot username.
+     * Owns validation and the whole legacy login chain (`IsAuthenticated_JSON` →
+     * `Get_Startup_Data_Signature` → `Get_Startup_Data`). Navigation is left to the
+     * host page through {@link authFinish}, since the final redirect is a server
+     * postback.
+     */
+    interface HTMLIrAuthElement extends Components.IrAuth, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrAuthElementEventMap>(type: K, listener: (this: HTMLIrAuthElement, ev: IrAuthCustomEvent<HTMLIrAuthElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrAuthElementEventMap>(type: K, listener: (this: HTMLIrAuthElement, ev: IrAuthCustomEvent<HTMLIrAuthElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrAuthElement: {
+        prototype: HTMLIrAuthElement;
+        new (): HTMLIrAuthElement;
+    };
     interface HTMLIrAutocompleteElementEventMap {
         "text-change": string;
         "combobox-change": string | string[];
@@ -11248,9 +11342,10 @@ declare global {
         new (): HTMLIrDailyRevenueFiltersElement;
     };
     /**
-     * PMS landing dashboard: a day picker (five days either side of today), the day's stats,
-     * and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
-     * new bookings and cancellations.
+     * PMS landing dashboard: a day picker in the page header (two days either side of today), the day's stats in the
+     * left rail, and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
+     * new bookings and cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
+     * arrivals / departures without check-in / check-out, and a reduced stats rail.
      * Loads in order of importance, each part showing a skeleton until its data lands:
      * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
      * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar, and pending bookings
@@ -11291,8 +11386,8 @@ declare global {
         "dateChange": ISODate;
     }
     /**
-     * Day picker for the dashboard, bounded to five days either side of today: weekday, day and month stacked
-     * between the previous / next chevrons, all vertically centred. The day turns brand blue while it is today.
+     * Day picker for the dashboard header: a pill showing the selected day that opens a list of the days from
+     * `MAX_DAY_OFFSET` before today to `MAX_DAY_OFFSET` after it.
      */
     interface HTMLIrDashboardDateNavigatorElement extends Components.IrDashboardDateNavigator, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrDashboardDateNavigatorElementEventMap>(type: K, listener: (this: HTMLIrDashboardDateNavigatorElement, ev: IrDashboardDateNavigatorCustomEvent<HTMLIrDashboardDateNavigatorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11330,10 +11425,12 @@ declare global {
         new (): HTMLIrDashboardDeparturesElement;
     };
     /**
-     * Left-hand stats panel: a card with the occupancy ring and unit breakdown, followed by the day's
-     * room-revenue KPIs in a second card. The first card takes the rail's spare height, so the revenue card sits at its bottom.
-     * The figures come from three requests (monthly stats, calendar, pending bookings), so each part — down to each
-     * unit row and KPI — shows its own skeleton until its figure arrives.
+     * Left-hand stats rail: an occupancy card (the day's occupancy, units booked and the unit breakdown) followed by a
+     * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
+     * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
+     * skeleton until it arrives.
+     * Properties without front desk (`isPms` false) see only Available, Booked and Pending — no occupancy, no bar —
+     * and no RevPAR.
      */
     interface HTMLIrDashboardStatsElement extends Components.IrDashboardStats, HTMLStencilElement {
     }
@@ -14738,6 +14835,7 @@ declare global {
         "ir-arrivals-filters": HTMLIrArrivalsFiltersElement;
         "ir-arrivals-table": HTMLIrArrivalsTableElement;
         "ir-assignment-toggle-dialog": HTMLIrAssignmentToggleDialogElement;
+        "ir-auth": HTMLIrAuthElement;
         "ir-autocomplete": HTMLIrAutocompleteElement;
         "ir-autocomplete-option": HTMLIrAutocompleteOptionElement;
         "ir-balance-cell": HTMLIrBalanceCellElement;
@@ -16035,6 +16133,11 @@ declare namespace LocalJSX {
         "onCheckInRoom"?: (event: IrArrivalsTableCustomEvent<RoomGuestsPayload>) => void;
         "onRequestPageChange"?: (event: IrArrivalsTableCustomEvent<PaginationChangeEvent>) => void;
         "onRequestPageSizeChange"?: (event: IrArrivalsTableCustomEvent<PaginationChangeEvent>) => void;
+        /**
+          * For properties without front desk (PMS): check-in status isn't tracked, so every room arriving on the store's day is listed in one list, without overdue marks or the actions column.
+          * @default false
+         */
+        "pmsDisabled"?: boolean;
     }
     interface IrAssignmentToggleDialog {
         /**
@@ -16063,6 +16166,42 @@ declare namespace LocalJSX {
           * Emitted when the user clicks confirm
          */
         "onConfirmToggle"?: (event: IrAssignmentToggleDialogCustomEvent<void>) => void;
+    }
+    /**
+     * The extranet sign-in panel: login, forgot password and forgot username.
+     * Owns validation and the whole legacy login chain (`IsAuthenticated_JSON` →
+     * `Get_Startup_Data_Signature` → `Get_Startup_Data`). Navigation is left to the
+     * host page through {@link authFinish}, since the final redirect is a server
+     * postback.
+     */
+    interface IrAuth {
+        "autoPassword"?: string;
+        /**
+          * When set together with {@link autoPassword}, signs in on load.
+         */
+        "autoUsername"?: string;
+        /**
+          * Overrides the axios base URL the login endpoints are posted to.
+         */
+        "baseUrl"?: string;
+        /**
+          * Hides the app links and the sign-up button when the page runs inside MPO.
+          * @default false
+         */
+        "insideMpo"?: boolean;
+        /**
+          * The page's current language, e.g. `<%= CurrentLanguage %>`.
+          * @default 'en'
+         */
+        "language"?: string;
+        /**
+          * Languages offered by the switcher, as an array or a JSON string of `{ code, label }`.
+          * @default []
+         */
+        "languages"?: string | AuthLanguage[];
+        "logoUrl"?: string;
+        "onAuthFinish"?: (event: IrAuthCustomEvent<{ userInfo: LegacyUserInfo; requiresOtp: boolean }>) => void;
+        "onAuthLanguageChange"?: (event: IrAuthCustomEvent<{ code: string }>) => void;
     }
     interface IrAutocomplete {
         /**
@@ -18077,9 +18216,10 @@ declare namespace LocalJSX {
         "sources"?: RevenueSourceOption[];
     }
     /**
-     * PMS landing dashboard: a day picker (five days either side of today), the day's stats,
-     * and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
-     * new bookings and cancellations.
+     * PMS landing dashboard: a day picker in the page header (two days either side of today), the day's stats in the
+     * left rail, and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
+     * new bookings and cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
+     * arrivals / departures without check-in / check-out, and a reduced stats rail.
      * Loads in order of importance, each part showing a skeleton until its data lands:
      * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
      * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar, and pending bookings
@@ -18122,6 +18262,11 @@ declare namespace LocalJSX {
           * @default 'en'
          */
         "language"?: string;
+        /**
+          * Property without front desk: every arriving room in one list, no check-in actions.
+          * @default false
+         */
+        "pmsDisabled"?: boolean;
     }
     /**
      * Read-only booking list used by the dashboard's In-house, Bookings and Cancellations panels, built from the shared
@@ -18135,14 +18280,14 @@ declare namespace LocalJSX {
         "bookings"?: Booking[];
         "emptyMessage"?: string;
         /**
-          * Adds the variant-specific column: booked-on date for new bookings, status for cancellations.
+          * In-house drops the Balance and Status columns that Bookings and Cancellations end with.
           * @default 'inHouse'
          */
         "variant"?: DashboardBookingsTableVariant;
     }
     /**
-     * Day picker for the dashboard, bounded to five days either side of today: weekday, day and month stacked
-     * between the previous / next chevrons, all vertically centred. The day turns brand blue while it is today.
+     * Day picker for the dashboard header: a pill showing the selected day that opens a list of the days from
+     * `MAX_DAY_OFFSET` before today to `MAX_DAY_OFFSET` after it.
      */
     interface IrDashboardDateNavigator {
         /**
@@ -18150,12 +18295,7 @@ declare namespace LocalJSX {
          */
         "date"?: ISODate;
         /**
-          * How tightly the card is drawn; ir-dashboard steps it down when the desktop rail is short.
-          * @default 'regular'
-         */
-        "density"?: RailDensity;
-        /**
-          * Emitted with the new day when the user moves to the previous / next day.
+          * Emitted with the new day when the user picks another day.
          */
         "onDateChange"?: (event: IrDashboardDateNavigatorCustomEvent<ISODate>) => void;
     }
@@ -18169,21 +18309,37 @@ declare namespace LocalJSX {
           * Early check-out that must be completed from the booking-details drawer.
          */
         "onCheckoutRedirect"?: (event: IrDashboardDeparturesCustomEvent<CheckoutRedirectEvent>) => void;
+        /**
+          * Property without front desk: every departing room in one list, no check-out actions.
+          * @default false
+         */
+        "pmsDisabled"?: boolean;
         "propertyId"?: number;
     }
     /**
-     * Left-hand stats panel: a card with the occupancy ring and unit breakdown, followed by the day's
-     * room-revenue KPIs in a second card. The first card takes the rail's spare height, so the revenue card sits at its bottom.
-     * The figures come from three requests (monthly stats, calendar, pending bookings), so each part — down to each
-     * unit row and KPI — shows its own skeleton until its figure arrives.
+     * Left-hand stats rail: an occupancy card (the day's occupancy, units booked and the unit breakdown) followed by a
+     * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
+     * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
+     * skeleton until it arrives.
+     * Properties without front desk (`isPms` false) see only Available, Booked and Pending — no occupancy, no bar —
+     * and no RevPAR.
      */
     interface IrDashboardStats {
         "currencySymbol"?: string;
+        /**
+          * Selected day (`YYYY-MM-DD`); titles the occupancy card.
+         */
+        "date"?: ISODate;
         /**
           * How tightly the cards are drawn; ir-dashboard steps it down when the desktop rail is short.
           * @default 'regular'
          */
         "density"?: RailDensity;
+        /**
+          * Whether the property uses the front desk (PMS); without it the rail shows the reduced set of figures.
+          * @default true
+         */
+        "isPms"?: boolean;
         /**
           * Dims the pending-units figure while a newer day's is in flight.
           * @default false
@@ -18651,6 +18807,11 @@ declare namespace LocalJSX {
         "onCheckoutRoom"?: (event: IrDeparturesTableCustomEvent<CheckoutRoomEvent>) => void;
         "onRequestPageChange"?: (event: IrDeparturesTableCustomEvent<PaginationChangeEvent>) => void;
         "onRequestPageSizeChange"?: (event: IrDeparturesTableCustomEvent<PaginationChangeEvent>) => void;
+        /**
+          * For properties without front desk (PMS): check-out status isn't tracked, so every room departing on the store's day is listed in one list, without overdue marks or the actions column.
+          * @default false
+         */
+        "pmsDisabled"?: boolean;
     }
     interface IrDialog {
         /**
@@ -23701,6 +23862,7 @@ declare namespace LocalJSX {
     }
     interface IrArrivalsTableAttributes {
         "hidePagination": boolean;
+        "pmsDisabled": boolean;
     }
     interface IrAssignmentToggleDialogAttributes {
         "label": string;
@@ -23708,6 +23870,15 @@ declare namespace LocalJSX {
         "confirmLabel": string;
         "cancelLabel": string;
         "loading": boolean;
+    }
+    interface IrAuthAttributes {
+        "language": string;
+        "languages": string | AuthLanguage[];
+        "logoUrl": string;
+        "insideMpo": boolean;
+        "autoUsername": string;
+        "autoPassword": string;
+        "baseUrl": string;
     }
     interface IrAutocompleteAttributes {
         "emitOnSameValue": boolean;
@@ -24282,6 +24453,7 @@ declare namespace LocalJSX {
     }
     interface IrDashboardArrivalsAttributes {
         "language": string;
+        "pmsDisabled": boolean;
     }
     interface IrDashboardBookingsTableAttributes {
         "variant": DashboardBookingsTableVariant;
@@ -24289,13 +24461,15 @@ declare namespace LocalJSX {
     }
     interface IrDashboardDateNavigatorAttributes {
         "date": ISODate;
-        "density": RailDensity;
     }
     interface IrDashboardDeparturesAttributes {
         "propertyId": number;
         "date": ISODate;
+        "pmsDisabled": boolean;
     }
     interface IrDashboardStatsAttributes {
+        "date": ISODate;
+        "isPms": boolean;
         "pendingUnits": number;
         "currencySymbol": string;
         "performanceLoading": boolean;
@@ -24397,6 +24571,7 @@ declare namespace LocalJSX {
     }
     interface IrDeparturesTableAttributes {
         "hidePagination": boolean;
+        "pmsDisabled": boolean;
     }
     interface IrDialogAttributes {
         "label": string;
@@ -25692,6 +25867,7 @@ declare namespace LocalJSX {
         "ir-arrivals-filters": IrArrivalsFilters;
         "ir-arrivals-table": Omit<IrArrivalsTable, keyof IrArrivalsTableAttributes> & { [K in keyof IrArrivalsTable & keyof IrArrivalsTableAttributes]?: IrArrivalsTable[K] } & { [K in keyof IrArrivalsTable & keyof IrArrivalsTableAttributes as `attr:${K}`]?: IrArrivalsTableAttributes[K] } & { [K in keyof IrArrivalsTable & keyof IrArrivalsTableAttributes as `prop:${K}`]?: IrArrivalsTable[K] };
         "ir-assignment-toggle-dialog": Omit<IrAssignmentToggleDialog, keyof IrAssignmentToggleDialogAttributes> & { [K in keyof IrAssignmentToggleDialog & keyof IrAssignmentToggleDialogAttributes]?: IrAssignmentToggleDialog[K] } & { [K in keyof IrAssignmentToggleDialog & keyof IrAssignmentToggleDialogAttributes as `attr:${K}`]?: IrAssignmentToggleDialogAttributes[K] } & { [K in keyof IrAssignmentToggleDialog & keyof IrAssignmentToggleDialogAttributes as `prop:${K}`]?: IrAssignmentToggleDialog[K] };
+        "ir-auth": Omit<IrAuth, keyof IrAuthAttributes> & { [K in keyof IrAuth & keyof IrAuthAttributes]?: IrAuth[K] } & { [K in keyof IrAuth & keyof IrAuthAttributes as `attr:${K}`]?: IrAuthAttributes[K] } & { [K in keyof IrAuth & keyof IrAuthAttributes as `prop:${K}`]?: IrAuth[K] };
         "ir-autocomplete": Omit<IrAutocomplete, keyof IrAutocompleteAttributes> & { [K in keyof IrAutocomplete & keyof IrAutocompleteAttributes]?: IrAutocomplete[K] } & { [K in keyof IrAutocomplete & keyof IrAutocompleteAttributes as `attr:${K}`]?: IrAutocompleteAttributes[K] } & { [K in keyof IrAutocomplete & keyof IrAutocompleteAttributes as `prop:${K}`]?: IrAutocomplete[K] };
         "ir-autocomplete-option": Omit<IrAutocompleteOption, keyof IrAutocompleteOptionAttributes> & { [K in keyof IrAutocompleteOption & keyof IrAutocompleteOptionAttributes]?: IrAutocompleteOption[K] } & { [K in keyof IrAutocompleteOption & keyof IrAutocompleteOptionAttributes as `attr:${K}`]?: IrAutocompleteOptionAttributes[K] } & { [K in keyof IrAutocompleteOption & keyof IrAutocompleteOptionAttributes as `prop:${K}`]?: IrAutocompleteOption[K] };
         "ir-balance-cell": Omit<IrBalanceCell, keyof IrBalanceCellAttributes> & { [K in keyof IrBalanceCell & keyof IrBalanceCellAttributes]?: IrBalanceCell[K] } & { [K in keyof IrBalanceCell & keyof IrBalanceCellAttributes as `attr:${K}`]?: IrBalanceCellAttributes[K] } & { [K in keyof IrBalanceCell & keyof IrBalanceCellAttributes as `prop:${K}`]?: IrBalanceCell[K] } & OneOf<"statusCode", IrBalanceCell["statusCode"], IrBalanceCellAttributes["statusCode"]> & OneOf<"isDirect", IrBalanceCell["isDirect"], IrBalanceCellAttributes["isDirect"]> & OneOf<"bookingNumber", IrBalanceCell["bookingNumber"], IrBalanceCellAttributes["bookingNumber"]> & OneOf<"currencySymbol", IrBalanceCell["currencySymbol"], IrBalanceCellAttributes["currencySymbol"]>;
@@ -26135,6 +26311,14 @@ declare module "@stencil/core" {
             "ir-arrivals-filters": LocalJSX.IntrinsicElements["ir-arrivals-filters"] & JSXBase.HTMLAttributes<HTMLIrArrivalsFiltersElement>;
             "ir-arrivals-table": LocalJSX.IntrinsicElements["ir-arrivals-table"] & JSXBase.HTMLAttributes<HTMLIrArrivalsTableElement>;
             "ir-assignment-toggle-dialog": LocalJSX.IntrinsicElements["ir-assignment-toggle-dialog"] & JSXBase.HTMLAttributes<HTMLIrAssignmentToggleDialogElement>;
+            /**
+             * The extranet sign-in panel: login, forgot password and forgot username.
+             * Owns validation and the whole legacy login chain (`IsAuthenticated_JSON` →
+             * `Get_Startup_Data_Signature` → `Get_Startup_Data`). Navigation is left to the
+             * host page through {@link authFinish}, since the final redirect is a server
+             * postback.
+             */
+            "ir-auth": LocalJSX.IntrinsicElements["ir-auth"] & JSXBase.HTMLAttributes<HTMLIrAuthElement>;
             "ir-autocomplete": LocalJSX.IntrinsicElements["ir-autocomplete"] & JSXBase.HTMLAttributes<HTMLIrAutocompleteElement>;
             "ir-autocomplete-option": LocalJSX.IntrinsicElements["ir-autocomplete-option"] & JSXBase.HTMLAttributes<HTMLIrAutocompleteOptionElement>;
             "ir-balance-cell": LocalJSX.IntrinsicElements["ir-balance-cell"] & JSXBase.HTMLAttributes<HTMLIrBalanceCellElement>;
@@ -26262,9 +26446,10 @@ declare module "@stencil/core" {
             "ir-daily-revenue": LocalJSX.IntrinsicElements["ir-daily-revenue"] & JSXBase.HTMLAttributes<HTMLIrDailyRevenueElement>;
             "ir-daily-revenue-filters": LocalJSX.IntrinsicElements["ir-daily-revenue-filters"] & JSXBase.HTMLAttributes<HTMLIrDailyRevenueFiltersElement>;
             /**
-             * PMS landing dashboard: a day picker (five days either side of today), the day's stats,
-             * and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
-             * new bookings and cancellations.
+             * PMS landing dashboard: a day picker in the page header (two days either side of today), the day's stats in the
+             * left rail, and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
+             * new bookings and cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
+             * arrivals / departures without check-in / check-out, and a reduced stats rail.
              * Loads in order of importance, each part showing a skeleton until its data lands:
              * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
              * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar, and pending bookings
@@ -26287,8 +26472,8 @@ declare module "@stencil/core" {
              */
             "ir-dashboard-bookings-table": LocalJSX.IntrinsicElements["ir-dashboard-bookings-table"] & JSXBase.HTMLAttributes<HTMLIrDashboardBookingsTableElement>;
             /**
-             * Day picker for the dashboard, bounded to five days either side of today: weekday, day and month stacked
-             * between the previous / next chevrons, all vertically centred. The day turns brand blue while it is today.
+             * Day picker for the dashboard header: a pill showing the selected day that opens a list of the days from
+             * `MAX_DAY_OFFSET` before today to `MAX_DAY_OFFSET` after it.
              */
             "ir-dashboard-date-navigator": LocalJSX.IntrinsicElements["ir-dashboard-date-navigator"] & JSXBase.HTMLAttributes<HTMLIrDashboardDateNavigatorElement>;
             /**
@@ -26297,10 +26482,12 @@ declare module "@stencil/core" {
              */
             "ir-dashboard-departures": LocalJSX.IntrinsicElements["ir-dashboard-departures"] & JSXBase.HTMLAttributes<HTMLIrDashboardDeparturesElement>;
             /**
-             * Left-hand stats panel: a card with the occupancy ring and unit breakdown, followed by the day's
-             * room-revenue KPIs in a second card. The first card takes the rail's spare height, so the revenue card sits at its bottom.
-             * The figures come from three requests (monthly stats, calendar, pending bookings), so each part — down to each
-             * unit row and KPI — shows its own skeleton until its figure arrives.
+             * Left-hand stats rail: an occupancy card (the day's occupancy, units booked and the unit breakdown) followed by a
+             * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
+             * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
+             * skeleton until it arrives.
+             * Properties without front desk (`isPms` false) see only Available, Booked and Pending — no occupancy, no bar —
+             * and no RevPAR.
              */
             "ir-dashboard-stats": LocalJSX.IntrinsicElements["ir-dashboard-stats"] & JSXBase.HTMLAttributes<HTMLIrDashboardStatsElement>;
             "ir-date-picker": LocalJSX.IntrinsicElements["ir-date-picker"] & JSXBase.HTMLAttributes<HTMLIrDatePickerElement>;

@@ -10,4 +10,5 @@ export type CellShape = 'text' | 'stacked' | 'pill' | 'action';
 export declare const TableSkeleton: FunctionalComponent<{
     rows?: number;
     extraColumn?: CellShape;
+    withoutBalance?: boolean;
 }>;

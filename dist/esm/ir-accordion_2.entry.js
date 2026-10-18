@@ -1,0 +1,230 @@
+import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-DKZeCK8T.js';
+import { f as formatAmount, a as formatBookingNumber } from './number-0UrU_yO2.js';
+import { f as formatDate } from './ir-date-CY_qGQ63.js';
+import './moment-Mki5YqAR.js';
+import { c as calendar_data } from './calendar-data-D4DbXAhg.js';
+import { _ as _formatTime } from './functions-BvJiJbl6.js';
+import { t } from './t-Bvz1wS_D.js';
+import './locale-scope-Jre4lb6k.js';
+import './language-observer-CHgzsZkY.js';
+import './_commonjsHelpers-BFTU3MAI.js';
+
+const irAccordionCss = () => `:host{--ir-acc-duration:220ms;--ir-acc-ease:cubic-bezier(0.2, 0.8, 0.2, 1);--ir-acc-border:var(--wa-color-surface-border);--ir-acc-radius:6px;--ir-acc-bg:var(--wa-color-surface-default);--ir-acc-focus:var(--wa-color-brand-fill-loud);--ir-acc-space-2:0.5rem;--ir-acc-space-3:0.75rem;--ir-acc-space-4:1rem;display:block}.ir-accordion{border:1px solid var(--ir-acc-border);border-radius:var(--ir-acc-radius);background:var(--ir-acc-bg);overflow:hidden}.ir-accordion__trigger{display:flex;align-items:center;justify-content:flex-start;gap:var(--ir-acc-space-2);width:100%;padding:var(--ir-acc-space-4);background:transparent;border:none;cursor:pointer;text-align:start;font:inherit;color:inherit;transition:background-color 0.15s ease}.ir-accordion__trigger:hover:not(:disabled){background:rgba(0, 0, 0, 0.02)}.ir-accordion__trigger:disabled{opacity:0.6;cursor:not-allowed}.ir-accordion__trigger:focus,.ir-accordion__trigger:focus-visible{outline:2px solid var(--ir-acc-focus);outline-offset:-2px}.ir-accordion__trigger:focus:not(:focus-visible){outline:none}.ir-accordion__caret{flex-shrink:0;transition:transform var(--ir-acc-duration) var(--ir-acc-ease);transform:rotate(-90deg)}.ir-accordion[data-open='true'] .ir-accordion__caret,.ir-accordion__caret.is-open{transform:rotate(0deg)}.ir-accordion__trigger-content{flex:1;min-width:0;}.ir-accordion__content{transition:height var(--ir-acc-duration) var(--ir-acc-ease);will-change:height}.ir-accordion__content:not([data-expanded='true']){height:0 !important;overflow:hidden !important;visibility:hidden}.ir-accordion__content[data-expanded='true']{visibility:visible}.ir-accordion__content-inner{padding:var(--ir-acc-space-3) var(--ir-acc-space-4)}@media (prefers-reduced-motion: reduce){.ir-accordion__caret{transition:none}.ir-accordion__content{transition:none}}`;
+
+let accId = 0;
+const IrAccordion = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.irToggle = createEvent(this, "ir-toggle");
+    }
+    get host() { return getElement(this); }
+    /** Start expanded */
+    defaultExpanded = false;
+    /** Optional controlled prop: when provided, component follows this value */
+    expanded;
+    /** Show caret icon */
+    caret = true;
+    /** Caret icon name */
+    caretIcon = 'angle-down';
+    /** Fired after expansion state changes */
+    irToggle;
+    _expanded = false;
+    detailsEl;
+    contentEl;
+    // private triggerBtn?: HTMLButtonElement;
+    contentId = `ir-accordion-content-${++accId}`;
+    isAnimating = false;
+    cleanupAnimation;
+    componentWillLoad() {
+        this._expanded = this.expanded ?? this.defaultExpanded;
+    }
+    disconnectedCallback() {
+        // Clean up any ongoing animation
+        if (this.cleanupAnimation) {
+            this.cleanupAnimation();
+        }
+    }
+    watchExpanded(newValue) {
+        if (newValue !== undefined && newValue !== this._expanded) {
+            this.updateExpansion(newValue, false); // Don't emit event for external changes
+        }
+    }
+    updateExpansion(expanded, shouldEmit = true) {
+        // Prevent multiple simultaneous animations
+        if (this.isAnimating) {
+            return;
+        }
+        const wasExpanded = this._expanded;
+        this._expanded = expanded;
+        // Only animate if the state actually changed
+        if (wasExpanded !== expanded) {
+            if (expanded) {
+                this.show();
+            }
+            else {
+                this.hide();
+            }
+            if (shouldEmit) {
+                this.irToggle.emit({ expanded });
+            }
+        }
+    }
+    async show() {
+        if (!this.detailsEl || !this.contentEl || this.isAnimating)
+            return;
+        this.isAnimating = true;
+        this.cleanupPreviousAnimation();
+        // Set initial state
+        const startHeight = this.detailsEl.offsetHeight;
+        this.detailsEl.style.height = `${startHeight}px`;
+        this.detailsEl.style.overflow = 'hidden';
+        // Make content visible and measure target height
+        this.detailsEl.setAttribute('data-expanded', 'true');
+        const targetHeight = this.contentEl.scrollHeight;
+        // Use requestAnimationFrame to ensure the browser has processed the initial state
+        requestAnimationFrame(() => {
+            if (!this.detailsEl)
+                return;
+            this.detailsEl.style.height = `${targetHeight}px`;
+            const handleTransitionEnd = (event) => {
+                // Make sure this is the height transition and not a child element
+                if (event.target === this.detailsEl && event.propertyName === 'height') {
+                    this.finishOpenAnimation();
+                }
+            };
+            this.cleanupAnimation = () => {
+                if (this.detailsEl) {
+                    this.detailsEl.removeEventListener('transitionend', handleTransitionEnd);
+                }
+                this.isAnimating = false;
+            };
+            this.detailsEl.addEventListener('transitionend', handleTransitionEnd);
+            // Fallback timeout in case transitionend doesn't fire
+            setTimeout(() => {
+                if (this.isAnimating) {
+                    this.finishOpenAnimation();
+                }
+            }, 300); // Should match your CSS transition duration
+        });
+    }
+    async hide() {
+        if (!this.detailsEl || !this.contentEl || this.isAnimating)
+            return;
+        this.isAnimating = true;
+        this.cleanupPreviousAnimation();
+        // Set initial height to current scrollHeight
+        const startHeight = this.detailsEl.scrollHeight;
+        this.detailsEl.style.height = `${startHeight}px`;
+        this.detailsEl.style.overflow = 'hidden';
+        // Force reflow then animate to 0
+        requestAnimationFrame(() => {
+            if (!this.detailsEl)
+                return;
+            this.detailsEl.style.height = '0px';
+            const handleTransitionEnd = (event) => {
+                // Make sure this is the height transition and not a child element
+                if (event.target === this.detailsEl && event.propertyName === 'height') {
+                    this.finishCloseAnimation();
+                }
+            };
+            this.cleanupAnimation = () => {
+                if (this.detailsEl) {
+                    this.detailsEl.removeEventListener('transitionend', handleTransitionEnd);
+                }
+                this.isAnimating = false;
+            };
+            this.detailsEl.addEventListener('transitionend', handleTransitionEnd);
+            // Fallback timeout
+            setTimeout(() => {
+                if (this.isAnimating) {
+                    this.finishCloseAnimation();
+                }
+            }, 300);
+        });
+    }
+    finishOpenAnimation() {
+        if (this.cleanupAnimation) {
+            this.cleanupAnimation();
+            this.cleanupAnimation = undefined;
+        }
+        if (this.detailsEl) {
+            this.detailsEl.style.height = '';
+            this.detailsEl.style.overflow = '';
+        }
+        this.expanded = true;
+        this.isAnimating = false;
+    }
+    finishCloseAnimation() {
+        if (this.cleanupAnimation) {
+            this.cleanupAnimation();
+            this.cleanupAnimation = undefined;
+        }
+        if (this.detailsEl) {
+            this.detailsEl.style.height = '';
+            this.detailsEl.style.overflow = '';
+            this.detailsEl.removeAttribute('data-expanded');
+        }
+        this.expanded = false;
+        this.isAnimating = false;
+    }
+    cleanupPreviousAnimation() {
+        if (this.cleanupAnimation) {
+            this.cleanupAnimation();
+            this.cleanupAnimation = undefined;
+        }
+        // Always reset isAnimating when cleaning up
+        this.isAnimating = false;
+    }
+    onTriggerClick = () => {
+        // Don't allow clicks during animation
+        if (this.isAnimating) {
+            return;
+        }
+        const nextExpanded = !this._expanded;
+        this.irToggle.emit({ expanded: nextExpanded });
+        this.updateExpansion(nextExpanded, true);
+    };
+    onTriggerKeyDown = (ev) => {
+        // Allow keyboard toggle with Enter/Space
+        if ((ev.key === 'Enter' || ev.key === ' ') && !this.isAnimating) {
+            ev.preventDefault();
+            this.onTriggerClick();
+        }
+    };
+    render() {
+        const isOpen = this._expanded;
+        return (h(Host, { key: '5e5be3cec238fdd36585871aa4266e62a6cb410c' }, h("div", { key: '89708b976e7a08bb18041f31ac554642e10533d6', part: "base", class: "ir-accordion", "data-open": isOpen ? 'true' : 'false' }, h("button", { key: 'e2a3d8915f4719f32d20ded100e6fc85705f84b1', type: "button", class: "ir-accordion__trigger", "aria-expanded": isOpen ? 'true' : 'false', "aria-controls": this.contentId, "aria-busy": this.isAnimating ? 'true' : 'false', onClick: this.onTriggerClick, onKeyDown: this.onTriggerKeyDown, disabled: this.isAnimating, part: "trigger" }, this.caret && h("ir-icons", { key: '57d80123ddcd887e75263449675c1cdf5d0c15ed', name: 'angle-down', class: `ir-accordion__caret ${isOpen ? 'is-open' : ''}`, "aria-hidden": "true" }), h("div", { key: 'd41a0b1e92b368527a4fd3ef4b8ab0574b61adfb', class: "ir-accordion__trigger-content" }, h("slot", { key: '819f7b7cb4411c330bdf17057c71a41830028ced', name: "trigger" }))), h("div", { key: '571324607d49e7fddbf21789f8c2ad67e69821e5', class: "ir-accordion__content", id: this.contentId, ref: el => (this.detailsEl = el), "data-expanded": isOpen ? 'true' : null, role: "region", "aria-hidden": isOpen ? 'false' : 'true' }, h("div", { key: 'd2ec428a19aaf3d31bb8d85269bd105f5f6ce93d', class: "ir-accordion__content-inner", part: "content", ref: el => (this.contentEl = el) }, h("slot", { key: 'a1a2f0cedffae5fe6e2be49e237ba27de1afef00' }))))));
+    }
+    static get watchers() { return {
+        "expanded": [{
+                "watchExpanded": 0
+            }]
+    }; }
+};
+IrAccordion.style = irAccordionCss();
+
+const irRevenueRowDetailsCss = () => `.sc-ir-revenue-row-details-h{border-bottom:1px solid var(--ir-border, #e5e7eb);font-size:0.875rem}.ir-revenue-row-detail.sc-ir-revenue-row-details,.ir-revenue-row-detail__info.sc-ir-revenue-row-details{display:flex;gap:0.5rem;padding:0.25rem;flex-direction:column;color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:transparent;border-color:transparent}.ir-revenue-row-detail.sc-ir-revenue-row-details:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet))}.ir-revenue-row-detail.sc-ir-revenue-row-details:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active))}.ir-revenue-row-detail__booking.sc-ir-revenue-row-details{display:inline-flex}.ir-revenue-row-detail__booking-btn.sc-ir-revenue-row-details{display:inline-flex}.ir-revenue-row-detail.sc-ir-revenue-row-details:last-child{border-bottom:none}.ir-revenue-row-detail__label.sc-ir-revenue-row-details{font-weight:500;color:var(--wa-color-text-quiet, #6b7280);margin-inline-end:0.25rem}.ir-revenue-row-detail__label--capitalize.sc-ir-revenue-row-details{text-transform:capitalize}.ir-revenue-row-detail__amount.sc-ir-revenue-row-details{font-weight:600;text-align:end;white-space:nowrap;flex:1 1 0%}.ir-revenue-row-detail__amount.negative.sc-ir-revenue-row-details{color:var(--wa-color-danger-fill-loud, #dc2626)}.ir-revenue-row-detail__meta.sc-ir-revenue-row-details{display:flex;align-items:center}.ir-revenue-row-detail__amount.sc-ir-revenue-row-details{display:none}.ir-revenue-row-detail__time.sc-ir-revenue-row-details{display:flex;gap:0.5rem}.ir-revenue-row-detail__time.sc-ir-revenue-row-details .ir-revenue-row-detail__amount.sc-ir-revenue-row-details{display:flex;flex:1 1 0%;justify-content:end}@media (min-width: 640px){.ir-revenue-row-detail.sc-ir-revenue-row-details,.ir-revenue-row-detail__info.sc-ir-revenue-row-details{flex-direction:row;align-items:center;gap:1rem}.ir-revenue-row-detail__amount.sc-ir-revenue-row-details{display:inline-flex;justify-content:flex-end}.ir-revenue-row-detail__time.sc-ir-revenue-row-details .ir-revenue-row-detail__amount.sc-ir-revenue-row-details{display:none}}@media (min-width: 1024px){.ir-revenue-row-detail__info.sc-ir-revenue-row-details{width:calc(40vw + 1.375rem - 0rem)}.ir-revenue-row-detail__amount.sc-ir-revenue-row-details{justify-content:flex-start}}`;
+
+const IrRevenueRowDetails = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.revenueOpenSidebar = createEvent(this, "revenueOpenSidebar");
+    }
+    payment;
+    revenueOpenSidebar;
+    render() {
+        return (h(Host, { key: 'd69072e4be472b51c71672172dabf2d19345f9f0' }, h("div", { key: 'bdcfbf2cf7ce4bdd4ba1dd86a135ae064c0b5db6', class: "ir-revenue-row-detail" }, h("div", { key: '93201e59ba7fdcf211c6fd739d54e537f36d7f8a', class: "ir-revenue-row-detail__info" }, h("div", { key: 'cf04a56460400c3d335516a4e6af5314930b551a', class: "ir-revenue-row-detail__time" }, h("span", { key: 'fc4ecf6c097fae59cf604fa26579fb72bae40533', class: "ir-revenue-row-detail__label" }, formatDate(this.payment.date, 'MMM DD, YYYY')), h("span", { key: '5ac62e7041f7b99d1500b5d1e2f101b9eb88adfa', class: "ir-revenue-row-detail__value" }, _formatTime(this.payment.hour.toString(), this.payment.minute.toString())), h("div", { key: '3dcba02d71a71c4b0bd039070aaeac9851b5cae9', class: "ir-revenue-row-detail__amount" }, formatAmount(calendar_data.currency.symbol, this.payment.amount))), h("div", { key: '629d99de596b178657172869ddcbaa35d200abcf', class: "ir-revenue-row-detail__meta" }, h("div", { key: '625da0854057b20b9d0108446280f880f11a757b', class: "ir-revenue-row-detail__user" }, h("span", { key: '12d9a7f1e2cf177832ef465fa2d1dda4e5391615', class: "ir-revenue-row-detail__label ir-revenue-row-detail__label--capitalize" }, t('Lcz_User', { fallback: 'user' }), ":"), h("span", { key: '20b5007b46e23ee23b3114480722c6e710d7c9ad', class: "ir-revenue-row-detail__value" }, this.payment.user)), h("div", { key: '5a05cb8517da0b0e462b16fc39e68707938c94ca', class: "ir-revenue-row-detail__booking" }, h("ir-custom-button", { key: 'dbabcf1d823c0db5884f6447978909be94db5c27', link: true, style: { marginInlineStart: '1rem' }, onClickHandler: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.revenueOpenSidebar.emit({
+                    payload: {
+                        bookingNumber: Number(this.payment.bookingNbr),
+                    },
+                    type: 'booking',
+                });
+            } }, formatBookingNumber(this.payment.bookingNbr))))), h("div", { key: 'd9e08c50ba1730e79f9d7a49fab7f6c0a5f519af', class: "ir-revenue-row-detail__amount" }, formatAmount(calendar_data.currency.symbol, this.payment.amount)))));
+    }
+};
+IrRevenueRowDetails.style = irRevenueRowDetailsCss();
+
+export { IrAccordion as ir_accordion, IrRevenueRowDetails as ir_revenue_row_details };

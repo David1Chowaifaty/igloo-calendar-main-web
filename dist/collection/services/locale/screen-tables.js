@@ -44,6 +44,7 @@ export const BASE_TABLES = ['_COMMON'];
 export const SCREEN_TABLES = {
     agents: ['_AGENTS'],
     arrivals: ['_FRONTDESK', '_BOOKING'],
+    auth: ['_AUTH'],
     bookingDetails: ['_FINANCIALS', '_BOOKING', '_CALENDAR'],
     bookingEditor: ['_CALENDAR'],
     bookingListing: ['_BOOKING'],

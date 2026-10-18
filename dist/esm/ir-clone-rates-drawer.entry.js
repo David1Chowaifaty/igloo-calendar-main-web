@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h } from './index-DKZeCK8T.js';
-import './types-DrUZXu-s.js';
+import './types-f1klcCJA.js';
 import './locale-scope-Jre4lb6k.js';
 import { t } from './t-Bvz1wS_D.js';
-import './types-D3UHbzT8.js';
+import './types-BLb1NO3I.js';
 
 const irCloneRatesDrawerCss = () => `.sc-ir-clone-rates-drawer-h{display:block;--ir-drawer-width:60rem}`;
 
@@ -24,11 +24,11 @@ const IrCloneRatesDrawer = class {
         this.cloneRatesDrawerClosed.emit();
     };
     render() {
-        return (h("ir-drawer", { key: 'e0a22c763b61b6aa353d6a396d82510a7b361395', open: this.open, label: t('Lcz_CopyRatesToFutureDates'), onDrawerHide: this.handleDrawerHide }, this.open && (h("ir-clone-rates", { key: 'adf1b642816c5104307d19a474b63d6c43ae9237', mode: "drawer", ticket: this.ticket, p: this.p, language: this.language, propertyid: this.propertyid, onRatesCloned: e => {
+        return (h("ir-drawer", { key: '7150e95092087a822628cc8567ff6d3f376ba2a2', open: this.open, label: t('Lcz_CopyRatesToFutureDates'), onDrawerHide: this.handleDrawerHide }, this.open && (h("ir-clone-rates", { key: '33245838d8576a304d0ba80da06266881f5b908a', mode: "drawer", ticket: this.ticket, p: this.p, language: this.language, propertyid: this.propertyid, onRatesCloned: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.cloneRatesDrawerClosed.emit();
-            } })), h("div", { key: '3f825f9f8c921b6ce0141f4452d3b7b3d9f5695b', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'adcd11637daad91905a0e41e4ee3961988ff373a', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel')), h("ir-custom-button", { key: '531f9dceda34aa3d6c4a4d96a934f080ecd68d27', size: "m", variant: "brand", type: "submit", form: "clone-rates-form" }, t('Lcz_Review')))));
+            } })), h("div", { key: '3ee1adb016b9da2ba30fe724d170adedf1c00c7b', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '04f13934e136cffee2d0fc0ab1626596dc53a3c7', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel')), h("ir-custom-button", { key: 'def8340db2f00283754abe511bcb875186893e9c', size: "m", variant: "brand", type: "submit", form: "clone-rates-form" }, t('Lcz_Review')))));
     }
 };
 IrCloneRatesDrawer.style = irCloneRatesDrawerCss();

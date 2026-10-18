@@ -18,6 +18,8 @@ export interface ArrivalsStore {
     inHouseBookings: Booking[];
     futureBookings: Booking[];
     searchTerm: string;
+    /** Lists each room on its own row ordered by arrival time, rooms without one first (the dashboard). */
+    sortByTime: boolean;
     pagination: ArrivalsPagination;
     today: string;
 }
@@ -28,4 +30,6 @@ export declare function setArrivalsPage(page: number): void;
 export declare function setArrivalsTotal(total: number): void;
 export declare function setArrivalsPageSize(pageSize: number): void;
 export declare function setArrivalsReferenceDate(date: string): void;
+/** Orders the rooms by arrival time, each on its own row (the dashboard), or keeps the API's booking order. */
+export declare function setArrivalsSortByTime(enabled: boolean): void;
 export {};

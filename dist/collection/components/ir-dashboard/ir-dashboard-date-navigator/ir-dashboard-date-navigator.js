@@ -3,28 +3,28 @@ import { Host, h } from "@stencil/core";
 import { formatDate } from "../../../utils/date/index";
 import { t } from "../../../services/locale/t";
 import { MAX_DAY_OFFSET } from "../dashboard.helpers";
-/** How many days either side of today the picker reaches. */
 /**
- * Day picker for the dashboard, bounded to five days either side of today: weekday, day and month stacked
- * between the previous / next chevrons, all vertically centred. The day turns brand blue while it is today.
+ * Day picker for the dashboard header: a pill showing the selected day that opens a list of the days from
+ * `MAX_DAY_OFFSET` before today to `MAX_DAY_OFFSET` after it.
  */
 export class IrDashboardDateNavigator {
     /** Selected day (`YYYY-MM-DD`). */
     date;
-    /** How tightly the card is drawn; ir-dashboard steps it down when the desktop rail is short. */
-    density = 'regular';
-    /** Emitted with the new day when the user moves to the previous / next day. */
+    /** Emitted with the new day when the user picks another day. */
     dateChange;
-    shift(days) {
-        this.dateChange.emit(addDaysISO(this.date, days));
+    handleSelect(e) {
+        e.stopPropagation();
+        const value = e.detail.item.value;
+        if (value && value !== this.date) {
+            this.dateChange.emit(value);
+        }
     }
     render() {
         const today = todayISO();
-        const min = addDaysISO(today, -MAX_DAY_OFFSET);
-        const max = addDaysISO(today, MAX_DAY_OFFSET);
+        const days = Array.from({ length: MAX_DAY_OFFSET * 2 + 1 }, (_, index) => addDaysISO(today, index - MAX_DAY_OFFSET));
         // Locale- and calendar-aware (Gregorian or Hijri), like every other displayed date.
-        const dayOfMonth = formatDate(this.date, 'D');
-        return (h(Host, { key: '5b52b3e0428d686f331da20622f325c0ef596ef2' }, h("wa-card", { key: '634f3fb0a00a7a7420acb8c18fd79602f037275a', class: `date-navigator${this.date === today ? ' date-navigator--today' : ''}`, appearance: "plain" }, h("wa-button", { key: '0862f2100796b261c8229cc9ae0c7572f4cf7b6f', class: "date-navigator__step", appearance: "plain", variant: "neutral", size: "l", disabled: this.date <= min, onClick: () => this.shift(-1) }, h("wa-icon", { key: '0efd73b76d589fa03f33fe5b1c993dff986a16d8', class: "ir-flip-rtl", name: "chevron-left", label: t('Lcz_GoToPreviousDay', { fallback: 'Previous day' }) })), h("time", { key: 'fabc863998f7cbf1b43aa7a09b2d3ba1aedb9911', class: "date-navigator__date", dateTime: this.date }, h("span", { key: 'c4af115b901c9d7e91ee0cd6e60bdb0b7b02ce21', class: "date-navigator__weekday" }, formatDate(this.date, 'dddd')), h("span", { key: 'c47f22299187a5e60d616544a7145556483ce8ba', class: { 'date-navigator__day': true, 'date-navigator__day--ends-in-one': dayOfMonth.endsWith('1') } }, dayOfMonth), h("span", { key: 'f7791ee4365e1c70d6586efa46bc80644f15d1dc', class: "date-navigator__month" }, formatDate(this.date, 'MMMM'))), h("wa-button", { key: 'c21707d51f0c7715d9e2eb65d63a6d92f546144d', class: "date-navigator__step", appearance: "plain", variant: "neutral", size: "l", disabled: this.date >= max, onClick: () => this.shift(1) }, h("wa-icon", { key: 'aa514f03cf0e2bb020618d5732d256b5f860bee2', class: "ir-flip-rtl", name: "chevron-right", label: t('Lcz_GoToNextDay', { fallback: 'Next day' }) })))));
+        const label = (day) => formatDate(day, 'dddd, D MMMM');
+        return (h(Host, { key: '966c046c13cd7adc2c543538298346fa5826d687' }, h("wa-dropdown", { key: '256c8e46d6c4aa9939b150b42714d915523f66d4', class: "date-navigator", placement: "bottom-end", "onwa-select": e => this.handleSelect(e) }, h("button", { key: 'dd9d7e2bfdf0a8c9c4b6063a54b07f3ac37be36f', type: "button", slot: "trigger", class: "date-navigator__trigger", "aria-label": t('Lcz_SelectDate', { fallback: 'Select date' }) }, h("wa-icon", { key: '403fb0579eadaa6c230658fd3b4a0d3b6fe130e0', class: "date-navigator__icon", name: "calendar-days", "aria-hidden": "true" }), h("time", { key: '357b40eec4a8e3fb70f704b784807d49d2b0ad63', class: "date-navigator__date", dateTime: this.date }, label(this.date)), h("wa-icon", { key: '17408240063f9369f5376b3f5f48893202d41072', class: "date-navigator__chevron", name: "chevron-down", "aria-hidden": "true" })), days.map(day => (h("wa-dropdown-item", { key: day, value: day, type: "checkbox", checked: day === this.date }, label(day), day === today && (h("span", { slot: "details", class: "date-navigator__today" }, t('Lcz_Today', { fallback: 'Today' })))))))));
     }
     static get is() { return "ir-dashboard-date-navigator"; }
     static get encapsulation() { return "scoped"; }
@@ -65,33 +65,6 @@ export class IrDashboardDateNavigator {
                 "setter": false,
                 "reflect": false,
                 "attribute": "date"
-            },
-            "density": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "RailDensity",
-                    "resolved": "\"compact\" | \"regular\" | \"spacious\" | \"tight\"",
-                    "references": {
-                        "RailDensity": {
-                            "location": "import",
-                            "path": "../types",
-                            "id": "src/components/ir-dashboard/types.ts::RailDensity",
-                            "referenceLocation": "RailDensity"
-                        }
-                    }
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": "How tightly the card is drawn; ir-dashboard steps it down when the desktop rail is short."
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": true,
-                "attribute": "density",
-                "defaultValue": "'regular'"
             }
         };
     }
@@ -104,7 +77,7 @@ export class IrDashboardDateNavigator {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted with the new day when the user moves to the previous / next day."
+                    "text": "Emitted with the new day when the user picks another day."
                 },
                 "complexType": {
                     "original": "ISODate",

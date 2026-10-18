@@ -4,25 +4,42 @@
   gap: var(--wa-space-m);
 }
 
-/* Takes the host's spare height, which ir-dashboard stretches to the table's on desktop, pushing the KPI cards to the bottom. */
-.stats {
-  flex: 1 1 auto;
-  --spacing: var(--wa-space-m);
+.stats__card {
+  --spacing: var(--wa-space-l);
+  border: 0;
+  border-radius: var(--wa-border-radius-l);
   background: var(--wa-color-surface-default);
 }
 
-/* The ring and units sit centred in whatever height the card gets, rather than leaving a gap under them. */
-.stats::part(body) {
-  flex: 1 1 auto;
+.stats__card::part(body) {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: var(--wa-space-m);
 }
 
-.stats__ring,
-.stats__section,
-.stats__count,
+/* Takes the rail's spare height, which ir-dashboard stretches to the table's on desktop. */
+.stats__card--occupancy {
+  flex: 1 1 auto;
+}
+
+.stats__card--performance {
+  flex: none;
+}
+
+/* Capitalized card title ("Today's Occupancy", "Performance"). */
+.stats__title {
+  margin: 0;
+  font-family: var(--wa-font-family-heading);
+  font-size: var(--wa-font-size-m);
+  font-weight: var(--wa-font-weight-semibold);
+  line-height: var(--wa-line-height-condensed);
+  text-transform: capitalize;
+  color: var(--wa-color-text-normal);
+}
+
+.stats__occupancy,
+.stats__units,
+.stats__unit,
 .stats__kpis {
   transition: opacity 150ms ease;
 }
@@ -32,157 +49,119 @@
   opacity: 0.55;
 }
 
-.stats__section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--wa-space-xs);
-}
-
-.stats__ring {
-  align-self: center;
-  --size: 10.5rem;
-  --track-width: 0.75rem;
-  --indicator-width: 0.75rem;
-  --track-color: var(--wa-color-neutral-fill-quiet);
-  --indicator-color: var(--wa-color-success-fill-loud);
-}
-
-/*
- * wa-progress-ring writes the arc's dash offset inline, from the radius it has when `value` changes; when the ring is
- * resized afterwards (rail density, the desktop ring filling its card) that offset no longer matches and the arc reads
- * short. Its own stylesheet's formula tracks the live circumference, so put it back over the inline value.
- */
-.stats__ring::part(indicator) {
-  stroke-dashoffset: calc(var(--circumference) - var(--percentage) * var(--circumference)) !important;
-  /* A day change morphs the arc in place: ease-in-out, kept under 300ms. */
-  transition-duration: 280ms;
-  transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
-}
-
-.stats__ring-slot {
-  display: flex;
+/* Soft brand-tinted tile behind each icon. */
+.stats__icon {
+  display: inline-flex;
+  flex: none;
   align-items: center;
   justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border-radius: var(--wa-border-radius-m);
+  background-color: var(--wa-color-brand-fill-quiet);
+  color: var(--wa-color-brand-on-quiet);
+  font-size: 1.125rem;
 }
 
-.stats__ring-content {
+.stats__icon--round {
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  border-radius: var(--wa-border-radius-circle);
+  font-size: 1.375rem;
+}
+
+.stats__occupancy {
   display: flex;
   flex-direction: column;
+  gap: var(--wa-space-s);
+  padding-block-end: var(--wa-space-xs);
+}
+
+.stats__occupancy-figure {
+  display: flex;
   align-items: center;
+  gap: var(--wa-space-m);
 }
 
-.stats__ring-value {
+.stats__occupancy-value {
   unicode-bidi: isolate;
-  font-size: var(--wa-font-size-2xl);
+  font-size: var(--wa-font-size-3xl);
   font-weight: var(--wa-font-weight-bold);
-  line-height: var(--wa-line-height-condensed);
+  line-height: 1;
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
+  color: var(--wa-color-text-normal);
 }
 
-.stats__ring-label {
-  font-size: var(--wa-font-size-xs);
-  color: var(--wa-color-text-quiet);
+.stats__booked {
+  margin: 0;
+  font-size: var(--wa-font-size-m);
+  font-weight: var(--wa-font-weight-semibold);
+  color: var(--wa-color-text-normal);
 }
 
-/*
- * Desktop: the ring takes whatever height the card has left after the unit list (between 3rem and 11rem, and never
- * wider than the card), so it grows into spare space instead of leaving gaps around it. Its figure scales with it.
- */
-@media (min-width: 992px) {
-  /* Capped at the ring's largest size, so on tall rails the spare height goes around the ring and units as one group. */
-  .stats__ring-slot {
-    flex: 1 1 0;
-    min-block-size: 3rem;
-    max-block-size: 11rem;
-    container-type: size;
-  }
-
-  .stats__ring {
-    --size: clamp(3rem, 100cqmin, 11rem);
-    --track-width: calc(var(--size) * 0.07);
-    --indicator-width: calc(var(--size) * 0.07);
-  }
-
-  /* Scoped to the slot to win over the fixed skeleton size declared further down. */
-  .stats__ring-slot .stats__skeleton--ring {
-    inline-size: clamp(3rem, 100cqmin, 11rem);
-    block-size: clamp(3rem, 100cqmin, 11rem);
-  }
-
-  /* Proportional to the ring, so the figure always fits inside it and never outweighs the revenue amounts below. */
-  .stats__ring-value {
-    font-size: min(calc(var(--size) * 0.16), var(--wa-font-size-2xl));
-  }
-
-  .stats__ring-label {
-    font-size: clamp(0.625rem, calc(var(--size) * 0.085), var(--wa-font-size-xs));
-  }
+.stats__bar {
+  --track-height: 0.5rem;
+  --indicator-color: var(--wa-color-success-fill-loud);
+  --track-color: var(--wa-color-neutral-fill-quiet);
+  margin-block-start: var(--wa-space-xs);
 }
 
-.stats__list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
+.stats__bar::part(indicator) {
+  /* A day change slides the bar to its new length: ease-in-out, kept under 300ms. */
+  transition: width 280ms cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Unit breakdown: two columns; spacing alone separates the figures, aligned with the card title. */
+.stats__units {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--wa-space-m) var(--wa-space-l);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Value and label sit side by side, value first. */
-.stats__count {
-  display: flex;
-  flex-wrap: wrap;
+.stats__unit {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 0.5rem;
-  font-size: var(--wa-font-size-s);
+  column-gap: var(--wa-space-s);
+  row-gap: 0.125rem;
 }
 
-/* Same skewed swatch as the calendar legend (igl-legend .legend_skew); the colour comes from the property's legend. */
-.stats__swatch {
-  flex: none;
-  inline-size: 15px;
-  block-size: 16px;
-  border-radius: 4px;
-  background-color: var(--stats-swatch-color, var(--wa-color-brand-fill-loud));
-  transform: skew(-22deg);
+.stats__dot {
+  inline-size: 0.875rem;
+  block-size: 0.875rem;
+  border-radius: var(--wa-border-radius-circle);
+  background-color: var(--stats-dot-color, var(--wa-color-brand-fill-loud));
 }
 
-/* Pending is drawn like the legend's pending entry: an outlined, dashed bar rather than a filled one. */
-.stats__swatch--pending {
-  border: 1px dashed var(--wa-color-success-fill-loud);
-  background-color: var(--wa-color-surface-default);
+.stats__dot--blocked {
+  --stats-dot-color: var(--wa-color-neutral-fill-loud);
 }
 
-.stats__count-value {
-  padding-inline-start: 0.5rem;
-  min-inline-size: 2ch;
-  font-size: var(--wa-font-size-m);
+.stats__unit-value {
+  font-size: var(--wa-font-size-xl);
   font-weight: var(--wa-font-weight-bold);
   line-height: var(--wa-line-height-condensed);
   font-variant-numeric: tabular-nums;
   color: var(--wa-color-text-normal);
 }
 
-/* Available units lead the list, so their count reads a step larger than the others. */
-.stats__count:first-child .stats__count-value {
-  font-size: var(--wa-font-size-l);
-}
-
-/* One step up from the row's base size, so the label still reads next to the bold count. */
-.stats__count-label {
-  font-size: var(--wa-font-size-m);
+/* Under the count, lined up with it rather than with the dot. */
+/* Quiet like the KPI labels, so the eye lands on the figures first. */
+.stats__unit-label {
+  grid-column: 2;
+  font-size: var(--wa-font-size-s);
+  line-height: var(--wa-line-height-condensed);
   color: var(--wa-color-text-quiet);
 }
 
-/* Revenue KPIs: one card holding all three figures, at its natural height. */
-.stats__revenue {
-  flex: none;
-  --spacing: var(--wa-space-m);
-  background: var(--wa-color-surface-default);
-}
-
+/* Performance KPIs: icon tile, then the amount over its label. */
 .stats__kpis {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--wa-space-m);
   margin: 0;
   padding: 0;
@@ -190,48 +169,55 @@
 }
 
 .stats__kpi {
-  display: grid;
-  gap: var(--wa-space-2xs);
-  min-inline-size: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--wa-space-m);
 }
 
-.stats__kpi-label {
-  overflow: hidden;
-  font-size: var(--wa-font-size-s);
-  font-weight: var(--wa-font-weight-semibold);
-  color: var(--wa-color-text-quiet);
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.stats__kpi-text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-inline-size: 0;
 }
 
 .stats__kpi-value {
   /* Keep "€ 3,500.00" in one order inside RTL text. */
   direction: ltr;
   unicode-bidi: isolate;
-  /* One size at every rail height: the ring flexes to make room, the amounts never shrink to. */
-  font-size: var(--wa-font-size-l);
+  font-size: var(--wa-font-size-xl);
   font-weight: var(--wa-font-weight-bold);
   line-height: var(--wa-line-height-condensed);
   font-variant-numeric: tabular-nums;
   color: var(--wa-color-text-normal);
+  /* The currency stays with its amount; an amount still too wide for a very narrow rail ends in an ellipsis (full value in the title). */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Tablets: the rail is full width, so lay the ring and units side by side, and the KPIs in one row. */
+/* Long amounts (millions and up) step down so they fit the rail on one line. */
+.stats__kpi-value--long {
+  font-size: var(--wa-font-size-l);
+}
+
+.stats__kpi-value--longest {
+  font-size: var(--wa-font-size-m);
+}
+
+.stats__kpi-label {
+  overflow: hidden;
+  font-size: var(--wa-font-size-s);
+  color: var(--wa-color-text-quiet);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Tablets: the rail is full width, so the KPIs sit in one row. */
 @media (min-width: 576px) and (max-width: 991px) {
-  .stats::part(body) {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: center;
-    gap: var(--wa-space-l);
-  }
-
   .stats__kpis {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .stats__section {
-    align-self: stretch;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
   }
 }
 
@@ -246,87 +232,78 @@
   border-radius: var(--wa-border-radius-s);
 }
 
+.stats__skeleton--occupancy {
+  inline-size: 11rem;
+  block-size: 3.5rem;
+}
+
+.stats__skeleton--booked {
+  inline-size: 10rem;
+}
+
+.stats__skeleton--bar {
+  inline-size: 100%;
+  block-size: 0.5rem;
+  margin-block-start: var(--wa-space-xs);
+}
+
+.stats__skeleton--unit {
+  grid-column: 1 / -1;
+  block-size: 2.5rem;
+}
+
 /* Exactly one line of the amount's font, so the card doesn't move when the figures land. */
 .stats__skeleton--kpi {
-  inline-size: 5rem;
-  font-size: var(--wa-font-size-l);
+  inline-size: 6rem;
+  font-size: var(--wa-font-size-xl);
   line-height: var(--wa-line-height-condensed);
   block-size: 1lh;
 }
 
-.stats__skeleton--ring {
-  align-self: center;
-  inline-size: 10.5rem;
-  block-size: 10.5rem;
-}
-
-.stats__skeleton--ring::part(indicator) {
-  border-radius: var(--wa-border-radius-circle);
-}
-
-/* Tall desktop rails: airier spacing around the ring and unit rows, so the card fills its height evenly. */
-:host([density='spacious']) .stats::part(body) {
-  gap: var(--wa-space-l);
-}
-
-:host([density='spacious']) .stats__list {
-  gap: var(--wa-space-s);
-}
-
-/*
- * Short desktop rails (ir-dashboard sets `density` from the rail's height): tighten the spacing, then the unit rows.
- * The amounts keep their size; the ring flexes into whatever height is left.
- */
+/* Short desktop rails (ir-dashboard sets `density` from the rail's height): tighten the spacing. */
 :host([density='compact']),
 :host([density='tight']) {
   gap: var(--wa-space-s);
 }
 
-:host([density='compact']) .stats,
-:host([density='compact']) .stats__revenue,
-:host([density='tight']) .stats,
-:host([density='tight']) .stats__revenue {
-  --spacing: var(--wa-space-s) var(--wa-space-m);
+:host([density='compact']) .stats__card,
+:host([density='tight']) .stats__card {
+  --spacing: var(--wa-space-m);
 }
 
-:host([density='compact']) .stats::part(body),
-:host([density='tight']) .stats::part(body) {
+:host([density='compact']) .stats__card::part(body),
+:host([density='tight']) .stats__card::part(body) {
   gap: var(--wa-space-s);
 }
 
-:host([density='compact']) .stats__list,
-:host([density='tight']) .stats__list {
-  gap: 0.125rem;
-}
-
+:host([density='compact']) .stats__units,
+:host([density='tight']) .stats__units,
 :host([density='compact']) .stats__kpis,
 :host([density='tight']) .stats__kpis {
-  gap: var(--wa-space-s);
+  row-gap: var(--wa-space-s);
 }
 
-:host([density='tight']) .stats__count-value,
-:host([density='tight']) .stats__count-label {
-  font-size: var(--wa-font-size-s);
+:host([density='tight']) .stats__occupancy-value {
+  font-size: var(--wa-font-size-2xl);
 }
 
-:host([density='tight']) .stats__count:first-child .stats__count-value {
-  font-size: var(--wa-font-size-m);
+:host([density='tight']) .stats__icon--round {
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
 }
 
+:host([density='tight']) .stats__unit-value,
+:host([density='tight']) .stats__kpi-value {
+  font-size: var(--wa-font-size-l);
+}
+
+/* Reduced motion keeps the dimming fade (it explains the refresh) and drops only the bar's movement. */
 @media (prefers-reduced-motion: reduce) {
-  .stats__ring,
-  .stats__section,
-  .stats__count,
-  .stats__kpis {
+  .stats__bar::part(indicator) {
     transition: none;
   }
 
   .stats__skeleton::part(indicator) {
     animation: none;
-  }
-
-  /* The figure inside already states the new value; the arc just snaps to it. */
-  .stats__ring::part(indicator) {
-    transition: none;
   }
 }

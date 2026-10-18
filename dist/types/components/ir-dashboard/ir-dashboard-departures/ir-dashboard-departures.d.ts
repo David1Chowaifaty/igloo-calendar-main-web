@@ -9,6 +9,8 @@ import type { CheckoutRedirectEvent } from '../types';
 export declare class IrDashboardDepartures {
     propertyId: number;
     date: ISODate;
+    /** Property without front desk: every departing room in one list, no check-out actions. */
+    pmsDisabled: boolean;
     checkoutState: CheckoutRoomEvent;
     invoiceState: CheckoutRoomEvent;
     /** Early check-out that must be completed from the booking-details drawer. */

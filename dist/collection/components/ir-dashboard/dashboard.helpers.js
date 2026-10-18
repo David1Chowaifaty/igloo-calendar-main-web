@@ -1,6 +1,7 @@
 import { ROOM_IN_OUT } from "../../models/booking.dto";
 import { isBlockUnit } from "../../utils/utils";
-export const MAX_DAY_OFFSET = 5;
+/** How many days either side of today the dashboard's day picker reaches. */
+export const MAX_DAY_OFFSET = 2;
 /** Quiet time after the last day change before the day is fetched, so stepping through several days only loads the last. */
 export const DATE_CHANGE_DEBOUNCE_MS = 300;
 /** Booking status of a cancelled booking. */
@@ -26,6 +27,10 @@ export function countOverdueArrivals(bookings, today) {
 export function countOverdueDepartures(bookings, today) {
     return roomsOf(bookings).filter(room => room.to_date < today && room.in_out?.code === ROOM_IN_OUT.CHECKIN).length;
 }
+/** Units arriving on `date` — counted per room, not per booking. Non-PMS properties count these instead of the rooms to check in. */
+export function countArrivingUnits(bookings, date) {
+    return roomsOf(bookings).filter(room => room.from_date === date).length;
+}
 /** Units departing on `date` — counted per room, not per booking. */
 export function countDepartingUnits(bookings, date) {
     return roomsOf(bookings).filter(room => room.to_date === date).length;
@@ -37,6 +42,14 @@ export function isCancellationOn({ status_code, from_date, to_date }, date) {
 /** Rooms across all bookings — the in-house card counts rooms, not bookings. */
 export function countRooms(bookings) {
     return roomsOf(bookings).length;
+}
+/** Adults, children and infants across all rooms — the in-house card's Ad-Ch-In line. */
+export function sumOccupancy(bookings) {
+    return roomsOf(bookings).reduce((total, room) => ({
+        adults: total.adults + (room.occupancy?.adult_nbr ?? 0),
+        children: total.children + (room.occupancy?.children_nbr ?? 0),
+        infants: total.infants + (room.occupancy?.infant_nbr ?? 0),
+    }), { adults: 0, children: 0, infants: 0 });
 }
 /**
  * Keeps only the rooms that are checked in (`in_out` 001) and whose stay covers `date`, departure day included

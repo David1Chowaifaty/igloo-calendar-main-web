@@ -60,20 +60,20 @@ export class IrTestCmp {
             }) }, "Persistent")));
     }
     render() {
-        return (h("ir-page", { key: '33b7292b263ae5eee5a65c56a3ba66c05241b737', label: "Component Playground", description: "Test drawers, dialogs, OTP modals, and toast notifications." }, h("wa-card", { key: '4f0aea6d6edbd8773d8791b50311f11dc31904f2', appearance: "plain", style: { background: 'var(--wa-color-surface-default)' } }, h("div", { key: 'a3d30e65ed4968b65c0df238dd2f9cb276a2a2a3', style: {
+        return (h("ir-page", { key: '12ee42433b570645b0cb3c851238e541423c45ea', label: "Component Playground", description: "Test drawers, dialogs, OTP modals, and toast notifications." }, h("wa-card", { key: '182d99649c6ed631550ada8573a7f2890ca9802e', appearance: "plain", style: { background: 'var(--wa-color-surface-default)' } }, h("div", { key: '564e6d8417405f151d1a419297ebafc53d5025ba', style: {
                 display: 'flex',
                 alignItems: 'center',
                 flexWrap: 'wrap',
                 gap: '12px',
-            } }, h("wa-button", { key: '7875ed92a400eb6f250d0e035511e6dcf803ff67', style: {
+            } }, h("wa-button", { key: '762a217ac314d7ab7a062d6de409cc5b544c005c', style: {
                 minWidth: '120px',
-            }, onClick: () => (this.open = true) }, "Open drawer"), h("wa-button", { key: '8098a4bf9eda5dcaac1121696ada6d41fdc21971', style: {
+            }, onClick: () => (this.open = true) }, "Open drawer"), h("wa-button", { key: '57c205c284c28643a0f1e67ffadc8e61007e6e4e', style: {
                 minWidth: '120px',
-            }, onClick: () => (this.openDialog = true) }, "Open dialog"), h("wa-button", { key: 'e9f070cbbfb908ccf9f1a4737f68a450deeffb9a', style: {
+            }, onClick: () => (this.openDialog = true) }, "Open dialog"), h("wa-button", { key: 'ff2e6777498cb0b9f2645f77bb2debd97207da44', style: {
                 minWidth: '120px',
-            }, onClick: () => this.ela?.openModal() }, "Open OTP")), h("wa-divider", { key: '32e112a02a5cdbb0a22dfa0e62f889f2cc132336' }), this.renderToastOptions()), h("ir-drawer", { key: '4e295eee2bb90d5664bb75ba99579e69db5d4339', label: "Toast examples", open: this.open, style: {
+            }, onClick: () => this.ela?.openModal() }, "Open OTP")), h("wa-divider", { key: '7afa7d1e38eb439fbae43ee2ad1de436127f211c' }), this.renderToastOptions()), h("ir-drawer", { key: 'a97ff809790798a0fb8b51ae066fed42ad6addaa', label: "Toast examples", open: this.open, style: {
                 color: '#1f2937',
-            }, onDrawerHide: () => (this.open = false) }, this.renderToastOptions()), h("ir-dialog", { key: '017ecc9fcba691b62aeda5392fbf3c5a273499d3', label: "Notification center", open: this.openDialog, onIrDialogAfterHide: () => (this.openDialog = false) }, this.renderToastOptions()), h("ir-otp-modal", { key: '94f113ef6a65e3ca2c2cb9c995cf45e1df0d7bc2', ref: element => (this.ela = element), style: {
+            }, onDrawerHide: () => (this.open = false) }, this.renderToastOptions()), h("ir-dialog", { key: '67433f5204195a9719dc4f38c333685ae52d0369', label: "Notification center", open: this.openDialog, onIrDialogAfterHide: () => (this.openDialog = false) }, this.renderToastOptions()), h("ir-otp-modal", { key: '80559deef58a1963ab2a7e630893887e85f93738', ref: element => (this.ela = element), style: {
                 position: 'relative',
                 zIndex: '1000',
             } })));

@@ -1,0 +1,187 @@
+:host {
+  --ink: #0b0f19;
+  --slate: #6b7280;
+  --slate-light: #9aa1ac;
+  --paper: #ffffff;
+  --paper-field: #ffffff;
+  --line: #e2e4e9;
+  --accent: #4338ca;
+  --accent-deep: #362da3;
+  --info-bg: #eff5ff;
+  --info-border: #bfdcfe;
+  --info-icon: #3b82f6;
+  --danger: #dc2626;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  /* Fills the screen on its own, whatever the host page sets; grows past it when the content is taller. */
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 2rem 3rem;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+.pms-auth__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pms-auth__brand img {
+  height: 20px;
+  object-fit: contain;
+}
+
+.pms-auth__lang wa-dropdown wa-button {
+  font-size: 0.85rem;
+}
+
+.pms-auth__card {
+  width: 100%;
+  max-width: 380px;
+  margin: auto;
+  padding: 3rem 0;
+}
+
+.pms-auth__title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 0.3rem;
+  text-align: start;
+}
+
+.pms-auth__subtitle {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--slate);
+  margin: 0 0 1.4rem;
+  text-align: start;
+}
+
+.pms-auth__notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: var(--info-bg);
+  border: 1px solid var(--info-border);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin: 0 0 1.5rem;
+  font-size: 0.85rem;
+  color: #1e3a5f;
+  line-height: 1.4;
+}
+
+.pms-auth__notice wa-icon {
+  color: var(--info-icon);
+  flex: none;
+  margin-top: 0.15rem;
+}
+
+.pms-auth__notice strong {
+  font-weight: 600;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.pms-auth__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.4rem 0 1.2rem;
+  font-size: 0.85rem;
+}
+
+.pms-auth__row--end {
+  justify-content: flex-end;
+  margin-top: -0.6rem;
+}
+
+.pms-auth__row a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.pms-auth__row a:hover {
+  text-decoration: underline;
+}
+
+ir-input,
+ir-custom-button,
+wa-button {
+  --wa-form-control-border-radius: 8px;
+}
+
+ir-input::part(base) {
+  background: var(--paper-field);
+  border-color: var(--line);
+}
+
+/* `ir-validator` sets `aria-invalid` on the input it wraps. */
+ir-input[aria-invalid='true']::part(base) {
+  border-color: var(--danger);
+}
+
+.pms-auth__submit {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.pms-auth__return {
+  margin-top: 0.9rem;
+  font-size: 0.9rem;
+}
+
+.pms-auth__return a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.pms-auth__divider {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 1.75rem 0;
+}
+
+.pms-auth__apps {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.4rem;
+}
+
+.pms-auth__apps img {
+  height: 32px;
+  width: auto;
+}
+
+.pms-auth__signup {
+  width: 100%;
+  margin-bottom: 1.4rem;
+}
+
+.pms-auth__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--slate);
+}
+
+.pms-auth__footer a {
+  color: var(--slate);
+}

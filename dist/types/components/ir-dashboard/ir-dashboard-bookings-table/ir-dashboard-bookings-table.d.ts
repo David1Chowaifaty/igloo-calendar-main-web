@@ -7,16 +7,16 @@ export type DashboardBookingsTableVariant = 'inHouse' | 'newBookings' | 'cancell
  */
 export declare class IrDashboardBookingsTable {
     bookings: Booking[];
-    /** Adds the variant-specific column: booked-on date for new bookings, status for cancellations. */
+    /** In-house drops the Balance and Status columns that Bookings and Cancellations end with. */
     variant: DashboardBookingsTableVariant;
     emptyMessage: string;
     private isSameGuest;
-    private renderExtraHeader;
-    private renderExtraCell;
+    /** In-house rows end at Dates; Bookings and Cancellations add Balance, then Status. */
+    private get hasBalanceAndStatus();
     /** The booking's stay, or the span of its rooms' stays when the booking omits it. */
     private stayOf;
     private renderBookingRow;
-    private renderBalance;
+    private renderTrailingCells;
     private renderRoomRow;
     render(): any;
 }

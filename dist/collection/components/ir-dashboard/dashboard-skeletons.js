@@ -26,7 +26,8 @@ const Cell = ({ shape, row, column }) => {
  * Stand-in for a panel's booking table, laid out like the real one: a header row of short labels over
  * rows whose cells match the real columns' shapes. Renders more rows than fit; they fade out towards the bottom instead of ending on a hard edge.
  */
-export const TableSkeleton = ({ rows = 16, extraColumn }) => {
-    const shapes = extraColumn ? [...COLUMN_SHAPES, extraColumn] : COLUMN_SHAPES;
-    return (h("div", { class: "dashboard-table-skeleton", "aria-busy": "true", "aria-hidden": "true", "data-extra-column": extraColumn }, h("div", { class: "dashboard-table-skeleton__head" }, shapes.map(shape => (h("div", { class: { 'dashboard-table-skeleton__cell': true, 'dashboard-table-skeleton__cell--center': shape === 'pill' } }, shape !== 'action' && h("wa-skeleton", { effect: "pulse", class: "dashboard-skeleton dashboard-skeleton--label" }))))), h("div", { class: "dashboard-table-skeleton__body" }, Array.from({ length: rows }, (_, row) => (h("div", { class: "dashboard-table-skeleton__row" }, shapes.map((shape, column) => (h(Cell, { shape: shape, row: row, column: column })))))))));
+export const TableSkeleton = ({ rows = 16, extraColumn, withoutBalance }) => {
+    const baseShapes = withoutBalance ? COLUMN_SHAPES.slice(0, -1) : COLUMN_SHAPES;
+    const shapes = extraColumn ? [...baseShapes, extraColumn] : baseShapes;
+    return (h("div", { class: "dashboard-table-skeleton", "aria-busy": "true", "aria-hidden": "true", "data-extra-column": extraColumn, "data-without-balance": withoutBalance ? '' : undefined }, h("div", { class: "dashboard-table-skeleton__head" }, shapes.map(shape => (h("div", { class: { 'dashboard-table-skeleton__cell': true, 'dashboard-table-skeleton__cell--center': shape === 'pill' } }, shape !== 'action' && h("wa-skeleton", { effect: "pulse", class: "dashboard-skeleton dashboard-skeleton--label" }))))), h("div", { class: "dashboard-table-skeleton__body" }, Array.from({ length: rows }, (_, row) => (h("div", { class: "dashboard-table-skeleton__row" }, shapes.map((shape, column) => (h(Cell, { shape: shape, row: row, column: column })))))))));
 };

@@ -11,6 +11,12 @@ export interface DashboardCounts {
     /** Units still checked in after their departure day. */
     overdueDepartures: number;
     inHouse: number;
+    /** Adults, children and infants across the in-house rooms (the card's Ad-Ch-In line). */
+    inHouseGuests: {
+        adults: number;
+        children: number;
+        infants: number;
+    };
     bookings: number;
     cancellations: number;
 }

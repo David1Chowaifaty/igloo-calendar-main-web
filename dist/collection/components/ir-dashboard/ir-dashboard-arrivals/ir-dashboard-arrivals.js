@@ -6,6 +6,8 @@ import { Host, h } from "@stencil/core";
 export class IrDashboardArrivals {
     language = 'en';
     countries;
+    /** Property without front desk: every arriving room in one list, no check-in actions. */
+    pmsDisabled = false;
     roomGuestState = null;
     handleCheckInRoom(event) {
         event.stopImmediatePropagation();
@@ -13,7 +15,7 @@ export class IrDashboardArrivals {
         this.roomGuestState = event.detail;
     }
     render() {
-        return (h(Host, { key: 'ebe9b5dc1057b8abbd71ba790897714fee9188e1' }, h("ir-arrivals-table", { key: '7aa3dea595a31c3c7d64a7a3bfc4e25564526555', hidePagination: true, onCheckInRoom: event => this.handleCheckInRoom(event) }), h("ir-room-guests", { key: 'a035652d4287154cada608820cfe228fbcb51278', open: this.roomGuestState !== null, countries: this.countries, language: this.language, identifier: this.roomGuestState?.identifier, bookingNumber: this.roomGuestState?.booking_nbr?.toString(), roomName: this.roomGuestState?.roomName, totalGuests: this.roomGuestState?.totalGuests, sharedPersons: this.roomGuestState?.sharing_persons, checkIn: this.roomGuestState?.checkin, onCloseModal: () => (this.roomGuestState = null) })));
+        return (h(Host, { key: '2bc90173ce385ede5cd39ba7bfb8a4ad3d077042' }, h("ir-arrivals-table", { key: '299428048d323b7b26a3d386fe3bf389c4a315f4', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckInRoom: event => this.handleCheckInRoom(event) }), h("ir-room-guests", { key: 'fab0439563feb597de8e341d185d66e6e6145ff4', open: this.roomGuestState !== null, countries: this.countries, language: this.language, identifier: this.roomGuestState?.identifier, bookingNumber: this.roomGuestState?.booking_nbr?.toString(), roomName: this.roomGuestState?.roomName, totalGuests: this.roomGuestState?.totalGuests, sharedPersons: this.roomGuestState?.sharing_persons, checkIn: this.roomGuestState?.checkin, onCloseModal: () => (this.roomGuestState = null) })));
     }
     static get is() { return "ir-dashboard-arrivals"; }
     static get encapsulation() { return "scoped"; }
@@ -72,6 +74,26 @@ export class IrDashboardArrivals {
                 },
                 "getter": false,
                 "setter": false
+            },
+            "pmsDisabled": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Property without front desk: every arriving room in one list, no check-in actions."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "pms-disabled",
+                "defaultValue": "false"
             }
         };
     }

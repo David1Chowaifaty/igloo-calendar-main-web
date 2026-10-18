@@ -9,6 +9,7 @@
     "components/igloo-calendar/igloo-calendar.js",
     "components/ui/ir-toast/ir-toast.js",
     "components/table-cells/booking/ir-actions-cell/ir-actions-cell.js",
+    "components/ir-auth/ir-auth.js",
     "components/ui/ir-input/ir-input.js",
     "components/table-cells/booking/ir-booked-by-cell/ir-booked-by-cell.js",
     "components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter.js",
@@ -90,6 +91,7 @@
     "components/ir-arrivals/ir-arrivals.js",
     "components/ir-arrivals/ir-arrivals-filters/ir-arrivals-filters.js",
     "components/ir-arrivals/ir-arrivals-table/ir-arrivals-table.js",
+    "components/ui/ir-validator/ir-validator.js",
     "components/ir-billing/ir-billing.js",
     "components/ir-billing/ir-agent-billing/ir-agent-billing.js",
     "components/ir-billing/ir-billing-drawer/ir-billing-drawer.js",
@@ -395,7 +397,6 @@
     "components/ui/ir-textarea/ir-textarea.js",
     "components/ui/ir-tooltip/ir-tooltip.js",
     "components/ui/ir-translatable-textarea/ir-translatable-textarea.js",
-    "components/ui/ir-validator/ir-validator.js",
     "components/ui/ir-weekday-selector/ir-weekday-selector.js",
     "components/ui/ota-label/ota-label.js"
   ],

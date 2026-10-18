@@ -1,20 +1,22 @@
 import { r as registerInstance, c as createEvent, h } from './index-DKZeCK8T.js';
 import { j as countMissing } from './utils-Btr0LXV6.js';
 import { t } from './t-Bvz1wS_D.js';
-import { S as SetupService } from './index-CXJcihXV.js';
-import { g as showToast } from './utils-7d2paP_5.js';
+import { S as SetupService } from './index-D9hqk41R.js';
+import { h as showToast } from './utils-CAiEa-WB.js';
 import './locale-scope-Jre4lb6k.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './utils-BiRsUP2L.js';
-import './IBooking-BkA5McwU.js';
-import './types-D3UHbzT8.js';
-import './commonSchemas-tRk7G47G.js';
+import './utils-Cz9i5CF5.js';
+import './IBooking-BFuEU3Ic.js';
+import './types-BLb1NO3I.js';
+import './commonSchemas-BNnUj2OT.js';
 import './moment-Mki5YqAR.js';
-import './calendar-data-BA4qNb8e.js';
-import './booking.dto-DGJPCSXA.js';
-import './ir-date-B3ui37NM.js';
+import './calendar-data-D4DbXAhg.js';
+import './booking.dto-DQx6bzbY.js';
+import './type-D_dKkSLY.js';
+import './ir-date-CY_qGQ63.js';
 import './language-observer-CHgzsZkY.js';
+import './calendar-dates-D3hVfsrC.js';
 
 const irTranslationsEntriesPanelCss = () => `.sc-ir-translations-entries-panel-h{display:flex;flex-direction:column;min-width:0;flex:1 1 auto;min-height:0}.entries-panel__card.sc-ir-translations-entries-panel{display:flex;flex-direction:column;flex:1 1 auto;min-height:0;background:var(--wa-color-surface-default);border:1px solid var(--wa-color-neutral-border-quiet, #e2e8f0);border-radius:var(--wa-border-radius-l, 0.75rem);overflow:hidden}.entries-panel__toolbar.sc-ir-translations-entries-panel{display:flex;align-items:flex-end;gap:0.5rem;padding:0.75rem 1rem}.entries-panel__search.sc-ir-translations-entries-panel{flex:1 1 12rem;min-width:0;max-width:350px}.entries-panel__status.sc-ir-translations-entries-panel{flex:0 0 11rem}.entries-panel__table-filter.sc-ir-translations-entries-panel{flex:0 0 12rem;min-width:0}.entries-panel__missing-filter.sc-ir-translations-entries-panel{flex:0 1 14rem;min-width:0;--tag-max-size:8ch}.entries-panel__search.sc-ir-translations-entries-panel::part(label),.entries-panel__search.sc-ir-translations-entries-panel [part~="label"],.entries-panel__status.sc-ir-translations-entries-panel::part(label),.entries-panel__status.sc-ir-translations-entries-panel [part~="label"],.entries-panel__table-filter.sc-ir-translations-entries-panel::part(label),.entries-panel__table-filter.sc-ir-translations-entries-panel [part~="label"],.entries-panel__missing-filter.sc-ir-translations-entries-panel::part(label),.entries-panel__missing-filter.sc-ir-translations-entries-panel [part~="label"]{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0}.entries-panel__search-hint.sc-ir-translations-entries-panel{display:inline-flex;align-items:center;padding:0.05rem 0.4rem;font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-text-quiet);background:var(--wa-color-neutral-fill-quiet);border:1px solid var(--wa-color-neutral-border-quiet, #e2e8f0);border-radius:var(--wa-border-radius-s)}@media (max-width: 575px){.entries-panel__toolbar.sc-ir-translations-entries-panel{flex-wrap:wrap}.entries-panel__status.sc-ir-translations-entries-panel,.entries-panel__table-filter.sc-ir-translations-entries-panel,.entries-panel__missing-filter.sc-ir-translations-entries-panel{flex:1 1 8rem}}.entries-panel__loader-container.sc-ir-translations-entries-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;padding:3rem 1rem;color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.entries-panel__loader-container.sc-ir-translations-entries-panel p.sc-ir-translations-entries-panel{margin:0}.entries-panel__footer.sc-ir-translations-entries-panel{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding:0.5rem 1rem;font-size:var(--wa-font-size-xs, 0.75rem);font-variant-numeric:tabular-nums;color:var(--wa-color-text-quiet);border-top:1px solid var(--wa-color-neutral-border-quiet, #e2e8f0)}.entries-panel__missing-link.sc-ir-translations-entries-panel{border:none;background:transparent;padding:0;font:inherit;color:var(--wa-color-warning-on-quiet, #92400e);cursor:pointer}.entries-panel__missing-link.sc-ir-translations-entries-panel:hover,.entries-panel__missing-link.sc-ir-translations-entries-panel:focus-visible{text-decoration:underline}`;
 
@@ -165,7 +167,7 @@ const IrTranslationsEntriesPanel = class {
         const total = this.entries.length;
         const missing = this.entries.filter(entry => countMissing(entry, this.languages) > 0).length;
         const shownTables = new Set(filteredEntries.map(entry => entry.tableName)).size;
-        return (h("div", { key: '357b58731a98da6305afebdbde32fec98d474d0f', class: "entries-panel__card" }, this.renderToolbar(), this.isLoading ? (h("div", { class: "entries-panel__loader-container" }, h("ir-spinner", null), h("p", null, "Loading keys\u2026"))) : (h("ir-translations-entries-table", { entries: filteredEntries, languages: this.languages, sourceCode: this.sourceCode, compact: false, filtered: this.hasActiveFilters, groupByTable: this.groupByTable, reorderEnabled: !this.hasActiveFilters && !this.groupByTable, changedEntryIds: this.changedEntryIds, duplicates: this.duplicates, showNotes: this.showNotes, onEntryChange: (e) => {
+        return (h("div", { key: 'bc63658b4aa96a9ce760161fe2a379ee9590de15', class: "entries-panel__card" }, this.renderToolbar(), this.isLoading ? (h("div", { class: "entries-panel__loader-container" }, h("ir-spinner", null), h("p", null, "Loading keys\u2026"))) : (h("ir-translations-entries-table", { entries: filteredEntries, languages: this.languages, sourceCode: this.sourceCode, compact: false, filtered: this.hasActiveFilters, groupByTable: this.groupByTable, reorderEnabled: !this.hasActiveFilters && !this.groupByTable, changedEntryIds: this.changedEntryIds, duplicates: this.duplicates, showNotes: this.showNotes, onEntryChange: (e) => {
                 this.stopPropagation(e);
                 this.entryChange.emit(e.detail);
             }, onEditEntry: (e) => {
@@ -227,12 +229,12 @@ const IrTranslationsEntryDrawer = class {
     isSubmitting = false;
     render() {
         const isEditing = !!this.entry;
-        return (h("ir-drawer", { key: '74d46559713a3b81ed68d34fe199dc51a0341521', label: isEditing ? 'Edit key' : 'New key', open: this.open, onDrawerHide: () => this.closeDrawer.emit() }, this.open && (h("ir-translations-entry-form", { key: 'e899535387ca0fc0209cdc5815101839d62d6ada', formId: this.formId, languages: this.languages, entry: this.entry, existingKeys: this.existingKeys, nextDisplayOrder: this.nextDisplayOrder, tableName: this.tableName, ownerId: this.ownerId, entryUserId: this.entryUserId, duplicateSiblings: this.duplicateSiblings, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onEntrySaved: (e) => {
+        return (h("ir-drawer", { key: 'b28abb3e175d2bc1ce5a368b2a57e93677227032', label: isEditing ? 'Edit key' : 'New key', open: this.open, onDrawerHide: () => this.closeDrawer.emit() }, this.open && (h("ir-translations-entry-form", { key: 'c388254b9cfc4c131cf37ff357239dbb6c90c340', formId: this.formId, languages: this.languages, entry: this.entry, existingKeys: this.existingKeys, nextDisplayOrder: this.nextDisplayOrder, tableName: this.tableName, ownerId: this.ownerId, entryUserId: this.entryUserId, duplicateSiblings: this.duplicateSiblings, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onEntrySaved: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.entrySaved.emit(e.detail);
                 this.closeDrawer.emit();
-            } })), h("div", { key: '23356cb0ba222677bccd65ca32ccca772a4e397e', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '8b37183d2b33f9b760b42c6a40eae26d4a0a9cec', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDrawer.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'e8b97607e6cb630ae5882901f5659f142317ac29', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, t('Lcz_Save', { fallback: 'Save' })))));
+            } })), h("div", { key: 'acb0dcad8553a8ed858fdd342bf0051acb35dc00', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '4bc7e851056f6c767c1e23c7c6bc8a509eb0c258', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDrawer.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'c04ab424d9281ec0d215e2b098c548d787d78015', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, t('Lcz_Save', { fallback: 'Save' })))));
     }
 };
 IrTranslationsEntryDrawer.style = irTranslationsEntryDrawerCss();
@@ -312,7 +314,7 @@ const IrTranslationsMoveDialog = class {
         return (h("section", { class: "move-dialog__tables" }, h("wa-input", { class: "move-dialog__search", size: "s", "with-clear": true, label: "Move to", placeholder: "Search tables\u2026", autocomplete: "off", spellcheck: false, oninput: (e) => (this.query = e.target.value ?? '') }, h("wa-icon", { name: "magnifying-glass", slot: "start", "aria-hidden": "true" })), tables.length === 0 ? (h("p", { class: "move-dialog__empty" }, "No tables match.")) : (h("wa-radio-group", { class: "move-dialog__list", size: "s", orientation: "vertical", value: this.targetId ?? '', onchange: (e) => (this.targetId = e.target.value || null) }, tables.map(table => (h("wa-radio", { key: table.id, value: table.id }, table.name)))))));
     }
     render() {
-        return (h("ir-dialog", { key: 'f4396ab324dc6c10a7da75a085b0e433cba693c4', label: "Move key", ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, this.open && (h("div", { key: 'd468f6116e2360b35bcfec6989639ac7bf0c2349', class: "move-dialog__body" }, this.renderSummary(), this.renderTableList())), h("div", { key: '8a2ba147c3f320ead1d6905f5efb280703f30dd7', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'a28a3313f2c8d176a3e8f0f86073d806a045b100', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDialog.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '6cc498454d888cff2d2e33d3c540022f06763d1d', size: "m", appearance: "accent", variant: "brand", disabled: !this.targetId || this.isLocked || this.isSubmitting, loading: this.isSubmitting, onClickHandler: this.handleMove }, "Move"))));
+        return (h("ir-dialog", { key: 'd2a411e460a073ad86f1c6929b70d8804a8a0289', label: "Move key", ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, this.open && (h("div", { key: '6ed70bcd3bcc3a087b028bfda7665e9e14f6c2e1', class: "move-dialog__body" }, this.renderSummary(), this.renderTableList())), h("div", { key: '383c7f7b737124e826662dcce7f0a21bfad2f4cf', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '40ba207d5dab5c56862bc5f2048952f685fc3300', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDialog.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'b0c384d3ae57bde2ea0ca07161f76083d105ece3', size: "m", appearance: "accent", variant: "brand", disabled: !this.targetId || this.isLocked || this.isSubmitting, loading: this.isSubmitting, onClickHandler: this.handleMove }, "Move"))));
     }
     static get watchers() { return {
         "open": [{
@@ -391,7 +393,7 @@ const IrTranslationsSettingsDialog = class {
         return (h("section", { class: "settings-dialog__section" }, h("wa-checkbox", { defaultChecked: this.draftShowNotes, checked: this.draftShowNotes, onchange: (e) => (this.draftShowNotes = e.target.checked) }, "Show the notes column")));
     }
     render() {
-        return (h("ir-dialog", { key: 'f3f84242aa5d23a369d2bb4b9aabcc87d0602563', label: "Table settings", ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, h("div", { key: '1a4ce1ff318f306c95e2344957ac8edc7c822739', class: "settings-dialog__body" }, this.renderUsedTablesSection(), this.renderLanguagesSection(), this.renderNotesSection()), h("div", { key: 'c14b628a24bd945389b65dab907e8da98bbbd3dc', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '3d16b481ecdddf2a7c6d008fe9f99c8c37ebc652', appearance: "filled", size: "m", variant: "neutral", onClickHandler: () => this.closeDialog.emit() }, "Cancel"), h("ir-custom-button", { key: '6d667f195ad80359d49e1cbe0cf9482282c8637b', appearance: "accent", size: "m", variant: "brand", onClickHandler: this.handleSave }, "Save"))));
+        return (h("ir-dialog", { key: '2fc80389f3acf1f1578e936ba1eb3eef458c4f47', label: "Table settings", ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, h("div", { key: '965f89977de69a85f34f8f9ff8aa63795154d40c', class: "settings-dialog__body" }, this.renderUsedTablesSection(), this.renderLanguagesSection(), this.renderNotesSection()), h("div", { key: 'bd3ebb62067d9ef544841ffddfdc8ec869f40411', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '3363f30d04d39efacfae7c454d6418b3e4cd7e7f', appearance: "filled", size: "m", variant: "neutral", onClickHandler: () => this.closeDialog.emit() }, "Cancel"), h("ir-custom-button", { key: '87f3da7f50f952fc1adf083de5148d9e1bdeb4a9', appearance: "accent", size: "m", variant: "brand", onClickHandler: this.handleSave }, "Save"))));
     }
     static get watchers() { return {
         "open": [{
@@ -434,7 +436,7 @@ const IrTranslationsTableDialog = class {
     }
     render() {
         const isEditing = this.mode === 'edit';
-        return (h("ir-dialog", { key: '5e4acee07d938f02703b1c505730a029bc72ab81', label: isEditing ? 'Table details' : 'New table', ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, this.open && (h("ir-translations-table-form", { key: 'c4afedc3640f266c9a74859130477eca95c3e889', formId: this.formId, mode: this.mode, table: this.table, existingNames: this.existingNames, ownerId: this.ownerId, entryUserId: this.entryUserId, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onTableSaved: (e) => {
+        return (h("ir-dialog", { key: '2b80f53d14e012045746f1011c0af6e010a0b0ad', label: isEditing ? 'Table details' : 'New table', ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, this.open && (h("ir-translations-table-form", { key: '1bc76d2413d99b013f1c45a23cc5e7875ddca9d0', formId: this.formId, mode: this.mode, table: this.table, existingNames: this.existingNames, ownerId: this.ownerId, entryUserId: this.entryUserId, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onTableSaved: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.tableSaved.emit(e.detail);
@@ -444,7 +446,7 @@ const IrTranslationsTableDialog = class {
                 e.stopPropagation();
                 this.tableSaveFailed.emit();
                 this.dialogRef?.closeModal();
-            } })), h("div", { key: '79373f8109ffdc0501f0e528c514906f59fc867b', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'cb9c0150d842f88f7cdba48ebf0366abd7756722', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDialog.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '0d8cfd177e5b72eb0e82307b131f0b0e49872adc', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, t('Lcz_Save', { fallback: 'Save' })))));
+            } })), h("div", { key: '9249664b1ef7f87d940af22e97838e574765f60a', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '1ae690b5645618f7704c2930c0efb103c918cdde', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDialog.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'df225fc55f00d61aa6eb07cd28429ac470393b0f', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get watchers() { return {
         "open": [{

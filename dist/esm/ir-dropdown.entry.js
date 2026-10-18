@@ -263,7 +263,7 @@ const IrDropdown = class {
         this.closeDropdown();
     }
     render() {
-        return (h(Host, { key: 'f01a5e6d1c8fded39b3664cd1a8542398abe2da5', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: 'f2a60b608670e2b6de2e6b3b335244750327c1fa', onClick: () => {
+        return (h(Host, { key: '4f6af4e564695a413ce654416bd548f5d8210f47', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '4dcdc32bb9da92432bb1a426fd16ea1851e2d9bc', onClick: () => {
                 if (this.disabled)
                     return;
                 if (this.isOpen) {
@@ -272,7 +272,7 @@ const IrDropdown = class {
                 else {
                     this.openDropdown();
                 }
-            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: 'd4ac9e4db50aeb39eb28f4631df791cade90508a', name: "trigger" }), this.caret && (h("div", { key: '30142e2382b706696403cbc21030553913ea9452', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: 'c987db69a993f7b563e4911e4a70960c08486b18', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: 'aad5b088a2a55f12aa1369e4c4cb08edf04beccc', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '1cdeead6df6d55142ffa42426adad047c315b5df' }))));
+            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '35f29e25acd004aeacf79a5f6ff186a336095a3e', name: "trigger" }), this.caret && (h("div", { key: 'c696239a7ba0ea5def70e58fa8aefe4276d7c3e8', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '0013bce4f26ffb7dac87257959c133abf11a3dad', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: '9532d69ac9c3aeda7222648c94a521484c70ee28', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: 'fbb52b29a8009f073869a2cda61ffba864e67db9' }))));
     }
     static get watchers() { return {
         "value": [{

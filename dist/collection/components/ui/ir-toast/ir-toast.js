@@ -18,7 +18,7 @@ export class IrToast {
         // ir-toast-provider renders the ir-toast-item stack and listens for
         // `toast` events on the body, so this component is a thin shell kept
         // for backwards compatibility with the many pages that embed it.
-        return h("ir-toast-provider", { key: '12a0e8e85ed825032b87d3b1be5851773b5302f7', position: this.providerPosition });
+        return h("ir-toast-provider", { key: 'ef28502025fd78c750bf2de556491d9d573bb06a', position: this.providerPosition });
     }
     static get is() { return "ir-toast"; }
     static get encapsulation() { return "scoped"; }

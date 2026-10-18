@@ -7,32 +7,16 @@ import { Host, h } from "@stencil/core";
  */
 export class IrDashboardBookingsTable {
     bookings = [];
-    /** Adds the variant-specific column: booked-on date for new bookings, status for cancellations. */
+    /** In-house drops the Balance and Status columns that Bookings and Cancellations end with. */
     variant = 'inHouse';
     emptyMessage;
     isSameGuest(booking, room) {
         const normalize = (g) => `${g?.first_name ?? ''}${g?.last_name ?? ''}`.replace(/\s+/g, '').toLowerCase();
         return !room?.guest || normalize(booking.guest) === normalize(room.guest);
     }
-    renderExtraHeader() {
-        switch (this.variant) {
-            case 'newBookings':
-                return h("th", null, t('Lcz_BookedOn', { fallback: 'Booked on' }));
-            case 'cancellations':
-                return h("th", null, t('Lcz_Status', { fallback: 'Status' }));
-            default:
-                return null;
-        }
-    }
-    renderExtraCell(booking) {
-        switch (this.variant) {
-            case 'newBookings':
-                return (h("td", null, h("ir-booked-on-cell", { bookedOn: booking.booked_on })));
-            case 'cancellations':
-                return (h("td", null, h("ir-status-activity-cell", { status: booking.status, isRequestToCancel: booking.is_requested_to_cancel, bookingNumber: booking.booking_nbr })));
-            default:
-                return null;
-        }
+    /** In-house rows end at Dates; Bookings and Cancellations add Balance, then Status. */
+    get hasBalanceAndStatus() {
+        return this.variant !== 'inHouse';
     }
     /** The booking's stay, or the span of its rooms' stays when the booking omits it. */
     stayOf(booking) {
@@ -47,21 +31,27 @@ export class IrDashboardBookingsTable {
     }
     renderBookingRow(booking) {
         const { from, to } = this.stayOf(booking);
-        return (h("tr", { class: "ir-table-row", key: booking.booking_nbr }, h("td", null, h("ir-booking-number-cell", { source: booking.source, origin: booking.origin, channelBookingNumber: booking.channel_booking_nbr, bookingNumber: booking.booking_nbr })), h("td", null, h("ir-booked-by-cell", { guest: booking.guest, identifier: booking.booking_nbr })), h("td", null, h("div", { class: "units-cell" }, (booking.rooms ?? []).map(room => (h("ir-unit-cell", { key: room.identifier, room: room }))))), h("td", null, h("ir-dates-cell", { checkIn: from, checkOut: to })), h("td", null, this.renderBalance(booking)), this.renderExtraCell(booking)));
+        return (h("tr", { class: "ir-table-row", key: booking.booking_nbr }, h("td", null, h("ir-booking-number-cell", { source: booking.source, origin: booking.origin, channelBookingNumber: booking.channel_booking_nbr, bookingNumber: booking.booking_nbr })), h("td", null, h("ir-booked-by-cell", { guest: booking.guest, identifier: booking.booking_nbr })), h("td", null, h("div", { class: "units-cell" }, (booking.rooms ?? []).map(room => (h("ir-unit-cell", { key: room.identifier, room: room }))))), h("td", null, h("ir-dates-cell", { checkIn: from, checkOut: to })), this.renderTrailingCells(booking)));
     }
-    renderBalance(booking) {
-        return (h("ir-balance-cell", { guestFinancial: booking.guest_financial, bookingNumber: booking.booking_nbr, isDirect: booking.is_direct, statusCode: booking.status?.code, currencySymbol: booking.currency?.symbol, financial: booking.financial }));
+    renderTrailingCells(booking) {
+        if (!this.hasBalanceAndStatus) {
+            return null;
+        }
+        return [
+            h("td", null, h("ir-balance-cell", { guestFinancial: booking.guest_financial, bookingNumber: booking.booking_nbr, isDirect: booking.is_direct, statusCode: booking.status?.code, currencySymbol: booking.currency?.symbol, financial: booking.financial })),
+            h("td", null, h("ir-status-activity-cell", { status: booking.status, isRequestToCancel: booking.is_requested_to_cancel, bookingNumber: booking.booking_nbr })),
+        ];
     }
     renderRoomRow(booking, room, index) {
-        return (h("tr", { class: "ir-table-row", key: `${booking.booking_nbr}-${room.identifier ?? index}` }, h("td", null, h("ir-booking-number-cell", { source: booking.source, origin: booking.origin, channelBookingNumber: booking.channel_booking_nbr, bookingNumber: booking.booking_nbr })), h("td", null, h("ir-booked-by-cell", { guest: booking.guest, identifier: room.identifier }), !this.isSameGuest(booking, room) && h("ir-guest-name-cell", { name: room.guest })), h("td", null, h("ir-unit-cell", { room: room })), h("td", null, h("ir-dates-cell", { checkIn: room.from_date, checkOut: room.to_date })), h("td", null, this.renderBalance(booking)), this.renderExtraCell(booking)));
+        return (h("tr", { class: "ir-table-row", key: `${booking.booking_nbr}-${room.identifier ?? index}` }, h("td", null, h("ir-booking-number-cell", { source: booking.source, origin: booking.origin, channelBookingNumber: booking.channel_booking_nbr, bookingNumber: booking.booking_nbr })), h("td", null, h("ir-booked-by-cell", { guest: booking.guest, identifier: room.identifier }), !this.isSameGuest(booking, room) && h("ir-guest-name-cell", { name: room.guest })), h("td", null, h("ir-unit-cell", { room: room })), h("td", null, h("ir-dates-cell", { checkIn: room.from_date, checkOut: room.to_date })), this.renderTrailingCells(booking)));
     }
     render() {
         const bookings = this.bookings ?? [];
         const rows = this.variant === 'inHouse'
             ? bookings.flatMap(booking => (booking.rooms ?? []).map((room, index) => this.renderRoomRow(booking, room, index)))
             : bookings.map(booking => this.renderBookingRow(booking));
-        const columnCount = this.variant === 'inHouse' ? 5 : 6;
-        return (h(Host, { key: 'b5ead85f10e0c51443d2ad7b819d1d19904a1109' }, h("div", { key: '2951884ae4c3991eaa796dcb777cc29c3a97237e', class: "table--container" }, h("table", { key: 'c5ac76812bdf7e051ddab445f4c360b54e45ccdc', class: "table data-table" }, h("thead", { key: '7ecd3af06923c7264a4452c8f20b1d26f08da7f2' }, h("tr", { key: '54d5aff57986855d9af874bc7a14f499ca7b8881' }, h("th", { key: 'c902f4489860fd29b7c77fd9f80a9a7226abb11d' }, h("bdi", { key: 'f892ac83a5d1fa343a61ceab5e57c537c10078f2' }, t('Lcz_BookingHash', { fallback: 'Booking#' }))), h("th", { key: 'f7af0e7f2a700f0cde8605d5308702b2377f1721' }, h("p", { key: '2b1e6e8f5f1fae48d9d27c23469fa5cac124ce93' }, h("bdi", { key: '819a8044e236ebb2297e770920803c92eb49e278' }, t('Lcz_BookedBySlash', { fallback: 'Booked by /' }))), h("p", { key: '4153abfa791a017b2fbc18b01305e9bc9ea74ab4' }, t('Lcz_GuestName', { fallback: 'Guest name' }))), h("th", { key: 'ceca24fa2cb358142fa7fac240b701bbe3bc3cba' }, t('Lcz_Unit', { fallback: 'Unit' })), h("th", { key: '52697a8e8c6a10daed3052a5f5fc6dfa300ebc12' }, t('Lcz_Dates', { fallback: 'Dates' })), h("th", { key: '96d7195cbdf7c5cb9aa38e848ebef826ae8ed9b2' }, t('Lcz_Balance', { fallback: 'Balance' })), this.renderExtraHeader())), h("tbody", { key: 'a1584bc5f029dcbb7bbaad160baed0ce81805846' }, rows.length ? (rows) : (h("tr", null, h("td", { colSpan: columnCount, class: "empty-row" }, h("ir-empty-state", { message: this.emptyMessage })))))))));
+        const columnCount = this.hasBalanceAndStatus ? 6 : 4;
+        return (h(Host, { key: '323102f8414f76419ae04445dd64862b3c231928' }, h("div", { key: 'bea7e11465c6e2da2eb9f0de3cb7abec60ffe283', class: "table--container" }, h("table", { key: 'fc742e730a353b25fc35b38e0d83365cc2ad0353', class: "table data-table" }, h("thead", { key: 'f271bc8012ce6c74e2677bf15bc5b9ed0b130bc3' }, h("tr", { key: '28e2a1923e0ef296d03e1dc45eda0f1cab18ffc4' }, h("th", { key: 'afd3ab72aa0fe2340e7f52f6d865b24e0018063e' }, h("bdi", { key: '074e702e0208ba8add10120625fcc92fbad8fef9' }, t('Lcz_BookingHash', { fallback: 'Booking#' }))), h("th", { key: 'bc25656163e9e0e739b40984a1518517ff226906' }, h("p", { key: '7e7c5859dffdcea1fc971bedaac3efd772ec42d2' }, h("bdi", { key: '2b68ea5feede5e0b1da564e0102da807ecbf3ca6' }, t('Lcz_BookedBySlash', { fallback: 'Booked by /' }))), h("p", { key: '3774db8531935763fc5928cebb7348183288d24c' }, t('Lcz_GuestName', { fallback: 'Guest name' }))), h("th", { key: '5c8098a399f9e601e416c749ccbf2e00ed930d16' }, t('Lcz_Unit', { fallback: 'Unit' })), h("th", { key: '0bedf37bdaece64d18228b156839aa0cf735c314' }, t('Lcz_Dates', { fallback: 'Dates' })), this.hasBalanceAndStatus && h("th", { key: 'e976ece50576b84cfb32b822446f8d235bcc033f' }, t('Lcz_Balance', { fallback: 'Balance' })), this.hasBalanceAndStatus && h("th", { key: 'cca03c25f7d45f85b188d342a6aae462a1f0e4e7' }, t('Lcz_Status', { fallback: 'Status' })))), h("tbody", { key: 'afba9881b4cc3225686cdaf9a54efa2f20a5fb78' }, rows.length ? (rows) : (h("tr", null, h("td", { colSpan: columnCount, class: "empty-row" }, h("ir-empty-state", { message: this.emptyMessage })))))))));
     }
     static get is() { return "ir-dashboard-bookings-table"; }
     static get encapsulation() { return "scoped"; }
@@ -120,7 +110,7 @@ export class IrDashboardBookingsTable {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Adds the variant-specific column: booked-on date for new bookings, status for cancellations."
+                    "text": "In-house drops the Balance and Status columns that Bookings and Cancellations end with."
                 },
                 "getter": false,
                 "setter": false,

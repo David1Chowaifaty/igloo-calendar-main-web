@@ -7,6 +7,8 @@ import type { ICountry } from "../../../models/IBooking";
 export declare class IrDashboardArrivals {
     language: string;
     countries: ICountry[];
+    /** Property without front desk: every arriving room in one list, no check-in actions. */
+    pmsDisabled: boolean;
     roomGuestState: RoomGuestsPayload;
     private handleCheckInRoom;
     render(): any;

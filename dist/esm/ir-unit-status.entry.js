@@ -1,11 +1,11 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
-import { H as HouseKeepingService, h as housekeeping_store } from './index-I9KuYAFR.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './index-BrKEtqyG.js';
 import { t } from './t-Bvz1wS_D.js';
-import './types-D3UHbzT8.js';
+import './types-BLb1NO3I.js';
 import './locale-scope-Jre4lb6k.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './commonSchemas-tRk7G47G.js';
+import './commonSchemas-BNnUj2OT.js';
 
 const irUnitStatusCss = () => `.sc-ir-unit-status-h{display:block}.circle.sc-ir-unit-status{display:inline-flex;border-radius:50%}.green.sc-ir-unit-status{background:#57f707}.red.sc-ir-unit-status{background:rgb(199, 139, 36)}.orange.sc-ir-unit-status{background:#ff9149}.table-container.sc-ir-unit-status{width:100%;overflow-x:auto}.black.sc-ir-unit-status{background:#ff4961}table.sc-ir-unit-status{width:max-content}td.sc-ir-unit-status{min-width:140px;text-align:center;height:2rem}.smallcircle.sc-ir-unit-status{height:7px;width:7px}.bigcircle.sc-ir-unit-status{height:7px;width:7px}.status-container.sc-ir-unit-status,.action-container.sc-ir-unit-status{display:flex;align-items:center;gap:8px}.status-container.sc-ir-unit-status p.sc-ir-unit-status{margin:0}`;
 
@@ -42,7 +42,7 @@ const IrUnitStatus = class {
         }
     }
     render() {
-        return (h(Host, { key: '009ca4c707d5c1259a5ca48f455ac351b8d1ad65', class: "card p-1" }, h("ir-title", { key: 'ecf79d824e9433bbac914baed34cb991c04df5b2', label: t('Lcz_RoomOrUnitStatus', { fallback: 'Room or Unit Status' }) }), h("div", { key: '3895f6ee10f688a1bd3834dde2f06b0335e5f44d', class: "table-container" }, h("table", { key: '7a1530905d0a1fdd4a2ef5ded4cd01625f45a68a' }, h("thead", { key: '3fbe4e88362969a20c5c6e6cb86c1ed47785ab3e' }, h("tr", { key: '5f5496f67593bdf18499360b80a6252cb10ec0ea' }, h("th", { key: '10d69a06f70f9df95d69cbac2327f1d480da5b31' }, t('Lcz_Status', { fallback: 'Status' })), h("th", { key: '3a0bd77cc64a25c86711969432a32c59cb94f0f6', class: 'text-center' }, t('Lcz_Code', { fallback: 'Code' })), h("th", { key: '290676b4896f5dcb701574aff945ccea41f93188' }, t('Lcz_Action', { fallback: 'Action' })))), h("tbody", { key: '47fe34e60c4bd7a3db27007c091da70b483eeab7' }, housekeeping_store.hk_criteria.statuses?.map(status => (h("tr", { key: status.code }, h("td", null, h("div", { class: "status-container" }, h("span", { class: `circle ${status.style.shape} ${status.style.color}` }), h("p", null, status.description))), h("td", null, status.code), h("td", null, h("div", { class: "action-container" }, h("p", { class: 'm-0' }, status.action), status.code === 'VAC' && (h("div", null, h("ir-select", { selectedValue: status.inspection_mode.is_active ? status.inspection_mode?.window.toString() : '', firstOption: t('Lcz_No', { fallback: 'No' }), onSelectChange: this.handleSelectChange.bind(this), data: Array.from(Array(7 + 1), (_, i) => i).map(i => {
+        return (h(Host, { key: '788e05daf8ca14e07d54bf6d597a7f39a9732e3b', class: "card p-1" }, h("ir-title", { key: '399261dc5bc81484daa8b9edb53d24e58814fab0', label: t('Lcz_RoomOrUnitStatus', { fallback: 'Room or Unit Status' }) }), h("div", { key: '438fadc907f9a18a3692bc0dd49c09c49d3fe77e', class: "table-container" }, h("table", { key: '5c16befccb748be6ce92bca8bbf18a1007289744' }, h("thead", { key: 'fc8b51d3a2b67d5e154c555bf2f0157250bca014' }, h("tr", { key: '2403d9576dd777de325ec2503a504b346d2c55ec' }, h("th", { key: '7287edcfdd4136258824401fa3f6dd80f71b96bf' }, t('Lcz_Status', { fallback: 'Status' })), h("th", { key: '4e9d5cc1e7d003505807ca4b089d234530724b65', class: 'text-center' }, t('Lcz_Code', { fallback: 'Code' })), h("th", { key: '6f9a61fca373175131c609a4436a2894574ab2b2' }, t('Lcz_Action', { fallback: 'Action' })))), h("tbody", { key: '6be646b33ba55cdf62412bee9d6552014b463085' }, housekeeping_store.hk_criteria.statuses?.map(status => (h("tr", { key: status.code }, h("td", null, h("div", { class: "status-container" }, h("span", { class: `circle ${status.style.shape} ${status.style.color}` }), h("p", null, status.description))), h("td", null, status.code), h("td", null, h("div", { class: "action-container" }, h("p", { class: 'm-0' }, status.action), status.code === 'VAC' && (h("div", null, h("ir-select", { selectedValue: status.inspection_mode.is_active ? status.inspection_mode?.window.toString() : '', firstOption: t('Lcz_No', { fallback: 'No' }), onSelectChange: this.handleSelectChange.bind(this), data: Array.from(Array(7 + 1), (_, i) => i).map(i => {
                 const text = i === 0
                     ? t('Lcz_YesOnTheSameDay', { fallback: 'Yes on the same day' })
                     : i === 1

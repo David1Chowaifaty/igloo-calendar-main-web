@@ -16,6 +16,8 @@ export interface DeparturesStore {
     futureRooms: Booking[];
     outBookings: Booking[];
     searchTerm: string;
+    /** Lists each room on its own row ordered by departure time, rooms without one first (the dashboard). */
+    sortByTime: boolean;
     pagination: DeparturesPagination;
     today: string;
 }
@@ -26,3 +28,5 @@ export declare function setDeparturesSearchTerm(term: string): void;
 export declare function setDeparturesPage(page: number): void;
 export declare function setDeparturesPageSize(pageSize: number): void;
 export declare function setDeparturesReferenceDate(date: string | Date): void;
+/** Orders the rooms by departure time, each on its own row (the dashboard), or keeps the API's booking order. */
+export declare function setDeparturesSortByTime(enabled: boolean): void;

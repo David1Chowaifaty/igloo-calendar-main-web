@@ -97,12 +97,12 @@ export class IrRectifier {
         const validRoomTypeIds = this.getValidRoomTypeIds();
         const allSelected = validRoomTypeIds.length > 0 && validRoomTypeIds.every(id => this.form.room_type_ids.includes(id));
         const someSelected = validRoomTypeIds.some(id => this.form.room_type_ids.includes(id));
-        return (h(Host, { key: '38244bb93d4269ea9bd5cbfa168824f124fa7982' }, h("form", { key: 'c7f6df7d744e7d324f310056c05dee987c700611', onSubmit: e => {
+        return (h(Host, { key: 'e471debd123ae7611b622e88fa0cdbadb155c5d5' }, h("form", { key: '1b8613dffdf1eeb3f381f3b8989752d2f3b30b70', onSubmit: e => {
                 e.preventDefault();
                 this.handleSubmit();
-            }, class: "ir-rectifier__form", id: this.formId }, h("wa-callout", { key: 'e417baf892df4514d3eeb39cbb777e9ff659adea', size: "s", appearance: "filled", variant: "warning" }, h("wa-icon", { key: '9ef594959994c31e8f394cb7ff8feefd37a00854', slot: "icon", name: "triangle-exclamation" }), t('Lcz_RectifierCalloutExplanation', {
+            }, class: "ir-rectifier__form", id: this.formId }, h("wa-callout", { key: 'cd42c95900288e2e3f7bdcaf5dfc503db6794ff2', size: "s", appearance: "filled", variant: "warning" }, h("wa-icon", { key: 'a8064548e1230fb1d977e503faf74800e5c696d0', slot: "icon", name: "triangle-exclamation" }), t('Lcz_RectifierCalloutExplanation', {
             fallback: 'This will update the total availability of the selected room types by calculating: No. of physical rooms - Booked - Blocked - Pending',
-        })), h("div", { key: '694a442f8ce7eec7dae8653a1c0b9c8c49d10d67', class: "ir-rectifier__roomtypes" }, validRoomTypeIds.length > 0 && (h("wa-checkbox", { key: '0b1db06c37a8b9477dfe797734ced85c1c62dbaf', class: "ir-rectifier__roomtype-checkbox ir-rectifier__roomtype-checkbox--all", checked: allSelected, indeterminate: !allSelected && someSelected, onchange: e => {
+        })), h("div", { key: '0096f5c195cc7a78f767104cdf1caa94ed014e30', class: "ir-rectifier__roomtypes" }, validRoomTypeIds.length > 0 && (h("wa-checkbox", { key: '0c3f46f66187fb0383756a163aef0ecd85453cac', class: "ir-rectifier__roomtype-checkbox ir-rectifier__roomtype-checkbox--all", checked: allSelected, indeterminate: !allSelected && someSelected, onchange: e => {
                 const checked = e.target.checked;
                 this.toggleSelectAllRoomTypes(checked);
             } }, t('Lcz_SelectAll', { fallback: 'Select all' }))), roomTypes.map(roomtype => {
@@ -115,11 +115,11 @@ export class IrRectifier {
                     const checked = e.target.checked;
                     this.updateRoomTypeSelection(roomTypeId, checked);
                 } }, roomtype.name));
-        })), this.showRoomTypeError && h("p", { key: '9d6042ab25f94832aa92d987f05595bf9a62f190', class: "text-danger m-0" }, t('Lcz_PleaseSelectAtLeastOneRoomType', { fallback: 'Please select at least one room type.' })), h("div", { key: '0922236249226c95e6eb49cf66b70d31b6e356f6', class: "ir-rectifier__date-range" }, h("ir-validator", { key: '2f322163fdffa1a6c8b8e5e477eb7c6689e3f446', value: this.form.from ?? null, schema: ExposedRectifierParamsSchema.shape.from, autovalidate: this.autoValidate }, h("ir-date-select", { key: 'c3dddda3af595fde665855514aeeecf38ec735b5', class: "ir-rectifier__date-picker ir-rectifier__date-picker--from", label: t('Lcz_DateFrom', { fallback: 'Date from' }), emitEmptyDate: true, date: this.form.from, onDateChanged: e => {
+        })), this.showRoomTypeError && h("p", { key: 'a73b8b9c1451b5d6a891239fb0c88f9dfb8d2434', class: "text-danger m-0" }, t('Lcz_PleaseSelectAtLeastOneRoomType', { fallback: 'Please select at least one room type.' })), h("div", { key: 'd4f37e4e7ee7bc89ba61c115ffe7457f919ea8f3', class: "ir-rectifier__date-range" }, h("ir-validator", { key: '737c8feecf7c1420a4c9e541ee832f30d8d4cf7a', value: this.form.from ?? null, schema: ExposedRectifierParamsSchema.shape.from, autovalidate: this.autoValidate }, h("ir-date-select", { key: '2d8f79957fcb164121fe888af3c589504b07a258', class: "ir-rectifier__date-picker ir-rectifier__date-picker--from", label: t('Lcz_DateFrom', { fallback: 'Date from' }), emitEmptyDate: true, date: this.form.from, onDateChanged: e => {
                 const from = e.detail.start?.format('YYYY-MM-DD') ?? null;
                 this.updateForm(this.normalizeDateRange({ from }));
                 requestAnimationFrame(() => this.toDateRef?.show());
-            } })), h("ir-validator", { key: 'd5f8c9b0bb5f9306d742b41a12afcd1f8ccc0f71', value: this.form.to ?? null, schema: ExposedRectifierParamsSchema.shape.to, autovalidate: this.autoValidate }, h("ir-date-select", { key: '1ef61b479e587fb2a2b5d4156a1c8949b68a0fe7', class: "ir-rectifier__date-picker ir-rectifier__date-picker--to", label: t('Lcz_ToInclusive', { fallback: 'To (inclusive)' }), emitEmptyDate: true, disabled: !this.form.from, ref: el => (this.toDateRef = el), date: this.form.to, minDate: this.form.from, onDateChanged: e => {
+            } })), h("ir-validator", { key: '413cfcf560353c0a2a971483115516791a43dc4a', value: this.form.to ?? null, schema: ExposedRectifierParamsSchema.shape.to, autovalidate: this.autoValidate }, h("ir-date-select", { key: 'c9171bd3dd384a50ff93fb825e9a1c82a2c119ff', class: "ir-rectifier__date-picker ir-rectifier__date-picker--to", label: t('Lcz_ToInclusive', { fallback: 'To (inclusive)' }), emitEmptyDate: true, disabled: !this.form.from, ref: el => (this.toDateRef = el), date: this.form.to, minDate: this.form.from, onDateChanged: e => {
                 const to = e.detail.start?.format('YYYY-MM-DD') ?? null;
                 this.updateForm(this.normalizeDateRange({ to }));
             } }))))));

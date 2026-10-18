@@ -8,6 +8,8 @@ import { loadDepartures } from "../dashboard.data";
 export class IrDashboardDepartures {
     propertyId;
     date;
+    /** Property without front desk: every departing room in one list, no check-out actions. */
+    pmsDisabled = false;
     checkoutState = null;
     invoiceState = null;
     /** Early check-out that must be completed from the booking-details drawer. */
@@ -47,7 +49,7 @@ export class IrDashboardDepartures {
         this.invoiceState = null;
     }
     render() {
-        return (h(Host, { key: '8e1e44d14fcbb4efad789682be3a59ccd2c34b88' }, h("ir-departures-table", { key: '2f070500b9295b96daa3a10122894a919db91367', hidePagination: true, onCheckoutRoom: event => this.handleCheckoutRoom(event) }), h("ir-checkout-dialog", { key: '156f318fdde2410987d183d32e2fab5bc22ce267', booking: this.checkoutState?.booking, identifier: this.checkoutState?.identifier, open: this.checkoutState !== null, onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: '286d4078c2dbdcce640cd37a2f1e7c7555f5031b', booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null, onInvoiceClose: event => this.handleInvoiceClose(event) })));
+        return (h(Host, { key: '6e5fb9dee81d749c9701e00c969c8fb02e888f61' }, h("ir-departures-table", { key: '7dbe63be2b6ae3454ebe9f9ba42efdb63c3b9907', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckoutRoom: event => this.handleCheckoutRoom(event) }), h("ir-checkout-dialog", { key: 'ce287e03955cb666947545874179ef1398c9209d', booking: this.checkoutState?.booking, identifier: this.checkoutState?.identifier, open: this.checkoutState !== null, onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: '7cc5a683352079ad63a7252bb814333dcd7798a7', booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null, onInvoiceClose: event => this.handleInvoiceClose(event) })));
     }
     static get is() { return "ir-dashboard-departures"; }
     static get encapsulation() { return "scoped"; }
@@ -107,6 +109,26 @@ export class IrDashboardDepartures {
                 "setter": false,
                 "reflect": false,
                 "attribute": "date"
+            },
+            "pmsDisabled": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Property without front desk: every departing room in one list, no check-out actions."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "pms-disabled",
+                "defaultValue": "false"
             }
         };
     }

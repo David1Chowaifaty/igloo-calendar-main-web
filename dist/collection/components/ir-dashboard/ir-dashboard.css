@@ -3,6 +3,14 @@
   display: block;
 }
 
+ir-page::part(title) {
+  margin: 0;
+  font-size: var(--wa-font-size-2xl);
+  font-weight: var(--wa-font-weight-bold);
+  /* Large headings read tighter with slightly negative tracking. */
+  letter-spacing: -0.01em;
+}
+
 .dashboard-layout {
   display: flex;
   flex-direction: column;
@@ -51,17 +59,10 @@
 
   /* ir-dashboard compacts the rail's cards as it gets shorter; on a rail too short even for that, it scrolls on its own. */
   .dashboard-aside {
-    /* A little wider on large screens, so the rail keeps its share of the row next to the wider tab cards. */
-    flex: 0 0 clamp(17rem, 16vw, 20rem);
+    flex: 0 0 clamp(17rem, 20vw, 23rem);
     min-block-size: 0;
     overflow-y: auto;
     scrollbar-width: thin;
-  }
-
-  /* Same height as the tab cards (measured in ir-dashboard.tsx), so the stats card starts level with the table. */
-  ir-dashboard-date-navigator {
-    flex: none;
-    block-size: var(--dashboard-summary-block-size, auto);
   }
 
   ir-dashboard-stats {
@@ -104,6 +105,7 @@
   --track-width: 0;
 }
 
+/* Two-up on phones, the fifth card taking the full row instead of sitting alone. */
 .dashboard-tabs::part(tabs) {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -111,17 +113,20 @@
   border: 0;
 }
 
-/* Two-up on phones: the fifth card takes the full row instead of sitting alone. */
-.dashboard-tab:last-of-type {
+.dashboard-tab:last-of-type:nth-of-type(odd) {
   grid-column: 1 / -1;
 }
 
+/* Wider screens: one row of equal cards spanning the full width, however many tabs the property gets (4 or 5). */
 @media (min-width: 768px) {
   .dashboard-tabs::part(tabs) {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: var(--wa-space-m);
   }
 
-  .dashboard-tab:last-of-type {
+  .dashboard-tab:last-of-type:nth-of-type(odd) {
     grid-column: auto;
   }
 }
@@ -137,30 +142,28 @@
   margin-block-end: 0;
 }
 
+/* Summary card: icon tile, label, count, notes. */
 .dashboard-tab::part(base) {
   display: grid;
-  /* The overdue row is reserved even when empty, so every card is one height and none grows when "N overdue" lands. */
-  grid-template-rows: auto 1fr minmax(1.25rem, auto);
+  /* Icon, label, count, then the notes row, which takes the spare height so the notes sit at the bottom. */
+  grid-template-rows: auto auto auto 1fr;
   align-items: start;
   gap: var(--wa-space-2xs);
   block-size: 100%;
-  min-block-size: 6.25rem;
   padding: var(--wa-space-m);
-  /* border: var(--wa-border-width-s) var(--wa-border-style) var(--wa-color-surface-border); */
+  border: var(--wa-border-width-s) var(--wa-border-style) transparent;
   border-radius: var(--wa-border-radius-l);
   background-color: var(--wa-color-surface-default);
-  /* box-shadow: var(--wa-shadow-s); */
   white-space: normal;
   transition:
     border-color 150ms ease,
-    box-shadow 150ms ease,
+    background-color 150ms ease,
     transform 160ms var(--ease-out);
 }
 
 /* Short desktop rails: the tab cards tighten along with the rail's cards, leaving the height to the table. */
 .dashboard-layout--compact .dashboard-tab::part(base),
 .dashboard-layout--tight .dashboard-tab::part(base) {
-  min-block-size: 0;
   padding: var(--wa-space-s) var(--wa-space-m);
 }
 
@@ -172,15 +175,19 @@
   font-size: var(--wa-font-size-l);
 }
 
+.dashboard-layout--tight .dashboard-tab__icon {
+  display: none;
+}
+
 /* Disabled (still loading) cards don't press or hover-highlight. */
 .dashboard-tab:not([disabled]):active::part(base) {
   transform: scale(0.98);
 }
 
-/* Active card: brand border and text only — the surface stays white. */
+/* Active card: light brand fill inside a brand border. */
 .dashboard-tab[active]::part(base) {
-  border-color: var(--wa-color-brand-fill-loud);
-  box-shadow: inset 0 0 0 1px var(--wa-color-brand-fill-loud);
+  border-color: var(--wa-color-brand-border-loud);
+  background-color: var(--wa-color-brand-fill-quiet);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -189,9 +196,29 @@
   }
 }
 
+/* Soft brand-tinted tile behind the card's icon. */
+.dashboard-tab__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  margin-block-end: var(--wa-space-xs);
+  border-radius: var(--wa-border-radius-m);
+  background-color: var(--wa-color-brand-fill-quiet);
+  color: var(--wa-color-brand-on-quiet);
+  font-size: 1.125rem;
+  /* Swaps to white with the card's fill, so the tile never flashes a mismatched colour. */
+  transition: background-color 150ms ease;
+}
+
+.dashboard-tab[active] .dashboard-tab__icon {
+  background-color: var(--wa-color-surface-default);
+}
+
 .dashboard-tab__label {
   overflow: hidden;
-  font-size: var(--wa-font-size-s);
+  font-size: var(--wa-font-size-m);
   font-weight: var(--wa-font-weight-semibold);
   color: var(--wa-color-text-quiet);
   text-overflow: ellipsis;
@@ -199,7 +226,10 @@
   transition: color 150ms ease;
 }
 
-.dashboard-tab[active] .dashboard-tab__label,
+.dashboard-tab[active] .dashboard-tab__label {
+  color: var(--wa-color-text-normal);
+}
+
 .dashboard-tab[active] .dashboard-tab__count {
   color: var(--wa-color-brand-on-quiet);
 }
@@ -208,23 +238,21 @@
   font-size: var(--wa-font-size-2xl);
   font-weight: var(--wa-font-weight-bold);
   line-height: 1.1;
+  letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
   transition: color 150ms ease;
 }
 
-/* The count, with the unassigned note on the same line at the card's inline end. */
-.dashboard-tab__count-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--wa-space-2xs);
-  min-inline-size: 0;
-}
-
-/* The overdue note in the reserved bottom row, at the inline end so it lines up with the unassigned note above it. */
+/*
+ * The card's notes (unassigned, overdue) or in-house guests, at the card's bottom. The row is reserved even when empty,
+ * so every card is one height, and it wraps rather than truncating, so a note's number always shows.
+ */
 .dashboard-tab__notes {
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: wrap;
+  align-self: end;
+  gap: var(--wa-space-2xs);
+  min-block-size: 1.25rem;
   min-inline-size: 0;
 }
 
@@ -232,15 +260,16 @@
 .dashboard-tab__note {
   padding: 0 var(--wa-space-xs);
   border: var(--wa-border-width-s) var(--wa-border-style) var(--wa-color-warning-border-normal);
-  border-radius: var(--wa-border-radius-pill);
   color: var(--wa-color-warning-on-quiet);
   font-size: var(--wa-font-size-xs);
   font-weight: var(--wa-font-weight-semibold);
   line-height: 1.25rem;
-  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  /* A note wider than a narrow card wraps inside its pill rather than being cut; the radius suits one line or two. */
   max-inline-size: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  border-radius: 0.625rem;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 /* Arrivals not checked in / guests not checked out after their day — the most urgent note, in red. */
@@ -256,8 +285,73 @@
   color: var(--wa-color-brand-on-loud);
 }
 
+/* In-house guests: one chip per kind (adults, children, infants), each with its icon and its own value. */
+.dashboard-tab__guests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wa-space-2xs);
+}
+
+.dashboard-tab__guest {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  padding: 0 var(--wa-space-xs);
+  border-radius: var(--wa-border-radius-pill);
+  background-color: var(--wa-color-neutral-fill-quiet);
+  color: var(--wa-color-text-normal);
+  font-size: var(--wa-font-size-xs);
+  line-height: 1.5rem;
+  white-space: nowrap;
+  transition: background-color 150ms ease;
+}
+
+/* On the active card's tinted fill, white chips keep their contrast. */
+.dashboard-tab[active] .dashboard-tab__guest {
+  background-color: var(--wa-color-surface-default);
+}
+
+.dashboard-tab__guest-icon {
+  flex: none;
+  color: var(--wa-color-brand-on-quiet);
+  font-size: 0.6875rem;
+}
+
+.dashboard-tab__guest-value {
+  font-weight: var(--wa-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Named for screen readers; sighted users get the icon, and the full name in the tooltip. */
+.dashboard-tab__guest-label {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* A kind with nobody in it recedes, so the eye goes to the kinds that are there. */
+.dashboard-tab__guest--none {
+  color: var(--wa-color-text-quiet);
+}
+
+.dashboard-tab__guest--none .dashboard-tab__guest-icon {
+  color: var(--wa-color-text-quiet);
+}
+
+/* The active panel's table sits in a white rounded card under the summary cards. */
 .dashboard-tab-panel {
   --padding: var(--wa-space-m) 0 0;
+}
+
+.dashboard-tab-panel > * {
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: var(--wa-space-s) var(--wa-space-m);
+  border-radius: var(--wa-border-radius-l);
+  background-color: var(--wa-color-surface-default);
 }
 
 /* Skeletons for the parts that load after first paint (see dashboard-skeletons.tsx). */
@@ -328,6 +422,12 @@
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr) minmax(0, 2fr) minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 1fr);
 }
 
+/* In-house: no Balance column. */
+.dashboard-table-skeleton[data-without-balance] .dashboard-table-skeleton__head,
+.dashboard-table-skeleton[data-without-balance] .dashboard-table-skeleton__row {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr) minmax(0, 2fr) minmax(0, 1fr);
+}
+
 .dashboard-table-skeleton__head {
   flex: none;
   min-block-size: 3.625rem;
@@ -363,9 +463,12 @@
   align-items: flex-end;
 }
 
+/* Reduced motion keeps the colour changes, which say which card is active, and drops only the press scale. */
 @media (prefers-reduced-motion: reduce) {
   .dashboard-tab::part(base) {
-    transition: none;
+    transition:
+      border-color 150ms ease,
+      background-color 150ms ease;
   }
 
   .dashboard-skeleton::part(indicator) {

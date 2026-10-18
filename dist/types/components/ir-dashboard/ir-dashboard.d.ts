@@ -5,9 +5,10 @@ import { type DashboardPerformance, type DashboardUnits } from "../../services/d
 import { type ISODate } from "../../utils/calendar-dates";
 import type { DashboardTab, RailDensity } from './types';
 /**
- * PMS landing dashboard: a day picker (five days either side of today), the day's stats,
- * and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
- * new bookings and cancellations.
+ * PMS landing dashboard: a day picker in the page header (two days either side of today), the day's stats in the
+ * left rail, and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
+ * new bookings and cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
+ * arrivals / departures without check-in / check-out, and a reduced stats rail.
  *
  * Loads in order of importance, each part showing a skeleton until its data lands:
  * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
@@ -105,11 +106,6 @@ export declare class IrDashboard {
     private scheduleFitToPage;
     private fitToPage;
     /**
-     * Gives the date card the summary cards' height, so the rail's cards line up with the tab cards and the table beside
-     * them. The tab cards' height comes from their own content, never from the date card, so this can't feed back.
-     */
-    private measureSummaryRow;
-    /**
      * Height of what the page renders under the dashboard: every in-flow element after it (or after one of its ancestors)
      * that sits below it, plus the ancestors' bottom padding and borders and the body's bottom margin. Summing those
      * rather than reading the document's height keeps the dashboard's own overflow (a short screen under the tables'
@@ -128,6 +124,10 @@ export declare class IrDashboard {
      */
     private measureReserved;
     private get propertyId();
+    /** Whether the property uses the front desk (check-in / check-out). Until the property loads, assume it does. */
+    private get isPms();
+    /** Tabs the property gets: no in-house without the front desk, since nobody is checked in. */
+    private get tabs();
     private init;
     private subscribeRealtime;
     /** Runs one refresh for every notification queued in the last 3s. */
@@ -156,6 +156,8 @@ export declare class IrDashboard {
     private handleCheckoutRedirect;
     private get counts();
     private renderTab;
+    /** In-house guests as three chips (adults, children, infants), each with its own icon and value. */
+    private renderGuests;
     private renderPanel;
     render(): any;
 }

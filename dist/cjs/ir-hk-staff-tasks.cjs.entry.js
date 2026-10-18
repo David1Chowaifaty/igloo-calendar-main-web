@@ -9,7 +9,7 @@ var direction = require('./direction-CuBM8Z-h.js');
 var realtime_service = require('./realtime.service-BMgF8Zdb.js');
 var t = require('./t-CqJPQrfm.js');
 var number = require('./number-xBpNWk3H.js');
-var locale_controller = require('./locale.controller-DXObwuz4.js');
+var locale_controller = require('./locale.controller-DOykNQAc.js');
 var v4 = require('./v4-_2BfiRUa.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

@@ -1,3 +1,4 @@
+import { roomDepartureMinutes, sortRoomsByTime } from "../utils/room-movement-time";
 import { canCheckout } from "../utils/utils";
 import { createStore } from "@stencil/store";
 import moment from "moment";
@@ -9,6 +10,7 @@ const initialState = {
     futureRooms: [],
     outBookings: [],
     searchTerm: '',
+    sortByTime: false,
     pagination: {
         page: 1,
         pageSize: 20,
@@ -91,13 +93,18 @@ export function setDeparturesReferenceDate(date) {
 }
 function runDeparturesPipeline() {
     const searchedBookings = filterBookingsBySearch(departuresStore.searchTerm);
-    departuresStore.filteredBookings = searchedBookings;
-    departuresStore.paginatedBookings = searchedBookings;
+    const order = (bookings) => (departuresStore.sortByTime ? sortRoomsByTime(bookings, roomDepartureMinutes) : bookings);
+    departuresStore.filteredBookings = order(searchedBookings);
+    departuresStore.paginatedBookings = departuresStore.filteredBookings;
     const split = splitBookingsByStatus(searchedBookings);
-    console.log(searchedBookings, split);
-    departuresStore.needsCheckOutBookings = split.needsCheckOut;
-    departuresStore.outBookings = split.out;
-    departuresStore.futureRooms = split.futureRooms;
+    departuresStore.needsCheckOutBookings = order(split.needsCheckOut);
+    departuresStore.outBookings = order(split.out);
+    departuresStore.futureRooms = order(split.futureRooms);
+}
+/** Orders the rooms by departure time, each on its own row (the dashboard), or keeps the API's booking order. */
+export function setDeparturesSortByTime(enabled) {
+    departuresStore.sortByTime = enabled;
+    runDeparturesPipeline();
 }
 function filterBookingsBySearch(term) {
     const bookings = departuresStore.bookings;

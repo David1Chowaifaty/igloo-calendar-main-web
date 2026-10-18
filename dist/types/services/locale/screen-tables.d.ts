@@ -44,6 +44,7 @@ export declare const BASE_TABLES: readonly ["_COMMON"];
 export declare const SCREEN_TABLES: {
     readonly agents: readonly ["_AGENTS"];
     readonly arrivals: readonly ["_FRONTDESK", "_BOOKING"];
+    readonly auth: readonly ["_AUTH"];
     readonly bookingDetails: readonly ["_FINANCIALS", "_BOOKING", "_CALENDAR"];
     readonly bookingEditor: readonly ["_CALENDAR"];
     readonly bookingListing: readonly ["_BOOKING"];

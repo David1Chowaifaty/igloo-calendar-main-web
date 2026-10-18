@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-DKZeCK8T.js';
-import { a as inlineOffset, b as inlineSign } from './direction-Uvgl-An7.js';
+import { b as inlineOffset, a as inlineSign } from './direction-CcpbVppy.js';
 import { t } from './t-Bvz1wS_D.js';
 import './locale-scope-Jre4lb6k.js';
 
@@ -145,7 +145,7 @@ const IrTabs = class {
         }
     }
     render() {
-        return (h(Host, { key: 'bd6282c45e3b752610c075bf567d21973450c1a1', role: "tablist", "aria-label": this.ariaLabel || t('Lcz_Tabs', { fallback: 'Tabs' }), "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: '66c7a8cf7a318492390c97b635e50d7e3671e307', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+        return (h(Host, { key: 'c241864233740837c266cbc2e728dd1f4618f008', role: "tablist", "aria-label": this.ariaLabel || t('Lcz_Tabs', { fallback: 'Tabs' }), "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: '3ecb3c472a8708969a0ff6d315fdc65d69ddacaa', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
 };
 IrTabs.style = irTabsCss();
