@@ -24,7 +24,7 @@ export class IglRateExtenderDrawer {
         this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool });
     };
     render() {
-        return (h("ir-drawer", { key: '8e50351de2810794f350519c4980d694a52c01d1', open: this.open, label: this.label, onDrawerHide: this.handleDrawerHide }, this.open && (h("igl-rate-extender-form", { key: 'dacbc6342ace06ff6f5ccdb2fd4a65638466b224', bookingNumber: this.bookingNumber, propertyId: this.propertyId, language: this.language, identifier: this.identifier, toDate: this.toDate, fromDate: this.fromDate, pool: this.pool, defaultDates: this.defaultDates, onLoadingChanged: e => {
+        return (h("ir-drawer", { key: '3382946810b9a137f3e0afaa3a305a9406552a18', open: this.open, label: this.label, onDrawerHide: this.handleDrawerHide }, this.open && (h("igl-rate-extender-form", { key: 'b0181eee3cc726f9c3bbcae94e9bcb0db93f3444', bookingNumber: this.bookingNumber, propertyId: this.propertyId, language: this.language, identifier: this.identifier, toDate: this.toDate, fromDate: this.fromDate, pool: this.pool, defaultDates: this.defaultDates, onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail;
@@ -36,7 +36,7 @@ export class IglRateExtenderDrawer {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeRoomNightsDialog.emit(e.detail);
-            } })), h("div", { key: '47f15fdb2d0f44ccf73261585e547f619dc2e6ca', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '26b68ed5fe4bfee26e0a0bc402bd92f5f3145aee', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'fb01fb8b7a8e29be483a8d15b25d240926defa9c', loading: this.isLoading, disabled: !this.hasInventory, size: "m", type: "submit", form: "rate-extender-form", appearance: "accent", variant: "brand" }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
+            } })), h("div", { key: 'b20772202f46caaf4d0e326a607564a06bcb5cff', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '0eb71812c8f2517af24b1e269811a3668d75e852', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'b59000c225e1a91662c40e07e9285124b58addc9', loading: this.isLoading, disabled: !this.hasInventory, size: "m", type: "submit", form: "rate-extender-form", appearance: "accent", variant: "brand" }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
     }
     static get is() { return "igl-rate-extender-drawer"; }
     static get encapsulation() { return "scoped"; }

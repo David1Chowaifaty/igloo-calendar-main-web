@@ -49,10 +49,10 @@ export class IrBookingCompanyForm {
         }
     }
     render() {
-        return (h("form", { key: '57b88ffa1223b0be0fa4a8248ad33628994f50f1', id: this.formId, onSubmit: e => {
+        return (h("form", { key: 'ba77461bb314c29d02905bbe2e6116f642a01050', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveCompany();
-            }, class: "booking-company__form" }, h("ir-input", { key: 'e34bd346eb3399d8a053408051b308217015ca9b', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: t('Lcz_Name', { fallback: 'Name' }), autofocus: true, placeholder: t('Lcz_CompanyNamePlaceholder', { fallback: 'XYZ LTD' }) }), h("ir-input", { key: '0e7dce619cd05874c378911c693ea6ff475d755b', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: t('Lcz_TaxId', { fallback: 'Tax ID' }), placeholder: t('Lcz_TaxIdPlaceholder', { fallback: 'VAT 123456' }) })));
+            }, class: "booking-company__form" }, h("ir-input", { key: '1133bc420a6ff71828395b6f65cedc167d215306', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: t('Lcz_Name', { fallback: 'Name' }), autofocus: true, placeholder: t('Lcz_CompanyNamePlaceholder', { fallback: 'XYZ LTD' }) }), h("ir-input", { key: 'e11d3aa05efbbac60fcb8a109010d4940503affa', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: t('Lcz_TaxId', { fallback: 'Tax ID' }), placeholder: t('Lcz_TaxIdPlaceholder', { fallback: 'VAT 123456' }) })));
     }
     static get is() { return "ir-booking-company-form"; }
     static get encapsulation() { return "scoped"; }

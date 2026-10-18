@@ -92,7 +92,7 @@ class LegacyAuthService {
     }
 }
 
-const irAuthCss = () => `.sc-ir-auth-h{--ink:#0b0f19;--slate:#6b7280;--slate-light:#9aa1ac;--paper:#ffffff;--paper-field:#ffffff;--line:#e2e4e9;--accent:#4338ca;--accent-deep:#362da3;--info-bg:#eff5ff;--info-border:#bfdcfe;--info-icon:#3b82f6;--danger:#dc2626;--font-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;display:flex;flex-direction:column;box-sizing:border-box;min-height:100vh;min-height:100dvh;padding:2rem 3rem;background:var(--paper);color:var(--ink);font-family:var(--font-body)}.pms-auth__topbar.sc-ir-auth{display:flex;align-items:center;justify-content:space-between}.pms-auth__brand.sc-ir-auth img.sc-ir-auth{height:20px;object-fit:contain}.pms-auth__lang.sc-ir-auth wa-dropdown.sc-ir-auth wa-button.sc-ir-auth{font-size:0.85rem}.pms-auth__card.sc-ir-auth{width:100%;max-width:380px;margin:auto;padding:3rem 0}.pms-auth__title.sc-ir-auth{font-family:var(--font-body);font-weight:700;font-size:1.6rem;letter-spacing:-0.01em;color:var(--ink);margin:0 0 0.3rem;text-align:start}.pms-auth__subtitle.sc-ir-auth{font-family:var(--font-body);font-size:0.95rem;color:var(--slate);margin:0 0 1.4rem;text-align:start}.pms-auth__notice.sc-ir-auth{display:flex;align-items:flex-start;gap:0.6rem;background:var(--info-bg);border:1px solid var(--info-border);border-radius:8px;padding:0.85rem 1rem;margin:0 0 1.5rem;font-size:0.85rem;color:#1e3a5f;line-height:1.4}.pms-auth__notice.sc-ir-auth wa-icon.sc-ir-auth{color:var(--info-icon);flex:none;margin-top:0.15rem}.pms-auth__notice.sc-ir-auth strong.sc-ir-auth{font-weight:600}fieldset.sc-ir-auth{border:none;padding:0;margin:0 0 1rem}.pms-auth__row.sc-ir-auth{display:flex;align-items:center;justify-content:space-between;margin:0.4rem 0 1.2rem;font-size:0.85rem}.pms-auth__row--end.sc-ir-auth{justify-content:flex-end;margin-top:-0.6rem}.pms-auth__row.sc-ir-auth a.sc-ir-auth{color:var(--accent);text-decoration:none;font-weight:500}.pms-auth__row.sc-ir-auth a.sc-ir-auth:hover{text-decoration:underline}ir-input.sc-ir-auth,ir-custom-button.sc-ir-auth,wa-button.sc-ir-auth{--wa-form-control-border-radius:8px}ir-input.sc-ir-auth::part(base),ir-input.sc-ir-auth [part~="base"]{background:var(--paper-field);border-color:var(--line)}ir-input[aria-invalid='true'].sc-ir-auth::part(base),ir-input[aria-invalid='true'].sc-ir-auth [part~="base"]{border-color:var(--danger)}.pms-auth__submit.sc-ir-auth{width:100%;margin-top:0.25rem}.pms-auth__return.sc-ir-auth{margin-top:0.9rem;font-size:0.9rem}.pms-auth__return.sc-ir-auth a.sc-ir-auth{color:var(--accent);text-decoration:none;font-weight:500}.pms-auth__divider.sc-ir-auth{border:none;border-top:1px solid var(--line);margin:1.75rem 0}.pms-auth__apps.sc-ir-auth{display:flex;gap:0.9rem;align-items:center;justify-content:center;margin-bottom:1.4rem}.pms-auth__apps.sc-ir-auth img.sc-ir-auth{height:32px;width:auto}.pms-auth__signup.sc-ir-auth{width:100%;margin-bottom:1.4rem}.pms-auth__footer.sc-ir-auth{display:flex;align-items:center;justify-content:space-between;font-size:0.8rem;color:var(--slate)}.pms-auth__footer.sc-ir-auth a.sc-ir-auth{color:var(--slate)}`;
+const irAuthCss = () => `ir-auth{--ink:#0b0f19;--slate:#6b7280;--slate-light:#9aa1ac;--paper:#ffffff;--paper-field:#ffffff;--line:#e2e4e9;--accent:#4338ca;--accent-deep:#362da3;--info-bg:#eff5ff;--info-border:#bfdcfe;--info-icon:#3b82f6;--danger:#dc2626;--font-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;display:flex;flex-direction:column;box-sizing:border-box;min-height:100vh;min-height:100dvh;padding:2rem 3rem;background:var(--paper);color:var(--ink);font-family:var(--font-body)}ir-auth .pms-auth__topbar{display:flex;align-items:center;justify-content:space-between}ir-auth .pms-auth__brand img{height:20px;object-fit:contain}ir-auth .pms-auth__lang wa-dropdown wa-button{font-size:0.85rem}ir-auth .pms-auth__card{width:100%;max-width:380px;margin:auto;padding:3rem 0}ir-auth .pms-auth__title{font-family:var(--font-body);font-weight:700;font-size:1.6rem;letter-spacing:-0.01em;color:var(--ink);margin:0 0 0.3rem;text-align:start}ir-auth .pms-auth__subtitle{font-family:var(--font-body);font-size:0.95rem;color:var(--slate);margin:0 0 1.4rem;text-align:start}ir-auth .pms-auth__notice{display:flex;align-items:flex-start;gap:0.6rem;background:var(--info-bg);border:1px solid var(--info-border);border-radius:8px;padding:0.85rem 1rem;margin:0 0 1.5rem;font-size:0.85rem;color:#1e3a5f;line-height:1.4}ir-auth .pms-auth__notice wa-icon{color:var(--info-icon);flex:none;margin-top:0.15rem}ir-auth .pms-auth__notice strong{font-weight:600}ir-auth fieldset{border:none;padding:0;margin:0 0 1rem}ir-auth .pms-auth__row{display:flex;align-items:center;justify-content:space-between;margin:0.4rem 0 1.2rem;font-size:0.85rem}ir-auth .pms-auth__row--end{justify-content:flex-end;margin-top:-0.6rem}ir-auth .pms-auth__row a{color:var(--accent);text-decoration:none;font-weight:500}ir-auth .pms-auth__row a:hover{text-decoration:underline}ir-auth ir-input,ir-auth ir-custom-button,ir-auth wa-button{--wa-form-control-border-radius:8px}ir-auth ir-input::part(base){background:var(--paper-field);border-color:var(--line)}ir-auth ir-input[aria-invalid='true']::part(base){border-color:var(--danger)}ir-auth .pms-auth__submit{width:100%;margin-top:0.25rem}ir-auth .pms-auth__return{margin-top:0.9rem;font-size:0.9rem}ir-auth .pms-auth__return a{color:var(--accent);text-decoration:none;font-weight:500}ir-auth .pms-auth__divider{border:none;border-top:1px solid var(--line);margin:1.75rem 0}ir-auth .pms-auth__apps{display:flex;gap:0.9rem;align-items:center;justify-content:center;margin-bottom:1.4rem}ir-auth .pms-auth__apps img{height:32px;width:auto}ir-auth .pms-auth__signup{width:100%;margin-bottom:1.4rem}ir-auth .pms-auth__footer{display:flex;align-items:center;justify-content:space-between;font-size:0.8rem;color:var(--slate)}ir-auth .pms-auth__footer a{color:var(--slate)}`;
 
 /** `localStorage` keys `Get_Startup_Data` is unpacked into, read by the rest of the extranet. */
 const STARTUP_STORAGE_KEYS = {
@@ -113,6 +113,7 @@ const IrAuth = class {
         this.authLanguageChange = index.createEvent(this, "authLanguageChange");
         this.authFinish = index.createEvent(this, "authFinish");
     }
+    get el() { return index.getElement(this); }
     /** The page's current language, e.g. `<%= CurrentLanguage %>`. */
     language = 'en';
     /** Languages offered by the switcher, as an array or a JSON string of `{ code, label }`. */
@@ -147,14 +148,22 @@ const IrAuth = class {
     authFinish;
     authService;
     languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.auth, () => locale_controller.LocaleController.load({ tables: locale_controller.SCREEN_TABLES.auth }));
+    /** The page's server form this component sits in. */
     formEl;
-    postedUsernameEl;
     schemaCache;
     componentWillLoad() {
         locale_controller.LocaleController.load({ language: this.language, tables: locale_controller.SCREEN_TABLES.auth }).catch(error => console.error('Failed to load login strings', error));
         this.parseLanguages(this.languages);
         this.createAuthService(this.apiUrl);
         this.username = this.readStorage('USERNAME') ?? '';
+    }
+    connectedCallback() {
+        this.formEl = this.el.closest('form');
+        if (!this.formEl) {
+            console.warn('[ir-auth] Not inside a <form>: sign-in cannot submit or post "txt_username". Mount it in the page\'s <form runat="server">.');
+        }
+        // Capture, so the request is stopped before ASP.NET's own onsubmit handling sees it.
+        this.formEl?.addEventListener('submit', this.handleSubmit, true);
     }
     componentDidLoad() {
         this.languageSync.connect();
@@ -166,6 +175,8 @@ const IrAuth = class {
     }
     disconnectedCallback() {
         this.languageSync.disconnect();
+        this.formEl?.removeEventListener('submit', this.handleSubmit, true);
+        this.formEl = undefined;
     }
     languageChanged(next, previous) {
         this.languageSync.propChanged(next, previous);
@@ -223,9 +234,9 @@ const IrAuth = class {
         this.view = view;
     }
     /**
-     * `ir-input` nests `wa-input` in its own shadow root, out of reach of this form,
+     * `ir-input` nests `wa-input` in its own shadow root, out of reach of the form,
      * so Enter in a field no longer submits it natively. Goes through a real submit
-     * so every `ir-validator` in the form shows its message.
+     * (caught by {@link handleSubmit}) so every `ir-validator` shows its message.
      */
     handleKeyDown(e) {
         if (e.key === 'Enter' && e.target.tagName === 'IR-INPUT') {
@@ -233,10 +244,16 @@ const IrAuth = class {
             this.formEl?.requestSubmit();
         }
     }
-    handleSubmit(e) {
+    /**
+     * Submits of the server form: the redirect postback (fired by {@link redirect}) goes
+     * through untouched; anything else — the submit buttons, Enter — runs the active view.
+     */
+    handleSubmit = (e) => {
+        if (this.redirecting) {
+            return;
+        }
+        // Only preventDefault: the field `ir-validator`s listen for this same submit to show their messages.
         e.preventDefault();
-        // This form is nested in the page's server form; keep its submit away from ASP.NET's onsubmit.
-        e.stopPropagation();
         switch (this.view) {
             case 'login':
                 return this.authenticate();
@@ -245,7 +262,7 @@ const IrAuth = class {
             case 'forgotUsername':
                 return this.forgotUsername();
         }
-    }
+    };
     async authenticate() {
         if (!this.isValid('username', 'password') || this.isLoading || this.redirecting) {
             return;
@@ -293,13 +310,7 @@ const IrAuth = class {
             console.error(`[ir-auth] Redirect button "#${this.redirectButton}" not found; cannot complete the login postback.`);
             return;
         }
-        if (!this.postedUsernameEl?.closest('form')) {
-            console.warn('[ir-auth] Not inside a <form>: "txt_username" will not be posted with the redirect.');
-        }
-        // Set directly rather than through render: the postback goes out before the next frame.
-        if (this.postedUsernameEl) {
-            this.postedUsernameEl.value = this.username;
-        }
+        // Lets this submit through handleSubmit; #txt_username (ir-input, form-associated) posts itself.
         this.redirecting = true;
         button.click();
     }
@@ -397,10 +408,7 @@ const IrAuth = class {
         return (index.h("div", { class: "pms-auth__lang" }, index.h("wa-dropdown", { id: "language-selector", "onwa-select": e => this.authLanguageChange.emit({ code: e.detail.item.value }) }, index.h("wa-button", { slot: "trigger", size: "s", appearance: "outlined", variant: "neutral", "with-caret": true }, current?.label ?? this.language?.toUpperCase()), this.languageList.map(({ code, label }) => (index.h("wa-dropdown-item", { key: code, value: code }, label))))));
     }
     render() {
-        return (index.h(index.Host, { key: '40c59f8ba906677f07019119419edfea351b6885' }, index.h("ir-toast", { key: '37c1d25b108c24dd4708dc3431ea38d2923fd275' }), index.h("input", { key: '7c01908a9f22c1b062f2c4d435151be9a0b3e770', type: "hidden", name: "txt_username", value: this.username, ref: el => (this.postedUsernameEl = el) }), index.h("div", { key: '3094ffa57b7f7fa85b2d7c4e5db49cf29f974f57', class: "pms-auth__topbar" }, index.h("div", { key: '7e3ed3af185d48cb9a3c91768ab67210e0955c9e', class: "pms-auth__brand" }, this.logoUrl && index.h("img", { key: '30240b7918ac041bc4b7ffb36d237029776da6a1', src: this.logoUrl, alt: "igloorooms" })), this.renderLanguageSelector()), index.h("div", { key: '984651f98210f7c512e45afc7fa625f6eecc8b2f', class: "pms-auth__card" }, index.h("form", { key: '02a1a90464387c88a82d02fea8503c927d1160a7', id: "frm_login", novalidate: true, ref: el => {
-                this.formEl = el;
-                el.setAttribute('runat', 'server');
-            }, onSubmit: e => this.handleSubmit(e), onKeyDown: e => this.handleKeyDown(e) }, this.view === 'login' && this.renderLogin(), this.view === 'forgotPassword' && this.renderForgotPassword(), this.view === 'forgotUsername' && this.renderForgotUsername()), !this.insideMpo && (index.h("div", { key: '126b41d9bef2028e4b6479c164aac92c562b734e' }, index.h("hr", { key: 'c57fb4028f2ad668ca1c5a49b6ba9a19df345936', class: "pms-auth__divider" }), index.h("div", { key: '4406cf9dad2a4e5f97958a2782b845f7e1b0bff7', class: "pms-auth__apps" }, index.h("a", { key: 'bfd646e0c5517bffc0648e1e67af711cbd3ec503', href: "https://apps.apple.com/lb/app/igloorooms/id1607846173", target: "_new", "aria-label": t.t('Lcz_InstallIglooroomsIosApp', { fallback: 'Install igloorooms iOS App' }) }, index.h("wa-icon", { key: '7483350d8b18754d7c0a8047fa1f8265a3511f86', style: { fontSize: '1.5rem' }, name: "app-store", family: "brands" })), index.h("a", { key: 'e9fe0e1a4291e4a078a162c581afceb1964c6b6f', href: "https://play.google.com/store/apps/details?id=com.iglooroomsapp", target: "_new", "aria-label": t.t('Lcz_InstallIglooroomsAndroidApp', { fallback: 'Install igloorooms Android App' }) }, index.h("wa-icon", { key: '6ed7a5646c77460087b7187d5b41016749e71923', style: { fontSize: '1.5rem' }, name: "google-play", family: "brands" }))), index.h("ir-custom-button", { key: '20fafb6c3546f38ce771adf43367366a82dc7611', class: "pms-auth__signup", appearance: "outlined", variant: "neutral", size: "m", href: "https://info.igloorooms.com/signup", target: "_blank" }, t.t('Lcz_NewToIgloorooms', { fallback: 'New to igloorooms?' }))))), index.h("div", { key: '871c4e85511e40f1a92d9856413877031dffc8a3', class: "pms-auth__footer" }, index.h("a", { key: 'a922a16df240ab9cfb6ef79aa615a29a205c1177', href: "https://info.igloorooms.com/privacy/", target: "_new" }, t.t('Lcz_PrivacyPolicy', { fallback: 'Privacy policy' })), index.h("span", { key: '38410d52bd6c59b52cd82597634e9ac95e97a3f7' }, t.t('Lcz_NeedHelpContactSupport', { fallback: 'Need help? support@igloorooms.com' })))));
+        return (index.h(index.Host, { key: 'ea72d85c57a4baa98132ea5b001704e4ac84a1d8' }, index.h("ir-toast", { key: '456b59185624623a7031ca35535e293ad4c1bc52' }), index.h("div", { key: '0223e0d05e788d61b26fe8f16f74ca4bab1ce42b', class: "pms-auth__topbar" }, index.h("div", { key: 'e2c09ab0eca60e90679d4ac9824a4efb75194bbb', class: "pms-auth__brand" }, this.logoUrl && index.h("img", { key: '376b5e7580027f27303a09c697d971c012bccd70', src: this.logoUrl, alt: "igloorooms" })), this.renderLanguageSelector()), index.h("div", { key: 'c528bc660faa761a1b0eb3d1d2f08fff2a38431f', class: "pms-auth__card" }, index.h("div", { key: 'b153b9bb9a4d67c210a2b89f52936cb418993188', class: "pms-auth__form", onKeyDown: e => this.handleKeyDown(e) }, this.view === 'login' && this.renderLogin(), this.view === 'forgotPassword' && this.renderForgotPassword(), this.view === 'forgotUsername' && this.renderForgotUsername()), !this.insideMpo && (index.h("div", { key: 'ef6fba7eae476890ac05f8d3b998ec50446bb044' }, index.h("hr", { key: '3250ce5ecc570e7ea48595e4639214f4fa906b80', class: "pms-auth__divider" }), index.h("div", { key: '3e30dd6e4bdbf8be4b49585a6abe197b65cb9dbc', class: "pms-auth__apps" }, index.h("a", { key: 'd1c5a0fce6d651a2807206af333c15a88a7cb33c', href: "https://apps.apple.com/lb/app/igloorooms/id1607846173", target: "_new", "aria-label": t.t('Lcz_InstallIglooroomsIosApp', { fallback: 'Install igloorooms iOS App' }) }, index.h("wa-icon", { key: 'edf9d6379ea150a994e1c928399428449ccb56c1', style: { fontSize: '1.5rem' }, name: "app-store", family: "brands" })), index.h("a", { key: '0f0fa0bdc2248732bed8a0413e1693898f6cb775', href: "https://play.google.com/store/apps/details?id=com.iglooroomsapp", target: "_new", "aria-label": t.t('Lcz_InstallIglooroomsAndroidApp', { fallback: 'Install igloorooms Android App' }) }, index.h("wa-icon", { key: '54e8a498a56aa9ff772290d8870d15d5f25c329d', style: { fontSize: '1.5rem' }, name: "google-play", family: "brands" }))), index.h("ir-custom-button", { key: 'b3945c9f953a4afbbe81bcfe4d346a7292257c9e', class: "pms-auth__signup", appearance: "outlined", variant: "neutral", size: "m", href: "https://info.igloorooms.com/signup", target: "_blank" }, t.t('Lcz_NewToIgloorooms', { fallback: 'New to igloorooms?' }))))), index.h("div", { key: 'af1ea2fa0366f2a3b4b5ab84f07138c402d2d609', class: "pms-auth__footer" }, index.h("a", { key: '50314df14111076363dfbf82734ca99ec163031d', href: "https://info.igloorooms.com/privacy/", target: "_new" }, t.t('Lcz_PrivacyPolicy', { fallback: 'Privacy policy' })), index.h("span", { key: '42e5751b1d0238a67c0396d5c17bc7475f51b3d3' }, t.t('Lcz_NeedHelpContactSupport', { fallback: 'Need help? support@igloorooms.com' })))));
     }
     static get watchers() { return {
         "language": [{
@@ -646,6 +654,7 @@ const IrInput = class {
     }
     internals;
     get el() { return index.getElement(this); }
+    /** Reflected: a form-associated element is submitted under its `name` *attribute*. */
     name;
     /** The value of the input. */
     value = '';
@@ -762,7 +771,8 @@ const IrInput = class {
         if (this.disabled) {
             this.inputRef.disabled = this.disabled;
         }
-        // Find the closest form element (if any)
+        // Report the initial value too, so a prefilled field is posted without being typed into.
+        this.syncFormValue(this.value);
         // track slotted prefix to compute width
         this.initializeMask();
         this.setupSlotListeners();
@@ -791,6 +801,7 @@ const IrInput = class {
     }
     handleValueChange(newValue, oldValue) {
         if (newValue !== oldValue) {
+            this.syncFormValue(newValue);
             if (this._mask && this.returnMaskedValue && this._mask.value !== newValue) {
                 this._mask.value = newValue;
                 this._mask.updateValue();
@@ -812,9 +823,13 @@ const IrInput = class {
         if (!this.mask) {
             this.value = nextValue ?? '';
         }
-        this.internals.setFormValue(nextValue ?? '');
+        this.syncFormValue(nextValue);
         this.textChange.emit(nextValue ?? '');
     };
+    /** Keeps the value submitted with the owning `<form>` in step with what the field holds. */
+    syncFormValue(value) {
+        this.internals?.setFormValue?.(value ?? '');
+    }
     /** Unmasked phone/number fields get Latin digits too; free-text fields are left as typed. */
     isNumericField() {
         return ['tel', 'number'].includes(this.type) || ['tel', 'numeric', 'decimal'].includes(this.inputmode);
@@ -960,7 +975,7 @@ const IrInput = class {
             // We must pass "1,000.00" to wa-input to avoid the overwrite warning
             displayValue = this._mask.value;
         }
-        return (index.h(index.Host, { key: 'e7b91c66222f3526a35b3277a8fdc4f06f74b54a' }, index.h("wa-input", { key: 'd2f7849808bd8f5f5b2d50e303ba4caa084260b5', part: "wa-input", type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && index.h("slot", { key: '646c870ca339effe4cc28b3adc8e54055fb24040', name: "label", slot: "label" }), this.slotState.get('start') && index.h("slot", { key: 'dd5984181c24ac2e9e2b2202f5b22a93011fc898', name: "start", slot: "start" }), this.slotState.get('end') && index.h("slot", { key: '99e96d492bccd37852682197ea04e45e9d27b10a', name: "end", slot: "end" }), this.slotState.get('clear-icon') && index.h("slot", { key: 'ceb3881a5f4734027756954be7252bfd7cc873a3', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && index.h("slot", { key: 'c547f402214c5ac89a9ce014acec13ec7afb51f3', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && index.h("slot", { key: 'b56436d3b6d9f120a89bd93cf0f4c3d36e711529', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && index.h("slot", { key: '34656b1c19645045b0b4bc0911baf62a90d0db32', name: "hint", slot: "hint" }))));
+        return (index.h(index.Host, { key: 'c3fe30bf01eaefb2420b6f7d964522c9bc842f4c' }, index.h("wa-input", { key: 'd22ec6b5b4356836468f3e97de2a6362dba6ecc8', part: "wa-input", type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && index.h("slot", { key: 'aae9743f828124a943b3dec4c3003b4c14ea00bd', name: "label", slot: "label" }), this.slotState.get('start') && index.h("slot", { key: '7cc536df73788fe993c54e5d7dfc890b1bfba887', name: "start", slot: "start" }), this.slotState.get('end') && index.h("slot", { key: '82d42b383c2f059f212875c0bddde9db47c90e10', name: "end", slot: "end" }), this.slotState.get('clear-icon') && index.h("slot", { key: '8069b58f2a3fdf884f660bf42da50dcfe06405eb', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && index.h("slot", { key: '006d7b124f5e9b3f2d6f38139af9affb84d4e6fd', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && index.h("slot", { key: 'e9250ed4ac41ecdad182d4564d9c5180b8afceb8', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && index.h("slot", { key: '6ce9bcdf249fe9de9e6322d0e5339c200e855012', name: "hint", slot: "hint" }))));
     }
     static get formAssociated() { return true; }
     static get watchers() { return {
@@ -1934,7 +1949,7 @@ const IrValidator = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '73514955b918d2117bec2d83e30d82fcee7cfdc7' }, index.h("slot", { key: '51c734703898ac7db5ae81c0b037ce4743379b24' }), !this.isValid && this.showErrorMessage && (index.h("span", { key: 'b049c6b2330963ecfed7ad62a07c4ade7120ef41', part: "error-message", class: "error-message" }, this.errorMessage))));
+        return (index.h(index.Host, { key: '6d980ae2b3f5cc5441a53af61a5075f9f6dadab3' }, index.h("slot", { key: 'a10389ddf24277b89e5c478dbc151a1e7d72ac2d' }), !this.isValid && this.showErrorMessage && (index.h("span", { key: '643a24b7b7f4db8a3a65204eae9f66e219b10449', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get watchers() { return {
         "schema": [{

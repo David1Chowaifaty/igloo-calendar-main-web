@@ -24,11 +24,11 @@ const IrCloneRatesDrawer = class {
         this.cloneRatesDrawerClosed.emit();
     };
     render() {
-        return (h("ir-drawer", { key: 'ad274a36e4eaf40a5db04bc9caf61a3a7a09b575', open: this.open, label: t('Lcz_CopyRatesToFutureDates'), onDrawerHide: this.handleDrawerHide }, this.open && (h("ir-clone-rates", { key: '865b1594fa3da0785fc6bab5892e1ea673299384', mode: "drawer", ticket: this.ticket, p: this.p, language: this.language, propertyid: this.propertyid, onRatesCloned: e => {
+        return (h("ir-drawer", { key: '7150e95092087a822628cc8567ff6d3f376ba2a2', open: this.open, label: t('Lcz_CopyRatesToFutureDates'), onDrawerHide: this.handleDrawerHide }, this.open && (h("ir-clone-rates", { key: '33245838d8576a304d0ba80da06266881f5b908a', mode: "drawer", ticket: this.ticket, p: this.p, language: this.language, propertyid: this.propertyid, onRatesCloned: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.cloneRatesDrawerClosed.emit();
-            } })), h("div", { key: 'ec59f9ecd3f550ea80583052648bc90dd3132fab', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '6f9a7ddd89808d1a0b059e8fbc2ceac7e0a8d6f9', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel')), h("ir-custom-button", { key: '3e46c1b1192f74380eb93b21db1ed723816bba47', size: "m", variant: "brand", type: "submit", form: "clone-rates-form" }, t('Lcz_Review')))));
+            } })), h("div", { key: '3ee1adb016b9da2ba30fe724d170adedf1c00c7b', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '04f13934e136cffee2d0fc0ab1626596dc53a3c7', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel')), h("ir-custom-button", { key: 'def8340db2f00283754abe511bcb875186893e9c', size: "m", variant: "brand", type: "submit", form: "clone-rates-form" }, t('Lcz_Review')))));
     }
 };
 IrCloneRatesDrawer.style = irCloneRatesDrawerCss();

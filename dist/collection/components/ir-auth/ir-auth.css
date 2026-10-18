@@ -1,4 +1,8 @@
-:host {
+/*
+ * ir-auth has no style encapsulation (it must sit in the page's server form like the
+ * original markup), so this sheet is global: every rule is anchored on `ir-auth`.
+ */
+ir-auth {
   --ink: #0b0f19;
   --slate: #6b7280;
   --slate-light: #9aa1ac;
@@ -25,29 +29,29 @@
   font-family: var(--font-body);
 }
 
-.pms-auth__topbar {
+ir-auth .pms-auth__topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.pms-auth__brand img {
+ir-auth .pms-auth__brand img {
   height: 20px;
   object-fit: contain;
 }
 
-.pms-auth__lang wa-dropdown wa-button {
+ir-auth .pms-auth__lang wa-dropdown wa-button {
   font-size: 0.85rem;
 }
 
-.pms-auth__card {
+ir-auth .pms-auth__card {
   width: 100%;
   max-width: 380px;
   margin: auto;
   padding: 3rem 0;
 }
 
-.pms-auth__title {
+ir-auth .pms-auth__title {
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 1.6rem;
@@ -57,7 +61,7 @@
   text-align: start;
 }
 
-.pms-auth__subtitle {
+ir-auth .pms-auth__subtitle {
   font-family: var(--font-body);
   font-size: 0.95rem;
   color: var(--slate);
@@ -65,7 +69,7 @@
   text-align: start;
 }
 
-.pms-auth__notice {
+ir-auth .pms-auth__notice {
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
@@ -79,23 +83,23 @@
   line-height: 1.4;
 }
 
-.pms-auth__notice wa-icon {
+ir-auth .pms-auth__notice wa-icon {
   color: var(--info-icon);
   flex: none;
   margin-top: 0.15rem;
 }
 
-.pms-auth__notice strong {
+ir-auth .pms-auth__notice strong {
   font-weight: 600;
 }
 
-fieldset {
+ir-auth fieldset {
   border: none;
   padding: 0;
   margin: 0 0 1rem;
 }
 
-.pms-auth__row {
+ir-auth .pms-auth__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -103,60 +107,60 @@ fieldset {
   font-size: 0.85rem;
 }
 
-.pms-auth__row--end {
+ir-auth .pms-auth__row--end {
   justify-content: flex-end;
   margin-top: -0.6rem;
 }
 
-.pms-auth__row a {
+ir-auth .pms-auth__row a {
   color: var(--accent);
   text-decoration: none;
   font-weight: 500;
 }
 
-.pms-auth__row a:hover {
+ir-auth .pms-auth__row a:hover {
   text-decoration: underline;
 }
 
-ir-input,
-ir-custom-button,
-wa-button {
+ir-auth ir-input,
+ir-auth ir-custom-button,
+ir-auth wa-button {
   --wa-form-control-border-radius: 8px;
 }
 
-ir-input::part(base) {
+ir-auth ir-input::part(base) {
   background: var(--paper-field);
   border-color: var(--line);
 }
 
 /* `ir-validator` sets `aria-invalid` on the input it wraps. */
-ir-input[aria-invalid='true']::part(base) {
+ir-auth ir-input[aria-invalid='true']::part(base) {
   border-color: var(--danger);
 }
 
-.pms-auth__submit {
+ir-auth .pms-auth__submit {
   width: 100%;
   margin-top: 0.25rem;
 }
 
-.pms-auth__return {
+ir-auth .pms-auth__return {
   margin-top: 0.9rem;
   font-size: 0.9rem;
 }
 
-.pms-auth__return a {
+ir-auth .pms-auth__return a {
   color: var(--accent);
   text-decoration: none;
   font-weight: 500;
 }
 
-.pms-auth__divider {
+ir-auth .pms-auth__divider {
   border: none;
   border-top: 1px solid var(--line);
   margin: 1.75rem 0;
 }
 
-.pms-auth__apps {
+ir-auth .pms-auth__apps {
   display: flex;
   gap: 0.9rem;
   align-items: center;
@@ -164,17 +168,17 @@ ir-input[aria-invalid='true']::part(base) {
   margin-bottom: 1.4rem;
 }
 
-.pms-auth__apps img {
+ir-auth .pms-auth__apps img {
   height: 32px;
   width: auto;
 }
 
-.pms-auth__signup {
+ir-auth .pms-auth__signup {
   width: 100%;
   margin-bottom: 1.4rem;
 }
 
-.pms-auth__footer {
+ir-auth .pms-auth__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -182,6 +186,6 @@ ir-input[aria-invalid='true']::part(base) {
   color: var(--slate);
 }
 
-.pms-auth__footer a {
+ir-auth .pms-auth__footer a {
   color: var(--slate);
 }

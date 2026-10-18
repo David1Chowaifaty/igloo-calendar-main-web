@@ -1100,8 +1100,10 @@ export namespace Components {
      * `Get_Startup_Data_Signature` → `Get_Startup_Data`), then redirects the way
      * `Default.aspx` always has: to the OTP page, or by clicking the server's
      * `btn_RedirectFromLogin`, whose handler reads `Request.Form["txt_username"]`.
-     * Mount it inside the page's `<form runat="server">` so the hidden `txt_username`
-     * field it renders is posted with that form.
+     * Renders no `<form>` of its own, and no encapsulation: mount it inside the page's
+     * `<form runat="server">`, exactly where the legacy fields sat, so `#txt_username`
+     * posts with the redirect like the original input did. Every other submit of that
+     * form is intercepted and handled here.
      */
     interface IrAuth {
         /**
@@ -4516,6 +4518,9 @@ export namespace Components {
           * The minimum length of input that will be considered valid.
          */
         "minlength": NativeWaInput1['minlength'];
+        /**
+          * Reflected: a form-associated element is submitted under its `name` *attribute*.
+         */
         "name": string;
         /**
           * Adds a button to toggle the password's visibility. Only applies to password types.
@@ -9951,8 +9956,10 @@ declare global {
      * `Get_Startup_Data_Signature` → `Get_Startup_Data`), then redirects the way
      * `Default.aspx` always has: to the OTP page, or by clicking the server's
      * `btn_RedirectFromLogin`, whose handler reads `Request.Form["txt_username"]`.
-     * Mount it inside the page's `<form runat="server">` so the hidden `txt_username`
-     * field it renders is posted with that form.
+     * Renders no `<form>` of its own, and no encapsulation: mount it inside the page's
+     * `<form runat="server">`, exactly where the legacy fields sat, so `#txt_username`
+     * posts with the redirect like the original input did. Every other submit of that
+     * form is intercepted and handled here.
      */
     interface HTMLIrAuthElement extends Components.IrAuth, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrAuthElementEventMap>(type: K, listener: (this: HTMLIrAuthElement, ev: IrAuthCustomEvent<HTMLIrAuthElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -16188,8 +16195,10 @@ declare namespace LocalJSX {
      * `Get_Startup_Data_Signature` → `Get_Startup_Data`), then redirects the way
      * `Default.aspx` always has: to the OTP page, or by clicking the server's
      * `btn_RedirectFromLogin`, whose handler reads `Request.Form["txt_username"]`.
-     * Mount it inside the page's `<form runat="server">` so the hidden `txt_username`
-     * field it renders is posted with that form.
+     * Renders no `<form>` of its own, and no encapsulation: mount it inside the page's
+     * `<form runat="server">`, exactly where the legacy fields sat, so `#txt_username`
+     * posts with the redirect like the original input did. Every other submit of that
+     * form is intercepted and handled here.
      */
     interface IrAuth {
         /**
@@ -19893,6 +19902,9 @@ declare namespace LocalJSX {
           * The minimum length of input that will be considered valid.
          */
         "minlength"?: NativeWaInput1['minlength'];
+        /**
+          * Reflected: a form-associated element is submitted under its `name` *attribute*.
+         */
         "name"?: string;
         "onInput-blur"?: (event: IrInputCustomEvent<void>) => void;
         "onInputCleared"?: (event: IrInputCustomEvent<void>) => void;
@@ -26350,8 +26362,10 @@ declare module "@stencil/core" {
              * `Get_Startup_Data_Signature` → `Get_Startup_Data`), then redirects the way
              * `Default.aspx` always has: to the OTP page, or by clicking the server's
              * `btn_RedirectFromLogin`, whose handler reads `Request.Form["txt_username"]`.
-             * Mount it inside the page's `<form runat="server">` so the hidden `txt_username`
-             * field it renders is posted with that form.
+             * Renders no `<form>` of its own, and no encapsulation: mount it inside the page's
+             * `<form runat="server">`, exactly where the legacy fields sat, so `#txt_username`
+             * posts with the redirect like the original input did. Every other submit of that
+             * form is intercepted and handled here.
              */
             "ir-auth": LocalJSX.IntrinsicElements["ir-auth"] & JSXBase.HTMLAttributes<HTMLIrAuthElement>;
             "ir-autocomplete": LocalJSX.IntrinsicElements["ir-autocomplete"] & JSXBase.HTMLAttributes<HTMLIrAutocompleteElement>;

@@ -460,7 +460,7 @@ const IglBookingEventHover = class {
         return index.h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (index.h(index.Host, { key: '569ccd67b0116130f4a68c49ce4ac1177a3a03ce', dir: direction.isRtlDirection(localeScope.locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (index.h(index.Host, { key: '3b89b1b23c7536852a387d96071ca4d57af4353e', dir: direction.isRtlDirection(localeScope.locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": [{

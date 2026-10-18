@@ -4,7 +4,7 @@ export class IrEmptyState {
     message;
     showIcon = true;
     render() {
-        return (h(Host, { key: '90e77ff4c4edf6fbeb418732896c1459e6958f46' }, h("slot", { key: '613f5107eb75a6b645160e937dc8d1c84b47af22', name: "icon" }, this.showIcon && (h("div", { key: 'a0721b96c2672e8e435653cee23c9ad1e452b734', class: 'icon_container' }, h("wa-icon", { key: '19577b864d334f4ee0d4dcd63c9afc1ec876a1b8', name: "ban", style: { transform: 'rotate(90deg)' } })))), h("p", { key: '82b174effaa0f13c3b8b55f575469dd4e98ad6f0', part: "message", class: `message ${this.showIcon ? '' : '--secondary'}` }, this.message || t('Lcz_NoRecordsFound', { fallback: 'No records found' })), h("slot", { key: '5f9d50439a0bd539b27a60803a427b87e2b7d402' })));
+        return (h(Host, { key: 'ec030a55e33076e437efff9d1b4208cff94049d6' }, h("slot", { key: '089540e4a0c6d948e1b0caa6d130efd448b3b9d8', name: "icon" }, this.showIcon && (h("div", { key: '03a615b13b068dbd9b9552514796d46eb79bc286', class: 'icon_container' }, h("wa-icon", { key: 'eea2d517f1992553da6d439c90a03c356dd3b2d5', name: "ban", style: { transform: 'rotate(90deg)' } })))), h("p", { key: 'a001974ab86beb6a784a4c4ac4cdf182f06cce78', part: "message", class: `message ${this.showIcon ? '' : '--secondary'}` }, this.message || t('Lcz_NoRecordsFound', { fallback: 'No records found' })), h("slot", { key: '8941dd12a26edc8cd5e4f5c51395641748853daa' })));
     }
     static get is() { return "ir-empty-state"; }
     static get encapsulation() { return "shadow"; }

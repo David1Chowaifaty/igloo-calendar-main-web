@@ -78,7 +78,7 @@ const IrWeekdaySelector = class {
     }
     render() {
         const isLastSelected = this.required && this.selectedWeekdays.size === 1;
-        return (index.h(index.Host, { key: '00f2952a34da6020457429f3c54775f5a92522e8', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), disabled: isLastSelected && this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (index.h(index.Host, { key: '30b775b9d9b0cbee9f264bb7782cbfd85af1206d', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), disabled: isLastSelected && this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get watchers() { return {
         "weekdays": [{

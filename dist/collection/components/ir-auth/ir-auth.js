@@ -27,10 +27,13 @@ const STARTUP_STORAGE_KEYS = {
  * `Default.aspx` always has: to the OTP page, or by clicking the server's
  * `btn_RedirectFromLogin`, whose handler reads `Request.Form["txt_username"]`.
  *
- * Mount it inside the page's `<form runat="server">` so the hidden `txt_username`
- * field it renders is posted with that form.
+ * Renders no `<form>` of its own, and no encapsulation: mount it inside the page's
+ * `<form runat="server">`, exactly where the legacy fields sat, so `#txt_username`
+ * posts with the redirect like the original input did. Every other submit of that
+ * form is intercepted and handled here.
  */
 export class IrAuth {
+    el;
     /** The page's current language, e.g. `<%= CurrentLanguage %>`. */
     language = 'en';
     /** Languages offered by the switcher, as an array or a JSON string of `{ code, label }`. */
@@ -65,14 +68,22 @@ export class IrAuth {
     authFinish;
     authService;
     languageSync = new LanguageSync(SCREEN_TABLES.auth, () => LocaleController.load({ tables: SCREEN_TABLES.auth }));
+    /** The page's server form this component sits in. */
     formEl;
-    postedUsernameEl;
     schemaCache;
     componentWillLoad() {
         LocaleController.load({ language: this.language, tables: SCREEN_TABLES.auth }).catch(error => console.error('Failed to load login strings', error));
         this.parseLanguages(this.languages);
         this.createAuthService(this.apiUrl);
         this.username = this.readStorage('USERNAME') ?? '';
+    }
+    connectedCallback() {
+        this.formEl = this.el.closest('form');
+        if (!this.formEl) {
+            console.warn('[ir-auth] Not inside a <form>: sign-in cannot submit or post "txt_username". Mount it in the page\'s <form runat="server">.');
+        }
+        // Capture, so the request is stopped before ASP.NET's own onsubmit handling sees it.
+        this.formEl?.addEventListener('submit', this.handleSubmit, true);
     }
     componentDidLoad() {
         this.languageSync.connect();
@@ -84,6 +95,8 @@ export class IrAuth {
     }
     disconnectedCallback() {
         this.languageSync.disconnect();
+        this.formEl?.removeEventListener('submit', this.handleSubmit, true);
+        this.formEl = undefined;
     }
     languageChanged(next, previous) {
         this.languageSync.propChanged(next, previous);
@@ -141,9 +154,9 @@ export class IrAuth {
         this.view = view;
     }
     /**
-     * `ir-input` nests `wa-input` in its own shadow root, out of reach of this form,
+     * `ir-input` nests `wa-input` in its own shadow root, out of reach of the form,
      * so Enter in a field no longer submits it natively. Goes through a real submit
-     * so every `ir-validator` in the form shows its message.
+     * (caught by {@link handleSubmit}) so every `ir-validator` shows its message.
      */
     handleKeyDown(e) {
         if (e.key === 'Enter' && e.target.tagName === 'IR-INPUT') {
@@ -151,10 +164,16 @@ export class IrAuth {
             this.formEl?.requestSubmit();
         }
     }
-    handleSubmit(e) {
+    /**
+     * Submits of the server form: the redirect postback (fired by {@link redirect}) goes
+     * through untouched; anything else — the submit buttons, Enter — runs the active view.
+     */
+    handleSubmit = (e) => {
+        if (this.redirecting) {
+            return;
+        }
+        // Only preventDefault: the field `ir-validator`s listen for this same submit to show their messages.
         e.preventDefault();
-        // This form is nested in the page's server form; keep its submit away from ASP.NET's onsubmit.
-        e.stopPropagation();
         switch (this.view) {
             case 'login':
                 return this.authenticate();
@@ -163,7 +182,7 @@ export class IrAuth {
             case 'forgotUsername':
                 return this.forgotUsername();
         }
-    }
+    };
     async authenticate() {
         if (!this.isValid('username', 'password') || this.isLoading || this.redirecting) {
             return;
@@ -211,13 +230,7 @@ export class IrAuth {
             console.error(`[ir-auth] Redirect button "#${this.redirectButton}" not found; cannot complete the login postback.`);
             return;
         }
-        if (!this.postedUsernameEl?.closest('form')) {
-            console.warn('[ir-auth] Not inside a <form>: "txt_username" will not be posted with the redirect.');
-        }
-        // Set directly rather than through render: the postback goes out before the next frame.
-        if (this.postedUsernameEl) {
-            this.postedUsernameEl.value = this.username;
-        }
+        // Lets this submit through handleSubmit; #txt_username (ir-input, form-associated) posts itself.
         this.redirecting = true;
         button.click();
     }
@@ -315,13 +328,9 @@ export class IrAuth {
         return (h("div", { class: "pms-auth__lang" }, h("wa-dropdown", { id: "language-selector", "onwa-select": e => this.authLanguageChange.emit({ code: e.detail.item.value }) }, h("wa-button", { slot: "trigger", size: "s", appearance: "outlined", variant: "neutral", "with-caret": true }, current?.label ?? this.language?.toUpperCase()), this.languageList.map(({ code, label }) => (h("wa-dropdown-item", { key: code, value: code }, label))))));
     }
     render() {
-        return (h(Host, { key: '40c59f8ba906677f07019119419edfea351b6885' }, h("ir-toast", { key: '37c1d25b108c24dd4708dc3431ea38d2923fd275' }), h("input", { key: '7c01908a9f22c1b062f2c4d435151be9a0b3e770', type: "hidden", name: "txt_username", value: this.username, ref: el => (this.postedUsernameEl = el) }), h("div", { key: '3094ffa57b7f7fa85b2d7c4e5db49cf29f974f57', class: "pms-auth__topbar" }, h("div", { key: '7e3ed3af185d48cb9a3c91768ab67210e0955c9e', class: "pms-auth__brand" }, this.logoUrl && h("img", { key: '30240b7918ac041bc4b7ffb36d237029776da6a1', src: this.logoUrl, alt: "igloorooms" })), this.renderLanguageSelector()), h("div", { key: '984651f98210f7c512e45afc7fa625f6eecc8b2f', class: "pms-auth__card" }, h("form", { key: '02a1a90464387c88a82d02fea8503c927d1160a7', id: "frm_login", novalidate: true, ref: el => {
-                this.formEl = el;
-                el.setAttribute('runat', 'server');
-            }, onSubmit: e => this.handleSubmit(e), onKeyDown: e => this.handleKeyDown(e) }, this.view === 'login' && this.renderLogin(), this.view === 'forgotPassword' && this.renderForgotPassword(), this.view === 'forgotUsername' && this.renderForgotUsername()), !this.insideMpo && (h("div", { key: '126b41d9bef2028e4b6479c164aac92c562b734e' }, h("hr", { key: 'c57fb4028f2ad668ca1c5a49b6ba9a19df345936', class: "pms-auth__divider" }), h("div", { key: '4406cf9dad2a4e5f97958a2782b845f7e1b0bff7', class: "pms-auth__apps" }, h("a", { key: 'bfd646e0c5517bffc0648e1e67af711cbd3ec503', href: "https://apps.apple.com/lb/app/igloorooms/id1607846173", target: "_new", "aria-label": t('Lcz_InstallIglooroomsIosApp', { fallback: 'Install igloorooms iOS App' }) }, h("wa-icon", { key: '7483350d8b18754d7c0a8047fa1f8265a3511f86', style: { fontSize: '1.5rem' }, name: "app-store", family: "brands" })), h("a", { key: 'e9fe0e1a4291e4a078a162c581afceb1964c6b6f', href: "https://play.google.com/store/apps/details?id=com.iglooroomsapp", target: "_new", "aria-label": t('Lcz_InstallIglooroomsAndroidApp', { fallback: 'Install igloorooms Android App' }) }, h("wa-icon", { key: '6ed7a5646c77460087b7187d5b41016749e71923', style: { fontSize: '1.5rem' }, name: "google-play", family: "brands" }))), h("ir-custom-button", { key: '20fafb6c3546f38ce771adf43367366a82dc7611', class: "pms-auth__signup", appearance: "outlined", variant: "neutral", size: "m", href: "https://info.igloorooms.com/signup", target: "_blank" }, t('Lcz_NewToIgloorooms', { fallback: 'New to igloorooms?' }))))), h("div", { key: '871c4e85511e40f1a92d9856413877031dffc8a3', class: "pms-auth__footer" }, h("a", { key: 'a922a16df240ab9cfb6ef79aa615a29a205c1177', href: "https://info.igloorooms.com/privacy/", target: "_new" }, t('Lcz_PrivacyPolicy', { fallback: 'Privacy policy' })), h("span", { key: '38410d52bd6c59b52cd82597634e9ac95e97a3f7' }, t('Lcz_NeedHelpContactSupport', { fallback: 'Need help? support@igloorooms.com' })))));
+        return (h(Host, { key: 'ea72d85c57a4baa98132ea5b001704e4ac84a1d8' }, h("ir-toast", { key: '456b59185624623a7031ca35535e293ad4c1bc52' }), h("div", { key: '0223e0d05e788d61b26fe8f16f74ca4bab1ce42b', class: "pms-auth__topbar" }, h("div", { key: 'e2c09ab0eca60e90679d4ac9824a4efb75194bbb', class: "pms-auth__brand" }, this.logoUrl && h("img", { key: '376b5e7580027f27303a09c697d971c012bccd70', src: this.logoUrl, alt: "igloorooms" })), this.renderLanguageSelector()), h("div", { key: 'c528bc660faa761a1b0eb3d1d2f08fff2a38431f', class: "pms-auth__card" }, h("div", { key: 'b153b9bb9a4d67c210a2b89f52936cb418993188', class: "pms-auth__form", onKeyDown: e => this.handleKeyDown(e) }, this.view === 'login' && this.renderLogin(), this.view === 'forgotPassword' && this.renderForgotPassword(), this.view === 'forgotUsername' && this.renderForgotUsername()), !this.insideMpo && (h("div", { key: 'ef6fba7eae476890ac05f8d3b998ec50446bb044' }, h("hr", { key: '3250ce5ecc570e7ea48595e4639214f4fa906b80', class: "pms-auth__divider" }), h("div", { key: '3e30dd6e4bdbf8be4b49585a6abe197b65cb9dbc', class: "pms-auth__apps" }, h("a", { key: 'd1c5a0fce6d651a2807206af333c15a88a7cb33c', href: "https://apps.apple.com/lb/app/igloorooms/id1607846173", target: "_new", "aria-label": t('Lcz_InstallIglooroomsIosApp', { fallback: 'Install igloorooms iOS App' }) }, h("wa-icon", { key: 'edf9d6379ea150a994e1c928399428449ccb56c1', style: { fontSize: '1.5rem' }, name: "app-store", family: "brands" })), h("a", { key: '0f0fa0bdc2248732bed8a0413e1693898f6cb775', href: "https://play.google.com/store/apps/details?id=com.iglooroomsapp", target: "_new", "aria-label": t('Lcz_InstallIglooroomsAndroidApp', { fallback: 'Install igloorooms Android App' }) }, h("wa-icon", { key: '54e8a498a56aa9ff772290d8870d15d5f25c329d', style: { fontSize: '1.5rem' }, name: "google-play", family: "brands" }))), h("ir-custom-button", { key: 'b3945c9f953a4afbbe81bcfe4d346a7292257c9e', class: "pms-auth__signup", appearance: "outlined", variant: "neutral", size: "m", href: "https://info.igloorooms.com/signup", target: "_blank" }, t('Lcz_NewToIgloorooms', { fallback: 'New to igloorooms?' }))))), h("div", { key: 'af1ea2fa0366f2a3b4b5ab84f07138c402d2d609', class: "pms-auth__footer" }, h("a", { key: '50314df14111076363dfbf82734ca99ec163031d', href: "https://info.igloorooms.com/privacy/", target: "_new" }, t('Lcz_PrivacyPolicy', { fallback: 'Privacy policy' })), h("span", { key: '42e5751b1d0238a67c0396d5c17bc7475f51b3d3' }, t('Lcz_NeedHelpContactSupport', { fallback: 'Need help? support@igloorooms.com' })))));
     }
     static get is() { return "ir-auth"; }
-    static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-auth.css"]
@@ -572,6 +581,7 @@ export class IrAuth {
                 }
             }];
     }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
                 "propName": "language",

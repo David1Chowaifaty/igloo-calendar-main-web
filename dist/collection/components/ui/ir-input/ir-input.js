@@ -5,6 +5,7 @@ import { normalizeNumericInput } from "../../../utils/number";
 export class IrInput {
     internals;
     el;
+    /** Reflected: a form-associated element is submitted under its `name` *attribute*. */
     name;
     /** The value of the input. */
     value = '';
@@ -121,7 +122,8 @@ export class IrInput {
         if (this.disabled) {
             this.inputRef.disabled = this.disabled;
         }
-        // Find the closest form element (if any)
+        // Report the initial value too, so a prefilled field is posted without being typed into.
+        this.syncFormValue(this.value);
         // track slotted prefix to compute width
         this.initializeMask();
         this.setupSlotListeners();
@@ -150,6 +152,7 @@ export class IrInput {
     }
     handleValueChange(newValue, oldValue) {
         if (newValue !== oldValue) {
+            this.syncFormValue(newValue);
             if (this._mask && this.returnMaskedValue && this._mask.value !== newValue) {
                 this._mask.value = newValue;
                 this._mask.updateValue();
@@ -171,9 +174,13 @@ export class IrInput {
         if (!this.mask) {
             this.value = nextValue ?? '';
         }
-        this.internals.setFormValue(nextValue ?? '');
+        this.syncFormValue(nextValue);
         this.textChange.emit(nextValue ?? '');
     };
+    /** Keeps the value submitted with the owning `<form>` in step with what the field holds. */
+    syncFormValue(value) {
+        this.internals?.setFormValue?.(value ?? '');
+    }
     /** Unmasked phone/number fields get Latin digits too; free-text fields are left as typed. */
     isNumericField() {
         return ['tel', 'number'].includes(this.type) || ['tel', 'numeric', 'decimal'].includes(this.inputmode);
@@ -319,7 +326,7 @@ export class IrInput {
             // We must pass "1,000.00" to wa-input to avoid the overwrite warning
             displayValue = this._mask.value;
         }
-        return (h(Host, { key: 'e7b91c66222f3526a35b3277a8fdc4f06f74b54a' }, h("wa-input", { key: 'd2f7849808bd8f5f5b2d50e303ba4caa084260b5', part: "wa-input", type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && h("slot", { key: '646c870ca339effe4cc28b3adc8e54055fb24040', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: 'dd5984181c24ac2e9e2b2202f5b22a93011fc898', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: '99e96d492bccd37852682197ea04e45e9d27b10a', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: 'ceb3881a5f4734027756954be7252bfd7cc873a3', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: 'c547f402214c5ac89a9ce014acec13ec7afb51f3', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: 'b56436d3b6d9f120a89bd93cf0f4c3d36e711529', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '34656b1c19645045b0b4bc0911baf62a90d0db32', name: "hint", slot: "hint" }))));
+        return (h(Host, { key: 'c3fe30bf01eaefb2420b6f7d964522c9bc842f4c' }, h("wa-input", { key: 'd22ec6b5b4356836468f3e97de2a6362dba6ecc8', part: "wa-input", type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && h("slot", { key: 'aae9743f828124a943b3dec4c3003b4c14ea00bd', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: '7cc536df73788fe993c54e5d7dfc890b1bfba887', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: '82d42b383c2f059f212875c0bddde9db47c90e10', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: '8069b58f2a3fdf884f660bf42da50dcfe06405eb', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: '006d7b124f5e9b3f2d6f38139af9affb84d4e6fd', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: 'e9250ed4ac41ecdad182d4564d9c5180b8afceb8', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '6ce9bcdf249fe9de9e6322d0e5339c200e855012', name: "hint", slot: "hint" }))));
     }
     static get is() { return "ir-input"; }
     static get encapsulation() { return "shadow"; }
@@ -348,11 +355,11 @@ export class IrInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Reflected: a form-associated element is submitted under its `name` *attribute*."
                 },
                 "getter": false,
                 "setter": false,
-                "reflect": false,
+                "reflect": true,
                 "attribute": "name"
             },
             "value": {

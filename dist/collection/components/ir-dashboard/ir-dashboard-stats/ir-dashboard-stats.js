@@ -106,7 +106,7 @@ export class IrDashboardStats {
             this.renderKpi('arrow-trend-up', t('Lcz_RevPar', { fallback: 'RevPAR' }), performance ? computeRevPar(performance.adr, performance.occupancy) : undefined))));
     }
     render() {
-        return (h(Host, { key: '2c510f52d2c71978275116924150dc1601b730b3' }, h("wa-card", { key: '062e6f70b8bd5ac06d3a5b783a7c263ad2c89bb3', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: '66d866f6204c56c76737c1a0c6e3c6d0d88a52fa', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
+        return (h(Host, { key: '69e7e505671d4a8db6ba7c9b45114dd111a89902' }, h("wa-card", { key: '60b1d24901a7eb13387652688e597712a844bf80', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: 'a40c99ae3f2f5546fc1cd5615d33ae839b61e1ac', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
     }
     static get is() { return "ir-dashboard-stats"; }
     static get encapsulation() { return "scoped"; }

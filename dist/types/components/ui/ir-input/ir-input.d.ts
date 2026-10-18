@@ -9,6 +9,7 @@ export type NativeWaInput = WaInput;
 export declare class IrInput {
     internals: ElementInternals;
     el: HTMLIrInputElement;
+    /** Reflected: a form-associated element is submitted under its `name` *attribute*. */
     name: string;
     /** The value of the input. */
     value: string;
@@ -123,6 +124,8 @@ export declare class IrInput {
     handleAriaInvalidChange(e: any): void;
     handleValueChange(newValue: string, oldValue: string): void;
     private handleInput;
+    /** Keeps the value submitted with the owning `<form>` in step with what the field holds. */
+    private syncFormValue;
     /** Unmasked phone/number fields get Latin digits too; free-text fields are left as typed. */
     private isNumericField;
     private initializeMask;

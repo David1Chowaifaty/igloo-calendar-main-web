@@ -13,10 +13,13 @@ export type AuthView = 'login' | 'forgotPassword' | 'forgotUsername';
  * `Default.aspx` always has: to the OTP page, or by clicking the server's
  * `btn_RedirectFromLogin`, whose handler reads `Request.Form["txt_username"]`.
  *
- * Mount it inside the page's `<form runat="server">` so the hidden `txt_username`
- * field it renders is posted with that form.
+ * Renders no `<form>` of its own, and no encapsulation: mount it inside the page's
+ * `<form runat="server">`, exactly where the legacy fields sat, so `#txt_username`
+ * posts with the redirect like the original input did. Every other submit of that
+ * form is intercepted and handled here.
  */
 export declare class IrAuth {
+    el: HTMLIrAuthElement;
     /** The page's current language, e.g. `<%= CurrentLanguage %>`. */
     language: string;
     /** Languages offered by the switcher, as an array or a JSON string of `{ code, label }`. */
@@ -56,10 +59,11 @@ export declare class IrAuth {
     }>;
     private authService;
     private languageSync;
+    /** The page's server form this component sits in. */
     private formEl?;
-    private postedUsernameEl?;
     private schemaCache?;
     componentWillLoad(): void;
+    connectedCallback(): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
     languageChanged(next: string, previous: string): void;
@@ -73,11 +77,15 @@ export declare class IrAuth {
     private isValid;
     private switchView;
     /**
-     * `ir-input` nests `wa-input` in its own shadow root, out of reach of this form,
+     * `ir-input` nests `wa-input` in its own shadow root, out of reach of the form,
      * so Enter in a field no longer submits it natively. Goes through a real submit
-     * so every `ir-validator` in the form shows its message.
+     * (caught by {@link handleSubmit}) so every `ir-validator` shows its message.
      */
     private handleKeyDown;
+    /**
+     * Submits of the server form: the redirect postback (fired by {@link redirect}) goes
+     * through untouched; anything else — the submit buttons, Enter — runs the active view.
+     */
     private handleSubmit;
     private authenticate;
     private redirect;
