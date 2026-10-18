@@ -308,52 +308,39 @@ const IrAuth = class {
         }
     }
     renderBackToLogin() {
-        return (h("p", { class: "pms-auth__return" }, h("a", { href: "#", onClick: e => (e.preventDefault(), this.switchView('login')) }, t('Lcz_BackToSignIn', { fallback: 'Back to sign in' }))));
+        return (h("p", { class: "pms-auth__return" }, h("a", { href: "#", class: "Lnk_ReturnToLogin", onClick: e => (e.preventDefault(), this.switchView('login')) }, t('Lcz_BackToSignIn', { fallback: 'Back to sign in' }))));
     }
     renderSubmit(label) {
         return (h("ir-custom-button", { class: "pms-auth__submit", type: "submit", variant: "brand", size: "m", loading: this.isLoading }, label));
     }
-    renderInput({ field, label, type = 'text', autocomplete, }) {
-        return (h("fieldset", null, h("ir-validator", { key: field, schema: this.schemas[field], value: this[field], valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { name: field, type: type, size: "m", passwordToggle: type === 'password', autocomplete: autocomplete, label: label, placeholder: label, value: this[field], "onText-change": (e) => (this[field] = e.detail) }))));
+    /** `id` and `name` are the ones the legacy `Default.aspx` markup used, so page scripts can still find the fields. */
+    renderInput({ field, id, name, label, type = 'text', autocomplete, }) {
+        return (h("fieldset", null, h("ir-validator", { key: field, schema: this.schemas[field], value: this[field], valueEvent: "text-change", showErrorMessage: true }, h("ir-input", { id: id, name: name, type: type, size: "m", passwordToggle: type === 'password', autocomplete: autocomplete, label: label, placeholder: label, value: this[field], "onText-change": (e) => (this[field] = e.detail) }))));
     }
     renderLogin() {
-        return [
-            h("h1", { class: "pms-auth__title" }, t('Lcz_SignInToManageYourProperty', { fallback: 'Sign in to manage your property' })),
-            h("p", { class: "pms-auth__subtitle" }),
-            this.renderInput({ field: 'username', label: t('Lcz_Username', { fallback: 'Username' }), autocomplete: 'username' }),
-            this.renderInput({ field: 'password', label: t('Lcz_Password', { fallback: 'Password' }), type: 'password', autocomplete: 'current-password' }),
-            h("div", { class: "pms-auth__row" }, h("wa-checkbox", { checked: this.rememberUsername, onchange: e => (this.rememberUsername = e.target.checked) }, t('Lcz_RememberUsername', { fallback: 'Remember username' })), h("a", { href: "#", onClick: e => (e.preventDefault(), this.switchView('forgotUsername')) }, t('Lcz_ForgotUsername', { fallback: 'Forgot username?' }))),
-            h("div", { class: "pms-auth__row pms-auth__row--end" }, h("a", { href: "#", onClick: e => (e.preventDefault(), this.switchView('forgotPassword')) }, t('Lcz_ForgotPassword', { fallback: 'Forgot password?' }))),
-            this.renderSubmit(t('Lcz_Continue', { fallback: 'Continue' })),
-        ];
+        return (h("div", { class: "UsedByLogin" }, h("h1", { class: "pms-auth__title" }, t('Lcz_SignInToManageYourProperty', { fallback: 'Sign in to manage your property' })), h("p", { class: "pms-auth__subtitle" }), this.renderInput({ field: 'username', id: 'txt_username', name: 'txt_username', label: t('Lcz_Username', { fallback: 'Username' }), autocomplete: 'username' }), this.renderInput({
+            field: 'password',
+            id: 'txt_password',
+            label: t('Lcz_Password', { fallback: 'Password' }),
+            type: 'password',
+            autocomplete: 'current-password',
+        }), h("div", { class: "pms-auth__row" }, h("wa-checkbox", { id: "chk_RememberUname", checked: this.rememberUsername, onchange: e => (this.rememberUsername = e.target.checked) }, t('Lcz_RememberUsername', { fallback: 'Remember username' })), h("a", { href: "#", id: "Lnk_ForgotUsername", onClick: e => (e.preventDefault(), this.switchView('forgotUsername')) }, t('Lcz_ForgotUsername', { fallback: 'Forgot username?' }))), h("div", { class: "pms-auth__row pms-auth__row--end" }, h("a", { href: "#", id: "Lnk_ForgotPassword", onClick: e => (e.preventDefault(), this.switchView('forgotPassword')) }, t('Lcz_ForgotPassword', { fallback: 'Forgot password?' }))), this.renderSubmit(t('Lcz_Continue', { fallback: 'Continue' }))));
     }
     renderForgotPassword() {
-        return [
-            h("h1", { class: "pms-auth__title" }, t('Lcz_GetYourPassword', { fallback: 'Get your password' })),
-            h("p", { class: "pms-auth__subtitle" }),
-            this.renderInput({ field: 'forgotPasswordUsername', label: t('Lcz_Username', { fallback: 'Username' }), autocomplete: 'username' }),
-            this.renderSubmit(t('Lcz_GetPassword', { fallback: 'Get password' })),
-            this.renderBackToLogin(),
-        ];
+        return (h("div", { class: "UsedByForgotPwd" }, h("h1", { class: "pms-auth__title" }, t('Lcz_GetYourPassword', { fallback: 'Get your password' })), h("p", { class: "pms-auth__subtitle" }), this.renderInput({ field: 'forgotPasswordUsername', id: 'txt_username1', label: t('Lcz_Username', { fallback: 'Username' }), autocomplete: 'username' }), this.renderSubmit(t('Lcz_GetPassword', { fallback: 'Get password' })), this.renderBackToLogin()));
     }
     renderForgotUsername() {
-        return [
-            h("h1", { class: "pms-auth__title" }, t('Lcz_GetYourUsername', { fallback: 'Get your username' })),
-            h("p", { class: "pms-auth__subtitle" }),
-            this.renderInput({ field: 'email', label: t('Lcz_Email', { fallback: 'Email' }), type: 'email', autocomplete: 'email' }),
-            this.renderSubmit(t('Lcz_GetUsername', { fallback: 'Get username' })),
-            this.renderBackToLogin(),
-        ];
+        return (h("div", { class: "UsedByForgotUname" }, h("h1", { class: "pms-auth__title" }, t('Lcz_GetYourUsername', { fallback: 'Get your username' })), h("p", { class: "pms-auth__subtitle" }), this.renderInput({ field: 'email', id: 'txt_email', label: t('Lcz_Email', { fallback: 'Email' }), type: 'email', autocomplete: 'email' }), this.renderSubmit(t('Lcz_GetUsername', { fallback: 'Get username' })), this.renderBackToLogin()));
     }
     renderLanguageSelector() {
         if (!this.languageList.length) {
             return null;
         }
         const current = this.languageList.find(({ code }) => code.toLowerCase() === (this.language ?? '').toLowerCase());
-        return (h("div", { class: "pms-auth__lang" }, h("wa-dropdown", { "onwa-select": e => this.authLanguageChange.emit({ code: e.detail.item.value }) }, h("wa-button", { slot: "trigger", size: "s", appearance: "outlined", variant: "neutral", "with-caret": true }, current?.label ?? this.language?.toUpperCase()), this.languageList.map(({ code, label }) => (h("wa-dropdown-item", { key: code, value: code }, label))))));
+        return (h("div", { class: "pms-auth__lang" }, h("wa-dropdown", { id: "language-selector", "onwa-select": e => this.authLanguageChange.emit({ code: e.detail.item.value }) }, h("wa-button", { slot: "trigger", size: "s", appearance: "outlined", variant: "neutral", "with-caret": true }, current?.label ?? this.language?.toUpperCase()), this.languageList.map(({ code, label }) => (h("wa-dropdown-item", { key: code, value: code }, label))))));
     }
     render() {
-        return (h(Host, { key: '2b82ff6c6531cdde61a7dddc54c8f99cc38589fb' }, h("ir-toast", { key: '457025835c34194535538c46a80bc9f7a6466aaa' }), h("div", { key: 'f3974b1b929596a32403754cf985802406e5ac0c', class: "pms-auth__topbar" }, h("div", { key: '0ad274593927724ed21655f07e6e70e889592987', class: "pms-auth__brand" }, this.logoUrl && h("img", { key: 'b0e2e000540bc0eb38cc2288c0efa61e9034ea33', src: this.logoUrl, alt: "igloorooms" })), this.renderLanguageSelector()), h("div", { key: 'b65c664992d6dca1e1fb4743f6631971d45b54c0', class: "pms-auth__card" }, h("form", { key: '30db7d044003ae7bac18ebc9bc6a745d5a8d538c', novalidate: true, ref: el => (this.formEl = el), onSubmit: e => this.handleSubmit(e), onKeyDown: e => this.handleKeyDown(e) }, this.view === 'login' && this.renderLogin(), this.view === 'forgotPassword' && this.renderForgotPassword(), this.view === 'forgotUsername' && this.renderForgotUsername()), !this.insideMpo && (h("div", { key: '91ce313054f480910f7229ad1c3c2e23189d7e3f' }, h("hr", { key: '09190eb4d78515d8330e8fbe4f676ae54ab74626', class: "pms-auth__divider" }), h("div", { key: 'a4fe54e44873c65e592b150e6afeb484f7cc3de9', class: "pms-auth__apps" }, h("a", { key: '445739dc8da058f8c966bcd7033aa36c30e17850', href: "https://apps.apple.com/lb/app/igloorooms/id1607846173", target: "_new", "aria-label": t('Lcz_InstallIglooroomsIosApp', { fallback: 'Install igloorooms iOS App' }) }, h("wa-icon", { key: 'd71ae9879d054c6781a5c2e23a41f1ad94bb19ef', style: { fontSize: '1.5rem' }, name: "app-store", family: "brands" })), h("a", { key: '2d72c2617f16495d32604c6b927aa04501f37539', href: "https://play.google.com/store/apps/details?id=com.iglooroomsapp", target: "_new", "aria-label": t('Lcz_InstallIglooroomsAndroidApp', { fallback: 'Install igloorooms Android App' }) }, h("wa-icon", { key: '9f8f1c4adbe137edeabab4016fc146f1d30deef9', style: { fontSize: '1.5rem' }, name: "google-play", family: "brands" }))), h("ir-custom-button", { key: 'bcb0d7505cc5613f52f5a683c1bb87e2a5bdd131', class: "pms-auth__signup", appearance: "outlined", variant: "neutral", size: "m", href: "https://info.igloorooms.com/signup", target: "_blank" }, t('Lcz_NewToIgloorooms', { fallback: 'New to igloorooms?' }))))), h("div", { key: '8d118910c9242e42cd5be7d8c89ae27073f15b5e', class: "pms-auth__footer" }, h("a", { key: 'b5d918990f2f81469d75da7f667f1ac09be58404', href: "https://info.igloorooms.com/privacy/", target: "_new" }, t('Lcz_PrivacyPolicy', { fallback: 'Privacy policy' })), h("span", { key: '5d3a3bb5ddac89ff2cad0cbef62b248dcae20ae6' }, t('Lcz_NeedHelpContactSupport', { fallback: 'Need help? support@igloorooms.com' })))));
+        return (h(Host, { key: '29e3c50ff8a4b5147f6fb537268e80ec8b8dd599' }, h("ir-toast", { key: '9af775572573e1ff434dfce59b30f22bc5252094' }), h("div", { key: '26472cb4d7179a778124e743c94aadbdb133c6a7', class: "pms-auth__topbar" }, h("div", { key: '00df8b2fcdcfbd26d261f85bf25709d5d3e0cf85', class: "pms-auth__brand" }, this.logoUrl && h("img", { key: '8c3d729f915704f9c437c7e6c20e431c210166d2', src: this.logoUrl, alt: "igloorooms" })), this.renderLanguageSelector()), h("div", { key: '54461cd9e6884c0c4512212fe2ea58b925bc39a5', class: "pms-auth__card" }, h("form", { key: 'd85e3d0b1c22e2326a765767c5bdf18f25c45070', novalidate: true, ref: el => (this.formEl = el), onSubmit: e => this.handleSubmit(e), onKeyDown: e => this.handleKeyDown(e) }, this.view === 'login' && this.renderLogin(), this.view === 'forgotPassword' && this.renderForgotPassword(), this.view === 'forgotUsername' && this.renderForgotUsername()), !this.insideMpo && (h("div", { key: '2bbc73fa1f93ec9afdb3afc013c0c25b14c4e489' }, h("hr", { key: '65ca6b6899cdcf6008d2da32d15044ccf83ca5f1', class: "pms-auth__divider" }), h("div", { key: 'a52e0b8bf4449a7e527b1fc95c090bd1ec87db80', class: "pms-auth__apps" }, h("a", { key: '9a8e39585d7c1dd2a2bb1f25699dcf0c90cbe201', href: "https://apps.apple.com/lb/app/igloorooms/id1607846173", target: "_new", "aria-label": t('Lcz_InstallIglooroomsIosApp', { fallback: 'Install igloorooms iOS App' }) }, h("wa-icon", { key: '6f10cefc607a059c0a9f4a7f781ace32b7854a76', style: { fontSize: '1.5rem' }, name: "app-store", family: "brands" })), h("a", { key: '4b5a351c61c1d83b4247983d53940a5e14e88a1d', href: "https://play.google.com/store/apps/details?id=com.iglooroomsapp", target: "_new", "aria-label": t('Lcz_InstallIglooroomsAndroidApp', { fallback: 'Install igloorooms Android App' }) }, h("wa-icon", { key: '6368740671895f77175d5dbe374b890984bfc35e', style: { fontSize: '1.5rem' }, name: "google-play", family: "brands" }))), h("ir-custom-button", { key: 'fc3d47410c0c189bbbe6b4427ae1d78d52a290ec', class: "pms-auth__signup", appearance: "outlined", variant: "neutral", size: "m", href: "https://info.igloorooms.com/signup", target: "_blank" }, t('Lcz_NewToIgloorooms', { fallback: 'New to igloorooms?' }))))), h("div", { key: '44db61c2f1bb28724d9378c463c883a380e8804f', class: "pms-auth__footer" }, h("a", { key: '2d25b95b74b784953487869c756a2fe439a3c124', href: "https://info.igloorooms.com/privacy/", target: "_new" }, t('Lcz_PrivacyPolicy', { fallback: 'Privacy policy' })), h("span", { key: '5436f2024da41824afb8985abe98e0ef2ca7158b' }, t('Lcz_NeedHelpContactSupport', { fallback: 'Need help? support@igloorooms.com' })))));
     }
     static get watchers() { return {
         "language": [{

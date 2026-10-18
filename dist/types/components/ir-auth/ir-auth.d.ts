@@ -75,6 +75,7 @@ export declare class IrAuth {
     private writeStorage;
     private renderBackToLogin;
     private renderSubmit;
+    /** `id` and `name` are the ones the legacy `Default.aspx` markup used, so page scripts can still find the fields. */
     private renderInput;
     private renderLogin;
     private renderForgotPassword;
