@@ -1,1 +1,0 @@
-import{r as s,h as c,H as o}from"./p-DKZeCK8T.js";const r=class{constructor(c){s(this,c)}render(){return c(o,{key:"a246607d8d0a770558df131a231e77821c80902f"},c("slot",{key:"c22ffc09c6747ce268320d7a503a62388b2cb59f"}))}};r.style=":host{display:block}";export{r as ir_unvoiced_bookings_summary}

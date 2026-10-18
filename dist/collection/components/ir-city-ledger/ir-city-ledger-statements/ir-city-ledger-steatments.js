@@ -115,19 +115,19 @@ export class IrCityLedgerStatements {
         });
     }
     render() {
-        return (h(Host, { key: 'a8c5396560b8281b25cea00c0344b0f53383ebf2' }, h("section", { key: '58fa2c9e302f169a8efe0f803fd050e2e5570eea', class: "cl-statements", "aria-label": t('Lcz_CityLedgerStatementsAriaLabel', { fallback: 'City ledger statements' }) }, h("ir-city-ledger-statements-filter", { key: 'c391eaff3c8c6c6f2e232b6b7f2e1cd285006aba', initialFromDate: this.filters.fromDate, initialToDate: this.filters.toDate, onFiltersChange: e => {
+        return (h(Host, { key: '159a02c34a488420a00ec2d89d4a7c3f9fbca01c' }, h("section", { key: '537d88e65b157bab35e02e1dccb736ad7e2889f3', class: "cl-statements", "aria-label": t('Lcz_CityLedgerStatementsAriaLabel', { fallback: 'City ledger statements' }) }, h("ir-city-ledger-statements-filter", { key: 'f8dbb42a1a8027576e1e8af7a76c5d16837b53c8', initialFromDate: this.filters.fromDate, initialToDate: this.filters.toDate, onFiltersChange: e => {
                 this.filters = e.detail;
                 this.clStmtFiltersChange.emit(e.detail);
             }, onCreateStatement: e => {
                 this.filters = e.detail;
                 this.clStmtFiltersChange.emit(e.detail);
                 this.fetchStatement(e.detail);
-            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: 'fc0c3ae19635262ff5b900cee8c87aad619dc82e', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: 'dc25e9484d8adb5a523ebf7527ef60c3faca1ab3', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: 'afce915983d7265b606a980cb255082c8e653ec1', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: 'b064f102380abf34b442afaa9788cac4d5bf626c', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
                 if (!e.detail) {
                     this.printFilters = null;
                     this.pdfUrl = null;
                 }
-            } }, h("div", { key: '64ca1b0e3326b58e68f9f48c52f6c8f9723335db', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '1282360d40a1106a1a5f8fa7f11039fb3ee87ca1', size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '814c4edee2b8567b309f3e90cd50691ee680b2dc', name: "download", label: t('Lcz_DownloadPdfTooltip', { fallback: 'Download PDF' }) })))), this.printFilters &&
+            } }, h("div", { key: '93f60f90f3353b63195b506e742241cea2033cce', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '62f7375ebbfa751fc87f5a6c649bc1720d685672', size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '73736dc46009155207a2f5f5680700806e2cbcb1', name: "download", label: t('Lcz_DownloadPdfTooltip', { fallback: 'Download PDF' }) })))), this.printFilters &&
             (this.isFetchingPdf ? (h("div", { class: "preview-loading" }, h("ir-spinner", null))) : (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.pdfUrl })))))));
     }
     static get is() { return "ir-city-ledger-statements"; }

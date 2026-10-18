@@ -12,14 +12,14 @@ export class IrBookingSourceEditorDialog {
         this.open = false;
     }
     render() {
-        return (h("ir-dialog", { key: '259e58e251623485b7874f9bbd8e916bd684bc06', label: t('Lcz_ChangeBookingSource', { fallback: 'Change Booking Source' }), onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '273ac480cd4f16611980df26898e418e955d4a71', label: t('Lcz_ChangeBookingSource', { fallback: 'Change Booking Source' }), onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.open = false;
-            }, open: this.open }, this.open && (h("ir-booking-source-editor-form", { key: 'b4896b4de6fb88cbae8f7f446a3c75295e47b30b', booking: this.booking, onBookingSourceSaved: () => {
+            }, open: this.open }, this.open && (h("ir-booking-source-editor-form", { key: 'd618f828b9b072b0ef17ad5d023fdda70760cf65', booking: this.booking, onBookingSourceSaved: () => {
                 this.closeDialog();
                 setTimeout(() => this.resetBookingEvt.emit(null), 100);
-            }, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: 'cc43d73a18fd177a26280d587b2e14729dc41c80', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '06093f0364bb39a0ce41e6a6aca75d6db6e14b66', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '6987659872f51793478223050530042d4ab00189', type: "submit", form: `change-source-form-${this.booking?.booking_nbr}`, size: "m", appearance: "accent", variant: "brand", loading: this.isLoading }, t('Lcz_Save', { fallback: 'Save' })))));
+            }, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: '1f8210a98ca2c758d54d45375b46ba9306c05069', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '3427b3d56cb96ff986dfd339f154ad1a53c805e0', size: "m", "data-dialog": "close", appearance: "filled", variant: "neutral" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'ac109a0d93ad0fb9bdeeea644202fa12b420c32e', type: "submit", form: `change-source-form-${this.booking?.booking_nbr}`, size: "m", appearance: "accent", variant: "brand", loading: this.isLoading }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get is() { return "ir-booking-source-editor-dialog"; }
     static get encapsulation() { return "scoped"; }

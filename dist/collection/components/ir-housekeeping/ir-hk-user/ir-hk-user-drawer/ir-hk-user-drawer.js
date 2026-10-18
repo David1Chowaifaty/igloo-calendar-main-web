@@ -8,13 +8,13 @@ export class IrHkUserDrawer {
     closeSideBar;
     formId = 'hk-user-drawer-form';
     render() {
-        return (h("ir-drawer", { key: 'ea42a3f9f7091bb07140efecfb969547a1d98a3e', open: this.open, onDrawerHide: () => {
+        return (h("ir-drawer", { key: '90e1ad9595e2a21407c3f192c636ee1ca1585511', open: this.open, onDrawerHide: () => {
                 this.closeSideBar.emit(null);
-            }, label: this.isEdit ? t('Lcz_EditHousekeeperProfile', { fallback: 'Edit Housekeeper Profile' }) : t('Lcz_CreateHousekeeperProfile', { fallback: 'Create housekeeper profile' }) }, this.open && (h("ir-hk-user-drawer-form", { key: 'f887b93af5fa2d2b407659f0d2c2a58afc9afe0e', onLoadingChanged: e => {
+            }, label: this.isEdit ? t('Lcz_EditHousekeeperProfile', { fallback: 'Edit Housekeeper Profile' }) : t('Lcz_CreateHousekeeperProfile', { fallback: 'Create housekeeper profile' }) }, this.open && (h("ir-hk-user-drawer-form", { key: '86b0f82c01533faf6a2fbad851fbc49c163a06ff', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail;
-            }, isEdit: this.isEdit, user: this.user, formId: this.formId })), h("div", { key: 'db6ccf7fda6ebeed11ccb14237b3f0acade903e2', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '859265c56b74accbe386be6cb452d2fcd927bad0', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '664e8d481fecd355470dadfc3dfcd63d6fe1a398', loading: this.isLoading, variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, t('Lcz_Save', { fallback: 'Save' })))));
+            }, isEdit: this.isEdit, user: this.user, formId: this.formId })), h("div", { key: 'f6c910a38946d6615392c67a3d2f2248c52edfef', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '9e4f51d59a0032919ba1d5c9b2e077f1bcdae418', "data-drawer": "close", variant: "neutral", size: "m", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'b2ce6b3f75969704eef35c1aa0c36bb7ee4171f5', loading: this.isLoading, variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "m" }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get is() { return "ir-hk-user-drawer"; }
     static get encapsulation() { return "scoped"; }

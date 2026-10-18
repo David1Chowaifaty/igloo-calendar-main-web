@@ -52,7 +52,7 @@ const IrPasswordValidator = class {
         return /[!@#$%^&*()\-_=+]/.test(this.password);
     }
     render() {
-        return (index.h("div", { key: '9b0445c667f7596063ae7d5939b65a3df9d3ea64', class: "m-0 p-0" }, index.h("requirement-check", { key: 'f4bd75a04585c3d1a46e26b2eea5c83963a8219f', isValid: this.validLength, text: t.t('Lcz_Minimum8Characters', { fallback: 'Minimum 8 characters' }) }), index.h("requirement-check", { key: '560fb0dfbe78289d6101923b40951f62d445d953', isValid: this.hasUppercase, text: t.t('Lcz_AtLeastOneUppercaseLetter', { fallback: 'At least one uppercase letter' }) }), index.h("requirement-check", { key: '8bb16a675e94b2fbd42c12eba6a4206edf1c57d2', isValid: this.hasLowercase, text: t.t('Lcz_AtLeastOneLowercaseLetter', { fallback: 'At least one lowercase letter' }) }), index.h("requirement-check", { key: '962e8974e211e3337c7190d727883a9f860f1546', isValid: this.hasDigit, text: t.t('Lcz_AtLeastOneDigit', { fallback: 'At least one digit' }) }), index.h("requirement-check", { key: 'ff465b1ea307bf7920a3424d58010db9e1d2ddbd', isValid: this.hasSpecialChar, text: t.t('Lcz_AtLeastOneSpecialCharacter', { fallback: 'At least one special character' }) })));
+        return (index.h("div", { key: '66c26887f9c5e769a3df1bfb52b711b234ddaa8d', class: "m-0 p-0" }, index.h("requirement-check", { key: '8f7a5e19e151de65c32221f13de12e4713470e28', isValid: this.validLength, text: t.t('Lcz_Minimum8Characters', { fallback: 'Minimum 8 characters' }) }), index.h("requirement-check", { key: 'bbfe2154d800eb33cece83167c18bdc178feb1e6', isValid: this.hasUppercase, text: t.t('Lcz_AtLeastOneUppercaseLetter', { fallback: 'At least one uppercase letter' }) }), index.h("requirement-check", { key: 'c9004d0d909ff4474bec1afa8fcc95b8a0d1e2e7', isValid: this.hasLowercase, text: t.t('Lcz_AtLeastOneLowercaseLetter', { fallback: 'At least one lowercase letter' }) }), index.h("requirement-check", { key: 'cfe0d90308287b95c960704129a412a5c9021e3e', isValid: this.hasDigit, text: t.t('Lcz_AtLeastOneDigit', { fallback: 'At least one digit' }) }), index.h("requirement-check", { key: 'ff78b47c3155769f5da4066b825ad7b6884e3565', isValid: this.hasSpecialChar, text: t.t('Lcz_AtLeastOneSpecialCharacter', { fallback: 'At least one special character' }) })));
     }
     static get watchers() { return {
         "password": [{
@@ -77,7 +77,7 @@ const RequirementCheck = class {
      */
     text = '';
     render() {
-        return (index.h("div", { key: 'baa0341d75149621ed8ff7d7d208b4360ed4da4b', class: { requirement: true, valid: this.isValid } }, index.h("ir-icons", { key: 'cf3a73986f1010bfe5a78a3d69edb087fb168833', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), index.h("span", { key: '9cb863af2d1b29cfb67c558cd861804af3d85dc2' }, this.text)));
+        return (index.h("div", { key: '1b967ef4a89a22486875d4cbb5aa89a20950debb', class: { requirement: true, valid: this.isValid } }, index.h("ir-icons", { key: 'e9825bddca015fd5dfcd065e1460d146d1b46f1b', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), index.h("span", { key: '3ced218b31d3a1536980edbdefc51cfb834e57c1' }, this.text)));
     }
 };
 RequirementCheck.style = requirementCheckCss();

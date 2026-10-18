@@ -104,6 +104,10 @@ const IrAuth = class {
     autoPassword;
     /** Overrides the axios base URL the login endpoints are posted to. */
     baseUrl;
+    /** Id of the server button whose postback signs the user in (`FormsAuthentication.RedirectFromLoginPage`). */
+    redirectButton = 'btn_RedirectFromLogin';
+    /** Where users who must confirm a one-time password are sent instead. */
+    otpUrl = './OTPVerifier.aspx';
     view = 'login';
     username = '';
     password = '';
@@ -113,11 +117,13 @@ const IrAuth = class {
     isLoading = false;
     languageList = [];
     authLanguageChange;
+    /** Fires after a successful login, before redirecting. Call `preventDefault()` to handle navigation yourself. */
     authFinish;
     authService = new LegacyAuthService();
     apiClient = new ApiClient();
     languageSync = new LanguageSync(SCREEN_TABLES.auth, () => LocaleController.load({ tables: SCREEN_TABLES.auth }));
     formEl;
+    postedUsernameEl;
     schemaCache;
     componentWillLoad() {
         LocaleController.load({ language: this.language, tables: SCREEN_TABLES.auth }).catch(error => console.error('Failed to load login strings', error));
@@ -206,6 +212,8 @@ const IrAuth = class {
     }
     handleSubmit(e) {
         e.preventDefault();
+        // This form is nested in the page's server form; keep its submit away from ASP.NET's onsubmit.
+        e.stopPropagation();
         switch (this.view) {
             case 'login':
                 return this.authenticate();
@@ -237,7 +245,10 @@ const IrAuth = class {
             else {
                 this.toastSuccess(t('Lcz_LoginSuccessful', { fallback: 'Hooray! You have successfully logged in.' }));
             }
-            this.authFinish.emit({ userInfo, requiresOtp: userInfo.IsRequireOTP === true });
+            const requiresOtp = userInfo.IsRequireOTP === true;
+            if (!this.authFinish.emit({ userInfo, requiresOtp }).defaultPrevented) {
+                this.redirect(requiresOtp);
+            }
         }
         catch (error) {
             this.toastError(error);
@@ -245,6 +256,25 @@ const IrAuth = class {
         finally {
             this.isLoading = false;
         }
+    }
+    redirect(requiresOtp) {
+        if (requiresOtp) {
+            window.location.href = this.otpUrl;
+            return;
+        }
+        const button = document.getElementById(this.redirectButton);
+        if (!button) {
+            console.error(`[ir-auth] Redirect button "#${this.redirectButton}" not found; cannot complete the login postback.`);
+            return;
+        }
+        if (!this.postedUsernameEl?.closest('form')) {
+            console.warn('[ir-auth] Not inside a <form>: "txt_username" will not be posted with the redirect.');
+        }
+        // Set directly rather than through render: the postback goes out before the next frame.
+        if (this.postedUsernameEl) {
+            this.postedUsernameEl.value = this.username;
+        }
+        button.click();
     }
     async forgotPassword() {
         if (!this.isValid('forgotPasswordUsername') || this.isLoading) {
@@ -340,7 +370,7 @@ const IrAuth = class {
         return (h("div", { class: "pms-auth__lang" }, h("wa-dropdown", { id: "language-selector", "onwa-select": e => this.authLanguageChange.emit({ code: e.detail.item.value }) }, h("wa-button", { slot: "trigger", size: "s", appearance: "outlined", variant: "neutral", "with-caret": true }, current?.label ?? this.language?.toUpperCase()), this.languageList.map(({ code, label }) => (h("wa-dropdown-item", { key: code, value: code }, label))))));
     }
     render() {
-        return (h(Host, { key: '29e3c50ff8a4b5147f6fb537268e80ec8b8dd599' }, h("ir-toast", { key: '9af775572573e1ff434dfce59b30f22bc5252094' }), h("div", { key: '26472cb4d7179a778124e743c94aadbdb133c6a7', class: "pms-auth__topbar" }, h("div", { key: '00df8b2fcdcfbd26d261f85bf25709d5d3e0cf85', class: "pms-auth__brand" }, this.logoUrl && h("img", { key: '8c3d729f915704f9c437c7e6c20e431c210166d2', src: this.logoUrl, alt: "igloorooms" })), this.renderLanguageSelector()), h("div", { key: '54461cd9e6884c0c4512212fe2ea58b925bc39a5', class: "pms-auth__card" }, h("form", { key: 'd85e3d0b1c22e2326a765767c5bdf18f25c45070', novalidate: true, ref: el => (this.formEl = el), onSubmit: e => this.handleSubmit(e), onKeyDown: e => this.handleKeyDown(e) }, this.view === 'login' && this.renderLogin(), this.view === 'forgotPassword' && this.renderForgotPassword(), this.view === 'forgotUsername' && this.renderForgotUsername()), !this.insideMpo && (h("div", { key: '2bbc73fa1f93ec9afdb3afc013c0c25b14c4e489' }, h("hr", { key: '65ca6b6899cdcf6008d2da32d15044ccf83ca5f1', class: "pms-auth__divider" }), h("div", { key: 'a52e0b8bf4449a7e527b1fc95c090bd1ec87db80', class: "pms-auth__apps" }, h("a", { key: '9a8e39585d7c1dd2a2bb1f25699dcf0c90cbe201', href: "https://apps.apple.com/lb/app/igloorooms/id1607846173", target: "_new", "aria-label": t('Lcz_InstallIglooroomsIosApp', { fallback: 'Install igloorooms iOS App' }) }, h("wa-icon", { key: '6f10cefc607a059c0a9f4a7f781ace32b7854a76', style: { fontSize: '1.5rem' }, name: "app-store", family: "brands" })), h("a", { key: '4b5a351c61c1d83b4247983d53940a5e14e88a1d', href: "https://play.google.com/store/apps/details?id=com.iglooroomsapp", target: "_new", "aria-label": t('Lcz_InstallIglooroomsAndroidApp', { fallback: 'Install igloorooms Android App' }) }, h("wa-icon", { key: '6368740671895f77175d5dbe374b890984bfc35e', style: { fontSize: '1.5rem' }, name: "google-play", family: "brands" }))), h("ir-custom-button", { key: 'fc3d47410c0c189bbbe6b4427ae1d78d52a290ec', class: "pms-auth__signup", appearance: "outlined", variant: "neutral", size: "m", href: "https://info.igloorooms.com/signup", target: "_blank" }, t('Lcz_NewToIgloorooms', { fallback: 'New to igloorooms?' }))))), h("div", { key: '44db61c2f1bb28724d9378c463c883a380e8804f', class: "pms-auth__footer" }, h("a", { key: '2d25b95b74b784953487869c756a2fe439a3c124', href: "https://info.igloorooms.com/privacy/", target: "_new" }, t('Lcz_PrivacyPolicy', { fallback: 'Privacy policy' })), h("span", { key: '5436f2024da41824afb8985abe98e0ef2ca7158b' }, t('Lcz_NeedHelpContactSupport', { fallback: 'Need help? support@igloorooms.com' })))));
+        return (h(Host, { key: '483cf65b068e6ff53630e3f17f994d276e2e5053' }, h("ir-toast", { key: 'd85211413e25cb1f420a2e51292224ed648928d3' }), h("input", { key: 'f51b57dea9e9f6f88d8f77d7b7cefed79e76de06', type: "hidden", name: "txt_username", value: this.username, ref: el => (this.postedUsernameEl = el) }), h("div", { key: 'a213acfdfd7157e5bfa0675ae470d8b9407bfabc', class: "pms-auth__topbar" }, h("div", { key: '30c66d979d84942fffe53140e5c465fdd4b330e3', class: "pms-auth__brand" }, this.logoUrl && h("img", { key: '1b3ea9fc70bfeab841a8e03ed1def047db565f50', src: this.logoUrl, alt: "igloorooms" })), this.renderLanguageSelector()), h("div", { key: '89b28c64ad42f2cdca669d3a8bde8500a0ddf9f3', class: "pms-auth__card" }, h("form", { key: '46df48a2fb3780ca94289dffbe3fd287d8423981', novalidate: true, ref: el => (this.formEl = el), onSubmit: e => this.handleSubmit(e), onKeyDown: e => this.handleKeyDown(e) }, this.view === 'login' && this.renderLogin(), this.view === 'forgotPassword' && this.renderForgotPassword(), this.view === 'forgotUsername' && this.renderForgotUsername()), !this.insideMpo && (h("div", { key: '0a22733de8c0f6614d305e834da04b1657eea0d3' }, h("hr", { key: '07addacc03a8ee2e67c2a70f41cfbf18d579e1ca', class: "pms-auth__divider" }), h("div", { key: 'feb101e617d472053d86d15ffdb01b02f976b7d0', class: "pms-auth__apps" }, h("a", { key: 'fa7f32e2a68a0ebb66b7849797d8e1a7a1ccd568', href: "https://apps.apple.com/lb/app/igloorooms/id1607846173", target: "_new", "aria-label": t('Lcz_InstallIglooroomsIosApp', { fallback: 'Install igloorooms iOS App' }) }, h("wa-icon", { key: '8e8685d46f12478a2ba82f2944ebc89592d51692', style: { fontSize: '1.5rem' }, name: "app-store", family: "brands" })), h("a", { key: 'b69f9eff961e855b33ce5969b965dbfc2b124c02', href: "https://play.google.com/store/apps/details?id=com.iglooroomsapp", target: "_new", "aria-label": t('Lcz_InstallIglooroomsAndroidApp', { fallback: 'Install igloorooms Android App' }) }, h("wa-icon", { key: '25e80ab3135b7993c9a6127f0cfc46d50e6fd1f3', style: { fontSize: '1.5rem' }, name: "google-play", family: "brands" }))), h("ir-custom-button", { key: '50a68851bcc9ed3c0c47ed8efd59344e8b8f9571', class: "pms-auth__signup", appearance: "outlined", variant: "neutral", size: "m", href: "https://info.igloorooms.com/signup", target: "_blank" }, t('Lcz_NewToIgloorooms', { fallback: 'New to igloorooms?' }))))), h("div", { key: 'eb3e607891cd478170b46ff8ab5b23aa4b59e76d', class: "pms-auth__footer" }, h("a", { key: 'd622d86eafafb5db0cb5d7def42f01190e58c762', href: "https://info.igloorooms.com/privacy/", target: "_new" }, t('Lcz_PrivacyPolicy', { fallback: 'Privacy policy' })), h("span", { key: 'dfcc87d87d5d5f65846fbbff3ff145a88ef7281d' }, t('Lcz_NeedHelpContactSupport', { fallback: 'Need help? support@igloorooms.com' })))));
     }
     static get watchers() { return {
         "language": [{
@@ -900,7 +930,7 @@ const IrInput = class {
             // We must pass "1,000.00" to wa-input to avoid the overwrite warning
             displayValue = this._mask.value;
         }
-        return (h(Host, { key: 'b85cd468f4874752e24a116fa6535a15d3182944' }, h("wa-input", { key: '8c2d42e78117f24d54395153d31229d15afd59de', part: "wa-input", type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && h("slot", { key: '3899296876f752c921aa7ceca47cf912fc6d8e19', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: 'f65a0752d0f249c6ccb40311e493ad7f2b84eae2', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: '75e6aba6f58152dfd2ad7224456e6521f16fef86', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: 'cbf0d72831995628b99b643b60a3635f9717a7d4', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: 'b06cdbce1c0973b1d103088aeaa85daf601bd6e9', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: '78226c9e8c6d8f1a258b51e444196ea6d446e360', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '505fc6470cf30ef28d25b99fb75a113654edc11a', name: "hint", slot: "hint" }))));
+        return (h(Host, { key: 'e7b91c66222f3526a35b3277a8fdc4f06f74b54a' }, h("wa-input", { key: 'd2f7849808bd8f5f5b2d50e303ba4caa084260b5', part: "wa-input", type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && h("slot", { key: '646c870ca339effe4cc28b3adc8e54055fb24040', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: 'dd5984181c24ac2e9e2b2202f5b22a93011fc898', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: '99e96d492bccd37852682197ea04e45e9d27b10a', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: 'ceb3881a5f4734027756954be7252bfd7cc873a3', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: 'c547f402214c5ac89a9ce014acec13ec7afb51f3', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: 'b56436d3b6d9f120a89bd93cf0f4c3d36e711529', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '34656b1c19645045b0b4bc0911baf62a90d0db32', name: "hint", slot: "hint" }))));
     }
     static get formAssociated() { return true; }
     static get watchers() { return {
@@ -1874,7 +1904,7 @@ const IrValidator = class {
         }
     }
     render() {
-        return (h(Host, { key: '6d980ae2b3f5cc5441a53af61a5075f9f6dadab3' }, h("slot", { key: 'a10389ddf24277b89e5c478dbc151a1e7d72ac2d' }), !this.isValid && this.showErrorMessage && (h("span", { key: '643a24b7b7f4db8a3a65204eae9f66e219b10449', part: "error-message", class: "error-message" }, this.errorMessage))));
+        return (h(Host, { key: '73514955b918d2117bec2d83e30d82fcee7cfdc7' }, h("slot", { key: '51c734703898ac7db5ae81c0b037ce4743379b24' }), !this.isValid && this.showErrorMessage && (h("span", { key: 'b049c6b2330963ecfed7ad62a07c4ade7120ef41', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get watchers() { return {
         "schema": [{

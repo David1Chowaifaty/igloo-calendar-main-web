@@ -1097,9 +1097,11 @@ export namespace Components {
     /**
      * The extranet sign-in panel: login, forgot password and forgot username.
      * Owns validation and the whole legacy login chain (`IsAuthenticated_JSON` →
-     * `Get_Startup_Data_Signature` → `Get_Startup_Data`). Navigation is left to the
-     * host page through {@link authFinish}, since the final redirect is a server
-     * postback.
+     * `Get_Startup_Data_Signature` → `Get_Startup_Data`), then redirects the way
+     * `Default.aspx` always has: to the OTP page, or by clicking the server's
+     * `btn_RedirectFromLogin`, whose handler reads `Request.Form["txt_username"]`.
+     * Mount it inside the page's `<form runat="server">` so the hidden `txt_username`
+     * field it renders is posted with that form.
      */
     interface IrAuth {
         "autoPassword": string;
@@ -1127,6 +1129,16 @@ export namespace Components {
          */
         "languages": string | AuthLanguage[];
         "logoUrl": string;
+        /**
+          * Where users who must confirm a one-time password are sent instead.
+          * @default './OTPVerifier.aspx'
+         */
+        "otpUrl": string;
+        /**
+          * Id of the server button whose postback signs the user in (`FormsAuthentication.RedirectFromLoginPage`).
+          * @default 'btn_RedirectFromLogin'
+         */
+        "redirectButton": string;
     }
     interface IrAutocomplete {
         /**
@@ -9935,9 +9947,11 @@ declare global {
     /**
      * The extranet sign-in panel: login, forgot password and forgot username.
      * Owns validation and the whole legacy login chain (`IsAuthenticated_JSON` →
-     * `Get_Startup_Data_Signature` → `Get_Startup_Data`). Navigation is left to the
-     * host page through {@link authFinish}, since the final redirect is a server
-     * postback.
+     * `Get_Startup_Data_Signature` → `Get_Startup_Data`), then redirects the way
+     * `Default.aspx` always has: to the OTP page, or by clicking the server's
+     * `btn_RedirectFromLogin`, whose handler reads `Request.Form["txt_username"]`.
+     * Mount it inside the page's `<form runat="server">` so the hidden `txt_username`
+     * field it renders is posted with that form.
      */
     interface HTMLIrAuthElement extends Components.IrAuth, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrAuthElementEventMap>(type: K, listener: (this: HTMLIrAuthElement, ev: IrAuthCustomEvent<HTMLIrAuthElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -16170,9 +16184,11 @@ declare namespace LocalJSX {
     /**
      * The extranet sign-in panel: login, forgot password and forgot username.
      * Owns validation and the whole legacy login chain (`IsAuthenticated_JSON` →
-     * `Get_Startup_Data_Signature` → `Get_Startup_Data`). Navigation is left to the
-     * host page through {@link authFinish}, since the final redirect is a server
-     * postback.
+     * `Get_Startup_Data_Signature` → `Get_Startup_Data`), then redirects the way
+     * `Default.aspx` always has: to the OTP page, or by clicking the server's
+     * `btn_RedirectFromLogin`, whose handler reads `Request.Form["txt_username"]`.
+     * Mount it inside the page's `<form runat="server">` so the hidden `txt_username`
+     * field it renders is posted with that form.
      */
     interface IrAuth {
         "autoPassword"?: string;
@@ -16200,8 +16216,21 @@ declare namespace LocalJSX {
          */
         "languages"?: string | AuthLanguage[];
         "logoUrl"?: string;
+        /**
+          * Fires after a successful login, before redirecting. Call `preventDefault()` to handle navigation yourself.
+         */
         "onAuthFinish"?: (event: IrAuthCustomEvent<{ userInfo: LegacyUserInfo; requiresOtp: boolean }>) => void;
         "onAuthLanguageChange"?: (event: IrAuthCustomEvent<{ code: string }>) => void;
+        /**
+          * Where users who must confirm a one-time password are sent instead.
+          * @default './OTPVerifier.aspx'
+         */
+        "otpUrl"?: string;
+        /**
+          * Id of the server button whose postback signs the user in (`FormsAuthentication.RedirectFromLoginPage`).
+          * @default 'btn_RedirectFromLogin'
+         */
+        "redirectButton"?: string;
     }
     interface IrAutocomplete {
         /**
@@ -23879,6 +23908,8 @@ declare namespace LocalJSX {
         "autoUsername": string;
         "autoPassword": string;
         "baseUrl": string;
+        "redirectButton": string;
+        "otpUrl": string;
     }
     interface IrAutocompleteAttributes {
         "emitOnSameValue": boolean;
@@ -26314,9 +26345,11 @@ declare module "@stencil/core" {
             /**
              * The extranet sign-in panel: login, forgot password and forgot username.
              * Owns validation and the whole legacy login chain (`IsAuthenticated_JSON` →
-             * `Get_Startup_Data_Signature` → `Get_Startup_Data`). Navigation is left to the
-             * host page through {@link authFinish}, since the final redirect is a server
-             * postback.
+             * `Get_Startup_Data_Signature` → `Get_Startup_Data`), then redirects the way
+             * `Default.aspx` always has: to the OTP page, or by clicking the server's
+             * `btn_RedirectFromLogin`, whose handler reads `Request.Form["txt_username"]`.
+             * Mount it inside the page's `<form runat="server">` so the hidden `txt_username`
+             * field it renders is posted with that form.
              */
             "ir-auth": LocalJSX.IntrinsicElements["ir-auth"] & JSXBase.HTMLAttributes<HTMLIrAuthElement>;
             "ir-autocomplete": LocalJSX.IntrinsicElements["ir-autocomplete"] & JSXBase.HTMLAttributes<HTMLIrAutocompleteElement>;

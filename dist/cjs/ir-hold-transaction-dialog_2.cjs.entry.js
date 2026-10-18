@@ -58,7 +58,7 @@ const IrHoldTransactionDialog = class {
     }
     render() {
         const isHeld = this.row?.status?.id === 'held';
-        return (index.h(index.Host, { key: 'ac2247cb172574a8e640c943655447b47d4e2983' }, index.h("ir-dialog", { key: '0e9a1720970bb45a23d9b0f9788dd2c9e89e4009', label: isHeld ? t.t('Lcz_RevertTransactionTitle', { fallback: 'Revert Transaction' }) : t.t('Lcz_HoldTransactionTitle', { fallback: 'Hold Transaction' }), ref: el => (this.dialogRef = el) }, index.h("div", { key: '70170a87f8c66d349222ad1692492828f6b3dd60', class: "hold-dialog__body" }, isHeld ? (index.h("p", null, t.t('Lcz_RevertToUnbilledConfirmMessage', { fallback: 'Revert this transaction back to Unbilled status? It will re-enter the billing queue.' }))) : (index.h("p", null, t.t('Lcz_HoldConfirmMessage', { fallback: 'Place this transaction on Hold? It will be excluded from invoicing until released.' })))), index.h("div", { key: '6d83ae03c54d64be9f89809f629f63dd26da0b07', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: 'a5dd8fdd6455639a63766fa8fa36767be1a5b785', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close" }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: 'e4af292c1b94c7202add50686a009b41cc186946', size: "m", loading: this.isLoading, onClickHandler: () => this.handleConfirm(), appearance: "accent", variant: "brand" }, t.t('Lcz_Confirm', { fallback: 'Confirm' }))))));
+        return (index.h(index.Host, { key: '182db078839512fed222a041658c6cabf311f0c6' }, index.h("ir-dialog", { key: '137035ec956bcb9d49716ed4d330e15a83b56803', label: isHeld ? t.t('Lcz_RevertTransactionTitle', { fallback: 'Revert Transaction' }) : t.t('Lcz_HoldTransactionTitle', { fallback: 'Hold Transaction' }), ref: el => (this.dialogRef = el) }, index.h("div", { key: '52657e0d017405ce2697b1af2ec5260c6806dd2e', class: "hold-dialog__body" }, isHeld ? (index.h("p", null, t.t('Lcz_RevertToUnbilledConfirmMessage', { fallback: 'Revert this transaction back to Unbilled status? It will re-enter the billing queue.' }))) : (index.h("p", null, t.t('Lcz_HoldConfirmMessage', { fallback: 'Place this transaction on Hold? It will be excluded from invoicing until released.' })))), index.h("div", { key: '29b1849ab7e86cf7a4b56c66ccd237ccc063bf9e', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: 'd8bf79d9c33b568069cf3282cf63c524510035ef', size: "m", appearance: "filled", variant: "neutral", "data-dialog": "close" }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: '7e25e975c6d025e04fafe70930eaed19a14c4593', size: "m", loading: this.isLoading, onClickHandler: () => this.handleConfirm(), appearance: "accent", variant: "brand" }, t.t('Lcz_Confirm', { fallback: 'Confirm' }))))));
     }
 };
 IrHoldTransactionDialog.style = irHoldTransactionDialogCss();
@@ -129,7 +129,7 @@ const IrInputCell = class {
         this.slotState = newState;
     }
     render() {
-        return (index.h("div", { key: 'f47796c07009d64bcaeebf7a773b9dc1efda2eb6', onDblClick: () => {
+        return (index.h("div", { key: 'f7dccad772ad86b283f2dd7532277ca70e4a66d0', onDblClick: () => {
                 if (this.disabled) {
                     return;
                 }

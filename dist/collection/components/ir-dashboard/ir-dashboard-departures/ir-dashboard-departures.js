@@ -49,7 +49,7 @@ export class IrDashboardDepartures {
         this.invoiceState = null;
     }
     render() {
-        return (h(Host, { key: '6e5fb9dee81d749c9701e00c969c8fb02e888f61' }, h("ir-departures-table", { key: '7dbe63be2b6ae3454ebe9f9ba42efdb63c3b9907', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckoutRoom: event => this.handleCheckoutRoom(event) }), h("ir-checkout-dialog", { key: 'ce287e03955cb666947545874179ef1398c9209d', booking: this.checkoutState?.booking, identifier: this.checkoutState?.identifier, open: this.checkoutState !== null, onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: '7cc5a683352079ad63a7252bb814333dcd7798a7', booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null, onInvoiceClose: event => this.handleInvoiceClose(event) })));
+        return (h(Host, { key: '53fcd0ecb24760fbf03023110309597304774035' }, h("ir-departures-table", { key: 'c24aa640fa73c4d38e55df68079314df920895ea', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckoutRoom: event => this.handleCheckoutRoom(event) }), h("ir-checkout-dialog", { key: '6c6e72f77f8ea79dc83bf199ea3110823cb2814b', booking: this.checkoutState?.booking, identifier: this.checkoutState?.identifier, open: this.checkoutState !== null, onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: '8afcf49af1056d9b76871cca3ae56d793a5bf0a3', booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null, onInvoiceClose: event => this.handleInvoiceClose(event) })));
     }
     static get is() { return "ir-dashboard-departures"; }
     static get encapsulation() { return "scoped"; }
