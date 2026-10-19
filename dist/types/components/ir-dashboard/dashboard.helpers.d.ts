@@ -6,6 +6,11 @@ import type { RealtimeEventMap } from "../../services/realtime/types";
 import type { ISODate } from "../../utils/calendar-dates";
 /** How many days either side of today the dashboard's day picker reaches. */
 export declare const MAX_DAY_OFFSET = 2;
+/**
+ * Page size the dashboard requests. Card counts are computed from the loaded page,
+ * so it's large enough to hold a normal property's arrivals / departures for one day.
+ */
+export declare const DASHBOARD_PAGE_SIZE = 100;
 /** Quiet time after the last day change before the day is fetched, so stepping through several days only loads the last. */
 export declare const DATE_CHANGE_DEBOUNCE_MS = 300;
 /**

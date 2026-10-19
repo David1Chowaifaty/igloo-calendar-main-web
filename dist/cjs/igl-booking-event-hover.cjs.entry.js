@@ -2,7 +2,7 @@
 
 var index = require('./index-IDeZZwEK.js');
 var utils = require('./utils-ZKsQb8eV.js');
-var events_service = require('./events.service-CLLfGwAw.js');
+var events_service = require('./events.service-CWqaes8Y.js');
 var moment = require('./moment-CdViwxPQ.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 var localeScope = require('./locale-scope-Cch-vf1R.js');
@@ -20,7 +20,7 @@ require('./ir-date-CbkOKs2C.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./axios-EresIryl.js');
-require('./booking.store-DV5HqIy7.js');
+require('./booking.service-DgtnN0XU.js');
 require('./IBooking-hDE_y33g.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./functions-CaNAUyCw.js');
@@ -460,7 +460,7 @@ const IglBookingEventHover = class {
         return index.h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (index.h(index.Host, { key: '3b89b1b23c7536852a387d96071ca4d57af4353e', dir: direction.isRtlDirection(localeScope.locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (index.h(index.Host, { key: 'eddd6393890382d3bdabb6d7afd94160bfcd65df', dir: direction.isRtlDirection(localeScope.locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": [{

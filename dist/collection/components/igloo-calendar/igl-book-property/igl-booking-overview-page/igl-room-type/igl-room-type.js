@@ -11,7 +11,7 @@ export class IglRoomType {
     validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
     render() {
         const isValidBookingType = this.validBookingTypes.includes(this.bookingType);
-        return (h(Host, { key: '9fbf0d2582f060ada1725f1a747cedda37a849bd' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("h5", { key: '077fa0bf1291d4ba95833a0e25d919fc481a0dc2', class: "roomtype__name" }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
+        return (h(Host, { key: '67d2b331032b66f0b067e301f3e47e8b8248f847' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("h5", { key: '0818745ff856b94d7d55c676d2af6a7da8e33e68', class: "roomtype__name" }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
             if (!!ratePlan.variations) {
                 let shouldBeDisabled = this.roomTypeId === this.roomType.id;
                 const visibleInventory = getVisibleInventory(this.roomType.id, ratePlan.id);

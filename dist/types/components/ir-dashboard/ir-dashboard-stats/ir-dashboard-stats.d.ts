@@ -7,8 +7,8 @@ import type { RailDensity } from '../types';
  * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
  * skeleton until it arrives.
  *
- * Properties without front desk (`isPms` false) see only Available, Booked and Pending — no occupancy, no bar —
- * and no RevPAR.
+ * Properties without front desk (`isPms` false) see only Booked and Pending — no occupancy, no bar, no calendar
+ * figures (the dashboard skips the calendar request for them) — and no RevPAR.
  */
 export declare class IrDashboardStats {
     /** Selected day (`YYYY-MM-DD`); titles the occupancy card. */

@@ -12,6 +12,10 @@ export declare class DashboardService {
     getUnitsSummary({ property_id, date, language }: DashboardDayParams): Promise<DashboardUnits>;
     /** Rooms checked in whose stay covers `date`. */
     getInHouse({ property_id, date, language }: DashboardDayParams): Promise<Booking[]>;
+    /** Bookings arriving on `date`, for properties without the front desk (the PMS uses Get_Rooms_To_Check_In). */
+    getArrivals({ property_id, date, language }: DashboardDayParams): Promise<Booking[]>;
+    /** Bookings departing on `date`, for properties without the front desk (the PMS uses Get_Rooms_To_Check_Out). */
+    getDepartures({ property_id, date, language }: DashboardDayParams): Promise<Booking[]>;
     /** Bookings created on `date`. */
     getNewBookings({ property_id, date, language }: DashboardDayParams): Promise<Booking[]>;
     /**

@@ -1,5 +1,4 @@
-import { DASHBOARD_PAGE_SIZE } from "../../components/ir-dashboard/dashboard.data";
-import { countRooms, filterInHouse, sumUnits } from "../../components/ir-dashboard/dashboard.helpers";
+import { countRooms, DASHBOARD_PAGE_SIZE, filterInHouse, sumUnits } from "../../components/ir-dashboard/dashboard.helpers";
 import { BookingService } from "../booking-service/booking.service";
 import { BookingListingService } from "../booking-listing/index";
 import { PropertyService } from "../property/index";
@@ -30,6 +29,14 @@ export class DashboardService {
     async getInHouse({ property_id, date, language }) {
         const bookings = await this.getExposedBookings(property_id, date, { filter_type: '5', booking_status: '002', language });
         return filterInHouse(bookings, date);
+    }
+    /** Bookings arriving on `date`, for properties without the front desk (the PMS uses Get_Rooms_To_Check_In). */
+    async getArrivals({ property_id, date, language }) {
+        return this.getExposedBookings(property_id, date, { filter_type: '2', booking_status: '002', language });
+    }
+    /** Bookings departing on `date`, for properties without the front desk (the PMS uses Get_Rooms_To_Check_Out). */
+    async getDepartures({ property_id, date, language }) {
+        return this.getExposedBookings(property_id, date, { filter_type: '3', booking_status: '002', language });
     }
     /** Bookings created on `date`. */
     async getNewBookings({ property_id, date, language }) {

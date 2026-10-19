@@ -1,23 +1,23 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
-import { U as UnassignedUnitsService } from './index-CqJSYuB6.js';
-import { c as clampToLoadedRange, t as toCalendarPreviewEvents, a as toCalendarAssignedEvent, g as guestName } from './utils-CAcYa6Tq.js';
+import { U as UnassignedUnitsService } from './index-BcmHUiZd.js';
+import { c as clampToLoadedRange, t as toCalendarPreviewEvents, a as toCalendarAssignedEvent, g as guestName } from './utils-oLFued6C.js';
 import { t } from './t-Bvz1wS_D.js';
-import { a as formatBookingNumber } from './number-B8waOzTO.js';
-import { c as canCheckIn } from './utils-BaDgLaiu.js';
+import { a as formatBookingNumber } from './number-0UrU_yO2.js';
+import { c as canCheckIn } from './utils-CAiEa-WB.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './commonSchemas-Cx9w9d8l.js';
-import './types-CB66a07H.js';
+import './commonSchemas-BNnUj2OT.js';
+import './types-BLb1NO3I.js';
 import './calendar-dates-D3hVfsrC.js';
 import './moment-Mki5YqAR.js';
-import './booking-CDc4-nmz.js';
+import './booking-5B3Vroer.js';
 import './locale-scope-Jre4lb6k.js';
-import './calendar-data-DWzivSW-.js';
-import './functions-Ebyqqazo.js';
-import './ir-date-XXNYhmSL.js';
+import './calendar-data-D4DbXAhg.js';
+import './functions-BvJiJbl6.js';
+import './ir-date-CY_qGQ63.js';
 import './language-observer-CHgzsZkY.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
+import './booking.dto-DQx6bzbY.js';
+import './type-D_dKkSLY.js';
 
 const iglTbaBookingViewCss = () => `.sc-igl-tba-booking-view-h{display:block;margin-top:1rem}.tba.sc-igl-tba-booking-view{--spacing:0.5rem}.tba.sc-igl-tba-booking-view::part(body),.tba.sc-igl-tba-booking-view [part~="body"]{display:flex;flex-direction:column;gap:0.5rem}.tba__header.sc-igl-tba-booking-view{display:flex;align-items:center;gap:0.5rem;font-size:0.875rem;white-space:nowrap;cursor:pointer;--space-y:0.1rem;padding-top:var(--space-y);padding-bottom:var(--space-y)}.tba.--active.sc-igl-tba-booking-view::part(header),.tba.--active.sc-igl-tba-booking-view [part~="header"]{background-color:var(--wa-color-warning-fill-quiet);color:var(--wa-color-warning-on-quiet)}.tba__header--active.sc-igl-tba-booking-view{background-color:#f9f9c9}.tba__booking-number.sc-igl-tba-booking-view,.tba__guest-name.sc-igl-tba-booking-view,.tba__occupancy.sc-igl-tba-booking-view{margin:0;padding:0}.tba__separator.sc-igl-tba-booking-view{flex-shrink:0}.tba__guest-name.sc-igl-tba-booking-view{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tba__actions.sc-igl-tba-booking-view{display:flex;align-items:center;gap:16px;width:100%}.tba__select.sc-igl-tba-booking-view{flex:1;min-width:0}.tba__close.sc-igl-tba-booking-view{display:flex;align-items:center;justify-content:flex-end;gap:0.5rem}.tba__assign.sc-igl-tba-booking-view{display:flex;align-items:center;gap:0.5rem}.tba__assign-btn.sc-igl-tba-booking-view{flex:1}@media (min-width: 768px){.tba__guest-name.sc-igl-tba-booking-view{max-width:180px}}`;
 
@@ -168,7 +168,7 @@ const IglTbaBookingView = class {
         const canCheckInNow = canCheckIn({ from_date: from_date, to_date: to_date });
         const selectedValue = this.selectedUnitId === null ? '' : String(this.selectedUnitId);
         const actionsDisabled = this.selectedUnitId === null || this.pendingAction !== null;
-        return (h(Host, { key: '1850e65152000e7c9f6d29a86bea2a469d5810e6' }, h("wa-card", { key: '55f41cfd6edecc6976a1eddb0e1fe1bc8720a26a', appearance: "filled", class: this.isHighlighted ? 'tba --active' : 'tba', onClick: this.highlight }, h("div", { key: 'f646efd3ec85c38fdf87a26774580f05faf61b95', slot: "header", class: "tba__header", title: t('Lcz_ClickToAssignUnit', { fallback: 'Click to assign unit' }) }, h("p", { key: 'fd134e649f07ee4639aaf31dc37532775a4ef9bb', class: "tba__booking-number" }, formatBookingNumber(booking_nbr)), h("span", { key: '09486186f25cb3606355c924e2592f3898ad83f5', class: "tba__separator" }, "-"), h("p", { key: 'e741e88d571bc6b706ef5fa5590b5a359c1c71a7', class: "tba__guest-name" }, guestName(this.room)), occupancyLabel && (h("p", { key: '76ed1f2e1541d488d93b792baf216361c9a55d33', class: "tba__occupancy" }, h("span", { key: '30c86140899fc51e219d1b2d044f514061dd4792', class: "tba__occupancy-paren" }, "( "), h("span", { key: 'f0b94c413cb4821146c2ffb2deb297f689f024f9', class: "tba__occupancy-values" }, occupancyLabel), h("span", { key: '62cdf89c6869ab7c85b294826fb1fd8ca85b1f6b', class: "tba__occupancy-paren" }, " )")))), h("div", { key: '94798ee99d976c68806f6a94bbd85e36f0ac59b3', class: "tba__actions" }, h("wa-select", { key: '4c1632d3713beb769978ee541c01b8933eae29d5', class: "tba__select", size: "s", value: selectedValue, defaultValue: selectedValue, onchange: this.handleUnitChange }, h("wa-option", { key: '6cfd67ed8cdfc5359468dda411cfa0c138907032', value: "" }, t('Lcz_AssignUnit')), (this.room.assignable_units ?? []).map(unit => (h("wa-option", { key: unit.pr_id, value: String(unit.pr_id) }, unit.name)))), this.isHighlighted && (h("div", { key: '1bf3064ccb8a1ecd7e3b2c0b37c23ab6c2c73ec3', class: "tba__close" }, h("wa-button", { key: 'b0cfdd0186537f5c6a5efa1079bc0a030bab22b1', type: "button", appearance: "plain", size: "s", class: "tba__close-btn", onClick: this.handleClose }, h("wa-icon", { key: '535e2cf22a42db375c955f31424101909070c61f', name: "xmark" }))))), h("div", { key: '69ae892b09eb352141d93e66ceecff615aa91403', class: "tba__assign" }, h("wa-button", { key: '4ce4cd1967eabfb3879d777197b5b49993a47b81', class: "tba__assign-btn", size: "s", variant: "brand", appearance: canCheckInNow ? 'outlined' : 'accent', loading: this.pendingAction === 'assign', disabled: actionsDisabled, onClick: this.handleAssign }, t('Lcz_Assign', { fallback: 'Assign' })), canCheckInNow && (h("wa-button", { key: '703c936bd75fa2ec6aaa1c8e454491db1846f5f3', class: "tba__assign-btn", size: "s", variant: "brand", loading: this.pendingAction === 'checkin', disabled: actionsDisabled, onClick: this.handleAssignAndCheckIn }, t('Lcz_AssignedAndChecIn')))))));
+        return (h(Host, { key: 'bd51acaddcdf09fa7ee60585f545a3759822f475' }, h("wa-card", { key: '63de5d47a59c232632083504e9e87edfd135e1fc', appearance: "filled", class: this.isHighlighted ? 'tba --active' : 'tba', onClick: this.highlight }, h("div", { key: '3ea822ad31ee6fa713afb955f64d0954534c811f', slot: "header", class: "tba__header", title: t('Lcz_ClickToAssignUnit', { fallback: 'Click to assign unit' }) }, h("p", { key: 'e96002fa48aa5ca9e6ee7a2ea19f01ad75e3fc79', class: "tba__booking-number" }, formatBookingNumber(booking_nbr)), h("span", { key: 'c8ac6e474b2877838f69c5c18e6791b1d4ded2fc', class: "tba__separator" }, "-"), h("p", { key: 'f100ede2c85718946a896a842fa3ae9cd304c3fd', class: "tba__guest-name" }, guestName(this.room)), occupancyLabel && (h("p", { key: '10ef03d927cda9e4b9d92e1eef14c80fa0e9f427', class: "tba__occupancy" }, h("span", { key: '22c07ee8480201f1ec23830132e3397a7fbb2df4', class: "tba__occupancy-paren" }, "( "), h("span", { key: '4f315a83d305a6573dfb1e278ae38c4f52a34883', class: "tba__occupancy-values" }, occupancyLabel), h("span", { key: 'c5ef9d01ea4d48f4e9cd69637c316515701e1d79', class: "tba__occupancy-paren" }, " )")))), h("div", { key: 'c08064c19832ed2d7ae23b8a5975075158107b52', class: "tba__actions" }, h("wa-select", { key: 'ae98db651cfb30aca3ebbdce924a52d44f2c8c67', class: "tba__select", size: "s", value: selectedValue, defaultValue: selectedValue, onchange: this.handleUnitChange }, h("wa-option", { key: '4c2ab48c523f481207a073c342868e4821ace324', value: "" }, t('Lcz_AssignUnit')), (this.room.assignable_units ?? []).map(unit => (h("wa-option", { key: unit.pr_id, value: String(unit.pr_id) }, unit.name)))), this.isHighlighted && (h("div", { key: 'a0ec85ba8919baf3ecda065d5a27ee3762581a8a', class: "tba__close" }, h("wa-button", { key: '8ea409467cfb508d83c09713a0095c628bbde1c8', type: "button", appearance: "plain", size: "s", class: "tba__close-btn", onClick: this.handleClose }, h("wa-icon", { key: '6ab116cdbd1921789e204084764a56fd3a9c552e', name: "xmark" }))))), h("div", { key: 'eee3386dfa00e3a27d903b8852d4d953cd0a908e', class: "tba__assign" }, h("wa-button", { key: '0e0b080c3f29a9db4d01118f876d485ab26bb902', class: "tba__assign-btn", size: "s", variant: "brand", appearance: canCheckInNow ? 'outlined' : 'accent', loading: this.pendingAction === 'assign', disabled: actionsDisabled, onClick: this.handleAssign }, t('Lcz_Assign', { fallback: 'Assign' })), canCheckInNow && (h("wa-button", { key: 'f6a14ea9a0ad4f9bc538ac66feb26711365643ab', class: "tba__assign-btn", size: "s", variant: "brand", loading: this.pendingAction === 'checkin', disabled: actionsDisabled, onClick: this.handleAssignAndCheckIn }, t('Lcz_AssignedAndChecIn')))))));
     }
     static get watchers() { return {
         "selectedDate": [{

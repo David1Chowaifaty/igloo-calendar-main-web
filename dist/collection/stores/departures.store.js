@@ -146,7 +146,7 @@ function splitBookingsByStatus(bookings) {
     }, { needsCheckOut: [], out: [], futureRooms: [] });
 }
 function isNeedsCheckOut(room) {
-    return canCheckout({ to_date: room.to_date, inOutCode: room.in_out.code, skipAutoCheckout: true });
+    return canCheckout({ to_date: room.to_date, inOutCode: room.in_out?.code, skipAutoCheckout: true });
 }
 function isOut(room) {
     return room.in_out?.code === '002';

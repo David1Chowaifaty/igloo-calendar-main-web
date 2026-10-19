@@ -3029,8 +3029,8 @@ export namespace Components {
      * arrivals / departures without check-in / check-out, and a reduced stats rail.
      * Loads in order of importance, each part showing a skeleton until its data lands:
      * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
-     * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar, and pending bookings
-     *    when the property's criteria list the pending status);
+     * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar with the front desk only, and
+     *    pending bookings when the property's criteria list the pending status);
      * 3. every remaining tab, in the background, so each card's count fills in.
      * Realtime notifications are batched every 3s: UPDATE_CALENDAR_AVAILABILITY reloads the whole day, ROOM_STATUS_CHANGED
      * reloads the stats plus the affected arrivals / departures tab and in-house, and CHANGE_IN_BOOK_STATUS cancelling (003) a
@@ -3120,8 +3120,8 @@ export namespace Components {
      * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
      * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
      * skeleton until it arrives.
-     * Properties without front desk (`isPms` false) see only Available, Booked and Pending — no occupancy, no bar —
-     * and no RevPAR.
+     * Properties without front desk (`isPms` false) see only Booked and Pending — no occupancy, no bar, no calendar
+     * figures (the dashboard skips the calendar request for them) — and no RevPAR.
      */
     interface IrDashboardStats {
         "currencySymbol": string;
@@ -11375,8 +11375,8 @@ declare global {
      * arrivals / departures without check-in / check-out, and a reduced stats rail.
      * Loads in order of importance, each part showing a skeleton until its data lands:
      * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
-     * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar, and pending bookings
-     *    when the property's criteria list the pending status);
+     * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar with the front desk only, and
+     *    pending bookings when the property's criteria list the pending status);
      * 3. every remaining tab, in the background, so each card's count fills in.
      * Realtime notifications are batched every 3s: UPDATE_CALENDAR_AVAILABILITY reloads the whole day, ROOM_STATUS_CHANGED
      * reloads the stats plus the affected arrivals / departures tab and in-house, and CHANGE_IN_BOOK_STATUS cancelling (003) a
@@ -11456,8 +11456,8 @@ declare global {
      * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
      * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
      * skeleton until it arrives.
-     * Properties without front desk (`isPms` false) see only Available, Booked and Pending — no occupancy, no bar —
-     * and no RevPAR.
+     * Properties without front desk (`isPms` false) see only Booked and Pending — no occupancy, no bar, no calendar
+     * figures (the dashboard skips the calendar request for them) — and no RevPAR.
      */
     interface HTMLIrDashboardStatsElement extends Components.IrDashboardStats, HTMLStencilElement {
     }
@@ -18272,8 +18272,8 @@ declare namespace LocalJSX {
      * arrivals / departures without check-in / check-out, and a reduced stats rail.
      * Loads in order of importance, each part showing a skeleton until its data lands:
      * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
-     * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar, and pending bookings
-     *    when the property's criteria list the pending status);
+     * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar with the front desk only, and
+     *    pending bookings when the property's criteria list the pending status);
      * 3. every remaining tab, in the background, so each card's count fills in.
      * Realtime notifications are batched every 3s: UPDATE_CALENDAR_AVAILABILITY reloads the whole day, ROOM_STATUS_CHANGED
      * reloads the stats plus the affected arrivals / departures tab and in-house, and CHANGE_IN_BOOK_STATUS cancelling (003) a
@@ -18371,8 +18371,8 @@ declare namespace LocalJSX {
      * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
      * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
      * skeleton until it arrives.
-     * Properties without front desk (`isPms` false) see only Available, Booked and Pending — no occupancy, no bar —
-     * and no RevPAR.
+     * Properties without front desk (`isPms` false) see only Booked and Pending — no occupancy, no bar, no calendar
+     * figures (the dashboard skips the calendar request for them) — and no RevPAR.
      */
     interface IrDashboardStats {
         "currencySymbol"?: string;
@@ -26512,8 +26512,8 @@ declare module "@stencil/core" {
              * arrivals / departures without check-in / check-out, and a reduced stats rail.
              * Loads in order of importance, each part showing a skeleton until its data lands:
              * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
-             * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar, and pending bookings
-             *    when the property's criteria list the pending status);
+             * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar with the front desk only, and
+             *    pending bookings when the property's criteria list the pending status);
              * 3. every remaining tab, in the background, so each card's count fills in.
              * Realtime notifications are batched every 3s: UPDATE_CALENDAR_AVAILABILITY reloads the whole day, ROOM_STATUS_CHANGED
              * reloads the stats plus the affected arrivals / departures tab and in-house, and CHANGE_IN_BOOK_STATUS cancelling (003) a
@@ -26546,8 +26546,8 @@ declare module "@stencil/core" {
              * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
              * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
              * skeleton until it arrives.
-             * Properties without front desk (`isPms` false) see only Available, Booked and Pending — no occupancy, no bar —
-             * and no RevPAR.
+             * Properties without front desk (`isPms` false) see only Booked and Pending — no occupancy, no bar, no calendar
+             * figures (the dashboard skips the calendar request for them) — and no RevPAR.
              */
             "ir-dashboard-stats": LocalJSX.IntrinsicElements["ir-dashboard-stats"] & JSXBase.HTMLAttributes<HTMLIrDashboardStatsElement>;
             "ir-date-picker": LocalJSX.IntrinsicElements["ir-date-picker"] & JSXBase.HTMLAttributes<HTMLIrDatePickerElement>;

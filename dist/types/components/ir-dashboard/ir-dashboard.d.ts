@@ -12,8 +12,8 @@ import type { DashboardTab, RailDensity } from './types';
  *
  * Loads in order of importance, each part showing a skeleton until its data lands:
  * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
- * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar, and pending bookings
- *    when the property's criteria list the pending status);
+ * 2. the visible tab plus the day's stats (Get_Monthly_Stats, Get_Exposed_Calendar with the front desk only, and
+ *    pending bookings when the property's criteria list the pending status);
  * 3. every remaining tab, in the background, so each card's count fills in.
  *
  * Realtime notifications are batched every 3s: UPDATE_CALENDAR_AVAILABILITY reloads the whole day, ROOM_STATUS_CHANGED

@@ -21,8 +21,8 @@ const UNIT_LEGEND = {
  * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
  * skeleton until it arrives.
  *
- * Properties without front desk (`isPms` false) see only Available, Booked and Pending — no occupancy, no bar —
- * and no RevPAR.
+ * Properties without front desk (`isPms` false) see only Booked and Pending — no occupancy, no bar, no calendar
+ * figures (the dashboard skips the calendar request for them) — and no RevPAR.
  */
 export class IrDashboardStats {
     /** Selected day (`YYYY-MM-DD`); titles the occupancy card. */
@@ -91,14 +91,14 @@ export class IrDashboardStats {
         const calendar = { loaded: !!units, refreshing: this.unitsLoading };
         const stats = { loaded: !!performance, refreshing: this.performanceLoading };
         const pending = { loaded: pendingUnits != null, refreshing: this.pendingLoading };
-        return (h("ul", { class: "stats__units", "aria-label": t('Lcz_Units', { fallback: 'Units' }), "aria-busy": !units || !performance ? 'true' : null }, this.renderUnit(units?.available, t('Lcz_Available', { fallback: 'Available' }), 'available', calendar), this.renderUnit(performance?.bookedUnits, t('Lcz_Booked', { fallback: 'Booked' }), 'booked', stats), this.renderUnit(pendingUnits, t('Lcz_Pending', { fallback: 'Pending' }), 'pending', pending), this.isPms && this.renderUnit(units?.outOfService, t('Lcz_OOS', { fallback: 'OOS' }), 'out-of-service', calendar), this.isPms && this.renderUnit(units?.blocked, t('Lcz_Blocked', { fallback: 'Blocked' }), 'blocked', calendar)));
+        return (h("ul", { class: { 'stats__units': true, 'stats__units--stacked': !this.isPms }, "aria-label": t('Lcz_Units', { fallback: 'Units' }), "aria-busy": (this.isPms && !units) || !performance ? 'true' : null }, this.isPms && this.renderUnit(units?.available, t('Lcz_Available', { fallback: 'Available' }), 'available', calendar), this.renderUnit(performance?.bookedUnits, t('Lcz_Booked', { fallback: 'Booked' }), 'booked', stats), this.renderUnit(pendingUnits, t('Lcz_Pending', { fallback: 'Pending' }), 'pending', pending), this.isPms && this.renderUnit(units?.outOfService, t('Lcz_OOS', { fallback: 'OOS' }), 'out-of-service', calendar), this.isPms && this.renderUnit(units?.blocked, t('Lcz_Blocked', { fallback: 'Blocked' }), 'blocked', calendar)));
     }
     /** One revenue figure: icon tile, amount, label. An `undefined` value shows a skeleton in place of the amount. */
     renderKpi(icon, label, value) {
         const amount = value === undefined ? '' : formatAmount(this.currencySymbol, value);
-        // Long amounts step down a size instead of wrapping the currency onto its own line or running out of the card.
-        const length = amount.length > 15 ? ' stats__kpi-value--longest' : amount.length > 11 ? ' stats__kpi-value--long' : '';
-        return (h("li", { class: "stats__kpi" }, h("span", { class: "stats__icon", "aria-hidden": "true" }, h("wa-icon", { name: icon })), h("span", { class: "stats__kpi-text" }, value === undefined ? (h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--kpi", "aria-hidden": "true" })) : (h("span", { class: `stats__kpi-value${length}`, title: amount }, amount)), h("span", { class: "stats__kpi-label" }, label))));
+        return (h("li", { class: "stats__kpi" }, h("span", { class: "stats__icon", "aria-hidden": "true" }, h("wa-icon", { name: icon })), h("span", { class: "stats__kpi-text" }, value === undefined ? (h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--kpi", "aria-hidden": "true" })) : (
+        // The CSS sizes the font from the amount's length so it always shows in full, never truncated.
+        h("span", { class: "stats__kpi-value", style: { '--kpi-chars': String(amount.length) } }, amount)), h("span", { class: "stats__kpi-label" }, label))));
     }
     renderPerformance() {
         const performance = this.performance;
@@ -106,7 +106,7 @@ export class IrDashboardStats {
             this.renderKpi('arrow-trend-up', t('Lcz_RevPar', { fallback: 'RevPAR' }), performance ? computeRevPar(performance.adr, performance.occupancy) : undefined))));
     }
     render() {
-        return (h(Host, { key: '69e7e505671d4a8db6ba7c9b45114dd111a89902' }, h("wa-card", { key: '60b1d24901a7eb13387652688e597712a844bf80', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: 'a40c99ae3f2f5546fc1cd5615d33ae839b61e1ac', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
+        return (h(Host, { key: 'f8faec8fbc74859850fc85acf46623e16609efbb' }, h("wa-card", { key: 'c8f1728df527e5d9db86268775500d21251b6261', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: 'cb38e69ade61a94d8f987825b14f3ea7259ab12b', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
     }
     static get is() { return "ir-dashboard-stats"; }
     static get encapsulation() { return "scoped"; }

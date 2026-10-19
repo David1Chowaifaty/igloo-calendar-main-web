@@ -122,6 +122,13 @@
   list-style: none;
 }
 
+/* Without the front desk only Booked and Pending remain: one under the other in the desktop rail, side by side above the tables. */
+@media (min-width: 992px) {
+  .stats__units--stacked {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .stats__unit {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -163,7 +170,7 @@
   text-transform: uppercase;
 }
 
-/* Performance KPIs: icon tile, then the amount over its label. */
+/* Performance KPIs, one under the other on every screen: icon tile, then the amount over its label. */
 .stats__kpis {
   display: flex;
   flex-direction: column;
@@ -179,35 +186,30 @@
   gap: var(--wa-space-m);
 }
 
+/* A size container, so the amount can scale to the width it's actually given. */
 .stats__kpi-text {
+  container-type: inline-size;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
   min-inline-size: 0;
 }
 
+/*
+ * Amounts are never cut: the font shrinks to fit the amount on one line (`--kpi-chars` is its length, each character
+ * about 0.62em wide in bold tabular figures), between the small size and `--kpi-max-size`. Only an amount still too
+ * long at the small size wraps, onto as many lines as it needs.
+ */
 .stats__kpi-value {
+  --kpi-max-size: var(--wa-font-size-xl);
   /* Keep "€ 3,500.00" in one order inside RTL text. */
-  direction: ltr;
   unicode-bidi: isolate;
-  font-size: var(--wa-font-size-xl);
+  font-size: clamp(var(--wa-font-size-s), calc(100cqi / (var(--kpi-chars, 10) * 0.62)), var(--kpi-max-size));
   font-weight: var(--wa-font-weight-bold);
   line-height: var(--wa-line-height-condensed);
   font-variant-numeric: tabular-nums;
   color: var(--wa-color-text-normal);
-  /* The currency stays with its amount; an amount still too wide for a very narrow rail ends in an ellipsis (full value in the title). */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Long amounts (millions and up) step down so they fit the rail on one line. */
-.stats__kpi-value--long {
-  font-size: var(--wa-font-size-l);
-}
-
-.stats__kpi-value--longest {
-  font-size: var(--wa-font-size-m);
+  overflow-wrap: anywhere;
 }
 
 .stats__kpi-label {
@@ -218,11 +220,42 @@
   white-space: nowrap;
 }
 
-/* Tablets: the rail is full width, so the KPIs sit in one row. */
-@media (min-width: 576px) and (max-width: 991px) {
+/* Phones and tablets: the rail sits above the tables, so it's kept as short as possible to leave them more of the screen. */
+@media (max-width: 991px) {
+  :host {
+    gap: var(--wa-space-s);
+  }
+
+  .stats__card {
+    --spacing: var(--wa-space-m);
+  }
+
+  .stats__card::part(body) {
+    gap: var(--wa-space-s);
+  }
+
+  /* KPIs stay one under the other, as on desktop, so each amount gets the card's full width. */
+  .stats__units,
   .stats__kpis {
+    row-gap: var(--wa-space-s);
+  }
+
+  .stats__kpi {
+    gap: var(--wa-space-s);
+  }
+
+  .stats__kpi .stats__icon {
+    inline-size: 2.25rem;
+    block-size: 2.25rem;
+    font-size: 1rem;
+  }
+}
+
+/* Tablets: the two cards sit side by side instead of one over the other. */
+@media (min-width: 576px) and (max-width: 991px) {
+  :host {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -297,9 +330,13 @@
   block-size: 2.75rem;
 }
 
-:host([density='tight']) .stats__unit-value,
-:host([density='tight']) .stats__kpi-value {
+:host([density='tight']) .stats__unit-value {
   font-size: var(--wa-font-size-l);
+}
+
+/* Caps the amount one size down; it still shrinks further when its space is narrower. */
+:host([density='tight']) .stats__kpi-value {
+  --kpi-max-size: var(--wa-font-size-l);
 }
 
 /* Reduced motion keeps the dimming fade (it explains the refresh) and drops only the bar's movement. */

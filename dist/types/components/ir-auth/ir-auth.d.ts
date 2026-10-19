@@ -102,6 +102,11 @@ export declare class IrAuth {
     private renderLogin;
     private renderForgotPassword;
     private renderForgotUsername;
+    /**
+     * One translatable sentence; `%1` marks where the privacy-policy link goes, so each
+     * language can place it wherever its grammar needs.
+     */
+    private renderLegalNotice;
     private renderLanguageSelector;
     render(): any;
 }
