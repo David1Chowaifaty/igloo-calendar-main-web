@@ -103,13 +103,13 @@ ir-auth .pms-auth__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0.4rem 0 1.2rem;
+  /* Sits right under the field above it: pulls back into the fieldset's bottom margin. */
+  margin: -0.6rem 0 1.2rem;
   font-size: 0.85rem;
 }
 
 ir-auth .pms-auth__row--end {
   justify-content: flex-end;
-  margin-top: -0.6rem;
 }
 
 ir-auth .pms-auth__row a {
