@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var booking_service = require('./booking.service-BdID4BlA.js');
+var booking_service = require('./booking.service-DgtnN0XU.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
 var moment = require('./moment-CdViwxPQ.js');
 var t = require('./t-CqJPQrfm.js');

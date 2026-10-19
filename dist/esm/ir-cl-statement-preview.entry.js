@@ -7,7 +7,7 @@ import './booking.dto-DQx6bzbY.js';
 import { f as formatDate } from './ir-date-CY_qGQ63.js';
 import { t } from './t-Bvz1wS_D.js';
 import { f as formatAmount, a as formatBookingNumber } from './number-0UrU_yO2.js';
-import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
+import { A as ApiClient } from './ApiClient-DdQhte67.js';
 import { F as FdTypes } from './enums-CcLtXwvz.js';
 import { L as LocaleController } from './locale.controller-CGuPWCIw.js';
 import './axios-B50ozOIF.js';

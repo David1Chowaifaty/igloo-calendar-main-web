@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var ApiClient = require('./ApiClient-u7fuhiXA.js');
+var ApiClient = require('./ApiClient-BkbxJB84.js');
 var languageSync = require('./language-sync-DZdPGMff.js');
 var locale_controller = require('./locale.controller-DOykNQAc.js');
 var t = require('./t-CqJPQrfm.js');

@@ -1,11 +1,11 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host, a as getElement } from './index-DKZeCK8T.js';
 import { e as getExtraServiceDefaultPrice, c as calendar_data, d as getBabyCotPricingModel, i as isOptimReadOnly, a as isSingleUnit } from './calendar-data-D4DbXAhg.js';
-import { b as booking_store, B as BookingService, m as modifyBookingStore, e as reserveRooms, V as VariationService, j as setDayUseSelection, h as updateBookedByGuest, s as setBookingDraft, d as setBookingSelectOptions, r as resetBookingStore, k as fillMissingReservedGuestNames, l as getReservedRooms, n as resetAvailability, a as resetReserved, o as hasAtLeastOneRoomSelected, c as calculateTotalRooms, p as getBookingTotalPrice, q as syncFirstRoomGuestName, t as bookedByGuestBaseData } from './booking.service-C1nicz1C.js';
+import { b as booking_store, B as BookingService, m as modifyBookingStore, e as reserveRooms, V as VariationService, j as setDayUseSelection, h as updateBookedByGuest, s as setBookingDraft, d as setBookingSelectOptions, r as resetBookingStore, k as fillMissingReservedGuestNames, l as getReservedRooms, n as resetAvailability, a as resetReserved, o as hasAtLeastOneRoomSelected, c as calculateTotalRooms, p as getBookingTotalPrice, q as syncFirstRoomGuestName, t as bookedByGuestBaseData } from './booking.service-JibLv8pK.js';
 import { q as getDayUseUnitAvailability, D as DAY_USE_STATUS_ICON, r as formatDayUseStatusText, d as createDateWithOffsetAndHour, h as buildSplitIndex, a as calculateDaysBetweenDates, e as getPrivateNote, i as isEarlyCheckout, f as formatName } from './booking-5B3Vroer.js';
 import { S as SvcCategory, b as InvoiceableItemReason, F as FdTypes, a as FdStatus, C as ClTxTypeCode, V as VatIncludedCodes, I as InOut, P as PayTypes, c as PayStatus, H as HbPreference } from './enums-CcLtXwvz.js';
 import { t } from './t-Bvz1wS_D.js';
 import { C as CityLedgerService } from './index-B9TFPQja.js';
-import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
+import { A as ApiClient } from './ApiClient-DdQhte67.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { E as ExtraServiceSchema, R as ROOM_IN_OUT, v as validateSharedPerson, Z as ZSharedPerson } from './booking.dto-DQx6bzbY.js';
 import { f as formatDate } from './ir-date-CY_qGQ63.js';

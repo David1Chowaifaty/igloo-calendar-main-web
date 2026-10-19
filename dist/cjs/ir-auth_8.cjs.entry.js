@@ -7,6 +7,7 @@ var locale_controller = require('./locale.controller-DOykNQAc.js');
 var t = require('./t-CqJPQrfm.js');
 var utils = require('./utils-ZKsQb8eV.js');
 var types = require('./types-BVJQZ50e.js');
+var ApiClient = require('./ApiClient-BkbxJB84.js');
 var masks = require('./masks-DJsCZmbG.js');
 var index$1 = require('./index-DtKMs5Q4.js');
 var number = require('./number-xBpNWk3H.js');
@@ -489,9 +490,15 @@ const IrCommon = class {
     }
     extraResources = '';
     disableResourceInjection;
+    /** Sends the IRBE endpoints listed in `ApiClient` to the default base URL instead of the IRBE gateway. */
+    disableIrbeRouting = false;
     resources = onlineResources;
     componentWillLoad() {
+        ApiClient.ApiClient.setDisableIrbeRouting(this.disableIrbeRouting);
         this.parseRefs();
+    }
+    handleDisableIrbeRoutingChange(newValue) {
+        ApiClient.ApiClient.setDisableIrbeRouting(newValue);
     }
     componentDidLoad() {
         this.initializeStyles();
@@ -543,6 +550,9 @@ const IrCommon = class {
         return null;
     }
     static get watchers() { return {
+        "disableIrbeRouting": [{
+                "handleDisableIrbeRoutingChange": 0
+            }],
         "extraResources": [{
                 "hrefsChanged": 0
             }]

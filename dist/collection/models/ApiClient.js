@@ -5,13 +5,36 @@ class ApiClient extends Auth {
     static token = '';
     static modifiedBaseUrl = false;
     static isInterceptorAdded = false;
+    static isBaseUrlRouterAdded = false;
+    /** When true, `IRBE_ENDPOINTS` use the default base URL instead of IRBE. */
+    static disableIrbeRouting = false;
+    static IRBE_BASE_URL = 'https://gateway.igloorooms.com/IRBE';
+    /** Endpoints served by the IRBE gateway instead of the default `/IR` base URL. */
+    static IRBE_ENDPOINTS = new Set(['/Set_Exposed_Restriction_Per_Room_Type', '/Get_Rooms_To_Check_In', '/Get_Rooms_To_Check_Out']);
     constructor() {
         super();
+        this.addBaseUrlRouter();
         if (ApiClient.modifiedBaseUrl) {
             return;
         }
         ApiClient.modifiedBaseUrl = true;
         axios.defaults.baseURL = this.baseUrl;
+    }
+    addBaseUrlRouter() {
+        if (ApiClient.isBaseUrlRouterAdded) {
+            return;
+        }
+        axios.interceptors.request.use(config => {
+            const path = config.url?.split('?')[0];
+            if (!ApiClient.disableIrbeRouting && path && ApiClient.IRBE_ENDPOINTS.has(path)) {
+                config.baseURL = ApiClient.IRBE_BASE_URL;
+            }
+            return config;
+        });
+        ApiClient.isBaseUrlRouterAdded = true;
+    }
+    static setDisableIrbeRouting(disabled) {
+        ApiClient.disableIrbeRouting = disabled;
     }
     getToken() {
         return ApiClient.token;

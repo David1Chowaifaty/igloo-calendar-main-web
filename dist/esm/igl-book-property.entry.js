@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-DKZeCK8T.js';
-import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, a as resetReserved, d as setBookingSelectOptions, e as reserveRooms } from './booking.service-C1nicz1C.js';
+import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, a as resetReserved, d as setBookingSelectOptions, e as reserveRooms } from './booking.service-JibLv8pK.js';
 import { S as SetupService } from './index-D9hqk41R.js';
 import { e as extras, k as handleBodyOverflow, g as getReleaseHoursString } from './utils-CAiEa-WB.js';
 import { I as ISO_FORMAT } from './calendar-dates-D3hVfsrC.js';

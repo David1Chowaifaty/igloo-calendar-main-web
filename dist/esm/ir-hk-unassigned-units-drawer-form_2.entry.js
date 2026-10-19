@@ -2,7 +2,7 @@ import { r as registerInstance, c as createEvent, h, F as Fragment } from './ind
 import { H as HouseKeepingService, h as housekeeping_store, g as getDefaultProperties } from './index-BrKEtqyG.js';
 import { c as calendar_data } from './calendar-data-D4DbXAhg.js';
 import { t } from './t-Bvz1wS_D.js';
-import { B as BookingService } from './booking.service-C1nicz1C.js';
+import { B as BookingService } from './booking.service-JibLv8pK.js';
 import { U as UserService } from './user.service-DiECplNr.js';
 import { C as CONSTANTS } from './constants-DI4DZmiQ.js';
 import { s as stringType, o as objectType } from './types-BLb1NO3I.js';

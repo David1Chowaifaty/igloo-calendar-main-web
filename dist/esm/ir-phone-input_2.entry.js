@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, H as Host } from './index-DKZeCK8T.js';
-import { B as BookingService } from './booking.service-C1nicz1C.js';
+import { B as BookingService } from './booking.service-JibLv8pK.js';
 import { L as LocaleController } from './locale.controller-CGuPWCIw.js';
 import { t } from './t-Bvz1wS_D.js';
 import { n as normalizeNumericInput } from './number-0UrU_yO2.js';

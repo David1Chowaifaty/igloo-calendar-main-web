@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-DKZeCK8T.js';
-import { B as BookingService } from './booking.service-C1nicz1C.js';
+import { B as BookingService } from './booking.service-JibLv8pK.js';
 import { c as calendar_data } from './calendar-data-D4DbXAhg.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { t } from './t-Bvz1wS_D.js';

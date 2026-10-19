@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var ApiClient = require('./ApiClient-u7fuhiXA.js');
+var ApiClient = require('./ApiClient-BkbxJB84.js');
 var index$1 = require('./index-C8j3NC0a.js');
 var t = require('./t-CqJPQrfm.js');
 require('./axios-EresIryl.js');

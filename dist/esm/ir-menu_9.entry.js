@@ -1,7 +1,7 @@
 import { r as registerInstance, a as getElement, h, H as Host, c as createEvent, F as Fragment } from './index-DKZeCK8T.js';
 import { g as getLocalDirection } from './direction-CcpbVppy.js';
 import { P as PropertyService } from './index-CZvv28G7.js';
-import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
+import { A as ApiClient } from './ApiClient-DdQhte67.js';
 import { t } from './t-Bvz1wS_D.js';
 import { b as formatCount, a as formatBookingNumber } from './number-0UrU_yO2.js';
 import { B as BookingListingService } from './index-VVcFiQGn.js';

@@ -2,7 +2,7 @@ import { r as registerInstance, c as createEvent, h, H as Host } from './index-D
 import { F as FdTypes } from './enums-CcLtXwvz.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { A as AgentsService } from './agents.service-CmJFuDMy.js';
-import { B as BookingService } from './booking.service-C1nicz1C.js';
+import { B as BookingService } from './booking.service-JibLv8pK.js';
 import { i as isRequestPending } from './ir-interceptor.store-DjDNm9TC.js';
 import { t } from './t-Bvz1wS_D.js';
 import { s as stringType } from './types-BLb1NO3I.js';

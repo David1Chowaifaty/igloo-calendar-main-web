@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var ApiClient = require('./ApiClient-u7fuhiXA.js');
+var ApiClient = require('./ApiClient-BkbxJB84.js');
 var irInterceptor_store = require('./ir-interceptor.store-GIfc0Pi9.js');
 var axios = require('./axios-EresIryl.js');
 var locale_controller = require('./locale.controller-DOykNQAc.js');

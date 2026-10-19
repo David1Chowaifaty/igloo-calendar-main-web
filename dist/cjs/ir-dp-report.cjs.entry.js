@@ -2,7 +2,7 @@
 
 var index = require('./index-IDeZZwEK.js');
 var moment = require('./moment-CdViwxPQ.js');
-var ApiClient = require('./ApiClient-u7fuhiXA.js');
+var ApiClient = require('./ApiClient-BkbxJB84.js');
 var room_service = require('./room.service-BQ3H_tn4.js');
 var axios = require('./axios-EresIryl.js');
 var commonSchemas = require('./commonSchemas-D4iFLV5-.js');

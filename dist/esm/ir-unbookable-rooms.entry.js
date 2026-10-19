@@ -1,5 +1,5 @@
 import { r as registerInstance, h } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
+import { A as ApiClient } from './ApiClient-DdQhte67.js';
 import { P as PropertyService } from './index-CZvv28G7.js';
 import { t } from './t-Bvz1wS_D.js';
 import './axios-B50ozOIF.js';

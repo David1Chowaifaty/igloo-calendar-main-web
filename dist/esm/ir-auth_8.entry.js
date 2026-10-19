@@ -5,6 +5,7 @@ import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-C
 import { t } from './t-Bvz1wS_D.js';
 import { h as showToast } from './utils-CAiEa-WB.js';
 import { s as stringType } from './types-BLb1NO3I.js';
+import { A as ApiClient } from './ApiClient-DdQhte67.js';
 import { w as withLatinDigits, m as masks } from './masks-kHGgtHqd.js';
 import { I as IMask } from './index-BA2Li5R1.js';
 import { n as normalizeNumericInput } from './number-0UrU_yO2.js';
@@ -487,9 +488,15 @@ const IrCommon = class {
     }
     extraResources = '';
     disableResourceInjection;
+    /** Sends the IRBE endpoints listed in `ApiClient` to the default base URL instead of the IRBE gateway. */
+    disableIrbeRouting = false;
     resources = onlineResources;
     componentWillLoad() {
+        ApiClient.setDisableIrbeRouting(this.disableIrbeRouting);
         this.parseRefs();
+    }
+    handleDisableIrbeRoutingChange(newValue) {
+        ApiClient.setDisableIrbeRouting(newValue);
     }
     componentDidLoad() {
         this.initializeStyles();
@@ -541,6 +548,9 @@ const IrCommon = class {
         return null;
     }
     static get watchers() { return {
+        "disableIrbeRouting": [{
+                "handleDisableIrbeRoutingChange": 0
+            }],
         "extraResources": [{
                 "hrefsChanged": 0
             }]

@@ -3,7 +3,7 @@ import { a as axios } from './axios-B50ozOIF.js';
 import { a as interceptor_requests } from './ir-interceptor.store-DjDNm9TC.js';
 import { t } from './t-Bvz1wS_D.js';
 import { b as formatCount } from './number-0UrU_yO2.js';
-import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
+import { A as ApiClient } from './ApiClient-DdQhte67.js';
 import { S as SystemService } from './system.service-DN8zRqj9.js';
 import { l as locales } from './locale-scope-Jre4lb6k.js';
 import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-CGuPWCIw.js';

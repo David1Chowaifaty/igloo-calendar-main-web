@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, F as Fragment, H as Host } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
+import { A as ApiClient } from './ApiClient-DdQhte67.js';
 import { L as LanguageSync } from './language-sync-BeUgIh7r.js';
 import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CGuPWCIw.js';
 import { t } from './t-Bvz1wS_D.js';

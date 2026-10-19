@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
-import { B as BookingService } from './booking.service-C1nicz1C.js';
+import { A as ApiClient } from './ApiClient-DdQhte67.js';
+import { B as BookingService } from './booking.service-JibLv8pK.js';
 import { R as RoomService } from './room.service-BeM4DlDl.js';
 import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-CGuPWCIw.js';
 import { L as LanguageSync } from './language-sync-BeUgIh7r.js';

@@ -1,13 +1,13 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var booking_service = require('./booking.service-BdID4BlA.js');
+var booking_service = require('./booking.service-DgtnN0XU.js');
 var utils = require('./utils-ZKsQb8eV.js');
 var t = require('./t-CqJPQrfm.js');
 var booking = require('./booking-DhSfYcY7.js');
 var moment = require('./moment-CdViwxPQ.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
-var events_service = require('./events.service-CK7Q2Bjg.js');
+var events_service = require('./events.service-CWqaes8Y.js');
 var localeScope = require('./locale-scope-Cch-vf1R.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
 var calendarGrid = require('./calendar-grid-CnZE4jx_.js');

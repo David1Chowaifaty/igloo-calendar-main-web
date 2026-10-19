@@ -1,5 +1,5 @@
 import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
+import { A as ApiClient } from './ApiClient-DdQhte67.js';
 import { S as SetupService } from './index-D9hqk41R.js';
 import { h as showToast } from './utils-CAiEa-WB.js';
 import { c as cjsExports } from './index-Bn8mRT4P.js';

@@ -103,7 +103,7 @@ export class BookingService {
         return data.My_Result;
     }
     async setExposedRestrictionPerRoomType(params) {
-        const { data } = await axios.post(`https://gateway.igloorooms.com/IRBE/Set_Exposed_Restriction_Per_Room_Type`, {
+        const { data } = await axios.post(`/Set_Exposed_Restriction_Per_Room_Type`, {
             operation_type: params.operation_type ?? 'close_open',
             ...params,
         });
@@ -655,12 +655,12 @@ export class BookingService {
     /*Arrivals*/
     async getRoomsToCheckIn(props) {
         const payload = GetRoomsToCheckInPropsSchema.parse(props);
-        const { data } = await axios.post('https://gateway.igloorooms.com/IRBE/Get_Rooms_To_Check_In', payload);
+        const { data } = await axios.post('/Get_Rooms_To_Check_In', payload);
         return { bookings: data.My_Result, total_count: data.My_Params_Get_Rooms_To_Check_In?.total_count };
     }
     async getRoomsToCheckout(props) {
         const payload = GetRoomsToCheckOutPropsSchema.parse(props);
-        const { data } = await axios.post('https://gateway.igloorooms.com/IRBE/Get_Rooms_To_Check_Out', payload);
+        const { data } = await axios.post('/Get_Rooms_To_Check_Out', payload);
         return { bookings: data.My_Result, total_count: data.My_Params_Get_Rooms_To_Check_Out?.total_count };
     }
     /*Departures */

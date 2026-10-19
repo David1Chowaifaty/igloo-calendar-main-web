@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, F as Fragment } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-4jHvz1N4.js';
+import { A as ApiClient } from './ApiClient-DdQhte67.js';
 import { A as AuthService } from './authenticate.service-C4X_z1zf.js';
 import { S as SystemService } from './system.service-DN8zRqj9.js';
 import { C as CONSTANTS } from './constants-DI4DZmiQ.js';

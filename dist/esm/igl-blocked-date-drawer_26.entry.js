@@ -1,11 +1,11 @@
 import { r as registerInstance, c as createEvent, h, a as getElement, F as Fragment, H as Host, f as forceUpdate } from './index-DKZeCK8T.js';
-import { B as BookingService, b as booking_store, r as resetBookingStore } from './booking.service-C1nicz1C.js';
+import { B as BookingService, b as booking_store, r as resetBookingStore } from './booking.service-JibLv8pK.js';
 import { g as getReleaseHoursString, i as isBlockUnit, h as showToast, t as checkMealPlan, u as isWeekend, n as getDaysArray } from './utils-CAiEa-WB.js';
 import { t } from './t-Bvz1wS_D.js';
 import { a as calculateDaysBetweenDates, t as transformNewBooking, h as buildSplitIndex, j as getSplitRole, c as calendar_dates, b as compareTime, d as createDateWithOffsetAndHour } from './booking-5B3Vroer.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { a as addDaysISO, n as nightsBetween, t as todayISO } from './calendar-dates-D3hVfsrC.js';
-import { E as EventsService } from './events.service-jUi6hHqy.js';
+import { E as EventsService } from './events.service-CMqrj0mp.js';
 import { l as locales } from './locale-scope-Jre4lb6k.js';
 import { c as calendar_data } from './calendar-data-D4DbXAhg.js';
 import { C as CELL_WIDTH, E as EVENT_HEIGHT, g as getEventTopWithinRow, c as computeEventHorizontalGeometry, t as toPhysicalLeft, R as ROOM_HEADER_WIDTH, s as snapEventLeft, a as getTotalGridWidth, b as getUnassignedUnitsCountForDate, i as isUnassignedUnitsDateLoading, d as getUnassignedUnitsDateKeys, r as replaceUnassignedUnitsRange, e as getUnassignedUnitsForDate, f as removeUnassignedRoom } from './calendar-grid-CnqbJWsJ.js';
