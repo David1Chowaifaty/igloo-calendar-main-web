@@ -138,7 +138,7 @@
 }
 
 .stats__dot--blocked {
-  --stats-dot-color: var(--wa-color-neutral-fill-loud);
+  --stats-dot-color: var(--wa-color-danger-fill-loud);
 }
 
 .stats__unit-value {
@@ -156,6 +156,11 @@
   font-size: var(--wa-font-size-s);
   line-height: var(--wa-line-height-condensed);
   color: var(--wa-color-text-quiet);
+}
+
+/* Lcz_Available comes back lowercase ("available"); the label starts with a capital like its siblings. */
+.stats__unit-label::first-letter {
+  text-transform: uppercase;
 }
 
 /* Performance KPIs: icon tile, then the amount over its label. */

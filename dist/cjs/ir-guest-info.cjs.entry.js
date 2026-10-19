@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var booking_service = require('./booking.service-DgtnN0XU.js');
+var booking_store = require('./booking.store-DV5HqIy7.js');
 var ApiClient = require('./ApiClient-BkbxJB84.js');
 var irInterceptor_store = require('./ir-interceptor.store-GIfc0Pi9.js');
 var utils = require('./utils-ZKsQb8eV.js');
@@ -48,7 +48,7 @@ const GuestInfo = class {
     autoValidate = false;
     closeSideBar;
     resetBookingEvt;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     ApiClient = new ApiClient.ApiClient();
     /** Re-runs init when the language changes so server-localized data follows. */
     languageSync = new languageSync.LanguageSync(locale_controller.SCREEN_TABLES.guestInfo, () => this.init());

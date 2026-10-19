@@ -8,7 +8,7 @@ import { Host, h } from "@stencil/core";
 import { computeRevPar } from "../dashboard.helpers";
 /**
  * Calendar legend entry (igl-legend) each unit's dot copies, with the default colour as fallback.
- * Available units keep the brand colour and blocked ones a neutral grey.
+ * Available units keep the brand colour and blocked ones the danger red.
  */
 const UNIT_LEGEND = {
     'booked': { id: '2', fallback: '#45b16d' },

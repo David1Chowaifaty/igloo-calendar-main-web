@@ -4,7 +4,7 @@ var index = require('./index-IDeZZwEK.js');
 var index$1 = require('./index-DnLl4vlg.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
 var t = require('./t-CqJPQrfm.js');
-var booking_service = require('./booking.service-DgtnN0XU.js');
+var booking_store = require('./booking.store-DV5HqIy7.js');
 var user_service = require('./user.service-BJ5KedHk.js');
 var constants = require('./constants-BLID23LD.js');
 var types = require('./types-BVJQZ50e.js');
@@ -166,7 +166,7 @@ const IrHkUserDrawerForm = class {
     closeSideBar;
     loadingChanged;
     housekeepingService = new index$1.HouseKeepingService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     // Stable schema references — closures read current `this` state at validation time.
     // Built in `buildSchemas()` rather than at module load so their messages resolve against the loaded locale.
     nameSchema;
