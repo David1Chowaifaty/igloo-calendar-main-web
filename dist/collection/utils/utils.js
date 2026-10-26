@@ -344,14 +344,14 @@ export function checkUserAuthState() {
  * @param params - An object containing the booking event, calendar data, current check-in status, and a flag indicating if check-in or checkout is allowed.
  * @returns True if check-in is allowed; otherwise, false.
  */
-export function canCheckIn({ from_date, to_date, isCheckedIn }) {
-    if (!calendarData.checkin_enabled || calendar_data.property.is_automatic_check_in_out || !calendar_data.property.is_frontdesk_enabled) {
+export function canCheckIn({ from_date, to_date, isCheckedIn, skipAutoCheckIn = false, date }) {
+    if (!calendarData.checkin_enabled || (calendar_data.property.is_automatic_check_in_out && !skipAutoCheckIn) || !calendar_data.property.is_frontdesk_enabled) {
         return false;
     }
     if (isCheckedIn) {
         return false;
     }
-    const now = moment();
+    const now = date ? moment(date, 'YYYY-MM-DD') : moment();
     if ((now.isSameOrAfter(moment(from_date, 'YYYY-MM-DD'), 'date') && now.isBefore(moment(to_date, 'YYYY-MM-DD'), 'date')) ||
         now.isSame(moment(to_date, 'YYYY-MM-DD'), 'date')
     // && !compareTime(now.toDate(), createDateWithOffsetAndHour(calendarData.checkin_checkout_hours?.offset, calendarData.checkin_checkout_hours?.hour))
@@ -360,7 +360,8 @@ export function canCheckIn({ from_date, to_date, isCheckedIn }) {
     }
     return false;
 }
-export function canCheckout({ to_date, inOutCode, skipAutoCheckout = false }) {
+/** `date` (`YYYY-MM-DD`) is the day the check is made for, e.g. the dashboard's selected day; defaults to today. */
+export function canCheckout({ to_date, inOutCode, skipAutoCheckout = false, date }) {
     if ((!calendarData.checkin_enabled || calendarData.is_automatic_check_in_out) && !skipAutoCheckout) {
         return false;
     }
@@ -370,7 +371,8 @@ export function canCheckout({ to_date, inOutCode, skipAutoCheckout = false }) {
     if (inOutCode === ROOM_IN_OUT.CHECKIN) {
         return true;
     }
-    return moment().startOf('day').isSameOrAfter(moment(to_date, 'YYYY-MM-DD').startOf('date'), 'dates');
+    const reference = date ? moment(date, 'YYYY-MM-DD') : moment();
+    return reference.startOf('day').isSameOrAfter(moment(to_date, 'YYYY-MM-DD').startOf('date'), 'dates');
 }
 /**
  * Downloads a file from a given URL.

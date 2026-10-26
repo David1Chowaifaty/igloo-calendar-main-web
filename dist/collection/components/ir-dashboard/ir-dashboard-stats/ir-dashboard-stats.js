@@ -15,14 +15,27 @@ const UNIT_LEGEND = {
     'pending': { id: '3', fallback: '#FF9149' },
     'out-of-service': { id: '6', fallback: '#f34752' },
 };
+/** Resolved at render, not at import, when the locale tables are still empty. */
+const occupancyLabel = (kind) => (kind === 'virtual' ? t('Lcz_FakeUnits', { fallback: 'Fake units' }) : t('Lcz_RealUnits', { fallback: 'Real units' }));
+/** "12 of 40 booked" */
+const bookedOfTotal = (figure) => t('Lcz_BookedOfTotal', { fallback: '%1 of %2 booked', params: [formatCount(figure.booked), formatCount(figure.total)] });
+/** Gives each instance's bar segments their own ids, which the tooltips anchor to. */
+let barIds = 0;
+const clampPercent = (percent) => Math.min(Math.max(percent ?? 0, 0), 100);
+/** Rounding must never claim a full house: 99.96% reads 99.9%, not 100%. */
+const shownPercent = (percent) => {
+    const clamped = clampPercent(percent);
+    return clamped < 100 ? Math.min(clamped, 99.9) : 100;
+};
 /**
  * Left-hand stats rail: an occupancy card (the day's occupancy, units booked and the unit breakdown) followed by a
  * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
  * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
- * skeleton until it arrives.
+ * skeleton until it arrives. Occupancy comes from the calendar: real units and, when the property's virtual room types
+ * have any units, fake units in grey beside them, sharing one bar.
  *
  * Properties without front desk (`isPms` false) see only Booked and Pending — no occupancy, no bar, no calendar
- * figures (the dashboard skips the calendar request for them) — and no RevPAR.
+ * figures (the dashboard skips the calendar request for them) — and no ADR or RevPAR.
  */
 export class IrDashboardStats {
     /** Selected day (`YYYY-MM-DD`); titles the occupancy card. */
@@ -44,6 +57,7 @@ export class IrDashboardStats {
     pendingLoading = false;
     /** How tightly the cards are drawn; ir-dashboard steps it down when the desktop rail is short. */
     density = 'regular';
+    barId = `stats-occupancy-${++barIds}`;
     /** The property's colour for a unit's legend entry, so the dot matches the calendar. */
     legendColor(tone) {
         const legend = UNIT_LEGEND[tone];
@@ -51,14 +65,6 @@ export class IrDashboardStats {
             return undefined;
         }
         return calendar_data.property?.calendar_legends?.find(l => l.id?.toString() === legend.id)?.color ?? legend.fallback;
-    }
-    /** Units the property has: the calendar's total, else the physical rooms of its room types. */
-    get totalUnits() {
-        if (this.units?.total != null) {
-            return this.units.total;
-        }
-        const roomTypes = calendar_data.property?.roomtypes;
-        return roomTypes?.length ? roomTypes.reduce((total, rt) => total + (rt.physicalrooms?.length ?? 0), 0) : undefined;
     }
     /** "Today's occupancy" on today, otherwise the day itself ("Saturday, 17 Oct."); the card title is capitalized in CSS. */
     get title() {
@@ -72,19 +78,37 @@ export class IrDashboardStats {
             return (h("li", { class: "stats__unit", "aria-hidden": "true" }, h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--unit" })));
         }
         const color = this.legendColor(tone);
-        return (h("li", { class: { 'stats__unit': true, 'stats--loading': refreshing } }, h("span", { class: `stats__dot stats__dot--${tone}`, style: color ? { '--stats-dot-color': color } : undefined, "aria-hidden": "true" }), h("span", { class: "stats__unit-value" }, formatCount(value ?? 0)), h("span", { class: "stats__unit-label" }, label)));
+        // Every unit stays visible; a count with nothing behind it reads as 0.
+        const count = formatCount(value ?? 0);
+        return (h("li", { class: { 'stats__unit': true, 'stats--loading': refreshing } }, h("span", { class: `stats__dot stats__dot--${tone}`, style: color ? { '--stats-dot-color': color } : undefined, "aria-hidden": "true" }), h("span", { class: "stats__unit-value", style: { '--unit-chars': String(count.length) } }, count), h("span", { class: "stats__unit-label" }, label)));
     }
-    /** Occupancy figure, units booked and the bar (PMS only). */
+    /** One occupancy figure: the percentage over its label and the units booked. */
+    renderOccupancyFigure(kind, figure) {
+        const percent = formatPercent(shownPercent(figure.percent), { maximumFractionDigits: 1 });
+        return (h("div", { class: `stats__figure stats__figure--${kind}` }, h("span", { class: "stats__occupancy-value", style: { '--figure-chars': String(percent.length) } }, percent), h("span", { class: "stats__figure-label" }, occupancyLabel(kind)), h("span", { class: "stats__booked" }, bookedOfTotal(figure))));
+    }
+    /**
+     * One stretch of the bar: as wide as its share of all units (never too narrow to hover), filled to its occupancy,
+     * with a tooltip spelling out the figure.
+     */
+    renderBarSegment(kind, figure) {
+        const id = `${this.barId}-${kind}`;
+        const percent = formatPercent(shownPercent(figure.percent), { maximumFractionDigits: 1 });
+        return [
+            h("div", { id: id, class: `stats__segment stats__segment--${kind}`, style: { flexGrow: String(Math.max(figure.total, 1)) }, role: "progressbar", tabindex: "0", "aria-label": occupancyLabel(kind), "aria-valuemin": "0", "aria-valuemax": "100", "aria-valuenow": String(clampPercent(figure.percent)), "aria-valuetext": `${percent}, ${bookedOfTotal(figure)}` }, h("span", { class: "stats__segment-fill", style: { inlineSize: `${clampPercent(figure.percent)}%` } })),
+            h("wa-tooltip", { for: id }, h("span", { class: "stats__tooltip" }, h("strong", null, `${occupancyLabel(kind)}: ${percent}`), h("span", null, bookedOfTotal(figure)))),
+        ];
+    }
+    /** Occupancy of real units and, when the property has fake units, of those; then the bar (PMS only). */
     renderOccupancy() {
-        const performance = this.performance;
-        if (!performance) {
-            return (h("div", { class: "stats__occupancy", "aria-hidden": "true" }, h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--occupancy" }), h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--booked" }), h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--bar" })));
+        const occupancy = this.units?.occupancy;
+        if (!occupancy) {
+            return (h("div", { class: "stats__occupancy", "aria-hidden": "true" }, h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--occupancy" }), h("wa-skeleton", { effect: "pulse", class: "stats__skeleton stats__skeleton--bar" })));
         }
-        const occupancy = Math.min(Math.max(performance.occupancy, 0), 100);
-        // Rounding must never claim a full house: 99.96% reads 99.9%, not 100%.
-        const shownOccupancy = occupancy < 100 ? Math.min(occupancy, 99.9) : 100;
-        const total = this.totalUnits;
-        return (h("div", { class: { 'stats__occupancy': true, 'stats--loading': this.performanceLoading } }, h("div", { class: "stats__occupancy-figure" }, h("span", { class: "stats__icon stats__icon--round", "aria-hidden": "true" }, h("wa-icon", { name: "bed" })), h("span", { class: "stats__occupancy-value" }, formatPercent(shownOccupancy, { maximumFractionDigits: 1 }))), total !== undefined && (h("p", { class: "stats__booked" }, t('Lcz_UnitsBookedOf', { fallback: '%1 of %2 units booked', params: [formatCount(performance.bookedUnits ?? 0), formatCount(total)] }))), h("wa-progress-bar", { class: "stats__bar", value: occupancy, label: t('Lcz_Occupancy', { fallback: 'Occupancy' }) })));
+        const { real } = occupancy;
+        // Virtual room types without a single active unit aren't mentioned at all.
+        const virtual = occupancy.virtual?.total ? occupancy.virtual : undefined;
+        return (h("div", { class: { 'stats__occupancy': true, 'stats__occupancy--split': !!virtual, 'stats--loading': this.unitsLoading } }, h("div", { class: "stats__occupancy-figure" }, h("span", { class: "stats__icon stats__icon--round", "aria-hidden": "true" }, h("wa-icon", { name: "bed" })), this.renderOccupancyFigure('real', real), virtual && this.renderOccupancyFigure('virtual', virtual)), h("div", { class: "stats__bar", role: "group", "aria-label": t('Lcz_Occupancy', { fallback: 'Occupancy' }) }, this.renderBarSegment('real', real), virtual && this.renderBarSegment('virtual', virtual))));
     }
     renderUnits() {
         const { units, performance, pendingUnits } = this;
@@ -102,11 +126,10 @@ export class IrDashboardStats {
     }
     renderPerformance() {
         const performance = this.performance;
-        return (h("wa-card", { class: "stats__card stats__card--performance", appearance: "plain" }, h("h2", { class: "stats__title" }, t('Lcz_Performance', { fallback: 'Performance' })), h("ul", { class: { 'stats__kpis': true, 'stats--loading': !!performance && this.performanceLoading }, "aria-label": t('Lcz_Revenue', { fallback: 'Revenue' }), "aria-busy": !performance ? 'true' : null }, this.renderKpi('coins', t('Lcz_RoomRevenue', { fallback: 'Room Revenue' }), performance?.roomRevenue), this.renderKpi('chart-simple', t('Lcz_Adr', { fallback: 'ADR' }), performance?.adr), this.isPms &&
-            this.renderKpi('arrow-trend-up', t('Lcz_RevPar', { fallback: 'RevPAR' }), performance ? computeRevPar(performance.adr, performance.occupancy) : undefined))));
+        return (h("wa-card", { class: "stats__card stats__card--performance", appearance: "plain" }, h("h2", { class: "stats__title" }, t('Lcz_Performance', { fallback: 'Performance' })), h("ul", { class: { 'stats__kpis': true, 'stats--loading': !!performance && this.performanceLoading }, "aria-label": t('Lcz_Revenue', { fallback: 'Revenue' }), "aria-busy": !performance ? 'true' : null }, this.renderKpi('coins', t('Lcz_RoomRevenue', { fallback: 'Room Revenue' }), performance?.roomRevenue), this.isPms && this.renderKpi('chart-simple', t('Lcz_Adr', { fallback: 'ADR' }), performance?.adr), this.isPms && this.renderKpi('arrow-trend-up', t('Lcz_RevPar', { fallback: 'RevPAR' }), performance ? computeRevPar(performance.adr, performance.occupancy) : undefined))));
     }
     render() {
-        return (h(Host, { key: 'f8faec8fbc74859850fc85acf46623e16609efbb' }, h("wa-card", { key: 'c8f1728df527e5d9db86268775500d21251b6261', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: 'cb38e69ade61a94d8f987825b14f3ea7259ab12b', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
+        return (h(Host, { key: '58fb2fcf5b459db1c9e0a28b67ce5e4a79aa069f' }, h("wa-card", { key: '967bd047fad51b760742d4496a0c01fe732339a3', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: 'b1972b5ea4ea6b2feacbb167c1e6fef97e79c41b', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
     }
     static get is() { return "ir-dashboard-stats"; }
     static get encapsulation() { return "scoped"; }

@@ -1,34 +1,34 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, F as Fragment, H as Host } from './index-DKZeCK8T.js';
 import { R as RoomService } from './room.service-BeM4DlDl.js';
-import { B as BookingService } from './booking.service-JibLv8pK.js';
+import { B as BookingService } from './booking.service-DRhCcGoW.js';
 import { S as SetupService } from './index-D9hqk41R.js';
-import { w as formatLegendColors, i as isBlockUnit, h as showToast, l as isPrivilegedUser, f as downloadFile } from './utils-CAiEa-WB.js';
+import { w as formatLegendColors, i as isBlockUnit, h as showToast, l as isPrivilegedUser, f as downloadFile } from './utils-DiIdT3fV.js';
 import { t, a as tRaw } from './t-Bvz1wS_D.js';
 import { t as todayISO, I as ISO_FORMAT, a as addDaysISO, b as addMonthsISO, n as nightsBetween } from './calendar-dates-D3hVfsrC.js';
 import { r as realtimeService } from './realtime.service-CGYmIxkT.js';
-import { E as EventsService } from './events.service-CMqrj0mp.js';
+import { E as EventsService } from './events.service-Buc9fDxb.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { U as UnassignedUnitsService } from './index-BcmHUiZd.js';
-import { i as isEarlyCheckout, c as calendar_dates, k as addCleaningTasks, f as formatName, l as getRoomStatus, m as cleanRoom, n as addRoomForCleaning, t as transformNewBooking, o as transformNewBLockedRooms, p as bookingStatus, e as getPrivateNote, a as calculateDaysBetweenDates } from './booking-5B3Vroer.js';
+import { U as UnassignedUnitsService } from './index-D2U3ORfq.js';
+import { i as isEarlyCheckout, c as calendar_dates, k as addCleaningTasks, f as formatName, l as getRoomStatus, m as cleanRoom, n as addRoomForCleaning, t as transformNewBooking, o as transformNewBLockedRooms, p as bookingStatus, e as getPrivateNote, a as calculateDaysBetweenDates } from './booking-BbFHq7Jn.js';
 import { l as locales } from './locale-scope-Jre4lb6k.js';
 import { c as calendar_data, b as getDayUseBlockState, d as getBabyCotPricingModel, e as getExtraServiceDefaultPrice } from './calendar-data-D4DbXAhg.js';
 import { o as onUnassignedUnitsChange, h as beginUnassignedUnitsFetch, r as replaceUnassignedUnitsRange, R as ROOM_HEADER_WIDTH } from './calendar-grid-CnqbJWsJ.js';
 import { A as ApiClient } from './ApiClient-DdQhte67.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './index-BrKEtqyG.js';
-import { P as PropertyService, t as taxationModes } from './index-CZvv28G7.js';
+import { P as PropertyService, t as taxationModes } from './index-VBF8lYoB.js';
 import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CGuPWCIw.js';
 import { L as LanguageSync } from './language-sync-BeUgIh7r.js';
 import { c as isRtlDirection, i as isRtlLanguage } from './direction-CcpbVppy.js';
 import { A as AgentsService } from './agents.service-CmJFuDMy.js';
 import { g as groupEntryTablesResult, d as getSetupEntryLabel, e as getEntryValue } from './utils-Cz9i5CF5.js';
-import { d as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, c as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage, f as setArrivalsSortByTime } from './arrivals.store-D5qiSsp3.js';
+import { d as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, c as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage, f as setArrivalsSortByTime } from './arrivals.store-BaWEOUFf.js';
 import { a as axios } from './axios-B50ozOIF.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './index-VVcFiQGn.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './index-BqwoKwQL.js';
 import { d as setChannelIdAndActiveState, u as updateChannelSettings, s as selectChannel, t as testConnection, C as ChannelService, r as resetStore, c as channels_data } from './channel.service-_h8QXTCx.js';
 import { S as SystemService } from './system.service-DN8zRqj9.js';
-import { D as DashboardService, a as DATE_CHANGE_DEBOUNCE_MS, i as isCancellationOn, l as loadDepartures, b as loadArrivals, s as sumOccupancy, d as countRooms, e as countOverdueDepartures, f as countDepartingUnits, g as countOverdueArrivals, h as countUnassignedArrivals, j as countArrivingUnits, k as DASHBOARD_PAGE_SIZE } from './dashboard.data-D4X8d65p.js';
-import { e as setDeparturesPageSize, f as setDeparturesSortByTime, d as departuresStore, o as onDeparturesStoreChange, c as setDepartureTotal, i as initializeDeparturesStore, b as setDeparturesPage } from './departures.store-Conm3g9i.js';
+import { D as DashboardService, a as DATE_CHANGE_DEBOUNCE_MS, i as isCancellationOn, l as loadDepartures, b as loadArrivals, s as sumOccupancy, d as countRooms, e as countOverdueDepartures, f as countDepartingUnits, g as countOverdueArrivals, h as countUnassignedArrivals, j as countArrivingUnits, k as DASHBOARD_PAGE_SIZE } from './dashboard.data-aRZBi4Zf.js';
+import { e as setDeparturesPageSize, f as setDeparturesSortByTime, d as departuresStore, o as onDeparturesStoreChange, c as setDepartureTotal, i as initializeDeparturesStore, b as setDeparturesPage } from './departures.store-YYp7TuPF.js';
 import { b as formatCount, d as formatPercent, f as formatAmount, c as formatNumber } from './number-0UrU_yO2.js';
 import { c as cjsExports } from './index-Bn8mRT4P.js';
 import { g as groupSvcCategoriesByParent, t as toAccChargeRule, f as findAccTax, a as getAccTaxPayloadFields, b as getTopLevelSvcCategories } from './svc-category.utils-3qmDX8T6.js';
@@ -39,7 +39,7 @@ import { j as calendarPreference, C as CalendarPreferenceController, k as toApiD
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-CANBUYn_.js';
 import { e as extraServicesCategories } from './index-CJkDyUgi.js';
 import { a as uninvoiced_bookings, c as setUninvoicedBookingsCriteria } from './uninvoiced_bookings.store-D6bD5q1E.js';
-import { U as UserService } from './user.service-DiECplNr.js';
+import { U as UserService } from './user.service-CP6o68nZ.js';
 import './IBooking-BFuEU3Ic.js';
 import './commonSchemas-BNnUj2OT.js';
 import './booking.dto-DQx6bzbY.js';
@@ -3399,7 +3399,9 @@ const IrDashboard = class {
     }
     componentDidLoad() {
         this.languageSync.connect();
-        this.fitToPage();
+        // The density is read from the laid-out rail, so it can't be set in componentWillLoad; measuring on the next frame
+        // keeps the state change out of componentDidLoad (which Stencil warns about as an extra re-render).
+        this.scheduleFitToPage();
         window.addEventListener('resize', this.scheduleFitToPage);
         this.pageResizeObserver = new ResizeObserver(this.scheduleFitToPage);
         this.pageResizeObserver.observe(document.body);
@@ -3815,7 +3817,6 @@ const IrDashboard = class {
         this.bookingNumber = e.detail.bookingNumber;
     }
     get counts() {
-        const today = todayISO();
         return {
             // Arrivals and departures count the rows their table renders (one per room), overdue ones included: the overdue
             // note only flags them. Without the front desk the tables list only the rooms arriving / departing that day.
@@ -3823,11 +3824,11 @@ const IrDashboard = class {
                 ? countRooms([...arrivalsStore.futureBookings, ...arrivalsStore.needsCheckInBookings, ...arrivalsStore.inHouseBookings])
                 : countArrivingUnits(arrivalsStore.filteredBookings, this.selectedDate),
             unassignedArrivals: countUnassignedArrivals(arrivalsStore.bookings, this.selectedDate),
-            overdueArrivals: countOverdueArrivals(arrivalsStore.bookings, today),
+            overdueArrivals: countOverdueArrivals(arrivalsStore.bookings, this.selectedDate),
             departures: this.isPms
                 ? countRooms([...departuresStore.futureRooms, ...departuresStore.needsCheckOutBookings, ...departuresStore.outBookings])
                 : countDepartingUnits(departuresStore.filteredBookings, this.selectedDate),
-            overdueDepartures: countOverdueDepartures(departuresStore.bookings, today),
+            overdueDepartures: countOverdueDepartures(departuresStore.bookings, this.selectedDate),
             inHouse: countRooms(this.inHouse),
             inHouseGuests: sumOccupancy(this.inHouse),
             bookings: this.newBookings.length,
@@ -3868,15 +3869,15 @@ const IrDashboard = class {
             case 'inHouse':
                 return (h("ir-dashboard-bookings-table", { variant: "inHouse", bookings: this.inHouse, emptyMessage: t('Lcz_NoGuestsInHouse', { fallback: 'No guests in-house.' }) }));
             case 'bookings':
-                return (h("ir-dashboard-bookings-table", { variant: "newBookings", bookings: this.newBookings, emptyMessage: t('Lcz_NoBookingsMadeOnThisDay', { fallback: 'No bookings made on this day.' }) }));
+                return (h("ir-dashboard-bookings-table", { variant: "newBookings", date: this.selectedDate, bookings: this.newBookings, emptyMessage: t('Lcz_NoBookingsMadeOnThisDay', { fallback: 'No bookings made on this day.' }) }));
             case 'cancellations':
-                return (h("ir-dashboard-bookings-table", { variant: "cancellations", bookings: this.cancellations, emptyMessage: t('Lcz_NoCancellationsOnThisDay', { fallback: 'No cancellations on this day.' }) }));
+                return (h("ir-dashboard-bookings-table", { variant: "cancellations", date: this.selectedDate, bookings: this.cancellations, emptyMessage: t('Lcz_NoCancellationsOnThisDay', { fallback: 'No cancellations on this day.' }) }));
         }
     }
     render() {
         const counts = this.counts;
         const isPms = this.isPms;
-        return (h(Host, { key: '8e8a94396760576ad004456e6c498f8a8255f35b' }, h("ir-page", { key: '2892f460281e232c8ed5e30de035c4ac94f13045', label: t('Lcz_Dashboard', { fallback: 'Dashboard' }), handledEndpoints: OVERLAY_ENDPOINTS }, h("ir-dashboard-date-navigator", { key: 'b8efd2e4960ac24aa6a2cd334e9dede4448fe492', slot: "page-header", date: this.selectedDate, onDateChange: e => this.handleDateChange(e) }), h("div", { key: 'db73f584d058da44d4d442aa59c82690dfd6da2d', class: `dashboard-layout dashboard-layout--${this.railDensity}` }, h("aside", { key: 'c7d383939668671c2ca193d32fc246b6f51023e8', class: "dashboard-aside", ref: el => (this.asideRef = el) }, h("ir-dashboard-stats", { key: 'd5c407902eab296531fc02acd2524b0ee62bde82', date: this.selectedDate, isPms: isPms, density: this.railDensity, performance: this.performance, units: this.units, pendingUnits: this.pendingUnits, currencySymbol: calendar_data.currency?.symbol, performanceLoading: this.isPerformanceLoading, unitsLoading: this.isUnitsLoading, pendingLoading: this.isPendingLoading })), h("section", { key: '30c52d5116c27ab243eac08f91f8c884c97e328f', class: "dashboard-main", "aria-busy": this.isPageLoading ? 'true' : null }, h("wa-tab-group", { key: 'c1243046ddc9a5e2c09fcc50459ad6daef2ff046', class: "dashboard-tabs", ref: el => (this.tabGroupRef = el), activation: "manual", active: this.activeTab, withoutScrollControls: true, "onwa-tab-show": e => this.handleTabShow(e) }, this.renderTab('arrivals', t('Lcz_Arrivals', { fallback: 'Arrivals' }), counts.arrivals, {
+        return (h(Host, { key: 'e44a6ab2d330afd7e21c489674410873eea6f6b7' }, h("ir-page", { key: 'bad0533a235737abcf69e33f1f907a2bb8542be1', label: t('Lcz_Dashboard', { fallback: 'Dashboard' }), handledEndpoints: OVERLAY_ENDPOINTS }, h("ir-dashboard-date-navigator", { key: '8ad3b33820a55bf72937f5d7b1a8c813e57f627b', slot: "page-header", date: this.selectedDate, onDateChange: e => this.handleDateChange(e) }), h("div", { key: 'fbea480d44fb0c0a079f84529fcb9315f32af271', class: `dashboard-layout dashboard-layout--${this.railDensity}` }, h("aside", { key: '759a246cdcf875b2c2987f20281dd05d2271d00f', class: "dashboard-aside", ref: el => (this.asideRef = el) }, h("ir-dashboard-stats", { key: '9c195e70d18d53651e9003ae876595bc2d85d96c', date: this.selectedDate, isPms: isPms, density: this.railDensity, performance: this.performance, units: this.units, pendingUnits: this.pendingUnits, currencySymbol: calendar_data.currency?.symbol, performanceLoading: this.isPerformanceLoading, unitsLoading: this.isUnitsLoading, pendingLoading: this.isPendingLoading })), h("section", { key: '0dbdab54549d972ee1e0aad0f71949fbac10b7de', class: "dashboard-main", "aria-busy": this.isPageLoading ? 'true' : null }, h("wa-tab-group", { key: '1518c036540e9dd2c8db534a41c1d85df810d35c', class: "dashboard-tabs", ref: el => (this.tabGroupRef = el), activation: "manual", active: this.activeTab, withoutScrollControls: true, "onwa-tab-show": e => this.handleTabShow(e) }, this.renderTab('arrivals', t('Lcz_Arrivals', { fallback: 'Arrivals' }), counts.arrivals, {
             // Without the front desk nothing is checked in, so nothing is overdue.
             overdueNote: isPms && counts.overdueArrivals > 0
                 ? t('Lcz_OverdueCheckInsCount', { fallback: '%1 overdue check-ins', params: [formatCount(counts.overdueArrivals)] })
@@ -3888,12 +3889,12 @@ const IrDashboard = class {
                 ? t('Lcz_OverdueCheckOutsCount', { fallback: '%1 overdue check-outs', params: [formatCount(counts.overdueDepartures)] })
                 : undefined,
         }), isPms && this.renderTab('inHouse', t('Lcz_InHouse', { fallback: 'In-house' }), counts.inHouse, { guests: counts.inHouseGuests }), this.renderTab('bookings', t('Lcz_Bookings', { fallback: 'Bookings' }), counts.bookings), this.renderTab('cancellations', t('Lcz_Cancellations', { fallback: 'Cancellations' }), counts.cancellations), this.tabs.map(tab => (h("wa-tab-panel", { key: tab, name: tab, class: "dashboard-tab-panel" }, this.renderPanel(tab)))))))), !this.isPageLoading && [
-            h("ir-booking-details-drawer", { key: '07f8a98312b7dc7fdc67b81a3d012c2ce480922e', open: !!this.bookingNumber, propertyId: this.propertyId, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
+            h("ir-booking-details-drawer", { key: 'ec470e058a51440a8966a89608d32a3b43b6e194', open: !!this.bookingNumber, propertyId: this.propertyId, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
                     this.bookingNumber = null;
                     this.checkoutRoomIdentifier = null;
                     this.loadDay();
                 } }),
-            h("ir-payment-folio", { key: '5c82c92743c4548f058778301d673ddfc42d5743', style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
+            h("ir-payment-folio", { key: '05e4eb5817e59a6f4214b6377368c86e1d6997cc', style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
                     this.booking = null;
                     this.payment = null;
                 } }),

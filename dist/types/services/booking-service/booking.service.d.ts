@@ -159,7 +159,7 @@ export declare class BookingService {
     }): Promise<any>;
     setDepartureTime(props: SetDepartureTimeProps): Promise<any>;
     getUserInfo(email: string): Promise<any>;
-    getExposedBooking({ booking_nbr, language, withExtras, include_dp_pricing, extras: _extras, }: {
+    getExposedBooking({ booking_nbr, language, withExtras, is_calculate_totals, include_dp_pricing, extras: _extras, }: {
         is_calculate_totals?: boolean;
         extras?: {
             key: string;

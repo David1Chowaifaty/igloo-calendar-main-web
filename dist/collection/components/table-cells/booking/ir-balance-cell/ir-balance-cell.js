@@ -13,13 +13,18 @@ export class IrBalanceCell {
     bookingNumber;
     currencySymbol;
     removeBalance;
+    /** Date (`YYYY-MM-DD`) the payment is recorded on, e.g. the dashboard's selected day. Defaults to today. */
+    paymentDate;
     payBookingBalance;
     /** A balance amount is actionable only when it is a non-zero, non-null number. */
     hasAmount(value) {
         return value !== null && value !== undefined && value !== 0;
     }
+    get recordDate() {
+        return this.paymentDate || moment().format('YYYY-MM-DD');
+    }
     render() {
-        return (h(Host, { key: 'e348fa211298852a7de1289db2c50cc8aede80c6' }, this.label && h("p", { key: '40bf0ed9dbd67e410eac54bfc04ae835899aa619', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '5870b85b0d1ef44f164552826d4689740356dd4e', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: '9b05423306ba4b12594c5dc0d5e1edf57abb66b1' }, this.label && h("p", { key: 'ebe4f3f616bbe2410120535c8cf3530882b8c575', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '9232dd09fb6cb7ec4e386db962e31abd37da6143', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.hasAmount(this.financial.cancelation_penality_as_if_today) &&
                 this.hasAmount(this.financial.due_amount) && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -27,7 +32,7 @@ export class IrBalanceCell {
                         payment: {
                             amount: Math.abs(this.financial.cancelation_penality_as_if_today),
                             currency: calendar_data.property.currency,
-                            date: moment().format('YYYY-MM-DD'),
+                            date: this.recordDate,
                             designation: null,
                             payment_method: null,
                             payment_type: { code: this.financial.cancelation_penality_as_if_today < 0 ? '010' : '001', description: null, operation: 'CR' },
@@ -42,7 +47,7 @@ export class IrBalanceCell {
                         payment: {
                             amount: Math.abs(this.guestFinancial?.due_amount),
                             currency: calendar_data.property.currency,
-                            date: moment().format('YYYY-MM-DD'),
+                            date: this.recordDate,
                             designation: null,
                             payment_method: null,
                             payment_type: { code: '001', description: null, operation: 'CR' },
@@ -59,7 +64,7 @@ export class IrBalanceCell {
                                         payment: {
                                             amount: Math.abs(this.financial.cancelation_penality_as_if_today),
                                             currency: calendar_data.property.currency,
-                                            date: moment().format('YYYY-MM-DD'),
+                                            date: this.recordDate,
                                             designation: null,
                                             payment_method: null,
                                             payment_type: { code: this.financial.cancelation_penality_as_if_today < 0 ? '010' : '001', description: null, operation: null },
@@ -74,7 +79,7 @@ export class IrBalanceCell {
                                         payment: {
                                             amount: Math.abs(this.financial.due_amount),
                                             currency: calendar_data.property.currency,
-                                            date: moment().format('YYYY-MM-DD'),
+                                            date: this.recordDate,
                                             designation: null,
                                             payment_method: null,
                                             payment_type: { code: '001', description: null, operation: null },
@@ -281,6 +286,25 @@ export class IrBalanceCell {
                 "setter": false,
                 "reflect": false,
                 "attribute": "remove-balance"
+            },
+            "paymentDate": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Date (`YYYY-MM-DD`) the payment is recorded on, e.g. the dashboard's selected day. Defaults to today."
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "payment-date"
             }
         };
     }

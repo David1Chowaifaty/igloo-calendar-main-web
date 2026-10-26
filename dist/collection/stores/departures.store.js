@@ -146,13 +146,14 @@ function splitBookingsByStatus(bookings) {
     }, { needsCheckOut: [], out: [], futureRooms: [] });
 }
 function isNeedsCheckOut(room) {
-    return canCheckout({ to_date: room.to_date, inOutCode: room.in_out?.code, skipAutoCheckout: true });
+    return canCheckout({ to_date: room.to_date, inOutCode: room.in_out?.code, skipAutoCheckout: true, date: departuresStore.today });
 }
 function isOut(room) {
     return room.in_out?.code === '002';
 }
 function isFuture(room) {
-    return moment().isBefore(moment(room.to_date, 'YYYY-MM-DD'), 'date');
+    // Relative to the store's day (the dashboard's selected day), not the real today.
+    return departuresStore.today < room.to_date;
 }
 function buildName(person) {
     const full = `${person?.first_name ?? ''} ${person?.last_name ?? ''}`.trim();

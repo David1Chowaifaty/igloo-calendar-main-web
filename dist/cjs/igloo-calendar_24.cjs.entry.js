@@ -2,35 +2,35 @@
 
 var index = require('./index-IDeZZwEK.js');
 var room_service = require('./room.service-BQ3H_tn4.js');
-var booking_service = require('./booking.service-DgtnN0XU.js');
+var booking_service = require('./booking.service-CnBxEj1B.js');
 var index$1 = require('./index-Cb_LC8em.js');
-var utils = require('./utils-ZKsQb8eV.js');
+var utils = require('./utils-BEjK-V-3.js');
 var t = require('./t-CqJPQrfm.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 var realtime_service = require('./realtime.service-BMgF8Zdb.js');
-var events_service = require('./events.service-CWqaes8Y.js');
+var events_service = require('./events.service-BeBRm1g3.js');
 var moment = require('./moment-CdViwxPQ.js');
-var index$3 = require('./index-DQLC3SUK.js');
-var booking = require('./booking-DhSfYcY7.js');
+var index$3 = require('./index-D33yRZ5Q.js');
+var booking = require('./booking-Cntup1BP.js');
 var localeScope = require('./locale-scope-Cch-vf1R.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
 var calendarGrid = require('./calendar-grid-CnZE4jx_.js');
 var ApiClient = require('./ApiClient-BkbxJB84.js');
 var v4 = require('./v4-_2BfiRUa.js');
 var index$4 = require('./index-DnLl4vlg.js');
-var index$2 = require('./index-C8j3NC0a.js');
+var index$2 = require('./index-B5qvLYZl.js');
 var locale_controller = require('./locale.controller-DOykNQAc.js');
 var languageSync = require('./language-sync-DZdPGMff.js');
 var direction = require('./direction-CuBM8Z-h.js');
 var agents_service = require('./agents.service-C9idZypK.js');
 var utils$1 = require('./utils-PciJI6G4.js');
-var arrivals_store = require('./arrivals.store-CxYY9GbK.js');
+var arrivals_store = require('./arrivals.store-CBAC7EBJ.js');
 var axios = require('./axios-EresIryl.js');
-var index$5 = require('./index-B0rmpW22.js');
+var index$5 = require('./index-CnMHwvya.js');
 var channel_service = require('./channel.service-CDtqKrpG.js');
 var system_service = require('./system.service-q3G6_5Tb.js');
-var dashboard_data = require('./dashboard.data-BKYHiaYx.js');
-var departures_store = require('./departures.store-Dt153brl.js');
+var dashboard_data = require('./dashboard.data-7t9P1Qb2.js');
+var departures_store = require('./departures.store-clbQeL3P.js');
 var number = require('./number-xBpNWk3H.js');
 var index$6 = require('./index-Dssn3hdS.js');
 var svcCategory_utils = require('./svc-category.utils-D8ZA394P.js');
@@ -41,7 +41,7 @@ var irDate = require('./ir-date-CbkOKs2C.js');
 var paymentOption_store = require('./payment-option.store-CHv49nRu.js');
 var index$7 = require('./index-BmWDYlVU.js');
 var uninvoiced_bookings_store = require('./uninvoiced_bookings.store-Cy0-clAI.js');
-var user_service = require('./user.service-BJ5KedHk.js');
+var user_service = require('./user.service-DiM_Vomf.js');
 require('./IBooking-hDE_y33g.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./booking.dto-CUSvGTvD.js');
@@ -3401,7 +3401,9 @@ const IrDashboard = class {
     }
     componentDidLoad() {
         this.languageSync.connect();
-        this.fitToPage();
+        // The density is read from the laid-out rail, so it can't be set in componentWillLoad; measuring on the next frame
+        // keeps the state change out of componentDidLoad (which Stencil warns about as an extra re-render).
+        this.scheduleFitToPage();
         window.addEventListener('resize', this.scheduleFitToPage);
         this.pageResizeObserver = new ResizeObserver(this.scheduleFitToPage);
         this.pageResizeObserver.observe(document.body);
@@ -3817,7 +3819,6 @@ const IrDashboard = class {
         this.bookingNumber = e.detail.bookingNumber;
     }
     get counts() {
-        const today = calendarDates.todayISO();
         return {
             // Arrivals and departures count the rows their table renders (one per room), overdue ones included: the overdue
             // note only flags them. Without the front desk the tables list only the rooms arriving / departing that day.
@@ -3825,11 +3826,11 @@ const IrDashboard = class {
                 ? dashboard_data.countRooms([...arrivals_store.arrivalsStore.futureBookings, ...arrivals_store.arrivalsStore.needsCheckInBookings, ...arrivals_store.arrivalsStore.inHouseBookings])
                 : dashboard_data.countArrivingUnits(arrivals_store.arrivalsStore.filteredBookings, this.selectedDate),
             unassignedArrivals: dashboard_data.countUnassignedArrivals(arrivals_store.arrivalsStore.bookings, this.selectedDate),
-            overdueArrivals: dashboard_data.countOverdueArrivals(arrivals_store.arrivalsStore.bookings, today),
+            overdueArrivals: dashboard_data.countOverdueArrivals(arrivals_store.arrivalsStore.bookings, this.selectedDate),
             departures: this.isPms
                 ? dashboard_data.countRooms([...departures_store.departuresStore.futureRooms, ...departures_store.departuresStore.needsCheckOutBookings, ...departures_store.departuresStore.outBookings])
                 : dashboard_data.countDepartingUnits(departures_store.departuresStore.filteredBookings, this.selectedDate),
-            overdueDepartures: dashboard_data.countOverdueDepartures(departures_store.departuresStore.bookings, today),
+            overdueDepartures: dashboard_data.countOverdueDepartures(departures_store.departuresStore.bookings, this.selectedDate),
             inHouse: dashboard_data.countRooms(this.inHouse),
             inHouseGuests: dashboard_data.sumOccupancy(this.inHouse),
             bookings: this.newBookings.length,
@@ -3870,15 +3871,15 @@ const IrDashboard = class {
             case 'inHouse':
                 return (index.h("ir-dashboard-bookings-table", { variant: "inHouse", bookings: this.inHouse, emptyMessage: t.t('Lcz_NoGuestsInHouse', { fallback: 'No guests in-house.' }) }));
             case 'bookings':
-                return (index.h("ir-dashboard-bookings-table", { variant: "newBookings", bookings: this.newBookings, emptyMessage: t.t('Lcz_NoBookingsMadeOnThisDay', { fallback: 'No bookings made on this day.' }) }));
+                return (index.h("ir-dashboard-bookings-table", { variant: "newBookings", date: this.selectedDate, bookings: this.newBookings, emptyMessage: t.t('Lcz_NoBookingsMadeOnThisDay', { fallback: 'No bookings made on this day.' }) }));
             case 'cancellations':
-                return (index.h("ir-dashboard-bookings-table", { variant: "cancellations", bookings: this.cancellations, emptyMessage: t.t('Lcz_NoCancellationsOnThisDay', { fallback: 'No cancellations on this day.' }) }));
+                return (index.h("ir-dashboard-bookings-table", { variant: "cancellations", date: this.selectedDate, bookings: this.cancellations, emptyMessage: t.t('Lcz_NoCancellationsOnThisDay', { fallback: 'No cancellations on this day.' }) }));
         }
     }
     render() {
         const counts = this.counts;
         const isPms = this.isPms;
-        return (index.h(index.Host, { key: '8e8a94396760576ad004456e6c498f8a8255f35b' }, index.h("ir-page", { key: '2892f460281e232c8ed5e30de035c4ac94f13045', label: t.t('Lcz_Dashboard', { fallback: 'Dashboard' }), handledEndpoints: OVERLAY_ENDPOINTS }, index.h("ir-dashboard-date-navigator", { key: 'b8efd2e4960ac24aa6a2cd334e9dede4448fe492', slot: "page-header", date: this.selectedDate, onDateChange: e => this.handleDateChange(e) }), index.h("div", { key: 'db73f584d058da44d4d442aa59c82690dfd6da2d', class: `dashboard-layout dashboard-layout--${this.railDensity}` }, index.h("aside", { key: 'c7d383939668671c2ca193d32fc246b6f51023e8', class: "dashboard-aside", ref: el => (this.asideRef = el) }, index.h("ir-dashboard-stats", { key: 'd5c407902eab296531fc02acd2524b0ee62bde82', date: this.selectedDate, isPms: isPms, density: this.railDensity, performance: this.performance, units: this.units, pendingUnits: this.pendingUnits, currencySymbol: calendarData.calendar_data.currency?.symbol, performanceLoading: this.isPerformanceLoading, unitsLoading: this.isUnitsLoading, pendingLoading: this.isPendingLoading })), index.h("section", { key: '30c52d5116c27ab243eac08f91f8c884c97e328f', class: "dashboard-main", "aria-busy": this.isPageLoading ? 'true' : null }, index.h("wa-tab-group", { key: 'c1243046ddc9a5e2c09fcc50459ad6daef2ff046', class: "dashboard-tabs", ref: el => (this.tabGroupRef = el), activation: "manual", active: this.activeTab, withoutScrollControls: true, "onwa-tab-show": e => this.handleTabShow(e) }, this.renderTab('arrivals', t.t('Lcz_Arrivals', { fallback: 'Arrivals' }), counts.arrivals, {
+        return (index.h(index.Host, { key: 'e44a6ab2d330afd7e21c489674410873eea6f6b7' }, index.h("ir-page", { key: 'bad0533a235737abcf69e33f1f907a2bb8542be1', label: t.t('Lcz_Dashboard', { fallback: 'Dashboard' }), handledEndpoints: OVERLAY_ENDPOINTS }, index.h("ir-dashboard-date-navigator", { key: '8ad3b33820a55bf72937f5d7b1a8c813e57f627b', slot: "page-header", date: this.selectedDate, onDateChange: e => this.handleDateChange(e) }), index.h("div", { key: 'fbea480d44fb0c0a079f84529fcb9315f32af271', class: `dashboard-layout dashboard-layout--${this.railDensity}` }, index.h("aside", { key: '759a246cdcf875b2c2987f20281dd05d2271d00f', class: "dashboard-aside", ref: el => (this.asideRef = el) }, index.h("ir-dashboard-stats", { key: '9c195e70d18d53651e9003ae876595bc2d85d96c', date: this.selectedDate, isPms: isPms, density: this.railDensity, performance: this.performance, units: this.units, pendingUnits: this.pendingUnits, currencySymbol: calendarData.calendar_data.currency?.symbol, performanceLoading: this.isPerformanceLoading, unitsLoading: this.isUnitsLoading, pendingLoading: this.isPendingLoading })), index.h("section", { key: '0dbdab54549d972ee1e0aad0f71949fbac10b7de', class: "dashboard-main", "aria-busy": this.isPageLoading ? 'true' : null }, index.h("wa-tab-group", { key: '1518c036540e9dd2c8db534a41c1d85df810d35c', class: "dashboard-tabs", ref: el => (this.tabGroupRef = el), activation: "manual", active: this.activeTab, withoutScrollControls: true, "onwa-tab-show": e => this.handleTabShow(e) }, this.renderTab('arrivals', t.t('Lcz_Arrivals', { fallback: 'Arrivals' }), counts.arrivals, {
             // Without the front desk nothing is checked in, so nothing is overdue.
             overdueNote: isPms && counts.overdueArrivals > 0
                 ? t.t('Lcz_OverdueCheckInsCount', { fallback: '%1 overdue check-ins', params: [number.formatCount(counts.overdueArrivals)] })
@@ -3890,12 +3891,12 @@ const IrDashboard = class {
                 ? t.t('Lcz_OverdueCheckOutsCount', { fallback: '%1 overdue check-outs', params: [number.formatCount(counts.overdueDepartures)] })
                 : undefined,
         }), isPms && this.renderTab('inHouse', t.t('Lcz_InHouse', { fallback: 'In-house' }), counts.inHouse, { guests: counts.inHouseGuests }), this.renderTab('bookings', t.t('Lcz_Bookings', { fallback: 'Bookings' }), counts.bookings), this.renderTab('cancellations', t.t('Lcz_Cancellations', { fallback: 'Cancellations' }), counts.cancellations), this.tabs.map(tab => (index.h("wa-tab-panel", { key: tab, name: tab, class: "dashboard-tab-panel" }, this.renderPanel(tab)))))))), !this.isPageLoading && [
-            index.h("ir-booking-details-drawer", { key: '07f8a98312b7dc7fdc67b81a3d012c2ce480922e', open: !!this.bookingNumber, propertyId: this.propertyId, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
+            index.h("ir-booking-details-drawer", { key: 'ec470e058a51440a8966a89608d32a3b43b6e194', open: !!this.bookingNumber, propertyId: this.propertyId, bookingNumber: this.bookingNumber?.toString(), checkoutRoomIdentifier: this.checkoutRoomIdentifier, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => {
                     this.bookingNumber = null;
                     this.checkoutRoomIdentifier = null;
                     this.loadDay();
                 } }),
-            index.h("ir-payment-folio", { key: '5c82c92743c4548f058778301d673ddfc42d5743', style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
+            index.h("ir-payment-folio", { key: '05e4eb5817e59a6f4214b6377368c86e1d6997cc', style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
                     this.booking = null;
                     this.payment = null;
                 } }),

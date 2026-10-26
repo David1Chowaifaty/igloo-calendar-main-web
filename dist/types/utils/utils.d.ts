@@ -146,6 +146,10 @@ export interface CheckInParams {
     from_date: string;
     to_date: string;
     isCheckedIn?: boolean;
+    /** Skips the `is_automatic_check_in_out` gate, for lists that still group rooms by check-in state on automatic properties (arrivals). */
+    skipAutoCheckIn?: boolean;
+    /** Day (`YYYY-MM-DD`) the check is made for, e.g. the dashboard's selected day. Defaults to today. */
+    date?: string;
 }
 /**
  * Determines whether a booking is eligible for check-in.
@@ -153,11 +157,13 @@ export interface CheckInParams {
  * @param params - An object containing the booking event, calendar data, current check-in status, and a flag indicating if check-in or checkout is allowed.
  * @returns True if check-in is allowed; otherwise, false.
  */
-export declare function canCheckIn({ from_date, to_date, isCheckedIn }: CheckInParams): boolean;
-export declare function canCheckout({ to_date, inOutCode, skipAutoCheckout }: {
+export declare function canCheckIn({ from_date, to_date, isCheckedIn, skipAutoCheckIn, date }: CheckInParams): boolean;
+/** `date` (`YYYY-MM-DD`) is the day the check is made for, e.g. the dashboard's selected day; defaults to today. */
+export declare function canCheckout({ to_date, inOutCode, skipAutoCheckout, date }: {
     to_date: string;
     inOutCode: string;
     skipAutoCheckout?: boolean;
+    date?: string;
 }): boolean;
 /**
  * Downloads a file from a given URL.

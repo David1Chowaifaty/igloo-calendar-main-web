@@ -11,11 +11,14 @@ export declare class IrBalanceCell {
     bookingNumber: string;
     currencySymbol: string;
     removeBalance: boolean;
+    /** Date (`YYYY-MM-DD`) the payment is recorded on, e.g. the dashboard's selected day. Defaults to today. */
+    paymentDate: string;
     payBookingBalance: EventEmitter<{
         booking_nbr: string;
         payment: Payment;
     }>;
     /** A balance amount is actionable only when it is a non-zero, non-null number. */
     private hasAmount;
+    private get recordDate();
     render(): any;
 }

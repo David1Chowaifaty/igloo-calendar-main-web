@@ -2,7 +2,7 @@
 
 var index = require('./index-IDeZZwEK.js');
 var ApiClient = require('./ApiClient-BkbxJB84.js');
-var booking_service = require('./booking.service-DgtnN0XU.js');
+var booking_service = require('./booking.service-CnBxEj1B.js');
 var room_service = require('./room.service-BQ3H_tn4.js');
 var locale_controller = require('./locale.controller-DOykNQAc.js');
 var languageSync = require('./language-sync-DZdPGMff.js');
@@ -12,7 +12,7 @@ require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
-require('./utils-ZKsQb8eV.js');
+require('./utils-BEjK-V-3.js');
 require('./moment-CdViwxPQ.js');
 require('./calendar-data-ShS6b-Ns.js');
 require('./locale-scope-Cch-vf1R.js');
@@ -20,7 +20,7 @@ require('./booking.dto-CUSvGTvD.js');
 require('./type-Bj2x9EWc.js');
 require('./ir-date-CbkOKs2C.js');
 require('./language-observer-DKp37LIu.js');
-require('./booking-DhSfYcY7.js');
+require('./booking-Cntup1BP.js');
 require('./functions-CaNAUyCw.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./types-sp5nWPAa.js');

@@ -1,4 +1,5 @@
 import type { Booking } from "../../../models/booking.dto";
+import type { ISODate } from "../../../utils/calendar-dates";
 export type DashboardBookingsTableVariant = 'inHouse' | 'newBookings' | 'cancellations';
 /**
  * Read-only booking list used by the dashboard's In-house, Bookings and Cancellations panels, built from the shared
@@ -10,6 +11,8 @@ export declare class IrDashboardBookingsTable {
     /** In-house drops the Balance and Status columns that Bookings and Cancellations end with. */
     variant: DashboardBookingsTableVariant;
     emptyMessage: string;
+    /** The dashboard's selected day: balance payments (e.g. a cancellation's charge or refund) are recorded on it rather than on today. */
+    date: ISODate;
     private isSameGuest;
     /** In-house rows end at Dates; Bookings and Cancellations add Balance, then Status. */
     private get hasBalanceAndStatus();
