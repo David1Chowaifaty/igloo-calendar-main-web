@@ -613,16 +613,20 @@ export interface IBookingProps {
     }[] | null;
 }
 export declare const GetRoomsToCheckInPropsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     property_id: z.ZodString;
     check_in_date: z.ZodString;
     page_index: z.ZodDefault<z.ZodNumber>;
     page_size: z.ZodDefault<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
+    language?: string;
     property_id?: string;
     page_index?: number;
     page_size?: number;
     check_in_date?: string;
 }, {
+    language?: string;
     property_id?: string;
     page_index?: number;
     page_size?: number;
@@ -630,16 +634,20 @@ export declare const GetRoomsToCheckInPropsSchema: z.ZodObject<{
 }>;
 export type GetRoomsToCheckInProps = z.infer<typeof GetRoomsToCheckInPropsSchema>;
 export declare const GetRoomsToCheckOutPropsSchema: z.ZodObject<{
+    language: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+} & {
     property_id: z.ZodString;
     check_out_date: z.ZodString;
     page_index: z.ZodDefault<z.ZodNumber>;
     page_size: z.ZodDefault<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
+    language?: string;
     property_id?: string;
     page_index?: number;
     page_size?: number;
     check_out_date?: string;
 }, {
+    language?: string;
     property_id?: string;
     page_index?: number;
     page_size?: number;

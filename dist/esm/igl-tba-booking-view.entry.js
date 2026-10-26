@@ -1,23 +1,23 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
-import { U as UnassignedUnitsService } from './index-D2U3ORfq.js';
-import { c as clampToLoadedRange, t as toCalendarPreviewEvents, a as toCalendarAssignedEvent, g as guestName } from './utils-D8eKb5DY.js';
+import { U as UnassignedUnitsService } from './index-CcGJ-dho.js';
+import { c as clampToLoadedRange, t as toCalendarPreviewEvents, a as toCalendarAssignedEvent, g as guestName } from './utils-BBr199Fv.js';
 import { t } from './t-Bvz1wS_D.js';
-import { a as formatBookingNumber } from './number-0UrU_yO2.js';
-import { c as canCheckIn } from './utils-DiIdT3fV.js';
+import { a as formatBookingNumber } from './number-B8waOzTO.js';
+import { c as canCheckIn } from './utils-Dg1mqsnA.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './commonSchemas-BNnUj2OT.js';
-import './types-BLb1NO3I.js';
+import './commonSchemas-Cx9w9d8l.js';
+import './types-CB66a07H.js';
 import './calendar-dates-D3hVfsrC.js';
 import './moment-Mki5YqAR.js';
-import './booking-BbFHq7Jn.js';
+import './booking-C8cWFPjy.js';
 import './locale-scope-Jre4lb6k.js';
-import './calendar-data-D4DbXAhg.js';
-import './functions-BvJiJbl6.js';
-import './ir-date-CY_qGQ63.js';
+import './calendar-data-DWzivSW-.js';
+import './functions-Ebyqqazo.js';
+import './ir-date-XXNYhmSL.js';
 import './language-observer-CHgzsZkY.js';
-import './booking.dto-DQx6bzbY.js';
-import './type-D_dKkSLY.js';
+import './booking.dto-B554ToUQ.js';
+import './type-DjfVZqvs.js';
 
 const iglTbaBookingViewCss = () => `.sc-igl-tba-booking-view-h{display:block;margin-top:1rem}.tba.sc-igl-tba-booking-view{--spacing:0.5rem}.tba.sc-igl-tba-booking-view::part(body),.tba.sc-igl-tba-booking-view [part~="body"]{display:flex;flex-direction:column;gap:0.5rem}.tba__header.sc-igl-tba-booking-view{display:flex;align-items:center;gap:0.5rem;font-size:0.875rem;white-space:nowrap;cursor:pointer;--space-y:0.1rem;padding-top:var(--space-y);padding-bottom:var(--space-y)}.tba.--active.sc-igl-tba-booking-view::part(header),.tba.--active.sc-igl-tba-booking-view [part~="header"]{background-color:var(--wa-color-warning-fill-quiet);color:var(--wa-color-warning-on-quiet)}.tba__header--active.sc-igl-tba-booking-view{background-color:#f9f9c9}.tba__booking-number.sc-igl-tba-booking-view,.tba__guest-name.sc-igl-tba-booking-view,.tba__occupancy.sc-igl-tba-booking-view{margin:0;padding:0}.tba__separator.sc-igl-tba-booking-view{flex-shrink:0}.tba__guest-name.sc-igl-tba-booking-view{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tba__actions.sc-igl-tba-booking-view{display:flex;align-items:center;gap:16px;width:100%}.tba__select.sc-igl-tba-booking-view{flex:1;min-width:0}.tba__close.sc-igl-tba-booking-view{display:flex;align-items:center;justify-content:flex-end;gap:0.5rem}.tba__assign.sc-igl-tba-booking-view{display:flex;align-items:center;gap:0.5rem}.tba__assign-btn.sc-igl-tba-booking-view{flex:1}@media (min-width: 768px){.tba__guest-name.sc-igl-tba-booking-view{max-width:180px}}`;
 

@@ -94,14 +94,14 @@ export const DoBookingExtraServicePropsSchema = z.object({
     is_remove: z.boolean(),
 });
 /*Arrivals */
-export const GetRoomsToCheckInPropsSchema = z.object({
+export const GetRoomsToCheckInPropsSchema = LanguageSchema.extend({
     property_id: z.string(),
     check_in_date: z.string(),
     page_index: z.number().default(1),
     page_size: z.number().default(10),
 });
 /*Departures */
-export const GetRoomsToCheckOutPropsSchema = z.object({
+export const GetRoomsToCheckOutPropsSchema = LanguageSchema.extend({
     property_id: z.string(),
     check_out_date: z.string(),
     page_index: z.number().default(1),

@@ -121,6 +121,7 @@ export class IrDepartures {
             check_out_date: departuresStore.today,
             page_index: departuresStore.pagination.currentPage,
             page_size: departuresStore.pagination.pageSize,
+            language: LocaleController.language,
         });
         setDepartureTotal(total_count ?? 0);
         initializeDeparturesStore(bookings);

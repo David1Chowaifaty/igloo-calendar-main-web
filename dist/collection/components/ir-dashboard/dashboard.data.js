@@ -35,6 +35,7 @@ async function fetchArrivals(propertyId, date, ready) {
             check_in_date: date,
             page_index: arrivalsStore.pagination.currentPage,
             page_size: arrivalsStore.pagination.pageSize,
+            language: LocaleController.language,
         });
     }
     // The dashboard hides pagination, so the loaded page is the total.
@@ -48,6 +49,7 @@ async function fetchDepartures(propertyId, date, ready) {
             check_out_date: date,
             page_index: departuresStore.pagination.currentPage,
             page_size: departuresStore.pagination.pageSize,
+            language: LocaleController.language,
         });
     }
     const bookings = await dashboardService.getDepartures({ property_id: propertyId, date, language: LocaleController.language });

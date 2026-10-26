@@ -148,6 +148,7 @@ export class IrArrivals {
             check_in_date: arrivalsStore.today,
             page_index: arrivalsStore.pagination.currentPage,
             page_size: arrivalsStore.pagination.pageSize,
+            language: LocaleController.language,
         });
         setArrivalsTotal(total_count ?? 0);
         initializeArrivalsStore(bookings);
