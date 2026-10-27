@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var booking_store = require('./booking.store-BIJpIbdz.js');
+var booking_store = require('./booking.store-CSM2wtFs.js');
 var utils = require('./utils-BEjK-V-3.js');
 var irDate = require('./ir-date-CbkOKs2C.js');
 var moment = require('./moment-CdViwxPQ.js');

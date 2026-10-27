@@ -71,7 +71,7 @@ export declare function countBlockedUnits(roomTypes: CalendarDayRoomType[], date
  * The day's occupancy across the active units of active room types, real and virtual apart. A room type is virtual when the
  * calendar flags it (`is_virtual`) or its id is in `flags.virtualIds`. `virtual` is `undefined` when no room type is virtual.
  */
-export declare function computeOccupancy(roomTypes: CalendarDayRoomType[], date: ISODate, flags?: PropertyFlags): DashboardOccupancy;
+export declare function computeOccupancy(roomTypes: CalendarDayRoomType[], flags?: PropertyFlags): DashboardOccupancy;
 /**
  * The day's unit breakdown across active room types: available and total units summed from the calendar's per-room-type `exposed_inventory`
  * (a count no room type returns stays `undefined` rather than reading as 0), out of service and blocked counted from the active units' cells,
@@ -80,3 +80,8 @@ export declare function computeOccupancy(roomTypes: CalendarDayRoomType[], date:
 export declare function sumUnits(roomTypes: CalendarDayRoomType[], date: ISODate, flags?: PropertyFlags): DashboardUnits;
 /** Revenue per available room = ADR × occupancy. */
 export declare function computeRevPar(adr: number, occupancyPercent: number): number;
+/**
+ * Count for a summary card, in the active language and digit script: in full up to 99,999 ("98,765"), compact beyond
+ * ("123.5K", "1.2M"); empty for a missing value.
+ */
+export declare function formatCardCount(value: number | null | undefined): string;

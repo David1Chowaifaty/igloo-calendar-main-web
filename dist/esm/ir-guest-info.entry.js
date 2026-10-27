@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-DKZeCK8T.js';
-import { B as BookingService } from './booking.store-BwrxIu8R.js';
+import { B as BookingService } from './booking.store-BGxx-ua_.js';
 import { A as ApiClient } from './ApiClient-DdQhte67.js';
 import { i as isRequestPending } from './ir-interceptor.store-DjDNm9TC.js';
 import { h as showToast } from './utils-Dg1mqsnA.js';

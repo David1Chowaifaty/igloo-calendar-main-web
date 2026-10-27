@@ -447,7 +447,7 @@ export class BookingService {
             throw new Error(error);
         }
     }
-    async getExposedBooking({ booking_nbr, language, withExtras = true, is_calculate_totals = false, include_dp_pricing, extras: _extras = extras, }) {
+    async getExposedBooking({ booking_nbr, language, withExtras = true, include_dp_pricing, is_calculate_totals = false, extras: _extras = extras, }) {
         try {
             const { data } = await axios.post(`/Get_Exposed_Booking`, {
                 booking_nbr,

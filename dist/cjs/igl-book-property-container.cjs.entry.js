@@ -2,7 +2,7 @@
 
 var index = require('./index-IDeZZwEK.js');
 var ApiClient = require('./ApiClient-BkbxJB84.js');
-var booking_store = require('./booking.store-BIJpIbdz.js');
+var booking_store = require('./booking.store-CSM2wtFs.js');
 var room_service = require('./room.service-BQ3H_tn4.js');
 var locale_controller = require('./locale.controller-DOykNQAc.js');
 var languageSync = require('./language-sync-DZdPGMff.js');

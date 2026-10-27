@@ -1,12 +1,12 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, F as Fragment, H as Host } from './index-DKZeCK8T.js';
 import { R as RoomService } from './room.service-DgyLICh5.js';
-import { B as BookingService } from './booking.store-BwrxIu8R.js';
+import { B as BookingService } from './booking.store-BGxx-ua_.js';
 import { S as SetupService } from './index-BjCyQqYQ.js';
 import { t as formatLegendColors, i as isBlockUnit, h as showToast, l as isPrivilegedUser, f as downloadFile } from './utils-Dg1mqsnA.js';
 import { t, a as tRaw } from './t-Bvz1wS_D.js';
 import { t as todayISO, I as ISO_FORMAT, a as addDaysISO, b as addMonthsISO, n as nightsBetween } from './calendar-dates-D3hVfsrC.js';
 import { r as realtimeService } from './realtime.service-CGYmIxkT.js';
-import { E as EventsService } from './events.service-CfE-hWeI.js';
+import { E as EventsService } from './events.service-MSj_JZA6.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { U as UnassignedUnitsService } from './index-CcGJ-dho.js';
 import { i as isEarlyCheckout, c as calendar_dates, h as addCleaningTasks, f as formatName, j as getRoomStatus, k as cleanRoom, l as addRoomForCleaning, t as transformNewBooking, m as transformNewBLockedRooms, n as bookingStatus, e as getPrivateNote, a as calculateDaysBetweenDates } from './booking-C8cWFPjy.js';

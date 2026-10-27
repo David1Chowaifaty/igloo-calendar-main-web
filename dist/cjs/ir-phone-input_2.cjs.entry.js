@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var booking_store = require('./booking.store-BIJpIbdz.js');
+var booking_store = require('./booking.store-CSM2wtFs.js');
 var locale_controller = require('./locale.controller-DOykNQAc.js');
 var t = require('./t-CqJPQrfm.js');
 var number = require('./number-xBpNWk3H.js');

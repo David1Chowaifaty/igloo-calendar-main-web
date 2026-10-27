@@ -1,7 +1,7 @@
 'use strict';
 
 var axios = require('./axios-EresIryl.js');
-var booking_store = require('./booking.store-BIJpIbdz.js');
+var booking_store = require('./booking.store-CSM2wtFs.js');
 var utils = require('./utils-BEjK-V-3.js');
 
 class EventsService {

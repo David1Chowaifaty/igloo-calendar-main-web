@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-DKZeCK8T.js';
-import { B as BookingService, b as booking_store } from './booking.store-BwrxIu8R.js';
+import { B as BookingService, b as booking_store } from './booking.store-BGxx-ua_.js';
 import { n as getDaysArray, o as convertDatePrice } from './utils-Dg1mqsnA.js';
 import { f as formatDate } from './ir-date-XXNYhmSL.js';
 import { h as hooks } from './moment-Mki5YqAR.js';

@@ -1,4 +1,5 @@
 import { ROOM_IN_OUT } from "../../models/booking.dto";
+import { formatCount } from "../../utils/number";
 import { isBlockUnit } from "../../utils/utils";
 /** How many days either side of today the dashboard's day picker reaches. */
 export const MAX_DAY_OFFSET = 2;
@@ -106,36 +107,29 @@ export function countBlockedUnits(roomTypes, date, flags) {
     return { outOfService, blocked };
 }
 /**
- * Whether a unit is booked for the night of `date`: an unavailable half-day cell that isn't a block and whose room's stay
- * covers that night (the departure day doesn't count).
+ * Whether a unit is booked for the night: its right half-day cell (the night) is unavailable and holds a booking,
+ * not a block (002, 003, 004).
  */
-function isBookedOn(cell, date) {
-    return [cell?.right_cell, cell?.left_cell].some(half => {
-        if (half?.Is_Available !== false || isBlockUnit(half.STAY_STATUS_CODE)) {
-            return false;
-        }
-        const from_date = half.room?.from_date;
-        const to_date = half.room?.to_date;
-        return !!from_date && !!to_date && from_date <= date && date < to_date;
-    });
+function isBooked(cell) {
+    const night = cell?.right_cell;
+    return night?.Is_Available === false && !isBlockUnit(night.STAY_STATUS_CODE);
 }
 /**
  * A room type's booked and total units. The total is its active units — never `exposed_inventory.total`, which counts
- * inactive ones too. Booked is the inventory's count, else counted from the active units' cells.
+ * inactive ones too. Booked is the active units booked for the night (see `isBooked`).
  */
-function roomTypeOccupancy(roomType, date, flags) {
-    const inventory = roomType.exposed_inventory ?? {};
+function roomTypeOccupancy(roomType, flags) {
     const units = activeUnits(roomType, flags);
     return {
-        booked: typeof inventory.booked === 'number' ? inventory.booked : units.filter(unit => isBookedOn(unit.calendar_cell, date)).length,
+        booked: units.filter(unit => isBooked(unit.calendar_cell)).length,
         total: units.length,
     };
 }
-function occupancyOf(roomTypes, date, flags) {
+function occupancyOf(roomTypes, flags) {
     let booked = 0;
     let total = 0;
     for (const roomType of roomTypes) {
-        const figure = roomTypeOccupancy(roomType, date, flags);
+        const figure = roomTypeOccupancy(roomType, flags);
         booked += figure.booked;
         total += figure.total;
     }
@@ -145,13 +139,13 @@ function occupancyOf(roomTypes, date, flags) {
  * The day's occupancy across the active units of active room types, real and virtual apart. A room type is virtual when the
  * calendar flags it (`is_virtual`) or its id is in `flags.virtualIds`. `virtual` is `undefined` when no room type is virtual.
  */
-export function computeOccupancy(roomTypes, date, flags = {}) {
+export function computeOccupancy(roomTypes, flags = {}) {
     const active = activeRoomTypes(roomTypes);
     const isVirtual = (rt) => rt.is_virtual ?? (rt.id != null && !!flags.virtualIds?.has(rt.id));
     const virtual = active.filter(isVirtual);
     return {
-        real: occupancyOf(active.filter(rt => !isVirtual(rt)), date, flags),
-        virtual: virtual.length ? occupancyOf(virtual, date, flags) : undefined,
+        real: occupancyOf(active.filter(rt => !isVirtual(rt)), flags),
+        virtual: virtual.length ? occupancyOf(virtual, flags) : undefined,
     };
 }
 /**
@@ -167,10 +161,23 @@ export function sumUnits(roomTypes, date, flags) {
         available: sum('rts') ?? 0,
         ...countBlockedUnits(active, date, flags),
         total: sum('total'),
-        occupancy: computeOccupancy(active, date, flags),
+        occupancy: computeOccupancy(active, flags),
     };
 }
 /** Revenue per available room = ADR × occupancy. */
 export function computeRevPar(adr, occupancyPercent) {
     return (adr * occupancyPercent) / 100;
+}
+/** Largest count a summary card shows in full; above it the card shows the compact form, so it never needs more than six characters. */
+const CARD_COUNT_FULL_MAX = 99_999;
+/**
+ * Count for a summary card, in the active language and digit script: in full up to 99,999 ("98,765"), compact beyond
+ * ("123.5K", "1.2M"); empty for a missing value.
+ */
+export function formatCardCount(value) {
+    if (value === null || value === undefined || Number.isNaN(value))
+        return '';
+    if (Math.abs(value) <= CARD_COUNT_FULL_MAX)
+        return formatCount(value);
+    return formatCount(value, { notation: 'compact', maximumFractionDigits: 1 });
 }

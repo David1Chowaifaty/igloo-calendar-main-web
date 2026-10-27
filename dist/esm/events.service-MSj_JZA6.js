@@ -1,5 +1,5 @@
 import { a as axios } from './axios-B50ozOIF.js';
-import { B as BookingService } from './booking.store-BwrxIu8R.js';
+import { B as BookingService } from './booking.store-BGxx-ua_.js';
 import { e as extras, g as getReleaseHoursString } from './utils-Dg1mqsnA.js';
 
 class EventsService {
