@@ -2,7 +2,7 @@
 
 var index = require('./index-IDeZZwEK.js');
 var index$1 = require('./index-Cb_LC8em.js');
-var utils = require('./utils-BEjK-V-3.js');
+var utils = require('./utils-DC_1UV-i.js');
 var setupMapping = require('./setup-mapping-D72fId4a.js');
 var t = require('./t-CqJPQrfm.js');
 require('./axios-EresIryl.js');
@@ -14,8 +14,8 @@ require('./commonSchemas-D4iFLV5-.js');
 require('./locale-scope-Cch-vf1R.js');
 require('./moment-CdViwxPQ.js');
 require('./calendar-data-ShS6b-Ns.js');
-require('./booking.dto-CUSvGTvD.js');
-require('./type-Bj2x9EWc.js');
+require('./booking.dto-CMx8s-oW.js');
+require('./type-DxODN41W.js');
 require('./ir-date-CbkOKs2C.js');
 require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
@@ -102,7 +102,7 @@ const IrTranslationsTableForm = class {
         }
     };
     render() {
-        return (index.h("form", { key: '7babc124b19e8f28ebae5e825808bbfdc3fa77ca', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, index.h("ir-input", { key: 'fb360cbeef33c2e267e4f3fbac7f04f5f5fb3386', label: t.t('Lcz_Name', { fallback: 'Name' }), autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (index.h("p", { key: '23b640c71753863e92902942d7b3623d0c944cbb', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
+        return (index.h("form", { key: '9acd107351b0b07b0c0b703a85b3948c04b2f287', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, index.h("ir-input", { key: '75fdbcc06a7e623ac632eae947875c8a30ae6f40', label: t.t('Lcz_Name', { fallback: 'Name' }), autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (index.h("p", { key: '20e28a4228480349641aca39584cdf49af7e378f', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
     }
 };
 IrTranslationsTableForm.style = irTranslationsTableFormCss();

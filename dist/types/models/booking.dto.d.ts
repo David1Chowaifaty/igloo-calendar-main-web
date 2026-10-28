@@ -334,6 +334,19 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
         has_opening_balance: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
+        rt_namings: z.ZodOptional<z.ZodNullable<z.ZodArray<z.ZodObject<{
+            id: z.ZodDefault<z.ZodNumber>;
+            room_type_id: z.ZodNumber;
+            name: z.ZodString;
+        }, "strip", z.ZodTypeAny, {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }, {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }>, "many">>>;
     } & {
         address: z.ZodNullable<z.ZodString>;
         agent_rate_type_code: z.ZodNullable<z.ZodObject<{
@@ -426,6 +439,11 @@ export declare const ExtraServiceSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        rt_namings?: {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }[];
         pr_id?: number;
     }, {
         code?: string;
@@ -468,6 +486,11 @@ export declare const ExtraServiceSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        rt_namings?: {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }[];
         pr_id?: number;
     }>>;
     from_time: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
@@ -547,6 +570,11 @@ export declare const ExtraServiceSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        rt_namings?: {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }[];
         pr_id?: number;
     };
     system_id?: number;
@@ -617,6 +645,11 @@ export declare const ExtraServiceSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        rt_namings?: {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }[];
         pr_id?: number;
     };
     system_id?: number;
@@ -1300,6 +1333,7 @@ export interface RoomType {
     rate: number;
     rateplans: null;
     is_active: boolean;
+    is_virtual: boolean;
 }
 export type RoomHkStatus = '001' | '002' | '003' | '004';
 export interface PhysicalRoom {

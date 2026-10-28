@@ -12,7 +12,7 @@ export class IrClInvoiceSelect {
     hint = '';
     invoiceChange;
     render() {
-        return (h("ir-validator", { key: '039520cada60dc3a0cef229652d0d1877ebd7bbd', schema: invoiceIdRequiredFieldSchema, value: this.value, valueEvent: "change" }, h("wa-select", { key: '6adaddf5326d8dfbab0d006bed2b5bb7a69dda0d', label: this.label || t('Lcz_DocumentTypeInvoice', { fallback: 'Invoice' }), size: "s", required: true, hint: this.hint || undefined, placeholder: t('Lcz_SelectInvoicePlaceholder', { fallback: 'Select invoice' }), value: this.value, onchange: event => {
+        return (h("ir-validator", { key: '34d50976f794a3d22dac07c7b80605ca139cfef3', schema: invoiceIdRequiredFieldSchema, value: this.value, valueEvent: "change" }, h("wa-select", { key: 'a09d2b3e421ebffe12215ba2c7f8d5d431e30b2d', label: this.label || t('Lcz_DocumentTypeInvoice', { fallback: 'Invoice' }), size: "s", required: true, hint: this.hint || undefined, placeholder: t('Lcz_SelectInvoicePlaceholder', { fallback: 'Select invoice' }), value: this.value, onchange: event => {
                 this.invoiceChange.emit(event.target.value || '');
             } }, this.fiscalDocuments.map(doc => {
             const date = doc.ISSUE_DATE_DISPLAY ?? (doc.ISSUE_DATE ? formatDate(doc.ISSUE_DATE, 'MMM D, YYYY') : '');

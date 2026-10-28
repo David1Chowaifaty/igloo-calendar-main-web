@@ -106,13 +106,13 @@ export class IrGuestDocumentPreview {
     }
     render() {
         const isOpen = this.pdfUrl !== null || this.isLoading;
-        return (h(Host, { key: '88ae8907dab94b5da5b88f3488e0b88aa09dfa3f' }, h("ir-preview-screen-dialog", { key: '941f1e22498babd92378cd740d384135184d6bdb', open: isOpen, label: this.getDialogLabel(), action: "print", hideDefaultAction: true, onOpenChanged: e => {
+        return (h(Host, { key: 'dbf2b5c476102a8721a7ceba588c87273db38acf' }, h("ir-preview-screen-dialog", { key: '36d2381ccd1d73f9c128fadc7c07855baddb3ba0', open: isOpen, label: this.getDialogLabel(), action: "print", hideDefaultAction: true, onOpenChanged: e => {
                 if (!e.detail) {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.resetPreview();
                 }
-            } }, this.pdfUrl && (h("ir-custom-button", { key: '46c879c588df12cb53c0a7d91d0cef5c70b48606', slot: "header-actions", size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '572f1ae2d8d38c782889fd8efe95759ce0bd4ebf', name: "download", style: { fontSize: '1.2rem' }, label: t('Lcz_DownloadPdfTooltip', { fallback: 'Download PDF' }) }))), this.renderBody())));
+            } }, this.pdfUrl && (h("ir-custom-button", { key: 'f8928e5c8b936f1d958cad0fbcc119f6cc765b47', slot: "header-actions", size: "m", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: 'd657b7756711336e17f8bdd5b1fed8dee03253da', name: "download", style: { fontSize: '1.2rem' }, label: t('Lcz_DownloadPdfTooltip', { fallback: 'Download PDF' }) }))), this.renderBody())));
     }
     static get is() { return "ir-guest-document-preview"; }
     static get encapsulation() { return "scoped"; }

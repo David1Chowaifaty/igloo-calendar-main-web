@@ -1,24 +1,24 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, F as Fragment, H as Host } from './index-DKZeCK8T.js';
-import { j as findCountry, c as canCheckIn } from './utils-Dg1mqsnA.js';
-import { E as EventsService } from './events.service-MSj_JZA6.js';
+import { j as findCountry, c as canCheckIn } from './utils-BQHfpbFq.js';
+import { E as EventsService } from './events.service-FRelQzdz.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { t as todayISO } from './calendar-dates-D3hVfsrC.js';
 import { l as locales } from './locale-scope-Jre4lb6k.js';
 import { c as calendar_data } from './calendar-data-DWzivSW-.js';
-import { b as compareTime, d as createDateWithOffsetAndHour } from './booking-C8cWFPjy.js';
-import { P as PropertyService } from './index-D1wpkdpq.js';
+import { b as compareTime, d as createDateWithOffsetAndHour } from './booking-CimXDndv.js';
+import { P as PropertyService } from './index-B-BBJwkp.js';
 import { H as HbPreference } from './enums-CSCQSgBu.js';
 import { c as isRtlDirection } from './direction-CcpbVppy.js';
 import { a as formatBookingNumber, f as formatAmount } from './number-B8waOzTO.js';
 import { t } from './t-Bvz1wS_D.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
+import './booking.dto-DGwE7ON6.js';
+import './type-9FR4Ndkd.js';
 import './types-CB66a07H.js';
 import './ir-date-XXNYhmSL.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './axios-B50ozOIF.js';
-import './booking.store-BGxx-ua_.js';
+import './booking.store-BBj85Wcf.js';
 import './IBooking-B4waZCSK.js';
 import './commonSchemas-Cx9w9d8l.js';
 import './functions-Ebyqqazo.js';
@@ -458,7 +458,7 @@ const IglBookingEventHover = class {
         return h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (h(Host, { key: 'eddd6393890382d3bdabb6d7afd94160bfcd65df', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '3b89b1b23c7536852a387d96071ca4d57af4353e', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": [{

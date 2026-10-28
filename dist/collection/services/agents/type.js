@@ -14,6 +14,12 @@ export const AgentRateTypeCodeSchema = CodeDescriptionSchema;
 export const AgentTypeCodeSchema = CodeDescriptionSchema;
 export const PaymentModeSchema = CodeDescriptionSchema;
 export const ClPostTimingSchema = CodeDescriptionSchema;
+/** Agent-specific name mapped to a property room type (tour operators only). */
+export const AgentRtNamingSchema = z.object({
+    id: z.number().default(-1),
+    room_type_id: z.number(),
+    name: z.string(),
+});
 export const AgentBaseSchema = z.object({
     address: z.string(),
     agent_rate_type_code: AgentRateTypeCodeSchema,
@@ -43,6 +49,7 @@ export const AgentBaseSchema = z.object({
     verification_mode: z.string().nullable().default(null),
     has_opening_balance: z.boolean().optional().default(false),
     cl_post_timing: ClPostTimingSchema.optional(),
+    rt_namings: z.array(AgentRtNamingSchema).nullable().optional(),
 });
 export const AgentSchema = AgentBaseSchema.superRefine((value, ctx) => {
     const trimmedCode = (value.code ?? '').trim();

@@ -70,6 +70,21 @@ export declare const ClPostTimingSchema: z.ZodObject<{
     description?: string;
 }>;
 export type ClPostTiming = z.infer<typeof ClPostTimingSchema>;
+/** Agent-specific name mapped to a property room type (tour operators only). */
+export declare const AgentRtNamingSchema: z.ZodObject<{
+    id: z.ZodDefault<z.ZodNumber>;
+    room_type_id: z.ZodNumber;
+    name: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    name?: string;
+    id?: number;
+    room_type_id?: number;
+}, {
+    name?: string;
+    id?: number;
+    room_type_id?: number;
+}>;
+export type AgentRtNaming = z.infer<typeof AgentRtNamingSchema>;
 export declare const AgentBaseSchema: z.ZodObject<{
     address: z.ZodString;
     agent_rate_type_code: z.ZodObject<{
@@ -135,6 +150,19 @@ export declare const AgentBaseSchema: z.ZodObject<{
         code?: string;
         description?: string;
     }>>;
+    rt_namings: z.ZodOptional<z.ZodNullable<z.ZodArray<z.ZodObject<{
+        id: z.ZodDefault<z.ZodNumber>;
+        room_type_id: z.ZodNumber;
+        name: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }, {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }>, "many">>>;
 }, "strip", z.ZodTypeAny, {
     code?: string;
     name?: string;
@@ -176,6 +204,11 @@ export declare const AgentBaseSchema: z.ZodObject<{
         code?: string;
         description?: string;
     };
+    rt_namings?: {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }[];
 }, {
     code?: string;
     name?: string;
@@ -217,6 +250,11 @@ export declare const AgentBaseSchema: z.ZodObject<{
         code?: string;
         description?: string;
     };
+    rt_namings?: {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }[];
 }>;
 export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     address: z.ZodString;
@@ -283,6 +321,19 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         code?: string;
         description?: string;
     }>>;
+    rt_namings: z.ZodOptional<z.ZodNullable<z.ZodArray<z.ZodObject<{
+        id: z.ZodDefault<z.ZodNumber>;
+        room_type_id: z.ZodNumber;
+        name: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }, {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }>, "many">>>;
 }, "strip", z.ZodTypeAny, {
     code?: string;
     name?: string;
@@ -324,6 +375,11 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         code?: string;
         description?: string;
     };
+    rt_namings?: {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }[];
 }, {
     code?: string;
     name?: string;
@@ -365,6 +421,11 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         code?: string;
         description?: string;
     };
+    rt_namings?: {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }[];
 }>, {
     code?: string;
     name?: string;
@@ -406,6 +467,11 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         code?: string;
         description?: string;
     };
+    rt_namings?: {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }[];
 }, {
     code?: string;
     name?: string;
@@ -447,6 +513,11 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         code?: string;
         description?: string;
     };
+    rt_namings?: {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }[];
 }>;
 export type Agent = z.infer<typeof AgentSchema>;
 export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodObject<{
@@ -514,6 +585,19 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         code?: string;
         description?: string;
     }>>;
+    rt_namings: z.ZodOptional<z.ZodNullable<z.ZodArray<z.ZodObject<{
+        id: z.ZodDefault<z.ZodNumber>;
+        room_type_id: z.ZodNumber;
+        name: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }, {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }>, "many">>>;
 }, "strip", z.ZodTypeAny, {
     code?: string;
     name?: string;
@@ -555,6 +639,11 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         code?: string;
         description?: string;
     };
+    rt_namings?: {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }[];
 }, {
     code?: string;
     name?: string;
@@ -596,6 +685,11 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         code?: string;
         description?: string;
     };
+    rt_namings?: {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }[];
 }>, {
     code?: string;
     name?: string;
@@ -637,6 +731,11 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         code?: string;
         description?: string;
     };
+    rt_namings?: {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }[];
 }, {
     code?: string;
     name?: string;
@@ -678,6 +777,11 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         code?: string;
         description?: string;
     };
+    rt_namings?: {
+        name?: string;
+        id?: number;
+        room_type_id?: number;
+    }[];
 }>, "many">>;
 export type Agents = z.infer<typeof AgentsSchema>;
 export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
@@ -746,6 +850,19 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         }>>;
+        rt_namings: z.ZodOptional<z.ZodNullable<z.ZodArray<z.ZodObject<{
+            id: z.ZodDefault<z.ZodNumber>;
+            room_type_id: z.ZodNumber;
+            name: z.ZodString;
+        }, "strip", z.ZodTypeAny, {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }, {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }>, "many">>>;
     }, "strip", z.ZodTypeAny, {
         code?: string;
         name?: string;
@@ -787,6 +904,11 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        rt_namings?: {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }[];
     }, {
         code?: string;
         name?: string;
@@ -828,6 +950,11 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        rt_namings?: {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }[];
     }>, {
         code?: string;
         name?: string;
@@ -869,6 +996,11 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        rt_namings?: {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }[];
     }, {
         code?: string;
         name?: string;
@@ -910,6 +1042,11 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        rt_namings?: {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }[];
     }>;
 }, "strip", z.ZodTypeAny, {
     agent?: {
@@ -953,6 +1090,11 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        rt_namings?: {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }[];
     };
 }, {
     agent?: {
@@ -996,6 +1138,11 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        rt_namings?: {
+            name?: string;
+            id?: number;
+            room_type_id?: number;
+        }[];
     };
 }>;
 export type HandleExposedAgentProps = z.infer<typeof HandleExposedAgentPropsSchema>;

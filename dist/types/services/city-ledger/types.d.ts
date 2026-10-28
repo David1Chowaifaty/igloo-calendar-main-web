@@ -1164,6 +1164,7 @@ export declare const IssueFiscalDocumentParamsSchema: z.ZodObject<{
     BOOKING_NBR: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
     FD_TYPE_CODE: z.ZodString;
     FD_STATUS_CODE: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+    IS_COMPACT: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
 }, "strip", z.ZodTypeAny, {
     FD_TYPE_CODE?: string;
     CURRENCY_ID?: number;
@@ -1173,6 +1174,7 @@ export declare const IssueFiscalDocumentParamsSchema: z.ZodObject<{
     END_DATE?: string;
     LIST_CL_TX_ID?: number[];
     BOOKING_NBR?: string;
+    IS_COMPACT?: boolean;
 }, {
     FD_TYPE_CODE?: string;
     CURRENCY_ID?: number;
@@ -1182,6 +1184,7 @@ export declare const IssueFiscalDocumentParamsSchema: z.ZodObject<{
     END_DATE?: string;
     LIST_CL_TX_ID?: number[];
     BOOKING_NBR?: string;
+    IS_COMPACT?: boolean;
 }>;
 /** Params for issuing fiscal documents from city-ledger entries. */
 export type IssueFiscalDocumentParams = z.infer<typeof IssueFiscalDocumentParamsSchema>;
@@ -1281,18 +1284,21 @@ export declare const PrintClProformaParamsSchema: z.ZodObject<{
     to_date: z.ZodString;
     lang: z.ZodDefault<z.ZodOptional<z.ZodString>>;
     booking_nbr: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
+    is_compact: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
 }, "strip", z.ZodTypeAny, {
     lang?: string;
     booking_nbr?: string;
     from_date?: string;
     to_date?: string;
     agency_id?: string;
+    is_compact?: boolean;
 }, {
     lang?: string;
     booking_nbr?: string;
     from_date?: string;
     to_date?: string;
     agency_id?: string;
+    is_compact?: boolean;
 }>;
 export type PrintClProformaParams = z.infer<typeof PrintClProformaParamsSchema>;
 export declare const GetClProformaLinkParamsSchema: z.ZodObject<{

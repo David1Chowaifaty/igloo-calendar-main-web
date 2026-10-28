@@ -140,7 +140,7 @@ export class IrTranslationsEntriesPanel {
         const total = this.entries.length;
         const missing = this.entries.filter(entry => countMissing(entry, this.languages) > 0).length;
         const shownTables = new Set(filteredEntries.map(entry => entry.tableName)).size;
-        return (h("div", { key: '390ea69a6a4a3c8d14c32732ad669ff644b4befe', class: "entries-panel__card" }, this.renderToolbar(), this.isLoading ? (h("div", { class: "entries-panel__loader-container" }, h("ir-spinner", null), h("p", null, "Loading keys\u2026"))) : (h("ir-translations-entries-table", { entries: filteredEntries, languages: this.languages, sourceCode: this.sourceCode, compact: false, filtered: this.hasActiveFilters, groupByTable: this.groupByTable, reorderEnabled: !this.hasActiveFilters && !this.groupByTable, changedEntryIds: this.changedEntryIds, duplicates: this.duplicates, showNotes: this.showNotes, onEntryChange: (e) => {
+        return (h("div", { key: 'bc63658b4aa96a9ce760161fe2a379ee9590de15', class: "entries-panel__card" }, this.renderToolbar(), this.isLoading ? (h("div", { class: "entries-panel__loader-container" }, h("ir-spinner", null), h("p", null, "Loading keys\u2026"))) : (h("ir-translations-entries-table", { entries: filteredEntries, languages: this.languages, sourceCode: this.sourceCode, compact: false, filtered: this.hasActiveFilters, groupByTable: this.groupByTable, reorderEnabled: !this.hasActiveFilters && !this.groupByTable, changedEntryIds: this.changedEntryIds, duplicates: this.duplicates, showNotes: this.showNotes, onEntryChange: (e) => {
                 this.stopPropagation(e);
                 this.entryChange.emit(e.detail);
             }, onEditEntry: (e) => {

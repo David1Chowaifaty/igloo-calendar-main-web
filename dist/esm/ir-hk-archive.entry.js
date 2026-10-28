@@ -2,7 +2,7 @@ import { r as registerInstance, h, F as Fragment, H as Host } from './index-DKZe
 import { H as HouseKeepingService, h as housekeeping_store } from './index-BCFaKeiO.js';
 import { c as calendar_data } from './calendar-data-DWzivSW-.js';
 import { i as isRequestPending } from './ir-interceptor.store-DjDNm9TC.js';
-import { f as downloadFile } from './utils-Dg1mqsnA.js';
+import { f as downloadFile } from './utils-BQHfpbFq.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { t } from './t-Bvz1wS_D.js';
 import { f as formatDate } from './ir-date-XXNYhmSL.js';
@@ -12,8 +12,8 @@ import './locale-scope-Jre4lb6k.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './commonSchemas-Cx9w9d8l.js';
-import './booking.dto-B554ToUQ.js';
-import './type-DjfVZqvs.js';
+import './booking.dto-DGwE7ON6.js';
+import './type-9FR4Ndkd.js';
 import './calendar-dates-D3hVfsrC.js';
 import './language-observer-CHgzsZkY.js';
 
@@ -104,7 +104,7 @@ const IrHkArchive = class {
         }
     }
     render() {
-        return (h(Host, { key: '8164f046f02beaea39b4a1943bd2aca9589d1d27' }, h("ir-title", { key: 'cc776d2be39a547ac085599a191e98096a311a2e', class: "px-1", label: t('Lcz_CleaningArchives90Days', { fallback: 'Cleaning Archives (90 days)' }), displayContext: "sidebar" }), h("section", { key: 'dccb848c9f9fed4f69d3b7fb27664fa66cb6685a', class: "px-1" }, h("div", { key: '46f990e102e0fc95bb2faaf35b3cb7053bfcb3ed', class: "d-flex" }, h("ir-select", { key: '04da36027794ac348715b776e5cb776c944d1ba4', class: "w-100", showFirstOption: false, data: [
+        return (h(Host, { key: '7a8d73510eb3af74a2d21b085e24c4d27ece975d' }, h("ir-title", { key: '36ddce4d83708e9833e6f4822d909ced84de40de', class: "px-1", label: t('Lcz_CleaningArchives90Days', { fallback: 'Cleaning Archives (90 days)' }), displayContext: "sidebar" }), h("section", { key: '8ea8b299b9953fe65447eda386351e7419473799', class: "px-1" }, h("div", { key: '56d2d67c5dabc8de21fa1e912441bd1b1279fd42', class: "d-flex" }, h("ir-select", { key: 'aa15704055584f1d720f8fead39fd6fd6b04b7ee', class: "w-100", showFirstOption: false, data: [
                 { text: t('Lcz_AllUnits', { fallback: 'All units' }), value: '000' },
                 ,
                 ...this.units
@@ -122,7 +122,7 @@ const IrHkArchive = class {
                 else {
                     this.updateFilters({ filtered_by_unit: [e.detail] });
                 }
-            } }), housekeeping_store?.hk_criteria?.housekeepers.length > 1 && (h("ir-select", { key: '69ddbfd8cb22597ece5a9391376aac714bc12b01', class: "ir-ms-1 w-100", selectedValue: this.filters?.filtered_by_hkm?.length === housekeeping_store.hk_criteria.housekeepers.length ? '000' : this.filters?.filtered_by_hkm[0]?.toString(), showFirstOption: false, data: [
+            } }), housekeeping_store?.hk_criteria?.housekeepers.length > 1 && (h("ir-select", { key: '227dea656e8016ab4463e12e5caf352c9a135499', class: "ir-ms-1 w-100", selectedValue: this.filters?.filtered_by_hkm?.length === housekeeping_store.hk_criteria.housekeepers.length ? '000' : this.filters?.filtered_by_hkm[0]?.toString(), showFirstOption: false, data: [
                 { text: t('Lcz_Allhousekeepers', { fallback: 'All housekeepers' }), value: '000' },
                 ...housekeeping_store?.hk_criteria?.housekeepers
                     .map(v => ({
@@ -137,7 +137,7 @@ const IrHkArchive = class {
                 else {
                     this.updateFilters({ filtered_by_hkm: [e.detail] });
                 }
-            } }))), h("div", { key: '35d64f2c5a335f3965be197fab44c134589a348c', class: "d-flex mt-1 align-items-center" }, h("ir-range-picker", { key: '115e9052333bef4752daed1238a8bd81c552bf5d', maxDate: hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "ir-me-1", fromDate: this.filters.from_date ? hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), h("ir-button", { key: 'cf7c73a370a7e2aa8b2a7f9b0f8b89f36587f454', title: t('Lcz_Search', { fallback: 'Search' }), variant: "icon", icon_name: "search", class: "ir-me-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), h("ir-button", { key: 'f0a2d6b2fbf09374da108fbf3f6f8c05694573bf', title: t('Lcz_ExportToExcel', { fallback: 'Export to excel' }), variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (h(Fragment, { key: '2f3bace71e30c2668838127167815dc21c6a8ade' }, this.data?.length === 0 && !isRequestPending('/Get_Archived_HK_Tasks') ? (h("p", { class: 'text-center mt-2' }, t('Lcz_NoResultsFound', { fallback: 'No results found' }))) : (h("table", { class: "mt-2 table" }, h("thead", null, h("th", { class: "ir-ps-0" }, t('Lcz_Period', { fallback: 'Period' })), h("th", null, t('Lcz_Housekeeper', { fallback: 'Housekeeper' })), h("th", null, t('Lcz_Unit', { fallback: 'Unit' })), h("th", null, t('Lcz_BookingNumber', { fallback: 'Booking number' }))), h("tbody", null, this.data?.map(d => (h("tr", { key: d.id }, h("td", { class: "ir-ps-0" }, formatDate(d.date, 'MMM DD, YYYY')), h("td", null, d.house_keeper), h("td", null, h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), h("td", null, d.booking_nbr ? (h("ir-button", { btn_color: "link", btnStyle: {
+            } }))), h("div", { key: '9fec70b65ec0964f281f7708ef074ee88f859ce9', class: "d-flex mt-1 align-items-center" }, h("ir-range-picker", { key: '57fad7612552b4d5a780b1bb60a16ddb8975b1a2', maxDate: hooks().format('YYYY-MM-DD'), minDate: this.minSelectableDate, class: "ir-me-1", fromDate: this.filters.from_date ? hooks(this.filters.from_date, 'YYYY-MM-DD') : null, toDate: this.filters.to_date ? hooks(this.filters.to_date, 'YYYY-MM-DD') : null }), h("ir-button", { key: 'bce47a6b576fb3a678085a270955a1ed0a471423', title: t('Lcz_Search', { fallback: 'Search' }), variant: "icon", icon_name: "search", class: "ir-me-1", isLoading: this.isLoading === 'search', onClickHandler: e => this.searchArchive(e) }), h("ir-button", { key: '13046012eb275c84057b76b15ac5d4bff64ce6c1', title: t('Lcz_ExportToExcel', { fallback: 'Export to excel' }), variant: "icon", icon_name: "file", isLoading: this.isLoading === 'excel', onClickHandler: e => this.exportArchive(e) })), this.fetchedData && (h(Fragment, { key: '5b3a3220eadc28a04d69b33a2991ee87f3ad4802' }, this.data?.length === 0 && !isRequestPending('/Get_Archived_HK_Tasks') ? (h("p", { class: 'text-center mt-2' }, t('Lcz_NoResultsFound', { fallback: 'No results found' }))) : (h("table", { class: "mt-2 table" }, h("thead", null, h("th", { class: "ir-ps-0" }, t('Lcz_Period', { fallback: 'Period' })), h("th", null, t('Lcz_Housekeeper', { fallback: 'Housekeeper' })), h("th", null, t('Lcz_Unit', { fallback: 'Unit' })), h("th", null, t('Lcz_BookingNumber', { fallback: 'Booking number' }))), h("tbody", null, this.data?.map(d => (h("tr", { key: d.id }, h("td", { class: "ir-ps-0" }, formatDate(d.date, 'MMM DD, YYYY')), h("td", null, d.house_keeper), h("td", null, h("ir-tooltip", { message: d.unit, customSlot: true, containerStyle: { width: 'fit-content' } }, h("span", { slot: "tooltip-trigger", class: `unit-name` }, d.unit))), h("td", null, d.booking_nbr ? (h("ir-button", { btn_color: "link", btnStyle: {
                 width: 'fit-content',
                 padding: '0',
                 margin: '0',
@@ -146,10 +146,10 @@ const IrHkArchive = class {
             }, text: d.booking_nbr.toString(), onClick: () => {
                 this.selectedBooking = d.booking_nbr;
                 // window.open(`https://x.igloorooms.com/manage/acbookingeditV2.aspx?BN=${d.booking_nbr}`, '_blank');
-            } })) : (t('Lcz_WasVacant', { fallback: 'Was vacant' })))))))))))), h("ir-sidebar", { key: '67dfee07f35aa2ec8499ee51cc0b0dc6dc616bc1', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.selectedBooking, showCloseButton: false, sidebarStyles: {
+            } })) : (t('Lcz_WasVacant', { fallback: 'Was vacant' })))))))))))), h("ir-sidebar", { key: '7e8198e066f4c55ffb0c58a77f85971ebb6e39ee', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: !!this.selectedBooking, showCloseButton: false, sidebarStyles: {
                 width: '80rem',
                 background: 'var(--ir-color-muted-background,#f2f3f8)',
-            } }, this.selectedBooking && (h("ir-booking-details", { key: 'b02461ac0c2743ff2f562cf0112dfc0fb715c79b', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.selectedBooking = null), is_from_front_desk: true, propertyid: Number(this.propertyId), hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.selectedBooking?.toString(), language: this.language, hasRoomAdd: true, ticket: this.ticket })))));
+            } }, this.selectedBooking && (h("ir-booking-details", { key: 'ab87f6d0761b7062eef4894a2ffdf3e94793f46e', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.selectedBooking = null), is_from_front_desk: true, propertyid: Number(this.propertyId), hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.selectedBooking?.toString(), language: this.language, hasRoomAdd: true, ticket: this.ticket })))));
     }
 };
 IrHkArchive.style = irHkArchiveCss();

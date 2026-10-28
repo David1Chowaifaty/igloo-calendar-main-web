@@ -125,7 +125,8 @@ export const ToggleCLTxHoldParamsSchema = z.object({
     CL_TX_ID: z.number(),
     IS_HOLD: z.boolean(),
 });
-export const IssueManualCLTxParamsSchema = z.object({
+export const IssueManualCLTxParamsSchema = z
+    .object({
     CL_TX_ID: z.number().optional().default(-1),
     AGENCY_ID: z.number(),
     SERVICE_DATE: z.string(),
@@ -146,7 +147,8 @@ export const IssueManualCLTxParamsSchema = z.object({
     //Booking number system id.
     BH_ID: z.number().optional().nullable().default(null),
     IS_DELETE: z.boolean().optional().default(false),
-}).superRefine((data, ctx) => {
+})
+    .superRefine((data, ctx) => {
     if (data.CL_TX_TYPE_CODE === ClTxTypeCode.Payment && !data.PAY_METHOD_CODE) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -188,6 +190,7 @@ export const IssueFiscalDocumentParamsSchema = CLAgencyContextSchema.extend({
     BOOKING_NBR: z.string().optional().nullable().default(null),
     FD_TYPE_CODE: z.string(),
     FD_STATUS_CODE: z.string().optional().default(FdStatus.Issued),
+    IS_COMPACT: z.boolean().optional().default(false),
 });
 export const GetFiscalDocumentsParamsSchema = z.object({
     DOC_NUMBER: z.string().optional().default(''),
@@ -225,6 +228,7 @@ export const PrintClProformaParamsSchema = z.object({
     to_date: z.string(),
     lang: z.string().optional().default('en'),
     booking_nbr: z.string().optional().nullable().default(null),
+    is_compact: z.boolean().optional().default(false),
 });
 export const GetClProformaLinkParamsSchema = z.object({
     FD_ID: z.number(),

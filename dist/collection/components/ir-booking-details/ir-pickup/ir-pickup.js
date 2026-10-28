@@ -40,7 +40,7 @@ export class IrPickup {
     closeModal;
     _id = `pickup-form-${v4()}`;
     render() {
-        return (h("ir-drawer", { key: '4a29962ad220a03193bc373f37cf0c38232526d4', style: {
+        return (h("ir-drawer", { key: '3c1d7cc685d4c18781f8bf1931332ca7cacddf26', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -51,7 +51,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-pickup-form", { key: '207f378dbceffcd76f54f5e1ff03b8fe0759aef2', booking: this.booking, agent: this.agent, onCanSubmitPickupChange: e => {
+            } }, this.open && (h("ir-pickup-form", { key: 'd637d96544b7f758b96d1c14e5214e4cb44c54eb', booking: this.booking, agent: this.agent, onCanSubmitPickupChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.canSubmitPickup = e.detail;
@@ -59,7 +59,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            }, formId: this._id })), h("div", { key: '06ed77ed7ff8eeb8f78486757e70ed3b5ec4f908', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '4c62abd680c9039d76165dd5a3806dd9d47b56f6', class: `flex-fill`, size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), this.canSubmitPickup && (h("ir-custom-button", { key: 'a90f1f806c34c7f57665bdf315bc314787f74352', type: "submit", loading: this.isLoading, form: this._id, size: "m", class: `flex-fill`, variant: "brand" }, t('Lcz_Save', { fallback: 'Save' }))))));
+            }, formId: this._id })), h("div", { key: '949d699e361ea06881d813b05b9316254bc89e42', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'f10239877985b40d9de04508a96830b80a93c922', class: `flex-fill`, size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel', { fallback: 'Cancel' })), this.canSubmitPickup && (h("ir-custom-button", { key: 'a5d416cea0fa14c415487724125befc8ee169ae7', type: "submit", loading: this.isLoading, form: this._id, size: "m", class: `flex-fill`, variant: "brand" }, t('Lcz_Save', { fallback: 'Save' }))))));
     }
     static get is() { return "ir-pickup"; }
     static get encapsulation() { return "scoped"; }
@@ -184,7 +184,7 @@ export class IrPickup {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; rt_namings?: { name?: string; id?: number; room_type_id?: number; }[]; }",
                     "references": {
                         "Agent": {
                             "location": "import",

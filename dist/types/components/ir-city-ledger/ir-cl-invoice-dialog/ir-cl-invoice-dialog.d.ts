@@ -13,6 +13,7 @@ export declare class IrClInvoiceDialog {
     error: string | null;
     noResults: boolean;
     isProforma: boolean;
+    isCompact: boolean;
     /**
      * Determines whether a final (non-proforma) invoice can be issued, based on
      * whether every room in the booking has effectively been checked out.

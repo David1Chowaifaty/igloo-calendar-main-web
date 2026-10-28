@@ -83,20 +83,20 @@ export declare const GetExposedApplicablePoliciesPropsSchema: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     language?: string;
     property_id?: number;
+    room_type_id?: number;
     currency_id?: number;
     booking_nbr?: string;
     room_identifier?: string;
     rate_plan_id?: number;
-    room_type_id?: number;
     is_preserve_history?: boolean;
 }, {
     language?: string;
     property_id?: number;
+    room_type_id?: number;
     currency_id?: number;
     booking_nbr?: string;
     room_identifier?: string;
     rate_plan_id?: number;
-    room_type_id?: number;
     is_preserve_history?: boolean;
 }>;
 export type GetExposedApplicablePoliciesProps = z.infer<typeof GetExposedApplicablePoliciesPropsSchema>;
@@ -335,6 +335,11 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
                 code?: string;
                 description?: string;
             };
+            rt_namings?: {
+                name?: string;
+                id?: number;
+                room_type_id?: number;
+            }[];
             pr_id?: number;
         };
         system_id?: number;
@@ -405,6 +410,11 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
                 code?: string;
                 description?: string;
             };
+            rt_namings?: {
+                name?: string;
+                id?: number;
+                room_type_id?: number;
+            }[];
             pr_id?: number;
         };
         system_id?: number;
@@ -480,6 +490,11 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
                 code?: string;
                 description?: string;
             };
+            rt_namings?: {
+                name?: string;
+                id?: number;
+                room_type_id?: number;
+            }[];
             pr_id?: number;
         };
         system_id?: number;
@@ -554,6 +569,11 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
                 code?: string;
                 description?: string;
             };
+            rt_namings?: {
+                name?: string;
+                id?: number;
+                room_type_id?: number;
+            }[];
             pr_id?: number;
         };
         system_id?: number;

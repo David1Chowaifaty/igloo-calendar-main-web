@@ -35,12 +35,12 @@ export class IrAgentEditorForm {
         }
     }
     render() {
-        return (h("form", { key: 'e658948d71affc6a2f70a651cbd29d570230cee0', autoComplete: this.formId,
+        return (h("form", { key: '75784e466d21822ae2ed8bff443589154d51c6f3', autoComplete: this.formId,
             // autoComplete="off"
             id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveOrEditAgent(getFormSubmitter(e));
-            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '250d45e54b7900a456e1b3ac025107eee6261907', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: '1dc227ee3c5bfde25eb1c3f1e611ee817e23fa1a', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
+            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '327b848dcae32605a7f1eba3c746030e6ef33cee', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: '90667782827397a9efa7e45b85e6f18713cce002', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
     }
     static get is() { return "ir-agent-editor-form"; }
     static get encapsulation() { return "scoped"; }
@@ -61,7 +61,7 @@ export class IrAgentEditorForm {
                 "mutable": true,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; rt_namings?: { name?: string; id?: number; room_type_id?: number; }[]; }",
                     "references": {
                         "Agent": {
                             "location": "import",
@@ -162,7 +162,7 @@ export class IrAgentEditorForm {
                 },
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; rt_namings?: { name?: string; id?: number; room_type_id?: number; }[]; }",
                     "references": {
                         "Agent": {
                             "location": "import",

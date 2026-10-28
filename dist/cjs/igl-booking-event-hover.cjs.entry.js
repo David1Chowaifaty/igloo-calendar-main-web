@@ -1,26 +1,26 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var utils = require('./utils-BEjK-V-3.js');
-var events_service = require('./events.service-Cu3Nz9XU.js');
+var utils = require('./utils-DC_1UV-i.js');
+var events_service = require('./events.service-f2_T7x1K.js');
 var moment = require('./moment-CdViwxPQ.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 var localeScope = require('./locale-scope-Cch-vf1R.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
-var booking = require('./booking-Cntup1BP.js');
-var index$1 = require('./index-B5qvLYZl.js');
+var booking = require('./booking-Bp-n-MGf.js');
+var index$1 = require('./index-DRI57dj6.js');
 var enums = require('./enums-BSCnMYlE.js');
 var direction = require('./direction-CuBM8Z-h.js');
 var number = require('./number-xBpNWk3H.js');
 var t = require('./t-CqJPQrfm.js');
-require('./booking.dto-CUSvGTvD.js');
-require('./type-Bj2x9EWc.js');
+require('./booking.dto-CMx8s-oW.js');
+require('./type-DxODN41W.js');
 require('./types-BVJQZ50e.js');
 require('./ir-date-CbkOKs2C.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./axios-EresIryl.js');
-require('./booking.store-CSM2wtFs.js');
+require('./booking.store-NbXZE2rr.js');
 require('./IBooking-hDE_y33g.js');
 require('./commonSchemas-D4iFLV5-.js');
 require('./functions-CaNAUyCw.js');
@@ -460,7 +460,7 @@ const IglBookingEventHover = class {
         return index.h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (index.h(index.Host, { key: 'eddd6393890382d3bdabb6d7afd94160bfcd65df', dir: direction.isRtlDirection(localeScope.locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (index.h(index.Host, { key: '3b89b1b23c7536852a387d96071ca4d57af4353e', dir: direction.isRtlDirection(localeScope.locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": [{

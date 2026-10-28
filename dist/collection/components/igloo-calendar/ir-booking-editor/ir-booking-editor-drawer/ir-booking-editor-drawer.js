@@ -355,7 +355,7 @@ export class IrBookingEditorDrawer {
         }
     }
     render() {
-        return (h("ir-drawer", { key: '1e576feee160fef529662c4a231247fe69a3427f', onDrawerHide: async (event) => {
+        return (h("ir-drawer", { key: '15994ae8192f3c15bf1e21a06ccaf8492bdc8b6a', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -366,7 +366,7 @@ export class IrBookingEditorDrawer {
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: 'b00201cec2bee539d91fb8b7749296cab99649e7', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: 'c0447521d04fa6ddb62e45f4a1cbdcfb596a8191', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: 'd311670ae5beff337fd3a372c40adb39aa6d2a03', appearance: "button", value: "manual" }, t('Lcz_Stay', { fallback: 'Stay' })), h("wa-radio", { key: '1845350df2df1b864fc81ac69a69807c3d93752c', appearance: "button", value: "day-use" }, t('Lcz_DayUseHyphen', { fallback: 'Day-use' }))))), this.open && this.ticket && (h("ir-booking-editor", { key: `booking-editor-${this.sessionKey}`, onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.step === 'details' && !this.unitId && ['PLUS_BOOKING', 'BAR_BOOKING'].includes(this.mode) && calendar_data?.property?.is_frontdesk_enabled && (h("div", { key: 'ff981e96359dc28970bfb1b38060219a7f4cca91', slot: "header-actions", style: { alignSelf: 'center' } }, h("wa-radio-group", { key: '7ea42e5fdce6ac28eeb503ec2b24e361b929c6ed', size: "s", value: booking_store.bookingDraft.dayUse ? 'day-use' : 'manual', orientation: "horizontal", onchange: e => this.handleDayUseToggle(e.target.value) }, h("wa-radio", { key: 'b149f1ae55df8ca0021e932c8c0de27fe1512db2', appearance: "button", value: "manual" }, t('Lcz_Stay', { fallback: 'Stay' })), h("wa-radio", { key: '60e1c3af9f76b1f984248c8f51151bd92bb82b7b', appearance: "button", value: "day-use" }, t('Lcz_DayUseHyphen', { fallback: 'Day-use' }))))), this.open && this.ticket && (h("ir-booking-editor", { key: `booking-editor-${this.sessionKey}`, onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -374,7 +374,7 @@ export class IrBookingEditorDrawer {
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: '62a68ecf87542ba1fc8e1956217029c30e8a694d', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier, extraService: this.extraService })), h("div", { key: '2ea984c4663cc848d032eecb149e4cc4d812b025', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get is() { return "ir-booking-editor-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -680,7 +680,7 @@ export class IrBookingEditorDrawer {
                 "mutable": false,
                 "complexType": {
                     "original": "ExtraService",
-                    "resolved": "{ description?: string; currency_id?: number; agent?: { code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; pr_id?: number; }; system_id?: number; charges?: { total_amount?: number; city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; vat_amount?: number; vat_percent?: number; }; cost?: number; room_identifier?: string; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; pr_id?: number; from_time?: string; to_time?: string; }",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { code?: string; name?: string; id?: number; email?: string; property_id?: any; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; rt_namings?: { name?: string; id?: number; room_type_id?: number; }[]; pr_id?: number; }; system_id?: number; charges?: { total_amount?: number; city_tax_amount?: number; city_tax_percent?: number; net_amount?: number; service_charge_amount?: number; service_charge_percent?: number; tax_amount?: number; vat_amount?: number; vat_percent?: number; }; cost?: number; room_identifier?: string; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; pr_id?: number; from_time?: string; to_time?: string; }",
                     "references": {
                         "ExtraService": {
                             "location": "import",

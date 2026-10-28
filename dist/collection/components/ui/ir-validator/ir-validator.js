@@ -300,7 +300,7 @@ export class IrValidator {
         }
     }
     render() {
-        return (h(Host, { key: 'e2d4bf7aecfc0fd67ef6c304d907bba751d648e4' }, h("slot", { key: 'f7ab1a43f86dc28df6fa7f8df4b11953b8ae2554' }), !this.isValid && this.showErrorMessage && (h("span", { key: '8f1ff6cf92f1795c9ec9c36842bb5c6d611dfe20', part: "error-message", class: "error-message" }, this.errorMessage))));
+        return (h(Host, { key: '6d980ae2b3f5cc5441a53af61a5075f9f6dadab3' }, h("slot", { key: 'a10389ddf24277b89e5c478dbc151a1e7d72ac2d' }), !this.isValid && this.showErrorMessage && (h("span", { key: '643a24b7b7f4db8a3a65204eae9f66e219b10449', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get is() { return "ir-validator"; }
     static get encapsulation() { return "shadow"; }
