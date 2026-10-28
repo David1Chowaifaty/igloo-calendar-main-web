@@ -9,7 +9,6 @@ export declare class IglBulkOperationsDrawer {
     selectedTab: string;
     isLoading: boolean;
     private formId;
-    private tabs;
     handleLoadingChange(e: CustomEvent<boolean>): void;
     private handleDrawerClose;
     render(): any;

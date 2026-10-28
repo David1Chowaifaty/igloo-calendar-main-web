@@ -26,16 +26,16 @@ export class IrExtraServicePriceInput {
         this.price = { ...(this.price || {}), ...params };
     }
     render() {
-        return (h(Host, { key: '59b222ce9399087ab6ddbf3795273d22479631c3', class: "ir-extra-service-price-input" }, h("ir-validator", { key: '57249d5152edeed6e6525f221ed162f9238dfc35', form: "extra-services-settings__form", class: "ir-extra-service-price-input__price-wrapper", value: this.price?.value ?? null, schema: z
+        return (h(Host, { key: '18d3c273f7c92ed2488cadb107fdf9cc5fb69b2e', class: "ir-extra-service-price-input" }, h("ir-validator", { key: '495a94b36b030b29b7cdc6aa231be44c07d83424', form: "extra-services-settings__form", class: "ir-extra-service-price-input__price-wrapper", value: this.price?.value ?? null, schema: z
                 .number()
                 .nullable()
-                .refine(value => value === null || value >= 0.01, { message: t('Lcz_PriceMustBeGreaterThanZero', { fallback: 'Price must be greater than 0' }) }) }, h("ir-input", { key: '4a3794b9d437b02c363c6c0c2b3daf2cc40731cc', value: this.price?.value?.toString() ?? '', mask: 'price', onChange: () => {
+                .refine(value => value === null || value >= 0.01, { message: t('Lcz_PriceMustBeGreaterThanZero', { fallback: 'Price must be greater than 0' }) }) }, h("ir-input", { key: 'b812dde2bf0f3b7d4c63a94ac018502307c24644', value: this.price?.value?.toString() ?? '', mask: 'price', onChange: () => {
                 this.priceChange.emit({ value: this.price?.value ?? this.chargeRule?.value ?? null, mode: this.price?.mode ?? this.chargeRule?.mode ?? '' });
             }, part: "input", label: this.label, class: "ir-extra-service-price-input__price", exportparts: "base", size: "s", placeholder: this.placeholder, "onText-change": e => {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updatePriceField({ value });
-            } }, h("span", { key: '2fe40828f8e7fd9fd20fb135936637dac15a7c15', slot: "start", class: "ir-extra-service-price-input__price-symbol" }, calendar_data.property.currency.symbol), h("slot", { key: '4a88fdb1ccd1936d5f742eb7ef3f4db06c686d36', name: "end", slot: "end" })))));
+            } }, h("span", { key: 'c190fb3e0cfbe9592c6a5c39d7f33593a6232876', slot: "start", class: "ir-extra-service-price-input__price-symbol" }, calendar_data.property.currency.symbol), h("slot", { key: '092ae55e8052d4d684ccd951bc7209a594e936e3', name: "end", slot: "end" })))));
     }
     static get is() { return "ir-extra-service-price-input"; }
     static get encapsulation() { return "shadow"; }

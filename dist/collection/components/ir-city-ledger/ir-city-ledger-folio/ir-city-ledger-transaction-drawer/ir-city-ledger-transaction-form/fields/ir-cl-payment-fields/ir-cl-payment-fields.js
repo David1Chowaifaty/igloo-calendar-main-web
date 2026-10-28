@@ -28,10 +28,10 @@ export class IrClPaymentFields {
         this.fieldChange.emit({ payment_method });
     }
     render() {
-        return (h(Fragment, { key: '020f7a0fa699ba6da6ccc2c8df15709507ea189a' }, h("div", { key: 'ac96b64173e3a865e3ecbea900ba74e885184bf3', class: "payment-section" }, h("div", { key: 'd6a2047045b3eb3025f9a98ce44ea9fdef0e8c27', class: "field" }, h("ir-validator", { key: 'fd967f416563fe3d8f59ddd4ed3d99892bad99db', schema: paymentMethodCodeFieldSchema, value: this.paymentMethodCode, valueEvent: "change" }, h("wa-select", { key: 'bfee685a61f1f2caacd1cd3b86d3b30cf43eb06e', size: "s", label: t('Lcz_PaymentMethod', { fallback: 'Payment Method' }), placeholder: t('Lcz_SelectMethodPlaceholder', { fallback: 'Select method…' }), value: this.paymentMethodCode, "onwa-show": e => this.stopPropagation(e), "onwa-hide": e => this.stopPropagation(e), onchange: e => {
+        return (h(Fragment, { key: 'de437e9f17eee6b22ed4da224cde254ee8c35151' }, h("div", { key: 'e86a967371c9cffe31c9b1365231064c57a99fbf', class: "payment-section" }, h("div", { key: '620f1a96cc0dad4ad3d83be3c0e29c425e83420a', class: "field" }, h("ir-validator", { key: 'f251ee76e58938eeeea323c144c01c6e83c35815', schema: paymentMethodCodeFieldSchema, value: this.paymentMethodCode, valueEvent: "change" }, h("wa-select", { key: '6dca44858e8b775521fb6d9c6074193e00774fab', size: "s", label: t('Lcz_PaymentMethod', { fallback: 'Payment Method' }), placeholder: t('Lcz_SelectMethodPlaceholder', { fallback: 'Select method…' }), value: this.paymentMethodCode, "onwa-show": e => this.stopPropagation(e), "onwa-hide": e => this.stopPropagation(e), onchange: e => {
                 this.stopPropagation(e);
                 this.handlePaymentMethodChange(e.target.value);
-            } }, h("wa-option", { key: 'fafde45f6c2bdef8a9e3a390b90d6dc6715d66d4', value: "" }, t('Lcz_SelectMethodPlaceholder', { fallback: 'Select method…' })), this.paymentMethods.map(method => (h("wa-option", { key: method.CODE_NAME, label: getSetupEntryLabel(method), value: method.CODE_NAME }, getSetupEntryLabel(method))))))))));
+            } }, h("wa-option", { key: '42f9d02742f32db2f787ec3f6650b27aea097de9', value: "" }, t('Lcz_SelectMethodPlaceholder', { fallback: 'Select method…' })), this.paymentMethods.map(method => (h("wa-option", { key: method.CODE_NAME, label: getSetupEntryLabel(method), value: method.CODE_NAME }, getSetupEntryLabel(method))))))))));
     }
     static get is() { return "ir-cl-payment-fields"; }
     static get encapsulation() { return "scoped"; }

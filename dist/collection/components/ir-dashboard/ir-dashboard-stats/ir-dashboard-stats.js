@@ -129,7 +129,7 @@ export class IrDashboardStats {
         return (h("wa-card", { class: "stats__card stats__card--performance", appearance: "plain" }, h("h2", { class: "stats__title" }, t('Lcz_Performance', { fallback: 'Performance' })), h("ul", { class: { 'stats__kpis': true, 'stats--loading': !!performance && this.performanceLoading }, "aria-label": t('Lcz_Revenue', { fallback: 'Revenue' }), "aria-busy": !performance ? 'true' : null }, this.renderKpi('coins', t('Lcz_RoomRevenue', { fallback: 'Room Revenue' }), performance?.roomRevenue), this.isPms && this.renderKpi('chart-simple', t('Lcz_Adr', { fallback: 'ADR' }), performance?.adr), this.isPms && this.renderKpi('arrow-trend-up', t('Lcz_RevPar', { fallback: 'RevPAR' }), performance ? computeRevPar(performance.adr, performance.occupancy) : undefined))));
     }
     render() {
-        return (h(Host, { key: 'cde120f4cec438842b49e46329ddc1834b4ef6ab' }, h("wa-card", { key: '94ae1675ece488df6f2e0c1793e9974bc7523f8a', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: '2dba944e8c587963d53da19f0d9a9cbb9da6d66e', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
+        return (h(Host, { key: 'bb7670df9d8ef9e4c1a2af9fd186d6598a9fe781' }, h("wa-card", { key: 'b78fa1a707750188f9e6d0b0af36e4dd85addc39', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: '29206c1760efef0cc47e9551ffa1b6e8981fa8c0', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
     }
     static get is() { return "ir-dashboard-stats"; }
     static get encapsulation() { return "scoped"; }

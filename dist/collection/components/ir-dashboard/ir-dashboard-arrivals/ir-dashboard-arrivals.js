@@ -15,7 +15,7 @@ export class IrDashboardArrivals {
         this.roomGuestState = event.detail;
     }
     render() {
-        return (h(Host, { key: '2bc90173ce385ede5cd39ba7bfb8a4ad3d077042' }, h("ir-arrivals-table", { key: 'f7d1ffe441e90d9b78347b5b638d6eaa7c302e6d', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckInRoom: event => this.handleCheckInRoom(event) }), h("ir-room-guests", { key: 'c1e5d5cc48fe5bc3ea192d51b47283267c529a15', open: this.roomGuestState !== null, countries: this.countries, language: this.language, identifier: this.roomGuestState?.identifier, bookingNumber: this.roomGuestState?.booking_nbr?.toString(), roomName: this.roomGuestState?.roomName, totalGuests: this.roomGuestState?.totalGuests, sharedPersons: this.roomGuestState?.sharing_persons, checkIn: this.roomGuestState?.checkin, onCloseModal: () => (this.roomGuestState = null) })));
+        return (h(Host, { key: '2cbf59326ce32e0d4311aff9ce09de9b594813e2' }, h("ir-arrivals-table", { key: '4d11c8f650af646803ffdc46d89f77f95183dac5', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckInRoom: event => this.handleCheckInRoom(event) }), h("ir-room-guests", { key: '0466c47dac97964736a5f681f0a9a0c8c0ac0d80', open: this.roomGuestState !== null, countries: this.countries, language: this.language, identifier: this.roomGuestState?.identifier, bookingNumber: this.roomGuestState?.booking_nbr?.toString(), roomName: this.roomGuestState?.roomName, totalGuests: this.roomGuestState?.totalGuests, sharedPersons: this.roomGuestState?.sharing_persons, checkIn: this.roomGuestState?.checkin, onCloseModal: () => (this.roomGuestState = null) })));
     }
     static get is() { return "ir-dashboard-arrivals"; }
     static get encapsulation() { return "scoped"; }

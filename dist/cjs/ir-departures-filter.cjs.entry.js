@@ -26,11 +26,11 @@ const IrDeparturesFilter = class {
         departures_store.setDeparturesSearchTerm(event.detail ?? '');
     };
     render() {
-        return (index.h("div", { key: 'e379e8d30f42c1207a2f8de591a911dd3e73159f', class: "departures-filters__container" }, index.h("ir-date-select", { key: '844dda6345cd442bc44816d2652951c79ee16123', onDateChanged: e => {
+        return (index.h("div", { key: '2ca74a256e42e963d8ed1babed741d7bcb874a71', class: "departures-filters__container" }, index.h("ir-date-select", { key: '3a82b98eeefc41f380719bf865a63f2f98092ae0', onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 departures_store.setDeparturesReferenceDate(e.detail.start.format('YYYY-MM-DD'));
-            }, date: departures_store.departuresStore.today, class: "departures-filters__date-picker" }, index.h("wa-icon", { key: '069d2ce51a04efe61ea256c69dd0f55e175d53a4', name: "calendar", slot: "start" })), index.h("ir-input", { key: '9797409ceb7139bb92c52c9a2a2034189657dabf', withClear: true, class: "departures-filters__search-bar", placeholder: t.t('Lcz_SearchGuestsOrBookings', { fallback: 'Search guests or bookings' }), value: departures_store.departuresStore.searchTerm, "onText-change": this.handleSearchChange }, index.h("wa-icon", { key: '1b1f79db7981477ff2982684b41f28cc8839dd79', name: "magnifying-glass", slot: "start" }))));
+            }, date: departures_store.departuresStore.today, class: "departures-filters__date-picker" }, index.h("wa-icon", { key: '5f0f2bb05e2e103141a671e429cead58a878bdc6', name: "calendar", slot: "start" })), index.h("ir-input", { key: 'ffe6e20c467426153c8201da606231d18f3f1c33', withClear: true, class: "departures-filters__search-bar", placeholder: t.t('Lcz_SearchGuestsOrBookings', { fallback: 'Search guests or bookings' }), value: departures_store.departuresStore.searchTerm, "onText-change": this.handleSearchChange }, index.h("wa-icon", { key: '43aa8bf635b3096627ff99e3be789c9acbd353d7', name: "magnifying-glass", slot: "start" }))));
     }
 };
 IrDeparturesFilter.style = irDeparturesFilterCss();

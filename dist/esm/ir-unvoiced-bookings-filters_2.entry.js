@@ -2,10 +2,10 @@ import { r as registerInstance, c as createEvent, h } from './index-DKZeCK8T.js'
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { u as updateUninvoicedBookingsFilters, a as uninvoiced_bookings, s as setUninvoicedBookingsTablePage, b as setUninvoicedBookingsTablePageSize } from './uninvoiced_bookings.store-D6bD5q1E.js';
 import { t } from './t-Bvz1wS_D.js';
-import { b as formatCount, f as formatAmount } from './number-B8waOzTO.js';
-import { c as createColumnHelper, u as useTable, f as flexRender, g as getCoreRowModel } from './useTable-CXkYMQoa.js';
+import { b as formatCount, f as formatAmount } from './number-0UrU_yO2.js';
+import { c as createColumnHelper, u as useTable, f as flexRender, a as getCoreRowModel } from './useTable-D3LS_BXH.js';
 import './locale-scope-Jre4lb6k.js';
-import './ir-date-XXNYhmSL.js';
+import './ir-date-CY_qGQ63.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 
@@ -43,7 +43,7 @@ const IrUnvoicedBookingsFilters = class {
         });
     };
     render() {
-        return (h("div", { key: '59c12ba15e6759437b3bac5b741402b5934097a1', class: "uninvoiced-bookings-filters" }, h("ir-date-range-filter", { key: '2c3e2052185e0afa0a9af9471fb2653bffdda2f4', class: "uninvoiced-bookings-filters__date-picker", fromDate: uninvoiced_bookings.filters.from, toDate: uninvoiced_bookings.filters.to, maxDate: hooks().format('YYYY-MM-DD'), showQuickActions: true, quickDates: this.quickDates, quickDatesMode: "range", withClear: false, selectionMode: "auto", onDatesChanged: this.handleDatesChanged }), h("div", { key: 'ca4ecfd41db1487cb71bb098e8168cffe89ec08b', class: "uninvoiced-bookings-group" }, h("wa-select", { key: '5b29e6bf74311f0301b2f4c211c39082148872d0', onchange: this.handleSourceChanged, value: uninvoiced_bookings.filters.source, size: "s" }, h("wa-option", { key: '15f4fe3ee260ebc99dad7ba290615701a2a9ea5d', value: "" }, t('Lcz_AllChannels', { fallback: 'All channels' })), uninvoiced_bookings.channels.map(channel => (h("wa-option", { key: channel.value, value: channel.value }, channel.name)))), h("ir-custom-button", { key: '42cfe98aec0cfe5d923926dafc30bd2326353849', id: "uninvoiced-bookings-search-btn", loading: uninvoiced_bookings.isLoading, disabled: uninvoiced_bookings.isLoading, onClickHandler: this.handleSearch, variant: "neutral", appearance: "outlined" }, h("wa-icon", { key: 'fe4bb283ccd2aa50c5b7e00ef71dcef5fcc8d8ff', name: "magnifying-glass" }))), h("wa-tooltip", { key: 'a2a77b161fdbeab401bf11191726afa4fb845b55', for: "uninvoiced-bookings-search-btn" }, t('Lcz_Search', { fallback: 'Search' }))));
+        return (h("div", { key: '5d4286a0d9c6fc5e7194eebef7055270b90440c2', class: "uninvoiced-bookings-filters" }, h("ir-date-range-filter", { key: 'f6c2c3f2b878550cb3941db31102ed84d130ccc5', class: "uninvoiced-bookings-filters__date-picker", fromDate: uninvoiced_bookings.filters.from, toDate: uninvoiced_bookings.filters.to, maxDate: hooks().format('YYYY-MM-DD'), showQuickActions: true, quickDates: this.quickDates, quickDatesMode: "range", withClear: false, selectionMode: "auto", onDatesChanged: this.handleDatesChanged }), h("div", { key: 'df7599f73ffae4e56b64a5a4a7317fe11753c687', class: "uninvoiced-bookings-group" }, h("wa-select", { key: 'e9f491e518b2c610580a79011254490fd37d8988', onchange: this.handleSourceChanged, value: uninvoiced_bookings.filters.source, size: "s" }, h("wa-option", { key: 'cc9b34381b587c1f7994a14d4025395eec6afbe8', value: "" }, t('Lcz_AllChannels', { fallback: 'All channels' })), uninvoiced_bookings.channels.map(channel => (h("wa-option", { key: channel.value, value: channel.value }, channel.name)))), h("ir-custom-button", { key: '0e9eead87d45b0371fb5a63a66e7eb1087a4904f', id: "uninvoiced-bookings-search-btn", loading: uninvoiced_bookings.isLoading, disabled: uninvoiced_bookings.isLoading, onClickHandler: this.handleSearch, variant: "neutral", appearance: "outlined" }, h("wa-icon", { key: 'e565b6ce4b7fc876ac2cc9073ae4444fd0049b3b', name: "magnifying-glass" }))), h("wa-tooltip", { key: 'bc6aa4036b2abe5fc266af8f66f3133f11d152c3', for: "uninvoiced-bookings-search-btn" }, t('Lcz_Search', { fallback: 'Search' }))));
     }
 };
 IrUnvoicedBookingsFilters.style = irUnvoicedBookingsFiltersCss();
@@ -144,19 +144,19 @@ const IrUnvoicedBookingsTable = class {
             getCoreRowModel: getCoreRowModel(),
         });
         const amountColumnIds = ['totalGuestAmount', 'uninvoicedGuestAmount'];
-        return (h("div", { key: 'a1449f6dfc006fb6806b9aa346c2d76095cd54f6', class: "uninvoiced-bookings-table" }, h("div", { key: '4812ccd4b80d7502f51a7ea5dea01b3a618304f4', class: "table--container" }, h("table", { key: '24141d30afbf6faf87b30ab9ecc2ce723282d235', class: "table data-table" }, h("thead", { key: '10cbb0153ef805afc1c10f6f814895fd8c47c0b0' }, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, class: {
+        return (h("div", { key: 'b4586d0a5d9742114d37886f7ad7b0cf0bc7b16e', class: "uninvoiced-bookings-table" }, h("div", { key: '0a18d70aaf56df8235d4d2f7fa2fc6b140e5ea40', class: "table--container" }, h("table", { key: 'e90a06359dac1d030d35a487938044b085a088a9', class: "table data-table" }, h("thead", { key: '535b12ef1f137efb2e6ec289cb42246eccb02d84' }, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, class: {
                 'cell--align-end': amountColumnIds.includes(header.column.id),
                 'cell--booking': header.column.id === 'booking',
                 'cell--booked-by': header.column.id === 'booked_by',
                 'cell--amount': amountColumnIds.includes(header.column.id),
                 'cell--align-center': ['status', 'units_booked'].includes(header.column.id),
-            } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", { key: '69a00ff4a9844102c8b2ac379d0eaa4c92b95e56' }, uninvoiced_bookings.isLoading ? (h("tr", null, h("td", { colSpan: this.columns.length, class: "empty-row" }, h("ir-spinner", null)))) : table.getRowModel().rows.length === 0 ? (h("tr", null, h("td", { colSpan: this.columns.length, class: "empty-row" }, h("ir-empty-state", { message: t('Lcz_NoUninvoicedGuestPaidBookings', { fallback: 'No uninvoiced guest-paid bookings for this date range.' }) })))) : (table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
+            } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", { key: '6d9a3d4fa86c0d60c2526f350922779003d91cb2' }, uninvoiced_bookings.isLoading ? (h("tr", null, h("td", { colSpan: this.columns.length, class: "empty-row" }, h("ir-spinner", null)))) : table.getRowModel().rows.length === 0 ? (h("tr", null, h("td", { colSpan: this.columns.length, class: "empty-row" }, h("ir-empty-state", { message: t('Lcz_NoUninvoicedGuestPaidBookings', { fallback: 'No uninvoiced guest-paid bookings for this date range.' }) })))) : (table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
                 'cell--align-end': amountColumnIds.includes(cell.column.id),
                 'cell--align-center': ['status', 'units_booked'].includes(cell.column.id),
                 'cell--booking': cell.column.id === 'booking',
                 'cell--booked-by': cell.column.id === 'booked_by',
                 'cell--amount': amountColumnIds.includes(cell.column.id),
-            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))))))), h("ir-pagination", { key: '021ba14ea91456b1b4bfa21d1af97170cfb65d96', class: "uninvoiced-bookings-table__pagination", total: total, pages: pageCount, pageSize: pageSize, currentPage: currentPage, allowPageSizeChange: true, pageSizes: this.pageSizes, showing: { from: total ? startIndex + 1 : 0, to: startIndex + pageRows.length }, recordLabel: t('Lcz_Bookings', { fallback: 'bookings' }), onPageChange: this.handlePageChange, onPageSizeChange: this.handlePageSizeChange })));
+            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))))))), h("ir-pagination", { key: 'f5f631c5eb6b5efd61d141d1d9ffb07e515cff13', class: "uninvoiced-bookings-table__pagination", total: total, pages: pageCount, pageSize: pageSize, currentPage: currentPage, allowPageSizeChange: true, pageSizes: this.pageSizes, showing: { from: total ? startIndex + 1 : 0, to: startIndex + pageRows.length }, recordLabel: t('Lcz_Bookings', { fallback: 'bookings' }), onPageChange: this.handlePageChange, onPageSizeChange: this.handlePageSizeChange })));
     }
 };
 IrUnvoicedBookingsTable.style = irUnvoicedBookingsTableCss() + tableCss();
