@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
-import { c as calendar_data } from './calendar-data-D4DbXAhg.js';
+import { c as calendar_data } from './calendar-data-DknGMMFc.js';
 import { t } from './t-Bvz1wS_D.js';
-import { n as numberType } from './types-DFSK8b1u.js';
+import { n as numberType } from './types-CB66a07H.js';
 import './locale-scope-Jre4lb6k.js';
 
 const irExtraServicePriceInputCss = () => `wa-input[aria-invalid='true']::part(base),wa-textarea[aria-invalid='true']::part(base),wa-select[aria-invalid='true']::part(combobox){border-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));outline-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));border-top-width:var(--error-border-width) !important;border-inline-start-width:var(--error-border-width) !important;border-inline-end-width:var(--error-border-width) !important;border-bottom-width:var(--error-border-width) !important}:host{display:flex;flex:1}.ir-extra-service-price-input__price-wrapper{flex:1 1 0%}`;

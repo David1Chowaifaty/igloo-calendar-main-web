@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-DKZeCK8T.js';
-import { c as completionFor } from './utils-DLfKehwl.js';
+import { c as completionFor } from './utils-Btr0LXV6.js';
 import { t } from './t-Bvz1wS_D.js';
 import './locale-scope-Jre4lb6k.js';
 
