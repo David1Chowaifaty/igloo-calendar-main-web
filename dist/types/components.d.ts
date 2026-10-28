@@ -3041,6 +3041,7 @@ export namespace Components {
      * booking whose stay covers the selected day reloads the stats plus cancellations.
      */
     interface IrDashboard {
+        "baseUrl": string;
         /**
           * API base URL override.
          */
@@ -18294,6 +18295,7 @@ declare namespace LocalJSX {
      * booking whose stay covers the selected day reloads the stats plus cancellations.
      */
     interface IrDashboard {
+        "baseUrl"?: string;
         /**
           * API base URL override.
          */
@@ -24526,6 +24528,7 @@ declare namespace LocalJSX {
         "language": string;
         "p": string;
         "baseurl": string;
+        "baseUrl": string;
     }
     interface IrDashboardArrivalsAttributes {
         "language": string;

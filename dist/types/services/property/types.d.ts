@@ -680,11 +680,11 @@ export declare const GetDeletedBookingsParamsSchema: z.ZodObject<{
     property_id: z.ZodNumber;
     date: z.ZodEffects<z.ZodString, string, string>;
 }, "strip", z.ZodTypeAny, {
-    property_id?: number;
     date?: string;
+    property_id?: number;
 }, {
-    property_id?: number;
     date?: string;
+    property_id?: number;
 }>;
 export type GetDeletedBookingsParams = z.infer<typeof GetDeletedBookingsParamsSchema>;
 export type GetDeletedBookings = Booking[];

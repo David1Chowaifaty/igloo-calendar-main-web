@@ -32,6 +32,7 @@ export declare class IrDashboard {
     p: string;
     /** API base URL override. */
     baseurl: string;
+    baseUrl: string;
     isPageLoading: boolean;
     isPerformanceLoading: boolean;
     isUnitsLoading: boolean;

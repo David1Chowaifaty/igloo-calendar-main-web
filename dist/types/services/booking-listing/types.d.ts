@@ -4,11 +4,11 @@ export declare const GetExposedBookingsCriteriaParamsSchema: z.ZodObject<{
 } & {
     property_id: z.ZodNullable<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
-    property_id?: number;
     language?: string;
+    property_id?: number;
 }, {
-    property_id?: number;
     language?: string;
+    property_id?: number;
 }>;
 /** Request params for `Get_Exposed_Bookings_Criteria`. */
 export type GetExposedBookingsCriteriaParams = z.infer<typeof GetExposedBookingsCriteriaParamsSchema>;
@@ -201,8 +201,8 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     property_ids: z.ZodOptional<z.ZodNullable<z.ZodArray<z.ZodNumber, "many">>>;
 }, "strip", z.ZodTypeAny, {
     name?: string;
-    property_id?: number;
     language?: string;
+    property_id?: number;
     book_nbr?: string;
     from?: string;
     to?: string;
@@ -223,8 +223,8 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     is_to_export?: boolean;
 }, {
     name?: string;
-    property_id?: number;
     language?: string;
+    property_id?: number;
     book_nbr?: string;
     from?: string;
     to?: string;

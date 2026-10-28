@@ -81,18 +81,18 @@ export declare const GetExposedApplicablePoliciesPropsSchema: z.ZodObject<{
     is_preserve_history: z.ZodOptional<z.ZodBoolean>;
     room_identifier: z.ZodOptional<z.ZodOptional<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
+    language?: string;
     property_id?: number;
     currency_id?: number;
-    language?: string;
     booking_nbr?: string;
     room_identifier?: string;
     rate_plan_id?: number;
     room_type_id?: number;
     is_preserve_history?: boolean;
 }, {
+    language?: string;
     property_id?: number;
     currency_id?: number;
-    language?: string;
     booking_nbr?: string;
     room_identifier?: string;
     rate_plan_id?: number;
@@ -122,12 +122,12 @@ export declare const GetPenaltyStatementPropsSchema: z.ZodObject<{
     booking_nbr: z.ZodOptional<z.ZodString>;
     currency_id: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    currency_id?: number;
     language?: string;
+    currency_id?: number;
     booking_nbr?: string;
 }, {
-    currency_id?: number;
     language?: string;
+    currency_id?: number;
     booking_nbr?: string;
 }>;
 export type GetPenaltyStatementProps = z.infer<typeof GetPenaltyStatementPropsSchema>;
@@ -620,14 +620,14 @@ export declare const GetRoomsToCheckInPropsSchema: z.ZodObject<{
     page_index: z.ZodDefault<z.ZodNumber>;
     page_size: z.ZodDefault<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
-    property_id?: string;
     language?: string;
+    property_id?: string;
     page_index?: number;
     page_size?: number;
     check_in_date?: string;
 }, {
-    property_id?: string;
     language?: string;
+    property_id?: string;
     page_index?: number;
     page_size?: number;
     check_in_date?: string;
@@ -641,14 +641,14 @@ export declare const GetRoomsToCheckOutPropsSchema: z.ZodObject<{
     page_index: z.ZodDefault<z.ZodNumber>;
     page_size: z.ZodDefault<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
-    property_id?: string;
     language?: string;
+    property_id?: string;
     page_index?: number;
     page_size?: number;
     check_out_date?: string;
 }, {
-    property_id?: string;
     language?: string;
+    property_id?: string;
     page_index?: number;
     page_size?: number;
     check_out_date?: string;
