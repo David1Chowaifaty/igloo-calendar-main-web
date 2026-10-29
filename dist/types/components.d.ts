@@ -3022,9 +3022,9 @@ export namespace Components {
         "sources": RevenueSourceOption[];
     }
     /**
-     * PMS landing dashboard: a day picker in the page header (two days either side of today), the day's stats in the
-     * left rail, and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
-     * new bookings and cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
+     * PMS landing dashboard: the day's stats in the left rail, topped by a day picker (today and the days after it), and a
+     * wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house, new bookings and
+     * cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
      * arrivals / departures without check-in / check-out, and a reduced stats rail.
      * Loads in order of importance, each part showing a skeleton until its data lands:
      * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
@@ -3097,7 +3097,7 @@ export namespace Components {
         "variant": DashboardBookingsTableVariant;
     }
     /**
-     * Day picker for the dashboard header: a pill showing the selected day that opens a list of the days from
+     * Day picker at the top of the dashboard's stats rail: a pill showing the selected day that opens a list of the days from
      * today to `MAX_DAY_OFFSET` after it. Past days aren't offered.
      */
     interface IrDashboardDateNavigator {
@@ -3120,8 +3120,9 @@ export namespace Components {
         "propertyId": number;
     }
     /**
-     * Left-hand stats rail: an occupancy card (the day's occupancy, units booked and the unit breakdown) followed by a
-     * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
+     * Left-hand stats rail: the day picker (ir-dashboard-date-navigator, whose pick is re-emitted as `dateChange`), then an
+     * occupancy card (the day's occupancy, units booked and the unit breakdown) and a performance card with the day's
+     * room-revenue KPIs. The occupancy card takes the rail's spare height.
      * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
      * skeleton until it arrives. Occupancy comes from the calendar: real units and, when the property's virtual room types
      * have any units, fake units in grey beside them, sharing one bar.
@@ -8404,6 +8405,10 @@ export interface IrDashboardDeparturesCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrDashboardDeparturesElement;
 }
+export interface IrDashboardStatsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrDashboardStatsElement;
+}
 export interface IrDatePickerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrDatePickerElement;
@@ -11378,9 +11383,9 @@ declare global {
         new (): HTMLIrDailyRevenueFiltersElement;
     };
     /**
-     * PMS landing dashboard: a day picker in the page header (two days either side of today), the day's stats in the
-     * left rail, and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
-     * new bookings and cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
+     * PMS landing dashboard: the day's stats in the left rail, topped by a day picker (today and the days after it), and a
+     * wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house, new bookings and
+     * cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
      * arrivals / departures without check-in / check-out, and a reduced stats rail.
      * Loads in order of importance, each part showing a skeleton until its data lands:
      * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
@@ -11422,7 +11427,7 @@ declare global {
         "dateChange": ISODate;
     }
     /**
-     * Day picker for the dashboard header: a pill showing the selected day that opens a list of the days from
+     * Day picker at the top of the dashboard's stats rail: a pill showing the selected day that opens a list of the days from
      * today to `MAX_DAY_OFFSET` after it. Past days aren't offered.
      */
     interface HTMLIrDashboardDateNavigatorElement extends Components.IrDashboardDateNavigator, HTMLStencilElement {
@@ -11460,9 +11465,13 @@ declare global {
         prototype: HTMLIrDashboardDeparturesElement;
         new (): HTMLIrDashboardDeparturesElement;
     };
+    interface HTMLIrDashboardStatsElementEventMap {
+        "dateChange": ISODate;
+    }
     /**
-     * Left-hand stats rail: an occupancy card (the day's occupancy, units booked and the unit breakdown) followed by a
-     * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
+     * Left-hand stats rail: the day picker (ir-dashboard-date-navigator, whose pick is re-emitted as `dateChange`), then an
+     * occupancy card (the day's occupancy, units booked and the unit breakdown) and a performance card with the day's
+     * room-revenue KPIs. The occupancy card takes the rail's spare height.
      * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
      * skeleton until it arrives. Occupancy comes from the calendar: real units and, when the property's virtual room types
      * have any units, fake units in grey beside them, sharing one bar.
@@ -11470,6 +11479,14 @@ declare global {
      * figures (the dashboard skips the calendar request for them) — and no ADR or RevPAR.
      */
     interface HTMLIrDashboardStatsElement extends Components.IrDashboardStats, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrDashboardStatsElementEventMap>(type: K, listener: (this: HTMLIrDashboardStatsElement, ev: IrDashboardStatsCustomEvent<HTMLIrDashboardStatsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrDashboardStatsElementEventMap>(type: K, listener: (this: HTMLIrDashboardStatsElement, ev: IrDashboardStatsCustomEvent<HTMLIrDashboardStatsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrDashboardStatsElement: {
         prototype: HTMLIrDashboardStatsElement;
@@ -18275,9 +18292,9 @@ declare namespace LocalJSX {
         "sources"?: RevenueSourceOption[];
     }
     /**
-     * PMS landing dashboard: a day picker in the page header (two days either side of today), the day's stats in the
-     * left rail, and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
-     * new bookings and cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
+     * PMS landing dashboard: the day's stats in the left rail, topped by a day picker (today and the days after it), and a
+     * wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house, new bookings and
+     * cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
      * arrivals / departures without check-in / check-out, and a reduced stats rail.
      * Loads in order of importance, each part showing a skeleton until its data lands:
      * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
@@ -18350,7 +18367,7 @@ declare namespace LocalJSX {
         "variant"?: DashboardBookingsTableVariant;
     }
     /**
-     * Day picker for the dashboard header: a pill showing the selected day that opens a list of the days from
+     * Day picker at the top of the dashboard's stats rail: a pill showing the selected day that opens a list of the days from
      * today to `MAX_DAY_OFFSET` after it. Past days aren't offered.
      */
     interface IrDashboardDateNavigator {
@@ -18381,8 +18398,9 @@ declare namespace LocalJSX {
         "propertyId"?: number;
     }
     /**
-     * Left-hand stats rail: an occupancy card (the day's occupancy, units booked and the unit breakdown) followed by a
-     * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
+     * Left-hand stats rail: the day picker (ir-dashboard-date-navigator, whose pick is re-emitted as `dateChange`), then an
+     * occupancy card (the day's occupancy, units booked and the unit breakdown) and a performance card with the day's
+     * room-revenue KPIs. The occupancy card takes the rail's spare height.
      * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
      * skeleton until it arrives. Occupancy comes from the calendar: real units and, when the property's virtual room types
      * have any units, fake units in grey beside them, sharing one bar.
@@ -18405,6 +18423,10 @@ declare namespace LocalJSX {
           * @default true
          */
         "isPms"?: boolean;
+        /**
+          * Emitted with the new day when the user picks another day in the rail's day picker.
+         */
+        "onDateChange"?: (event: IrDashboardStatsCustomEvent<ISODate>) => void;
         /**
           * Dims the pending-units figure while a newer day's is in flight.
           * @default false
@@ -26528,9 +26550,9 @@ declare module "@stencil/core" {
             "ir-daily-revenue": LocalJSX.IntrinsicElements["ir-daily-revenue"] & JSXBase.HTMLAttributes<HTMLIrDailyRevenueElement>;
             "ir-daily-revenue-filters": LocalJSX.IntrinsicElements["ir-daily-revenue-filters"] & JSXBase.HTMLAttributes<HTMLIrDailyRevenueFiltersElement>;
             /**
-             * PMS landing dashboard: a day picker in the page header (two days either side of today), the day's stats in the
-             * left rail, and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
-             * new bookings and cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
+             * PMS landing dashboard: the day's stats in the left rail, topped by a day picker (today and the days after it), and a
+             * wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house, new bookings and
+             * cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
              * arrivals / departures without check-in / check-out, and a reduced stats rail.
              * Loads in order of importance, each part showing a skeleton until its data lands:
              * 1. property, locale tables, bookings criteria, countries / payment entries and arrivals;
@@ -26554,7 +26576,7 @@ declare module "@stencil/core" {
              */
             "ir-dashboard-bookings-table": LocalJSX.IntrinsicElements["ir-dashboard-bookings-table"] & JSXBase.HTMLAttributes<HTMLIrDashboardBookingsTableElement>;
             /**
-             * Day picker for the dashboard header: a pill showing the selected day that opens a list of the days from
+             * Day picker at the top of the dashboard's stats rail: a pill showing the selected day that opens a list of the days from
              * today to `MAX_DAY_OFFSET` after it. Past days aren't offered.
              */
             "ir-dashboard-date-navigator": LocalJSX.IntrinsicElements["ir-dashboard-date-navigator"] & JSXBase.HTMLAttributes<HTMLIrDashboardDateNavigatorElement>;
@@ -26564,8 +26586,9 @@ declare module "@stencil/core" {
              */
             "ir-dashboard-departures": LocalJSX.IntrinsicElements["ir-dashboard-departures"] & JSXBase.HTMLAttributes<HTMLIrDashboardDeparturesElement>;
             /**
-             * Left-hand stats rail: an occupancy card (the day's occupancy, units booked and the unit breakdown) followed by a
-             * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
+             * Left-hand stats rail: the day picker (ir-dashboard-date-navigator, whose pick is re-emitted as `dateChange`), then an
+             * occupancy card (the day's occupancy, units booked and the unit breakdown) and a performance card with the day's
+             * room-revenue KPIs. The occupancy card takes the rail's spare height.
              * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
              * skeleton until it arrives. Occupancy comes from the calendar: real units and, when the property's virtual room types
              * have any units, fake units in grey beside them, sharing one bar.

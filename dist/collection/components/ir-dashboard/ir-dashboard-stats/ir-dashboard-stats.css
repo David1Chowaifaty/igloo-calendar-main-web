@@ -4,6 +4,11 @@
   gap: var(--wa-space-m);
 }
 
+/* The day picker at the top of the rail keeps its own height; the occupancy card takes the spare. */
+.stats__date {
+  flex: none;
+}
+
 .stats__card {
   --spacing: var(--wa-space-l);
   border: 0;
@@ -357,6 +362,11 @@
   :host {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* The day picker spans both cards above them. */
+  .stats__date {
+    grid-column: 1 / -1;
   }
 }
 

@@ -1,9 +1,11 @@
 import type { DashboardPerformance, DashboardUnits } from "../../../services/dashboard/index";
 import { type ISODate } from "../../../utils/calendar-dates";
+import { EventEmitter } from '../../../stencil-public-runtime';
 import type { RailDensity } from '../types';
 /**
- * Left-hand stats rail: an occupancy card (the day's occupancy, units booked and the unit breakdown) followed by a
- * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
+ * Left-hand stats rail: the day picker (ir-dashboard-date-navigator, whose pick is re-emitted as `dateChange`), then an
+ * occupancy card (the day's occupancy, units booked and the unit breakdown) and a performance card with the day's
+ * room-revenue KPIs. The occupancy card takes the rail's spare height.
  * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
  * skeleton until it arrives. Occupancy comes from the calendar: real units and, when the property's virtual room types
  * have any units, fake units in grey beside them, sharing one bar.
@@ -31,6 +33,8 @@ export declare class IrDashboardStats {
     pendingLoading: boolean;
     /** How tightly the cards are drawn; ir-dashboard steps it down when the desktop rail is short. */
     density: RailDensity;
+    /** Emitted with the new day when the user picks another day in the rail's day picker. */
+    dateChange: EventEmitter<ISODate>;
     private readonly barId;
     /** The property's colour for a unit's legend entry, so the dot matches the calendar. */
     private legendColor;
@@ -50,5 +54,7 @@ export declare class IrDashboardStats {
     /** One revenue figure: icon tile, amount, label. An `undefined` value shows a skeleton in place of the amount. */
     private renderKpi;
     private renderPerformance;
+    /** Re-emits the picker's day from the rail, so the dashboard hears one event, from its own child. */
+    private handleDateChange;
     render(): any;
 }

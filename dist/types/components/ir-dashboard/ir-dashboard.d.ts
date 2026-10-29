@@ -5,9 +5,9 @@ import { type DashboardPerformance, type DashboardUnits } from "../../services/d
 import { type ISODate } from "../../utils/calendar-dates";
 import type { DashboardTab, RailDensity } from './types';
 /**
- * PMS landing dashboard: a day picker in the page header (two days either side of today), the day's stats in the
- * left rail, and a wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house,
- * new bookings and cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
+ * PMS landing dashboard: the day's stats in the left rail, topped by a day picker (today and the days after it), and a
+ * wa-tab-group, styled as summary cards, that switches between arrivals, departures, in-house, new bookings and
+ * cancellations. Properties without front desk (`is_frontdesk_enabled` false) get no in-house tab,
  * arrivals / departures without check-in / check-out, and a reduced stats rail.
  *
  * Loads in order of importance, each part showing a skeleton until its data lands:

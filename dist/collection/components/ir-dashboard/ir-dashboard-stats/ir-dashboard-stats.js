@@ -28,8 +28,9 @@ const shownPercent = (percent) => {
     return clamped < 100 ? Math.min(clamped, 99.9) : 100;
 };
 /**
- * Left-hand stats rail: an occupancy card (the day's occupancy, units booked and the unit breakdown) followed by a
- * performance card with the day's room-revenue KPIs. The first card takes the rail's spare height.
+ * Left-hand stats rail: the day picker (ir-dashboard-date-navigator, whose pick is re-emitted as `dateChange`), then an
+ * occupancy card (the day's occupancy, units booked and the unit breakdown) and a performance card with the day's
+ * room-revenue KPIs. The occupancy card takes the rail's spare height.
  * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
  * skeleton until it arrives. Occupancy comes from the calendar: real units and, when the property's virtual room types
  * have any units, fake units in grey beside them, sharing one bar.
@@ -57,6 +58,8 @@ export class IrDashboardStats {
     pendingLoading = false;
     /** How tightly the cards are drawn; ir-dashboard steps it down when the desktop rail is short. */
     density = 'regular';
+    /** Emitted with the new day when the user picks another day in the rail's day picker. */
+    dateChange;
     barId = `stats-occupancy-${++barIds}`;
     /** The property's colour for a unit's legend entry, so the dot matches the calendar. */
     legendColor(tone) {
@@ -128,8 +131,13 @@ export class IrDashboardStats {
         const performance = this.performance;
         return (h("wa-card", { class: "stats__card stats__card--performance", appearance: "plain" }, h("h2", { class: "stats__title" }, t('Lcz_Performance', { fallback: 'Performance' })), h("ul", { class: { 'stats__kpis': true, 'stats--loading': !!performance && this.performanceLoading }, "aria-label": t('Lcz_Revenue', { fallback: 'Revenue' }), "aria-busy": !performance ? 'true' : null }, this.renderKpi('coins', t('Lcz_RoomRevenue', { fallback: 'Room Revenue' }), performance?.roomRevenue), this.isPms && this.renderKpi('chart-simple', t('Lcz_Adr', { fallback: 'ADR' }), performance?.adr), this.isPms && this.renderKpi('arrow-trend-up', t('Lcz_RevPar', { fallback: 'RevPAR' }), performance ? computeRevPar(performance.adr, performance.occupancy) : undefined))));
     }
+    /** Re-emits the picker's day from the rail, so the dashboard hears one event, from its own child. */
+    handleDateChange(e) {
+        e.stopPropagation();
+        this.dateChange.emit(e.detail);
+    }
     render() {
-        return (h(Host, { key: 'bb7670df9d8ef9e4c1a2af9fd186d6598a9fe781' }, h("wa-card", { key: 'b78fa1a707750188f9e6d0b0af36e4dd85addc39', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: '29206c1760efef0cc47e9551ffa1b6e8981fa8c0', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
+        return (h(Host, { key: '7156b3a4ada25d1c729487987b0e11817ddb62ce' }, h("ir-dashboard-date-navigator", { key: '7699e70aef56defbdb48de0ad2c465525bda42a9', class: "stats__date", date: this.date, onDateChange: e => this.handleDateChange(e) }), h("wa-card", { key: '3f5f1f67791a89bbba107c94d47f5f42c0e2c9c5', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: '758021d67d0a688291b7d21a1ea61a392c018a44', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
     }
     static get is() { return "ir-dashboard-stats"; }
     static get encapsulation() { return "scoped"; }
@@ -365,5 +373,30 @@ export class IrDashboardStats {
                 "defaultValue": "'regular'"
             }
         };
+    }
+    static get events() {
+        return [{
+                "method": "dateChange",
+                "name": "dateChange",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Emitted with the new day when the user picks another day in the rail's day picker."
+                },
+                "complexType": {
+                    "original": "ISODate",
+                    "resolved": "string",
+                    "references": {
+                        "ISODate": {
+                            "location": "import",
+                            "path": "@/utils/calendar-dates",
+                            "id": "src/utils/calendar-dates.ts::ISODate",
+                            "referenceLocation": "ISODate"
+                        }
+                    }
+                }
+            }];
     }
 }

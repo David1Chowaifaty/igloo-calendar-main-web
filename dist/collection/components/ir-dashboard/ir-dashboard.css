@@ -3,12 +3,9 @@
   display: block;
 }
 
-ir-page::part(title) {
-  margin: 0;
-  font-size: var(--wa-font-size-2xl);
-  font-weight: var(--wa-font-weight-bold);
-  /* Large headings read tighter with slightly negative tracking. */
-  letter-spacing: -0.01em;
+/* No page title: the day picker lives at the top of the stats rail, so the header would only leave an empty gap. */
+ir-page::part(header) {
+  display: none;
 }
 
 .dashboard-layout {

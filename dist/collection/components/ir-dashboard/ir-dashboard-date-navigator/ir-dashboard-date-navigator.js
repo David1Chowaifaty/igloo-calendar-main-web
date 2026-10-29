@@ -4,7 +4,7 @@ import { formatDate } from "../../../utils/date/index";
 import { t } from "../../../services/locale/t";
 import { MAX_DAY_OFFSET } from "../dashboard.helpers";
 /**
- * Day picker for the dashboard header: a pill showing the selected day that opens a list of the days from
+ * Day picker at the top of the dashboard's stats rail: a pill showing the selected day that opens a list of the days from
  * today to `MAX_DAY_OFFSET` after it. Past days aren't offered.
  */
 export class IrDashboardDateNavigator {
@@ -24,7 +24,7 @@ export class IrDashboardDateNavigator {
         const days = Array.from({ length: MAX_DAY_OFFSET + 1 }, (_, index) => addDaysISO(today, index));
         // Locale- and calendar-aware (Gregorian or Hijri), like every other displayed date.
         const label = (day) => formatDate(day, 'dddd, D MMMM');
-        return (h(Host, { key: 'fff8a53b47d2ebbfce696b5d8e2578fc7246c240' }, h("wa-dropdown", { key: '694491afe945128001f954b824c2457cb6e56190', class: "date-navigator", placement: "bottom-end", "onwa-select": e => this.handleSelect(e) }, h("button", { key: '2ff9c065aa54e48c3dd6cc1cf238845eae0f4210', type: "button", slot: "trigger", class: "date-navigator__trigger", "aria-label": t('Lcz_SelectDate', { fallback: 'Select date' }) }, h("wa-icon", { key: '5259ac89991ceedab2b9a8fa0778fc914985d80e', class: "date-navigator__icon", name: "calendar-days", "aria-hidden": "true" }), h("time", { key: '0c86f9ea62ee2cc77ff8049707d1b8b2ae8cda73', class: "date-navigator__date", dateTime: this.date }, label(this.date)), h("wa-icon", { key: 'e6683ea4196abfa249e6c07278c08ae07e2b5043', class: "date-navigator__chevron", name: "chevron-down", "aria-hidden": "true" })), days.map(day => (h("wa-dropdown-item", { key: day, value: day, type: "checkbox", checked: day === this.date }, label(day), day === today && (h("span", { slot: "details", class: "date-navigator__today" }, t('Lcz_Today', { fallback: 'Today' })))))))));
+        return (h(Host, { key: '625a279321035ce0f9e0e514d337a0304eba1b6e' }, h("wa-dropdown", { key: '8d917974493cfe55ae92e9ec4ea060ab2ef269b7', class: "date-navigator", placement: "bottom-start", "onwa-select": e => this.handleSelect(e) }, h("button", { key: 'fb3de3bc62b915402e6adb13bf7eff65e9397bd5', type: "button", slot: "trigger", class: "date-navigator__trigger", "aria-label": t('Lcz_SelectDate', { fallback: 'Select date' }) }, h("wa-icon", { key: '45682adce92f78007ad38c98aba10fd70f096e37', class: "date-navigator__icon", name: "calendar-days", "aria-hidden": "true" }), h("time", { key: '12b964cea8f3ef7ae5ca8bebfbcb17be7934c5b5', class: "date-navigator__date", dateTime: this.date }, label(this.date)), h("wa-icon", { key: 'cbbbceb601298ace1f77b55044f46d8a8c0e2655', class: "date-navigator__chevron", name: "chevron-down", "aria-hidden": "true" })), days.map(day => (h("wa-dropdown-item", { key: day, value: day, type: "checkbox", checked: day === this.date }, label(day), day === today && (h("span", { slot: "details", class: "date-navigator__today" }, t('Lcz_Today', { fallback: 'Today' })))))))));
     }
     static get is() { return "ir-dashboard-date-navigator"; }
     static get encapsulation() { return "scoped"; }
