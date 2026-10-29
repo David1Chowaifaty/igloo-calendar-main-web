@@ -8,7 +8,7 @@ import type { RailDensity } from '../types';
  * room-revenue KPIs. The occupancy card takes the rail's spare height.
  * The figures come from three requests (monthly stats, calendar, pending bookings), so each figure shows its own
  * skeleton until it arrives. Occupancy comes from the calendar: real units and, when the property's virtual room types
- * have any units, fake units in grey beside them, sharing one bar.
+ * have any units, fake units in grey beside them; the bar shows the real units only.
  *
  * Properties without front desk (`isPms` false) see only Booked and Pending — no occupancy, no bar, no calendar
  * figures (the dashboard skips the calendar request for them) — and no ADR or RevPAR.
@@ -43,12 +43,9 @@ export declare class IrDashboardStats {
     private renderUnit;
     /** One occupancy figure: the percentage over its label and the units booked. */
     private renderOccupancyFigure;
-    /**
-     * One stretch of the bar: as wide as its share of all units (never too narrow to hover), filled to its occupancy,
-     * with a tooltip spelling out the figure.
-     */
-    private renderBarSegment;
-    /** Occupancy of real units and, when the property has fake units, of those; then the bar (PMS only). */
+    /** The real units' occupancy bar, filled to its percentage, with a tooltip spelling out the figure. */
+    private renderBar;
+    /** Occupancy of real units and, when the property has fake units, of those; then the real units' bar (PMS only). */
     private renderOccupancy;
     private renderUnits;
     /** One revenue figure: icon tile, amount, label. An `undefined` value shows a skeleton in place of the amount. */
