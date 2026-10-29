@@ -1,5 +1,5 @@
 import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-B-HXoAni.js';
+import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { S as SetupService } from './index-CLNryrQ5.js';
 import { P as PropertyService } from './index-Bi7xjdH8.js';
 import { R as RoomService } from './room.service-CTDshBL-.js';

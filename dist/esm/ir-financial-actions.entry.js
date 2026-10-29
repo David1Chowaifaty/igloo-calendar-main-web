@@ -1,5 +1,5 @@
 import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-B-HXoAni.js';
+import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { R as RoomService } from './room.service-CTDshBL-.js';
 import { S as SetupService } from './index-CLNryrQ5.js';
 import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CNaXYkvF.js';

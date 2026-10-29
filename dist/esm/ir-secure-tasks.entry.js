@@ -1,5 +1,5 @@
 import { r as registerInstance, a as getElement, h, H as Host, F as Fragment } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-B-HXoAni.js';
+import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { P as PropertyService } from './index-Bi7xjdH8.js';
 import { c as calendar_data } from './calendar-data-D4DbXAhg.js';
 import { b as checkUserAuthState, m as manageAnchorSession } from './utils-DH42zfi0.js';

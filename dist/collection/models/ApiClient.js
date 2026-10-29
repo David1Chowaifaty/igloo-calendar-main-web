@@ -10,7 +10,12 @@ class ApiClient extends Auth {
     /** Base URL used for every request when `window.environment === 'alpha'`. */
     static ALPHA_BASE_URL = 'https://gateway.igloorooms.com/IRALPHA';
     /** Endpoints served by the IRBE gateway instead of the default `/IR` base URL. */
-    static IRBE_ENDPOINTS = new Set(['/Set_Exposed_Restriction_Per_Room_Type', '/Get_Rooms_To_Check_In', '/Get_Rooms_To_Check_Out']);
+    static IRBE_ENDPOINTS = new Set([
+        '/Set_Exposed_Restriction_Per_Room_Type',
+        '/Get_Rooms_To_Check_In',
+        '/Get_Rooms_To_Check_Out',
+        '/Get_Exposed_Currencies',
+    ]);
     constructor() {
         super();
         this.addBaseUrlRouter();

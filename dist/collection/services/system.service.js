@@ -19,7 +19,7 @@ export class SystemService {
         return data;
     }
     async getExposedCurrencies() {
-        const { data } = await axios.post('https://gateway.igloorooms.com/IRBE/Get_Exposed_Currencies', {});
+        const { data } = await axios.post('/Get_Exposed_Currencies', {});
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }

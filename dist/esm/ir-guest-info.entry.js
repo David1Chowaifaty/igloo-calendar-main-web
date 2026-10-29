@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment } from './index-DKZeCK8T.js';
 import { B as BookingService } from './booking.service-C1IWMsup.js';
-import { A as ApiClient } from './ApiClient-B-HXoAni.js';
+import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { i as isRequestPending } from './ir-interceptor.store-DjDNm9TC.js';
 import { h as showToast } from './utils-DH42zfi0.js';
 import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CNaXYkvF.js';

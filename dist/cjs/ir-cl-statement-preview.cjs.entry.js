@@ -9,7 +9,7 @@ require('./booking.dto-CMx8s-oW.js');
 var irDate = require('./ir-date-CbkOKs2C.js');
 var t = require('./t-CqJPQrfm.js');
 var number = require('./number-xBpNWk3H.js');
-var ApiClient = require('./ApiClient-dg2yha-e.js');
+var ApiClient = require('./ApiClient-_fT8lvlJ.js');
 var enums = require('./enums-BSCnMYlE.js');
 var locale_controller = require('./locale.controller-BhXPN9ym.js');
 require('./axios-EresIryl.js');

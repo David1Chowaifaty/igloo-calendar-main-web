@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var ApiClient = require('./ApiClient-dg2yha-e.js');
+var ApiClient = require('./ApiClient-_fT8lvlJ.js');
 var index$2 = require('./index-Cb_LC8em.js');
 var index$1 = require('./index-DRI57dj6.js');
 var room_service = require('./room.service-e8DMCCv7.js');

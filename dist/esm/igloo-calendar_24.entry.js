@@ -13,7 +13,7 @@ import { i as isEarlyCheckout, c as calendar_dates, k as addCleaningTasks, f as 
 import { l as locales } from './locale-scope-Jre4lb6k.js';
 import { c as calendar_data, b as getDayUseBlockState, d as getBabyCotPricingModel, e as getExtraServiceDefaultPrice } from './calendar-data-D4DbXAhg.js';
 import { o as onUnassignedUnitsChange, h as beginUnassignedUnitsFetch, r as replaceUnassignedUnitsRange, R as ROOM_HEADER_WIDTH } from './calendar-grid-CnqbJWsJ.js';
-import { A as ApiClient } from './ApiClient-B-HXoAni.js';
+import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './index-DlulRlHT.js';
 import { P as PropertyService, t as taxationModes } from './index-Bi7xjdH8.js';
@@ -26,7 +26,7 @@ import { d as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStor
 import { a as axios } from './axios-B50ozOIF.js';
 import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './index-CBfVRoNB.js';
 import { d as setChannelIdAndActiveState, u as updateChannelSettings, s as selectChannel, t as testConnection, C as ChannelService, r as resetStore, c as channels_data } from './channel.service-_h8QXTCx.js';
-import { S as SystemService } from './system.service-DN8zRqj9.js';
+import { S as SystemService } from './system.service-BqMFLSUd.js';
 import { D as DashboardService, a as DATE_CHANGE_DEBOUNCE_MS, i as isCancellationOn, l as loadDepartures, b as loadArrivals, s as sumOccupancy, d as countRooms, e as countOverdueDepartures, f as countDepartingUnits, g as countOverdueArrivals, h as countUnassignedArrivals, j as countArrivingUnits, k as formatCardCount, m as DASHBOARD_PAGE_SIZE } from './dashboard.data-ROA-1gLm.js';
 import { e as setDeparturesPageSize, f as setDeparturesSortByTime, d as departuresStore, o as onDeparturesStoreChange, c as setDepartureTotal, i as initializeDeparturesStore, b as setDeparturesPage } from './departures.store-PFPdmLaM.js';
 import { b as formatCount, d as formatPercent, f as formatAmount, c as formatNumber } from './number-BguMo00d.js';

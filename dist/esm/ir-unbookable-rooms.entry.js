@@ -1,5 +1,5 @@
 import { r as registerInstance, h } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-B-HXoAni.js';
+import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { P as PropertyService } from './index-Bi7xjdH8.js';
 import { t } from './t-Bvz1wS_D.js';
 import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CNaXYkvF.js';

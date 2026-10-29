@@ -1,5 +1,5 @@
 import { r as registerInstance, a as getElement, h, H as Host } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-B-HXoAni.js';
+import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { i as isRequestPending } from './ir-interceptor.store-DjDNm9TC.js';
 import { a as axios } from './axios-B50ozOIF.js';
 import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-CNaXYkvF.js';

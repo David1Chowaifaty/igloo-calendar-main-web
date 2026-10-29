@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, a as getElement, h, F as Fragment } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-B-HXoAni.js';
+import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { A as AuthService } from './authenticate.service-C4X_z1zf.js';
-import { S as SystemService } from './system.service-DN8zRqj9.js';
+import { S as SystemService } from './system.service-BqMFLSUd.js';
 import { C as CONSTANTS } from './constants-DI4DZmiQ.js';
 import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-CNaXYkvF.js';
 import { t } from './t-Bvz1wS_D.js';

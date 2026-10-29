@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
-import { C as ClFiscalDocumentService } from './cl-fiscal-document.service-C8vA4hkf.js';
+import { C as ClFiscalDocumentService } from './cl-fiscal-document.service-vDuqdFGm.js';
 import './moment-Mki5YqAR.js';
 import './calendar-data-D4DbXAhg.js';
 import './booking.dto-VzFWIl64.js';
@@ -10,7 +10,7 @@ import { f as formatAmount } from './number-BguMo00d.js';
 import { C as CityLedgerService } from './index-BOC4pWiE.js';
 import { S as SetupService } from './index-CLNryrQ5.js';
 import { d as getSetupEntryLabel } from './utils-CdZUSdfj.js';
-import './ApiClient-B-HXoAni.js';
+import './ApiClient-BHOzIdlE.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './index-Bi7xjdH8.js';

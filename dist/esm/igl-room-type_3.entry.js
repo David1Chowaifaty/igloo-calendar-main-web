@@ -7,7 +7,7 @@ import { f as formatDate } from './ir-date-Bh8M_fTk.js';
 import { t } from './t-Bvz1wS_D.js';
 import { f as formatAmount, a as formatBookingNumber } from './number-BguMo00d.js';
 import { i as invoiceIdRequiredFieldSchema } from './ir-city-ledger-transaction-form.schema-BjzmdT2F.js';
-import { A as ApiClient } from './ApiClient-B-HXoAni.js';
+import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-CNaXYkvF.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import './axios-B50ozOIF.js';

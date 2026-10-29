@@ -1,6 +1,6 @@
 import { r as registerInstance, a as getElement, h } from './index-DKZeCK8T.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { A as ApiClient } from './ApiClient-B-HXoAni.js';
+import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { R as RoomService } from './room.service-CTDshBL-.js';
 import { a as axios } from './axios-B50ozOIF.js';
 import { P as PropertyIdSchema, D as DateSchema } from './commonSchemas-B3RVKogc.js';

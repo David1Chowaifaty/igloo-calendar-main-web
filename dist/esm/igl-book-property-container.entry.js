@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-B-HXoAni.js';
+import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { B as BookingService } from './booking.service-C1IWMsup.js';
 import { R as RoomService } from './room.service-CTDshBL-.js';
 import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-CNaXYkvF.js';
