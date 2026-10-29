@@ -3,7 +3,7 @@
 var index = require('./index-IDeZZwEK.js');
 var useTable = require('./useTable-BN32DOaV.js');
 var utils$1 = require('./utils-C40PtLl1.js');
-require('./types-sp5nWPAa.js');
+require('./types-B4nFkhmU.js');
 require('./locale-scope-Cch-vf1R.js');
 var t = require('./t-CqJPQrfm.js');
 var direction = require('./direction-CuBM8Z-h.js');

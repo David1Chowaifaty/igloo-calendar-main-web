@@ -28,6 +28,14 @@ export class LocaleController {
     static loadedTables = new Set();
     /** Per `lang`-subtree counterpart of {@link loadedTables}, keyed by language. */
     static scopeTables = new Map();
+    /**
+     * Keys whose value in `locales.entries` came from a catalog table, not a legacy one.
+     * A later request can then never put a legacy (untranslated) value back over them —
+     * see {@link merge}.
+     */
+    static catalogKeys = new Set();
+    /** Per `lang`-subtree counterpart of {@link catalogKeys}, keyed by language. */
+    static scopeCatalogKeys = new Map();
     static inFlight = new Map();
     /** What is in `locales.entries` right now — null until the first fetch lands. */
     static loadedLanguage = null;
@@ -109,10 +117,12 @@ export class LocaleController {
         const request = (async () => {
             scope.status = 'loading';
             try {
-                const { entries, direction } = await this.service.getExposedLanguage(lang, missing);
+                const bundle = await this.service.getExposedLanguage(lang, missing);
                 missing.forEach(table => loaded.add(table));
-                scope.entries = { ...(scope.entries ?? {}), ...entries };
-                scope.direction = direction;
+                const catalogKeys = this.scopeCatalogKeys.get(lang) ?? new Set();
+                this.scopeCatalogKeys.set(lang, catalogKeys);
+                scope.entries = this.merge(scope.entries, bundle, catalogKeys);
+                scope.direction = bundle.direction;
                 scope.status = 'ready';
             }
             catch (error) {
@@ -190,6 +200,7 @@ export class LocaleController {
     static reset() {
         this.clear();
         this.scopeTables.clear();
+        this.scopeCatalogKeys.clear();
         this.inFlight.clear();
         this.listeners.clear();
         this.loadedLanguage = null;
@@ -198,8 +209,8 @@ export class LocaleController {
     static async fetch(language, sections) {
         locales.status = 'loading';
         try {
-            const { entries, direction } = await this.service.getExposedLanguage(language, sections);
-            this.publish({ language, direction, entries, sections });
+            const bundle = await this.service.getExposedLanguage(language, sections);
+            this.publish({ language, bundle, sections });
         }
         catch (error) {
             locales.status = 'error';
@@ -211,12 +222,12 @@ export class LocaleController {
      * is also seeded early by {@link load}). Assigns top-level keys whole —
      * `@stencil/store` only reacts to top-level assignment.
      */
-    static publish({ language, direction, entries, sections, }) {
+    static publish({ language, bundle, sections }) {
         const changed = this.loadedLanguage !== null && this.loadedLanguage !== language;
         sections.forEach(table => this.loadedTables.add(table));
         this.loadedLanguage = language;
-        locales.entries = { ...(locales.entries ?? {}), ...entries };
-        locales.direction = direction;
+        locales.entries = this.merge(locales.entries, bundle, this.catalogKeys);
+        locales.direction = bundle.direction;
         locales.language = language;
         locales.loadedTables = [...this.loadedTables];
         locales.status = 'ready';
@@ -231,6 +242,33 @@ export class LocaleController {
         if (changed) {
             this.listeners.forEach(listener => listener(language));
         }
+    }
+    /**
+     * Merges a fetched bundle over what a store already holds, with the same precedence
+     * `LocaleService` applies inside one response: a legacy-only value never replaces
+     * a catalog one, and an empty value never replaces a non-empty one. Without this,
+     * a screen loading `_USER_MGT` (the OTP modal, reset password) after another screen
+     * loaded `_COMMON` would put English "Cancel"/"Save"/"Email" back app-wide.
+     *
+     * Records the catalog-sourced keys it writes into `catalogKeys`.
+     */
+    static merge(current, bundle, catalogKeys) {
+        const next = { ...(current ?? {}) };
+        const fallback = new Set(bundle.fallbackKeys);
+        for (const [key, value] of Object.entries(bundle.entries)) {
+            const hasValue = !!next[key];
+            if ((value === '' && hasValue) || (fallback.has(key) && catalogKeys.has(key) && hasValue)) {
+                continue;
+            }
+            if (fallback.has(key)) {
+                catalogKeys.delete(key);
+            }
+            else {
+                catalogKeys.add(key);
+            }
+            next[key] = value;
+        }
+        return next;
     }
     /** Base tables first, then the caller's, deduped and sorted for a stable cache key. */
     static buildSections(tables) {
@@ -256,6 +294,7 @@ export class LocaleController {
     }
     static clear() {
         this.loadedTables.clear();
+        this.catalogKeys.clear();
         locales.entries = null;
         locales.loadedTables = [];
     }

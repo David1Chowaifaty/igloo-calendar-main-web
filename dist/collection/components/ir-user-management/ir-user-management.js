@@ -96,6 +96,8 @@ export class IrUserManagement {
                 }));
             }
             await Promise.all(requests);
+            // initializeApp re-runs on a language switch — don't stack subscriptions.
+            this.unsubscribeRealtime?.();
             this.unsubscribeRealtime = realtimeService.subscribe(this.property_id, async (msg) => {
                 await this.handleSocketMessage(msg.reason, msg.payload);
             });
@@ -160,13 +162,18 @@ export class IrUserManagement {
     async fetchUserTypes() {
         const res = await Promise.all([this.setupService.getSetupEntriesByTableName('_USER_TYPE'), this.bookingService.getLov()]);
         const allowedUsers = res[1]?.My_Result?.allowed_user_types;
+        // Fresh collections on every run: this re-runs on a language switch, and the children only re-render on a new reference.
+        const allowedUsersTypes = [];
+        const userTypes = new Map();
         for (const e of res[0]) {
             const value = getEntryValue({ entry: e, language: LocaleController.language });
             if (allowedUsers.find(f => f.code === e.CODE_NAME)) {
-                this.allowedUsersTypes.push({ code: e.CODE_NAME, value });
+                allowedUsersTypes.push({ code: e.CODE_NAME, value });
             }
-            this.userTypes.set(e.CODE_NAME.toString(), value);
+            userTypes.set(e.CODE_NAME.toString(), value);
         }
+        this.allowedUsersTypes = allowedUsersTypes;
+        this.userTypes = userTypes;
     }
     disconnectedCallback() {
         this.unsubscribeRealtime?.();

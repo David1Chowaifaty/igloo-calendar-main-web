@@ -1,17 +1,10 @@
 import { onlineResources } from "../../common/ir.common.resources";
-import ApiClient from "../../models/ApiClient";
 export class IrCommon {
     extraResources = '';
     disableResourceInjection;
-    /** Sends the IRBE endpoints listed in `ApiClient` to the default base URL instead of the IRBE gateway. */
-    disableIrbeRouting = false;
     resources = onlineResources;
     componentWillLoad() {
-        ApiClient.setDisableIrbeRouting(this.disableIrbeRouting);
         this.parseRefs();
-    }
-    handleDisableIrbeRoutingChange(newValue) {
-        ApiClient.setDisableIrbeRouting(newValue);
     }
     componentDidLoad() {
         this.initializeStyles();
@@ -113,26 +106,6 @@ export class IrCommon {
                 "setter": false,
                 "reflect": false,
                 "attribute": "disable-resource-injection"
-            },
-            "disableIrbeRouting": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": "Sends the IRBE endpoints listed in `ApiClient` to the default base URL instead of the IRBE gateway."
-                },
-                "getter": false,
-                "setter": false,
-                "reflect": false,
-                "attribute": "disable-irbe-routing",
-                "defaultValue": "false"
             }
         };
     }
@@ -143,9 +116,6 @@ export class IrCommon {
     }
     static get watchers() {
         return [{
-                "propName": "disableIrbeRouting",
-                "methodName": "handleDisableIrbeRoutingChange"
-            }, {
                 "propName": "extraResources",
                 "methodName": "hrefsChanged"
             }];

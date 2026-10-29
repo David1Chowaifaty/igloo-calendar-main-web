@@ -22,11 +22,17 @@ export declare class LocaleService {
     /**
      * Flattens the `{ code, description }[]` response into a lookup keyed by code.
      *
-     * 34 keys are declared in more than one table (`Lcz_Cancel` in all six), so a
-     * multi-table request can carry the same code twice. Last one wins — fine while
-     * the values agree, which for shared words like "Cancel" they should. Warns when
-     * they don't, so a genuine per-table divergence surfaces instead of silently
-     * depending on response order.
+     * Many keys are declared in more than one table (`Lcz_Cancel` in seven), so a
+     * multi-table request carries the same code several times. Which one wins must
+     * not depend on response order:
+     *
+     * - a non-empty catalog row beats a {@link LEGACY_LOCALE_TABLES} row — legacy
+     *   tables are largely untranslated and answer every language in English;
+     * - an empty description never replaces a non-empty one (`t()` reads `''` as missing);
+     * - otherwise the last one wins, with a warning when two catalog tables disagree.
+     *
+     * `fallbackKeys` lists the codes only a legacy table supplied, so the controller
+     * can apply the same rule across requests.
      */
     private toEntryRecord;
 }

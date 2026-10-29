@@ -2806,11 +2806,6 @@ export namespace Components {
         "value": string;
     }
     interface IrCommon {
-        /**
-          * Sends the IRBE endpoints listed in `ApiClient` to the default base URL instead of the IRBE gateway.
-          * @default false
-         */
-        "disableIrbeRouting": boolean;
         "disableResourceInjection": boolean;
         /**
           * @default ''
@@ -18049,11 +18044,6 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface IrCommon {
-        /**
-          * Sends the IRBE endpoints listed in `ApiClient` to the default base URL instead of the IRBE gateway.
-          * @default false
-         */
-        "disableIrbeRouting"?: boolean;
         "disableResourceInjection"?: boolean;
         /**
           * @default ''
@@ -24470,7 +24460,6 @@ declare namespace LocalJSX {
     interface IrCommonAttributes {
         "extraResources": string;
         "disableResourceInjection": boolean;
-        "disableIrbeRouting": boolean;
     }
     interface IrCopyButtonAttributes {
         "text": string;

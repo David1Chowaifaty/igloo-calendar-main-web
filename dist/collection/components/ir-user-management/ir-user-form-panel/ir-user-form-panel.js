@@ -46,11 +46,12 @@ export class IrUserFormPanel {
     isPropertyAdmin = false;
     ApiClient = new ApiClient();
     mobileMask = {};
+    // Messages are functions so they resolve when validation runs, in the current language — not once at construction.
     userSchema = z.object({
         mobile: z.string().optional(),
         email: z
-            .string()
-            .email({ message: t('Lcz_InvalidEmail', { fallback: 'Invalid email' }) })
+            .string({ errorMap: () => ({ message: t('Lcz_InvalidEmail', { fallback: 'Invalid email' }) }) })
+            .email()
             .refine(async (email) => {
             if (this.user && this.user.email === email) {
                 return true; // unchanged email
@@ -60,7 +61,7 @@ export class IrUserFormPanel {
                 UserName: '',
             });
             return !exists;
-        }, { message: t('Lcz_EmailAlreadyExists', { fallback: 'Email already exists.' }) }),
+        }, () => ({ message: t('Lcz_EmailAlreadyExists', { fallback: 'Email already exists.' }) })),
         password: z
             .string()
             .nullable()
@@ -70,7 +71,7 @@ export class IrUserFormPanel {
                 return true;
             }
             return CONSTANTS.PASSWORD.test(password);
-        }, { message: t('Lcz_PasswordMinLength', { fallback: 'Password must be at least 8 characters long.' }) }),
+        }, () => ({ message: t('Lcz_PasswordMinLength', { fallback: 'Password must be at least 8 characters long.' }) })),
         type: z.union([z.literal(1), z.literal(Number(this.superAdminId?.toString() ?? '5')), z.coerce.string().nonempty().min(2)]),
         username: z
             .string()
@@ -86,7 +87,7 @@ export class IrUserFormPanel {
                 return !exists;
             }
             return true;
-        }, { message: t('Lcz_UsernameAlreadyExists', { fallback: 'Username already exists.' }) }),
+        }, () => ({ message: t('Lcz_UsernameAlreadyExists', { fallback: 'Username already exists.' }) })),
     });
     //make user active by default
     async componentWillLoad() {
@@ -135,14 +136,14 @@ export class IrUserFormPanel {
         }
     }
     render() {
-        return (h("form", { key: '3894b7d82080148479e6bdb15a3857a06bf084e3', id: this.formId,
+        return (h("form", { key: 'b5e727c5d63d28f4c48539bc40635c190fab7503', id: this.formId,
             // class="sheet-container"
             onSubmit: async (e) => {
                 e.preventDefault();
                 await this.createOrUpdateUser();
-            } }, h("div", { key: 'd52b091bc4824a8a969f0fade8a9cdb782e3dac8', class: "d-flex flex-column", style: { gap: '1rem' } }, h("ir-validator", { key: '9255462d5bbacc16d45dd04bbcdd5f6b9b258b3f', asyncValidation: true, showErrorMessage: true, value: this.userInfo.email, schema: this.userSchema.shape.email }, h("ir-input", { key: '986542462294054d655a4a03a033e23c5a34053f', maxlength: 40, "onText-change": e => this.updateUserField('email', e.detail), value: this.userInfo.email, label: t('Lcz_Email', { fallback: 'Email' }), "data-testid": "email", id: "user-email" })), h("ir-validator", { key: '6ea09c38c01b1684eac32f7e6701f48a72945f0f', showErrorMessage: true, value: this.userInfo.mobile, schema: this.userSchema.shape.mobile }, h("ir-input", { key: 'fa82cd5761accd4cb31a721029e7441bb1f7c674', "onText-change": e => this.updateUserField('mobile', e.detail), value: this.userInfo.mobile, label: t('Lcz_Mobile'), "data-testid": "mobile", mask: this.mobileMask })), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("ir-validator", { value: this.userInfo.type?.toString(), schema: this.userSchema.shape.type }, h("wa-select", { "data-testId": "user_type",
+            } }, h("div", { key: '599ceb7bf362195a5a0f2785bc3c3763d07b8056', class: "d-flex flex-column", style: { gap: '1rem' } }, h("ir-validator", { key: 'bcbdb8855ce7dd7bc9d1e768a56cc241ca4ca0c4', asyncValidation: true, showErrorMessage: true, value: this.userInfo.email, schema: this.userSchema.shape.email }, h("ir-input", { key: '900ad31b3d6c46c204a186de2f8ff2f0e3ac7c93', maxlength: 40, "onText-change": e => this.updateUserField('email', e.detail), value: this.userInfo.email, label: t('Lcz_Email', { fallback: 'Email' }), "data-testid": "email", id: "user-email" })), h("ir-validator", { key: '30a739127656ffa21d6066e830e8985ed1214f47', showErrorMessage: true, value: this.userInfo.mobile, schema: this.userSchema.shape.mobile }, h("ir-input", { key: 'e41766330ef6e161d32c3252af8ff9041da4bb61', "onText-change": e => this.updateUserField('mobile', e.detail), value: this.userInfo.mobile, label: t('Lcz_Mobile', { fallback: 'Mobile' }), "data-testid": "mobile", mask: this.mobileMask })), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("ir-validator", { value: this.userInfo.type?.toString(), schema: this.userSchema.shape.type }, h("wa-select", { "data-testId": "user_type",
             // error={this.errors?.type && !this.userInfo.type}
-            disabled: this.disableFields, label: t('Lcz_Role', { fallback: 'Role' }), value: this.userInfo.type?.toString(), size: "s", defaultValue: this.userInfo.type?.toString(), placeholder: t('Lcz_Select', { fallback: 'Select' }), onchange: e => this.updateUserField('type', e.target.value) }, this.allowedUsersTypes.map(t => (h("wa-option", { value: t.code }, t.value)))))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: '9d73e529db34d738875ec5f156e97b09df43e8d1' }, h("input", { key: '809e78340d0592ce5df7aff0f1cb5ce5238c216a', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { key: 'e7f39c3ac6f47288b208f792c7a50d40e92a8af8', asyncValidation: true, schema: this.userSchema.shape.username, value: this.userInfo.username }, h("ir-input", { key: '6fbcf3791903d991ad13f173949f3e5389e48a0d', "onText-change": e => this.updateUserField('username', e.detail), autocomplete: "off", maxlength: 40, value: this.userInfo.username, disabled: this.disableFields, label: t('Lcz_Username', { fallback: 'Username' }) })))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { value: this.userInfo.password, schema: this.userSchema.shape.password }, h("ir-input", { "data-testId": "password", label: t('Lcz_Password', { fallback: 'Password' }), value: this.userInfo.password, autocomplete: "off", passwordToggle: true, type: "password", id: "password", maxlength: 16, onInputFocus: () => (this.showPasswordValidation = true), "onInput-blur": () => {
+            disabled: this.disableFields, label: t('Lcz_Role', { fallback: 'Role' }), value: this.userInfo.type?.toString(), size: "s", defaultValue: this.userInfo.type?.toString(), placeholder: t('Lcz_Select', { fallback: 'Select' }), onchange: e => this.updateUserField('type', e.target.value) }, this.allowedUsersTypes.map(t => (h("wa-option", { value: t.code }, t.value)))))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: '3758a354759bda713bbafb8e6d2140760685682b' }, h("input", { key: '5100a479c2cbe8925a84d413a080e8302405b573', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { key: '8e4af279b3a838a95dbbaa29a3b8a0c5b3bcc457', asyncValidation: true, schema: this.userSchema.shape.username, value: this.userInfo.username }, h("ir-input", { key: '9ad630df6410ae2bc274c1e6874cf89bc52f679f', "onText-change": e => this.updateUserField('username', e.detail), autocomplete: "off", maxlength: 40, value: this.userInfo.username, disabled: this.disableFields, label: t('Lcz_Username', { fallback: 'Username' }) })))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { value: this.userInfo.password, schema: this.userSchema.shape.password }, h("ir-input", { "data-testId": "password", label: t('Lcz_Password', { fallback: 'Password' }), value: this.userInfo.password, autocomplete: "off", passwordToggle: true, type: "password", id: "password", maxlength: 16, onInputFocus: () => (this.showPasswordValidation = true), "onInput-blur": () => {
                 // if (this.user) this.showPasswordValidation = false;
             }, "onText-change": e => this.updateUserField('password', e.detail) })), this.showPasswordValidation && h("ir-password-validator", { class: "mb-1", password: this.userInfo.password }))) : (
         // this.haveAdminPrivileges &&
@@ -150,16 +151,16 @@ export class IrUserFormPanel {
         // (this.user?.type.toString() === '17' && this.userTypeCode?.toString() === '17' ? null : (
         h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0 logins-history-title" }, t('Lcz_Password', { fallback: 'Password' })), h("ir-button", { size: "sm", btn_styles: 'ir-pe-0', onClickHandler: () => (this.isOpen = true), text: t('Lcz_ChangePassword', { fallback: 'Change Password' }), btn_color: "link" }))
         // ))
-        )), this.user?.sign_ins?.length > 0 && (h("section", { key: '92d295e95f7856980f65e7749d13cd2aa8cbad1a', class: "logins-history-section mt-2" }, h("div", { key: '2156f5261c82d3b9c6c66fe329538bc7fc570201', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '9a65c1fbc445ffd8013aa1cea5387ebd34592a1f', class: "logins-history-title m-0 p-0" }, t('Lcz_RecentSignins', { fallback: 'Recent sign-ins' })), this.user.sign_ins.length > 5 && (h("ir-button", { key: 'e22b30ed31d361a0df1e62d810351648cc39b750', btn_styles: 'ir-pe-0', text: !this.showFullHistory ? t('Lcz_ViewAll') : t('Lcz_ViewLess'), btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: 'cce3f98de7e6bfa73c4192265e19ee97a29ffa34', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
+        )), this.user?.sign_ins?.length > 0 && (h("section", { key: '43558179ecb7984bf4d8707a8b4da18c388f8ec0', class: "logins-history-section mt-2" }, h("div", { key: '8b6757a0d75db0362c1caadccee52cac65d5a5a7', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '7da868d3efc81d0687f16a13a042eb74818a8896', class: "logins-history-title m-0 p-0" }, t('Lcz_RecentSignins', { fallback: 'Recent sign-ins' })), this.user.sign_ins.length > 5 && (h("ir-button", { key: 'f049599a37bfa50b2e3d157147673861907202e2', btn_styles: 'ir-pe-0', text: !this.showFullHistory ? t('Lcz_ViewAll', { fallback: 'View all' }) : t('Lcz_ViewLess', { fallback: 'View less' }), btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: 'e004e53327174a9ec8f52c7585a444a2267bee91', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
             const ua = UAParser(s.user_agent);
-            return (h("li", { class: "login-entry", key: s.date + '_' + i }, h("div", { class: "login-meta" }, h("p", { class: "login-datetime" }, formatDate(s.date, 'DD-MMM-YYYY'), " ", _formatTime(s.hour?.toString(), s.minute?.toString()), " |"), h("p", { class: "login-location" }, h("span", { class: "login-ip" }, t('Lcz_IP'), ": ", s.ip), ' ', "\u00A0|\u00A0", h("span", { class: "login-country" }, t('Lcz_Location'), ": ", s.country), ' ', "\u00A0|\u00A0", h("span", { class: "login-os" }, t('Lcz_OS', { fallback: 'OS' }), ": ", ua.os.name ?? t('Lcz_NotAvailable', { fallback: 'N/A' }), " ", ua.os.version)))));
-        })))), h("ir-sidebar", { key: '061d4b3623ea5e90ecd656f85da16f59a25059ae', open: this.isOpen, showCloseButton: false, style: {
+            return (h("li", { class: "login-entry", key: s.date + '_' + i }, h("div", { class: "login-meta" }, h("p", { class: "login-datetime" }, formatDate(s.date, 'DD-MMM-YYYY'), " ", _formatTime(s.hour?.toString(), s.minute?.toString()), " |"), h("p", { class: "login-location" }, h("span", { class: "login-ip" }, t('Lcz_IP', { fallback: 'IP' }), ": ", s.ip), ' ', "\u00A0|\u00A0", h("span", { class: "login-country" }, t('Lcz_Location', { fallback: 'Location' }), ": ", s.country), ' ', "\u00A0|\u00A0", h("span", { class: "login-os" }, t('Lcz_OS', { fallback: 'OS' }), ": ", ua.os.name ?? t('Lcz_NotAvailable', { fallback: 'N/A' }), " ", ua.os.version)))));
+        })))), h("ir-sidebar", { key: '8abf0c8113a3da6490aa5f2c50fe6b7cebefb934', open: this.isOpen, showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
             }, onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            } }, this.isOpen && (h("ir-reset-password", { key: 'c8f6c0dd28bfd86f400d5311c3d80b40aa2ee185', ticket: this.ApiClient.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
+            } }, this.isOpen && (h("ir-reset-password", { key: 'eee7a4583e6329404e8319d19183c401911034ba', ticket: this.ApiClient.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;

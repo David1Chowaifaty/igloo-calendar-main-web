@@ -1,11 +1,11 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
-import { E as ExtraServiceSection, A as AccommodationExtraCode, c as createBlankAddon } from './types-lai6srmI.js';
-import { V as VatIncludedCodes } from './enums-CSCQSgBu.js';
+import { E as ExtraServiceSection, A as AccommodationExtraCode, c as createBlankAddon } from './types-CrvEKijG.js';
+import { V as VatIncludedCodes } from './enums-CcLtXwvz.js';
 import { t } from './t-Bvz1wS_D.js';
-import { c as formatNumber } from './number-B8waOzTO.js';
-import './types-CB66a07H.js';
+import { c as formatNumber } from './number-0UrU_yO2.js';
+import './types-DFSK8b1u.js';
 import './locale-scope-Jre4lb6k.js';
-import './ir-date-XXNYhmSL.js';
+import './ir-date-CY_qGQ63.js';
 import './language-observer-CHgzsZkY.js';
 import './moment-Mki5YqAR.js';
 import './_commonjsHelpers-BFTU3MAI.js';

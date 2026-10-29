@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-require('./types-sp5nWPAa.js');
+require('./types-B4nFkhmU.js');
 require('./locale-scope-Cch-vf1R.js');
 var t = require('./t-CqJPQrfm.js');
 require('./types-BVJQZ50e.js');

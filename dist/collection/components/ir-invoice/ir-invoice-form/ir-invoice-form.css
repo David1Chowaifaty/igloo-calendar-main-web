@@ -78,9 +78,13 @@
   box-sizing: border-box;
   width: 100%;
 }
+/* Split stay: one checkbox for several stacked rows. Pin the control to the first row's text line
+   (room-info padding + half the line box) instead of centering it against the whole stack. */
 .ir-invoice__checkbox.group::part(base) {
-  padding-block: var(--wa-form-control-padding-inline);
   align-items: flex-start;
+}
+.ir-invoice__checkbox.group::part(control) {
+  margin-block-start: calc(0.5rem + (1lh - var(--wa-form-control-toggle-size)) / 2);
 }
 .ir-invoice__checkbox::part(label) {
   display: flex;
@@ -96,11 +100,21 @@
 }
 .ir-invoice__room-checkbox-container.group {
   flex-direction: column;
+  align-items: stretch;
+  gap: 0;
 }
 .ir-invoice__group-room {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
+  width: 100%;
+}
+.ir-invoice__group-room + .ir-invoice__group-room {
+  border-block-start: var(--wa-form-control-border-width) dashed var(--wa-color-surface-border);
+}
+.ir-invoice__rate-plan {
+  padding-inline-start: 0.5rem;
 }
 .ir-invoice__checkbox-price {
   font-weight: 700;

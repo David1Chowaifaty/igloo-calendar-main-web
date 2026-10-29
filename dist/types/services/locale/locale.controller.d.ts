@@ -24,6 +24,14 @@ export declare class LocaleController {
     private static loadedTables;
     /** Per `lang`-subtree counterpart of {@link loadedTables}, keyed by language. */
     private static scopeTables;
+    /**
+     * Keys whose value in `locales.entries` came from a catalog table, not a legacy one.
+     * A later request can then never put a legacy (untranslated) value back over them —
+     * see {@link merge}.
+     */
+    private static catalogKeys;
+    /** Per `lang`-subtree counterpart of {@link catalogKeys}, keyed by language. */
+    private static scopeCatalogKeys;
     private static inFlight;
     /** What is in `locales.entries` right now — null until the first fetch lands. */
     private static loadedLanguage;
@@ -103,6 +111,16 @@ export declare class LocaleController {
      * `@stencil/store` only reacts to top-level assignment.
      */
     private static publish;
+    /**
+     * Merges a fetched bundle over what a store already holds, with the same precedence
+     * `LocaleService` applies inside one response: a legacy-only value never replaces
+     * a catalog one, and an empty value never replaces a non-empty one. Without this,
+     * a screen loading `_USER_MGT` (the OTP modal, reset password) after another screen
+     * loaded `_COMMON` would put English "Cancel"/"Save"/"Email" back app-wide.
+     *
+     * Records the catalog-sourced keys it writes into `catalogKeys`.
+     */
+    private static merge;
     /** Base tables first, then the caller's, deduped and sorted for a stable cache key. */
     private static buildSections;
     /**

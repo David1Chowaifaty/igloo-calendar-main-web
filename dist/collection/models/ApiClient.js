@@ -6,9 +6,9 @@ class ApiClient extends Auth {
     static modifiedBaseUrl = false;
     static isInterceptorAdded = false;
     static isBaseUrlRouterAdded = false;
-    /** When true, `IRBE_ENDPOINTS` use the default base URL instead of IRBE. */
-    static disableIrbeRouting = false;
     static IRBE_BASE_URL = 'https://gateway.igloorooms.com/IRBE';
+    /** Base URL used for every request when `window.environment === 'alpha'`. */
+    static ALPHA_BASE_URL = 'https://gateway.igloorooms.com/IRALPHA';
     /** Endpoints served by the IRBE gateway instead of the default `/IR` base URL. */
     static IRBE_ENDPOINTS = new Set(['/Set_Exposed_Restriction_Per_Room_Type', '/Get_Rooms_To_Check_In', '/Get_Rooms_To_Check_Out']);
     constructor() {
@@ -25,16 +25,24 @@ class ApiClient extends Auth {
             return;
         }
         axios.interceptors.request.use(config => {
+            if (ApiClient.isAlpha()) {
+                config.baseURL = ApiClient.ALPHA_BASE_URL;
+            }
             const path = config.url?.split('?')[0];
-            if (!ApiClient.disableIrbeRouting && path && ApiClient.IRBE_ENDPOINTS.has(path)) {
+            if (!ApiClient.disableIrbeRouting() && path && ApiClient.IRBE_ENDPOINTS.has(path)) {
                 config.baseURL = ApiClient.IRBE_BASE_URL;
             }
             return config;
         });
         ApiClient.isBaseUrlRouterAdded = true;
     }
-    static setDisableIrbeRouting(disabled) {
-        ApiClient.disableIrbeRouting = disabled;
+    /** Read per request so a host page can set `window.environment` after this module loads. */
+    static isAlpha() {
+        return typeof window !== 'undefined' && window.environment === 'alpha';
+    }
+    /** When true, `IRBE_ENDPOINTS` stay on the current base URL instead of IRBE. On in alpha. */
+    static disableIrbeRouting() {
+        return ApiClient.isAlpha();
     }
     getToken() {
         return ApiClient.token;

@@ -1,0 +1,19 @@
+import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
+import { t } from './t-Bvz1wS_D.js';
+import './locale-scope-Jre4lb6k.js';
+
+const irEmptyStateCss = () => `:host{box-sizing:border-box !important}:host *,:host *::before,:host *::after{box-sizing:inherit !important;padding:0;margin:0}[hidden]{display:none !important}:host{display:flex;flex-direction:column;gap:var(--wa-space-m);align-items:center}::slotted([slot='icon']){font-size:2rem}.icon_container{display:flex;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:0.875rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);color:var(--wa-color-brand-fill-loud, #2563eb);font-size:1.5rem;margin-bottom:0.5rem}.message{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.message.--secondary{font-weight:400;color:var(--wa-color-neutral-400, #a1a1aa)}`;
+
+const IrEmptyState = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    message;
+    showIcon = true;
+    render() {
+        return (h(Host, { key: 'd2552df2220d421b0c116ff831eda4b8bb267175' }, h("slot", { key: 'd2dea489844d5c8b8215152a694a5b718ddd5122', name: "icon" }, this.showIcon && (h("div", { key: '5362abedb22da296120de13949f62d1a1853725f', class: 'icon_container' }, h("wa-icon", { key: '8cd39443f337ac115f8809dde249c2955d7e6682', name: "ban", style: { transform: 'rotate(90deg)' } })))), h("p", { key: '4b79a3cb09782c23aa7b31e332752486d37d3fbf', part: "message", class: `message ${this.showIcon ? '' : '--secondary'}` }, this.message || t('Lcz_NoRecordsFound', { fallback: 'No records found' })), h("slot", { key: 'e196f67376169c4a5e12497b1df5536a1a40a4ef' })));
+    }
+};
+IrEmptyState.style = irEmptyStateCss();
+
+export { IrEmptyState as ir_empty_state };

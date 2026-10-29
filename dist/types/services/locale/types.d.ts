@@ -10,6 +10,19 @@ import type { TLocaleEntries } from "../../stores/locales.store";
 export declare const LOCALE_TABLES: readonly ["_PMS_FRONT", "_USER_MGT", "_BOOKING_LIST_FRONT", "_HK_FRONT", "_CHANNEL_FRONT", "_PAYMENT_BACK", "_COMMON", "_FINANCIALS", "_BOOKING", "_CALENDAR", "_FRONTDESK", "_HOUSEKEEPING", "_AGENTS", "_REPORTS", "_SETTINGS", "_GUESTS", "_AUTH", "_PMS"];
 export type LocaleTable = (typeof LOCALE_TABLES)[number];
 /**
+ * The backend tables `Get_Exposed_Language` served before the label catalog
+ * (`lcz-labels.json`) existed — the six in `legacy-locale-keys.json`.
+ *
+ * Most of them were never translated in Setup: `_USER_MGT` answers `fr` and `ar`
+ * with its English text. Many of their keys were later re-declared in a catalog
+ * table (`Lcz_Email` in `_COMMON`, `Lcz_EditUser` in `_SETTINGS`, …) that *is*
+ * translated, so a legacy value must never replace a catalog one — otherwise the
+ * last table in the response, or the last screen to load, decides the language.
+ */
+export declare const LEGACY_LOCALE_TABLES: readonly ["_PMS_FRONT", "_USER_MGT", "_BOOKING_LIST_FRONT", "_HK_FRONT", "_CHANNEL_FRONT", "_PAYMENT_BACK"];
+/** Whether a response row's `table_name` is one of {@link LEGACY_LOCALE_TABLES}. Rows without one count as catalog rows. */
+export declare function isLegacyTable(table: string | null | undefined): boolean;
+/**
  * The `sections` payload. `LocaleController` builds it by merging its base set
  * with whatever the screen asked for, so it is never empty — but it is often a
  * single table (`['_PMS_FRONT']`), which the endpoint has always accepted.
@@ -88,4 +101,6 @@ export type ExposedLanguageResult = z.infer<typeof ExposedLanguageResultSchema>;
 export type LocaleBundle = {
     entries: Record<string, string>;
     direction: 'ltr' | 'rtl';
+    /** Keys whose value came only from a {@link LEGACY_LOCALE_TABLES} row — see {@link isLegacyTable}. */
+    fallbackKeys: string[];
 };

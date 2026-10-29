@@ -80,5 +80,5 @@ export const SCREEN_TABLES = {
     salesByChannel: ['_REPORTS'],
     salesByCountry: ['_REPORTS'],
     uninvoicedBookings: ['_BOOKING'],
-    userManagement: ['_USER_MGT', '_AUTH'],
+    userManagement: ['_SETTINGS', '_AUTH'],
 };

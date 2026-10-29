@@ -80,6 +80,6 @@ export declare const SCREEN_TABLES: {
     readonly salesByChannel: readonly ["_REPORTS"];
     readonly salesByCountry: readonly ["_REPORTS"];
     readonly uninvoicedBookings: readonly ["_BOOKING"];
-    readonly userManagement: readonly ["_USER_MGT", "_AUTH"];
+    readonly userManagement: readonly ["_SETTINGS", "_AUTH"];
 };
 export type ScreenName = keyof typeof SCREEN_TABLES;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ExposedLanguageResultSchema } from "./types";
+import { ExposedLanguageResultSchema, isLegacyTable } from "./types";
 /**
  * The `Get_Exposed_Language` endpoint, and nothing else.
  *
@@ -26,32 +26,52 @@ export class LocaleService {
         }
         const result = ExposedLanguageResultSchema.parse(data.My_Result ?? {});
         return {
-            entries: this.toEntryRecord(result),
+            ...this.toEntryRecord(result),
             direction: String(result.direction).toLowerCase() === 'rtl' ? 'rtl' : 'ltr',
         };
     }
     /**
      * Flattens the `{ code, description }[]` response into a lookup keyed by code.
      *
-     * 34 keys are declared in more than one table (`Lcz_Cancel` in all six), so a
-     * multi-table request can carry the same code twice. Last one wins — fine while
-     * the values agree, which for shared words like "Cancel" they should. Warns when
-     * they don't, so a genuine per-table divergence surfaces instead of silently
-     * depending on response order.
+     * Many keys are declared in more than one table (`Lcz_Cancel` in seven), so a
+     * multi-table request carries the same code several times. Which one wins must
+     * not depend on response order:
+     *
+     * - a non-empty catalog row beats a {@link LEGACY_LOCALE_TABLES} row — legacy
+     *   tables are largely untranslated and answer every language in English;
+     * - an empty description never replaces a non-empty one (`t()` reads `''` as missing);
+     * - otherwise the last one wins, with a warning when two catalog tables disagree.
+     *
+     * `fallbackKeys` lists the codes only a legacy table supplied, so the controller
+     * can apply the same rule across requests.
      */
     toEntryRecord(result) {
         const entries = {};
+        const fallback = new Set();
         for (const entry of result.entries ?? []) {
             if (!entry?.code) {
                 continue;
             }
             const description = entry.description ?? '';
+            const legacy = isLegacyTable(entry.table_name);
             const existing = entries[entry.code];
-            if (existing !== undefined && existing !== description) {
-                console.warn(`[locale] "${entry.code}" differs between tables: "${existing}" vs "${description}" — using the latter.`);
+            if (existing !== undefined) {
+                const existingIsLegacy = fallback.has(entry.code);
+                if (description === '' ? existing !== '' : legacy && !existingIsLegacy && existing !== '') {
+                    continue;
+                }
+                if (!legacy && !existingIsLegacy && existing !== description) {
+                    console.warn(`[locale] "${entry.code}" differs between tables: "${existing}" vs "${description}" — using the latter.`);
+                }
             }
             entries[entry.code] = description;
+            if (legacy) {
+                fallback.add(entry.code);
+            }
+            else {
+                fallback.delete(entry.code);
+            }
         }
-        return entries;
+        return { entries, fallbackKeys: [...fallback] };
     }
 }
