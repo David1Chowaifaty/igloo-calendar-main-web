@@ -6,7 +6,7 @@ var index$1 = require('./index-DRI57dj6.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
 var utils = require('./utils-DC_1UV-i.js');
 var direction = require('./direction-CuBM8Z-h.js');
-var locale_controller = require('./locale.controller-BYGzJwun.js');
+var locale_controller = require('./locale.controller-BhXPN9ym.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./types-BVJQZ50e.js');

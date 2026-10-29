@@ -2,7 +2,11 @@ import { h } from "@stencil/core";
 import ApiClient from "../../models/ApiClient";
 import { PropertyService } from "../../services/property.service";
 import { t } from "../../services/locale/t";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { LanguageSync } from "../../services/locale/language-sync";
+import { SCREEN_TABLES } from "../../services/locale/screen-tables";
 export class IrUnbookableRooms {
+    language = '';
     ticket = '';
     propertyid;
     mode = 'default';
@@ -16,10 +20,11 @@ export class IrUnbookableRooms {
     allowedProperties = null;
     filters = { period_to_check: 2, consecutive_period: 14, country: 'all' };
     progressFilters = { period_to_check: 2, consecutive_period: 14 };
-    lastUpdatedLabel = '';
     isPageLoading = true;
     apiClientService = new ApiClient();
     propertyService = new PropertyService();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.unbookableRooms, () => this.initializeApp());
     componentWillLoad() {
         this.filters = {
             country: 'all',
@@ -30,6 +35,15 @@ export class IrUnbookableRooms {
             this.apiClientService.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -76,13 +90,14 @@ export class IrUnbookableRooms {
             this.errorMessage = '';
             this.isLoading = true;
             this.unbookableRooms = [];
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.unbookableRooms });
             if (this.resolveMode() === 'mpo') {
                 this.allowedProperties = await this.propertyService.getExposedAllowedProperties();
             }
             else {
                 this.allowedProperties = null;
             }
-            await this.fetchUnbookableRooms();
+            await Promise.all([localeReady, this.fetchUnbookableRooms()]);
         }
         catch (error) {
             console.error('Failed to load unbookable rooms', error);
@@ -111,7 +126,6 @@ export class IrUnbookableRooms {
             consecutive_period: this.filters.consecutive_period,
         });
         this.unbookableRooms = results ?? [];
-        this.lastUpdatedLabel = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
     getPropertyIds() {
         if (this.resolveMode() === 'mpo') {
@@ -174,6 +188,26 @@ export class IrUnbookableRooms {
     }
     static get properties() {
         return {
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "language",
+                "defaultValue": "''"
+            },
             "ticket": {
                 "type": "string",
                 "mutable": false,
@@ -288,19 +322,21 @@ export class IrUnbookableRooms {
             "allowedProperties": {},
             "filters": {},
             "progressFilters": {},
-            "lastUpdatedLabel": {},
             "isPageLoading": {}
         };
     }
     static get watchers() {
         return [{
+                "propName": "language",
+                "methodName": "languageChanged"
+            }, {
                 "propName": "ticket",
                 "methodName": "ticketChanged"
             }, {
                 "propName": "mode",
                 "methodName": "modeChanged"
             }, {
-                "propName": "property_id",
+                "propName": "propertyid",
                 "methodName": "propertyIdChanged"
             }, {
                 "propName": "period_to_check",

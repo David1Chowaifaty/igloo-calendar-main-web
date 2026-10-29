@@ -7,7 +7,7 @@ var irDate = require('./ir-date-CbkOKs2C.js');
 var moment = require('./moment-CdViwxPQ.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
 var number = require('./number-xBpNWk3H.js');
-var locale_controller = require('./locale.controller-BYGzJwun.js');
+var locale_controller = require('./locale.controller-BhXPN9ym.js');
 var t = require('./t-CqJPQrfm.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

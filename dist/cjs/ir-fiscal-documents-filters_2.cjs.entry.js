@@ -15,7 +15,7 @@ var number = require('./number-xBpNWk3H.js');
 var utils = require('./utils-PciJI6G4.js');
 var useTable = require('./useTable-BN32DOaV.js');
 var functions = require('./functions-CaNAUyCw.js');
-var locale_controller = require('./locale.controller-BYGzJwun.js');
+var locale_controller = require('./locale.controller-BhXPN9ym.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./type-DxODN41W.js');

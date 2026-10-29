@@ -2,8 +2,9 @@
 
 var index = require('./index-IDeZZwEK.js');
 var index$1 = require('./index-DnLl4vlg.js');
-var user_service = require('./user.service-DnFMo961.js');
+var user_service = require('./user.service-Do558jHj.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
+var constants = require('./constants-BLID23LD.js');
 var t = require('./t-CqJPQrfm.js');
 var types = require('./types-BVJQZ50e.js');
 require('./locale-scope-Cch-vf1R.js');
@@ -62,7 +63,7 @@ const IrHkUser = class {
             if (this.user && !this.userInfo?.password) {
                 return true;
             }
-            return user_service.CONSTANTS.PASSWORD.test(password);
+            return constants.CONSTANTS.PASSWORD.test(password);
         }, { message: t.t('Lcz_PasswordMinLength', { fallback: 'Password must be at least 8 characters long.' }) }),
         username: types.stringType()
             .min(3)

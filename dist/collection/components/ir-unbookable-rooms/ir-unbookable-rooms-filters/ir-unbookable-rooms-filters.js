@@ -1,5 +1,6 @@
 import { h } from "@stencil/core";
 import { t } from "../../../services/locale/t";
+import { formatCount } from "../../../utils/number";
 export class IrUnbookableRoomsFilters {
     mode = 'default';
     filters = { period_to_check: 2, consecutive_period: 14, country: 'all' };
@@ -36,13 +37,13 @@ export class IrUnbookableRoomsFilters {
             }
         });
         const sortedCountries = [...countries.entries()].sort((a, b) => a[1].localeCompare(b[1], undefined, { sensitivity: 'base' }) || a[0] - b[0]);
-        return (h("ir-filter-card", { key: 'c332c216f6d026637d351fa6423ed50d1873db16' }, h("wa-select", { key: '1b3f61d5b949e0483821f812b85601ea6dba6015', label: t('Lcz_LookAhead', { fallback: 'Look ahead' }), size: "s", value: this.filters.period_to_check?.toString(), defaultValue: this.filters.period_to_check?.toString(), onchange: e => {
+        return (h("ir-filter-card", { key: '0af4cf92a241e9709f65d8e1e2736b56bcca5eb1' }, h("wa-select", { key: '2f4ff7ddade409aa6af4d20d6d4435f435eacf41', label: t('Lcz_LookAhead', { fallback: 'Look ahead' }), size: "s", value: this.filters.period_to_check?.toString(), defaultValue: this.filters.period_to_check?.toString(), onchange: e => {
                 this.handlePeriodChange(e.target.value);
-            } }, Array.from({ length: 5 }, (_, i) => i + 2).map(value => (h("wa-option", { value: value.toString() }, value, " ", t('Lcz_Month', { fallback: 'month' }), value > 1 ? 's' : '')))), h("ir-input", { key: '8effaa9050333b45c6caa6e7ebe67c505e69a178', type: "number", label: t('Lcz_MinimumConsecutiveNights', { fallback: 'Minimum consecutive nights' }), min: "7", hint: t('Lcz_PeriodRoomTypesClosedForBooking', { fallback: 'Period where room types are closed for booking.' }), max: "60", value: this.filters.consecutive_period?.toString(), "onText-change": e => {
+            } }, Array.from({ length: 5 }, (_, i) => i + 2).map(value => (h("wa-option", { value: value.toString() }, t('Lcz_MonthsCount', { fallback: '%1 months', params: [formatCount(value)] }))))), h("ir-input", { key: 'f4e5be87fa92dcd1a79b0f9282a746b741c9daa4', type: "number", label: t('Lcz_MinimumConsecutiveNights', { fallback: 'Minimum consecutive nights' }), min: "7", hint: t('Lcz_PeriodRoomTypesClosedForBooking', { fallback: 'Period where room types are closed for booking.' }), max: "60", value: this.filters.consecutive_period?.toString(), "onText-change": e => {
                 this.handleConsecutiveChange(e.detail);
-            } }), this.mode === 'mpo' && sortedCountries.length > 1 && (h("wa-select", { key: 'c28f9ce2d07f73d73939d5e8992407f066e52b30', label: t('Lcz_Country', { fallback: 'Country' }), size: "s", value: this.filters.country?.toString(), defaultValue: "all", onchange: e => {
+            } }), this.mode === 'mpo' && sortedCountries.length > 1 && (h("wa-select", { key: '095a9a05993d7919966accd46be5185513c8034a', label: t('Lcz_Country', { fallback: 'Country' }), size: "s", value: this.filters.country?.toString(), defaultValue: "all", onchange: e => {
                 this.handleCountryChange(e.target.value);
-            } }, h("wa-option", { key: 'e354b1e14ed29a4ea72abf1043b11c8f9b35d5f1', value: "all" }, t('Lcz_ShowAll', { fallback: 'Show all' })), sortedCountries.map(([id, name]) => (h("wa-option", { value: id.toString() }, name))))), h("div", { key: '759cc6369c4ad5d861f7ea0c94acbf2db43c7b2e', slot: "footer" }, h("ir-custom-button", { key: 'c40a93472713a25b4743b77ded2c144df92b7a46', onClickHandler: () => this.filtersReset.emit(), variant: "neutral", appearance: "filled" }, t('Lcz_Reset', { fallback: 'Reset' })), h("ir-custom-button", { key: 'c7e4aba98673ae486b4f06eaf57c6ed0b7eaa3f7', loading: this.isLoading, onClickHandler: () => this.filtersSave.emit(), variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })))));
+            } }, h("wa-option", { key: '3e9bbc170a3816cd4324738144cb3fb8cc516fb8', value: "all" }, t('Lcz_ShowAll', { fallback: 'Show all' })), sortedCountries.map(([id, name]) => (h("wa-option", { value: id.toString() }, name))))), h("div", { key: '2905220c8f830b1bf2f6c7b64f3afbe3c6c9209d', slot: "footer" }, h("ir-custom-button", { key: 'bfeae74915d0c0419b51e604826cbd37df820e5c', onClickHandler: () => this.filtersReset.emit(), variant: "neutral", appearance: "filled" }, t('Lcz_Reset', { fallback: 'Reset' })), h("ir-custom-button", { key: 'b4cbab6e301fce6b460a311a8dd32e27fa18889f', loading: this.isLoading, onClickHandler: () => this.filtersSave.emit(), variant: "brand" }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get is() { return "ir-unbookable-rooms-filters"; }
     static get encapsulation() { return "scoped"; }

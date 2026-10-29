@@ -1,8 +1,8 @@
 import { r as registerInstance, h } from './index-DKZeCK8T.js';
 import { t } from './t-Bvz1wS_D.js';
-import { b as formatCount, c as formatNumber } from './number-0UrU_yO2.js';
+import { b as formatCount, c as formatNumber } from './number-BguMo00d.js';
 import './locale-scope-Jre4lb6k.js';
-import './ir-date-CY_qGQ63.js';
+import './ir-date-Bh8M_fTk.js';
 import './language-observer-CHgzsZkY.js';
 import './moment-Mki5YqAR.js';
 import './_commonjsHelpers-BFTU3MAI.js';

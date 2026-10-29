@@ -6,6 +6,7 @@ type UnbookableRoomsFilters = {
     country: string;
 };
 export declare class IrUnbookableRooms {
+    language: string;
     ticket: string;
     propertyid: number;
     mode: UnbookableRoomsMode;
@@ -20,11 +21,15 @@ export declare class IrUnbookableRooms {
         period_to_check: number;
         consecutive_period: number;
     };
-    lastUpdatedLabel: string;
     isPageLoading: boolean;
     private apiClientService;
     private propertyService;
+    /** Re-runs init when the language changes so server-localized data follows. */
+    private languageSync;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    languageChanged(next: string, previous: string): void;
     ticketChanged(newValue: string, oldValue: string): void;
     modeChanged(newValue: UnbookableRoomsMode, oldValue: UnbookableRoomsMode): void;
     propertyIdChanged(newValue: number, oldValue: number): void;

@@ -9,7 +9,7 @@ var moment = require('./moment-CdViwxPQ.js');
 var irInterceptor_store = require('./ir-interceptor.store-GIfc0Pi9.js');
 var t = require('./t-CqJPQrfm.js');
 var types = require('./types-CTNoTDNu.js');
-var locale_controller = require('./locale.controller-BYGzJwun.js');
+var locale_controller = require('./locale.controller-BhXPN9ym.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./IBooking-hDE_y33g.js');

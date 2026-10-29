@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
-import { _ as _formatTime } from './functions-BvJiJbl6.js';
-import { f as formatDate } from './ir-date-CY_qGQ63.js';
+import { _ as _formatTime } from './functions-DIcf_6fZ.js';
+import { f as formatDate } from './ir-date-Bh8M_fTk.js';
 import './moment-Mki5YqAR.js';
 import './locale-scope-Jre4lb6k.js';
 import './language-observer-CHgzsZkY.js';

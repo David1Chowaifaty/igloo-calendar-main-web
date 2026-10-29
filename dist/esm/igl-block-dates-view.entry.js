@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
 import { S as SetupService } from './index-CLNryrQ5.js';
 import { t } from './t-Bvz1wS_D.js';
-import { f as formatDate } from './ir-date-CY_qGQ63.js';
+import { f as formatDate } from './ir-date-Bh8M_fTk.js';
 import './moment-Mki5YqAR.js';
 import { d as getSetupEntryLabel } from './utils-CdZUSdfj.js';
 import './axios-B50ozOIF.js';

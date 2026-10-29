@@ -10,7 +10,7 @@ var t = require('./t-CqJPQrfm.js');
 var number = require('./number-xBpNWk3H.js');
 var irCityLedgerTransactionForm_schema = require('./ir-city-ledger-transaction-form.schema-CJBaRCOG.js');
 var ApiClient = require('./ApiClient-dg2yha-e.js');
-var locale_controller = require('./locale.controller-BYGzJwun.js');
+var locale_controller = require('./locale.controller-BhXPN9ym.js');
 var v4 = require('./v4-_2BfiRUa.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');

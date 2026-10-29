@@ -79,6 +79,7 @@ export const SCREEN_TABLES = {
     resetPassword: ['_USER_MGT', '_AUTH'],
     salesByChannel: ['_REPORTS'],
     salesByCountry: ['_REPORTS'],
+    unbookableRooms: ['_CALENDAR'],
     uninvoicedBookings: ['_BOOKING'],
     userManagement: ['_SETTINGS', '_AUTH'],
 };

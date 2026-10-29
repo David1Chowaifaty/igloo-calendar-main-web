@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
 import { e as getEntryValue } from './utils-CdZUSdfj.js';
-import { L as LocaleController } from './locale.controller-SxEzDwTt.js';
+import { L as LocaleController } from './locale.controller-CNaXYkvF.js';
 import { t } from './t-Bvz1wS_D.js';
 import { s as stringType, n as numberType, c as coerce } from './types-DFSK8b1u.js';
 import './IBooking-BagKIdFh.js';

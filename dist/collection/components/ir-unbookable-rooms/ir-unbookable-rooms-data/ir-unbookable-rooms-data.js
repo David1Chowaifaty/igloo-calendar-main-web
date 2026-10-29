@@ -13,6 +13,7 @@ import { Debounce } from "../../../decorators/debounce";
 import moment from "moment";
 import { formatDate } from "../../../utils/date/index";
 import { t } from "../../../services/locale/t";
+import { formatBookingNumber, formatCount } from "../../../utils/number";
 export class IrUnbookableRoomsData {
     mode = 'default';
     isLoading = false;
@@ -22,9 +23,8 @@ export class IrUnbookableRoomsData {
     filters = { period_to_check: 2, consecutive_period: 14, country: 'all' };
     progressFilters = { period_to_check: 2, consecutive_period: 14 };
     propertyNameFilter = '';
-    todayFormatted = formatDate(moment(), 'MMM DD');
     getPropertyName(propertyId) {
-        const fallbackName = `${t('Lcz_Property', { fallback: 'Property' })} ${propertyId}`;
+        const fallbackName = t('Lcz_PropertyWithId', { fallback: 'Property %1', params: [formatBookingNumber(String(propertyId))] });
         if (!this.allowedProperties?.length) {
             return fallbackName;
         }
@@ -68,16 +68,16 @@ export class IrUnbookableRoomsData {
         }));
         const sortedEntries = groupedEntries.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }) || a.propertyId - b.propertyId);
         const filteredEntries = this.mode === 'mpo' && this.propertyNameFilter ? sortedEntries.filter(item => item.name.toLowerCase().includes(this.propertyNameFilter)) : sortedEntries;
-        console.log(filteredEntries);
-        return (h(Host, null, !this.isLoading && !this.errorMessage && totalIssues === 0 && (h("wa-card", { class: "unbookable-rooms__empty-state" }, h("wa-icon", { name: "check-circle", class: "unbookable-rooms__empty-state--icon" }), h("p", null, t('Lcz_NothingToReport', { fallback: 'Hooray! Nothing to report.' })))), totalIssues > 0 && (h("wa-card", { class: "unbookable-rooms__card-container" }, this.mode === 'mpo' && (h("ir-input", { withClear: true, class: "mb-2", "onText-change": e => this.filterProperties(e.detail), style: { maxWidth: '400px' }, placeholder: t('Lcz_SearchProperties', { fallback: 'Search properties' }), appearance: "filled" }, h("wa-icon", { slot: "start", name: "magnifying-glass" }))), filteredEntries.map(({ propertyId, entries }, i) => [
+        const todayFormatted = formatDate(moment(), 'MMM DD');
+        return (h(Host, null, !this.isLoading && this.errorMessage && (h("wa-callout", { size: "s", appearance: "filled-outlined", variant: "danger" }, this.errorMessage)), !this.isLoading && !this.errorMessage && totalIssues === 0 && (h("wa-card", { class: "unbookable-rooms__empty-state" }, h("wa-icon", { name: "check-circle", class: "unbookable-rooms__empty-state--icon" }), h("p", null, t('Lcz_NothingToReport', { fallback: 'Hooray! Nothing to report.' })))), totalIssues > 0 && (h("wa-card", { class: "unbookable-rooms__card-container" }, this.mode === 'mpo' && (h("ir-input", { withClear: true, class: "mb-2", "onText-change": e => this.filterProperties(e.detail), style: { maxWidth: '400px' }, placeholder: t('Lcz_SearchProperties', { fallback: 'Search properties' }), appearance: "filled" }, h("wa-icon", { slot: "start", name: "magnifying-glass" }))), filteredEntries.map(({ propertyId, entries }, i) => [
             h("article", { class: "property-card" }, h("wa-details", { name: "issue-card", "onwa-hide": e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     if (this.mode === 'default') {
                         e.preventDefault();
                     }
-                }, open: this.mode === 'default', appearance: "plain", class: "issue__detail" }, this.mode === 'mpo' && (h("header", { slot: "summary", class: "property-card__header" }, h("span", null, entries[0].aname), h("span", null, this.getPropertyName(propertyId)), h("b", null, "(", entries.length, "/", entries[0].total_room_types_nbr, ")"))), h("div", { class: "property-card__body" }, entries.map(entry => [
-                h("div", { class: "issue" }, h("div", { class: "issue__info" }, h("span", { class: "issue__room" }, entry.room_type_name)), h("div", { class: "period-chart" }, h("span", { class: "period-chart__start" }, this.todayFormatted), h("div", { class: "period-chart__track" }, h("div", { title: t('Lcz_Available', { fallback: 'available' }), class: "period-chart__fill", style: {
+                }, open: this.mode === 'default', appearance: "plain", class: "issue__detail" }, this.mode === 'mpo' && (h("header", { slot: "summary", class: "property-card__header" }, h("span", null, entries[0].aname), h("span", null, this.getPropertyName(propertyId)), h("b", null, "(", formatCount(entries.length), "/", formatCount(entries[0].total_room_types_nbr), ")"))), h("div", { class: "property-card__body" }, entries.map(entry => [
+                h("div", { class: "issue" }, h("div", { class: "issue__info" }, h("span", { class: "issue__room" }, entry.room_type_name)), h("div", { class: "period-chart" }, h("span", { class: "period-chart__start" }, todayFormatted), h("div", { class: "period-chart__track" }, h("div", { title: t('Lcz_BookablePeriod', { fallback: 'Bookable period' }), class: "period-chart__fill", style: {
                         width: `${this.getPeriodOffset(entry.first_night_not_bookable)}%`,
                     } }), h("div", { class: "period-chart__marker", style: {
                         left: `${this.getPeriodOffset(entry.first_night_not_bookable)}%`,

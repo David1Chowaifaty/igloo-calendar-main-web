@@ -3,7 +3,7 @@
 var index = require('./index-IDeZZwEK.js');
 var index$1 = require('./index-DnLl4vlg.js');
 var t = require('./t-CqJPQrfm.js');
-var room_service = require('./room.service-DQPC1AMo.js');
+var room_service = require('./room.service-e8DMCCv7.js');
 var index$2 = require('./index-DRI57dj6.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
 var irInterceptor_store = require('./ir-interceptor.store-GIfc0Pi9.js');
@@ -15,7 +15,7 @@ require('./locale-scope-Cch-vf1R.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./commonSchemas-D4iFLV5-.js');
-require('./locale.controller-BYGzJwun.js');
+require('./locale.controller-BhXPN9ym.js');
 require('./language-observer-DKp37LIu.js');
 require('./types-B4nFkhmU.js');
 require('./moment-CdViwxPQ.js');

@@ -1,7 +1,7 @@
 import { r as registerInstance, h } from './index-DKZeCK8T.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-SxEzDwTt.js';
-import { L as LanguageSync } from './language-sync-B8iQNfmK.js';
+import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CNaXYkvF.js';
+import { L as LanguageSync } from './language-sync-Ch_zbPbS.js';
 import { t } from './t-Bvz1wS_D.js';
 import './locale-scope-Jre4lb6k.js';
 import './language-observer-CHgzsZkY.js';

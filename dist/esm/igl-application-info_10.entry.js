@@ -1,29 +1,29 @@
 import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment, a as getElement } from './index-DKZeCK8T.js';
-import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, h as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, i as updateRoomParams } from './booking.service-JHyyYTAo.js';
+import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, h as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, i as updateRoomParams } from './booking.service-C1IWMsup.js';
 import { a as isSingleUnit, c as calendar_data } from './calendar-data-D4DbXAhg.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import './booking.dto-VzFWIl64.js';
-import { g as getMonthLabel, h as getWeekdayLabels, f as formatDate, i as toDate } from './ir-date-CY_qGQ63.js';
+import { g as getMonthLabel, h as getWeekdayLabels, f as formatDate, i as toDate } from './ir-date-Bh8M_fTk.js';
 import './locale-scope-Jre4lb6k.js';
 import { t, a as tRaw } from './t-Bvz1wS_D.js';
-import { f as formatAmount, b as formatCount } from './number-0UrU_yO2.js';
+import { f as formatAmount, b as formatCount } from './number-BguMo00d.js';
 import { G as GuestCredentials } from './types-DUCUdzrh.js';
 import { d as getSetupEntryLabel } from './utils-CdZUSdfj.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import { s as stringType } from './types-DFSK8b1u.js';
 import { C as ClickOutside } from './ClickOutside-CvZSoZjc.js';
-import { a as calculateDaysBetweenDates } from './booking-CE3h5mGA.js';
+import { a as calculateDaysBetweenDates } from './booking-CRiKPSuR.js';
 import { I as IMask } from './index-BA2Li5R1.js';
-import { w as withLatinDigits } from './masks-kHGgtHqd.js';
+import { w as withLatinDigits } from './masks-3_a6Errs.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './IBooking-BagKIdFh.js';
-import './utils-C5T893Le.js';
+import './utils-DH42zfi0.js';
 import './calendar-dates-D3hVfsrC.js';
 import './commonSchemas-B3RVKogc.js';
 import './type-B1KlYN_1.js';
 import './language-observer-CHgzsZkY.js';
-import './functions-BvJiJbl6.js';
+import './functions-DIcf_6fZ.js';
 
 const iglApplicationInfoCss = () => `.sc-igl-application-info-h{color:var(--wa-color-text-normal);font-family:var(--wa-font-family-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;text-align:start;display:flex;flex-direction:column;gap:0.5rem;margin-top:1.5rem}.fd-application-info__header.sc-igl-application-info{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between}.fd-application-info__variation.sc-igl-application-info{padding:0;margin:0}.fd-application-info__form.sc-igl-application-info{display:flex;flex-direction:column;gap:1rem}.fd-application-info__price-inline.sc-igl-application-info,.fd-application-info__details.sc-igl-application-info{display:none}.fd-application-info__footer.sc-igl-application-info,.fd-application-info__rateplan.sc-igl-application-info{display:flex;align-items:center;gap:1rem}.fd-application-info__footer.sc-igl-application-info{justify-content:space-between}.fd-application-info__rateplan-name.sc-igl-application-info{font-size:var(--wa-font-size-m);margin:0;padding:0}.fd-application-info__non-refundable.sc-igl-application-info{color:var(--wa-color-success-fill-loud);margin-inline-start:0.5rem}.fd-application-info__roomtype-title.sc-igl-application-info{font-size:var(--wa-font-size-l)}.fd-application-info__infant.sc-igl-application-info{display:flex;flex-direction:column;gap:0.875rem}.fd-application-info__infant-label.sc-igl-application-info{margin:0;padding:0;color:var(--wa-color-danger-fill-loud)}.fd-application-info__price.sc-igl-application-info{margin:0;padding:0;display:flex;flex-direction:column}@media (min-width: 768px){.fd-application-info__infant.sc-igl-application-info{flex-direction:row;align-items:center}.fd-application-info__infant.sc-igl-application-info .fd-application-info__select.sc-igl-application-info{max-width:100px}.fd-application-info__roomtype-title.sc-igl-application-info{font-size:var(--wa-font-size-m)}.fd-application-info__header.sc-igl-application-info{justify-content:flex-start;align-items:center;gap:0.5rem}.fd-application-info__form.sc-igl-application-info{flex-direction:row}.fd-application-info__price-inline.sc-igl-application-info{display:flex;flex-direction:column;padding:0;margin:0;align-items:flex-end}.fd-application-info__details.sc-igl-application-info{display:flex;align-items:center;gap:0.5rem}.fd-application-info__price.sc-igl-application-info,.fd-application-info__footer.sc-igl-application-info{display:none}}`;
 

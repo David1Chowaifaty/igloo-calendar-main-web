@@ -2,8 +2,8 @@
 
 var index = require('./index-IDeZZwEK.js');
 var moment = require('./moment-CdViwxPQ.js');
-var locale_controller = require('./locale.controller-BYGzJwun.js');
-var languageSync = require('./language-sync-D_AAmQlu.js');
+var locale_controller = require('./locale.controller-BhXPN9ym.js');
+var languageSync = require('./language-sync-dWuhSoAW.js');
 var t = require('./t-CqJPQrfm.js');
 require('./locale-scope-Cch-vf1R.js');
 require('./language-observer-DKp37LIu.js');

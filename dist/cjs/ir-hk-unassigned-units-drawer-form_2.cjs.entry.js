@@ -5,7 +5,8 @@ var index$1 = require('./index-DnLl4vlg.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
 var t = require('./t-CqJPQrfm.js');
 var booking_service = require('./booking.service-Cq8eFpFp.js');
-var user_service = require('./user.service-DnFMo961.js');
+var user_service = require('./user.service-Do558jHj.js');
+var constants = require('./constants-BLID23LD.js');
 var types = require('./types-BVJQZ50e.js');
 require('./locale-scope-Cch-vf1R.js');
 require('./axios-EresIryl.js');
@@ -226,7 +227,7 @@ const IrHkUserDrawerForm = class {
             .refine(password => {
             if (this.user && !this.userInfo?.password)
                 return true;
-            return user_service.CONSTANTS.PASSWORD.test(password);
+            return constants.CONSTANTS.PASSWORD.test(password);
         }, { message: t.t('Lcz_PasswordMinLength', { fallback: 'Password must be at least 8 characters long.' }) });
         this.fullSchema = types.objectType({
             name: this.nameSchema,

@@ -11,7 +11,7 @@ var t = require('./t-CqJPQrfm.js');
 var number = require('./number-xBpNWk3H.js');
 var ApiClient = require('./ApiClient-dg2yha-e.js');
 var enums = require('./enums-BSCnMYlE.js');
-var locale_controller = require('./locale.controller-BYGzJwun.js');
+var locale_controller = require('./locale.controller-BhXPN9ym.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./types-BVJQZ50e.js');

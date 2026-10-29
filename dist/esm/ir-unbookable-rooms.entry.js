@@ -1,20 +1,23 @@
 import { r as registerInstance, h } from './index-DKZeCK8T.js';
 import { A as ApiClient } from './ApiClient-B-HXoAni.js';
-import { P as PropertyService } from './index-B74S_U-r.js';
+import { P as PropertyService } from './index-Bi7xjdH8.js';
 import { t } from './t-Bvz1wS_D.js';
+import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-CNaXYkvF.js';
+import { L as LanguageSync } from './language-sync-Ch_zbPbS.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './types-DFSK8b1u.js';
 import './calendar-data-D4DbXAhg.js';
 import './locale-scope-Jre4lb6k.js';
-import './utils-C5T893Le.js';
+import './utils-DH42zfi0.js';
 import './moment-Mki5YqAR.js';
 import './booking.dto-VzFWIl64.js';
 import './type-B1KlYN_1.js';
-import './ir-date-CY_qGQ63.js';
+import './ir-date-Bh8M_fTk.js';
 import './language-observer-CHgzsZkY.js';
 import './calendar-dates-D3hVfsrC.js';
 import './commonSchemas-B3RVKogc.js';
+import './types-7-9UoIIC.js';
 
 const irUnbookableRoomsCss = () => `.sc-ir-unbookable-rooms-h{height:100% !important;overflow-y:auto !important}.ir-page__container.sc-ir-unbookable-rooms{height:100%;overflow-y:auto}.unbookable-rooms__content.sc-ir-unbookable-rooms{display:flex;flex-direction:column;gap:1rem}.summary.sc-ir-unbookable-rooms{display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:12px}.summary__value.sc-ir-unbookable-rooms{display:block;font-size:1.3rem;font-weight:600}.summary__label.sc-ir-unbookable-rooms{font-size:0.82rem;color:#6a6256}@media (min-width: 1024px){.unbookable-rooms__content.sc-ir-unbookable-rooms{flex-direction:row;align-items:flex-start}}`;
 
@@ -22,6 +25,7 @@ const IrUnbookableRooms = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
+    language = '';
     ticket = '';
     propertyid;
     mode = 'default';
@@ -35,10 +39,11 @@ const IrUnbookableRooms = class {
     allowedProperties = null;
     filters = { period_to_check: 2, consecutive_period: 14, country: 'all' };
     progressFilters = { period_to_check: 2, consecutive_period: 14 };
-    lastUpdatedLabel = '';
     isPageLoading = true;
     apiClientService = new ApiClient();
     propertyService = new PropertyService();
+    /** Re-runs init when the language changes so server-localized data follows. */
+    languageSync = new LanguageSync(SCREEN_TABLES.unbookableRooms, () => this.initializeApp());
     componentWillLoad() {
         this.filters = {
             country: 'all',
@@ -49,6 +54,15 @@ const IrUnbookableRooms = class {
             this.apiClientService.setApiClient(this.ticket);
             this.initializeApp();
         }
+    }
+    componentDidLoad() {
+        this.languageSync.connect();
+    }
+    disconnectedCallback() {
+        this.languageSync.disconnect();
+    }
+    languageChanged(next, previous) {
+        this.languageSync.propChanged(next, previous);
     }
     ticketChanged(newValue, oldValue) {
         if (newValue === oldValue) {
@@ -95,13 +109,14 @@ const IrUnbookableRooms = class {
             this.errorMessage = '';
             this.isLoading = true;
             this.unbookableRooms = [];
+            const localeReady = LocaleController.load({ language: this.language, tables: SCREEN_TABLES.unbookableRooms });
             if (this.resolveMode() === 'mpo') {
                 this.allowedProperties = await this.propertyService.getExposedAllowedProperties();
             }
             else {
                 this.allowedProperties = null;
             }
-            await this.fetchUnbookableRooms();
+            await Promise.all([localeReady, this.fetchUnbookableRooms()]);
         }
         catch (error) {
             console.error('Failed to load unbookable rooms', error);
@@ -130,7 +145,6 @@ const IrUnbookableRooms = class {
             consecutive_period: this.filters.consecutive_period,
         });
         this.unbookableRooms = results ?? [];
-        this.lastUpdatedLabel = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
     getPropertyIds() {
         if (this.resolveMode() === 'mpo') {
@@ -180,13 +194,16 @@ const IrUnbookableRooms = class {
         return (h("ir-page", { label: t('Lcz_AvailabilityAlert', { fallback: 'Availability Alert' }) }, this.mode === 'mpo' && (h("section", { class: "summary", "aria-live": "polite" }, h("ir-metric-card", { icon: 'bed', value: totalIssues, label: t('Lcz_AffectedRoomTypes', { fallback: 'Affected room types' }) }), h("ir-metric-card", { icon: 'hotel', value: propertiesWithIssues, label: t('Lcz_PropertiesImpacted', { fallback: 'Properties impacted' }) }))), h("section", { class: "unbookable-rooms__content" }, h("ir-unbookable-rooms-filters", { mode: this.mode, filters: this.filters, unbookableRooms: this.unbookableRooms, isLoading: this.isLoading, onFiltersChange: this.handleFiltersChange, onFiltersReset: this.handleFiltersReset, onFiltersSave: this.handleRefresh }), h("ir-unbookable-rooms-data", { mode: this.mode, isLoading: this.isLoading, errorMessage: this.errorMessage, unbookableRooms: this.unbookableRooms, allowedProperties: this.allowedProperties, filters: this.filters, progressFilters: this.progressFilters }))));
     }
     static get watchers() { return {
+        "language": [{
+                "languageChanged": 0
+            }],
         "ticket": [{
                 "ticketChanged": 0
             }],
         "mode": [{
                 "modeChanged": 0
             }],
-        "property_id": [{
+        "propertyid": [{
                 "propertyIdChanged": 0
             }],
         "period_to_check": [{

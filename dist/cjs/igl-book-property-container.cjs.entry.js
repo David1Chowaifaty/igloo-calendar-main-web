@@ -3,9 +3,9 @@
 var index = require('./index-IDeZZwEK.js');
 var ApiClient = require('./ApiClient-dg2yha-e.js');
 var booking_service = require('./booking.service-Cq8eFpFp.js');
-var room_service = require('./room.service-DQPC1AMo.js');
-var locale_controller = require('./locale.controller-BYGzJwun.js');
-var languageSync = require('./language-sync-D_AAmQlu.js');
+var room_service = require('./room.service-e8DMCCv7.js');
+var locale_controller = require('./locale.controller-BhXPN9ym.js');
+var languageSync = require('./language-sync-dWuhSoAW.js');
 var t = require('./t-CqJPQrfm.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 require('./axios-EresIryl.js');

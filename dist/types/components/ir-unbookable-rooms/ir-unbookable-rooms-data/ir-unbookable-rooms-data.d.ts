@@ -17,7 +17,6 @@ export declare class IrUnbookableRoomsData {
         consecutive_period: number;
     };
     propertyNameFilter: string;
-    private todayFormatted;
     private getPropertyName;
     private getPeriodOffset;
     private getEndDateFormatted;

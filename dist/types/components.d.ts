@@ -7660,6 +7660,10 @@ export namespace Components {
          */
         "consecutive_period": number;
         /**
+          * @default ''
+         */
+        "language": string;
+        /**
           * @default 'default'
          */
         "mode": UnbookableRoomsMode;
@@ -23343,6 +23347,10 @@ declare namespace LocalJSX {
          */
         "consecutive_period"?: number;
         /**
+          * @default ''
+         */
+        "language"?: string;
+        /**
           * @default 'default'
          */
         "mode"?: UnbookableRoomsMode;
@@ -25789,6 +25797,7 @@ declare namespace LocalJSX {
         "entryUserId": number;
     }
     interface IrUnbookableRoomsAttributes {
+        "language": string;
         "ticket": string;
         "propertyid": number;
         "mode": UnbookableRoomsMode;

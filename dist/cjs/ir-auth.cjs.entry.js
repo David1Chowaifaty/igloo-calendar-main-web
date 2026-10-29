@@ -2,8 +2,8 @@
 
 var index = require('./index-IDeZZwEK.js');
 var axios = require('./axios-EresIryl.js');
-var languageSync = require('./language-sync-D_AAmQlu.js');
-var locale_controller = require('./locale.controller-BYGzJwun.js');
+var languageSync = require('./language-sync-dWuhSoAW.js');
+var locale_controller = require('./locale.controller-BhXPN9ym.js');
 var t = require('./t-CqJPQrfm.js');
 var utils = require('./utils-DC_1UV-i.js');
 var types = require('./types-BVJQZ50e.js');

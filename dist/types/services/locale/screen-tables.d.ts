@@ -79,6 +79,7 @@ export declare const SCREEN_TABLES: {
     readonly resetPassword: readonly ["_USER_MGT", "_AUTH"];
     readonly salesByChannel: readonly ["_REPORTS"];
     readonly salesByCountry: readonly ["_REPORTS"];
+    readonly unbookableRooms: readonly ["_CALENDAR"];
     readonly uninvoicedBookings: readonly ["_BOOKING"];
     readonly userManagement: readonly ["_SETTINGS", "_AUTH"];
 };

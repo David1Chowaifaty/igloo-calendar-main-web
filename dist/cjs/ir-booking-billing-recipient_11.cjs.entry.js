@@ -19,7 +19,7 @@ var irDate = require('./ir-date-CbkOKs2C.js');
 var number = require('./number-xBpNWk3H.js');
 var axios = require('./axios-EresIryl.js');
 var functions = require('./functions-CaNAUyCw.js');
-var locale_controller = require('./locale.controller-BYGzJwun.js');
+var locale_controller = require('./locale.controller-BhXPN9ym.js');
 var utils = require('./utils-PciJI6G4.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
