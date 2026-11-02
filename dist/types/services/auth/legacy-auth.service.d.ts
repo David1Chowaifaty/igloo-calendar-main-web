@@ -23,15 +23,15 @@ export interface LegacyStartupData {
  * called the way `ajaxHelper` / `prepareApiUri` in `js/CommonLibrary.js` call them:
  * `POST {apiUrl}{method}?Ticket={ticket}` with a JSON body.
  *
- * Uses its own axios instance on purpose — the shared one carries the gateway
- * base URL and `ApiClient`'s `Authorization` interceptor, neither of which this
- * service understands.
+ * Goes through the shared axios instance like every other service, so its interceptors
+ * apply — the language injector included. Requests use an absolute URL: axios then
+ * ignores the shared gateway `baseURL`, and `ApiClient`'s alpha/IRBE routing with it.
  *
  * Stateless and free of storage writes — `ir-auth` owns the flow and persists
  * what the rest of the extranet reads from `localStorage`.
  */
 export declare class LegacyAuthService {
-    private http;
+    private baseUrl;
     /** @param apiUrl The WCF base, e.g. `AppWCF.svc/` (relative to the page) or `_apiUri`. */
     constructor(apiUrl: string);
     isAuthenticated({ username, password }: {
@@ -44,5 +44,9 @@ export declare class LegacyAuthService {
     /** Mails the password of `username`. Resolves to the (masked) address it was sent to. */
     forgotPassword(username: string): Promise<string>;
     forgotUsername(email: string): Promise<unknown>;
+    /**
+     * An `ExceptionMsg` rejects either way: `ir-interceptor`, when mounted, throws it as an
+     * `InterceptorError` before the response gets here; without it, this method throws.
+     */
     private request;
 }

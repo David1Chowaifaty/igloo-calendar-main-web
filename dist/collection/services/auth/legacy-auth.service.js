@@ -6,18 +6,18 @@ const DEADLOCK_RETRIES = 3;
  * called the way `ajaxHelper` / `prepareApiUri` in `js/CommonLibrary.js` call them:
  * `POST {apiUrl}{method}?Ticket={ticket}` with a JSON body.
  *
- * Uses its own axios instance on purpose — the shared one carries the gateway
- * base URL and `ApiClient`'s `Authorization` interceptor, neither of which this
- * service understands.
+ * Goes through the shared axios instance like every other service, so its interceptors
+ * apply — the language injector included. Requests use an absolute URL: axios then
+ * ignores the shared gateway `baseURL`, and `ApiClient`'s alpha/IRBE routing with it.
  *
  * Stateless and free of storage writes — `ir-auth` owns the flow and persists
  * what the rest of the extranet reads from `localStorage`.
  */
 export class LegacyAuthService {
-    http;
+    baseUrl;
     /** @param apiUrl The WCF base, e.g. `AppWCF.svc/` (relative to the page) or `_apiUri`. */
     constructor(apiUrl) {
-        this.http = axios.create({ baseURL: apiUrl.endsWith('/') ? apiUrl : `${apiUrl}/` });
+        this.baseUrl = new URL(apiUrl.endsWith('/') ? apiUrl : `${apiUrl}/`, document.baseURI).href;
     }
     async isAuthenticated({ username, password }) {
         return this.request('IsAuthenticated_JSON', {
@@ -53,17 +53,27 @@ export class LegacyAuthService {
             ENVIRONMENT_USER_ID: 2,
         });
     }
+    /**
+     * An `ExceptionMsg` rejects either way: `ir-interceptor`, when mounted, throws it as an
+     * `InterceptorError` before the response gets here; without it, this method throws.
+     */
     async request(method, params, ticket = '') {
         for (let attempt = 0;; attempt++) {
-            const { data } = await this.http.post(`${method}?Ticket=${encodeURIComponent(ticket)}`, params, {
-                headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            });
-            const exception = String(data?.ExceptionMsg ?? '').trim();
-            if (!exception) {
+            try {
+                const { data } = await axios.post(`${this.baseUrl}${method}?Ticket=${encodeURIComponent(ticket)}`, params, {
+                    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                });
+                const exception = String(data?.ExceptionMsg ?? '').trim();
+                if (exception) {
+                    throw new Error(exception);
+                }
                 return data?.My_Result;
             }
-            if (!exception.includes('deadlocked') || attempt >= DEADLOCK_RETRIES) {
-                throw new Error(exception);
+            catch (error) {
+                const deadlocked = error instanceof Error && error.message.includes('deadlocked');
+                if (!deadlocked || attempt >= DEADLOCK_RETRIES) {
+                    throw error;
+                }
             }
         }
     }

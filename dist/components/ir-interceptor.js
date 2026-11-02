@@ -1,1 +1,1 @@
-import{I as r,d as o}from"./ir-interceptor2.js";const t=r,s=o;export{t as IrInterceptor,s as defineCustomElement}
+import{a as r,d as o}from"./ir-interceptor2.js";const t=r,s=o;export{t as IrInterceptor,s as defineCustomElement}
