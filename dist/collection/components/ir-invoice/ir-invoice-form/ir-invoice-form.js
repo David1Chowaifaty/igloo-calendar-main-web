@@ -1109,7 +1109,7 @@ export class IrInvoiceForm {
                 },
                 "complexType": {
                     "original": "IssueInvoiceProps",
-                    "resolved": "{ property_id?: number; invoice?: { currency?: { id?: number; }; booking_nbr?: string; nbr?: string; billed_to_name?: string; billed_to_tax?: string; items?: { description?: string; type?: string; key?: string | number; amount?: number; }[]; remark?: string; target?: { code?: string; description?: string; }; Date?: string; }; is_proforma?: boolean; }",
+                    "resolved": "{ invoice?: { currency?: { id?: number; }; booking_nbr?: string; nbr?: string; billed_to_name?: string; billed_to_tax?: string; items?: { description?: string; type?: string; key?: string | number; amount?: number; }[]; remark?: string; target?: { code?: string; description?: string; }; Date?: string; }; property_id?: number; is_proforma?: boolean; }",
                     "references": {
                         "IssueInvoiceProps": {
                             "location": "import",

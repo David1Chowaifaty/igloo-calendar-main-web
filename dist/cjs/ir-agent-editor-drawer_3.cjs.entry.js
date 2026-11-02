@@ -7,7 +7,7 @@ var type = require('./type-DxODN41W.js');
 var agents_service = require('./agents.service-DnlrKxRb.js');
 var utils = require('./utils-DC_1UV-i.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
-var utils$1 = require('./utils-PciJI6G4.js');
+var utils$1 = require('./utils-y2EJtglo.js');
 require('./locale-scope-Cch-vf1R.js');
 require('./types-BVJQZ50e.js');
 require('./axios-EresIryl.js');
@@ -18,7 +18,9 @@ require('./ir-date-CbkOKs2C.js');
 require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
 require('./IBooking-hDE_y33g.js');
-require('./commonSchemas-D4iFLV5-.js');
+require('./commonSchemas-xDHPjJQn.js');
+require('./locale.controller-BhXPN9ym.js');
+require('./types-B4nFkhmU.js');
 
 const irAgentEditorDrawerCss = () => `.sc-ir-agent-editor-drawer-h{display:block}.agent-form__tab-group.sc-ir-agent-editor-drawer::part(nav),.agent-form__tab-group.sc-ir-agent-editor-drawer [part~="nav"]{position:sticky;top:0;z-index:10;background-color:var(--wa-color-surface-default)}`;
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { LocaleController } from "../services/locale/locale.controller";
 import Auth from "./Auth";
 class ApiClient extends Auth {
     baseUrl = 'https://gateway.igloorooms.com/IR';
@@ -6,6 +7,10 @@ class ApiClient extends Auth {
     static modifiedBaseUrl = false;
     static isInterceptorAdded = false;
     static isBaseUrlRouterAdded = false;
+    static isLanguageInjectorAdded = false;
+    /** Payload keys the gateway reads the request language from; city-ledger print endpoints use `lang`. */
+    static LANGUAGE_KEYS = ['language', 'lang'];
+    static BODY_METHODS = new Set(['post', 'put', 'patch']);
     static IRBE_BASE_URL = 'https://gateway.igloorooms.com/IRBE';
     /** Base URL used for every request when `window.environment === 'alpha'`. */
     static ALPHA_BASE_URL = 'https://gateway.igloorooms.com/IRALPHA';
@@ -19,6 +24,7 @@ class ApiClient extends Auth {
     constructor() {
         super();
         this.addBaseUrlRouter();
+        this.addLanguageInjector();
         if (ApiClient.modifiedBaseUrl) {
             return;
         }
@@ -40,6 +46,40 @@ class ApiClient extends Auth {
             return config;
         });
         ApiClient.isBaseUrlRouterAdded = true;
+    }
+    /**
+     * Gives every JSON payload the selected language, read per request from
+     * `LocaleController.language` so calls follow a language switch without each
+     * service threading it through. An explicit non-empty value wins — components
+     * inside a `lang` subtree pass `LocaleController.languageFor(el)` themselves.
+     */
+    addLanguageInjector() {
+        if (ApiClient.isLanguageInjectorAdded) {
+            return;
+        }
+        axios.interceptors.request.use(config => {
+            if (!ApiClient.BODY_METHODS.has(config.method?.toLowerCase() ?? '')) {
+                return config;
+            }
+            const language = LocaleController.language;
+            if (config.data == null) {
+                config.data = { language };
+            }
+            else if (ApiClient.isPlainObject(config.data)) {
+                const data = config.data;
+                const key = ApiClient.LANGUAGE_KEYS.find(k => k in data) ?? 'language';
+                if (data[key] == null || data[key] === '') {
+                    // Copy rather than mutate: callers may reuse the params object.
+                    config.data = { ...data, [key]: language };
+                }
+            }
+            return config;
+        });
+        ApiClient.isLanguageInjectorAdded = true;
+    }
+    /** Leaves `FormData`, `Blob`, arrays and pre-serialized strings alone. */
+    static isPlainObject(value) {
+        return Object.prototype.toString.call(value) === '[object Object]';
     }
     /** Read per request so a host page can set `window.environment` after this module loads. */
     static isAlpha() {

@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var index$1 = require('./index-DnLl4vlg.js');
+var index$1 = require('./index-ispwqmgg.js');
 var user_service = require('./user.service-Do558jHj.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
 var constants = require('./constants-BLID23LD.js');
@@ -10,13 +10,15 @@ var types = require('./types-BVJQZ50e.js');
 require('./locale-scope-Cch-vf1R.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./commonSchemas-D4iFLV5-.js');
+require('./commonSchemas-xDHPjJQn.js');
+require('./locale.controller-BhXPN9ym.js');
+require('./language-observer-DKp37LIu.js');
+require('./types-B4nFkhmU.js');
 require('./utils-DC_1UV-i.js');
 require('./moment-CdViwxPQ.js');
 require('./booking.dto-CMx8s-oW.js');
 require('./type-DxODN41W.js');
 require('./ir-date-CbkOKs2C.js');
-require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
 
 const irHkUserCss = () => `.sc-ir-hk-user-h{display:block}`;

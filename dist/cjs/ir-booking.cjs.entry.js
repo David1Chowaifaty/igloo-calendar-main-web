@@ -1,18 +1,20 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var ApiClient = require('./ApiClient-_fT8lvlJ.js');
+var ApiClient = require('./ApiClient-CrOclAUp.js');
 var utils = require('./utils-DC_1UV-i.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
+require('./locale.controller-BhXPN9ym.js');
+require('./locale-scope-Cch-vf1R.js');
+require('./language-observer-DKp37LIu.js');
+require('./types-B4nFkhmU.js');
+require('./types-BVJQZ50e.js');
 require('./moment-CdViwxPQ.js');
 require('./calendar-data-ShS6b-Ns.js');
-require('./locale-scope-Cch-vf1R.js');
 require('./booking.dto-CMx8s-oW.js');
 require('./type-DxODN41W.js');
-require('./types-BVJQZ50e.js');
 require('./ir-date-CbkOKs2C.js');
-require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
 require('./t-CqJPQrfm.js');
 

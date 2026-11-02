@@ -1,21 +1,23 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
-import { U as UnassignedUnitsService } from './index-JXcHnSe1.js';
+import { U as UnassignedUnitsService } from './index-DZJh-i-l.js';
 import { c as clampToLoadedRange, t as toCalendarPreviewEvents, a as toCalendarAssignedEvent, g as guestName } from './utils-NSJtj6k5.js';
 import { t } from './t-Bvz1wS_D.js';
 import { a as formatBookingNumber } from './number-B8waOzTO.js';
 import { c as canCheckIn } from './utils-BQHfpbFq.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './commonSchemas-Cx9w9d8l.js';
+import './commonSchemas-BijesBly.js';
+import './locale.controller-vDtmeNEe.js';
+import './locale-scope-Jre4lb6k.js';
+import './language-observer-CHgzsZkY.js';
+import './types-DVx1-piY.js';
 import './types-CB66a07H.js';
 import './calendar-dates-D3hVfsrC.js';
 import './moment-Mki5YqAR.js';
 import './booking-CimXDndv.js';
-import './locale-scope-Jre4lb6k.js';
 import './calendar-data-DWzivSW-.js';
 import './functions-Ebyqqazo.js';
 import './ir-date-XXNYhmSL.js';
-import './language-observer-CHgzsZkY.js';
 import './booking.dto-DGwE7ON6.js';
 import './type-9FR4Ndkd.js';
 

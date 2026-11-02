@@ -1,6 +1,6 @@
 import { r as registerInstance, h } from './index-DKZeCK8T.js';
-import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
-import { P as PropertyService } from './index-B-BBJwkp.js';
+import { A as ApiClient } from './ApiClient-Cx6IrWH4.js';
+import { P as PropertyService } from './index-h6pnrbfA.js';
 import { t } from './t-Bvz1wS_D.js';
 import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-vDtmeNEe.js';
 import { L as LanguageSync } from './language-sync-Pymsc210.js';
@@ -16,7 +16,7 @@ import './type-9FR4Ndkd.js';
 import './ir-date-XXNYhmSL.js';
 import './language-observer-CHgzsZkY.js';
 import './calendar-dates-D3hVfsrC.js';
-import './commonSchemas-Cx9w9d8l.js';
+import './commonSchemas-BijesBly.js';
 import './types-DVx1-piY.js';
 
 const irUnbookableRoomsCss = () => `.sc-ir-unbookable-rooms-h{height:100% !important;overflow-y:auto !important}.ir-page__container.sc-ir-unbookable-rooms{height:100%;overflow-y:auto}.unbookable-rooms__content.sc-ir-unbookable-rooms{display:flex;flex-direction:column;gap:1rem}.summary.sc-ir-unbookable-rooms{display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:12px}.summary__value.sc-ir-unbookable-rooms{display:block;font-size:1.3rem;font-weight:600}.summary__label.sc-ir-unbookable-rooms{font-size:0.82rem;color:#6a6256}@media (min-width: 1024px){.unbookable-rooms__content.sc-ir-unbookable-rooms{flex-direction:row;align-items:flex-start}}`;

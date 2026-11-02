@@ -1,6 +1,7 @@
 import { ClTxTypeCode, FdStatus } from "../../types/enums";
 import moment from "moment";
 import * as z from "zod";
+import { LocaleController } from "../locale/locale.controller";
 // ---------------------------------------------------------------------------
 // Shared / Base types
 // ---------------------------------------------------------------------------
@@ -214,19 +215,28 @@ export const DeleteDraftFiscalDocumentParamsSchema = z.object({
 });
 export const PrintClFiscalDocumentParamsSchema = z.object({
     doc_number: z.string(),
-    lang: z.string().optional().default('en'),
+    lang: z
+        .string()
+        .optional()
+        .default(() => LocaleController.language),
 });
 export const PrintClStatementParamsSchema = z.object({
     agency_id: z.string(),
     from_date: z.string(),
     to_date: z.string(),
-    lang: z.string().optional().default('en'),
+    lang: z
+        .string()
+        .optional()
+        .default(() => LocaleController.language),
 });
 export const PrintClProformaParamsSchema = z.object({
     agency_id: z.string(),
     from_date: z.string(),
     to_date: z.string(),
-    lang: z.string().optional().default('en'),
+    lang: z
+        .string()
+        .optional()
+        .default(() => LocaleController.language),
     booking_nbr: z.string().optional().nullable().default(null),
     is_compact: z.boolean().optional().default(false),
 });

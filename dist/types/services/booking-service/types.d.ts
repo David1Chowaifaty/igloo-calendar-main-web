@@ -870,7 +870,6 @@ export declare const IssueInvoicePropsSchema: z.ZodObject<{
         Date?: string;
     }>;
 }, "strip", z.ZodTypeAny, {
-    property_id?: number;
     invoice?: {
         currency?: {
             id?: number;
@@ -892,9 +891,9 @@ export declare const IssueInvoicePropsSchema: z.ZodObject<{
         };
         Date?: string;
     };
+    property_id?: number;
     is_proforma?: boolean;
 }, {
-    property_id?: number;
     invoice?: {
         currency?: {
             id?: number;
@@ -916,6 +915,7 @@ export declare const IssueInvoicePropsSchema: z.ZodObject<{
         };
         Date?: string;
     };
+    property_id?: number;
     is_proforma?: boolean;
 }>;
 export type IssueInvoiceProps = z.infer<typeof IssueInvoicePropsSchema>;
@@ -1006,7 +1006,6 @@ export declare const PrintInvoicePropsSchema: z.ZodObject<{
         Date?: string;
     }>>;
 }, "strip", z.ZodTypeAny, {
-    property_id?: number;
     invoice?: {
         currency?: {
             id?: number;
@@ -1028,10 +1027,10 @@ export declare const PrintInvoicePropsSchema: z.ZodObject<{
         };
         Date?: string;
     };
+    property_id?: number;
     invoice_nbr?: string;
     mode?: "invoice" | "proforma" | "creditnote";
 }, {
-    property_id?: number;
     invoice?: {
         currency?: {
             id?: number;
@@ -1053,6 +1052,7 @@ export declare const PrintInvoicePropsSchema: z.ZodObject<{
         };
         Date?: string;
     };
+    property_id?: number;
     invoice_nbr?: string;
     mode?: "invoice" | "proforma" | "creditnote";
 }>;

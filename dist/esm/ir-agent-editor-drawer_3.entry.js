@@ -5,7 +5,7 @@ import { c as AgentSchema } from './type-9FR4Ndkd.js';
 import { A as AgentsService } from './agents.service-Cp0qQi8I.js';
 import { p as getFormSubmitter } from './utils-BQHfpbFq.js';
 import { c as calendar_data } from './calendar-data-DWzivSW-.js';
-import { d as getSetupEntryLabel } from './utils-BjFJEvis.js';
+import { d as getSetupEntryLabel } from './utils-CUTmcAi5.js';
 import './locale-scope-Jre4lb6k.js';
 import './types-CB66a07H.js';
 import './axios-B50ozOIF.js';
@@ -16,7 +16,9 @@ import './ir-date-XXNYhmSL.js';
 import './language-observer-CHgzsZkY.js';
 import './calendar-dates-D3hVfsrC.js';
 import './IBooking-B4waZCSK.js';
-import './commonSchemas-Cx9w9d8l.js';
+import './commonSchemas-BijesBly.js';
+import './locale.controller-vDtmeNEe.js';
+import './types-DVx1-piY.js';
 
 const irAgentEditorDrawerCss = () => `.sc-ir-agent-editor-drawer-h{display:block}.agent-form__tab-group.sc-ir-agent-editor-drawer::part(nav),.agent-form__tab-group.sc-ir-agent-editor-drawer [part~="nav"]{position:sticky;top:0;z-index:10;background-color:var(--wa-color-surface-default)}`;
 
