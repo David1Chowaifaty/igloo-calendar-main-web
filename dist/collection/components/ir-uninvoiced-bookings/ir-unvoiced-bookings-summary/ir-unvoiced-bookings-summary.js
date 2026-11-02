@@ -1,7 +1,7 @@
 import { Host, h } from "@stencil/core";
 export class IrUnvoicedBookingsSummary {
     render() {
-        return (h(Host, { key: '9d2476507ae32acc6199862b9992c5e8ab47193e' }, h("slot", { key: '9aa131e85c1196080baf26050c1369f7ffe58ef7' })));
+        return (h(Host, { key: '1a0fa7600ad780e0ea34f924e31954688e5e6ec9' }, h("slot", { key: 'c3b4bc032e300acffddeaa0be33f15b60e3cb40f' })));
     }
     static get is() { return "ir-unvoiced-bookings-summary"; }
     static get encapsulation() { return "shadow"; }

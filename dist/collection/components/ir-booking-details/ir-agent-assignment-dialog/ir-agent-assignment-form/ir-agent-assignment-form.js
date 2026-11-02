@@ -1,7 +1,7 @@
 import { Host, h } from "@stencil/core";
 export class IrAgentAssignmentForm {
     render() {
-        return (h(Host, { key: '7848decbc8c582a01d2223af7ae7e4052679fbfc' }, h("slot", { key: '2d6e43a708ef9b3cee0d732b5f77ebd6d5612049' })));
+        return (h(Host, { key: 'f953af7ca4294d2341c84a8b39f65e42f3a7306e' }, h("slot", { key: 'd47c138a897c67ba6d6043343d947204f749bce3' })));
     }
     static get is() { return "ir-agent-assignment-form"; }
     static get encapsulation() { return "scoped"; }

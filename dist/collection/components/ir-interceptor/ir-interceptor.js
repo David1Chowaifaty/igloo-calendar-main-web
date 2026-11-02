@@ -3,6 +3,8 @@ import axios from "axios";
 import interceptor_requests from "../../stores/ir-interceptor.store";
 import { InterceptorError } from "./InterceptorError";
 import { t } from "../../services/locale/t";
+import { LocaleController } from "../../services/locale/locale.controller";
+import { installLanguageInjector } from "../../models/language-injector";
 export class IrInterceptor {
     /**
      * List of endpoint paths that should trigger loader logic and OTP handling.
@@ -68,6 +70,7 @@ export class IrInterceptor {
      * Sets up Axios request and response interceptors.
      */
     setupAxiosInterceptors() {
+        installLanguageInjector(() => LocaleController.language);
         axios.interceptors.request.use(this.handleRequest.bind(this), this.handleError.bind(this));
         axios.interceptors.response.use(this.handleResponse.bind(this), this.handleError.bind(this));
     }
@@ -248,7 +251,7 @@ export class IrInterceptor {
         this.baseOTPUrl = null;
     }
     render() {
-        return (h(Host, { key: '9191ae20a66ca2385c23a773e2d754faa757131a' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '21b49929486550d153400b4d867b758f003647a7', class: "loadingScreenContainer" }, h("div", { key: 'ef01320e079f19d8fb1bfe1d895755311812fbe4', class: "loaderContainer" }, h("wa-spinner", { key: '3413da1cd2074e8bc228e746d3d27abaafc337b3', style: { 'fontSize': '2.5rem', '--track-width': '3.5px' } })))), this.showModal && (h("ir-otp-modal", { key: 'faf58780748b020ca63006c83bec733c4131c80d', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: '0c61040423aadfdf6561ebe3e249df768b78482b' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '308a2cd18d5274a41ec7845f6954c5605304ece5', class: "loadingScreenContainer" }, h("div", { key: '314cc5e9e883e64aff2d1bfd7f227f1039cbb9d0', class: "loaderContainer" }, h("wa-spinner", { key: 'a249e4d60a28a417510dff6a843dae4674417361', style: { 'fontSize': '2.5rem', '--track-width': '3.5px' } })))), this.showModal && (h("ir-otp-modal", { key: '8de21b5970b701492b2adb239f7a332bd2a227e5', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
     static get is() { return "ir-interceptor"; }
     static get encapsulation() { return "scoped"; }

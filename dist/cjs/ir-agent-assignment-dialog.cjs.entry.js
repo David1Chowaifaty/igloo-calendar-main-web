@@ -9,7 +9,7 @@ const IrAgentAssignmentDialog = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: '6438fe6c2684dd2e0942622051db78c986602bea' }, index.h("slot", { key: '015d5774f2f2e37337058ff5dfddd4be17f3fd37' })));
+        return (index.h(index.Host, { key: 'e02119892ed55a030ae38f1ed9651649a71ce05b' }, index.h("slot", { key: '25511e1d69ee8658a7d3d7fbe258fd31f2cd2327' })));
     }
 };
 IrAgentAssignmentDialog.style = irAgentAssignmentDialogCss();

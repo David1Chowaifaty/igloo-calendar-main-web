@@ -265,7 +265,7 @@ const IrDropdown = class {
         this.closeDropdown();
     }
     render() {
-        return (index.h(index.Host, { key: '4f6af4e564695a413ce654416bd548f5d8210f47', class: `dropdown ${this.isOpen ? 'show' : ''}` }, index.h("div", { key: '4dcdc32bb9da92432bb1a426fd16ea1851e2d9bc', onClick: () => {
+        return (index.h(index.Host, { key: '7177dedd8ff779ce5831ab97b53b7f804afcb740', class: `dropdown ${this.isOpen ? 'show' : ''}` }, index.h("div", { key: '240743b4b0b1e4305ef0cec454e8430226727c7d', onClick: () => {
                 if (this.disabled)
                     return;
                 if (this.isOpen) {
@@ -274,7 +274,7 @@ const IrDropdown = class {
                 else {
                     this.openDropdown();
                 }
-            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, index.h("slot", { key: '35f29e25acd004aeacf79a5f6ff186a336095a3e', name: "trigger" }), this.caret && (index.h("div", { key: 'c696239a7ba0ea5def70e58fa8aefe4276d7c3e8', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, index.h("ir-icons", { key: '0013bce4f26ffb7dac87257959c133abf11a3dad', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), index.h("div", { key: '9532d69ac9c3aeda7222648c94a521484c70ee28', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, index.h("slot", { key: 'fbb52b29a8009f073869a2cda61ffba864e67db9' }))));
+            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, index.h("slot", { key: '204b8bdd036f82d477307d2a18e3373fce545e73', name: "trigger" }), this.caret && (index.h("div", { key: 'e021dc05c8583d8a43afee6102fa0560fec0099a', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, index.h("ir-icons", { key: '34f2cc415029407ac49f03935856d3c6d3ea4dfa', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), index.h("div", { key: '85f61e0a9c07d2367730b3106860bf1eb768ad65', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, index.h("slot", { key: '86e21585c33a9a058c54ffa06593523ffdc53d38' }))));
     }
     static get watchers() { return {
         "value": [{

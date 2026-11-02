@@ -7,7 +7,7 @@ var type = require('./type-DxODN41W.js');
 var agents_service = require('./agents.service-DnlrKxRb.js');
 var utils = require('./utils-DC_1UV-i.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
-var utils$1 = require('./utils-y2EJtglo.js');
+var utils$1 = require('./utils-BwXEit5a.js');
 require('./locale-scope-Cch-vf1R.js');
 require('./types-BVJQZ50e.js');
 require('./axios-EresIryl.js');
@@ -18,9 +18,8 @@ require('./ir-date-CbkOKs2C.js');
 require('./language-observer-DKp37LIu.js');
 require('./calendar-dates-BxDGM1ix.js');
 require('./IBooking-hDE_y33g.js');
-require('./commonSchemas-xDHPjJQn.js');
-require('./locale.controller-BhXPN9ym.js');
-require('./types-B4nFkhmU.js');
+require('./commonSchemas-kIlurDum.js');
+require('./locale.controller-BE9t6L_N.js');
 
 const irAgentEditorDrawerCss = () => `.sc-ir-agent-editor-drawer-h{display:block}.agent-form__tab-group.sc-ir-agent-editor-drawer::part(nav),.agent-form__tab-group.sc-ir-agent-editor-drawer [part~="nav"]{position:sticky;top:0;z-index:10;background-color:var(--wa-color-surface-default)}`;
 
@@ -51,7 +50,7 @@ const IrAgentEditorDrawer = class {
     // }
     render() {
         const isEditMode = this.agent?.id !== -1;
-        return (index.h(index.Host, { key: '0c0b19d3052870a481c2ff62da0673c361e18a6f', "data-testid": "agent-editor-drawer" }, index.h("ir-drawer", { key: 'ae2d4cbc6d91abfd9765f471fb30784975f02841', class: "agent__drawer", style: { '--ir-drawer-width': '60rem' }, label: isEditMode ? t.t('Lcz_EditAgent', { fallback: 'Edit Agent' }) : t.t('Lcz_NewAgent', { fallback: 'New Agent' }), open: this.open, "data-testid": "agent-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (
+        return (index.h(index.Host, { key: '9a957e0b817193e2fc8970decc0b78824fcf1ed4', "data-testid": "agent-editor-drawer" }, index.h("ir-drawer", { key: 'b67dd0271407b1686de9a5c1c434f5a1507a5d1b', class: "agent__drawer", style: { '--ir-drawer-width': '60rem' }, label: isEditMode ? t.t('Lcz_EditAgent', { fallback: 'Edit Agent' }) : t.t('Lcz_NewAgent', { fallback: 'New Agent' }), open: this.open, "data-testid": "agent-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (
         // <wa-tab-group class="agent-form__tab-group" activation='manual' active={this.currentTab.toString()} onwa-tab-show={e => this.handleTabChange(e)}>
         //   <wa-tab panel="profile" >Profile</wa-tab>
         //   <wa-tab disabled={!isEditMode} panel="contract">Contract</wa-tab>
@@ -62,7 +61,7 @@ const IrAgentEditorDrawer = class {
         //     {this.currentTab === 'contract' && <ir-agent-contract formId={formId} agent={this.agent}></ir-agent-contract>}
         //   </wa-tab-panel>
         // </wa-tab-group>
-        index.h("ir-agent-editor-form", { key: '303b7050f18dd0710a684eb39bb0eb9980820ad1', onCloseDrawer: e => {
+        index.h("ir-agent-editor-form", { key: '841ddc30607ffd1876ed634398a150e606bbb395', onCloseDrawer: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.agentEditorClose.emit();
@@ -70,7 +69,7 @@ const IrAgentEditorDrawer = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.loading = e.detail;
-            }, setupEntries: this.setupEntries, countries: this.countries, agent: this.agent, formId: this.baseId, "data-testid": "agent-editor-form" })), index.h("div", { key: 'aee203cd9cf52764af8fa004dc9e398d2a6d25bc', slot: "footer", class: "ir__drawer-footer", "data-testid": "agent-editor-drawer-footer" }, index.h("ir-custom-button", { key: '762e399c590249f3d99e6f82d0703485d8290156', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "agent-editor-cancel-button" }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: '1ad3a739f9d477a24f291faaac33fc94a929de58', loading: this.loading === (this.agent?.id === -1 ? 'save&close' : 'save'), type: "submit", form: this.baseId, size: "m", value: this.agent?.id === -1 ? 'save&close' : 'save', appearance: this.agent?.id === -1 ? 'accent' : 'outlined', variant: "brand", "data-testid": "agent-editor-save-button" }, t.t('Lcz_Save', { fallback: 'Save' })), this.agent?.id !== -1 && (index.h("ir-custom-button", { key: '043ccd108fc4f4ffd6fdbab6390e9d5c980c94ec', loading: this.loading === 'save&close', type: "submit", form: this.baseId, size: "m", value: "save&close", appearance: "accent", variant: "brand", "data-testid": "agent-editor-save-button" }, t.t('Lcz_SaveAndClose', { fallback: 'Save & Close' })))))));
+            }, setupEntries: this.setupEntries, countries: this.countries, agent: this.agent, formId: this.baseId, "data-testid": "agent-editor-form" })), index.h("div", { key: '2ad459f41cdad7eb5e95a9eac567437363561ac4', slot: "footer", class: "ir__drawer-footer", "data-testid": "agent-editor-drawer-footer" }, index.h("ir-custom-button", { key: '0a9034950142b8213471e98adcfc9cd732692e07', size: "m", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "agent-editor-cancel-button" }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: '546b77f5f0b51a2149b880891bbfc2a014d5757c', loading: this.loading === (this.agent?.id === -1 ? 'save&close' : 'save'), type: "submit", form: this.baseId, size: "m", value: this.agent?.id === -1 ? 'save&close' : 'save', appearance: this.agent?.id === -1 ? 'accent' : 'outlined', variant: "brand", "data-testid": "agent-editor-save-button" }, t.t('Lcz_Save', { fallback: 'Save' })), this.agent?.id !== -1 && (index.h("ir-custom-button", { key: 'd79c0038ca53c4f6a029e6756d872d29ac3c1e40', loading: this.loading === 'save&close', type: "submit", form: this.baseId, size: "m", value: "save&close", appearance: "accent", variant: "brand", "data-testid": "agent-editor-save-button" }, t.t('Lcz_SaveAndClose', { fallback: 'Save & Close' })))))));
     }
 };
 IrAgentEditorDrawer.style = irAgentEditorDrawerCss();
@@ -116,12 +115,12 @@ const IrAgentEditorForm = class {
         }
     }
     render() {
-        return (index.h("form", { key: '877302567775288fcdd394ffd18b012500ace9cb', autoComplete: this.formId,
+        return (index.h("form", { key: '973126e198a28a809de82b28ecc40739a71adc90', autoComplete: this.formId,
             // autoComplete="off"
             id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveOrEditAgent(utils.getFormSubmitter(e));
-            }, class: "agent-editor__content" }, index.h("ir-agent-profile", { key: 'f53f6fc91f281bcc8b550228d6a33ac035363479', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), index.h("ir-agent-contract", { key: 'fd29bc87115de7c7c706a313977e686cb18d362f', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
+            }, class: "agent-editor__content" }, index.h("ir-agent-profile", { key: '4f91534cf33273e25f4db0cbb6e837e091b0e15c', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), index.h("ir-agent-contract", { key: '8e8a38c0955261e81b40266f6a4093407b646682', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
     }
 };
 IrAgentEditorForm.style = irAgentEditorFormCss();
@@ -201,11 +200,11 @@ const IrAgentsTable = class {
         });
     };
     render() {
-        return (index.h(index.Host, { key: '50dcd0d7fe096a0632925b92346cd2aed52ce036' }, index.h("div", { key: '31dda9ca604367124ecc0a6c05a0e2c051c701e0', class: "table--container" }, index.h("table", { key: 'f945d668b95af46f65e6419782fe32f8c8f7f166', class: "table" }, index.h("thead", { key: 'ed96f84e9286b370e2dca4fb40058edca1017a96' }, index.h("tr", { key: '4cf6861abc3dee1ded39b27f86c413a665cc0b09' }, index.h("th", { key: 'cba5cdc233a82521f0ba53a802f75676b2483854', class: "agents-table__header" }, t.t('Lcz_Name', { fallback: 'Name' })), index.h("th", { key: 'acc7fd8095aa4ffdb137c08d6a95593f5276a0dc', class: "agents-table__header" }, t.t('Lcz_Type', { fallback: 'Type' })), index.h("th", { key: 'e1747e8adb6a77a14115293e63545cb6f088ba46', class: "agents-table__header" }, t.t('Lcz_Email', { fallback: 'Email' })), index.h("th", { key: '908d462c85762b6ed895ad163e1de29fca154a00', class: "agents-table__header" }, t.t('Lcz_Phone', { fallback: 'Phone' })), index.h("th", { key: 'c81dfaf0a50084f1db8c0566b2845a16b86cd363', class: "agents-table__header" }, t.t('Lcz_Active', { fallback: 'Active' })), index.h("th", { key: 'dd3f4c9158b025d4537ebe99236ac1baa8d74ae8', class: "agents-table__header " }, index.h("div", { key: '846533db6482ba03ca7c6e16dba22d25e50efd7c', class: "agents-table__action" }, index.h("wa-tooltip", { key: 'dcc8be7a0f41123a25213c040333232b7c7b455a', for: "create-agent-button" }, t.t('Lcz_NewAgent', { fallback: 'New Agent' })), index.h("ir-custom-button", { key: '4ad76e8da8642c304940de7e906f3421c553892e', onClickHandler: this.createAgent, variant: "neutral", appearance: "plain", id: "create-agent-button", "data-testid": "create-agent-button" }, index.h("wa-icon", { key: '893912301bc78f6e5d6c7077a9e6168d6b50d051', name: "plus", style: { fontSize: '1.2rem' }, label: t.t('Lcz_NewAgent', { fallback: 'New Agent' }) })))))), index.h("tbody", { key: 'c7fe6c43fd17223fe690ca6b2793e40248a602b5' }, this.agents.map(agent => {
+        return (index.h(index.Host, { key: '2c475d191325935d3c5c75e4fa5419d7415348f9' }, index.h("div", { key: '5eae9b4db56d550797e3741b6a9b8ad2d7de9d89', class: "table--container" }, index.h("table", { key: '7a80fe0d2d72fc47e255fd36cae2bd572c74b098', class: "table" }, index.h("thead", { key: '6e59abd72b29892a0d4d15fb6d1b4e71c7135b3c' }, index.h("tr", { key: '7a23ee37130edc8b387a84eb8c45f8e73ed3ffad' }, index.h("th", { key: 'f36e145023ec788cb2a756f94cdedb36c9008a06', class: "agents-table__header" }, t.t('Lcz_Name', { fallback: 'Name' })), index.h("th", { key: 'dd8f0ae51749b4bc862f3a51cc89389eae2138d6', class: "agents-table__header" }, t.t('Lcz_Type', { fallback: 'Type' })), index.h("th", { key: 'eb47abb044fde3b2976ede783da8bc96cee20e5a', class: "agents-table__header" }, t.t('Lcz_Email', { fallback: 'Email' })), index.h("th", { key: 'bea06e8e8dd43e4ac40d2dcc22ba4350734b59fa', class: "agents-table__header" }, t.t('Lcz_Phone', { fallback: 'Phone' })), index.h("th", { key: 'c365e3b18781b52e9d276cce99828ce514743c3d', class: "agents-table__header" }, t.t('Lcz_Active', { fallback: 'Active' })), index.h("th", { key: '2530d6499f81a2d813aa323cc89a39c917301481', class: "agents-table__header " }, index.h("div", { key: '0dfc84f010f21f04ad7a8be39ddca3621a15e8df', class: "agents-table__action" }, index.h("wa-tooltip", { key: 'b7faf43d7797dbcb76965aba58438dd4739dbf90', for: "create-agent-button" }, t.t('Lcz_NewAgent', { fallback: 'New Agent' })), index.h("ir-custom-button", { key: '25ed632ff73e5a8fb5bd3b4fb174fb19d4ddcd24', onClickHandler: this.createAgent, variant: "neutral", appearance: "plain", id: "create-agent-button", "data-testid": "create-agent-button" }, index.h("wa-icon", { key: 'bab7dc425058a7fad1ca8e471b5c9066d1649f08', name: "plus", style: { fontSize: '1.2rem' }, label: t.t('Lcz_NewAgent', { fallback: 'New Agent' }) })))))), index.h("tbody", { key: 'fd9a3e311139b66f5de6969cd6baac0582ec0f7f' }, this.agents.map(agent => {
             // const status = this.getStatusLabel(agent);
             const typeLabel = this.getAgentTypeLabel(agent);
             return (index.h("tr", { class: "ir-table-row", key: agent.id }, index.h("td", { class: "agents-table__name" }, index.h("div", { class: "d-flex flex-column" }, index.h("p", null, agent.name), index.h("p", { class: "agents-table__muted" }, agent.reference))), index.h("td", null, index.h("div", { class: "d-flex flex-column" }, index.h("p", null, typeLabel), index.h("p", { class: "agents-table__muted" }, agent.code))), index.h("td", null, agent.email || t.t('Lcz_NotAvailable', { fallback: 'N/A' })), index.h("td", null, this.getAgentPhoneNumber(agent) || t.t('Lcz_NotAvailable', { fallback: 'N/A' })), index.h("td", null, index.h("wa-switch", { onchange: e => this.toggleAgentActive.emit({ ...agent, is_active: e.target.checked }), defaultChecked: agent.is_active, checked: agent.is_active })), index.h("td", null, index.h("div", { class: "agents-table__action" }, index.h("ir-custom-button", { appearance: "plain", variant: "neutral", onClickHandler: () => this.upsertAgent.emit(agent) }, index.h("wa-icon", { name: "edit", "aria-hidden": "true", style: { fontSize: '1.2rem' } }))))));
-        }), this.agents?.length === 0 && (index.h("tr", { key: '9abdb181e871d665372c12e280fcc1e81ee71351', class: "empty-row" }, index.h("td", { key: '72fdc77a87c67abc62f0d9d6c61a560e6fd0ea04', colSpan: 6 }, index.h("ir-empty-state", { key: 'a6d72975e40c524cd4e1f105388e8db73406e9f0' })))))))));
+        }), this.agents?.length === 0 && (index.h("tr", { key: '8f70b4de9e25a9fda26b0a99794df0e10907bb91', class: "empty-row" }, index.h("td", { key: 'd19c38cdfabc6a265d2c9dfc050dcca1f64967d8', colSpan: 6 }, index.h("ir-empty-state", { key: '5be9f3c617c60b41cfd8ed6df56f37a3f4d52c57' })))))))));
     }
 };
 IrAgentsTable.style = irAgentsTableCss() + tableCss();

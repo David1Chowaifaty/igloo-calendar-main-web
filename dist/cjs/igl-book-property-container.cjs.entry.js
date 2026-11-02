@@ -1,11 +1,11 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var ApiClient = require('./ApiClient-CrOclAUp.js');
-var booking_store = require('./booking.store-DdFbXlGt.js');
-var room_service = require('./room.service-e8DMCCv7.js');
-var locale_controller = require('./locale.controller-BhXPN9ym.js');
-var languageSync = require('./language-sync-dWuhSoAW.js');
+var ApiClient = require('./ApiClient-_fT8lvlJ.js');
+var booking_service = require('./booking.service-yJ7oXj56.js');
+var room_service = require('./room.service-48-OJVIL.js');
+var locale_controller = require('./locale.controller-BE9t6L_N.js');
+var languageSync = require('./language-sync-BcZsAQty.js');
 var t = require('./t-CqJPQrfm.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 require('./axios-EresIryl.js');
@@ -22,8 +22,7 @@ require('./ir-date-CbkOKs2C.js');
 require('./language-observer-DKp37LIu.js');
 require('./booking-Bp-n-MGf.js');
 require('./functions-CaNAUyCw.js');
-require('./commonSchemas-xDHPjJQn.js');
-require('./types-B4nFkhmU.js');
+require('./commonSchemas-kIlurDum.js');
 
 const iglBookPropertyContainerCss = () => `.sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans',     -apple-system,     BlinkMacSystemFont,     'Segoe UI',     Roboto,     'Helvetica Neue',     Arial,     sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:start !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}`;
 
@@ -44,7 +43,7 @@ const IglBookPropertyContainer = class {
     countries;
     calendarData = {};
     resetBookingData;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     roomService = new room_service.RoomService();
     ApiClient = new ApiClient.ApiClient();
     setRoomsData(roomServiceResp) {
@@ -129,7 +128,7 @@ const IglBookPropertyContainer = class {
         };
     }
     render() {
-        return (index.h(index.Host, { key: '185c78c82c87bc7705a21ff953ac23cf666cd9a2' }, this.withIrToastAndInterceptor && (index.h(index.Fragment, { key: '3fecfadf04333dfe2a55fe594362d66513b2d0c8' }, index.h("ir-toast", { key: '0feab6d343ee221d732d35eba20e63351bd75ae0' }), index.h("ir-interceptor", { key: '616c7789b14df8fa2c173a601ad8f9b81ddcd4e1' }))), index.h("div", { key: 'ee70e6272cfdc702721b5815526560662064d036', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, index.h("slot", { key: 'd5f0ac1017170626d4237799f2477a718f260670', name: "trigger" })), this.bookingItem && (index.h("igl-book-property", { key: 'a3290653b03d35b2c98204a6cf812b4e49cf6524', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
+        return (index.h(index.Host, { key: '9eb81eab8846b51264489c26ab179887fcaf2ee2' }, this.withIrToastAndInterceptor && (index.h(index.Fragment, { key: '585caff2b1148c12f97483e8613b1a60cb4df9a5' }, index.h("ir-toast", { key: '69f3fba67d376e1308d1700516549f632b15812c' }), index.h("ir-interceptor", { key: 'fa807cfd9046b93a4ade6ddefa9036e55cf1af64' }))), index.h("div", { key: '79b0cde448d68d37001cd28bfc82bff6abea0e6f', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, index.h("slot", { key: '3948d2081146943ba15e7a35108cee224207d47c', name: "trigger" })), this.bookingItem && (index.h("igl-book-property", { key: '14e615757f61d356f5b5c9e937a19137630cf22e', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingData.emit(null);

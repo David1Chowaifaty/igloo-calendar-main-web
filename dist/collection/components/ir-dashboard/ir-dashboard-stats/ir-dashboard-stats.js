@@ -133,7 +133,7 @@ export class IrDashboardStats {
         this.dateChange.emit(e.detail);
     }
     render() {
-        return (h(Host, { key: '87410f0602f4a5727240fd03859e33495926e28a' }, h("ir-dashboard-date-navigator", { key: '10d4b28fee2c8ec5440fee29a103c85c17d928ab', class: "stats__date", date: this.date, onDateChange: e => this.handleDateChange(e) }), h("wa-card", { key: 'f6a41c119a54e509aed6e56e458657e9e780e1b6', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: '561fb45028316341f89dcb68b7f0d66476f0bfab', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
+        return (h(Host, { key: 'a2704d45d89b2898dbbd1f974c07b7b22a57bc47' }, h("ir-dashboard-date-navigator", { key: 'c565a1fd494d77b6464c316b3b65b9965a306878', class: "stats__date", date: this.date, onDateChange: e => this.handleDateChange(e) }), h("wa-card", { key: '4def7d584fc148f4dbd3ccab0494a8217a1e3925', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: '7e2dfb874e10867216c3c5a6de096d9eb06705d2', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
     }
     static get is() { return "ir-dashboard-stats"; }
     static get encapsulation() { return "scoped"; }

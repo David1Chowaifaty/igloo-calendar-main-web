@@ -3,18 +3,17 @@
 var index = require('./index-IDeZZwEK.js');
 var utils = require('./utils-C40PtLl1.js');
 var t = require('./t-CqJPQrfm.js');
-var index$1 = require('./index-CxPIFrcL.js');
+var index$1 = require('./index-Br-j6MPt.js');
 var utils$1 = require('./utils-DC_1UV-i.js');
 require('./locale-scope-Cch-vf1R.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./utils-y2EJtglo.js');
+require('./utils-BwXEit5a.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
-require('./commonSchemas-xDHPjJQn.js');
-require('./locale.controller-BhXPN9ym.js');
+require('./commonSchemas-kIlurDum.js');
+require('./locale.controller-BE9t6L_N.js');
 require('./language-observer-DKp37LIu.js');
-require('./types-B4nFkhmU.js');
 require('./moment-CdViwxPQ.js');
 require('./calendar-data-ShS6b-Ns.js');
 require('./booking.dto-CMx8s-oW.js');
@@ -171,7 +170,7 @@ const IrTranslationsEntriesPanel = class {
         const total = this.entries.length;
         const missing = this.entries.filter(entry => utils.countMissing(entry, this.languages) > 0).length;
         const shownTables = new Set(filteredEntries.map(entry => entry.tableName)).size;
-        return (index.h("div", { key: '487ee3fce6b405ba7ac23378795a838d2c1765e1', class: "entries-panel__card" }, this.renderToolbar(), this.isLoading ? (index.h("div", { class: "entries-panel__loader-container" }, index.h("ir-spinner", null), index.h("p", null, "Loading keys\u2026"))) : (index.h("ir-translations-entries-table", { entries: filteredEntries, languages: this.languages, sourceCode: this.sourceCode, compact: false, filtered: this.hasActiveFilters, groupByTable: this.groupByTable, reorderEnabled: !this.hasActiveFilters && !this.groupByTable, changedEntryIds: this.changedEntryIds, duplicates: this.duplicates, showNotes: this.showNotes, onEntryChange: (e) => {
+        return (index.h("div", { key: '47c3e165f0f0858da2830b9677ed1071ced7e70f', class: "entries-panel__card" }, this.renderToolbar(), this.isLoading ? (index.h("div", { class: "entries-panel__loader-container" }, index.h("ir-spinner", null), index.h("p", null, "Loading keys\u2026"))) : (index.h("ir-translations-entries-table", { entries: filteredEntries, languages: this.languages, sourceCode: this.sourceCode, compact: false, filtered: this.hasActiveFilters, groupByTable: this.groupByTable, reorderEnabled: !this.hasActiveFilters && !this.groupByTable, changedEntryIds: this.changedEntryIds, duplicates: this.duplicates, showNotes: this.showNotes, onEntryChange: (e) => {
                 this.stopPropagation(e);
                 this.entryChange.emit(e.detail);
             }, onEditEntry: (e) => {
@@ -233,12 +232,12 @@ const IrTranslationsEntryDrawer = class {
     isSubmitting = false;
     render() {
         const isEditing = !!this.entry;
-        return (index.h("ir-drawer", { key: '15d9772a8b730a170ba5a15761481a161de98a96', label: isEditing ? 'Edit key' : 'New key', open: this.open, onDrawerHide: () => this.closeDrawer.emit() }, this.open && (index.h("ir-translations-entry-form", { key: '60cae64d93cd6c679c3df8b0f31751faba85584a', formId: this.formId, languages: this.languages, entry: this.entry, existingKeys: this.existingKeys, nextDisplayOrder: this.nextDisplayOrder, tableName: this.tableName, ownerId: this.ownerId, entryUserId: this.entryUserId, duplicateSiblings: this.duplicateSiblings, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onEntrySaved: (e) => {
+        return (index.h("ir-drawer", { key: '0491a25d7fe29147bf4163558c44170eefae86e5', label: isEditing ? 'Edit key' : 'New key', open: this.open, onDrawerHide: () => this.closeDrawer.emit() }, this.open && (index.h("ir-translations-entry-form", { key: 'eca7dc710d56ffa740b00d130fa009f6cfd12c4e', formId: this.formId, languages: this.languages, entry: this.entry, existingKeys: this.existingKeys, nextDisplayOrder: this.nextDisplayOrder, tableName: this.tableName, ownerId: this.ownerId, entryUserId: this.entryUserId, duplicateSiblings: this.duplicateSiblings, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onEntrySaved: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.entrySaved.emit(e.detail);
                 this.closeDrawer.emit();
-            } })), index.h("div", { key: '53158e1ac2029ff0dc1ded2798f98f3b63318316', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: '372d12cb2b971ad2dec30a4948bbada3a64e8906', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDrawer.emit() }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: '5203f0937a831b229ffc63af4dbb11fb06815af9', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, t.t('Lcz_Save', { fallback: 'Save' })))));
+            } })), index.h("div", { key: '52a1ee89f7cc45874ac1e31d25a6e0c369c69932', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: 'eef9860d1a3460206aa03531ad6572f91ce822bd', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDrawer.emit() }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: '21e18ae18200674a6749f8ded2610c24f2d91d86', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, t.t('Lcz_Save', { fallback: 'Save' })))));
     }
 };
 IrTranslationsEntryDrawer.style = irTranslationsEntryDrawerCss();
@@ -318,7 +317,7 @@ const IrTranslationsMoveDialog = class {
         return (index.h("section", { class: "move-dialog__tables" }, index.h("wa-input", { class: "move-dialog__search", size: "s", "with-clear": true, label: "Move to", placeholder: "Search tables\u2026", autocomplete: "off", spellcheck: false, oninput: (e) => (this.query = e.target.value ?? '') }, index.h("wa-icon", { name: "magnifying-glass", slot: "start", "aria-hidden": "true" })), tables.length === 0 ? (index.h("p", { class: "move-dialog__empty" }, "No tables match.")) : (index.h("wa-radio-group", { class: "move-dialog__list", size: "s", orientation: "vertical", value: this.targetId ?? '', onchange: (e) => (this.targetId = e.target.value || null) }, tables.map(table => (index.h("wa-radio", { key: table.id, value: table.id }, table.name)))))));
     }
     render() {
-        return (index.h("ir-dialog", { key: 'd2a411e460a073ad86f1c6929b70d8804a8a0289', label: "Move key", ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, this.open && (index.h("div", { key: '6ed70bcd3bcc3a087b028bfda7665e9e14f6c2e1', class: "move-dialog__body" }, this.renderSummary(), this.renderTableList())), index.h("div", { key: '383c7f7b737124e826662dcce7f0a21bfad2f4cf', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '40ba207d5dab5c56862bc5f2048952f685fc3300', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDialog.emit() }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: 'b0c384d3ae57bde2ea0ca07161f76083d105ece3', size: "m", appearance: "accent", variant: "brand", disabled: !this.targetId || this.isLocked || this.isSubmitting, loading: this.isSubmitting, onClickHandler: this.handleMove }, "Move"))));
+        return (index.h("ir-dialog", { key: 'c8fa0b92203e6797cfa0aacf8e8325d30a2b2683', label: "Move key", ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, this.open && (index.h("div", { key: '95325625c4ea2db40cfc5082724b992006d72186', class: "move-dialog__body" }, this.renderSummary(), this.renderTableList())), index.h("div", { key: '4e615d97620506cb6d078f48de147def8a2456eb', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: 'fa8b872a7f5381020787f04db263a197dc72cbed', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDialog.emit() }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: '2213cf04ce602666637e0d6ec18434ab1c10e488', size: "m", appearance: "accent", variant: "brand", disabled: !this.targetId || this.isLocked || this.isSubmitting, loading: this.isSubmitting, onClickHandler: this.handleMove }, "Move"))));
     }
     static get watchers() { return {
         "open": [{
@@ -397,7 +396,7 @@ const IrTranslationsSettingsDialog = class {
         return (index.h("section", { class: "settings-dialog__section" }, index.h("wa-checkbox", { defaultChecked: this.draftShowNotes, checked: this.draftShowNotes, onchange: (e) => (this.draftShowNotes = e.target.checked) }, "Show the notes column")));
     }
     render() {
-        return (index.h("ir-dialog", { key: '2fc80389f3acf1f1578e936ba1eb3eef458c4f47', label: "Table settings", ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, index.h("div", { key: '965f89977de69a85f34f8f9ff8aa63795154d40c', class: "settings-dialog__body" }, this.renderUsedTablesSection(), this.renderLanguagesSection(), this.renderNotesSection()), index.h("div", { key: 'bd3ebb62067d9ef544841ffddfdc8ec869f40411', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '3363f30d04d39efacfae7c454d6418b3e4cd7e7f', appearance: "filled", size: "m", variant: "neutral", onClickHandler: () => this.closeDialog.emit() }, "Cancel"), index.h("ir-custom-button", { key: '87f3da7f50f952fc1adf083de5148d9e1bdeb4a9', appearance: "accent", size: "m", variant: "brand", onClickHandler: this.handleSave }, "Save"))));
+        return (index.h("ir-dialog", { key: '933105e27ac03a858631510d37c381ab12996f06', label: "Table settings", ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, index.h("div", { key: 'af5079e85f38bd5ce41aab71d20d719107088751', class: "settings-dialog__body" }, this.renderUsedTablesSection(), this.renderLanguagesSection(), this.renderNotesSection()), index.h("div", { key: '3b0305faf708e108970e1c968be7e0c57dbb6461', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '2b8a3ddf156d46b43161fe8622edf0e998788f62', appearance: "filled", size: "m", variant: "neutral", onClickHandler: () => this.closeDialog.emit() }, "Cancel"), index.h("ir-custom-button", { key: '99ba320004f506a97fa8e23af9e6b164ee1eba60', appearance: "accent", size: "m", variant: "brand", onClickHandler: this.handleSave }, "Save"))));
     }
     static get watchers() { return {
         "open": [{
@@ -440,7 +439,7 @@ const IrTranslationsTableDialog = class {
     }
     render() {
         const isEditing = this.mode === 'edit';
-        return (index.h("ir-dialog", { key: '565f6121436e5d5467eca76279311cfa5365865c', label: isEditing ? 'Table details' : 'New table', ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, this.open && (index.h("ir-translations-table-form", { key: '20387152edae3a77256670c5fa9930f05bc0ad52', formId: this.formId, mode: this.mode, table: this.table, existingNames: this.existingNames, ownerId: this.ownerId, entryUserId: this.entryUserId, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onTableSaved: (e) => {
+        return (index.h("ir-dialog", { key: '3f26213df1cf066a38b7e62d666884d4b1e5b147', label: isEditing ? 'Table details' : 'New table', ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, this.open && (index.h("ir-translations-table-form", { key: '2445edf0dab27a14b7292437b7944abffd386b4f', formId: this.formId, mode: this.mode, table: this.table, existingNames: this.existingNames, ownerId: this.ownerId, entryUserId: this.entryUserId, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onTableSaved: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.tableSaved.emit(e.detail);
@@ -450,7 +449,7 @@ const IrTranslationsTableDialog = class {
                 e.stopPropagation();
                 this.tableSaveFailed.emit();
                 this.dialogRef?.closeModal();
-            } })), index.h("div", { key: '23294d811ea2dc03fe9082e677d55ee0b6fc1457', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '26bc812ef065d47496517f1ec56b1fba8d206dc6', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDialog.emit() }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: '1bb3dd41cf309cbcf0dd8b3c1b36b90d044b10d7', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, t.t('Lcz_Save', { fallback: 'Save' })))));
+            } })), index.h("div", { key: '2c75dbf20fdb3308e361b68aad939cfc7d631ef9', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '0baef392e1257fb3fdf4013bde7ba217b5bcaf9f', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDialog.emit() }, t.t('Lcz_Cancel', { fallback: 'Cancel' })), index.h("ir-custom-button", { key: 'a794ce9efcd79ba5e08d69b5292917a0eb269046', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, t.t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get watchers() { return {
         "open": [{

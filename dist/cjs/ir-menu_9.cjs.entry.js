@@ -2,17 +2,17 @@
 
 var index = require('./index-IDeZZwEK.js');
 var direction = require('./direction-CuBM8Z-h.js');
-var index$1 = require('./index-byeO9JDQ.js');
-var ApiClient = require('./ApiClient-CrOclAUp.js');
+var index$1 = require('./index-D2SNh8m6.js');
+var ApiClient = require('./ApiClient-_fT8lvlJ.js');
 var t = require('./t-CqJPQrfm.js');
 var number = require('./number-xBpNWk3H.js');
-var index$2 = require('./index-DYNgCAM1.js');
+var index$2 = require('./index-DwCOxnZc.js');
 var index$3 = require('./index-Dssn3hdS.js');
 var irDate = require('./ir-date-CbkOKs2C.js');
 require('./locale-scope-Cch-vf1R.js');
 require('./moment-CdViwxPQ.js');
-var locale_controller = require('./locale.controller-BhXPN9ym.js');
-var languageSync = require('./language-sync-dWuhSoAW.js');
+var locale_controller = require('./locale.controller-BE9t6L_N.js');
+var languageSync = require('./language-sync-BcZsAQty.js');
 var axios = require('./axios-EresIryl.js');
 var utils = require('./utils-DfCzEAC7.js');
 require('./types-BVJQZ50e.js');
@@ -21,10 +21,9 @@ require('./utils-DC_1UV-i.js');
 require('./booking.dto-CMx8s-oW.js');
 require('./type-DxODN41W.js');
 require('./calendar-dates-BxDGM1ix.js');
-require('./commonSchemas-xDHPjJQn.js');
+require('./commonSchemas-kIlurDum.js');
 require('./language-observer-DKp37LIu.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./types-B4nFkhmU.js');
 
 const irMenuCss = () => `:host{display:block}`;
 
@@ -144,7 +143,7 @@ const IrMenu = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '6e6b575bd219a68f348bbdd45e3b98da49daf636' }, index.h("slot", { key: 'ff9d78df91abb92e00014bf729164d201df33bb9', onSlotchange: this.handleSlotChange })));
+        return (index.h(index.Host, { key: 'ae2714078fa0f9fbc1e1b34ce3ca918c670cc282' }, index.h("slot", { key: '75abbafd18d8d8db4ff89b2629ce20728b77ce66', onSlotchange: this.handleSlotChange })));
     }
     static get watchers() { return {
         "selectedHref": [{
@@ -183,11 +182,11 @@ const IrMenuDrawer = class {
         this.menuOpenChanged.emit(this.open);
     }
     render() {
-        return (index.h("ir-drawer", { key: 'e3eda8ea2dc3e2ed50924d0ea0bb569f7c7ac361', class: "menu__drawer", open: this.open, onDrawerHide: e => {
+        return (index.h("ir-drawer", { key: 'a7231dc05f29c68fa11a8480483fc789ab402c6c', class: "menu__drawer", open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.open = false;
-            }, style: { '--ir-drawer-width': '25rem' }, placement: "start" }, index.h("slot", { key: 'c4881af935a80e7cfa55acd4fc3c6bca4f4d7d9c', name: "label", slot: "label" }), index.h("slot", { key: 'd2bc3c526892e77b661a896e361bc6fa7c88281a' }), index.h("slot", { key: '2429b736d771a1e144038d6cc036196b3889766d', name: "footer", slot: "footer" })));
+            }, style: { '--ir-drawer-width': '25rem' }, placement: "start" }, index.h("slot", { key: '93a1c0f59f412e6abe59e26c2e875cc4e1455b74', name: "label", slot: "label" }), index.h("slot", { key: '4398c52a3ab52cafdd58e7854f1a153cca1a5d4e' }), index.h("slot", { key: 'a245dc4c7f3d680f22cf752382b4d9a479c074b5', name: "footer", slot: "footer" })));
     }
     static get watchers() { return {
         "open": [{
@@ -227,7 +226,7 @@ const IrMenuGroup = class {
         this.openChanged.emit(true);
     };
     render() {
-        return (index.h("wa-details", { key: 'f73d36dc31cdb3de5c87424ddf6a4be3d1737283', dir: direction.getLocalDirection(this.el), class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, index.h("slot", { key: 'e8969200e7ade63c9b02117f96008acebeaf0afa', slot: "summary", name: "summary" }), index.h("slot", { key: '04dd2b64a4c698a529c3c25cc4eedd0e49c772a2' })));
+        return (index.h("wa-details", { key: 'ba16fc2dfa0a591ef9ade574990b67239a97bd1c', dir: direction.getLocalDirection(this.el), class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, index.h("slot", { key: 'f708d0107616417d044c6732f35bd621a88fdd65', slot: "summary", name: "summary" }), index.h("slot", { key: 'f3a4b41840127c2744948b64823d9a5b10d58423' })));
     }
 };
 IrMenuGroup.style = irMenuGroupCss();
@@ -247,8 +246,8 @@ const IrMenuItem = class {
             'menu-item__link--selected': !!this.selected,
             'menu-item__link--clickable': !!this.href,
         };
-        const content = (index.h(index.Fragment, { key: 'c5d6b83fecf486dd36e6fad76d0f526abffcf8a6' }, index.h("span", { key: '119cf95bfa1eaf2c9589335b81fa28bc16728fe0', class: "menu-item__icon" }, index.h("slot", { key: '8ec1ec0c61383a2e42807957c802412f4806e8fb', name: "icon" })), index.h("span", { key: '1219b13eeda2ef581fb82b50c343e90e49e00654', class: "menu-item__label" }, index.h("slot", { key: '4e698fa29626b968a42d9009571c12a29eb69b52' })), this.badge ? (index.h("wa-badge", { variant: "danger", class: "menu-item__badge", appearance: "accent" }, this.badge)) : null));
-        return (index.h(index.Host, { key: '3a3bc082aae3cc3419e8ba8ac5ba0f697209b715' }, this.href ? (index.h("a", { class: contentClass, href: this.href, "aria-current": this.selected ? 'page' : undefined }, content)) : (index.h("div", { class: contentClass }, content))));
+        const content = (index.h(index.Fragment, { key: 'a9e3053a9c81be07e1da9e3cce3413e96a4a71db' }, index.h("span", { key: '2a9f4c08ad3cffe9abd10b607573244320e7f67d', class: "menu-item__icon" }, index.h("slot", { key: 'b6ff94e9b91c82979a9d9a1c51c57cc49b508ae1', name: "icon" })), index.h("span", { key: 'd675739e5806c73aec93ae35a28dbecedbe745fa', class: "menu-item__label" }, index.h("slot", { key: 'c0765d604b7d4ccb6947ab14b2c39a562d0bbb37' })), this.badge ? (index.h("wa-badge", { variant: "danger", class: "menu-item__badge", appearance: "accent" }, this.badge)) : null));
+        return (index.h(index.Host, { key: '3ca921348f066ba0099329c61184f33a2103b892' }, this.href ? (index.h("a", { class: contentClass, href: this.href, "aria-current": this.selected ? 'page' : undefined }, content)) : (index.h("div", { class: contentClass }, content))));
     }
 };
 IrMenuItem.style = irMenuItemCss();
@@ -360,11 +359,11 @@ const IrNotifications = class {
     //   this.notifications = this.notifications.filter(n => n.id !== notification.id);
     // }
     render() {
-        return (index.h(index.Host, { key: 'dabdd8cec3c1ff22d87f75d41deafecbb3536c5e' }, index.h("div", { key: 'cf6ef84d4adb64adbf1b2e8063082b38402c68aa', style: { position: 'relative' } }, index.h("wa-tooltip", { key: '9ac39cb6c0465e033d52faeb14355b643d6662fd', for: "notifications-button" }, t.t('Lcz_Notifications', { fallback: 'Notifications' })), this.notifications?.length > 0 && (index.h("wa-badge", { key: '368d7921180a0ef68be75575928b6a6df51f49b6', pill: true, class: "header-notification-badge" }, number.formatCount(this.notifications.length))), index.h("wa-animation", { key: '962541f9880b63b76e5657e60704d4ff3312f518', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, index.h("ir-custom-button", { key: '94964cb60345e2d43d1b4bc202e749f7f073afad', id: "notifications-button", size: "s", appearance: "plain", ref: el => (this.buttonRef = el) }, index.h("wa-icon", { key: 'b0850c720a6775bb57542a4f5d9ee36db074613d', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.4rem' } })))), index.h("wa-popover", { key: '68397038a898bda578e460f326c260c5eb76ddeb', distance: 15, class: "notification__popover", for: "notifications-button" }, index.h("p", { key: '88cb088307cf645d3d0baf4320ce41e1dc20b22e', class: "notification__popover-title" }, t.t('Lcz_Notifications', { fallback: 'Notifications' })), this.notifications.map(notification => {
+        return (index.h(index.Host, { key: '0d58057d9d177ff5c5bd8e83555cc6e0c0ecb4c7' }, index.h("div", { key: '9640a2b30637923446016f710a185fa414239e17', style: { position: 'relative' } }, index.h("wa-tooltip", { key: '1f83fcc87876af9b0619b53cdbd2074aad231346', for: "notifications-button" }, t.t('Lcz_Notifications', { fallback: 'Notifications' })), this.notifications?.length > 0 && (index.h("wa-badge", { key: '8475ba49fb495e7a8cd7dfd156880c21f4fd7d1d', pill: true, class: "header-notification-badge" }, number.formatCount(this.notifications.length))), index.h("wa-animation", { key: '63d8ad6b39fb8fb2e2769afbaf40a84595a5bdc2', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, index.h("ir-custom-button", { key: '07b235017e5655a6b72721b916cd09c3b519c478', id: "notifications-button", size: "s", appearance: "plain", ref: el => (this.buttonRef = el) }, index.h("wa-icon", { key: '29c8cc8426668330107487def5154a6d017a01a6', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.4rem' } })))), index.h("wa-popover", { key: '6bbec0a6ad3b80e8991ad34895a30f2626a22166', distance: 15, class: "notification__popover", for: "notifications-button" }, index.h("p", { key: 'bbd0eb8b4201f607e61f206a09fb731f64e7f31c', class: "notification__popover-title" }, t.t('Lcz_Notifications', { fallback: 'Notifications' })), this.notifications.map(notification => {
             if (notification.type === 'availability_alert') {
                 return (index.h("a", { href: "AcAvailabilityAlert.aspx", class: "notification-item" }, index.h("div", { class: "notification-item__content" }, index.h("p", { class: "notification-item__title" }, notification.message, ' ', t.t('Lcz_RoomsNotBookableConsecutiveNights', { fallback: 'rooms types are not bookable for 14 consecutive nights within the next 2 months. More...' })), index.h("wa-icon", { class: "ir-flip-rtl", name: "angle-right" }))));
             }
-        }), this.notifications?.length === 0 && (index.h("ir-empty-state", { key: 'b64b71165c8146c73fb98c063d3071be4e87837c', message: t.t('Lcz_AllCaughtUp', { fallback: 'All caught up!' }), style: { width: '250px', height: '150px' } }, index.h("wa-icon", { key: 'f7942769a7fc49baf20293339546ae8aa89a0556', slot: "icon", name: "inbox" }))))));
+        }), this.notifications?.length === 0 && (index.h("ir-empty-state", { key: '71a00415e7891615cfbd6d20e7dce0c387ee60d1', message: t.t('Lcz_AllCaughtUp', { fallback: 'All caught up!' }), style: { width: '250px', height: '150px' } }, index.h("wa-icon", { key: '08a724242e63d83932acc5d48f897360723f6972', slot: "icon", name: "inbox" }))))));
     }
     static get watchers() { return {
         "notifications": [{
@@ -567,7 +566,7 @@ const IrPmsSearch = class {
         });
     }
     render() {
-        return (index.h(index.Host, { key: '294486362042697bcc5d9eaff46a9b8ae65007c3' }, index.h("ir-autocomplete", { key: '241e41c32e6e0cbc96c35e30e07e7ef9a95b95c8', class: "pms-search__autocomplete", placeholder: t.t('Lcz_BookingOrGuestNamePlaceholder', { fallback: 'Booking# or guest name' }), ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, index.h("wa-icon", { key: 'eb6aa775b0ff11b492af6ba4b556332d7bd38439', name: "magnifying-glass", slot: "start" }), index.h("div", { key: '53f13dbf6e02195f1bf453841655f103f72e1e07', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && index.h("wa-spinner", { key: '3c8fffd382807e9f2535d93ac3ea47cd7f234abf' }), this.shortcutHint && index.h("span", { key: '2ce60a9c4819787d6848acc2b4fef07acb133e4d' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (index.h("div", { key: '79c9d74a70c5cae9c5e3fc21da57cd304164c233', class: "pms-search__empty", role: "status", "aria-live": "polite" }, index.h("wa-icon", { key: '9001e273f6dfc9caecbf2e4d6657c45ee9110bb5', name: "circle-info", "aria-hidden": "true" }), index.h("div", { key: '653ef39045fd17e3c980e94155c9b235bfe646b5', class: "pms-search__empty-content" }, index.h("div", { key: '00c8aef1dae565a10f957e7ed74dd902bbd1204f', class: "pms-search__empty-title" }, t.t('Lcz_NoResultsFound', { fallback: 'No results found' }))))), (this.bookings ?? [])?.map(b => {
+        return (index.h(index.Host, { key: '5a83a083179ee84c93841e4e9aba18c789a89876' }, index.h("ir-autocomplete", { key: 'bf8db899e820d70e8f8128644a629022cb935198', class: "pms-search__autocomplete", placeholder: t.t('Lcz_BookingOrGuestNamePlaceholder', { fallback: 'Booking# or guest name' }), ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, index.h("wa-icon", { key: '8a2c9e4efd153657e933e411140485331eabd387', name: "magnifying-glass", slot: "start" }), index.h("div", { key: '2a6fc785c6f43367c41c42762405f6c0db48fda7', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && index.h("wa-spinner", { key: '7c2731995589e88ef93c6b0678130db882fe3994' }), this.shortcutHint && index.h("span", { key: '38f3623872910ea18c955884e048ff3268655f7a' }, this.shortcutHint)), (this.bookings ?? [])?.length === 0 && !this.isLoading && (index.h("div", { key: '53099b993b6df02bfb36ce9486ebf0c7adec8497', class: "pms-search__empty", role: "status", "aria-live": "polite" }, index.h("wa-icon", { key: '5f4e494291a2c90000f802162be5c405aa76d8e3', name: "circle-info", "aria-hidden": "true" }), index.h("div", { key: 'f553465e2b45a7000d5ce22a9b3656fb506e3509', class: "pms-search__empty-content" }, index.h("div", { key: '834f98a3dc34e743e242bb7fc3fe6737b58740bb', class: "pms-search__empty-title" }, t.t('Lcz_NoResultsFound', { fallback: 'No results found' }))))), (this.bookings ?? [])?.map(b => {
             if (!b) {
                 return null;
             }
@@ -849,7 +848,7 @@ const IrPropertySwitcher = class {
             } }, index.h("p", { class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME ?? t.t('Lcz_SelectProperty', { fallback: 'Select property' }))));
     }
     render() {
-        return (index.h(index.Host, { key: '64f2d86574c1aa59a8fdb15ec433e2493f3a101f' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (index.h("wa-dropdown", { key: '3c9a8d6bff8443a9ac3adc17ed790e856cfe4e7f', "onwa-show": () => {
+        return (index.h(index.Host, { key: '610b41dcdb71440b329ff86c09557179617cdd5f' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (index.h("wa-dropdown", { key: '5548e08f5b1e05cfe8b61eb9ba49fc7645f115fc', "onwa-show": () => {
                 this.ensureLinkedPropertiesLoaded();
             }, "onwa-hide": e => {
                 e.stopPropagation();
@@ -858,7 +857,7 @@ const IrPropertySwitcher = class {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.handleDropdownSelect(Number(e.detail.item.value));
-            } }, index.h("wa-button", { key: 'fd36cbdce4c9a64631303601f125da6a536788af', size: "s", class: "property-switcher__trigger-btn", slot: "trigger", withCaret: true, variant: "neutral", appearance: "outlined" }, index.h("p", { key: 'afa9609f5d1b7e5656559832e125e4767318e3a5', class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME)), this.isLinkedLoading && (index.h("wa-dropdown-item", { key: 'e5b092227480f6ff82725a9965b9dbd3647e7a24', disabled: true, class: "property-switcher__dropdown-loader" }, index.h("wa-spinner", { key: 'cb3add5f358174501fabbcea5115ca2c5bda0a37' }))), this.propertyState.linked?.map(property => (index.h("wa-dropdown-item", { value: property.property_id?.toString(), key: `dropdown-item-${property.property_id}` }, property.name))))), this.displayMode === 'dialog' && (index.h("div", { key: '4e4e62cb1bd89540d977fbe51cc4a56de6642fe0' }, this.trigger(), index.h("ir-dialog", { key: '9bc5a56707e6a31eee6d6d3eca4e0a4042f73bca',
+            } }, index.h("wa-button", { key: 'baf4b963f89a178a084a607e38067aade7d17b3f', size: "s", class: "property-switcher__trigger-btn", slot: "trigger", withCaret: true, variant: "neutral", appearance: "outlined" }, index.h("p", { key: '79b01e988aad816ab81d04628ba9281c2b711425', class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME)), this.isLinkedLoading && (index.h("wa-dropdown-item", { key: 'b22b2d6378f315b59909aa1aaa04bc379af15305', disabled: true, class: "property-switcher__dropdown-loader" }, index.h("wa-spinner", { key: '33e6cf573a5c9d4f5c7ee771678df506f38889c9' }))), this.propertyState.linked?.map(property => (index.h("wa-dropdown-item", { value: property.property_id?.toString(), key: `dropdown-item-${property.property_id}` }, property.name))))), this.displayMode === 'dialog' && (index.h("div", { key: 'e07d4820ecacdd9ca31893f1242b0fe6a0a5b001' }, this.trigger(), index.h("ir-dialog", { key: 'fc36dddfc311cf85edc225f4776a2bf5c9575751',
             // withoutHeader
             open: this.open, label: t.t('Lcz_Search', { fallback: 'Search' }), class: "property-switcher__dialog", style: { '--ir-dialog-width': '40rem' }, onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
@@ -1098,7 +1097,7 @@ const IrTranslatableTextarea = class {
     render() {
         const defaultName = this.languageName(this.defaultLanguage);
         const errorMessage = this.showError ? utils.format(this.text.required, { language: defaultName }) : null;
-        return (index.h(index.Host, { key: '45c1b41b3a817bcac99b70a4f1436e4327469fa8' }, index.h("div", { key: '3719b8e41aec4d88de3e9e2cdda30119b71553f1', class: { 'field': true, 'field--invalid': this.showError } }, index.h("div", { key: 'a65a5791aafbb9fd28db942de5415f936d88a821', class: "field__header" }, index.h("span", { key: 'a15facacdab23f84b2bd942cae5d30572ae6822b', id: "field-label", class: "field__label", part: "label" }, this.label, index.h("span", { key: 'a6667b1123e7f664b0368787a9f7d07c96e0e73d', class: "field__required", "aria-hidden": "true" }, "*")), this.targets.length > 0 && (index.h("wa-button", { key: '3ad7b2821da2b360285375ce7ca89af57ac4b89a', class: "translate-trigger", size: "s", appearance: "plain", variant: "neutral", disabled: this.disabled, onClick: () => this.openEditor() }, index.h("wa-icon", { key: 'eb95d172938bb06adc3498d73065e79b532215a8', slot: "start", name: "language" }), this.text.translate))), index.h("wa-textarea", { key: 'fd15cda2ea4931519f97dbfecaa930d7a171da96', ref: el => {
+        return (index.h(index.Host, { key: '181cc6bd71326a63269eb074b47a3f150b4a377f' }, index.h("div", { key: '72b3f6fc6a31ca0d5ff43f95241061bef23fbcc7', class: { 'field': true, 'field--invalid': this.showError } }, index.h("div", { key: '1d244b5bcf5f9331d72106bbf1a2855e622cc3d0', class: "field__header" }, index.h("span", { key: '05ad357c40bb99da089ab03ac5f46aae01849118', id: "field-label", class: "field__label", part: "label" }, this.label, index.h("span", { key: '0079df516ed47d47e29e6a1ed19ccb0259b68ffc', class: "field__required", "aria-hidden": "true" }, "*")), this.targets.length > 0 && (index.h("wa-button", { key: 'cb575a716b8ca5e0fa9e912df8cd16c088fc2ae4', class: "translate-trigger", size: "s", appearance: "plain", variant: "neutral", disabled: this.disabled, onClick: () => this.openEditor() }, index.h("wa-icon", { key: 'ee9ec515c15afe531f2130062184d281bbe3184a', slot: "start", name: "language" }), this.text.translate))), index.h("wa-textarea", { key: '88def2187ef18e60dd6fdad2caa9fe00ad1545a9', ref: el => {
                 this.sourceTextareaEl = el;
                 utils.applyLanguageAttributes(el, this.defaultLanguage, utils.resolveDir(this.defaultLanguage, utils.findLanguage(this.languages, this.defaultLanguage).dir));
             }, class: errorMessage ? 'textarea textarea--source textarea--invalid' : 'textarea textarea--source', label: this.label || defaultName, hint: errorMessage ?? this.hint ?? '', value: this.value?.[this.defaultLanguage] ?? '', placeholder: this.placeholder, rows: this.rows, maxlength: this.maxlength, withCount: this.withCount, resize: this.resize, size: this.size, appearance: this.appearance, disabled: this.disabled, readonly: this.readonly, onInput: this.handleSourceInput, onBlur: this.handleSourceBlur })), this.renderEditor()));

@@ -281,7 +281,7 @@ export class IrDatePicker {
         this.datePicker?.destroy?.();
     }
     render() {
-        return (h("div", { key: '818c1a699e686881467f7b0b40a87a446a79645e', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: '2d85012938a3f784368399b12e83b995bebfd244', name: "trigger" }), h("input", { key: 'a1f03a7a95deea116b5e5acd5e3869db9c7cee1c', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
+        return (h("div", { key: '2c27c1a80f5b2df5922de6bc21a54e24bf21677e', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: 'af23dbfd2a35a29d613778f0d40f973b21de4109', name: "trigger" }), h("input", { key: 'b8bc4def3fcc1c2fbdfed244d6b145d26eafd8fd', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
     }
     static get is() { return "ir-date-picker"; }
     static get originalStyleUrls() {

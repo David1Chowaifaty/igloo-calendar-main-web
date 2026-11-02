@@ -30,7 +30,7 @@ export class IrAutocompleteOption {
         waOption.removeAttribute('aria-selected');
     }
     render() {
-        return (h(Host, { key: '214df24b5d59fe1f91c3dedf79afc049f62eebcb', role: "option", "aria-selected": this.selected ? 'true' : 'false', "aria-disabled": this.disabled ? 'true' : 'false' }, h("wa-option", { key: '442b146b5324db49c9ce17c3679892bc4538d0eb', ref: el => (this.waOptionRef = el), value: this.value, label: this.label, disabled: this.disabled, current: this.current, selected: this.selected, exportparts: "checked-icon, label, start, end" }, h("slot", { key: '62e7c21781db4d6b328deb1286ee47b701febb86' }), h("slot", { key: '3880408c31690e1a853f82304dea4e20c4b60bf1', name: "start", slot: "start" }), h("slot", { key: 'b8095913ea2527f136cad925dc4b6e71011c5295', name: "end", slot: "end" }))));
+        return (h(Host, { key: '2404352040c46b5dce6e8690c6e7eed20e50b348', role: "option", "aria-selected": this.selected ? 'true' : 'false', "aria-disabled": this.disabled ? 'true' : 'false' }, h("wa-option", { key: '60cc484b8b8df53ae80aab71b312179c90da4ec6', ref: el => (this.waOptionRef = el), value: this.value, label: this.label, disabled: this.disabled, current: this.current, selected: this.selected, exportparts: "checked-icon, label, start, end" }, h("slot", { key: 'e52d2c86170c8c406120c0e527cee1eaaede9609' }), h("slot", { key: '117bb6f689b785de30297b9accb64e371e24a112', name: "start", slot: "start" }), h("slot", { key: 'd4b02f63727c5cef8212a2ea288609d3f3d5755d', name: "end", slot: "end" }))));
     }
     static get is() { return "ir-autocomplete-option"; }
     static get encapsulation() { return "shadow"; }

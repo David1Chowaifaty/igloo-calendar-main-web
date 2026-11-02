@@ -1,20 +1,19 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var index$1 = require('./index-CxPIFrcL.js');
+var index$1 = require('./index-Br-j6MPt.js');
 var utils = require('./utils-DC_1UV-i.js');
 var setupMapping = require('./setup-mapping-D72fId4a.js');
 var t = require('./t-CqJPQrfm.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./utils-y2EJtglo.js');
+require('./utils-BwXEit5a.js');
 require('./IBooking-hDE_y33g.js');
 require('./types-BVJQZ50e.js');
-require('./commonSchemas-xDHPjJQn.js');
-require('./locale.controller-BhXPN9ym.js');
+require('./commonSchemas-kIlurDum.js');
+require('./locale.controller-BE9t6L_N.js');
 require('./locale-scope-Cch-vf1R.js');
 require('./language-observer-DKp37LIu.js');
-require('./types-B4nFkhmU.js');
 require('./moment-CdViwxPQ.js');
 require('./calendar-data-ShS6b-Ns.js');
 require('./booking.dto-CMx8s-oW.js');
@@ -104,7 +103,7 @@ const IrTranslationsTableForm = class {
         }
     };
     render() {
-        return (index.h("form", { key: 'af2ba41ce781e39c3091a6657c09ce5137749aa4', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, index.h("ir-input", { key: '3062b1b93fd6c99415b8544d614136dd756b10f8', label: t.t('Lcz_Name', { fallback: 'Name' }), autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (index.h("p", { key: '01a5cec3117af92b971845e80a446039786d4b40', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
+        return (index.h("form", { key: '27d9d59515629094e9bf97f03fbae79eed95309b', id: this.formId, class: "table-form__body", onSubmit: this.handleSubmit, novalidate: true }, index.h("ir-input", { key: 'ee38e20e2c2105f7abfa9066e7585e197c83374a', label: t.t('Lcz_Name', { fallback: 'Name' }), autocomplete: "off", value: this.name, placeholder: "e.g. Booking emails", "onText-change": e => this.handleNameChange(e.detail), ref: el => (this.nameInputRef = el) }), this.isDuplicateName && (index.h("p", { key: '59c8eeaad5d2a3314d43fc6dc490ca7080148ecb', class: "table-form__error", role: "alert" }, "A table with this name already exists."))));
     }
 };
 IrTranslationsTableForm.style = irTranslationsTableFormCss();

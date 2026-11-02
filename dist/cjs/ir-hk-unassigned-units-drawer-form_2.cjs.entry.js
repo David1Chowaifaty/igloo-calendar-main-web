@@ -1,20 +1,19 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var index$1 = require('./index-ispwqmgg.js');
+var index$1 = require('./index-9D7XLiv8.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
 var t = require('./t-CqJPQrfm.js');
-var booking_store = require('./booking.store-DdFbXlGt.js');
+var booking_service = require('./booking.service-yJ7oXj56.js');
 var user_service = require('./user.service-Do558jHj.js');
 var constants = require('./constants-BLID23LD.js');
 var types = require('./types-BVJQZ50e.js');
 require('./locale-scope-Cch-vf1R.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
-require('./commonSchemas-xDHPjJQn.js');
-require('./locale.controller-BhXPN9ym.js');
+require('./commonSchemas-kIlurDum.js');
+require('./locale.controller-BE9t6L_N.js');
 require('./language-observer-DKp37LIu.js');
-require('./types-B4nFkhmU.js');
 require('./IBooking-hDE_y33g.js');
 require('./utils-DC_1UV-i.js');
 require('./moment-CdViwxPQ.js');
@@ -127,10 +126,10 @@ const IrHkUnassignedUnitsDrawerForm = class {
         });
     }
     render() {
-        return (index.h("form", { key: 'ff2455fe92092059f48f4c4e8e98329493ef7072', id: this.formId, onSubmit: e => {
+        return (index.h("form", { key: '6b2dbc76611f6511f14674c86043a8b94f7d7b2a', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.assignUnits();
-            } }, index.h("table", { key: 'd1c2aa9aa0543932b0419ebb94411929918f50ed' }, index.h("thead", { key: 'b855549ae6bdefe6820357c913da82021811fb5f' }, index.h("th", { key: '68ff4302d1b2041ef66e93673ca5a49b6ebb26c6', class: "sr-only" }, t.t('Lcz_RoomName', { fallback: 'room name' })), index.h("th", { key: '36edf909a13205fedc5af35a2dbe26a044eeed80', class: "sr-only" }, t.t('Lcz_HousekeeperName', { fallback: 'housekeeper name' })), index.h("th", { key: '8a6858093a48a84674bf029ecd15478f5accd2bd', class: "sr-only" }, t.t('Lcz_Actions', { fallback: 'Actions' }))), index.h("tbody", { key: '588df11d2dfb2eaa428d8a261ff6e57c59be554e' }, this.renderRooms()))));
+            } }, index.h("table", { key: 'f31a6f5848dbad5055b62b4830ff7cd49835de88' }, index.h("thead", { key: '0d47b208a5ab74abfa15620dfcb455c2848fe359' }, index.h("th", { key: '5bd3b9eba1bf01f7d9dd21db056dc5c7f1bf0789', class: "sr-only" }, t.t('Lcz_RoomName', { fallback: 'room name' })), index.h("th", { key: 'c35ea0bf0c3765331524b4ebcb4f62117c517868', class: "sr-only" }, t.t('Lcz_HousekeeperName', { fallback: 'housekeeper name' })), index.h("th", { key: '1990c4b3a46ac27c039e6103c07f4614a2634619', class: "sr-only" }, t.t('Lcz_Actions', { fallback: 'Actions' }))), index.h("tbody", { key: 'bbae42de87a880b553447be07a000ec53d75f0bb' }, this.renderRooms()))));
     }
 };
 IrHkUnassignedUnitsDrawerForm.style = irHkUnassignedUnitsDrawerFormCss();
@@ -168,7 +167,7 @@ const IrHkUserDrawerForm = class {
     closeSideBar;
     loadingChanged;
     housekeepingService = new index$1.HouseKeepingService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     // Stable schema references — closures read current `this` state at validation time.
     // Built in `buildSchemas()` rather than at module load so their messages resolve against the loaded locale.
     nameSchema;

@@ -18,7 +18,7 @@ const IrArrivalTimeCell = class {
     arrival;
     arrivalTimeLabel;
     render() {
-        return (index.h(index.Host, { key: '39c75e1270d1a62dfc8b3dcb545467b3b221b340' }, index.h("div", { key: '88e18c44b40959e0f14272e1522b5f20a825f013', class: "arrival-time-cell__container" }, this.arrivalTimeLabel && index.h("span", { key: '8ceee2d4058368777509915c2864007241981809', class: "arrival-time-cell__label" }, this.arrivalTimeLabel, ": "), index.h("p", { key: '4a689a88746415b4dfc318394659f569ad6a9bf8' }, this.arrival?.description))));
+        return (index.h(index.Host, { key: 'c46608320fab24ff6551931b5afd705aba770915' }, index.h("div", { key: '8fd736559184ab491f2e58d57c6215337055fcb6', class: "arrival-time-cell__container" }, this.arrivalTimeLabel && index.h("span", { key: '7dd2d93da23d89572075368b82543e78057488b5', class: "arrival-time-cell__label" }, this.arrivalTimeLabel, ": "), index.h("p", { key: 'a607b71391789f9496d521db7c26c271b4c88970' }, this.arrival?.description))));
     }
 };
 IrArrivalTimeCell.style = irArrivalTimeCellCss();
@@ -35,7 +35,7 @@ const IrBookedOnCell = class {
     showTime = true;
     render() {
         const { date, hour, minute } = this.bookedOn;
-        return (index.h(index.Host, { key: '922e8d76bb03fa9e483564b6659898b66553e028' }, this.label && index.h("p", { key: '051ea162187eb34d14bf034016811a5043c4f99c', class: "cell-label" }, this.label, ":"), index.h("p", { key: '8e251736e628b735b6261371044058fcfddbf9b1', class: "booked-on-cell__date" }, irDate.formatDate(date, 'DD MMM YYYY')), this.showTime && index.h("p", { key: '1d53d10fc407afafc3e221310dfd5c2c99580810', class: "booked-on-cell__time" }, functions._formatTime(hour.toString(), minute.toString()))));
+        return (index.h(index.Host, { key: 'ec34ecc0d2131e26e9b4a85024ebfda991c5f70c' }, this.label && index.h("p", { key: '38169675cf1c2926a6fcba3f7a3fc142cb41e40c', class: "cell-label" }, this.label, ":"), index.h("p", { key: '6c9342bbdb86332e681742bc6de5cc221d63a97c', class: "booked-on-cell__date" }, irDate.formatDate(date, 'DD MMM YYYY')), this.showTime && index.h("p", { key: '5154596e44b0735ba3a7f8a94e1c8fe9d277726f', class: "booked-on-cell__time" }, functions._formatTime(hour.toString(), minute.toString()))));
     }
 };
 IrBookedOnCell.style = irBookedOnCellCss();

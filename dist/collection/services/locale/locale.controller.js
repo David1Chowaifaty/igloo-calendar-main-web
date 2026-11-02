@@ -1,4 +1,5 @@
 import { locales } from "../../stores/locales.store";
+import { installLanguageInjector } from "../../models/language-injector";
 import { LanguageObserver } from "../../utils/language-observer";
 import { getLocalLanguage, getLocaleScope } from "./locale-scope";
 import { LocaleService } from "./locale.service";
@@ -299,3 +300,5 @@ export class LocaleController {
         locales.loadedTables = [];
     }
 }
+/* Every API payload carries the selected language; see `language-injector.ts` for why it is installed here. */
+installLanguageInjector(() => LocaleController.language);

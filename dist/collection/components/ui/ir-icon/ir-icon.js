@@ -4,7 +4,7 @@ export class IrIcon {
     type = 'button';
     iconClickHandler;
     render() {
-        return (h("button", { key: '1aeb353b37cac221e93bec191fc94ace21493fb9', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '6866576f9a9e89beb541e153cc222a87a80bb204', name: "icon" })));
+        return (h("button", { key: '8b4955a849c650b33bd4cb1ee25cce9ac2998870', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '26fe755da40e11d72c2ec6f8112941e1f9f9c0b1', name: "icon" })));
     }
     static get is() { return "ir-icon"; }
     static get encapsulation() { return "scoped"; }

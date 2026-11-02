@@ -1,24 +1,23 @@
 import { r as registerInstance, c as createEvent, h, a as getElement, H as Host, F as Fragment } from './index-DKZeCK8T.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { f as formatDate } from './ir-date-XXNYhmSL.js';
+import { f as formatDate } from './ir-date-Bh8M_fTk.js';
 import { t } from './t-Bvz1wS_D.js';
-import { b as formatCount, f as formatAmount } from './number-B8waOzTO.js';
-import { c as calendar_data } from './calendar-data-DWzivSW-.js';
-import { r as calculateTrend } from './utils-BQHfpbFq.js';
+import { b as formatCount, f as formatAmount } from './number-BguMo00d.js';
+import { c as calendar_data } from './calendar-data-D4DbXAhg.js';
+import { r as calculateTrend } from './utils-BXIDs-ea.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-34GsmACS.js';
-import './booking.dto-DGwE7ON6.js';
+import './booking.dto-BenwoJ5d.js';
 import './locale-scope-Jre4lb6k.js';
-import { d as getSetupEntryLabel } from './utils-CUTmcAi5.js';
+import { d as getSetupEntryLabel } from './utils-Dbz0MTmD.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './calendar-dates-D3hVfsrC.js';
-import './types-CB66a07H.js';
-import './type-9FR4Ndkd.js';
-import './IBooking-B4waZCSK.js';
-import './commonSchemas-BijesBly.js';
-import './locale.controller-vDtmeNEe.js';
+import './types-BLb1NO3I.js';
+import './type-CEUDt-3i.js';
+import './IBooking-BFuEU3Ic.js';
+import './commonSchemas-BxtSqX7W.js';
+import './locale.controller-CWet1XCE.js';
 import './axios-B50ozOIF.js';
-import './types-DVx1-piY.js';
 
 const irDailyRevenueFiltersCss = () => `.sc-ir-daily-revenue-filters-h{display:block}.or-divider.sc-ir-daily-revenue-filters{display:flex;align-items:center;gap:0.5rem}.or-divider__line.sc-ir-daily-revenue-filters{flex:1;height:1px;background-color:var(--wa-color-surface-border, #dee2e6)}.or-divider__text.sc-ir-daily-revenue-filters{font-size:var(--wa-font-size-xs, 0.75rem);color:var(--wa-color-text-quiet, #6c757d);white-space:nowrap;text-transform:uppercase;letter-spacing:0.05em}`;
 
@@ -78,18 +77,18 @@ const IrDailyRevenueFilters = class {
         });
     }
     render() {
-        return (h("ir-filter-card", { key: 'b237f0b64237b69a76a5eabed5602b3291927f0e' }, h("wa-select", { key: '5b0f3d0161cd53da6a4dcf75c87203c2ed7d2add', label: t('Lcz_Source', { fallback: 'Source' }), size: "s", value: this.filters?.source ?? '', defaultValue: this.filters?.source ?? '', onchange: (e) => {
+        return (h("ir-filter-card", { key: '026877eeb0323275793206a9316dab34496666fc' }, h("wa-select", { key: '6cefeb8472b0fa95e21410c76a7abafe727646f5', label: t('Lcz_Source', { fallback: 'Source' }), size: "s", value: this.filters?.source ?? '', defaultValue: this.filters?.source ?? '', onchange: (e) => {
                 const value = e.target.value;
                 this.updateFilter({ source: value || null });
-            } }, h("wa-option", { key: '2e14a39d3f315c4a80e08523f59308a8278f05fd', value: "" }, t('Lcz_AllSources', { fallback: 'All sources' })), this.sources.map(({ label, value }) => (h("wa-option", { key: value, value: value }, label)))), h("wa-select", { key: '76ee38be652f5472080f2d36c534c7d89c43e7f6', label: t('Lcz_SelectedPeriod', { fallback: 'Selected period' }), size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
+            } }, h("wa-option", { key: 'e69f0beabdcfd77a6025faedf655d5d964d53156', value: "" }, t('Lcz_AllSources', { fallback: 'All sources' })), this.sources.map(({ label, value }) => (h("wa-option", { key: value, value: value }, label)))), h("wa-select", { key: '116c48ef3a5fef7e870f6d590a4e483c11fa2dc4', label: t('Lcz_SelectedPeriod', { fallback: 'Selected period' }), size: "s", value: this.filters?.date?.toString(), defaultValue: this.filters?.date?.toString(), onchange: (e) => {
                 const value = e.target.value;
                 this.updateFilter({ date: value, to_date: value, from_date: value });
-            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: 'f75dd8efca006bbfca92385ac482cb8f88ec1fbb', class: "or-divider" }, h("span", { key: '3def73776516248fadedfd0106a4581507054720', class: "or-divider__line" }), h("span", { key: 'e8285fa26922047a4a933313671b558c067bcc53', class: "or-divider__text" }, t('Lcz_Or', { fallback: 'Or' })), h("span", { key: 'a324f69ef563f5f994ff05cd8430493971a7e04e', class: "or-divider__line" })), h("ir-date-range-filter", { key: '76a11a135b95174c6dd22e6b8329ea74cab02577', showQuickActions: false, label: t('Lcz_DateRange', { fallback: 'Date range' }), fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: hooks().format('YYYY-MM-DD'), onDatesChanged: e => {
+            } }, this.getLast30Days().map(({ text, value }) => (h("wa-option", { key: value, value: value }, text)))), h("div", { key: '6148909cbe1f9c15d35a3d04e9e92f3f5c91f0fd', class: "or-divider" }, h("span", { key: '524726ac4a18cdbcff2d9b0578f4d8c2fbee01c0', class: "or-divider__line" }), h("span", { key: '8d1a965c83793e65a5464b975324e0e71625e14d', class: "or-divider__text" }, t('Lcz_Or', { fallback: 'Or' })), h("span", { key: 'd2bf9ec0f265a818b191c5e585ddf440de8cf808', class: "or-divider__line" })), h("ir-date-range-filter", { key: '9957eccaadeb08beb61dbd71e0fa8b871585187f', showQuickActions: false, label: t('Lcz_DateRange', { fallback: 'Date range' }), fromDate: this.filters?.from_date, toDate: this.filters?.to_date, selectionMode: "auto", withClear: false, maxDate: hooks().format('YYYY-MM-DD'), onDatesChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { from, to } = e.detail;
                 this.updateFilter({ from_date: from, to_date: to, date: null });
-            } }), h("div", { key: 'b13299c7da36c3963f3428ac10b85d2aa89aeee8', slot: "footer" }, h("ir-custom-button", { key: 'd824fe2300f7119c1821431a74738c301686be7a', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, t('Lcz_Reset', { fallback: 'Reset' })), h("ir-custom-button", { key: 'd93bf6e4631deeb9bc2c8892d976d2732aeb620a', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, t('Lcz_Apply', { fallback: 'Apply' })))));
+            } }), h("div", { key: 'a1cf50997f1a494b196316fb4d151a629554a110', slot: "footer" }, h("ir-custom-button", { key: 'dd292018285abdc4ff2cb1d9ea33d27e918ffa66', variant: "neutral", appearance: "outlined", onClickHandler: e => this.resetFilters(e) }, t('Lcz_Reset', { fallback: 'Reset' })), h("ir-custom-button", { key: '4483587efdacb340b30323a744e889275533ad91', variant: "brand", loading: this.isLoading, onClickHandler: e => this.applyFiltersEvt(e) }, t('Lcz_Apply', { fallback: 'Apply' })))));
     }
     static get watchers() { return {
         "payments": [{
@@ -114,7 +113,7 @@ const IrRevenueRow = class {
     contentId = `ir-rr-content-${++accId}`;
     render() {
         const total = this.payments.reduce((prev, curr) => prev + curr.amount, 0);
-        return (h(Host, { key: '0d89f76a457bbaa5c1331ef2a0e49900238abba2' }, h("ir-accordion", { key: '087e6394f5e358eff16e0a439224d318224c1213', class: "ir-revenue-row__accordion" }, h("div", { key: 'ef36c5124e8e7082c5a6126f96423da4c7cc5b05', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: '49f79668ebe181a7cacad856ec251a54c508b236', class: "ir-revenue-row__header-left" }, h("p", { key: 'dd91ae3f3c6f32130e64d5d8b7a1b4fc865bca71', class: "ir-revenue-row__group" }, this.groupName, ' ', h("wa-badge", { key: '1fd5c26980e8c446bbe4dc66bbb55e7167f6da77', variant: "brand", "aria-label": t('Lcz_TransactionsCountAriaLabel', { fallback: '%1 transactions', params: [formatCount(this.payments.length)] }) }, formatCount(this.payments.length)))), h("p", { key: '3f91fa8feab63c9ff470ee020a06c2aeb58f8e78', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: 'c989c4354d5bb2e09efaa6bcaa72f13a9af99601', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: 'a4a176c9c295dd18a66546763e7fbff935672fd4', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
+        return (h(Host, { key: 'fbe9a85b2d4e01f2be4c382a17b26cb5dd3eeeb3' }, h("ir-accordion", { key: '56867e8247f9dfd3f3e0c1d5e5f08640893f8ac5', class: "ir-revenue-row__accordion" }, h("div", { key: '9b339d99a48c110e8436001963a349a61dd15a63', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: 'ad1229dd52cf365076d076ff8f0770f68b5949d5', class: "ir-revenue-row__header-left" }, h("p", { key: '03743e3481abe673787e2d4de4032e84d8b3a2fa', class: "ir-revenue-row__group" }, this.groupName, ' ', h("wa-badge", { key: '862dfd0893c03b59428c84c2bfc911e4c955788d', variant: "brand", "aria-label": t('Lcz_TransactionsCountAriaLabel', { fallback: '%1 transactions', params: [formatCount(this.payments.length)] }) }, formatCount(this.payments.length)))), h("p", { key: 'c03da0c40ef868b17207623de9a64fd0c30521c0', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: 'a69f2342ffd79c3532819e3e5c91eec4f0cbb25e', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: '9f55736b1c5bce0e87b4248e17184e40c3726e04', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
     }
 };
 IrRevenueRow.style = irRevenueRowCss();
@@ -165,7 +164,7 @@ const IrRevenueSummary = class {
         const previousDateRefundAmount = this.calculateTotalRefunds(this.previousDateGroupedPayments);
         const previousDateTotalAmount = previousDatePaymentsTotal + previousDateRefundAmount;
         const hasPrevious = Boolean(this.filters?.date && this.previousDateGroupedPayments?.size > 0);
-        return (h(Host, { key: 'dee48e7a544d730115bc3a3d220690195f8aebd0' }, h("div", { key: 'dcc99309035f48651b58b03b854ef5ea4a9d3271', class: "revenue-summary__row" }, h("ir-metric-card", { key: '4cd9b0e558c615b49826c4567cd8137c5cc09a02', class: "revenue-summary__metric", icon: "arrow-trend-up", label: t('Lcz_Payments', { fallback: 'Payments' }), value: formatAmount(calendar_data.currency.symbol, paymentsTotal), trend: hasPrevious ? calculateTrend(paymentsTotal, previousDatePaymentsTotal) : undefined, trendLabel: t('Lcz_FromPreviousDay', { fallback: 'from previous day' }), caption: hasPrevious ? `${t('Lcz_PreviousDay', { fallback: 'Previous day:' })} ${formatAmount(calendar_data.currency.symbol, previousDatePaymentsTotal)}` : undefined }), h("ir-metric-card", { key: '141847234edb405aa57bb70c83e64b1601eeb640', class: "revenue-summary__metric", icon: "arrow-trend-down", label: t('Lcz_Refunds', { fallback: 'Refunds' }), value: formatAmount(calendar_data.currency.symbol, refundAmount), trend: hasPrevious ? calculateTrend(refundAmount, previousDateRefundAmount) : undefined, trendLabel: t('Lcz_FromPreviousDay', { fallback: 'from previous day' }), invertTrend: true, caption: hasPrevious ? `${t('Lcz_PreviousDay', { fallback: 'Previous day:' })} ${formatAmount(calendar_data.currency.symbol, previousDateRefundAmount)}` : undefined }), h("ir-metric-card", { key: 'f603733a3d67e94f91cc711d24799f954a4bbabd', class: "revenue-summary__metric", icon: this.getTrendIcon(totalAmount, previousDateTotalAmount) ?? 'money-bill', label: t('Lcz_NetTotal', { fallback: 'Net Total' }), value: formatAmount(calendar_data.currency.symbol, totalAmount), trend: hasPrevious ? calculateTrend(totalAmount, previousDateTotalAmount) : undefined, trendLabel: t('Lcz_FromPreviousDay', { fallback: 'from previous day' }), caption: hasPrevious ? `${t('Lcz_PreviousDay', { fallback: 'Previous day:' })} ${formatAmount(calendar_data.currency.symbol, previousDateTotalAmount)}` : undefined }))));
+        return (h(Host, { key: '03d7e7beaea31f7333022101aad1fd2385e0aaed' }, h("div", { key: '074e44c1375a47fc8c501b905b049f288d439f24', class: "revenue-summary__row" }, h("ir-metric-card", { key: '0d719bf0d1c661a756c921f975937fa2e1719f4f', class: "revenue-summary__metric", icon: "arrow-trend-up", label: t('Lcz_Payments', { fallback: 'Payments' }), value: formatAmount(calendar_data.currency.symbol, paymentsTotal), trend: hasPrevious ? calculateTrend(paymentsTotal, previousDatePaymentsTotal) : undefined, trendLabel: t('Lcz_FromPreviousDay', { fallback: 'from previous day' }), caption: hasPrevious ? `${t('Lcz_PreviousDay', { fallback: 'Previous day:' })} ${formatAmount(calendar_data.currency.symbol, previousDatePaymentsTotal)}` : undefined }), h("ir-metric-card", { key: '8710f7b216fcfcd19374cfceb37e4426a4b7fe7b', class: "revenue-summary__metric", icon: "arrow-trend-down", label: t('Lcz_Refunds', { fallback: 'Refunds' }), value: formatAmount(calendar_data.currency.symbol, refundAmount), trend: hasPrevious ? calculateTrend(refundAmount, previousDateRefundAmount) : undefined, trendLabel: t('Lcz_FromPreviousDay', { fallback: 'from previous day' }), invertTrend: true, caption: hasPrevious ? `${t('Lcz_PreviousDay', { fallback: 'Previous day:' })} ${formatAmount(calendar_data.currency.symbol, previousDateRefundAmount)}` : undefined }), h("ir-metric-card", { key: 'e8e305526770095a0d8fb270164d2f2c28c1082f', class: "revenue-summary__metric", icon: this.getTrendIcon(totalAmount, previousDateTotalAmount) ?? 'money-bill', label: t('Lcz_NetTotal', { fallback: 'Net Total' }), value: formatAmount(calendar_data.currency.symbol, totalAmount), trend: hasPrevious ? calculateTrend(totalAmount, previousDateTotalAmount) : undefined, trendLabel: t('Lcz_FromPreviousDay', { fallback: 'from previous day' }), caption: hasPrevious ? `${t('Lcz_PreviousDay', { fallback: 'Previous day:' })} ${formatAmount(calendar_data.currency.symbol, previousDateTotalAmount)}` : undefined }))));
     }
 };
 IrRevenueSummary.style = irRevenueSummaryCss();
@@ -250,7 +249,7 @@ const IrRevenueTable = class {
     render() {
         this.buildPaymentLookups();
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("wa-card", { key: '5dc0cf2ac428b5e3ec923e128d248c083ce73038', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, t('Lcz_Method', { fallback: 'Method' })), h("p", null, t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
+        return (h("wa-card", { key: 'bf502f54398154acbfa8c3ffc5730e79d66d006d', class: "revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, t('Lcz_Method', { fallback: 'Method' })), h("p", null, t('Lcz_Amount', { fallback: 'Amount' }))), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 list = this.sortByDateTime(list);
                 const [paymentType, paymentMethod] = key.split('_');
