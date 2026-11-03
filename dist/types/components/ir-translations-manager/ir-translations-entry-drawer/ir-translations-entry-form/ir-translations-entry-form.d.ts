@@ -26,6 +26,7 @@ export declare class IrTranslationsEntryForm {
     values: Record<string, string>;
     isSubmitting: boolean;
     private keyInputRef?;
+    private syncDialogRef?;
     private setupService;
     /** Key the copied row was last applied for — so backspacing and retyping it doesn't re-fill and re-toast. */
     private filledFromCopiedKey;

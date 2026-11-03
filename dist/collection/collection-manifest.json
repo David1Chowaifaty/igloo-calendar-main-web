@@ -306,6 +306,7 @@
     "components/ir-translations-manager/ir-translations-entry-drawer/ir-translations-entry-drawer.js",
     "components/ir-translations-manager/ir-translations-entry-drawer/ir-translations-entry-form/ir-translations-entry-form.js",
     "components/ir-translations-manager/ir-translations-language-dialog/ir-translations-language-dialog.js",
+    "components/ir-translations-manager/ir-translations-sync-dialog/ir-translations-sync-dialog.js",
     "components/ir-translations-manager/ir-translations-table-dialog/ir-translations-table-dialog.js",
     "components/ir-translations-manager/ir-translations-table-dialog/ir-translations-table-form/ir-translations-table-form.js",
     "components/ir-unbookable-rooms/ir-unbookable-rooms.js",

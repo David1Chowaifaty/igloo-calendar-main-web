@@ -50,7 +50,7 @@ const IrClDocumentHeader = class {
         const p = this.property;
         const logo = p?.space_theme?.logo;
         const propertyLocation = [p?.city?.['name'] ?? null, p?.country?.name ?? null].filter(f => f !== null).join(', ');
-        return (index.h(index.Host, { key: 'fb2f5df3e0fc808377c38a9c5e5482ead37ec65d' }, index.h("header", { key: 'f4d8f683561b463fe47a9a64cc4ef1d5fdb87418', class: "invoice__header" }, index.h("h3", { key: '4c43a2d99c995eb15143a9bec835e78983af4c55', class: "invoice__title" }, this.documentTitle), index.h("section", { key: 'be7d6b33f032140200cb3d99ae5b89db32de3ec7', class: "invoice__layout" }, index.h("div", { key: '8c3c6621fc5810cd6bfc06e8721c18e8f9152afd', class: "invoice__column invoice__column--details" }, index.h("div", { key: 'ca53cce8005fbfe4f9c2a81be5c2b8a7a5832cdc', class: "invoice__details" }, this.documentNumber && (index.h("div", { key: 'c9043e34f113b0ffd2a8980873c43cddfa54fedc', class: "invoice__meta-row" }, index.h("span", { key: '15f7468dcfce7e9998b202f8d0ed082fac435588', class: "invoice__meta-label" }, t.t('Lcz_DocumentNumberLabel', { fallback: 'Document #' })), index.h("span", { key: '6ec964d25280c8f5579574c6c8425864f09d69be', class: "invoice__meta-value" }, this.documentNumber))), index.h("div", { key: 'dc65f9ee0048970375c27990594d83ed1229d675', class: "invoice__meta-row" }, index.h("span", { key: 'c63f9dee603df940c30c5293c82a4f966b4b0133', class: "invoice__meta-label" }, t.t('Lcz_DateLabel', { fallback: 'Date' })), index.h("span", { key: '30853e7c874f3e09ac9f6582e38973aabcf7bd76', class: "invoice__meta-value" }, irDate.formatDate(moment.hooks(), DATE_DISPLAY)))), this.agentName && (index.h("section", { key: '79e77d2b4b568a2cfe252bed7f8373e5a6ed0509', class: "bill-to-section", "aria-label": t.t('Lcz_BillTo', { fallback: 'Bill to' }) }, index.h("h4", { key: 'f143305ba024d2bb5080f4053c07d923337fd5a5', class: "section-heading" }, t.t('Lcz_BillTo', { fallback: 'Bill To' })), index.h("div", { key: 'c79a9a1d7a5a7adb0e0a78ebc71b98ad7db01695', class: "bill-to" }, index.h("p", { key: 'df26d4683d1f92d78f87dde259e7c7efbe45ebd9', class: "bill-to__name" }, this.agentName))))), index.h("div", { key: 'f25010a4690bba7c1ea14ad37b853249f927446b', class: "invoice__column invoice__column--property" }, index.h("div", { key: '5b323da7d1ba81c9233269d4e560e7ba4d72afbd', class: "property-overview", "aria-label": t.t('Lcz_PropertyOverviewAria', { fallback: 'Property overview' }) }, logo && index.h("img", { key: 'f2209637bc6a26e435f7ec584cb35d953c57c8ef', src: logo, alt: p?.name, class: "property-logo" }), index.h("div", { key: '5fe646d6bb0ec517ba574f9e96df70934e80bc0e', class: "property-overview__text" }, index.h("p", { key: '764d87df1985ab1782ad85cc8a267caa3b1acee0', class: "property-overview__name" }, p?.name), propertyLocation && index.h("p", { key: 'e2b15ce4c8d650a1fce7579c7a5f1b5194abea80', class: "property-overview__location" }, propertyLocation), p?.address && index.h("p", { key: 'a9a4a32af62ecc711766179d854b93027da40697', class: "property-overview__location" }, p.address), p?.phone && index.h("p", { key: 'e36eea044faf9598ff809af5fc18c8fa1a1b71d4', class: "property-overview__location" }, p.phone), this.primaryContact?.email && index.h("p", { key: '7a0e5eff56edfa34fcade17f800cc1e610cb41c4', class: "property-overview__location" }, this.primaryContact.email), p?.tax_nbr && (index.h("p", { key: '43b3a150a70df5550d414db0ce9406fa344767dd', class: "property-overview__location" }, t.t('Lcz_TaxRegPrefix', { fallback: 'Tax Reg:' }), " ", p.tax_nbr)))))))));
+        return (index.h(index.Host, { key: 'e10757472d3f93688b6f09c0025304a141a4acad' }, index.h("header", { key: '4c2b7064fadc12a814afdcaaeb4bfd3aa2bd046a', class: "invoice__header" }, index.h("h3", { key: 'a7b217e0639066bc1da4cbeef31f259c608b8203', class: "invoice__title" }, this.documentTitle), index.h("section", { key: '54c5931c22d0879fda4140fe7b0051aeeebd1eec', class: "invoice__layout" }, index.h("div", { key: '20a4f3738a42bf62c3d741f34109a1981795d807', class: "invoice__column invoice__column--details" }, index.h("div", { key: '3e124caa016fdf50b25b2cede5dd6788045f7c59', class: "invoice__details" }, this.documentNumber && (index.h("div", { key: '4cf18eac48cc27a044bb43cae74ef809da5361ae', class: "invoice__meta-row" }, index.h("span", { key: '04692e50c3d5de42f6266e94ffdbbb77e3c89560', class: "invoice__meta-label" }, t.t('Lcz_DocumentNumberLabel', { fallback: 'Document #' })), index.h("span", { key: 'b1d8ad5aa3f33ac3c8fb8b68131121da4cb60fb1', class: "invoice__meta-value" }, this.documentNumber))), index.h("div", { key: '8529bcedc03649828665fb014fc4bd7b3982044d', class: "invoice__meta-row" }, index.h("span", { key: '8dfba0b6eadfdb3ad72b6320b10057f9408275d7', class: "invoice__meta-label" }, t.t('Lcz_DateLabel', { fallback: 'Date' })), index.h("span", { key: '68bc843a48557c91f9194c5b22f08b31986ce858', class: "invoice__meta-value" }, irDate.formatDate(moment.hooks(), DATE_DISPLAY)))), this.agentName && (index.h("section", { key: '671481ffcfea3e6e24269f57110a9bead5742236', class: "bill-to-section", "aria-label": t.t('Lcz_BillTo', { fallback: 'Bill to' }) }, index.h("h4", { key: '41e79902691a6d979e5b234006ab4c9aff3246c2', class: "section-heading" }, t.t('Lcz_BillTo', { fallback: 'Bill To' })), index.h("div", { key: 'b0a5a4ddb02dea041e2b790714c916871402bc61', class: "bill-to" }, index.h("p", { key: '29d7ba5fe200553ea81c700f7e8bfe85265081ec', class: "bill-to__name" }, this.agentName))))), index.h("div", { key: '8c8db916444302f23785638234222752e411f79f', class: "invoice__column invoice__column--property" }, index.h("div", { key: '5c3bef759eaebb5d62a787852162842bc6edcac9', class: "property-overview", "aria-label": t.t('Lcz_PropertyOverviewAria', { fallback: 'Property overview' }) }, logo && index.h("img", { key: '895ab22d0876589a437a663cd7c74a232c9d9ed1', src: logo, alt: p?.name, class: "property-logo" }), index.h("div", { key: '8d6d7a37e74d9f647ffc8b5f1c1da7e9fe8c0df6', class: "property-overview__text" }, index.h("p", { key: '2aa9ba4fb6e927adf0b4fcdf3cf58a582b5b2de6', class: "property-overview__name" }, p?.name), propertyLocation && index.h("p", { key: 'bd9c9996bbe33766000c5ee7cc9a2a1e1ce4179d', class: "property-overview__location" }, propertyLocation), p?.address && index.h("p", { key: 'b9cf1f7634d7b9e9de66a927ebb510e85cbaa138', class: "property-overview__location" }, p.address), p?.phone && index.h("p", { key: '7eac4e8f6e6e9153c6c28301e62d7ec558c2d9df', class: "property-overview__location" }, p.phone), this.primaryContact?.email && index.h("p", { key: 'ef8919d9e3980576dbb7b7f115cd61ad29aee4c5', class: "property-overview__location" }, this.primaryContact.email), p?.tax_nbr && (index.h("p", { key: '810d9b0fcd5b8a629222f40ff634fd4f4a87aa0b', class: "property-overview__location" }, t.t('Lcz_TaxRegPrefix', { fallback: 'Tax Reg:' }), " ", p.tax_nbr)))))))));
     }
 };
 IrClDocumentHeader.style = irClDocumentHeaderCss();
@@ -243,7 +243,7 @@ const IrClFiscalDocumentTable = class {
         return (index.h("tr", { class: "cl-balance-row" }, index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td cl-td--num" }), index.h("td", { class: "cl-td cl-td--num" }, index.h("span", { style: { fontSize: '1rem' } }, this.renderMoney(totals.net)), " ", index.h("br", null), t.t('Lcz_NetPriceLabel', { fallback: 'Net Price' })), index.h("td", { class: "cl-td cl-td--num" }), index.h("td", { class: "cl-td cl-td--num" }, index.h("span", { style: { fontSize: '1rem' } }, this.renderMoney(totals.tax)), index.h("br", null), t.t('Lcz_Taxes', { fallback: 'Taxes' })), this.showCityTax && index.h("td", { class: "cl-td cl-td--num" }), this.showCityTax && index.h("td", { class: "cl-td cl-td--num" }), index.h("td", { class: "cl-td cl-td--num" }, index.h("span", { style: { fontSize: '1rem' } }, this.renderMoney(totals.total)), index.h("br", null), t.t('Lcz_Total', { fallback: 'Total' }))));
     }
     render() {
-        return (index.h(index.Host, { key: '2ccadbac26ad0d51094ba44b1f355711b8adc786' }, index.h("section", { key: '2482a3feda267d5bc806318763cbb786bed5be99', class: "invoice-items" }, index.h("table", { key: '09756c4b5f524b943ad8a5d593ef12e127c3c178', class: "cl-table" }, index.h("thead", { key: 'f1a703312f975246b84dce1df6076acc07eb42d6' }, index.h("tr", { key: '2bb8c03e13a07ab940758c95631613adad9bebce' }, index.h("th", { key: '82a524e513594a6a7dcbf0c22f2b58b2ff277378', class: "cl-th" }, t.t('Lcz_DateLabel', { fallback: 'Date' })), index.h("th", { key: 'e5bd6b77270d18d7de2f1b00fbc8cb63592409f2', class: "cl-th", style: { width: '100%' } }, t.t('Lcz_Description', { fallback: 'Description' })), index.h("th", { key: '4942553da9bbce09b7747d21535a2129d60bfb75', class: "cl-th cl-th--num" }, t.t('Lcz_NetPriceLabel', { fallback: 'Net Price' })), index.h("th", { key: '42a295b73b132b76b6a19c62ca546ba8096405be', class: "cl-th" }, t.t('Lcz_Vat', { fallback: 'VAT' })), index.h("th", { key: 'c8d82043bd0b895e656cbdeb527d5f6e9b1fcc35', class: "cl-th cl-th--num" }, t.t('Lcz_VatAmountColumn', { fallback: 'VAT Amount' })), this.showCityTax && index.h("th", { key: '3287dabfc004586e15003b84215591c1cc07e06a', class: "cl-th" }, t.t('Lcz_CityTaxColumn', { fallback: 'City Tax' })), this.showCityTax && (index.h("th", { key: 'bd9fe05b1623a8a05220ccfbb4f8523de0ea40c5', class: "cl-th cl-th--num" }, t.t('Lcz_CityTaxColumn', { fallback: 'City Tax' }), index.h("br", { key: '38e4a99cbd370a3fd3832da0fec2178ed329bbab' }), t.t('Lcz_Amount', { fallback: 'Amount' }))), index.h("th", { key: '57c47ac22d4c52e5950c5eaf3da778d0292f0b30', class: "cl-th cl-th--num" }, t.t('Lcz_Total', { fallback: 'Total' })))), index.h("tbody", { key: 'ab7006fcf2e69c2c757f4d9be8647b4a14a951bf' }, this.transactions.length === 0 ? (index.h("tr", null, index.h("td", { class: "cl-td cl-td--empty", colSpan: this.showCityTax ? 8 : 6 }, t.t('Lcz_NoTransactionsForDocument', { fallback: 'No transactions found for this document.' })))) : (index.h(index.Fragment, null, groupData(this.transactions).map(item => this.renderTopLevelItem(item)), this.renderTotals())))))));
+        return (index.h(index.Host, { key: '603802e293253c28b793b20a93630d21cbc7defa' }, index.h("section", { key: '9858bdcf2a7d88732d7700297311a9a73c83cf84', class: "invoice-items" }, index.h("table", { key: '10a517e3d8e8a1a973c1afbbef2b5831393de415', class: "cl-table" }, index.h("thead", { key: '4b3344afad68f2c9c8def60254aef1cf029e9a1a' }, index.h("tr", { key: '4a6ef45b0e4470db1d77ec6c34a8516ef1441f26' }, index.h("th", { key: '43b3cfcf34a824e1497d2d6d86c109ca7687e376', class: "cl-th" }, t.t('Lcz_DateLabel', { fallback: 'Date' })), index.h("th", { key: '72f49fe28cd29119e07e7d76a7cf5905139aefad', class: "cl-th", style: { width: '100%' } }, t.t('Lcz_Description', { fallback: 'Description' })), index.h("th", { key: '3301788d31da256eeb34e3674ffae9c3d7c0a9e6', class: "cl-th cl-th--num" }, t.t('Lcz_NetPriceLabel', { fallback: 'Net Price' })), index.h("th", { key: 'de11fbe084cf879a2b5be979ef41ca8c140718bc', class: "cl-th" }, t.t('Lcz_Vat', { fallback: 'VAT' })), index.h("th", { key: '277c4eacd1db5cf2501a36f26895839a09dd76dd', class: "cl-th cl-th--num" }, t.t('Lcz_VatAmountColumn', { fallback: 'VAT Amount' })), this.showCityTax && index.h("th", { key: '8acadd7d5985271afbe1e948c9c1a1eff604ea4a', class: "cl-th" }, t.t('Lcz_CityTaxColumn', { fallback: 'City Tax' })), this.showCityTax && (index.h("th", { key: '8d4807fd957eb2a6c5462392a590255bc75d7e6d', class: "cl-th cl-th--num" }, t.t('Lcz_CityTaxColumn', { fallback: 'City Tax' }), index.h("br", { key: '329ab19b217dedf150ba47f87063f5fe80256926' }), t.t('Lcz_Amount', { fallback: 'Amount' }))), index.h("th", { key: 'c98103a13003b39b0c839aa91ae814a39191c642', class: "cl-th cl-th--num" }, t.t('Lcz_Total', { fallback: 'Total' })))), index.h("tbody", { key: 'f3b050025f16d4dc5259c8462eec087a789181da' }, this.transactions.length === 0 ? (index.h("tr", null, index.h("td", { class: "cl-td cl-td--empty", colSpan: this.showCityTax ? 8 : 6 }, t.t('Lcz_NoTransactionsForDocument', { fallback: 'No transactions found for this document.' })))) : (index.h(index.Fragment, null, groupData(this.transactions).map(item => this.renderTopLevelItem(item)), this.renderTotals())))))));
     }
 };
 IrClFiscalDocumentTable.style = irClFiscalDocumentTableCss();
@@ -258,7 +258,7 @@ const IrClInvoiceCityTaxAmountCell = class {
     amount;
     cityTaxPercent;
     render() {
-        return index.h(index.Host, { key: '80a6ed03cdc91fdfd74ffc6c16ba828a014802e8' }, this.cityTaxPercent > 0 ? number.formatAmount(this.currencySymbol, this.amount) : '');
+        return index.h(index.Host, { key: '6ca0d7b50365db40e429956325a7de105c261187' }, this.cityTaxPercent > 0 ? number.formatAmount(this.currencySymbol, this.amount) : '');
     }
 };
 IrClInvoiceCityTaxAmountCell.style = irClInvoiceCityTaxAmountCellCss();
@@ -271,7 +271,7 @@ const IrClInvoiceCityTaxPctCell = class {
     }
     cityTaxPercent;
     render() {
-        return index.h(index.Host, { key: '616fb43fece307a2e6de0f5eea8f76b0516a4004' }, this.cityTaxPercent > 0 ? `${this.cityTaxPercent}%` : '');
+        return index.h(index.Host, { key: '1a41170a4f64d73a4bc2a25cad3d93c84db9cea6' }, this.cityTaxPercent > 0 ? `${this.cityTaxPercent}%` : '');
     }
 };
 IrClInvoiceCityTaxPctCell.style = irClInvoiceCityTaxPctCellCss();
@@ -284,7 +284,7 @@ const IrClInvoiceDateCell = class {
     }
     date;
     render() {
-        return index.h(index.Host, { key: 'dd7940f904ba9cb1de2992d413b4980a6331931f' }, irDate.formatDate(this.date, { style: 'medium' }));
+        return index.h(index.Host, { key: 'd36af76a10a3e998bbaf9bd2c998804848388ff4' }, irDate.formatDate(this.date, { style: 'medium' }));
     }
 };
 IrClInvoiceDateCell.style = irClInvoiceDateCellCss();
@@ -297,7 +297,7 @@ const IrClInvoiceDescriptionCell = class {
     }
     description;
     render() {
-        return (index.h(index.Host, { key: 'a85a217ffd857154523ee758fc05ec160ef83b29' }, index.h("span", { key: '22df1d12297fa72e946e8221301342f77bcacc6d', class: "desc" }, this.description)));
+        return (index.h(index.Host, { key: '652c490bbfbdb7371b953b548c85124add52b95e' }, index.h("span", { key: 'f35f23c30935a9156c84fc1b6c798b725318e145', class: "desc" }, this.description)));
     }
 };
 IrClInvoiceDescriptionCell.style = irClInvoiceDescriptionCellCss();
@@ -311,7 +311,7 @@ const IrClInvoiceNetPriceCell = class {
     currencySymbol;
     amount;
     render() {
-        return index.h(index.Host, { key: '51850e3559947408f735887cb7785c7a8e69689d' }, number.formatAmount(this.currencySymbol, this.amount));
+        return index.h(index.Host, { key: 'c9144ba10c81748f8ce167d7883dc5d3ab4b6123' }, number.formatAmount(this.currencySymbol, this.amount));
     }
 };
 IrClInvoiceNetPriceCell.style = irClInvoiceNetPriceCellCss();
@@ -325,7 +325,7 @@ const IrClInvoiceTotalCell = class {
     currencySymbol;
     amount;
     render() {
-        return index.h(index.Host, { key: '09516f824813c1daddf087ccea0bee975a032db8' }, number.formatAmount(this.currencySymbol, this.amount));
+        return index.h(index.Host, { key: 'c902452a436fdec28e4f94bd9a0aada5bf513e3a' }, number.formatAmount(this.currencySymbol, this.amount));
     }
 };
 IrClInvoiceTotalCell.style = irClInvoiceTotalCellCss();
@@ -339,7 +339,7 @@ const IrClInvoiceVatAmountCell = class {
     currencySymbol;
     amount;
     render() {
-        return index.h(index.Host, { key: 'af15491b4d1e773e7d5ef1310563a9abaaabe26d' }, number.formatAmount(this.currencySymbol, this.amount));
+        return index.h(index.Host, { key: 'e09429d3837e8c52e226ad27a980b24ba171a47f' }, number.formatAmount(this.currencySymbol, this.amount));
     }
 };
 IrClInvoiceVatAmountCell.style = irClInvoiceVatAmountCellCss();
@@ -352,7 +352,7 @@ const IrClInvoiceVatPctCell = class {
     }
     vatPercent;
     render() {
-        return index.h(index.Host, { key: '64fc2384ff8367894fae080701e9146eb1caf6cb' }, this.vatPercent, "%");
+        return index.h(index.Host, { key: '52358c8d735c9626ee839eea8f18a7693019a372' }, this.vatPercent, "%");
     }
 };
 IrClInvoiceVatPctCell.style = irClInvoiceVatPctCellCss();

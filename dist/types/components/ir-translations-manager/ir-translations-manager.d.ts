@@ -60,6 +60,7 @@ export declare class IrTranslationsManager {
     duplicates: Map<string, DuplicateInfo>;
     private deleteDialogRef;
     private unsavedOrderDialogRef;
+    private syncDialogRef;
     private apiClientService;
     private setupService;
     /** Every keystroke in the header search. Debounced downstream — typing shouldn't be a query per character. */

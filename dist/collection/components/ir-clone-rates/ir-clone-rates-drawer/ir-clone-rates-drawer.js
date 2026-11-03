@@ -14,11 +14,11 @@ export class IrCloneRatesDrawer {
         this.cloneRatesDrawerClosed.emit();
     };
     render() {
-        return (h("ir-drawer", { key: '5f8ebad0c162971ceebbcf07b60275b23f0765d8', open: this.open, label: t('Lcz_CopyRatesToFutureDates'), onDrawerHide: this.handleDrawerHide }, this.open && (h("ir-clone-rates", { key: 'e327f4de40626cb9209c22d07c8447e85a35594a', mode: "drawer", ticket: this.ticket, p: this.p, language: this.language, propertyid: this.propertyid, onRatesCloned: e => {
+        return (h("ir-drawer", { key: 'cbe1b17129090dc270ef858e5830a519719feadd', open: this.open, label: t('Lcz_CopyRatesToFutureDates'), onDrawerHide: this.handleDrawerHide }, this.open && (h("ir-clone-rates", { key: '2ec53de9ceb9394e1ff6e4444371f74690f52d1c', mode: "drawer", ticket: this.ticket, p: this.p, language: this.language, propertyid: this.propertyid, onRatesCloned: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.cloneRatesDrawerClosed.emit();
-            } })), h("div", { key: 'ca15a23ed092aa1d82fa2c96329befbc1e44c0b7', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '217b14fee481d31df0c5eaa5fc615a1cb8fbac7a', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel')), h("ir-custom-button", { key: '971d1b0ecc6c5ff476898f884f9079aee72ebc72', size: "m", variant: "brand", type: "submit", form: "clone-rates-form" }, t('Lcz_Review')))));
+            } })), h("div", { key: '18e69ba81e7272da89a3df989cc50d43df2bd7d0', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '620a3de241bcf47a37271897868eb3e816666bfb', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel')), h("ir-custom-button", { key: 'c639a0ae5ab6753673c80e90ba2fc9828b29b5a1', size: "m", variant: "brand", type: "submit", form: "clone-rates-form" }, t('Lcz_Review')))));
     }
     static get is() { return "ir-clone-rates-drawer"; }
     static get encapsulation() { return "scoped"; }

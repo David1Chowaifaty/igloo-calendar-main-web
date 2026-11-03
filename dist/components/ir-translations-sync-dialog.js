@@ -1,0 +1,1 @@
+import{I as s,d as o}from"./ir-translations-sync-dialog2.js";const a=s,r=o;export{a as IrTranslationsSyncDialog,r as defineCustomElement}

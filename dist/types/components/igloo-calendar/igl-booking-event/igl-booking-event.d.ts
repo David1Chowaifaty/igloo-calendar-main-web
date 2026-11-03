@@ -9,99 +9,97 @@ export declare class IglBookingEvent {
     bookingEvent: {
         [key: string]: any;
     };
-    allBookingEvents: {
+    /**
+     * Every booking on the calendar, read only when a drop has to be checked for overlaps.
+     * A getter rather than the array itself, so that updating one booking does not hand every bar a
+     * new prop value and re-render them all.
+     */
+    getAllBookingEvents: () => {
         [key: string]: any;
-    };
+    }[];
     countries: ICountry[];
     roomTop: number;
-    hideBubbleInfo: EventEmitter;
-    updateEventData: EventEmitter;
     dragOverEventData: EventEmitter;
     showRoomNightsDialog: EventEmitter<IRoomNightsData>;
     showDialog: EventEmitter<CalendarModalEvent>;
-    resetStretchedBooking: EventEmitter<string>;
     updateBookingEvent: EventEmitter<{
         [key: string]: any;
     }>;
-    renderElement: boolean;
-    position: {
-        [key: string]: any;
-    };
-    isShrinking: boolean | null;
-    private dayWidth;
+    showInfoPopup: boolean;
     private eventSpace;
-    private showInfoPopup;
-    private bubbleInfoTopSide;
-    private isStretch;
     private eventsService;
     private bookingService;
-    private resizeSide;
-    private isDragging;
-    private initialX;
-    private initialY;
-    private currentX;
-    private currentY;
-    private initialWidth;
-    private initialLeft;
-    private finalWidth;
-    private dragInitPos;
-    private dragEndPos;
-    elementRect: {
-        [key: string]: any;
-    };
-    private isTouchStart;
-    private moveDifferenceX;
-    private moveDifferenceY;
-    private animationFrameId;
-    private minResizeDays;
+    private gesture;
+    /** Taps and Enter/Space presses asking to toggle the info bubble; see `connectedCallback`. */
+    private tapToggles$;
+    private keyToggles$;
+    private toggleSubscription;
+    /** The drag that produced the drop the calendar is about to answer with `moveBookingTo`. */
+    private lastGesture;
+    private autoOpenTimer;
     private autoScroller;
     private scrollHost;
-    /** Last drag offsets written to the DOM, so a repeated apply for the same state is skipped. */
-    private appliedDistance;
     /**
      * Room row extents captured when a move drag starts, in the same `.bodyContainer` grid space the
-     * bar positions itself in, and used to settle it on release. Captured up front rather than read
-     * at drop time so the measurement can't be disturbed by the drag itself, and because the same
-     * pass is what excludes category headers (taller than a room row, and not droppable).
+     * bar positions itself in, and used to settle it on release.
      */
     private dragRowBands;
-    private handleMouseMoveBind;
-    private handleMouseUpBind;
-    private handleClickOutsideBind;
-    private handleHostScrollBind;
-    private role;
-    componentWillLoad(): void;
-    /**
-     * Drag/resize writes `left`/`width` straight onto the element, but the vdom only re-applies a style
-     * when its own computed value changes — so when the stay itself changes, write the new geometry back.
-     */
+    /** When the stay itself changes, put the bar where the new data says it belongs. */
     handleBookingEventChange(newValue: {
         [key: string]: any;
     }, oldValue: {
         [key: string]: any;
     }): void;
+    /** How the shared registry reaches this bar; see bar-registry.ts. */
+    private registration;
+    /** How the label tracker reads where this bar is drawn; see bar-label.ts. */
+    private titleElement;
+    /**
+     * Where the bar is currently drawn, cached so the label tracker can read 1,000 bars per scroll
+     * frame without touching the DOM. Refreshed whenever the bar's position is written.
+     */
+    private displayed;
+    private syncDisplayed;
+    private label;
+    /**
+     * The info popup's anchor: this bar, measured as its visible part (see bar-popup.ts). Created
+     * once, so the popup never re-anchors on a re-render.
+     */
+    private popupAnchor;
+    private getScroller;
+    private popupElement;
+    /** The scroll container the open popup is following; see `BarAnchor` for why the bar does this. */
+    private followedScroller;
+    private repositionPopup;
+    /**
+     * How far the popup must keep from each edge of the scroll container: the sticky header, footer and
+     * room-name column, so it stays over the visible grid. Measured when it opens (they don't move).
+     */
+    private popupPadding;
+    private measureGridView;
+    private followScroll;
+    /** The popup moved (the calendar scrolled or resized): once its bar is entirely out of view, close it. */
+    private handlePopupReposition;
+    connectedCallback(): void;
+    componentDidRender(): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
-    handleClickOutside(event: Event): void;
-    hideBubbleInfoPopup(event: CustomEvent): void;
-    moveBookingToHandler(event: CustomEvent): Promise<void>;
-    private buildBarIds;
+    /** The bubble inside this bar asked to be closed (it bubbles up from igl-booking-event-hover). */
+    handleHideBubbleInfo(event: CustomEvent): void;
+    /** The calendar has resolved where this bar's drop landed; confirm it, or put the bar back. */
+    private handleMoveBookingTo;
+    /** Dialog fields for a move, or a shrink, that the user has to confirm. */
+    private getReallocationDialog;
     private fetchAndAssignBookingData;
-    private reset;
     private findRoomType;
     private getModalDescription;
-    private resetBookingToInitialPosition;
-    handleRevertBooking(event: CustomEvent<string>): void;
-    checkIfSlotOccupied(toRoomId: any, from_date: string, to_date: string): any;
-    renderAgain(): void;
-    getUniqueId(): number;
-    isSplitBooking(): boolean;
-    isNewEvent(): boolean;
-    isHighlightEventType(): boolean;
-    getBookingId(): any;
-    getBookingStatus(): any;
-    getBookedBy(): any;
-    getBookedRoomId(): any;
+    /** Puts the bar back exactly where its booking data says it belongs. */
+    private resetToDataPosition;
+    private checkIfSlotOccupied;
+    private isNewEvent;
+    private isHighlightEventType;
+    private getBookingId;
+    private getBookedRoomId;
     /**
      * The bar continues in from before the loaded window: its stay began before FROM_DATE (clamped to the window).
      * Drives both the skewed/continuation visual and the half-cell position adjustment.
@@ -110,26 +108,38 @@ export declare class IglBookingEvent {
     private isSkewedStart;
     /** The bar continues past the loaded window: its stay ends after TO_DATE (clamped to the window). */
     private isSkewedEnd;
-    getEventType(): any;
-    getEventLegend(): any;
-    getLegendOfStatus(aStatusId: any): any;
-    getNoteNode(): any;
-    getBalanceNode(): any;
-    setStayDays(aStayDays: number): void;
-    getStayDays(): any;
-    getPosition(): {
-        top: string;
-        left: string;
-        width: string;
-        height: string;
-    };
-    getNumber(aData: any): number;
+    private getLegendOfStatus;
+    private getEventLegend;
+    private getPosition;
+    /** Physical geometry the booking's data puts the bar at, in `.bodyContainer` grid pixels. */
+    private getGeometry;
     /**
-     * Pointer coordinates for a mouse, pointer or touch event, in viewport space.
-     * Touch events carry no `clientX`/`clientY` of their own - they live on the first touch point.
+     * Pointer travel, in px, before a press becomes a drag. Below it the press is a tap - which also
+     * absorbs the few pixels a finger or a trackpad click wobbles by.
      */
-    private getPointerPosition;
-    startDragging(event: any, side: string): any;
+    private static readonly DRAG_THRESHOLD;
+    private onPointerDown;
+    /** Escape abandons a drag wherever focus happens to be. */
+    private onGestureKeyDown;
+    /** The browser took the pointer away (a system gesture, the window losing focus): undo, don't drop. */
+    private onPointerCancel;
+    /** Abandons the current gesture: the bar goes back to where its data puts it and nothing is dropped. */
+    private cancelGesture;
+    private onPointerMove;
+    private onPointerUp;
+    /**
+     * Closes the bubble if it is open - no request - otherwise opens it. Returns what is still pending,
+     * which is what `exhaustMap` waits on before it lets another toggle through.
+     */
+    private toggleInfo;
+    /** Enter/Space opens the bubble, the way a tap does; Escape closes it from anywhere inside the bar. */
+    private onKeyDown;
+    /** Opens the info bubble, fetching the full booking first when its status needs it. Settles once open (or failed). */
+    private openInfo;
+    /** The press has travelled far enough to be a drag: lift the bar and tell the calendar. */
+    private beginDrag;
+    /** Releases everything a gesture holds. Safe to call when no gesture is active. */
+    private endGesture;
     /**
      * Arms edge auto-scrolling for the drag that just started.
      *
@@ -160,8 +170,7 @@ export declare class IglBookingEvent {
      *
      * Same selector and same coordinate space as the drop-target bounds `igloo-calendar` measures
      * (`offsetTop` inside `.bodyContainer`), so the row the bar snaps to is by construction the row
-     * the drop resolves to - the bar can never come to rest looking like it is over one row while
-     * releasing into another.
+     * the drop resolves to.
      */
     private captureRowBands;
     /**
@@ -172,32 +181,29 @@ export declare class IglBookingEvent {
      * the end of the list, which keeps the bar on a droppable row instead of between two.
      */
     private snapTopToRow;
-    /**
-     * Settles a just-dropped bar onto the grid: centred in the room row it was released over, and
-     * half a day cell in from that day's column edge, which is where a booking starting there rests.
-     *
-     * The settled position is written back to `dragEndPos` as well as to the element, so the drop
-     * resolves to the cell the bar visibly landed on rather than to the raw pointer position - the
-     * two disagree within a few pixels either side of a day boundary.
-     */
-    private settleToGrid;
     /** Snaps a dropped bar's physical left onto the day a booking released there would start on. */
     private snapLeftToDay;
     /** Disarms auto-scrolling. Safe to call when no drag is in progress. */
     private endAutoScroll;
     private handleHostScroll;
-    handleMouseMove(event: any): void;
     /**
      * Positions the bar (and, for a move, reports the drop target) from the last known pointer
      * position. Called both on pointer movement and on every frame the calendar auto-scrolls, since
-     * a pointer parked in the edge hot zone keeps the grid moving without firing another `mousemove`.
+     * a pointer parked in the edge hot zone keeps the grid moving without firing another move event.
+     *
+     * A move rides on `transform` so following the pointer never triggers layout; only the drop
+     * commits a real `top`/`left`.
      */
     private applyDragPosition;
-    handleMouseUp(): void;
-    updateData(data: any): void;
-    private calculateHoverPosition;
-    renderEventBookingNumber(): string;
-    showEventInfo(showInfo: any): any;
+    /** Settles a stretched bar on whole nights and reports the new length, or springs it back if unchanged. */
+    private dropStretch;
+    /** Settles a moved bar onto the grid cell it was released over and reports the drop. */
+    private dropMove;
+    private renderEventBookingNumber;
+    /** What a screen reader announces for the bar: who, which booking, and the stay. */
+    private getAccessibleName;
+    private showEventInfo;
+    /** True when the guest leaves later than the property's configured check-out time. */
     private isDepartureAfterHotelCheckout;
     private computeSplitRole;
     render(): any;

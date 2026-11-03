@@ -3,6 +3,7 @@ import { showToast } from "../../../../utils/utils";
 import { h } from "@stencil/core";
 import { planDuplicateSync } from "../../duplicate-sync";
 import { buildEditSetupParams } from "../../setup-mapping";
+import { getSyncPrompt, narrowSyncPlan } from "../../sync-policy";
 import { diffValues, getCopiedEntry, getSourceLanguage, hasValue } from "../../utils";
 import { t } from "../../../../services/locale/t";
 /** Every key the form creates starts with this — the Key field's mask prepends it. */
@@ -54,6 +55,7 @@ export class IrTranslationsEntryForm {
     values = {};
     isSubmitting = false;
     keyInputRef;
+    syncDialogRef;
     setupService = new SetupService();
     /** Key the copied row was last applied for — so backspacing and retyping it doesn't re-fill and re-toast. */
     filledFromCopiedKey = null;
@@ -249,7 +251,7 @@ export class IrTranslationsEntryForm {
             // Duplicates are keyed by the row as it was, so a rename still finds them. If they
             // can't be read the user's own save still goes out, just without them.
             let syncFailed = false;
-            const sync = previous
+            let sync = previous
                 ? await planDuplicateSync(this.setupService, {
                     siblings: this.duplicateSiblings,
                     changedValues: diffValues(previous.values, this.values),
@@ -262,6 +264,16 @@ export class IrTranslationsEntryForm {
                     return { params: [], entries: [] };
                 })
                 : { params: [], entries: [] };
+            // Edits crossing into or out of a sync-guarded table need the user's say-so.
+            // Dismissing the prompt abandons the save and leaves the drawer open.
+            const prompt = getSyncPrompt(this.tableName, sync.entries);
+            if (prompt.kind !== 'none') {
+                const answer = await this.syncDialogRef?.ask(prompt);
+                if (!answer) {
+                    return;
+                }
+                sync = narrowSyncPlan(sync, answer);
+            }
             writes.push(...sync.params);
             if (writes.length > 1) {
                 await this.setupService.editSetupMany(writes);
@@ -280,7 +292,7 @@ export class IrTranslationsEntryForm {
     render() {
         const total = this.languages.length;
         const translated = this.translatedCount;
-        return (h("form", { key: '35df344052ac06489b8bee83f0b8c9288cd7ce35', id: this.formId, class: "entry-form__body", onSubmit: this.handleSubmit, novalidate: true }, h("ir-input", { key: 'd6ca8f3797bf187537e8e41d14ca1ed170a0a986', label: "Key", readonly: this.isEditing, autocomplete: "off", mask: {
+        return (h("form", { key: '3498a8e6390e610269f14542425c616bd8a45bcb', id: this.formId, class: "entry-form__body", onSubmit: this.handleSubmit, novalidate: true }, h("ir-input", { key: 'a7799ec24679786153c0ce153da0f0fea35e078b', label: "Key", readonly: this.isEditing, autocomplete: "off", mask: {
                 mask: `{${KEY_PREFIX}}TEXT`,
                 eager: true,
                 blocks: {
@@ -289,7 +301,7 @@ export class IrTranslationsEntryForm {
                         repeat: Infinity, // Unlimited characters
                     },
                 },
-            }, spellcheck: false, class: "entry-form__key-input", value: this.key, placeholder: "e.g. Lcz_BookingConfirmed", "onText-change": e => this.handleKeyChange(e.detail), ref: el => (this.keyInputRef = el) }, h("wa-copy-button", { key: 'e5d982639a0d6132f781d9b5de3c7ecbd1a1d3dd', value: this.key ?? '', slot: "end" })), this.isDuplicateKey && (h("p", { key: '30273697f85eea03adf6bcc289d862340abb08d6', class: "entry-form__error", role: "alert" }, "This key already exists in this table.")), h("div", { key: 'c843d0077b26ac5f1cd3a181a53f3225b55bef1c', class: "entry-form__section" }, h("div", { key: 'c4caf5406db379482e61701c77339d16c145d432', class: "entry-form__section-header" }, h("h3", { key: 'a27cbc9f4e2a15836393d86bdf881789ef489813', class: "entry-form__section-title" }, "Translations"), h("span", { key: 'e90dc43f4c7c77f9a9da2c4ad8cf01bc6983176a', class: "entry-form__section-meta" }, translated, " of ", total, " filled")), this.targetLanguages.length > 0 && (h("div", { key: 'c378452040898600a066b7ea4a0bc3e0471cb21b', class: "entry-form__ai-actions" }, h("ir-custom-button", { key: '7519dfde58a884a8b7409d374967117cac210d80', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canCopyPrompt, onClickHandler: this.handleCopyPrompt }, h("wa-icon", { key: 'aa97040abfbbce0e28c5ad0c2c0422c45f6c5bf4', name: "copy", slot: "start", "aria-hidden": "true" }), "Copy AI prompt"), h("ir-custom-button", { key: 'e44d527738d824558ffe4b7d68c2c3ce1dec24b2', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canPasteTranslations, onClickHandler: this.handlePasteTranslations }, h("wa-icon", { key: 'd1550d8e0402a934aeb135bef2da74ebc2d04091', name: "clipboard", slot: "start", "aria-hidden": "true" }), "Paste AI translations"))), total === 0 ? (h("ir-empty-state", { message: "No languages configured yet. Add one from Manage languages first." })) : (h("div", { class: "entry-form__fields" }, this.languages.map(language => (h("div", { class: "entry-form__field", key: language.code, dir: language.code === 'ar' ? 'rtl' : 'ltr' }, h("wa-textarea", { class: "entry-form__value-input", id: language.code, size: "s", rows: 2, resize: "auto", value: this.values[language.code] ?? '', placeholder: "Enter translation\u2026", oninput: (e) => (this.values = { ...this.values, [language.code]: e.target.value }) }, h("span", { slot: "label", class: "entry-form__field-label" }, language.name, h("span", { class: "entry-form__field-code" }, language.code.toUpperCase()), language.isSource && h("span", { class: "entry-form__field-source" }, t('Lcz_Source', { fallback: 'Source' })))), h("wa-copy-button", { class: "entry-form__value-copy", value: this.values[language.code] ?? '' })))))))));
+            }, spellcheck: false, class: "entry-form__key-input", value: this.key, placeholder: "e.g. Lcz_BookingConfirmed", "onText-change": e => this.handleKeyChange(e.detail), ref: el => (this.keyInputRef = el) }, h("wa-copy-button", { key: '4bf737f58006c76225d6ae1cef942eb29aecfcb5', value: this.key ?? '', slot: "end" })), this.isDuplicateKey && (h("p", { key: '5b9c2f076a08ee113f4fb1d5f39512dbef8a99b8', class: "entry-form__error", role: "alert" }, "This key already exists in this table.")), h("div", { key: '1b19a7db2bf8808438dbc304fc0e2e96dad4c365', class: "entry-form__section" }, h("div", { key: '99934f6bcaeb88d8b83d9d86de567b419e1d6b42', class: "entry-form__section-header" }, h("h3", { key: 'ac724b3d18cf7d7f642cf11a25b79f1f3a2a6759', class: "entry-form__section-title" }, "Translations"), h("span", { key: 'df965e75efe368864e37b5e1de14aa52e5f8e2d7', class: "entry-form__section-meta" }, translated, " of ", total, " filled")), this.targetLanguages.length > 0 && (h("div", { key: '66e1aecdc09fe70cde74a8e23e60664b1c0ff276', class: "entry-form__ai-actions" }, h("ir-custom-button", { key: '0ec08ca12ddfd859456ccf70d6f249948db73f3d', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canCopyPrompt, onClickHandler: this.handleCopyPrompt }, h("wa-icon", { key: '24d21a5d6794ca5b38b44b860a7c0dc755f1c5f2', name: "copy", slot: "start", "aria-hidden": "true" }), "Copy AI prompt"), h("ir-custom-button", { key: 'a980a2973f0d9917728dd0ac0e51417897078003', size: "s", appearance: "outlined", variant: "neutral", disabled: !this.canPasteTranslations, onClickHandler: this.handlePasteTranslations }, h("wa-icon", { key: 'b6001e799aa055f46429766155da0cbb04568315', name: "clipboard", slot: "start", "aria-hidden": "true" }), "Paste AI translations"))), total === 0 ? (h("ir-empty-state", { message: "No languages configured yet. Add one from Manage languages first." })) : (h("div", { class: "entry-form__fields" }, this.languages.map(language => (h("div", { class: "entry-form__field", key: language.code, dir: language.code === 'ar' ? 'rtl' : 'ltr' }, h("wa-textarea", { class: "entry-form__value-input", id: language.code, size: "s", rows: 2, resize: "auto", value: this.values[language.code] ?? '', placeholder: "Enter translation\u2026", oninput: (e) => (this.values = { ...this.values, [language.code]: e.target.value }) }, h("span", { slot: "label", class: "entry-form__field-label" }, language.name, h("span", { class: "entry-form__field-code" }, language.code.toUpperCase()), language.isSource && h("span", { class: "entry-form__field-source" }, t('Lcz_Source', { fallback: 'Source' })))), h("wa-copy-button", { class: "entry-form__value-copy", value: this.values[language.code] ?? '' }))))))), h("ir-translations-sync-dialog", { key: '2bd8885601fd9580c1621ec5b722df4831b5f2b9', ref: el => (this.syncDialogRef = el) })));
     }
     static get is() { return "ir-translations-entry-form"; }
     static get encapsulation() { return "scoped"; }

@@ -15,8 +15,21 @@ export const EVENT_HEIGHT = 20;
  * implementation is app-wide and lives in `src/utils/direction.ts`.
  */
 export { isRtlDirection } from './direction';
+/**
+ * Date → column index, built once per `days` array. Every booking bar looks its start column up on
+ * each render, so a linear scan made a full calendar render O(bars × days).
+ *
+ * Keyed on array identity: the calendar always replaces `calendar_dates.days` with a new array rather
+ * than reordering it in place, which is what keeps a cached index valid.
+ */
+const dayIndexCache = new WeakMap();
 export function getDayIndex(days, dateValue) {
-    return days.findIndex(day => day.value === dateValue);
+    let index = dayIndexCache.get(days);
+    if (!index) {
+        index = new Map(days.map((day, i) => [day.value, i]));
+        dayIndexCache.set(days, index);
+    }
+    return index.get(dateValue) ?? -1;
 }
 export function getTotalGridWidth(dayCount) {
     return ROOM_HEADER_WIDTH + dayCount * CELL_WIDTH;

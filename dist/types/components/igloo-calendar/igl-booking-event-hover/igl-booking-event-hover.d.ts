@@ -8,7 +8,6 @@ export declare class IglBookingEventHover {
     bookingEvent: {
         [key: string]: any;
     };
-    bubbleInfoTop: boolean;
     countries: ICountry[];
     is_vacation_rental: boolean;
     isLoading: string;
@@ -89,6 +88,5 @@ export declare class IglBookingEventHover {
     private handleSplitBooking;
     private getNewBookingOptions;
     private getBlockedView;
-    private renderPointer;
     render(): any;
 }

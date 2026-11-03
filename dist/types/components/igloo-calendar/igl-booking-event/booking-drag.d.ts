@@ -1,0 +1,37 @@
+/**
+ * Number of nights a stretched bar covers once released.
+ *
+ * An N-night bar is `N * CELL_WIDTH - EVENT_SPACE` wide, so the gap is added back before dividing:
+ * that puts the rounding boundary at the true midpoint between two neighbouring snapped widths.
+ * A bar that continues in from before the loaded window carries an extra half cell on its start
+ * edge (see `computeEventHorizontalGeometry`), which is not a night and is discounted first.
+ */
+export declare function nightsFromWidth(width: number, startsAfterWindowOpen: boolean): number;
+/** Narrowest a stretch can make a bar: one night. */
+export declare const MIN_BAR_WIDTH: number;
+/** The physical drag handle being pulled. */
+export type ResizeSide = 'leftSide' | 'rightSide';
+export interface ResizeInput {
+    side: ResizeSide;
+    /** Physical `left` and width of the bar when the stretch began. */
+    initialLeft: number;
+    initialWidth: number;
+    /** Physical horizontal pointer travel since the stretch began (already scroll-compensated). */
+    deltaX: number;
+    isRtl: boolean;
+    canGrow: boolean;
+    splitRole: 'fullSplit' | 'leftSplit' | 'rightSplit' | null | '';
+}
+export interface ResizeResult {
+    left: number;
+    width: number;
+    shrinking: boolean;
+}
+/**
+ * Where a stretch leaves the bar, or `null` when this handle may not move at all.
+ *
+ * Handles are physical, but split-stay locks are chronological: a segment joined to an earlier one
+ * (`leftSplit`) can't move its check-in edge, one joined to a later one (`rightSplit`) can't move its
+ * check-out edge. Check-in is the physical left in LTR and the physical right in RTL.
+ */
+export declare function resolveResize({ side, initialLeft, initialWidth, deltaX, isRtl, canGrow, splitRole }: ResizeInput): ResizeResult | null;

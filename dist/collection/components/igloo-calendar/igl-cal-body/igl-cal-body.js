@@ -161,6 +161,11 @@ export class IglCalBody {
         return this.calendarData.bookingEvents ?? [];
     }
     /**
+     * Handed to every booking bar as a stable function reference, so a change to one booking does not
+     * give every bar a new prop value (and a re-render) - bars only need the full list when a drop lands.
+     */
+    getAllBookingEvents = () => this.getBookingData();
+    /**
      * Single batched DOM read (one querySelectorAll) shared by every booking bar, instead of
      * each igl-booking-event independently measuring its own room row. Room row top offsets
      * can't be derived from a fixed formula alone since rows are conditionally rendered based
@@ -676,13 +681,13 @@ export class IglCalBody {
     render() {
         const roomTopOffsets = this.getRoomTopOffsets();
         this.lastRenderedRoomTops = roomTopOffsets;
-        return (h(Host, { key: 'b05a05cb1883a88285a5ee6e464dd0b86d53b2ff', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: 'b9453fa7a171d2d4e7302528e7525928129db547', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '6fa0b1aabf78eab86240361d57a4aae2c11b786c', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
-            return (h("igl-booking-event", { key: bookingEvent.ID, "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData(), roomTop: roomTopOffsets.get(Number(bookingEvent.PR_ID)) }));
-        }))), h("igl-housekeeping-dialog", { key: '740c73e8a2b3d4ddd430d7c835540f3be2789f84', onIrAfterClose: e => {
+        return (h(Host, { key: '72849b9d8af9ed31484e5e0827dfb60cef3f6d2c', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: 'fb38e6e8226bec25906e22f04624bee77e683e86', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '180c5a561af5a18ccc7b6f7195fa23e792116d47', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+            return (h("igl-booking-event", { key: bookingEvent.ID, "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, getAllBookingEvents: this.getAllBookingEvents, roomTop: roomTopOffsets.get(Number(bookingEvent.PR_ID)) }));
+        }))), h("igl-housekeeping-dialog", { key: '27940cb443126aa7754f1095d2b693bbae75d883', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '5612cc2eeee0ab0316994e8f4cc12a633d09aad5', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: 'f177c2bd5b1706141a161fb0ded51d23bf3c64a9', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issues = null;

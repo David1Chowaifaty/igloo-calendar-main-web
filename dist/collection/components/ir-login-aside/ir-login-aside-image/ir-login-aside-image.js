@@ -5,7 +5,7 @@ export class IrLoginAsideImage {
     /** Alternative text. Leave empty when the image is purely decorative. */
     imageAlt = '';
     render() {
-        return (h("aside", { key: 'ec6a85fe9a3983dacd4751de60cb7146e7c36d3d', class: "login-aside-image" }, this.imageSrc && h("img", { key: '3e4a4183677ccbf7826385182c393679da0200db', class: "login-aside-image__img", src: this.imageSrc, alt: this.imageAlt, "aria-hidden": this.imageAlt ? undefined : 'true', decoding: "async" })));
+        return (h("aside", { key: '1cbdc6ed11d43388fe462fead7ccf0a6fcf1faa8', class: "login-aside-image" }, this.imageSrc && h("img", { key: '6bf9e9c5efbc0fbca029d867456288d1553b885b', class: "login-aside-image__img", src: this.imageSrc, alt: this.imageAlt, "aria-hidden": this.imageAlt ? undefined : 'true', decoding: "async" })));
     }
     static get is() { return "ir-login-aside-image"; }
     static get originalStyleUrls() {

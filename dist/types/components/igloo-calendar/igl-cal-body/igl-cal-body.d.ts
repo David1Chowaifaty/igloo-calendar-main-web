@@ -63,6 +63,11 @@ export declare class IglCalBody {
     private getRoomById;
     private getBookingData;
     /**
+     * Handed to every booking bar as a stable function reference, so a change to one booking does not
+     * give every bar a new prop value (and a re-render) - bars only need the full list when a drop lands.
+     */
+    private getAllBookingEvents;
+    /**
      * Single batched DOM read (one querySelectorAll) shared by every booking bar, instead of
      * each igl-booking-event independently measuring its own room row. Room row top offsets
      * can't be derived from a fixed formula alone since rows are conditionally rendered based

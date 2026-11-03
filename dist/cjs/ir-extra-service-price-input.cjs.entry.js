@@ -36,15 +36,15 @@ const IrExtraServicePriceInput = class {
         this.price = { ...(this.price || {}), ...params };
     }
     render() {
-        return (index.h(index.Host, { key: '174c1ba33bcf709a387f315f532013f5551645e1', class: "ir-extra-service-price-input" }, index.h("ir-validator", { key: 'e8a78a88ee43a795dcedd9cde965de7fe69a3ebd', form: "extra-services-settings__form", class: "ir-extra-service-price-input__price-wrapper", value: this.price?.value ?? null, schema: types.numberType()
+        return (index.h(index.Host, { key: 'cd3a7791d27aa87beb07ae55f3c247af61e65377', class: "ir-extra-service-price-input" }, index.h("ir-validator", { key: '39ebafff3728482b1f22acd8f602df92c7291519', form: "extra-services-settings__form", class: "ir-extra-service-price-input__price-wrapper", value: this.price?.value ?? null, schema: types.numberType()
                 .nullable()
-                .refine(value => value === null || value >= 0.01, { message: t.t('Lcz_PriceMustBeGreaterThanZero', { fallback: 'Price must be greater than 0' }) }) }, index.h("ir-input", { key: '20aa1bd0494bce3c6267183db376f2bcf2c4e984', value: this.price?.value?.toString() ?? '', mask: 'price', onChange: () => {
+                .refine(value => value === null || value >= 0.01, { message: t.t('Lcz_PriceMustBeGreaterThanZero', { fallback: 'Price must be greater than 0' }) }) }, index.h("ir-input", { key: '7317e26479e6b0eb7e10a60acf68a19058893490', value: this.price?.value?.toString() ?? '', mask: 'price', onChange: () => {
                 this.priceChange.emit({ value: this.price?.value ?? this.chargeRule?.value ?? null, mode: this.price?.mode ?? this.chargeRule?.mode ?? '' });
             }, part: "input", label: this.label, class: "ir-extra-service-price-input__price", exportparts: "base", size: "s", placeholder: this.placeholder, "onText-change": e => {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updatePriceField({ value });
-            } }, index.h("span", { key: '16b6c0dcfc0898c9ba7ad49bba58283b7548cd15', slot: "start", class: "ir-extra-service-price-input__price-symbol" }, calendarData.calendar_data.property.currency.symbol), index.h("slot", { key: 'e8cc612b2975e57d2f5bec783c78d24b42de63ce', name: "end", slot: "end" })))));
+            } }, index.h("span", { key: '54ccd7564c123b01dd06b8e51a43b4c4415b5d82', slot: "start", class: "ir-extra-service-price-input__price-symbol" }, calendarData.calendar_data.property.currency.symbol), index.h("slot", { key: '1e86af7fe24e9f03ecf805885705a94590f40343', name: "end", slot: "end" })))));
     }
     static get watchers() { return {
         "chargeRule": [{

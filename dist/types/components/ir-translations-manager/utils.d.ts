@@ -23,7 +23,8 @@ export declare function diffValues(before: Record<string, string> | undefined, a
 /**
  * Flattens the API's per-description groups into a per-row lookup keyed by the same
  * `TBL_NAME::CODE_NAME` id the entries carry. Only tables the codebase actually reads
- * count, and a row's own table never does — so a description that also lives in one
+ * count — plus the sync-guarded tables (see `SYNC_GUARDED_TABLES`), which are read
+ * elsewhere — and a row's own table never does — so a description that also lives in one
  * unused table gets no badge and no propagation, while one repeated twice inside a
  * single other table yields two siblings in one table.
  */

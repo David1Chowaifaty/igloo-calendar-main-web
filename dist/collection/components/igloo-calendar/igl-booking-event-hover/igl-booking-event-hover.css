@@ -11,20 +11,11 @@
   --ir-booking-popover-border-color: var(--wa-color-neutral-border-normal, #cbd5e1);
 
   display: block;
-  position: relative;
-  z-index: 100;
 }
 
 /* ─── Popover shell ─────────────────────────────────────── */
 .iglPopOver {
-  position: absolute;
-  /* Physical `left`, not `inset-inline-start`: this is a symmetric self-centering
-     transform (left:50% + translateX(-50%)) that must behave identically in LTR and
-     RTL. `inset-inline-start` would resolve to `right:50%` under `:host([dir=rtl])`
-     and throw the popover ~1 width off its anchor. */
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  transform-origin: center top;
+  /* Positioned by the wa-popup it is rendered in (igl-booking-event); this is only the panel. */
 
   box-sizing: border-box;
   padding: var(--eh-pad);
@@ -59,11 +50,6 @@
   min-width: 240px;
   width: fit-content;
   overflow-wrap: break-word;
-}
-
-.iglPopOver.bubbleInfoAbove {
-  bottom: 35px;
-  transform-origin: center bottom;
 }
 
 @keyframes eh-in {
@@ -245,63 +231,4 @@
   margin: 0;
   color: var(--wa-color-danger-fill-loud, #dc2626);
   font-size: var(--wa-font-size-xs, 0.75rem);
-}
-
-/* ─── Pointer / arrow ──────────────────────────────────────
-   Symmetric centring (left:50% + translateX(-50%)) and a symmetric triangle:
-   physical props on purpose so it stays centred in both LTR and RTL. */
-.bubblePointer {
-  position: absolute;
-  width: 22px;
-  height: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-/* Physical, per the note above: centred on the bubble, triangle drawn from a symmetric
-   border pair. */
-.bubblePointer::before,
-.bubblePointer::after {
-  z-index: 100;
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  border-left: var(--ir-booking-event-arrow) solid transparent;
-  border-right: var(--ir-booking-event-arrow) solid transparent;
-}
-
-/* Physical, per the note above: a symmetric border pair drawing the triangle. */
-.bubblePointer::before {
-  border-left: var(--ir-booking-event-arrow-before) solid transparent;
-  border-right: var(--ir-booking-event-arrow-before) solid transparent;
-}
-
-.bubblePointTop {
-  bottom: -12px;
-}
-
-.bubblePointTop::before {
-  border-top: var(--ir-booking-event-arrow-before) solid var(--ir-booking-popover-border-color);
-  top: 0;
-}
-
-.bubblePointTop::after {
-  border-top: var(--ir-booking-event-arrow) solid var(--wa-color-surface-default, #fff);
-  top: -1px;
-}
-
-.bubblePointBottom {
-  top: -12px;
-}
-
-.bubblePointBottom::before {
-  border-bottom: var(--ir-booking-event-arrow-before) solid var(--ir-booking-popover-border-color);
-  bottom: 0;
-}
-
-.bubblePointBottom::after {
-  border-bottom: var(--ir-booking-event-arrow) solid var(--wa-color-surface-default, #fff);
-  bottom: -1px;
 }

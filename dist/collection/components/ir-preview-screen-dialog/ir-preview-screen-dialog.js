@@ -193,11 +193,11 @@ export class IrPreviewScreenDialog {
         this.restorePrintLayout();
     }
     render() {
-        return (h("ir-dialog", { key: '734aa4719ca227a1695a296893a97027092f071e', onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '8566568850024900485672a465023e8fa087eaef', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openChanged.emit(false);
-            }, label: this.label || t('Lcz_Preview', { fallback: 'Preview' }), open: this.open, class: "ir-fullscreen-dialog" }, h("div", { key: '37efd15205e60bb4f4af70cbeaf0935cf8481aaa', slot: "header-actions", class: "ir-fullscreen-dialog__header-actions" }, h("slot", { key: 'cd293646dd9779d4bc999e6fb528f6ba3f567793', name: "header-actions" }), !this.hideDefaultAction && (h(Fragment, { key: '87ef0f4f61834520dfca0a42380825e60dfbe15b' }, h("wa-tooltip", { key: '033c41493ba25c6372aa1466588dbd73b2ccd897', for: this._id }, t('Lcz_PrintPdf', { fallback: 'Print PDF' })), h("ir-custom-button", { key: 'a5ceb62d349664052f5381fb9781425e2f16f755', id: this._id, size: "m", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: '025499fc4ba8c01331d89de0c0d23538c11db2a6', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))))), h("slot", { key: 'cfd218c8c1b9b30700a81ce3e3b2b00b7abc8b33' })));
+            }, label: this.label || t('Lcz_Preview', { fallback: 'Preview' }), open: this.open, class: "ir-fullscreen-dialog" }, h("div", { key: '69efdb9219b5a87245e50952e7a63b2356d029ac', slot: "header-actions", class: "ir-fullscreen-dialog__header-actions" }, h("slot", { key: '021e98c7c4045d6243fa5d0defef8c98834b9207', name: "header-actions" }), !this.hideDefaultAction && (h(Fragment, { key: '3a4c4f36a55896e488e3c99538714bb92764a8b7' }, h("wa-tooltip", { key: '23b2d6e8bef00461b7cbf3b84bab581a13e80026', for: this._id }, t('Lcz_PrintPdf', { fallback: 'Print PDF' })), h("ir-custom-button", { key: 'bad6f85cc83985c7b481597c3a3a7eabc4fb2062', id: this._id, size: "m", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: 'b9e5bc3a21bc7b5674ed7ce136af9682f528840e', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))))), h("slot", { key: '31512d82ac94563a5738b98a38e1c6ef4211d9ec' })));
     }
     static get is() { return "ir-preview-screen-dialog"; }
     static get encapsulation() { return "shadow"; }
