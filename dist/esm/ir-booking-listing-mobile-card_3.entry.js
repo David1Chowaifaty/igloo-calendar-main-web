@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
-import { b as booking_listing, B as BookingListingService, u as updateUserSelection, i as initializeUserSelection } from './index-aXdHFXB4.js';
-import { e as getPrivateNote } from './booking-CEmzFSnP.js';
+import { b as booking_listing, B as BookingListingService, u as updateUserSelection, i as initializeUserSelection } from './index-DSKYkt2Q.js';
+import { e as getPrivateNote } from './booking-C5xYPUrw.js';
 import { t } from './t-Bvz1wS_D.js';
-import { q as isBookingModified, l as isPrivilegedUser, f as downloadFile } from './utils-Cmb3CxPT.js';
+import { q as isBookingModified, l as isPrivilegedUser, f as downloadFile } from './utils-D959PClT.js';
 import { a as formatBookingNumber } from './number-BguMo00d.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import './locale-scope-Jre4lb6k.js';

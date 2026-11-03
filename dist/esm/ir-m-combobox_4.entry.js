@@ -3,7 +3,7 @@ import { t } from './t-Bvz1wS_D.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { b as formatCount, f as formatAmount, d as formatPercent } from './number-BguMo00d.js';
-import { r as calculateTrend } from './utils-Cmb3CxPT.js';
+import { r as calculateTrend } from './utils-D959PClT.js';
 import './calendar-data-D4DbXAhg.js';
 import './booking.dto-VzFWIl64.js';
 import './ir-date-Bh8M_fTk.js';
