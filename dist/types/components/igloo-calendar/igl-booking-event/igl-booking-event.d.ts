@@ -205,6 +205,8 @@ export declare class IglBookingEvent {
     private showEventInfo;
     /** True when the guest leaves later than the property's configured check-out time. */
     private isDepartureAfterHotelCheckout;
+    /** An OTA reservation's dates belong to the channel: it can be shortened here, never lengthened. */
+    private canGrow;
     private computeSplitRole;
     render(): any;
 }

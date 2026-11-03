@@ -223,6 +223,19 @@
   cursor: ew-resize;
 }
 
+/* The cursor tells the truth about what the handle can do (see getHandleReach in booking-drag.ts).
+   Shrink-only (OTA stays): each handle can only travel inward, so the cursor points that way -
+   physically, like the handles themselves. Locked (split-stay joins): no stretch at all. */
+.bookingEventDragHandle.leftSide[data-reach='shrink'] {
+  cursor: e-resize;
+}
+.bookingEventDragHandle.rightSide[data-reach='shrink'] {
+  cursor: w-resize;
+}
+.bookingEventDragHandle[data-reach='none'] {
+  cursor: not-allowed;
+}
+
 /* Physical, not logical: the drag math keys on which *physical* handle was grabbed and converts
    to check-in/check-out itself (see resolveResize in booking-drag.ts). */
 .leftSide {

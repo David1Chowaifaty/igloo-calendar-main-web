@@ -17,21 +17,30 @@ export function nightsFromWidth(width, startsAfterWindowOpen) {
 /** Narrowest a stretch can make a bar: one night. */
 export const MIN_BAR_WIDTH = CELL_WIDTH - EVENT_SPACE;
 /**
- * Where a stretch leaves the bar, or `null` when this handle may not move at all.
+ * What a physical handle is allowed to do, before any pointer moves. Drives both the stretch itself
+ * and the handle's cursor, so the cursor never promises a stretch the bar will refuse.
  *
  * Handles are physical, but split-stay locks are chronological: a segment joined to an earlier one
  * (`leftSplit`) can't move its check-in edge, one joined to a later one (`rightSplit`) can't move its
  * check-out edge. Check-in is the physical left in LTR and the physical right in RTL.
  */
-export function resolveResize({ side, initialLeft, initialWidth, deltaX, isRtl, canGrow, splitRole }) {
+export function getHandleReach({ side, isRtl, canGrow, splitRole }) {
     const edge = (side === 'leftSide') !== isRtl ? 'checkIn' : 'checkOut';
     if (splitRole === 'fullSplit' || (splitRole === 'leftSplit' && edge === 'checkIn') || (splitRole === 'rightSplit' && edge === 'checkOut')) {
+        return 'none';
+    }
+    return canGrow ? 'both' : 'shrink';
+}
+/** Where a stretch leaves the bar, or `null` when this handle may not move that way (see `getHandleReach`). */
+export function resolveResize({ side, initialLeft, initialWidth, deltaX, isRtl, canGrow, splitRole }) {
+    const reach = getHandleReach({ side, isRtl, canGrow, splitRole });
+    if (reach === 'none') {
         return null;
     }
     // Pulling the right handle right, or the left handle left, lengthens the stay.
     const growth = side === 'rightSide' ? deltaX : -deltaX;
     const shrinking = growth < 0;
-    if (!shrinking && !canGrow) {
+    if (!shrinking && reach === 'shrink') {
         return null;
     }
     const width = Math.max(MIN_BAR_WIDTH, initialWidth + growth);

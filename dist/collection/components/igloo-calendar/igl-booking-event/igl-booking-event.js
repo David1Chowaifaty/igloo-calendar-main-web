@@ -14,7 +14,7 @@ import { CELL_WIDTH, computeEventHorizontalGeometry, EVENT_HEIGHT, EVENT_SPACE, 
 import { DragAutoScroller } from "../../../utils/drag-autoscroll";
 import { formatBookingNumber } from "../../../utils/number";
 import { LocaleController } from "../../../services/locale/locale.controller";
-import { nightsFromWidth, resolveResize } from "./booking-drag";
+import { getHandleReach, nightsFromWidth, resolveResize } from "./booking-drag";
 import { refreshLabel, trackLabel, untrackLabel } from "./bar-label";
 import { clientBox, createBarAnchor, insetsWithin, measureGridView } from "./bar-popup";
 import { claimInfoBubble, closeOpenInfoBubble, registerBar, releaseInfoBubble, unregisterBar } from "./bar-registry";
@@ -755,8 +755,7 @@ export class IglBookingEvent {
             initialWidth: g.origin.width,
             deltaX: dx,
             isRtl: isRtlDirection(locales.direction),
-            // An OTA reservation's dates belong to the channel: it can be shortened here, never lengthened.
-            canGrow: this.bookingEvent.is_direct || isBlockUnit(this.bookingEvent.STATUS_CODE),
+            canGrow: this.canGrow(),
             splitRole: this.computeSplitRole(),
         });
         if (!resized) {
@@ -852,6 +851,10 @@ export class IglBookingEvent {
         const t2 = moment(departureTime.description, 'HH:mm');
         return t1.isBefore(t2);
     }
+    /** An OTA reservation's dates belong to the channel: it can be shortened here, never lengthened. */
+    canGrow() {
+        return this.bookingEvent.is_direct || isBlockUnit(this.bookingEvent.STATUS_CODE);
+    }
     computeSplitRole() {
         const splitIndex = buildSplitIndex(this.bookingEvent.ROOMS);
         return splitIndex ? (getSplitRole(splitIndex, this.bookingEvent.IDENTIFIER) ?? '') : '';
@@ -876,19 +879,20 @@ export class IglBookingEvent {
         const endsBeforeWindowClose = this.isSkewedEnd();
         const isBlock = isBlockUnit(this.bookingEvent.STATUS_CODE);
         const skewClasses = { skewedLeft: startsAfterWindowOpen, skewedRight: endsBeforeWindowClose };
-        return (h(Host, { key: '604347dbf0ccd1734ee9f13e860b5e37893029ad', class: { bookingEvent: true, newEvent: this.isNewEvent() || this.isHighlightEventType(), [legend.clsName]: !!legend.clsName }, style: this.getPosition(), id: barId, dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr', tabindex: this.isHighlightEventType() ? undefined : '0', role: "button", "aria-label": this.getAccessibleName(), "aria-haspopup": "dialog", "aria-expanded": this.showInfoPopup ? 'true' : 'false', onPointerDown: this.onPointerDown, onKeyDown: this.onKeyDown }, h("div", { key: '630402922fec79e9ffd1e6b9076dc676efea8286', "data-identifier": this.bookingEvent.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
+        const reachInput = { isRtl: isRtlDirection(locales.direction), canGrow: this.canGrow(), splitRole };
+        return (h(Host, { key: '210eb110ec3dac6d4a4af40ac590fc1a0aa6bd70', class: { bookingEvent: true, newEvent: this.isNewEvent() || this.isHighlightEventType(), [legend.clsName]: !!legend.clsName }, style: this.getPosition(), id: barId, dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr', tabindex: this.isHighlightEventType() ? undefined : '0', role: "button", "aria-label": this.getAccessibleName(), "aria-haspopup": "dialog", "aria-expanded": this.showInfoPopup ? 'true' : 'false', onPointerDown: this.onPointerDown, onKeyDown: this.onKeyDown }, h("div", { key: 'bf6bb872c33b3dc62a45d096596a53c5c4d8752e', "data-identifier": this.bookingEvent.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
                 'bookingEventBase': true,
                 pending,
                 ...skewClasses,
                 'striped-bar animated': isBlock && this.bookingEvent.STATUS_CODE === '003',
                 'ota-booking-event': !this.bookingEvent.is_direct && !isBlock && this.bookingEvent.STATUS !== 'TEMP-EVENT' && !this.isNewEvent(),
                 [splitRole]: !!splitRole,
-            }, style: { 'backgroundColor': backgroundColor, '--ir-event-bg': backgroundColor, '--ir-event-bg-stripe-color': stripe } }), isDepartureAfterHotelCheckout && (h("wa-tooltip", { key: '2803b5af3c7848dad99b1d0ec47139865c529189', for: lateCheckoutId }, t('Lcz_DepartureTime', { fallback: 'Departure time:' }), " ", this.bookingEvent.DEPARTURE_TIME?.description)), hasBalance && (h("wa-tooltip", { key: '64f331869707488027d46b1832ae25ecdd6151a5', for: balanceId }, t('Lcz_Balance', { fallback: 'Balance' }) + ':', " ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE))), noteNode && h("div", { key: '686eca2f455d714d086782309ebe7f6072f2f0cd', class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }), (hasBalance || isDepartureAfterHotelCheckout) && (h("div", { key: 'dc4e56b07e0c903b1461011b78c40598fd91e141', class: "balanceIcon" }, isDepartureAfterHotelCheckout && h("div", { key: 'ee88093191d035d00851f5e7784be6e63c36497b', id: lateCheckoutId, class: "legend_circle lateCheckoutDot" }), hasBalance && h("div", { key: 'cd7f583f2083ba3095d5c25f7362f469122ed8a7', id: balanceId, class: "legend_circle balanceDot" }))), h("div", { key: 'daa0e55e823757e0fe615d4c7aaae59a26777b8f', class: { bookingEventTitle: true, pending }, style: pending ? undefined : { color: foreground }, ref: el => (this.titleElement = el) }, this.bookingEvent.NAME, this.renderEventBookingNumber()), h("div", { key: '6988c3c810cd44f43b38978c412512cf89ec9daf', "data-handle": "leftSide", class: { bookingEventDragHandle: true, leftSide: true, ...skewClasses } }), h("div", { key: '19c3f32c337ffc013bd1f48ca384e0c054d7857d', "data-handle": "rightSide", class: { bookingEventDragHandle: true, rightSide: true, ...skewClasses } }), this.showInfoPopup && (
+            }, style: { 'backgroundColor': backgroundColor, '--ir-event-bg': backgroundColor, '--ir-event-bg-stripe-color': stripe } }), isDepartureAfterHotelCheckout && (h("wa-tooltip", { key: '28bc37644c3cb36c3e35ba52f6bc80537605cdfc', for: lateCheckoutId }, t('Lcz_DepartureTime', { fallback: 'Departure time:' }), " ", this.bookingEvent.DEPARTURE_TIME?.description)), hasBalance && (h("wa-tooltip", { key: '32e022acfb4742a354b3466b180d2ec5beb43798', for: balanceId }, t('Lcz_Balance', { fallback: 'Balance' }) + ':', " ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE))), noteNode && h("div", { key: '2e49b4955cdf22a39c693487c1c912185bcbaff6', class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }), (hasBalance || isDepartureAfterHotelCheckout) && (h("div", { key: 'ed7def71a8315bc4442e8a1bf8ee89c1bad518fb', class: "balanceIcon" }, isDepartureAfterHotelCheckout && h("div", { key: 'eb2ab9436707ae44b1af6e5352aa60f1b5ccea0c', id: lateCheckoutId, class: "legend_circle lateCheckoutDot" }), hasBalance && h("div", { key: '4b4b50880cd2c59c21d00632ac93372bc9f2ae43', id: balanceId, class: "legend_circle balanceDot" }))), h("div", { key: 'ef99caa7f52cdda161e6ca83370a50e7c40249a9', class: { bookingEventTitle: true, pending }, style: pending ? undefined : { color: foreground }, ref: el => (this.titleElement = el) }, this.bookingEvent.NAME, this.renderEventBookingNumber()), h("div", { key: '8d564b1e85884d1a1824901a684aa6a3711584e8', "data-handle": "leftSide", "data-reach": getHandleReach({ side: 'leftSide', ...reachInput }), class: { bookingEventDragHandle: true, leftSide: true, ...skewClasses } }), h("div", { key: 'ac4569f14d0380aa4c2c4ad86627740fe18ed385', "data-handle": "rightSide", "data-reach": getHandleReach({ side: 'rightSide', ...reachInput }), class: { bookingEventDragHandle: true, rightSide: true, ...skewClasses } }), this.showInfoPopup && (
         // Rendered in the top layer by wa-popup, but still a DOM child of the bar: outside-click
         // detection and the "presses in the bubble are not drags" guard keep working as before.
-        h("wa-popup", { key: '8fc6e929f840be2e4f28777dc39da0aa38e5c333', class: "bookingEventPopup", active: true, anchor: this.popupAnchor?.anchor, placement: "bottom", distance: 10, flip: true,
+        h("wa-popup", { key: '2fcc8d7173856aba8dc5485d84538062d788702b', class: "bookingEventPopup", active: true, anchor: this.popupAnchor?.anchor, placement: "bottom", distance: 10, flip: true,
             // wa-popup types these as numbers, but hands them to Floating UI, which takes per-side padding.
-            flipPadding: this.popupPadding, flipBoundary: this.getScroller() ?? undefined, shift: true, shiftPadding: this.popupPadding, shiftBoundary: this.getScroller() ?? undefined, arrow: true, arrowPadding: 14, "onwa-reposition": this.handlePopupReposition, ref: el => (this.popupElement = el) }, h("igl-booking-event-hover", { key: '0767a6fb68793278e5dcd7525cd898689850d63e', is_vacation_rental: this.is_vacation_rental, countries: this.countries, bookingEvent: this.bookingEvent })))));
+            flipPadding: this.popupPadding, flipBoundary: this.getScroller() ?? undefined, shift: true, shiftPadding: this.popupPadding, shiftBoundary: this.getScroller() ?? undefined, arrow: true, arrowPadding: 14, "onwa-reposition": this.handlePopupReposition, ref: el => (this.popupElement = el) }, h("igl-booking-event-hover", { key: '169010a593d9fbc9e3b5a600908c720b5e250e00', is_vacation_rental: this.is_vacation_rental, countries: this.countries, bookingEvent: this.bookingEvent })))));
     }
     static get is() { return "igl-booking-event"; }
     static get encapsulation() { return "scoped"; }

@@ -27,11 +27,16 @@ export interface ResizeResult {
     width: number;
     shrinking: boolean;
 }
+/** How far a handle may travel: lengthen or shorten, shorten only, or not at all. */
+export type HandleReach = 'both' | 'shrink' | 'none';
 /**
- * Where a stretch leaves the bar, or `null` when this handle may not move at all.
+ * What a physical handle is allowed to do, before any pointer moves. Drives both the stretch itself
+ * and the handle's cursor, so the cursor never promises a stretch the bar will refuse.
  *
  * Handles are physical, but split-stay locks are chronological: a segment joined to an earlier one
  * (`leftSplit`) can't move its check-in edge, one joined to a later one (`rightSplit`) can't move its
  * check-out edge. Check-in is the physical left in LTR and the physical right in RTL.
  */
+export declare function getHandleReach({ side, isRtl, canGrow, splitRole }: Pick<ResizeInput, 'side' | 'isRtl' | 'canGrow' | 'splitRole'>): HandleReach;
+/** Where a stretch leaves the bar, or `null` when this handle may not move that way (see `getHandleReach`). */
 export declare function resolveResize({ side, initialLeft, initialWidth, deltaX, isRtl, canGrow, splitRole }: ResizeInput): ResizeResult | null;
