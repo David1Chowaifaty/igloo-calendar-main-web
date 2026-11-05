@@ -341,3 +341,10 @@
   border-bottom: var(--wa-panel-border-width, 1px) solid var(--wa-color-neutral-border-normal, #cbd5e1);
   border-right: var(--wa-panel-border-width, 1px) solid var(--wa-color-neutral-border-normal, #cbd5e1);
 }
+
+/* The bubble on a phone (see isCompactViewport): the dialog scrolls, so its content always fits. */
+.bookingEventDialog::part(body) {
+  padding: var(--wa-space-m, 1rem);
+  /* The panel's actions carry this padding, so a pinned row sits flush with the dialog's bottom edge. */
+  padding-block-end: 0;
+}

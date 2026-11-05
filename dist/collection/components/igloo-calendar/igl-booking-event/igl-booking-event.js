@@ -16,7 +16,7 @@ import { formatBookingNumber } from "../../../utils/number";
 import { LocaleController } from "../../../services/locale/locale.controller";
 import { getHandleReach, nightsFromWidth, resolveResize } from "./booking-drag";
 import { refreshLabel, trackLabel, untrackLabel } from "./bar-label";
-import { clientBox, createBarAnchor, insetsWithin, measureGridView } from "./bar-popup";
+import { clientBox, createBarAnchor, insetsWithin, isCompactViewport, measureGridView } from "./bar-popup";
 import { claimInfoBubble, closeOpenInfoBubble, registerBar, releaseInfoBubble, unregisterBar } from "./bar-registry";
 /**
  * Taps on the bar closer together than this count once: a double-click, or an impatient re-click,
@@ -44,6 +44,11 @@ export class IglBookingEvent {
     showDialog;
     updateBookingEvent;
     showInfoPopup = false;
+    /**
+     * The bubble is shown in a dialog, not a popup. Chosen as it opens, so turning the phone doesn't
+     * swap the panel out from under the user, and kept until the dialog has finished animating closed.
+     */
+    infoInDialog = false;
     eventSpace = EVENT_SPACE;
     eventsService = new EventsService();
     bookingService = new BookingService();
@@ -444,8 +449,9 @@ export class IglBookingEvent {
         if (event.button !== 0 || (event.pointerType === 'mouse' && event.ctrlKey)) {
             return;
         }
-        // The info bubble renders inside the bar; presses in it belong to its own inputs and buttons.
-        if (event.target?.closest?.('igl-booking-event-hover')) {
+        // The info bubble renders inside the bar; presses in it belong to its own inputs and buttons, and
+        // a press on the dialog's backdrop or close button reaches the bar retargeted to ir-dialog.
+        if (event.target?.closest?.('igl-booking-event-hover, ir-dialog')) {
             return;
         }
         event.preventDefault();
@@ -828,6 +834,7 @@ export class IglBookingEvent {
             return;
         }
         if (showInfo) {
+            this.infoInDialog = !this.isNewEvent() && isCompactViewport();
             const scroller = this.getScroller();
             this.popupPadding = scroller ? insetsWithin(clientBox(scroller), this.measureGridView(scroller), 8) : 8;
             claimInfoBubble(this.registration);
@@ -835,9 +842,18 @@ export class IglBookingEvent {
         else {
             releaseInfoBubble(this.registration);
         }
-        this.followScroll(showInfo);
+        this.followScroll(showInfo && !this.infoInDialog);
         this.showInfoPopup = showInfo;
     }
+    getInfoDialogLabel() {
+        return isBlockUnit(this.bookingEvent.STATUS_CODE) ? t('Lcz_Blockdates', { fallback: 'Block dates' }) : this.bookingEvent.NAME;
+    }
+    handleInfoDialogClosed = () => {
+        // A bar reopened during the closing animation is still using the dialog.
+        if (!this.showInfoPopup) {
+            this.infoInDialog = false;
+        }
+    };
     /** True when the guest leaves later than the property's configured check-out time. */
     isDepartureAfterHotelCheckout() {
         if (calendar_data.property?.is_automatic_check_in_out) {
@@ -880,19 +896,20 @@ export class IglBookingEvent {
         const isBlock = isBlockUnit(this.bookingEvent.STATUS_CODE);
         const skewClasses = { skewedLeft: startsAfterWindowOpen, skewedRight: endsBeforeWindowClose };
         const reachInput = { isRtl: isRtlDirection(locales.direction), canGrow: this.canGrow(), splitRole };
-        return (h(Host, { key: 'a02516191fe71035060b7fc3dc5c0f51a76774ff', class: { bookingEvent: true, newEvent: this.isNewEvent() || this.isHighlightEventType(), [legend.clsName]: !!legend.clsName }, style: this.getPosition(), id: barId, dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr', tabindex: this.isHighlightEventType() ? undefined : '0', role: "button", "aria-label": this.getAccessibleName(), "aria-haspopup": "dialog", "aria-expanded": this.showInfoPopup ? 'true' : 'false', onPointerDown: this.onPointerDown, onKeyDown: this.onKeyDown }, h("div", { key: 'fa223db962815085069442603d3792817797152f', "data-identifier": this.bookingEvent.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
+        const infoPanel = (h("igl-booking-event-hover", { key: '17806128c5b3d8b7f52b96b380f25d20e3fc1ddf', inDialog: this.infoInDialog, is_vacation_rental: this.is_vacation_rental, countries: this.countries, bookingEvent: this.bookingEvent }));
+        return (h(Host, { key: 'c3294c7207975a45b38c66bce3e9094af17334f5', class: { bookingEvent: true, newEvent: this.isNewEvent() || this.isHighlightEventType(), [legend.clsName]: !!legend.clsName }, style: this.getPosition(), id: barId, dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr', tabindex: this.isHighlightEventType() ? undefined : '0', role: "button", "aria-label": this.getAccessibleName(), "aria-haspopup": "dialog", "aria-expanded": this.showInfoPopup ? 'true' : 'false', onPointerDown: this.onPointerDown, onKeyDown: this.onKeyDown }, h("div", { key: '8f2300d78e04ffb54d1bd1d3cb4d8dbf72a88af5', "data-identifier": this.bookingEvent.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
                 'bookingEventBase': true,
                 pending,
                 ...skewClasses,
                 'striped-bar animated': isBlock && this.bookingEvent.STATUS_CODE === '003',
                 'ota-booking-event': !this.bookingEvent.is_direct && !isBlock && this.bookingEvent.STATUS !== 'TEMP-EVENT' && !this.isNewEvent(),
                 [splitRole]: !!splitRole,
-            }, style: { 'backgroundColor': backgroundColor, '--ir-event-bg': backgroundColor, '--ir-event-bg-stripe-color': stripe } }), isDepartureAfterHotelCheckout && (h("wa-tooltip", { key: '85ae12892b53bf80ee6ef9891297574b832da93d', for: lateCheckoutId }, t('Lcz_DepartureTime', { fallback: 'Departure time:' }), " ", this.bookingEvent.DEPARTURE_TIME?.description)), hasBalance && (h("wa-tooltip", { key: 'fea162c230718ecfeefb92849909347cfb27741f', for: balanceId }, t('Lcz_Balance', { fallback: 'Balance' }) + ':', " ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE))), noteNode && h("div", { key: '7c13bfe869c02a874524a7a0549a2e26ea378ec1', class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }), (hasBalance || isDepartureAfterHotelCheckout) && (h("div", { key: 'dc8e5e4e416d414076b59d6aed9e465dc05f67a4', class: "balanceIcon" }, isDepartureAfterHotelCheckout && h("div", { key: 'a6a52c82f6447cbfc8db4a507b30471d9ab204d2', id: lateCheckoutId, class: "legend_circle lateCheckoutDot" }), hasBalance && h("div", { key: 'e0190c3abce2602a99c33af89edebd8b4abe59d5', id: balanceId, class: "legend_circle balanceDot" }))), h("div", { key: '027dd3f770a7ea2aeb80e0b68a7f3cdbd8811eab', class: { bookingEventTitle: true, pending }, style: pending ? undefined : { color: foreground }, ref: el => (this.titleElement = el) }, this.bookingEvent.NAME, this.renderEventBookingNumber()), h("div", { key: '61e7ac00e6a8c79ce01bd2c0a4892b8fad76f550', "data-handle": "leftSide", "data-reach": getHandleReach({ side: 'leftSide', ...reachInput }), class: { bookingEventDragHandle: true, leftSide: true, ...skewClasses } }), h("div", { key: 'f7b730b6eabff07bcfcbde856cc73b96f85568d3', "data-handle": "rightSide", "data-reach": getHandleReach({ side: 'rightSide', ...reachInput }), class: { bookingEventDragHandle: true, rightSide: true, ...skewClasses } }), this.showInfoPopup && (
+            }, style: { 'backgroundColor': backgroundColor, '--ir-event-bg': backgroundColor, '--ir-event-bg-stripe-color': stripe } }), isDepartureAfterHotelCheckout && (h("wa-tooltip", { key: 'eb30ad8cfb054f14f9da34928d1f605ffe2838fb', for: lateCheckoutId }, t('Lcz_DepartureTime', { fallback: 'Departure time:' }), " ", this.bookingEvent.DEPARTURE_TIME?.description)), hasBalance && (h("wa-tooltip", { key: 'e4526968cdb9b47e0d4aee41100a124ae79170e5', for: balanceId }, t('Lcz_Balance', { fallback: 'Balance' }) + ':', " ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE))), noteNode && h("div", { key: 'f501f3beb388b269f2a0e974afee1d39d8c45e3b', class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }), (hasBalance || isDepartureAfterHotelCheckout) && (h("div", { key: 'da8d35b3886fef7d51be7de4f326a54d53b7c55c', class: "balanceIcon" }, isDepartureAfterHotelCheckout && h("div", { key: 'aa7f351feb032b73e2c153e6f4b5898f2284ca7d', id: lateCheckoutId, class: "legend_circle lateCheckoutDot" }), hasBalance && h("div", { key: '94520c8749c650d53a9fe972ad0a91ca85edf559', id: balanceId, class: "legend_circle balanceDot" }))), h("div", { key: '493afb5d2704439834108f8c677218d577197c90', class: { bookingEventTitle: true, pending }, style: pending ? undefined : { color: foreground }, ref: el => (this.titleElement = el) }, this.bookingEvent.NAME, this.renderEventBookingNumber()), h("div", { key: 'c4a56f2ee9c66e41586e3b4b5139970a1676bba1', "data-handle": "leftSide", "data-reach": getHandleReach({ side: 'leftSide', ...reachInput }), class: { bookingEventDragHandle: true, leftSide: true, ...skewClasses } }), h("div", { key: '20bba2423cfec94ece555d0198208c70f7fcc626', "data-handle": "rightSide", "data-reach": getHandleReach({ side: 'rightSide', ...reachInput }), class: { bookingEventDragHandle: true, rightSide: true, ...skewClasses } }), this.infoInDialog && (h("ir-dialog", { key: '9ded9af5a03a3b5b88adbaa5c3ca56c7a4f478f6', class: "bookingEventDialog", label: this.getInfoDialogLabel(), open: this.showInfoPopup, onIrDialogHide: () => this.showEventInfo(false), onIrDialogAfterHide: this.handleInfoDialogClosed }, infoPanel)), this.showInfoPopup && !this.infoInDialog && (
         // Rendered in the top layer by wa-popup, but still a DOM child of the bar: outside-click
         // detection and the "presses in the bubble are not drags" guard keep working as before.
-        h("wa-popup", { key: '8f69e2d033bbd96390daa4d63f64132f360b75aa', class: "bookingEventPopup", active: true, anchor: this.popupAnchor?.anchor, placement: "bottom", distance: 10, flip: true,
+        h("wa-popup", { key: 'd5074de08d62afb10ed5bf6fa6abd2dd49568aee', class: "bookingEventPopup", active: true, anchor: this.popupAnchor?.anchor, placement: "bottom", distance: 10, flip: true,
             // wa-popup types these as numbers, but hands them to Floating UI, which takes per-side padding.
-            flipPadding: this.popupPadding, flipBoundary: this.getScroller() ?? undefined, shift: true, shiftPadding: this.popupPadding, shiftBoundary: this.getScroller() ?? undefined, arrow: true, arrowPadding: 14, "onwa-reposition": this.handlePopupReposition, ref: el => (this.popupElement = el) }, h("igl-booking-event-hover", { key: '6f5bb2012aae9a4c70359fecfbc272beaa2cad07', is_vacation_rental: this.is_vacation_rental, countries: this.countries, bookingEvent: this.bookingEvent })))));
+            flipPadding: this.popupPadding, flipBoundary: this.getScroller() ?? undefined, shift: true, shiftPadding: this.popupPadding, shiftBoundary: this.getScroller() ?? undefined, arrow: true, arrowPadding: 14, "onwa-reposition": this.handlePopupReposition, ref: el => (this.popupElement = el) }, infoPanel))));
     }
     static get is() { return "igl-booking-event"; }
     static get encapsulation() { return "scoped"; }
@@ -1047,7 +1064,8 @@ export class IglBookingEvent {
     }
     static get states() {
         return {
-            "showInfoPopup": {}
+            "showInfoPopup": {},
+            "infoInDialog": {}
         };
     }
     static get events() {

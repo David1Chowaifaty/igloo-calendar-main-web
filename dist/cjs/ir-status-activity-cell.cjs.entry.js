@@ -22,7 +22,7 @@ const IrStatusActivityCell = class {
     lastManipulation;
     bookingNumber;
     render() {
-        return (index.h(index.Host, { key: 'e677b7b7bb8f5171e6dca82c05ab67f5e9fd9db7' }, index.h("ir-booking-status-tag", { key: '61b98f9a95e9e153ef15e06bf6de5867cd00d4a6', status: this.status, isRequestToCancel: this.isRequestToCancel }), this.showModifiedBadge && index.h("p", { key: '893e5218e0ba390f77844ca78ee1a025cd4a73cd', class: "status-activity__modified" }, t.t('Lcz_Modified', { fallback: 'Modified' })), this.showManipulationBadge && (index.h(index.Fragment, { key: '857f96a347eca74d56529676cd4b31b4ed232cbc' }, index.h("wa-tooltip", { key: '5cd203078eb1611fb07f65454a3eba7b47b49dbb', for: `manipulation_badge_${this.bookingNumber}` }, t.t('Lcz_ModifiedByTooltip', {
+        return (index.h(index.Host, { key: 'bbf8bab692ccc673aad734f8c50a21bcffe865da' }, index.h("ir-booking-status-tag", { key: '469b7d1f201636e31c0adca0d0bdd721d18d2880', status: this.status, isRequestToCancel: this.isRequestToCancel }), this.showModifiedBadge && index.h("p", { key: '3d6116c4c1600a95e9f6e78def55fe775dabdf8f', class: "status-activity__modified" }, t.t('Lcz_Modified', { fallback: 'Modified' })), this.showManipulationBadge && (index.h(index.Fragment, { key: 'e0a08e0cd578672087343983067ca54c553a64e2' }, index.h("wa-tooltip", { key: '23bbd1589ce91fdced0a833397eae76c1c26ebb3', for: `manipulation_badge_${this.bookingNumber}` }, t.t('Lcz_ModifiedByTooltip', {
             fallback: 'Modified by %1 at %2 %3:%4',
             params: [
                 this.lastManipulation.user,
@@ -30,7 +30,7 @@ const IrStatusActivityCell = class {
                 number.formatNumber(Number(this.lastManipulation.hour), { minimumIntegerDigits: 2, useGrouping: false }),
                 number.formatNumber(Number(this.lastManipulation.minute), { minimumIntegerDigits: 2, useGrouping: false }),
             ],
-        })), index.h("p", { key: 'b6c24657bf06954dbc5e1f110bee4b4426aefab2', class: "status-activity__manipulation", id: `manipulation_badge_${this.bookingNumber}` }, t.t('Lcz_Modified', { fallback: 'Modified' }))))));
+        })), index.h("p", { key: '2e88f8bc541b321438d8235e28cf0a542d87209b', class: "status-activity__manipulation", id: `manipulation_badge_${this.bookingNumber}` }, t.t('Lcz_Modified', { fallback: 'Modified' }))))));
     }
 };
 IrStatusActivityCell.style = irStatusActivityCellCss();

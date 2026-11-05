@@ -232,3 +232,49 @@
   color: var(--wa-color-danger-fill-loud, #dc2626);
   font-size: var(--wa-font-size-xs, 0.75rem);
 }
+
+/* ─── In a dialog ──────────────────────────────────────────
+   The dialog is the frame and sets the width. Actions are ranked rather than squeezed onto one row:
+   the first one is the main action, the rest share the width in pairs - a lone one, or one whose
+   label needs it, takes the whole row - and the destructive one stands apart at the end. */
+.iglPopOver.inDialog {
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  animation: none;
+}
+
+.inDialog .event-hover__actions {
+  flex-wrap: wrap;
+  gap: var(--wa-space-xs, 0.5rem);
+  padding-block-end: var(--wa-space-m, 1rem);
+  background: var(--wa-color-surface-raised, #fff);
+}
+
+.inDialog .event-hover__actions > ir-custom-button {
+  flex: 1 1 calc(50% - var(--wa-space-xs, 0.5rem));
+  min-width: max-content;
+}
+
+.inDialog .event-hover__actions > ir-custom-button:first-child,
+.inDialog .event-hover__actions > .event-hover__destructive {
+  flex-basis: 100%;
+}
+
+.inDialog .event-hover__actions > .event-hover__destructive {
+  margin-block-start: var(--wa-space-xs, 0.5rem);
+}
+
+/* Upright there is height to spare, so the actions stay in reach while the details scroll under
+   them. On its side a phone has too little: pinned, they would cover what they act on. */
+@media (min-height: 501px) {
+  .inDialog .event-hover__actions {
+    position: sticky;
+    inset-block-end: 0;
+  }
+}

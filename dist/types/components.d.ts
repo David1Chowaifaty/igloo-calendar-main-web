@@ -393,6 +393,11 @@ export namespace Components {
         "bookingEvent": { [key: string]: any };
         "countries": ICountry[];
         /**
+          * The panel sits in a dialog, which frames it and sets its width, rather than floating over the calendar.
+          * @default false
+         */
+        "inDialog": boolean;
+        /**
           * @default false
          */
         "is_vacation_rental": boolean;
@@ -15448,6 +15453,11 @@ declare namespace LocalJSX {
         "bookingEvent"?: { [key: string]: any };
         "countries"?: ICountry[];
         /**
+          * The panel sits in a dialog, which frames it and sets its width, rather than floating over the calendar.
+          * @default false
+         */
+        "inDialog"?: boolean;
+        /**
           * @default false
          */
         "is_vacation_rental"?: boolean;
@@ -23786,6 +23796,7 @@ declare namespace LocalJSX {
     }
     interface IglBookingEventHoverAttributes {
         "is_vacation_rental": boolean;
+        "inDialog": boolean;
     }
     interface IglBookingFormAttributes {
         "showPaymentDetails": boolean;

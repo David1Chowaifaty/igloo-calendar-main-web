@@ -18,7 +18,7 @@ export class IrServiceAssigneeSelect {
      */
     assignmentChange;
     render() {
-        return (h(Host, { key: '54efb435ff9ddf4aab716717fb4429264103bc4c' }, h("wa-radio-group", { key: '4a163f35d8dacc23fa531771c7224900a33ed794', onchange: e => this.assignmentChange.emit(e.target.value), defaultValue: this.assigneeType, value: this.assigneeType, size: "s", label: this.label || t('Lcz_AssignToFolio', { fallback: 'Assign to folio' }), orientation: "vertical" }, h("wa-radio", { key: '2e9999e6355c858341d49408e9150e941245a43e', value: "agent", appearance: "button" }, t('Lcz_Agent', { fallback: 'Agent' }), ": ", this.agent?.name), h("wa-radio", { key: '90bf0cfb2ab2436de11fadeba312b4aeaa0811f8', value: "guest", appearance: "button" }, t('Lcz_Guest', { fallback: 'Guest' })))));
+        return (h(Host, { key: '1f340badb83e245bc322cdc1b48b6c1d0a58d35b' }, h("wa-radio-group", { key: '70d306565d116d10eaf467cb15aad6c8639d5319', onchange: e => this.assignmentChange.emit(e.target.value), defaultValue: this.assigneeType, value: this.assigneeType, size: "s", label: this.label || t('Lcz_AssignToFolio', { fallback: 'Assign to folio' }), orientation: "vertical" }, h("wa-radio", { key: '921bfce2adaef00dcf201cd9817edba60f89d1e9', value: "agent", appearance: "button" }, t('Lcz_Agent', { fallback: 'Agent' }), ": ", this.agent?.name), h("wa-radio", { key: '5d2eeed868e5c5030567c302279e2cbbe665a8c5', value: "guest", appearance: "button" }, t('Lcz_Guest', { fallback: 'Guest' })))));
     }
     static get is() { return "ir-service-assignee-select"; }
     static get encapsulation() { return "scoped"; }

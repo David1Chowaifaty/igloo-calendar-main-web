@@ -26,6 +26,11 @@ export declare class IglBookingEvent {
         [key: string]: any;
     }>;
     showInfoPopup: boolean;
+    /**
+     * The bubble is shown in a dialog, not a popup. Chosen as it opens, so turning the phone doesn't
+     * swap the panel out from under the user, and kept until the dialog has finished animating closed.
+     */
+    infoInDialog: boolean;
     private eventSpace;
     private eventsService;
     private bookingService;
@@ -203,6 +208,8 @@ export declare class IglBookingEvent {
     /** What a screen reader announces for the bar: who, which booking, and the stay. */
     private getAccessibleName;
     private showEventInfo;
+    private getInfoDialogLabel;
+    private handleInfoDialogClosed;
     /** True when the guest leaves later than the property's configured check-out time. */
     private isDepartureAfterHotelCheckout;
     /** An OTA reservation's dates belong to the channel: it can be shortened here, never lengthened. */

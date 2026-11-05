@@ -10,6 +10,8 @@ export declare class IglBookingEventHover {
     };
     countries: ICountry[];
     is_vacation_rental: boolean;
+    /** The panel sits in a dialog, which frames it and sets its width, rather than floating over the calendar. */
+    inDialog: boolean;
     isLoading: string;
     shouldHideUnassignUnit: boolean;
     canCheckInOrCheckout: boolean;
@@ -81,6 +83,8 @@ export declare class IglBookingEventHover {
      * const canSplit = this.canSplitBooking(); // -> true
      */
     private canSplitBooking;
+    /** In a dialog the actions are tapped with a finger, not clicked in a small floating panel. */
+    private get actionSize();
     private get isHalfBoard();
     private renderColorPicker;
     private getInfoElement;

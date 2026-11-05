@@ -51,10 +51,10 @@ export class IrLoginAsideShowcase {
     render() {
         const tr = this.tr;
         const nextLabel = tr('Lcz_LoginPromoShowNext', 'Show next');
-        return (h("section", { key: 'ae351fe7bfca6bfd38ff3a2fa44cbb0fed247060', class: "aside-showcase", "aria-roledescription": "carousel", "aria-label": tr('Lcz_LoginPromoShowcaseLabel', 'What igloorooms can do') }, h("div", { key: 'ff40c7c9c4ceedfbdcec2a14b0a3e34fb8758e6d', class: "aside-showcase__controls" }, SLIDES.map((slide, index) => {
+        return (h("section", { key: '2a6e0a98ab98c7e00ff1d357492cbcfc7c2fd76c', class: "aside-showcase", "aria-roledescription": "carousel", "aria-label": tr('Lcz_LoginPromoShowcaseLabel', 'What igloorooms can do') }, h("div", { key: '627354b9cbd5498afeddc36db38d506499106302', class: "aside-showcase__controls" }, SLIDES.map((slide, index) => {
             const label = tr(slide.labelKey, slide.label);
             return (h("button", { type: "button", class: "aside-showcase__segment", title: label, "aria-label": label, "aria-current": index === this.active ? 'true' : undefined, onClick: () => this.show(index) }, h("span", { class: "aside-showcase__track" }, index === this.active && h("span", { class: "aside-showcase__fill", style: { animationDuration: `${slide.durationMs}ms` }, onAnimationEnd: this.next }))));
-        }), h("button", { key: 'fc146e0d14faab9b2155ac464577fa1b876b67d1', type: "button", class: "aside-showcase__loop", title: nextLabel, "aria-label": nextLabel, onClick: this.handleLoopClick }, h("wa-icon", { key: '34c8ec9195a4d12e76fbdbb01bceb133ba598424', class: "aside-showcase__loop-icon", name: "arrows-rotate", style: { transform: `rotate(${this.turns * 180}deg)` } }))), h("div", { key: '8a1d0f5cd2b5daa46fc4f91a8ee3c0d39216a111', class: "aside-showcase__stage" }, SLIDES.map((slide, index) => {
+        }), h("button", { key: '5d5d3acf613b43af917e29faaa92f72b390a39f7', type: "button", class: "aside-showcase__loop", title: nextLabel, "aria-label": nextLabel, onClick: this.handleLoopClick }, h("wa-icon", { key: '312d8e2a32ec30c1e4e8a1c5499528878a520f41', class: "aside-showcase__loop-icon", name: "arrows-rotate", style: { transform: `rotate(${this.turns * 180}deg)` } }))), h("div", { key: '4437db184fe792b3eeedd377ef67ef1671208d4b', class: "aside-showcase__stage" }, SLIDES.map((slide, index) => {
             const isActive = index === this.active;
             if (!isActive && index !== this.leaving) {
                 return null;

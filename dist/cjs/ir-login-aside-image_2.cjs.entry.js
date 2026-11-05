@@ -14,7 +14,7 @@ const IrLoginAsideImage = class {
     /** Alternative text. Leave empty when the image is purely decorative. */
     imageAlt = '';
     render() {
-        return (index.h("aside", { key: '8c2489f990c45262d20734d1b90a1d93cc493c52', class: "login-aside-image" }, this.imageSrc && index.h("img", { key: 'd4d562f4c85a1f181d2a6a0b6189405073122917', class: "login-aside-image__img", src: this.imageSrc, alt: this.imageAlt, "aria-hidden": this.imageAlt ? undefined : 'true', decoding: "async" })));
+        return (index.h("aside", { key: '94c4440063a6814bfacd0c71410ecdb72ff9cd91', class: "login-aside-image" }, this.imageSrc && index.h("img", { key: '46e228761d7ab8c50885c5a9eceb25b2dae86591', class: "login-aside-image__img", src: this.imageSrc, alt: this.imageAlt, "aria-hidden": this.imageAlt ? undefined : 'true', decoding: "async" })));
     }
 };
 IrLoginAsideImage.style = irLoginAsideImageCss();
@@ -75,10 +75,10 @@ const IrLoginAsideShowcase = class {
     render() {
         const tr = this.tr;
         const nextLabel = tr('Lcz_LoginPromoShowNext', 'Show next');
-        return (index.h("section", { key: 'ae351fe7bfca6bfd38ff3a2fa44cbb0fed247060', class: "aside-showcase", "aria-roledescription": "carousel", "aria-label": tr('Lcz_LoginPromoShowcaseLabel', 'What igloorooms can do') }, index.h("div", { key: 'ff40c7c9c4ceedfbdcec2a14b0a3e34fb8758e6d', class: "aside-showcase__controls" }, SLIDES.map((slide, index$1) => {
+        return (index.h("section", { key: '2a6e0a98ab98c7e00ff1d357492cbcfc7c2fd76c', class: "aside-showcase", "aria-roledescription": "carousel", "aria-label": tr('Lcz_LoginPromoShowcaseLabel', 'What igloorooms can do') }, index.h("div", { key: '627354b9cbd5498afeddc36db38d506499106302', class: "aside-showcase__controls" }, SLIDES.map((slide, index$1) => {
             const label = tr(slide.labelKey, slide.label);
             return (index.h("button", { type: "button", class: "aside-showcase__segment", title: label, "aria-label": label, "aria-current": index$1 === this.active ? 'true' : undefined, onClick: () => this.show(index$1) }, index.h("span", { class: "aside-showcase__track" }, index$1 === this.active && index.h("span", { class: "aside-showcase__fill", style: { animationDuration: `${slide.durationMs}ms` }, onAnimationEnd: this.next }))));
-        }), index.h("button", { key: 'fc146e0d14faab9b2155ac464577fa1b876b67d1', type: "button", class: "aside-showcase__loop", title: nextLabel, "aria-label": nextLabel, onClick: this.handleLoopClick }, index.h("wa-icon", { key: '34c8ec9195a4d12e76fbdbb01bceb133ba598424', class: "aside-showcase__loop-icon", name: "arrows-rotate", style: { transform: `rotate(${this.turns * 180}deg)` } }))), index.h("div", { key: '8a1d0f5cd2b5daa46fc4f91a8ee3c0d39216a111', class: "aside-showcase__stage" }, SLIDES.map((slide, index$1) => {
+        }), index.h("button", { key: '5d5d3acf613b43af917e29faaa92f72b390a39f7', type: "button", class: "aside-showcase__loop", title: nextLabel, "aria-label": nextLabel, onClick: this.handleLoopClick }, index.h("wa-icon", { key: '312d8e2a32ec30c1e4e8a1c5499528878a520f41', class: "aside-showcase__loop-icon", name: "arrows-rotate", style: { transform: `rotate(${this.turns * 180}deg)` } }))), index.h("div", { key: '4437db184fe792b3eeedd377ef67ef1671208d4b', class: "aside-showcase__stage" }, SLIDES.map((slide, index$1) => {
             const isActive = index$1 === this.active;
             if (!isActive && index$1 !== this.leaving) {
                 return null;

@@ -54,3 +54,4 @@ export declare function createBarAnchor(bar: HTMLElement, getView: () => Edges |
     anchor: BarAnchor;
     isVisible: () => boolean;
 };
+export declare function isCompactViewport(): boolean;

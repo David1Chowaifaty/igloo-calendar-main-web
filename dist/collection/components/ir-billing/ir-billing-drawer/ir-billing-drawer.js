@@ -30,7 +30,7 @@ export class IrBillingDrawer {
      */
     billingClose;
     render() {
-        return (h("ir-drawer", { key: '7efdbe3fa37103a52ec983f6efbc782235e746ae', style: {
+        return (h("ir-drawer", { key: '3d9a9cb1864599badfd3195eaa36a81577233ed5', style: {
                 '--ir-drawer-width': '70rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': '0',
@@ -41,7 +41,7 @@ export class IrBillingDrawer {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.billingClose.emit();
-            }, open: this.open, label: t('Lcz_Billing', { fallback: 'Billing' }) }, this.open && h("ir-billing", { key: '25eeb2381aa8728ce0b653c996014c217c072684', isAllServicesAgentOwned: this.isAllServicesAgentOwned, booking: this.booking, agent: this.agent })));
+            }, open: this.open, label: t('Lcz_Billing', { fallback: 'Billing' }) }, this.open && h("ir-billing", { key: '803b13aa2f68d348bee03cd302b8e8e92452eac0', isAllServicesAgentOwned: this.isAllServicesAgentOwned, booking: this.booking, agent: this.agent })));
     }
     static get is() { return "ir-billing-drawer"; }
     static get encapsulation() { return "scoped"; }

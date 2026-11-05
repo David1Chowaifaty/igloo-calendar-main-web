@@ -76,7 +76,7 @@ export class IrTaxInput {
         this.tax = { ...(this.tax || {}), ...params };
     }
     render() {
-        return (h(Host, { key: '5822198fba6aab33ad8596549af1f4219dfe077b', class: "ir-tax-input" }, h("ir-validator", { key: '440aa1e2bdb2db47b5e4ac1a2060403f0e4cf663', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? z.number().nullable() : z.coerce.number().min(0).max(30) }, h("ir-input", { key: 'b5c7a2c72b8f9b2ebd42ee4245b3d1ad29b987b9', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
+        return (h(Host, { key: '02595547f401eb333eba5d06d49dc4d789ee83d7', class: "ir-tax-input" }, h("ir-validator", { key: 'cb65d50a3f5ab9d360dca4fd4d9ec7f2c5779361', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? z.number().nullable() : z.coerce.number().min(0).max(30) }, h("ir-input", { key: '98be5db810f150544de42d032f2ee51b1b055d11', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
                 min: 0,
                 max: 30,
                 mask: Number,
@@ -86,7 +86,7 @@ export class IrTaxInput {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updateTaxField({ value });
-            } }, h("span", { key: 'bdc2baa5347e1ecd14eb191cb2ad3199b0db915c', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), h("ir-validator", { key: '25343d6fe7d75e2cc701657464334fb56373006f', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, h("wa-select", { key: '52ffc3446e977b306f7eba9d8ce2a5b95e5b67b7', part: "select", class: "ir-tax-input__select", size: "s", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
+            } }, h("span", { key: '48db5c04515a5568d6d77ababd921f43a9f21bec', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), h("ir-validator", { key: 'e7e4d6d7152bd7e66f4ac3c8d34a205f045f0314', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, h("wa-select", { key: 'a2a995c064279c21b4bc8cd0a164bed6cb43e752', part: "select", class: "ir-tax-input__select", size: "s", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
                 const mode = e.target.value.toString();
                 this.updateTaxField({ mode });
                 this.taxChange.emit({ value: this.tax?.value ?? this.chargeRule?.value ?? null, mode });

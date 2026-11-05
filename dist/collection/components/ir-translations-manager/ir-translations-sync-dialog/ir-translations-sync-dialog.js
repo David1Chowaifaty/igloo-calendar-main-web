@@ -54,11 +54,11 @@ export class IrTranslationsSyncDialog {
         ];
     }
     render() {
-        return (h("ir-dialog", { key: 'f3cffff6354e2ee4688d3c24205f08c6026ccf64', label: "Sync duplicates", ref: el => (this.dialogRef = el), onIrDialogAfterHide: (e) => {
+        return (h("ir-dialog", { key: '2aacdadf256a6c6b6fecaf84a109b257d039f532', label: "Sync duplicates", ref: el => (this.dialogRef = el), onIrDialogAfterHide: (e) => {
                 e.stopPropagation();
                 this.settle(null);
                 this.prompt = null;
-            } }, this.renderBody(), h("div", { key: 'e3a85a59ffa128626d6444e8fbb005b17fcf6b2a', slot: "footer", class: "ir-dialog__footer" }, this.renderFooter())));
+            } }, this.renderBody(), h("div", { key: 'ca094315effe32a0b7b2e5e8f16f7543081af8f6', slot: "footer", class: "ir-dialog__footer" }, this.renderFooter())));
     }
     static get is() { return "ir-translations-sync-dialog"; }
     static get encapsulation() { return "scoped"; }

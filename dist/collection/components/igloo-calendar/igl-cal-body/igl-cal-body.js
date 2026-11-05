@@ -681,13 +681,13 @@ export class IglCalBody {
     render() {
         const roomTopOffsets = this.getRoomTopOffsets();
         this.lastRenderedRoomTops = roomTopOffsets;
-        return (h(Host, { key: '43169f1d3a7aa85a376ce6e7dac4ccdc6fc99cee', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: '5614d1f5a8633bd0ebc303b46dd93c08beedfa6d', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '21d48321015d0caa11086c8e94bdeca5433deb3c', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: '72849b9d8af9ed31484e5e0827dfb60cef3f6d2c', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, h("div", { key: 'fb38e6e8226bec25906e22f04624bee77e683e86', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '180c5a561af5a18ccc7b6f7195fa23e792116d47', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { key: bookingEvent.ID, "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, getAllBookingEvents: this.getAllBookingEvents, roomTop: roomTopOffsets.get(Number(bookingEvent.PR_ID)) }));
-        }))), h("igl-housekeeping-dialog", { key: 'bb08e8f6182aa45b59727e31f94f5312c0eee782', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: '27940cb443126aa7754f1095d2b693bbae75d883', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '9417acc8fedea882909e4076160b5d0afd230c26', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: 'f177c2bd5b1706141a161fb0ded51d23bf3c64a9', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issues = null;

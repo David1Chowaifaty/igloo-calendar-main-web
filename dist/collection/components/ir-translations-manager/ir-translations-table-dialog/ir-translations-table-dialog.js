@@ -29,7 +29,7 @@ export class IrTranslationsTableDialog {
     }
     render() {
         const isEditing = this.mode === 'edit';
-        return (h("ir-dialog", { key: '75b29b259e835d2c7cfd54ea702bfae7713eccfb', label: isEditing ? 'Table details' : 'New table', ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, this.open && (h("ir-translations-table-form", { key: '73ae04dcadd51ce9f06a0be3ea3a33f0bb6170d4', formId: this.formId, mode: this.mode, table: this.table, existingNames: this.existingNames, ownerId: this.ownerId, entryUserId: this.entryUserId, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onTableSaved: (e) => {
+        return (h("ir-dialog", { key: 'ff1ee83c017a6ce376a2fc99c7a67b1e31d5f1f2', label: isEditing ? 'Table details' : 'New table', ref: el => (this.dialogRef = el), onIrDialogHide: () => this.closeDialog.emit() }, this.open && (h("ir-translations-table-form", { key: 'b61b49f7671a2d1d4621172a10cd6436df9f8fc4', formId: this.formId, mode: this.mode, table: this.table, existingNames: this.existingNames, ownerId: this.ownerId, entryUserId: this.entryUserId, onSubmitDisabledChange: (e) => (this.saveDisabled = e.detail), onIsSubmittingChange: (e) => (this.isSubmitting = e.detail), onTableSaved: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.tableSaved.emit(e.detail);
@@ -39,7 +39,7 @@ export class IrTranslationsTableDialog {
                 e.stopPropagation();
                 this.tableSaveFailed.emit();
                 this.dialogRef?.closeModal();
-            } })), h("div", { key: '67938b381f8abfacafa9c184f06f1483cf4d3f14', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '1a606a10d5bc644e9e28e714ef5a6af8d450a796', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDialog.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '882c904d51a5047201fb8d23f84863f5f257f861', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, t('Lcz_Save', { fallback: 'Save' })))));
+            } })), h("div", { key: '21decb9578a2c46506be2f2b8663e1659a9d1b09', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'f0cefb6db7bd3a897f140d270936f870d887a39c', size: "m", appearance: "outlined", variant: "neutral", disabled: this.isSubmitting, onClickHandler: () => this.closeDialog.emit() }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: 'a399db0f1d9f7bb4fe4e832e50257e8e690b5002', size: "m", appearance: "accent", variant: "brand", form: this.formId, type: "submit", disabled: this.saveDisabled || this.isSubmitting, loading: this.isSubmitting }, t('Lcz_Save', { fallback: 'Save' })))));
     }
     static get is() { return "ir-translations-table-dialog"; }
     static get encapsulation() { return "scoped"; }
