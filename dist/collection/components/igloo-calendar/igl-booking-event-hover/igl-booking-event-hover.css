@@ -47,7 +47,7 @@
 }
 
 .iglPopOver.newBookingOptions {
-  min-width: 240px;
+  /* As narrow as its widest action; see the single-column grid below. */
   width: fit-content;
   overflow-wrap: break-word;
 }
@@ -191,8 +191,9 @@
 
 /* ─── Action buttons ──────────────────────────────────────
    Info and blocked views keep every action on a single row — never wrapping —
-   buttons shrink together to fit. The new-booking view opts its buttons into
-   `.--full` for a stacked layout. */
+   buttons shrink together to fit. The new-booking view stacks them in a single
+   column instead (a wrapping flex row would size the panel to every button side
+   by side), so the panel fits its widest button and the others stretch to match. */
 .event-hover__actions {
   display: flex;
   flex-wrap: wrap;
@@ -203,6 +204,10 @@
 .newBookingOptions .event-hover__actions,
 .blockedView .event-hover__actions {
   margin-block-start: 0;
+}
+
+.newBookingOptions .event-hover__actions {
+  display: grid;
 }
 
 .infoBubble .event-hover__actions,
@@ -220,11 +225,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.event-hover__actions .--full,
-.event-hover__error {
-  flex-basis: 100%;
 }
 
 .event-hover__error {

@@ -1,1 +1,0 @@
-import{r as e,h as s,H as r}from"./p-DKZeCK8T.js";const a=class{constructor(s){e(this,s)}render(){return s(r,{key:"6edf38d2089c38ef81332988fa56e6a4a268940e"},s("slot",{key:"8b3c4041ee8a120c66bed15bdbc0531f4b34fe98"}))}};a.style=".sc-ir-agent-assignment-form-h{display:block}";export{a as ir_agent_assignment_form}

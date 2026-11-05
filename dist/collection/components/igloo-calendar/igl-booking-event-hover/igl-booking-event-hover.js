@@ -414,11 +414,11 @@ export class IglBookingEventHover {
     }
     getNewBookingOptions() {
         const shouldDisplayButtons = this.bookingEvent.roomsInfo[0].rateplans.some(rate => rate.is_active);
-        return (h("div", { class: "iglPopOver newBookingOptions" }, h("div", { class: "event-hover__actions", role: "group" }, shouldDisplayButtons ? (h(Fragment, null, h("ir-custom-button", { size: "xs", class: "--full", variant: "brand", appearance: "accent", "data-testid": "bar_booking_btn", onClickHandler: _ => {
+        return (h("div", { class: "iglPopOver newBookingOptions" }, h("div", { class: "event-hover__actions", role: "group" }, shouldDisplayButtons ? (h(Fragment, null, h("ir-custom-button", { size: "xs", variant: "brand", appearance: "accent", "data-testid": "bar_booking_btn", onClickHandler: _ => {
                 this.handleBookingOption('BAR_BOOKING');
-            } }, h("wa-icon", { slot: "start", name: "calendar-plus" }), t('Lcz_CreateNewBooking')), this.hasSplitBooking() && (h("ir-custom-button", { size: "xs", class: "--full", variant: "neutral", appearance: "accent", onClickHandler: _ => {
+            } }, h("wa-icon", { slot: "start", name: "calendar-plus" }), t('Lcz_CreateNewBooking')), this.hasSplitBooking() && (h("ir-custom-button", { size: "xs", variant: "neutral", appearance: "accent", onClickHandler: _ => {
                 this.handleBookingOption('SPLIT_BOOKING');
-            } }, h("wa-icon", { slot: "start", name: "link" }), t('Lcz_AssignUnitToExistingBooking'))))) : (h("p", { class: "event-hover__error" }, t('Lcz_NoRatePlanDefined'))), h("ir-custom-button", { size: "xs", class: "--full", appearance: "accent", variant: "danger", onClickHandler: _ => {
+            } }, h("wa-icon", { slot: "start", name: "link" }), t('Lcz_AssignUnitToExistingBooking'))))) : (h("p", { class: "event-hover__error" }, t('Lcz_NoRatePlanDefined'))), h("ir-custom-button", { size: "xs", appearance: "accent", variant: "danger", onClickHandler: _ => {
                 this.handleBookingOption('BLOCK_DATES');
             } }, h("wa-icon", { slot: "start", name: "ban" }), t('Lcz_Blockdates', { fallback: 'Block dates' })))));
     }
@@ -432,7 +432,7 @@ export class IglBookingEventHover {
             } }, t('Lcz_Delete', { fallback: 'Delete' })))));
     }
     render() {
-        return (h(Host, { key: '144ca9caddb29e04bbb9edbb36a58bd4a36827bb', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'd5ad437f5d8afbb39fc606891f29d70738f34b4c', dir: isRtlDirection(locales.direction) ? 'rtl' : 'ltr' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }

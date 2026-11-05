@@ -15,16 +15,7 @@
   --ir-date-view-font-size: var(--wa-font-size-m, 0.8125rem);
 }
 
-.block-dates__label {
-  font-weight: var(--wa-font-weight-semibold, 600);
-  color: var(--wa-color-text-quiet, #64748b);
-}
-
 /* Mode chooser — how the block resolves (auto-release vs out-of-service). */
-.block-dates__mode::part(form-control-label) {
-  margin-block-end: var(--wa-space-xs, 0.375rem);
-}
-
 .block-dates__mode::part(radios) {
   gap: var(--wa-space-xs, 0.375rem);
 }

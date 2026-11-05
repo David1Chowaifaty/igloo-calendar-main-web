@@ -6,11 +6,17 @@ export class IrLoginAside {
     imageSrc;
     /** Alternative text for the image. Empty means decorative. */
     imageAlt = '';
-    /** Server-provided `Lcz_*` translations, passed through to the calendar view. */
+    /** Server-provided `Lcz_*` translations, passed through to every view that shows copy. */
     localeEntries = null;
     render() {
         if (this.view === 'calendar') {
             return h("ir-login-aside-calendar", { localeEntries: this.localeEntries });
+        }
+        if (this.view === 'dynamic-pricing') {
+            return h("ir-login-aside-dynamic-pricing", { localeEntries: this.localeEntries });
+        }
+        if (this.view === 'showcase') {
+            return h("ir-login-aside-showcase", { localeEntries: this.localeEntries });
         }
         return h("ir-login-aside-image", { imageSrc: this.imageSrc, imageAlt: this.imageAlt });
     }
@@ -32,7 +38,7 @@ export class IrLoginAside {
                 "mutable": false,
                 "complexType": {
                     "original": "LoginAsideView",
-                    "resolved": "\"calendar\" | \"image\"",
+                    "resolved": "\"calendar\" | \"dynamic-pricing\" | \"image\" | \"showcase\"",
                     "references": {
                         "LoginAsideView": {
                             "location": "local",
@@ -111,7 +117,7 @@ export class IrLoginAside {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Server-provided `Lcz_*` translations, passed through to the calendar view."
+                    "text": "Server-provided `Lcz_*` translations, passed through to every view that shows copy."
                 },
                 "getter": false,
                 "setter": false,

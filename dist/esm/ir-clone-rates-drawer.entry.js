@@ -1,11 +1,11 @@
 import { r as registerInstance, c as createEvent, h } from './index-DKZeCK8T.js';
-import './locale.controller-D7aoAo6z.js';
+import './locale.controller-Bs0lwnpi.js';
 import { t } from './t-Bvz1wS_D.js';
 import './locale-scope-Jre4lb6k.js';
 import './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './language-observer-CHgzsZkY.js';
-import './types-DFSK8b1u.js';
+import './types-CB66a07H.js';
 
 const irCloneRatesDrawerCss = () => `.sc-ir-clone-rates-drawer-h{display:block;--ir-drawer-width:60rem}`;
 
@@ -27,11 +27,11 @@ const IrCloneRatesDrawer = class {
         this.cloneRatesDrawerClosed.emit();
     };
     render() {
-        return (h("ir-drawer", { key: 'cbe1b17129090dc270ef858e5830a519719feadd', open: this.open, label: t('Lcz_CopyRatesToFutureDates'), onDrawerHide: this.handleDrawerHide }, this.open && (h("ir-clone-rates", { key: '2ec53de9ceb9394e1ff6e4444371f74690f52d1c', mode: "drawer", ticket: this.ticket, p: this.p, language: this.language, propertyid: this.propertyid, onRatesCloned: e => {
+        return (h("ir-drawer", { key: '2f2be28cd163a675f305c522c77ef339249b4c15', open: this.open, label: t('Lcz_CopyRatesToFutureDates'), onDrawerHide: this.handleDrawerHide }, this.open && (h("ir-clone-rates", { key: '0ff2050b60aac9bdf61959519b0a01dd61dd4c08', mode: "drawer", ticket: this.ticket, p: this.p, language: this.language, propertyid: this.propertyid, onRatesCloned: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.cloneRatesDrawerClosed.emit();
-            } })), h("div", { key: '18e69ba81e7272da89a3df989cc50d43df2bd7d0', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '620a3de241bcf47a37271897868eb3e816666bfb', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel')), h("ir-custom-button", { key: 'c639a0ae5ab6753673c80e90ba2fc9828b29b5a1', size: "m", variant: "brand", type: "submit", form: "clone-rates-form" }, t('Lcz_Review')))));
+            } })), h("div", { key: '507f0fb9813ad83b6d51d69fec58e6cd240492f7', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '2f0b1cada64e9dbc120874484b8a22f04615dd60', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t('Lcz_Cancel')), h("ir-custom-button", { key: '6890bbfe4889723c0f72db41d52e8ee24e68fd94', size: "m", variant: "brand", type: "submit", form: "clone-rates-form" }, t('Lcz_Review')))));
     }
 };
 IrCloneRatesDrawer.style = irCloneRatesDrawerCss();

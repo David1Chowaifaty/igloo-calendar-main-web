@@ -14,11 +14,17 @@ const IrLoginAside = class {
     imageSrc;
     /** Alternative text for the image. Empty means decorative. */
     imageAlt = '';
-    /** Server-provided `Lcz_*` translations, passed through to the calendar view. */
+    /** Server-provided `Lcz_*` translations, passed through to every view that shows copy. */
     localeEntries = null;
     render() {
         if (this.view === 'calendar') {
             return index.h("ir-login-aside-calendar", { localeEntries: this.localeEntries });
+        }
+        if (this.view === 'dynamic-pricing') {
+            return index.h("ir-login-aside-dynamic-pricing", { localeEntries: this.localeEntries });
+        }
+        if (this.view === 'showcase') {
+            return index.h("ir-login-aside-showcase", { localeEntries: this.localeEntries });
         }
         return index.h("ir-login-aside-image", { imageSrc: this.imageSrc, imageAlt: this.imageAlt });
     }

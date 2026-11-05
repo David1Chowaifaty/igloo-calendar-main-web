@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 export class IrClInvoiceDescriptionCell {
     description;
     render() {
-        return (h(Host, { key: '652c490bbfbdb7371b953b548c85124add52b95e' }, h("span", { key: 'f35f23c30935a9156c84fc1b6c798b725318e145', class: "desc" }, this.description)));
+        return (h(Host, { key: 'bbb2eeb0ddc15a62d78cd08b3c32391f73bd8d33' }, h("span", { key: '8ff0d540f2243abc64a6b31a73121531dcaecd07', class: "desc" }, this.description)));
     }
     static get is() { return "ir-cl-invoice-description-cell"; }
     static get encapsulation() { return "scoped"; }

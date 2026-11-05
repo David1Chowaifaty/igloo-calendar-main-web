@@ -1,0 +1,1 @@
+import{I as i,d as o}from"./ir-login-aside-dynamic-pricing2.js";const r=i,s=o;export{r as IrLoginAsideDynamicPricing,s as defineCustomElement}

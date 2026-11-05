@@ -1,30 +1,30 @@
 import { r as registerInstance, h, H as Host, c as createEvent } from './index-DKZeCK8T.js';
 import { t } from './t-Bvz1wS_D.js';
 import { t as todayISO, a as addDaysISO } from './calendar-dates-D3hVfsrC.js';
-import { f as formatDate } from './ir-date-Bh8M_fTk.js';
+import { f as formatDate } from './ir-date-XXNYhmSL.js';
 import './moment-Mki5YqAR.js';
-import { M as MAX_DAY_OFFSET, l as loadDepartures, c as computeRevPar } from './dashboard.data-CdZIKarQ.js';
-import { i as isEarlyCheckout } from './booking-C5xYPUrw.js';
-import { c as calendar_data } from './calendar-data-D4DbXAhg.js';
-import { b as formatCount, d as formatPercent, f as formatAmount } from './number-BguMo00d.js';
-import './booking.dto-VzFWIl64.js';
+import { M as MAX_DAY_OFFSET, l as loadDepartures, c as computeRevPar } from './dashboard.data-H19KcS7a.js';
+import { i as isEarlyCheckout } from './booking-DbzWq6pF.js';
+import { c as calendar_data } from './calendar-data-DknGMMFc.js';
+import { b as formatCount, d as formatPercent, f as formatAmount } from './number-B8waOzTO.js';
+import './booking.dto-DGwE7ON6.js';
 import './locale-scope-Jre4lb6k.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './booking.service-CeguaRNm.js';
+import './booking.store-BiFJ2t2s.js';
 import './axios-B50ozOIF.js';
-import './IBooking-BagKIdFh.js';
-import './types-DFSK8b1u.js';
-import './utils-D959PClT.js';
-import './commonSchemas-Cx3Y46cE.js';
-import './locale.controller-D7aoAo6z.js';
-import './index-DSKYkt2Q.js';
-import './index-BXXN799e.js';
-import './arrivals.store-CgmhAifi.js';
+import './IBooking-B4waZCSK.js';
+import './types-CB66a07H.js';
+import './utils-eeRMAK3-.js';
+import './commonSchemas-Cxq3bLiY.js';
+import './locale.controller-Bs0lwnpi.js';
+import './index-Cp0f7QVp.js';
+import './index-C76ZjACy.js';
+import './arrivals.store-Bt6sAeW1.js';
 import './room-movement-time-DWm_ef3q.js';
-import './departures.store-DWlHVCN2.js';
-import './functions-DIcf_6fZ.js';
-import './type-B1KlYN_1.js';
+import './departures.store-BfUk4xb5.js';
+import './functions-Ebyqqazo.js';
+import './type-9FR4Ndkd.js';
 
 const irDashboardArrivalsCss = () => `.sc-ir-dashboard-arrivals-h{display:flex;flex-direction:column}ir-arrivals-table.sc-ir-dashboard-arrivals{flex:1 1 auto;min-block-size:var(--dashboard-table-min-block-size, 60vh);inline-size:100%;max-inline-size:none;border:0}`;
 
@@ -43,7 +43,7 @@ const IrDashboardArrivals = class {
         this.roomGuestState = event.detail;
     }
     render() {
-        return (h(Host, { key: '36a56c21bb4bca29557f65f199af9b3070ee2484' }, h("ir-arrivals-table", { key: '3fe88539322208f52ea23bd4013ead92e6ca93f7', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckInRoom: event => this.handleCheckInRoom(event) }), h("ir-room-guests", { key: 'b97e3da828441560c5709ab95ffdb094d0e9f84f', open: this.roomGuestState !== null, countries: this.countries, language: this.language, identifier: this.roomGuestState?.identifier, bookingNumber: this.roomGuestState?.booking_nbr?.toString(), roomName: this.roomGuestState?.roomName, totalGuests: this.roomGuestState?.totalGuests, sharedPersons: this.roomGuestState?.sharing_persons, checkIn: this.roomGuestState?.checkin, onCloseModal: () => (this.roomGuestState = null) })));
+        return (h(Host, { key: '5e7b03e7cd1972ae5e89fa05b712901e1073bb40' }, h("ir-arrivals-table", { key: 'c0e3c81f4b608560e35f217cb906de4a4b9229eb', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckInRoom: event => this.handleCheckInRoom(event) }), h("ir-room-guests", { key: '59813ee511a9a41fb8095df23be003d6af9efd64', open: this.roomGuestState !== null, countries: this.countries, language: this.language, identifier: this.roomGuestState?.identifier, bookingNumber: this.roomGuestState?.booking_nbr?.toString(), roomName: this.roomGuestState?.roomName, totalGuests: this.roomGuestState?.totalGuests, sharedPersons: this.roomGuestState?.sharing_persons, checkIn: this.roomGuestState?.checkin, onCloseModal: () => (this.roomGuestState = null) })));
     }
 };
 IrDashboardArrivals.style = irDashboardArrivalsCss();
@@ -131,7 +131,7 @@ const IrDashboardDateNavigator = class {
         const days = Array.from({ length: MAX_DAY_OFFSET + 1 }, (_, index) => addDaysISO(today, index));
         // Locale- and calendar-aware (Gregorian or Hijri), like every other displayed date.
         const label = (day) => formatDate(day, 'dddd, D MMMM');
-        return (h(Host, { key: 'b0b4be5b1c064bf5d5f9a37601d2cd4b289aa585' }, h("wa-dropdown", { key: '03f4aaa6e6064a22fbbd44b18862f48c74a2d956', class: "date-navigator", placement: "bottom-start", "onwa-select": e => this.handleSelect(e) }, h("button", { key: '2332522f5edae040a881123401db2592051821aa', type: "button", slot: "trigger", class: "date-navigator__trigger", "aria-label": t('Lcz_SelectDate', { fallback: 'Select date' }) }, h("wa-icon", { key: '3d5fedf9e7471b30c9593d63b5c4979bdacd62fc', class: "date-navigator__icon", name: "calendar-days", "aria-hidden": "true" }), h("time", { key: 'bff14a09a7e526e3e25de27ee219ae39e44870f2', class: "date-navigator__date", dateTime: this.date }, label(this.date)), h("wa-icon", { key: '632578ef8ced597078d2ff86e7836e035d919b1e', class: "date-navigator__chevron", name: "chevron-down", "aria-hidden": "true" })), days.map(day => (h("wa-dropdown-item", { key: day, value: day, type: "checkbox", checked: day === this.date }, label(day), day === today && (h("span", { slot: "details", class: "date-navigator__today" }, t('Lcz_Today', { fallback: 'Today' })))))))));
+        return (h(Host, { key: '1f50020584f6dc143c02c898d1dc968abcfeee11' }, h("wa-dropdown", { key: '3614852ba77fd0c18a914c2064be3ce2cbfd0eae', class: "date-navigator", placement: "bottom-start", "onwa-select": e => this.handleSelect(e) }, h("button", { key: 'c9116dd9638dfb65b527032ee7014ce62155c2dd', type: "button", slot: "trigger", class: "date-navigator__trigger", "aria-label": t('Lcz_SelectDate', { fallback: 'Select date' }) }, h("wa-icon", { key: '9dda7d0c4a975b35b3abb585a99d2a1dbab12874', class: "date-navigator__icon", name: "calendar-days", "aria-hidden": "true" }), h("time", { key: 'f5bf28b4d5065cfaed598aa5e66393154c3ee37d', class: "date-navigator__date", dateTime: this.date }, label(this.date)), h("wa-icon", { key: 'e5038ef1a6eba885b9833c5079db1d87d8ac37e8', class: "date-navigator__chevron", name: "chevron-down", "aria-hidden": "true" })), days.map(day => (h("wa-dropdown-item", { key: day, value: day, type: "checkbox", checked: day === this.date }, label(day), day === today && (h("span", { slot: "details", class: "date-navigator__today" }, t('Lcz_Today', { fallback: 'Today' })))))))));
     }
 };
 IrDashboardDateNavigator.style = irDashboardDateNavigatorCss();
@@ -186,7 +186,7 @@ const IrDashboardDepartures = class {
         this.invoiceState = null;
     }
     render() {
-        return (h(Host, { key: '96cff0a35fb363dda8f40780e2ea7610d6df751b' }, h("ir-departures-table", { key: '6e5b191ed7e64d8230c1476445ad3a71d84e376c', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckoutRoom: event => this.handleCheckoutRoom(event) }), h("ir-checkout-dialog", { key: '2e4ffbe00f204df07dedd00b5b8af41e5b5af0cd', booking: this.checkoutState?.booking, identifier: this.checkoutState?.identifier, open: this.checkoutState !== null, onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: '86b21e539ff9f20318694e88a64d10eda758a024', booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null, onInvoiceClose: event => this.handleInvoiceClose(event) })));
+        return (h(Host, { key: '4f1d680a5a4658bc91a4bd525f93266f5a1c7ec6' }, h("ir-departures-table", { key: 'b5505344df3e5973e1489311edf09e123b339e2d', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckoutRoom: event => this.handleCheckoutRoom(event) }), h("ir-checkout-dialog", { key: '1c059d598182dd5656ca2f0dd94af0322e556e69', booking: this.checkoutState?.booking, identifier: this.checkoutState?.identifier, open: this.checkoutState !== null, onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: 'bb75bb5d0e706c43bef3675004bdba994a171f7c', booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null, onInvoiceClose: event => this.handleInvoiceClose(event) })));
     }
 };
 IrDashboardDepartures.style = irDashboardDeparturesCss();
@@ -313,7 +313,7 @@ const IrDashboardStats = class {
         this.dateChange.emit(e.detail);
     }
     render() {
-        return (h(Host, { key: 'b4151abbc644c7050aa7723d0d1165b1ef5c91e6' }, h("ir-dashboard-date-navigator", { key: '4d038a9748cf7a64acf77d01f75c6c02b91cc122', class: "stats__date", date: this.date, onDateChange: e => this.handleDateChange(e) }), h("wa-card", { key: '6a04c14f88476080bf54bfa546363f74640e4318', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: '5e25c9dc539ed96ae4e050f952998d7e71b3c645', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
+        return (h(Host, { key: '23aeadfe28c0f155d55649e329dc740fc0a549af' }, h("ir-dashboard-date-navigator", { key: '6e3984a90305041c2ebd537591a64b22fdeebfbe', class: "stats__date", date: this.date, onDateChange: e => this.handleDateChange(e) }), h("wa-card", { key: '037c00a1962391ff1b438df67fcb29311acc351e', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: '0316b5095c4264ded284f53353c40142a6f21a8e', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
     }
 };
 IrDashboardStats.style = irDashboardStatsCss();

@@ -1,0 +1,1 @@
+import{I as s,d as o}from"./ir-login-aside-showcase2.js";const a=s,i=o;export{a as IrLoginAsideShowcase,i as defineCustomElement}

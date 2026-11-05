@@ -1,5 +1,5 @@
 import type { TLocaleEntries } from "../../stores/locales.store";
-export type LoginAsideView = 'image' | 'calendar';
+export type LoginAsideView = 'image' | 'calendar' | 'dynamic-pricing' | 'showcase';
 export declare class IrLoginAside {
     /** Which aside content to render. */
     view: LoginAsideView;
@@ -7,7 +7,7 @@ export declare class IrLoginAside {
     imageSrc: string;
     /** Alternative text for the image. Empty means decorative. */
     imageAlt: string;
-    /** Server-provided `Lcz_*` translations, passed through to the calendar view. */
+    /** Server-provided `Lcz_*` translations, passed through to every view that shows copy. */
     localeEntries: TLocaleEntries | null;
     render(): any;
 }
