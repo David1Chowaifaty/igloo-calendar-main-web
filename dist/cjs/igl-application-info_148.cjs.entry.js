@@ -14957,9 +14957,6 @@ const IrCommon = class {
         });
     }
     loadArabicFont() {
-        if (this.disableResourceInjection) {
-            return;
-        }
         this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' });
         this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' });
         this.appendTag('link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap' });
