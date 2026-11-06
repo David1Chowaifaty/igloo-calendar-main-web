@@ -19,6 +19,9 @@
 
 .bodyContainer {
   position: relative;
+  /* Keeps every z-index in the grid inside the grid, so the sticky header and footer stay on top
+     of it however high a layer in here goes. */
+  isolation: isolate;
 }
 
 .roomRow {
@@ -134,7 +137,8 @@
   background: var(--wa-color-surface-default);
   border-inline-end: 1px solid var(--wa-color-surface-border);
   width: 170px;
-  z-index: 1;
+  /* Above everything else in the grid: .dayUseBadge (100) and a dragged booking bar. */
+  z-index: 101;
   border-inline-start: 0px;
 }
 
