@@ -54,10 +54,8 @@ export class IrCommon {
         });
     }
     loadArabicFont() {
-        if (!this.disableResourceInjection) {
-            this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' });
-            this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' });
-        }
+        this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' });
+        this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' });
         this.appendTag('link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap' });
         const styleId = 'ir-arabic-font';
         if (document.getElementById(styleId)) {
@@ -65,7 +63,7 @@ export class IrCommon {
         }
         const style = document.createElement('style');
         style.id = styleId;
-        style.textContent = `:lang(ar) { font-family: "Noto", sans-serif !important; font-optical-sizing: auto; }`;
+        style.textContent = `:lang(ar):not(i, [class^="la-"], [class*=" la-"], [class^="ft-"], [class*=" ft-"], [class^="fa-"], [class*=" fa-"]) { font-family: "Noto", sans-serif !important; font-optical-sizing: auto; }`;
         document.head.appendChild(style);
     }
     render() {
