@@ -9,5 +9,6 @@ export declare class IrCommon {
     private parseRefs;
     private appendTag;
     private initializeStyles;
+    private loadArabicFont;
     render(): any;
 }

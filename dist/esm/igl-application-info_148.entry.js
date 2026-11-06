@@ -14908,6 +14908,7 @@ const IrCommon = class {
     }
     componentDidLoad() {
         this.initializeStyles();
+        this.loadArabicFont();
     }
     hrefsChanged() {
         this.parseRefs();
@@ -14951,6 +14952,22 @@ const IrCommon = class {
                 });
             }
         });
+    }
+    loadArabicFont() {
+        if (this.disableResourceInjection) {
+            return;
+        }
+        this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' });
+        this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' });
+        this.appendTag('link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap' });
+        const styleId = 'ir-arabic-font';
+        if (document.getElementById(styleId)) {
+            return;
+        }
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.textContent = `:lang(ar) { font-family: "Cairo", sans-serif !important; font-optical-sizing: auto; }`;
+        document.head.appendChild(style);
     }
     render() {
         return null;
