@@ -1,1 +1,1 @@
-import{o,g as t}from"./types2.js";const s=o({roomtype_id:t.number(),unit_id:t.number(),rateplan_id:t.number()});export{s as S}
+import{o,g as t}from"./types2.js";const s=o({roomtype_id:t.number(),unit_id:t.number(),rateplan_id:t.number().positive()});export{s as S}

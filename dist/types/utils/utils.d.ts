@@ -8,6 +8,8 @@ export interface SelectOption {
     value: string;
     custom_text: string | null;
 }
+/** Display label for a rate plan option; `custom_text` is appended only when it has a value. */
+export declare function rateplanOptionLabel({ text, custom_text }: SelectOption): string;
 interface CheckMealPlanParams {
     rateplan_id: string;
     roomTypes?: PropertyRoomType[] | null;

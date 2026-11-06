@@ -5,6 +5,10 @@ import { ROOM_IN_OUT } from "../models/booking.dto";
 import { formatDate } from "./date/index";
 import { nightsBetween } from "./calendar-dates";
 import { t } from "../services/locale/t";
+/** Display label for a rate plan option; `custom_text` is appended only when it has a value. */
+export function rateplanOptionLabel({ text, custom_text }) {
+    return custom_text ? `${text} | ${custom_text}` : text;
+}
 /**
  * Determines whether the currently selected room's rateplan is valid for the
  * chosen room type. If it is **not** valid, this returns the list of

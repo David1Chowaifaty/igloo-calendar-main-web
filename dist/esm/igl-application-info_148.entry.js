@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host, a as getElement, F as Fragment, f as forceUpdate } from './index-DKZeCK8T.js';
-import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams, i as getVisibleInventory, r as resetBookingStore, j as setDayUseSelection, s as setBookingDraft, d as setBookingSelectOptions, k as fillMissingReservedGuestNames, l as getReservedRooms, n as resetAvailability, o as hasAtLeastOneRoomSelected, c as calculateTotalRooms, p as getBookingTotalPrice, q as syncFirstRoomGuestName, t as bookedByGuestBaseData } from './booking.store-BiFJ2t2s.js';
+import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams, i as getVisibleInventory, r as resetBookingStore, j as setDayUseSelection, s as setBookingDraft, d as setBookingSelectOptions, k as fillMissingReservedGuestNames, l as getReservedRooms, n as resetAvailability, o as hasAtLeastOneRoomSelected, c as calculateTotalRooms, p as getBookingTotalPrice, q as syncFirstRoomGuestName, t as bookedByGuestBaseData } from './booking.store-DAAOuOj_.js';
 import { d as isSingleUnit, c as calendar_data, b as getExtraServiceDefaultPrice, e as getRoomTypeName, a as getBabyCotPricingModel, i as isOptimReadOnly } from './calendar-data-DknGMMFc.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { E as ExtraServiceSchema, R as ROOM_IN_OUT, v as validateSharedPerson, Z as ZSharedPerson } from './booking.dto-DGwE7ON6.js';
@@ -12,14 +12,14 @@ import { d as getSetupEntryLabel, g as groupEntryTablesResult, e as getEntryValu
 import { v as v4 } from './v4-CK3_k8jD.js';
 import { s as stringType, d as arrayType, o as objectType, g as anyType, Z as ZodError, n as numberType, c as coerce, b as booleanType, a as ZodIssueCode, e as enumType, l as literalType, j as discriminatedUnionType, u as unionType, p as preprocessType } from './types-CB66a07H.js';
 import { S as SetupService } from './index-BIRpWXgv.js';
-import { n as getReleaseHoursString, j as extras, i as isBlockUnit, f as showToast, r as checkMealPlan, t as findCountry, c as canCheckIn, u as isWeekend, k as getDaysArray, w as formatLegendColors, x as toFloat, p as isBookingModified, a as canCheckout, y as renderTime } from './utils-eeRMAK3-.js';
-import { c as calculateDaysBetweenDates, t as transformNewBooking, b as buildSplitIndex, d as getSplitRole, e as calendar_dates, f as compareTime, h as createDateWithOffsetAndHour, j as getDayUseUnitAvailability, D as DAY_USE_STATUS_ICON, k as formatDayUseStatusText, l as formatName, i as isEarlyCheckout, m as addCleaningTasks, n as getRoomStatus, o as cleanRoom, p as addRoomForCleaning, q as transformNewBLockedRooms, r as bookingStatus, a as getPrivateNote } from './booking-DbzWq6pF.js';
+import { n as getReleaseHoursString, j as extras, i as isBlockUnit, f as showToast, r as checkMealPlan, t as findCountry, c as canCheckIn, u as isWeekend, k as getDaysArray, w as rateplanOptionLabel, x as formatLegendColors, y as toFloat, p as isBookingModified, a as canCheckout, z as renderTime } from './utils-C3R-kmCE.js';
+import { c as calculateDaysBetweenDates, t as transformNewBooking, b as buildSplitIndex, d as getSplitRole, e as calendar_dates, f as compareTime, h as createDateWithOffsetAndHour, j as getDayUseUnitAvailability, D as DAY_USE_STATUS_ICON, k as formatDayUseStatusText, l as formatName, i as isEarlyCheckout, m as addCleaningTasks, n as getRoomStatus, o as cleanRoom, p as addRoomForCleaning, q as transformNewBLockedRooms, r as bookingStatus, a as getPrivateNote } from './booking-COqx-DwE.js';
 import { c as cjsExports } from './index-Bn8mRT4P.js';
 import { a as addDaysISO, t as todayISO, n as nightsBetween, I as ISO_FORMAT, b as addMonthsISO } from './calendar-dates-D3hVfsrC.js';
 import { a as axios } from './axios-B50ozOIF.js';
 import { L as LocaleController, S as SCREEN_TABLES, i as installLanguageInjector } from './locale.controller-Bs0lwnpi.js';
 import { c as isRtlDirection } from './direction-CcpbVppy.js';
-import { P as PropertyService, t as taxationModes, E as ExposedRectifierParamsSchema } from './index-C76ZjACy.js';
+import { P as PropertyService, t as taxationModes, E as ExposedRectifierParamsSchema } from './index-Zduue3lw.js';
 import { H as HbPreference, S as SvcCategory, I as InvoiceableItemReason, F as FdTypes, a as FdStatus, C as ClTxTypeCode, V as VatIncludedCodes, b as InOut, P as PayTypes, c as PayStatus } from './enums-CSCQSgBu.js';
 import { _ as _formatTime, i as isAgentMode, a as _formatDate, b as _getDay } from './functions-Ebyqqazo.js';
 import { H as HouseKeepingService, h as housekeeping_store } from './index-LpywoleW.js';
@@ -30,10 +30,10 @@ import { r as realtimeService } from './realtime.service-CGYmIxkT.js';
 import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { B as BatchingQueue, t as toAccChargeRule, f as findAccTax, b as getTopLevelSvcCategories, g as groupSvcCategoriesByParent } from './svc-category.utils-aKjfLh79.js';
 import { L as LanguageSync } from './language-sync-C1yVnB7q.js';
-import { C as CityLedgerService } from './index-VcXd8Ojf.js';
+import { C as CityLedgerService } from './index-DJ5ewKoy.js';
 import { A as AirDatepicker } from './air-datepicker-B-GK2tAj.js';
 import { L as LanguageObserver } from './language-observer-CHgzsZkY.js';
-import { a as actionableClTypes, m as mapClTxToFolioRow } from './city-ledger.service-SoiEC2JY.js';
+import { a as actionableClTypes, m as mapClTxToFolioRow } from './city-ledger.service-bGPDsUsf.js';
 import { P as PaymentService } from './payment.service-D2gbn5FN.js';
 import { A as AgentsService } from './agents.service-Cp0qQi8I.js';
 import { c as createTimeToMask, w as withLatinDigits, m as masks } from './masks-5T25CeGX.js';
@@ -4908,7 +4908,7 @@ const IglRateExtenderDrawer = class {
 };
 IglRateExtenderDrawer.style = iglRateExtenderDrawerCss();
 
-const iglRateExtenderFormCss = () => `.sc-igl-rate-extender-form-h{display:block;height:100%;padding-bottom:1rem}.rate-form__body.sc-igl-rate-extender-form{text-align:start;padding-inline:0.25rem;padding-top:0;display:grid}.rate-extender-form.sc-igl-rate-extender-form{display:grid;gap:1rem}.rate-form__booking-number.sc-igl-rate-extender-form{font-size:var(--wa-font-size-m);color:var(--wa-color-text-quiet);margin:0}.rate-form__checking-availability.sc-igl-rate-extender-form{margin-top:0.5rem;font-size:0.875rem;color:var(--wa-color-text-quiet)}.rate-form__date-range.sc-igl-rate-extender-form{font-size:var(--wa-font-size-m);font-weight:600;line-height:1.3;color:#111827;margin:0;margin-top:0.5rem}.rate-form__rate-plan.sc-igl-rate-extender-form{font-size:var(--wa-font-size-s);color:var(--wa-color-text-quiet);margin:0;margin-top:0.375rem}.rate-form__availability-callout.sc-igl-rate-extender-form{margin-top:1rem}.rate-form__custom-text.sc-igl-rate-extender-form{font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet);line-height:1.4;margin:0;margin-top:0.625rem}.rate-form__tax-callout.sc-igl-rate-extender-form{margin-top:1.25rem}.rate-form__dates.sc-igl-rate-extender-form{margin:0;margin-top:1.5rem;display:grid;gap:1rem}.rate-form__date-row.sc-igl-rate-extender-form{display:flex;align-items:center;margin:0;margin-top:0.25rem}.rate-form__date-label.sc-igl-rate-extender-form{flex:0 0 16.666%;margin:0;padding:0;font-size:0.8125rem;color:#6b7280}.rate-form__input-wrapper.sc-igl-rate-extender-form{flex:0 0 25%;margin-inline-start:0.25rem;position:relative;margin-top:0;margin-bottom:0;padding:0}.rate-form__readonly-value.sc-igl-rate-extender-form{flex:0 0 75%;margin-inline-start:0.25rem;margin-top:0;margin-bottom:0;padding:0}.rate-extender-input.sc-igl-rate-extender-form{display:grid;grid-template-columns:auto 1fr;gap:var(--wa-space-l);align-items:center}.rate-extender-input.sc-igl-rate-extender-form::part(label),.rate-extender-input.sc-igl-rate-extender-form [part~="label"]{width:80px;margin:0}.rate-extender-input.sc-igl-rate-extender-form:disabled::part(label),.rate-extender-input.sc-igl-rate-extender-form:disabled [part~="label"]{opacity:0.5}.rate-extender-input.sc-igl-rate-extender-form::part(wa-input),.rate-extender-input.sc-igl-rate-extender-form [part~="wa-input"]{grid-column:1 / -1;grid-row-end:span 2;display:grid;grid-template-columns:subgrid;gap:0 var(--wa-space-s);align-items:center}.rate-extender-arrow.sc-igl-rate-extender-form{display:block;margin-inline-start:calc(40px + var(--wa-space-l));width:calc(100% - 40px - var(--wa-space-l));text-align:center}@media (min-width: 640px){.rate-extender-input.sc-igl-rate-extender-form::part(base){max-width:180px}.rate-extender-arrow.sc-igl-rate-extender-form{width:180px}}.ir-flip-rtl.sc-igl-rate-extender-form:dir(rtl){scale:-1 1}`;
+const iglRateExtenderFormCss = () => `.sc-igl-rate-extender-form-h{display:block;height:100%;padding-bottom:1rem}.rate-form__body.sc-igl-rate-extender-form{text-align:start;padding-inline:0.25rem;padding-top:0;display:grid}.rate-extender-form.sc-igl-rate-extender-form{display:grid;gap:1rem}.rate-form__booking-number.sc-igl-rate-extender-form{font-size:var(--wa-font-size-m);color:var(--wa-color-text-quiet);margin:0}.rate-form__checking-availability.sc-igl-rate-extender-form{margin-top:0.5rem;font-size:0.875rem;color:var(--wa-color-text-quiet)}.rate-form__date-range.sc-igl-rate-extender-form{font-size:var(--wa-font-size-m);font-weight:600;line-height:1.3;color:#111827;margin:0;margin-top:0.5rem}.rate-form__rate-plan.sc-igl-rate-extender-form{font-size:var(--wa-font-size-s);color:var(--wa-color-text-quiet);margin:0;margin-top:0.375rem;display:flex;flex-wrap:wrap;align-items:center;gap:var(--wa-space-2xs) var(--wa-space-xs)}.rate-form__availability-callout.sc-igl-rate-extender-form{margin-top:1rem}.rate-form__custom-text.sc-igl-rate-extender-form{font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet);line-height:1.4;margin:0;margin-top:0.625rem}.rate-form__tax-callout.sc-igl-rate-extender-form{margin-top:1.25rem}.rate-form__dates.sc-igl-rate-extender-form{margin:0;margin-top:1.5rem;display:grid;gap:1rem}.rate-form__date-row.sc-igl-rate-extender-form{display:flex;align-items:center;margin:0;margin-top:0.25rem}.rate-form__date-label.sc-igl-rate-extender-form{flex:0 0 16.666%;margin:0;padding:0;font-size:0.8125rem;color:#6b7280}.rate-form__input-wrapper.sc-igl-rate-extender-form{flex:0 0 25%;margin-inline-start:0.25rem;position:relative;margin-top:0;margin-bottom:0;padding:0}.rate-form__readonly-value.sc-igl-rate-extender-form{flex:0 0 75%;margin-inline-start:0.25rem;margin-top:0;margin-bottom:0;padding:0}.rate-extender-nights.sc-igl-rate-extender-form{display:grid;grid-template-columns:max-content minmax(0, 160px);gap:1rem var(--wa-space-s);justify-content:start;align-items:center}.rate-extender-night.sc-igl-rate-extender-form{grid-column:1 / -1;display:grid;grid-template-columns:subgrid}.rate-extender-input.sc-igl-rate-extender-form{grid-column:1 / -1;display:grid;grid-template-columns:subgrid;align-items:center}.rate-extender-input.sc-igl-rate-extender-form::part(label),.rate-extender-input.sc-igl-rate-extender-form [part~="label"]{margin:0}.rate-extender-input.sc-igl-rate-extender-form:disabled::part(label),.rate-extender-input.sc-igl-rate-extender-form:disabled [part~="label"]{opacity:0.5}.rate-extender-input.sc-igl-rate-extender-form::part(wa-input),.rate-extender-input.sc-igl-rate-extender-form [part~="wa-input"]{grid-column:1 / -1;grid-row-end:span 2;display:grid;grid-template-columns:subgrid;row-gap:0;align-items:center}.rate-extender-arrow.sc-igl-rate-extender-form{display:block;grid-column:2;justify-self:center}.ir-flip-rtl.sc-igl-rate-extender-form:dir(rtl){scale:-1 1}`;
 
 const IglRateExtenderForm = class {
     constructor(hostRef) {
@@ -5024,7 +5024,7 @@ const IglRateExtenderForm = class {
         let days = [...this.rates];
         inputValue = inputValue.replace(/[^0-9.]/g, '');
         if (inputValue === '') {
-            days[index].amount = -1;
+            days[index].amount = null;
         }
         else {
             if (!isNaN(Number(inputValue))) {
@@ -5082,6 +5082,10 @@ const IglRateExtenderForm = class {
         return index === this.selectedRoom.days.length - 1;
     }
     async handleRoomConfirmation() {
+        // ir-validator only flags the empty field on submit; it does not stop the submit itself.
+        if (this.rates.some(day => day.amount === null)) {
+            return;
+        }
         try {
             this.isLoading = true;
             this.loadingChanged.emit(true);
@@ -5136,12 +5140,12 @@ const IglRateExtenderForm = class {
         return (h("form", { id: "rate-extender-form", class: "rate-extender-form", onSubmit: e => {
                 e.preventDefault();
                 this.handleRoomConfirmation();
-            } }, h("section", { class: "rate-form__body" }, h("p", { class: "rate-form__booking-number" }, `${t('Lcz_Booking', { fallback: 'Booking' })}#`, " ", formatBookingNumber(this.bookingNumber)), h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && h("span", { class: 'irfontgreen' }, t('Lcz_NonRefundable', { fallback: 'Non-refundable' }))), this.inventory !== 0 && this.inventory !== null && booking_store.roomTypes?.length > 0 && (h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendar_data.tax_statement))), h("p", { class: "rate-form__date-range" }, formatDate(this.dates.from_date, 'ddd, DD MMM YYYY'), " ", h("wa-icon", { class: "ir-flip-rtl", name: "arrow-right" }), " ", formatDate(this.dates.to_date, 'ddd, DD MMM YYYY')), (this.inventory === 0 || this.inventory === null) && (h("wa-callout", { size: "s", variant: "danger", class: "rate-form__availability-callout" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), t('Lcz_NoAvailabilityForAdditionalNights'))), this.rates?.map((day, index) => {
+            } }, h("section", { class: "rate-form__body" }, h("p", { class: "rate-form__booking-number" }, `${t('Lcz_Booking', { fallback: 'Booking' })}#`, " ", formatBookingNumber(this.bookingNumber)), h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && h("span", { class: 'irfontgreen' }, t('Lcz_NonRefundable', { fallback: 'Non-refundable' }))), this.inventory !== 0 && this.inventory !== null && booking_store.roomTypes?.length > 0 && (h("wa-callout", { size: "s", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendar_data.tax_statement))), h("p", { class: "rate-form__date-range" }, formatDate(this.dates.from_date, 'ddd, DD MMM YYYY'), " ", h("wa-icon", { class: "ir-flip-rtl", name: "arrow-right" }), " ", formatDate(this.dates.to_date, 'ddd, DD MMM YYYY')), (this.inventory === 0 || this.inventory === null) && (h("wa-callout", { size: "s", variant: "danger", class: "rate-form__availability-callout" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), t('Lcz_NoAvailabilityForAdditionalNights'))), h("div", { class: "rate-extender-nights" }, this.rates?.map((day, index) => {
             return [
-                h("ir-validator", { key: day.date, value: day.amount, schema: numberType().min(0) }, h("ir-input", { ref: el => (this.inputRefs[index] = el), disabled: this.disabled(index), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: formatDate(day.date, 'ddd, MMM D') }, h("span", { slot: "start" }, currency_symbol))),
+                h("ir-validator", { key: day.date, class: "rate-extender-night", value: day.amount, schema: numberType().min(0) }, h("ir-input", { ref: el => (this.inputRefs[index] = el), disabled: this.disabled(index), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index), value: day.amount?.toString() ?? '', defaultValue: day.amount?.toString() ?? '', mask: 'price', min: 0, label: formatDate(day.date, 'ddd, MMM D') }, h("span", { slot: "start" }, currency_symbol))),
                 this.showArrow(index) && h("wa-icon", { class: "rate-extender-arrow", name: this.isEndDateBeforeFromDate ? 'arrow-up' : 'arrow-down' }),
             ];
-        }), h("div", null)));
+        })), h("div", null)));
     }
 };
 IglRateExtenderForm.style = iglRateExtenderFormCss();
@@ -5507,7 +5511,7 @@ IglSplitBookingDrawer.style = iglSplitBookingDrawerCss();
 const SelectedUnitSchema = objectType({
     roomtype_id: coerce.number(),
     unit_id: coerce.number(),
-    rateplan_id: coerce.number(),
+    rateplan_id: coerce.number().positive(),
 });
 
 const iglSplitBookingFormCss = () => `.sc-igl-split-booking-form-h{display:flex;flex-direction:column;gap:var(--wa-space-s);text-align:start}form.sc-igl-split-booking-form{display:flex;flex-direction:column;gap:var(--wa-space-m)}.split-header.sc-igl-split-booking-form{display:flex;flex-direction:column;gap:var(--wa-space-xs);border-block-end:1px solid var(--wa-color-surface-border);padding:var(--spacing)}.split-header__summary.sc-igl-split-booking-form{display:flex;align-items:center;flex-wrap:wrap;gap:var(--wa-space-2xs) var(--wa-space-xs)}.split-header__room.sc-igl-split-booking-form{font-weight:600;font-size:var(--wa-font-size-m);color:var(--wa-color-text-normal)}.split-header__rateplan.sc-igl-split-booking-form{display:flex;align-items:center;gap:var(--wa-space-2xs);color:var(--wa-color-text-quiet, #4b5563);font-size:var(--wa-font-size-s)}.split-search-row.sc-igl-split-booking-form{display:flex;align-items:center;gap:var(--wa-space-xs)}.split-search__date.sc-igl-split-booking-form{cursor:pointer !important;width:200px;min-width:0}.split-date-trigger.sc-igl-split-booking-form{display:flex;align-items:center;gap:var(--wa-space-2xs);width:100%;height:2.5rem;padding-inline:var(--wa-space-s);border:1px solid var(--wa-color-surface-border);border-radius:var(--wa-border-radius-m, 0.375rem);background:var(--wa-color-surface-default);color:var(--wa-color-text-normal);font:inherit;font-size:var(--wa-font-size-s);font-weight:400;text-align:start;cursor:pointer;transition:border-color 160ms ease-out}.split-date-trigger.sc-igl-split-booking-form:hover{border-color:var(--wa-color-neutral-border-loud, var(--wa-color-surface-border))}.split-date-trigger.sc-igl-split-booking-form:focus-visible{outline:var(--wa-focus-ring);outline-offset:var(--wa-focus-ring-offset)}.split-date-trigger.sc-igl-split-booking-form wa-icon.sc-igl-split-booking-form{flex:0 0 auto;color:var(--wa-color-text-quiet)}.split-date-trigger.sc-igl-split-booking-form span.sc-igl-split-booking-form{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.split-date-trigger--empty.sc-igl-split-booking-form span.sc-igl-split-booking-form{color:var(--wa-color-text-quiet)}.split-search__submit.sc-igl-split-booking-form{flex:0 0 auto}.split-empty.sc-igl-split-booking-form{display:flex;flex-direction:column;align-items:center;gap:var(--wa-space-m);width:100%;padding-block:var(--wa-space-2xl) var(--wa-space-xl)}.split-empty.sc-igl-split-booking-form ir-empty-state.sc-igl-split-booking-form{width:100%}.split-empty__action.sc-igl-split-booking-form{width:fit-content}.error-message.sc-igl-split-booking-form{display:flex;align-items:center;gap:var(--wa-space-2xs);margin:0;color:var(--wa-color-danger-fill-loud, #c0392b);font-size:var(--wa-font-size-s)}.split-loading.sc-igl-split-booking-form{display:flex;align-items:center;justify-content:center;gap:var(--wa-space-xs);padding-block:var(--wa-space-l);color:var(--wa-color-text-quiet, #4b5563);font-size:var(--wa-font-size-s)}@keyframes split-results-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}.room-type-list.sc-igl-split-booking-form{display:flex;flex-direction:column;gap:var(--wa-space-2xs);padding-inline:var(--spacing);padding-bottom:2rem;animation:split-results-in 180ms cubic-bezier(0.23, 1, 0.32, 1)}@media (prefers-reduced-motion: reduce){.room-type-list.sc-igl-split-booking-form{animation:none}}.room-type-row.sc-igl-split-booking-form{margin-block:var(--wa-space-xs) var(--wa-space-3xs)}.room-type-row.sc-igl-split-booking-form:first-child{margin-block-start:0}.room-type-name.sc-igl-split-booking-form{font-weight:600;font-size:var(--wa-font-size-s);color:var(--wa-color-text-normal);text-align:start}.physical-room.sc-igl-split-booking-form{display:flex;align-items:center;padding:var(--wa-space-2xs) var(--wa-space-xs);padding-inline-start:var(--wa-space-m);border-radius:var(--wa-border-radius-m, 0.375rem);transition:background-color 160ms ease-out}.physical-room.sc-igl-split-booking-form::part(label),.physical-room.sc-igl-split-booking-form [part~="label"]{display:flex;align-items:center}.physical-room.sc-igl-split-booking-form wa-select.sc-igl-split-booking-form{margin-inline-start:var(--wa-space-m);min-width:220px}`;
@@ -5727,14 +5731,14 @@ const IglSplitBookingForm = class {
     }
     render() {
         const eligibleRoomTypes = this.eligibleRoomTypes;
-        return (h("form", { key: '339b8105390ff9effb8c3a554fe3c2bfec3ab43e', id: this.formId, onSubmit: e => {
+        return (h("form", { key: '9353e088c448b279098ba17bfde6f0c9682e81a3', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.doReservation();
-            } }, h("div", { key: '6ceda198295313fe5c569b199f49e3cf6ecd9ef7', class: "split-header" }, h("div", { key: 'e30061d5d23c4a8a9184b04b9cadc06175fffdec', class: "split-header__summary" }, h("span", { key: '07e11c260b2da2063e03a894237f1685c8e6b220', class: "split-header__room" }, this.room.unit?.['name'] ?? this.room.roomtype?.name), h("span", { key: 'b41edd2bfb51c5bea86d27089860c2c526d9d547', class: "split-header__rateplan" }, this.room.rateplan.short_name, this.room.rateplan.is_non_refundable && (h("wa-tag", { key: '4f6d079ea53876ff46e2bc02d69ede62db590f81', size: "s", variant: "warning" }, t('Lcz_NonRefundable', { fallback: 'Non-refundable' }))))), h("div", { key: 'df0a38782b6b750f6c0c938b585758f6ea00f02d', class: "split-search-row" }, h("ir-date-select", { key: 'c21a388c84c7f58c731d54d2faa9aa95a0300576',
+            } }, h("div", { key: '0c1a4aea6e4bf8e7086ecc812ee6e5f15f12dcc6', class: "split-header" }, h("div", { key: '7e050fbfd68e4e548c254dd1d3bd08938ea70e70', class: "split-header__summary" }, h("span", { key: '141f80ba27f274cf8b3d5d59ccd57521ba9e53d3', class: "split-header__room" }, this.room.unit?.['name'] ?? this.room.roomtype?.name), h("span", { key: '45e48093ecf127f1e9930538dc3ff679b85576e3', class: "split-header__rateplan" }, this.room.rateplan.short_name, this.room.rateplan.is_non_refundable && (h("wa-tag", { key: '0b89aa6f00bb066789c6ab3d2df6d8d5c675caff', size: "s", variant: "warning" }, t('Lcz_NonRefundable', { fallback: 'Non-refundable' }))))), h("div", { key: '5c0dfe82569ad783475b7b893bca8e04e5a2c247', class: "split-search-row" }, h("ir-date-select", { key: '10e11385b21e6e64f17362302581d62b30157afb',
             // customPicker
             class: "split-search__date", "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true, onDateChanged: evt => {
                 this.selectedDates = { ...this.selectedDates, from_date: evt.detail.start };
-            } }, h("wa-icon", { key: '91ff22045b72b8e2da90e42f6799391c4707053b', slot: "start", name: "calendar" })), h("ir-custom-button", { key: 'b90f3d53c7346253d90cdadbde1fa11199b68f30', class: "split-search__submit", appearance: "accent", variant: "brand", size: "s", loading: this.isSearching, onClickHandler: () => this.checkBookingAvailability() }, t('Lcz_CheckAvailability', { fallback: 'Check availability' })))), this.errors?.roomtype_id && (h("p", { key: '4f1f1e5b253ece9a2583d3f13aad14f93024cdda', class: "error-message" }, h("wa-icon", { key: 'ccc9b5cdc8bf21cf77832933964ec8fa5ce21edd', name: "circle-exclamation" }), t('Lcz_PleaseSelectARoom', { fallback: 'Please select a room' }))), this.isSearching ? (h("div", { class: "split-loading" })) : !this.hasSearched ? (h("div", { class: "split-empty" }, h("ir-empty-state", { message: t('Lcz_PickDateAndSearchForAvailableUnits', { fallback: 'Pick a date and search to see available units' }) }), h("ir-custom-button", { class: "split-empty__action", loading: this.isSearching, onClickHandler: () => this.checkBookingAvailability(), variant: "brand", size: "s" }, t('Lcz_CheckAvailability', { fallback: 'Check availability' })))) : eligibleRoomTypes.length === 0 ? (h("div", { class: "split-empty" }, h("ir-empty-state", { message: t('Lcz_NoAvailableUnitsForTheseDates', { fallback: 'No available units for these dates' }) }))) : (h("wa-radio-group", { class: "room-type-list", name: "unit", onchange: e => {
+            } }, h("wa-icon", { key: '29d4931f53946e61b7d78d12c355d70212a4cc32', slot: "start", name: "calendar" })), h("ir-custom-button", { key: '1cf7c134f0de3be48397b0ea56df8216a48364c2', class: "split-search__submit", appearance: "accent", variant: "brand", size: "s", loading: this.isSearching, onClickHandler: () => this.checkBookingAvailability() }, t('Lcz_CheckAvailability', { fallback: 'Check availability' })))), this.errors?.roomtype_id && (h("p", { key: 'a61d06b02250e38f9f599c6353dc89f86275a08c', class: "error-message" }, h("wa-icon", { key: '1ef37e5489e639a6e1c7eed7e6e1c9943a5fbdbb', name: "circle-exclamation" }), t('Lcz_PleaseSelectARoom', { fallback: 'Please select a room' }))), this.isSearching ? (h("div", { class: "split-loading" })) : !this.hasSearched ? (h("div", { class: "split-empty" }, h("ir-empty-state", { message: t('Lcz_PickDateAndSearchForAvailableUnits', { fallback: 'Pick a date and search to see available units' }) }), h("ir-custom-button", { class: "split-empty__action", loading: this.isSearching, onClickHandler: () => this.checkBookingAvailability(), variant: "brand", size: "s" }, t('Lcz_CheckAvailability', { fallback: 'Check availability' })))) : eligibleRoomTypes.length === 0 ? (h("div", { class: "split-empty" }, h("ir-empty-state", { message: t('Lcz_NoAvailableUnitsForTheseDates', { fallback: 'No available units for these dates' }) }))) : (h("wa-radio-group", { class: "room-type-list", name: "unit", onchange: e => {
                 const [roomtype_id, unit_id] = e.target.value.split('_');
                 this.updateSelectedUnit({
                     roomtype_id: Number(roomtype_id),
@@ -5749,7 +5753,7 @@ const IglSplitBookingForm = class {
                     this.updateSelectedUnit({
                         rateplan_id: Number(e.target.value),
                     });
-                } }, this.mealPlanOptions.map(option => (h("wa-option", { value: option.value?.toString() }, option.text + `${option.custom_text ? ' | ' : ''}${option.custom_text}`))))))));
+                } }, this.mealPlanOptions.map(option => (h("wa-option", { value: option.value?.toString() }, rateplanOptionLabel(option)))))))));
         }))))))));
     }
 };
@@ -14954,16 +14958,18 @@ const IrCommon = class {
         });
     }
     loadArabicFont() {
-        this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' });
-        this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' });
-        this.appendTag('link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap' });
+        if (!this.disableResourceInjection) {
+            this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' });
+            this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' });
+        }
+        this.appendTag('link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap' });
         const styleId = 'ir-arabic-font';
         if (document.getElementById(styleId)) {
             return;
         }
         const style = document.createElement('style');
         style.id = styleId;
-        style.textContent = `:lang(ar) { font-family: "Cairo", sans-serif !important; font-optical-sizing: auto; }`;
+        style.textContent = `:lang(ar) { font-family: "Noto", sans-serif !important; font-optical-sizing: auto; }`;
         document.head.appendChild(style);
     }
     render() {
@@ -50572,10 +50578,12 @@ const IrReallocationForm = class {
                 room_type_ids_to_update: [],
             });
             this.roomTypes = data.filter(r => r.is_available_to_book);
-            this.isLoading = false;
         }
         catch (error) {
             console.error('Error initializing booking availability:', error);
+        }
+        finally {
+            this.isLoading = false;
         }
     }
     getDates() {
@@ -50683,7 +50691,7 @@ const IrReallocationForm = class {
                             rateplan_id: Number(e.target.value),
                         });
                     } }, this.mealPlanOptions.map(option => {
-                    return h("wa-option", { value: option.value?.toString() }, option.text + `${option.custom_text ? ' | ' : ''}${option.custom_text}`);
+                    return h("wa-option", { value: option.value?.toString() }, rateplanOptionLabel(option));
                 }))))));
             })));
         }))))))));

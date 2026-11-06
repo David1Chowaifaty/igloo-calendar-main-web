@@ -4,7 +4,7 @@ import { EventsService } from "../../../services/events.service";
 import { resetBookingStore } from "../../../stores/booking.store";
 import calendar_data from "../../../stores/calendar-data";
 import { calculateDaysBetweenDates } from "../../../utils/booking";
-import { checkMealPlan } from "../../../utils/utils";
+import { checkMealPlan, rateplanOptionLabel } from "../../../utils/utils";
 import { Fragment, h } from "@stencil/core";
 import moment from "moment";
 import { ZodError } from "zod";
@@ -65,10 +65,12 @@ export class IrReallocationForm {
                 room_type_ids_to_update: [],
             });
             this.roomTypes = data.filter(r => r.is_available_to_book);
-            this.isLoading = false;
         }
         catch (error) {
             console.error('Error initializing booking availability:', error);
+        }
+        finally {
+            this.isLoading = false;
         }
     }
     getDates() {
@@ -176,7 +178,7 @@ export class IrReallocationForm {
                             rateplan_id: Number(e.target.value),
                         });
                     } }, this.mealPlanOptions.map(option => {
-                    return h("wa-option", { value: option.value?.toString() }, option.text + `${option.custom_text ? ' | ' : ''}${option.custom_text}`);
+                    return h("wa-option", { value: option.value?.toString() }, rateplanOptionLabel(option));
                 }))))));
             })));
         }))))))));

@@ -54,16 +54,18 @@ export class IrCommon {
         });
     }
     loadArabicFont() {
-        this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' });
-        this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' });
-        this.appendTag('link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap' });
+        if (!this.disableResourceInjection) {
+            this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' });
+            this.appendTag('link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' });
+        }
+        this.appendTag('link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap' });
         const styleId = 'ir-arabic-font';
         if (document.getElementById(styleId)) {
             return;
         }
         const style = document.createElement('style');
         style.id = styleId;
-        style.textContent = `:lang(ar) { font-family: "Cairo", sans-serif !important; font-optical-sizing: auto; }`;
+        style.textContent = `:lang(ar) { font-family: "Noto", sans-serif !important; font-optical-sizing: auto; }`;
         document.head.appendChild(style);
     }
     render() {
