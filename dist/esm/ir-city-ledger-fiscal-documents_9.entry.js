@@ -5,7 +5,7 @@ import { h as hooks } from './moment-Mki5YqAR.js';
 import { t } from './t-Bvz1wS_D.js';
 import { D as Debounce } from './debounce-DF70NVXP.js';
 import { s as stringType, o as objectType } from './types-CB66a07H.js';
-import { r as realtimeService } from './realtime.service-CGYmIxkT.js';
+import { r as realtimeService } from './realtime.service-BmG0puvj.js';
 import { m as mapClTxToFolioRow, a as actionableClTypes, d as debitFdTypeCode } from './city-ledger.service-bGPDsUsf.js';
 import { c as calendar_data } from './calendar-data-DknGMMFc.js';
 import { v as v4 } from './v4-CK3_k8jD.js';

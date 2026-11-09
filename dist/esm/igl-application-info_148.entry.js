@@ -26,7 +26,7 @@ import { H as HouseKeepingService, h as housekeeping_store } from './index-Lpywo
 import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-DjDNm9TC.js';
 import { B as BookingNumberSchema, L as LanguageSchema, D as DateSchema, P as PropertyIdSchema } from './commonSchemas-Cxq3bLiY.js';
 import { R as RoomService } from './room.service-CsmUk4LB.js';
-import { r as realtimeService } from './realtime.service-CGYmIxkT.js';
+import { r as realtimeService } from './realtime.service-BmG0puvj.js';
 import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { B as BatchingQueue, t as toAccChargeRule, f as findAccTax, b as getTopLevelSvcCategories, g as groupSvcCategoriesByParent } from './svc-category.utils-aKjfLh79.js';
 import { L as LanguageSync } from './language-sync-C1yVnB7q.js';

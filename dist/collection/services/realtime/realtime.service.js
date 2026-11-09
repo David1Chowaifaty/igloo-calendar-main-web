@@ -1,5 +1,13 @@
 import io from "socket.io-client";
 const REALTIME_URL = 'https://realtime.igloorooms.com/';
+/** Read per message so a host page can set `window.environment` after this module loads. */
+function isAlphaEnvironment() {
+    return typeof window !== 'undefined' && window.environment === 'alpha';
+}
+/** True when the parsed payload is tagged as alpha-environment traffic. */
+function isAlphaPayload(payload) {
+    return typeof payload === 'object' && payload !== null && !Array.isArray(payload) && payload.environment === 'alpha';
+}
 class RealtimeService {
     static _instance;
     socket = null;
@@ -72,6 +80,10 @@ class RealtimeService {
             catch {
                 // PAYLOAD is not valid JSON (e.g. DELETE_CALENDAR_POOL, GET_UNASSIGNED_DATES)
                 payload = PAYLOAD;
+            }
+            // Alpha pages see only alpha-tagged traffic; every other page drops it.
+            if (isAlphaPayload(payload) !== isAlphaEnvironment()) {
+                return;
             }
             // Cast to the discriminated union. The REASON key governs which payload type
             // is expected; unknown reasons fall through harmlessly in handler switch/if blocks.

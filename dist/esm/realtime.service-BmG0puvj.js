@@ -1,5 +1,3 @@
-'use strict';
-
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
 PACKET_TYPES["close"] = "1";
@@ -4025,6 +4023,14 @@ Object.assign(lookup, {
 });
 
 const REALTIME_URL = 'https://realtime.igloorooms.com/';
+/** Read per message so a host page can set `window.environment` after this module loads. */
+function isAlphaEnvironment() {
+    return typeof window !== 'undefined' && window.environment === 'alpha';
+}
+/** True when the parsed payload is tagged as alpha-environment traffic. */
+function isAlphaPayload(payload) {
+    return typeof payload === 'object' && payload !== null && !Array.isArray(payload) && payload.environment === 'alpha';
+}
 class RealtimeService {
     static _instance;
     socket = null;
@@ -4098,6 +4104,10 @@ class RealtimeService {
                 // PAYLOAD is not valid JSON (e.g. DELETE_CALENDAR_POOL, GET_UNASSIGNED_DATES)
                 payload = PAYLOAD;
             }
+            // Alpha pages see only alpha-tagged traffic; every other page drops it.
+            if (isAlphaPayload(payload) !== isAlphaEnvironment()) {
+                return;
+            }
             // Cast to the discriminated union. The REASON key governs which payload type
             // is expected; unknown reasons fall through harmlessly in handler switch/if blocks.
             const message = { reason: REASON, payload };
@@ -4116,4 +4126,4 @@ class RealtimeService {
 }
 const realtimeService = RealtimeService.getInstance();
 
-exports.realtimeService = realtimeService;
+export { realtimeService as r };
