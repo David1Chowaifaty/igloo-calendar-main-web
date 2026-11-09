@@ -2,8 +2,11 @@
 // Every src/pages/index-*.html loads this file from <head>, so reading `?dir=` and `?lang=`
 // here sets the document direction before any component upgrades. This is the only way to
 // exercise RTL locally — the pages themselves ship a hardcoded `dir` on <html>.
+
+
 (function applyUrlDirection() {
     try {
+        window.environment = 'alpha'
         const params = new URLSearchParams(window.location.search);
         const dir = (params.get('dir') || '').toLowerCase();
         const lang = params.get('lang');
@@ -36,41 +39,63 @@ async function getToken() {
             console.log("jwt-decode script loaded.");
         }
 
-        // Load ApiClient from localStorage or fallback
-        let ApiClient = localStorage.getItem("ApiClient");
+        // Tokens are bound to the environment that issued them: an alpha token is rejected by
+        // the prod gateway and vice versa, so each environment keeps its own storage slot.
+        const env = _environmentName();
+        const storageKey = _tokenStorageKey(env);
+        let token = localStorage.getItem(storageKey);
 
         let isExpired = true;
 
-        if (ApiClient) {
-            const decoded = jwt_decode(ApiClient);
-            isExpired = Date.now() > decoded.exp * 1000;
-            console.log("ApiClient expiration:", new Date(decoded.exp * 1000), "Now:", new Date(), "Expired?", isExpired);
-        }
-
-        if (!ApiClient || isExpired) {
-            console.log("ApiClient missing or expired. Fetching new one...");
-            const newApiClient = await authenticate("A35", "H@mburger9");
-
-            if (newApiClient) {
-                localStorage.setItem("ApiClient", newApiClient);
-                ApiClient = newApiClient;
-                console.log("New ApiClient saved to localStorage.");
-            } else {
-                console.error("Failed to get new ApiClient.");
+        if (token) {
+            try {
+                const decoded = jwt_decode(token);
+                isExpired = Date.now() > decoded.exp * 1000;
+                console.log(`[${env}] token expiration:`, new Date(decoded.exp * 1000), "Now:", new Date(), "Expired?", isExpired);
+            } catch (e) {
+                console.warn(`[${env}] stored token is not a valid JWT, discarding`, e);
+                localStorage.removeItem(storageKey);
+                token = null;
             }
         }
 
-        return ApiClient;
+        if (!token || isExpired) {
+            console.log(`[${env}] token missing or expired. Fetching new one from ${_gatewayBaseUrl()}...`);
+            const newtoken = await authenticate("A35", "H@mburger9");
+
+            if (newtoken) {
+                localStorage.setItem(storageKey, newtoken);
+                token = newtoken;
+                console.log(`[${env}] New token saved to localStorage (${storageKey}).`);
+            } else {
+                console.error(`[${env}] Failed to get new token.`);
+                token = null;
+            }
+        }
+
+        return token;
     } catch (error) {
         console.error("getToken error:", error);
     }
 }
 
-// ApiClient = await authenticate("A35", "QAZqaz900_")
+// token = await authenticate("A35", "QAZqaz900_")
 function getId() {
     return "42"
 }
-
+function _isAlpha() {
+    return typeof window !== 'undefined' && (window).environment === 'alpha';
+}
+// Mirrors ApiClient.ts: alpha routes every request to /IRALPHA, everything else to /IR.
+function _environmentName() {
+    return _isAlpha() ? 'alpha' : 'prod';
+}
+function _gatewayBaseUrl() {
+    return `https://gateway.igloorooms.com/${_isAlpha() ? 'IRALPHA' : 'IR'}`;
+}
+function _tokenStorageKey(env = _environmentName()) {
+    return `token:${env}`;
+}
 const authenticate = async (username = "A35", password = "12345") => {
     try {
         const myHeaders = new Headers();
@@ -89,8 +114,7 @@ const authenticate = async (username = "A35", password = "12345") => {
             body: raw,
             redirect: "follow"
         };
-
-        const res = await fetch('https://gateway.igloorooms.com/IR/Authenticate', requestOptions);
+        const res = await fetch(`${_gatewayBaseUrl()}/Authenticate`, requestOptions);
         const data = await res.json();
         return data.My_Result;
     } catch (error) {
@@ -141,7 +165,7 @@ function calculateDateRange(fromDate, maxMonths) {
 const logout = async () => {
     try {
         console.log("logout")
-        const res = await fetch('https://gateway.igloorooms.com/IR/Logout', {
+        const res = await fetch(`${_gatewayBaseUrl()}/Logout`, {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -153,6 +177,7 @@ const logout = async () => {
         });
 
         const data = await res.json();
+        localStorage.removeItem(_tokenStorageKey());
         return data.My_Result;
     } catch (error) {
         console.error(error);

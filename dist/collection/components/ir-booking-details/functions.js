@@ -18,8 +18,8 @@ export const _formatTime = (hour, minute) => {
  * (`window.environment === 'alpha'`) print through the `IRPrinting_alpha` gateway app.
  */
 export const getPrintingBaseUrl = (aname, bookingNumber) => {
-    const app = isAlpha() ? 'PrintBookingAlpha' : 'PrintBooking';
-    return `https://gateway.igloorooms.com/${app}/${aname}/printing/fd?id=${bookingNumber}`;
+    const app = isAlpha() ? 'test.bookingmystay.com' : 'gateway.igloorooms.com/PrintBooking';
+    return `https://${app}/${aname}/printing/fd?id=${bookingNumber}`;
 };
 export const isAgentMode = (agent) => {
     return agent && agent.payment_mode.code !== '002';

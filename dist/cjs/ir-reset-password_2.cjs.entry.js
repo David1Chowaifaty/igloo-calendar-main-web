@@ -10,7 +10,7 @@ var t = require('./t-CqJPQrfm.js');
 var types = require('./types-BVJQZ50e.js');
 var user_service = require('./user.service-Dm5xYT-a.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
-var functions = require('./functions-MQhgVRwi.js');
+var functions = require('./functions-DF3mo_kQ.js');
 var irDate = require('./ir-date-CbkOKs2C.js');
 require('./moment-CdViwxPQ.js');
 require('./axios-EresIryl.js');

@@ -5,7 +5,7 @@ import './booking.dto-DGwE7ON6.js';
 import { f as formatDate } from './ir-date-XXNYhmSL.js';
 import { t } from './t-Bvz1wS_D.js';
 import { f as formatAmount } from './number-B8waOzTO.js';
-import { _ as _formatTime } from './functions-Bw7dbbaF.js';
+import { _ as _formatTime } from './functions-PT-hiqGs.js';
 import './locale-scope-Jre4lb6k.js';
 import './type-9FR4Ndkd.js';
 import './types-CB66a07H.js';

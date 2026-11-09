@@ -15,7 +15,7 @@ require('./booking.dto-CMx8s-oW.js');
 var irDate = require('./ir-date-CbkOKs2C.js');
 var number = require('./number-xBpNWk3H.js');
 var useTable = require('./useTable-BN32DOaV.js');
-var functions = require('./functions-MQhgVRwi.js');
+var functions = require('./functions-DF3mo_kQ.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./locale.controller-BE9t6L_N.js');

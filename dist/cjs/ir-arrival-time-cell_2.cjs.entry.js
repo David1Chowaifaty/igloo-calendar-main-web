@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var functions = require('./functions-MQhgVRwi.js');
+var functions = require('./functions-DF3mo_kQ.js');
 var irDate = require('./ir-date-CbkOKs2C.js');
 require('./moment-CdViwxPQ.js');
 require('./utils-BJ6tgqps.js');
