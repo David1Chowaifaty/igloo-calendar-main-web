@@ -4,7 +4,7 @@ import { H as HouseKeepingService } from './index-LpywoleW.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { f as formatDate } from './ir-date-XXNYhmSL.js';
 import { i as isRtlLanguage } from './direction-CcpbVppy.js';
-import { r as realtimeService } from './realtime.service-hNE7vbZc.js';
+import { r as realtimeService } from './realtime.service-_BJZitOP.js';
 import { t } from './t-Bvz1wS_D.js';
 import { b as formatCount } from './number-B8waOzTO.js';
 import { L as LocaleController, S as SCREEN_TABLES } from './locale.controller-Bs0lwnpi.js';

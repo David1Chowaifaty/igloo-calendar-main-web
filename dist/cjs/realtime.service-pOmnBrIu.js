@@ -1,3 +1,5 @@
+'use strict';
+
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
 PACKET_TYPES["close"] = "1";
@@ -4085,6 +4087,7 @@ class RealtimeService {
             if (!envelope)
                 return;
             const { REASON, KEY, PAYLOAD, environment } = envelope;
+            console.log({ envelope });
             // Messages for other properties are the common case on a busy socket — drop them before
             // paying for the payload parse.
             const propertyId = KEY?.toString() ?? '';
@@ -4123,4 +4126,4 @@ class RealtimeService {
 }
 const realtimeService = RealtimeService.getInstance();
 
-export { realtimeService as r };
+exports.realtimeService = realtimeService;
