@@ -1,4 +1,5 @@
 import { formatDate, formatTime } from "../../utils/date/index";
+import { isAlpha } from "../../utils/utils";
 /** Month name (3 letters), day, year — localized, and Hijri when that preference is active. */
 export const _formatDate = (date) => formatDate(date, 'MMM DD, YYYY');
 /** Day number/month number plus the weekday name. */
@@ -17,8 +18,7 @@ export const _formatTime = (hour, minute) => {
  * (`window.environment === 'alpha'`) print through the `IRPrinting_alpha` gateway app.
  */
 export const getPrintingBaseUrl = (aname, bookingNumber) => {
-    const isAlpha = typeof window !== 'undefined' && window.environment === 'alpha';
-    const app = isAlpha ? 'IRPrinting_alpha' : 'PrintBooking';
+    const app = isAlpha() ? 'PrintBookingAlpha' : 'PrintBooking';
     return `https://gateway.igloorooms.com/${app}/${aname}/printing/fd?id=${bookingNumber}`;
 };
 export const isAgentMode = (agent) => {

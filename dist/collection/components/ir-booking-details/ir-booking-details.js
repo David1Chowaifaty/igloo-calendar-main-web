@@ -13,7 +13,7 @@ import { CityLedgerService } from "../../services/city-ledger/index";
 import { mapClTxToFolioRow } from "../ir-city-ledger/ir-city-ledger-folio/types";
 import { getPrintingBaseUrl, isAgentMode } from "./functions";
 import { realtimeService } from "../../services/realtime/realtime.service";
-import { extras } from "../../utils/utils";
+import { extras, isAlpha } from "../../utils/utils";
 import moment from "moment";
 import { SvcCategory } from "../../types/enums";
 import { formatBookingNumber } from "../../utils/number";
@@ -516,10 +516,13 @@ export class IrBookingDetails {
                 .join('&');
             url += `&${safeParams}`;
         }
+        if (isAlpha()) {
+            url += '&environment=alpha';
+        }
         // Add ApiClient safely
-        const { data } = await axios.post(`Get_ShortLiving_ApiClient`);
+        const { data } = await axios.post(`/Get_ShortLiving_Token`);
         if (!data.ExceptionMsg) {
-            url += `&ApiClient=${encodeURIComponent(data.My_Result)}`;
+            url += `&token=${encodeURIComponent(data.My_Result)}`;
         }
         // Final: fully safe URL
         window.open(url);

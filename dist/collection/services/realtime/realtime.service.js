@@ -62,7 +62,6 @@ class RealtimeService {
             if (!envelope)
                 return;
             const { REASON, KEY, PAYLOAD, environment } = envelope;
-            console.log({ envelope });
             // Messages for other properties are the common case on a busy socket — drop them before
             // paying for the payload parse.
             const propertyId = KEY?.toString() ?? '';

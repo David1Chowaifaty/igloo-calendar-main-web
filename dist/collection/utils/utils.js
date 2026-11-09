@@ -452,6 +452,9 @@ export function handleBodyOverflow(open) {
         }
     }
 }
+export function isAlpha() {
+    return typeof window !== 'undefined' && window.environment === 'alpha';
+}
 export function generatePassword(length = 16) {
     const CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' + 'abcdefghijklmnopqrstuvwxyz' + '0123456789' + '!@#$%^&*()-_=+[]{}|;:,.<>?';
     const cryptoObj = (window.crypto || window.msCrypto);

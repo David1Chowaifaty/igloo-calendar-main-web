@@ -4,7 +4,7 @@ import { a as axios } from './axios-B50ozOIF.js';
 import { L as LanguageSync } from './language-sync-C1yVnB7q.js';
 import { S as SCREEN_TABLES, L as LocaleController } from './locale.controller-Bs0lwnpi.js';
 import { t } from './t-Bvz1wS_D.js';
-import { f as showToast } from './utils-C3R-kmCE.js';
+import { g as showToast } from './utils-BBOkGbMg.js';
 import { s as stringType } from './types-CB66a07H.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 import './locale-scope-Jre4lb6k.js';

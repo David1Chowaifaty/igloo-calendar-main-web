@@ -4,7 +4,7 @@ import { f as formatDate } from './ir-date-XXNYhmSL.js';
 import { t } from './t-Bvz1wS_D.js';
 import { b as formatCount, f as formatAmount } from './number-B8waOzTO.js';
 import { c as calendar_data } from './calendar-data-DknGMMFc.js';
-import { q as calculateTrend } from './utils-C3R-kmCE.js';
+import { r as calculateTrend } from './utils-BBOkGbMg.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-34GsmACS.js';
 import './booking.dto-DGwE7ON6.js';
 import './locale-scope-Jre4lb6k.js';
