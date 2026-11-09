@@ -12,6 +12,15 @@ export const _formatTime = (hour, minute) => {
     date.setHours(Number(hour) || 0, Number(minute) || 0, 0, 0);
     return formatTime(date);
 };
+/**
+ * Base URL of the booking printing screen (mode and other params get appended). Alpha pages
+ * (`window.environment === 'alpha'`) print through the `IRPrinting_alpha` gateway app.
+ */
+export const getPrintingBaseUrl = (aname, bookingNumber) => {
+    const isAlpha = typeof window !== 'undefined' && window.environment === 'alpha';
+    const app = isAlpha ? 'IRPrinting_alpha' : 'PrintBooking';
+    return `https://gateway.igloorooms.com/${app}/${aname}/printing/fd?id=${bookingNumber}`;
+};
 export const isAgentMode = (agent) => {
     return agent && agent.payment_mode.code !== '002';
 };

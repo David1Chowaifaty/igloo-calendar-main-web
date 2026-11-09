@@ -1,7 +1,7 @@
 import { r as registerInstance, h, H as Host, a as getElement, F as Fragment, c as createEvent } from './index-DKZeCK8T.js';
 import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { A as AgentsService } from './agents.service-Cp0qQi8I.js';
-import { B as BookingService } from './booking.store-DAAOuOj_.js';
+import { B as BookingService } from './booking.store-Dff97Pzi.js';
 import { S as SetupService } from './index-BIRpWXgv.js';
 import { c as calendar_data, g as getDayUseBlockState, a as getBabyCotPricingModel, b as getExtraServiceDefaultPrice } from './calendar-data-DknGMMFc.js';
 import { P as PropertyService, t as taxationModes } from './index-Zduue3lw.js';
@@ -18,14 +18,14 @@ import { d as setChannelIdAndActiveState, u as updateChannelSettings, s as selec
 import { S as SystemService } from './system.service-BqMFLSUd.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
-import { D as DashboardService, a as DATE_CHANGE_DEBOUNCE_MS, i as isCancellationOn, l as loadDepartures, b as loadArrivals, s as sumOccupancy, d as countRooms, e as countOverdueDepartures, f as countDepartingUnits, g as countOverdueArrivals, h as countUnassignedArrivals, j as countArrivingUnits, k as formatCardCount, m as DASHBOARD_PAGE_SIZE } from './dashboard.data-H6L7T2Qc.js';
-import { r as realtimeService } from './realtime.service-BmG0puvj.js';
+import { D as DashboardService, a as DATE_CHANGE_DEBOUNCE_MS, i as isCancellationOn, l as loadDepartures, b as loadArrivals, s as sumOccupancy, d as countRooms, e as countOverdueDepartures, f as countDepartingUnits, g as countOverdueArrivals, h as countUnassignedArrivals, j as countArrivingUnits, k as formatCardCount, m as DASHBOARD_PAGE_SIZE } from './dashboard.data-CM4Nj4m0.js';
+import { r as realtimeService } from './realtime.service-hNE7vbZc.js';
 import { e as setDeparturesPageSize, f as setDeparturesSortByTime, d as departuresStore, o as onDeparturesStoreChange, c as setDepartureTotal, i as initializeDeparturesStore, b as setDeparturesPage } from './departures.store-8oG4JB7B.js';
 import { B as BatchingQueue, g as groupSvcCategoriesByParent, t as toAccChargeRule, f as findAccTax, a as getAccTaxPayloadFields, b as getTopLevelSvcCategories } from './svc-category.utils-aKjfLh79.js';
 import { t as todayISO } from './calendar-dates-D3hVfsrC.js';
 import { b as formatCount, d as formatPercent, f as formatAmount, c as formatNumber } from './number-B8waOzTO.js';
 import { c as cjsExports } from './index-Bn8mRT4P.js';
-import { i as isEarlyCheckout } from './booking-COqx-DwE.js';
+import { i as isEarlyCheckout } from './booking-Bs3uQW0_.js';
 import { S as SvcCategory, F as FdTypes } from './enums-CSCQSgBu.js';
 import { o as objectType, n as numberType, s as stringType, d as arrayType, b as booleanType, e as enumType, i as nativeEnumType } from './types-CB66a07H.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './index-LpywoleW.js';
@@ -44,7 +44,7 @@ import './booking.dto-DGwE7ON6.js';
 import './language-observer-CHgzsZkY.js';
 import './room-movement-time-DWm_ef3q.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './functions-Ebyqqazo.js';
+import './functions-D58-5aBq.js';
 import './types-lai6srmI.js';
 
 const irAgentsCss = () => `.sc-ir-agents-h{display:block}.page-header__container.sc-ir-agents{display:flex;align-items:center;justify-content:space-between}`;

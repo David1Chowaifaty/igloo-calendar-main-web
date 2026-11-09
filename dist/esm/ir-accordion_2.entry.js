@@ -3,7 +3,7 @@ import { f as formatAmount, a as formatBookingNumber } from './number-B8waOzTO.j
 import { f as formatDate } from './ir-date-XXNYhmSL.js';
 import './moment-Mki5YqAR.js';
 import { c as calendar_data } from './calendar-data-DknGMMFc.js';
-import { _ as _formatTime } from './functions-Ebyqqazo.js';
+import { _ as _formatTime } from './functions-D58-5aBq.js';
 import { t } from './t-Bvz1wS_D.js';
 import './locale-scope-Jre4lb6k.js';
 import './language-observer-CHgzsZkY.js';

@@ -11,7 +11,7 @@ import { buildSplitIndex } from "../../utils/booking";
 import { AgentsService } from "../../services/agents/agents.service";
 import { CityLedgerService } from "../../services/city-ledger/index";
 import { mapClTxToFolioRow } from "../ir-city-ledger/ir-city-ledger-folio/types";
-import { isAgentMode } from "./functions";
+import { getPrintingBaseUrl, isAgentMode } from "./functions";
 import { realtimeService } from "../../services/realtime/realtime.service";
 import { extras } from "../../utils/utils";
 import moment from "moment";
@@ -34,7 +34,7 @@ export class IrBookingDetails {
     ApiClient = new ApiClient();
     arrivalTime;
     svcCategories;
-    printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing/fd?id=%2';
+    printingBaseUrl;
     // private printingBaseUrl = 'http://localhost:5863/%1/printing?id=%2';
     modalRef;
     paymentFolioRef;
@@ -466,7 +466,7 @@ export class IrBookingDetails {
             const myResult = roomResponse?.My_Result;
             if (myResult) {
                 const { allowed_payment_methods: paymentMethods, currency, allowed_booking_sources, adult_child_constraints, calendar_legends, aname } = myResult;
-                this.printingBaseUrl = this.printingBaseUrl.replace('%1', aname).replace('%2', this.bookingNumber);
+                this.printingBaseUrl = getPrintingBaseUrl(aname, this.bookingNumber);
                 this.calendarData = {
                     currency,
                     allowed_booking_sources,

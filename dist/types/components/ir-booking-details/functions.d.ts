@@ -8,4 +8,9 @@ export declare const _getDay: (date: string) => string;
  * rather than parsing `'9:5'` as a date string, which moment's loose parser handles unreliably.
  */
 export declare const _formatTime: (hour: string, minute: string) => string;
+/**
+ * Base URL of the booking printing screen (mode and other params get appended). Alpha pages
+ * (`window.environment === 'alpha'`) print through the `IRPrinting_alpha` gateway app.
+ */
+export declare const getPrintingBaseUrl: (aname: string, bookingNumber: string) => string;
 export declare const isAgentMode: (agent: Agent) => boolean;

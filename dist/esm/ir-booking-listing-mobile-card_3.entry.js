@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-DKZeCK8T.js';
 import { b as booking_listing, B as BookingListingService, u as updateUserSelection, i as initializeUserSelection } from './index-DojQ8U32.js';
-import { a as getPrivateNote } from './booking-COqx-DwE.js';
+import { a as getPrivateNote } from './booking-Bs3uQW0_.js';
 import { t } from './t-Bvz1wS_D.js';
 import { p as isBookingModified, g as isPrivilegedUser, e as downloadFile } from './utils-C3R-kmCE.js';
 import { a as formatBookingNumber } from './number-B8waOzTO.js';
@@ -13,7 +13,7 @@ import './_commonjsHelpers-BFTU3MAI.js';
 import './language-observer-CHgzsZkY.js';
 import './types-CB66a07H.js';
 import './calendar-data-DknGMMFc.js';
-import './functions-Ebyqqazo.js';
+import './functions-D58-5aBq.js';
 import './ir-date-XXNYhmSL.js';
 import './booking.dto-DGwE7ON6.js';
 import './type-9FR4Ndkd.js';

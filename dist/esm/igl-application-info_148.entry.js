@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host, a as getElement, F as Fragment, f as forceUpdate } from './index-DKZeCK8T.js';
-import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams, i as getVisibleInventory, r as resetBookingStore, j as setDayUseSelection, s as setBookingDraft, d as setBookingSelectOptions, k as fillMissingReservedGuestNames, l as getReservedRooms, n as resetAvailability, o as hasAtLeastOneRoomSelected, c as calculateTotalRooms, p as getBookingTotalPrice, q as syncFirstRoomGuestName, t as bookedByGuestBaseData } from './booking.store-DAAOuOj_.js';
+import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams, i as getVisibleInventory, r as resetBookingStore, j as setDayUseSelection, s as setBookingDraft, d as setBookingSelectOptions, k as fillMissingReservedGuestNames, l as getReservedRooms, n as resetAvailability, o as hasAtLeastOneRoomSelected, c as calculateTotalRooms, p as getBookingTotalPrice, q as syncFirstRoomGuestName, t as bookedByGuestBaseData } from './booking.store-Dff97Pzi.js';
 import { d as isSingleUnit, c as calendar_data, b as getExtraServiceDefaultPrice, e as getRoomTypeName, a as getBabyCotPricingModel, i as isOptimReadOnly } from './calendar-data-DknGMMFc.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { E as ExtraServiceSchema, R as ROOM_IN_OUT, v as validateSharedPerson, Z as ZSharedPerson } from './booking.dto-DGwE7ON6.js';
@@ -13,7 +13,7 @@ import { v as v4 } from './v4-CK3_k8jD.js';
 import { s as stringType, d as arrayType, o as objectType, g as anyType, Z as ZodError, n as numberType, c as coerce, b as booleanType, a as ZodIssueCode, e as enumType, l as literalType, j as discriminatedUnionType, u as unionType, p as preprocessType } from './types-CB66a07H.js';
 import { S as SetupService } from './index-BIRpWXgv.js';
 import { n as getReleaseHoursString, j as extras, i as isBlockUnit, f as showToast, r as checkMealPlan, t as findCountry, c as canCheckIn, u as isWeekend, k as getDaysArray, w as rateplanOptionLabel, x as formatLegendColors, y as toFloat, p as isBookingModified, a as canCheckout, z as renderTime } from './utils-C3R-kmCE.js';
-import { c as calculateDaysBetweenDates, t as transformNewBooking, b as buildSplitIndex, d as getSplitRole, e as calendar_dates, f as compareTime, h as createDateWithOffsetAndHour, j as getDayUseUnitAvailability, D as DAY_USE_STATUS_ICON, k as formatDayUseStatusText, l as formatName, i as isEarlyCheckout, m as addCleaningTasks, n as getRoomStatus, o as cleanRoom, p as addRoomForCleaning, q as transformNewBLockedRooms, r as bookingStatus, a as getPrivateNote } from './booking-COqx-DwE.js';
+import { c as calculateDaysBetweenDates, t as transformNewBooking, b as buildSplitIndex, d as getSplitRole, e as calendar_dates, f as compareTime, h as createDateWithOffsetAndHour, j as getDayUseUnitAvailability, D as DAY_USE_STATUS_ICON, k as formatDayUseStatusText, l as formatName, i as isEarlyCheckout, m as addCleaningTasks, n as getRoomStatus, o as cleanRoom, p as addRoomForCleaning, q as transformNewBLockedRooms, r as bookingStatus, a as getPrivateNote } from './booking-Bs3uQW0_.js';
 import { c as cjsExports } from './index-Bn8mRT4P.js';
 import { a as addDaysISO, t as todayISO, n as nightsBetween, I as ISO_FORMAT, b as addMonthsISO } from './calendar-dates-D3hVfsrC.js';
 import { a as axios } from './axios-B50ozOIF.js';
@@ -21,12 +21,12 @@ import { L as LocaleController, S as SCREEN_TABLES, i as installLanguageInjector
 import { c as isRtlDirection } from './direction-CcpbVppy.js';
 import { P as PropertyService, t as taxationModes, E as ExposedRectifierParamsSchema } from './index-Zduue3lw.js';
 import { H as HbPreference, S as SvcCategory, I as InvoiceableItemReason, F as FdTypes, a as FdStatus, C as ClTxTypeCode, V as VatIncludedCodes, b as InOut, P as PayTypes, c as PayStatus } from './enums-CSCQSgBu.js';
-import { _ as _formatTime, i as isAgentMode, a as _formatDate, b as _getDay } from './functions-Ebyqqazo.js';
+import { _ as _formatTime, i as isAgentMode, g as getPrintingBaseUrl, a as _formatDate, b as _getDay } from './functions-D58-5aBq.js';
 import { H as HouseKeepingService, h as housekeeping_store } from './index-LpywoleW.js';
 import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-DjDNm9TC.js';
 import { B as BookingNumberSchema, L as LanguageSchema, D as DateSchema, P as PropertyIdSchema } from './commonSchemas-Cxq3bLiY.js';
 import { R as RoomService } from './room.service-CsmUk4LB.js';
-import { r as realtimeService } from './realtime.service-BmG0puvj.js';
+import { r as realtimeService } from './realtime.service-hNE7vbZc.js';
 import { A as ApiClient } from './ApiClient-BHOzIdlE.js';
 import { B as BatchingQueue, t as toAccChargeRule, f as findAccTax, b as getTopLevelSvcCategories, g as groupSvcCategoriesByParent } from './svc-category.utils-aKjfLh79.js';
 import { L as LanguageSync } from './language-sync-C1yVnB7q.js';
@@ -9451,7 +9451,7 @@ const IrBookingDetails = class {
     ApiClient = new ApiClient();
     arrivalTime;
     svcCategories;
-    printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing/fd?id=%2';
+    printingBaseUrl;
     // private printingBaseUrl = 'http://localhost:5863/%1/printing?id=%2';
     modalRef;
     paymentFolioRef;
@@ -9883,7 +9883,7 @@ const IrBookingDetails = class {
             const myResult = roomResponse?.My_Result;
             if (myResult) {
                 const { allowed_payment_methods: paymentMethods, currency, allowed_booking_sources, adult_child_constraints, calendar_legends, aname } = myResult;
-                this.printingBaseUrl = this.printingBaseUrl.replace('%1', aname).replace('%2', this.bookingNumber);
+                this.printingBaseUrl = getPrintingBaseUrl(aname, this.bookingNumber);
                 this.calendarData = {
                     currency,
                     allowed_booking_sources,

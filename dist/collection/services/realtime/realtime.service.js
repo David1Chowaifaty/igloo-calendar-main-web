@@ -4,10 +4,6 @@ const REALTIME_URL = 'https://realtime.igloorooms.com/';
 function isAlphaEnvironment() {
     return typeof window !== 'undefined' && window.environment === 'alpha';
 }
-/** True when the parsed payload is tagged as alpha-environment traffic. */
-function isAlphaPayload(payload) {
-    return typeof payload === 'object' && payload !== null && !Array.isArray(payload) && payload.environment === 'alpha';
-}
 class RealtimeService {
     static _instance;
     socket = null;
@@ -65,12 +61,17 @@ class RealtimeService {
             }
             if (!envelope)
                 return;
-            const { REASON, KEY, PAYLOAD } = envelope;
+            const { REASON, KEY, PAYLOAD, environment } = envelope;
             // Messages for other properties are the common case on a busy socket — drop them before
             // paying for the payload parse.
             const propertyId = KEY?.toString() ?? '';
             const handlers = this.subscribers.get(propertyId);
             if (!handlers?.size) {
+                return;
+            }
+            // Alpha pages see only alpha-tagged frames; every other page drops them. The tag sits on the
+            // frame beside PAYLOAD, so this is checked before paying for the payload parse.
+            if ((environment === 'alpha') !== isAlphaEnvironment()) {
                 return;
             }
             let payload;
@@ -80,10 +81,6 @@ class RealtimeService {
             catch {
                 // PAYLOAD is not valid JSON (e.g. DELETE_CALENDAR_POOL, GET_UNASSIGNED_DATES)
                 payload = PAYLOAD;
-            }
-            // Alpha pages see only alpha-tagged traffic; every other page drops it.
-            if (isAlphaPayload(payload) !== isAlphaEnvironment()) {
-                return;
             }
             // Cast to the discriminated union. The REASON key governs which payload type
             // is expected; unknown reasons fall through harmlessly in handler switch/if blocks.

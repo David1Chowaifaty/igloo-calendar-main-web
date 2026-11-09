@@ -1,7 +1,7 @@
 'use strict';
 
 var index = require('./index-IDeZZwEK.js');
-var booking_store = require('./booking.store-BazMWTgn.js');
+var booking_store = require('./booking.store-oFIY9GQH.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
 var moment = require('./moment-CdViwxPQ.js');
 var booking_dto = require('./booking.dto-CMx8s-oW.js');
@@ -15,7 +15,7 @@ var v4 = require('./v4-_2BfiRUa.js');
 var types$1 = require('./types-BVJQZ50e.js');
 var index$1 = require('./index-Br-j6MPt.js');
 var utils$1 = require('./utils-Do0GLh35.js');
-var booking = require('./booking-C5tfxsV6.js');
+var booking = require('./booking-CUXrud2_.js');
 var index$2 = require('./index-Dssn3hdS.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 var axios = require('./axios-EresIryl.js');
@@ -23,12 +23,12 @@ var locale_controller = require('./locale.controller-BE9t6L_N.js');
 var direction = require('./direction-CuBM8Z-h.js');
 var index$3 = require('./index-B-XiHkSl.js');
 var enums = require('./enums-BSCnMYlE.js');
-var functions = require('./functions-CaNAUyCw.js');
+var functions = require('./functions-DABc6-ec.js');
 var index$4 = require('./index-9D7XLiv8.js');
 var irInterceptor_store = require('./ir-interceptor.store-GIfc0Pi9.js');
 var commonSchemas = require('./commonSchemas-kIlurDum.js');
 var room_service = require('./room.service-48-OJVIL.js');
-var realtime_service = require('./realtime.service-BbzsUreD.js');
+var realtime_service = require('./realtime.service-DI4fhdsC.js');
 var ApiClient = require('./ApiClient-_fT8lvlJ.js');
 var svcCategory_utils = require('./svc-category.utils-oBRGkkiA.js');
 var languageSync = require('./language-sync-BcZsAQty.js');
@@ -9454,7 +9454,7 @@ const IrBookingDetails = class {
     ApiClient = new ApiClient.ApiClient();
     arrivalTime;
     svcCategories;
-    printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing/fd?id=%2';
+    printingBaseUrl;
     // private printingBaseUrl = 'http://localhost:5863/%1/printing?id=%2';
     modalRef;
     paymentFolioRef;
@@ -9886,7 +9886,7 @@ const IrBookingDetails = class {
             const myResult = roomResponse?.My_Result;
             if (myResult) {
                 const { allowed_payment_methods: paymentMethods, currency, allowed_booking_sources, adult_child_constraints, calendar_legends, aname } = myResult;
-                this.printingBaseUrl = this.printingBaseUrl.replace('%1', aname).replace('%2', this.bookingNumber);
+                this.printingBaseUrl = functions.getPrintingBaseUrl(aname, this.bookingNumber);
                 this.calendarData = {
                     currency,
                     allowed_booking_sources,

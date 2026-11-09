@@ -2,7 +2,7 @@
 
 var index = require('./index-IDeZZwEK.js');
 var moment = require('./moment-CdViwxPQ.js');
-var booking = require('./booking-C5tfxsV6.js');
+var booking = require('./booking-CUXrud2_.js');
 require('./calendar-data-ShS6b-Ns.js');
 require('./booking.dto-CMx8s-oW.js');
 var irDate = require('./ir-date-CbkOKs2C.js');
@@ -14,7 +14,7 @@ require('./types-BVJQZ50e.js');
 require('./axios-EresIryl.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 require('./locale-scope-Cch-vf1R.js');
-require('./functions-CaNAUyCw.js');
+require('./functions-DABc6-ec.js');
 require('./type-DxODN41W.js');
 require('./language-observer-DKp37LIu.js');
 
