@@ -1089,7 +1089,7 @@ function createBarAnchor(bar, getView) {
  * Viewports the info panel cannot be trusted to fit in beside its bar: too narrow for the panel's
  * width, or - a phone on its side - too short for its height.
  */
-const COMPACT_VIEWPORT_QUERY = '(max-width: 768px), (max-height: 500px)';
+const COMPACT_VIEWPORT_QUERY = '(max-width: 600px), (max-height: 500px)';
 function isCompactViewport() {
     return window.matchMedia?.(COMPACT_VIEWPORT_QUERY).matches ?? false;
 }

@@ -18,7 +18,7 @@ import { d as setChannelIdAndActiveState, u as updateChannelSettings, s as selec
 import { S as SystemService } from './system.service-BqMFLSUd.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { v as v4 } from './v4-CK3_k8jD.js';
-import { D as DashboardService, a as DATE_CHANGE_DEBOUNCE_MS, i as isCancellationOn, l as loadDepartures, b as loadArrivals, s as sumOccupancy, d as countRooms, e as countOverdueDepartures, f as countDepartingUnits, g as countOverdueArrivals, h as countUnassignedArrivals, j as countArrivingUnits, k as formatCardCount, m as DASHBOARD_PAGE_SIZE } from './dashboard.data-BZXMhKjd.js';
+import { D as DashboardService, a as DATE_CHANGE_DEBOUNCE_MS, i as isCancellationOn, l as loadDepartures, b as loadArrivals, s as sumOccupancy, d as countRooms, e as countOverdueDepartures, f as countDepartingUnits, g as countOverdueArrivals, h as countUnassignedArrivals, j as countArrivingUnits, k as formatCardCount, m as DASHBOARD_PAGE_SIZE } from './dashboard.data-D6hx56iK.js';
 import { r as realtimeService } from './realtime.service-hNE7vbZc.js';
 import { e as setDeparturesPageSize, f as setDeparturesSortByTime, d as departuresStore, o as onDeparturesStoreChange, c as setDepartureTotal, i as initializeDeparturesStore, b as setDeparturesPage } from './departures.store-BzYGWVI1.js';
 import { B as BatchingQueue, g as groupSvcCategoriesByParent, t as toAccChargeRule, f as findAccTax, a as getAccTaxPayloadFields, b as getTopLevelSvcCategories } from './svc-category.utils-aKjfLh79.js';

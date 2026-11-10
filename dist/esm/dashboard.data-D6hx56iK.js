@@ -14,7 +14,7 @@ import './index-DKZeCK8T.js';
 import './moment-Mki5YqAR.js';
 
 /** How many days either side of today the dashboard's day picker reaches. */
-const MAX_DAY_OFFSET = 2;
+const MAX_DAY_OFFSET = 7;
 /**
  * Page size the dashboard requests. Card counts are computed from the loaded page,
  * so it's large enough to hold a normal property's arrivals / departures for one day.

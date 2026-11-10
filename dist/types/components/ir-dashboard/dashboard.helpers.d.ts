@@ -5,7 +5,7 @@ import type { DashboardOccupancy, DashboardUnits } from "../../services/dashboar
 import type { RealtimeEventMap } from "../../services/realtime/types";
 import type { ISODate } from "../../utils/calendar-dates";
 /** How many days either side of today the dashboard's day picker reaches. */
-export declare const MAX_DAY_OFFSET = 2;
+export declare const MAX_DAY_OFFSET = 7;
 /**
  * Page size the dashboard requests. Card counts are computed from the loaded page,
  * so it's large enough to hold a normal property's arrivals / departures for one day.

@@ -3,7 +3,7 @@ import { t } from './t-Bvz1wS_D.js';
 import { t as todayISO, a as addDaysISO } from './calendar-dates-D3hVfsrC.js';
 import { f as formatDate } from './ir-date-XXNYhmSL.js';
 import './moment-Mki5YqAR.js';
-import { M as MAX_DAY_OFFSET, l as loadDepartures, c as computeRevPar } from './dashboard.data-BZXMhKjd.js';
+import { M as MAX_DAY_OFFSET, l as loadDepartures, c as computeRevPar } from './dashboard.data-D6hx56iK.js';
 import { i as isEarlyCheckout } from './booking-CaGNViJZ.js';
 import { c as calendar_data } from './calendar-data-DknGMMFc.js';
 import { b as formatCount, d as formatPercent, f as formatAmount } from './number-B8waOzTO.js';

@@ -2,7 +2,7 @@ import { ROOM_IN_OUT } from "../../models/booking.dto";
 import { formatCount } from "../../utils/number";
 import { isBlockUnit } from "../../utils/utils";
 /** How many days either side of today the dashboard's day picker reaches. */
-export const MAX_DAY_OFFSET = 2;
+export const MAX_DAY_OFFSET = 7;
 /**
  * Page size the dashboard requests. Card counts are computed from the loaded page,
  * so it's large enough to hold a normal property's arrivals / departures for one day.

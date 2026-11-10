@@ -5,7 +5,7 @@ var t = require('./t-CqJPQrfm.js');
 var calendarDates = require('./calendar-dates-BxDGM1ix.js');
 var irDate = require('./ir-date-CbkOKs2C.js');
 require('./moment-CdViwxPQ.js');
-var dashboard_data = require('./dashboard.data-Bi0aZImQ.js');
+var dashboard_data = require('./dashboard.data-Bg8-bsqB.js');
 var booking = require('./booking-DNE0PQWr.js');
 var calendarData = require('./calendar-data-ShS6b-Ns.js');
 var number = require('./number-xBpNWk3H.js');
