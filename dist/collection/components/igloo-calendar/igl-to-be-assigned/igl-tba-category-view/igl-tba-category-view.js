@@ -12,7 +12,7 @@ export class IglTbaCategoryView {
     };
     render() {
         const { roomTypeId, roomTypeName, rooms } = this.category;
-        return (h(Host, { key: '110e0026080b0e09b4e99ab1de839357c064c2a0' }, h("div", { key: '2d0b5c8efec9b0187cecae44521cc055fac7bdd2', class: "tba-category" }, h("h5", { key: '4bbafb4065e3bb771242d09ceae15047f049b8b0', class: "tba-category__title" }, roomTypeName), rooms.map((room, index) => (h("igl-tba-booking-view", { key: room.room_identifier, calendarData: this.calendarData, selectedDate: this.selectedDate, room: room, roomTypeId: roomTypeId, roomTypeName: roomTypeName, categoryIndex: this.categoryIndex, eventIndex: index, onAssignRoomEvent: this.handleAssignRoom }))))));
+        return (h(Host, { key: '4ff666e4dae477d41e3eb97c3e3876603811721f' }, h("div", { key: '42bc30ccb6ab4355644d1f9f1187aaca940c6541', class: "tba-category" }, h("h5", { key: 'ca7c44d12e50bfeffb827c928d3d804d36429586', class: "tba-category__title" }, roomTypeName), rooms.map((room, index) => (h("igl-tba-booking-view", { key: room.room_identifier, calendarData: this.calendarData, selectedDate: this.selectedDate, room: room, roomTypeId: roomTypeId, roomTypeName: roomTypeName, categoryIndex: this.categoryIndex, eventIndex: index, onAssignRoomEvent: this.handleAssignRoom }))))));
     }
     static get is() { return "igl-tba-category-view"; }
     static get encapsulation() { return "scoped"; }

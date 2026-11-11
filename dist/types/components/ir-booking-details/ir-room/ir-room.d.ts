@@ -3,7 +3,7 @@ import { Booking, ExtraService, Room, SharedPerson } from "../../../models/booki
 import { Agent } from "../../../services/agents/type";
 import { TIglBookPropertyPayload } from "../../../models/igl-book-property";
 import { SetupEntries } from "../../../models/IBooking";
-import { OpenSidebarEvent, RoomGuestsPayload } from '../types';
+import { OpenSidebarEvent, PrintScreenOptions, RoomGuestsPayload } from '../types';
 import { IToast } from "../../ui/ir-toast/toast";
 import { ClTx } from "../../../services/city-ledger/types";
 export type RoomModalReason = 'delete' | 'checkin' | 'checkout' | null;
@@ -60,6 +60,7 @@ export declare class IrRoom {
     addExtraServiceToUnit: EventEmitter<{
         identifier: string;
     }>;
+    openPrintScreen: EventEmitter<PrintScreenOptions>;
     private modal;
     private toggleDialogRef;
     private bookingService;

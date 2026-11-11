@@ -17,9 +17,23 @@ export const _formatTime = (hour, minute) => {
  * Base URL of the booking printing screen (mode and other params get appended). Alpha pages
  * (`window.environment === 'alpha'`) print through the `IRPrinting_alpha` gateway app.
  */
+const getPrintingHost = () => (isAlpha() ? 'test.bookingmystay.com' : 'gateway.igloorooms.com/PrintBooking');
 export const getPrintingBaseUrl = (aname, bookingNumber) => {
-    const app = isAlpha() ? 'test.bookingmystay.com' : 'gateway.igloorooms.com/PrintBooking';
-    return `https://${app}/${aname}/printing/fd?id=${bookingNumber}`;
+    return `https://${getPrintingHost()}/${aname}/printing/fd?id=${bookingNumber}`;
+};
+/**
+ * Registration card (consent document) of one room, served by the same printing app as the
+ * booking print. `token` is the short-living token; it's left out when it couldn't be fetched.
+ */
+export const getRegistrationCardUrl = ({ aname, bookingNumber, roomIdentifier, token }) => {
+    let url = `https://${getPrintingHost()}/${aname}/printing/doc?mode=consent&id=${encodeURIComponent(bookingNumber)}&room_identifier=${encodeURIComponent(roomIdentifier)}`;
+    if (isAlpha()) {
+        url += '&environment=alpha';
+    }
+    if (token) {
+        url += `&token=${encodeURIComponent(token)}`;
+    }
+    return url;
 };
 export const isAgentMode = (agent) => {
     return agent && agent.payment_mode.code !== '002';

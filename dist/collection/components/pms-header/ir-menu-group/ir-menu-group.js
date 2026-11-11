@@ -24,7 +24,7 @@ export class IrMenuGroup {
         this.openChanged.emit(true);
     };
     render() {
-        return (h("wa-details", { key: 'd16f366344ca7bed6f09ad1509e70ddcb6814ef7', dir: getLocalDirection(this.el), class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, h("slot", { key: '0e7044640c4f2615b7559077252e6de60f3eb93c', slot: "summary", name: "summary" }), h("slot", { key: '87b8c02b69569b107b6c749fc0655ac652dd7002' })));
+        return (h("wa-details", { key: '52517b4abe50d8dacfaf13017f50e7fd23f5a652', dir: getLocalDirection(this.el), class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, h("slot", { key: 'f2bab9a12676f31287552f3d5f8387065bab8072', slot: "summary", name: "summary" }), h("slot", { key: '9dde6ac5514387afe13aae4e127e22463c0657a4' })));
     }
     static get is() { return "ir-menu-group"; }
     static get encapsulation() { return "shadow"; }

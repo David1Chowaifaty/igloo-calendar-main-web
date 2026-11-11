@@ -7,14 +7,14 @@ export declare const GHS_Candidate_Property_Schema: z.ZodObject<{
     COUNTRY_ID: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     AC_ID?: number;
-    NAME?: string;
     aname?: string;
+    NAME?: string;
     level2?: string;
     COUNTRY_ID?: number;
 }, {
     AC_ID?: number;
-    NAME?: string;
     aname?: string;
+    NAME?: string;
     level2?: string;
     COUNTRY_ID?: number;
 }>;

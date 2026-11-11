@@ -10,11 +10,11 @@ export class IrReallocationDrawer {
     closeModal;
     _id = `reallocation-form_${v4()}`;
     render() {
-        return (h("ir-drawer", { key: '26b6b5aac51cbbe1c45454e2412f189440a87523', label: t('Lcz_ReassignUnit', { fallback: 'Reassign Unit' }), open: this.open, onDrawerHide: e => {
+        return (h("ir-drawer", { key: 'b9a3de1117e8443c99291aff88648a0a5077c982', label: t('Lcz_ReassignUnit', { fallback: 'Reassign Unit' }), open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && h("ir-reallocation-form", { key: '5a17a8212d32d7fb55263662c2ac9ed545e7b22f', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: '37b7d740c95902e8171cda79e0cb4309499e0918', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '829a13b4c5ce266a7efa3a52f5b4a9693dcd1389', size: "m", "data-drawer": "close", variant: "neutral", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '7ecae4aeb26ab86b58134283451495d5040d2868', form: this._id, size: "m", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
+            } }, this.open && h("ir-reallocation-form", { key: '59c7547a11db36d40f973226fa71b8d7d08cfdca', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: 'a86e738afde806959938b7368b82f9f72a38cf38', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '911093d1c3da9a930e296d53fa5865b510875d4c', size: "m", "data-drawer": "close", variant: "neutral", appearance: "filled" }, t('Lcz_Cancel', { fallback: 'Cancel' })), h("ir-custom-button", { key: '1c9c6807e0a5851676cf553b41225d48fd51bc9b', form: this._id, size: "m", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, t('Lcz_Confirm', { fallback: 'Confirm' })))));
     }
     static get is() { return "ir-reallocation-drawer"; }
     static get encapsulation() { return "scoped"; }

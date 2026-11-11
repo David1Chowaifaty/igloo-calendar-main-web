@@ -1,0 +1,1 @@
+import{r as e,h as s}from"./p-DKZeCK8T.js";const t=class{constructor(s){e(this,s)}text;connectedCallback(){}disconnectedCallback(){}render(){return s("span",{key:"bf54a8915d635521281312d09d5610e6c6e89b0e"},this.text)}};export{t as ir_span}

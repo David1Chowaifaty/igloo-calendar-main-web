@@ -12,7 +12,7 @@ const IrLoginAsideImage = class {
     /** Alternative text. Leave empty when the image is purely decorative. */
     imageAlt = '';
     render() {
-        return (h("aside", { key: '94c4440063a6814bfacd0c71410ecdb72ff9cd91', class: "login-aside-image" }, this.imageSrc && h("img", { key: '46e228761d7ab8c50885c5a9eceb25b2dae86591', class: "login-aside-image__img", src: this.imageSrc, alt: this.imageAlt, "aria-hidden": this.imageAlt ? undefined : 'true', decoding: "async" })));
+        return (h("aside", { key: '4edae27308127c5ff963031f0cd533fa45249d43', class: "login-aside-image" }, this.imageSrc && h("img", { key: '8e10aa2eaf690c632fe43033465a665865f77a0a', class: "login-aside-image__img", src: this.imageSrc, alt: this.imageAlt, "aria-hidden": this.imageAlt ? undefined : 'true', decoding: "async" })));
     }
 };
 IrLoginAsideImage.style = irLoginAsideImageCss();
@@ -73,10 +73,10 @@ const IrLoginAsideShowcase = class {
     render() {
         const tr = this.tr;
         const nextLabel = tr('Lcz_LoginPromoShowNext', 'Show next');
-        return (h("section", { key: '2a6e0a98ab98c7e00ff1d357492cbcfc7c2fd76c', class: "aside-showcase", "aria-roledescription": "carousel", "aria-label": tr('Lcz_LoginPromoShowcaseLabel', 'What igloorooms can do') }, h("div", { key: '627354b9cbd5498afeddc36db38d506499106302', class: "aside-showcase__controls" }, SLIDES.map((slide, index) => {
+        return (h("section", { key: '91dd82c5883490efbef64437005e72f7ddaa2b08', class: "aside-showcase", "aria-roledescription": "carousel", "aria-label": tr('Lcz_LoginPromoShowcaseLabel', 'What igloorooms can do') }, h("div", { key: 'd3a3b0765318e88269981c606923632abfb55eb6', class: "aside-showcase__controls" }, SLIDES.map((slide, index) => {
             const label = tr(slide.labelKey, slide.label);
             return (h("button", { type: "button", class: "aside-showcase__segment", title: label, "aria-label": label, "aria-current": index === this.active ? 'true' : undefined, onClick: () => this.show(index) }, h("span", { class: "aside-showcase__track" }, index === this.active && h("span", { class: "aside-showcase__fill", style: { animationDuration: `${slide.durationMs}ms` }, onAnimationEnd: this.next }))));
-        }), h("button", { key: '5d5d3acf613b43af917e29faaa92f72b390a39f7', type: "button", class: "aside-showcase__loop", title: nextLabel, "aria-label": nextLabel, onClick: this.handleLoopClick }, h("wa-icon", { key: '312d8e2a32ec30c1e4e8a1c5499528878a520f41', class: "aside-showcase__loop-icon", name: "arrows-rotate", style: { transform: `rotate(${this.turns * 180}deg)` } }))), h("div", { key: '4437db184fe792b3eeedd377ef67ef1671208d4b', class: "aside-showcase__stage" }, SLIDES.map((slide, index) => {
+        }), h("button", { key: '40a42a2adcd216b3594116902497b895dec192a5', type: "button", class: "aside-showcase__loop", title: nextLabel, "aria-label": nextLabel, onClick: this.handleLoopClick }, h("wa-icon", { key: '0b8258f73f492a78478a3ca48523cadd09b62da5', class: "aside-showcase__loop-icon", name: "arrows-rotate", style: { transform: `rotate(${this.turns * 180}deg)` } }))), h("div", { key: '3fef949d12f58445559c23fedf90cdc818f62579', class: "aside-showcase__stage" }, SLIDES.map((slide, index) => {
             const isActive = index === this.active;
             if (!isActive && index !== this.leaving) {
                 return null;

@@ -631,7 +631,7 @@ export class IrPaymentDetails {
                 },
                 "complexType": {
                     "original": "PrintScreenOptions",
-                    "resolved": "{ mode: \"invoice\" | \"printing\" | \"proforma\" | \"creditnote\"; } | { mode: \"receipt\"; payload: { pid: string; rnb: string; }; }",
+                    "resolved": "{ mode: \"invoice\" | \"printing\" | \"proforma\" | \"creditnote\"; } | { mode: \"receipt\"; payload: { pid: string; rnb: string; }; } | { mode: \"registration-card\"; payload: { room_identifier: string; }; }",
                     "references": {
                         "PrintScreenOptions": {
                             "location": "import",

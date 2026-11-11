@@ -29,11 +29,11 @@ const IrCloneRatesDrawer = class {
         this.cloneRatesDrawerClosed.emit();
     };
     render() {
-        return (index.h("ir-drawer", { key: 'cbe1b17129090dc270ef858e5830a519719feadd', open: this.open, label: t.t('Lcz_CopyRatesToFutureDates'), onDrawerHide: this.handleDrawerHide }, this.open && (index.h("ir-clone-rates", { key: '2ec53de9ceb9394e1ff6e4444371f74690f52d1c', mode: "drawer", ticket: this.ticket, p: this.p, language: this.language, propertyid: this.propertyid, onRatesCloned: e => {
+        return (index.h("ir-drawer", { key: '1aba3be6f0e19be1de12c2d0805118342798ff54', open: this.open, label: t.t('Lcz_CopyRatesToFutureDates'), onDrawerHide: this.handleDrawerHide }, this.open && (index.h("ir-clone-rates", { key: 'f9915e57013b9ebafb7ec078cabfeb5830859552', mode: "drawer", ticket: this.ticket, p: this.p, language: this.language, propertyid: this.propertyid, onRatesCloned: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.cloneRatesDrawerClosed.emit();
-            } })), index.h("div", { key: '18e69ba81e7272da89a3df989cc50d43df2bd7d0', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: '620a3de241bcf47a37271897868eb3e816666bfb', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t.t('Lcz_Cancel')), index.h("ir-custom-button", { key: 'c639a0ae5ab6753673c80e90ba2fc9828b29b5a1', size: "m", variant: "brand", type: "submit", form: "clone-rates-form" }, t.t('Lcz_Review')))));
+            } })), index.h("div", { key: '7fbc55e79e8bb6f45984b31794b454542ae8246f', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: '4442b9169b39feb9282380657fbf7a895421cef1', size: "m", appearance: "filled", variant: "neutral", "data-drawer": "close" }, t.t('Lcz_Cancel')), index.h("ir-custom-button", { key: 'c4c32c4ffd0d3c79ae56834ae6ed7519299c9451', size: "m", variant: "brand", type: "submit", form: "clone-rates-form" }, t.t('Lcz_Review')))));
     }
 };
 IrCloneRatesDrawer.style = irCloneRatesDrawerCss();

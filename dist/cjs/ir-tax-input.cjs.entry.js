@@ -91,7 +91,7 @@ const IrTaxInput = class {
         this.tax = { ...(this.tax || {}), ...params };
     }
     render() {
-        return (index.h(index.Host, { key: '02595547f401eb333eba5d06d49dc4d789ee83d7', class: "ir-tax-input" }, index.h("ir-validator", { key: 'cb65d50a3f5ab9d360dca4fd4d9ec7f2c5779361', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? types.numberType().nullable() : types.coerce.number().min(0).max(30) }, index.h("ir-input", { key: '98be5db810f150544de42d032f2ee51b1b055d11', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
+        return (index.h(index.Host, { key: '6afb5a528aac154c8be1d41403cbd42b4afdaf72', class: "ir-tax-input" }, index.h("ir-validator", { key: '605980d85cdbf28cce64cf42392ef773d9dc0a1a', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? types.numberType().nullable() : types.coerce.number().min(0).max(30) }, index.h("ir-input", { key: 'b712526af9d87ce2179a4e77e03d98a7bd5fb05b', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
                 min: 0,
                 max: 30,
                 mask: Number,
@@ -101,7 +101,7 @@ const IrTaxInput = class {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updateTaxField({ value });
-            } }, index.h("span", { key: '48db5c04515a5568d6d77ababd921f43a9f21bec', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), index.h("ir-validator", { key: 'e7e4d6d7152bd7e66f4ac3c8d34a205f045f0314', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, index.h("wa-select", { key: 'a2a995c064279c21b4bc8cd0a164bed6cb43e752', part: "select", class: "ir-tax-input__select", size: "s", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
+            } }, index.h("span", { key: 'ead81ed4987ae1436f582221bb270f2ccd1f6a38', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), index.h("ir-validator", { key: 'b1814e846b3744e68954111a6d88882e221ec2b3', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, index.h("wa-select", { key: '85bf508748952c0e381142146bf793f8315ae6ef', part: "select", class: "ir-tax-input__select", size: "s", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
                 const mode = e.target.value.toString();
                 this.updateTaxField({ mode });
                 this.taxChange.emit({ value: this.tax?.value ?? this.chargeRule?.value ?? null, mode });

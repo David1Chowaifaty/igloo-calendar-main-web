@@ -3,15 +3,15 @@ import { t } from './t-Bvz1wS_D.js';
 import { t as todayISO, a as addDaysISO } from './calendar-dates-D3hVfsrC.js';
 import { f as formatDate } from './ir-date-XXNYhmSL.js';
 import './moment-Mki5YqAR.js';
-import { M as MAX_DAY_OFFSET, l as loadDepartures, c as computeRevPar } from './dashboard.data-D6hx56iK.js';
-import { i as isEarlyCheckout } from './booking-CaGNViJZ.js';
+import { M as MAX_DAY_OFFSET, l as loadDepartures, c as computeRevPar } from './dashboard.data-DoW8n9Xn.js';
+import { i as isEarlyCheckout } from './booking-BL7IneTY.js';
 import { c as calendar_data } from './calendar-data-DknGMMFc.js';
 import { b as formatCount, d as formatPercent, f as formatAmount } from './number-B8waOzTO.js';
 import './booking.dto-DGwE7ON6.js';
 import './locale-scope-Jre4lb6k.js';
 import './language-observer-CHgzsZkY.js';
 import './_commonjsHelpers-BFTU3MAI.js';
-import './booking.store-DK4sIxGd.js';
+import './booking.store-B5MGal6o.js';
 import './axios-B50ozOIF.js';
 import './IBooking-B4waZCSK.js';
 import './types-CB66a07H.js';
@@ -23,7 +23,7 @@ import './index-v7hMbKnQ.js';
 import './arrivals.store-CbS-TeWT.js';
 import './room-movement-time-DWm_ef3q.js';
 import './departures.store-BzYGWVI1.js';
-import './functions-PT-hiqGs.js';
+import './functions-Dr77r0o_.js';
 import './type-9FR4Ndkd.js';
 
 const irDashboardArrivalsCss = () => `.sc-ir-dashboard-arrivals-h{display:flex;flex-direction:column}ir-arrivals-table.sc-ir-dashboard-arrivals{flex:1 1 auto;min-block-size:var(--dashboard-table-min-block-size, 60vh);inline-size:100%;max-inline-size:none;border:0}`;
@@ -43,7 +43,7 @@ const IrDashboardArrivals = class {
         this.roomGuestState = event.detail;
     }
     render() {
-        return (h(Host, { key: '36a56c21bb4bca29557f65f199af9b3070ee2484' }, h("ir-arrivals-table", { key: '3fe88539322208f52ea23bd4013ead92e6ca93f7', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckInRoom: event => this.handleCheckInRoom(event) }), h("ir-room-guests", { key: 'b97e3da828441560c5709ab95ffdb094d0e9f84f', open: this.roomGuestState !== null, countries: this.countries, language: this.language, identifier: this.roomGuestState?.identifier, bookingNumber: this.roomGuestState?.booking_nbr?.toString(), roomName: this.roomGuestState?.roomName, totalGuests: this.roomGuestState?.totalGuests, sharedPersons: this.roomGuestState?.sharing_persons, checkIn: this.roomGuestState?.checkin, onCloseModal: () => (this.roomGuestState = null) })));
+        return (h(Host, { key: 'b7316a4ccafe6dbfdce5b488e455c09e521b0e58' }, h("ir-arrivals-table", { key: '8d475e72bc4da614eb165ed7f17d500472ff5dd5', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckInRoom: event => this.handleCheckInRoom(event) }), h("ir-room-guests", { key: '939da4e73e69de8c2056ab61e5026d736e39e856', open: this.roomGuestState !== null, countries: this.countries, language: this.language, identifier: this.roomGuestState?.identifier, bookingNumber: this.roomGuestState?.booking_nbr?.toString(), roomName: this.roomGuestState?.roomName, totalGuests: this.roomGuestState?.totalGuests, sharedPersons: this.roomGuestState?.sharing_persons, checkIn: this.roomGuestState?.checkin, onCloseModal: () => (this.roomGuestState = null) })));
     }
 };
 IrDashboardArrivals.style = irDashboardArrivalsCss();
@@ -131,7 +131,7 @@ const IrDashboardDateNavigator = class {
         const days = Array.from({ length: MAX_DAY_OFFSET + 1 }, (_, index) => addDaysISO(today, index));
         // Locale- and calendar-aware (Gregorian or Hijri), like every other displayed date.
         const label = (day) => formatDate(day, 'dddd, D MMMM');
-        return (h(Host, { key: 'b0b4be5b1c064bf5d5f9a37601d2cd4b289aa585' }, h("wa-dropdown", { key: '03f4aaa6e6064a22fbbd44b18862f48c74a2d956', class: "date-navigator", placement: "bottom-start", "onwa-select": e => this.handleSelect(e) }, h("button", { key: '2332522f5edae040a881123401db2592051821aa', type: "button", slot: "trigger", class: "date-navigator__trigger", "aria-label": t('Lcz_SelectDate', { fallback: 'Select date' }) }, h("wa-icon", { key: '3d5fedf9e7471b30c9593d63b5c4979bdacd62fc', class: "date-navigator__icon", name: "calendar-days", "aria-hidden": "true" }), h("time", { key: 'bff14a09a7e526e3e25de27ee219ae39e44870f2', class: "date-navigator__date", dateTime: this.date }, label(this.date)), h("wa-icon", { key: '632578ef8ced597078d2ff86e7836e035d919b1e', class: "date-navigator__chevron", name: "chevron-down", "aria-hidden": "true" })), days.map(day => (h("wa-dropdown-item", { key: day, value: day, type: "checkbox", checked: day === this.date }, label(day), day === today && (h("span", { slot: "details", class: "date-navigator__today" }, t('Lcz_Today', { fallback: 'Today' })))))))));
+        return (h(Host, { key: '06bb96dfc025aa195a77f7119de9185ab8501a8d' }, h("wa-dropdown", { key: '6481157e6927ad35de60b9b12c6d32562ad043d3', class: "date-navigator", placement: "bottom-start", "onwa-select": e => this.handleSelect(e) }, h("button", { key: '89ce2b496bac8298583a4be72f540985a15a1e29', type: "button", slot: "trigger", class: "date-navigator__trigger", "aria-label": t('Lcz_SelectDate', { fallback: 'Select date' }) }, h("wa-icon", { key: '5555a789d78c4158a555e7b453a4469e952f43a4', class: "date-navigator__icon", name: "calendar-days", "aria-hidden": "true" }), h("time", { key: 'f895620a31a160955ab9ba2a9c02fa7949a26f2c', class: "date-navigator__date", dateTime: this.date }, label(this.date)), h("wa-icon", { key: '0af1de9f06b800deead65e8dd8ec90537b354057', class: "date-navigator__chevron", name: "chevron-down", "aria-hidden": "true" })), days.map(day => (h("wa-dropdown-item", { key: day, value: day, type: "checkbox", checked: day === this.date }, label(day), day === today && (h("span", { slot: "details", class: "date-navigator__today" }, t('Lcz_Today', { fallback: 'Today' })))))))));
     }
 };
 IrDashboardDateNavigator.style = irDashboardDateNavigatorCss();
@@ -186,7 +186,7 @@ const IrDashboardDepartures = class {
         this.invoiceState = null;
     }
     render() {
-        return (h(Host, { key: '96cff0a35fb363dda8f40780e2ea7610d6df751b' }, h("ir-departures-table", { key: '6e5b191ed7e64d8230c1476445ad3a71d84e376c', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckoutRoom: event => this.handleCheckoutRoom(event) }), h("ir-checkout-dialog", { key: '2e4ffbe00f204df07dedd00b5b8af41e5b5af0cd', booking: this.checkoutState?.booking, identifier: this.checkoutState?.identifier, open: this.checkoutState !== null, onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: '86b21e539ff9f20318694e88a64d10eda758a024', booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null, onInvoiceClose: event => this.handleInvoiceClose(event) })));
+        return (h(Host, { key: '2bb1d62da36d4739605a89783733c5136c6e66dd' }, h("ir-departures-table", { key: 'd0dec769efdefb61b322f939cdc1ca7a8d84a85c', hidePagination: true, pmsDisabled: this.pmsDisabled, onCheckoutRoom: event => this.handleCheckoutRoom(event) }), h("ir-checkout-dialog", { key: 'abedad5cf27b5ff719751232989739db1b6d3492', booking: this.checkoutState?.booking, identifier: this.checkoutState?.identifier, open: this.checkoutState !== null, onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: 'db3fa5543da1ecb0602e33ced3cf9c1374cec69b', booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null, onInvoiceClose: event => this.handleInvoiceClose(event) })));
     }
 };
 IrDashboardDepartures.style = irDashboardDeparturesCss();
@@ -313,7 +313,7 @@ const IrDashboardStats = class {
         this.dateChange.emit(e.detail);
     }
     render() {
-        return (h(Host, { key: 'b4151abbc644c7050aa7723d0d1165b1ef5c91e6' }, h("ir-dashboard-date-navigator", { key: '4d038a9748cf7a64acf77d01f75c6c02b91cc122', class: "stats__date", date: this.date, onDateChange: e => this.handleDateChange(e) }), h("wa-card", { key: '6a04c14f88476080bf54bfa546363f74640e4318', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: '5e25c9dc539ed96ae4e050f952998d7e71b3c645', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
+        return (h(Host, { key: '405bea76bb737c8f6a54d4afa33f4a918e20ff49' }, h("ir-dashboard-date-navigator", { key: '1d4d77481e0db88086658710e6059c75ac8bb132', class: "stats__date", date: this.date, onDateChange: e => this.handleDateChange(e) }), h("wa-card", { key: '64fa9be7f472df78e499995099a50b567691eda3', class: "stats__card stats__card--occupancy", appearance: "plain" }, h("h2", { key: '1adb4ccae413cd4ccf9b119d2444cdd1b4cd8c28', class: "stats__title" }, this.title), this.isPms && this.renderOccupancy(), this.renderUnits()), this.renderPerformance()));
     }
 };
 IrDashboardStats.style = irDashboardStatsCss();

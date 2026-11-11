@@ -38,6 +38,11 @@ export type Payment = Omit<IPayment, 'time_stamp'>;
 export type PrintScreenOptions = {
     mode: 'printing' | 'invoice' | 'proforma' | 'creditnote';
 } | {
+    mode: 'registration-card';
+    payload: {
+        room_identifier: string;
+    };
+} | {
     mode: 'receipt';
     payload: {
         pid: string;

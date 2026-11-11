@@ -8,7 +8,7 @@ export class IrTasksTablePagination {
         const start = totalTasks === 0 ? 0 : (currentPage - 1) * pageSize + 1;
         const end = Math.min(currentPage * pageSize, totalTasks);
         const pageSizes = hkTasksStore.pagination.tasksList[0] > totalTasks ? hkTasksStore.pagination.tasksList.slice(0, 1) : hkTasksStore.pagination.tasksList;
-        return (h(Host, { key: 'b5a2f40f38ab5084b7a3141bac4ff8356fc86856' }, shouldLoadMore() && (h("ir-custom-button", { key: 'a0d1a7f85d9d182fe9d45d2784f80e5d951a76cb', variant: "brand", size: "s", class: "tasks-load-more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }, t('Lcz_LoadMore', { fallback: 'Load more' }))), h("ir-pagination", { key: 'c7584b0ae0f972ae8ca2d6979492545d0ab26c99', showing: {
+        return (h(Host, { key: 'f388d84a2f1f8fea7dc293cea6dbebc6bb32e509' }, shouldLoadMore() && (h("ir-custom-button", { key: '40afb7844b7697651b572e3a5f929258e2853368', variant: "brand", size: "s", class: "tasks-load-more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }, t('Lcz_LoadMore', { fallback: 'Load more' }))), h("ir-pagination", { key: 'c56f46d0f139557a86adcbd4b3ecef0b735f4b54', showing: {
                 from: start,
                 to: end,
             }, allowPageSizeChange: true,

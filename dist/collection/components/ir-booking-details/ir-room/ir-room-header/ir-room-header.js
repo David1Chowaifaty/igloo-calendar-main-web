@@ -1,5 +1,6 @@
 import { h } from "@stencil/core";
 import { isAgentMode } from "../../functions";
+import { ROOM_IN_OUT } from "../../../../models/booking.dto";
 import calendar_data from "../../../../stores/calendar-data";
 import { formatAmount } from "../../../../utils/utils";
 import { HbPreference } from "../../../../types/enums";
@@ -21,12 +22,18 @@ export class IrRoomHeader {
     get unitId() {
         return this.room.unit?.id ?? null;
     }
+    /** Registration card exists once the guest checked in — and stays printable after check-out. */
+    get canPrintRegistrationCard() {
+        const code = this.room?.in_out?.code;
+        return code === ROOM_IN_OUT.CHECKIN || code === ROOM_IN_OUT.CHECKOUT;
+    }
     render() {
-        return (h("div", { key: 'b6198123be8d44d5ff6999aed43fcc098a048673', class: "booking-room__summary-row" }, h("p", { key: '8b0b7d854df9a02001f9ddf921372cbbbb50a06a', class: "booking-room__summary-text" }, h("span", { key: '1ca24371fb2f704452c008ed947ce363a2f979f0', class: "booking-room__summary-highlight" }, this.myRoomTypeFoodCat || '', " "), " ", this.mealCodeName, ' ', this.room.rateplan.is_non_refundable && ` - ${t('Lcz_NonRefundable', { fallback: 'Non-refundable' })}`, ' ', this.isHalfBoard && (h("wa-button", { key: 'b423e84514bef408df13eaa15d4bfd2d23a94462', size: "xs", class: "booking-room__meal-report-button", appearance: "filled", variant: this.room?.hb_preference ? 'brand' : 'warning', onClick: () => this.openHbDialog.emit() }, this.room?.hb_preference === HbPreference.Lunch
+        const canEdit = this.isEditable && (this.hasRoomEdit || this.hasRoomDelete || !!this.unitId);
+        return (h("div", { key: 'e8b83da3942468f431053847814c575b08cbc99a', class: "booking-room__summary-row" }, h("p", { key: '649a63e328b2b701fc93a5f1579e078cfc431765', class: "booking-room__summary-text" }, h("span", { key: 'c74b487a9baffc673f3c2ee23e4efb922b1fa68c', class: "booking-room__summary-highlight" }, this.myRoomTypeFoodCat || '', " "), " ", this.mealCodeName, ' ', this.room.rateplan.is_non_refundable && ` - ${t('Lcz_NonRefundable', { fallback: 'Non-refundable' })}`, ' ', this.isHalfBoard && (h("wa-button", { key: '752f26b58b9b463ed29fa652aec70db31b9db55d', size: "xs", class: "booking-room__meal-report-button", appearance: "filled", variant: this.room?.hb_preference ? 'brand' : 'warning', onClick: () => this.openHbDialog.emit() }, this.room?.hb_preference === HbPreference.Lunch
             ? t('Lcz_WithLunch', { fallback: 'With lunch' })
             : this.room?.hb_preference === HbPreference.Dinner
                 ? t('Lcz_WithDinner', { fallback: 'With dinner' })
-                : t('Lcz_ChooseLunchOrDinner', { fallback: 'Choose lunch or dinner' })))), h("div", { key: '96bf40a0470ee718636e893bb9521e3a670e07c4', class: "booking-room__price-row" }, h("span", { key: 'fb1b84c2f3d717f90233404da20f31da4e3d9dd3', class: "booking-room__price" }, formatAmount(this.currency, this.room['gross_total'])), this.isEditable && (this.hasRoomEdit || this.hasRoomDelete || !!this.unitId) && (h("div", { key: '57a8cbfff7adac244214d74830cbb3e4abf2af01', class: "booking-room__actions" }, h("wa-dropdown", { key: 'ee10a2d91322f119bc00748da336b2cb8558adcb', "onwa-show": e => {
+                : t('Lcz_ChooseLunchOrDinner', { fallback: 'Choose lunch or dinner' })))), h("div", { key: '949c40d5005a8f4ead35bfc9d6de233b74b31b48', class: "booking-room__price-row" }, h("span", { key: '033ac9b7a51c8012f19b967f77d7e9e8c9fe8d58', class: "booking-room__price" }, formatAmount(this.currency, this.room['gross_total'])), (canEdit || this.canPrintRegistrationCard) && (h("div", { key: 'bf418846aa385c5547b238907118d994a9a36bc6', class: "booking-room__actions" }, h("wa-dropdown", { key: '789a550c100385668d93bab4e7d21a460ff1cd80', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-hide": e => {
@@ -34,10 +41,10 @@ export class IrRoomHeader {
                 e.stopPropagation();
             }, "onwa-select": async (e) => {
                 this.action.emit(e.detail.item.value);
-            } }, h("ir-custom-button", { key: '753b933f8897b4cde4b1cb53c8db7da447f5f848', slot: "trigger", size: "s", class: "booking-room__edit-button", appearance: "plain", id: `actions-room-${this.room.identifier}`, iconBtn: true, variant: "neutral", style: { marginBottom: '4px' } }, h("wa-icon", { key: 'b6623bb1ed1263e50ea1bc7aa3d39ae2109060dc', style: { fontSize: '1rem' }, label: t('Lcz_Actions', { fallback: 'Actions' }), name: "ellipsis-vertical" })), this.hasRoomEdit && h("wa-dropdown-item", { key: '2872253897af7e53e53caadedb22e496e308a0df', value: "edit" }, t('Lcz_EditUnit', { fallback: 'Edit unit' })), this.hasRoomEdit && h("wa-dropdown-item", { key: '960efb06d142cde18a728a3103ee546a224c3578', value: "edit-rates" }, t('Lcz_EditNightlyRates', { fallback: 'Edit Nightly Rates' })), isAgentMode(this.agent) && this.hasRoomEdit && (h("wa-dropdown-item", { key: '7aad859668a5bcda16229f384548e524d0f0f9ec', value: "toggle" }, t('Lcz_ReassignFolioDropdown', {
+            } }, h("ir-custom-button", { key: '73e72b00f33b9ee0ec528797cfcf9a6a4aa7ef46', slot: "trigger", size: "s", class: "booking-room__edit-button", appearance: "plain", id: `actions-room-${this.room.identifier}`, iconBtn: true, variant: "neutral", style: { marginBottom: '4px' } }, h("wa-icon", { key: '603256ded976d71ae2b59ab7e4e4e042ccaf190e', style: { fontSize: '1rem' }, label: t('Lcz_Actions', { fallback: 'Actions' }), name: "ellipsis-vertical" })), this.isEditable && this.hasRoomEdit && h("wa-dropdown-item", { key: 'acdbbabf33eaece46ea06e20405ad7dd14793095', value: "edit" }, t('Lcz_EditUnit', { fallback: 'Edit unit' })), this.isEditable && this.hasRoomEdit && h("wa-dropdown-item", { key: '0826fbe4a60c94bc18d143749599545205b5fc97', value: "edit-rates" }, t('Lcz_EditNightlyRates', { fallback: 'Edit Nightly Rates' })), this.isEditable && isAgentMode(this.agent) && this.hasRoomEdit && (h("wa-dropdown-item", { key: 'd886d7c500ebd4eaf947301e7b17412c79f60df5', value: "toggle" }, t('Lcz_ReassignFolioDropdown', {
             fallback: 'Re-assign %1 folio',
             params: [this.room.agent ? t('Lcz_GuestLowercase', { fallback: 'guest' }) : t('Lcz_AgentLowercase', { fallback: 'agent' })],
-        }))), !!this.unitId && h("wa-dropdown-item", { key: '7819e752f60046e68825e96f6e8172494d10bff3', value: "add-extra-service" }, t('Lcz_AddExtraServiceToUnit', { fallback: 'Add extra service to this unit' })), this.hasRoomDelete && (h("wa-dropdown-item", { key: '225dfa8f66391860b93d8be4dd15c07498fe6d9e', value: "delete", variant: "danger" }, t('Lcz_Delete', { fallback: 'Delete' })))))))));
+        }))), this.isEditable && !!this.unitId && (h("wa-dropdown-item", { key: '2404c67d7d794ce8585f197c3308c722226bf5ff', value: "add-extra-service" }, t('Lcz_AddExtraServiceToUnit', { fallback: 'Add extra service to this unit' }))), this.canPrintRegistrationCard && (h("wa-dropdown-item", { key: '1823a8ca875cdf4a4f388f98f893c4ebb09c9c2c', value: "print-registration-card" }, t('Lcz_PrintRegistrationCard', { fallback: 'Print registration card' }))), this.isEditable && this.hasRoomDelete && (h("wa-dropdown-item", { key: '61aa0a45ff6ebabb4609a3c411867a3efbde2aaf', value: "delete", variant: "danger" }, t('Lcz_Delete', { fallback: 'Delete' })))))))));
     }
     static get is() { return "ir-room-header"; }
     static get encapsulation() { return "scoped"; }
@@ -233,7 +240,7 @@ export class IrRoomHeader {
                 },
                 "complexType": {
                     "original": "IrRoomHeaderAction",
-                    "resolved": "\"add-extra-service\" | \"delete\" | \"edit\" | \"edit-rates\" | \"toggle\"",
+                    "resolved": "\"add-extra-service\" | \"delete\" | \"edit\" | \"edit-rates\" | \"print-registration-card\" | \"toggle\"",
                     "references": {
                         "IrRoomHeaderAction": {
                             "location": "local",

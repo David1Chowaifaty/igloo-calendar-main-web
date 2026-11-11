@@ -13793,6 +13793,7 @@ declare global {
         "resetBookingEvt": Booking | null;
         "openSidebar": OpenSidebarEvent<RoomGuestsPayload1>;
         "addExtraServiceToUnit": { identifier: string };
+        "openPrintScreen": PrintScreenOptions;
     }
     interface HTMLIrRoomElement extends Components.IrRoom, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrRoomElementEventMap>(type: K, listener: (this: HTMLIrRoomElement, ev: IrRoomCustomEvent<HTMLIrRoomElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -22031,6 +22032,7 @@ declare namespace LocalJSX {
         "onAddExtraServiceToUnit"?: (event: IrRoomCustomEvent<{ identifier: string }>) => void;
         "onDeleteFinished"?: (event: IrRoomCustomEvent<string>) => void;
         "onEditInitiated"?: (event: IrRoomCustomEvent<TIglBookPropertyPayload>) => void;
+        "onOpenPrintScreen"?: (event: IrRoomCustomEvent<PrintScreenOptions>) => void;
         "onOpenSidebar"?: (event: IrRoomCustomEvent<OpenSidebarEvent<RoomGuestsPayload1>>) => void;
         "onPressCheckIn"?: (event: IrRoomCustomEvent<any>) => void;
         "onPressCheckOut"?: (event: IrRoomCustomEvent<any>) => void;

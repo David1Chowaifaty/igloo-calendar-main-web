@@ -11,7 +11,7 @@ import { buildSplitIndex } from "../../utils/booking";
 import { AgentsService } from "../../services/agents/agents.service";
 import { CityLedgerService } from "../../services/city-ledger/index";
 import { mapClTxToFolioRow } from "../ir-city-ledger/ir-city-ledger-folio/types";
-import { getPrintingBaseUrl, isAgentMode } from "./functions";
+import { getPrintingBaseUrl, getRegistrationCardUrl, isAgentMode } from "./functions";
 import { realtimeService } from "../../services/realtime/realtime.service";
 import { extras, isAlpha } from "../../utils/utils";
 import moment from "moment";
@@ -35,6 +35,7 @@ export class IrBookingDetails {
     arrivalTime;
     svcCategories;
     printingBaseUrl;
+    aname;
     // private printingBaseUrl = 'http://localhost:5863/%1/printing?id=%2';
     modalRef;
     paymentFolioRef;
@@ -466,6 +467,7 @@ export class IrBookingDetails {
             const myResult = roomResponse?.My_Result;
             if (myResult) {
                 const { allowed_payment_methods: paymentMethods, currency, allowed_booking_sources, adult_child_constraints, calendar_legends, aname } = myResult;
+                this.aname = aname;
                 this.printingBaseUrl = getPrintingBaseUrl(aname, this.bookingNumber);
                 this.calendarData = {
                     currency,
@@ -492,8 +494,17 @@ export class IrBookingDetails {
             this.isLoading = false;
         }
     }
+    /** Short-living token the printing app authenticates with; null when it couldn't be issued. */
+    async fetchPrintingToken() {
+        const { data } = await axios.post(`/Get_ShortLiving_Token`);
+        return data.ExceptionMsg ? null : data.My_Result;
+    }
     async openPrintingScreen(options, version = 'new') {
         const { mode } = options;
+        if (options.mode === 'registration-card') {
+            const token = await this.fetchPrintingToken();
+            return window.open(getRegistrationCardUrl({ aname: this.aname, bookingNumber: this.booking.booking_nbr, roomIdentifier: options.payload.room_identifier, token }));
+        }
         if (version === 'old') {
             if (mode === 'invoice') {
                 return window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${encodeURIComponent(this.booking.system_id)}&&PM=I&TK=${encodeURIComponent(this.ticket)}`);
@@ -520,9 +531,9 @@ export class IrBookingDetails {
             url += '&environment=alpha';
         }
         // Add ApiClient safely
-        const { data } = await axios.post(`/Get_ShortLiving_Token`);
-        if (!data.ExceptionMsg) {
-            url += `&token=${encodeURIComponent(data.My_Result)}`;
+        const token = await this.fetchPrintingToken();
+        if (token) {
+            url += `&token=${encodeURIComponent(token)}`;
         }
         // Final: fully safe URL
         window.open(url);

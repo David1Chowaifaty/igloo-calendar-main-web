@@ -1,5 +1,5 @@
 import { r as registerInstance, h, H as Host } from './index-DKZeCK8T.js';
-import { _ as _formatTime } from './functions-PT-hiqGs.js';
+import { _ as _formatTime } from './functions-Dr77r0o_.js';
 import { f as formatDate } from './ir-date-XXNYhmSL.js';
 import './moment-Mki5YqAR.js';
 import './utils-BBOkGbMg.js';
@@ -23,7 +23,7 @@ const IrArrivalTimeCell = class {
     arrival;
     arrivalTimeLabel;
     render() {
-        return (h(Host, { key: '992f1b97596c08c35fc9afd9d79e259a82a10b98' }, h("div", { key: '5e51c1ccfbd80ef3173f37a5136ac7154d1000cc', class: "arrival-time-cell__container" }, this.arrivalTimeLabel && h("span", { key: '033ddfff29edb727fd4c42caf53de163678a16e5', class: "arrival-time-cell__label" }, this.arrivalTimeLabel, ": "), h("p", { key: '6a6e66dd2612a82d5205c08d1b52d1a0ecd8e8d6' }, this.arrival?.description))));
+        return (h(Host, { key: 'e85b51b36f402b412bf6a6eb37acb60a1056c552' }, h("div", { key: 'ba9c77e308be0bf91dfc636e20dd1b8c6056588c', class: "arrival-time-cell__container" }, this.arrivalTimeLabel && h("span", { key: 'cd1e0a0ad990790d3ee206a7f66077c32b3ef835', class: "arrival-time-cell__label" }, this.arrivalTimeLabel, ": "), h("p", { key: 'ddc65e84f98b0049785bd2540a605b264b52bf60' }, this.arrival?.description))));
     }
 };
 IrArrivalTimeCell.style = irArrivalTimeCellCss();
@@ -40,7 +40,7 @@ const IrBookedOnCell = class {
     showTime = true;
     render() {
         const { date, hour, minute } = this.bookedOn;
-        return (h(Host, { key: '965a488f06db269fce167d820ae9575b3c8ebb70' }, this.label && h("p", { key: 'bfa40320283e031603bb157ee221d5fa1d6704de', class: "cell-label" }, this.label, ":"), h("p", { key: '9ed1e8debb83b17572b330c9c1879a4075f52c0b', class: "booked-on-cell__date" }, formatDate(date, 'DD MMM YYYY')), this.showTime && h("p", { key: 'd7d1f03f5233ad2196664eb50fb965536d1fc568', class: "booked-on-cell__time" }, _formatTime(hour.toString(), minute.toString()))));
+        return (h(Host, { key: 'c5fc541063b8f3b2bb15f6582fcc7d17950b0fe8' }, this.label && h("p", { key: '7492811fe4f0a95bd5d0c2e216372073020cca45', class: "cell-label" }, this.label, ":"), h("p", { key: '0d1dd9fc98cf8872e16269dfec4ab08371093f77', class: "booked-on-cell__date" }, formatDate(date, 'DD MMM YYYY')), this.showTime && h("p", { key: 'dc84e21968d4f9ef1b7a4a6bba35cdec7b3fe3e3', class: "booked-on-cell__time" }, _formatTime(hour.toString(), minute.toString()))));
     }
 };
 IrBookedOnCell.style = irBookedOnCellCss();

@@ -22,6 +22,7 @@ export declare class IrBookingDetails {
     private arrivalTime;
     private svcCategories;
     private printingBaseUrl;
+    private aname;
     private modalRef;
     private paymentFolioRef;
     element: HTMLElement;
@@ -173,6 +174,8 @@ export declare class IrBookingDetails {
     handleClRefresh(): Promise<void>;
     private setRoomsData;
     private initializeApp;
+    /** Short-living token the printing app authenticates with; null when it couldn't be issued. */
+    private fetchPrintingToken;
     private openPrintingScreen;
     private handleCloseBookingWindow;
     private handleDeleteFinish;
